@@ -22,6 +22,7 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,9 @@ public class XMLNodeReader implements ReadingParser {
     Object contextObject)
   {
     if (logger.isDebugEnabled()) {
-      logger.debug("processAttribute: attribute name = " + attributeName + ", value = " + value);
+      logger.debug(MessageFormat.format(
+        "processAttribute: attribute name = {0}, value = {1}",
+        attributeName, value));
     }
 
     if (contextObject instanceof XMLNode) {
@@ -86,9 +89,10 @@ public class XMLNodeReader implements ReadingParser {
       XMLNode xmlNode = (XMLNode) contextObject;
       xmlNode.addAttr(attributeName, value, uri, prefix);
 
-
     } else {
-      logger.debug("processAttribute: context Object is not an XMLNode !!! " + contextObject);
+      logger.debug(MessageFormat.format(
+        "processAttribute: context Object is not an XMLNode! {0}",
+        contextObject));
     }
 
   }
@@ -101,7 +105,9 @@ public class XMLNodeReader implements ReadingParser {
     Object contextObject)
   {
     if (logger.isDebugEnabled()) {
-      logger.debug("processCharactersOf called: characters = @" + characters + "@");
+      logger.debug(MessageFormat.format(
+        "processCharactersOf called: characters = @{0}@",
+        characters));
     }
 
     // characters = StringTools.encodeForHTML(characters); // TODO: use an apache util for that.
@@ -140,9 +146,10 @@ public class XMLNodeReader implements ReadingParser {
       }
       else
       {
-        if (characters != null && characters.trim().length() > 0) {
-          logger.warn("The type of String '" + typeOfNotes + "' on the element " +
-              parentSBMLElement.getElementName() + " is unknown !! Some data might be lost: '" + characters + "'");
+        if ((characters != null) && (characters.trim().length() > 0)) {
+          logger.warn(MessageFormat.format(
+            "The type of String ''{0}'' on the element {1} is unknown! Some data might be lost: ''{2}''.",
+            typeOfNotes, parentSBMLElement.getElementName(), characters));
         }
         return;
       }
@@ -156,10 +163,11 @@ public class XMLNodeReader implements ReadingParser {
     }
     else {
       if (logger.isDebugEnabled()) {
-        logger.debug("processCharactersOf: context Object is not an XMLNode, SBase or Annotation !!! " + contextObject);
+        logger.debug(MessageFormat.format(
+          "processCharactersOf: context Object is not an XMLNode, SBase or Annotation! {0}",
+          contextObject));
       }
     }
-
 
   }
 
@@ -198,14 +206,18 @@ public class XMLNodeReader implements ReadingParser {
     Object contextObject)
   {
     if (logger.isDebugEnabled()) {
-      logger.debug("processNamespace called: elementName, namespace: " + elementName + ", " + uri + " (" + prefix + ":" + localName + ")");
+      logger.debug(MessageFormat.format(
+        "processNamespace called: elementName, namespace: {0}, {1} ({2}:{3})",
+        elementName, uri, prefix, localName));
     }
 
     if (contextObject instanceof XMLNode) {
 
       XMLNode xmlNode = (XMLNode) contextObject;
       if (!xmlNode.isStart()) {
-        logger.debug("processNamespace: context Object is not a start node !!! " + contextObject);
+        logger.debug(MessageFormat.format(
+          "processNamespace: context Object is not a start node! {0}",
+          contextObject));
       }
       if (localName == null || localName.trim().length() == 0) {
         localName = "xmlns";
@@ -214,8 +226,8 @@ public class XMLNodeReader implements ReadingParser {
       xmlNode.addNamespace(uri, localName);
 
     } else {
-      logger.debug("processNamespace: context Object is not an XMLNode !!! " + contextObject);
-      logger.debug("processNamespace: element name = " + elementName + ", namespace = " + prefix + ":" + uri);
+      logger.debug(MessageFormat.format("processNamespace: context Object is not an XMLNode! {0}", contextObject));
+      logger.debug(MessageFormat.format("processNamespace: element name = {0}, namespace = {1}:{2}", elementName, prefix, uri));
     }
 
   }
@@ -228,11 +240,9 @@ public class XMLNodeReader implements ReadingParser {
     boolean hasAttributes, boolean hasNamespaces,
     Object contextObject)
   {
-    logger.debug("processStartElement: element name = " + elementName);
+    logger.debug(MessageFormat.format("processStartElement: element name = {0}", elementName));
 
-
-    if (elementName.equals("notes")
-        && (contextObject instanceof SBase)) {
+    if (elementName.equals("notes") && (contextObject instanceof SBase)) {
       SBase sbase = (SBase) contextObject;
       sbase.setNotes(new XMLNode(new XMLTriple("notes", null, null), new XMLAttributes()));
       return contextObject;
@@ -249,8 +259,9 @@ public class XMLNodeReader implements ReadingParser {
       } else if (typeOfNotes.equals("message") && parentSBMLElement instanceof Constraint) {
         ((Constraint) parentSBMLElement).getMessage().addChild(xmlNode);
       } else {
-          logger.warn("The type of String '" + typeOfNotes + "' on the element " +
-              parentSBMLElement.getElementName() + "( " + parentSBMLElement.getClass().getSimpleName() + ") is unknown !! Some data might be lost");
+        logger.warn(MessageFormat.format(
+          "The type of String ''{0}'' on the element {1} ({2}) is unknown! Some data might be lost.",
+          typeOfNotes, parentSBMLElement.getElementName(), parentSBMLElement.getClass().getSimpleName()));
       }
     }
     else if (contextObject instanceof Annotation)
@@ -262,8 +273,9 @@ public class XMLNodeReader implements ReadingParser {
         // logger.debug(" type of notes = annotation :\n " + annotation.getNonRDFannotation().toXMLString());
       }
       else {
-        logger.warn("The type of String '" + typeOfNotes + "' on the element 'annotation'" +
-            " is unknown !! Some data might be lost");
+        logger.warn(MessageFormat.format(
+          "The type of String ''{0}'' on the element ''annotation'' is unknown! Some data might be lost",
+          typeOfNotes));
       }
     }
     else if (contextObject instanceof XMLNode)
