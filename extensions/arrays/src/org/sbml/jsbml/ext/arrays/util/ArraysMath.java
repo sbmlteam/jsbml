@@ -29,16 +29,13 @@ import java.util.Map;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Assignment;
-import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
@@ -107,9 +104,9 @@ public class ArraysMath {
     //TODO test it
     SBase parent = index.getParentSBMLObject().getParentSBMLObject();
 
-    ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
+    SBase parents = parent.getParentSBMLObject();
 
-    ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(index, parent);
+    ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
 
     if (index.isSetReferencedAttribute()) {
       String refValue = parent.writeXMLAttributes().get(index.getReferencedAttribute());
@@ -130,8 +127,15 @@ public class ArraysMath {
 
       Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
 
-      if (parentArraysSBasePlugin != null) {
-        dimensionSizes.putAll(getDimensionSizes(model, parentArraysSBasePlugin));
+      while(parents != null)
+      {
+        ArraysSBasePlugin parentArraysSBasePlugin = (ArraysSBasePlugin) parents.getExtension(ArraysConstants.shortLabel);
+
+        if (parentArraysSBasePlugin != null) {
+          dimensionSizes.putAll(getDimensionSizes(model, parentArraysSBasePlugin));
+        }
+        
+        parents = parents.getParentSBMLObject();
       }
 
       Map<String, Double> refSBaseSizes = getDimensionSizes(model, refSbasePlugin);
@@ -235,13 +239,19 @@ public class ArraysMath {
 
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) mathContainer.getExtension(ArraysConstants.shortLabel);
 
-    ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(mathContainer, mathContainer.getParentSBMLObject());
-
     Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
 
-    if (parentArraysSBasePlugin != null)
+
+    SBase parent = mathContainer.getParentSBMLObject();
+
+    while(parent != null)
     {
-      dimensionSizes.putAll(getDimensionSizes(model, parentArraysSBasePlugin));
+      ArraysSBasePlugin parentArraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
+      parent = parent.getParentSBMLObject();
+      if (parentArraysSBasePlugin != null)
+      {
+        dimensionSizes.putAll(getDimensionSizes(model, parentArraysSBasePlugin));
+      }
     }
 
     if (math.getType() != ASTNode.Type.FUNCTION_SELECTOR) {
@@ -374,55 +384,7 @@ public class ArraysMath {
     return upperBound;
   }
 
-  /**
-   * @param index
-   * @param parent
-   * @return
-   */
-  public static ArraysSBasePlugin getParentPlugin(Index index, SBase parent)
-  {
-    if (parent instanceof SpeciesReference)
-    {
-      return (ArraysSBasePlugin) parent.getParentSBMLObject().getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
-    }
-    else if (parent instanceof ModifierSpeciesReference)
-    {
-      return (ArraysSBasePlugin) parent.getParentSBMLObject().getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
-    }
-    else if (parent instanceof EventAssignment)
-    {
-      return (ArraysSBasePlugin) parent.getParentSBMLObject().getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
-    }
-    else
-    {
-      return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
-    }
-  }
 
-  /**
-   * @param math
-   * @param parent
-   * @return
-   */
-  public static ArraysSBasePlugin getParentPlugin(MathContainer math, SBase parent)
-  {
-    if (math instanceof SpeciesReference)
-    {
-      return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
-    }
-    else if (math instanceof ModifierSpeciesReference)
-    {
-      return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
-    }
-    else if (math instanceof EventAssignment)
-    {
-      return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
-    }
-    else
-    {
-      return (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
-    }
-  }
 
   /**
    * This method is used to determine whether a {@link MathContainer} object is
@@ -435,7 +397,7 @@ public class ArraysMath {
   public static boolean isStaticallyComputable(Model model, Index index) {
     SBase parent = index.getParentSBMLObject().getParentSBMLObject();
     ArraysSBasePlugin plugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
-    ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(index, parent);
+    SBase parents = parent.getParentSBMLObject();
 
     List<String> dimensionIds = new ArrayList<String>();
     if (plugin != null) {
@@ -446,13 +408,22 @@ public class ArraysMath {
       }
     }
 
-    if (parentArraysSBasePlugin != null) {
-      for (Dimension dim : parentArraysSBasePlugin.getListOfDimensions()) {
-        if (dim.isSetId()) {
-          dimensionIds.add(dim.getId());
+    while(parents != null)
+    {
+      ArraysSBasePlugin parentArraysSBasePlugin = (ArraysSBasePlugin) parents.getExtension(ArraysConstants.shortLabel);
+
+      if (parentArraysSBasePlugin != null) {
+        for (Dimension dim : parentArraysSBasePlugin.getListOfDimensions()) {
+          if (dim.isSetId()) {
+            dimensionIds.add(dim.getId());
+          }
         }
       }
+      
+      parents = parents.getParentSBMLObject();
     }
+
+
 
     return isStaticallyComputable(model, index, dimensionIds.toArray(new String[dimensionIds.size()]));
 
@@ -467,7 +438,7 @@ public class ArraysMath {
    */
   public static boolean isStaticallyComputable(Model model, MathContainer mathContainer) {
     ArraysSBasePlugin plugin = (ArraysSBasePlugin) mathContainer.getExtension(ArraysConstants.shortLabel);
-    ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(mathContainer, mathContainer.getParentSBMLObject());
+
     List<String> dimensionIds = new ArrayList<String>();
     if (plugin != null) {
       for (Dimension dim : plugin.getListOfDimensions()) {
@@ -476,11 +447,18 @@ public class ArraysMath {
         }
       }
     }
+    SBase parent = mathContainer.getParentSBMLObject();
 
-    if (parentArraysSBasePlugin != null) {
-      for (Dimension dim : parentArraysSBasePlugin.getListOfDimensions()) {
-        if (dim.isSetId()) {
-          dimensionIds.add(dim.getId());
+    while(parent != null)
+    {
+      ArraysSBasePlugin parentArraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
+      parent = parent.getParentSBMLObject();
+      if (parentArraysSBasePlugin != null)
+      {
+        for (Dimension dim : parentArraysSBasePlugin.getListOfDimensions()) {
+          if (dim.isSetId()) {
+            dimensionIds.add(dim.getId());
+          }
         }
       }
     }
