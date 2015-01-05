@@ -58,6 +58,21 @@ public class ArraysCompiler implements ASTNodeCompiler{
     idToValue = new HashMap<String, Double>();
   }
 
+  /**
+   * Clone constructor
+   */
+  public ArraysCompiler(ArraysCompiler obj) {
+    idToValue = new HashMap<String,Double>(obj.idToValue);
+  }
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#clone()
+   */
+  @Override
+  public ArraysCompiler clone(){
+    return new ArraysCompiler(this);
+  }
 
   /**
    * Returns {@code true}, if idToValue contains at least one element.

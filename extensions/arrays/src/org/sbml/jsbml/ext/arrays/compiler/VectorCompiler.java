@@ -1200,36 +1200,44 @@ public class VectorCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue compile(String name) {
-    SBase sbase = model.findNamedSBase(name);
-    if (sbase != null) {
-      if (useId) {
-        if (isSetIdToVector() && idToVector.containsKey(name)) {
-          setNode(idToVector.get(name));
-        } else {
-          transformNamedSBase(sbase);
-        }
-      } else {
-        transformSBase(sbase);
-      }
-    }
-    else if (this.sbase != null && this.sbase.getId().equals(name)) {
-      if (useId) {
-        if (isSetIdToVector() && idToVector.containsKey(name)) {
-          setNode(idToVector.get(name));
-        } else {
-          transformNamedSBase(this.sbase);
-        }
-      } else {
-        transformSBase(this.sbase);
-      }
+
+    if(isSetIdToVector() && idToVector.containsKey(name))
+    {
+      setNode(idToVector.get(name));
     }
     else
     {
-      if (useId) {
-        setNode(new ASTNode(name));
+      SBase sbase = model.findNamedSBase(name);
+      if (sbase != null) {
+        if (useId) {
+          if (isSetIdToVector() && idToVector.containsKey(name)) {
+            setNode(idToVector.get(name));
+          } else {
+            transformNamedSBase(sbase);
+          }
+        } else {
+          transformSBase(sbase);
+        }
       }
-      else {
-        unknownValue();
+      else if (this.sbase != null && this.sbase.getId().equals(name)) {
+        if (useId) {
+          if (isSetIdToVector() && idToVector.containsKey(name)) {
+            setNode(idToVector.get(name));
+          } else {
+            transformNamedSBase(this.sbase);
+          }
+        } else {
+          transformSBase(this.sbase);
+        }
+      }
+      else
+      {
+        if (useId) {
+          setNode(new ASTNode(name));
+        }
+        else {
+          unknownValue();
+        }
       }
     }
     return dummy;
@@ -4292,8 +4300,8 @@ public class VectorCompiler implements ASTNodeCompiler {
       }
       vector(vector);
       ASTNode vectorNode = getNode();
-      for (int i = 1; i < arraysParentPlugin.getDimensionCount(); ++i) {
-        dim = arraysParentPlugin.getDimensionByArrayDimension(i);
+      for (int i = 1; i < arraysPlugin.getDimensionCount(); ++i) {
+        dim = arraysPlugin.getDimensionByArrayDimension(i);
         size = ArraysMath.getSize(model, dim);
         vector = new ArrayList<ASTNode>((int) size);
         for (int j = 0; j < size; ++j) {
@@ -4303,8 +4311,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         vector(vector);
         vectorNode = getNode();
       }
-      for (int i = 0; i < arraysPlugin.getDimensionCount(); ++i) {
-        dim = arraysPlugin.getDimensionByArrayDimension(i);
+      for (int i = 0; i < arraysParentPlugin.getDimensionCount(); ++i) {
+        dim = arraysParentPlugin.getDimensionByArrayDimension(i);
         size = ArraysMath.getSize(model, dim);
         vector = new ArrayList<ASTNode>((int) size);
         for (int j = 0; j < size; ++j) {
