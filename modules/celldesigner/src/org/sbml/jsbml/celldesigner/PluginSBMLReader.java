@@ -25,6 +25,8 @@ import static org.sbml.jsbml.celldesigner.CellDesignerConstants.LINK_TO_CELLDESI
 
 import java.awt.Dimension;
 import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -79,6 +81,7 @@ import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ModifierSpeciesReference;
@@ -101,6 +104,7 @@ import org.sbml.jsbml.celldesigner.libsbml.LibSBMLUtils;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
+import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
@@ -301,7 +305,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         }
       }
 
-      for (i = 0; i < originalModel.getNumCompartments(); i++) {
+      for (i = originalModel.getNumCompartments()-1; i >= 0; i--) {
         PluginCompartment pCompartment = originalModel.getCompartment(i);
         Set<SBase> list = LayoutConverter.extractLayout(pCompartment, layout);
         Compartment compartment = readCompartment(pCompartment);
@@ -310,12 +314,24 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         mapOfSBases.put(pCompartment, list);
         //RenderConverter.extractRenderInformation(pCompartment, renderPlugin.getLocalRenderInformation(0), layout);
         //gets the compartment size
-        layout.createDimensions("Layout_Size", originalModel.getCompartment(i).getWidth()+30,
-          originalModel.getCompartment(i).getHeight()+30, 1d);
         if (listener != null) {
           listener.progressUpdate(++curr, "Compartments");
         }
       }
+      //sorting the compartments by their areas. This is done to order them largest to smallest when visualizing them.
+      ListOf<CompartmentGlyph>  listOfCompartmentGlyphs = layout.getListOfCompartmentGlyphs();
+      Collections.sort(listOfCompartmentGlyphs, new Comparator<CompartmentGlyph>(){
+        @Override
+        public int compare(CompartmentGlyph cGlyph1, CompartmentGlyph cGlyph2){
+          int cGlyph1Area = (int) (cGlyph1.getBoundingBox().getDimensions().getWidth()*
+              cGlyph1.getBoundingBox().getDimensions().getHeight());
+          int cGlyph2Area = (int) (cGlyph2.getBoundingBox().getDimensions().getWidth()*
+              cGlyph2.getBoundingBox().getDimensions().getHeight());
+          int cmp = Double.compare(cGlyph2Area, cGlyph1Area);
+          return cmp;
+        }});
+      layout.createDimensions("Layout_Size", layout.getListOfCompartmentGlyphs().get(0).getBoundingBox().getDimensions().getWidth()*1.1,
+        layout.getListOfCompartmentGlyphs().get(0).getBoundingBox().getDimensions().getHeight()*1.15, 1d);
 
       for (i = 0; i < originalModel.getNumSpecies(); i++) {
         PluginSpecies pSpecies = originalModel.getSpecies(i);
@@ -330,8 +346,6 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         for (int j=0;j<listOfAliases.size();j++)
         {
           Set<SBase> list = LayoutConverter.extractLayout((PluginSpeciesAlias)listOfAliases.get(j), layout);
-          //RenderConverter.extractRenderInformation((PluginSpeciesAlias)listOfAliases.get(j),
-          //renderPlugin.getLocalRenderInformation(0), layout);
           mapOfSBases.put(listOfAliases.get(j), list);
         }
         if (listener != null) {
@@ -394,6 +408,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
           listener.progressUpdate(++curr, "Reactions");
         }
       }
+      //LayoutConverter.debugReactionsInLayoutConverter();
 
       for (i = 0; i < originalModel.getNumEvents(); i++) {
         model.addEvent(readEvent(originalModel.getEvent(i)));
