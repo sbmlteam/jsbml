@@ -40,7 +40,6 @@ import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.AbstractReferenceGlyph;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
-import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
