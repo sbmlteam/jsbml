@@ -239,6 +239,8 @@
            source="1.6"
            target="1.6"
            classpathref="classpath">
+<!--			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:unchecked"/> -->
 		</javac>
 
 		<property name="api.version" value="1.0-beta"/>
