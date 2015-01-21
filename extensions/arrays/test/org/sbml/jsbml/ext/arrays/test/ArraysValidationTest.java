@@ -24,7 +24,6 @@ package org.sbml.jsbml.ext.arrays.test;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.StringReader;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
@@ -48,7 +47,6 @@ import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.ext.arrays.util.ArraysMath;
 import org.sbml.jsbml.ext.arrays.validator.ArraysValidator;
 import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysMathCheck;
-import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 
 
@@ -269,97 +267,97 @@ public class ArraysValidationTest {
     assertTrue(ArraysValidator.validate(doc).size() != 0);
   }
 
-  /**
-   * Test validation constraint for vector. Make sure that it catches errors when the vector is rigged and
-   * doesn't do anything when the model is valid.
-   */
-  @Test
-  public void vectorTest() {
-    try {
-      // Test invalid vector of vectors
-      Model m = new Model();
-      Index index = new Index();
-      ASTNode n;
-      String formula = "{ { { },{ } }, { { },{ } }, { { },{ { } } } }";
-      FormulaParser parser = new FormulaParser(new StringReader(formula));
-      n = parser.parse();
-      index.setMath(n);
-      ArraysMathCheck check = new ArraysMathCheck(m, index);
-      check.check();
-      assertTrue(check.getListOfErrors().size() == 1);
-
-      //Test invalid vector of vectors
-      formula = "{ { { { } },{ } }, { { },{ } }, { { },{ } } }";
-      parser = new FormulaParser(new StringReader(formula));
-      n = parser.parse();
-      index.setMath(n);
-      check = new ArraysMathCheck(m, index);
-      check.check();
-      assertTrue(check.getListOfErrors().size() == 1);
-
-      //Test invalid vector of vectors
-      formula = "{ {{}}, {} }";
-      parser = new FormulaParser(new StringReader(formula));
-      n = parser.parse();
-      index.setMath(n);
-      check = new ArraysMathCheck(m, index);
-      check.check();
-      assertTrue(check.getListOfErrors().size() == 1);
-
-      //Test invalid vector of vectors
-      formula = "{ {  }, { }, { { { { } } } } }";
-      parser = new FormulaParser(new StringReader(formula));
-      n = parser.parse();
-      index.setMath(n);
-      check = new ArraysMathCheck(m, index);
-      check.check();
-      assertTrue(check.getListOfErrors().size() == 1);
-
-      //Test valid vector of vectors
-      formula = "{ { { },{ } }, { { },{ } }, { { },{ } } }";
-      parser = new FormulaParser(new StringReader(formula));
-      n = parser.parse();
-      index.setMath(n);
-      check = new ArraysMathCheck(m, index);
-      check.check();
-      assertTrue(check.getListOfErrors().size() == 0);
-
-      // Test valid vector of vectors and sbase
-      Species s = m.createSpecies("s");
-      Parameter p = m.createParameter("p");
-      p.setConstant(true);
-      p.setValue(2);
-      ArraysSBasePlugin arraysSBasePlugin = new ArraysSBasePlugin(s);
-      s.addExtension(ArraysConstants.shortLabel, arraysSBasePlugin);
-      Dimension dim0 = arraysSBasePlugin.createDimension();
-      dim0.setArrayDimension(0);
-      dim0.setSize("p");
-      formula = "{ { { },{ } }, { { },{ } }, s }";
-      parser = new FormulaParser(new StringReader(formula));
-      n = parser.parse();
-      index.setMath(n);
-      check = new ArraysMathCheck(m, index);
-      check.check();
-      assertTrue(check.getListOfErrors().size() == 0);
-
-      // Test invalid vector of vectors and sbase
-      p.setValue(3);
-      parser = new FormulaParser(new StringReader(formula));
-      n = parser.parse();
-      index.setMath(n);
-      check = new ArraysMathCheck(m, index);
-      check.check();
-      assertTrue(check.getListOfErrors().size() == 1);
-      //TODO: check error code
-      //assertTrue(check.getListOfErrors().get(0).getCode() == 00000);
-      assertTrue(check.getListOfErrors().get(0).getPackage().equals("arrays"));
-
-
-    } catch (ParseException e) {
-      assertTrue(false);
-      e.printStackTrace();
-    }
-  }
+//  /**
+//   * Test validation constraint for vector. Make sure that it catches errors when the vector is rigged and
+//   * doesn't do anything when the model is valid.
+//   */
+//  @Test
+//  public void vectorTest() {
+//    try {
+//      // Test invalid vector of vectors
+//      Model m = new Model();
+//      Index index = new Index();
+//      ASTNode n;
+//      String formula = "{ { { },{ } }, { { },{ } }, { { },{ { } } } }";
+//      FormulaParser parser = new FormulaParser(new StringReader(formula));
+//      n = parser.parse();
+//      index.setMath(n);
+//      ArraysMathCheck check = new ArraysMathCheck(m, index);
+//      check.check();
+//      assertTrue(check.getListOfErrors().size() == 1);
+//
+//      //Test invalid vector of vectors
+//      formula = "{ { { { } },{ } }, { { },{ } }, { { },{ } } }";
+//      parser = new FormulaParser(new StringReader(formula));
+//      n = parser.parse();
+//      index.setMath(n);
+//      check = new ArraysMathCheck(m, index);
+//      check.check();
+//      assertTrue(check.getListOfErrors().size() == 1);
+//
+//      //Test invalid vector of vectors
+//      formula = "{ {{}}, {} }";
+//      parser = new FormulaParser(new StringReader(formula));
+//      n = parser.parse();
+//      index.setMath(n);
+//      check = new ArraysMathCheck(m, index);
+//      check.check();
+//      assertTrue(check.getListOfErrors().size() == 1);
+//
+//      //Test invalid vector of vectors
+//      formula = "{ {  }, { }, { { { { } } } } }";
+//      parser = new FormulaParser(new StringReader(formula));
+//      n = parser.parse();
+//      index.setMath(n);
+//      check = new ArraysMathCheck(m, index);
+//      check.check();
+//      assertTrue(check.getListOfErrors().size() == 1);
+//
+//      //Test valid vector of vectors
+//      formula = "{ { { },{ } }, { { },{ } }, { { },{ } } }";
+//      parser = new FormulaParser(new StringReader(formula));
+//      n = parser.parse();
+//      index.setMath(n);
+//      check = new ArraysMathCheck(m, index);
+//      check.check();
+//      assertTrue(check.getListOfErrors().size() == 0);
+//
+//      // Test valid vector of vectors and sbase
+//      Species s = m.createSpecies("s");
+//      Parameter p = m.createParameter("p");
+//      p.setConstant(true);
+//      p.setValue(2);
+//      ArraysSBasePlugin arraysSBasePlugin = new ArraysSBasePlugin(s);
+//      s.addExtension(ArraysConstants.shortLabel, arraysSBasePlugin);
+//      Dimension dim0 = arraysSBasePlugin.createDimension();
+//      dim0.setArrayDimension(0);
+//      dim0.setSize("p");
+//      formula = "{ { { },{ } }, { { },{ } }, s }";
+//      parser = new FormulaParser(new StringReader(formula));
+//      n = parser.parse();
+//      index.setMath(n);
+//      check = new ArraysMathCheck(m, index);
+//      check.check();
+//      assertTrue(check.getListOfErrors().size() == 0);
+//
+//      // Test invalid vector of vectors and sbase
+//      p.setValue(3);
+//      parser = new FormulaParser(new StringReader(formula));
+//      n = parser.parse();
+//      index.setMath(n);
+//      check = new ArraysMathCheck(m, index);
+//      check.check();
+//      assertTrue(check.getListOfErrors().size() == 1);
+//      //TODO: check error code
+//      //assertTrue(check.getListOfErrors().get(0).getCode() == 00000);
+//      assertTrue(check.getListOfErrors().get(0).getPackage().equals("arrays"));
+//
+//
+//    } catch (ParseException e) {
+//      assertTrue(false);
+//      e.printStackTrace();
+//    }
+//  }
 
   /**
    * 

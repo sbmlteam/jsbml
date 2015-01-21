@@ -289,10 +289,10 @@ public class FlatteningTest {
       Event e = model.createEvent();
       e.setId("event");
       Delay delay = e.createDelay();
-      delay.setMath(ASTNode.parseFormula("{1,2,3}"));
+      delay.setMath(ASTNode.parseFormula("{1,2,3}[i]"));
       e.setDelay(delay);
       Trigger trigger = e.createTrigger();
-      trigger.setMath(ASTNode.parseFormula("{true, true, true}"));
+      trigger.setMath(ASTNode.parseFormula("{true, true, true}[i]"));
       EventAssignment assign = e.createEventAssignment();
       assign.setMath(ASTNode.parseFormula("{1, 10, 100}[i]"));
       assign.setVariable("X");
@@ -354,10 +354,10 @@ public class FlatteningTest {
       Event e = model.createEvent();
       e.setId("event");
       Delay delay = e.createDelay();
-      delay.setMath(ASTNode.parseFormula("{1,2,3}"));
+      delay.setMath(ASTNode.parseFormula("{1,2,3}[i]"));
       e.setDelay(delay);
       Trigger trigger = e.createTrigger();
-      trigger.setMath(ASTNode.parseFormula("{true, true, true}"));
+      trigger.setMath(ASTNode.parseFormula("{true, true, true}[i]"));
 
       ArraysSBasePlugin eventPlugin = new ArraysSBasePlugin(e);
       e.addExtension(ArraysConstants.shortLabel, eventPlugin);
@@ -538,6 +538,12 @@ public class FlatteningTest {
       inda.setReferencedAttribute("species");
       inda.setArrayDimension(0);
       inda.setMath(ASTNode.parseFormula("j"));
+      
+      Index impa = arraysSBasePlugina.createIndex();
+      impa.setReferencedAttribute("id");
+      impa.setArrayDimension(0);
+      impa.setMath(ASTNode.parseFormula("j"));
+      
       SpeciesReference b = r.createProduct(B);
       b.setId("b");
       ArraysSBasePlugin arraysSBasePluginb = new ArraysSBasePlugin(b);
@@ -549,6 +555,11 @@ public class FlatteningTest {
       indb.setReferencedAttribute("species");
       indb.setArrayDimension(0);
       indb.setMath(ASTNode.parseFormula("j"));
+      Index impb = arraysSBasePluginb.createIndex();
+      impb.setReferencedAttribute("id");
+      impb.setArrayDimension(0);
+      impb.setMath(ASTNode.parseFormula("j"));
+      
       SBMLWriter.write(doc, System.out, ' ', (short) 2);
       System.out.println("\n-------------------------------------------");
       SBMLDocument flattened = ArraysFlattening.convert(doc);
@@ -667,8 +678,7 @@ public class FlatteningTest {
     }
   }
 
-
-
+  //TODO: automatic test
   /**
    * 
    */
@@ -732,6 +742,36 @@ public class FlatteningTest {
 
   }
 
+  @Test
+  public void testLayout() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/layoutTest.xml"));
+      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+      
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
 
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
+   
+  }
+  
+  @Test
+  public void testMetaIdRef() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/xyz.xml"));
+      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+      
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
+   
+  }
 }
 
