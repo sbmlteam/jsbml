@@ -141,7 +141,20 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * Creates and adds a new {@link Curve} to this ReactionGlyph.
+   * 
+   * @return a new {@link Curve} instance.
+   */
+  public Curve createCurve() {
+    Curve newcurve = new Curve(getLevel(), getVersion());
+    setCurve(newcurve);
+    return newcurve;
+  }
+  
+  
+  /**
    * Creates and adds a new {@link SpeciesReferenceGlyph}
+   * 
    * @param id the identifier for the {@link SpeciesReferenceGlyph} to be created.
    * @return a new {@link SpeciesReferenceGlyph}.
    */
