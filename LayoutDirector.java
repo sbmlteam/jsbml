@@ -544,12 +544,13 @@ public class LayoutDirector<P> implements Runnable {
         }
       }
       
-      List<AbstractReferenceGlyph> glyphList = new ArrayList<AbstractReferenceGlyph>();
+      List<AbstractReferenceGlyph> glyphList = null; //new ArrayList<AbstractReferenceGlyph>();
       if (species.getUserObject(LAYOUT_LINK) instanceof List<?>) {
         glyphList = (List<AbstractReferenceGlyph>) species.getUserObject(LAYOUT_LINK);
       }
-      cloneMarker = speciesGlyph.getSBOTerm() == 603||
-          speciesGlyph.getSBOTerm() == 604;
+      cloneMarker = (glyphList != null) && (glyphList.size() > 1);
+      /*(speciesGlyph.getSBOTerm() == SBO.getSideProduct()) ||
+          (speciesGlyph.getSBOTerm() == SBO.getSideSubstrate());*/
       
     }
     builder.buildEntityPoolNode(speciesGlyph, cloneMarker);
@@ -590,16 +591,21 @@ public class LayoutDirector<P> implements Runnable {
       for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
         try {
           // copy SBO term of species reference to species reference glyph
-          SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) srg.getReferenceInstance();
-          if ((speciesReference == null) || !speciesReference.isSetSBOTerm()) {
-            if (!srg.isSetSpeciesReferenceRole()) {
-              // sets consumption (straight line as default)
-              srg.setSBOTerm(394);
-            }
+          NamedSBase nsb = srg.getReferenceInstance();
+          if (!(nsb instanceof SimpleSpeciesReference)) {
+            logger.warning(MessageFormat.format("Expecting simple species reference, but found {0} in {1}.", nsb.getElementName(), srg));
+            srg.setSBOTerm(SBO.getConsumption());
           } else {
-            srg.setSBOTerm(speciesReference.getSBOTerm());
+            SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) nsb;
+            if ((speciesReference == null) || !speciesReference.isSetSBOTerm()) {
+              if (!srg.isSetSpeciesReferenceRole()) {
+                // sets consumption (straight line as default)
+                srg.setSBOTerm(SBO.getConsumption());
+              }
+            } else {
+              srg.setSBOTerm(speciesReference.getSBOTerm());
+            }
           }
-          
           builder.buildConnectingArc(srg, reactionGlyph, curveWidth);
         } catch (ClassCastException exc) {
           logger.fine("tried to access object wiht id = " + srg.getReference());
