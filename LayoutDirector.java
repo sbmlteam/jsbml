@@ -40,6 +40,7 @@ import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.AbstractReferenceGlyph;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
+import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
@@ -56,45 +57,45 @@ import de.zbit.sbml.util.SBMLtools;
 /**
  * {@link LayoutDirector} produces a graphical representation of a layout of an
  * {@link SBMLDocument}.
- * 
+ *
  * @param <P>
  *            Type of the product.
- * 
+ *
  * @author Mirjam Gutekunst
  * @version $Rev$
  */
 public class LayoutDirector<P> implements Runnable {
-  
+
   public static final String SPECIAL_ROTATION_NEEDED = "SPECIAL_ROTATION_NEEDED";
-  
+
   /**
-   * 
+   *
    */
   private static final double DEFAULT_CURVE_WIDTH = 1d;
-  
+
   /**
    * A {@link Logger} for this class
    */
   private static Logger logger = Logger.getLogger(LayoutDirector.class.getName());
-  
+
   /**
    * Constant for use as the key for flux values.
    */
   public static final String KEY_FOR_FLUX_VALUES = "fluxValue";
-  
+
   /**
    * Constant for use as the key for layout links. A layout link connects a
    * core object (e.g., a species) with a all of its glyphs in the given
    * layout.
    */
   public static final String LAYOUT_LINK = "LAYOUT_LINK";
-  
+
   /**
    * Constant for use as the key for compartment links, also see
    * {@link #LAYOUT_LINK}.
    */
   public static final String COMPARTMENT_LINK = "COMPARTMENT_LINK";
-  
+
   /**
    * Constant for use as the key for relative docking points. A relative
    * docking point is a property stored in the user objects of a
@@ -102,38 +103,38 @@ public class LayoutDirector<P> implements Runnable {
    * connecting arcs.
    */
   public static final String PN_RELATIVE_DOCKING_POINT = "PN_RELATIVE_DOCKING_POINT";
-  
+
   /**
    * Constant for use as the key for relative docking points for a species,
    * also see {@link #PN_RELATIVE_DOCKING_POINT}.
    */
   public static final String SPECIES_RELATIVE_DOCKING_POINT = "SPECIES_RELATIVE_DOCKING_POINT";
-  
+
   /**
    * LayoutAlgorithm instance to compute missing information
    */
   private LayoutAlgorithm algorithm;
-  
+
   /**
    * LayoutBuilder instance to build the layout
    */
   private LayoutBuilder<P> builder;
-  
+
   /**
    * SBML model of the given document
    */
   private Model model;
-  
+
   /**
    * index of the layout for which to produce the graphical representation
    */
   private int layoutIndex;
-  
+
   /**
    * map of fluxes for the given SBML document
    */
   private Map<String, Double> mapOfFluxes;
-  
+
   /**
    * @param inputFile file containing the SBML document
    * @param builder LayoutBuilder instance for producing the output
@@ -145,7 +146,7 @@ public class LayoutDirector<P> implements Runnable {
     LayoutAlgorithm algorithm) throws XMLStreamException, IOException {
     this(SBMLReader.read(inputFile), builder, algorithm);
   }
-  
+
   /**
    * @param inputFile file containing the SBML document
    * @param builder LayoutBuilder instance for producing the output
@@ -159,7 +160,7 @@ public class LayoutDirector<P> implements Runnable {
         throws XMLStreamException, IOException {
     this(SBMLReader.read(inputFile), builder, algorithm);
     mapOfFluxes = new HashMap<String, Double>();
-    
+
     CSVReader csvReader = new CSVReader(fluxFile.getAbsolutePath());
     String[][] data = csvReader.read();
     csvReader.close();
@@ -167,7 +168,7 @@ public class LayoutDirector<P> implements Runnable {
       mapOfFluxes.put(data[i][0], Double.parseDouble(data[i][1]));
     }
   }
-  
+
   /**
    * @param doc the SBMLdocument
    * @param builder LayoutBuilder instance for producing the output
@@ -177,7 +178,7 @@ public class LayoutDirector<P> implements Runnable {
     LayoutAlgorithm algorithm) {
     this(doc, builder, algorithm, 0);
   }
-  
+
   /**
    * @param doc the SBMLdocument
    * @param builder LayoutBuilder instance for producing the output
@@ -190,7 +191,7 @@ public class LayoutDirector<P> implements Runnable {
       LayoutConstants.getNamespaceURI(doc.getLevel(), doc.getVersion())))
       .getLayout(index), builder, algorithm);
   }
-  
+
   /**
    * @param layout the SBML layout for which to produce the output
    * @param builder LayoutBuilder instance for producing the output
@@ -208,51 +209,51 @@ public class LayoutDirector<P> implements Runnable {
       this.layoutIndex = -1;
     }
   }
-  
+
   /**
    * @return the layoutIndex
    */
   public int getLayoutIndex() {
     return layoutIndex;
   }
-  
+
   /**
    * @param layoutIndex the index of the layout to be set
    */
   public void setLayoutIndex(int layoutIndex) {
-    
+
     if (layoutIndex < 0) {
       throw new IndexOutOfBoundsException(MessageFormat.format(
         "{0,number,integer} < 0", layoutIndex));
     }
-    
+
     SBasePlugin extension = model.getExtension(LayoutConstants
       .getNamespaceURI(model.getLevel(), model.getVersion()));
-    
+
     if ((extension != null) &&
         (layoutIndex >= ((LayoutModelPlugin) extension).getLayoutCount())) {
       throw new IndexOutOfBoundsException(MessageFormat.format(
         "{0,number,integer} > {1,number,integer}", layoutIndex,
         ((LayoutModelPlugin) extension).getLayoutCount()));
     }
-    
+
     this.layoutIndex = layoutIndex;
   }
-  
+
   /**
    * Builds the product for the specified layout:
    * 1. All glyphs are added to the input of the layout algorithm.
    * 2. The layout algorithm completes all missing information.
    * 3. All glyphs are built with the layout builder.
    * 4. The dimensions of the whole layout are computed.
-   * 
+   *
    * @param layout the layout for which to produce the output
    */
   private void buildLayout(Layout layout) {
-    
+
     algorithm.setLayout(layout);
     builder.builderStart(layout);
-    
+
     // Compartment glyphs
     ListOf<CompartmentGlyph> compartmentGlyphList = null;
     List<CompartmentGlyph> sortedCompartmentGlyphList = null;
@@ -267,109 +268,133 @@ public class LayoutDirector<P> implements Runnable {
       speciesGlyphList = layout.getListOfSpeciesGlyphs();
       createLayoutLinks(speciesGlyphList);
     }
-    
+
     // Reaction glyphs
     ListOf<ReactionGlyph> reactionGlyphList = null;
     if (layout.isSetListOfReactionGlyphs()) {
       reactionGlyphList = layout.getListOfReactionGlyphs();
       createLayoutLinks(reactionGlyphList);
     }
-    
+
     // Text glyphs
     ListOf<TextGlyph> textGlyphList = layout.isSetListOfTextGlyphs() ?
-        textGlyphList = layout.getListOfTextGlyphs() : null;
-        
-        // add all glyphs to algorithm input
-        
-        // 1. compartment glyphs
-        if (compartmentGlyphList != null) {
-          for (CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
-            if (glyphIsLayouted(compartmentGlyph)) {
-              algorithm.addLayoutedGlyph(compartmentGlyph);
-            } else {
-              algorithm.addUnlayoutedGlyph(compartmentGlyph);
-            }
+      textGlyphList = layout.getListOfTextGlyphs() : null;
+
+      // add all glyphs to algorithm input
+
+      // 1. compartment glyphs
+      if (compartmentGlyphList != null) {
+        for (CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
+          if (glyphIsLayouted(compartmentGlyph)) {
+            algorithm.addLayoutedGlyph(compartmentGlyph);
+          } else {
+            algorithm.addUnlayoutedGlyph(compartmentGlyph);
           }
         }
-        
-        // 2. species glyphs + texts
-        if (speciesGlyphList != null) {
-          for (SpeciesGlyph speciesGlyph : speciesGlyphList) {
-            if (glyphIsLayouted(speciesGlyph)) {
-              algorithm.addLayoutedGlyph(speciesGlyph);
-            } else {
-              algorithm.addUnlayoutedGlyph(speciesGlyph);
-            }
+      }
+
+      // 2. species glyphs + texts
+      if (speciesGlyphList != null) {
+        for (SpeciesGlyph speciesGlyph : speciesGlyphList) {
+          if (glyphIsLayouted(speciesGlyph)) {
+            algorithm.addLayoutedGlyph(speciesGlyph);
+          } else {
+            algorithm.addUnlayoutedGlyph(speciesGlyph);
           }
         }
-        if (textGlyphList != null) {
-          for (TextGlyph textGlyph : textGlyphList) {
-            if (glyphIsLayouted(textGlyph)) {
-              algorithm.addLayoutedGlyph(textGlyph);
-            } else {
-              algorithm.addUnlayoutedGlyph(textGlyph);
-            }
+      }
+      if (textGlyphList != null) {
+        for (TextGlyph textGlyph : textGlyphList) {
+          if (glyphIsLayouted(textGlyph)) {
+            algorithm.addLayoutedGlyph(textGlyph);
+          } else {
+            algorithm.addUnlayoutedGlyph(textGlyph);
           }
         }
-        
-        // 3. reaction glyphs: create edges (srg, rg)
-        if (reactionGlyphList != null) {
-          for (ReactionGlyph reactionGlyph : reactionGlyphList) {
-            // add reaction glyph to algorithm input
-            if (glyphIsLayouted(reactionGlyph)) {
-              algorithm.addLayoutedGlyph(reactionGlyph);
-              if (reactionGlyphHasCurves(reactionGlyph)) {
-                reactionGlyph.putUserObject(SPECIAL_ROTATION_NEEDED, reactionGlyph);
+      }
+
+      // 3. reaction glyphs: create edges (srg, rg)
+      if (reactionGlyphList != null) {
+        for (ReactionGlyph reactionGlyph : reactionGlyphList) {
+          // add reaction glyph to algorithm input
+          if (glyphIsLayouted(reactionGlyph)) {
+            algorithm.addLayoutedGlyph(reactionGlyph);
+            if (reactionGlyphHasCurves(reactionGlyph)) {
+              reactionGlyph.putUserObject(SPECIAL_ROTATION_NEEDED, reactionGlyph);
+            }
+          } else {
+            algorithm.addUnlayoutedGlyph(reactionGlyph);
+          }
+          if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+            ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphs =
+                reactionGlyph.getListOfSpeciesReferenceGlyphs();
+            // add all (srg, rg) pairs to algorithm input
+            for (SpeciesReferenceGlyph srg : speciesReferenceGlyphs) {
+              if (edgeIsLayouted(reactionGlyph, srg)) {
+                algorithm.addLayoutedEdge(srg, reactionGlyph);
+              } else {
+                algorithm.addUnlayoutedEdge(srg, reactionGlyph);
               }
-            } else {
-              algorithm.addUnlayoutedGlyph(reactionGlyph);
-            }
-            if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
-              ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphs =
-                  reactionGlyph.getListOfSpeciesReferenceGlyphs();
-              // add all (srg, rg) pairs to algorithm input
-              for (SpeciesReferenceGlyph srg : speciesReferenceGlyphs) {
-                if (edgeIsLayouted(reactionGlyph, srg)) {
-                  algorithm.addLayoutedEdge(srg, reactionGlyph);
-                } else {
-                  algorithm.addUnlayoutedEdge(srg, reactionGlyph);
-                }
-              }
             }
           }
         }
-        
-        
-        // 2. let algorithm complete all glyphs
-        algorithm.completeGlyphs();
-        
-        // 3. build all glyphs
-        if (sortedCompartmentGlyphList != null) {
-          handleCompartmentGlyphs(sortedCompartmentGlyphList);
-        }
-        if (speciesGlyphList != null) {
-          handleSpeciesGlyphs(speciesGlyphList);
-        }
-        if (reactionGlyphList != null) {
-          handleReactionGlyphs(reactionGlyphList);
-        }
-        if (textGlyphList != null) {
-          handleTextGlyphs(textGlyphList);
-        }
-        
-        // 4. set layout dimensions
-        // TODO this is the second call (see above)
-        if (!layout.isSetDimensions()) {
-          layout.setDimensions(algorithm.createLayoutDimension());
-        }
-        
-        builder.builderEnd();
+      }
+
+
+      // 2. let algorithm complete all glyphs
+      algorithm.completeGlyphs();
+
+      // 3. build all glyphs
+      if (sortedCompartmentGlyphList != null) {
+        handleCompartmentGlyphs(sortedCompartmentGlyphList);
+      }
+      if (speciesGlyphList != null) {
+        handleSpeciesGlyphs(speciesGlyphList);
+      }
+      if (reactionGlyphList != null) {
+        handleReactionGlyphs(reactionGlyphList);
+      }
+      if (textGlyphList != null) {
+        handleTextGlyphs(textGlyphList);
+      }
+
+      // 4. set layout dimensions
+      // TODO this is the second call (see above)
+      layout.setDimensions(algorithm.createLayoutDimension());
+
+      builder.builderEnd();
+
+
+      // 2. let algorithm complete all glyphs
+      algorithm.completeGlyphs();
+
+      // 3. build all glyphs
+      if (sortedCompartmentGlyphList != null) {
+        handleCompartmentGlyphs(sortedCompartmentGlyphList);
+      }
+      if (speciesGlyphList != null) {
+        handleSpeciesGlyphs(speciesGlyphList);
+      }
+      if (reactionGlyphList != null) {
+        handleReactionGlyphs(reactionGlyphList);
+      }
+      if (textGlyphList != null) {
+        handleTextGlyphs(textGlyphList);
+      }
+
+      // 4. set layout dimensions
+      // TODO this is the second call (see above)
+      if (!layout.isSetDimensions()) {
+        layout.setDimensions(algorithm.createLayoutDimension());
+      }
+
+      builder.builderEnd();
   }
-  
+
   /**
    * Check if there are {@link CurveSegment}s given for any of the species
    * reference glyphs of the given {@link ReactionGlyph}.
-   * 
+   *
    * @param reactionGlyph
    * @return whether there exists a curve
    */
@@ -386,10 +411,10 @@ public class LayoutDirector<P> implements Runnable {
     }
     return hasCurves;
   }
-  
+
   /**
    * Check if the incoming edge is layouted, i.e. if it has a curve.
-   * 
+   *
    * @param reactionGlyph process node of the edge
    * @param speciesReferenceGlyph species node of the edge
    * @return whether the edge is layouted
@@ -398,11 +423,11 @@ public class LayoutDirector<P> implements Runnable {
     SpeciesReferenceGlyph speciesReferenceGlyph) {
     return speciesReferenceGlyph.isSetCurve();
   }
-  
+
   /**
    * Check if a glyph as complete layout information (i.e. if it as both
    * dimensions and position).
-   * 
+   *
    * @param glyph
    * @return
    */
@@ -415,10 +440,10 @@ public class LayoutDirector<P> implements Runnable {
         && glyph.getBoundingBox().getDimensions().getHeight() != 0
         && glyph.getBoundingBox().getDimensions().getWidth() != 0;
   }
-  
+
   /**
    * Check if a glyph has dimensions.
-   * 
+   *
    * @param glyph
    * @return
    */
@@ -428,10 +453,10 @@ public class LayoutDirector<P> implements Runnable {
         && glyph.getBoundingBox().getDimensions().getWidth() != 0
         && glyph.getBoundingBox().getDimensions().getHeight() != 0;
   }
-  
+
   /**
    * Check if a glyph has a position.
-   * 
+   *
    * @param glyph
    * @return
    */
@@ -441,11 +466,11 @@ public class LayoutDirector<P> implements Runnable {
         && glyph.getBoundingBox().getPosition().getX() != 0
         && glyph.getBoundingBox().getPosition().getY() != 0;
   }
-  
+
   /**
    * Check if a species reference glyph is a substrate. Both species reference
    * roles (higher priority) and SBO terms are used.
-   * 
+   *
    * @param speciesReferenceGlyph
    * @return
    */
@@ -460,11 +485,11 @@ public class LayoutDirector<P> implements Runnable {
     }
     return false;
   }
-  
+
   /**
    * Check if a species reference glyph is a product. Both species reference
    * roles (higher priority) and SBO terms are used.
-   * 
+   *
    * @param speciesReferenceGlyph
    * @return
    */
@@ -479,11 +504,11 @@ public class LayoutDirector<P> implements Runnable {
     }
     return false;
   }
-  
+
   /**
    * Method calls the corresponding method
    * {@link LayoutBuilder#buildCompartment} of the builder.
-   * 
+   *
    * @param compartmentGlyphList
    */
   private void handleCompartmentGlyphs(
@@ -504,17 +529,17 @@ public class LayoutDirector<P> implements Runnable {
           }
         }
       }
-      
+
       previousCompartmentGlyph = compartmentGlyph;
       builder.buildCompartment(compartmentGlyph);
     }
   }
-  
+
   /**
    * Handle a list of species glyphs. Method calls
    * {@link LayoutDirector#handleSpeciesGlyph} for every {@link SpeciesGlyph}
    * of the given list.
-   * 
+   *
    * @param speciesGlyphList
    */
   private void handleSpeciesGlyphs(ListOf<SpeciesGlyph> speciesGlyphList) {
@@ -522,20 +547,20 @@ public class LayoutDirector<P> implements Runnable {
       handleSpeciesGlyph(sg);
     }
   }
-  
+
   /**
    * Build a species glyph. Method calls the corresponding method
    * {@link LayoutBuilder#buildEntityPoolNode} of the builder.
-   * 
+   *
    * @param speciesGlyph
    */
   @SuppressWarnings("unchecked")
   private void handleSpeciesGlyph(SpeciesGlyph speciesGlyph) {
     boolean cloneMarker = false;
-    
+
     if (speciesGlyph.isSetReference()) {
       NamedSBase species = speciesGlyph.getReferenceInstance();
-      
+
       if (!speciesGlyph.isSetSBOTerm()) {
         if (!species.isSetSBOTerm()) {
           SBMLtools.setSBOTerm(speciesGlyph, SBO.getUnknownMolecule());
@@ -543,7 +568,7 @@ public class LayoutDirector<P> implements Runnable {
           SBMLtools.setSBOTerm(speciesGlyph, species.getSBOTerm());
         }
       }
-      
+
       List<AbstractReferenceGlyph> glyphList = null; //new ArrayList<AbstractReferenceGlyph>();
       if (species.getUserObject(LAYOUT_LINK) instanceof List<?>) {
         glyphList = (List<AbstractReferenceGlyph>) species.getUserObject(LAYOUT_LINK);
@@ -551,16 +576,16 @@ public class LayoutDirector<P> implements Runnable {
       cloneMarker = (glyphList != null) && (glyphList.size() > 1);
       /*(speciesGlyph.getSBOTerm() == SBO.getSideProduct()) ||
           (speciesGlyph.getSBOTerm() == SBO.getSideSubstrate());*/
-      
+
     }
     builder.buildEntityPoolNode(speciesGlyph, cloneMarker);
   }
-  
+
   /**
    * Handle a list of reaction glyphs. Method calls
    * {@link LayoutDirector#handleReactionGlyph} for every
    * {@link ReactionGlyph} of the given list.
-   * 
+   *
    * @param reactionGlyphList
    */
   private void handleReactionGlyphs(ListOf<ReactionGlyph> reactionGlyphList) {
@@ -568,31 +593,31 @@ public class LayoutDirector<P> implements Runnable {
       handleReactionGlyph(rg);
     }
   }
-  
+
   /**
    * Build a species glyph. Method calls the corresponding methods
    * {@link LayoutBuilder#buildProcessNode} and
    * {@link LayoutBuilder#buildConnectingArc} of the builder.
-   * 
+   *
    * @param reactionGlyph
    */
   private void handleReactionGlyph(ReactionGlyph reactionGlyph) {
-    
+
     double curveWidth = DEFAULT_CURVE_WIDTH;
     Object userObject = reactionGlyph.getUserObject(KEY_FOR_FLUX_VALUES);
     if (userObject != null) {
       curveWidth = (Double) userObject;
     }
-    
+
     double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(reactionGlyph);
     builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);
-    
+
     if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
       for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
         try {
           // copy SBO term of species reference to species reference glyph
           NamedSBase nsb = srg.getReferenceInstance();
-          if (!(nsb instanceof SimpleSpeciesReference)) {
+          if (!(nsb instanceof SimpleSpeciesReference) && (nsb != null)) {
             logger.warning(MessageFormat.format("Expecting simple species reference, but found {0} in {1}.", nsb.getElementName(), srg));
             srg.setSBOTerm(SBO.getConsumption());
           } else {
@@ -606,6 +631,7 @@ public class LayoutDirector<P> implements Runnable {
               srg.setSBOTerm(speciesReference.getSBOTerm());
             }
           }
+
           builder.buildConnectingArc(srg, reactionGlyph, curveWidth);
         } catch (ClassCastException exc) {
           logger.fine("tried to access object wiht id = " + srg.getReference());
@@ -614,12 +640,12 @@ public class LayoutDirector<P> implements Runnable {
       }
     }
   }
-  
+
   /**
    * Handle a list of text glyphs. Method calls
    * {@link LayoutDirector#handleTextGlyph} for every {@link TextGlyph} of the
    * given list.
-   * 
+   *
    * @param textGlyphList
    */
   private void handleTextGlyphs(ListOf<TextGlyph> textGlyphList) {
@@ -627,21 +653,21 @@ public class LayoutDirector<P> implements Runnable {
       handleTextGlyph(textGlyph);
     }
   }
-  
+
   /**
    * Build a text glyph. Method calls the corresponding method
    * {@link LayoutBuilder#buildTextGlyph} of the builder.
-   * 
+   *
    * @param textGlyph
    */
   private void handleTextGlyph(TextGlyph textGlyph) {
     builder.buildTextGlyph(textGlyph);
   }
-  
+
   /**
    * Check whether a text glyph represents an independent text (i.e. it is not
    * associated with any other graphical object or species.
-   * 
+   *
    * @param textGlyph
    * @return
    */
@@ -650,12 +676,12 @@ public class LayoutDirector<P> implements Runnable {
         !textGlyph.isSetGraphicalObject() &&
         !textGlyph.isSetOriginOfText();
   }
-  
+
   /**
    * Connect a component with its corresponding glyph. It creates an user
    * object with key LAYOUT_LINK for every species of the given list of
    * species glyphs.
-   * 
+   *
    * @param listOfAbstractReferenceGlyphs list of species glyphs
    */
   @SuppressWarnings("unchecked")
@@ -679,7 +705,7 @@ public class LayoutDirector<P> implements Runnable {
       }
     }
   }
-  
+
   /* Build the layout and start the actual drawing of the elements. (non-Javadoc)
    * @see java.lang.Runnable#run()
    */
@@ -711,38 +737,38 @@ public class LayoutDirector<P> implements Runnable {
       logger.info("Method LayoutDirector.run failed: No model extension available for this model.");
     }
   }
-  
+
   /**
    * @param builder the builder to be set
    */
   public void setBuilder(LayoutBuilder<P> builder) {
     this.builder = builder;
   }
-  
+
   /**
    * @return the builder
    */
   public LayoutBuilder<P> getBuilder() {
     return builder;
   }
-  
+
   /**
    * @param algorithm the algorithm to be set
    */
   public void setAlgorithm(LayoutAlgorithm algorithm) {
     this.algorithm = algorithm;
   }
-  
+
   /**
    * @return the algorithm
    */
   public LayoutAlgorithm getAlgorithm() {
     return algorithm;
   }
-  
+
   /**
    * Return the product of the building process.
-   * 
+   *
    * @return the product
    */
   public P getProduct() {
@@ -751,10 +777,10 @@ public class LayoutDirector<P> implements Runnable {
     }
     return null;
   }
-  
+
   /**
    * Order of the compartments from outside to inside.
-   * 
+   *
    * @return a List<CompartmentGlyph> with the compartment glyphs ordered from
    *         outside to inside
    */
@@ -776,11 +802,11 @@ public class LayoutDirector<P> implements Runnable {
     }
     return sortedGlyphList;
   }
-  
+
   /**
    * Find the contained compartments of a compartment using its user object with
    * the key COMPARTMENT_LINK.
-   * 
+   *
    * @param compartment
    *        for which to find the contained compartments
    * @return a {@code List<CompartmentGlyph>} with the compartments the given
@@ -800,7 +826,7 @@ public class LayoutDirector<P> implements Runnable {
     }
     return containedList;
   }
-  
+
   /**
    * Create a list of contained compartments for every compartment and set it
    * as a user object with the key COMPARTMENT_LINK.
@@ -822,5 +848,5 @@ public class LayoutDirector<P> implements Runnable {
       }
     }
   }
-  
+
 }
