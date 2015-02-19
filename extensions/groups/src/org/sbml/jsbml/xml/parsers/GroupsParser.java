@@ -50,6 +50,9 @@ import org.sbml.jsbml.ext.groups.MemberConstraint;
 @ProviderFor(ReadingParser.class)
 public class GroupsParser extends AbstractReaderWriter implements PackageParser {
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private Logger logger = Logger.getLogger(GroupsParser.class);
 
   /* (non-Javadoc)

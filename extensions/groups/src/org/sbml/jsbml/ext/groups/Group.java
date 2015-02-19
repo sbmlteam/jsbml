@@ -56,6 +56,9 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   protected ListOf<Member> listOfMembers = null;
 
+  /**
+   * 
+   */
   private ListOfMemberConstraint listOfMemberConstraints = null;
 
   /**
@@ -97,7 +100,8 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * 
+   * @param member
+   * @return
    */
   public boolean addMember(Member member) {
     return getListOfMembers().add(member);
@@ -313,6 +317,9 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     return getMemberConstraintCount();
   }
 
+  /**
+   * 
+   */
   private void initDefaults() {
     setNamespace(GroupsConstants.namespaceURI);
   }
@@ -444,12 +451,16 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     getListOfMemberConstraints().remove(i);
   }
 
+  /**
+   * @param id
+   */
   public void removeMemberConstraint(String id) {
     getListOfMemberConstraints().removeFirst(new NameFilter(id));
   }
 
   /**
    * Creates a new MemberConstraint element and adds it to the ListOfMemberConstraints list
+   * @return
    */
   public MemberConstraint createMemberConstraint() {
     return createMemberConstraint(null);
@@ -457,6 +468,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Creates a new {@link MemberConstraint} element and adds it to the ListOfMemberConstraints list
+   * @param id
    *
    * @return a new {@link MemberConstraint} element
    */

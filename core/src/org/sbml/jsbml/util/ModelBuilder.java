@@ -207,7 +207,9 @@ public class ModelBuilder {
     c.setName(name);
     c.setSpatialDimensions(spatialDimensions);
     c.setSize(size);
-    c.setUnits(sizeUnits);
+    if (sizeUnits != null) {
+      c.setUnits(sizeUnits);
+    }
     return c;
   }
 
@@ -236,7 +238,7 @@ public class ModelBuilder {
    * @return
    */
   public Compartment buildCompartment(String id, boolean constant, String name, double spatialDimensions, double size, UnitDefinition sizeUnits) {
-    return buildCompartment(id, constant, name, spatialDimensions, size, sizeUnits.getId());
+    return buildCompartment(id, constant, name, spatialDimensions, size, sizeUnits != null ? sizeUnits.getId() : (String) null);
   }
 
   /**

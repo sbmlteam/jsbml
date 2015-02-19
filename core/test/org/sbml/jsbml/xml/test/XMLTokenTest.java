@@ -22,11 +22,12 @@
 
 package org.sbml.jsbml.xml.test;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.InputStream;
 
 import javax.xml.stream.XMLStreamException;
-
-import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -46,7 +47,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * @version $Rev$
  */
 public class XMLTokenTest {
-  
+
   /**
    * 
    */
@@ -61,12 +62,10 @@ public class XMLTokenTest {
    * 
    */
   @Test public void xmlTokenEqualsTest() {
-    
     XMLToken token = new XMLNode("Test character XML token equals");
-    
-    Assert.assertTrue("The equals method between an object and it's clone should return true", token.equals(token.clone()));
+    assertTrue("The equals method between an object and it's clone should return true", token.equals(token.clone()));
   }
-  
+
   /**
    * 
    * 
@@ -77,12 +76,11 @@ public class XMLTokenTest {
     SBMLDocument doc = null;
     try {
       doc = new SBMLReader().readSBMLFromStream(fileStream);
-    } catch (XMLStreamException e) {
-      e.printStackTrace();
-      Assert.fail("There was an error reading a valid SBML model file.");
+    } catch (XMLStreamException exc) {
+      exc.printStackTrace();
+      fail("There was an error reading a valid SBML model file.");
     }
-    
-    Assert.assertTrue("The equals method between an object and it's clone should return true", doc.equals(doc.clone()));
-    
+    assertTrue("The equals method between an object and it's clone should return true", doc.equals(doc.clone()));
   }
+
 }

@@ -25,6 +25,8 @@
   default="usage"
   basedir="."
 >
+	
+    <buildnumber file="JSBML_build_number.txt"/>
 
 	<!-- =================================================================== -->
 	<!-- Initialization target                                               -->
@@ -74,8 +76,8 @@
 		<property name="depend" value="true" />
 		<property name="verbose" value="false" />
 
-		<property name="build.number" value="${DSTAMP}-${TSTAMP}" />
-		<property name="build.name" value="${version} (build ${build.number}, svn rev ${jsbml.revision})" />
+		<property name="build.time" value="${DSTAMP}-${TSTAMP}" />
+		<property name="build.name" value="${version} (build ${build.number} at ${build.time}, svn rev ${jsbml.revision})" />
 
 		<property name="src.dir" value="${basedir}/src" />
 		<property name="test.src.dir" value="${basedir}/test" />

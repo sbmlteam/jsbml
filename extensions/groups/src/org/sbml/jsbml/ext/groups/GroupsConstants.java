@@ -42,10 +42,22 @@ public class GroupsConstants {
    * The namespace URI of this parser, this value can change between releases.
    */
   public static final String namespaceURI = namespaceURI_L3V1V1;
+  /**
+   * 
+   */
   public static final String shortLabel = "groups";
+  /**
+   * 
+   */
   public static final int MIN_SBML_LEVEL = 3;
+  /**
+   * 
+   */
   public static final int MIN_SBML_VERSION = 1;
 
+  /**
+   * 
+   */
   public static final List<String> namespaces;
 
   static {
@@ -53,12 +65,33 @@ public class GroupsConstants {
     namespaces.add(namespaceURI_L3V1V1);
   }
 
+  /**
+   * 
+   */
   public static final String idRef = "idRef";
+  /**
+   * 
+   */
   public static final String metaIdRef = "metaIdRef";
+  /**
+   * 
+   */
   public static final String identicalAttribute = "identicalAttribute";
+  /**
+   * 
+   */
   public static final String distinctAttribute = "distinctAttribute";
+  /**
+   * 
+   */
   public static final String membersShareType = "membersShareType";
+  /**
+   * 
+   */
   public static final String memberConstraint = "memberConstraint";
+  /**
+   * 
+   */
   public static String packageName = "Groups";
   /**
    * @param level

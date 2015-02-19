@@ -60,12 +60,13 @@ public class ArraysCompiler implements ASTNodeCompiler{
 
   /**
    * Clone constructor
+   * @param obj
    */
   public ArraysCompiler(ArraysCompiler obj) {
     idToValue = new HashMap<String,Double>(obj.idToValue);
   }
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */

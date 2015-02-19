@@ -333,7 +333,22 @@ public class TextGlyph extends AbstractReferenceGlyph {
     StringBuilder sb = new StringBuilder();
     sb.append(getElementName());
     sb.append(" [");
+    if (isSetId()) {
+      sb.append("id=");
+      sb.append(getId());
+      if (isSetText() || isSetOriginOfText() || isSetName()) {
+        sb.append(", ");
+      }
+    }
+    if (isSetName()) {
+      sb.append("name=");
+      sb.append(getName());
+      if (isSetText() || isSetOriginOfText()) {
+        sb.append(", ");
+      }
+    }
     if (isSetText()) {
+      sb.append("text=");
       sb.append(getText());
     } else if (isSetOriginOfText()) {
       NamedSBase orig = getOriginOfTextInstance();

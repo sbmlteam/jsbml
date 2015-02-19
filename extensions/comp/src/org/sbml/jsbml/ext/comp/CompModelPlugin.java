@@ -235,7 +235,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    *         the given 'id' as id or {@code null} if no element with this
    *         'id' can be found.
    */
-  private Port findPort(String id) {
+  public Port findPort(String id) {
     return mapOfPorts == null ? null : mapOfPorts.get(id);
   }
 
