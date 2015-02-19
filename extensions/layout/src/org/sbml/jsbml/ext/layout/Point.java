@@ -394,7 +394,15 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Override
   public String toString() {
-    return "Point [" + x + ", " + y + ", " + z + ']';
+    StringBuilder sb = new StringBuilder();
+    sb.append("Point [x=");
+    sb.append(x);
+    sb.append(", y=");
+    sb.append(y);
+    sb.append(", z=");
+    sb.append(z);
+    sb.append(']');
+    return sb.toString();
   }
 
   /* (non-Javadoc)

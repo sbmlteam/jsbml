@@ -201,7 +201,7 @@ public class XMLNode extends XMLToken {
   /**
    * 
    */
-  private List<XMLNode> childrenElements = null;
+  private List<XMLNode> childElements = null;
 
   /**
    * Creates a new empty {@link XMLNode} with no children.
@@ -251,10 +251,10 @@ public class XMLNode extends XMLToken {
   public XMLNode(XMLNode orig) {
     super(orig);
 
-    if (orig.childrenElements != null && orig.childrenElements.size() > 0) {
-      childrenElements = new ArrayList<XMLNode>();
-      for (XMLNode origchildren : orig.childrenElements) {
-        childrenElements.add(origchildren.clone());
+    if (orig.childElements != null && orig.childElements.size() > 0) {
+      childElements = new ArrayList<XMLNode>();
+      for (XMLNode origchildren : orig.childElements) {
+        childElements.add(origchildren.clone());
       }
     }
     // TODO - clone our jsbml user objects for XMLNode
@@ -427,11 +427,11 @@ public class XMLNode extends XMLToken {
     }
     // TODO: there are more tests in libsbml XMLNode.cpp, check if we need them, like isEOF()
 
-    if (childrenElements == null) {
-      childrenElements = new ArrayList<XMLNode>();
+    if (childElements == null) {
+      childElements = new ArrayList<XMLNode>();
     }
 
-    childrenElements.add(node);
+    childElements.add(node);
     node.fireNodeAddedEvent();
     node.parent = this;
 
@@ -459,10 +459,10 @@ public class XMLNode extends XMLToken {
    */
   @Override
   public XMLNode getChildAt(int childIndex) {
-    if (childrenElements == null) {
+    if (childElements == null) {
       throw new IndexOutOfBoundsException(Integer.toString(childIndex));
     }
-    return childrenElements.get(childIndex);
+    return childElements.get(childIndex);
   }
 
   /**
@@ -482,7 +482,7 @@ public class XMLNode extends XMLToken {
    */
   @Override
   public int getChildCount() {
-    return childrenElements != null ? childrenElements.size() : 0;
+    return childElements != null ? childElements.size() : 0;
   }
 
   /**
@@ -510,10 +510,10 @@ public class XMLNode extends XMLToken {
       //			childrenElements.add(node);
       throw new IndexOutOfBoundsException(Integer.toString(n));
     } else {
-      if (childrenElements == null) {
-        childrenElements = new ArrayList<XMLNode>();
+      if (childElements == null) {
+        childElements = new ArrayList<XMLNode>();
       }
-      childrenElements.add(n, node);
+      childElements.add(n, node);
       node.fireNodeAddedEvent();
     }
     node.parent = this;
@@ -539,10 +539,10 @@ public class XMLNode extends XMLToken {
    * @jsbml.note The caller owns the returned node and is responsible for deleting it.
    */
   public XMLNode removeChild(int n) {
-    if ((n < 0) || (getChildCount() < n) || (childrenElements == null)) {
+    if ((n < 0) || (getChildCount() < n) || (childElements == null)) {
       return null;
     }
-    XMLNode oldNode =  childrenElements.remove(n);
+    XMLNode oldNode =  childElements.remove(n);
     oldNode.fireNodeRemovedEvent();
     return oldNode;
   }
@@ -557,9 +557,9 @@ public class XMLNode extends XMLToken {
    * </ul>
    */
   public int removeChildren() {
-    if (childrenElements != null) {
-      List<XMLNode> removedChildren = childrenElements;
-      childrenElements.clear();
+    if (childElements != null) {
+      List<XMLNode> removedChildren = childElements;
+      childElements.clear();
       for (XMLNode child : removedChildren) {
         child.fireNodeRemovedEvent();
       }
@@ -588,8 +588,8 @@ public class XMLNode extends XMLToken {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append(getClass().getSimpleName());
-    builder.append(" [childrenElements=");
-    builder.append(childrenElements);
+    builder.append(" [childElements=");
+    builder.append(childElements);
     builder.append(", attributes=");
     builder.append(attributes);
     builder.append(", characters=");
@@ -627,11 +627,11 @@ public class XMLNode extends XMLToken {
    * @return {@code true} if the {@link XMLNode} was found and removed.
    */
   public boolean removeChild(XMLNode xmlNode) {
-    if (childrenElements == null) {
+    if (childElements == null) {
       return false;
     }
 
-    return childrenElements.remove(xmlNode);
+    return childElements.remove(xmlNode);
   }
 
   /**

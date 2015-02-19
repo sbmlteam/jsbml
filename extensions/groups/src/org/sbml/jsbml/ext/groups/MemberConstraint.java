@@ -41,7 +41,13 @@ public class MemberConstraint extends AbstractNamedSBase  implements UniqueNamed
    */
   private static final long serialVersionUID = -5785868406244137379L;
 
+  /**
+   * 
+   */
   private String identicalAttribute;
+  /**
+   * 
+   */
   private String distinctAttribute;
 
   /**
@@ -103,6 +109,7 @@ public class MemberConstraint extends AbstractNamedSBase  implements UniqueNamed
 
   /**
    * Clone constructor
+   * @param obj
    */
   public MemberConstraint(MemberConstraint obj) {
     super(obj);
@@ -123,8 +130,6 @@ public class MemberConstraint extends AbstractNamedSBase  implements UniqueNamed
     return new MemberConstraint(this);
   }
 
-  
-  
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -133,9 +138,9 @@ public class MemberConstraint extends AbstractNamedSBase  implements UniqueNamed
     final int prime = 2729;
     int result = super.hashCode();
     result = prime * result
-      + ((distinctAttribute == null) ? 0 : distinctAttribute.hashCode());
+        + ((distinctAttribute == null) ? 0 : distinctAttribute.hashCode());
     result = prime * result
-      + ((identicalAttribute == null) ? 0 : identicalAttribute.hashCode());
+        + ((identicalAttribute == null) ? 0 : identicalAttribute.hashCode());
     return result;
   }
 
@@ -210,6 +215,7 @@ public class MemberConstraint extends AbstractNamedSBase  implements UniqueNamed
 
   /**
    * Sets the value of identicalAttribute
+   * @param identicalAttribute
    */
   public void setIdenticalAttribute(String identicalAttribute) {
     String oldIdenticalAttribute = this.identicalAttribute;
@@ -257,6 +263,7 @@ public class MemberConstraint extends AbstractNamedSBase  implements UniqueNamed
 
   /**
    * Sets the value of distinctAttribute
+   * @param distinctAttribute
    */
   public void setDistinctAttribute(String distinctAttribute) {
     String oldDistinctAttribute = this.distinctAttribute;

@@ -72,7 +72,7 @@ public class ArraysFlattening {
    */
   private static final transient Logger logger = Logger.getLogger(ArraysFlattening.class);
 
-  
+
   /**
    * This method flattens out arrays objects of a given {@link SBMLDocument}.
    * 
@@ -115,7 +115,7 @@ public class ArraysFlattening {
       throw new SBMLException(MessageFormat.format(
         "Could not add SBase {0} a null parent. Flattening Failed.", child));
     }
-    
+
     if (parent instanceof ListOf<?>) {
       @SuppressWarnings("unchecked")
       ListOf<SBase> parentList = (ListOf<SBase>) parent;
@@ -135,7 +135,7 @@ public class ArraysFlattening {
       {
         throw new SBMLException(MessageFormat.format(
           "Could not add SBase {0} because this object has an id that"
-          + " is already present in the model. Flattening Failed.", child));
+              + " is already present in the model. Flattening Failed.", child));
       }
       return;
     }
@@ -148,10 +148,10 @@ public class ArraysFlattening {
         return;
       }
     }
-    
+
     throw new SBMLException(MessageFormat.format(
       "Could not add SBase {0} to the model because {1} does not"
-      + " have the correct type (ListOf).", child, parent));
+          + " have the correct type (ListOf).", child, parent));
   }
 
   /**
@@ -160,12 +160,12 @@ public class ArraysFlattening {
    * @param model
    * @param node
    * @param compiler
-   * @param sbases
    * @param idToVector
+   * @param indices
    */
   private static void convert(Model model, TreeNode node,
     ArraysCompiler compiler, Map<String, ASTNode> idToVector, List<Integer> indices) {
-    boolean isExpanded; 
+    boolean isExpanded;
     for (int i = node.getChildCount() - 1; i >= 0; i--) {
       TreeNode child = node.getChildAt(i);
       isExpanded = expandDim(model, child, compiler.clone(), idToVector, indices);
@@ -181,8 +181,8 @@ public class ArraysFlattening {
    * @param doc
    * @param model
    * @param compiler
-   * @param itemsToDelete
    * @param idToVector
+   * @param indices
    */
   private static void convert (SBMLDocument doc, Model model, ArraysCompiler compiler, Map<String, ASTNode> idToVector, List<Integer> indices) {
     for (int i = doc.getChildCount() - 1; i >= 0; i--) {
@@ -227,6 +227,7 @@ public class ArraysFlattening {
    * @param sbase
    * @param compiler
    * @param idToVector
+   * @param indices
    */
   private static void convertIndex(Model model, ArraysSBasePlugin arraysPlugin, SBase sbase, ArraysCompiler compiler, Map<String,
     ASTNode> idToVector, List<Integer> indices) {
@@ -265,7 +266,7 @@ public class ArraysFlattening {
    * @param node
    * @param idToVector
    */
-  private static void convertMath(Model model, TreeNode node, Map<String, ASTNode> idToVector) 
+  private static void convertMath(Model model, TreeNode node, Map<String, ASTNode> idToVector)
   {
     for (int i = node.getChildCount() - 1; i >= 0; i--) {
       TreeNode child = node.getChildAt(i);
@@ -297,10 +298,10 @@ public class ArraysFlattening {
    * @param parent
    * @param arraysPlugin
    * @param compiler
-   * @param sbases
    * @param vector
    * @param dim
    * @param idToVector
+   * @param indices
    */
   private static void expandDim(Model model, NamedSBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler,
     ASTNode vector, int dim, Map<String, ASTNode> idToVector, List<Integer> indices) {
@@ -349,9 +350,9 @@ public class ArraysFlattening {
    * @param parent
    * @param arraysPlugin
    * @param compiler
-   * @param sbases
    * @param dim
    * @param idToVector
+   * @param indices
    */
   private static void expandDim(Model model, SBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler, int dim, Map<String, ASTNode> idToVector, List<Integer> indices) {
 
@@ -360,12 +361,12 @@ public class ArraysFlattening {
     if (dimension == null) {
       sbase.unsetExtension(ArraysConstants.shortLabel);
       convertIndex(model, arraysPlugin, sbase, compiler, idToVector, indices);
-      
+
       for (int i = sbase.getChildCount() - 1; i >= 0; i--)
       {
         convert(model, sbase.getChildAt(i), compiler.clone(), idToVector, indices);
       }
-      
+
       addToParent(model, parent, sbase);
       return;
     }
@@ -389,18 +390,19 @@ public class ArraysFlattening {
    * @param model
    * @param child
    * @param compiler
-   * @param sbases
    * @param idToVector
+   * @param indices
+   * @return
    */
   private static boolean expandDim(Model model, TreeNode child, ArraysCompiler compiler, Map<String, ASTNode> idToVector, List<Integer> indices) {
     if (child instanceof SBase) {
       SBase sbase = ((SBase) child);
       ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
-      
+
       if (arraysPlugin == null) {
         return false;
       }
-      
+
       int dim = arraysPlugin.getDimensionCount() - 1;
 
       if (dim < 0) {
@@ -416,7 +418,7 @@ public class ArraysFlattening {
       } else {
         expandDim(model, sbase.clone(), sbase.getParentSBMLObject(), arraysPlugin, compiler, dim, idToVector, indices);
       }
-      
+
       sbase.removeFromParent();
 
       return true;
@@ -436,6 +438,7 @@ public class ArraysFlattening {
    * @param maxIndex
    * @param compiler
    * @param idToVector
+   * @param indices
    * @return
    */
   private static String getIndexedId(ArraysSBasePlugin arraysPlugin, SBase sbase, String attribute, int maxIndex,
@@ -447,9 +450,9 @@ public class ArraysFlattening {
       throw new SBMLException(MessageFormat.format(
         "Unable to get the value of attribute {0} of object {1}. Flattening Failed.", attribute, sbase));
     }
-    
+
     ASTNode vector = idToVector.get(temp);
-    
+
     if (vector == null)
     {
       String append = "";
@@ -484,13 +487,13 @@ public class ArraysFlattening {
             "Index math should be evaluated to a scalar, but Index {0} evaluates to a vector. Flattening Failed.", index));
         }
       }
-      
+
       if(vector.isName()) {
         return vector.getName();
       }
-      
+
       int numOfImplicit = indices.size() - arraysPlugin.getDimensionCount();
-      
+
       for(int i = 0; i < numOfImplicit; i++)
       {
         if(vector != null) {
@@ -500,7 +503,7 @@ public class ArraysFlattening {
             "Could not flatten the value for {0}. Flattening Failed.", temp));
         }
       }
-      
+
       return vector.getName();
     }
   }
@@ -571,7 +574,6 @@ public class ArraysFlattening {
    * @param sbase
    * @param dimId
    * @param index
-   * @param idToVector
    */
   private static void updateMath (SBase sbase, String dimId, int index) {
     if(sbase instanceof MathContainer)
@@ -598,21 +600,21 @@ public class ArraysFlattening {
     }
   }
 
-//  /**
-//   * 
-//   * @param sbase
-//   * @param dimId
-//   * @param index
-//   */
-//  private static void updateIndexMath(SBase sbase, String dimId, int index)
-//  {
-//    ArraysSBasePlugin plugin = (ArraysSBasePlugin) sbase.getPlugin("arrays");
-//
-//    for(Index i : plugin.getListOfIndices())
-//    {
-//      i.setMath(replaceDimensionId(i.getMath(), dimId, index));
-//    }
-//  }
+  //  /**
+  //   *
+  //   * @param sbase
+  //   * @param dimId
+  //   * @param index
+  //   */
+  //  private static void updateIndexMath(SBase sbase, String dimId, int index)
+  //  {
+  //    ArraysSBasePlugin plugin = (ArraysSBasePlugin) sbase.getPlugin("arrays");
+  //
+  //    for(Index i : plugin.getListOfIndices())
+  //    {
+  //      i.setMath(replaceDimensionId(i.getMath(), dimId, index));
+  //    }
+  //  }
 
   /**
    * This updates the metaid of an SBase.

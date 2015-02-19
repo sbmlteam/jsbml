@@ -60,18 +60,34 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
    */
   private String name;
 
+  /**
+   * 
+   */
   private boolean membersShareType;
+  /**
+   * 
+   */
   private boolean isSetMembersShareType;
 
 
+  /**
+   * 
+   */
   public ListOfMemberConstraint() {
     super();
   }
 
+  /**
+   * @param level
+   * @param version
+   */
   public ListOfMemberConstraint(int level, int version) {
     super(level, version);
   }
 
+  /**
+   * @param listOf
+   */
   public ListOfMemberConstraint(ListOfMemberConstraint listOf) {
     super(listOf);
 
@@ -292,6 +308,7 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
 
   /**
    * Sets the value of membersShareType
+   * @param membersShareType
    */
   public void setMembersShareType(boolean membersShareType) {
     boolean oldMembersShareType = this.membersShareType;

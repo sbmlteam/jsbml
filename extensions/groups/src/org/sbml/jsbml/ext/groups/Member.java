@@ -43,8 +43,14 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
    */
   private static final long serialVersionUID = 1726020714284762330L;
 
+  /**
+   * 
+   */
   private String idRef;
 
+  /**
+   * 
+   */
   private String metaIdRef;
 
   /**
@@ -55,6 +61,9 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
     initDefaults();
   }
 
+  /**
+   * 
+   */
   private void initDefaults() {
     setNamespace(GroupsConstants.namespaceURI);
   }
@@ -91,8 +100,8 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
     return new Member(this);
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -161,6 +170,7 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
 
   /**
    * Sets the value of idRef
+   * @param idRef
    */
   public void setIdRef(String idRef) {
     String oldIdRef = this.idRef;
@@ -208,6 +218,7 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
 
   /**
    * Sets the value of metaIdRef
+   * @param metaIdRef
    */
   public void setMetaIdRef(String metaIdRef) {
     String oldMetaIdRef = this.metaIdRef;

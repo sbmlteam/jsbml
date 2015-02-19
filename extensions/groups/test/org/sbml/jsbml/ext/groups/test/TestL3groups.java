@@ -53,27 +53,40 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  */
 public class TestL3groups {
 
+  /**
+   * 
+   */
   public static String GROUPS_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/groups/version1";
 
 
+  /**
+   * @param x
+   * @return
+   */
   public boolean isNaN(double x) {
     return Double.isNaN(x);
   }
 
+  /**
+   * @throws Exception
+   */
   @Before
   public void setUp() throws Exception {
   }
 
+  /**
+   * @throws Exception
+   */
   @After
   public void tearDown() throws Exception {
   }
 
   /**
-   * 
+   * @throws XMLStreamException
    */
   @Test
   public void test_L3_Groups_read1() throws XMLStreamException {
-    InputStream fileStream = TestL3groups.class.getResourceAsStream("/org/sbml/jsbml/test/data/groups/groups1.xml");  
+    InputStream fileStream = TestL3groups.class.getResourceAsStream("/org/sbml/jsbml/test/data/groups/groups1.xml");
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
     Model model = doc.getModel();
 
@@ -98,17 +111,17 @@ public class TestL3groups {
   }
 
   /**
-   * 
+   * @throws XMLStreamException
    */
   @Test
   public void test_L3_Groups_write1() throws XMLStreamException {
-    InputStream fileStream = TestL3groups.class.getResourceAsStream("/org/sbml/jsbml/test/data/groups/groups1.xml");    
+    InputStream fileStream = TestL3groups.class.getResourceAsStream("/org/sbml/jsbml/test/data/groups/groups1.xml");
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    String docStr = new SBMLWriter().writeSBMLToString(doc);
-    
+    /*String docStr =*/ new SBMLWriter().writeSBMLToString(doc);
+
     // TODO - do some extra tests on the written file
-    
-    
+
+
   }
 }
