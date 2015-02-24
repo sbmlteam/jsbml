@@ -137,10 +137,12 @@ public class LayoutDirector<P> implements Runnable {
    */
   private Map<String, Double> mapOfFluxes;
 
+  // TODO: Would be nice to pass in options class
+
   /**
    * boolean value to be passed into layout glyph creation algorithms to add whiskers or not
    */
-  private boolean addWhiskers = true;
+  private Boolean addWhiskers = true;
 
   /**
    * @param inputFile file containing the SBML document
@@ -218,10 +220,51 @@ public class LayoutDirector<P> implements Runnable {
   }
 
 
-  public LayoutDirector(Layout layout, LayoutBuilder<P> builder,
-    LayoutAlgorithm algorithm, boolean addWhiskers) {
-    this(layout, builder, algorithm);
+  /**
+   * Returns the value of addWhiskers
+   *
+   * @return the value of addWhiskers
+   */
+  public Boolean getAddWhiskers() {
+    //TODO: if variable is boolean, create an additional "isVar"
+    //TODO: return primitive data type if possible (e.g. int instead of Integer)
+    if (isSetAddWhiskers()) {
+      return addWhiskers;
+    }
+    return null;
+  }
+
+
+  /**
+   * Returns whether addWhiskers is set
+   *
+   * @return whether addWhiskers is set
+   */
+  public Boolean isSetAddWhiskers() {
+    return this.addWhiskers != null;
+  }
+
+
+  /**
+   * Sets the value of addWhiskers
+   */
+  public void setAddWhiskers(Boolean addWhiskers) {
     this.addWhiskers = addWhiskers;
+  }
+
+
+  /**
+   * Unsets the variable addWhiskers
+   *
+   * @return {@code true}, if addWhiskers was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetAddWhiskers() {
+    if (isSetAddWhiskers()) {
+      this.addWhiskers = null;
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -331,7 +374,7 @@ public class LayoutDirector<P> implements Runnable {
       if (reactionGlyphList != null) {
         for (ReactionGlyph reactionGlyph : reactionGlyphList) {
           if (!addWhiskers){
-            reactionGlyph.putUserObject(NO_WHISKERS, reactionGlyph);
+            reactionGlyph.putUserObject(NO_WHISKERS, true);
           }
           // add reaction glyph to algorithm input
           if (glyphIsLayouted(reactionGlyph)) {
