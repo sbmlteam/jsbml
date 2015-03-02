@@ -11,7 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -42,7 +42,7 @@ import org.sbml.jsbml.util.StringTools;
  * This class creates C-like infix formula {@link String}s that represent the
  * content of {@link ASTNode}s. These can be used to save equations in SBML with
  * older than Level 2.
- * 
+ *
  * @author Alexander D&ouml;rr
  * @author Andreas Dr&auml;ger
  * @since 0.8
@@ -53,10 +53,10 @@ import org.sbml.jsbml.util.StringTools;
  * // TODO: check if we can improve the writing of brackets or wrote a method
  * to minimized the bracket, they are few differences with libSBML both way
  * anyway.
- * 
+ *
  * BIOMODEL 162:
- * 
- * 
+ *
+ *
  * KineticLaw (ER_leak_fluxD) MathContainer: infix formula output differ. JSBML
  * formula:
  * (-ERDensity_D_ERM*vL*(1+-0.00166112956810631*Ca_D_Cytosol*1/(0.00166112956810631
@@ -70,7 +70,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   /**
    * Basic method which links several elements with a mathematical operator.
    * All empty StringBuffer object are excluded.
-   * 
+   *
    * @param operator
    * @param elements
    * @return
@@ -94,7 +94,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   /**
-   * 
+   *
    * @param sb
    * @return
    */
@@ -106,7 +106,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    * Tests whether the String representation of the given object contains any
    * arithmetic symbols and if the given object is already surrounded by
    * brackets.
-   * 
+   *
    * @param something
    * @return True if either brackets are set around the given object or the
    *         object does not contain any symbols such as +, -, *, /.
@@ -126,7 +126,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
   /**
    * Returns the difference of the given elements as StringBuffer.
-   * 
+   *
    * @param subtrahents
    * @return
    */
@@ -139,7 +139,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
   /**
    * Returns a fraction with the given elements as numerator and denominator.
-   * 
+   *
    * @param numerator
    * @param denominator
    * @return
@@ -154,7 +154,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   /**
    * Returns the id of a PluginSpeciesReference object's belonging species as
    * an object of type StringBuffer.
-   * 
+   *
    * @param ref
    * @return
    */
@@ -166,7 +166,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    * Returns the value of a PluginSpeciesReference object's stoichiometry
    * either as a double or, if the stoichiometry has an integer value, as an
    * int object.
-   * 
+   *
    * @param ref
    * @return
    */
@@ -178,7 +178,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   /**
    * Returns the basis to the power of the exponent as StringBuffer. Several
    * special cases are treated.
-   * 
+   *
    * @param basis
    * @param exponent
    * @return
@@ -209,7 +209,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
   /**
    * Returns the exponent-th root of the basis as StringBuffer.
-   * 
+   *
    * @param exponent
    * @param basis
    * @return
@@ -232,7 +232,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
   /**
    * Returns the given selector as {@link StringBuffer}.
-   * 
+   *
    * @param elements
    * @return
    */
@@ -255,7 +255,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   /**
-   * 
+   *
    * @param basis
    * @return
    */
@@ -269,7 +269,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
   /**
    * Returns the sum of the given elements as StringBuffer.
-   * 
+   *
    * @param summands
    * @return
    */
@@ -279,7 +279,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
   /**
    * Returns the product of the given elements as StringBuffer.
-   * 
+   *
    * @param factors
    * @return
    */
@@ -289,7 +289,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
   /**
    * Returns the given vector as {@link StringBuffer}.
-   * 
+   *
    * @param elements
    * @return
    */
@@ -436,7 +436,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
   /**
    * Creates brackets if needed.
-   * 
+   *
    * @param node
    * @return
    * @throws SBMLException
@@ -457,7 +457,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
   /**
    * Creates brackets if needed.
-   * 
+   *
    * @param nodes
    * @return
    * @throws SBMLException
@@ -609,8 +609,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue factorial(ASTNode node) {
-    return new ASTNodeValue(append(brackets(node), Character.valueOf('!'))
-      .toString(), this);
+    return function("factorial", node);
   }
 
   /*
@@ -658,7 +657,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   /**
-   * 
+   *
    * @param name
    * @param nodes
    * @return
@@ -675,7 +674,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   /**
-   * 
+   *
    * @param name
    * @param nodes
    * @return
@@ -774,7 +773,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    * Creates the body of a lambda function, i.e., the argument list and the
    * actual mathematical operation, all comma separated and surrounded in
    * brackets.
-   * 
+   *
    * @param nodes
    * @return
    * @throws SBMLException
@@ -823,7 +822,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   /**
-   * 
+   *
    * @param operator
    * @param nodes
    * @return
@@ -943,7 +942,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   /**
-   * 
+   *
    * @param left
    * @param symbol
    * @param right
