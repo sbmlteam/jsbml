@@ -34,6 +34,7 @@ import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
@@ -44,9 +45,11 @@ import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCList;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
+import org.sbml.jsbml.ext.fbc.FBCReactionPlugin;
 import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
 import org.sbml.jsbml.ext.fbc.FluxObjective;
+import org.sbml.jsbml.ext.fbc.GeneProduct;
 import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
@@ -265,6 +268,8 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
               xmlObject.setName(FBCList.listOfObjectives.toString());
             } else if (listOf.get(0) instanceof FluxObjective) {
               xmlObject.setName(FBCList.listOfFluxObjectives.toString());
+            } else if (listOf.get(0) instanceof GeneProduct) {
+              xmlObject.setName(FBCList.listOfGeneProducts.toString());
             }
           }
         } else {
@@ -437,6 +442,9 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#createPluginFor(org.sbml.jsbml.SBase)
+   */
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
 
@@ -445,6 +453,8 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         return new FBCModelPlugin((Model) sbase);
       } else if (sbase instanceof Species) {
         return new FBCSpeciesPlugin((Species) sbase);
+      } else if (sbase instanceof Reaction) {
+        return new FBCReactionPlugin((Reaction) sbase);
       }
     }
     return null;

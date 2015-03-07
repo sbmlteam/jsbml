@@ -34,29 +34,14 @@ import java.util.List;
 public class FBCConstants {
 
   /**
-   * The namespace URI of this parser for SBML level 3, version 1 and package version 1.
+   * 
    */
-  public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
-
-  /**
-   * The latest namespace URI of this parser, this value can change between releases.
-   */
-  public static final String namespaceURI = namespaceURI_L3V1V1;
+  public static final String activeObjective = "activeObjective";
 
   /**
    * 
    */
-  public static final List<String> namespaces;
-
-  static {
-    namespaces = new ArrayList<String>();
-    namespaces.add(namespaceURI_L3V1V1);
-  }
-
-  /**
-   * 
-   */
-  public static final String shortLabel = "fbc";
+  public static final String charge = "charge";
 
   /**
    * 
@@ -66,7 +51,27 @@ public class FBCConstants {
   /**
    * 
    */
-  public static final String charge = "charge";
+  public static final String coefficient = "coefficient";
+
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String geneProduct = "geneProduct";
+
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String geneProductIdentifier = "geneProductIdentifier";
+
+  /**
+   * 
+   */
+  public static final String listOfObjectives = "listOfObjectives";
+
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String listOfGeneProducts = "listOfGeneProducts";
 
   /**
    * 
@@ -81,27 +86,26 @@ public class FBCConstants {
   /**
    * 
    */
+  public static final List<String> namespaces;
+
+  /**
+   * The namespace URI of this parser for SBML level 3, version 1 and package version 1.
+   */
+  public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
+  /**
+   * The namespace URI of this parser for SBML level 3, version 1 and package version 2.
+   */
+  public static final String namespaceURI_L3V1V2 = "http://www.sbml.org/sbml/level3/version1/fbc/version2";
+
+  /**
+   * The latest namespace URI of this parser, this value can change between releases.
+   */
+  public static final String namespaceURI = namespaceURI_L3V1V2;
+
+  /**
+   * 
+   */
   public static final String operation = "operation";
-  /**
-   * 
-   */
-  public static final String reaction = "reaction";
-  /**
-   * 
-   */
-  public static final String value = "value";
-  /**
-   * 
-   */
-  public static final String type = "type";
-  /**
-   * 
-   */
-  public static final String coefficient = "coefficient";
-  /**
-   * 
-   */
-  public static final String listOfObjectives = "listOfObjectives";
   /**
    * 
    */
@@ -109,7 +113,49 @@ public class FBCConstants {
   /**
    * 
    */
-  public static final String activeObjective = "activeObjective";
+  public static final String reaction = "reaction";
+  /**
+   * 
+   */
+  public static final String shortLabel = "fbc";
+  /**
+   * 
+   */
+  public static final String type = "type";
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String upperFluxBound = "upperFluxBound";
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String lowerFluxBound = "lowerFluxBound";
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String geneProteinAssociation = "geneProteinAssociation";
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String association = "association";
+  /**
+   * Introduced to FBC in version 2: The left child of a logical association rule.
+   */
+  public static final String leftChild = "leftChild";
+  /**
+   * Introduced to FBC in version 2: The right child of a logical association rule.
+   */
+  public static final String rightChild = "rightChild";
+
+  /**
+   * 
+   */
+  public static final String value = "value";
+
+  static {
+    namespaces = new ArrayList<String>();
+    namespaces.add(namespaceURI_L3V1V2);
+  }
 
   /**
    * 
@@ -119,6 +165,24 @@ public class FBCConstants {
    */
   public static String getNamespaceURI(int level, int version) {
     return namespaceURI;
+  }
+
+  /**
+   * 
+   * @param level
+   * @param version
+   * @param packageVersion
+   * @return
+   */
+  public static String getNamespaceURI(int level, int version, int packageVersion) {
+    switch (packageVersion) {
+    case 1:
+      return namespaceURI_L3V1V1;
+    case 2:
+      return namespaceURI_L3V1V2;
+    default:
+      return namespaceURI;
+    }
   }
 
 }

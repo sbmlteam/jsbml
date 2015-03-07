@@ -795,7 +795,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return sbasePlugin;
     }
 
-    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!", nameOrUri));
+    throw new IllegalArgumentException(MessageFormat.format(
+      "The package namespace or name ''{0}'' is unknown!",
+      nameOrUri));
   }
 
   /**
@@ -1060,8 +1062,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     throw new IndexOutOfBoundsException(isLeaf() ? MessageFormat.format(
       "Node {0} has no children.", getElementName()) : MessageFormat.format(
-        "Index {0,number,integer} >= {1,number,integer}", childIndex,
-        +Math.min(pos, 0)));
+        "Index {0,number,integer} >= {1,number,integer}",
+        childIndex, Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)

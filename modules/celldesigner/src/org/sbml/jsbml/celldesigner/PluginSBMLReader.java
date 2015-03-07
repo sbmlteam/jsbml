@@ -101,6 +101,7 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.celldesigner.libsbml.LibSBMLReader;
 import org.sbml.jsbml.celldesigner.libsbml.LibSBMLUtils;
+import org.sbml.jsbml.ext.fbc.AbstractFBCSBasePlugin;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
@@ -248,7 +249,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       localRenderInformation.addLocalStyle(new LocalStyle("speciesAliasStyle", model.getLevel(), model.getVersion(),
         new RenderGroup(model.getLevel(), model.getVersion())));
 
-      FBCModelPlugin FBCPlugin = new FBCModelPlugin(model);
+      AbstractFBCSBasePlugin FBCPlugin = new FBCModelPlugin(model);
 
       model.addExtension(FBCNamespace, FBCPlugin);
       model.addExtension(layoutNamespace, modelPlugin);

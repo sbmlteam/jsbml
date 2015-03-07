@@ -22,15 +22,14 @@
 package org.sbml.jsbml.ext.fbc;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Species;
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -43,44 +42,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 1.0
  * @date 02.10.2013
  */
-public class FBCSpeciesPlugin extends AbstractSBasePlugin {
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return FBCConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
-   */
-  @Override
-  public String getPackageName() {
-    return FBCConstants.packageName;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
-   */
-  @Override
-  public String getPrefix() {
-    return FBCConstants.shortLabel;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
-   */
-  @Override
-  public String getURI() {
-    return getElementNamespace();
-  }
-
+public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#getParent()
@@ -96,7 +58,6 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
     return null;
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
    */
@@ -104,6 +65,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   public ListOf<Species> getParentSBMLObject() {
     return getParent();
   }
+
   /**
    * Generated serial version identifier.
    */
@@ -171,9 +133,9 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns the value of charge
+   * Returns the value of {@link #charge}.
    *
-   * @return the value of charge
+   * @return the value of {@link #charge}.
    */
   public int getCharge() {
     if (isSetCharge()) {
@@ -183,9 +145,9 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns the value of chemicalFormula
+   * Returns the value of {@link #chemicalFormula}.
    *
-   * @return the value of chemicalFormula
+   * @return the value of {@link #chemicalFormula}.
    */
   public String getChemicalFormula() {
     if (isSetChemicalFormula()) {
@@ -205,7 +167,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
     int pos = 0;
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}",
-      index, +Math.min(pos, 0)));
+      index, + Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
@@ -223,18 +185,18 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns whether charge is set
+   * Returns whether {@link #charge} is set.
    *
-   * @return whether charge is set
+   * @return whether {@link #charge} is set.
    */
   public boolean isSetCharge() {
     return isSetCharge;
   }
 
   /**
-   * Returns whether chemicalFormula is set
+   * Returns whether {@link #chemicalFormula} is set.
    *
-   * @return whether chemicalFormula is set
+   * @return whether {@link #chemicalFormula} is set.
    */
   public boolean isSetChemicalFormula() {
     return chemicalFormula != null;
@@ -324,7 +286,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
-    Map<String, String> attributes = new HashMap<String, String>();
+    Map<String, String> attributes = new TreeMap<String, String>();
 
     if (isSetCharge) {
       attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.charge, Integer.toString(getCharge()));
