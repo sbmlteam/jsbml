@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.fbc;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
@@ -59,8 +60,9 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
   public GeneProteinAssociation(GeneProteinAssociation gpa) {
     super(gpa);
     if (gpa.isSetAssociation()) {
-      setAssociation((Association) gpa.getAssociation().clone());
+      setAssociation(gpa.getAssociation().clone());
     }
+    setNamespace(gpa.getNamespace());
   }
 
   /**
@@ -200,6 +202,23 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
       return true;
     }
     return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(FBCConstants.shortLabel + ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(FBCConstants.shortLabel + ":name", getId());
+    }
+    return attributes;
   }
 
 }

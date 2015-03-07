@@ -222,8 +222,18 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
-    // TODO Auto-generated method stub
-    return super.writeXMLAttributes();
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(FBCConstants.shortLabel + ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(FBCConstants.shortLabel + ":name", getName());
+    }
+
+    return attributes;
   }
 
 }

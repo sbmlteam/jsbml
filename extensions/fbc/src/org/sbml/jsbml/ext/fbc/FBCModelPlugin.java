@@ -170,14 +170,15 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
   /**
    * Creates a new GeneProduct element and adds it to the ListOfGeneProducts list.
+   * @return
    */
   public GeneProduct createGeneProduct() {
     return createGeneProduct(null);
   }
 
-
   /**
    * Creates a new {@link GeneProduct} element and adds it to the {@link #listOfGeneProducts} list.
+   * @param id
    *
    * @return a new {@link GeneProduct} element.
    */

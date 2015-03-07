@@ -930,7 +930,7 @@ public class SBMLWriter {
           } else {
             // Something is wrong - should not happen
             isPackageEnabled = s.isPackageEnabled(s.getNamespace());
-            logger.warn("The SBMLDocument could not be found !!");
+            logger.warn("The SBMLDocument could not be found!");
           }
 
           if ((isPackageEnabled != null) && isPackageEnabled.equals(Boolean.FALSE)) {

@@ -67,7 +67,6 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @ProviderFor(ReadingParser.class)
 public class FBCParser extends AbstractReaderWriter implements PackageParser {
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
    */
@@ -145,6 +144,18 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       }
 
       contextObject = fbcSpecies;
+
+    } else if (contextObject instanceof Reaction) {
+      Reaction reaction = (Reaction) contextObject;
+      FBCReactionPlugin fbcReaction = null;
+      if (reaction.getExtension(FBCConstants.namespaceURI) != null) {
+        fbcReaction = (FBCReactionPlugin) reaction.getExtension(FBCConstants.namespaceURI);
+      } else {
+        fbcReaction = new FBCReactionPlugin(reaction);
+        reaction.addExtension(FBCConstants.namespaceURI, fbcReaction);
+      }
+
+      contextObject = fbcReaction;
     }
 
     super.processAttribute(elementName, attributeName, value, uri, prefix, isLastAttribute, contextObject);
@@ -162,6 +173,8 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       groupList = FBCList.none;
     } else if (elementName.equals(FBCList.listOfFluxObjectives.name())) {
       groupList = FBCList.listOfObjectives;
+    } else if (elementName.equals(FBCList.listOfGeneProducts.name())) {
+      groupList = FBCList.listOfGeneProducts;
     }
 
     return true;
@@ -172,7 +185,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
    */
   // Create the proper object and link it to his parent.
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "deprecation"})
   public Object processStartElement(String elementName, String uri, String prefix,
     boolean hasAttributes, boolean hasNamespaces, Object contextObject)
   {
@@ -199,6 +212,11 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         groupList = FBCList.listOfObjectives;
         return listOfObjectives;
       }
+      else if (elementName.equals(FBCList.listOfGeneProducts.name())) {
+        ListOf<GeneProduct> listOfGeneProducts = fbcModel.getListOfGeneProducts();
+        groupList = FBCList.listOfGeneProducts;
+        return listOfGeneProducts;
+      }
     } else if (contextObject instanceof Objective) {
       Objective objective = (Objective) contextObject;
 
@@ -208,6 +226,9 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         groupList = FBCList.listOfFluxObjectives;
         return listOfFluxObjectives;
       }
+    } else if (contextObject instanceof GeneProduct) {
+      Objective objective = (Objective) contextObject;
+      // TODO!
     }
 
     else if (contextObject instanceof ListOf<?>) {
@@ -248,6 +269,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
    */
+  @SuppressWarnings("deprecation")
   @Override
   public void writeElement(SBMLObjectForXML xmlObject,
     Object sbmlElementToWrite) {
@@ -276,9 +298,9 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
           xmlObject.setName(sbase.getElementName());
         }
       }
-      //			if (!xmlObject.isSetPrefix()) {
-      //				xmlObject.setPrefix(FBCConstants.shortLabel);
-      //			}
+      //      if (!xmlObject.isSetPrefix()) {
+      //        xmlObject.setPrefix(getShortLabel());
+      //      }
       //			xmlObject.setNamespace(FBCConstants.namespaceURI);
     }
 
@@ -291,7 +313,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
    * @throws SBMLException
    */
   public static void main(String[] args) throws SBMLException {
-
+    // TODO: move this test into a separate test class.
     if (args.length < 1) {
       System.out.println(
           "Usage: java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
@@ -403,8 +425,15 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
   @Override
   public String getNamespaceFor(int level, int version,	int packageVersion) {
 
-    if (level == 3 && version == 1 && packageVersion == 1) {
-      return FBCConstants.namespaceURI;
+    if ((level == 3) && (version == 1)) {
+      switch (packageVersion) {
+      case 1:
+        return FBCConstants.namespaceURI_L3V1V1;
+      case 2:
+        return FBCConstants.namespaceURI_L3V1V2;
+      default:
+        break;
+      }
     }
 
     return null;
@@ -447,7 +476,6 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
    */
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
-
     if (sbase != null) {
       if (sbase instanceof Model) {
         return new FBCModelPlugin((Model) sbase);

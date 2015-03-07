@@ -234,8 +234,15 @@ public class GeneProductReference extends AbstractNamedSBase implements Associat
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetGeneProduct()) {
-      attributes.remove(FBCConstants.geneProduct);
       attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.geneProduct, getGeneProduct());
+    }
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(FBCConstants.shortLabel + ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(FBCConstants.shortLabel + ":name", getName());
     }
     return attributes;
   }

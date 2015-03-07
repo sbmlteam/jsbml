@@ -111,6 +111,11 @@ public class FBCVersion2Test {
     Parameter upperFluxBound = builder.buildParameter("ub", "upper flux bound", Double.POSITIVE_INFINITY, true, model.getExtentUnits());
 
     Reaction reaction = builder.buildReaction("R_ETF", "electron transfer flavoprotein", compartment, false, false);
+    try {
+      reaction.appendNotes("<html:p>GENE ASSOCIATION: (2109.2) and (2108.1) or (2109.1) and  (2108.1)</html:p>");
+    } catch (XMLStreamException exc) {
+      exc.printStackTrace();
+    }
 
     FBCReactionPlugin reactionPlugin = (FBCReactionPlugin) reaction.getPlugin(FBCConstants.shortLabel);
     GeneProteinAssociation gpa = reactionPlugin.createGeneProteinAssociation("R_ETF_assoc");
