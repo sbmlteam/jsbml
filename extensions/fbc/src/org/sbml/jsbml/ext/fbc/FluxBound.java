@@ -39,7 +39,9 @@ import org.sbml.jsbml.util.StringTools;
  * @version $Rev$
  * @since 1.0
  * @date 27.10.2011
+ * @deprecated Only defined in FBC Version 1.
  */
+@Deprecated
 public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
@@ -48,7 +50,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * @author Andreas Dr&auml;ger
    * @since 1.0
    * @version $Rev$
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public enum Operation {
     /**
      * equal
@@ -89,22 +93,17 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
      * @param value
      * @return
      */
-    public static Operation fromString(String value)
-    {
-      if (value == null)
-      {
+    public static Operation fromString(String value) {
+      if (value == null) {
         throw new IllegalArgumentException();
       }
 
-      for (Operation v : values())
-      {
-        if (value.equalsIgnoreCase(v.id))
-        {
+      for (Operation v : values()) {
+        if (value.equalsIgnoreCase(v.id)) {
           return v;
         }
       }
       throw new IllegalArgumentException();
-
     }
 
   }
@@ -133,7 +132,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Creates an instance of FluxBound.
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public FluxBound() {
     super();
     initDefaults();
@@ -142,7 +143,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * 
    * @param fb
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public FluxBound(FluxBound fb) {
     super(fb);
 
@@ -162,7 +165,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param level
    * @param version
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public FluxBound(int level, int version) {
     this(null, null, level, version);
   }
@@ -171,7 +176,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * Creates a FluxBound instance with an id.
    * 
    * @param id
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public FluxBound(String id) {
     super(id);
     initDefaults();
@@ -183,7 +190,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param id
    * @param level
    * @param version
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public FluxBound(String id, int level, int version) {
     this(id, null, level, version);
   }
@@ -195,7 +204,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param name
    * @param level
    * @param version
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public FluxBound(String id, String name, int level, int version) {
     super(id, name, level, version);
     if (getLevelAndVersion().compareTo(
@@ -210,16 +221,16 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
+  @Deprecated
   public FluxBound clone() {
     return new FluxBound(this);
   }
-
-
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
+  @Deprecated
   public int hashCode() {
     final int prime = 2029;
     int result = super.hashCode();
@@ -233,6 +244,7 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
+  @Deprecated
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
@@ -270,16 +282,18 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the operation
    */
+  @Deprecated
   public Operation getOperation() {
     return operation;
   }
-
 
   /**
    * Returns the reaction id
    * 
    * @return the reaction id
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public String getReaction() {
     return reaction;
   }
@@ -288,14 +302,18 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the value
    * 
    * @return the value
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public double getValue() {
     return isSetValue() ? value : Double.valueOf(0d);
   }
 
   /**
    * Initializes the default values using the namespace.
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public void initDefaults() {
     setNamespace(FBCConstants.namespaceURI);
   }
@@ -304,6 +322,7 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   @Override
+  @Deprecated
   public boolean isIdMandatory() {
     return false;
   }
@@ -311,7 +330,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * 
    * @return
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public boolean isSetValue() {
     return isSetValue;
   }
@@ -320,6 +341,7 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
    */
   @Override
+  @Deprecated
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix,
       value);
@@ -355,7 +377,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * 
    * @param operation  the operation to set
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public void setOperation(Operation operation) {
     Operation oldOperation = this.operation;
     this.operation = operation;
@@ -365,7 +389,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * 
    * @param reaction
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public void setReaction(Reaction reaction) {
     setReaction(reaction.getId());
   }
@@ -374,7 +400,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * Sets the the reaction id
    * 
    * @param reaction the reaction id to set
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public void setReaction(String reaction) {
     String oldReaction = this.reaction;
     this.reaction = reaction;
@@ -383,7 +411,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * @param value the value to set
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public void setValue(double value) {
     Double oldValue = this.value;
     this.value = value;
@@ -395,6 +425,7 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
    */
   @Override
+  @Deprecated
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
 
@@ -422,14 +453,14 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     return attributes;
   }
 
-
-
   /**
    * Unsets the variable value
    *
    * @return {@code true}, if value was set before,
    *         otherwise {@code false}
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public boolean unsetValue() {
     if (isSetValue()) {
       double oldValue = value;
@@ -440,24 +471,25 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     return false;
   }
 
-
-
   /**
    * Returns whether operation is set
    *
    * @return whether operation is set
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public boolean isSetOperation() {
     return operation != null;
   }
-
 
   /**
    * Unsets the variable operation
    *
    * @return {@code true}, if operation was set before,
    *         otherwise {@code false}
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public boolean unsetOperation() {
     if (isSetOperation()) {
       Operation oldOperation = operation;
@@ -468,13 +500,13 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     return false;
   }
 
-
-
   /**
    * Returns whether reaction is set
    *
    * @return whether reaction is set
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public boolean isSetReaction() {
     return reaction != null;
   }
@@ -484,7 +516,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    *
    * @return {@code true}, if reaction was set before,
    *         otherwise {@code false}
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public boolean unsetReaction() {
     if (isSetReaction()) {
       String oldReaction = reaction;

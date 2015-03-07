@@ -29,7 +29,6 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.xml.XMLNode;
 
 /**
@@ -42,93 +41,49 @@ import org.sbml.jsbml.xml.XMLNode;
  * @since 1.0
  * @date 27.10.2011
  */
-public class FBCModelPlugin extends AbstractSBasePlugin {
+public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return FBCConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
-   */
-  @Override
-  public String getPackageName() {
-    return FBCConstants.packageName;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
-   */
-  @Override
-  public String getPrefix() {
-    return FBCConstants.shortLabel;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
-   */
-  @Override
-  public String getURI() {
-    return getElementNamespace();
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
-   */
-  @Override
-  public Model getParent() {
-    if (isSetExtendedSBase()) {
-      return (Model) getExtendedSBase();
-    }
-
-    return null;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
-   */
-  @Override
-  public Model getParentSBMLObject() {
-    return getParent();
-  }
   /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -7451190347195219863L;
 
   /**
-   * 
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   private ListOf<FluxBound> listOfFluxBounds;
+
+  /**
+   * Introduced to FBC in version 2.
+   */
+  private ListOf<GeneProduct> listOfGeneProducts;
 
   /**
    * 
    */
   private ListOfObjectives listOfObjectives;
 
+
   /**
    * Clone constructor
-   * @param obj
+   * @param fbcPlugin
    */
-  public FBCModelPlugin(FBCModelPlugin obj) {
-    super(obj);
+  public FBCModelPlugin(FBCModelPlugin fbcPlugin) {
+    super(fbcPlugin);
 
-    if (obj.isSetListOfFluxBounds()) {
-      setListOfFluxBounds(obj.getListOfFluxBounds().clone());
+    if (fbcPlugin.isSetListOfObjectives()) {
+      setListOfObjectives((ListOfObjectives) fbcPlugin.getListOfObjectives().clone());
+    }
+    if (fbcPlugin.isSetListOfFluxBounds()) {
+      setListOfFluxBounds(fbcPlugin.getListOfFluxBounds().clone());
+    }
+    if (fbcPlugin.isSetListOfGeneProducts()) {
+      setListOfGeneProducts(fbcPlugin.getListOfGeneProducts());
     }
 
-    if (obj.isSetListOfObjectives()) {
-      setListOfObjectives((ListOfObjectives) obj.getListOfObjectives().clone());
-    }
   }
+
 
   /**
    * 
@@ -138,16 +93,33 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     super(model);
   }
 
+
   /**
    * Adds a new {@link FluxBound} to the listOfFluxBounds.
    * <p>The listOfFluxBounds is initialized if necessary.
    *
    * @param fluxBound the element to add to the list
    * @return {@code true} (as specified by {@link java.util.Collection#add})
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public boolean addFluxBound(FluxBound fluxBound) {
     return getListOfFluxBounds().add(fluxBound);
   }
+
+
+  /**
+   * Adds a new {@link GeneProduct} to the {@link #listOfGeneProducts}.
+   * <p>The listOfGeneProducts is initialized if necessary.
+   *
+   * @param geneProduct the element to add to the list
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
+   * @see java.util.Collection#add(Object)
+   */
+  public boolean addGeneProduct(GeneProduct geneProduct) {
+    return getListOfGeneProducts().add(geneProduct);
+  }
+
 
   /**
    * Adds a new {@link Objective} to the listOfObjectives.
@@ -160,6 +132,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     return getListOfObjectives().add(objective);
   }
 
+
   /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */
@@ -168,25 +141,52 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     return new FBCModelPlugin(this);
   }
 
+
   /**
-   * Creates a new FluxBound element and adds it to the ListOfFluxBounds list
+   * Creates a new {@link FluxBound} element and adds it to the {@link #listOfFluxBounds} list
    * @return
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public FluxBound createFluxBound() {
     return createFluxBound(null);
   }
+
 
   /**
    * Creates a new {@link FluxBound} element and adds it to the ListOfFluxBounds list
    * @param id
    *
    * @return a new {@link FluxBound} element
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public FluxBound createFluxBound(String id) {
     FluxBound fluxBound = new FluxBound(id);
     addFluxBound(fluxBound);
     return fluxBound;
   }
+
+
+  /**
+   * Creates a new GeneProduct element and adds it to the ListOfGeneProducts list.
+   */
+  public GeneProduct createGeneProduct() {
+    return createGeneProduct(null);
+  }
+
+
+  /**
+   * Creates a new {@link GeneProduct} element and adds it to the {@link #listOfGeneProducts} list.
+   *
+   * @return a new {@link GeneProduct} element.
+   */
+  public GeneProduct createGeneProduct(String id) {
+    GeneProduct geneProduct = new GeneProduct(id);
+    addGeneProduct(geneProduct);
+    return geneProduct;
+  }
+
 
   /**
    * Creates a new Objective element and adds it to the ListOfObjectives list
@@ -218,7 +218,6 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   public String getActiveObjective() {
     return isSetListOfObjectives() ? listOfObjectives.getActiveObjective() : "";
   }
-
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
@@ -238,22 +237,28 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
 
     int pos = 0;
 
-    if (isSetListOfFluxBounds()) {
-      if (pos == index) {
-        return getListOfFluxBounds();
-      }
-      pos++;
-    }
     if (isSetListOfObjectives()) {
       if (pos == index) {
         return getListOfObjectives();
       }
       pos++;
     }
+    if (isSetListOfFluxBounds()) {
+      if (pos == index) {
+        return getListOfFluxBounds();
+      }
+      pos++;
+    }
+    if (isSetListOfGeneProducts()) {
+      if (pos == index) {
+        return getListOfGeneProducts();
+      }
+      pos++;
+    }
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", index,
-      +Math.min(pos, 0)));
+      "Index {0,number,integer} >= {1,number,integer}",
+      index, Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
@@ -263,10 +268,13 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   public int getChildCount() {
     int count = 0;
 
+    if (isSetListOfObjectives()) {
+      count++;
+    }
     if (isSetListOfFluxBounds()) {
       count++;
     }
-    if (isSetListOfObjectives()) {
+    if (isSetListOfGeneProducts()) {
       count++;
     }
 
@@ -280,7 +288,9 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * @throws IndexOutOfBoundsException
    * if the index is out of bound (index < 0 || index > list.size)
    * @return an element from the listOfFluxBounds at the given index.
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public FluxBound getFluxBound(int i) {
     return getListOfFluxBounds().get(i);
   }
@@ -289,7 +299,9 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * Return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
    * 
    * @return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public int getFluxBoundCount() {
     if (isSetListOfFluxBounds()) {
       return listOfFluxBounds.size();
@@ -299,10 +311,59 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * TODO: optionally, create additional create methods with more
+   * variables, for instance "bar" variable
+   */
+  // public GeneProduct createGeneProduct(String id, int bar) {
+  //   GeneProduct geneProduct = createGeneProduct(id);
+  //   geneProduct.setBar(bar);
+  //   return geneProduct;
+  // }
+  /**
+   * Gets an element from the {@link #listOfGeneProducts} at the given index.
+   *
+   * @param i the index of the {@link GeneProduct} element to get.
+   * @return an element from the listOfGeneProducts at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public GeneProduct getGeneProduct(int i) {
+    if (!isSetListOfGeneProducts()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfGeneProducts().get(i);
+  }
+
+  // TODO - if GeneProduct has no id attribute, you should remove this method.
+  /**
+   * Gets an element from the listOfGeneProducts, with the given id.
+   *
+   * @param geneProductId the id of the {@link GeneProduct} element to get.
+   * @return an element from the listOfGeneProducts with the given id or {@code null}.
+   */
+  public GeneProduct getGeneProduct(String geneProductId) {
+    if (isSetListOfGeneProducts()) {
+      return getListOfGeneProducts().get(geneProductId);
+    }
+    return null;
+  }
+
+  /**
+   * Returns the number of {@link GeneProduct}s in this {@link FBCModelPlugin}.
+   * 
+   * @return the number of {@link GeneProduct}s in this {@link FBCModelPlugin}.
+   */
+  public int getGeneProductCount() {
+    return isSetListOfGeneProducts() ? getListOfGeneProducts().size() : 0;
+  }
+
+  /**
    * Returns the listOfFluxBounds. Creates it if it is not already existing.
    *
    * @return the listOfFluxBounds
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public ListOf<FluxBound> getListOfFluxBounds() {
     if (!isSetListOfFluxBounds()) {
       listOfFluxBounds = new ListOf<FluxBound>();
@@ -314,6 +375,24 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
       }
     }
     return listOfFluxBounds;
+  }
+
+  /**
+   * Returns the {@link #listOfGeneProducts}. Creates it if it is not already existing.
+   *
+   * @return the {@link #listOfGeneProducts}.
+   */
+  public ListOf<GeneProduct> getListOfGeneProducts() {
+    if (!isSetListOfGeneProducts()) {
+      listOfGeneProducts = new ListOf<GeneProduct>();
+      listOfGeneProducts.setNamespace(FBCConstants.namespaceURI);
+      listOfGeneProducts.setSBaseListType(ListOf.Type.other);
+      // TODO - if the class containing this code is not of type SBasePlugin, replace the 3 lines by just "registerChild(listOfGeneProducts);"
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfGeneProducts);
+      }
+    }
+    return listOfGeneProducts;
   }
 
   /**
@@ -333,6 +412,38 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
       }
     }
     return listOfObjectives;
+  }
+
+  /**
+   * Return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
+   * 
+   * @return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
+   * @libsbml.deprecated same as {@link #getFluxBoundCount()}
+   * @deprecated Only defined in FBC version 1.
+   */
+  @Deprecated
+  public int getNumFluxBound() {
+    return getFluxBoundCount();
+  }
+
+  /**
+   * Returns the number of {@link GeneProduct}s in this {@link FBCModelPlugin}.
+   * 
+   * @return the number of {@link GeneProduct}s in this {@link FBCModelPlugin}.
+   * @libsbml.deprecated same as {@link #getGeneProductCount()}
+   */
+  public int getNumGeneProducts() {
+    return getGeneProductCount();
+  }
+
+  /**
+   * Return the number of {@link Objective}s in this {@link FBCModelPlugin}.
+   * 
+   * @return the number of {@link Objective}s in this {@link FBCModelPlugin}.
+   * @libsbml.deprecated same as {@link #getObjectiveCount()}
+   */
+  public int getNumObjective() {
+    return getObjectiveCount();
   }
 
   /**
@@ -360,24 +471,23 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     return 0;
   }
 
-  /**
-   * Return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
-   * 
-   * @return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
-   * @libsbml.deprecated same as {@link #getFluxBoundCount()}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
    */
-  public int getNumFluxBound() {
-    return getFluxBoundCount();
+  @Override
+  public Model getParent() {
+    if (isSetExtendedSBase()) {
+      return (Model) getExtendedSBase();
+    }
+    return null;
   }
 
-  /**
-   * Return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
-   * 
-   * @return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
-   * @libsbml.deprecated same as {@link #getObjectiveCount()}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
    */
-  public int getNumObjective() {
-    return getObjectiveCount();
+  @Override
+  public Model getParentSBMLObject() {
+    return getParent();
   }
 
   /**
@@ -385,9 +495,24 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    *
    * @return {@code true} if listOfFluxBounds contains at least one element,
    *         otherwise {@code false}
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public boolean isSetListOfFluxBounds() {
     return ((listOfFluxBounds != null) && !listOfFluxBounds.isEmpty());
+  }
+
+  /**
+   * Returns {@code true} if {@link #listOfGeneProducts} contains at least one element.
+   *
+   * @return {@code true} if {@link #listOfGeneProducts} contains at least one element,
+   *         otherwise {@code false}.
+   */
+  public boolean isSetListOfGeneProducts() {
+    if ((listOfGeneProducts == null) || listOfGeneProducts.isEmpty()) {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -412,12 +537,39 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * @param xmlNode
+   * @param key
+   * @return
+   */
+  private String recurseAndFind(XMLNode xmlNode, String key) {
+
+    if (xmlNode.getChildCount() == 0) {
+      if (xmlNode.getCharacters().startsWith(key)) {
+        return xmlNode.getCharacters().replace(key, "").trim();
+      }
+    } else {
+      for (int i = 0; i < xmlNode.getChildCount(); i++) {
+        String potential = recurseAndFind(xmlNode.getChildAt(i), key);
+        if (!(potential == null)) {
+          return potential;
+        } else {
+          continue;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  /**
    * Removes an element from the listOfFluxBounds.
    *
    * @param fluxBound the element to be removed from the list
    * @return {@code true} if the list contained the specified element
    * @see java.util.List#remove(Object)
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public boolean removeFluxBound(FluxBound fluxBound) {
     if (isSetListOfFluxBounds()) {
       return getListOfFluxBounds().remove(fluxBound);
@@ -431,12 +583,57 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * @param i the index where to remove the {@link FluxBound}
    * @throws IndexOutOfBoundsException if the listOf is not set or
    * if the index is out of bound (index < 0 || index > list.size)
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public void removeFluxBound(int i) {
     if (!isSetListOfFluxBounds()) {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
     getListOfFluxBounds().remove(i);
+  }
+
+  /**
+   * Removes an element from the {@link #listOfGeneProducts}.
+   *
+   * @param geneProduct the element to be removed from the list.
+   * @return {@code true} if the list contained the specified element and it was removed.
+   * @see java.util.List#remove(Object)
+   */
+  public boolean removeGeneProduct(GeneProduct geneProduct) {
+    if (isSetListOfGeneProducts()) {
+      return getListOfGeneProducts().remove(geneProduct);
+    }
+    return false;
+  }
+
+  /**
+   * Removes an element from the listOfGeneProducts at the given index.
+   *
+   * @param i the index where to remove the {@link GeneProduct}.
+   * @return the specified element if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public GeneProduct removeGeneProduct(int i) {
+    if (!isSetListOfGeneProducts()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfGeneProducts().remove(i);
+  }
+
+  // TODO - if GeneProduct has no id attribute, you should remove this method.
+  /**
+   * Removes an element from the {@link #listOfGeneProducts}.
+   *
+   * @param geneProductId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or {@code null}.
+   */
+  public GeneProduct removeGeneProduct(String geneProductId) {
+    if (isSetListOfGeneProducts()) {
+      return getListOfGeneProducts().remove(geneProductId);
+    }
+    return null;
   }
 
   /**
@@ -468,6 +665,14 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * 
+   * @param objective
+   */
+  public void setActiveObjective(Objective objective) {
+    setActiveObjective(objective.getId());
+  }
+
+  /**
    * The activeObjective refers to the id of an existing objective. This required
    * attribute exists so that if there are multiple objectives included in the
    * model, the model will still be well-described.
@@ -479,19 +684,13 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * 
-   * @param objective
-   */
-  public void setActiveObjective(Objective objective) {
-    setActiveObjective(objective.getId());
-  }
-
-  /**
    *  Sets the given {@code ListOf<FluxBound>}. <p>If listOfFluxBounds
    *  was defined before and contained some elements, they are all unset.
    * 
    * @param listOfFluxBounds
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public void setListOfFluxBounds(ListOf<FluxBound> listOfFluxBounds) {
     unsetListOfFluxBounds();
     this.listOfFluxBounds = listOfFluxBounds;
@@ -502,17 +701,18 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Sets the given {@code ListOfObjectives}. <p>If listOfObjectives
-   * was defined before and contained some elements, they are all unset.
+   * Sets the given {@code ListOf<GeneProduct>}. If {@link #listOfGeneProducts}
+   * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfObjectives
+   * @param listOfGeneProducts
    */
-  public void setListOfObjectives(ListOfObjectives listOfObjectives) {
-    unsetListOfObjectives();
-    this.listOfObjectives = listOfObjectives;
-
+  public void setListOfGeneProducts(ListOf<GeneProduct> listOfGeneProducts) {
+    unsetListOfGeneProducts();
+    this.listOfGeneProducts = listOfGeneProducts;
+    this.listOfGeneProducts.setSBaseListType(ListOf.Type.other);
+    // TODO - if the class containing this code is not of type SBasePlugin, replace the 3 lines by just "registerChild(listOfGeneProducts);"
     if (isSetExtendedSBase()) {
-      extendedSBase.registerChild(this.listOfObjectives);
+      extendedSBase.registerChild(this.listOfGeneProducts);
     }
   }
 
@@ -538,17 +738,67 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * Sets the given {@code ListOfObjectives}. <p>If listOfObjectives
+   * was defined before and contained some elements, they are all unset.
+   *
+   * @param listOfObjectives
+   */
+  public void setListOfObjectives(ListOfObjectives listOfObjectives) {
+    unsetListOfObjectives();
+    this.listOfObjectives = listOfObjectives;
+
+    if (isSetExtendedSBase()) {
+      extendedSBase.registerChild(this.listOfObjectives);
+    }
+  }
+
+  /**
+   * @param key
+   */
+  public void setNotesKeyToUserObject(String key) {
+    Model model = getParent();
+    ListOf<Reaction> rxns = model.getListOfReactions();
+
+    for (Reaction r : rxns) {
+      String val = recurseAndFind(r.getNotes(), key);
+      if (val != null) {
+        r.putUserObject(key, val);
+      }
+    }
+
+  }
+
+  /**
    * Returns {@code true} if {@link #listOfFluxBounds} contain at least one
    * element, otherwise {@code false}
    * 
    * @return {@code true} if {@link #listOfFluxBounds} contain at least one
    *         element, otherwise {@code false}
+   * @deprecated Only defined in FBC version 1.
    */
+  @Deprecated
   public boolean unsetListOfFluxBounds() {
     if (isSetListOfFluxBounds()) {
       ListOf<FluxBound> oldFluxBounds = listOfFluxBounds;
       listOfFluxBounds = null;
       oldFluxBounds.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns {@code true} if {@link #listOfGeneProducts} contains at least one element,
+   *         otherwise {@code false}.
+   *
+   * @return {@code true} if {@link #listOfGeneProducts} contains at least one element,
+   *         otherwise {@code false}.
+   */
+  public boolean unsetListOfGeneProducts() {
+    if (isSetListOfGeneProducts()) {
+      ListOf<GeneProduct> oldGeneProducts = listOfGeneProducts;
+      listOfGeneProducts = null;
+      oldGeneProducts.fireNodeRemovedEvent();
       return true;
     }
     return false;
@@ -576,47 +826,6 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
-    return null;
-  }
-
-  /**
-   * @param key
-   */
-  public void setNotesKeyToUserObject(String key) {
-    Model model = getParent();
-    ListOf<Reaction> rxns = model.getListOfReactions();
-
-    for (Reaction r : rxns) {
-      String val = recurseAndFind(r.getNotes(), key);
-      if (val != null) {
-        r.putUserObject(key, val);
-      }
-    }
-
-  }
-
-  /**
-   * @param xmlNode
-   * @param key
-   * @return
-   */
-  private String recurseAndFind(XMLNode xmlNode, String key) {
-
-    if (xmlNode.getChildCount() == 0) {
-      if (xmlNode.getCharacters().startsWith(key)) {
-        return xmlNode.getCharacters().replace(key, "").trim();
-      }
-    } else {
-      for (int i = 0; i < xmlNode.getChildCount(); i++) {
-        String potential = recurseAndFind(xmlNode.getChildAt(i), key);
-        if (!(potential == null)) {
-          return potential;
-        } else {
-          continue;
-        }
-      }
-    }
-
     return null;
   }
 

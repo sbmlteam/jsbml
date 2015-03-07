@@ -933,7 +933,7 @@ public class SBMLWriter {
             logger.warn("The SBMLDocument could not be found !!");
           }
 
-          if (isPackageEnabled != null && isPackageEnabled.equals(Boolean.FALSE)) {
+          if ((isPackageEnabled != null) && isPackageEnabled.equals(Boolean.FALSE)) {
             continue;
           }
         }
