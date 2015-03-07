@@ -48,7 +48,6 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
    */
   private Association rightChild;
 
-
   /**
    * Returns the value of {@link #rightChild}.
    *
@@ -213,6 +212,7 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
    */
   public LogicalOperator(LogicalOperator association) {
     super(association);
+    setNamespace(association.getNamespace());
   }
 
   /* (non-Javadoc)

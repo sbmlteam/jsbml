@@ -154,6 +154,7 @@ public class FBCConstants {
 
   static {
     namespaces = new ArrayList<String>();
+    namespaces.add(namespaceURI_L3V1V1);
     namespaces.add(namespaceURI_L3V1V2);
   }
 

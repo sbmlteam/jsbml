@@ -393,7 +393,6 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
     setLowerFluxBound(boundParameter.getId());
   }
 
-
   /**
    * 
    * @param boundParameter

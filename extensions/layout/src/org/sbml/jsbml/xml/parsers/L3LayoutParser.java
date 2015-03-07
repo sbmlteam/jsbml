@@ -486,7 +486,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
   @Override
   public String getNamespaceFor(int level, int version, int packageVersion) {
 
-    if (level == 3 && version == 1 && packageVersion == 1) {
+    if ((level == 3) && (version == 1) && (packageVersion == 1)) {
       return LayoutConstants.namespaceURI_L3V1V1;
     }
 

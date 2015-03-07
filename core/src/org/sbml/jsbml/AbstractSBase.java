@@ -1460,6 +1460,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return !extensions.isEmpty();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#isPackageEnabled(java.lang.String)
+   */
   @Override
   public boolean isPackageEnabled(String packageURIOrName) {
 

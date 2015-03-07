@@ -447,7 +447,7 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     if (isSetName()) {
       attributes.remove("name");
-      attributes.put(FBCConstants.shortLabel + ":id", getId());
+      attributes.put(FBCConstants.shortLabel + ":name", getName());
     }
 
     return attributes;
