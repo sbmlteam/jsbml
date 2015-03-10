@@ -1,21 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1" level="3" version="1" arrays:required="true">
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" arrays:required="true" xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1" version="1">
   <model>
     <listOfParameters>
-      <parameter value="10" id="n"/>
+      <parameter id="n" value="10"/>
       <parameter id="X">
         <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
-          <arrays:dimension arrays:arrayDimension="0" arrays:id="i" arrays:size="n"/>
+          <arrays:dimension arrays:id="i" arrays:size="n" arrays:arrayDimension="0"/>
         </arrays:listOfDimensions>
       </parameter>
       <parameter id="Y">
         <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
-          <arrays:dimension arrays:arrayDimension="0" arrays:id="i" arrays:size="n"/>
+          <arrays:dimension arrays:id="i" arrays:size="n" arrays:arrayDimension="0"/>
         </arrays:listOfDimensions>
       </parameter>
     </listOfParameters>
     <listOfRules>
-      <assignmentRule variable="Y" metaid="rule">
+      <assignmentRule metaid="rule" variable="Y">
         <math xmlns="http://www.w3.org/1998/Math/MathML">        
           <apply>
             <selector/>
@@ -24,10 +24,10 @@
           </apply>
         </math>
               <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
-          <arrays:dimension arrays:arrayDimension="0" arrays:id="i" arrays:size="n"/>
+          <arrays:dimension arrays:id="i" arrays:size="n" arrays:arrayDimension="0"/>
         </arrays:listOfDimensions>
         <arrays:listOfIndices xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
-          <arrays:index arrays:arrayDimension="0" arrays:referencedAttribute="variable">
+          <arrays:index arrays:referencedAttribute="variable" arrays:arrayDimension="0">
             <math xmlns="http://www.w3.org/1998/Math/MathML">            
               <apply>
                 <minus/>

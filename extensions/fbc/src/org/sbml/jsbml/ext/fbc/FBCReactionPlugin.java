@@ -73,6 +73,16 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
    */
   public FBCReactionPlugin(FBCReactionPlugin reactionPlugin) {
     super(reactionPlugin);
+    
+    if (reactionPlugin.isSetGeneProteinAssociation()) {
+    	setGeneProteinAssociation(reactionPlugin.getGeneProteinAssociation().clone());
+    }
+    if (reactionPlugin.isSetLowerFluxBound()) {
+    	setLowerFluxBound(reactionPlugin.getLowerFluxBound());
+    }
+    if (reactionPlugin.isSetUpperFluxBound()) {
+    	setUpperFluxBound(reactionPlugin.getUpperFluxBound());
+    }
   }
 
   /**
@@ -373,12 +383,14 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = new TreeMap<String, String>();
+    
     if (isSetLowerFluxBound()) {
       attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.lowerFluxBound, getLowerFluxBound());
     }
     if (isSetUpperFluxBound()) {
       attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.upperFluxBound, getUpperFluxBound());
     }
+    
     return attributes;
   }
 

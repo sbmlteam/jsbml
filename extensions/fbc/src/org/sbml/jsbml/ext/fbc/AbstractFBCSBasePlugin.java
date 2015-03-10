@@ -65,7 +65,7 @@ public abstract class AbstractFBCSBasePlugin extends AbstractSBasePlugin {
    */
   @Override
   public String getElementNamespace() {
-    return FBCConstants.getNamespaceURI(getLevel(), getVersion());
+    return FBCConstants.getNamespaceURI(getLevel(), getVersion(), getPackageVersion());
   }
 
   /* (non-Javadoc)

@@ -59,6 +59,18 @@ public class FBCConstants {
   public static final String geneProduct = "geneProduct";
 
   /**
+   * 
+   * @since jsbml 1.1, introduced in FBC version 2
+   */
+  public static final String geneProductAssociation = "geneProductAssociation";
+
+  /**
+   * 
+   * @since jsbml 1.1, introduced in FBC version 2
+   */
+  public static final String geneProductReference = "geneProductRef";
+
+  /**
    * Introduced to FBC in version 2.
    */
   public static final String geneProductIdentifier = "geneProductIdentifier";
@@ -151,6 +163,9 @@ public class FBCConstants {
    * 
    */
   public static final String value = "value";
+
+  public static final String and = "and";
+  public static final String or = "or";
 
   static {
     namespaces = new ArrayList<String>();

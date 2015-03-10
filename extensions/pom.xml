@@ -80,6 +80,7 @@
     <modules>
         <module>comp</module>
         <module>fbc</module>
+        <module>distrib</module>
         <module>groups</module>
         <module>layout</module>
         <module>multi</module>

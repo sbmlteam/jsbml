@@ -28,7 +28,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- * Introduced to FBC in version 2.
+ * Introduced to FBC in version 2. // TODO - rename to GeneProductAssociation ??
  * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$
@@ -52,9 +52,14 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
    */
   public GeneProteinAssociation() {
     super();
+    initDefaults();
   }
 
-  /**
+  private void initDefaults() {
+	  setNamespace(FBCConstants.namespaceURI);
+  }
+
+/**
    * @param gpa
    */
   public GeneProteinAssociation(GeneProteinAssociation gpa) {
@@ -71,6 +76,7 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
    */
   public GeneProteinAssociation(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /**
@@ -78,6 +84,7 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
    */
   public GeneProteinAssociation(String id) {
     super(id);
+    initDefaults();
   }
 
   /**
@@ -87,6 +94,7 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
    */
   public GeneProteinAssociation(String id, int level, int version) {
     super(id, level, version);
+    initDefaults();
   }
 
   /**
@@ -97,6 +105,7 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
    */
   public GeneProteinAssociation(String id, String name, int level, int version) {
     super(id, name, level, version);
+    initDefaults();
   }
 
   /* (non-Javadoc)

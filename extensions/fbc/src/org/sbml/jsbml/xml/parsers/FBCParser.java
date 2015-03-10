@@ -42,6 +42,8 @@ import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.fbc.And;
+import org.sbml.jsbml.ext.fbc.Association;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCList;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
@@ -50,7 +52,9 @@ import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
 import org.sbml.jsbml.ext.fbc.FluxObjective;
 import org.sbml.jsbml.ext.fbc.GeneProduct;
+import org.sbml.jsbml.ext.fbc.GeneProteinAssociation;
 import org.sbml.jsbml.ext.fbc.Objective;
+import org.sbml.jsbml.ext.fbc.Or;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -136,11 +140,11 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       Species species = (Species) contextObject;
       FBCSpeciesPlugin fbcSpecies = null;
 
-      if (species.getExtension(FBCConstants.namespaceURI) != null) {
-        fbcSpecies = (FBCSpeciesPlugin) species.getExtension(FBCConstants.namespaceURI);
+      if (species.getExtension(FBCConstants.shortLabel) != null) {
+        fbcSpecies = (FBCSpeciesPlugin) species.getExtension(FBCConstants.shortLabel);
       } else {
         fbcSpecies = new FBCSpeciesPlugin(species);
-        species.addExtension(FBCConstants.namespaceURI, fbcSpecies);
+        species.addExtension(FBCConstants.shortLabel, fbcSpecies);
       }
 
       contextObject = fbcSpecies;
@@ -148,11 +152,12 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
     } else if (contextObject instanceof Reaction) {
       Reaction reaction = (Reaction) contextObject;
       FBCReactionPlugin fbcReaction = null;
-      if (reaction.getExtension(FBCConstants.namespaceURI) != null) {
-        fbcReaction = (FBCReactionPlugin) reaction.getExtension(FBCConstants.namespaceURI);
+     
+      if (reaction.getExtension(FBCConstants.shortLabel) != null) {
+        fbcReaction = (FBCReactionPlugin) reaction.getExtension(FBCConstants.shortLabel);
       } else {
         fbcReaction = new FBCReactionPlugin(reaction);
-        reaction.addExtension(FBCConstants.namespaceURI, fbcReaction);
+        reaction.addExtension(FBCConstants.shortLabel, fbcReaction);
       }
 
       contextObject = fbcReaction;
@@ -174,7 +179,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
     } else if (elementName.equals(FBCList.listOfFluxObjectives.name())) {
       groupList = FBCList.listOfObjectives;
     } else if (elementName.equals(FBCList.listOfGeneProducts.name())) {
-      groupList = FBCList.listOfGeneProducts;
+      groupList = FBCList.none;
     }
 
     return true;
@@ -194,7 +199,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       FBCModelPlugin fbcModel = null;
 
       if (model.getExtension(FBCConstants.namespaceURI) != null) {
-        fbcModel = (FBCModelPlugin) model.getExtension(FBCConstants.namespaceURI);
+        fbcModel = (FBCModelPlugin) model.getExtension(FBCConstants.shortLabel);
       } else {
         fbcModel = new FBCModelPlugin(model);
         model.addExtension(FBCConstants.namespaceURI, fbcModel);
@@ -226,18 +231,45 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         groupList = FBCList.listOfFluxObjectives;
         return listOfFluxObjectives;
       }
-    } else if (contextObject instanceof GeneProduct) {
-      Objective objective = (Objective) contextObject;
-      // TODO!
-    }
+    } else if (contextObject instanceof Reaction) {
+        Reaction reaction = (Reaction) contextObject;
+        FBCReactionPlugin fbcReaction = null;
 
+        if (reaction.getExtension(FBCConstants.shortLabel) != null) {
+          fbcReaction = (FBCReactionPlugin) reaction.getExtension(FBCConstants.shortLabel);
+        } else {
+          fbcReaction = new FBCReactionPlugin(reaction);
+          reaction.addExtension(FBCConstants.shortLabel, fbcReaction);
+        }
+        
+        if (elementName.equals(FBCConstants.geneProductAssociation)) {
+        	GeneProteinAssociation gPA = fbcReaction.createGeneProteinAssociation();
+        	return gPA;
+        }
+    } else if (contextObject instanceof GeneProteinAssociation) {
+    	// TODO - and + or + geneProductRef
+    	GeneProteinAssociation gPA = (GeneProteinAssociation) contextObject;
+    	
+    	if (elementName.equals(FBCConstants.and)) {
+    		// TODO - if association set, get it otherwise create it !! gPA.setAssociation(association);
+    		// TODO - need to have some methods in the Association interface ??
+    		// TODO - can have any number of children, association of GeneProductReference
+    		// TODO - should be able to add directly a GeneProductReference to GeneProductAssociation
+    	}
+    	
+    } else if (contextObject instanceof And) {
+    	// TODO - and + or + geneProductRef
+    } else if (contextObject instanceof Or) {
+    	// TODO - and + or + geneProductRef
+    }
+    
     else if (contextObject instanceof ListOf<?>) {
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
       if (elementName.equals("fluxBound")
           && groupList.equals(FBCList.listOfFluxBounds)) {
         Model model = (Model) listOf.getParentSBMLObject();
-        FBCModelPlugin extendeModel = (FBCModelPlugin) model.getExtension(FBCConstants.namespaceURI);
+        FBCModelPlugin extendeModel = (FBCModelPlugin) model.getExtension(FBCConstants.shortLabel);
 
         FluxBound fluxBound = new FluxBound();
         extendeModel.addFluxBound(fluxBound);
@@ -246,7 +278,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       } else if (elementName.equals("objective")
           && groupList.equals(FBCList.listOfObjectives)) {
         Model model = (Model) listOf.getParentSBMLObject();
-        FBCModelPlugin extendeModel = (FBCModelPlugin) model.getExtension(FBCConstants.namespaceURI);
+        FBCModelPlugin extendeModel = (FBCModelPlugin) model.getExtension(FBCConstants.shortLabel);
 
         Objective objective = new Objective();
         extendeModel.addObjective(objective);
@@ -260,7 +292,16 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         objective.addFluxObjective(fluxObjective);
 
         return fluxObjective;
-      }
+      } else if (elementName.equals("geneProduct")
+              && groupList.equals(FBCList.listOfGeneProducts)) {
+          Model model = (Model) listOf.getParentSBMLObject();
+          FBCModelPlugin extendeModel = (FBCModelPlugin) model.getExtension(FBCConstants.shortLabel);
+
+          GeneProduct geneProduct = new GeneProduct();
+          extendeModel.addGeneProduct(geneProduct);
+
+          return geneProduct;
+        }
 
     }
     return contextObject;
@@ -380,6 +421,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         {
           System.out.println("nb fluxBounds found: " + fbcModel.getListOfFluxBounds().size());
           System.out.println("nb objectives found: " + fbcModel.getListOfObjectives().size());
+          System.out.println("nb geneProducts found: " + fbcModel.getListOfGeneProducts().size());
           System.out.println("nb fluxObjectives found: " + fbcModel.getObjective(0).getListOfFluxObjectives().size());
           System.out.println("Active objective: " + fbcModel.getActiveObjective());
           System.out.println("Active objective: " + fbcModel.getListOfObjectives().getActiveObjective());
@@ -389,9 +431,11 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
           System.out.println("!!!!!!!!!! not FBC model plugin defined !!!!!!!!!!!!");
         }
 
+        
 
         System.out.printf("Starting writing\n");
 
+        System.out.println(new SBMLWriter().writeSBMLToString(testDocument));
         new SBMLWriter().write(testDocument.clone(), jsbmlWriteFileName);
       }
       catch (XMLStreamException e)
