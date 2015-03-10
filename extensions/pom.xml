@@ -78,14 +78,17 @@
     </dependencies>
 
     <modules>
+        <module>arrays</module>
         <module>comp</module>
-        <module>fbc</module>
         <module>distrib</module>
+        <module>dyn</module>
+        <module>fbc</module>
         <module>groups</module>
         <module>layout</module>
         <module>multi</module>
         <module>qual</module>
         <module>render</module>
+        <module>req</module>
         <module>spatial</module>
     </modules>
 
