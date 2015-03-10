@@ -146,31 +146,67 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
     boolean hasAttributes, boolean hasNamespaces, Object contextObject)
   {
     if (contextObject instanceof FunctionDefinition) {
-    	FunctionDefinition model = (FunctionDefinition) contextObject;
-      DistribFunctionDefinitionPlugin fbcModel = null;
+    	FunctionDefinition fd = (FunctionDefinition) contextObject;
+      DistribFunctionDefinitionPlugin distribFD = null;
 
-      if (model.getExtension(DistribConstants.namespaceURI) != null) {
-        fbcModel = (DistribFunctionDefinitionPlugin) model.getExtension(DistribConstants.namespaceURI);
+      if (fd.getExtension(DistribConstants.namespaceURI) != null) {
+        distribFD = (DistribFunctionDefinitionPlugin) fd.getExtension(DistribConstants.namespaceURI);
       } else {
-        fbcModel = new DistribFunctionDefinitionPlugin(model);
-        model.addExtension(DistribConstants.namespaceURI, fbcModel);
+        distribFD = new DistribFunctionDefinitionPlugin(fd);
+        fd.addExtension(DistribConstants.namespaceURI, distribFD);
       }
 
-      // TODO : drawFromDistribution
-    }
-    // TODO : ListOfDistribInputs, extended SBase, Uncertainty
+      // drawFromDistribution
+      if (elementName.equals(DistribConstants.drawFromDistribution)) {
+        DrawFromDistribution dfd = distribFD.createDrawFromDistribution();;
+        return dfd;
+      }
+    } else if (contextObject instanceof DrawFromDistribution) {
+      DrawFromDistribution dfd = (DrawFromDistribution) contextObject;
 
+      // istOfDistribInputs
+      if (elementName.equals(DistribConstants.listOfDistribInputs)) {
+        ListOf<DistribInput> listOfDistribInputs = dfd.getListOfDistribInputs();
+        return listOfDistribInputs;
+      }
+    }
+    
     else if (contextObject instanceof ListOf<?>) {
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
       if (elementName.equals(DistribConstants.distribInput)) {
-        DrawFromDistribution model = (DrawFromDistribution) listOf.getParentSBMLObject();
+        DrawFromDistribution dfd = (DrawFromDistribution) listOf.getParentSBMLObject();
 
-        DistribInput input = model.createDistribInput();
+        DistribInput input = dfd.createDistribInput();
         
         return input;
       } 
     }
+    
+    // If not other elements recognized the new element to read, it might be
+    // on of the extended SBase children
+    /*
+    // TODO : , extended SBase, Uncertainty
+
+    if (contextObject instanceof SBase)
+    {
+      SBase sbase = (SBase) contextObject;
+      DistribSBasePlugin distribSBase = null;
+
+      if (sbase.getExtension(DistribConstants.shortLabel) != null) {
+        distribSBase = (DistribSBasePlugin) sbase.getExtension(DistribConstants.shortLabel);
+      } else {
+        distribSBase = new DistribSBasePlugin(sbase);
+        sbase.addExtension(DistribConstants.shortLabel, distribSBase);
+      }
+
+      if (elementName.equals(DistribConstants.uncertainty))
+      {
+        return distribSBase.createUncertainty();
+      }
+    }
+     */
+    
     return contextObject;
   }
 
