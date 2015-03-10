@@ -31,6 +31,7 @@ import jp.sbi.celldesigner.plugin.PluginSBase;
 
 import org.sbml.jsbml.gui.JSBMLvisualizer;
 
+
 /**
  * A simple plug-in for CellDesigner that displays the SBML data structure as a
  * {@link DefaultTreeModel}. When the underlying SBMLDocument is changed by
@@ -138,7 +139,7 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
   @Override
   public void run() {
     modelTree = new DefaultTreeModel(getSBMLDocument());
-    JSBMLvisualizer visualizer = new JSBMLvisualizer(modelTree);
+    JSBMLvisualizer visualizer = new JSBMLvisualizer(getSBMLDocument());
     visualizer.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosed(WindowEvent e) {
