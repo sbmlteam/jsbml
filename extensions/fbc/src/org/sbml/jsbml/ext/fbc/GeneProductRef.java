@@ -32,7 +32,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
  * @since 1.1
  * @date 06.03.2015
  */
-public class GeneProductReference extends AbstractNamedSBase implements Association {
+public class GeneProductRef extends AbstractNamedSBase implements Association {
 
   /**
    * Generated serial version identifier.
@@ -47,14 +47,14 @@ public class GeneProductReference extends AbstractNamedSBase implements Associat
   /**
    * 
    */
-  public GeneProductReference() {
+  public GeneProductRef() {
     super();
   }
 
   /**
    * @param gpr
    */
-  public GeneProductReference(GeneProductReference gpr) {
+  public GeneProductRef(GeneProductRef gpr) {
     super(gpr);
     if (gpr.isSetGeneProduct()) {
       setGeneProduct(gpr.getGeneProduct());
@@ -65,14 +65,14 @@ public class GeneProductReference extends AbstractNamedSBase implements Associat
    * @param level
    * @param version
    */
-  public GeneProductReference(int level, int version) {
+  public GeneProductRef(int level, int version) {
     super(level, version);
   }
 
   /**
    * @param id
    */
-  public GeneProductReference(String id) {
+  public GeneProductRef(String id) {
     super(id);
   }
 
@@ -81,7 +81,7 @@ public class GeneProductReference extends AbstractNamedSBase implements Associat
    * @param level
    * @param version
    */
-  public GeneProductReference(String id, int level, int version) {
+  public GeneProductRef(String id, int level, int version) {
     super(id, level, version);
   }
 
@@ -91,7 +91,7 @@ public class GeneProductReference extends AbstractNamedSBase implements Associat
    * @param level
    * @param version
    */
-  public GeneProductReference(String id, String name, int level, int version) {
+  public GeneProductRef(String id, String name, int level, int version) {
     super(id, name, level, version);
   }
 
@@ -99,8 +99,8 @@ public class GeneProductReference extends AbstractNamedSBase implements Associat
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public GeneProductReference clone() {
-    return new GeneProductReference(this);
+  public GeneProductRef clone() {
+    return new GeneProductRef(this);
   }
 
   /* (non-Javadoc)
@@ -111,7 +111,7 @@ public class GeneProductReference extends AbstractNamedSBase implements Associat
     if (!super.equals(obj)) {
       return false;
     }
-    GeneProductReference other = (GeneProductReference) obj;
+    GeneProductRef other = (GeneProductRef) obj;
     if (geneProduct == null) {
       if (other.geneProduct != null) {
         return false;
