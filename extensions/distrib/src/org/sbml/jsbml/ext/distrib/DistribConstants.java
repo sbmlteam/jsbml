@@ -29,6 +29,9 @@ public class DistribConstants {
 
 	public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/distrib/version1";
 
+	public static final String UNCERT_ML_URI_L3 = "http://uncertml.org/3.0";	
+	public static final String UNCERT_ML_URI_DISTRIBUTIONS = "http://uncertml.org/distributions";
+	
 	public static final String namespaceURI = namespaceURI_L3V1V1;
 
 	public static final String drawFromDistribution = "drawFromDistribution";
@@ -36,6 +39,10 @@ public class DistribConstants {
 	public static final String distribInput = "distribInput";
 
 	public static final String listOfDistribInputs = "listOfDistribInputs";
+
+  public static final String uncertML = "UncertML";
+
+  public static final String index = "index";
 
 	 /**
 	   * 
