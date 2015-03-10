@@ -29,8 +29,8 @@ public class DistribConstants {
 
 	public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/distrib/version1";
 
-	public static final String UNCERT_ML_URI_L3 = "http://uncertml.org/3.0";	
-	public static final String UNCERT_ML_URI_DISTRIBUTIONS = "http://uncertml.org/distributions";
+	public static final String UNCERT_ML_URI_L3 = "http://www.uncertml.org/3.0";	
+	public static final String UNCERT_ML_URI_DISTRIBUTIONS = "http://www.uncertml.org/distributions";
 	
 	public static final String namespaceURI = namespaceURI_L3V1V1;
 
