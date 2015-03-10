@@ -336,6 +336,7 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.DistribParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.DynParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.FBCParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser" />

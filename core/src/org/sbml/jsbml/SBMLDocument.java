@@ -580,7 +580,7 @@ public class SBMLDocument extends AbstractSBase {
       String packageURI = packageURIOrName;
 
       if (packageURI.equals(packageParser.getPackageName())) {
-        packageURI = packageParser.getPackageNamespaces().get(0);
+        packageURI = packageParser.getPackageNamespaces().get(packageParser.getPackageNamespaces().size() - 1);
       }
 
       // check if the package is already present ??

@@ -79,7 +79,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
       setListOfFluxBounds(fbcPlugin.getListOfFluxBounds().clone());
     }
     if (fbcPlugin.isSetListOfGeneProducts()) {
-      setListOfGeneProducts(fbcPlugin.getListOfGeneProducts());
+      setListOfGeneProducts(fbcPlugin.getListOfGeneProducts().clone());
     }
 
   }

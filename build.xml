@@ -97,7 +97,7 @@
 		<property name="tidy.module.base.dir" value="${basedir}/modules/tidy" />
 		
 		<property name="core.base.dir" value="${basedir}/core" />
-		<property name="package.names" value="comp arrays dyn fbc groups layout multi qual render req spatial" />
+		<property name="package.names" value="comp distrib arrays dyn fbc groups layout multi qual render req spatial" />
 
 		<filter token="year" value="${year}" />
 		<filter token="version" value="${version}" />
@@ -233,6 +233,7 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.DistribParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.DynParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.FBCParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser" />
@@ -301,6 +302,7 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.DistribParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.DynParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.FBCParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser" />
