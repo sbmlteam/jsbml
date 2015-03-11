@@ -70,7 +70,12 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
    */
   public LogicalOperator(LogicalOperator association) {
     super(association);
-    setNamespace(association.getNamespace());
+    
+    if (association.isSetListOfAssociations()) {
+      for (Association childAssociation : association.getListOfAssociations()) {
+        addAssociation(childAssociation.clone());
+      }
+    }
   }
 
 
@@ -96,6 +101,7 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
    * @see java.util.Collection#add(Object)
    */
   public boolean addAssociation(Association association) {
+    registerChild(association);
     return getListOfAssociations().add(association);
   }
 

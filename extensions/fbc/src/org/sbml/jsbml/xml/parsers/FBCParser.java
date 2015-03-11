@@ -43,7 +43,6 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.fbc.And;
-import org.sbml.jsbml.ext.fbc.Association;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCList;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
@@ -52,7 +51,9 @@ import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
 import org.sbml.jsbml.ext.fbc.FluxObjective;
 import org.sbml.jsbml.ext.fbc.GeneProduct;
+import org.sbml.jsbml.ext.fbc.GeneProductRef;
 import org.sbml.jsbml.ext.fbc.GeneProteinAssociation;
+import org.sbml.jsbml.ext.fbc.LogicalOperator;
 import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.ext.fbc.Or;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
@@ -242,25 +243,43 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
           reaction.addExtension(FBCConstants.shortLabel, fbcReaction);
         }
         
-        if (elementName.equals(FBCConstants.geneProductAssociation)) {
+        // both names are in used at the moment, while the specs are finalized.
+        if (elementName.equals(FBCConstants.geneProductAssociation) || elementName.equals(FBCConstants.geneProteinAssociation)) {
         	GeneProteinAssociation gPA = fbcReaction.createGeneProteinAssociation();
         	return gPA;
         }
     } else if (contextObject instanceof GeneProteinAssociation) {
-    	// TODO - and + or + geneProductRef
     	GeneProteinAssociation gPA = (GeneProteinAssociation) contextObject;
     	
+      // and + or + geneProductRef
     	if (elementName.equals(FBCConstants.and)) {
-    		// TODO - if association set, get it otherwise create it !! gPA.setAssociation(association);
-    		// TODO - need to have some methods in the Association interface ??
-    		// TODO - can have any number of children, association of GeneProductReference
-    		// TODO - should be able to add directly a GeneProductReference to GeneProductAssociation
-    	}
-    	
-    } else if (contextObject instanceof And) {
-    	// TODO - and + or + geneProductRef
-    } else if (contextObject instanceof Or) {
-    	// TODO - and + or + geneProductRef
+    	  And andAssociation = new And();
+    	  gPA.setAssociation(andAssociation);
+    	  return andAssociation;
+    	} else if (elementName.equals(FBCConstants.or)) {
+        Or orAssociation = new Or();
+        gPA.setAssociation(orAssociation);
+        return orAssociation;
+    	} else if (elementName.equals(FBCConstants.geneProductReference)) {
+        GeneProductRef genePR = new GeneProductRef();
+        gPA.setAssociation(genePR);
+        return genePR;
+      }    	
+    } else if (contextObject instanceof And || contextObject instanceof Or) {
+      LogicalOperator logicalOp = (LogicalOperator) contextObject;
+
+      // and + or + geneProductRef
+      if (elementName.equals(FBCConstants.and)) {
+        And andAssociation = logicalOp.createAnd();
+        return andAssociation;
+      } else if (elementName.equals(FBCConstants.or)) {
+        Or orAssociation = logicalOp.createOr();
+        return orAssociation;
+      } else if (elementName.equals(FBCConstants.geneProductReference)) {
+        GeneProductRef genePR = logicalOp.createGeneProductRef();
+        return genePR;
+      }
+
     }
     
     else if (contextObject instanceof ListOf<?>) {
