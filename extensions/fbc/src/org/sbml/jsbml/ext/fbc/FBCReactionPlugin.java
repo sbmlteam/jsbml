@@ -289,6 +289,9 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   public void setGeneProteinAssociation(GeneProteinAssociation geneProteinAssociation) {
     GeneProteinAssociation oldGeneProteinAssociation = this.geneProteinAssociation;
     this.geneProteinAssociation = geneProteinAssociation;
+    if (isSetExtendedSBase()) {
+      getExtendedSBase().registerChild(geneProteinAssociation);
+    }
     firePropertyChange(FBCConstants.geneProteinAssociation, oldGeneProteinAssociation, this.geneProteinAssociation);
   }
 

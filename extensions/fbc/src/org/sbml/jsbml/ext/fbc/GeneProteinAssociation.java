@@ -194,6 +194,7 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
   public void setAssociation(Association association) {
     Association oldAssociation = this.association;
     this.association = association;
+    registerChild(association);
     firePropertyChange(FBCConstants.association, oldAssociation, this.association);
   }
 
