@@ -143,7 +143,7 @@ public class DistribInput extends AbstractNamedSBase {
    * Sets the value of index
    */
   public void setIndex(int index) {
-    int oldIndex = this.index;
+    Integer oldIndex = this.index;
     this.index = index;
     firePropertyChange(DistribConstants.index, oldIndex, this.index);
   }
@@ -157,7 +157,7 @@ public class DistribInput extends AbstractNamedSBase {
    */
   public boolean unsetIndex() {
     if (isSetIndex()) {
-      int oldIndex = this.index;
+      Integer oldIndex = this.index;
       this.index = null;
       firePropertyChange(DistribConstants.index, oldIndex, this.index);
       return true;
@@ -211,6 +211,7 @@ public class DistribInput extends AbstractNamedSBase {
     return true;
   }
 
+  @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
 
@@ -230,6 +231,7 @@ public class DistribInput extends AbstractNamedSBase {
   }
 
 
+  @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
