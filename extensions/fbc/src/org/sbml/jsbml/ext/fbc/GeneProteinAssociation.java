@@ -67,7 +67,6 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
     if (gpa.isSetAssociation()) {
       setAssociation(gpa.getAssociation().clone());
     }
-    setNamespace(gpa.getNamespace());
   }
 
   /**
