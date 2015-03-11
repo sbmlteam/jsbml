@@ -579,12 +579,24 @@ public class SBMLDocument extends AbstractSBase {
     if (packageParser != null) {
       String packageURI = packageURIOrName;
 
-      if (packageURI.equals(packageParser.getPackageName())) {
+      // if the shorLabel has been used, getting the last namespace in the list of namespaces // TODO - add a getDefaultNamspace() to PackageParser
+      // TODO - add a getPackageShortLabel() to PackageParser, so that a proper name can be used for packages ? Might be confusing getPackageDisplayName() might be better.
+      if (packageURI.equals(packageParser.getPackageName())) { 
         packageURI = packageParser.getPackageNamespaces().get(packageParser.getPackageNamespaces().size() - 1);
       }
 
       // check if the package is already present ??
       // possible libsbml errors  PACKAGE_UNKNOWN, PACKAGE_VERSION_MISMATCH, PACKAGE_CONFLICTED_VERSION
+      // just returning for now without reporting errors
+      for (String packageNamespaceUri : packageParser.getPackageNamespaces()) {
+        if (enabledPackageMap.containsKey(packageNamespaceUri)) {
+          // Package already present in the map.
+          if (enabledPackageMap.get(packageNamespaceUri) == enabled) {
+            return;
+          }
+        }
+      }
+
       enabledPackageMap.put(packageURI, enabled);
 
       if (enabled) {
