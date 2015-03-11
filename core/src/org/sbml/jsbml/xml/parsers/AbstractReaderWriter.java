@@ -140,7 +140,11 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
     String localName, boolean hasAttributes, boolean isLastNamespace,
     Object contextObject)
   {
-    // TODO: read the namespace, it could be some other extension objects
+    // TODO: read the namespace, not sure if it is handled by other parsers
+    if (contextObject instanceof SBMLDocument && getNamespaces().contains(URI) && this instanceof PackageParser) {
+      System.out.println("AbstractReaderWriter - processNamespace - uri = " + URI);
+      ((SBMLDocument) contextObject).enablePackage(URI);
+    }
   }
 
 
