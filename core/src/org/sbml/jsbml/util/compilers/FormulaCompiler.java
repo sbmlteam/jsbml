@@ -609,6 +609,8 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue factorial(ASTNode node) {
+    // return new ASTNodeValue(append(brackets(node), Character.valueOf('!')).toString(), this);
+    // TODO - change of behavior for the FormulaCompiler - do we try to put it back as it was before ?
     return function("factorial", node);
   }
 

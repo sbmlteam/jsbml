@@ -586,10 +586,12 @@ public class XMLNode extends XMLToken {
    */
   @Override
   public String toString() {
+    // TODO - improve this method, just printing the bare minimum about this XMLNode
+    
     StringBuilder builder = new StringBuilder();
     builder.append(getClass().getSimpleName());
-    builder.append(" [childElements=");
-    builder.append(childElements);
+    builder.append(" [childElements size=");
+    builder.append(getNumChildren()); // putting just the number of children, to avoid to print them recursively.
     builder.append(", attributes=");
     builder.append(attributes);
     builder.append(", characters=");
