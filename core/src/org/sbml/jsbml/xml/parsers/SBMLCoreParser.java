@@ -446,23 +446,33 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
           if (species.isSetSubstanceUnits()
               && !species.isSetSubstanceUnitsInstance()) {
-            log4jLogger.warn("No UnitDefinition matches the subtsanceUnitsID of species.");
+            log4jLogger.warn(MessageFormat.format(
+              "No UnitDefinition matches the subtsanceUnitsID ''{1}'' of species ''{0}''.",
+              species.getId(), species.getSubstanceUnits()));
           }
           if (species.isSetSpeciesType()
               && !species.isSetSpeciesTypeInstance()) {
-            log4jLogger.warn("No SpeciesType matches the speciesTypeID of species.");
+            log4jLogger.warn(MessageFormat.format(
+              "No SpeciesType matches the speciesTypeID ''{1}'' of species ''{0}''.",
+              species.getId(), species.getSpeciesType()));
           }
           if (species.isSetConversionFactor()
               && !species.isSetConversionFactorInstance()) {
-            log4jLogger.warn("No Parameter matches the conversionFactorID of species.");
+            log4jLogger.warn(MessageFormat.format(
+              "No Parameter matches the conversionFactorID ''{1}'' of species ''{0}''.",
+              species.getId(), species.getConversionFactor()));
           }
           if (species.isSetCompartment()
               && !species.isSetCompartmentInstance()) {
-            log4jLogger.warn("No Compartment matches the compartmentID of species.");
+            log4jLogger.warn(MessageFormat.format(
+              "No Compartment matches the compartmentID ''{1}'' of species ''{0}''.",
+              species.getId(), species.getCompartment()));
           }
           if (species.isSetSpatialSizeUnits()
               && !species.isSetSpatialSizeUnitsInstance()) {
-            log4jLogger.warn("No UnitDefinition matches the spatialSizeUnitsID of species.");
+            log4jLogger.warn(MessageFormat.format(
+              "No UnitDefinition matches the spatialSizeUnitsID ''{1}'' of species ''{0}''.",
+              species.getId(), species.getSpatialSizeUnits()));
           }
         }
       }
@@ -471,7 +481,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           Parameter parameter = model.getParameter(i);
           if (parameter.isSetUnits()
               && !parameter.isSetUnitsInstance()) {
-            log4jLogger.warn("No UnitDefinition matches the unitsID of parameter.");
+            log4jLogger.warn(MessageFormat.format(
+              "No UnitDefinition matches the unitsID ''{1}'' of parameter ''{0}''.",
+              parameter.getId(), parameter.getUnits()));
           }
         }
       }
