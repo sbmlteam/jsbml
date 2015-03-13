@@ -29,9 +29,12 @@ import java.io.StringReader;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.compilers.FormulaCompiler;
+import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
 
 /**
  * Tests related to {@link ASTNode#parseFormula(String)} and {@link ASTNode#parseFormula(String, IFormulaParser)}.
@@ -46,10 +49,26 @@ public class ASTNodeInfixParsingTest {
    * 
    */
   final static FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
+
+  /**
+   * 
+   */
+  final static FormulaParserLL3 l3Parser = caseSensitiveParser;
+
+  /**
+   * 
+   */
+  final static FormulaParser parser = new FormulaParser(new StringReader(""));
+
   /**
    * 
    */
   final static FormulaParserLL3 caseInsensitiveParser = new FormulaParserLL3(new StringReader(""));
+
+  /**
+   * 
+   */
+  final static FormulaCompiler l3Compiler = new FormulaCompilerLibSBML();
 
   /**
    * 
@@ -126,6 +145,50 @@ public class ASTNodeInfixParsingTest {
       e.printStackTrace();
       assertTrue(false);
     }
+  }
+  
+  @Test public void factorialParsingTests() {
+
+    try {
+      // Parsing and compiling with the L3
+      ASTNode n = ASTNode.parseFormula("factorial(n)", l3Parser);
+      String formula = ASTNode.formulaToString(n, l3Compiler);
+
+      n = ASTNode.parseFormula(formula, l3Parser); 
+
+      
+      // Parsing and compiling with the defaults
+      n = ASTNode.parseFormula("factorial(n)");
+      formula = ASTNode.formulaToString(n);
+      System.out.println("formula = " + formula);      
+      n = ASTNode.parseFormula(formula); 
+
+      // n!
+      n = ASTNode.parseFormula("n!", parser);
+      formula = ASTNode.formulaToString(n);
+      System.out.println("formula n! = " + formula);      
+      n = ASTNode.parseFormula(formula); 
+
+      // (n)!
+      n = ASTNode.parseFormula("(n)!", parser);
+      formula = ASTNode.formulaToString(n);
+      System.out.println("formula (n)! = " + formula);      
+      n = ASTNode.parseFormula(formula); 
+      
+      // (n + 1)!
+      n = ASTNode.parseFormula("(n + 1)!", parser);
+      formula = ASTNode.formulaToString(n);
+      System.out.println("formula (n + 1)! = " + formula);      
+      n = ASTNode.parseFormula(formula); 
+            
+      
+      
+    } catch (ParseException e) {
+      // should never happen
+      e.printStackTrace();
+      assertTrue(false);
+    }
+    
   }
 
 }
