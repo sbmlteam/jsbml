@@ -812,18 +812,18 @@ public class XMLAttributes {
    */
   @Override
   public String toString() {
-    String attributesStr = "XML Attributes : \n";
+    StringBuilder attributesStr = new StringBuilder("XML Attributes : \n");
 
     int i = 0;
     for (String value : attributeValues) {
       XMLTriple triple = attributeNames.get(i);
 
-      System.out.println("\t" + triple + " = " + value);
+      attributesStr.append("\t").append(triple).append(" = ").append(value);
 
       i++;
     }
 
-    return attributesStr;
+    return attributesStr.toString();
   }
 
 }

@@ -729,7 +729,26 @@ public class SBMLWriter {
 
   }
 
+  /**
+   * @param nextObjectToWrite
+   * @param smOutputParentElement
+   * @param streamWriter
+   * @param indent
+   * @throws XMLStreamException 
+   */
+  private void writeXMLNode(XMLNode xmlNode,
+    SMOutputElement smOutputParentElement, XMLStreamWriter writer,
+    int indent) throws XMLStreamException 
+  {
 
+    XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, indent, indentCount, indentChar);
+    xmlNodeWriter.write(xmlNode);
+    writer.writeCharacters("\n");
+    
+  }
+
+  
+  
   /**
    * Writes the MathML expression of a {@link MathContainer} element.
    * 
@@ -912,9 +931,34 @@ public class SBMLWriter {
       {
         if (! (nextObjectToWrite instanceof SBase))
         {
-          logger.debug("Element '" + nextObjectToWrite.getClass().getSimpleName() +
-              "' ignored because it is supposed to be written elsewhere (ASTNode, XMLNode, ..) ");
-          // ASTNode, Annotation, Notes, Math, ... are written directly below, at the same time as SBase at the moment
+          if (parentObject instanceof SBase) {
+            SBase parentSBase = (SBase) parentObject;
+            
+            // making several if block to make things easier to read and like this it is
+            // ready in case we decide to write them here, when encountered in the tree.
+            
+            // Notes XMLNode is written later in this method
+            if (nextObjectToWrite == parentSBase.getNotes()) {
+              continue;
+            }
+            // MathML and Annotation are written later
+            if (nextObjectToWrite instanceof ASTNode || nextObjectToWrite instanceof Annotation) {
+              continue;
+            }
+            // Constraint Message is written later
+            if ((parentObject instanceof Constraint) && (nextObjectToWrite == ((Constraint) parentObject).getMessage())){
+              continue;
+            }
+          }
+          
+          // additional XMLNode that could come from an L3 package or from unknown XML elements
+          if (nextObjectToWrite instanceof XMLNode) {
+            writeXMLNode((XMLNode) nextObjectToWrite, smOutputParentElement, streamWriter, indent);
+            continue;
+          }
+          
+          logger.warn("Element '" + nextObjectToWrite.getClass().getSimpleName() +
+              "' ignored, we are not sure what to do with it !!");
           continue;
         }
 
