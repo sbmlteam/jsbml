@@ -73,7 +73,7 @@ public class LayoutPluginChangeListener {
     {
       SpeciesGlyph sGlyph = (SpeciesGlyph)glyph;
       String speciesID = sGlyph.getReference().substring(sGlyph.getReference().indexOf("_")+1); //refers to species;
-      if (speciesID!=null)
+      if (speciesID!=null && plugModel.getSpecies(speciesID)!=null)
       {
         PluginSpeciesAlias pAlias = plugModel.getSpecies(speciesID).getSpeciesAlias(0);
         if (pAlias != null)
@@ -84,6 +84,7 @@ public class LayoutPluginChangeListener {
             sGlyph.getBoundingBox().getDimensions().getHeight());
         }
       }
+
     }
     //finished
     else if (glyph instanceof CompartmentGlyph)
@@ -129,11 +130,13 @@ public class LayoutPluginChangeListener {
       String speciesAliasID = sGlyph.getId().substring(sGlyph.getId().indexOf("_")+1); //refers to speciesAlias;
       if (speciesID!=null)
       {
-        //get all PluginSpeciesAliases for a particular species.
+        //get and remove all PluginSpeciesAliases for a particular species.
         PluginListOf list = plugModel.getListOfAllSpeciesAlias(speciesID);
-        for (int i = 0; i<list.size(); i++)
-        {
-          list.remove(0);
+        if (list!=null) {
+          for (int i = 0; i<list.size(); i++)
+          {
+            list.remove(0);
+          }
         }
       }
       //remove TextGlyphs
@@ -141,10 +144,12 @@ public class LayoutPluginChangeListener {
       for (int i = 0; i<list.size(); i++)
       {
         TextGlyph tGlyph = list.get(i);
-        if (tGlyph.getId().substring(tGlyph.getId().indexOf("_")+1).equals(speciesAliasID))
-        {
-          list.remove(i);
-          i--;
+        if (tGlyph!=null) {
+          if (tGlyph.getId().substring(tGlyph.getId().indexOf("_")+1).equals(speciesAliasID))
+          {
+            list.remove(i);
+            i--;
+          }
         }
       }
     }
