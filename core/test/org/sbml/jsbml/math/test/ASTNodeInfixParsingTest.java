@@ -181,7 +181,13 @@ public class ASTNodeInfixParsingTest {
       System.out.println("formula (n + 1)! = " + formula);      
       n = ASTNode.parseFormula(formula); 
             
+      // and(x, y)
+      n = ASTNode.parseFormula("and(x,y)", l3Parser);
+      formula = ASTNode.formulaToString(n, l3Compiler);
+      System.out.println("formula (n + 1)! = " + formula);
+      n = ASTNode.parseFormula(formula, l3Parser); 
       
+      // n = ASTNode.parseFormula(formula, parser); is failing
       
     } catch (ParseException e) {
       // should never happen
