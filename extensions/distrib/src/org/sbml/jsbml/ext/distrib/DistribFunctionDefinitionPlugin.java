@@ -36,13 +36,27 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
 	
 	private DrawFromDistribution drawFromDistribution;
 	
+	/**
+	 * Creates a new {@link DistribFunctionDefinitionPlugin} instance.
+	 * 
+	 * @param fd the {@link FunctionDefinition} to be extended.
+	 */
 	public DistribFunctionDefinitionPlugin(FunctionDefinition fd) {
 		super(fd);
 	}
 	
-	public DistribFunctionDefinitionPlugin(
-    DistribFunctionDefinitionPlugin distribFunctionDefinitionPlugin) {
-    // TODO Auto-generated constructor stub
+	/**
+	 * Creates a new {@link DistribFunctionDefinitionPlugin} instance, cloned from
+	 * the input parameter.
+	 * 
+	 * @param obj the {@link DistribFunctionDefinitionPlugin} to clone
+	 */
+	public DistribFunctionDefinitionPlugin(DistribFunctionDefinitionPlugin obj) {
+	  super(obj);
+	  
+    if (obj.isSetDrawFromDistribution()) {
+      setDrawFromDistribution(obj.getDrawFromDistribution().clone());
+    }
   }
 
   /**

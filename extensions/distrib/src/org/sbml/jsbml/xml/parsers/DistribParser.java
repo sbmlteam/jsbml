@@ -103,6 +103,10 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
       listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbase);
     }
 
+    if (logger.isDebugEnabled()) {
+      logger.debug("listOfElementsToWrite.size() not null = " + (listOfElementsToWrite != null ? listOfElementsToWrite.size() : 0));
+    }
+    
     return listOfElementsToWrite;
   }
 
@@ -116,7 +120,9 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject)
   {
-    logger.debug("processAttribute -> " + prefix + ":" + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
+    if (logger.isDebugEnabled()) {
+      logger.debug("processAttribute -> " + prefix + ":" + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
+    }
 
     if (contextObject instanceof FunctionDefinition) {
       FunctionDefinition fd = (FunctionDefinition) contextObject;
@@ -172,7 +178,7 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
     }
     
     else if (contextObject instanceof ListOf<?>) {
-      ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
+      ListOf<?> listOf = (ListOf<?>) contextObject;
 
       if (elementName.equals(DistribConstants.distribInput)) {
         DrawFromDistribution dfd = (DrawFromDistribution) listOf.getParentSBMLObject();
@@ -217,8 +223,6 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
   public void writeElement(SBMLObjectForXML xmlObject,
     Object sbmlElementToWrite) {
 
-    logger.debug(" writeElement");
-
     if (sbmlElementToWrite instanceof SBase) {
       SBase sbase = (SBase) sbmlElementToWrite;
 
@@ -241,6 +245,9 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
       //			xmlObject.setNamespace(FBCConstants.namespaceURI);
     }
 
+    if (logger.isDebugEnabled()) {
+      logger.debug("writeElement " + xmlObject.getName());
+    }
   }
 
   /**
