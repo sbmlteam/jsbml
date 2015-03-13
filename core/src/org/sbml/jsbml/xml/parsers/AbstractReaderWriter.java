@@ -141,8 +141,11 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
     Object contextObject)
   {
     // TODO: read the namespace, not sure if it is handled by other parsers
+    
     if (contextObject instanceof SBMLDocument && getNamespaces().contains(URI) && this instanceof PackageParser) {
-      System.out.println("AbstractReaderWriter - processNamespace - uri = " + URI);
+      if (logger.isDebugEnabled()) {
+        logger.debug("processNamespace - uri = " + URI);
+      }
       ((SBMLDocument) contextObject).enablePackage(URI);
     }
   }

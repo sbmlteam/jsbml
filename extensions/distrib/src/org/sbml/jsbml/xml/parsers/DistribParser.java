@@ -43,6 +43,7 @@ import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.distrib.DistribConstants;
 import org.sbml.jsbml.ext.distrib.DistribFunctionDefinitionPlugin;
 import org.sbml.jsbml.ext.distrib.DistribInput;
+import org.sbml.jsbml.ext.distrib.DistribSBasePlugin;
 import org.sbml.jsbml.ext.distrib.DrawFromDistribution;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
@@ -191,9 +192,7 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
     
     // If not other elements recognized the new element to read, it might be
     // on of the extended SBase children
-    /*
-    // TODO : , extended SBase, Uncertainty
-
+    
     if (contextObject instanceof SBase)
     {
       SBase sbase = (SBase) contextObject;
@@ -211,7 +210,6 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
         return distribSBase.createUncertainty();
       }
     }
-     */
     
     return contextObject;
   }
@@ -257,7 +255,6 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
    * @throws SBMLException
    */
   public static void main(String[] args) throws SBMLException {
-    // TODO: move this test into a separate test class.
     if (args.length < 1) {
       System.out.println(
           "Usage: java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
@@ -397,7 +394,9 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
     if (sbase != null) {
       if (sbase instanceof FunctionDefinition) {
         return new DistribFunctionDefinitionPlugin((FunctionDefinition) sbase);
-      } // TODO - SBase
+      } else {
+        return new DistribSBasePlugin(sbase);
+      }
     }
     return null;
   }

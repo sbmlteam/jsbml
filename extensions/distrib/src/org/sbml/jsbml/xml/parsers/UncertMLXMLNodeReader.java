@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ext.distrib.DistribConstants;
 import org.sbml.jsbml.ext.distrib.DrawFromDistribution;
+import org.sbml.jsbml.ext.distrib.Uncertainty;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNamespaces;
 import org.sbml.jsbml.xml.XMLNode;
@@ -95,6 +96,28 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
       xmlNode.addChild(textNode);
 
     } 
+    else if (contextObject instanceof Uncertainty) { // TODO - create an interface for elements have some uncertML ???
+      Uncertainty parentSBMLElement = (Uncertainty) contextObject;
+
+      XMLNode xmlNode = null;
+
+      if (parentSBMLElement.isSetUncertML())
+      {
+        xmlNode = parentSBMLElement.getUncertML();
+      }
+      else
+      {
+        if ((characters != null) && (characters.trim().length() > 0)) {
+          logger.warn(MessageFormat.format(
+            "The type of String ''{0}'' on the element {1} is unknown! Some data might be lost: ''{2}''.",
+            "UncertML", parentSBMLElement.getElementName(), characters));
+        }
+        return;
+      }
+
+      xmlNode.addChild(textNode);
+
+    } 
     else
     {
       if ((characters != null) && (characters.trim().length() > 0)) {
@@ -117,7 +140,7 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
   {
     logger.debug(MessageFormat.format("processStartElement: element name = {0}", elementName));
 
-    if (elementName.equals("UncertML") && (contextObject instanceof DrawFromDistribution)) {
+    if (elementName.equalsIgnoreCase("UncertML") && (contextObject instanceof DrawFromDistribution)) {
       DrawFromDistribution sbase = (DrawFromDistribution) contextObject;
 
       // Creating a StartElement XMLNode !!
@@ -125,7 +148,16 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
       sbase.setUncertML(xmlNode);
       
       return xmlNode;
+    } else if (elementName.equalsIgnoreCase("UncertML") && (contextObject instanceof Uncertainty)) {
+      Uncertainty sbase = (Uncertainty) contextObject;
+
+      // Creating a StartElement XMLNode !!
+      XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, uri, prefix), new XMLAttributes(), new XMLNamespaces());
+      sbase.setUncertML(xmlNode);
+      
+      return xmlNode;
     }
+
 
     // Creating a StartElement XMLNode !!
     XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, uri, prefix), new XMLAttributes(), new XMLNamespaces());

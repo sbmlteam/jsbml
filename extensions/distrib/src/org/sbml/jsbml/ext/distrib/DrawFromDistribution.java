@@ -22,19 +22,40 @@ package org.sbml.jsbml.ext.distrib;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.xml.XMLNode;
 
-public class DrawFromDistribution extends AbstractSBase {
+public class DrawFromDistribution extends AbstractSBase implements IdManager {
 
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final transient Logger logger = Logger.getLogger(DrawFromDistribution.class);
+
+	/**
+	 * 
+	 */
 	private ListOf<DistribInput> listOfDistribInputs;
+	/**
+	 * 
+	 */
 	private XMLNode uncertML;
 	
+  /**
+   * Maps between the {@link DistribInput} identifiers and themselves.
+   */
+  private Map<String, DistribInput> mapOfDistribInputs;
+
 	/**
    * Creates a DrawFromDistribution instance 
    */
@@ -164,6 +185,7 @@ public class DrawFromDistribution extends AbstractSBase {
   public void setUncertML(XMLNode uncertML) {
     XMLNode oldUncertML = this.uncertML;
     this.uncertML = uncertML;
+    this.uncertML.setParent(this);
     firePropertyChange(DistribConstants.uncertML, oldUncertML, this.uncertML);
   }
 
@@ -438,6 +460,93 @@ public class DrawFromDistribution extends AbstractSBase {
   public String toString() {
     return "DrawFromDistribution [listOfDistribInputs=" + listOfDistribInputs
       + ", uncertML=" + uncertML + "]";
+  }
+
+
+  @Override
+  public boolean accept(SBase sbase) {
+    return sbase instanceof DistribInput;
+  }
+
+
+  @Override
+  public boolean register(SBase sbase) {
+
+    boolean success = true;
+
+    if (sbase instanceof DistribInput) {
+      DistribInput distribInput = (DistribInput) sbase;
+
+      if (distribInput.isSetId()) {
+        String distribInputId = distribInput.getId();
+
+        if (mapOfDistribInputs == null) {
+          mapOfDistribInputs = new HashMap<String, DistribInput>();
+        }
+
+        if (mapOfDistribInputs.containsKey(distribInputId) && mapOfDistribInputs.get(distribInputId) != sbase) {
+          logger.error(MessageFormat.format(
+            "A DistribInput with the id \"{0}\" is already present in this DrawFromDistribution. The new element will not be added to the DrawFromDistribution.",
+            distribInputId));
+          success = false;
+        } else {
+
+          mapOfDistribInputs.put(distribInputId, distribInput);
+
+          if (logger.isDebugEnabled()) {
+            logger.debug(MessageFormat.format("registered DistribInput id={0} in DrawFromDistribution",
+              distribInputId));
+          }
+        }
+      }
+    } else {
+      logger.error(MessageFormat.format(
+        "Trying to register something that is not a DistribInput: \"{0}\".", sbase));
+    }
+
+    // TODO : register all the DistribInput children if any !!
+
+    return success;
+  }
+
+  @Override
+  public boolean unregister(SBase sbase) {
+
+    // Always returning true at the moment to avoid exception when unregistering element
+    boolean success = true;
+
+    if (sbase instanceof DistribInput) {
+      DistribInput port = (DistribInput) sbase;
+
+      if (port.isSetId()) {
+        String portId = port.getId();
+
+        if (mapOfDistribInputs == null) {
+          logger.warn("No DistribInput have been registered in this DrawFromDistribution {0}. Nothing to be done.");
+          return success;
+        }
+
+        if (mapOfDistribInputs.containsKey(portId)) {
+          mapOfDistribInputs.remove(portId);
+
+          if (logger.isDebugEnabled()) {
+            logger.debug(MessageFormat.format("unregistered DistribInput id={0} in DrawFromDistribution",  portId));
+          }
+        } else {
+
+          logger.warn(MessageFormat.format(
+            "A DistribInput with the id \"{0}\" is not present in this DrawFromDistribution. Nothing to be done.",
+            portId));
+        }
+      }
+    } else {
+      logger.error(MessageFormat.format(
+        "Trying to unregister something that is not a DistribInput: \"{0}\".", sbase));
+    }
+
+    // TODO : unregister all the DistribInput children if any !!
+
+    return success;
   }
 	
 	

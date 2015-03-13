@@ -54,7 +54,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   /**
    * A {@link Logger} for this class.
    */
-  private static final transient Logger logger = Logger.getLogger(Model.class);
+  private static final transient Logger logger = Logger.getLogger(CompModelPlugin.class);
 
   /**
    * 
