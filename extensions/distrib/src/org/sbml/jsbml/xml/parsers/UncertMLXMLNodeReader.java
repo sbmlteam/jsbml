@@ -191,7 +191,6 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
 
   static {
     namespaces.add(DistribConstants.UNCERT_ML_URI_L3);
-    namespaces.add(DistribConstants.UNCERT_ML_URI_DISTRIBUTIONS);    
   }
 
 }
