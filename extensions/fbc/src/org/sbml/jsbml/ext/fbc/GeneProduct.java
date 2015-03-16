@@ -165,8 +165,19 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    // TODO Auto-generated method stub
-    return super.readAttribute(attributeName, prefix, value);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(FBCConstants.geneProductIdentifier) || attributeName.equals(FBCConstants.label)) {
+        setGeneProductIdentifier(value);
+      } else {
+        isAttributeRead = false;
+      }
+    }
+    
+    return isAttributeRead;
   }
 
   /**
@@ -232,7 +243,10 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
       attributes.remove("name");
       attributes.put(FBCConstants.shortLabel + ":name", getName());
     }
-
+    if (isSetGeneProductIdentifier()) {
+      attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.label, getGeneProductIdentifier());
+    }
+    
     return attributes;
   }
 
