@@ -153,41 +153,37 @@ public class ASTNodeInfixParsingTest {
       // Parsing and compiling with the L3
       ASTNode n = ASTNode.parseFormula("factorial(n)", l3Parser);
       String formula = ASTNode.formulaToString(n, l3Compiler);
-
       n = ASTNode.parseFormula(formula, l3Parser); 
 
       
       // Parsing and compiling with the defaults
       n = ASTNode.parseFormula("factorial(n)");
       formula = ASTNode.formulaToString(n);
-      System.out.println("formula = " + formula);      
-      n = ASTNode.parseFormula(formula); 
+      System.out.println("default formula = " + formula);
+      n = ASTNode.parseFormula(formula, parser);  // Problem: the default parser seems to be the L3 one, the default compiler seems to not be the L3 one 
 
       // n!
       n = ASTNode.parseFormula("n!", parser);
       formula = ASTNode.formulaToString(n);
-      System.out.println("formula n! = " + formula);      
-      n = ASTNode.parseFormula(formula); 
+      n = ASTNode.parseFormula(formula, parser); 
 
       // (n)!
       n = ASTNode.parseFormula("(n)!", parser);
       formula = ASTNode.formulaToString(n);
-      System.out.println("formula (n)! = " + formula);      
-      n = ASTNode.parseFormula(formula); 
+      n = ASTNode.parseFormula(formula, parser); 
       
       // (n + 1)!
       n = ASTNode.parseFormula("(n + 1)!", parser);
       formula = ASTNode.formulaToString(n);
-      System.out.println("formula (n + 1)! = " + formula);      
-      n = ASTNode.parseFormula(formula); 
-            
-      // and(x, y)
-      n = ASTNode.parseFormula("and(x,y)", l3Parser);
-      formula = ASTNode.formulaToString(n, l3Compiler);
-      System.out.println("formula (n + 1)! = " + formula);
-      n = ASTNode.parseFormula(formula, l3Parser); 
-      
-      // n = ASTNode.parseFormula(formula, parser); is failing
+      n = ASTNode.parseFormula(formula, parser); 
+
+      try {
+        n = ASTNode.parseFormula(formula, l3Parser);
+        assertTrue("The L3 parser does not support '(n + 1)!' at the moment.", false);
+      } catch (ParseException e) {
+        // should happen, the L3 parser does not support '(n + 1)!'
+        assertTrue(true);        
+      }
       
     } catch (ParseException e) {
       // should never happen
@@ -197,4 +193,26 @@ public class ASTNodeInfixParsingTest {
     
   }
 
+  @Test public void andParsingTests() {
+
+    try {
+    // and(x, y)
+    ASTNode n = ASTNode.parseFormula("and(x,y)", l3Parser);
+    String formula = ASTNode.formulaToString(n, l3Compiler);
+    System.out.println("formula 'and(x, y)' = " + formula);
+    n = ASTNode.parseFormula(formula, l3Parser); 
+    
+    // x and y
+    n = ASTNode.parseFormula("x and y", parser); // and(x,y) does not work ==> difference compared to the L1 supported syntax?
+    formula = ASTNode.formulaToString(n);
+    System.out.println("formula 'x and y)' = " + formula);
+    n = ASTNode.parseFormula(formula, parser); 
+    
+    } catch (ParseException e) {
+      // should never happen
+      e.printStackTrace();
+      assertTrue(false);
+    }
+  }
+  
 }

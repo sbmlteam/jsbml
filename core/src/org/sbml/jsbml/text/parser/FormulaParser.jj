@@ -209,7 +209,14 @@ TOKEN :
 
 TOKEN :
 {
-  < COMPARISON : ([ "<", ">", "=", "!" ])? [ "<", ">", "=" ] >
+  < COMPARISON :
+	  "<"
+	| "<="
+	| ">"
+	| ">="
+	| "=="
+	| "!=" 
+	>
 }
 
 TOKEN :
@@ -225,7 +232,8 @@ TOKEN :
   < AND :
     "and"
   | "And"
-  | "AND" >
+  | "AND"
+  | "&&" >
 }
 
 TOKEN :
@@ -233,7 +241,8 @@ TOKEN :
   < OR :
     "OR"
   | "Or"
-  | "or" >
+  | "or"
+  | "||" >
 }
 
 TOKEN :
@@ -417,11 +426,11 @@ private ASTNode TermLvl1() :
   | t = < BOOLEAN_LOGIC > rightChild = TermLvl2()
     {
       s = t.image;
-      if (s.equalsIgnoreCase("or"))
+      if (s.equalsIgnoreCase("or") || s.equals("||"))
       {
         type = ASTNode.Type.LOGICAL_OR;
       }
-      else if (s.equalsIgnoreCase("and"))
+      else if (s.equalsIgnoreCase("and") || s.equals("&&"))
       {
         type = ASTNode.Type.LOGICAL_AND;
       }
@@ -613,7 +622,7 @@ private ASTNode Primary() throws NumberFormatException :
   {
     ASTNode selector = new ASTNode();
     boolean isSelector = false;
-	selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
+	  selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
     vector.setType(ASTNode.Type.VECTOR);
     vector.addChild(node);
   }
