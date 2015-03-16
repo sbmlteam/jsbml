@@ -277,11 +277,11 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
         t = jj_consume_token(BOOLEAN_LOGIC);
         rightChild = TermLvl2();
       s = t.image;
-      if (s.equalsIgnoreCase("or"))
+      if (s.equalsIgnoreCase("or") || s.equals("||"))
       {
         type = ASTNode.Type.LOGICAL_OR;
       }
-      else if (s.equalsIgnoreCase("and"))
+      else if (s.equalsIgnoreCase("and") || s.equals("&&"))
       {
         type = ASTNode.Type.LOGICAL_AND;
       }
@@ -497,7 +497,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
             node = TermLvl1();
     ASTNode selector = new ASTNode();
     boolean isSelector = false;
-        selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
+          selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
     vector.setType(ASTNode.Type.VECTOR);
     vector.addChild(node);
             label_6:
@@ -634,39 +634,6 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     try { return !jj_3_3(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(2, xla); }
-  }
-
-  private boolean jj_3R_29() {
-    if (jj_scan_token(NOT)) return true;
-    if (jj_3R_10()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_17() {
-    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_26() {
-    if (jj_scan_token(OPEN_PAR)) return true;
-    if (jj_3R_10()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_22() {
-    if (jj_scan_token(DIVIDE)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_28() {
-    if (jj_scan_token(MINUS)) return true;
-    if (jj_3R_19()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_16() {
-    if (jj_scan_token(MINUS)) return true;
-    return false;
   }
 
   private boolean jj_3R_14() {
@@ -869,6 +836,39 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
   private boolean jj_3_1() {
     if (jj_3R_8()) return true;
     if (jj_scan_token(OPEN_PAR)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_29() {
+    if (jj_scan_token(NOT)) return true;
+    if (jj_3R_10()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_26() {
+    if (jj_scan_token(OPEN_PAR)) return true;
+    if (jj_3R_10()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_22() {
+    if (jj_scan_token(DIVIDE)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_28() {
+    if (jj_scan_token(MINUS)) return true;
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_16() {
+    if (jj_scan_token(MINUS)) return true;
     return false;
   }
 
