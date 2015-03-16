@@ -54,7 +54,7 @@ public class FBCConstants {
   public static final String coefficient = "coefficient";
 
   /**
-   * Introduced to FBC in version 2.
+   * @since jsbml 1.1, introduced to FBC in version 2.
    */
   public static final String geneProduct = "geneProduct";
 
@@ -71,9 +71,14 @@ public class FBCConstants {
   public static final String geneProductReference = "geneProductRef";
 
   /**
-   * Introduced to FBC in version 2.
+   * @since jsbml 1.1, introduced to FBC in version 2.
    */
-  public static final String geneProductIdentifier = "geneProductIdentifier";
+  public static final String geneProductIdentifier = "geneProductIdentifier"; // not in use any more?
+
+  /**
+   * 
+   */
+  public static final String label = "label";
 
   /**
    * 
@@ -81,7 +86,7 @@ public class FBCConstants {
   public static final String listOfObjectives = "listOfObjectives";
 
   /**
-   * Introduced to FBC in version 2.
+   * @since jsbml 1.1, introduced to FBC in version 2.
    */
   public static final String listOfGeneProducts = "listOfGeneProducts";
 
