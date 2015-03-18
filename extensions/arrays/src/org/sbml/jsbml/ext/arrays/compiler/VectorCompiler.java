@@ -1249,7 +1249,13 @@ public class VectorCompiler implements ASTNodeCompiler {
   private void transformNamedSBase(SBase sbase) {
     ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
     if (arraysPlugin == null || arraysPlugin.getDimensionCount() == 0) {
-      if (sbase instanceof NamedSBase) {
+      if (sbase instanceof FunctionDefinition) {
+        FunctionDefinition namedSBase = (FunctionDefinition) sbase;
+        ASTNode func = new ASTNode(ASTNode.Type.FUNCTION);
+        func.setName(namedSBase.getId());
+        setNode(func);
+      }
+      else if (sbase instanceof NamedSBase) {
         NamedSBase namedSBase = (NamedSBase) sbase;
         setNode(new ASTNode(namedSBase.getId()));
       }
