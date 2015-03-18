@@ -366,13 +366,13 @@ public class Creator extends AnnotationElement {
    * @return {@link JSBML#OPERATION_SUCCESS}
    */
   public int setEmail(String email) {
-    if ((email != null) && !SyntaxChecker.isValidEmailAddress(email)) {
+    if ((email != null) && !SyntaxChecker.isValidEmailAddress(email.trim())) {
       String errorMessage = MessageFormat.format("Invalid e-mail address {0}", email);
       logger.warn(errorMessage); // TODO: Do we really need both: exception and error?
       throw new IllegalArgumentException(errorMessage);
     }
     String oldValue = this.email;
-    this.email = email;
+    this.email = email.trim();
     firePropertyChange(TreeNodeChangeEvent.email, oldValue, email);
     return JSBML.OPERATION_SUCCESS;
   }
