@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Calendar;
 
 import javax.xml.stream.XMLStreamException;
@@ -654,8 +655,14 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    *             {@link SBMLDocument}.
    */
   public String writeSBMLToString(SBMLDocument sbmlDocument)
-      throws XMLStreamException, SBMLException {    
-    return sbmlWriter.writeSBMLToString(sbmlDocument, getProgramName(), getProgramVersion());
+      throws XMLStreamException, SBMLException { 
+
+    String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, getProgramName(), getProgramVersion());
+    StringWriter stringWriter = new StringWriter();
+    
+    tidy.parse(new StringReader(sbmlDocString), stringWriter); // run tidy, providing an input and output stream
+
+    return stringWriter.toString();
   }
 
   
