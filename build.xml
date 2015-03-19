@@ -61,11 +61,13 @@
 			<propertyresource name="svninfo.xml" />
 		</xmlproperty>
 		<property name="jsbml.revision" value="${info.entry.revision}" />
+		<property name="jsbml.url" value="${info.entry.url}" />
 
 		<echo message="-----------   ${Name} ${version} [${year}] ------------" />
 		<echo message="-----------     ${TODAY}   ------------" />
 		<echo message="-----------     ${DSTAMP} ${TSTAMP}  ------------" />
 		<echo message="-----------   svn revision ${jsbml.revision}  ------------" />
+		<echo message="-----------   svn url ${jsbml.url}  ------------" />
 
 		<property environment="env" />
 		<property name="build.compiler" value="modern" />

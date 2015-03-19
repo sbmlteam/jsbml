@@ -56,6 +56,7 @@
 			<propertyresource name="svninfo.xml"/>
 		</xmlproperty>
 		<property name="jsbml.revision" value="${info.entry.revision}"/>
+		<property name="jsbml.url" value="${info.entry.url}" />
 
 		<echo message="-----------   ${Name} ${version} [${year}] ------------"/>
 		<echo message="-----------     ${TODAY}   ------------"/>
@@ -260,7 +261,7 @@
 				<attribute name="Specification-Version"  value="${api.version}"/>
 				<attribute name="Specification-Vendor"   value="${vendor}"/>
 				<attribute name="Implementation-Title"   value="${Name}"/>
-				<attribute name="Implementation-Version" value="${version}, Revision ${jsbml.revision} (Build ${build.number})"/>
+				<attribute name="Implementation-Version" value="${version}, Revision ${jsbml.revision} (Build ${build.number} ${jsbml.url})"/>
 				<attribute name="Implementation-Vendor"  value="${vendor}"/>
 				<attribute name="Implementation-URL"     value="http://sbml.org/Software/JSBML/"/>
 			</section>
