@@ -169,7 +169,13 @@ public class FBCConstants {
    */
   public static final String value = "value";
 
+  /**
+   * Introduced to FBC in version 2.
+   */
   public static final String and = "and";
+  /**
+   * Introduced to FBC in version 2.
+   */
   public static final String or = "or";
 
   static {

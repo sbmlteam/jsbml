@@ -175,8 +175,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     if (contextObject instanceof SBase) {
       SBase sbase = (SBase) contextObject;
       try {
-        isAttributeRead = sbase.readAttribute(attributeName, prefix,
-          value);
+        isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
       } catch (Throwable exc) {
         log4jLogger.error(exc.getMessage());
         log4jLogger.info("Attribute = " + attributeName + ", element = " + elementName);
@@ -246,27 +245,27 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       Model model = sbmlDocument.getModel();
 
       if (model.isSetAreaUnits() && !model.isSetAreaUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the areaUnitsID of Model.");
+        log4jLogger.warn("No unitDefinition matches the areaUnitsID of the model.");
       }
       if (model.isSetConversionFactor()
           && !model.isSetConversionFactorInstance()) {
-        log4jLogger.warn("No parameter matches the conversionFactorID of Model.");
+        log4jLogger.warn("No parameter matches the conversionFactorID of the model.");
       }
       if (model.isSetExtentUnits() && !model.isSetExtentUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the extentUnitsID of Model.");
+        log4jLogger.warn("No unitDefinition matches the extentUnitsID of the model.");
       }
       if (model.isSetLengthUnits() && !model.isSetLengthUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the lengthUnitsID of Model.");
+        log4jLogger.warn("No unitDefinition matches the lengthUnitsID of the model.");
       }
       if (model.isSetSubstanceUnits()
           && !model.isSetSubstanceUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the substanceUnitsID of Model.");
+        log4jLogger.warn("No unitDefinition matches the substanceUnitsID of the model.");
       }
       if (model.isSetTimeUnits() && !model.isSetTimeUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the timeUnitsID of Model.");
+        log4jLogger.warn("No unitDefinition matches the timeUnitsID of the model.");
       }
       if (model.isSetVolumeUnits() && !model.isSetVolumeUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the volumeUnitsID of Model.");
+        log4jLogger.warn("No unitDefinition matches the volumeUnitsID of the model.");
       }
 
       if (model.isSetListOfRules()) {
@@ -659,10 +658,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return listOfSpeciesTypes;
             } else {
-              log4jLogger.warn("The element " + elementName + " is not recognized");
+              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
             }
           } else {
-            log4jLogger.warn("The element " + elementName + " is not recognized");
+            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
           }
         } else if (contextObject instanceof ListOf<?>) {
           ListOf<?> list = (ListOf<?>) contextObject;
@@ -830,7 +829,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return speciesType;
             } else {
-              log4jLogger.warn("The element " + elementName + " is not recognized");
+              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
             }
           } else if (list.getParentSBMLObject() instanceof UnitDefinition) {
             UnitDefinition unitDefinition = (UnitDefinition) list
@@ -845,7 +844,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return unit;
             } else {
-              log4jLogger.warn("The element " + elementName + " is not recognized");
+              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
             }
           } else if (list.getParentSBMLObject() instanceof Reaction) {
             Reaction reaction = (Reaction) list
@@ -869,7 +868,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
                 return speciesReference;
               } else {
-                log4jLogger.warn("The element " + elementName + " is not recognized");
+                log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
               }
             } else if (elementName.equals("specieReference")
                 && reaction.getLevel() == 1) {
@@ -887,7 +886,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
                 return speciesReference;
               } else {
-                log4jLogger.warn("The element " + elementName + " is not recognized");
+                log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
               }
             } else if (elementName
                 .equals("modifierSpeciesReference")
@@ -899,7 +898,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return modifierSpeciesReference;
             } else {
-              log4jLogger.warn("The element " + elementName + " is not recognized");
+              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
             }
           } else if (list.getParentSBMLObject() instanceof KineticLaw) {
             KineticLaw kineticLaw = (KineticLaw) list
@@ -925,7 +924,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return localParameter;
             } else {
-              log4jLogger.warn("The element " + elementName + " is not recognized");
+              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
             }
           } else if (list.getParentSBMLObject() instanceof Event) {
             Event event = (Event) list.getParentSBMLObject();
@@ -939,10 +938,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return eventAssignment;
             } else {
-              log4jLogger.warn("The element " + elementName + " is not recognized");
+              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
             }
           } else {
-            log4jLogger.warn("The element " + elementName + " is not recognized");
+            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
           }
         } else if (contextObject instanceof UnitDefinition) {
           UnitDefinition unitDefinition = (UnitDefinition) contextObject;
@@ -977,7 +976,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return priority;
           } else {
-            log4jLogger.warn("The element " + elementName + " is not recognized");
+            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
           }
         } else if (contextObject instanceof Reaction) {
           Reaction reaction = (Reaction) contextObject;
@@ -1003,7 +1002,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return kineticLaw;
           } else {
-            log4jLogger.warn("The element " + elementName + " is not recognized");
+            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
           }
         } else if (contextObject instanceof SpeciesReference) {
           SpeciesReference speciesReference = (SpeciesReference) contextObject;
@@ -1014,7 +1013,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return stoichiometryMath;
           } else {
-            log4jLogger.warn("The element " + elementName + " is not recognized");
+            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
           }
         } else if (contextObject instanceof KineticLaw) {
           KineticLaw kineticLaw = (KineticLaw) contextObject;
@@ -1034,7 +1033,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return listOfLocalParameters;
           } else {
-            log4jLogger.warn("The element " + elementName + " is not recognized");
+            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
           }
         } else if (contextObject instanceof Constraint) {
           Constraint constraint = (Constraint) contextObject;
@@ -1047,19 +1046,19 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return constraint;
           } else {
-            log4jLogger.warn("The element " + elementName + " is not recognized");
+            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
           }
         } else {
-          log4jLogger.warn("The element " + elementName + " is not recognized");
+          log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
         }
       } catch (InstantiationException e) {
-        log4jLogger.error("The element " + elementName + " could not be instanciated as a Java object !!");
+        log4jLogger.error(MessageFormat.format("The element ''{0}'' could not be instanciated as a Java object!", elementName));
         log4jLogger.debug(e.getMessage());
         if (log4jLogger.isDebugEnabled()) {
           e.getStackTrace();
         }
       } catch (IllegalAccessException e) {
-        log4jLogger.error("The element " + elementName + " could not be instanciated as a Java object !!");
+        log4jLogger.error(MessageFormat.format("The element ''{0}'' could not be instanciated as a Java object!", elementName));
         log4jLogger.debug(e.getMessage());
         if (log4jLogger.isDebugEnabled()) {
           e.getStackTrace();
@@ -1154,6 +1153,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()
+   */
   @Override
   public List<String> getNamespaces() {
     return namespaces;

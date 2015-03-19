@@ -55,17 +55,20 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
     initDefaults();
   }
 
+  /**
+   * 
+   */
   private void initDefaults() {
-	  setNamespace(FBCConstants.namespaceURI);
+    setNamespace(FBCConstants.namespaceURI);
   }
 
-/**
+  /**
    * @param gpa
    */
   public GeneProteinAssociation(GeneProteinAssociation gpa) {
     super(gpa);
     if (gpa.isSetAssociation()) {
-      setAssociation(gpa.getAssociation().clone());
+      setAssociation((Association) gpa.getAssociation().clone());
     }
   }
 

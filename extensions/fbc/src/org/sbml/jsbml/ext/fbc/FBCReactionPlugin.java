@@ -26,6 +26,7 @@ import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 
@@ -73,15 +74,15 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
    */
   public FBCReactionPlugin(FBCReactionPlugin reactionPlugin) {
     super(reactionPlugin);
-    
+
     if (reactionPlugin.isSetGeneProteinAssociation()) {
-    	setGeneProteinAssociation(reactionPlugin.getGeneProteinAssociation().clone());
+      setGeneProteinAssociation(reactionPlugin.getGeneProteinAssociation().clone());
     }
     if (reactionPlugin.isSetLowerFluxBound()) {
-    	setLowerFluxBound(reactionPlugin.getLowerFluxBound());
+      setLowerFluxBound(reactionPlugin.getLowerFluxBound());
     }
     if (reactionPlugin.isSetUpperFluxBound()) {
-    	setUpperFluxBound(reactionPlugin.getUpperFluxBound());
+      setUpperFluxBound(reactionPlugin.getUpperFluxBound());
     }
   }
 
@@ -118,7 +119,6 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
     setGeneProteinAssociation(gpa);
     return gpa;
   }
-
 
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
@@ -212,6 +212,27 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
     return "";
   }
 
+  /**
+   * 
+   * @return
+   */
+  public Parameter getLowerFluxBoundInstande() {
+    if (getModel() == null) {
+      return null;
+    }
+    return getModel().getParameter(getLowerFluxBound());
+  }
+
+  /**
+   * 
+   * @return
+   */
+  private Model getModel() {
+    if (isSetExtendedSBase()) {
+      return extendedSBase.getModel();
+    }
+    return null;
+  }
 
   /**
    * Returns the value of {@link #upperFluxBound}.
@@ -223,6 +244,17 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
       return upperFluxBound;
     }
     return "";
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public Parameter getUpperFluxBoundInstance() {
+    if (getModel() == null) {
+      return null;
+    }
+    return getModel().getParameter(getUpperFluxBound());
   }
 
   /* (non-Javadoc)
@@ -257,12 +289,28 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   }
 
   /**
+   * 
+   * @return
+   */
+  public boolean isSetLowerFluxBoundInstance() {
+    return getLowerFluxBoundInstande() != null;
+  }
+
+  /**
    * Returns whether {@link #upperFluxBound} is set.
    *
    * @return whether {@link #upperFluxBound} is set.
    */
   public boolean isSetUpperFluxBound() {
     return upperFluxBound != null;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetUpperFluxBoundInstance() {
+    return getUpperFluxBoundInstance() != null;
   }
 
   /* (non-Javadoc)
@@ -296,6 +344,17 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   }
 
   /**
+   * 
+   * @param boundParameter
+   */
+  public void setLowerFluxBound(Parameter boundParameter) {
+    if (!boundParameter.isSetId()) {
+      throw new IllegalArgumentException("Flux bound parameter must have an id.");
+    }
+    setLowerFluxBound(boundParameter.getId());
+  }
+
+  /**
    * Sets the value of lowerFluxBound
    * @param lowerFluxBound
    */
@@ -303,6 +362,17 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
     String oldLowerFluxBound = this.lowerFluxBound;
     this.lowerFluxBound = lowerFluxBound;
     firePropertyChange(FBCConstants.lowerFluxBound, oldLowerFluxBound, this.lowerFluxBound);
+  }
+
+  /**
+   * 
+   * @param boundParameter
+   */
+  public void setUpperFluxBound(Parameter boundParameter) {
+    if (!boundParameter.isSetId()) {
+      throw new IllegalArgumentException("Flux bound parameter must have an id.");
+    }
+    setUpperFluxBound(boundParameter.getId());
   }
 
   /**
@@ -386,37 +456,15 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = new TreeMap<String, String>();
-    
+
     if (isSetLowerFluxBound()) {
       attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.lowerFluxBound, getLowerFluxBound());
     }
     if (isSetUpperFluxBound()) {
       attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.upperFluxBound, getUpperFluxBound());
     }
-    
+
     return attributes;
-  }
-
-  /**
-   * 
-   * @param boundParameter
-   */
-  public void setLowerFluxBound(Parameter boundParameter) {
-    if (!boundParameter.isSetId()) {
-      throw new IllegalArgumentException("Flux bound parameter must have an id.");
-    }
-    setLowerFluxBound(boundParameter.getId());
-  }
-
-  /**
-   * 
-   * @param boundParameter
-   */
-  public void setUpperFluxBound(Parameter boundParameter) {
-    if (!boundParameter.isSetId()) {
-      throw new IllegalArgumentException("Flux bound parameter must have an id.");
-    }
-    setUpperFluxBound(boundParameter.getId());
   }
 
 }

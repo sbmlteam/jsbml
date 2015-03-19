@@ -25,6 +25,7 @@ import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
@@ -37,6 +38,72 @@ import org.sbml.jsbml.xml.XMLNode;
  * @date 21.10.2013
  */
 public class SBMLtools {
+
+  /**
+   * 
+   * @param model
+   */
+  public static final void addPredefinedUnitDefinitions(Model model) {
+    boolean isL3 = model.getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) >= 0;
+    if (model.getUnitDefinition(UnitDefinition.SUBSTANCE) == null) {
+      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.substance(2, 4), model.getLevel(), model.getVersion()));
+      if (isL3) {
+        model.setSubstanceUnits(UnitDefinition.SUBSTANCE);
+      }
+    }
+    if (model.getUnitDefinition(UnitDefinition.VOLUME) == null) {
+      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.volume(2, 4), model.getLevel(), model.getVersion()));
+      if (isL3) {
+        model.setVolumeUnits(UnitDefinition.VOLUME);
+      }
+    }
+    if (model.getUnitDefinition(UnitDefinition.AREA) == null) {
+      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.area(2, 4), model.getLevel(), model.getVersion()));
+      if (isL3) {
+        model.setAreaUnits(UnitDefinition.AREA);
+      }
+    }
+    if (model.getUnitDefinition(UnitDefinition.LENGTH) == null) {
+      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.length(2, 4), model.getLevel(), model.getVersion()));
+      if (isL3) {
+        model.setLengthUnits(UnitDefinition.LENGTH);
+      }
+    }
+    if (model.getUnitDefinition(UnitDefinition.TIME) == null) {
+      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.time(2, 4), model.getLevel(), model.getVersion()));
+      if (isL3) {
+        model.setTimeUnits(UnitDefinition.TIME);
+      }
+    }
+  }
+
+  /**
+   * @param nsb
+   * @return preferably the id if it is set, otherwise the name or an empty
+   *         {@link String} if both is undefined.
+   */
+  public static final String getIdOrName(NamedSBase nsb) {
+    if (nsb.isSetId()) {
+      return nsb.getId();
+    } else if (nsb.isSetName()) {
+      return nsb.getId();
+    }
+    return "";
+  }
+
+  /**
+   * @param nsb
+   * @return preferably the name if is set otherwise the id or an empty
+   *         {@link String} if both is undefined.
+   */
+  public static final String getNameOrId(NamedSBase nsb) {
+    if (nsb.isSetName()) {
+      return nsb.getName();
+    } else if (nsb.isSetId()) {
+      return nsb.getId();
+    }
+    return "";
+  }
 
   /**
    * 
@@ -85,44 +152,6 @@ public class SBMLtools {
 
   /**
    * 
-   * @param model
-   */
-  public static final void addPredefinedUnitDefinitions(Model model) {
-    boolean isL3 = model.getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) >= 0;
-    if (model.getUnitDefinition(UnitDefinition.SUBSTANCE) == null) {
-      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.substance(2, 4), model.getLevel(), model.getVersion()));
-      if (isL3) {
-        model.setSubstanceUnits(UnitDefinition.SUBSTANCE);
-      }
-    }
-    if (model.getUnitDefinition(UnitDefinition.VOLUME) == null) {
-      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.volume(2, 4), model.getLevel(), model.getVersion()));
-      if (isL3) {
-        model.setVolumeUnits(UnitDefinition.VOLUME);
-      }
-    }
-    if (model.getUnitDefinition(UnitDefinition.AREA) == null) {
-      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.area(2, 4), model.getLevel(), model.getVersion()));
-      if (isL3) {
-        model.setAreaUnits(UnitDefinition.AREA);
-      }
-    }
-    if (model.getUnitDefinition(UnitDefinition.LENGTH) == null) {
-      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.length(2, 4), model.getLevel(), model.getVersion()));
-      if (isL3) {
-        model.setLengthUnits(UnitDefinition.LENGTH);
-      }
-    }
-    if (model.getUnitDefinition(UnitDefinition.TIME) == null) {
-      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.time(2, 4), model.getLevel(), model.getVersion()));
-      if (isL3) {
-        model.setTimeUnits(UnitDefinition.TIME);
-      }
-    }
-  }
-
-  /**
-   * 
    * @param xml
    * @return
    */
@@ -134,7 +163,6 @@ public class SBMLtools {
     } catch (RuntimeException e) {
       return ""; // needed when xml is null for example.
     }
-
   }
 
 }

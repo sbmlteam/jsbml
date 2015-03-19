@@ -52,7 +52,7 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
   /**
    * @param plugin
    */
-  public AbstractSpatialSBasePlugin(AbstractSBasePlugin plugin) {
+  public AbstractSpatialSBasePlugin(AbstractSpatialSBasePlugin plugin) {
     super(plugin);
   }
 

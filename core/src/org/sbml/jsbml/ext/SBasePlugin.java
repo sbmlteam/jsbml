@@ -56,6 +56,12 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
   public boolean equals(Object obj);
 
   /**
+   * Returns the XML namespace (URI) of the package extension of this plugin object.
+   * @return the URI of the package extension of this plugin object.
+   */
+  public String getElementNamespace();
+
+  /**
    * Returns the SBase object that is extended by this plug-in.
    * 
    * @return the SBase object that is extended by this plug-in.
@@ -65,57 +71,9 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
   /**
    * 
    * @return
-   */
-  @Override
-  public int hashCode();
-
-  /**
-   * Check whether an extended SBase has been set.
-   * 
-   * @return
-   */
-  public boolean isSetExtendedSBase();
-
-  /**
-   * Reads and sets the attribute if it is know from this {@link SBasePlugin}.
-   * 
-   * @param attributeName
-   *           localName of the XML attribute
-   * @param prefix
-   *           prefix of the XML attribute
-   * @param value
-   *           value of the XML attribute
-   * @return {@code true} if the attribute has been successfully read.
-   */
-  public boolean readAttribute(String attributeName, String prefix, String value);
-
-  /**
-   * Returns a {@link Map} containing the XML attributes of this object.
-   * 
-   * @return a {@link Map} containing the XML attributes of this object.
-   */
-  public Map<String, String> writeXMLAttributes();
-
-
-  /**
-   * 
-   * @return
    * @see SBase#getLevel()
    */
   public int getLevel();
-
-  /**
-   * 
-   * @return
-   * @see SBase#getVersion()
-   */
-  public int getVersion();
-
-  /**
-   * Returns the XML namespace (URI) of the package extension of this plugin object.
-   * @return the URI of the package extension of this plugin object.
-   */
-  public String getElementNamespace();
 
   /**
    * Returns the package name of this plugin object.
@@ -128,6 +86,7 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
    * @return the package version of the package extension of this plugin object.
    */
   public int getPackageVersion();
+
 
   /**
    * Returns the parent {@link SBase} object to which this plugin object connected.
@@ -164,6 +123,57 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
    */
   public String getURI();
 
+  /**
+   * 
+   * @return
+   * @see SBase#getVersion()
+   */
+  public int getVersion();
+
+  /**
+   * 
+   * @return
+   */
+  @Override
+  public int hashCode();
+
+  /**
+   * Check whether an extended SBase has been set.
+   * 
+   * @return
+   */
+  public boolean isSetExtendedSBase();
+
+  /**
+   * @return {@code true} if a package version is set, {@code false} otherwise.
+   */
+  public abstract boolean isSetPackageVersion();
+
+  /**
+   * Reads and sets the attribute if it is know from this {@link SBasePlugin}.
+   * 
+   * @param attributeName
+   *           localName of the XML attribute
+   * @param prefix
+   *           prefix of the XML attribute
+   * @param value
+   *           value of the XML attribute
+   * @return {@code true} if the attribute has been successfully read.
+   */
+  public boolean readAttribute(String attributeName, String prefix, String value);
+
+  /**
+   * @param packageVersion the packageVersion to set
+   */
+  public abstract void setPackageVersion(int packageVersion);
+
+  /**
+   * Returns a {@link Map} containing the XML attributes of this object.
+   * 
+   * @return a {@link Map} containing the XML attributes of this object.
+   */
+  public Map<String, String> writeXMLAttributes();
+
   //  /**
   //   * Sets the XML namespace to which this element belongs to.
   //   * For example, all elements that belong to SBML Level 3 Version 1 Core
@@ -175,6 +185,5 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
   //   * @return boolean indicating success/failure of the function. The possible values returned by this function are:
   //   */
   //  public boolean setElementNamespace(String uri);
-
 
 }

@@ -1630,7 +1630,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     List<Reaction> reactionList = mapOfLocalParameters.get(id);
     SortedSet<String> reactionIdSet = null;
 
-    if (reactionList != null && reactionList.size() > 0)
+    if ((reactionList != null) && (reactionList.size() > 0))
     {
       reactionIdSet = new TreeSet<String>();
 
