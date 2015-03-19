@@ -341,13 +341,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
       // Making sure that the correct extendedSBase is set in the SBasePlugin
       // And that all the ids and metaids are registered
-      if (sbasePlugin.getExtendedSBase() == null || sbasePlugin.getExtendedSBase() != this) {
+      if ((sbasePlugin.getExtendedSBase() == null) || (sbasePlugin.getExtendedSBase() != this)) {
         ((AbstractSBasePlugin) sbasePlugin).setExtendedSBase(this);
       }
 
       firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbasePlugin);
     } else {
-      throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
+      throw new IllegalArgumentException(MessageFormat.format(
+        "The package namespace or name ''{0}'' is unknown!", nameOrUri));
     }
   }
 
@@ -1552,6 +1553,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return isSetParent();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#isSetPlugin(java.lang.String)
+   */
   @Override
   public boolean isSetPlugin(String nameOrUri) {
 
@@ -1559,11 +1563,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
 
     if (packageParser != null) {
-
-      return extensions.get(packageParser.getPackageName()) != null;
+      SBasePlugin extension = extensions.get(packageParser.getPackageName());
+      if (extension != null) {
+        return extension.getElementNamespace().equals(nameOrUri);
+      }
+      return false;
     }
 
-    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
+    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!", nameOrUri));
   }
 
   /* (non-Javadoc)

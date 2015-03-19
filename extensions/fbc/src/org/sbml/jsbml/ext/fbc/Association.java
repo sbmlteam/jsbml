@@ -29,11 +29,4 @@ import org.sbml.jsbml.SBase;
  * @date 06.03.2015
  */
 public interface Association extends SBase {
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.SBase#clone()
-   */
-  @Override
-  public Association clone();
-
 }

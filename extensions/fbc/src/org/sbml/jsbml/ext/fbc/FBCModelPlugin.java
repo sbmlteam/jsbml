@@ -29,6 +29,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.xml.XMLNode;
 
 /**
@@ -828,6 +829,26 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   @Override
   public Map<String, String> writeXMLAttributes() {
     return null;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public Objective getActiveObjectiveInstsance() {
+    if (!isSetActiveObjective()) {
+      return null;
+    }
+
+    return getListOfObjectives().firstHit(new NameFilter(getActiveObjective()));
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetActiveObjective() {
+    return isSetListOfObjectives() && getListOfObjectives().isSetActiveObjective();
   }
 
 }

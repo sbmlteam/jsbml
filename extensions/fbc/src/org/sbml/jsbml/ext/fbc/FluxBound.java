@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
@@ -68,6 +69,23 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     LESS_EQUAL("lessEqual");
 
     /**
+     * @param value
+     * @return
+     */
+    public static Operation fromString(String value) {
+      if (value == null) {
+        throw new IllegalArgumentException();
+      }
+
+      for (Operation v : values()) {
+        if (value.equalsIgnoreCase(v.id)) {
+          return v;
+        }
+      }
+      throw new IllegalArgumentException();
+    }
+
+    /**
      * SBML attribute name.
      */
     private String id;
@@ -87,23 +105,6 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     @Override
     public String toString() {
       return id;
-    }
-
-    /**
-     * @param value
-     * @return
-     */
-    public static Operation fromString(String value) {
-      if (value == null) {
-        throw new IllegalArgumentException();
-      }
-
-      for (Operation v : values()) {
-        if (value.equalsIgnoreCase(v.id)) {
-          return v;
-        }
-      }
-      throw new IllegalArgumentException();
     }
 
   }
@@ -227,20 +228,6 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  @Deprecated
-  public int hashCode() {
-    final int prime = 2029;
-    int result = super.hashCode();
-    result = prime * result + ((operation == null) ? 0 : operation.hashCode());
-    result = prime * result + ((reaction == null) ? 0 : reaction.hashCode());
-    result = prime * result + ((value == null) ? 0 : value.hashCode());
-    return result;
-  }
-
-  /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -299,6 +286,18 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * @return The {@link Reaction} to which this flux bound belongs.
+   * @deprecated Only defined in FBC version 1.
+   */
+  @Deprecated
+  public Reaction getReactionInstance() {
+    if (getModel() == null) {
+      return null;
+    }
+    return getModel().getReaction(getReaction());
+  }
+
+  /**
    * Returns the value
    * 
    * @return the value
@@ -307,6 +306,20 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   @Deprecated
   public double getValue() {
     return isSetValue() ? value : Double.valueOf(0d);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  @Deprecated
+  public int hashCode() {
+    final int prime = 2029;
+    int result = super.hashCode();
+    result = prime * result + ((operation == null) ? 0 : operation.hashCode());
+    result = prime * result + ((reaction == null) ? 0 : reaction.hashCode());
+    result = prime * result + ((value == null) ? 0 : value.hashCode());
+    return result;
   }
 
   /**
@@ -325,6 +338,39 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   @Deprecated
   public boolean isIdMandatory() {
     return false;
+  }
+
+  /**
+   * Returns whether operation is set
+   *
+   * @return whether operation is set
+   * @deprecated Only defined in FBC version 1.
+   */
+  @Deprecated
+  public boolean isSetOperation() {
+    return operation != null;
+  }
+
+  /**
+   * Returns whether reaction is set
+   *
+   * @return whether reaction is set
+   * @deprecated Only defined in FBC version 1.
+   */
+  @Deprecated
+  public boolean isSetReaction() {
+    return reaction != null;
+  }
+
+  /**
+   * @return {@code true} if a {@link Reaction} with the id given by
+   *         {@link #getReaction} exists in the {@link Model}, {@code false}
+   *         otherwise.
+   * @deprecated Only defined in FBC version 1.
+   */
+  @Deprecated
+  public boolean isSetReactionInstance() {
+    return getReactionInstance() != null;
   }
 
   /**
@@ -421,6 +467,60 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     firePropertyChange(FBCConstants.value, oldValue, this.value);
   }
 
+  /**
+   * Unsets the variable operation
+   *
+   * @return {@code true}, if operation was set before,
+   *         otherwise {@code false}
+   * @deprecated Only defined in FBC version 1.
+   */
+  @Deprecated
+  public boolean unsetOperation() {
+    if (isSetOperation()) {
+      Operation oldOperation = operation;
+      operation = null;
+      firePropertyChange(FBCConstants.operation, oldOperation, operation);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Unsets the variable reaction
+   *
+   * @return {@code true}, if reaction was set before,
+   *         otherwise {@code false}
+   * @deprecated Only defined in FBC version 1.
+   */
+  @Deprecated
+  public boolean unsetReaction() {
+    if (isSetReaction()) {
+      String oldReaction = reaction;
+      reaction = null;
+      firePropertyChange(FBCConstants.reaction, oldReaction, reaction);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Unsets the variable value
+   *
+   * @return {@code true}, if value was set before,
+   *         otherwise {@code false}
+   * @deprecated Only defined in FBC version 1.
+   */
+  @Deprecated
+  public boolean unsetValue() {
+    if (isSetValue()) {
+      double oldValue = value;
+      value = null;
+      firePropertyChange(FBCConstants.value, oldValue, value);
+      return true;
+    }
+    return false;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
    */
@@ -451,82 +551,6 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     }
 
     return attributes;
-  }
-
-  /**
-   * Unsets the variable value
-   *
-   * @return {@code true}, if value was set before,
-   *         otherwise {@code false}
-   * @deprecated Only defined in FBC version 1.
-   */
-  @Deprecated
-  public boolean unsetValue() {
-    if (isSetValue()) {
-      double oldValue = value;
-      value = null;
-      firePropertyChange(FBCConstants.value, oldValue, value);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Returns whether operation is set
-   *
-   * @return whether operation is set
-   * @deprecated Only defined in FBC version 1.
-   */
-  @Deprecated
-  public boolean isSetOperation() {
-    return operation != null;
-  }
-
-  /**
-   * Unsets the variable operation
-   *
-   * @return {@code true}, if operation was set before,
-   *         otherwise {@code false}
-   * @deprecated Only defined in FBC version 1.
-   */
-  @Deprecated
-  public boolean unsetOperation() {
-    if (isSetOperation()) {
-      Operation oldOperation = operation;
-      operation = null;
-      firePropertyChange(FBCConstants.operation, oldOperation, operation);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Returns whether reaction is set
-   *
-   * @return whether reaction is set
-   * @deprecated Only defined in FBC version 1.
-   */
-  @Deprecated
-  public boolean isSetReaction() {
-    return reaction != null;
-  }
-
-  /**
-   * Unsets the variable reaction
-   *
-   * @return {@code true}, if reaction was set before,
-   *         otherwise {@code false}
-   * @deprecated Only defined in FBC version 1.
-   */
-  @Deprecated
-  public boolean unsetReaction() {
-    if (isSetReaction()) {
-      String oldReaction = reaction;
-      reaction = null;
-      firePropertyChange(FBCConstants.reaction, oldReaction, reaction);
-      return true;
-    }
-    return false;
   }
 
 }

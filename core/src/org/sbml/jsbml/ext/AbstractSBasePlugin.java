@@ -40,22 +40,6 @@ import org.sbml.jsbml.SBase;
  */
 public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SBasePlugin {
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getLevel()
-   */
-  @Override
-  public int getLevel() {
-    return isSetExtendedSBase() ? getExtendedSBase().getLevel() : -1;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getVersion()
-   */
-  @Override
-  public int getVersion() {
-    return isSetExtendedSBase() ? getExtendedSBase().getVersion() : -1;
-  }
-
   /**
    * Generated serial version identifier.
    */
@@ -65,6 +49,11 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
    * 
    */
   protected SBase extendedSBase;
+
+  /**
+   * 
+   */
+  protected int packageVersion = -1;
 
   /**
    * 
@@ -85,27 +74,19 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
    * This method will need to be further tested
    * @param plugin
    */
-  public AbstractSBasePlugin(AbstractSBasePlugin plugin) {
+  public AbstractSBasePlugin(SBasePlugin plugin) {
     super(plugin);
-
+    setPackageVersion(plugin.getPackageVersion());
     // the extendedSBase will be set when the cloned SBasePlugin is added inside an SBase
     // then the ids of is children will be registered in the correct maps.
     extendedSBase = null;
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getExtendedSBase()
-   */
-  @Override
-  public SBase getExtendedSBase() {
-    return extendedSBase;
-  }
-
-  /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */
   @Override
-  public abstract AbstractSBasePlugin clone();
+  public abstract SBasePlugin clone();
 
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
@@ -116,59 +97,6 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     boolean equal = super.equals(object);
     return equal;
   }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#isSetExtendedSBase()
-   */
-  @Override
-  public boolean isSetExtendedSBase() {
-    return extendedSBase != null;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    // A constant and arbitrary, sufficiently large prime number:
-    final int prime = 769;
-    int hashCode = super.hashCode();
-    if (isSetExtendedSBase()) {
-      hashCode += prime * getExtendedSBase().hashCode();
-    }
-    return hashCode;
-  }
-
-  /**
-   * 
-   */
-  protected int packageVersion;
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageVersion()
-   */
-  @Override
-  public int getPackageVersion() {
-    return packageVersion;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getParentSBMLObject()
-   */
-  @Override
-  public SBase getParentSBMLObject() {
-    return (SBase) getParent();
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getSBMLDocument()
-   */
-  @Override
-  public SBMLDocument getSBMLDocument() {
-    return isSetExtendedSBase() ? getExtendedSBase().getSBMLDocument() : null;
-  }
-
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#fireNodeAddedEvent()
@@ -211,6 +139,101 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     super.firePropertyChange(propertyName, oldValue, newValue);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getExtendedSBase()
+   */
+  @Override
+  public SBase getExtendedSBase() {
+    return extendedSBase;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getLevel()
+   */
+  @Override
+  public int getLevel() {
+    return isSetExtendedSBase() ? getExtendedSBase().getLevel() : -1;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageVersion()
+   */
+  @Override
+  public int getPackageVersion() {
+    return packageVersion;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public SBase getParentSBMLObject() {
+    return (SBase) getParent();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getSBMLDocument()
+   */
+  @Override
+  public SBMLDocument getSBMLDocument() {
+    return isSetExtendedSBase() ? getExtendedSBase().getSBMLDocument() : null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getVersion()
+   */
+  @Override
+  public int getVersion() {
+    return isSetExtendedSBase() ? getExtendedSBase().getVersion() : -1;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    // A constant and arbitrary, sufficiently large prime number:
+    final int prime = 769;
+    int hashCode = super.hashCode();
+    if (isSetExtendedSBase()) {
+      hashCode += prime * getExtendedSBase().hashCode();
+    }
+    return hashCode;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#isSetExtendedSBase()
+   */
+  @Override
+  public boolean isSetExtendedSBase() {
+    return extendedSBase != null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#isSetPackageVersion()
+   */
+  @Override
+  public boolean isSetPackageVersion() {
+    return packageVersion > 0;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#removeFromParent()
+   */
+  @Override
+  public boolean removeFromParent() {
+
+    if (getParentSBMLObject() != null) {
+      SBase parentSBase = getParentSBMLObject();
+      int n = parentSBase.getExtensionCount();
+      parentSBase.unsetExtension(getPackageName());
+
+      return n > parentSBase.getExtensionCount();
+    }
+
+    return super.removeFromParent();
+  }
+
   /**
    * Sets the extended {@link SBase}.
    * 
@@ -245,23 +268,14 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#removeFromParent()
+   * @see org.sbml.jsbml.ext.SBasePlugin#setPackageVersion(int)
    */
   @Override
-  public boolean removeFromParent() {
-
-    if (getParentSBMLObject() != null) {
-      SBase parentSBase = getParentSBMLObject();
-      int n = parentSBase.getExtensionCount();
-      parentSBase.unsetExtension(getPackageName());
-
-      return n > parentSBase.getExtensionCount();
-    }
-
-    return super.removeFromParent();
+  public void setPackageVersion(int packageVersion) {
+    int oldVersion = this.packageVersion;
+    this.packageVersion = packageVersion;
+    firePropertyChange("packageVersion", oldVersion, packageVersion);
   }
-
-
 
   /*
    * (non-Javadoc)
