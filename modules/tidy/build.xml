@@ -121,6 +121,7 @@
     <echo message="   compile  --> compiles the source code"/>
     <echo message="   jar      --> generates the ${name}.jar file"/>
     <echo message="   javadoc  --> generates the API documentation"/>
+    <echo message="   dist     --> generates the ${Name} distribution"/>
     <echo message="   clean    --> cleans up the directory"/>
     <echo message=""/>
     <echo message=" See the comments inside the build.xml file for more details."/>
