@@ -140,7 +140,7 @@
 			<fileset 
   	            dir="${test.src.dir}"
   	        	includes="org/sbml/jsbml/**"
-  	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
+  	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip **/CreateUncertMLXMLNode.java">
 			</fileset>
 		</copy>
 
