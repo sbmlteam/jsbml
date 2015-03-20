@@ -73,7 +73,7 @@
 		<property name="verbose" value="false"/>
 
 		<property name="build.number" value="${DSTAMP}-${TSTAMP}"/>
-		<property name="build.name" value="${version} (build ${build.number})"/>
+		<property name="build.name" value="${version} (build ${jsbml.revision}-${build.number})"/>
 
 		<property name="src.dir" value="${basedir}/src"/>
 		<property name="test.src.dir" value="${basedir}/test"/>
