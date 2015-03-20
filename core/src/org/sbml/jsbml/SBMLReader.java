@@ -75,6 +75,15 @@ public class SBMLReader implements Cloneable, Serializable {
   private static final SBMLReader reader = new SBMLReader();
 
   /**
+   * String used when reading an SBML file, to store XMLNode as user object
+   * when the XMLNode does not represents something known from the 'core'.
+   * 
+   * What SBML core know is Notes, Annotation and the Constraint message that
+   * are all encoded as XMLNode.
+   */
+  public static String UNKNOWN_XML_NODE = "jsbml.reader.unknown.xmlnode";
+
+  /**
    * Factory method for reading SBML from a given {@link File}.
    * 
    * @param file

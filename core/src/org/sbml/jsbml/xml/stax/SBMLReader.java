@@ -430,6 +430,7 @@ public class SBMLReader {
   public XMLNode readNotes(String notesXHTML, TreeNodeChangeListener listener)
       throws XMLStreamException {
     Object object = readXMLFromString(notesXHTML, listener);
+    
     if ((object != null) && (object instanceof Constraint)) {
       Constraint constraint = ((Constraint) object);
 
@@ -448,8 +449,19 @@ public class SBMLReader {
         if (annotation != null) {
           return annotation;
         }
+      } else if (constraint.getUserObject(org.sbml.jsbml.SBMLReader.UNKNOWN_XML_NODE) != null) {
+        return (XMLNode) constraint.getUserObject(org.sbml.jsbml.SBMLReader.UNKNOWN_XML_NODE);
       }
     }
+    else if ((object != null) && (object instanceof XMLNode)) 
+    {
+      // Should not happen at the moment but could if readXMLFromString returned directly
+      // the XMLNode instead of a Constraint object.
+      return (XMLNode) object;
+    }
+    
+    logger.warn("Tried to read @" + notesXHTML + "@ as XMLNode without success ! ");
+    
     return null;
   }
 
@@ -627,6 +639,7 @@ public class SBMLReader {
             initializedParsers.put(ASTNode.URI_MATHML_DEFINITION, new MathMLStaxParser());
             currentNode = new QName(ASTNode.URI_MATHML_DEFINITION, "math");
           }
+          // TODO - add something generic for the L3 packages or change all the parsers to work if the contextObject is 'null' ??
 
         } else if (currentNode.getLocalPart().equals("annotation")) {
 

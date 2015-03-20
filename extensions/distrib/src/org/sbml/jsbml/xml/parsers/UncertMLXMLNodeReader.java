@@ -28,6 +28,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
+import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.distrib.DistribConstants;
 import org.sbml.jsbml.ext.distrib.DrawFromDistribution;
 import org.sbml.jsbml.ext.distrib.Uncertainty;
@@ -169,8 +172,19 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
       parentNode.addChild(xmlNode);
       // logger.debug("XMLNode.toXMLString() = \n@" + parentNode.toXMLString() + "@");
       // logger.debug("XMLNode.parent.toXMLString() = \n@" + ((XMLNode) parentNode.getParent()).toXMLString() + "@");
+    } else if (contextObject instanceof Constraint) {
+      
+      // We assume that we are parsing an UncertML String on it's own.
+      // We store the xmlNode in the user objects
+      ((SBase) contextObject).putUserObject(SBMLReader.UNKNOWN_XML_NODE, xmlNode);
+      
+    } else if (contextObject == null) {
+
+      // Could happen when we are parsing an UncertML String on it's own, if we don't use the SBase user object. 
+      // nothing to do
+      
     } else {
-      logger.warn("XMLNode might be lost !!! elementName = @" + elementName + "@");
+      logger.warn("XMLNode might be lost !!! elementName = '" + elementName + "' contextObject = " + contextObject.getClass().getSimpleName());
     }
 
     return xmlNode;
