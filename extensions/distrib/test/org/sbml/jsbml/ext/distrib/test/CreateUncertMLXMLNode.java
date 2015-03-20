@@ -36,7 +36,6 @@ import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.TidySBMLWriter;
 import org.sbml.jsbml.ext.distrib.DistribFunctionDefinitionPlugin;
 import org.sbml.jsbml.ext.distrib.DrawFromDistribution;
-import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.xml.XMLAttributes;
@@ -102,7 +101,13 @@ public class CreateUncertMLXMLNode {
     DistribFunctionDefinitionPlugin dfd = (DistribFunctionDefinitionPlugin) f.getPlugin("distrib");
     DrawFromDistribution drawfd = dfd.createDrawFromDistribution();
     drawfd.setUncertML(xmlNode);
+
+    FunctionDefinition g = m.createFunctionDefinition("g");
+    dfd = (DistribFunctionDefinitionPlugin) g.getPlugin("distrib");
+    drawfd = dfd.createDrawFromDistribution();
     
+    XMLNode uncertMLNode = XMLNode.convertStringToXMLNode(uncertML);
+    drawfd.setUncertML(uncertMLNode);
     
     String docStr = new TidySBMLWriter().writeSBMLToString(doc);
     
@@ -110,7 +115,7 @@ public class CreateUncertMLXMLNode {
     
     SBMLDocument doc2 = new SBMLReader().readSBMLFromString(docStr);
     
-    System.out.println("Function f, type = " + r.getKineticLaw().getMath().getType());
+    // System.out.println("Function f, type = " + r.getKineticLaw().getMath().getType());
     
     String docStr2 = new TidySBMLWriter().writeSBMLToString(doc2);
     
