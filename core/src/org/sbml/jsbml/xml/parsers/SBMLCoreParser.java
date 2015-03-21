@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
@@ -64,6 +65,8 @@ import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.ResourceManager;
+import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
@@ -101,7 +104,12 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
   /**
    * Log4j logger
    */
-  private Logger log4jLogger = Logger.getLogger(SBMLCoreParser.class);
+  private static final transient Logger log4jLogger = Logger.getLogger(SBMLCoreParser.class);
+
+  /**
+   * Localization support.
+   */
+  private static final transient ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages");
 
   /**
    * Creates a SBMLCoreParser instance. Initializes the sbmlCoreElements of
@@ -164,7 +172,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
   {
 
     if (log4jLogger.isDebugEnabled()) {
-      log4jLogger.debug(" process the attribute: '" + attributeName + "' (value = " + value + ") on element '" + elementName + "' (" + contextObject + ").");
+      log4jLogger.debug(MessageFormat.format(
+        "processing the attribute: ''{0}'' (value = {1}) on element ''{2}'' ({3}).",
+        attributeName, value, elementName, contextObject));
     }
 
     boolean isAttributeRead = false;
@@ -196,7 +206,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         isAttributeRead = true;
       } catch (IllegalArgumentException e) {
         // TODO: Write from which element the error is coming from: astNode.getParentSBMLObject();
-        log4jLogger.info(e.getMessage());
+        log4jLogger.warn(e.getMessage());
         // Log the error to the ErrorLog object ??
       }
 
@@ -206,7 +216,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     if (!isAttributeRead) {
       // TODO: Here we should add a hint which SBML Level/Version combination is used.
       log4jLogger.warn(MessageFormat.format(
-        "Could not recognize the attribute \"{0}\" on the element {1}. Please check the specification for SBML.", // Level {2,number,integer} Version {3,number,integer}
+        bundle.getString("SBMLCoreParser.unknownAttributeOnElement"), // Level {2,number,integer} Version {3,number,integer}
         attributeName, elementName));
       //  Log the error to the ErrorLog object ??
 
@@ -245,27 +255,48 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       Model model = sbmlDocument.getModel();
 
       if (model.isSetAreaUnits() && !model.isSetAreaUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the areaUnitsID of the model.");
+        log4jLogger.warn(MessageFormat.format(
+          bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+          "UnitDefinition", "areaUnitsID", model.getAreaUnits(),
+          model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetConversionFactor()
           && !model.isSetConversionFactorInstance()) {
-        log4jLogger.warn("No parameter matches the conversionFactorID of the model.");
+        log4jLogger.warn(MessageFormat.format(
+          bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+          "Parameter", "conversionFactorID", model.getConversionFactor(),
+          model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetExtentUnits() && !model.isSetExtentUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the extentUnitsID of the model.");
+        log4jLogger.warn(MessageFormat.format(
+          bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+          "UnitDefinition", "extentUnitsID", model.getExtentUnits(),
+          model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetLengthUnits() && !model.isSetLengthUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the lengthUnitsID of the model.");
+        log4jLogger.warn(MessageFormat.format(
+          bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+          "UnitDefinition", "lengthUnitsID", model.getLengthUnits(),
+          model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetSubstanceUnits()
           && !model.isSetSubstanceUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the substanceUnitsID of the model.");
+        log4jLogger.warn(MessageFormat.format(
+          bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+          "UnitDefinition", "substanceUnitsID", model.getSubstanceUnits(),
+          model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetTimeUnits() && !model.isSetTimeUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the timeUnitsID of the model.");
+        log4jLogger.warn(MessageFormat.format(
+          bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+          "UnitDefinition", "timeUnitsID", model.getTimeUnits(),
+          model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetVolumeUnits() && !model.isSetVolumeUnitsInstance()) {
-        log4jLogger.warn("No unitDefinition matches the volumeUnitsID of the model.");
+        log4jLogger.warn(MessageFormat.format(
+          bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+          "UnitDefinition", "volumeUnitsID", model.getVolumeUnits(),
+          model.getElementName(), SBMLtools.getIdOrName(model)));
       }
 
       if (model.isSetListOfRules()) {
@@ -281,13 +312,25 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               if (((SBMLLevel1Rule) rule).isScalar()) {
                 realRule = ((SBMLLevel1Rule) rule).cloneAsAssignmentRule();
-                log4jLogger.debug("Transformed SBMLLevel1Rule: " + ((SBMLLevel1Rule) rule).getVariable() + " into AssignmentRule.");
+                if (log4jLogger.isDebugEnabled()) {
+                  log4jLogger.debug(MessageFormat.format(
+                    "Transformed SBMLLevel1Rule: {0} into AssignmentRule.",
+                    ((SBMLLevel1Rule) rule).getVariable()));
+                }
               } else {
                 realRule = ((SBMLLevel1Rule) rule).cloneAsRateRule();
-                log4jLogger.debug("Transformed SBMLLevel1Rule: " + ((SBMLLevel1Rule) rule).getVariable() + " into RateRule.");
+                if (log4jLogger.isDebugEnabled()) {
+                  log4jLogger.debug(MessageFormat.format(
+                    "Transformed SBMLLevel1Rule: {0} into RateRule.",
+                    ((SBMLLevel1Rule) rule).getVariable()));
+                }
               }
 
-              log4jLogger.debug("Transformed SBMLLevel1Rule: realRule = " + realRule);
+              if (log4jLogger.isDebugEnabled()) {
+                log4jLogger.debug(MessageFormat.format(
+                  "Transformed SBMLLevel1Rule: realRule = {0}",
+                  realRule));
+              }
 
               model.getListOfRules().remove(i);
               model.getListOfRules().add(i, realRule);
@@ -302,18 +345,27 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
             AssignmentRule assignmentRule = (AssignmentRule) rule;
             if (assignmentRule.isSetVariable()
                 && !assignmentRule.isSetVariableInstance()) {
-              log4jLogger.warn("No Symbol matches the variableID of AssignmentRule.");
+              log4jLogger.warn(MessageFormat.format(
+                bundle.getString("SBMLCoreParser.unknownReferenceError2"),
+                "Symbol", "variableID", assignmentRule.getVariable(),
+                assignmentRule.getElementName()));
             }
             if (assignmentRule.isSetUnits()
                 && !assignmentRule.isSetUnitsInstance()
                 && assignmentRule.isParameter()) {
-              log4jLogger.warn("No UnitDefinition matches the unitsID of AssignmentRule.");
+              log4jLogger.warn(MessageFormat.format(
+                bundle.getString("SBMLCoreParser.unknownReferenceError2"),
+                "UnitDefinition", "unitsID", assignmentRule.getUnits(),
+                assignmentRule.getElementName()));
             }
           } else if (rule instanceof RateRule) {
             RateRule rateRule = (RateRule) rule;
             if (rateRule.isSetVariable()
                 && !rateRule.isSetVariableInstance()) {
-              log4jLogger.warn("No Symbol matches the variableID of RateRule.");
+              log4jLogger.warn(MessageFormat.format(
+                bundle.getString("SBMLCoreParser.unknownReferenceError3"),
+                "Symbol", "variableID", rateRule.getVariable(),
+                rateRule.getElementName()));
             }
           }
         }
@@ -323,15 +375,23 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           Compartment compartment = model.getCompartment(i);
           if (compartment.isSetCompartmentType()
               && !compartment.isSetCompartmentTypeInstance()) {
-            log4jLogger.warn("No CompartmentType matches the compartmentTypeID of compartment.");
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+              "CompartmentType", "compartmentTypeID", compartment.getCompartmentType(),
+              compartment.getElementName(), SBMLtools.getIdOrName(compartment)));
           }
           if (compartment.isSetOutside()
               && !compartment.isSetOutsideInstance()) {
-            log4jLogger.warn("No Compartment matches the outsideID of compartment.");
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+              "Compartment", "outsideID", compartment.getOutside(),
+              compartment.getElementName(), SBMLtools.getIdOrName(compartment)));
           }
-          if (compartment.isSetUnits()
-              && !compartment.isSetUnitsInstance()) {
-            log4jLogger.warn("No UnitDefinition matches the unitsID of compartment.");
+          if (compartment.isSetUnits() && !compartment.isSetUnitsInstance()) {
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+              "UnitDefinition", "unitsID", compartment.getUnits(),
+              compartment.getElementName(), SBMLtools.getIdOrName(compartment)));
           }
         }
       }
@@ -339,9 +399,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         for (int i = 0; i < model.getEventCount(); i++) {
           Event event = model.getEvent(i);
 
-          if (event.isSetTimeUnits()
-              && !event.isSetTimeUnitsInstance()) {
-            log4jLogger.warn("No UnitDefinition matches the timeUnitsID of event.");
+          if (event.isSetTimeUnits() && !event.isSetTimeUnitsInstance()) {
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+              "UnitDefinition", "timeUnitsID", event.getTimeUnits(),
+              event.getElementName(), SBMLtools.getIdOrName(event)));
           }
 
           if (event.isSetListOfEventAssignments()) {
@@ -352,7 +414,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               if (eventAssignment.isSetVariable()
                   && !eventAssignment.isSetVariableInstance()) {
-                log4jLogger.warn("No Symbol matches the variableID of eventAssignment.");
+                log4jLogger.warn(MessageFormat.format(
+                  bundle.getString("SBMLCoreParser.unknownReferenceError4"),
+                  "Symbol", "variableID", eventAssignment.getVariable(),
+                  eventAssignment.getElementName(), event.getElementName(),
+                  SBMLtools.getIdOrName(event)));
               }
             }
           }
@@ -365,7 +431,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
           if (initialAssignment.isSetVariable()
               && !initialAssignment.isSetVariableInstance()) {
-            log4jLogger.warn("No Symbol matches the symbolID of initialAssignment.");
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownReferenceError5"),
+              "Symbol", "symbolID",
+              initialAssignment.getVariable(),
+              initialAssignment.getElementName()));
           }
         }
       }
@@ -374,32 +444,47 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           Reaction reaction = model.getReaction(i);
           if (reaction.isSetCompartment()
               && !reaction.isSetCompartmentInstance()) {
-            log4jLogger.warn("No Compartment matches the compartmentID of reaction.");
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+              "Compartment", "compartmentID", reaction.getCompartment(),
+              reaction.getElementName(), SBMLtools.getIdOrName(reaction)));
           }
 
+          boolean neitherReactantsNorProducts = true;
           if (reaction.isSetListOfReactants()) {
+            neitherReactantsNorProducts &= reaction.getReactantCount() == 0;
             for (int j = 0; j < reaction.getReactantCount(); j++) {
-              SpeciesReference speciesReference = reaction
-                  .getReactant(j);
+              SpeciesReference speciesReference = reaction.getReactant(j);
 
               if (speciesReference.isSetSpecies()
                   && !speciesReference.isSetSpeciesInstance()) {
-                log4jLogger.warn(MessageFormat.format("No Species matches the speciesID ''{0}'' of {1}.",
-                  speciesReference.getId(), speciesReference.getElementName()));
+                log4jLogger.warn(MessageFormat.format(
+                  bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+                  "Species", "speciesID", speciesReference.getSpecies(),
+                  speciesReference.getElementName(),
+                  SBMLtools.getIdOrName(speciesReference)));
               }
             }
           }
           if (reaction.isSetListOfProducts()) {
+            neitherReactantsNorProducts &= reaction.getProductCount() == 0;
             for (int j = 0; j < reaction.getProductCount(); j++) {
-              SpeciesReference speciesReference = reaction
-                  .getProduct(j);
+              SpeciesReference speciesReference = reaction.getProduct(j);
 
               if (speciesReference.isSetSpecies()
                   && !speciesReference.isSetSpeciesInstance()) {
-                log4jLogger.warn(String.format("No Species matches the speciesID ''{0}'' of {1}.",
-                  speciesReference.getId(), speciesReference.getElementName()));
+                log4jLogger.warn(MessageFormat.format(
+                  bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+                  "Species", "speciesID",
+                  speciesReference.getSpecies(), speciesReference.getElementName(),
+                  SBMLtools.getIdOrName(speciesReference)));
               }
             }
+          }
+          if (neitherReactantsNorProducts) {
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.reactionWithoutParticipantsError"),
+              SBMLtools.getIdOrName(reaction)));
           }
           if (reaction.isSetListOfModifiers()) {
             for (int j = 0; j < reaction.getModifierCount(); j++) {
@@ -409,8 +494,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
               if (modifierSpeciesReference.isSetSpecies()
                   && !modifierSpeciesReference
                   .isSetSpeciesInstance()) {
-                log4jLogger.warn(MessageFormat.format("No Species matches the speciesID ''{0}'' of {1}.",
-                  modifierSpeciesReference.getId(), modifierSpeciesReference.getElementName()));
+                log4jLogger.warn(MessageFormat.format(
+                  bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+                  "Species", "speciesID",
+                  modifierSpeciesReference.getSpecies(),
+                  modifierSpeciesReference.getElementName()));
               }
             }
           }
@@ -418,11 +506,19 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
             KineticLaw kineticLaw = reaction.getKineticLaw();
             if (kineticLaw.isSetTimeUnits()
                 && !kineticLaw.isSetTimeUnitsInstance()) {
-              log4jLogger.warn("No UnitDefinition matches the timeUnitsID of kineticLaw.");
+              log4jLogger.warn(MessageFormat.format(
+                bundle.getString("SBMLCoreParser.unknownReferenceError6"),
+                "UnitDefinition", "timeUnitsID", kineticLaw.getTimeUnits(),
+                kineticLaw.getElementName(), reaction.getElementName(),
+                SBMLtools.getIdOrName(reaction)));
             }
             if (kineticLaw.isSetSubstanceUnits()
                 && !kineticLaw.isSetSubstanceUnitsInstance()) {
-              log4jLogger.warn("No UnitDefinition matches the substanceUnitsID of kineticLaw.");
+              log4jLogger.warn(MessageFormat.format(
+                bundle.getString("SBMLCoreParser.unknownReferenceError6"),
+                "UnitDefinition", "substanceUnitsID",
+                kineticLaw.getSubstanceUnits(), kineticLaw.getElementName(),
+                reaction.getElementName(), SBMLtools.getIdOrName(reaction)));
             }
             if (kineticLaw.isSetListOfLocalParameters()) {
               for (int j = 0; j < kineticLaw.getLocalParameterCount(); j++) {
@@ -431,8 +527,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
                 if (parameter.isSetUnits()
                     && !parameter.isSetUnitsInstance()) {
                   log4jLogger.warn(MessageFormat.format(
-                    "No UnitDefinition matches the unitsID ''{0}''of the parameter {1}.",
-                    parameter.getUnits(), parameter.getId()));
+                    bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+                    "UnitDefinition", "unitsID",
+                    parameter.getUnits(), parameter.getElementName(),
+                    SBMLtools.getIdOrName(parameter)));
                 }
               }
             }
@@ -446,32 +544,39 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           if (species.isSetSubstanceUnits()
               && !species.isSetSubstanceUnitsInstance()) {
             log4jLogger.warn(MessageFormat.format(
-              "No UnitDefinition matches the subtsanceUnitsID ''{1}'' of species ''{0}''.",
-              species.getId(), species.getSubstanceUnits()));
+              bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+              "UnitDefinition", "subtsanceUnitsID",
+              species.getSubstanceUnits(), species.getElementName(),
+              SBMLtools.getIdOrName(species)));
           }
           if (species.isSetSpeciesType()
               && !species.isSetSpeciesTypeInstance()) {
             log4jLogger.warn(MessageFormat.format(
-              "No SpeciesType matches the speciesTypeID ''{1}'' of species ''{0}''.",
-              species.getId(), species.getSpeciesType()));
+              bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+              "SpeciesType", "speciesTypeID", species.getSpeciesType(),
+              species.getElementName(), SBMLtools.getIdOrName(species)));
           }
           if (species.isSetConversionFactor()
               && !species.isSetConversionFactorInstance()) {
             log4jLogger.warn(MessageFormat.format(
-              "No Parameter matches the conversionFactorID ''{1}'' of species ''{0}''.",
-              species.getId(), species.getConversionFactor()));
+              bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+              "Parameter", "conversionFactorID", species.getConversionFactor(),
+              species.getElementName(), SBMLtools.getIdOrName(species)));
           }
           if (species.isSetCompartment()
               && !species.isSetCompartmentInstance()) {
             log4jLogger.warn(MessageFormat.format(
-              "No Compartment matches the compartmentID ''{1}'' of species ''{0}''.",
-              species.getId(), species.getCompartment()));
+              bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+              "Compartment", "compartmentID", species.getCompartment(),
+              species.getElementName(), SBMLtools.getIdOrName(species)));
           }
           if (species.isSetSpatialSizeUnits()
               && !species.isSetSpatialSizeUnitsInstance()) {
             log4jLogger.warn(MessageFormat.format(
-              "No UnitDefinition matches the spatialSizeUnitsID ''{1}'' of species ''{0}''.",
-              species.getId(), species.getSpatialSizeUnits()));
+              bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+              "UnitDefinition", "spatialSizeUnitsID",
+              species.getSpatialSizeUnits(), species.getElementName(),
+              SBMLtools.getIdOrName(species)));
           }
         }
       }
@@ -481,14 +586,15 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           if (parameter.isSetUnits()
               && !parameter.isSetUnitsInstance()) {
             log4jLogger.warn(MessageFormat.format(
-              "No UnitDefinition matches the unitsID ''{1}'' of parameter ''{0}''.",
-              parameter.getId(), parameter.getUnits()));
+              bundle.getString("SBMLCoreParser.unknownReferenceError1"),
+              "UnitDefinition", "unitsID", parameter.getUnits(),
+              parameter.getElementName(), SBMLtools.getIdOrName(parameter)));
           }
         }
       }
 
     } else {
-      log4jLogger.error("The Model element was not been created");
+      log4jLogger.error("The Model element has not been created.");
     }
   }
 
@@ -518,24 +624,32 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       } else {
         sbase.addDeclaredNamespace(localName, URI);
       }
-
-      log4jLogger.debug("processNamespace: " + prefix + " = " + URI);
+      if (log4jLogger.isDebugEnabled()) {
+        log4jLogger.debug(MessageFormat.format(
+          "processNamespace: {0} = {1}",
+          prefix, URI));
+      }
     }
     else if (contextObject instanceof Annotation)
     {
       Annotation annotation = (Annotation) contextObject;
 
-      if (prefix != null && prefix.length() > 0) {
+      if ((prefix != null) && (prefix.length() > 0)) {
         annotation.addDeclaredNamespace(prefix + ":" + localName, URI);
       } else {
         annotation.addDeclaredNamespace(localName, URI);
       }
-
-      log4jLogger.debug("processNamespace: " + prefix + " = " + URI);
+      if (log4jLogger.isDebugEnabled()) {
+        log4jLogger.debug(MessageFormat.format(
+          "processNamespace: {0} = {1}",
+          prefix, URI));
+      }
     }
     else
     {
-      log4jLogger.warn("namespace ignored on '" + elementName + "' !! " + localName + " = " + URI);
+      log4jLogger.warn(MessageFormat.format(
+        bundle.getString("SBMLCoreParser.namespaceIgnored"),
+        elementName, localName, URI));
       // TODO - store into the XMLNode for unknown things
     }
   }
@@ -658,10 +772,14 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return listOfSpeciesTypes;
             } else {
-              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+              log4jLogger.warn(MessageFormat.format(
+                bundle.getString("SBMLCoreParser.unknownElement"),
+                elementName));
             }
           } else {
-            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownElement"),
+              elementName));
           }
         } else if (contextObject instanceof ListOf<?>) {
           ListOf<?> list = (ListOf<?>) contextObject;
@@ -829,7 +947,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return speciesType;
             } else {
-              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+              log4jLogger.warn(MessageFormat.format(
+                bundle.getString("SBMLCoreParser.unknownElement"),
+                elementName));
             }
           } else if (list.getParentSBMLObject() instanceof UnitDefinition) {
             UnitDefinition unitDefinition = (UnitDefinition) list
@@ -844,16 +964,16 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return unit;
             } else {
-              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+              log4jLogger.warn(MessageFormat.format(
+                bundle.getString("SBMLCoreParser.unknownElement"), elementName));
             }
           } else if (list.getParentSBMLObject() instanceof Reaction) {
             Reaction reaction = (Reaction) list
                 .getParentSBMLObject();
 
             if (elementName.equals("speciesReference")
-                && (reaction.getLevel() > 1 || (reaction
-                    .getLevel() == 1 && reaction
-                    .getVersion() == 2))) {
+                && (reaction.getLevel() > 1 ||
+                    ((reaction.getLevel() == 1) && (reaction.getVersion() == 2)))) {
               SpeciesReference speciesReference = (SpeciesReference) newContextObject;
               speciesReference.initDefaults();
 
@@ -868,7 +988,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
                 return speciesReference;
               } else {
-                log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+                log4jLogger.warn(MessageFormat.format(
+                  bundle.getString("SBMLCoreParser.unknownElement"), elementName));
               }
             } else if (elementName.equals("specieReference")
                 && reaction.getLevel() == 1) {
@@ -886,7 +1007,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
                 return speciesReference;
               } else {
-                log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+                log4jLogger.warn(MessageFormat.format(
+                  bundle.getString("SBMLCoreParser.unknownElement"), elementName));
               }
             } else if (elementName
                 .equals("modifierSpeciesReference")
@@ -898,7 +1020,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return modifierSpeciesReference;
             } else {
-              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+              log4jLogger.warn(MessageFormat.format(
+                bundle.getString("SBMLCoreParser.unknownElement"), elementName));
             }
           } else if (list.getParentSBMLObject() instanceof KineticLaw) {
             KineticLaw kineticLaw = (KineticLaw) list
@@ -924,7 +1047,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return localParameter;
             } else {
-              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+              log4jLogger.warn(MessageFormat.format(
+                bundle.getString("SBMLCoreParser.unknownElement"), elementName));
             }
           } else if (list.getParentSBMLObject() instanceof Event) {
             Event event = (Event) list.getParentSBMLObject();
@@ -938,10 +1062,12 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return eventAssignment;
             } else {
-              log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+              log4jLogger.warn(MessageFormat.format(
+                bundle.getString("SBMLCoreParser.unknownElement"), elementName));
             }
           } else {
-            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else if (contextObject instanceof UnitDefinition) {
           UnitDefinition unitDefinition = (UnitDefinition) contextObject;
@@ -976,7 +1102,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return priority;
           } else {
-            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else if (contextObject instanceof Reaction) {
           Reaction reaction = (Reaction) contextObject;
@@ -1002,7 +1129,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return kineticLaw;
           } else {
-            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else if (contextObject instanceof SpeciesReference) {
           SpeciesReference speciesReference = (SpeciesReference) contextObject;
@@ -1013,7 +1141,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return stoichiometryMath;
           } else {
-            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else if (contextObject instanceof KineticLaw) {
           KineticLaw kineticLaw = (KineticLaw) contextObject;
@@ -1033,7 +1162,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return listOfLocalParameters;
           } else {
-            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else if (contextObject instanceof Constraint) {
           Constraint constraint = (Constraint) contextObject;
@@ -1046,22 +1176,26 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return constraint;
           } else {
-            log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+            log4jLogger.warn(MessageFormat.format(
+              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else {
-          log4jLogger.warn(MessageFormat.format("The element ''{0}'' is not recognized", elementName));
+          log4jLogger.warn(MessageFormat.format(
+            bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         }
-      } catch (InstantiationException e) {
-        log4jLogger.error(MessageFormat.format("The element ''{0}'' could not be instanciated as a Java object!", elementName));
-        log4jLogger.debug(e.getMessage());
+      } catch (InstantiationException exc) {
+        log4jLogger.error(MessageFormat.format(
+          bundle.getString("SBMLCoreParser.instanciationError"), elementName));
         if (log4jLogger.isDebugEnabled()) {
-          e.getStackTrace();
+          log4jLogger.debug(exc.getMessage());
+          log4jLogger.debug(exc.getStackTrace());
         }
-      } catch (IllegalAccessException e) {
-        log4jLogger.error(MessageFormat.format("The element ''{0}'' could not be instanciated as a Java object!", elementName));
-        log4jLogger.debug(e.getMessage());
+      } catch (IllegalAccessException exc) {
+        log4jLogger.error(MessageFormat.format(
+          bundle.getString("SBMLCoreParser.instanciationError"), elementName));
         if (log4jLogger.isDebugEnabled()) {
-          e.getStackTrace();
+          log4jLogger.debug(exc.getMessage());
+          log4jLogger.debug(exc.getStackTrace());
         }
       }
     }
@@ -1119,13 +1253,15 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
    * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
    */
   @Override
-  public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
-  {
+  public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
 
     if (sbmlElementToWrite instanceof SBase) {
       SBase sbase = (SBase) sbmlElementToWrite;
-
-      log4jLogger.debug("writeElement: " + sbase.getElementName());
+      if (log4jLogger.isDebugEnabled()) {
+        log4jLogger.debug(MessageFormat.format(
+          "writeElement: {0}",
+          sbase.getElementName()));
+      }
 
       if (!xmlObject.isSetName()) {
         xmlObject.setName(sbase.getElementName());
