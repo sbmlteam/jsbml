@@ -216,7 +216,7 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
    * 
    * @return
    */
-  public Parameter getLowerFluxBoundInstande() {
+  public Parameter getLowerFluxBoundInstance() {
     if (getModel() == null) {
       return null;
     }
@@ -293,7 +293,7 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
    * @return
    */
   public boolean isSetLowerFluxBoundInstance() {
-    return getLowerFluxBoundInstande() != null;
+    return getLowerFluxBoundInstance() != null;
   }
 
   /**
