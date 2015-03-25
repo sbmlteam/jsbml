@@ -835,7 +835,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    * 
    * @return
    */
-  public Objective getActiveObjectiveInstsance() {
+  public Objective getActiveObjectiveInstance() {
     if (!isSetActiveObjective()) {
       return null;
     }
