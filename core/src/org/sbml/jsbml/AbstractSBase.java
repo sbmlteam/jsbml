@@ -1563,11 +1563,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
 
     if (packageParser != null) {
-      SBasePlugin extension = extensions.get(packageParser.getPackageName());
-      if (extension != null) {
-        return extension.getElementNamespace().equals(nameOrUri);
-      }
-      return false;
+      return extensions.get(packageParser.getPackageName()) != null;
+      // The code below cannot be used as it is, as the package prefix/label can be pass to this method
+      // instead of the namespace URI
+      // TODO - update once the namespace is properly set on plugins
+//      SBasePlugin extension = extensions.get(packageParser.getPackageName());
+//      if (extension != null) {
+//        return extension.getElementNamespace().equals(nameOrUri);
+//      }
+//      return false;
     }
 
     throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!", nameOrUri));
