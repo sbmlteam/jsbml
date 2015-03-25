@@ -35,6 +35,7 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
 import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
+import org.sbml.jsbml.util.compilers.LibSBMLFormulaCompiler;
 
 /**
  * Tests related to {@link ASTNode#parseFormula(String)} and {@link ASTNode#parseFormula(String, IFormulaParser)}.
@@ -69,7 +70,18 @@ public class ASTNodeInfixParsingTest {
    * 
    */
   final static FormulaCompiler l3Compiler = new FormulaCompilerLibSBML();
+  
+  /**
+   * 
+   */
+  final static FormulaCompiler oldJsbmlCompiler = new FormulaCompiler();  
 
+  /**
+   * 
+   */
+  final static FormulaCompiler oldL1Compiler = new LibSBMLFormulaCompiler();  
+
+  
   /**
    * 
    */
@@ -160,7 +172,7 @@ public class ASTNodeInfixParsingTest {
       n = ASTNode.parseFormula("factorial(n)");
       formula = ASTNode.formulaToString(n);
       System.out.println("default formula = " + formula);
-      n = ASTNode.parseFormula(formula, parser);  // Problem: the default parser seems to be the L3 one, the default compiler seems to not be the L3 one 
+      n = ASTNode.parseFormula(formula); 
 
       // n!
       n = ASTNode.parseFormula("n!", parser);
@@ -174,12 +186,12 @@ public class ASTNodeInfixParsingTest {
       
       // (n + 1)!
       n = ASTNode.parseFormula("(n + 1)!", parser);
-      formula = ASTNode.formulaToString(n);
+      formula = ASTNode.formulaToString(n, oldJsbmlCompiler);
       n = ASTNode.parseFormula(formula, parser); 
 
       try {
         n = ASTNode.parseFormula(formula, l3Parser);
-        assertTrue("The L3 parser does not support '(n + 1)!' at the moment.", false);
+        assertTrue("The L3 parser does not support '(n + 1)!' at the moment, so we expect an Exception.", false);
       } catch (ParseException e) {
         // should happen, the L3 parser does not support '(n + 1)!'
         assertTrue(true);        
@@ -196,23 +208,35 @@ public class ASTNodeInfixParsingTest {
   @Test public void andParsingTests() {
 
     try {
-    // and(x, y)
-    ASTNode n = ASTNode.parseFormula("and(x,y)", l3Parser);
-    String formula = ASTNode.formulaToString(n, l3Compiler);
-    System.out.println("formula 'and(x, y)' = " + formula);
-    n = ASTNode.parseFormula(formula, l3Parser); 
-    
-    // x and y
-    n = ASTNode.parseFormula("x and y", parser); // and(x,y) does not work ==> difference compared to the L1 supported syntax?
-    formula = ASTNode.formulaToString(n);
-    System.out.println("formula 'x and y)' = " + formula);
-    n = ASTNode.parseFormula(formula, parser); 
-    
+      // and(x, y)
+      ASTNode n = ASTNode.parseFormula("and(x,y)", l3Parser);
+      String formula = ASTNode.formulaToString(n, l3Compiler);
+      System.out.println("formula 'and(x, y)' = " + formula);
+      n = ASTNode.parseFormula(formula, l3Parser); 
+
+      // x && y
+      n = ASTNode.parseFormula("x && y", l3Parser);
+      formula = ASTNode.formulaToString(n, l3Compiler);
+      System.out.println("formula 'x && y' = " + formula);
+      n = ASTNode.parseFormula(formula, l3Parser); 
+
+      // x and y
+      n = ASTNode.parseFormula("x and y", parser); // and(x,y) does not work ==> difference compared to the L1 supported syntax?
+      formula = ASTNode.formulaToString(n);
+      System.out.println("formula 'x and y)' = " + formula);
+      n = ASTNode.parseFormula(formula, parser); 
+
+      // and(x, y)
+      n = ASTNode.parseFormula("and(x,y)", l3Parser);
+      formula = ASTNode.formulaToString(n, oldL1Compiler);
+      System.out.println("formula 'and(x, y)' = " + formula);
+      n = ASTNode.parseFormula(formula, l3Parser);       
+      
     } catch (ParseException e) {
       // should never happen
       e.printStackTrace();
       assertTrue(false);
     }
   }
-  
+
 }

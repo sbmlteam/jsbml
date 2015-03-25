@@ -4042,7 +4042,7 @@ public class ASTNode extends AbstractTreeNode {
    * notation taken from SBML Level 1. A formula in this text-string form
    * therefore can be handed to a program that understands SBML Level 1
    * mathematical expressions, or used as part of a formula translation
-   * system. Be careful that the default {@link FormulaCompiler} used produce an output
+   * system. Be careful that the default {@link FormulaCompilerLibSBML} used produce an output
    * a bit different than pure SBML level 1 mathematical expressions, in particular
    * for logical and relational operators.
    * </p>
@@ -4053,7 +4053,7 @@ public class ASTNode extends AbstractTreeNode {
    *             if there is a problem in the ASTNode tree.
    */
   public String toFormula() throws SBMLException {
-    return compile(new FormulaCompiler()).toString();
+    return compile(new FormulaCompilerLibSBML()).toString();
   }
 
   /**

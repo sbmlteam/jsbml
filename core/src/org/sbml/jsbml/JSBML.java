@@ -39,6 +39,7 @@ import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
 import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
 import org.sbml.jsbml.util.compilers.FormulaCompilerNoPiecewise;
+import org.sbml.jsbml.util.compilers.LibSBMLFormulaCompiler;
 
 /**
  * Wrapper class for global methods and constants defined by JSBML.
@@ -169,7 +170,7 @@ public class JSBML {
    * "http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/ASTNode.html"
    * >ASTNode</a>.
    * 
-   * <p>Be careful that the default {@link FormulaCompiler} used produce an output
+   * <p>Be careful that the default {@link FormulaCompilerLibSBML} used produce an output
    * a bit different than pure SBML level 1 mathematical expressions, in particular
    * for logical and relational operators. If the default output is not convenient
    * for you, you can easily extends one of the existing FormulaCompiler and overwrite
@@ -186,6 +187,7 @@ public class JSBML {
    * @see ASTNode#toFormula(FormulaCompiler)
    * @see FormulaCompiler
    * @see FormulaCompilerLibSBML
+   * @see LibSBMLFormulaCompiler
    * @see FormulaCompilerNoPiecewise
    */
   public static String formulaToString(ASTNode node) throws SBMLException {
