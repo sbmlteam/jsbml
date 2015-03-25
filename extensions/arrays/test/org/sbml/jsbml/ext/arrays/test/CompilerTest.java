@@ -41,7 +41,6 @@ import org.sbml.jsbml.ext.arrays.compiler.ArraysCompiler;
 import org.sbml.jsbml.ext.arrays.compiler.VectorCompiler;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
-import org.sbml.jsbml.util.compilers.FormulaCompiler;
 
 
 /**
@@ -332,15 +331,15 @@ public class CompilerTest {
       compiler = new VectorCompiler(model, true);
       vector = ASTNode.parseFormula("eq(5, {{1,3,5}})");
       vector.compile(compiler);
-      assertTrue(compiler.getNode().toFormula(new FormulaCompiler()).replaceAll(" ", "").equals("{{5==1,5==3,5==5}}") ||
-        compiler.getNode().toFormula(new FormulaCompiler()).replaceAll(" ", "").equals("{{1==5,3==5,5==5}}"));
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{5==1,5==3,5==5}}") ||
+        compiler.getNode().toFormula().replaceAll(" ", "").equals("{{1==5,3==5,5==5}}"));
       vector = ASTNode.parseFormula("eq(X, {{{X},{Y},{0}}})");
       vector.compile(compiler);
-      assertTrue(compiler.getNode().toFormula(new FormulaCompiler()).replaceAll(" ", "").equals("{{{X==X},{Y==X},{0==X}}}") ||
-        compiler.getNode().toFormula(new FormulaCompiler()).replaceAll(" ", "").equals("{{{X==X},{X==Y},{X==0}}}"));
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{{X==X},{Y==X},{0==X}}}") ||
+        compiler.getNode().toFormula().replaceAll(" ", "").equals("{{{X==X},{X==Y},{X==0}}}"));
       vector = ASTNode.parseFormula("eq({{X}}, {{X}})");
       vector.compile(compiler);
-      assertTrue(compiler.getNode().toFormula(new FormulaCompiler()).replaceAll(" ", "").equals("{{X==X}}"));
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{X==X}}"));
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
@@ -406,13 +405,13 @@ public class CompilerTest {
       compiler = new VectorCompiler(model, true);
       vector = ASTNode.parseFormula("lt(5, {{1,3,5}})");
       vector.compile(compiler);
-      assertTrue(compiler.getNode().toFormula(new FormulaCompiler()).replaceAll(" ", "").equals("{{5<1,5<3,5<5}}"));
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{5<1,5<3,5<5}}"));
       vector = ASTNode.parseFormula("lt({{{X},{Y},{0}}}, X)");
       vector.compile(compiler);
-      assertTrue(compiler.getNode().toFormula(new FormulaCompiler()).replaceAll(" ", "").equals("{{{X<X},{Y<X},{0<X}}}"));
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{{X<X},{Y<X},{0<X}}}"));
       vector = ASTNode.parseFormula("{{1},{2}} < {{X},{Y}}");
       vector.compile(compiler);
-      assertTrue(compiler.getNode().toFormula(new FormulaCompiler()).replaceAll(" ", "").equals("{{1<X},{2<Y}}"));
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{1<X},{2<Y}}"));
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
@@ -552,10 +551,10 @@ public class CompilerTest {
       compiler = new VectorCompiler(model, true);
       vector = ASTNode.parseFormula("piecewise({ 1, 2 } , { x > 5, y > 5 }, { 0, 0 })");
       vector.compile(compiler);
-      assertTrue(compiler.getNode().toFormula(new FormulaCompiler()).replaceAll(" ", "").equals("{piecewise(1,x>5,0),piecewise(2,y>5,0)}"));
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{piecewise(1,x>5,0),piecewise(2,y>5,0)}"));
       vector = ASTNode.parseFormula("piecewise({ 1, 2 } , { x > 5, y > 5 }, 0)");
       vector.compile(compiler);
-      assertTrue(compiler.getNode().toFormula(new FormulaCompiler()).replaceAll(" ", "").equals("{piecewise(1,x>5,0),piecewise(2,y>5,0)}"));
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{piecewise(1,x>5,0),piecewise(2,y>5,0)}"));
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
