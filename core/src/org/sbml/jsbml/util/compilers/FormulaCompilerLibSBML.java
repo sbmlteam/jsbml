@@ -57,8 +57,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue eq(ASTNode left, ASTNode right) throws SBMLException {
-    // TODO - check what libSBML output for those relational operator
-    return function("eq", left, right);
+    return new ASTNodeValue(relation(left, " == ", right), this);
   }
 
   /* (non-Javadoc)
@@ -75,7 +74,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue geq(ASTNode left, ASTNode right) throws SBMLException {
-    return function("geq", left, right);
+    return new ASTNodeValue(relation(left, " >= ", right), this);
   }
 
 
@@ -84,7 +83,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue gt(ASTNode left, ASTNode right) throws SBMLException {
-    return function("gt", left, right);
+    return new ASTNodeValue(relation(left, " > ", right), this);
   }
 
 
@@ -93,7 +92,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue leq(ASTNode left, ASTNode right) throws SBMLException {
-    return function("leq", left, right);
+    return new ASTNodeValue(relation(left, " <= ", right), this);
   }
 
 
@@ -102,7 +101,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue lt(ASTNode left, ASTNode right) throws SBMLException {
-    return function("lt", left, right);
+    return new ASTNodeValue(relation(left, " < ", right), this);
   }
 
 
@@ -111,7 +110,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue neq(ASTNode left, ASTNode right) throws SBMLException {
-    return function("neq", left, right);
+    return new ASTNodeValue(relation(left, " != ", right), this);
   }
 
   /* (non-Javadoc)
@@ -119,7 +118,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue not(ASTNode node) throws SBMLException {
-    return function("not", node);
+    return function("!", node);
   }
 
   /* (non-Javadoc)
