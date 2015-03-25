@@ -90,7 +90,7 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
 		if (getExtendedSBase() != null) {
 		  getExtendedSBase().registerChild(drawFromDistribution);
 		}
-		firePropertyChange(DistribConstants.drawFromDistribution, oldDrawFromDistribution, this.drawFromDistribution);
+		firePropertyChange(DistribConstants.drawFromDistribution, oldDrawFromDistribution, this.drawFromDistribution); // TODO - check that the old drawFromDistribution is properly un-registered
 	}
 	
   /**

@@ -91,6 +91,7 @@ import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
  * @version $Rev$
  * @since 1.0
  */
+@SuppressWarnings("deprecation")
 public class UnregisterPackageTests {
 
   /**
@@ -1039,5 +1040,7 @@ public class UnregisterPackageTests {
       assertTrue(false);
     }
   }
+  
+  // TODO - add some tests about distrib and fbc V2 elements
 
 }
