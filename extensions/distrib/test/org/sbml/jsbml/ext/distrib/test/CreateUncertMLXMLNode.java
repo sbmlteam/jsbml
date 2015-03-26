@@ -19,7 +19,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.distrib.test;
 
 import java.io.StringReader;
@@ -44,60 +43,71 @@ import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
 
 
+/**
+ * @author Nicolas Rdodriguez
+ * @version $Rev$
+ * @since 1.1
+ * @date 26.03.2015
+ */
 public class CreateUncertMLXMLNode {
-  
-  @SuppressWarnings("deprecation")
+
+  /**
+   * @param args
+   * @throws ParseException
+   * @throws SBMLException
+   * @throws XMLStreamException
+   */
   public static void main(String[] args) throws ParseException, SBMLException, XMLStreamException {
-    
+
     String uncertML = "<UncertML xmlns=\"http://www.uncertml.org/3.0\">\n" +
-            "  <NormalDistribution definition=\"http://www.uncertml.org/distributions\">\n" + 
-            "    <mean>\n" + 
-            "      <var varId=\"avg\"/>" + 
-            "    </mean>" +
-            "    <stddev>" +           
-            "      <var varId=\"sd\"/>" + 
-            "    </stddev>" +
-            "</NormalDistribution>" +
-            "</UncertML>";
-    
+        "  <NormalDistribution definition=\"http://www.uncertml.org/distributions\">\n" +
+        "    <mean>\n" +
+        "      <var varId=\"avg\"/>" +
+        "    </mean>" +
+        "    <stddev>" +
+        "      <var varId=\"sd\"/>" +
+        "    </stddev>" +
+        "</NormalDistribution>" +
+        "</UncertML>";
+
     SBMLDocument doc = new SBMLDocument(3, 1);
     Model m = doc.createModel("m");
-    
+
     FunctionDefinition f = m.createFunctionDefinition("f");
     ASTNode lambda = ASTNode.parseFormula("lamdba(x, y, x + y)", new FormulaParserLL3(new StringReader("")));
     // System.out.println(lambda.toMathML()); // not sure how to create lambda from formula !!
     // f.setMath(lambda);
-    
+
     Reaction r = m.createReaction("r");
     r.createKineticLaw().setMath(ASTNode.parseFormula("f(x, y)"));
-    
+
     // UncertML element
     XMLNode xmlNode = new XMLNode(new XMLTriple("UncertML"), new XMLAttributes(), new XMLNamespaces());
     xmlNode.addNamespace("http://www.uncertml.org/3.0");
-    
+
     // NormalDistribution element
     XMLNode distNode = new XMLNode(new XMLTriple("NormalDistribution"), new XMLAttributes(), new XMLNamespaces());
     distNode.addAttr("definition", "http://www.uncertml.org/distributions");
     xmlNode.addChild(distNode);
-    
+
     // mean element
     XMLNode meanNode = new XMLNode(new XMLTriple("mean"), new XMLAttributes(), new XMLNamespaces());
     distNode.addChild(meanNode);
-    
+
     // var element
     XMLNode varNode = new XMLNode(new XMLTriple("var"), new XMLAttributes(), new XMLNamespaces());
     varNode.addAttr("varId", "avg");
-    meanNode.addChild(varNode);    
-    
+    meanNode.addChild(varNode);
+
     // stddev element
     XMLNode stddevNode = new XMLNode(new XMLTriple("stddev"), new XMLAttributes(), new XMLNamespaces());
     distNode.addChild(stddevNode);
-    
+
     // var element
     varNode = new XMLNode(new XMLTriple("var"), new XMLAttributes(), new XMLNamespaces());
     varNode.addAttr("varId", "sd");
-    stddevNode.addChild(varNode);    
-    
+    stddevNode.addChild(varNode);
+
     DistribFunctionDefinitionPlugin dfd = (DistribFunctionDefinitionPlugin) f.getPlugin("distrib");
     DrawFromDistribution drawfd = dfd.createDrawFromDistribution();
     drawfd.setUncertML(xmlNode);
@@ -105,20 +115,21 @@ public class CreateUncertMLXMLNode {
     FunctionDefinition g = m.createFunctionDefinition("g");
     dfd = (DistribFunctionDefinitionPlugin) g.getPlugin("distrib");
     drawfd = dfd.createDrawFromDistribution();
-    
+
     XMLNode uncertMLNode = XMLNode.convertStringToXMLNode(uncertML);
     drawfd.setUncertML(uncertMLNode);
-    
+
     String docStr = new TidySBMLWriter().writeSBMLToString(doc);
-    
+
     System.out.println("Document = \n" + docStr);
-    
+
     SBMLDocument doc2 = new SBMLReader().readSBMLFromString(docStr);
-    
+
     // System.out.println("Function f, type = " + r.getKineticLaw().getMath().getType());
-    
+
     String docStr2 = new TidySBMLWriter().writeSBMLToString(doc2);
-    
+
     System.out.println(docStr.equals(docStr2));
   }
+
 }
