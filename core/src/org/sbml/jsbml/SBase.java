@@ -503,6 +503,27 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public int getCVTermCount();
 
   /**
+   * Returns the name of the SBML Level 3 package in which this element is defined, as 
+   * defined in <a href="http://sbml.org/Community/Wiki"> the sbml.org community wiki</a>.
+   * 
+   * <p> For example, the string "core" will be returned if this element is defined in SBML Level 3 Core. 
+   * 
+   * @return the name of the SBML Level 3 package in which this element is defined.
+   */
+  public String getPackageName();
+  
+  /**
+   * Returns the version of the SBML Level 3 package to which this element belongs.
+   * 
+   * <p>The value 0 will be returned if this element belongs to the SBML Level 3 Core package.
+   * The value -1 will be returned if this element does not belong to the SBML Level core and the
+   * value has not been set properly.
+   * 
+   * @return the version of the SBML Level 3 package to which this element belongs.
+   */
+  public int getPackageVersion();
+  
+  /**
    * Returns the parent of this {@link SBase}.
    * 
    * @return the parent SBML object.
@@ -560,6 +581,19 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public String getSBOTermID();
 
+  /**
+   * Returns the namespace to which this {@link SBase} belong to. Same as {@link #getNamespace()}.
+   * 
+   * <p>For example, all elements that belong to Layout Extension Version 1 for SBML Level 3 Version 1 Core 
+   * must have the URI 'http://www.sbml.org/sbml/level3/version1/layout/version1'.
+   * <p>The elements that belong to SBML core might return null.
+   * 
+   * @return the namespace to which this {@link SBase} belong to.
+   * @see SBase#getNamespace()
+   * @libsbml.deprecated 
+   */
+  public String getURI();
+  
   /**
    * Returns the Version within the SBML Level of the overall SBML document.
    * Return -1 if it is not set.
@@ -866,6 +900,14 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public void setNotes(XMLNode notesXMLNode);
 
+  /**
+   * Sets the version of the SBML Level 3 package to which this element belongs.
+   * 
+   * <p>Use with caution, only if you know what you are doing. This should be set automatically.
+   * 
+   * @param packageVersion the version of the SBML Level 3 package to which this element belongs.
+   */
+  public void setPackageVersion(int packageVersion);
 
   // This method is protected now
   // public void setParentSBML(SBase parent);
