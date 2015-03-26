@@ -19,7 +19,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.distrib.util;
 
 import javax.xml.stream.XMLStreamException;
@@ -38,7 +37,6 @@ import org.sbml.jsbml.xml.XMLNamespaces;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
 
-
 /**
  *
  * This class provides a collection of convenient methods to create SBML elements
@@ -48,7 +46,7 @@ import org.sbml.jsbml.xml.XMLTriple;
  * @version $Rev$
  * @since 1.0
  */
-public class DistModelBuilder {
+public class DistribModelBuilder {
 
 
   /**
@@ -62,7 +60,7 @@ public class DistModelBuilder {
    * @param f a functionDefinition where we will add distrib info
    * @param distribution the name of the UncertML distribution as it will be set in the XML.
    * @param inputTypes the array of input types, used to create the XML child element of the UncertML distribution.
-   * @param inputs the array of inputs, used to create the {@link DistribInput} id and the 'varId' attribute value 
+   * @param inputs the array of inputs, used to create the {@link DistribInput} id and the 'varId' attribute value
    * for the 'var' UncertML elements.
    */
   public static void createDistribution(FunctionDefinition f, String distribution, String[] inputTypes, String[] inputs) {
@@ -108,26 +106,32 @@ public class DistModelBuilder {
     // adding the UncertML XMLNode to the DrawFromDistribution object
     draw.setUncertML(xmlNode);
   }
-  
-  public static void main(String[] args) throws SBMLException, XMLStreamException {
 
+  /**
+   * @param args
+   * @throws SBMLException
+   * @throws XMLStreamException
+   */
+  public static void main(String[] args) throws SBMLException, XMLStreamException {
+    // TODO: move this main to the examples folder.
     SBMLDocument doc = new SBMLDocument(3, 1);
     Model m = doc.createModel("m");
-    
+
     FunctionDefinition f = m.createFunctionDefinition("f");
 
     createDistribution(f, "NormalDistribution", new String[] { "mean", "stddev" }, new String[] {"avg", "sd"});
 
     String docStr = new SBMLWriter().writeSBMLToString(doc);
-    
+
     System.out.println("Document = \n" + docStr);
-    
+
     SBMLDocument doc2 = new SBMLReader().readSBMLFromString(docStr);
-    
+
     // System.out.println("Function f, type = " + r.getKineticLaw().getMath().getType());
-    
+
     String docStr2 = new SBMLWriter().writeSBMLToString(doc2);
-    
+
     System.out.println(docStr.equals(docStr2));
   }
+
 }

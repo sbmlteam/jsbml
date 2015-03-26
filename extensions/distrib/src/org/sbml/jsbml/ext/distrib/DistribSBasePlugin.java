@@ -19,7 +19,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.distrib;
 
 import java.text.MessageFormat;
@@ -29,16 +28,24 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
-
+/**
+ * 
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.1
+ * @date 26.03.2015
+ */
 public class DistribSBasePlugin extends AbstractSBasePlugin {
 
   /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -1732369832900356125L;
+  /**
    * 
    */
-  private static final long serialVersionUID = 1L;
-
   private Uncertainty uncertainty;
-  
+
   /**
    * Creates a new {@link DistribSBasePlugin} instance.
    * 
@@ -48,7 +55,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
     super(sbase);
     setPackageVersion(-1);
   }
-  
+
   /**
    * Creates a new {@link DistribSBasePlugin} instance, cloned from
    * the input parameter.
@@ -57,15 +64,15 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
    */
   public DistribSBasePlugin(DistribSBasePlugin obj) {
     super(obj);
-    
+
     if (obj.isSetUncertainty()) {
       setUncertainty(obj.getUncertainty().clone());
     }
   }
 
-  
+
   /**
-   * Creates and Sets a new {@link Uncertainty} instance. 
+   * Creates and Sets a new {@link Uncertainty} instance.
    * 
    * @return the newly created {@link Uncertainty} instance.
    */
@@ -74,7 +81,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
     setUncertainty(uncert);
     return uncert;
   }
-  
+
 
   /**
    * Returns the value of {@link #uncertainty}.
@@ -96,7 +103,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
    * @return whether {@link #uncertainty} is set.
    */
   public boolean isSetUncertainty() {
-    return this.uncertainty != null;
+    return uncertainty != null;
   }
 
 
@@ -122,15 +129,15 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
    */
   public boolean unsetUncertainty() {
     if (isSetUncertainty()) {
-      Uncertainty oldUncertainty = this.uncertainty;
-      this.uncertainty = null;
-      firePropertyChange(DistribConstants.uncertainty, oldUncertainty, this.uncertainty);
+      Uncertainty oldUncertainty = uncertainty;
+      uncertainty = null;
+      firePropertyChange(DistribConstants.uncertainty, oldUncertainty, uncertainty);
       return true;
     }
     return false;
   }
-  
-  
+
+
   @Override
   public String getElementNamespace() {
     return DistribConstants.namespaceURI_L3V1V1; // TODO - change to return a String attribute that can be changed
@@ -151,7 +158,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
     return DistribConstants.namespaceURI; // TODO - change to return a String attribute that can be changed
   }
 
-  
+
   @Override
   public int getChildCount() {
     int count = 0;
@@ -159,7 +166,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
     if (isSetUncertainty()) {
       count++;
     }
-    
+
     return count;
   }
 
@@ -179,7 +186,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
 
   @Override
@@ -194,7 +201,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
 
   @Override
   public boolean readAttribute(String attributeName, String prefix,
-      String value) {
+    String value) {
     return false;
   }
 

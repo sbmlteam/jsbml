@@ -19,7 +19,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.distrib;
 
 import java.text.MessageFormat;
@@ -30,13 +29,26 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.xml.XMLNode;
 
-
+/**
+ * 
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.1
+ * @date 26.03.2015
+ */
 public class Uncertainty extends AbstractNamedSBase {
 
-  private XMLNode uncertML;
-  
   /**
-   * Creates an Uncertainty instance 
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -904719821379100471L;
+  /**
+   * 
+   */
+  private XMLNode uncertML;
+
+  /**
+   * Creates an Uncertainty instance
    */
   public Uncertainty() {
     super();
@@ -94,6 +106,7 @@ public class Uncertainty extends AbstractNamedSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Uncertainty(Uncertainty obj) {
     super(obj);
@@ -107,19 +120,24 @@ public class Uncertainty extends AbstractNamedSBase {
     setPackageVersion(-1);
     packageName = DistribConstants.shortLabel;
   }
-  
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
   @Override
   public boolean isIdMandatory() {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public Uncertainty clone() {
     return new Uncertainty(this);
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #uncertML}.
    *
@@ -140,7 +158,7 @@ public class Uncertainty extends AbstractNamedSBase {
    * @return whether {@link #uncertML} is set.
    */
   public boolean isSetUncertML() {
-    return this.uncertML != null;
+    return uncertML != null;
   }
 
 
@@ -164,33 +182,39 @@ public class Uncertainty extends AbstractNamedSBase {
    */
   public boolean unsetUncertML() {
     if (isSetUncertML()) {
-      XMLNode oldUncertML = this.uncertML;
-      this.uncertML = null;
-      firePropertyChange(DistribConstants.uncertML, oldUncertML, this.uncertML);
+      XMLNode oldUncertML = uncertML;
+      uncertML = null;
+      firePropertyChange(DistribConstants.uncertML, oldUncertML, uncertML);
       return true;
     }
     return false;
   }
-  
-  
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
- 
-     if (isSetUncertML()) {
+
+    if (isSetUncertML()) {
       count++;
-     }
-     
+    }
+
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
@@ -203,20 +227,22 @@ public class Uncertainty extends AbstractNamedSBase {
     } else {
       index -= count;
     }
-    
-     if (isSetUncertML()) {
-       if (pos == index) {
-         return getUncertML();
-       }
-       pos++;
-     }
-     
+
+    if (isSetUncertML()) {
+      if (pos == index) {
+        return getUncertML();
+      }
+      pos++;
+    }
+
     throw new IndexOutOfBoundsException(
       MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
         index, Math.min(pos, 0)));
   }
-  
-  
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();

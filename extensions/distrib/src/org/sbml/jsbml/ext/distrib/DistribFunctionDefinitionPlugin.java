@@ -27,120 +27,130 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
+/**
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.1
+ * @date 26.03.2015
+ */
 public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private DrawFromDistribution drawFromDistribution;
-	
-	/**
-	 * Creates a new {@link DistribFunctionDefinitionPlugin} instance.
-	 * 
-	 * @param fd the {@link FunctionDefinition} to be extended.
-	 */
-	public DistribFunctionDefinitionPlugin(FunctionDefinition fd) {
-		super(fd);
-		setPackageVersion(-1);
-	}
-	
-	/**
-	 * Creates a new {@link DistribFunctionDefinitionPlugin} instance, cloned from
-	 * the input parameter.
-	 * 
-	 * @param obj the {@link DistribFunctionDefinitionPlugin} to clone
-	 */
-	public DistribFunctionDefinitionPlugin(DistribFunctionDefinitionPlugin obj) {
-	  super(obj);
-	  
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 8759855933212983388L;
+  /**
+   * 
+   */
+  private DrawFromDistribution drawFromDistribution;
+
+  /**
+   * Creates a new {@link DistribFunctionDefinitionPlugin} instance.
+   * 
+   * @param fd the {@link FunctionDefinition} to be extended.
+   */
+  public DistribFunctionDefinitionPlugin(FunctionDefinition fd) {
+    super(fd);
+    setPackageVersion(-1);
+  }
+
+  /**
+   * Creates a new {@link DistribFunctionDefinitionPlugin} instance, cloned from
+   * the input parameter.
+   * 
+   * @param obj the {@link DistribFunctionDefinitionPlugin} to clone
+   */
+  public DistribFunctionDefinitionPlugin(DistribFunctionDefinitionPlugin obj) {
+    super(obj);
+
     if (obj.isSetDrawFromDistribution()) {
       setDrawFromDistribution(obj.getDrawFromDistribution().clone());
     }
   }
 
   /**
-	 * Returns the value of drawFromDistribution
-	 *
-	 * @return the value of drawFromDistribution
-	 */
-	public DrawFromDistribution getDrawFromDistribution() {
-		if (isSetDrawFromDistribution()) {
-			return drawFromDistribution;
-		}
-		
-		return null;
-	}
+   * Returns the value of drawFromDistribution
+   *
+   * @return the value of drawFromDistribution
+   */
+  public DrawFromDistribution getDrawFromDistribution() {
+    if (isSetDrawFromDistribution()) {
+      return drawFromDistribution;
+    }
 
-	/**
-	 * Returns whether drawFromDistribution is set 
-	 *
-	 * @return whether drawFromDistribution is set 
-	 */
-	public boolean isSetDrawFromDistribution() {
-		return this.drawFromDistribution != null;
-	}
+    return null;
+  }
 
-	/**
-	 * Sets the value of drawFromDistribution
-	 */
-	public void setDrawFromDistribution(DrawFromDistribution drawFromDistribution) {
-		DrawFromDistribution oldDrawFromDistribution = this.drawFromDistribution;
-		this.drawFromDistribution = drawFromDistribution;
-		if (getExtendedSBase() != null) {
-		  getExtendedSBase().registerChild(drawFromDistribution);
-		}
-		firePropertyChange(DistribConstants.drawFromDistribution, oldDrawFromDistribution, this.drawFromDistribution); // TODO - check that the old drawFromDistribution is properly un-registered
-	}
-	
+  /**
+   * Returns whether drawFromDistribution is set
+   *
+   * @return whether drawFromDistribution is set
+   */
+  public boolean isSetDrawFromDistribution() {
+    return drawFromDistribution != null;
+  }
+
+  /**
+   * Sets the value of drawFromDistribution
+   * @param drawFromDistribution
+   */
+  public void setDrawFromDistribution(DrawFromDistribution drawFromDistribution) {
+    DrawFromDistribution oldDrawFromDistribution = this.drawFromDistribution;
+    this.drawFromDistribution = drawFromDistribution;
+    if (getExtendedSBase() != null) {
+      getExtendedSBase().registerChild(drawFromDistribution);
+    }
+    firePropertyChange(DistribConstants.drawFromDistribution, oldDrawFromDistribution, this.drawFromDistribution); // TODO - check that the old drawFromDistribution is properly un-registered
+  }
+
   /**
    * Creates and Sets a new drawFromDistribution instance.
+   * @return
    */
   public DrawFromDistribution createDrawFromDistribution() {
     DrawFromDistribution drawFromDistribution = new DrawFromDistribution();
     setDrawFromDistribution(drawFromDistribution);
     return drawFromDistribution;
   }
-	
 
-	/**
-	 * Unsets the variable drawFromDistribution 
-	 *
-	 * @return {@code true}, if drawFromDistribution was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetDrawFromDistribution() {
-		if (isSetDrawFromDistribution()) {
-			DrawFromDistribution oldDrawFromDistribution = this.drawFromDistribution;
-			this.drawFromDistribution = null;
-			firePropertyChange(DistribConstants.drawFromDistribution, oldDrawFromDistribution, this.drawFromDistribution);
-			return true;
-		}
-		return false;
-	}
-	
-	@Override
-	public String getElementNamespace() {		
-		return DistribConstants.namespaceURI;
-	}
 
-	@Override
-	public String getPackageName() {
-		return DistribConstants.shortLabel;
-	}
+  /**
+   * Unsets the variable drawFromDistribution
+   *
+   * @return {@code true}, if drawFromDistribution was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetDrawFromDistribution() {
+    if (isSetDrawFromDistribution()) {
+      DrawFromDistribution oldDrawFromDistribution = drawFromDistribution;
+      drawFromDistribution = null;
+      firePropertyChange(DistribConstants.drawFromDistribution, oldDrawFromDistribution, drawFromDistribution);
+      return true;
+    }
+    return false;
+  }
 
-	@Override
-	public String getPrefix() {
-		return DistribConstants.shortLabel;
-	}
+  @Override
+  public String getElementNamespace() {
+    return DistribConstants.namespaceURI;
+  }
 
-	@Override
-	public String getURI() {
-		return DistribConstants.namespaceURI; // TODO - update to return a stored String that can change
-	}
+  @Override
+  public String getPackageName() {
+    return DistribConstants.shortLabel;
+  }
 
-	
+  @Override
+  public String getPrefix() {
+    return DistribConstants.shortLabel;
+  }
+
+  @Override
+  public String getURI() {
+    return DistribConstants.namespaceURI; // TODO - update to return a stored String that can change
+  }
+
+
   @Override
   public int getChildCount() {
     int count = 0;
@@ -148,7 +158,7 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
     if (isSetDrawFromDistribution()) {
       count++;
     }
-    
+
     return count;
   }
 
@@ -168,24 +178,24 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
 
-	@Override
-	public boolean getAllowsChildren() {
-		return true;
-	}
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
 
-	@Override
-	public AbstractSBasePlugin clone() {
-		return new DistribFunctionDefinitionPlugin(this);
-	}
+  @Override
+  public AbstractSBasePlugin clone() {
+    return new DistribFunctionDefinitionPlugin(this);
+  }
 
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		return false;
-	}
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    return false;
+  }
 
-	
+
 }
