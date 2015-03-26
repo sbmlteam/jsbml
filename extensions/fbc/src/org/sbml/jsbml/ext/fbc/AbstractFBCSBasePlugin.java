@@ -42,6 +42,7 @@ public abstract class AbstractFBCSBasePlugin extends AbstractSBasePlugin {
    */
   public AbstractFBCSBasePlugin() {
     super();
+    setPackageVersion(-1);
   }
 
   /**
@@ -58,6 +59,7 @@ public abstract class AbstractFBCSBasePlugin extends AbstractSBasePlugin {
    */
   public AbstractFBCSBasePlugin(SBase sbase) {
     super(sbase);
+    setPackageVersion(-1);
   }
 
   /* (non-Javadoc)
@@ -65,7 +67,7 @@ public abstract class AbstractFBCSBasePlugin extends AbstractSBasePlugin {
    */
   @Override
   public String getElementNamespace() {
-    return FBCConstants.getNamespaceURI(getLevel(), getVersion(), getPackageVersion());
+    return FBCConstants.getNamespaceURI(getLevel(), getVersion(), getPackageVersion());  // TODO - change to return a String attribute that can be changed
   }
 
   /* (non-Javadoc)
@@ -73,7 +75,7 @@ public abstract class AbstractFBCSBasePlugin extends AbstractSBasePlugin {
    */
   @Override
   public String getPackageName() {
-    return FBCConstants.packageName;
+    return FBCConstants.shortLabel;
   }
 
   /* (non-Javadoc)

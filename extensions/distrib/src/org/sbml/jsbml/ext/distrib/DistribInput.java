@@ -111,7 +111,9 @@ public class DistribInput extends AbstractNamedSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(DistribConstants.namespaceURI);
+    setNamespace(DistribConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = DistribConstants.shortLabel;
   }
 	
   

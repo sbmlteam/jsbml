@@ -43,6 +43,7 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
 	 */
 	public DistribFunctionDefinitionPlugin(FunctionDefinition fd) {
 		super(fd);
+		setPackageVersion(-1);
 	}
 	
 	/**
@@ -136,7 +137,7 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
 
 	@Override
 	public String getURI() {
-		return DistribConstants.namespaceURI;
+		return DistribConstants.namespaceURI; // TODO - update to return a stored String that can change
 	}
 
 	
@@ -186,4 +187,5 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
 		return false;
 	}
 
+	
 }

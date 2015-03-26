@@ -100,7 +100,9 @@ public class ModelDefinition extends Model {
    */
   public void init()
   {
-    setNamespace(CompConstants.namespaceURI);
+    setNamespace(CompConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = CompConstants.shortLabel;
   }
 
 }

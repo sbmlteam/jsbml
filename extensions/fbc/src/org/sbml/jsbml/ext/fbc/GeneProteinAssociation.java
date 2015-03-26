@@ -28,7 +28,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- * Introduced to FBC in version 2. // TODO - rename to GeneProductAssociation ??
+ * Introduced to FBC in version 2.
  * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$
@@ -59,7 +59,9 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
    * 
    */
   private void initDefaults() {
-    setNamespace(FBCConstants.namespaceURI);
+    setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = FBCConstants.shortLabel;
   }
 
   /**

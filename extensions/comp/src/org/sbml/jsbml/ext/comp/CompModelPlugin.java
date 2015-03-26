@@ -308,7 +308,9 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
       } else {
         listOfPorts = new ListOf<Port>();
       }
-      listOfPorts.setNamespace(CompConstants.namespaceURI);
+      listOfPorts.setNamespace(CompConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfPorts.setPackageVersion(-1);
+      // TODO - need to set package name for all ListOf !
       listOfPorts.setSBaseListType(ListOf.Type.other);
 
       if (extendedSBase != null) {
