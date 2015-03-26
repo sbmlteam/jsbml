@@ -46,7 +46,7 @@ import org.w3c.tidy.Tidy;
  *  document.
  * 
  * @author Nicolas Rodriguez
- * @since 1.0
+ * @since 1.1
  * @version $Rev$
  */
 public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneable, Serializable {
@@ -56,24 +56,27 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    */
   private static final long serialVersionUID = 1L;
 
+  /**
+   * 
+   */
   private static Tidy tidy = new Tidy();  // obtain a new Tidy instance
-  
+
   static {
 
-    // set desired configuration options using tidy setters 
+    // set desired configuration options using tidy setters
     tidy.setXmlTags(true);
     tidy.setIndentContent(true);
     tidy.setXmlOut(true);
 
     tidy.setDropEmptyParas(false);
-    
+
     tidy.setSmartIndent(true);
     tidy.setWrapScriptlets(true);
     tidy.setWraplen(200);
     tidy.setSpaces(2);
     tidy.setXmlSpace(true);
   }
-  
+
   /**
    * Writes the given SBML document to a {@link File}.
    * 
@@ -97,14 +100,14 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    *             to an invalid file name or missing permissions.
    */
   public static void write(SBMLDocument sbmlDocument, File file,
-    char indentChar, short indentCount) throws XMLStreamException, SBMLException, IOException 
+    char indentChar, short indentCount) throws XMLStreamException, SBMLException, IOException
   {
     SBMLWriter sbmlWriter = new SBMLWriter();
     sbmlWriter.setIndentationChar(indentChar);
     sbmlWriter.setIndentationCount(indentCount);
-    
+
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument);
-    
+
     tidy.parse(new StringReader(sbmlDocString), new FileWriter(file)); // run tidy, providing an input and output stream
   }
 
@@ -135,11 +138,11 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    */
   public static void write(SBMLDocument sbmlDocument, File file, String programName,
     String programVersion)
-        throws XMLStreamException, SBMLException, IOException 
+        throws XMLStreamException, SBMLException, IOException
   {
-    SBMLWriter sbmlWriter = new SBMLWriter();    
+    SBMLWriter sbmlWriter = new SBMLWriter();
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
-    
+
     tidy.parse(new StringReader(sbmlDocString), new FileWriter(file)); // run tidy, providing an input and output stream
   }
 
@@ -176,13 +179,13 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    */
   public static void write(SBMLDocument sbmlDocument, File file,
     String programName, String programVersion, char indentChar,
-    short indentCount) throws XMLStreamException, SBMLException, IOException 
+    short indentCount) throws XMLStreamException, SBMLException, IOException
   {
-    SBMLWriter sbmlWriter = new SBMLWriter();    
+    SBMLWriter sbmlWriter = new SBMLWriter();
     sbmlWriter.setIndentationChar(indentChar);
     sbmlWriter.setIndentationCount(indentCount);
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
-    
+
     tidy.parse(new StringReader(sbmlDocString), new FileWriter(file)); // run tidy, providing an input and output stream
   }
 
@@ -200,13 +203,13 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    *             {@link SBMLDocument}.
    */
   public static void write(SBMLDocument sbmlDocument, OutputStream stream,
-    char indentChar, short indentCount) throws XMLStreamException, SBMLException 
+    char indentChar, short indentCount) throws XMLStreamException, SBMLException
   {
-    SBMLWriter sbmlWriter = new SBMLWriter();    
+    SBMLWriter sbmlWriter = new SBMLWriter();
     sbmlWriter.setIndentationChar(indentChar);
     sbmlWriter.setIndentationCount(indentCount);
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument);
-    
+
     tidy.parse(new StringReader(sbmlDocString), stream); // run tidy, providing an input and output stream
   }
 
@@ -233,11 +236,11 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    */
   public static void write(SBMLDocument sbmlDocument, OutputStream stream,
     String programName, String programVersion)
-        throws XMLStreamException, SBMLException 
+        throws XMLStreamException, SBMLException
   {
-    SBMLWriter sbmlWriter = new SBMLWriter();    
+    SBMLWriter sbmlWriter = new SBMLWriter();
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
-    
+
     tidy.parse(new StringReader(sbmlDocString), stream); // run tidy, providing an input and output stream
   }
 
@@ -270,9 +273,9 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    */
   public static void write(SBMLDocument sbmlDocument, OutputStream stream,
     String programName, String programVersion, char indentChar,
-    short indentCount) throws XMLStreamException, SBMLException 
+    short indentCount) throws XMLStreamException, SBMLException
   {
-    SBMLWriter sbmlWriter = new SBMLWriter();    
+    SBMLWriter sbmlWriter = new SBMLWriter();
     sbmlWriter.setIndentationChar(indentChar);
     sbmlWriter.setIndentationCount(indentCount);
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
@@ -304,9 +307,9 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    */
   public static void write(SBMLDocument sbmlDocument, String fileName,
     char indentChar, short indentCount) throws XMLStreamException,
-    FileNotFoundException, SBMLException 
+    FileNotFoundException, SBMLException
   {
-    SBMLWriter sbmlWriter = new SBMLWriter();    
+    SBMLWriter sbmlWriter = new SBMLWriter();
     sbmlWriter.setIndentationChar(indentChar);
     sbmlWriter.setIndentationCount(indentCount);
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument);
@@ -345,9 +348,9 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    */
   public static void write(SBMLDocument sbmlDocument, String fileName,
     String programName, String programVersion)
-        throws XMLStreamException, FileNotFoundException, SBMLException 
+        throws XMLStreamException, FileNotFoundException, SBMLException
   {
-    SBMLWriter sbmlWriter = new SBMLWriter();    
+    SBMLWriter sbmlWriter = new SBMLWriter();
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
 
     try {
@@ -391,9 +394,9 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
   public static void write(SBMLDocument sbmlDocument, String fileName,
     String programName, String programVersion, char indentChar,
     short indentCount)
-        throws XMLStreamException, FileNotFoundException, SBMLException 
+        throws XMLStreamException, FileNotFoundException, SBMLException
   {
-    SBMLWriter sbmlWriter = new SBMLWriter();    
+    SBMLWriter sbmlWriter = new SBMLWriter();
     sbmlWriter.setIndentationChar(indentChar);
     sbmlWriter.setIndentationCount(indentCount);
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
@@ -506,11 +509,12 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    *             if it is not possible to write to the given file, e.g., due
    *             to an invalid file name or missing permissions.
    */
+  @Override
   public void write(SBMLDocument sbmlDocument, File file)
-      throws XMLStreamException, SBMLException, IOException 
+      throws XMLStreamException, SBMLException, IOException
   {
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument);
-    
+
     tidy.parse(new StringReader(sbmlDocString), new FileWriter(file)); // run tidy, providing an input and output stream
   }
 
@@ -533,11 +537,12 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    *             {@link SBMLDocument}.
    * 
    */
+  @Override
   public void write(SBMLDocument sbmlDocument, OutputStream stream)
-      throws XMLStreamException, SBMLException 
+      throws XMLStreamException, SBMLException
   {
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, getProgramName(), getProgramVersion());
-    
+
     tidy.parse(new StringReader(sbmlDocString), stream); // run tidy, providing an input and output stream
   }
 
@@ -564,11 +569,12 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    *             {@link SBMLDocument}.
    * 
    */
+  @Override
   public void write(SBMLDocument sbmlDocument, String fileName)
       throws XMLStreamException, FileNotFoundException, SBMLException {
-    
+
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, getProgramName(), getProgramVersion());
-    
+
     try {
       tidy.parse(new StringReader(sbmlDocString), new FileWriter(fileName));  // run tidy, providing an input and output stream
     } catch (IOException e) {
@@ -597,11 +603,12 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    *             if it is not possible to write to the given file, e.g., due
    *             to an invalid file name or missing permissions.
    */
+  @Override
   public void writeSBML(SBMLDocument sbmlDocument, File file)
       throws XMLStreamException, SBMLException, IOException {
-    
+
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, getProgramName(), getProgramVersion());
-    
+
     try {
       tidy.parse(new StringReader(sbmlDocString), new FileWriter(file));  // run tidy, providing an input and output stream
     } catch (IOException e) {
@@ -631,6 +638,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    *             if any SBML problems prevent to write the
    *             {@link SBMLDocument}.
    */
+  @Override
   public void writeSBMLToFile(SBMLDocument sbmlDocument, String fileName)
       throws FileNotFoundException, XMLStreamException, SBMLException {
     write(sbmlDocument, fileName);
@@ -654,20 +662,28 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
    *             if any SBML problems prevent to write the
    *             {@link SBMLDocument}.
    */
+  @Override
   public String writeSBMLToString(SBMLDocument sbmlDocument)
-      throws XMLStreamException, SBMLException { 
+      throws XMLStreamException, SBMLException {
 
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, getProgramName(), getProgramVersion());
     StringWriter stringWriter = new StringWriter();
-    
+
     tidy.parse(new StringReader(sbmlDocString), stringWriter); // run tidy, providing an input and output stream
 
     return stringWriter.toString();
   }
 
-  
+  /**
+   * 
+   * @param args
+   * @throws SBMLException
+   * @throws XMLStreamException
+   * @throws IOException
+   */
   public static void main(String[] args) throws SBMLException, XMLStreamException, IOException {
-    
+    // TODO: move this to the examples folder.
+
     if (args.length < 1) {
       System.out.println(
           "Usage: java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
@@ -754,8 +770,8 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     }
   }
 
-//    SBMLDocument doc = new SBMLReader().readSBMLFromFile("/home/rodrigue/data/BIOMD0000000477.xml");
-//    
-//    TidySBMLWriter.write(doc, new File("/home/rodrigue/data/BIOMD0000000477-tidyFile.xml"), ' ', (short) 2);
-//  }
+  //    SBMLDocument doc = new SBMLReader().readSBMLFromFile("/home/rodrigue/data/BIOMD0000000477.xml");
+  //
+  //    TidySBMLWriter.write(doc, new File("/home/rodrigue/data/BIOMD0000000477-tidyFile.xml"), ' ', (short) 2);
+  //  }
 }
