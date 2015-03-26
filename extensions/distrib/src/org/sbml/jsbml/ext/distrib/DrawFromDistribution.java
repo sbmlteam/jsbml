@@ -35,29 +35,41 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.xml.XMLNode;
 
+/**
+ * 
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.1
+ * @date 26.03.2015
+ */
 public class DrawFromDistribution extends AbstractSBase implements IdManager {
+
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -7217922005569440580L;
 
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(DrawFromDistribution.class);
 
-	/**
-	 * 
-	 */
-	private ListOf<DistribInput> listOfDistribInputs;
-	/**
-	 * 
-	 */
-	private XMLNode uncertML;
-	
+  /**
+   * 
+   */
+  private ListOf<DistribInput> listOfDistribInputs;
+  /**
+   * 
+   */
+  private XMLNode uncertML;
+
   /**
    * Maps between the {@link DistribInput} identifiers and themselves.
    */
   private Map<String, DistribInput> mapOfDistribInputs;
 
-	/**
-   * Creates a DrawFromDistribution instance 
+  /**
+   * Creates a DrawFromDistribution instance
    */
   public DrawFromDistribution() {
     super();
@@ -66,7 +78,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
 
 
   /**
-   * Creates a DrawFromDistribution instance with a level and version. 
+   * Creates a DrawFromDistribution instance with a level and version.
    * 
    * @param level
    * @param version
@@ -79,10 +91,11 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public DrawFromDistribution(DrawFromDistribution obj) {
     super(obj);
-    
+
     if (obj.isSetUncertML()) {
       setUncertML(obj.getUncertML().clone());
     }
@@ -100,7 +113,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
     final int prime = 5153;
     int result = super.hashCode();
     result = prime * result
-      + ((listOfDistribInputs == null) ? 0 : listOfDistribInputs.hashCode());
+        + ((listOfDistribInputs == null) ? 0 : listOfDistribInputs.hashCode());
     result = prime * result + ((uncertML == null) ? 0 : uncertML.hashCode());
     return result;
   }
@@ -142,6 +155,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
   /**
    * clones this class
    */
+  @Override
   public DrawFromDistribution clone() {
     return new DrawFromDistribution(this);
   }
@@ -156,7 +170,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
     packageName = DistribConstants.shortLabel;
   }
 
-  
+
   /**
    * Returns the value of uncertML
    *
@@ -172,17 +186,18 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
 
 
   /**
-   * Returns whether uncertML is set 
+   * Returns whether uncertML is set
    *
-   * @return whether uncertML is set 
+   * @return whether uncertML is set
    */
   public boolean isSetUncertML() {
-    return this.uncertML != null;
+    return uncertML != null;
   }
 
 
   /**
    * Sets the value of uncertML
+   * @param uncertML
    */
   public void setUncertML(XMLNode uncertML) {
     XMLNode oldUncertML = this.uncertML;
@@ -193,26 +208,26 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
 
 
   /**
-   * Unsets the variable uncertML 
+   * Unsets the variable uncertML
    *
-   * @return {@code true}, if uncertML was set before, 
+   * @return {@code true}, if uncertML was set before,
    *         otherwise {@code false}
    */
   public boolean unsetUncertML() {
     if (isSetUncertML()) {
-      XMLNode oldUncertML = this.uncertML;
-      this.uncertML = null;
-      firePropertyChange(DistribConstants.uncertML, oldUncertML, this.uncertML);
+      XMLNode oldUncertML = uncertML;
+      uncertML = null;
+      firePropertyChange(DistribConstants.uncertML, oldUncertML, uncertML);
       return true;
     }
     return false;
   }
 
-  
+
   /**
    * Returns {@code true}, if listOfDistribInputs contains at least one element.
    *
-   * @return {@code true}, if listOfDistribInputs contains at least one element, 
+   * @return {@code true}, if listOfDistribInputs contains at least one element,
    *         otherwise {@code false}.
    */
   public boolean isSetListOfDistribInputs() {
@@ -233,7 +248,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
       listOfDistribInputs = new ListOf<DistribInput>();
       listOfDistribInputs.setNamespace(DistribConstants.namespaceURI);
       listOfDistribInputs.setSBaseListType(ListOf.Type.other);
-      
+
       registerChild(listOfDistribInputs);
     }
     return listOfDistribInputs;
@@ -244,28 +259,28 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
    * Sets the given {@code ListOf<DistribInput>}. If listOfDistribInputs
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfDistribInputs.
+   * @param listOfDistribInputs
    */
   public void setListOfDistribInputs(ListOf<DistribInput> listOfDistribInputs) {
     unsetListOfDistribInputs();
     this.listOfDistribInputs = listOfDistribInputs;
     this.listOfDistribInputs.setSBaseListType(ListOf.Type.other);
-    
+
     registerChild(listOfDistribInputs);
   }
 
 
   /**
-   * Returns {@code true}, if listOfDistribInputs contain at least one element, 
+   * Returns {@code true}, if listOfDistribInputs contain at least one element,
    *         otherwise {@code false}.
    *
-   * @return {@code true}, if listOfDistribInputs contain at least one element, 
+   * @return {@code true}, if listOfDistribInputs contain at least one element,
    *         otherwise {@code false}.
    */
   public boolean unsetListOfDistribInputs() {
     if (isSetListOfDistribInputs()) {
-      ListOf<DistribInput> oldDistribInputs = this.listOfDistribInputs;
-      this.listOfDistribInputs = null;
+      ListOf<DistribInput> oldDistribInputs = listOfDistribInputs;
+      listOfDistribInputs = null;
       oldDistribInputs.fireNodeRemovedEvent();
       return true;
     }
@@ -278,7 +293,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
    * <p>The listOfDistribInputs is initialized if necessary.
    *
    * @param DistribInput the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add(Object)})
    */
   public boolean addDistribInput(DistribInput DistribInput) {
     return getListOfDistribInputs().add(DistribInput);
@@ -303,7 +318,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
   /**
    * Removes an element from the listOfDistribInputs.
    *
-   * @param id the id of the element to be removed from the list.
+   * @param DistribInputId the id of the element to be removed from the list.
    * @return the removed element, if it was successfully found and removed or null.
    */
   public DistribInput removeDistribInput(String DistribInputId) {
@@ -332,6 +347,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
 
   /**
    * Creates a new DistribInput element and adds it to the ListOfDistribInputs list.
+   * @return
    */
   public DistribInput createDistribInput() {
     return createDistribInput(null);
@@ -370,7 +386,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
   /**
    * Gets an element from the listOfDistribInputs, with the given id.
    *
-   * @param id the id of the {@link DistribInput} element to get.
+   * @param distribInputId the id of the {@link DistribInput} element to get.
    * @return an element from the listOfDistribInputs with the given id or null.
    */
   public DistribInput getDistribInput(String distribInputId) {
@@ -400,8 +416,8 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
   public int getNumDistribInputs() {
     return getDistribInputCount();
   }
-  
-  
+
+
   @Override
   public boolean getAllowsChildren() {
     return true;
@@ -429,39 +445,39 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
       throw new IndexOutOfBoundsException(index + " < 0");
     }
     int count = super.getChildCount(), pos = 0;
-    
+
     if (index < count) {
       return super.getChildAt(index);
     } else {
       index -= count;
     }
-    
-     if (isSetListOfDistribInputs()) {
-       if (pos == index) {
-         return getListOfDistribInputs();
-       }
-       pos++;
-     }
-     if (isSetUncertML()) {
-       if (pos == index) {
-         return getUncertML();
-       }
-       pos++;
-     }
-     
+
+    if (isSetListOfDistribInputs()) {
+      if (pos == index) {
+        return getListOfDistribInputs();
+      }
+      pos++;
+    }
+    if (isSetUncertML()) {
+      if (pos == index) {
+        return getUncertML();
+      }
+      pos++;
+    }
+
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
 
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
     return "DrawFromDistribution [listOfDistribInputs=" + listOfDistribInputs
-      + ", uncertML=" + uncertML + "]";
+        + ", uncertML=" + uncertML + "]";
   }
 
 
@@ -550,6 +566,6 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
 
     return success;
   }
-	
-	
+
+
 }

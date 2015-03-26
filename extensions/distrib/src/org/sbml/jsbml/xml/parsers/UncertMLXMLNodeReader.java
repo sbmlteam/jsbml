@@ -19,7 +19,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.parsers;
 
 import java.text.MessageFormat;
@@ -98,7 +97,7 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
 
       xmlNode.addChild(textNode);
 
-    } 
+    }
     else if (contextObject instanceof Uncertainty) { // TODO - create an interface for elements have some uncertML ???
       Uncertainty parentSBMLElement = (Uncertainty) contextObject;
 
@@ -120,7 +119,7 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
 
       xmlNode.addChild(textNode);
 
-    } 
+    }
     else
     {
       if ((characters != null) && (characters.trim().length() > 0)) {
@@ -149,7 +148,7 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
       // Creating a StartElement XMLNode !!
       XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, uri, prefix), new XMLAttributes(), new XMLNamespaces());
       sbase.setUncertML(xmlNode);
-      
+
       return xmlNode;
     } else if (elementName.equalsIgnoreCase("UncertML") && (contextObject instanceof Uncertainty)) {
       Uncertainty sbase = (Uncertainty) contextObject;
@@ -157,7 +156,7 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
       // Creating a StartElement XMLNode !!
       XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, uri, prefix), new XMLAttributes(), new XMLNamespaces());
       sbase.setUncertML(xmlNode);
-      
+
       return xmlNode;
     }
 
@@ -173,16 +172,16 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
       // logger.debug("XMLNode.toXMLString() = \n@" + parentNode.toXMLString() + "@");
       // logger.debug("XMLNode.parent.toXMLString() = \n@" + ((XMLNode) parentNode.getParent()).toXMLString() + "@");
     } else if (contextObject instanceof Constraint) {
-      
+
       // We assume that we are parsing an UncertML String on it's own.
       // We store the xmlNode in the user objects
       ((SBase) contextObject).putUserObject(SBMLReader.UNKNOWN_XML_NODE, xmlNode);
-      
+
     } else if (contextObject == null) {
 
-      // Could happen when we are parsing an UncertML String on it's own, if we don't use the SBase user object. 
+      // Could happen when we are parsing an UncertML String on it's own, if we don't use the SBase user object.
       // nothing to do
-      
+
     } else {
       logger.warn("XMLNode might be lost !!! elementName = '" + elementName + "' contextObject = " + contextObject.getClass().getSimpleName());
     }

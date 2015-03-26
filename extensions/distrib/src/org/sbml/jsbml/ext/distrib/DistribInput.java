@@ -26,12 +26,26 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
+/**
+ * 
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.1
+ * @date 26.03.2015
+ */
 public class DistribInput extends AbstractNamedSBase {
 
-	private Integer index;
-	
-	/**
-   * Creates an DistribInput instance 
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -5444621543802854220L;
+  /**
+   * 
+   */
+  private Integer index;
+
+  /**
+   * Creates an DistribInput instance
    */
   public DistribInput() {
     super();
@@ -40,7 +54,7 @@ public class DistribInput extends AbstractNamedSBase {
 
 
   /**
-   * Creates a DistribInput instance with an id. 
+   * Creates a DistribInput instance with an id.
    * 
    * @param id
    */
@@ -51,7 +65,7 @@ public class DistribInput extends AbstractNamedSBase {
 
 
   /**
-   * Creates a DistribInput instance with a level and version. 
+   * Creates a DistribInput instance with a level and version.
    * 
    * @param level
    * @param version
@@ -62,7 +76,7 @@ public class DistribInput extends AbstractNamedSBase {
 
 
   /**
-   * Creates a DistribInput instance with an id, level, and version. 
+   * Creates a DistribInput instance with an id, level, and version.
    * 
    * @param id
    * @param level
@@ -74,7 +88,7 @@ public class DistribInput extends AbstractNamedSBase {
 
 
   /**
-   * Creates a DistribInput instance with an id, name, level, and version. 
+   * Creates a DistribInput instance with an id, name, level, and version.
    * 
    * @param id
    * @param name
@@ -89,10 +103,11 @@ public class DistribInput extends AbstractNamedSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public DistribInput(DistribInput obj) {
     super(obj);
-    
+
     if (obj.isSetIndex()) {
       setIndex(obj.getIndex());
     }
@@ -102,6 +117,7 @@ public class DistribInput extends AbstractNamedSBase {
   /**
    * clones this class
    */
+  @Override
   public DistribInput clone() {
     return new DistribInput(this);
   }
@@ -115,8 +131,8 @@ public class DistribInput extends AbstractNamedSBase {
     setPackageVersion(-1);
     packageName = DistribConstants.shortLabel;
   }
-	
-  
+
+
   /**
    * Returns the value of index
    *
@@ -132,17 +148,18 @@ public class DistribInput extends AbstractNamedSBase {
 
 
   /**
-   * Returns whether index is set 
+   * Returns whether index is set
    *
-   * @return whether index is set 
+   * @return whether index is set
    */
   public boolean isSetIndex() {
-    return this.index != null;
+    return index != null;
   }
 
 
   /**
    * Sets the value of index
+   * @param index
    */
   public void setIndex(int index) {
     Integer oldIndex = this.index;
@@ -152,31 +169,31 @@ public class DistribInput extends AbstractNamedSBase {
 
 
   /**
-   * Unsets the variable index 
+   * Unsets the variable index
    *
-   * @return {@code true}, if index was set before, 
+   * @return {@code true}, if index was set before,
    *         otherwise {@code false}
    */
   public boolean unsetIndex() {
     if (isSetIndex()) {
-      Integer oldIndex = this.index;
-      this.index = null;
-      firePropertyChange(DistribConstants.index, oldIndex, this.index);
+      Integer oldIndex = index;
+      index = null;
+      firePropertyChange(DistribConstants.index, oldIndex, index);
       return true;
     }
     return false;
   }
-  
-	/* (non-Javadoc)
+
+  /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
     return "DistribInput [index=" + index + ", id=" + getId()
-      + ", name=" + getName() + "]";
+        + ", name=" + getName() + "]";
   }
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -218,17 +235,17 @@ public class DistribInput extends AbstractNamedSBase {
     Map<String, String> attributes = super.writeXMLAttributes();
 
     if (isSetIndex()) {
-        attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.index, index.toString());
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.index, index.toString());
     }
     if (isSetId()) {
       attributes.remove("id");
-      attributes.put(DistribConstants.shortLabel + ":id", getId());      
+      attributes.put(DistribConstants.shortLabel + ":id", getId());
     }
     if (isSetName()) {
       attributes.remove("name");
-      attributes.put(DistribConstants.shortLabel + ":name", getName());      
+      attributes.put(DistribConstants.shortLabel + ":name", getName());
     }
-    
+
     return attributes;
   }
 
@@ -246,7 +263,7 @@ public class DistribInput extends AbstractNamedSBase {
         isAttributeRead = false;
       }
     }
-    
+
     return isAttributeRead;
   }
 
