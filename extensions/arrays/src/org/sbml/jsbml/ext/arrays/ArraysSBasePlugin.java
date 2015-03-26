@@ -99,7 +99,8 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * @param extendedSBase
    */
   public ArraysSBasePlugin(SBase extendedSBase) {
-
+    super(extendedSBase);
+    initDefaults();
   }
 
   /**
@@ -131,7 +132,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-
+    setPackageVersion(-1);
   }
 
   /**

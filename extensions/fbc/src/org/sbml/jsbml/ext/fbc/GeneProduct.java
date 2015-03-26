@@ -50,6 +50,7 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
    */
   public GeneProduct() {
     super();
+    initDefaults();
   }
 
   /**
@@ -65,6 +66,7 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
    */
   public GeneProduct(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /**
@@ -72,6 +74,7 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
    */
   public GeneProduct(String id) {
     super(id);
+    initDefaults();
   }
 
   /**
@@ -81,6 +84,7 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
    */
   public GeneProduct(String id, int level, int version) {
     super(id, level, version);
+    initDefaults();
   }
 
   /**
@@ -91,6 +95,7 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
    */
   public GeneProduct(String id, String name, int level, int version) {
     super(id, name, level, version);
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -101,6 +106,15 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
     return new GeneProduct(this);
   }
 
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = FBCConstants.shortLabel;
+  }
+  
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */

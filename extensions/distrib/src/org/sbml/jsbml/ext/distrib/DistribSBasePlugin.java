@@ -46,6 +46,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
    */
   public DistribSBasePlugin(SBase sbase) {
     super(sbase);
+    setPackageVersion(-1);
   }
   
   /**
@@ -132,7 +133,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
   
   @Override
   public String getElementNamespace() {
-    return DistribConstants.namespaceURI_L3V1V1;
+    return DistribConstants.namespaceURI_L3V1V1; // TODO - change to return a String attribute that can be changed
   }
 
   @Override
@@ -147,7 +148,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
 
   @Override
   public String getURI() {
-    return DistribConstants.namespaceURI;
+    return DistribConstants.namespaceURI; // TODO - change to return a String attribute that can be changed
   }
 
   

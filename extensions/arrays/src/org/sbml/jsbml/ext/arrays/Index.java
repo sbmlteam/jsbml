@@ -78,6 +78,7 @@ public class Index extends AbstractMathContainer {
    */
   public Index(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
 
@@ -110,7 +111,9 @@ public class Index extends AbstractMathContainer {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(ArraysConstants.namespaceURI);
+    setNamespace(ArraysConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = ArraysConstants.shortLabel;
 
     referencedAttribute = null;
     isSetArrayDimension = false;

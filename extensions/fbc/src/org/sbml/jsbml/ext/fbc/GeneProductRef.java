@@ -49,6 +49,7 @@ public class GeneProductRef extends AbstractNamedSBase implements Association {
    */
   public GeneProductRef() {
     super();
+    initDefaults();
   }
 
   /**
@@ -67,6 +68,7 @@ public class GeneProductRef extends AbstractNamedSBase implements Association {
    */
   public GeneProductRef(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /**
@@ -74,6 +76,7 @@ public class GeneProductRef extends AbstractNamedSBase implements Association {
    */
   public GeneProductRef(String id) {
     super(id);
+    initDefaults();
   }
 
   /**
@@ -83,6 +86,7 @@ public class GeneProductRef extends AbstractNamedSBase implements Association {
    */
   public GeneProductRef(String id, int level, int version) {
     super(id, level, version);
+    initDefaults();
   }
 
   /**
@@ -93,6 +97,7 @@ public class GeneProductRef extends AbstractNamedSBase implements Association {
    */
   public GeneProductRef(String id, String name, int level, int version) {
     super(id, name, level, version);
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -101,6 +106,15 @@ public class GeneProductRef extends AbstractNamedSBase implements Association {
   @Override
   public GeneProductRef clone() {
     return new GeneProductRef(this);
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = FBCConstants.shortLabel;
   }
 
   /* (non-Javadoc)

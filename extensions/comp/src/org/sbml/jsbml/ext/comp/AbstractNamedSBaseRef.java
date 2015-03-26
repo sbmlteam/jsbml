@@ -64,6 +64,7 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
     super();
     id = null;
     name = null;
+    initDefaults();
   }
 
   /**
@@ -75,6 +76,7 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
     super(nsb);
     id = nsb.isSetId() ? new String(nsb.getId()) : null;
     name = nsb.isSetName() ? new String(nsb.getName()) : null;
+    initDefaults();
   }
 
   /**
@@ -127,6 +129,15 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
     this(level, version);
     setId(id);
     setName(name);
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(CompConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = CompConstants.shortLabel;
   }
 
   /**

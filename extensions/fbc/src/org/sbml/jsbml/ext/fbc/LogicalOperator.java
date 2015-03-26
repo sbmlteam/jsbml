@@ -54,6 +54,7 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
    */
   public LogicalOperator() {
     super();
+    initDefaults();
   }
 
 
@@ -63,6 +64,7 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
    */
   public LogicalOperator(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /**
@@ -76,6 +78,15 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
         addAssociation((Association) childAssociation.clone());
       }
     }
+  }
+
+  /**
+   * 
+   */
+  private void initDefaults() {
+    setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = FBCConstants.shortLabel;
   }
 
 

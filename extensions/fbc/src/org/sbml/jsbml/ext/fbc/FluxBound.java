@@ -328,7 +328,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Deprecated
   public void initDefaults() {
-    setNamespace(FBCConstants.namespaceURI);
+    setNamespace(FBCConstants.namespaceURI_L3V1V1); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = FBCConstants.shortLabel;
   }
 
   /* (non-Javadoc)

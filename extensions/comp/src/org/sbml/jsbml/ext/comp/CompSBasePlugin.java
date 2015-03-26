@@ -71,7 +71,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    */
   @Override
   public String getPackageName() {
-    return CompConstants.packageName;
+    return CompConstants.shortLabel;
   }
 
 
@@ -143,6 +143,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    */
   public CompSBasePlugin(SBase extendedSBase) {
     super(extendedSBase);
+    initDefaults();
   }
 
   /**
@@ -173,7 +174,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-
+    setPackageVersion(-1);
   }
 
 
