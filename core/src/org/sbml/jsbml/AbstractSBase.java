@@ -187,6 +187,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   private String elementNamespace;
 
   /**
+   * the name of the package which this SBase element belong to, 'core' by default.
+   */
+  protected String packageName = "core";
+  
+  /**
+   * the version of the package which this SBase element belong to, '0' by default for core.
+   */
+  private int packageVersion = 0;
+
+  /**
    * Creates an AbstractSBase instance.
    * 
    * <p>By default, the sboTerm is -1, the
@@ -1314,6 +1324,22 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return getExtensionCount();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return packageName;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#getPackageVersion()
+   */
+  @Override
+  public int getPackageVersion() {
+    return packageVersion;
+  }
+
   /**
    * This is equivalent to calling {@link #getParentSBMLObject()}, but this
    * method is needed for {@link TreeNode}.
@@ -1378,6 +1404,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public String getSBOTermID() {
     return SBO.intToString(sboTerm);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#getURI()
+   */
+  @Override
+  public String getURI() {
+    return getNamespace();
   }
 
   /* (non-Javadoc)
@@ -1942,6 +1976,20 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     addAllChangeListeners(sbase.getListOfTreeNodeChangeListeners());
     fireNodeAddedEvent();
     setParentSBML(sbase);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#setPackageVersion(int)
+   */
+  @Override
+  public void setPackageVersion(int packageVersion) {
+    int oldPackageVersion = this.packageVersion;
+    
+    // TODO - add some checks to see if it agree with the package version of the parent
+    // either SBase or SBasePlugin, if the parent belong to a different package ??
+    
+    this.packageVersion = packageVersion;
+    firePropertyChange(TreeNodeChangeEvent.packageVersion, oldPackageVersion, packageVersion);
   }
 
   /* (non-Javadoc)

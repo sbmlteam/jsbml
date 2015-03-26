@@ -83,6 +83,10 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
   /**
    * 
    */
+  public static final String packageVersion = "packageVersion";
+  /**
+   * 
+   */
   public static final String metaId = "metaId"; //$NON-NLS-1$
   /**
    * 
