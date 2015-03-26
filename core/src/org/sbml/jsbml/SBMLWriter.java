@@ -351,13 +351,13 @@ public class SBMLWriter implements Cloneable, Serializable {
    * {@link String} representation (possibly in a {@link File}) with the help
    * of JSBML.
    */
-  private String programName;
+  String programName;
 
   /**
    * The version of the program using JSBML to serialize a model in an SBML
    * {@link String} or {@link File}.
    */
-  private String programVersion;
+  String programVersion;
 
   /**
    * The actual writer.
