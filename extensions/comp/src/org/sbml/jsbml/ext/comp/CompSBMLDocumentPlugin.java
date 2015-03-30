@@ -141,8 +141,13 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
       } else {
         listOfExternalModelDefinitions = new ListOf<ExternalModelDefinition>();
       }
-      listOfExternalModelDefinitions.setNamespace(CompConstants.namespaceURI);
+      listOfExternalModelDefinitions.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfExternalModelDefinitions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfExternalModelDefinitions.setPackageName(null);
+      listOfExternalModelDefinitions.setPackageName(CompConstants.shortLabel);      
       listOfExternalModelDefinitions.setSBaseListType(ListOf.Type.other);
+
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfExternalModelDefinitions);
       }
@@ -236,6 +241,16 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public void setListOfExternalModelDefinitions(ListOf<ExternalModelDefinition> listOfExternalModelDefinitions) {
     unsetListOfExternalModelDefinitions();
     this.listOfExternalModelDefinitions = listOfExternalModelDefinitions;
+    
+    if (listOfExternalModelDefinitions != null) {
+      listOfExternalModelDefinitions.unsetNamespace();
+      listOfExternalModelDefinitions.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfExternalModelDefinitions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfExternalModelDefinitions.setPackageName(null);
+      listOfExternalModelDefinitions.setPackageName(CompConstants.shortLabel);      
+      listOfExternalModelDefinitions.setSBaseListType(ListOf.Type.other);
+    }
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfExternalModelDefinitions);
     }
@@ -416,8 +431,13 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
       } else {
         listOfModelDefinitions = new ListOf<ModelDefinition>();
       }
-      listOfModelDefinitions.setNamespace(CompConstants.namespaceURI);
+      listOfModelDefinitions.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfModelDefinitions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfModelDefinitions.setPackageName(null);
+      listOfModelDefinitions.setPackageName(CompConstants.shortLabel);      
       listOfModelDefinitions.setSBaseListType(ListOf.Type.other);
+
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfModelDefinitions);
       }
@@ -437,6 +457,16 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public void setListOfModelDefinitions(ListOf<ModelDefinition> listOfModelDefinitions) {
     unsetListOfModelDefinitions();
     this.listOfModelDefinitions = listOfModelDefinitions;
+    
+    if (listOfModelDefinitions != null) {
+      listOfModelDefinitions.unsetNamespace();
+      listOfModelDefinitions.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfModelDefinitions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfModelDefinitions.setPackageName(null);
+      listOfModelDefinitions.setPackageName(CompConstants.shortLabel);      
+      listOfModelDefinitions.setSBaseListType(ListOf.Type.other);
+    }
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfModelDefinitions);
     }

@@ -596,6 +596,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     } else {
       log4jLogger.error("The Model element has not been created.");
     }
+
+    log4jLogger.debug("Starting to check the package version and namespace for all package elements");
+    // checks silently package version and namespace and try to fix any problems encountered.
+    PackageUtil.checkPackages(sbmlDocument, true, true);
   }
 
   /* (non-Javadoc)

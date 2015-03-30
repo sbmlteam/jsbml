@@ -369,7 +369,11 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   public ListOf<FluxBound> getListOfFluxBounds() {
     if (!isSetListOfFluxBounds()) {
       listOfFluxBounds = new ListOf<FluxBound>();
-      listOfFluxBounds.setNamespace(FBCConstants.namespaceURI);
+      listOfFluxBounds.setNamespace(FBCConstants.namespaceURI_L3V1V1); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfFluxBounds.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'fbc'
+      listOfFluxBounds.setPackageName(null);
+      listOfFluxBounds.setPackageName(FBCConstants.shortLabel);
       listOfFluxBounds.setSBaseListType(ListOf.Type.other);
 
       if (isSetExtendedSBase()) {
@@ -387,9 +391,13 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   public ListOf<GeneProduct> getListOfGeneProducts() {
     if (!isSetListOfGeneProducts()) {
       listOfGeneProducts = new ListOf<GeneProduct>();
-      listOfGeneProducts.setNamespace(FBCConstants.namespaceURI);
+      listOfGeneProducts.setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfGeneProducts.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'fbc'
+      listOfGeneProducts.setPackageName(null);
+      listOfGeneProducts.setPackageName(FBCConstants.shortLabel);
       listOfGeneProducts.setSBaseListType(ListOf.Type.other);
-      // TODO - if the class containing this code is not of type SBasePlugin, replace the 3 lines by just "registerChild(listOfGeneProducts);"
+
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfGeneProducts);
       }
@@ -406,8 +414,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   public ListOfObjectives getListOfObjectives() {
     if (!isSetListOfObjectives()) {
       listOfObjectives = new ListOfObjectives();
-      listOfObjectives.setNamespace(FBCConstants.namespaceURI);
-      listOfObjectives.setSBaseListType(ListOf.Type.other);
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfObjectives);
@@ -697,6 +703,16 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     unsetListOfFluxBounds();
     this.listOfFluxBounds = listOfFluxBounds;
 
+    if (listOfFluxBounds != null) {
+      listOfFluxBounds.unsetNamespace();
+      listOfFluxBounds.setNamespace(FBCConstants.namespaceURI_L3V1V1); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfFluxBounds.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'fbc'
+      listOfFluxBounds.setPackageName(null);
+      listOfFluxBounds.setPackageName(FBCConstants.shortLabel);
+      listOfFluxBounds.setSBaseListType(ListOf.Type.other);
+    }
+    
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfFluxBounds);
     }
@@ -711,8 +727,17 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   public void setListOfGeneProducts(ListOf<GeneProduct> listOfGeneProducts) {
     unsetListOfGeneProducts();
     this.listOfGeneProducts = listOfGeneProducts;
-    this.listOfGeneProducts.setSBaseListType(ListOf.Type.other);
-    // TODO - if the class containing this code is not of type SBasePlugin, replace the 3 lines by just "registerChild(listOfGeneProducts);"
+
+    if (listOfGeneProducts != null) {
+      listOfGeneProducts.unsetNamespace();
+      listOfGeneProducts.setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfGeneProducts.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'fbc'
+      listOfGeneProducts.setPackageName(null);
+      listOfGeneProducts.setPackageName(FBCConstants.shortLabel);
+      listOfGeneProducts.setSBaseListType(ListOf.Type.other);
+    }
+
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfGeneProducts);
     }

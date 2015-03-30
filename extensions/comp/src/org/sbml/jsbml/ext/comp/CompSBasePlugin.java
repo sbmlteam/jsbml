@@ -355,7 +355,11 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
       } else {
         listOfReplacedElements = new ListOf<ReplacedElement>();
       }
-      listOfReplacedElements.setNamespace(CompConstants.namespaceURI);
+      listOfReplacedElements.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfReplacedElements.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfReplacedElements.setPackageName(null);
+      listOfReplacedElements.setPackageName(CompConstants.shortLabel);      
       listOfReplacedElements.setSBaseListType(ListOf.Type.other);
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfReplacedElements);
@@ -384,6 +388,16 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   public void setListOfReplacedElements(ListOf<ReplacedElement> listOfReplacedElements) {
     unsetListOfReplacedElements();
     this.listOfReplacedElements = listOfReplacedElements;
+
+    if (listOfReplacedElements != null) {
+      listOfReplacedElements.unsetNamespace();
+      listOfReplacedElements.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfReplacedElements.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfReplacedElements.setPackageName(null);
+      listOfReplacedElements.setPackageName(CompConstants.shortLabel);      
+      listOfReplacedElements.setSBaseListType(ListOf.Type.other);
+    }
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfReplacedElements);
     }

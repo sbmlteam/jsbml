@@ -452,7 +452,10 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<Deletion> getListOfDeletions() {
     if (!isSetListOfDeletions()) {
       listOfDeletions = new ListOf<Deletion>(getLevel(), getVersion());
-      listOfDeletions.setNamespace(CompConstants.namespaceURI);
+      listOfDeletions.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfDeletions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfDeletions.setPackageName(CompConstants.shortLabel);      
       listOfDeletions.setSBaseListType(ListOf.Type.other);
       registerChild(listOfDeletions);
     }
@@ -472,6 +475,17 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfDeletions(ListOf<Deletion> listOfDeletions) {
     unsetListOfDeletions();
     this.listOfDeletions = listOfDeletions;
+
+    if ((listOfDeletions != null)) {
+      listOfDeletions.setSBaseListType(ListOf.Type.other);
+      listOfDeletions.unsetNamespace();
+      listOfDeletions.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfDeletions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfDeletions.setPackageName(null);
+      listOfDeletions.setPackageName(CompConstants.shortLabel);      
+    }
+
     registerChild(this.listOfDeletions);
   }
 
