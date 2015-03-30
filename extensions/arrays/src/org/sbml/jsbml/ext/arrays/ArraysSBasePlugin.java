@@ -156,8 +156,13 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public ListOf<Index> getListOfIndices() {
     if (!isSetListOfIndices()) {
       listOfIndices = new ListOf<Index>();
-      listOfIndices.setNamespace(ArraysConstants.namespaceURI);
+      listOfIndices.setNamespace(ArraysConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfIndices.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'arrays'
+      listOfIndices.setPackageName(null);
+      listOfIndices.setPackageName(ArraysConstants.shortLabel);
       listOfIndices.setSBaseListType(ListOf.Type.other);
+
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfIndices);
       }
@@ -174,7 +179,16 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public void setListOfIndices(ListOf<Index> listOfIndices) {
     unsetListOfIndices();
     this.listOfIndices = listOfIndices;
-    this.listOfIndices.setSBaseListType(ListOf.Type.other);
+
+    if (listOfIndices != null) {
+      listOfIndices.unsetNamespace();
+      listOfIndices.setNamespace(ArraysConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfIndices.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'arrays'
+      listOfIndices.setPackageName(null);
+      listOfIndices.setPackageName(ArraysConstants.shortLabel);
+      listOfIndices.setSBaseListType(ListOf.Type.other);
+    }
 
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfIndices);
@@ -349,7 +363,11 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public ListOf<Dimension> getListOfDimensions() {
     if (!isSetListOfDimensions()) {
       listOfDimensions = new ListOf<Dimension>();
-      listOfDimensions.setNamespace(ArraysConstants.namespaceURI);
+      listOfDimensions.setNamespace(ArraysConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfDimensions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'arrays'
+      listOfDimensions.setPackageName(null);
+      listOfDimensions.setPackageName(ArraysConstants.shortLabel);
       listOfDimensions.setSBaseListType(ListOf.Type.other);
 
       if (isSetExtendedSBase()) {
@@ -368,7 +386,16 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public void setListOfDimensions(ListOf<Dimension> listOfDimensions) {
     unsetListOfDimensions();
     this.listOfDimensions = listOfDimensions;
-    this.listOfDimensions.setSBaseListType(ListOf.Type.other);
+
+    if (listOfDimensions != null) {
+      listOfDimensions.unsetNamespace();
+      listOfDimensions.setNamespace(ArraysConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfDimensions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'arrays'
+      listOfDimensions.setPackageName(null);
+      listOfDimensions.setPackageName(ArraysConstants.shortLabel);
+      listOfDimensions.setSBaseListType(ListOf.Type.other);
+    }
 
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfDimensions);

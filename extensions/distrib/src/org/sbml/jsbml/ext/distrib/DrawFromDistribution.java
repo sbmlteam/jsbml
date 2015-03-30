@@ -246,7 +246,11 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
   public ListOf<DistribInput> getListOfDistribInputs() {
     if (!isSetListOfDistribInputs()) {
       listOfDistribInputs = new ListOf<DistribInput>();
-      listOfDistribInputs.setNamespace(DistribConstants.namespaceURI);
+      listOfDistribInputs.setNamespace(DistribConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfDistribInputs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'distrib'
+      listOfDistribInputs.setPackageName(null);
+      listOfDistribInputs.setPackageName(DistribConstants.shortLabel);
       listOfDistribInputs.setSBaseListType(ListOf.Type.other);
 
       registerChild(listOfDistribInputs);
@@ -264,7 +268,16 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
   public void setListOfDistribInputs(ListOf<DistribInput> listOfDistribInputs) {
     unsetListOfDistribInputs();
     this.listOfDistribInputs = listOfDistribInputs;
-    this.listOfDistribInputs.setSBaseListType(ListOf.Type.other);
+
+    if (listOfDistribInputs != null) {
+      listOfDistribInputs.unsetNamespace();
+      listOfDistribInputs.setNamespace(DistribConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfDistribInputs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'distrib'
+      listOfDistribInputs.setPackageName(null);
+      listOfDistribInputs.setPackageName(DistribConstants.shortLabel);
+      listOfDistribInputs.setSBaseListType(ListOf.Type.other);
+    }
 
     registerChild(listOfDistribInputs);
   }

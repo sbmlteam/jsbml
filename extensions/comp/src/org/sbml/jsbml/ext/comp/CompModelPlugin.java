@@ -310,7 +310,9 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
       }
       listOfPorts.setNamespace(CompConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfPorts.setPackageVersion(-1);
-      // TODO - need to set package name for all ListOf !
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfPorts.setPackageName(null);
+      listOfPorts.setPackageName(CompConstants.shortLabel);
       listOfPorts.setSBaseListType(ListOf.Type.other);
 
       if (extendedSBase != null) {
@@ -333,7 +335,11 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
       } else {
         listOfSubmodels = new ListOf<Submodel>();
       }
-      listOfSubmodels.setNamespace(CompConstants.namespaceURI);
+      listOfSubmodels.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSubmodels.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfSubmodels.setPackageName(null);
+      listOfSubmodels.setPackageName(CompConstants.shortLabel);
       listOfSubmodels.setSBaseListType(ListOf.Type.other);
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfSubmodels);
@@ -561,6 +567,12 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     this.listOfPorts = listOfPorts;
     if ((this.listOfPorts != null)) {
       this.listOfPorts.setSBaseListType(ListOf.Type.other);
+      listOfPorts.unsetNamespace();
+      listOfPorts.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfPorts.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfPorts.setPackageName(null);
+      listOfPorts.setPackageName(CompConstants.shortLabel);      
     }
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfPorts);
@@ -576,6 +588,16 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   public void setListOfSubmodels(ListOf<Submodel> listOfSubmodels) {
     unsetListOfSubmodels();
     this.listOfSubmodels = listOfSubmodels;
+    if ((this.listOfSubmodels != null)) {
+      this.listOfSubmodels.setSBaseListType(ListOf.Type.other);
+      listOfSubmodels.unsetNamespace();
+      listOfSubmodels.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSubmodels.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'comp'
+      listOfSubmodels.setPackageName(null);
+      listOfSubmodels.setPackageName(CompConstants.shortLabel);      
+    }
+    
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfSubmodels);
     }
