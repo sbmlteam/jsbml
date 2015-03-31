@@ -455,6 +455,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfDeletions.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDeletions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
+      listOfDeletions.setPackageName(null);
       listOfDeletions.setPackageName(CompConstants.shortLabel);      
       listOfDeletions.setSBaseListType(ListOf.Type.other);
       registerChild(listOfDeletions);

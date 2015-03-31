@@ -949,6 +949,27 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
   }
 
   /**
+   * Sets the name of the package to which this {@link SBase} belong.
+   * 
+   * <p>This an internal method that should not be used outside of the main jsbml code
+   * (core + packages). One class should always belong to the same package.
+   * You have to know what you are doing when using this method.
+   * 
+   * @param newPackageName the name of the package to which this {@link SBase} belong.
+   */
+  public void setPackageName(String newPackageName) {
+
+    if ((packageName != null) && (newPackageName != null) && (!packageName.equals(newPackageName))) {
+      // if we implement proper conversion some days, we need to unset the namespace before changing it.
+      logger.error(MessageFormat.format("An SBase element cannot belong to two different packages! Current package = ''{0}'', new package = ''{1}''", packageName, newPackageName));
+    }
+    String old = packageName;
+    packageName = newPackageName;
+
+    firePropertyChange(TreeNodeChangeEvent.packageName, old, newPackageName);
+  }
+
+  /**
    * Sets the {@link Type} of this {@link ListOf} instance to the {@link Type}
    * defined by the given {@link Class}.
    * 

@@ -69,6 +69,7 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.parsers.PackageUtil;
 import org.sbml.jsbml.xml.parsers.ParserManager;
 import org.sbml.jsbml.xml.parsers.WritingParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
@@ -178,6 +179,9 @@ public class SBMLWriter {
         // testDocument.checkConsistency();
         // System.out.println(XMLNode.convertXMLNodeToString(testDocument.getModel().getAnnotation().getNonRDFannotation()));
 
+        System.out.println("Going to check package version and namespace for all elements.");
+        PackageUtil.checkPackages(testDocument);
+        
         System.out.printf("Starting writing\n");
 
         new SBMLWriter().write(testDocument, jsbmlWriteFileName);
@@ -524,13 +528,16 @@ public class SBMLWriter {
   public void write(SBMLDocument sbmlDocument, OutputStream stream,
     String programName, String programVersion)
         throws XMLStreamException, SBMLException {
-    if (!sbmlDocument.isSetLevel() || !sbmlDocument.isSetVersion()) {
+    if (sbmlDocument == null || !sbmlDocument.isSetLevel() || !sbmlDocument.isSetVersion()) {
       throw new IllegalArgumentException(
           "Unable to write SBML output for documents with undefined SBML Level and Version flag.");
     }
 
     Logger logger = Logger.getLogger(SBMLWriter.class);
 
+    // check package version and namespace in general and register packages if needed.
+    PackageUtil.checkPackages(sbmlDocument, true, true);
+    
     // Making sure that we use the good XML library
     System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
     System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");

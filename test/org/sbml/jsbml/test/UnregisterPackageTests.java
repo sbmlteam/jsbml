@@ -398,6 +398,9 @@ public class UnregisterPackageTests {
     assertTrue(clonedDoc.findSBase("layout_metaid1") != null);
     assertTrue(clonedDoc.getModel().findUniqueNamedSBase("layout1") != null);
 
+    // the package will be enabled automatically before writing
+    assertTrue(!clonedDoc.isPackageEnabled("comp"));
+    
     try {
       System.out.println(new SBMLWriter().writeSBMLToString(clonedDoc));
     } catch (SBMLException e) {
@@ -406,6 +409,7 @@ public class UnregisterPackageTests {
       e.printStackTrace();
     }
 
+    assertTrue(clonedDoc.isPackageEnabled("comp"));
   }
 
 

@@ -313,15 +313,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   }
 
   /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public GeneProduct createGeneProduct(String id, int bar) {
-  //   GeneProduct geneProduct = createGeneProduct(id);
-  //   geneProduct.setBar(bar);
-  //   return geneProduct;
-  // }
-  /**
    * Gets an element from the {@link #listOfGeneProducts} at the given index.
    *
    * @param i the index of the {@link GeneProduct} element to get.
@@ -336,7 +327,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     return getListOfGeneProducts().get(i);
   }
 
-  // TODO - if GeneProduct has no id attribute, you should remove this method.
   /**
    * Gets an element from the listOfGeneProducts, with the given id.
    *
