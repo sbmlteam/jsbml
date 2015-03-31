@@ -43,7 +43,7 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
   /**
    * 
    */
-  private String geneProductIdentifier;
+  private String label;
 
   /**
    * 
@@ -114,7 +114,7 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
     setPackageVersion(-1);
     packageName = FBCConstants.shortLabel;
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
@@ -124,24 +124,24 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
       return false;
     }
     GeneProduct other = (GeneProduct) obj;
-    if (geneProductIdentifier == null) {
-      if (other.geneProductIdentifier != null) {
+    if (label == null) {
+      if (other.label != null) {
         return false;
       }
-    } else if (!geneProductIdentifier.equals(other.geneProductIdentifier)) {
+    } else if (!label.equals(other.label)) {
       return false;
     }
     return true;
   }
 
   /**
-   * Returns the value of geneProductIdentifier
+   * Returns the value of {@link #label}
    *
-   * @return the value of geneProductIdentifier
+   * @return the value of {@link #label}
    */
-  public String getGeneProductIdentifier() {
-    if (isSetGeneProductIdentifier()) {
-      return geneProductIdentifier;
+  public String getLabel() {
+    if (isSetLabel()) {
+      return label;
     }
     return "";
   }
@@ -153,7 +153,7 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
-    result = prime * result + ((geneProductIdentifier == null) ? 0 : geneProductIdentifier.hashCode());
+    result = prime * result + ((label == null) ? 0 : label.hashCode());
     return result;
   }
 
@@ -166,12 +166,12 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
-   * Returns whether geneProductIdentifier is set
+   * Returns whether {@link #label} is set
    *
-   * @return whether geneProductIdentifier is set
+   * @return whether {@link #label} is set
    */
-  public boolean isSetGeneProductIdentifier() {
-    return geneProductIdentifier != null;
+  public boolean isSetLabel() {
+    return label != null;
   }
 
   /* (non-Javadoc)
@@ -185,23 +185,23 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
       isAttributeRead = true;
 
       if (attributeName.equals(FBCConstants.geneProductIdentifier) || attributeName.equals(FBCConstants.label)) {
-        setGeneProductIdentifier(value);
+        setLabel(value);
       } else {
         isAttributeRead = false;
       }
     }
-    
+
     return isAttributeRead;
   }
 
   /**
-   * Sets the value of geneProductIdentifier
-   * @param geneProductIdentifier
+   * Sets the value of {@link #label}
+   * @param label
    */
-  public void setGeneProductIdentifier(String geneProductIdentifier) {
-    String oldGeneProductIdentifier = this.geneProductIdentifier;
-    this.geneProductIdentifier = geneProductIdentifier;
-    firePropertyChange(FBCConstants.geneProductIdentifier, oldGeneProductIdentifier, this.geneProductIdentifier);
+  public void setLabel(String label) {
+    String oldLabel = this.label;
+    this.label = label;
+    firePropertyChange(FBCConstants.label, oldLabel, this.label);
   }
 
   /* (non-Javadoc)
@@ -211,8 +211,8 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append(getClass().getSimpleName());
-    builder.append(" [geneProductIdentifier=");
-    builder.append(geneProductIdentifier);
+    builder.append(" [label=");
+    builder.append(label);
     builder.append(", ");
     builder.append("id=");
     builder.append(getId());
@@ -227,16 +227,16 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
-   * Unsets the variable geneProductIdentifier
+   * Unsets the variable {@link #label}
    *
-   * @return {@code true}, if geneProductIdentifier was set before,
+   * @return {@code true}, if {@link #label} was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetGeneProductIdentifier() {
-    if (isSetGeneProductIdentifier()) {
-      String oldGeneProductIdentifier = geneProductIdentifier;
-      geneProductIdentifier = null;
-      firePropertyChange(FBCConstants.geneProductIdentifier, oldGeneProductIdentifier, geneProductIdentifier);
+  public boolean unsetLabel() {
+    if (isSetLabel()) {
+      String oldLabel = label;
+      label = null;
+      firePropertyChange(FBCConstants.label, oldLabel, label);
       return true;
     }
     return false;
@@ -257,10 +257,10 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
       attributes.remove("name");
       attributes.put(FBCConstants.shortLabel + ":name", getName());
     }
-    if (isSetGeneProductIdentifier()) {
-      attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.label, getGeneProductIdentifier());
+    if (isSetLabel()) {
+      attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.label, getLabel());
     }
-    
+
     return attributes;
   }
 

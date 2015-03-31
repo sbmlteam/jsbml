@@ -27,7 +27,6 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.util.TreeNodeAdapter;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -81,16 +80,6 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
   }
 
   /**
-   * 
-   */
-  private void initDefaults() {
-    setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-    setPackageVersion(-1);
-    packageName = FBCConstants.shortLabel;
-  }
-
-
-  /**
    * Sets the given {@code ListOf<Association>}. If {@link #listOfAssociations}
    * was defined before and contains some elements, they are all unset.
    *
@@ -114,6 +103,15 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
   public boolean addAssociation(Association association) {
     registerChild(association);
     return getListOfAssociations().add(association);
+  }
+
+  /**
+   * Identical to calling {@link #addAssociation(Association)}.
+   * @param child
+   * @see #addAssociation(Association)
+   */
+  public void addChild(Association child) {
+    addAssociation(child);
   }
 
   /* (non-Javadoc)
@@ -264,6 +262,15 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
   }
 
   /**
+   * 
+   */
+  private void initDefaults() {
+    setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = FBCConstants.shortLabel;
+  }
+
+  /**
    * Returns {@code true} if {@link #listOfAssociations} contains at least one element.
    *
    * @return {@code true} if {@link #listOfAssociations} contains at least one element,
@@ -322,7 +329,7 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
     Association element = getListOfAssociations().remove(i);
-    (new TreeNodeAdapter(element, this)).fireNodeRemovedEvent();
+    element.fireNodeRemovedEvent();
     return element;
   }
 
