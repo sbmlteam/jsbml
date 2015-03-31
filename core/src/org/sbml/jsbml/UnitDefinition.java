@@ -51,6 +51,11 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public static final String AREA = "area";
   /**
+   * Identifier of the (for SBML Level 3) {@link UnitDefinition}
+   * {@code extent}.
+   */
+  public static final String EXTENT = "extent";
+  /**
    * Identifier of the (for SBML Level 2) predefined {@link UnitDefinition}
    * {@code length}.
    */

@@ -199,7 +199,7 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
    * @return whether {@link #chemicalFormula} is set.
    */
   public boolean isSetChemicalFormula() {
-    return chemicalFormula != null;
+    return (chemicalFormula != null) && (chemicalFormula.length() > 0);
   }
 
   /* (non-Javadoc)

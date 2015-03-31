@@ -1,6 +1,6 @@
 format-version: 1.2
-date: 07:10:2014 07:00
-data-version: 09:01:2014 16:13
+date: 31:03:2015 07:00
+data-version: 16:03:2015 16:52
 saved-by: SBO community
 auto-generated-by: SBO Browser (http://www.ebi.ac.uk/sbo/)
 default-namespace: sbo
@@ -3922,21 +3922,21 @@ is_a: SBO:0000571 ! thermodynamic parameter
 [Term]
 id: SBO:0000581
 name: Gibbs free energy change
-def: "The increase or decrease of the Gibbs free energy of a system. During a\nreaction, this is equal to the change in enthalpy of the system minus the\nchange in the product of the temperature times the entropy of the system: \nDeltaG = DeltaH - T DeltaS\nA negative value indicates that the reaction will be favoured and will\nrelease energy. The magnitude of the value indicates how far the reaction\nis from equilibrium, where there will be no free energy change. The\nstandard unit of measure is kJ/mol.\nsymbol: DeltaG" [src_code:NR]
+def: "The increase or decrease of the Gibbs free energy of a system. During a\nreaction, this is equal to the change in enthalpy of the system minus the\nchange in the product of the temperature times the entropy of the system: ΔG = ΔH - T ΔS. A negative value indicates that the reaction will be favoured and will\nrelease energy. The magnitude of the value indicates how far the reaction\nis from equilibrium, where there will be no free energy change. The\nstandard unit of measure is kJ/mol. Symbol: ΔG." [src_code:NR]
 comment: created in response to \[SF req #3286595\];
 is_a: SBO:0000580 ! Gibbs free energy
 
 [Term]
 id: SBO:0000582
-name: standard Gibbs energy of formation
-def: "The change in Gibbs free energy associated with the formation of 1 mole of\nsubstance from elements in their standard states under standard conditions\n(1 bar). The standard unit of measure is kJ/mol.\nsymbol: DeltafG(degree)" [src_code:NR]
+name: standard Gibbs free energy of formation
+def: "The change in Gibbs free energy associated with the formation of 1 mole of substance from elements in their standard states under standard conditions (1 bar). For aqueous solutions, each solute must be present in 1M concentration. The standard unit of measure is kJ/mol. Symbol: ΔGf°." [src_code:NR]
 comment: created in response to \[SF req #3286595\];
 is_a: SBO:0000581 ! Gibbs free energy change
 
 [Term]
 id: SBO:0000583
-name: standard Gibbs energy of reaction
-def: "The Gibbs free energy change observed in a thermodynamic system when one\nmole of substance reacts completely, under standard conditions (1 bar).\nThe standard unit of measure is kJ/mol.\nsymbol: ΔG˚" [src_code:NR]
+name: standard Gibbs free energy of reaction
+def: "The Gibbs free energy change observed in a thermodynamic system when one\nmole of substance reacts completely, under standard conditions (1 bar). For aqueous solutions, each solute must be present in 1M concentration. The standard unit of measure is kJ/mol. Symbol: ΔG°." [src_code:NR]
 comment: created in response to \[SF req #3286595\];
 is_a: SBO:0000581 ! Gibbs free energy change
 
@@ -4119,6 +4119,111 @@ name: heterodimer
 def: "A macromolecular complex composed of precisely two non-identical monomeric units, which are usually non-covalently bound." [src_code:NR]
 comment: created in response to SF req #101
 is_a: SBO:0000607 ! dimer
+
+[Term]
+id: SBO:0000610
+name: growth rate
+def: "A measure of the rate of growth of an organism, usually in culture. This can be expressed as increase in cell number or, more usually as an increase in dry weight of cells (grams), measured over a unit time period. Usually expressed as hour -1." [SBO:team "http://goldbook.iupac.org/G02709.html"]
+is_a: SBO:0000002 ! quantitative systems description parameter
+
+[Term]
+id: SBO:0000611
+name: effective catalytic rate
+def: "Under nutrient limited conditions, it may be assumed that enzymes are operating below their maximal capacity (Kcat). Keff represents the lumped turnover rate of a reaction, expressed in units per time." [SBO:team "see supplementary material for http://identifiers.org/pubmed/24084808"]
+comment: created in response to \[SF req #104\]
+is_a: SBO:0000009 ! kinetic constant
+
+[Term]
+id: SBO:0000612
+name: rate of reaction
+def: "The velocity at which a reaction occurs. This may be calculated through the accumulation of a product or consumption of a reactant, and expressed using entity concentrations or amounts per time interval. The rate of reaction may be influenced by temperature, pressure and other factors. Rate of reaction is often referred to as reaction rate or metabolic flux." [src_code:NR]
+comment: Created in response to \[SF req #105\].
+is_a: SBO:0000613 ! reaction parameter
+
+[Term]
+id: SBO:0000613
+name: reaction parameter
+def: "Parameters that pertain to chemical reactions." [src_code:NR]
+comment: Created in response to \[SF req #105\].
+is_a: SBO:0000002 ! quantitative systems description parameter
+
+[Term]
+id: SBO:0000614
+name: rate of reaction (concentration)
+def: "Rate of reaction expressed as a change in concentration over time." [src_code:NR]
+comment: Created in response to \[SF req #105\].
+is_a: SBO:0000612 ! rate of reaction
+
+[Term]
+id: SBO:0000615
+name: rate of reaction (amount)
+def: "Rate of reaction expressed as a change in enumerated quantity over time." [src_code:NR]
+comment: Created in response to \[SF req #105\].
+is_a: SBO:0000612 ! rate of reaction
+
+[Term]
+id: SBO:0000616
+name: extent of reaction
+def: "The extent of a reaction is a measure of how far a reaction has proceeded towards equilibrium. It is denoted by the Greek letter Î¾ and is expressed in moles." [src_code:NR]
+comment: Created in response to \[SF req #105\].
+is_a: SBO:0000613 ! reaction parameter
+
+[Term]
+id: SBO:0000617
+name: Gibbs free energy of reaction
+def: "The Gibbs free energy change observed in a thermodynamic system when a substance undergoes a reaction under non standard conditions. The unit of measure is kJ/mol. Symbol: ΔG." [src_code:NR]
+comment: created in response to \[SF req #106\]
+is_a: SBO:0000581 ! Gibbs free energy change
+
+[Term]
+id: SBO:0000618
+name: reaction affinity
+def: "The negative partial derivative of Gibbs free energy G with respect to extent of reaction at constant pressure and temperature. Affinity is positive for spontaneous reactions in the forward direction. Symbol: ξ." [SBO:team "https://en.wikipedia.org/wiki/Chemical_affinity"]
+comment: created in response to \[SF req #106\]
+synonym: "thermodynamic driving force" []
+is_a: SBO:0000581 ! Gibbs free energy change
+
+[Term]
+id: SBO:0000619
+name: transformed Gibbs free energy change
+def: "A Gibbs free energy that is calculated from the standard Gibbs value (at 298K), and extrapolated to a desired pH and ionic strength, and may be determined at a different temperature. Symbol: ΔG´." [SBO:team "http://www.ncbi.nlm.nih.gov/pubmed/9578607"]
+comment: created in response to \[SF req #106\]
+is_a: SBO:0000580 ! Gibbs free energy
+
+[Term]
+id: SBO:0000620
+name: transformed standard Gibbs free energy of reaction
+def: "A Gibbs free energy of reaction that is calculated from the standard Gibbs value (at 298K), and extrapolated to a desired pH and ionic strength, and may be determined at a different temperature. Symbol ΔG´." [SBO:team "http://www.ncbi.nlm.nih.gov/pubmed/9578607"]
+comment: created in response to \[SF req #106\]
+is_a: SBO:0000619 ! transformed Gibbs free energy change
+
+[Term]
+id: SBO:0000621
+name: transformed standard Gibbs free energy of formation
+def: "A Gibbs free energy of formation that is calculated from the standard Gibbs value (at 298K), and extrapolated to a desired pH and ionic strength, and may be determined at a different temperature. Symbol ΔGf´." [src_code:NR]
+comment: created in response to \[SF req #106\]
+is_a: SBO:0000619 ! transformed Gibbs free energy change
+
+[Term]
+id: SBO:0000622
+name: transformed Gibbs free energy of reaction
+def: "The Gibbs free energy change observed in a thermodynamic system when a substance undergoes a reaction under non standard conditions, which is extrapolated to a desired pH and ionic strength, and may be determined at a different temperature. Symbol: ΔG´." [src_code:NR]
+comment: created in response to \[SF req #106\]
+is_a: SBO:0000619 ! transformed Gibbs free energy change
+
+[Term]
+id: SBO:0000623
+name: ionic strength
+def: "A combined (weighted) measure of the concentration of all electrolytes present in a solution. It is calculated as a half of the sum over all the ions in the solution multiplied by the square of individual ionic valencies. Monovalent electrolytes have a concentration equal to their ionic strength while multivalent electrolytes have greater ionic strength, directly proportional to ionic valency. Symbol: I" [src_code:NR]
+comment: created in response to \[SF req #107\]
+is_a: SBO:0000002 ! quantitative systems description parameter
+
+[Term]
+id: SBO:0000624
+name: flux balance framework
+def: "Modelling approach, typically used for metabolic models, where the flow of metabolites (flux) through a network can be calculated. This approach will generally produce a set of solutions (solution space), which may be reduced using objective functions and constraints on individual fluxes." [src_code:NR]
+comment: created in response to \[SF req #108\]
+is_a: SBO:0000004 ! modelling framework
 
 [Typedef]
 id: is_a
