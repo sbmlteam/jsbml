@@ -83,13 +83,7 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
    * Initializes custom Class attributes
    * */
   private void initDefaults() {
-    listOfSpatialComponents = new ListOf<SpatialComponent>();
-    listOfSpatialComponents.setNamespace(DynConstants.namespaceURI);
-    listOfSpatialComponents.setSBaseListType(ListOf.Type.other);
-
-    if (isSetExtendedSBase()) {
-      extendedSBase.registerChild(listOfSpatialComponents);
-    }
+    setPackageVersion(-1);
   }
 
   /**
@@ -98,11 +92,18 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
    * @return the value of listOfSpatialComponents
    */
   public ListOf<SpatialComponent> getListOfSpatialComponents() {
-    if (!isSetListOfSpatialComponents()) {
+    if (listOfSpatialComponents == null) {
       listOfSpatialComponents = new ListOf<SpatialComponent>();
-      listOfSpatialComponents.setNamespace(DynConstants.namespaceURI);
+      listOfSpatialComponents.setNamespace(DynConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpatialComponents.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'dyn'
+      listOfSpatialComponents.setPackageName(null);
+      listOfSpatialComponents.setPackageName(DynConstants.shortLabel);      
       listOfSpatialComponents.setSBaseListType(ListOf.Type.other);
-      extendedSBase.registerChild(listOfSpatialComponents);
+
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfSpatialComponents);
+      }
     }
     return listOfSpatialComponents;
   }
@@ -124,18 +125,20 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
    * Sets the value of listOfSpatialComponents
    * @param listOfSpatialComponents
    */
-  public void setListOfSpatialComponents(
-    ListOf<SpatialComponent> listOfSpatialComponents) {
+  public void setListOfSpatialComponents(ListOf<SpatialComponent> listOfSpatialComponents) {
     unsetListOfSpatialComponents();
-    if (!isSetListOfSpatialComponents()) {
-      this.listOfSpatialComponents = new ListOf<SpatialComponent>();
-    } else {
-      this.listOfSpatialComponents = listOfSpatialComponents;
+    
+    this.listOfSpatialComponents = listOfSpatialComponents;
+    
+    if ((this.listOfSpatialComponents != null)) {
+      listOfSpatialComponents.setNamespace(DynConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpatialComponents.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'dyn'
+      listOfSpatialComponents.setPackageName(null);
+      listOfSpatialComponents.setPackageName(DynConstants.shortLabel);      
+      listOfSpatialComponents.setSBaseListType(ListOf.Type.other);
     }
-    if ((this.listOfSpatialComponents != null)
-        && (this.listOfSpatialComponents.getSBaseListType() != ListOf.Type.other)) {
-      this.listOfSpatialComponents.setSBaseListType(ListOf.Type.other);
-    }
+    
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(listOfSpatialComponents);
     }
@@ -282,7 +285,7 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
   }
 
   @Override
-  public String toString() {
+  public String toString() { // TODO - recursive display. modify it?
     return "DynCompartmentPlugin [listOfSpatialComponents="
         + listOfSpatialComponents + "]";
   }

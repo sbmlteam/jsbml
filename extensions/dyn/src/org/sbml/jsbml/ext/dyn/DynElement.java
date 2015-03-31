@@ -62,7 +62,9 @@ public class DynElement extends AbstractNamedSBase implements UniqueNamedSBase {
    * Initializes custom Class attributes
    * */
   private void initDefaults() {
-    setNamespace(DynConstants.namespaceURI);
+    setNamespace(DynConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = DynConstants.shortLabel;
     idRef = null;
     metaIdRef = null;
   }
@@ -261,12 +263,10 @@ public class DynElement extends AbstractNamedSBase implements UniqueNamedSBase {
     Map<String, String> attributes = super.writeXMLAttributes();
 
     if (isSetIdRef()) {
-      attributes.remove("idRef");
       attributes.put(DynConstants.shortLabel + ":" + DynConstants.idRef,
         idRef);
     }
     if (isSetMetaIdRef()) {
-      attributes.remove("metaIdRef");
       attributes.put(DynConstants.shortLabel + ":"
           + DynConstants.metaIdRef, metaIdRef);
     }

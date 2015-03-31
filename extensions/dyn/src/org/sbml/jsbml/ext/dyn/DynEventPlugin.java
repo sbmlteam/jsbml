@@ -92,14 +92,7 @@ public class DynEventPlugin extends DynSBasePlugin {
    * Initializes custom Class attributes
    * */
   private void initDefaults() {
-    listOfDynElements = new ListOf<DynElement>();
     applyToAll = false;
-    listOfDynElements.setNamespace(DynConstants.namespaceURI);
-    listOfDynElements.setSBaseListType(ListOf.Type.other);
-
-    if (isSetExtendedSBase()) {
-      extendedSBase.registerChild(listOfDynElements);
-    }
   }
 
   /**
@@ -127,7 +120,7 @@ public class DynEventPlugin extends DynSBasePlugin {
    * @return whether applyToAll is set
    */
   public boolean isSetApplyToAll() {
-    return applyToAll != false;
+    return applyToAll != null && applyToAll != false;
   }
 
   /**
@@ -135,7 +128,7 @@ public class DynEventPlugin extends DynSBasePlugin {
    * @param applyToAll
    */
   public void setApplyToAll(boolean applyToAll) {
-    boolean oldApplyToAll = this.applyToAll;
+    Boolean oldApplyToAll = this.applyToAll;
     this.applyToAll = applyToAll;
     firePropertyChange(DynConstants.applyToAll, oldApplyToAll,
       this.applyToAll);
@@ -164,10 +157,15 @@ public class DynEventPlugin extends DynSBasePlugin {
    * @return the value of listOfDynElements
    */
   public ListOf<DynElement> getListOfDynElements() {
-    if (!isSetListOfDynElements()) {
+    if (listOfDynElements == null) {
       listOfDynElements = new ListOf<DynElement>();
-      listOfDynElements.setNamespace(DynConstants.namespaceURI);
+      listOfDynElements.setNamespace(DynConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfDynElements.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'dyn'
+      listOfDynElements.setPackageName(null);
+      listOfDynElements.setPackageName(DynConstants.shortLabel);      
       listOfDynElements.setSBaseListType(ListOf.Type.other);
+      
       extendedSBase.registerChild(listOfDynElements);
     }
     return listOfDynElements;
@@ -191,13 +189,15 @@ public class DynEventPlugin extends DynSBasePlugin {
    */
   public void setListOfDynElements(ListOf<DynElement> listOfDynElements) {
     unsetListOfDynElements();
-    if (!isSetListOfDynElements()) {
-      this.listOfDynElements = new ListOf<DynElement>();
-    } else {
-      this.listOfDynElements = listOfDynElements;
-    }
-    if ((this.listOfDynElements != null)
-        && (this.listOfDynElements.getSBaseListType() != ListOf.Type.other)) {
+    
+    this.listOfDynElements = listOfDynElements;
+    
+    if (this.listOfDynElements != null) {
+      listOfDynElements.setNamespace(DynConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfDynElements.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'dyn'
+      listOfDynElements.setPackageName(null);
+      listOfDynElements.setPackageName(DynConstants.shortLabel);      
       this.listOfDynElements.setSBaseListType(ListOf.Type.other);
     }
     if (isSetExtendedSBase()) {
@@ -212,7 +212,7 @@ public class DynEventPlugin extends DynSBasePlugin {
    *         {@code false}
    */
   public boolean unsetListOfDynElements() {
-    if (isSetListOfDynElements()) {
+    if (listOfDynElements == null) {
       ListOf<DynElement> oldListOfDynElements = listOfDynElements;
       listOfDynElements = null;
       firePropertyChange(DynConstants.listOfDynElements,
@@ -300,7 +300,7 @@ public class DynEventPlugin extends DynSBasePlugin {
   }
 
   @Override
-  public int getChildCount() {
+  public int getChildCount() { // TODO - will not write the ListOf if it is empty
     return isSetListOfDynElements() ? 1 : 0;
   }
 
@@ -349,7 +349,7 @@ public class DynEventPlugin extends DynSBasePlugin {
   }
 
   @Override
-  public String toString() {
+  public String toString() { // TODO - recursive display. modify it?
     return "DynEventPlugin [listOfDynElements=" + listOfDynElements
         + ", applyToAll=" + applyToAll + "]";
   }

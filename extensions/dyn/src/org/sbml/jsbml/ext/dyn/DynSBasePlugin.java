@@ -54,6 +54,7 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
    * */
   public DynSBasePlugin() {
     super();
+    elementNamespace = DynConstants.namespaceURI;  // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /**
@@ -75,6 +76,7 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
    */
   public DynSBasePlugin(SBase extendedSBase) {
     super(extendedSBase);
+    elementNamespace = DynConstants.namespaceURI;  // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /**
@@ -139,13 +141,8 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
   }
 
   @Override
-  public String getElementNamespace() {
-    return DynConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-
-  @Override
   public String getPackageName() {
-    return DynConstants.packageName;
+    return DynConstants.shortLabel;
   }
 
   @Override
