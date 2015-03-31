@@ -76,14 +76,14 @@ public class FBCVersion2Test {
     GeneProduct geneProduct = modelPlugin.createGeneProduct("gene1");
     geneProduct.setMetaId("meta_gene1");
     geneProduct.setName("ETFC");
-    geneProduct.setGeneProductIdentifier("2109.2");
+    geneProduct.setLabel("2109.2");
     geneProduct.addCVTerm(new CVTerm(Qualifier.BQB_IS_ENCODED_BY, "http://identifiers.org/ncbigene/2109"));
 
     geneProduct = modelPlugin.createGeneProduct("gene2");
-    geneProduct.setGeneProductIdentifier("2108.1");
+    geneProduct.setLabel("2108.1");
 
     geneProduct = modelPlugin.createGeneProduct("gene3");
-    geneProduct.setGeneProductIdentifier("2109.1");
+    geneProduct.setLabel("2109.1");
 
     UnitDefinition ud = builder.buildUnitDefinition("volume", "Volume units");
     buildUnit(ud, 1d, -3, Unit.Kind.LITRE, 1d);
