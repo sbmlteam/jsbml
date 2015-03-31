@@ -170,55 +170,58 @@ public class PackageUtil {
       return;
     }
     
-    // TODO - make use of the silent and fix parameters
-    
     String packageName = sbase.getPackageName();
     String elementNamespace = sbase.getNamespace();
     int packageVersion = sbase.getPackageVersion();
     
     if (packageName.equals("core") && packageVersion != 0) {
-      System.out.println("Warning: the element '" + sbase.getElementName() + "' seems to be part of SBML core but it's package version is not '0'!");
-    } // TODO - do we want to check and set the namespace for core elements ?
+      if (!silent) {
+        logger.warn("The element '" + sbase.getElementName() + "' seems to be part of SBML core but it's package version is not '0'!");
+      }
+      if (fix) {
+        sbase.setPackageVersion(0);
+      }
+    }
+    // TODO - do we want to check and set the namespace for core elements ? namespace not set at the moment for them
+//    if (packageName.equals("core") && elementNamespace == null) {
+//      logger.warn("The element '" + sbase.getElementName() + "' seems to be part of SBML core but it's package namespace is not set!");
+//    }
     
     // check package name != core
     if (!packageName.equals("core")) {
-      PackageInfo pi = prefixMap.get(packageName);
+      PackageInfo pi = getPackageInfo(sbase, packageName, packageVersion, elementNamespace, prefixMap, namespaceMap, silent, fix);
       
       if (pi == null) {
-        // The package might not be enabled on the SBMLDocument
-        System.out.println("Warning: the package '" + packageName + "' does not seem to be enabled.");
-        SBMLDocument doc = sbase.getSBMLDocument();
-        
-        // TODO - register package using package version or default namespace
-        // TODO - and add the package to the maps
-        if (doc != null) {
-          // TODO - register package using package version or default namespace
-          
-        } else {
-          System.out.println("Warning: Can not found SBMLDocument on the element '" + sbase.getElementName() + "'. Stopping the check");
-        }
+        return;
       }
       
       // checking package version
       if (packageVersion != -1 && packageVersion != pi.version) {
-        System.out.println("Warning: the element '" + sbase.getElementName() + "' does not seems to have"
-          + " the expected package version. Found '" + packageVersion + "', expected '" + pi.version + "'");
-        // TODO - fix if asked to
+        if (!silent) {
+          logger.warn("The element '" + sbase.getElementName() + "' does not seems to have"
+              + " the expected package version. Found '" + packageVersion + "', expected '" + pi.version + "'");
+        }
+        if (fix) {
+          sbase.setPackageVersion(pi.version);
+        }
       } 
       else if (packageVersion == -1) 
       {
-        System.out.println("Warning: the element '" + sbase.getElementName() + "' does not have a package version set!");
-        sbase.setPackageVersion(pi.version);
+        if (!silent) {
+          logger.warn("The element '" + sbase.getElementName() + "' does not have a package version set!");          
+        }
+        if (fix) {
+          sbase.setPackageVersion(pi.version);
+        }
       }
       
-      // System.out.println("DEBUG: element = '" + sbase.getElementName() + "'. Found '" + elementNamespace + "', expected '" + pi.namespace + "'");
-      
       // checking package namespace
-      if (!elementNamespace.equals(pi.namespace)) {
-        System.out.println("Warning: the element '" + sbase.getElementName() + "' does not seems to have"
-          + " the expected package namespace. Found '" + elementNamespace + "', expected '" + pi.namespace + "'");
-        
-        if (sbase instanceof AbstractSBase) {
+      if ((elementNamespace == null) || (!elementNamespace.equals(pi.namespace))) {
+        if (!silent) {
+          logger.warn("The element '" + sbase.getElementName() + "' does not seems to have"
+              + " the expected package namespace. Found '" + elementNamespace + "', expected '" + pi.namespace + "'");
+        }
+        if (sbase instanceof AbstractSBase && fix) {
           ((AbstractSBase) sbase).unsetNamespace();
           ((AbstractSBase) sbase).setNamespace(pi.namespace);
         }
@@ -237,49 +240,49 @@ public class PackageUtil {
         elementNamespace = sbasePlugin.getElementNamespace();
         packageVersion = sbasePlugin.getPackageVersion();
         
-        // TODO - checks similar as for SBase, try to refactor into one function
-        PackageInfo pi = prefixMap.get(packageName);
+        if (packageName.equals("core")) {
+          if (!silent) {
+            logger.error("The element '" + sbasePlugin.getClass().getSimpleName() + "' has it's package version set to 'core'!");
+          }
+          continue;
+        }
+        
+        PackageInfo pi = getPackageInfo(sbase, packageName, packageVersion, elementNamespace, prefixMap, namespaceMap, silent, fix);
         
         if (pi == null) {
-          // The package might not be enabled on the SBMLDocument
-          System.out.println("Warning: the package '" + packageName + "' does not seem to be enabled.");
-          SBMLDocument doc = sbase.getSBMLDocument();
-          
-          // TODO - register package using package version or default namespace
-          // TODO - and add the package to the maps
-          if (doc != null) {
-            // TODO - register package using package version or default namespace
-            
-          } else {
-            System.out.println("Warning: Can not found SBMLDocument on the element '" + sbase.getElementName() + "'. Stopping the check");
-          }
           continue;
         }
         
         // checking package version
         if (packageVersion != -1 && packageVersion != pi.version) {
-          System.out.println("Warning: the element '" + sbasePlugin.getClass().getSimpleName() + "' does not seems to have"
-            + " the expected package version. Found '" + packageVersion + "', expected '" + pi.version + "'");
-          // TODO - fix if asked to
+          if (!silent) {
+            logger.warn("The element '" + sbasePlugin.getClass().getSimpleName() + "' does not seems to have"
+                + " the expected package version. Found '" + packageVersion + "', expected '" + pi.version + "'");
+          }
+          if (fix) {
+            sbasePlugin.setPackageVersion(pi.version);
+          }
         } 
         else if (packageVersion == -1) 
         {
-          System.out.println("Warning: the element '" + sbasePlugin.getClass().getSimpleName() + "' does not have a package version set!");
-          sbasePlugin.setPackageVersion(pi.version);
+          if (!silent) {
+            logger.warn("The element '" + sbasePlugin.getClass().getSimpleName() + "' does not have a package version set!");
+          }
+          if (fix) {
+            sbasePlugin.setPackageVersion(pi.version);
+          }
         }
         
-        // System.out.println("DEBUG: element = '" + sbasePlugin.getClass().getSimpleName() + "'. Found '" + elementNamespace + "', expected '" + pi.namespace + "'");
-        
         // checking package namespace
-        if (!elementNamespace.equals(pi.namespace)) {
-          System.out.println("Warning: the element '" + sbasePlugin.getClass().getSimpleName() + "' does not seems to have"
-            + " the expected package namespace. Found '" + elementNamespace + "', expected '" + pi.namespace + "'");
-          
+        if ((elementNamespace == null) || (!elementNamespace.equals(pi.namespace))) {
+          if (!silent) {
+            logger.warn("The element '" + sbasePlugin.getClass().getSimpleName() + "' does not seems to have"
+                + " the expected package namespace. Found '" + elementNamespace + "', expected '" + pi.namespace + "'");
+          }
           
           if (sbasePlugin instanceof AbstractSBasePlugin) {
-            // TODO - implement those methods in AbstractSBasePlugin
-            // ((AbstractSBasePlugin) sbase).unsetNamespace();
-            // ((AbstractSBasePlugin) sbase).setNamespace(pi.namespace);
+            ((AbstractSBasePlugin) sbasePlugin).setNamespace(null);
+            ((AbstractSBasePlugin) sbasePlugin).setNamespace(pi.namespace);
           }
         }
 
@@ -323,6 +326,79 @@ public class PackageUtil {
     }
     
     return version;
+  }
+  
+  /**
+   * @param sbase
+   * @param packageName
+   * @param packageVersion
+   * @param elementNamespace
+   * @param prefixMap
+   * @param namespaceMap
+   * @param silent
+   * @param fix
+   * @return
+   */
+  private static PackageInfo getPackageInfo(SBase sbase, String packageName, int packageVersion, String elementNamespace, Map<String, PackageInfo> prefixMap, 
+    Map<String, PackageInfo> namespaceMap, boolean silent, boolean fix) {
+    
+    PackageInfo pi = prefixMap.get(packageName);
+
+    if (pi == null) {
+      pi = namespaceMap.get(elementNamespace);
+    }
+    
+    if (pi == null) {
+      // The package might not be enabled on the SBMLDocument. Can happen when cloning part of a model.
+      if (!silent) {
+        logger.warn("The package '" + packageName + "' does not seem to be enabled.");
+      }
+      SBMLDocument doc = sbase.getSBMLDocument();
+      
+      if (doc != null) {
+        // Get the package parser
+        PackageParser packageParser = ParserManager.getManager().getPackageParser(packageName); 
+
+        if (packageVersion != -1) {
+          elementNamespace = packageParser.getNamespaceFor(doc.getLevel(), doc.getVersion(), packageVersion);
+        } 
+        // if elementNamespace is null there, there is a problem, getting the default namespace. 
+        if (elementNamespace == null) {
+          if (!silent) {
+            logger.warn("Could not find a namespace for the package '" + packageName + "' using SBML level '"
+                + doc.getLevel() + "' version '" + doc.getVersion() + "', package version '" + packageVersion + "'.");
+          }
+          elementNamespace = packageParser.getPackageNamespaces().get(packageParser.getPackageNamespaces().size() - 1); // TODO - add a getDefaultNamespace() to PackageParser
+        }
+
+        // making sure the package is enabled in the SBMLDocument
+        doc.enablePackage(elementNamespace);
+        
+        if (packageParser != null) {
+          pi = new PackageInfo();
+          pi.prefix = packageParser.getPackageName();
+          pi.namespace = elementNamespace;
+          pi.version = extractPackageVersion(elementNamespace);
+
+          prefixMap.put(pi.prefix, pi);
+          namespaceMap.put(elementNamespace, pi);
+
+          if (logger.isDebugEnabled()) {
+            logger.debug(pi);
+          }
+        }
+
+      } else if (!silent) {
+        logger.info("Can not found SBMLDocument on the element '" + sbase.getElementName() + "'. Stopping the check");
+      }
+      
+      // if we were not able to find the package information, we just return.
+      if (pi == null) {
+        return null;
+      }
+    }
+    
+    return pi;
   }
 
 }

@@ -22,14 +22,17 @@
  */
 package org.sbml.jsbml.ext;
 
+import java.text.MessageFormat;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -48,6 +51,11 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
   /**
    * 
    */
+  private Logger logger = Logger.getLogger(AbstractSBasePlugin.class);
+  
+  /**
+   * 
+   */
   protected SBase extendedSBase;
 
   /**
@@ -55,6 +63,11 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
    */
   protected int packageVersion = -1;
 
+  /**
+   * 
+   */
+  protected String elementNamespace;
+    
   /**
    * 
    */
@@ -137,6 +150,14 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     //    }
 
     super.firePropertyChange(propertyName, oldValue, newValue);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+   */
+  @Override
+  public String getElementNamespace() {
+    return elementNamespace;
   }
 
   /* (non-Javadoc)
@@ -232,6 +253,28 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     }
 
     return super.removeFromParent();
+  }
+
+  /**
+   * Sets the XML namespace to which this {@link SBasePlugin} belong.
+   * 
+   * <p>This an internal method that should not be used outside of the main jsbml code
+   * (core + packages). One class should always belong to the same namespace, although the namespaces can
+   * have different level and version (and package version). You have to know what you are doing
+   * when using this method.
+   * 
+   * @param namespace the XML namespace to which this {@link SBasePlugin} belong.
+   */
+  public void setNamespace(String namespace) {
+
+    if ((elementNamespace != null) && (namespace != null) && (!elementNamespace.equals(namespace))) {
+      // if we implement proper conversion some days, we need to unset the namespace before changing it.
+      logger.error(MessageFormat.format("An SBasePlugin element cannot belong to two different namespaces! Current namespace = ''{0}'', new namespace = ''{1}''", elementNamespace, namespace));
+    }
+    String old = elementNamespace;
+    elementNamespace = namespace;
+
+    firePropertyChange(TreeNodeChangeEvent.namespace, old, namespace);
   }
 
   /**

@@ -43,6 +43,7 @@ public abstract class AbstractFBCSBasePlugin extends AbstractSBasePlugin {
   public AbstractFBCSBasePlugin() {
     super();
     setPackageVersion(-1);
+    elementNamespace = FBCConstants.namespaceURI; // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /**
@@ -60,15 +61,9 @@ public abstract class AbstractFBCSBasePlugin extends AbstractSBasePlugin {
   public AbstractFBCSBasePlugin(SBase sbase) {
     super(sbase);
     setPackageVersion(-1);
+    elementNamespace = FBCConstants.namespaceURI; // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return FBCConstants.getNamespaceURI(getLevel(), getVersion(), getPackageVersion());  // TODO - change to return a String attribute that can be changed
-  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
