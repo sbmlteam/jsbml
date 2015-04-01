@@ -29,7 +29,6 @@ import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSpeciesTypeStates;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSpeciesTypes;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfStateFeatureInstances;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfStateFeatureValues;
-import static org.sbml.jsbml.ext.multi.MultiConstants.listOfStateFeatures;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfUnboundBindingSites;
 import static org.sbml.jsbml.ext.multi.MultiConstants.namespaceURI;
 import static org.sbml.jsbml.ext.multi.MultiConstants.shortLabel;
@@ -155,9 +154,10 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
     {
       SpeciesType speciesType = (SpeciesType) contextObject;
 
-      if (elementName.equals(listOfStateFeatures)) {
-        return speciesType.getListOfStateFeatures();
-      }
+      // TODO - update to include all the new children
+//      if (elementName.equals(listOfStateFeatures)) {
+//        return speciesType.getListOfStateFeatures();
+//      }
     } // end SpeciesType
     else if (contextObject instanceof StateFeature)
     {
