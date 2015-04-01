@@ -359,6 +359,10 @@ public class PackageUtil {
         // Get the package parser
         PackageParser packageParser = ParserManager.getManager().getPackageParser(packageName); 
 
+        if (packageParser == null) {
+          return null; // There is something wrong with the packageName or the ParserManager
+        }
+        
         if (packageVersion != -1) {
           elementNamespace = packageParser.getNamespaceFor(doc.getLevel(), doc.getVersion(), packageVersion);
         } 
@@ -371,30 +375,25 @@ public class PackageUtil {
           elementNamespace = packageParser.getPackageNamespaces().get(packageParser.getPackageNamespaces().size() - 1); // TODO - add a getDefaultNamespace() to PackageParser
         }
 
-        // making sure the package is enabled in the SBMLDocument
-        doc.enablePackage(elementNamespace);
-        
-        if (packageParser != null) {
-          pi = new PackageInfo();
-          pi.prefix = packageParser.getPackageName();
-          pi.namespace = elementNamespace;
-          pi.version = extractPackageVersion(elementNamespace);
+        // making sure the package is enabled in the SBMLDocument if it was not deliberately disabled
+        if (!Boolean.FALSE.equals(doc.isPackageEnabledOrDisabled(packageParser.getPackageName()))) {
+          doc.enablePackage(elementNamespace);
+        }
 
-          prefixMap.put(pi.prefix, pi);
-          namespaceMap.put(elementNamespace, pi);
+        pi = new PackageInfo();
+        pi.prefix = packageParser.getPackageName();
+        pi.namespace = elementNamespace;
+        pi.version = extractPackageVersion(elementNamespace);
 
-          if (logger.isDebugEnabled()) {
-            logger.debug(pi);
-          }
+        prefixMap.put(pi.prefix, pi);
+        namespaceMap.put(elementNamespace, pi);
+
+        if (logger.isDebugEnabled()) {
+          logger.debug(pi);
         }
 
       } else if (!silent) {
         logger.info("Can not found SBMLDocument on the element '" + sbase.getElementName() + "'. Stopping the check");
-      }
-      
-      // if we were not able to find the package information, we just return.
-      if (pi == null) {
-        return null;
       }
     }
     

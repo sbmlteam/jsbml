@@ -144,7 +144,11 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   public ListOf<GraphicalObject> getListOfSubGlyphs() {
     if (!isSetListOfSubGlyphs()) {
       listOfSubGlyphs = new ListOfWithName<GraphicalObject>(getLevel(), getVersion(), LayoutConstants.listOfSubGlyphs);
-      listOfSubGlyphs.setNamespace(LayoutConstants.namespaceURI);
+      listOfSubGlyphs.setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSubGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfSubGlyphs.setPackageName(null);
+      listOfSubGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfSubGlyphs.setSBaseListType(ListOf.Type.other);
       registerChild(listOfSubGlyphs);
     }
@@ -171,8 +175,19 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
     if (listOfSubGlyphs != null)
     {
-      this.listOfSubGlyphs = getListOfSubGlyphs(); // initializing a new ListOfWithName with the proper settings
-      this.listOfSubGlyphs.addAll(listOfSubGlyphs);
+      if ((listOfSubGlyphs instanceof ListOfWithName<?>) && (listOfSubGlyphs.getElementName().equals(LayoutConstants.listOfSubGlyphs))) {
+        this.listOfSubGlyphs = listOfSubGlyphs;
+        listOfSubGlyphs.unsetNamespace();
+        listOfSubGlyphs.setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+        listOfSubGlyphs.setPackageVersion(-1);
+        // changing the ListOf package name from 'core' to 'layout'
+        listOfSubGlyphs.setPackageName(null);
+        listOfSubGlyphs.setPackageName(LayoutConstants.shortLabel);
+        listOfSubGlyphs.setSBaseListType(ListOf.Type.other);        
+      } else {
+        this.listOfSubGlyphs = getListOfSubGlyphs(); // initializing a new ListOfWithName with the proper settings
+        this.listOfSubGlyphs.addAll(listOfSubGlyphs);        
+      }
       registerChild(this.listOfSubGlyphs);
     }
   }
@@ -550,7 +565,11 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   public ListOf<ReferenceGlyph> getListOfReferenceGlyphs() {
     if (!isSetListOfReferenceGlyphs()) {
       listOfReferenceGlyphs = new ListOf<ReferenceGlyph>();
-      listOfReferenceGlyphs.setNamespace(LayoutConstants.namespaceURI);
+      listOfReferenceGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfReferenceGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfReferenceGlyphs.setPackageName(null);
+      listOfReferenceGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfReferenceGlyphs.setSBaseListType(ListOf.Type.other);
       registerChild(listOfReferenceGlyphs);
     }
@@ -643,6 +662,12 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
     if (listOfReferenceGlyph != null)
     {
+      listOfReferenceGlyphs.unsetNamespace();
+      listOfReferenceGlyphs.setPackageName(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfReferenceGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfReferenceGlyphs.setPackageName(null);
+      listOfReferenceGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfReferenceGlyph.setSBaseListType(ListOf.Type.other);
     }
 

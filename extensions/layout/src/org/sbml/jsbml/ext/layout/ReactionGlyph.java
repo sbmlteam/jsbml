@@ -263,7 +263,11 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferenceGlyphs() {
     if (!isSetListOfSpeciesReferencesGlyphs()) {
       listOfSpeciesReferencesGlyphs = new ListOf<SpeciesReferenceGlyph>();
-      listOfSpeciesReferencesGlyphs.setNamespace(LayoutConstants.namespaceURI);
+      listOfSpeciesReferencesGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesReferencesGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfSpeciesReferencesGlyphs.setPackageName(null);
+      listOfSpeciesReferencesGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfSpeciesReferencesGlyphs.setSBaseListType(ListOf.Type.other);
       registerChild(listOfSpeciesReferencesGlyphs);
     }
@@ -392,11 +396,21 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    * 
    * @param listOfSpeciesReferencesGlyph
    */
-  public void setListOfSpeciesReferencesGlyph(
-    ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
+  public void setListOfSpeciesReferencesGlyph(ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
     unsetListOfSpeciesReferencesGlyph();
     listOfSpeciesReferencesGlyphs = listOfSpeciesReferencesGlyph;
-    registerChild(listOfSpeciesReferencesGlyphs);
+    
+    if (listOfSpeciesReferencesGlyphs != null) {
+      listOfSpeciesReferencesGlyph.unsetNamespace();
+      listOfSpeciesReferencesGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesReferencesGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfSpeciesReferencesGlyphs.setPackageName(null);
+      listOfSpeciesReferencesGlyphs.setPackageName(LayoutConstants.shortLabel);
+      listOfSpeciesReferencesGlyphs.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfSpeciesReferencesGlyphs);
+    }
   }
 
   /**

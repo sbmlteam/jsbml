@@ -136,11 +136,15 @@ public class DisablePackageTests {
       assertTrue(doc.getDeclaredNamespaces().containsKey("xmlns:layout") == false);
       assertTrue(doc.getDeclaredNamespaces().containsKey("xmlns:comp") == false);
 
-      String docWithoutPakageString = new SBMLWriter().writeSBMLToString(doc);
+      String docWithoutPackageString = new SBMLWriter().writeSBMLToString(doc);
+
+      // check that disabled package are still disabled after writing to XML
+      assertTrue(doc.isPackageEnabled("comp") == false);
+      assertTrue(doc.isPackageEnabled("layout") == false);
 
       // System.out.println("Document without package:\n" + docWithoutPakageString);
 
-      SBMLDocument docWithoutPackage = new SBMLReader().readSBMLFromString(docWithoutPakageString);
+      SBMLDocument docWithoutPackage = new SBMLReader().readSBMLFromString(docWithoutPackageString);
 
       assertTrue(docWithoutPackage.isPackageEnabled("comp") == false);
       assertTrue(docWithoutPackage.isPackageEnabled("layout") == false);
@@ -211,6 +215,10 @@ public class DisablePackageTests {
     String docString;
     try {
       docString = new SBMLWriter().writeSBMLToString(clonedDoc);
+
+      // package are enabled after a call to the SBMLWriter write methods
+      assertTrue(clonedDoc.isPackageEnabled("comp"));
+      assertTrue(clonedDoc.isPackageEnabled("layout"));
 
       System.out.println("Document with only layout package:\n" + docString);
 

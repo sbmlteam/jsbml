@@ -58,15 +58,6 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return CompConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
    */
   @Override

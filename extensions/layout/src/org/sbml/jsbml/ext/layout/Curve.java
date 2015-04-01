@@ -229,7 +229,9 @@ public class Curve extends AbstractNamedSBase {
    * 
    */
   private void initDefaults() {
-    setNamespace(LayoutConstants.namespaceURI);
+    setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = LayoutConstants.shortLabel;
     listOfCurveSegments.setNamespace(LayoutConstants.namespaceURI);
     listOfCurveSegments.setSBaseListType(ListOf.Type.other);
     registerChild(listOfCurveSegments);

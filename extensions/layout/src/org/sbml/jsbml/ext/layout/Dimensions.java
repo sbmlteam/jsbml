@@ -79,8 +79,7 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   public Dimensions() {
-    setNamespace(LayoutConstants.namespaceURI);
-    depth = height = width = Double.NaN;
+    initDefaults();
   }
 
   /**
@@ -130,8 +129,7 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Dimensions(int level, int version) {
     super(level, version);
-    setNamespace(LayoutConstants.namespaceURI);
-    depth = height = width = Double.NaN;
+    initDefaults();
   }
 
   /**
@@ -142,8 +140,7 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Dimensions(String id, int level, int version) {
     super(id, level, version);
-    setNamespace(LayoutConstants.namespaceURI);
-    depth = height = width = Double.NaN;
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -154,6 +151,16 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
     return new Dimensions(this);
   }
 
+  /**
+   * 
+   */
+  private void initDefaults() {
+    setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = LayoutConstants.shortLabel;
+
+    depth = height = width = Double.NaN;
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
