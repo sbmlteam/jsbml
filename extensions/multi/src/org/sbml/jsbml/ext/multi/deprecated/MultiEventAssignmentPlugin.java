@@ -19,15 +19,17 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.multi;
+package org.sbml.jsbml.ext.multi.deprecated;
 
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.InitialAssignment;
+import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.ext.multi.MultiConstants;
+import org.sbml.jsbml.ext.multi.SpeciesTypeInstanceChange;
 
 /**
  * 
@@ -36,7 +38,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @since 1.0
  * @date 16.10.2013
  */
-public class MultiInitialAssignment extends AbstractSBasePlugin {
+public class MultiEventAssignmentPlugin extends AbstractSBasePlugin {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
@@ -53,7 +55,6 @@ public class MultiInitialAssignment extends AbstractSBasePlugin {
   public String getPackageName() {
     return MultiConstants.packageName;
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
@@ -76,34 +77,37 @@ public class MultiInitialAssignment extends AbstractSBasePlugin {
    */
   @SuppressWarnings("unchecked")
   @Override
-  public ListOf<InitialAssignment> getParent() {
-    return (ListOf<InitialAssignment>) getExtendedSBase().getParent();
+  public ListOf<EventAssignment> getParent() {
+    return (ListOf<EventAssignment>) getExtendedSBase().getParent();
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
    */
   @Override
-  public ListOf<InitialAssignment> getParentSBMLObject() {
+  public ListOf<EventAssignment> getParentSBMLObject() {
     return getParent();
   }
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = 6089211452281417062L;
+  private static final long serialVersionUID = -5524105017747151889L;
 
   /**
    * 
    */
-  private SpeciesTypeInstanceChange speciesTypeInstanceChange; // TODO: should probably be a listOf here
+  private SpeciesTypeInstanceChange speciesTypeInstanceChange;   // TODO: should probably be a listOf here
 
   /**
-   * @param multiInitialAssignment
+   * @param multiEventAssignment
    */
-  public MultiInitialAssignment(MultiInitialAssignment multiInitialAssignment) {
-    super(multiInitialAssignment);
+  public MultiEventAssignmentPlugin(MultiEventAssignmentPlugin multiEventAssignment) {
+    super(multiEventAssignment);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
@@ -151,8 +155,8 @@ public class MultiInitialAssignment extends AbstractSBasePlugin {
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
    */
   @Override
-  public MultiInitialAssignment clone() {
-    return new MultiInitialAssignment(this);
+  public MultiEventAssignmentPlugin clone() {
+    return new MultiEventAssignmentPlugin(this);
   }
 
 }

@@ -25,6 +25,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.ext.multi.deprecated.SelectorReference;
 
 /**
  * 

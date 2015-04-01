@@ -434,7 +434,7 @@ public class UnregisterTests {
 		Species s3 = new Species();
 		s3.setId("S3");
 
-		MultiSpecies mS3 = new MultiSpecies(s3);
+		MultiSpeciesPlugin mS3 = new MultiSpeciesPlugin(s3);
 
 		s3.addExtension("any", mS3);
 

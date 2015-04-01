@@ -19,15 +19,17 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.multi;
+package org.sbml.jsbml.ext.multi.deprecated;
 
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.ext.multi.MultiConstants;
+import org.sbml.jsbml.ext.multi.SpeciesTypeInstanceChange;
 
 /**
  * 
@@ -36,8 +38,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @since 1.0
  * @date 16.10.2013
  */
-public class MultiReaction extends AbstractSBasePlugin {
-
+public class MultiInitialAssignmentPlugin extends AbstractSBasePlugin {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
@@ -46,7 +47,6 @@ public class MultiReaction extends AbstractSBasePlugin {
   public String getElementNamespace() {
     return MultiConstants.getNamespaceURI(getLevel(), getVersion());
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
@@ -65,7 +65,6 @@ public class MultiReaction extends AbstractSBasePlugin {
     return MultiConstants.shortLabel;
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
    */
@@ -74,56 +73,37 @@ public class MultiReaction extends AbstractSBasePlugin {
     return getElementNamespace();
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#getParent()
    */
   @SuppressWarnings("unchecked")
   @Override
-  public ListOf<Reaction> getParent() {
-    return (ListOf<Reaction>) getExtendedSBase().getParent();
+  public ListOf<InitialAssignment> getParent() {
+    return (ListOf<InitialAssignment>) getExtendedSBase().getParent();
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
    */
   @Override
-  public ListOf<Reaction> getParentSBMLObject() {
+  public ListOf<InitialAssignment> getParentSBMLObject() {
     return getParent();
   }
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = 7392764563567861115L;
+  private static final long serialVersionUID = 6089211452281417062L;
+
   /**
    * 
    */
-  ListOf<ReactionRule> listOfReactionRules;
+  private SpeciesTypeInstanceChange speciesTypeInstanceChange; // TODO: should probably be a listOf here
 
   /**
-   * @param multiReaction
+   * @param multiInitialAssignment
    */
-  public MultiReaction(MultiReaction multiReaction) {
-    super(multiReaction);
-  }
-
-  /**
-   * @return the listOfReactionRules
-   */
-  public ListOf<ReactionRule> getListOfReactionRules() {
-    if (listOfReactionRules == null) {
-      listOfReactionRules = new ListOf<ReactionRule>();
-    }
-
-    return listOfReactionRules;
-  }
-
-  /**
-   * @param reactionRule the listOfReactionRules to set
-   */
-  public void addReactionRule(ReactionRule reactionRule) {
-    getListOfReactionRules().add(reactionRule);
+  public MultiInitialAssignmentPlugin(MultiInitialAssignmentPlugin multiInitialAssignment) {
+    super(multiInitialAssignment);
   }
 
   @Override
@@ -133,33 +113,48 @@ public class MultiReaction extends AbstractSBasePlugin {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int childIndex) {
     // TODO Auto-generated method stub
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
   @Override
   public int getChildCount() {
     // TODO Auto-generated method stub
     return 0;
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     // TODO Auto-generated method stub
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     // TODO Auto-generated method stub
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
+   */
   @Override
-  public MultiReaction clone() {
-    return new MultiReaction(this);
+  public MultiInitialAssignmentPlugin clone() {
+    return new MultiInitialAssignmentPlugin(this);
   }
 
 }

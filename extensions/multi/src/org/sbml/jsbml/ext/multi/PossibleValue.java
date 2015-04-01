@@ -26,6 +26,7 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.ext.multi.deprecated.StateFeature;
 
 /**
  * Each state feature ({@link StateFeature}) also requires the definition of all

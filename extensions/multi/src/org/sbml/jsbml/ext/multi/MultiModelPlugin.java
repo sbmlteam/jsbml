@@ -33,28 +33,20 @@ import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * In order to encode the structures needed to define and use multistate and multi-component
- * complexes, the element model is extended to be linked to a list of {@link SpeciesType}s and a list of
- * {@link Selector}s.
+ * complexes, the element model is extended to be linked to a list of {@link SpeciesType}s.
  * 
  * @author Nicolas Rodriguez
- *
+ * @version $Rev$
+ * @since 1.0
  */
-public class MultiModel extends AbstractSBasePlugin {
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return MultiConstants.getNamespaceURI(getLevel(), getVersion());
-  }
+public class MultiModelPlugin extends AbstractSBasePlugin {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
    */
   @Override
   public String getPackageName() {
-    return MultiConstants.packageName;
+    return MultiConstants.shortLabel;
   }
 
   /* (non-Javadoc)
@@ -96,49 +88,34 @@ public class MultiModel extends AbstractSBasePlugin {
    * 
    */
   ListOf<SpeciesType> listOfSpeciesTypes;
-  /**
-   * 
-   */
-  ListOf<Selector> listOfSelectors;
 
   /**
    * 
    * @param model
    */
-  public MultiModel(Model model) {
+  public MultiModelPlugin(Model model) {
     super(model);
+    setNamespace(MultiConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /**
    * 
    * @param multiModel
    */
-  public MultiModel(MultiModel multiModel) {
+  public MultiModelPlugin(MultiModelPlugin multiModel) {
     super(multiModel);
 
     if (multiModel == null) {
       return;
     }
-    if (multiModel.isSetListOfSelectors()) {
-      listOfSelectors = multiModel.getListOfSelectors().clone();
-    }
     if (multiModel.isSetListOfSpeciesTypes()) {
-      listOfSpeciesTypes = multiModel.getListOfSpeciesTypes().clone();
+      setListOfSpeciesTypes(multiModel.getListOfSpeciesTypes().clone());
     }
-    // The listOf would have to be referenced elsewhere
-    // TODO: check how libSBML is doing the cloning
-    /*
-		if (multiModel.getModel() != null) {
-			getModel().registerChild(listOfSelectors);
-			getModel().registerChild(listOfSpeciesTypes);
-		}
-     */
-
   }
 
   @Override
-  public MultiModel clone() {
-    return new MultiModel(this);
+  public MultiModelPlugin clone() {
+    return new MultiModelPlugin(this);
   }
 
   /**
@@ -159,9 +136,16 @@ public class MultiModel extends AbstractSBasePlugin {
   public ListOf<SpeciesType> getListOfSpeciesTypes() {
     if (listOfSpeciesTypes == null) {
       listOfSpeciesTypes = new ListOf<SpeciesType>();
-      listOfSpeciesTypes.setNamespace(MultiConstants.namespaceURI);
-      getModel().registerChild(listOfSpeciesTypes);
+      listOfSpeciesTypes.setNamespace(MultiConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesTypes.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'multi'
+      listOfSpeciesTypes.setPackageName(null);
+      listOfSpeciesTypes.setPackageName(MultiConstants.shortLabel);      
       listOfSpeciesTypes.setSBaseListType(ListOf.Type.other);
+      
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfSpeciesTypes);
+      }
     }
 
     return listOfSpeciesTypes;
@@ -178,7 +162,7 @@ public class MultiModel extends AbstractSBasePlugin {
   }
 
   /**
-   * Creates a new {@link SpeciesType} inside this {@link MultiModel} and returns it.
+   * Creates a new {@link SpeciesType} inside this {@link MultiModelPlugin} and returns it.
    * <p>
    * 
    * @return the {@link SpeciesType} object created
@@ -190,7 +174,7 @@ public class MultiModel extends AbstractSBasePlugin {
   }
 
   /**
-   * Creates a new {@link SpeciesType} inside this {@link MultiModel} and returns it.
+   * Creates a new {@link SpeciesType} inside this {@link MultiModelPlugin} and returns it.
    * 
    * @param id
    *        the id of the new element to create
@@ -236,12 +220,34 @@ public class MultiModel extends AbstractSBasePlugin {
    * @return {@code true} if the listOfSpeciesType is set.
    */
   public boolean isSetListOfSpeciesTypes() {
-    if ((listOfSpeciesTypes == null) || listOfSpeciesTypes.isEmpty()) {
-      return false;
-    }
-    return true;
+    return listOfSpeciesTypes != null;
   }
 
+  /**
+   * Sets the listOfSpeciesTypes. If there was already some elements defined
+   * on listOfSpeciesTypes, they will be unset beforehand.
+   *
+   * @param listOfSpeciesTypes
+   */
+  public void setListOfSpeciesTypes(ListOf<SpeciesType> listOfSpeciesTypes) {
+    unsetListOfSpeciesTypes();
+    this.listOfSpeciesTypes = listOfSpeciesTypes;
+
+    if (listOfSpeciesTypes != null) {
+      listOfSpeciesTypes.unsetNamespace();
+      listOfSpeciesTypes.setNamespace(MultiConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesTypes.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'multi'
+      listOfSpeciesTypes.setPackageName(null);
+      listOfSpeciesTypes.setPackageName(MultiConstants.shortLabel);      
+      listOfSpeciesTypes.setSBaseListType(ListOf.Type.other);
+    }
+    if (extendedSBase != null) {
+      extendedSBase.registerChild(this.listOfSpeciesTypes);
+    }
+  }
+
+  
   /**
    * Sets the listOfSpeciesTypes to null
    * 
@@ -249,120 +255,14 @@ public class MultiModel extends AbstractSBasePlugin {
    */
   public boolean unsetListOfSpeciesTypes() {
     if (isSetListOfSpeciesTypes()) {
-      // TODO: unregister the ids if needed.
-      // getModel().unregisterChild(this.listOfSpeciesTypes);
+      ListOf<SpeciesType> oldSpeciesTypeElements = listOfSpeciesTypes;
       listOfSpeciesTypes = null;
+      oldSpeciesTypeElements.fireNodeRemovedEvent();
       return true;
     }
     return false;
   }
 
-
-  /**
-   * Returns the listOfSelectors.
-   * 
-   * @return the listOfSelectors
-   */
-  public ListOf<Selector> getListOfSelectors() {
-    if (listOfSelectors == null) {
-      listOfSelectors = new ListOf<Selector>();
-      listOfSelectors.setNamespace(MultiConstants.namespaceURI);
-      getModel().registerChild(listOfSelectors);
-      listOfSelectors.setSBaseListType(ListOf.Type.other);
-    }
-
-    return listOfSelectors;
-  }
-
-  /**
-   * Adds a {@link Selector}.
-   * 
-   * @param selector the selector to add
-   */
-  public void addSelector(Selector selector) {
-    getListOfSelectors().add(selector);
-  }
-
-
-  /**
-   * Creates a new {@link Selector} inside this {@link MultiModel} and returns it.
-   * <p>
-   * 
-   * @return the {@link Selector} object created
-   *         <p>
-   * @see #addSelector(Selector r)
-   */
-  public Selector createSelector() {
-    return createSelector(null);
-  }
-
-  /**
-   * Creates a new {@link Selector} inside this {@link MultiModel} and returns it.
-   * 
-   * @param id
-   *        the id of the new element to create
-   * @return the {@link Selector} object created
-   */
-  public Selector createSelector(String id) {
-    Selector selector = new Selector();
-    selector.setId(id);
-    addSelector(selector);
-
-    return selector;
-  }
-
-  /**
-   * Gets the ith {@link Selector}.
-   * 
-   * @param i
-   * 
-   * @return the ith {@link Selector}
-   * @throws IndexOutOfBoundsException if the index is invalid.
-   */
-  public Selector getSelector(int i) {
-    return getListOfSelectors().get(i);
-  }
-
-  /**
-   * Gets the {@link Selector} that has the given id.
-   * 
-   * @param id
-   * @return the {@link Selector} that has the given id or null if
-   * no {@link Selector} are found that match {@code id}.
-   */
-  public Selector getSelector(String id) {
-    if (isSetListOfSelectors()) {
-      return listOfSelectors.firstHit(new NameFilter(id));
-    }
-    return null;
-  }
-
-  /**
-   * Returns {@code true} if the listOfSelector is set.
-   * 
-   * @return {@code true} if the listOfSelector is set.
-   */
-  public boolean isSetListOfSelectors() {
-    if ((listOfSelectors == null) || listOfSelectors.isEmpty()) {
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * Sets the listOfSelectors to null
-   * 
-   * @return {@code true} is successful
-   */
-  public boolean unsetListOfSelectors() {
-    if (isSetListOfSelectors()) {
-      // TODO: unregister the ids if needed for SBasePlugin.
-      // fireNodeRemoved(this.listOfSelectors);
-      listOfSelectors = null;
-      return true;
-    }
-    return false;
-  }
 
 
   @Override
@@ -387,12 +287,7 @@ public class MultiModel extends AbstractSBasePlugin {
       }
       pos++;
     }
-    if (isSetListOfSelectors()) {
-      if (pos == childIndex) {
-        return getListOfSelectors();
-      }
-      pos++;
-    }
+
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}",
       childIndex, +Math.min(pos, 0)));
@@ -407,9 +302,7 @@ public class MultiModel extends AbstractSBasePlugin {
     if (isSetListOfSpeciesTypes()) {
       count++;
     }
-    if (isSetListOfSelectors()) {
-      count++;
-    }
+
     return count;
   }
 

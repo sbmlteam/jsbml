@@ -25,7 +25,6 @@ import static org.sbml.jsbml.ext.multi.MultiConstants.bindingSiteReference;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfBonds;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfContainedSpeciesTypes;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfPossibleValues;
-import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSelectors;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSpeciesTypeStates;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSpeciesTypes;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfStateFeatureInstances;
@@ -51,13 +50,13 @@ import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.multi.BindingSiteReference;
 import org.sbml.jsbml.ext.multi.Bond;
 import org.sbml.jsbml.ext.multi.MultiConstants;
-import org.sbml.jsbml.ext.multi.MultiModel;
-import org.sbml.jsbml.ext.multi.MultiSpecies;
-import org.sbml.jsbml.ext.multi.Selector;
+import org.sbml.jsbml.ext.multi.MultiModelPlugin;
+import org.sbml.jsbml.ext.multi.MultiSpeciesPlugin;
 import org.sbml.jsbml.ext.multi.SpeciesType;
 import org.sbml.jsbml.ext.multi.SpeciesTypeState;
-import org.sbml.jsbml.ext.multi.StateFeature;
-import org.sbml.jsbml.ext.multi.StateFeatureInstance;
+import org.sbml.jsbml.ext.multi.deprecated.Selector;
+import org.sbml.jsbml.ext.multi.deprecated.StateFeature;
+import org.sbml.jsbml.ext.multi.deprecated.StateFeatureInstance;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -138,22 +137,18 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
     if (contextObject instanceof Model)
     {
       Model model = (Model) contextObject;
-      MultiModel multiModel = null;
+      MultiModelPlugin multiModel = null;
 
       if (model.getExtension(namespaceURI) != null) {
-        multiModel = (MultiModel) model.getExtension(namespaceURI);
+        multiModel = (MultiModelPlugin) model.getExtension(namespaceURI);
       } else {
-        multiModel = new MultiModel(model);
+        multiModel = new MultiModelPlugin(model);
         model.addExtension(namespaceURI, multiModel);
       }
 
       if (elementName.equals(listOfSpeciesTypes))
       {
         return multiModel.getListOfSpeciesTypes();
-      }
-      else if (elementName.equals(listOfSelectors))
-      {
-        return multiModel.getListOfSelectors();
       }
     } // end Model
     else if (contextObject instanceof SpeciesType)
@@ -344,11 +339,11 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
 
     if (sbase != null) {
       if (sbase instanceof Model) {
-        return new MultiModel((Model) sbase);
+        return new MultiModelPlugin((Model) sbase);
       } else if (sbase instanceof Species) {
-        return new MultiSpecies((Species) sbase);
+        return new MultiSpeciesPlugin((Species) sbase);
       } else if (sbase instanceof Reaction) {
-        // return new MultiReaction((Reaction) sbase);
+        // return new MultiReactionPlugin((Reaction) sbase);
       }
       // TODO : finish when implementation is updated
     }

@@ -26,10 +26,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * 
@@ -77,17 +74,10 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = -6077584873497214754L;
+  private static final long serialVersionUID = 2L;
 
-  /**
-   * 
-   */
-  ListOf<StateFeature> listOfStateFeatures;
-
-  /**
-   * 
-   */
-  Boolean bindingSite;
+  // TODO - compartment BindingSiteSpeciesType listOfSpeciesFeatureTypes listOfSpeciesTypeInstances
+  // TODO - listOfSpeciesTypeComponents listOfInSpeciesTypeBonds
 
   /**
    * 
@@ -108,132 +98,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
     return null;
   }
 
-  /**
-   * Returns the listOfStateFeatures
-   * 
-   * @return the listOfStateFeatures
-   */
-  public ListOf<StateFeature> getListOfStateFeatures() {
-    if (listOfStateFeatures == null) {
-      listOfStateFeatures = new ListOf<StateFeature>();
-      listOfStateFeatures.setNamespace(MultiConstants.namespaceURI);
-      registerChild(listOfStateFeatures);
-      listOfStateFeatures.setSBaseListType(ListOf.Type.other);
-    }
 
-    return listOfStateFeatures;
-  }
-
-  /**
-   * Adds a StateFeature.
-   * 
-   * @param stateFeature the stateFeature to add
-   */
-  public void addStateFeature(StateFeature stateFeature) {
-    getListOfStateFeatures().add(stateFeature);
-  }
-
-  /**
-   * Creates a new {@link StateFeature} inside this {@link SpeciesType} and returns it.
-   * <p>
-   * 
-   * @return the {@link StateFeature} object created
-   *         <p>
-   * @see #addStateFeature(StateFeature r)
-   */
-  public StateFeature createStateFeature() {
-    return createStateFeature(null);
-  }
-
-  /**
-   * Creates a new {@link StateFeature} inside this {@link SpeciesType} and returns it.
-   * 
-   * @param id
-   *        the id of the new element to create
-   * @return the {@link StateFeature} object created
-   */
-  public StateFeature createStateFeature(String id) {
-    StateFeature stateFeature = new StateFeature();
-    stateFeature.setId(id);
-    addStateFeature(stateFeature);
-
-    return stateFeature;
-  }
-
-  /**
-   * Gets the ith {@link StateFeature}.
-   * 
-   * @param i
-   * 
-   * @return the ith {@link StateFeature}
-   * @throws IndexOutOfBoundsException if the index is invalid.
-   */
-  public StateFeature getStateFeature(int i) {
-    return getListOfStateFeatures().get(i);
-  }
-
-  /**
-   * Gets the {@link StateFeature} that has the given id.
-   * 
-   * @param id
-   * @return the {@link StateFeature} that has the given id or null if
-   * no {@link StateFeature} are found that match {@code id}.
-   */
-  public StateFeature getStateFeature(String id) {
-    if (isSetListOfStateFeatures()) {
-      return listOfStateFeatures.firstHit(new NameFilter(id));
-    }
-    return null;
-  }
-
-  /**
-   * Returns {@code true} if the listOfStateFeature is set.
-   * 
-   * @return {@code true} if the listOfStateFeature is set.
-   */
-  public boolean isSetListOfStateFeatures() {
-    if ((listOfStateFeatures == null) || listOfStateFeatures.isEmpty()) {
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * Sets the listOfStateFeatures to null
-   * 
-   * @return {@code true} is successful
-   */
-  public boolean unsetListOfStateFeatures() {
-    if (isSetListOfStateFeatures()) {
-      // unregister the ids if needed.
-      listOfStateFeatures.fireNodeRemovedEvent();
-      listOfStateFeatures = null;
-      return true;
-    }
-    return false;
-  }
-
-
-  /**
-   * @return the bindingSite
-   */
-  public boolean isBindingSite() {
-    return bindingSite;
-  }
-
-  /**
-   * @return
-   */
-  public boolean isSetBindingSite() {
-    return bindingSite != null;
-  }
-
-  /**
-   * @param bindingSite the bindingSite to set
-   */
-  public void setBindingSite(boolean bindingSite) {
-    this.bindingSite = bindingSite;
-  }
 
   /**
    * 
@@ -257,12 +122,14 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
     } else {
       index -= count;
     }
-    if (isSetListOfStateFeatures()) {
-      if (pos == index) {
-        return getListOfStateFeatures();
-      }
-      pos++;
-    }
+    
+    // TODO
+//    if (isSetListOfStateFeatures()) {
+//      if (pos == index) {
+//        return getListOfStateFeatures();
+//      }
+//      pos++;
+//    }
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}",
@@ -277,9 +144,10 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
   public int getChildCount() {
     int count = super.getChildCount();
 
-    if (isSetListOfStateFeatures()) {
-      count++;
-    }
+    // TODO
+//    if (isSetListOfStateFeatures()) {
+//      count++;
+//    }
 
     return count;
   }
@@ -296,11 +164,12 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
     if (!isAttributeRead) {
       isAttributeRead = true;
 
-      if (attributeName.equals(MultiConstants.bindingSite)) {
-        setBindingSite(StringTools.parseSBMLBoolean(value));
-      } else {
-        isAttributeRead = false;
-      }
+      // TODO
+//      if (attributeName.equals(MultiConstants.bindingSite)) {
+//        setBindingSite(StringTools.parseSBMLBoolean(value));
+//      } else {
+//        isAttributeRead = false;
+//      }
     }
 
     return isAttributeRead;
@@ -322,10 +191,11 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
       attributes.remove("name");
       attributes.put(MultiConstants.shortLabel+ ":name", getName());
     }
-    if (isSetBindingSite()) {
-      attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.bindingSite,
-        Boolean.toString(isBindingSite()));
-    }
+    // TODO
+//    if (isSetBindingSite()) {
+//      attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.bindingSite,
+//        Boolean.toString(isBindingSite()));
+//    }
 
     return attributes;
   }

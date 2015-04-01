@@ -164,9 +164,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   /**
    * Initializes the default values using the namespace.
    */
-  public void initDefaults() {
-    setPackageVersion(-1);
-  }
+  public void initDefaults() {}
 
 
 
@@ -371,7 +369,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Sets the listOfReplacedElements. If there was already some elements defined
-   * on listOfReplacedElements, the will be unset beforehand. If present it must
+   * on listOfReplacedElements, they will be unset beforehand. If present it must
    * contain at least one {@link ReplacedElement} object.
    *
    * @param listOfReplacedElements

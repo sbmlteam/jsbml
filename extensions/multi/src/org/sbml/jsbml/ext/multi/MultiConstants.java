@@ -183,6 +183,31 @@ public class MultiConstants {
   public static final String packageName = "Multistate and Multicomponent Species";
 
   /**
+   * 
+   */
+  public static final String compartmentType = "compartmentType";
+
+  /**
+   * 
+   */
+  public static final String isType = "isType";
+
+  /**
+   * 
+   */
+  public static final int MIN_SBML_LEVEL = 3;
+
+  /**
+   * 
+   */
+  public static final int MIN_SBML_VERSION = 1;
+
+  /**
+   * 
+   */
+  public static final String compartment = "compartment";
+
+  /**
    * @param level
    * @param version
    * @return

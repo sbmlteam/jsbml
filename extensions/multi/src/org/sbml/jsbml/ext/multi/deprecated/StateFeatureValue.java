@@ -19,11 +19,12 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.multi;
+package org.sbml.jsbml.ext.multi.deprecated;
 
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.ext.multi.MultiConstants;
 
 /**
  * 
