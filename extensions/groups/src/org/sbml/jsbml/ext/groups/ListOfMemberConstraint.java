@@ -75,6 +75,9 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
    */
   public ListOfMemberConstraint() {
     super();
+    setPackageVersion(-1);
+    packageName = GroupsConstants.shortLabel;
+    setNamespace(GroupsConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /**
@@ -83,6 +86,9 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
    */
   public ListOfMemberConstraint(int level, int version) {
     super(level, version);
+    setPackageVersion(-1);
+    packageName = GroupsConstants.shortLabel;
+    setNamespace(GroupsConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /**

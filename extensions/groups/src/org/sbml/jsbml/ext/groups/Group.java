@@ -77,16 +77,13 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     super(group);
 
     if (group.isSetListOfMembers()) {
-      // TODO - update to have a proper clone of the ListOf as well
-      for (Member m : group.listOfMembers) {
-        addMember(m.clone());
-      }
+      setListOfMembers(group.getListOfMembers().clone());
     }
     if (group.isSetKind()) {
       setKind(group.getKind());
     }
     if (group.isSetListOfMemberConstraints()) {
-      setListOfMemberConstraints((ListOfMemberConstraint) group.getListOfMemberConstraints().clone());
+      setListOfMemberConstraints(group.getListOfMemberConstraints().clone());
     }
   }
 
@@ -97,14 +94,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Group(int level, int version) {
     super(level, version);
-  }
-
-  /**
-   * @param member
-   * @return
-   */
-  public boolean addMember(Member member) {
-    return getListOfMembers().add(member);
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -113,19 +103,6 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   @Override
   public Group clone() {
     return new Group(this);
-  }
-
-  /**
-   * Creates a new instance of {@link Member} and add it to this {@link Group}.
-   * 
-   * @param id the id to be set to the new {@link Member}.
-   * @return the new {@link Member} instance.
-   */
-  public Member createMember(String id) {
-    Member m = new Member();
-    m.setId(id);
-    addMember(m);
-    return m;
   }
 
   /**
@@ -252,33 +229,200 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * 
-   * @return
+   * Returns the {@link #listOfMembers}.
+   * Creates it if it does not already exist.
+   *
+   * @return the {@link #listOfMembers}.
    */
   public ListOf<Member> getListOfMembers() {
     if (!isSetListOfMembers()) {
       listOfMembers = new ListOf<Member>();
-      listOfMembers.setNamespace(GroupsConstants.namespaceURI);
-      registerChild(listOfMembers);
+      listOfMembers.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfMembers.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'groups'
+      listOfMembers.setPackageName(null);
+      listOfMembers.setPackageName(GroupsConstants.shortLabel);
       listOfMembers.setSBaseListType(ListOf.Type.other);
+      
+      registerChild(listOfMembers);
     }
 
     return listOfMembers;
   }
 
+  
   /**
-   * 
-   * @param i
-   * @return
+   * Returns {@code true} if {@link #listOfMembers} is not null.
+   *
+   * @return {@code true} if {@link #listOfMembers} is not null.
    */
-  public Member getMember(int i) {
-    if (i >= 0 && i < getListOfMembers().size()) {
-      return getListOfMembers().get(i);
-    }
+  public boolean isSetListOfMembers() {
+    return listOfMembers != null;
+  }
 
+
+  /**
+   * Sets the given {@code ListOf<Member>}.
+   * If {@link #listOfMembers} was defined before and contains some
+   * elements, they are all unset.
+   *
+   * @param listOfMembers
+   */
+  public void setListOfMembers(ListOf<Member> listOfMembers) {
+    unsetListOfMembers();
+    this.listOfMembers = listOfMembers;
+    
+    if (listOfMembers != null) {
+      listOfMembers.unsetNamespace();
+      listOfMembers.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfMembers.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'groups'
+      listOfMembers.setPackageName(null);
+      listOfMembers.setPackageName(GroupsConstants.shortLabel);
+      listOfMembers.setSBaseListType(ListOf.Type.other);
+
+      registerChild(this.listOfMembers);          
+    }
+  }
+
+
+  /**
+   * Returns {@code true} if {@link #listOfMembers} contains at least
+   * one element, otherwise {@code false}.
+   *
+   * @return {@code true} if {@link #listOfMembers} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean unsetListOfMembers() {
+    if (isSetListOfMembers()) {
+      ListOf<Member> oldMembers = this.listOfMembers;
+      this.listOfMembers = null;
+      oldMembers.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Adds a new {@link Member} to the {@link #listOfMembers}.
+   * <p>The listOfMembers is initialized if necessary.
+   *
+   * @param member the element to add to the list
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
+   * @see java.util.Collection#add(Object)
+   */
+  public boolean addMember(Member member) {
+    return getListOfMembers().add(member);
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfMembers}.
+   *
+   * @param member the element to be removed from the list.
+   * @return {@code true} if the list contained the specified element and it was
+   *         removed.
+   * @see java.util.List#remove(Object)
+   */
+  public boolean removeMember(Member member) {
+    if (isSetListOfMembers()) {
+      return getListOfMembers().remove(member);
+    }
+    return false;
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfMembers}.
+   *
+   * @param id the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or
+   *         {@code null}.
+   */
+  public Member removeMember(String id) {
+    if (isSetListOfMembers()) {
+      return getListOfMembers().remove(id);
+    }
     return null;
   }
 
+
+  /**
+   * Removes an element from the {@link #listOfMembers} at the given index.
+   *
+   * @param i the index where to remove the {@link Member}.
+   * @return the specified element if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
+   *         out of bound ({@code (i < 0) || (i > listOfMembers)}).
+   */
+  public Member removeMember(int i) {
+    if (!isSetListOfMembers()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfMembers().remove(i);
+  }
+
+
+  /**
+   * Creates a new Member element and adds it to the
+   * {@link #listOfMembers} list.
+   *
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfMembers}
+   */
+  public Member createMember() {
+    return createMember(null);
+  }
+
+
+  /**
+   * Creates a new {@link Member} element and adds it to the
+   * {@link #listOfMembers} list.
+   *
+   * @param id the identifier that is to be applied to the new element.
+   * @return the newly created {@link Member} element, which is the last
+   *         element in the {@link #listOfMembers}.
+   */
+  public Member createMember(String id) {
+    Member member = new Member();
+    member.setId(id);
+    addMember(member);
+    return member;
+  }
+
+
+  /**
+   * Gets an element from the {@link #listOfMembers} at the given index.
+   *
+   * @param i the index of the {@link Member} element to get.
+   * @return an element from the listOfMembers at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public Member getMember(int i) {
+    if (!isSetListOfMembers()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfMembers().get(i);
+  }
+
+
+  /**
+   * Gets an element from the listOfMembers, with the given id.
+   *
+   * @param id the id of the {@link Member} element to get.
+   * @return an element from the listOfMembers with the given id
+   *         or {@code null}.
+   */
+  public Member getMember(String id) {
+    if (isSetListOfMembers()) {
+      return getListOfMembers().get(id);
+    }
+    return null;
+  }
+
+  
   /**
    * Returns the number of {@link Member}s of this {@link Group}.
    * 
@@ -321,7 +465,9 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   private void initDefaults() {
-    setNamespace(GroupsConstants.namespaceURI);
+    setNamespace(GroupsConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    packageName = GroupsConstants.shortLabel;
+    setPackageVersion(-1);
   }
 
   /* (non-Javadoc)
@@ -342,28 +488,13 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * 
-   * @return
-   */
-  public boolean isSetListOfMembers() {
-    if (listOfMembers == null) {
-      return false;
-    }
-    return true;
-  }
-
-
-  /**
-   * Returns {@code true}, if listOfMemberConstraints contains at least one element.
+   * Returns {@code true}, if listOfMemberConstraints is not null.
    *
-   * @return {@code true}, if listOfMemberConstraints contains at least one element,
+   * @return {@code true}, if listOfMemberConstraints is not null,
    *         otherwise {@code false}
    */
   public boolean isSetListOfMemberConstraints() {
-    if ((listOfMemberConstraints == null) || listOfMemberConstraints.isEmpty()) {
-      return false;
-    }
-    return true;
+    return listOfMemberConstraints != null;
   }
 
   /**
@@ -371,17 +502,19 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    *
    * @return the listOfMemberConstraints
    */
-  public ListOf<MemberConstraint> getListOfMemberConstraints() {
+  public ListOfMemberConstraint getListOfMemberConstraints() {
     if (!isSetListOfMemberConstraints()) {
       listOfMemberConstraints = new ListOfMemberConstraint(getLevel(), getVersion());
-      listOfMemberConstraints.setNamespace(GroupsConstants.namespaceURI);
+      listOfMemberConstraints.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfMemberConstraints.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'groups'
+      listOfMemberConstraints.setPackageName(null);
+      listOfMemberConstraints.setPackageName(GroupsConstants.shortLabel);
       listOfMemberConstraints.setSBaseListType(ListOf.Type.other);
       registerChild(listOfMemberConstraints);
     }
     return listOfMemberConstraints;
   }
-
-  // TODO - helper method with setListOfMemberConstraints(ListOf<MemberConstraint>) ??
 
   /**
    * Sets the given {@code ListOf<MemberConstraint>}. If listOfMemberConstraints
@@ -392,7 +525,18 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfMemberConstraints(ListOfMemberConstraint listOfMemberConstraints) {
     unsetListOfMemberConstraints();
     this.listOfMemberConstraints = listOfMemberConstraints;
-    registerChild(this.listOfMemberConstraints);
+    
+    if (listOfMemberConstraints != null) {
+      listOfMemberConstraints.unsetNamespace();
+      listOfMemberConstraints.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfMemberConstraints.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'groups'
+      listOfMemberConstraints.setPackageName(null);
+      listOfMemberConstraints.setPackageName(GroupsConstants.shortLabel);
+      listOfMemberConstraints.setSBaseListType(ListOf.Type.other);      
+      
+      registerChild(this.listOfMemberConstraints);
+    }
   }
 
   /**
@@ -515,23 +659,6 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     return "Group [id=" + getId() + ", name=" + getName()
         + (isSetKind()?", kind=" + getKind():"")
         + ", listOfMembers=" + listOfMembers + "]";
-  }
-
-  /**
-   * Removes the {@link #listOfMembers} from this {@link org.sbml.jsbml.Model} and notifies
-   * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.
-   * 
-   * @return {@code true} if calling this method lead to a change in this
-   *         data structure.
-   */
-  public boolean unsetListOfMembers() {
-    if (isSetListOfMembers()) {
-      ListOf<Member> oldListOfMembers = listOfMembers;
-      listOfMembers = null;
-      oldListOfMembers.fireNodeRemovedEvent();
-      return true;
-    }
-    return false;
   }
 
   /* (non-Javadoc)

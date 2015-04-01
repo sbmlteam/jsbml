@@ -28,6 +28,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Event;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
@@ -42,10 +44,18 @@ import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
 import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.ext.distrib.DistribConstants;
 import org.sbml.jsbml.ext.distrib.util.DistribModelBuilder;
+import org.sbml.jsbml.ext.dyn.CBO;
+import org.sbml.jsbml.ext.dyn.DynCompartmentPlugin;
+import org.sbml.jsbml.ext.dyn.DynConstants;
+import org.sbml.jsbml.ext.dyn.DynEventPlugin;
+import org.sbml.jsbml.ext.dyn.SpatialKind;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
 import org.sbml.jsbml.ext.fbc.Objective;
+import org.sbml.jsbml.ext.groups.Group;
+import org.sbml.jsbml.ext.groups.GroupsConstants;
+import org.sbml.jsbml.ext.groups.GroupsModelPlugin;
 import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.xml.parsers.PackageUtil;
 
@@ -74,9 +84,12 @@ public class PackageVersionTests {
     
     m = doc.createModel("test");
     
+    Compartment cell = m.createCompartment("cell");
     m.createReaction("R1");
     m.createSpecies("S1");
     m.createSpecies("S2");
+    
+    Event event = m.createEvent("E1");
     
     FBCModelPlugin fbcModel = (FBCModelPlugin) m.getPlugin("fbc");
 
@@ -107,10 +120,27 @@ public class PackageVersionTests {
     arraySubModel.createDimension("A_D1");
     arraySubModel.createIndex();
     
+    DynCompartmentPlugin dynCell = (DynCompartmentPlugin) cell.getPlugin(DynConstants.namespaceURI_L3V1V1);
+    dynCell.createSpatialComponent("Dy_SP1").setSpatialIndex(SpatialKind.cartesianX);
+    dynCell.createSpatialComponent("Dy_SP2");
+    dynCell.setCBOTerm(CBO.getTerm("CellDeath"));
+    
+    DynEventPlugin dynEvent = (DynEventPlugin) event.getPlugin("dyn");
+    dynEvent.createDynElement("D_cell").setIdRef("cell");
+    
+    GroupsModelPlugin groupModel = (GroupsModelPlugin) m.getPlugin(GroupsConstants.namespaceURI_L3V1V1);
+    groupModel.createGroup("G_G1");
+    Group g2 = groupModel.createGroup("G_G2", new String[]{"G_M1", "G_M2", "G_M3"});
+    g2.createMemberWithIdRef("G_M4", "S1");
+    g2.getMember(0).setIdRef("S2");
+    g2.getMember("G_M2").setIdRef(cell);
+    g2.createMemberConstraint("G_MC1").setDistinctAttribute("test");
     
     // check and fix package version and namespaces
     // TODO - update when jsbml will be fixed to set properly package version and namespace - 
     // now the fix is done in SBMLCoreParser#processEndDocument when reading a file
+    PackageUtil.checkPackages(doc, true, true);
+    System.out.println("Checking packages:");
     PackageUtil.checkPackages(doc, false, true);
   }
 
@@ -181,6 +211,8 @@ public class PackageVersionTests {
     Assert.assertTrue(newDoc.isPackageEnabled("comp"));
     Assert.assertTrue(newDoc.isPackageEnabled("distrib"));
     Assert.assertTrue(newDoc.isPackageEnabled("fbc"));
+    Assert.assertTrue(newDoc.isPackageEnabled("groups"));
+    Assert.assertTrue(newDoc.isPackageEnabled("dyn"));
     
     Assert.assertFalse(newDoc.isPackageEnabled("qual"));
   }

@@ -22,6 +22,7 @@
 package org.sbml.jsbml.ext.groups;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
@@ -41,20 +42,11 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
 
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return GroupsConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
    */
   @Override
   public String getPackageName() {
-    return GroupsConstants.packageName;
+    return GroupsConstants.shortLabel;
   }
 
 
@@ -103,10 +95,11 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   /**
    * 
    */
-  protected ListOf<Group> listOfGroups = new ListOf<Group>();
+  protected ListOf<Group> listOfGroups;
 
 
   /**
+   * Creates a new {@link GroupsModelPlugin} instance
    * 
    * @param model
    */
@@ -116,6 +109,8 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * Creates a new {@link GroupsModelPlugin} instance cloned from the given parameter.
+   * 
    * @param groupModelPlugin
    */
   public GroupsModelPlugin(GroupsModelPlugin groupModelPlugin) {
@@ -130,40 +125,57 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    * 
    */
   private void initDefaults() {
-    listOfGroups.setNamespace(GroupsConstants.namespaceURI);
-    listOfGroups.setSBaseListType(ListOf.Type.other);
-
-    if (isSetExtendedSBase()) {
-      extendedSBase.registerChild(listOfGroups);
-    }
+    setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
   }
 
   /**
-   * 
+   * Adds a new element to the listOfGroups.
+   * <p>listOfGroups is initialized if necessary.
+   *
    * @param group
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public void addGroup(Group group) {
-    listOfGroups.add(group);
+    getListOfGroups().add(group);
   }
 
   /**
-   * 
-   * @param i
-   * @return
+   * Returns the n-th {@link Group} object in this {@link GroupsModelPlugin}.
+   *
+   * @param i an index
+   * @return the {@link Group} with the given index if it exists.
+   * @throws IndexOutOfBoundsException
    */
   public Group getGroup(int i) {
-    if ((i >= 0) && (i < listOfGroups.size())) {
-      return listOfGroups.get(i);
+    if (!isSetListOfGroups()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
     }
 
-    return null;
+    return listOfGroups.get(i);
   }
 
   /**
+   * Returns the listOfGroups. If the {@link ListOf} is not defined, creates an empty one.
    * 
-   * @return
+   * @return the listOfGroups
    */
   public ListOf<Group> getListOfGroups() {
+    if (!isSetListOfGroups()) {
+      listOfGroups = new ListOf<Group>();
+    
+      listOfGroups.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfGroups.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'groups'
+      listOfGroups.setPackageName(null);
+      listOfGroups.setPackageName(GroupsConstants.shortLabel);      
+      listOfGroups.setSBaseListType(ListOf.Type.other);
+      
+      if (extendedSBase != null) {
+        extendedSBase.registerChild(listOfGroups);
+      }
+    }
+
     return listOfGroups;
   }
 
@@ -191,10 +203,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    * @return
    */
   public boolean isSetListOfGroups() {
-    if ((listOfGroups == null) || listOfGroups.isEmpty()) {
-      return false;
-    }
-    return true;
+    return listOfGroups != null;
   }
 
   /**
@@ -203,17 +212,20 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    */
   public void setListOfGroups(ListOf<Group> listOfGroups) {
     unsetListOfGroups();
-    if (listOfGroups == null) {
-      this.listOfGroups = new ListOf<Group>();
-    } else {
-      this.listOfGroups = listOfGroups;
-    }
-    if ((this.listOfGroups != null) && (this.listOfGroups.getSBaseListType() != ListOf.Type.other)) {
-      this.listOfGroups.setSBaseListType(ListOf.Type.other);
-    }
 
-    if (isSetExtendedSBase()) {
-      extendedSBase.registerChild(listOfGroups);
+    this.listOfGroups = listOfGroups;
+
+    if (listOfGroups != null) {
+      listOfGroups.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfGroups.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'groups'
+      listOfGroups.setPackageName(null);
+      listOfGroups.setPackageName(GroupsConstants.shortLabel);      
+      listOfGroups.setSBaseListType(ListOf.Type.other);
+      
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfGroups);
+      }
     }
   }
 
@@ -247,8 +259,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    */
   @Override
   public String toString() {
-    return "GroupModelPlugin [listOfGroups=" + listOfGroups + ", model=" + extendedSBase
-        + "]";
+    return "GroupModelPlugin [nb Group = " + getGroupCount() + "]";
   }
 
   /* (non-Javadoc)

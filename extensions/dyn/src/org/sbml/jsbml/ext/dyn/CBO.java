@@ -88,7 +88,6 @@ public class CBO {
   private static Set<Term> terms;
 
   static {
-    System.out.println(Resource.getInstance());
     OboParser parser = new OboParser();
     try {
       String path = "org/sbml/jsbml/ext/dyn/";

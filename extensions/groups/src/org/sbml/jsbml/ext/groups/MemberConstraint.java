@@ -180,7 +180,9 @@ public class MemberConstraint extends AbstractNamedSBase  implements UniqueNamed
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(GroupsConstants.namespaceURI);
+    setNamespace(GroupsConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    packageName = GroupsConstants.shortLabel;
+    setPackageVersion(-1);
   }
 
   /* (non-Javadoc)

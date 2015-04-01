@@ -586,7 +586,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
   @Override
   public T get(int index) {
     if ((index < 0) || (index >= listOf.size())) {
-      return null;
+      return null; // TODO - throw IndexOutOfBoundsException instead of null here ?
     }
 
     return listOf.get(index);

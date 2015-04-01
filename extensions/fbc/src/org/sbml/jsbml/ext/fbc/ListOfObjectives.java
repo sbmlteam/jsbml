@@ -79,7 +79,6 @@ public class ListOfObjectives extends ListOf<Objective> {
    */
   public ListOfObjectives(ListOf<Objective> listOf) {
     super(listOf);
-    initDefaults();
   }
 
   /**
