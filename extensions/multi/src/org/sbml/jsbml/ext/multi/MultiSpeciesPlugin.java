@@ -37,7 +37,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @since 1.0
  * @version $Rev$
  */
-public class MultiSpecies extends AbstractSBasePlugin {
+public class MultiSpeciesPlugin extends AbstractSBasePlugin {
 
 
   /* (non-Javadoc)
@@ -111,7 +111,7 @@ public class MultiSpecies extends AbstractSBasePlugin {
    * 
    * @param species
    */
-  public MultiSpecies(Species species) {
+  public MultiSpeciesPlugin(Species species) {
     this.species = species;
   }
 
@@ -119,14 +119,14 @@ public class MultiSpecies extends AbstractSBasePlugin {
   /**
    * @param multiSpecies
    */
-  public MultiSpecies(MultiSpecies multiSpecies) {
+  public MultiSpeciesPlugin(MultiSpeciesPlugin multiSpecies) {
     super(multiSpecies);
   }
 
 
   @Override
-  public MultiSpecies clone() {
-    return new MultiSpecies(this);
+  public MultiSpeciesPlugin clone() {
+    return new MultiSpeciesPlugin(this);
   }
 
   /* (non-Javadoc)

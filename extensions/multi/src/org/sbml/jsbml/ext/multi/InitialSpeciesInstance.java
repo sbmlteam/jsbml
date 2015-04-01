@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.ext.multi.deprecated.Selector;
 import org.sbml.jsbml.util.StringTools;
 
 /**

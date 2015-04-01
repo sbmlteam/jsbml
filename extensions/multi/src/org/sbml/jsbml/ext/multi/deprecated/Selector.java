@@ -19,7 +19,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.multi;
+package org.sbml.jsbml.ext.multi.deprecated;
 
 import java.text.MessageFormat;
 import java.util.Map;
@@ -29,6 +29,10 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.ext.multi.BindingSiteReference;
+import org.sbml.jsbml.ext.multi.Bond;
+import org.sbml.jsbml.ext.multi.MultiConstants;
+import org.sbml.jsbml.ext.multi.SpeciesTypeState;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.util.filters.NameFilter;
 

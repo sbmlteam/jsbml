@@ -26,7 +26,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
@@ -36,7 +36,8 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @since 1.0
  * @date 16.10.2013
  */
-public class MultiRule extends AbstractSBasePlugin  {
+public class MultiSpeciesReferencePlugin extends AbstractSBasePlugin {
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
@@ -45,6 +46,7 @@ public class MultiRule extends AbstractSBasePlugin  {
   public String getElementNamespace() {
     return MultiConstants.getNamespaceURI(getLevel(), getVersion());
   }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
@@ -78,8 +80,8 @@ public class MultiRule extends AbstractSBasePlugin  {
    */
   @SuppressWarnings("unchecked")
   @Override
-  public ListOf<Rule> getParent() {
-    return (ListOf<Rule>) getExtendedSBase().getParent();
+  public ListOf<Species> getParent() {
+    return (ListOf<Species>) getExtendedSBase().getParent();
   }
 
 
@@ -87,32 +89,48 @@ public class MultiRule extends AbstractSBasePlugin  {
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
    */
   @Override
-  public ListOf<Rule> getParentSBMLObject() {
+  public ListOf<Species> getParentSBMLObject() {
     return getParent();
   }
-  // TODO: we could/should probably use the same SBasePlugin to InitialAssigment, Rules and EventAssignement
-  // as it is exactly the same structure
-
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = 4526455581462978178L;
-
+  private static final long serialVersionUID = 3171952386462646205L;
   /**
    * 
    */
-  private SpeciesTypeInstanceChange speciesTypeInstanceChange; // TODO: should probably be a listOf here
+  ListOf<SpeciesTypeRestriction> listOfSpeciesTypeRestrictions;
+
 
   /**
-   * @param multiRule
+   * @param multiSpeciesReference
    */
-  public MultiRule(MultiRule multiRule) {
-    super(multiRule);
+  public MultiSpeciesReferencePlugin(MultiSpeciesReferencePlugin multiSpeciesReference) {
+    super(multiSpeciesReference);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+  /**
+   * Returns the list of {@link SpeciesTypeRestriction}.
+   * 
+   * @return the list of {@link SpeciesTypeRestriction}
    */
+  public ListOf<SpeciesTypeRestriction> getListOfSpeciesTypeRestrictions() {
+    if (listOfSpeciesTypeRestrictions == null) {
+      listOfSpeciesTypeRestrictions = new ListOf<SpeciesTypeRestriction>();
+    }
+
+    return listOfSpeciesTypeRestrictions;
+  }
+
+  /**
+   * Adds a {@link SpeciesTypeRestriction}.
+   * 
+   * @param speciesTypeRestriction the {@link SpeciesTypeRestriction} to add
+   */
+  public void addSpeciesTypeRestriction(SpeciesTypeRestriction speciesTypeRestriction) {
+    getListOfSpeciesTypeRestrictions().add(speciesTypeRestriction);
+  }
+
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
@@ -120,48 +138,33 @@ public class MultiRule extends AbstractSBasePlugin  {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getChildAt(int)
-   */
   @Override
   public TreeNode getChildAt(int childIndex) {
     // TODO Auto-generated method stub
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getChildCount()
-   */
   @Override
   public int getChildCount() {
     // TODO Auto-generated method stub
     return 0;
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getAllowsChildren()
-   */
   @Override
   public boolean getAllowsChildren() {
     // TODO Auto-generated method stub
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#writeXMLAttributes()
-   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     // TODO Auto-generated method stub
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
-   */
   @Override
-  public MultiRule clone() {
-    return new MultiRule(this);
+  public MultiSpeciesReferencePlugin clone() {
+    return new MultiSpeciesReferencePlugin(this);
   }
 
 }

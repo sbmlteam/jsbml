@@ -19,15 +19,17 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.multi;
+package org.sbml.jsbml.ext.multi.deprecated;
 
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.ext.multi.MultiConstants;
+import org.sbml.jsbml.ext.multi.SpeciesTypeInstanceChange;
 
 /**
  * 
@@ -36,7 +38,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @since 1.0
  * @date 16.10.2013
  */
-public class MultiEventAssignment extends AbstractSBasePlugin {
+public class MultiRulePlugin extends AbstractSBasePlugin  {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
@@ -54,6 +56,7 @@ public class MultiEventAssignment extends AbstractSBasePlugin {
     return MultiConstants.packageName;
   }
 
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
    */
@@ -61,6 +64,7 @@ public class MultiEventAssignment extends AbstractSBasePlugin {
   public String getPrefix() {
     return MultiConstants.shortLabel;
   }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
@@ -70,37 +74,42 @@ public class MultiEventAssignment extends AbstractSBasePlugin {
     return getElementNamespace();
   }
 
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#getParent()
    */
   @SuppressWarnings("unchecked")
   @Override
-  public ListOf<EventAssignment> getParent() {
-    return (ListOf<EventAssignment>) getExtendedSBase().getParent();
+  public ListOf<Rule> getParent() {
+    return (ListOf<Rule>) getExtendedSBase().getParent();
   }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
    */
   @Override
-  public ListOf<EventAssignment> getParentSBMLObject() {
+  public ListOf<Rule> getParentSBMLObject() {
     return getParent();
   }
+  // TODO: we could/should probably use the same SBasePlugin to InitialAssigment, Rules and EventAssignement
+  // as it is exactly the same structure
+
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = -5524105017747151889L;
+  private static final long serialVersionUID = 4526455581462978178L;
 
   /**
    * 
    */
-  private SpeciesTypeInstanceChange speciesTypeInstanceChange;   // TODO: should probably be a listOf here
+  private SpeciesTypeInstanceChange speciesTypeInstanceChange; // TODO: should probably be a listOf here
 
   /**
-   * @param multiEventAssignment
+   * @param multiRule
    */
-  public MultiEventAssignment(MultiEventAssignment multiEventAssignment) {
-    super(multiEventAssignment);
+  public MultiRulePlugin(MultiRulePlugin multiRule) {
+    super(multiRule);
   }
 
   /* (non-Javadoc)
@@ -141,7 +150,7 @@ public class MultiEventAssignment extends AbstractSBasePlugin {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#writeXMLAttributes()
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
@@ -153,8 +162,8 @@ public class MultiEventAssignment extends AbstractSBasePlugin {
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
    */
   @Override
-  public MultiEventAssignment clone() {
-    return new MultiEventAssignment(this);
+  public MultiRulePlugin clone() {
+    return new MultiRulePlugin(this);
   }
 
 }

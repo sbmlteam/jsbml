@@ -26,7 +26,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Species;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
@@ -36,7 +36,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @since 1.0
  * @date 16.10.2013
  */
-public class MultiSpeciesReference extends AbstractSBasePlugin {
+public class MultiReactionPlugin extends AbstractSBasePlugin {
 
 
   /* (non-Javadoc)
@@ -80,8 +80,8 @@ public class MultiSpeciesReference extends AbstractSBasePlugin {
    */
   @SuppressWarnings("unchecked")
   @Override
-  public ListOf<Species> getParent() {
-    return (ListOf<Species>) getExtendedSBase().getParent();
+  public ListOf<Reaction> getParent() {
+    return (ListOf<Reaction>) getExtendedSBase().getParent();
   }
 
 
@@ -89,46 +89,41 @@ public class MultiSpeciesReference extends AbstractSBasePlugin {
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
    */
   @Override
-  public ListOf<Species> getParentSBMLObject() {
+  public ListOf<Reaction> getParentSBMLObject() {
     return getParent();
   }
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = 3171952386462646205L;
+  private static final long serialVersionUID = 7392764563567861115L;
   /**
    * 
    */
-  ListOf<SpeciesTypeRestriction> listOfSpeciesTypeRestrictions;
-
+  ListOf<ReactionRule> listOfReactionRules;
 
   /**
-   * @param multiSpeciesReference
+   * @param multiReaction
    */
-  public MultiSpeciesReference(MultiSpeciesReference multiSpeciesReference) {
-    super(multiSpeciesReference);
+  public MultiReactionPlugin(MultiReactionPlugin multiReaction) {
+    super(multiReaction);
   }
 
   /**
-   * Returns the list of {@link SpeciesTypeRestriction}.
-   * 
-   * @return the list of {@link SpeciesTypeRestriction}
+   * @return the listOfReactionRules
    */
-  public ListOf<SpeciesTypeRestriction> getListOfSpeciesTypeRestrictions() {
-    if (listOfSpeciesTypeRestrictions == null) {
-      listOfSpeciesTypeRestrictions = new ListOf<SpeciesTypeRestriction>();
+  public ListOf<ReactionRule> getListOfReactionRules() {
+    if (listOfReactionRules == null) {
+      listOfReactionRules = new ListOf<ReactionRule>();
     }
 
-    return listOfSpeciesTypeRestrictions;
+    return listOfReactionRules;
   }
 
   /**
-   * Adds a {@link SpeciesTypeRestriction}.
-   * 
-   * @param speciesTypeRestriction the {@link SpeciesTypeRestriction} to add
+   * @param reactionRule the listOfReactionRules to set
    */
-  public void addSpeciesTypeRestriction(SpeciesTypeRestriction speciesTypeRestriction) {
-    getListOfSpeciesTypeRestrictions().add(speciesTypeRestriction);
+  public void addReactionRule(ReactionRule reactionRule) {
+    getListOfReactionRules().add(reactionRule);
   }
 
   @Override
@@ -163,8 +158,8 @@ public class MultiSpeciesReference extends AbstractSBasePlugin {
   }
 
   @Override
-  public MultiSpeciesReference clone() {
-    return new MultiSpeciesReference(this);
+  public MultiReactionPlugin clone() {
+    return new MultiReactionPlugin(this);
   }
 
 }
