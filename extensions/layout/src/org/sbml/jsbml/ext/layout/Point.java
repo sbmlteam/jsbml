@@ -85,8 +85,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Point() {
     super();
-    setNamespace(LayoutConstants.namespaceURI);
-    x = y = z = Double.NaN;
+    initDefaults();
   }
 
   /**
@@ -140,8 +139,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Point(int level, int version) {
     super(level, version);
-    setNamespace(LayoutConstants.namespaceURI);
-    x = y = z = Double.NaN;
+    initDefaults();
   }
 
   /**
@@ -185,6 +183,17 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
     } else {
       cloned.setZ(Double.NaN);
     }
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = LayoutConstants.shortLabel;
+    
+    x = y = z = Double.NaN;
   }
 
   /* (non-Javadoc)

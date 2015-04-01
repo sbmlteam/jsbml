@@ -77,7 +77,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
    */
   public GraphicalObject() {
     super();
-    setNamespace(LayoutConstants.namespaceURI);
+    initDefaults();
   }
 
   /**
@@ -102,7 +102,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
    */
   public GraphicalObject(int level, int version) {
     super(level, version);
-    setNamespace(LayoutConstants.namespaceURI);
+    initDefaults();
   }
 
   /**
@@ -110,7 +110,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
    */
   public GraphicalObject(String id) {
     super(id);
-    setNamespace(LayoutConstants.namespaceURI);
+    initDefaults();
   }
 
 
@@ -122,7 +122,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
    */
   public GraphicalObject(String id, int level, int version) {
     super(id, level, version);
-    setNamespace(LayoutConstants.namespaceURI);
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -133,6 +133,16 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
     return new GraphicalObject(this);
   }
 
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = LayoutConstants.shortLabel;
+  }
+
+  
   /**
    * Creates and sets a {@link BoundingBox} for this object.
    * @return {@link BoundingBox}.

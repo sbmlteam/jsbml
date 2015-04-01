@@ -76,6 +76,8 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
    */
   public LayoutModelPlugin(Model model) {
     super(model);
+    setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
     createListOfLayout();
   }
 
@@ -136,7 +138,11 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
    */
   private ListOf<Layout> createListOfLayout() {
     listOfLayouts = new ListOf<Layout>();
-    listOfLayouts.setNamespace(LayoutConstants.namespaceURI);
+    listOfLayouts.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+    listOfLayouts.setPackageVersion(-1);
+    // changing the ListOf package name from 'core' to 'layout'
+    listOfLayouts.setPackageName(null);
+    listOfLayouts.setPackageName(LayoutConstants.shortLabel);
     listOfLayouts.setSBaseListType(ListOf.Type.other);
 
     if (isSetExtendedSBase()) {
@@ -320,13 +326,16 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
    */
   public void setListOfLayouts(ListOf<Layout> listOfLayouts) {
     unsetListOfLayouts();
-    if (listOfLayouts == null) {
-      this.listOfLayouts = new ListOf<Layout>();
-    } else {
-      this.listOfLayouts = listOfLayouts;
-    }
-    if ((this.listOfLayouts != null) && (this.listOfLayouts.getSBaseListType() != ListOf.Type.other)) {
-      this.listOfLayouts.setSBaseListType(ListOf.Type.other);
+    this.listOfLayouts = listOfLayouts;
+    
+    if (listOfLayouts != null) {
+      listOfLayouts.unsetNamespace();
+      listOfLayouts.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfLayouts.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfLayouts.setPackageName(null);
+      listOfLayouts.setPackageName(LayoutConstants.shortLabel);
+      listOfLayouts.setSBaseListType(ListOf.Type.other);
     }
 
     if (isSetExtendedSBase()) {
@@ -388,7 +397,7 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
    */
   @Override
   public String getPackageName() {
-    return LayoutConstants.packageName;
+    return LayoutConstants.shortLabel;
   }
 
   /* (non-Javadoc)

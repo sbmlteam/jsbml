@@ -706,7 +706,11 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isSetListOfAdditionalGraphicalObjects()) {
       listOfAdditionalGraphicalObjects = new ListOfWithName<GraphicalObject>(LayoutConstants.listOfAdditionalGraphicalObjects);
       listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
-      listOfAdditionalGraphicalObjects.setNamespace(LayoutConstants.namespaceURI);
+      listOfAdditionalGraphicalObjects.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfAdditionalGraphicalObjects.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfAdditionalGraphicalObjects.setPackageName(null);
+      listOfAdditionalGraphicalObjects.setPackageName(LayoutConstants.shortLabel);
       registerChild(listOfAdditionalGraphicalObjects);
     }
     return listOfAdditionalGraphicalObjects;
@@ -719,7 +723,12 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<CompartmentGlyph> getListOfCompartmentGlyphs() {
     if (!isSetListOfCompartmentGlyphs()) {
       listOfCompartmentGlyphs = ListOf.newInstance(this, CompartmentGlyph.class);
-      listOfCompartmentGlyphs.setNamespace(LayoutConstants.namespaceURI);
+      listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
+      listOfCompartmentGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfCompartmentGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfCompartmentGlyphs.setPackageName(null);
+      listOfCompartmentGlyphs.setPackageName(LayoutConstants.shortLabel);
       registerChild(listOfCompartmentGlyphs);
     }
     return listOfCompartmentGlyphs;
@@ -732,7 +741,12 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<ReactionGlyph> getListOfReactionGlyphs() {
     if (!isSetListOfReactionGlyphs()) {
       listOfReactionGlyphs = ListOf.newInstance(this, ReactionGlyph.class);
-      listOfReactionGlyphs.setNamespace(LayoutConstants.namespaceURI);
+      listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
+      listOfReactionGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfReactionGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfReactionGlyphs.setPackageName(null);
+      listOfReactionGlyphs.setPackageName(LayoutConstants.shortLabel);
       registerChild(listOfReactionGlyphs);
     }
     return listOfReactionGlyphs;
@@ -745,7 +759,12 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<SpeciesGlyph> getListOfSpeciesGlyphs() {
     if (!isSetListOfSpeciesGlyphs()) {
       listOfSpeciesGlyphs = ListOf.newInstance(this, SpeciesGlyph.class);
-      listOfSpeciesGlyphs.setNamespace(LayoutConstants.namespaceURI);
+      listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfSpeciesGlyphs.setPackageName(null);
+      listOfSpeciesGlyphs.setPackageName(LayoutConstants.shortLabel);
       registerChild(listOfSpeciesGlyphs);
     }
     return listOfSpeciesGlyphs;
@@ -758,7 +777,12 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<TextGlyph> getListOfTextGlyphs() {
     if (!isSetListOfTextGlyphs()) {
       listOfTextGlyphs = ListOf.newInstance(this, TextGlyph.class);
-      listOfTextGlyphs.setNamespace(LayoutConstants.namespaceURI);
+      listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
+      listOfTextGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfTextGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfTextGlyphs.setPackageName(null);
+      listOfTextGlyphs.setPackageName(LayoutConstants.shortLabel);
       registerChild(listOfTextGlyphs);
     }
     return listOfTextGlyphs;
@@ -926,7 +950,9 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   private void initDefault() {
-    setNamespace(LayoutConstants.namespaceURI);
+    setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = LayoutConstants.shortLabel;
   }
 
   /* (non-Javadoc)
@@ -1267,11 +1293,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param addGraphicalObjects
    */
   public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
-    if (listOfAdditionalGraphicalObjects != null) {
-      listOfAdditionalGraphicalObjects.fireNodeRemovedEvent();
-    }
-    listOfAdditionalGraphicalObjects = addGraphicalObjects;
-    registerChild(listOfAdditionalGraphicalObjects);
+    setListOfAdditionalGraphicalObjects(addGraphicalObjects);
   }
 
 
@@ -1335,13 +1357,16 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 
       if (!registerDone) {
         listOfAdditionalGraphicalObjects = additionalGraphicalObjects;
+        
+        listOfAdditionalGraphicalObjects.unsetNamespace();
+        listOfAdditionalGraphicalObjects.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+        listOfAdditionalGraphicalObjects.setPackageVersion(-1);
+        // changing the ListOf package name from 'core' to 'layout'
+        listOfAdditionalGraphicalObjects.setPackageName(null);
+        listOfAdditionalGraphicalObjects.setPackageName(LayoutConstants.shortLabel);      
+        listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
         registerChild(listOfAdditionalGraphicalObjects);
       }
-
-      if ((listOfAdditionalGraphicalObjects != null) && (listOfAdditionalGraphicalObjects.getSBaseListType() != ListOf.Type.other)) {
-        listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
-      }
-
     }
   }
 
@@ -1355,10 +1380,18 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfCompartmentGlyphs(ListOf<CompartmentGlyph> compartmentGlyphs) {
     unsetListOfCompartmentGlyphs();
     listOfCompartmentGlyphs = compartmentGlyphs;
-    if ((listOfCompartmentGlyphs != null) && (listOfCompartmentGlyphs.getSBaseListType() != ListOf.Type.other)) {
+
+    if (listOfCompartmentGlyphs != null) {
+      listOfCompartmentGlyphs.unsetNamespace();
+      listOfCompartmentGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfCompartmentGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfCompartmentGlyphs.setPackageName(null);
+      listOfCompartmentGlyphs.setPackageName(LayoutConstants.shortLabel);      
       listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfCompartmentGlyphs);
     }
-    registerChild(listOfCompartmentGlyphs);
+    
   }
 
   /**
@@ -1370,7 +1403,14 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfReactionGlyphs(ListOf<ReactionGlyph> reactionGlyphs) {
     unsetListOfReactionGlyphs();
     listOfReactionGlyphs = reactionGlyphs;
+
     if (listOfReactionGlyphs != null) {
+      listOfReactionGlyphs.unsetNamespace();
+      listOfReactionGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfReactionGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfReactionGlyphs.setPackageName(null);
+      listOfReactionGlyphs.setPackageName(LayoutConstants.shortLabel);      
       listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
       registerChild(listOfReactionGlyphs);
     }
@@ -1385,12 +1425,15 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public void setListOfSpeciesGlyphs(ListOf<SpeciesGlyph> speciesGlyphs) {
     unsetListOfSpeciesGlyphs();
-    if (speciesGlyphs == null) {
-      listOfSpeciesGlyphs = new ListOf<SpeciesGlyph>();
-    } else {
-      listOfSpeciesGlyphs = speciesGlyphs;
-    }
+    listOfSpeciesGlyphs = speciesGlyphs;
+    
     if (listOfSpeciesGlyphs != null) {
+      listOfSpeciesGlyphs.unsetNamespace();
+      listOfSpeciesGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfSpeciesGlyphs.setPackageName(null);
+      listOfSpeciesGlyphs.setPackageName(LayoutConstants.shortLabel);      
       listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
       registerChild(listOfSpeciesGlyphs);
     }
@@ -1405,7 +1448,14 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfTextGlyphs(ListOf<TextGlyph> textGlyphs) {
     unsetListOfTextGlyphs();
     listOfTextGlyphs = textGlyphs;
+    
     if (listOfTextGlyphs != null) {
+      listOfTextGlyphs.unsetNamespace();
+      listOfTextGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfTextGlyphs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfTextGlyphs.setPackageName(null);
+      listOfTextGlyphs.setPackageName(LayoutConstants.shortLabel);      
       listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
       registerChild(listOfTextGlyphs);
     }
