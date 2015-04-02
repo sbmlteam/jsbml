@@ -307,7 +307,9 @@ public class VectorCompiler implements ASTNodeCompiler {
         }
         out = result;
       }
-      out.addChild(new ASTNode(sumScalar));
+      if (isSetSumScalar) {
+        out.addChild(new ASTNode(sumScalar));
+      }
     }
 
     setNode(out);
@@ -2373,6 +2375,12 @@ public class VectorCompiler implements ASTNodeCompiler {
       if (value.isVector()) {
         vectors.add(value);
       }
+      else if (useId){
+        if (value.isName() && value.getName().equals("unknown")) {
+          return false;
+        }
+        ids.add(value);
+      }
       else if (value.isNumber()){
         scalars.add(value);
       }
@@ -2380,9 +2388,6 @@ public class VectorCompiler implements ASTNodeCompiler {
         if (value.getName().equals("unknown")) {
           return false;
         }
-        ids.add(value);
-      }
-      else if (useId){
         ids.add(value);
       }
       else {
@@ -3130,7 +3135,9 @@ public class VectorCompiler implements ASTNodeCompiler {
         }
         out = result;
       }
-      out.addChild(new ASTNode(sumScalar));
+      if (isSetSumScalar) {
+        out.addChild(new ASTNode(sumScalar));
+      }
     }
 
     setNode(out);
@@ -3357,7 +3364,9 @@ public class VectorCompiler implements ASTNodeCompiler {
         }
         out = result;
       }
-      out.addChild(new ASTNode(sumScalar));
+      if (isSetSumScalar) {
+        out.addChild(new ASTNode(sumScalar));
+      }
     }
 
     setNode(out);
@@ -3978,7 +3987,6 @@ public class VectorCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue symbolTime(String time) {
-    setNode(new ASTNode(0));
     return dummy;
   }
 
@@ -4161,7 +4169,9 @@ public class VectorCompiler implements ASTNodeCompiler {
         }
         out = result;
       }
-      out.addChild(new ASTNode(sumScalar));
+      if (isSetSumScalar) {
+        out.addChild(new ASTNode(sumScalar));
+      }
     }
 
     setNode(out);
