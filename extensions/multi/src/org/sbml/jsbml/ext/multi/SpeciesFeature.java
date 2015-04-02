@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2015 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -19,46 +19,32 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
+
 package org.sbml.jsbml.ext.multi;
 
-import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.AbstractSBase;
 
-/**
- * 
- * @author Nicolas Rodriguez
- * @version $Rev$
- * @since 1.0
- * @date 16.10.2013
- */
-public class ProductSpeciesReference extends SpeciesReference {
 
-  // TODO: check if it is a new element or a plugin to speciesReference
+public class SpeciesFeature extends AbstractNamedSBase {
 
-  /**
-   * Generated serial version identifier.
-   */
-  private static final long serialVersionUID = 5789882023489183232L;
-  /**
-   * 
-   */
-  private String correspondingReactant;
-
-  /**
-   * Returns the corresponding reactant.
-   * 
-   * @return the correspondingReactant
-   */
-  public String getCorrespondingReactant() {
-    return correspondingReactant;
+  @Override
+  public AbstractSBase clone() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
-  /**
-   * Sets the corresponding reactant.
-   * 
-   * @param correspondingReactant the correspondingReactant to set
-   */
-  public void setCorrespondingReactant(String correspondingReactant) {
-    this.correspondingReactant = correspondingReactant;
+  @Override
+  public String toString() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
+  @Override
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+  
+ 
 }

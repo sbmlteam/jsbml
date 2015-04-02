@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2015 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -19,53 +19,24 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
+
 package org.sbml.jsbml.ext.multi;
 
-import org.sbml.jsbml.AbstractMathContainer;
+import org.sbml.jsbml.AbstractSBase;
 
-/**
- * 
- * @author Nicolas Rodriguez
- * @version $Rev$
- * @since 1.0
- * @date 16.10.2013
- */
-public class SpeciesTypeInstanceChange extends AbstractMathContainer {
 
-  /**
-   * Generated serial version identifier.
-   */
-  private static final long serialVersionUID = 6354095852211081835L;
-  /**
-   * 
-   */
-  private String speciesTypeInstance;
+public class OutwardBindingSite extends AbstractSBase {
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractMathContainer#clone()
-   */
   @Override
-  public AbstractMathContainer clone() {
-    // TODO
+  public AbstractSBase clone() {
+    // TODO Auto-generated method stub
     return null;
   }
 
-  /**
-   * Returns the speciesTypeInstance.
-   * 
-   * @return the speciesTypeInstance
-   */
-  public String getSpeciesTypeInstance() {
-    return speciesTypeInstance;
+  @Override
+  public String toString() {
+    // TODO Auto-generated method stub
+    return null;
   }
-
-  /**
-   * Sets the speciesTypeInstance.
-   * 
-   * @param speciesTypeInstance the speciesTypeInstance to set
-   */
-  public void setSpeciesTypeInstance(String speciesTypeInstance) {
-    this.speciesTypeInstance = speciesTypeInstance;
-  }
-
+  
 }

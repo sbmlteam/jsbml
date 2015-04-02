@@ -25,8 +25,6 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
@@ -40,20 +38,11 @@ public class MultiReactionPlugin extends AbstractSBasePlugin {
 
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return MultiConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
    */
   @Override
   public String getPackageName() {
-    return MultiConstants.packageName;
+    return MultiConstants.shortLabel;
   }
 
 
@@ -74,33 +63,13 @@ public class MultiReactionPlugin extends AbstractSBasePlugin {
     return getElementNamespace();
   }
 
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public ListOf<Reaction> getParent() {
-    return (ListOf<Reaction>) getExtendedSBase().getParent();
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
-   */
-  @Override
-  public ListOf<Reaction> getParentSBMLObject() {
-    return getParent();
-  }
   /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 7392764563567861115L;
-  /**
-   * 
-   */
-  ListOf<ReactionRule> listOfReactionRules;
 
+  // TODO - IntraSpeciesReaction
+  
   /**
    * @param multiReaction
    */
@@ -108,23 +77,6 @@ public class MultiReactionPlugin extends AbstractSBasePlugin {
     super(multiReaction);
   }
 
-  /**
-   * @return the listOfReactionRules
-   */
-  public ListOf<ReactionRule> getListOfReactionRules() {
-    if (listOfReactionRules == null) {
-      listOfReactionRules = new ListOf<ReactionRule>();
-    }
-
-    return listOfReactionRules;
-  }
-
-  /**
-   * @param reactionRule the listOfReactionRules to set
-   */
-  public void addReactionRule(ReactionRule reactionRule) {
-    getListOfReactionRules().add(reactionRule);
-  }
 
   @Override
   public boolean readAttribute(String attributeName, String prefix,

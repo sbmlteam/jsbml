@@ -28,6 +28,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.ext.multi.deprecated.SpeciesTypeRestriction;
 
 /**
  * 

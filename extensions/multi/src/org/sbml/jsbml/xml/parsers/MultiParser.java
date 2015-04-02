@@ -21,15 +21,8 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
-import static org.sbml.jsbml.ext.multi.MultiConstants.bindingSiteReference;
-import static org.sbml.jsbml.ext.multi.MultiConstants.listOfBonds;
-import static org.sbml.jsbml.ext.multi.MultiConstants.listOfContainedSpeciesTypes;
-import static org.sbml.jsbml.ext.multi.MultiConstants.listOfPossibleValues;
-import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSpeciesTypeStates;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSpeciesTypes;
-import static org.sbml.jsbml.ext.multi.MultiConstants.listOfStateFeatureInstances;
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfStateFeatureValues;
-import static org.sbml.jsbml.ext.multi.MultiConstants.listOfUnboundBindingSites;
 import static org.sbml.jsbml.ext.multi.MultiConstants.namespaceURI;
 import static org.sbml.jsbml.ext.multi.MultiConstants.shortLabel;
 
@@ -46,15 +39,12 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.ext.multi.BindingSiteReference;
-import org.sbml.jsbml.ext.multi.Bond;
+import org.sbml.jsbml.ext.multi.InSpeciesTypeBond;
 import org.sbml.jsbml.ext.multi.MultiConstants;
 import org.sbml.jsbml.ext.multi.MultiModelPlugin;
 import org.sbml.jsbml.ext.multi.MultiSpeciesPlugin;
+import org.sbml.jsbml.ext.multi.SpeciesFeatureType;
 import org.sbml.jsbml.ext.multi.SpeciesType;
-import org.sbml.jsbml.ext.multi.SpeciesTypeState;
-import org.sbml.jsbml.ext.multi.deprecated.Selector;
-import org.sbml.jsbml.ext.multi.deprecated.StateFeature;
 import org.sbml.jsbml.ext.multi.deprecated.StateFeatureInstance;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
@@ -159,44 +149,14 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
 //        return speciesType.getListOfStateFeatures();
 //      }
     } // end SpeciesType
-    else if (contextObject instanceof StateFeature)
+    else if (contextObject instanceof SpeciesFeatureType)
     {
-      StateFeature stateFeature = (StateFeature) contextObject;
+      SpeciesFeatureType stateFeature = (SpeciesFeatureType) contextObject;
 
-      if (elementName.equals(listOfPossibleValues)) {
-        return stateFeature.getListOfPossibleValues();
+      if (elementName.equals(MultiConstants.listOfPossibleSpeciesFeatureValues)) {
+        return stateFeature.getListOfPossibleSpeciesFeatureValues();
       }
     } // end StateFeature
-    else if (contextObject instanceof Selector)
-    {
-      Selector selector = (Selector) contextObject;
-
-      if (elementName.equals(listOfSpeciesTypeStates))
-      {
-        return selector.getListOfSpeciesTypeStates();
-      }
-      else if (elementName.equals(listOfBonds))
-      {
-        return selector.getListOfBonds();
-      }
-      else if (elementName.equals(listOfUnboundBindingSites))
-      {
-        return selector.getListOfUnboundBindingSites();
-      }
-    } // end Selector
-    else if (contextObject instanceof SpeciesTypeState)
-    {
-      SpeciesTypeState speciesTypeState = (SpeciesTypeState) contextObject;
-
-      if (elementName.equals(listOfStateFeatureInstances))
-      {
-        return speciesTypeState.getListOfStateFeatureInstances();
-      }
-      else if (elementName.equals(listOfContainedSpeciesTypes))
-      {
-        return speciesTypeState.getListOfContainedSpeciesTypes();
-      }
-    } // end SpeciesTypeState
     else if (contextObject instanceof StateFeatureInstance)
     {
       StateFeatureInstance stateFeatureInstance = (StateFeatureInstance) contextObject;
@@ -205,17 +165,18 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
         return stateFeatureInstance.getListOfStateFeatureValues();
       }
     } // end StateFeatureInstance
-    else if (contextObject instanceof Bond)
+    else if (contextObject instanceof InSpeciesTypeBond)
     {
-      Bond bond = (Bond) contextObject;
+      InSpeciesTypeBond bond = (InSpeciesTypeBond) contextObject;
 
-      if (elementName.equals(bindingSiteReference))
-      {
-        BindingSiteReference bindingSiteReference = new BindingSiteReference();
-        bond.addBindingSiteReference(bindingSiteReference);
-        return bindingSiteReference;
-      }
-    } // end Bond
+      // TODO
+//      if (elementName.equals(bindingSiteReference))
+//      {
+//        String bindingSiteReference = new String();
+//        bond.addBindingSiteReference(bindingSiteReference);
+//        return bindingSiteReference;
+//      }
+    } // end InSpeciesTypeBond
     else if (contextObject instanceof ListOf<?>)
     {
       ListOf<?> listOf = (ListOf<?>) contextObject;
@@ -247,9 +208,6 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
     String createMethodName = "create" + elementName.substring(0, 1).toUpperCase() + elementName.substring(1);
     Method createMethod = null;
 
-    if ((parentSBase instanceof Selector) && (elementName.equals(bindingSiteReference))) {
-      createMethodName = "createUnboundBindingSite";
-    }
     if (logger.isDebugEnabled()) {
       logger.debug("Method '" + createMethodName + "' will be used");
     }
