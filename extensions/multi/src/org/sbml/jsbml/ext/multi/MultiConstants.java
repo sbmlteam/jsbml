@@ -105,42 +105,6 @@ public class MultiConstants {
    * 
    */
   public static final String speciesType = "speciesType";
-  /**
-   * 
-   */
-  public static final String selector = "selector";
-  /**
-   * 
-   */
-  public static final String stateFeature = "stateFeature";
-  /**
-   * 
-   */
-  public static final String possibleValue = "possibleValue";
-  /**
-   * 
-   */
-  public static final String speciesTypeState = "speciesTypeState";
-  /**
-   * 
-   */
-  public static final String stateFeatureInstance = "stateFeatureInstance";
-  /**
-   * 
-   */
-  public static final String stateFeatureValue = "stateFeatureValue";
-  /**
-   * 
-   */
-  public static final String containedSpeciesType = "containedSpeciesType";
-  /**
-   * 
-   */
-  public static final String bond = "bond";
-  /**
-   * 
-   */
-  public static final String bindingSiteReference = "bindingSiteReference";
 
   // speciesType
   /**
@@ -208,6 +172,62 @@ public class MultiConstants {
   public static final String compartment = "compartment";
 
   /**
+   * 
+   */
+  public static final String listOfPossibleSpeciesFeatureValues = "listOfPossibleSpeciesFeatureValues";
+
+  /**
+   * 
+   */
+  public static final String possibleSpeciesFeatureValue = "possibleSpeciesFeatureValue";
+
+  /**
+   * 
+   */
+  public static final String numericValue = "numericValue";
+
+  /**
+   * 
+   */
+  public static final String compartmentReference = "compartmentReference";
+
+  /**
+   * 
+   */
+  public static final String occur = "occur";
+
+  /**
+   * 
+   */
+  public static final String speciesTypeComponentIndex = "speciesTypeComponentIndex";
+
+  /**
+   * 
+   */
+  public static final String denotedSpeciesTypeComponentIndex = "denotedSpeciesTypeComponentIndex";
+
+  /**
+   * 
+   */
+  public static final String component = "component";
+
+  /**
+   * 
+   */
+  public static final String identifyingParent = "indentifyingParent";
+
+  /**
+   * 
+   */
+  public static final String bindingSite1 = "bindingSite1";
+
+  /**
+   * 
+   */
+  public static final String bindingSite2 = "bindingSite2";
+
+
+  /**
    * @param level
    * @param version
    * @return
@@ -215,5 +235,46 @@ public class MultiConstants {
   public static String getNamespaceURI(int level, int version) {
     return namespaceURI;
   }
+
+  
+  // TODO - delete values not used any more
+  
+  /**
+   * 
+   */
+  public static final String selector = "selector";
+  /**
+   * 
+   */
+  public static final String stateFeature = "stateFeature";
+  /**
+   * 
+   */
+  public static final String speciesTypeState = "speciesTypeState";
+  /**
+   * 
+   */
+  public static final String stateFeatureInstance = "stateFeatureInstance";
+  /**
+   * 
+   */
+  public static final String stateFeatureValue = "stateFeatureValue";
+  /**
+   * 
+   */
+  public static final String containedSpeciesType = "containedSpeciesType";
+  /**
+   * 
+   */
+  public static final String bond = "bond";
+  /**
+   * 
+   */
+  public static final String bindingSiteReference = "bindingSiteReference";
+
+
+
+  
+
 
 }
