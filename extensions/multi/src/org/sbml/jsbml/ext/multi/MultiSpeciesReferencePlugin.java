@@ -28,7 +28,6 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.multi.deprecated.SpeciesTypeRestriction;
 
 /**
  * 
@@ -97,10 +96,7 @@ public class MultiSpeciesReferencePlugin extends AbstractSBasePlugin {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 3171952386462646205L;
-  /**
-   * 
-   */
-  ListOf<SpeciesTypeRestriction> listOfSpeciesTypeRestrictions;
+
 
 
   /**
@@ -110,27 +106,6 @@ public class MultiSpeciesReferencePlugin extends AbstractSBasePlugin {
     super(multiSpeciesReference);
   }
 
-  /**
-   * Returns the list of {@link SpeciesTypeRestriction}.
-   * 
-   * @return the list of {@link SpeciesTypeRestriction}
-   */
-  public ListOf<SpeciesTypeRestriction> getListOfSpeciesTypeRestrictions() {
-    if (listOfSpeciesTypeRestrictions == null) {
-      listOfSpeciesTypeRestrictions = new ListOf<SpeciesTypeRestriction>();
-    }
-
-    return listOfSpeciesTypeRestrictions;
-  }
-
-  /**
-   * Adds a {@link SpeciesTypeRestriction}.
-   * 
-   * @param speciesTypeRestriction the {@link SpeciesTypeRestriction} to add
-   */
-  public void addSpeciesTypeRestriction(SpeciesTypeRestriction speciesTypeRestriction) {
-    getListOfSpeciesTypeRestrictions().add(speciesTypeRestriction);
-  }
 
   @Override
   public boolean readAttribute(String attributeName, String prefix,
