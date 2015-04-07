@@ -22,7 +22,6 @@
 package org.sbml.jsbml.xml.parsers;
 
 import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSpeciesTypes;
-import static org.sbml.jsbml.ext.multi.MultiConstants.listOfStateFeatureValues;
 import static org.sbml.jsbml.ext.multi.MultiConstants.namespaceURI;
 import static org.sbml.jsbml.ext.multi.MultiConstants.shortLabel;
 
@@ -45,7 +44,6 @@ import org.sbml.jsbml.ext.multi.MultiModelPlugin;
 import org.sbml.jsbml.ext.multi.MultiSpeciesPlugin;
 import org.sbml.jsbml.ext.multi.SpeciesFeatureType;
 import org.sbml.jsbml.ext.multi.SpeciesType;
-import org.sbml.jsbml.ext.multi.deprecated.StateFeatureInstance;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -156,15 +154,7 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
       if (elementName.equals(MultiConstants.listOfPossibleSpeciesFeatureValues)) {
         return stateFeature.getListOfPossibleSpeciesFeatureValues();
       }
-    } // end StateFeature
-    else if (contextObject instanceof StateFeatureInstance)
-    {
-      StateFeatureInstance stateFeatureInstance = (StateFeatureInstance) contextObject;
-
-      if (elementName.equals(listOfStateFeatureValues)) {
-        return stateFeatureInstance.getListOfStateFeatureValues();
-      }
-    } // end StateFeatureInstance
+    } // end SpeciesFeatureType
     else if (contextObject instanceof InSpeciesTypeBond)
     {
       InSpeciesTypeBond bond = (InSpeciesTypeBond) contextObject;

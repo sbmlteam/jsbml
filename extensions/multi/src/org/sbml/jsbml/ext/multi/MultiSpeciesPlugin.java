@@ -38,6 +38,8 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  */
 public class MultiSpeciesPlugin extends AbstractSBasePlugin { 
 
+  // TODO - implements IdManager: SpeciesFeature are id unique within one Species
+  
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()

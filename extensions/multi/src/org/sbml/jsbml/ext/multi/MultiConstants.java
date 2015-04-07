@@ -47,6 +47,16 @@ public class MultiConstants {
   /**
    * 
    */
+  public static final String packageDisplayName = "Multistate and Multicomponent Species";
+
+  /**
+   * 
+   */
+  public static final String packageName = "multi";
+
+  /**
+   * 
+   */
   public static final String shortLabel = "multi";
 
   /**
@@ -63,10 +73,6 @@ public class MultiConstants {
    * 
    */
   public static final String listOfSpeciesTypes = "listOfSpeciesTypes";
-  /**
-   * 
-   */
-  public static final String listOfSelectors = "listOfSelectors";
   /**
    * 
    */
@@ -87,18 +93,6 @@ public class MultiConstants {
    * 
    */
   public static final String listOfStateFeatureValues = "listOfStateFeatureValues";
-  /**
-   * 
-   */
-  public static final String listOfContainedSpeciesTypes = "listOfContainedSpeciesTypes";
-  /**
-   * 
-   */
-  public static final String listOfBonds = "listOfBonds";
-  /**
-   * 
-   */
-  public static final String listOfUnboundBindingSites = "listOfUnboundBindingSites";
 
 
   /**
@@ -111,40 +105,6 @@ public class MultiConstants {
    * 
    */
   public static final String bindingSite = "bindingSite";
-
-  // speciesTypeState
-  /**
-   * 
-   */
-  public static final String minOccur = "minOccur";
-  /**
-   * 
-   */
-  public static final String maxOccur = "maxOccur";
-  /**
-   * 
-   */
-  public static final String connex = "connex";
-  /**
-   * 
-   */
-  public static final String saturated = "saturated";
-
-  // bond
-  /**
-   * 
-   */
-  public static final String occurrence = "occurrence";
-
-  /**
-   * 
-   */
-  public static String speciesTypeRestriction = "speciesTypeRestriction";
-
-  /**
-   * 
-   */
-  public static final String packageName = "Multistate and Multicomponent Species";
 
   /**
    * 
@@ -170,16 +130,6 @@ public class MultiConstants {
    * 
    */
   public static final String compartment = "compartment";
-
-  /**
-   * 
-   */
-  public static final String listOfPossibleSpeciesFeatureValues = "listOfPossibleSpeciesFeatureValues";
-
-  /**
-   * 
-   */
-  public static final String possibleSpeciesFeatureValue = "possibleSpeciesFeatureValue";
 
   /**
    * 
@@ -226,7 +176,53 @@ public class MultiConstants {
    */
   public static final String bindingSite2 = "bindingSite2";
 
+  /**
+   * 
+   */
+  public static final String bindingStatus = "bindingStatus";
 
+  /**
+   * 
+   */
+  public static final String outwardBindingSite = "outwardBindingSite";
+
+  /**
+   * 
+   */
+  public static final String value = "value";
+
+  /**
+   * 
+   */
+  public static final String speciesFeatureType = "speciesFeatureType";
+
+  /**
+   * 
+   */
+  public static final String reactantSpeciesFeature = "reactantSpeciesFeature";
+
+  /**
+   * 
+   */
+  public static final String productSpeciesFeature = "productSpeciesFeature";
+  
+  /**
+   * 
+   */
+  public static final String reactant = "reactant";
+
+  /**
+   * 
+   */
+  public static final String productComponent = "productComponent";
+
+  /**
+   * 
+   */
+  public static final String reactantComponent = "reactantComponent";
+
+  
+  
   /**
    * @param level
    * @param version
@@ -271,6 +267,67 @@ public class MultiConstants {
    * 
    */
   public static final String bindingSiteReference = "bindingSiteReference";
+
+
+  // speciesTypeState
+  /**
+   * 
+   */
+  public static final String minOccur = "minOccur";
+  /**
+   * 
+   */
+  public static final String maxOccur = "maxOccur";
+  /**
+   * 
+   */
+  public static final String connex = "connex";
+  /**
+   * 
+   */
+  public static final String saturated = "saturated";
+
+  // bond
+  /**
+   * 
+   */
+  public static final String occurrence = "occurrence";
+
+  /**
+   * 
+   */
+  public static String speciesTypeRestriction = "speciesTypeRestriction";
+
+  /**
+   * 
+   */
+  public static final String listOfSelectors = "listOfSelectors";
+  /**
+   * 
+   */
+  public static final String listOfContainedSpeciesTypes = "listOfContainedSpeciesTypes";
+  /**
+   * 
+   */
+  public static final String listOfBonds = "listOfBonds";
+  /**
+   * 
+   */
+  public static final String listOfUnboundBindingSites = "listOfUnboundBindingSites";
+
+  /**
+   * 
+   */
+  public static final String listOfPossibleSpeciesFeatureValues = "listOfPossibleSpeciesFeatureValues";
+
+  /**
+   * 
+   */
+  public static final String possibleSpeciesFeatureValue = "possibleSpeciesFeatureValue";
+
+
+
+
 
 
 
