@@ -24,7 +24,6 @@ package org.sbml.jsbml.ext.render;
 import java.text.MessageFormat;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 
 /**
@@ -62,7 +61,10 @@ public class Polygon extends GraphicalPrimitive2D {
    */
   public Polygon(Polygon obj) {
     super(obj);
-    setListOfElements(obj.getListOfElements().clone());
+    
+    if (obj.isSetListOfElements()) {
+      setListOfElements(obj.getListOfElements().clone());
+    }
   }
 
   /**
@@ -125,11 +127,18 @@ public class Polygon extends GraphicalPrimitive2D {
    * @return the value of listOfElements
    */
   public ListOf<RenderPoint> getListOfElements() {
-    if (isSetListOfElements()) {
-      return listOfElements;
+    if (!isSetListOfElements()) {
+      listOfElements = new ListOf<RenderPoint>(getLevel(), getVersion());
+      listOfElements.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfElements.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfElements.setPackageName(null);
+      listOfElements.setPackageName(RenderConstants.shortLabel);
+      listOfElements.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfElements);
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.listOfElements, this);
+    
+    return listOfElements;
   }
 
   /* (non-Javadoc)
@@ -137,7 +146,6 @@ public class Polygon extends GraphicalPrimitive2D {
    */
   @Override
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI);
   }
 
   /**
@@ -152,12 +160,19 @@ public class Polygon extends GraphicalPrimitive2D {
    * @param listOfElements
    */
   public void setListOfElements(ListOf<RenderPoint> listOfElements) {
-    ListOf<RenderPoint> oldListOfElements = this.listOfElements;
+    unsetListOfElements();
+    this.listOfElements = listOfElements;
 
     if (listOfElements != null) {
-      this.listOfElements = listOfElements;
+      listOfElements.unsetNamespace();
+      listOfElements.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfElements.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfElements.setPackageName(null);
+      listOfElements.setPackageName(RenderConstants.shortLabel);
+      listOfElements.setSBaseListType(ListOf.Type.other);
+
       registerChild(this.listOfElements);
-      firePropertyChange(RenderConstants.listOfElements, oldListOfElements, this.listOfElements);
     }
   }
 

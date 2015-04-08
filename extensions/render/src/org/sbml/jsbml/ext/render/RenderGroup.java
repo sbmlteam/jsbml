@@ -155,12 +155,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public RenderGroup(String id, String name, int level, int version) {
     super(level, version);
     this.id = id;
-
-    // Removed to potentially support SBML Level 2 Render
-    //    if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
-    //      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
-    //      throw new LevelVersionError(getElementName(), level, version);
-    //    }
+    // TODO - what about name?
 
     initDefaults();
   }
@@ -214,7 +209,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    */
   @Override
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI);
   }
 
 
@@ -847,7 +841,11 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public ListOf<Transformation2D> getListOfElements() {
     if (!isSetListOfElements()) {
       listOfElements = new ListOf<Transformation2D>();
-      listOfElements.setNamespace(RenderConstants.namespaceURI);
+      listOfElements.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfElements.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfElements.setPackageName(null);
+      listOfElements.setPackageName(RenderConstants.shortLabel);
       listOfElements.setSBaseListType(ListOf.Type.other);
 
       registerChild(listOfElements);
@@ -865,9 +863,18 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public void setListOfElements(ListOf<Transformation2D> listOfElements) {
     unsetListOfElements();
     this.listOfElements = listOfElements;
-    this.listOfElements.setSBaseListType(ListOf.Type.other);
+    
+    if (listOfElements != null) {
+      listOfElements.unsetNamespace();
+      listOfElements.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfElements.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfElements.setPackageName(null);
+      listOfElements.setPackageName(RenderConstants.shortLabel);
+      listOfElements.setSBaseListType(ListOf.Type.other);
 
-    registerChild(listOfElements);
+      registerChild(this.listOfElements);
+    }
   }
 
 

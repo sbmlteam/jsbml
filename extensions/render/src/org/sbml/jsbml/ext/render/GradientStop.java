@@ -62,6 +62,9 @@ public class GradientStop extends AbstractSBase {
    * @param stopColor
    */
   public GradientStop(Double offset, String stopColor) {
+    super();
+    initDefaults();
+    
     this.offset = offset;
     this.stopColor = stopColor;
   }
@@ -80,6 +83,7 @@ public class GradientStop extends AbstractSBase {
       Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
+    initDefaults();
     this.offset = offset;
     this.stopColor = stopColor;
   }
@@ -99,6 +103,7 @@ public class GradientStop extends AbstractSBase {
    */
   public GradientStop() {
     super();
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -109,6 +114,14 @@ public class GradientStop extends AbstractSBase {
     return new GradientStop(this);
   }
 
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
+  }
 
 
   /* (non-Javadoc)

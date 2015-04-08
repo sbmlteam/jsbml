@@ -81,8 +81,26 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   protected Boolean absoluteRy;
 
-  // TODO - constructors missing + clone
+  
+  public Ellipse() {
+    super();
+  }
 
+  public Ellipse(Ellipse obj) {
+    super(obj);
+  }
+
+  public Ellipse(int level, int version) {
+    super(level, version);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#clone()
+   */
+  @Override
+  public Ellipse clone() {
+    return new Ellipse(this);
+  }
 
 
 

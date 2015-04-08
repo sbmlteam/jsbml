@@ -128,7 +128,6 @@ public class GlobalRenderInformation extends RenderInformationBase {
    */
   @Override
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI);
   }
 
 
@@ -188,7 +187,11 @@ public class GlobalRenderInformation extends RenderInformationBase {
   public ListOf<Style> getListOfStyles() {
     if (!isSetListOfStyles()) {
       listOfStyles = new ListOf<Style>(getLevel(), getVersion());
-      listOfStyles.setNamespace(RenderConstants.namespaceURI);
+      listOfStyles.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfStyles.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfStyles.setPackageName(null);
+      listOfStyles.setPackageName(RenderConstants.shortLabel);
       listOfStyles.setSBaseListType(ListOf.Type.other);
       registerChild(listOfStyles);
     }
@@ -202,7 +205,18 @@ public class GlobalRenderInformation extends RenderInformationBase {
   public void setListOfStyles(ListOf<Style> listOfStyles) {
     unsetListOfStyles();
     this.listOfStyles = listOfStyles;
-    registerChild(this.listOfStyles);
+    
+    if (listOfStyles != null) {
+      listOfStyles.unsetNamespace();
+      listOfStyles.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfStyles.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfStyles.setPackageName(null);
+      listOfStyles.setPackageName(RenderConstants.shortLabel);
+      listOfStyles.setSBaseListType(ListOf.Type.other);
+    
+      registerChild(this.listOfStyles);
+    }
   }
 
 
@@ -278,9 +292,9 @@ public class GlobalRenderInformation extends RenderInformationBase {
       }
       pos++;
     }
-    if (isSetListOfGradientDefintions()) {
+    if (isSetListOfGradientDefinitions()) {
       if (pos == childIndex) {
-        return getListOfGradientDefintions();
+        return getListOfGradientDefinitions();
       }
       pos++;
     }

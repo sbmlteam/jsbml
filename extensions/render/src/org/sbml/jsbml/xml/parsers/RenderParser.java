@@ -126,7 +126,7 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       SBase newElement = null;
 
       if (elementName.equals(RenderConstants.listOfGradientDefinitions)) {
-        newElement = renderInformation.getListOfGradientDefintions();
+        newElement = renderInformation.getListOfGradientDefinitions();
       }
       if (elementName.equals(RenderConstants.listOfColorDefinitions)) {
         newElement = renderInformation.getListOfColorDefinitions();

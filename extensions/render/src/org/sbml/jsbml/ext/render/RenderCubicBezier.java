@@ -228,7 +228,6 @@ public class RenderCubicBezier extends RenderPoint {
    */
   @Override
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI);
     z1 = 0d;
     z2 = 0d;
   }

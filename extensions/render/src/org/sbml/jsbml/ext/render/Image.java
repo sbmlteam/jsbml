@@ -136,7 +136,6 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   @Override
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI);
     z = 0d;
   }
 

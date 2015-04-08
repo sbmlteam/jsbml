@@ -62,7 +62,7 @@ public class FunctionTerm extends AbstractMathContainer {
    */
   public FunctionTerm() {
     super();
-    setNamespace(QualConstants.namespaceURI);
+    initDefaults();
   }
 
   /**
@@ -72,7 +72,7 @@ public class FunctionTerm extends AbstractMathContainer {
    */
   public FunctionTerm(int level, int version) {
     super(level, version);
-    setNamespace(QualConstants.namespaceURI);
+    initDefaults();
   }
 
   /**
@@ -83,7 +83,7 @@ public class FunctionTerm extends AbstractMathContainer {
    */
   public FunctionTerm(ASTNode math, int level, int version) {
     super(math, level, version);
-    setNamespace(QualConstants.namespaceURI);
+    initDefaults();
   }
 
   /**
@@ -106,6 +106,15 @@ public class FunctionTerm extends AbstractMathContainer {
   @Override
   public FunctionTerm clone() {
     return new FunctionTerm(this);
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = QualConstants.shortLabel;
   }
 
   /**
@@ -230,14 +239,12 @@ public class FunctionTerm extends AbstractMathContainer {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
+   * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    if (isDefaultTerm()) {
-      return "defaultTerm";
-    }
-    return super.toString();
+    return "FunctionTerm [resultLevel = " + resultLevel + ", isDefaultTerm = "
+      + defaultTerm + ", isSetMath = " + isSetMath() + "]";
   }
 
   /* (non-Javadoc)
@@ -275,4 +282,5 @@ public class FunctionTerm extends AbstractMathContainer {
     return attributes;
   }
 
+  
 }

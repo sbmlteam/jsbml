@@ -73,9 +73,9 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
    */
   public DynCompartmentPlugin(DynCompartmentPlugin dynCompartmentPlugin) {
     super(dynCompartmentPlugin);
-    if (isSetListOfSpatialComponents()) {
-      setListOfSpatialComponents(dynCompartmentPlugin
-        .getListOfSpatialComponents().clone());
+    
+    if (dynCompartmentPlugin.isSetListOfSpatialComponents()) {
+      setListOfSpatialComponents(dynCompartmentPlugin.getListOfSpatialComponents().clone());
     }
   }
 

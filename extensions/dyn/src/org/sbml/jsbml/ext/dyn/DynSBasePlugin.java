@@ -64,7 +64,8 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
    */
   public DynSBasePlugin(DynSBasePlugin plugin) {
     super(plugin);
-    if (isSetCBOTerm()) {
+    
+    if (plugin.isSetCBOTerm()) {
       setCBOTerm(plugin.getCBOTerm());
     }
   }

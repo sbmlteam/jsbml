@@ -101,7 +101,6 @@ public class LinearGradient extends GradientBase {
    */
   @Override
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI);
     x1 = 0d;
     y1 = 0d;
     z1 = 0d;

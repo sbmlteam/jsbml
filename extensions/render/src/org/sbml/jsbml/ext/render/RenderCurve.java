@@ -109,7 +109,6 @@ public class RenderCurve extends GraphicalPrimitive1D {
    */
   @Override
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI);
   }
 
 
@@ -272,7 +271,11 @@ public class RenderCurve extends GraphicalPrimitive1D {
   public ListOf<RenderPoint> getListOfElements() {
     if (!isSetListOfElements()) {
       listOfElements = new ListOf<RenderPoint>(getLevel(), getVersion());
-      listOfElements.setNamespace(RenderConstants.namespaceURI);
+      listOfElements.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfElements.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfElements.setPackageName(null);
+      listOfElements.setPackageName(RenderConstants.shortLabel);
       listOfElements.setSBaseListType(ListOf.Type.other);
       registerChild(listOfElements);
     }
@@ -285,7 +288,18 @@ public class RenderCurve extends GraphicalPrimitive1D {
   public void setListOfElements(ListOf<RenderPoint> listOfElements) {
     unsetListOfElements();
     this.listOfElements = listOfElements;
-    registerChild(this.listOfElements);
+    
+    if (listOfElements != null) {
+      listOfElements.unsetNamespace();
+      listOfElements.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfElements.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfElements.setPackageName(null);
+      listOfElements.setPackageName(RenderConstants.shortLabel);
+      listOfElements.setSBaseListType(ListOf.Type.other);
+
+      registerChild(this.listOfElements);
+    }
   }
 
   /**
