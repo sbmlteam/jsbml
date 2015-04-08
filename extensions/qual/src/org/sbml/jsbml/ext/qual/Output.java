@@ -132,7 +132,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    */
   public Output(String id, String name, int level, int version) {
     super(id, name, level, version);
-    // TODO: replace level/version check with call to helper method
+
     if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
@@ -160,7 +160,9 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * 
    */
   public void initDefaults() {
-    setNamespace(QualConstants.namespaceURI);
+    setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = QualConstants.shortLabel;
     qualitativeSpecies = null;
     transitionEffect = null;
     outputLevel = null;
@@ -208,7 +210,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
     if (isSetQualitativeSpecies()) {
       return qualitativeSpecies;
     } else {
-      throw new PropertyUndefinedError(QualConstants.qualitativeSpecies, this); // TODO - we could return null instead
+      throw new PropertyUndefinedError(QualConstants.qualitativeSpecies, this);
     }
   }
 
@@ -509,5 +511,17 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
   public String getDerivedUnits() {
     return null; // see comment above
   }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Output [qualitativeSpecies = " + qualitativeSpecies
+      + ", transitionEffect = " + transitionEffect + ", outputLevel = "
+      + outputLevel + ", id = " + getId() + ", name = " + getName() + "]";
+  }
+  
+  
 
 }

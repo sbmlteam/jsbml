@@ -88,6 +88,31 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   private Double z;
 
+  
+  
+  
+  public Text() {
+    super();
+    initDefaults();
+  }
+
+  public Text(int level, int version) {
+    super(level, version);
+    initDefaults();
+  }
+
+  public Text(Text obj) {
+    super(obj);
+    
+    // TODO copy all attributes
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getFontFamily()
    */

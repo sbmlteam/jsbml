@@ -114,7 +114,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    */
   public QualitativeSpecies(String id, String name, int level, int version) {
     super(id, name, level, version);
-    // TODO: replace level/version check with call to helper method
+
     if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
@@ -171,7 +171,9 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    * 
    */
   public void initDefaults() {
-    setNamespace(QualConstants.namespaceURI);
+    setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = QualConstants.shortLabel;
     compartment = null;
     constant = null;
   }
@@ -587,5 +589,17 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
     return attributes;
   }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "QualitativeSpecies [compartment = " + compartment + ", constant = "
+      + constant + ", initialLevel = " + initialLevel + ", maxLevel = " + maxLevel
+      + ", id = " + getId() + ", name = " + getName() + "]";
+  }
+  
+  
 
 }

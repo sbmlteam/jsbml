@@ -117,7 +117,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Transition(String id, String name, int level, int version) {
     super(id, name, level, version);
-    // TODO: replace level/version check with call to helper method
+
     if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
@@ -435,7 +435,11 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isSetListOfFunctionTerms()) {
       listOfFunctionTerms = new ListOf<FunctionTerm>(getLevel(), getVersion());
       listOfFunctionTerms.setSBaseListType(ListOf.Type.other);
-      listOfFunctionTerms.setNamespace(QualConstants.namespaceURI);
+      listOfFunctionTerms.setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfFunctionTerms.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'qual'
+      listOfFunctionTerms.setPackageName(null);
+      listOfFunctionTerms.setPackageName(QualConstants.shortLabel);      
       registerChild(listOfFunctionTerms);
     }
     return listOfFunctionTerms;
@@ -448,7 +452,11 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isSetListOfInputs()) {
       listOfInputs = new ListOf<Input>(getLevel(), getVersion());
       listOfInputs.setSBaseListType(ListOf.Type.other);
-      listOfInputs.setNamespace(QualConstants.namespaceURI);
+      listOfInputs.setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfInputs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'qual'
+      listOfInputs.setPackageName(null);
+      listOfInputs.setPackageName(QualConstants.shortLabel);      
       registerChild(listOfInputs);
     }
     return listOfInputs;
@@ -461,7 +469,11 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isSetListOfOutputs()) {
       listOfOutputs = new ListOf<Output>(getLevel(), getVersion());
       listOfOutputs.setSBaseListType(ListOf.Type.other);
-      listOfOutputs.setNamespace(QualConstants.namespaceURI);
+      listOfOutputs.setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfOutputs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'qual'
+      listOfOutputs.setPackageName(null);
+      listOfOutputs.setPackageName(QualConstants.shortLabel);      
       registerChild(listOfOutputs);
     }
     return listOfOutputs;
@@ -496,7 +508,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   public void initDefaults() {
-    setNamespace(QualConstants.namespaceURI);
+    setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = QualConstants.shortLabel;
     listOfFunctionTerms = null;
     listOfInputs = null;
     listOfOutputs = null;
@@ -653,7 +667,17 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfFunctionTerms(ListOf<FunctionTerm> loft) {
     unsetListOfFunctionTerms();
     listOfFunctionTerms = loft;
-    registerChild(listOfFunctionTerms);
+
+    if (listOfFunctionTerms != null) {
+      listOfFunctionTerms.unsetNamespace();
+      listOfFunctionTerms.setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfFunctionTerms.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'qual'
+      listOfFunctionTerms.setPackageName(null);
+      listOfFunctionTerms.setPackageName(QualConstants.shortLabel);      
+      listOfFunctionTerms.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfFunctionTerms);
+    }
   }
 
   /**
@@ -663,7 +687,17 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfInputs(ListOf<Input> loi) {
     unsetListOfInputs();
     listOfInputs = loi;
-    registerChild(listOfInputs);
+
+    if (listOfInputs != null) {
+      listOfInputs.unsetNamespace();
+      listOfInputs.setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfInputs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'qual'
+      listOfInputs.setPackageName(null);
+      listOfInputs.setPackageName(QualConstants.shortLabel);      
+      listOfInputs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfInputs);
+    }
   }
 
   /**
@@ -674,7 +708,17 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfOutputs(ListOf<Output> loo) {
     unsetListOfOutputs();
     listOfOutputs = loo;
-    registerChild(listOfOutputs);
+
+    if (listOfOutputs != null) {
+      listOfOutputs.unsetNamespace();
+      listOfOutputs.setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfOutputs.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'qual'
+      listOfOutputs.setPackageName(null);
+      listOfOutputs.setPackageName(QualConstants.shortLabel);      
+      listOfOutputs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfOutputs);
+    }
   }
 
   /**

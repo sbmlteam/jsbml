@@ -96,6 +96,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    * @param stop
    */
   public GradientBase(String id, GradientStop stop) {
+    super(id);
     initDefaults();
     listOfGradientStops.add(stop);
   }
@@ -109,7 +110,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    * @param version
    */
   public GradientBase(String id, GradientStop stop, int level, int version) {
-    super(level, version);
+    super(id, null, level, version);
     if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
       Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
@@ -166,7 +167,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
     super(obj);
     spreadMethod = obj.spreadMethod;
 
-    if (isSetListOfGradientStops()) {
+    if (obj.isSetListOfGradientStops()) {
       setListOfGradientStops(obj.listOfGradientStops.clone());
     }
   }
@@ -183,7 +184,9 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
     spreadMethod = Spread.PAD;
     listOfGradientStops = new ListOf<GradientStop>();
   }
@@ -301,7 +304,11 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   public ListOf<GradientStop> getListOfGradientStops() {
     if (!isSetListOfGradientStops()) {
       listOfGradientStops = new ListOf<GradientStop>(getLevel(), getVersion());
-      listOfGradientStops.setNamespace(RenderConstants.namespaceURI);
+      listOfGradientStops.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfGradientStops.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfGradientStops.setPackageName(null);
+      listOfGradientStops.setPackageName(RenderConstants.shortLabel);
       listOfGradientStops.setSBaseListType(ListOf.Type.other);
       registerChild(listOfGradientStops);
     }
@@ -314,7 +321,18 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   public void setListOfGradientStops(ListOf<GradientStop> listOfGradientStops) {
     unsetListOfGradientStops();
     this.listOfGradientStops = listOfGradientStops;
-    registerChild(this.listOfGradientStops);
+    
+    if (listOfGradientStops != null) {
+      listOfGradientStops.unsetNamespace();
+      listOfGradientStops.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfGradientStops.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfGradientStops.setPackageName(null);
+      listOfGradientStops.setPackageName(RenderConstants.shortLabel);
+      listOfGradientStops.setSBaseListType(ListOf.Type.other);
+
+      registerChild(this.listOfGradientStops);
+    }
   }
 
   /**

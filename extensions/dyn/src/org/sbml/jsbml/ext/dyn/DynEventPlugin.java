@@ -80,7 +80,8 @@ public class DynEventPlugin extends DynSBasePlugin {
    */
   public DynEventPlugin(DynEventPlugin dynEventPlugin) {
     super(dynEventPlugin);
-    if (isSetListOfDynElements()) {
+    
+    if (dynEventPlugin.isSetListOfDynElements()) {
       setListOfDynElements(dynEventPlugin.getListOfDynElements().clone());
     }
     if (dynEventPlugin.isSetApplyToAll()) {

@@ -128,7 +128,6 @@ public class LocalRenderInformation extends RenderInformationBase {
    */
   @Override
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI);
     listOfLocalStyles = null;
   }
 
@@ -188,7 +187,11 @@ public class LocalRenderInformation extends RenderInformationBase {
   public ListOf<LocalStyle> getListOfLocalStyles() {
     if (!isSetListOfLocalStyles()) {
       listOfLocalStyles = new ListOf<LocalStyle>(getLevel(), getVersion());
-      listOfLocalStyles.setNamespace(RenderConstants.namespaceURI);
+      listOfLocalStyles.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfLocalStyles.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfLocalStyles.setPackageName(null);
+      listOfLocalStyles.setPackageName(RenderConstants.shortLabel);
       listOfLocalStyles.setSBaseListType(ListOf.Type.other);
       registerChild(listOfLocalStyles);
     }
@@ -201,7 +204,18 @@ public class LocalRenderInformation extends RenderInformationBase {
   public void setListOfLocalStyles(ListOf<LocalStyle> listOfLocalStyles) {
     unsetListOfLocalStyles();
     this.listOfLocalStyles = listOfLocalStyles;
-    registerChild(this.listOfLocalStyles);
+
+    if (listOfLocalStyles != null) {
+      listOfLocalStyles.unsetNamespace();
+      listOfLocalStyles.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfLocalStyles.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfLocalStyles.setPackageName(null);
+      listOfLocalStyles.setPackageName(RenderConstants.shortLabel);
+      listOfLocalStyles.setSBaseListType(ListOf.Type.other);
+    
+      registerChild(this.listOfLocalStyles);
+    }
   }
 
   /**
@@ -270,9 +284,9 @@ public class LocalRenderInformation extends RenderInformationBase {
       }
       pos++;
     }
-    if (isSetListOfGradientDefintions()) {
+    if (isSetListOfGradientDefinitions()) {
       if (pos == childIndex) {
-        return getListOfGradientDefintions();
+        return getListOfGradientDefinitions();
       }
       pos++;
     }

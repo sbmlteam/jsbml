@@ -128,7 +128,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
    */
   public Input(String id, String name, int level, int version) {
     super(id, name, level, version);
-    // TODO: replace level/version check with call to helper method
+
     if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
@@ -159,7 +159,9 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
    * 
    */
   public void initDefaults() {
-    setNamespace(QualConstants.namespaceURI);
+    setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = QualConstants.shortLabel;
     qualitativeSpecies = null;
     transitionEffect = null;
     thresholdLevel = null;
@@ -571,5 +573,18 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
   public String getDerivedUnits() {
     return null; // see comment above
   }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Input [qualitativeSpecies = " + qualitativeSpecies
+      + ", transitionEffect = " + transitionEffect + ", thresholdLevel = "
+      + thresholdLevel + ", sign = " + sign + ", id = " + getId()
+      + ", name = " + getName() + "]";
+  }
+  
+  
 
 }

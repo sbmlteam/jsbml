@@ -94,7 +94,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
   public GraphicalPrimitive2D(GraphicalPrimitive2D obj) {
     super(obj);
     fill = obj.fill;
-    fillRule = obj.fillRule;
+    fillRule = obj.fillRule; // TODO - use setter + clone
   }
 
   /* (non-Javadoc)
@@ -110,7 +110,6 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
    */
   @Override
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI);
   }
 
 

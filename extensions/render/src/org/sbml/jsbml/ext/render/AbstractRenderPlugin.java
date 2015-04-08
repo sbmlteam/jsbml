@@ -37,18 +37,11 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return RenderConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
    */
   @Override
   public String getPackageName() {
-    return RenderConstants.packageName;
+    return RenderConstants.shortLabel;
   }
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
@@ -73,7 +66,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   /**
    * 
    */
-  private Short versionMajor;
+  private Short versionMajor; // TODO - versionMajor and versionMinor are attributes of ListOf! They are int in the specs!
   /**
    * 
    */
@@ -81,7 +74,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   /**
    * 
    */
-  private GlobalRenderInformation renderInformation;
+  private GlobalRenderInformation renderInformation; // TODO - one or a ListOf GlobalRenderInformation?
 
 
   /**
@@ -94,43 +87,14 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Creates a AbstractRenderPlugin instance with a level and version.
+   * Creates a AbstractRenderPlugin instance.
    *
-   * @param level
-   * @param version
    */
-  public AbstractRenderPlugin(int level, int version) {
-    this(null, null, level, version);
-  }
-
-  /**
-   * Creates a AbstractRenderPlugin instance with an id, level, and version.
-   *
-   * @param id
-   * @param level
-   * @param version
-   */
-  public AbstractRenderPlugin(String id, int level, int version) {
-    this(id, null, level, version);
-  }
-
-  /**
-   * Creates a AbstractRenderPlugin instance with an id, name, level, and version.
-   *
-   * @param id
-   * @param name
-   * @param level
-   * @param version
-   */
-  public AbstractRenderPlugin(String id, String name, int level, int version) {
+  public AbstractRenderPlugin() {
     super();
-    // FIXME getLevelAndVersion, getElementName
-    //		if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
-    //		  Integer.valueOf(MIN_SBML_VERSION)) < 0) {
-    //		  throw new LevelVersionError(getElementName(), level, version);
-    //		}
     initDefaults();
   }
+
 
   /**
    * Clone constructor
@@ -155,10 +119,12 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
+    setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     versionMajor = 0;
     versionMinor = 0;
   }
 
+  // TODO - return and input values should be int
   /**
    * @return the value of versionMinor
    */
@@ -297,7 +263,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    return false;
+    return false; // TODO - implement
   }
 
   /* (non-Javadoc)
@@ -306,7 +272,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public TreeNode getChildAt(int childIndex) {
-    return null;
+    return null; // TODO - implement
   }
 
   /* (non-Javadoc)
@@ -315,7 +281,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public int getChildCount() {
-    return 0;
+    return 0; // TODO - implement
   }
 
   /* (non-Javadoc)
@@ -324,7 +290,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public boolean getAllowsChildren() {
-    return false;
+    return false; // TODO - implement
   }
 
   /* (non-Javadoc)
@@ -333,7 +299,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public Map<String, String> writeXMLAttributes() {
-    return null;
+    return null; // TODO - implement
   }
 
 }

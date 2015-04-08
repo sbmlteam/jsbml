@@ -56,7 +56,12 @@ import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.ext.groups.Group;
 import org.sbml.jsbml.ext.groups.GroupsConstants;
 import org.sbml.jsbml.ext.groups.GroupsModelPlugin;
+import org.sbml.jsbml.ext.qual.Input;
+import org.sbml.jsbml.ext.qual.Output;
 import org.sbml.jsbml.ext.qual.QualConstants;
+import org.sbml.jsbml.ext.qual.QualModelPlugin;
+import org.sbml.jsbml.ext.qual.Transition;
+import org.sbml.jsbml.ext.req.ReqConstants;
 import org.sbml.jsbml.xml.parsers.PackageUtil;
 
 
@@ -81,6 +86,7 @@ public class PackageVersionTests {
     doc.enablePackage(DistribConstants.namespaceURI_L3V1V1);
     doc.enablePackage(QualConstants.namespaceURI_L3V1V1);    
     doc.enablePackage(CompConstants.namespaceURI_L3V1V1);
+    doc.enablePackage(ReqConstants.namespaceURI_L3V1V1);
     
     m = doc.createModel("test");
     
@@ -135,6 +141,14 @@ public class PackageVersionTests {
     g2.getMember(0).setIdRef("S2");
     g2.getMember("G_M2").setIdRef(cell);
     g2.createMemberConstraint("G_MC1").setDistinctAttribute("test");
+    
+    QualModelPlugin qualModel = (QualModelPlugin) m.getPlugin(QualConstants.shortLabel);
+    qualModel.createQualitativeSpecies("Q_QS1");
+    qualModel.createQualitativeSpecies("Q_QS2");
+    Transition tr1 = qualModel.createTransition("Q_T1");
+    tr1.createInput("Q_I1");
+    tr1.createOutput("Q_O1");
+    qualModel.createTransition("Q_T2", new Input("Q_I2"), new Output("Q_O2"));
     
     // check and fix package version and namespaces
     // TODO - update when jsbml will be fixed to set properly package version and namespace - 
@@ -198,6 +212,7 @@ public class PackageVersionTests {
     Assert.assertFalse(newDoc.isPackageEnabled("distrib"));
     Assert.assertFalse(newDoc.isPackageEnabled("fbc"));
     Assert.assertFalse(newDoc.isPackageEnabled("qual"));
+    Assert.assertFalse(newDoc.isPackageEnabled("req"));
     
     try {
       System.out.println(new SBMLWriter().writeSBMLToString(newDoc));
@@ -213,7 +228,8 @@ public class PackageVersionTests {
     Assert.assertTrue(newDoc.isPackageEnabled("fbc"));
     Assert.assertTrue(newDoc.isPackageEnabled("groups"));
     Assert.assertTrue(newDoc.isPackageEnabled("dyn"));
+    Assert.assertTrue(newDoc.isPackageEnabled("qual"));
     
-    Assert.assertFalse(newDoc.isPackageEnabled("qual"));
+    Assert.assertFalse(newDoc.isPackageEnabled("req"));
   }
 }

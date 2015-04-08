@@ -65,16 +65,19 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Creates a {@link ReqSBasePlugin} instance with a level and version.
+   * Creates a {@link ReqSBasePlugin} instance associated with the given {@link SBase}.
+   * 
    * @param sbase
    */
   public ReqSBasePlugin(SBase sbase) {
     super(sbase);
+    initDefaults();
   }
 
 
   /**
    * Clone constructor
+   * 
    * @param obj
    */
   public ReqSBasePlugin(ReqSBasePlugin obj) {
@@ -97,7 +100,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    // TODO : get the correct namespace from the SBMLdocument, otherwise don't set it yet.
+    setNamespace(ReqConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
 
@@ -108,14 +111,6 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return ReqConstants.namespaceURI;
   }
 
   /* (non-Javadoc)
@@ -139,7 +134,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
    */
   @Override
   public String getURI() {
-    return ReqConstants.namespaceURI;
+    return getElementNamespace();
   }
 
   /* (non-Javadoc)
@@ -173,8 +168,12 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   public ListOf<ChangedMath> getListOfChangedMaths() {
     if (!isSetListOfChangedMaths()) {
       listOfChangedMaths = new ListOf<ChangedMath>();
-      // TODO : get the correct namespace from the SBMLdocument, otherwise don't set it yet.
-      listOfChangedMaths.setNamespace(ReqConstants.namespaceURI);
+
+      listOfChangedMaths.setNamespace(ReqConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfChangedMaths.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'req'
+      listOfChangedMaths.setPackageName(null);
+      listOfChangedMaths.setPackageName(ReqConstants.shortLabel);
       listOfChangedMaths.setSBaseListType(ListOf.Type.other);
 
       if (isSetExtendedSBase()) {
@@ -194,11 +193,19 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   public void setListOfChangedMaths(ListOf<ChangedMath> listOfChangedMaths) {
     unsetListOfChangedMaths();
     this.listOfChangedMaths = listOfChangedMaths;
-    this.listOfChangedMaths.setSBaseListType(ListOf.Type.other); // Just in case
-    // TODO - check namespaceURI as well
+    
+    if (listOfChangedMaths != null) {
+      listOfChangedMaths.unsetNamespace();
+      listOfChangedMaths.setNamespace(ReqConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfChangedMaths.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'req'
+      listOfChangedMaths.setPackageName(null);
+      listOfChangedMaths.setPackageName(ReqConstants.shortLabel);
+      listOfChangedMaths.setSBaseListType(ListOf.Type.other); // Just in case
 
-    if (isSetExtendedSBase()) {
-      extendedSBase.registerChild(this.listOfChangedMaths);
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(this.listOfChangedMaths);
+      }
     }
   }
 

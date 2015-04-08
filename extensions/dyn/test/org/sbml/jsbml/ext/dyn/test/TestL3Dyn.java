@@ -48,7 +48,6 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * @since 1.0
  * @version $Rev$
  */
-@SuppressWarnings("deprecation")
 public class TestL3Dyn {
 
   // TODO - replace the println by assertion to be able to do the test automatically

@@ -179,8 +179,9 @@ public class ChangedMath extends AbstractNamedSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    // TODO : get the correct namespace from the SBMLdocument, otherwise don't set it yet.
-    setNamespace(ReqConstants.namespaceURI);
+    setNamespace(ReqConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = ReqConstants.shortLabel;
   }
 
 

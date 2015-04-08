@@ -49,19 +49,11 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class QualModelPlugin extends AbstractSBasePlugin {
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return QualConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
    */
   @Override
   public String getPackageName() {
-    return QualConstants.packageName;
+    return QualConstants.shortLabel;
   }
 
   /* (non-Javadoc)
@@ -114,15 +106,19 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   private ListOf<Transition> listOfTransitions;
 
   /**
+   * Creates a new {@link QualModelPlugin} instance
    * 
-   * @param model
+   * @param model the {@link Model} to extends
    */
   public QualModelPlugin(Model model) {
     super(model);
+    setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /**
-   * @param qualitativeModel
+   * Clone constructor
+   * 
+   * @param qualitativeModel the {@link QualModelPlugin} to be cloned
    */
   public QualModelPlugin(QualModelPlugin qualitativeModel) {
     super(qualitativeModel);
@@ -240,11 +236,13 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * Creates a new {@link Transition} inside this {@link QualModelPlugin} and returns it.
    * 
    * @param id
+   *        the id of the new element to create
    * @param in
    * @param out
-   * @return
+   * @return the {@link Transition} object created
    */
   public Transition createTransition(String id, Input in, Output out) {
     Transition transition = createTransition(id);
@@ -298,10 +296,12 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * @param id
+   * Creates a new {@link QualitativeSpecies} inside this {@link QualModelPlugin} and returns it.
+   * 
+   * @param id the id of the new element to create
    * @param compartment
    * @param constant
-   * @return
+   * @return the {@link QualitativeSpecies} object created
    */
   public QualitativeSpecies createQualitativeSpecies(String id, Compartment compartment, boolean constant) {
     return createQualitativeSpecies(id, compartment.getId(), constant);
@@ -354,7 +354,11 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   public ListOf<QualitativeSpecies> getListOfQualitativeSpecies() {
     if (!isSetListOfQualitativeSpecies()) {
       listOfQualitativeSpecies = new ListOf<QualitativeSpecies>();
-      listOfQualitativeSpecies.setNamespace(QualConstants.namespaceURI);
+      listOfQualitativeSpecies.setNamespace(QualConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfQualitativeSpecies.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'qual'
+      listOfQualitativeSpecies.setPackageName(null);
+      listOfQualitativeSpecies.setPackageName(QualConstants.shortLabel);
       listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
 
       if (isSetExtendedSBase()) {
@@ -370,7 +374,11 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   public ListOf<Transition> getListOfTransitions() {
     if (!isSetListOfTransitions()) {
       listOfTransitions = new ListOf<Transition>();
-      listOfTransitions.setNamespace(QualConstants.namespaceURI);
+      listOfTransitions.setNamespace(QualConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfTransitions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'qual'
+      listOfTransitions.setPackageName(null);
+      listOfTransitions.setPackageName(QualConstants.shortLabel);
       listOfTransitions.setSBaseListType(ListOf.Type.other);
 
       if (isSetExtendedSBase()) {
@@ -573,6 +581,16 @@ public class QualModelPlugin extends AbstractSBasePlugin {
     unsetListOfQualitativeSpecies();
     this.listOfQualitativeSpecies = listOfQualitativeSpecies;
 
+    if (listOfQualitativeSpecies != null) {
+      listOfQualitativeSpecies.unsetNamespace();
+      listOfQualitativeSpecies.setNamespace(QualConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfQualitativeSpecies.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'qual'
+      listOfQualitativeSpecies.setPackageName(null);
+      listOfQualitativeSpecies.setPackageName(QualConstants.shortLabel);      
+      listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
+    }
+    
     if (isSetExtendedSBase()) {
       getModel().registerChild(this.listOfQualitativeSpecies);
     }
@@ -588,6 +606,16 @@ public class QualModelPlugin extends AbstractSBasePlugin {
     unsetListOfTransitions();
     this.listOfTransitions = listOfTransitions;
 
+    if (listOfTransitions != null) {
+      listOfTransitions.unsetNamespace();
+      listOfTransitions.setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfTransitions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'qual'
+      listOfTransitions.setPackageName(null);
+      listOfTransitions.setPackageName(QualConstants.shortLabel);      
+      listOfTransitions.setSBaseListType(ListOf.Type.other);
+    }
+    
     if (isSetExtendedSBase()) {
       getModel().registerChild(this.listOfTransitions);
     }

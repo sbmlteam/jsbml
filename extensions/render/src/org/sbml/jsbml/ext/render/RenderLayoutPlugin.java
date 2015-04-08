@@ -80,7 +80,6 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    */
   @Override
   public void initDefaults() {
-    //    TODO setNamespace(RenderConstants.namespaceURI);
   }
 
   /* (non-Javadoc)
@@ -140,7 +139,11 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   public ListOf<LocalRenderInformation> getListOfLocalRenderInformation() {
     if (!isSetListOfLocalRenderInformation()) {
       listOfLocalRenderInformation = new ListOf<LocalRenderInformation>();
-      listOfLocalRenderInformation.setNamespace(RenderConstants.namespaceURI);
+      listOfLocalRenderInformation.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfLocalRenderInformation.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfLocalRenderInformation.setPackageName(null);
+      listOfLocalRenderInformation.setPackageName(RenderConstants.shortLabel);
       listOfLocalRenderInformation.setSBaseListType(ListOf.Type.other);
 
       if (isSetExtendedSBase()) {
@@ -166,6 +169,15 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     unsetListOfLocalRenderInformation();
     this.listOfLocalRenderInformation = listOfLocalRenderInformation;
 
+    if (listOfLocalRenderInformation != null) {
+      listOfLocalRenderInformation.unsetNamespace();
+      listOfLocalRenderInformation.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfLocalRenderInformation.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'render'
+      listOfLocalRenderInformation.setPackageName(null);
+      listOfLocalRenderInformation.setPackageName(RenderConstants.shortLabel);
+      listOfLocalRenderInformation.setSBaseListType(ListOf.Type.other);      
+    }
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfLocalRenderInformation);
     }

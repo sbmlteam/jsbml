@@ -123,7 +123,10 @@ public class ColorDefinition extends AbstractNamedSBase {
    */
   public ColorDefinition(ColorDefinition obj) {
     super(obj);
-    value = obj.value;
+    
+    if (obj.isSetValue()) {
+      setValue(obj.getValue());
+    }
   }
 
   /* (non-Javadoc)
@@ -138,7 +141,9 @@ public class ColorDefinition extends AbstractNamedSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
   }
 
 
@@ -236,8 +241,8 @@ public class ColorDefinition extends AbstractNamedSBase {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
+    
     if (isSetValue()) {
-      attributes.remove(RenderConstants.value);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.value,
         XMLTools.encodeColorToString(getValue()));
     }
@@ -255,7 +260,6 @@ public class ColorDefinition extends AbstractNamedSBase {
       if (attributeName.equals(RenderConstants.value)) {
         setValue(XMLTools.decodeStringToColor(value));
       }
-      // END TODO
       else {
         isAttributeRead = false;
       }
