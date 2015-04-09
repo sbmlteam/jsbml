@@ -83,7 +83,7 @@ public class Domain extends AbstractSpatialNamedSBase {
    * @param level
    * @param version
    */
-  public Domain(String id,int level, int version) {
+  public Domain(String id, int level, int version) {
     super(id,level,version);
   }
 
@@ -187,7 +187,11 @@ public class Domain extends AbstractSpatialNamedSBase {
   public ListOf<InteriorPoint> getListOfInteriorPoints() {
     if (!isSetListOfInteriorPoints()) {
       listOfInteriorPoints = new ListOf<InteriorPoint>();
-      listOfInteriorPoints.setNamespace(SpatialConstants.namespaceURI);
+      listOfInteriorPoints.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfInteriorPoints.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfInteriorPoints.setPackageName(null);
+      listOfInteriorPoints.setPackageName(SpatialConstants.shortLabel);
       listOfInteriorPoints.setSBaseListType(ListOf.Type.other);
       registerChild(listOfInteriorPoints);
     }
@@ -204,7 +208,18 @@ public class Domain extends AbstractSpatialNamedSBase {
   public void setListOfInteriorPoints(ListOf<InteriorPoint> listOfInteriorPoints) {
     unsetListOfInteriorPoints();
     this.listOfInteriorPoints = listOfInteriorPoints;
-    registerChild(this.listOfInteriorPoints);
+    
+    if (listOfInteriorPoints != null) {
+      listOfInteriorPoints.unsetNamespace();
+      listOfInteriorPoints.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfInteriorPoints.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfInteriorPoints.setPackageName(null);
+      listOfInteriorPoints.setPackageName(SpatialConstants.shortLabel);
+      listOfInteriorPoints.setSBaseListType(ListOf.Type.other);
+
+      registerChild(this.listOfInteriorPoints);
+    }
   }
 
 

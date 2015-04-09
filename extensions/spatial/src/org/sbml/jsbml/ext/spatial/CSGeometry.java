@@ -127,7 +127,11 @@ public class CSGeometry extends GeometryDefinition {
     if (!isSetListOfCSGObjects()) {
       listOfCSGObjects = new ListOf<CSGObject>(getLevel(),
           getVersion());
-      listOfCSGObjects.setNamespace(SpatialConstants.namespaceURI);
+      listOfCSGObjects.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfCSGObjects.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfCSGObjects.setPackageName(null);
+      listOfCSGObjects.setPackageName(SpatialConstants.shortLabel);
       listOfCSGObjects.setSBaseListType(ListOf.Type.other);
       registerChild(listOfCSGObjects);
     }
@@ -144,7 +148,18 @@ public class CSGeometry extends GeometryDefinition {
   public void setListOfCSGObjects(ListOf<CSGObject> listOfCSGObjects) {
     unsetListOfCSGObjects();
     this.listOfCSGObjects = listOfCSGObjects;
-    registerChild(this.listOfCSGObjects);
+    
+    if (listOfCSGObjects != null) {
+      listOfCSGObjects.unsetNamespace();
+      listOfCSGObjects.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfCSGObjects.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfCSGObjects.setPackageName(null);
+      listOfCSGObjects.setPackageName(SpatialConstants.shortLabel);
+      listOfCSGObjects.setSBaseListType(ListOf.Type.other);
+
+      registerChild(this.listOfCSGObjects);
+    }  
   }
 
 

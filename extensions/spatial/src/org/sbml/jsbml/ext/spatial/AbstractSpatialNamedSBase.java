@@ -59,6 +59,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    */
   public AbstractSpatialNamedSBase() {
     super();
+    initDefaults();
   }
 
   /**
@@ -67,6 +68,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    */
   public AbstractSpatialNamedSBase(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /**
@@ -87,6 +89,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    */
   public AbstractSpatialNamedSBase(String spatialId, int level, int version) {
     super(level,version);
+    initDefaults();
     this.spatialId = spatialId;
   }
 
@@ -96,9 +99,20 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    */
   public AbstractSpatialNamedSBase(String spatialId) {
     super();
+    initDefaults();
     this.spatialId = spatialId;
   }
 
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = SpatialConstants.shortLabel;
+  }
+
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
    */
@@ -159,7 +173,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    */
   @Override
   public void setSpatialId(String spatialId) {
-    String oldSpatialId = this.spatialId;
+    String oldSpatialId = this.spatialId; // TODO - the IdManager need to be updated
     this.spatialId = spatialId;
     firePropertyChange(SpatialConstants.spatialId, oldSpatialId, this.spatialId);
   }

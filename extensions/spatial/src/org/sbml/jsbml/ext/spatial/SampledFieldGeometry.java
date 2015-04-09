@@ -192,7 +192,11 @@ public class SampledFieldGeometry extends GeometryDefinition {
     if (!isSetListOfSampledVolumes()) {
       listOfSampledVolumes = new ListOf<SampledVolume>(getLevel(),
           getVersion());
-      listOfSampledVolumes.setNamespace(SpatialConstants.namespaceURI);
+      listOfSampledVolumes.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSampledVolumes.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfSampledVolumes.setPackageName(null);
+      listOfSampledVolumes.setPackageName(SpatialConstants.shortLabel);
       listOfSampledVolumes.setSBaseListType(ListOf.Type.other);
       registerChild(listOfSampledVolumes);
     }
@@ -209,7 +213,19 @@ public class SampledFieldGeometry extends GeometryDefinition {
   public void setListOfSampledVolumes(ListOf<SampledVolume> listOfSampledVolumes) {
     unsetListOfSampledVolumes();
     this.listOfSampledVolumes = listOfSampledVolumes;
-    registerChild(this.listOfSampledVolumes);
+    
+    if (listOfSampledVolumes != null) {
+      listOfSampledVolumes.unsetNamespace();
+      listOfSampledVolumes.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSampledVolumes.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfSampledVolumes.setPackageName(null);
+      listOfSampledVolumes.setPackageName(SpatialConstants.shortLabel);
+      listOfSampledVolumes.setSBaseListType(ListOf.Type.other);
+
+      registerChild(this.listOfSampledVolumes);
+    }  
+
   }
 
 

@@ -144,7 +144,11 @@ public class MixedGeometry extends GeometryDefinition {
     if (!isSetListOfGeometryDefinitions()) {
       listOfGeometryDefinitions = new ListOf<GeometryDefinition>(getLevel(),
           getVersion());
-      listOfGeometryDefinitions.setNamespace(SpatialConstants.namespaceURI);
+      listOfGeometryDefinitions.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfGeometryDefinitions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfGeometryDefinitions.setPackageName(null);
+      listOfGeometryDefinitions.setPackageName(SpatialConstants.shortLabel);
       listOfGeometryDefinitions.setSBaseListType(ListOf.Type.other);
       registerChild(listOfGeometryDefinitions);
     }
@@ -161,7 +165,18 @@ public class MixedGeometry extends GeometryDefinition {
   public void setListOfGeometryDefinitions(ListOf<GeometryDefinition> listOfGeometryDefinitions) {
     unsetListOfGeometryDefinitions();
     this.listOfGeometryDefinitions = listOfGeometryDefinitions;
-    registerChild(this.listOfGeometryDefinitions);
+    
+    if (listOfGeometryDefinitions != null) {
+      listOfGeometryDefinitions.unsetNamespace();
+      listOfGeometryDefinitions.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfGeometryDefinitions.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfGeometryDefinitions.setPackageName(null);
+      listOfGeometryDefinitions.setPackageName(SpatialConstants.shortLabel);
+      listOfGeometryDefinitions.setSBaseListType(ListOf.Type.other);
+
+      registerChild(this.listOfGeometryDefinitions);
+    }  
   }
 
 
@@ -340,7 +355,11 @@ public class MixedGeometry extends GeometryDefinition {
     if (!isSetListOfOrdinalMappings()) {
       listOfOrdinalMappings = new ListOf<OrdinalMapping>(getLevel(),
           getVersion());
-      listOfOrdinalMappings.setNamespace(SpatialConstants.namespaceURI);
+      listOfOrdinalMappings.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfOrdinalMappings.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfOrdinalMappings.setPackageName(null);
+      listOfOrdinalMappings.setPackageName(SpatialConstants.shortLabel);
       listOfOrdinalMappings.setSBaseListType(ListOf.Type.other);
       registerChild(listOfOrdinalMappings);
     }
@@ -357,7 +376,18 @@ public class MixedGeometry extends GeometryDefinition {
   public void setListOfOrdinalMappings(ListOf<OrdinalMapping> listOfOrdinalMappings) {
     unsetListOfOrdinalMappings();
     this.listOfOrdinalMappings = listOfOrdinalMappings;
-    registerChild(this.listOfOrdinalMappings);
+    
+    if (listOfOrdinalMappings != null) {
+      listOfOrdinalMappings.unsetNamespace();
+      listOfOrdinalMappings.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfOrdinalMappings.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfOrdinalMappings.setPackageName(null);
+      listOfOrdinalMappings.setPackageName(SpatialConstants.shortLabel);
+      listOfOrdinalMappings.setSBaseListType(ListOf.Type.other);
+
+      registerChild(this.listOfOrdinalMappings);
+    }  
   }
 
 

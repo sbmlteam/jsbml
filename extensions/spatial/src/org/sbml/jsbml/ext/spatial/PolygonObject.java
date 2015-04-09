@@ -53,6 +53,7 @@ public class PolygonObject extends AbstractSBase {
    */
   public PolygonObject() {
     super();
+    initDefaults();
   }
 
   /**
@@ -72,6 +73,7 @@ public class PolygonObject extends AbstractSBase {
    */
   public PolygonObject(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
 
@@ -80,7 +82,16 @@ public class PolygonObject extends AbstractSBase {
     return new PolygonObject(this);
   }
 
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = SpatialConstants.shortLabel;
+  }
 
+  
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);

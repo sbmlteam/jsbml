@@ -353,7 +353,11 @@ public class CSGSetOperator extends CSGNode {
     if (!isSetListOfCSGNodes()) {
       listOfCSGNodes = new ListOf<CSGNode>(getLevel(),
           getVersion());
-      listOfCSGNodes.setNamespace(SpatialConstants.namespaceURI);
+      listOfCSGNodes.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfCSGNodes.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfCSGNodes.setPackageName(null);
+      listOfCSGNodes.setPackageName(SpatialConstants.shortLabel);
       listOfCSGNodes.setSBaseListType(ListOf.Type.other);
       registerChild(listOfCSGNodes);
     }
@@ -370,7 +374,17 @@ public class CSGSetOperator extends CSGNode {
   public void setListOfCSGNodes(ListOf<CSGNode> listOfCSGNodes) {
     unsetListOfCSGNodes();
     this.listOfCSGNodes = listOfCSGNodes;
-    registerChild(this.listOfCSGNodes);
+    
+    if (listOfCSGNodes != null) {
+      listOfCSGNodes.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfCSGNodes.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'spatial'
+      listOfCSGNodes.setPackageName(null);
+      listOfCSGNodes.setPackageName(SpatialConstants.shortLabel);
+      listOfCSGNodes.setSBaseListType(ListOf.Type.other);
+
+      registerChild(this.listOfCSGNodes);
+    }
   }
 
 

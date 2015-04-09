@@ -93,6 +93,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   public AnalyticVolume() {
     super();
+    initDefaults();
   }
 
   /**
@@ -119,8 +120,19 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
   public AnalyticVolume(String id, int level, int version)
   {
     super(level,version);
+    initDefaults();
     spatialId = id;
   }
+  
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = SpatialConstants.shortLabel;
+  }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#clone()
@@ -330,7 +342,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   @Override
   public void setSpatialId(String spatialId) {
-    String oldSpatialId = this.spatialId;
+    String oldSpatialId = this.spatialId; // TODO - the IdManager need to be updated
     this.spatialId = spatialId;
     firePropertyChange(SpatialConstants.spatialId, oldSpatialId, this.spatialId);
   }

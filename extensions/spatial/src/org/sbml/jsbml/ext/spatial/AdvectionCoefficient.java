@@ -75,17 +75,6 @@ public class AdvectionCoefficient extends ParameterType {
   }
 
 
-  /**
-   * 
-   * @param id
-   * @param level
-   * @param version
-   */
-  public AdvectionCoefficient(String id, int level, int version) {
-    super(level, version);
-  }
-
-
   @Override
   public AdvectionCoefficient clone() {
     return new AdvectionCoefficient(this);

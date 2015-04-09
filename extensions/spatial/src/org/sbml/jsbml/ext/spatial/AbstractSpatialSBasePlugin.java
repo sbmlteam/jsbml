@@ -47,6 +47,7 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
    */
   public AbstractSpatialSBasePlugin() {
     super();
+    initDefaults();
   }
 
   /**
@@ -61,6 +62,14 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
    */
   public AbstractSpatialSBasePlugin(SBase extendedSBase) {
     super(extendedSBase);
+    initDefaults();
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /* (non-Javadoc)
@@ -84,19 +93,11 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return SpatialConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
    */
   @Override
   public String getPackageName() {
-    return SpatialConstants.packageName;
+    return SpatialConstants.shortLabel;
   }
 
   /* (non-Javadoc)

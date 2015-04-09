@@ -168,6 +168,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
       setInterpolation(sf.getInterpolation());
     }
 
+    // TODO - data ?
   }
 
   /**

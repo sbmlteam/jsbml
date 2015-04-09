@@ -90,6 +90,8 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
   public AbstractSBasePlugin(SBasePlugin plugin) {
     super(plugin);
     setPackageVersion(plugin.getPackageVersion());
+    setNamespace(plugin.getElementNamespace());
+    
     // the extendedSBase will be set when the cloned SBasePlugin is added inside an SBase
     // then the ids of is children will be registered in the correct maps.
     extendedSBase = null;
