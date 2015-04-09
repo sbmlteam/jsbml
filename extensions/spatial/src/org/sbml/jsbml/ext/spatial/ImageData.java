@@ -62,6 +62,7 @@ public class ImageData extends AbstractSBase {
    */
   public ImageData() {
     super();
+    initDefaults();
   }
 
   /**
@@ -84,6 +85,7 @@ public class ImageData extends AbstractSBase {
    */
   public ImageData(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -92,6 +94,15 @@ public class ImageData extends AbstractSBase {
   @Override
   public ImageData clone() {
     return new ImageData(this);
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = SpatialConstants.shortLabel;
   }
 
   /* (non-Javadoc)
@@ -339,7 +350,7 @@ public class ImageData extends AbstractSBase {
     builder.append(", dataType=");
     builder.append(dataType);
     builder.append(", samples=");
-    builder.append(Arrays.toString(samples));
+    builder.append(Arrays.toString(samples)); // TODO - Should we really print the whole content of the array here? 
     builder.append("]");
     return builder.toString();
   }

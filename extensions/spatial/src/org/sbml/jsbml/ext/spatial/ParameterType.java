@@ -67,6 +67,7 @@ public class ParameterType extends AbstractSBase {
    */
   public ParameterType() {
     super();
+    initDefaults();
   }
 
   /**
@@ -76,6 +77,7 @@ public class ParameterType extends AbstractSBase {
    */
   public ParameterType(int level, int version) {
     super(level,version);
+    initDefaults();
   }
 
 
@@ -91,6 +93,16 @@ public class ParameterType extends AbstractSBase {
       speciesRef = new String(ref.getSpeciesReference());
     }
   }
+  
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = SpatialConstants.shortLabel;
+  }
+
 
   /**
    * 

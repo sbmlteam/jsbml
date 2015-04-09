@@ -72,6 +72,7 @@ public class InteriorPoint extends AbstractSBase {
    */
   public InteriorPoint() {
     super();
+    initDefaults();
   }
 
   /**
@@ -80,6 +81,16 @@ public class InteriorPoint extends AbstractSBase {
    */
   public InteriorPoint(InteriorPoint interiorPoint) {
     super(interiorPoint);
+    
+    if (interiorPoint.isSetCoord1()) {
+      setCoord1(interiorPoint.getCoord1());
+    }
+    if (interiorPoint.isSetCoord2()) {
+      setCoord2(interiorPoint.getCoord2());
+    }
+    if (interiorPoint.isSetCoord3()) {
+      setCoord3(interiorPoint.getCoord3());
+    }
   }
 
   /**
@@ -88,6 +99,7 @@ public class InteriorPoint extends AbstractSBase {
    */
   public InteriorPoint(int level, int version) {
     super(level,version);
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -96,6 +108,15 @@ public class InteriorPoint extends AbstractSBase {
   @Override
   public InteriorPoint clone() {
     return new InteriorPoint(this);
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = SpatialConstants.shortLabel;
   }
 
   /* (non-Javadoc)

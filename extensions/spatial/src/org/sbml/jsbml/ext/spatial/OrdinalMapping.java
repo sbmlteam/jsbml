@@ -57,6 +57,7 @@ public class OrdinalMapping extends AbstractSBase {
    */
   public OrdinalMapping() {
     super();
+    initDefaults();
   }
 
   /**
@@ -80,6 +81,7 @@ public class OrdinalMapping extends AbstractSBase {
    */
   public OrdinalMapping(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -89,6 +91,16 @@ public class OrdinalMapping extends AbstractSBase {
   public OrdinalMapping clone() {
     return new OrdinalMapping(this);
   }
+  
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
+    packageName = SpatialConstants.shortLabel;
+  }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
