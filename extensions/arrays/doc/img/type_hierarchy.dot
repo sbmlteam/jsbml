@@ -3,9 +3,9 @@
 # dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
 # dot -Tpng type_hierarchy.dot -otype_hierarchy.png
 #
-# $Id: type_hierarchy.dot 1249 2012-05-08 08:07:37Z andreas-draeger $
-# $URL: svn+ssh://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/doc/img/type_hierarchy.dot $
-# $Rev: 1249 $
+# $Id$
+# $URL$
+# $Rev$
 
 /*
  * Overview of the arrays extension type hierarchy
