@@ -25,7 +25,7 @@ package org.sbml.jsbml.ext.multi;
 
 /**
  * The BindingStatus enumeration is used in the definition of the {@link OutwardBindingSite} class. BindingStatus
- * is restricted to be one of the following possibilities: “bound”, “unbound”, and “either”.
+ * is restricted to be one of the following possibilities: bound, unbound, and either.
  * <p>Attributes of type BindingStatus cannot take on any other values.
  *
  *
