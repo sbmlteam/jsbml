@@ -1,0 +1,20 @@
+The JSBML project has been made possible thanks to the support of the
+following organizations:
+
+* The EMBL European Bioinformatics Institute (Germany and UK).
+
+* The National Institute of General Medical Sciences, under grant 
+  R01 GM070923 to the California Institute of Technology (USA).
+
+* Google, Inc., as part of Google Summer of Code in 2014.
+
+* The European Commission as part of the 7th Framework Programme for Research
+  and Technological Development (Marie-Curie International Outgoing Fellowship
+  project "AMBiCon," grant number 332020).
+
+* A grant of the University of Tuebingen for young scientits support (project
+  number 18017002).
+
+* The Federal Ministry of Education and Research (BMBF, Germany) via grant
+  numbers 0315756 and 0315384C for the Virtual Liver Network and the MedSys
+  (Medical Systems Biology) project Spher4Sys (Germany).

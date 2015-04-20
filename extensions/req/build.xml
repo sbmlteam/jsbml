@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+<!--
+    $Id: build.xml 2109 2015-01-05 04:50:45Z andreas-draeger $ 
+    $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/req/build.xml $
+
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2015 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+
+    Version: $Rev: 2109 $
+-->
+<project default ="usage" basedir=".">
+	<!-- =================================================================== -->
+	<!-- Initialization target                                               -->
+	<!-- =================================================================== -->
+
+	<target name="init">
+		<tstamp>
+			<format property="YEAR" pattern="yyyy"/>
+		</tstamp>
+
+		<property name="Name" value="JSBML Required Elements L3 package"/>
+		<property name="name" value="jsbml-req"/>
+		<property name="version" value="0.2-b1"/>
+		<property name="api.version" value="0.2"/>
+
+		<property name="year" value="${YEAR}"/>
+
+		<echo message="----------- ${Name} ${version} [${year}] ------------"/>
+		<echo message="-----------     ${TODAY}   ------------"/>
+		<echo message="-----------     ${DSTAMP} ${TSTAMP}  ------------"/>
+
+		<property environment="env"/>
+		<property name="build.compiler" value="modern"/>
+		<property name="build.sysclasspath" value="ignore"/>
+		<property name="debug" value="on"/>
+		<property name="optimize" value="off"/>
+		<property name="deprecation" value="false"/>
+		<property name="depend" value="true"/>
+		<property name="verbose" value="false"/>
+
+		<property name="build.number" value="${DSTAMP}-${TSTAMP}"/>
+		<property name="build.name" value="${version} (build ${build.number})"/>
+
+		<property name="src.dir" value="${basedir}/src"/>
+		<property name="test.src.dir" value="${basedir}/test"/>
+		<property name="build.dir" value="${basedir}/build"/>
+		<property name="build.src" value="${basedir}/build/src"/>
+		<property name="build.dest" value="${basedir}/build/classes"/>
+		<property name="build.javadocs" value="${basedir}/build/apidocs"/>
+		<property name="jars.dir" value="${basedir}/lib"/>
+		<property name="jsbml.jars.dir" value="${basedir}/../../core/lib"/>
+		<property name="jsbml.build.dir" value="${basedir}/../../core/build"/>
+		<property name="jsbml.build.src" value="${basedir}/../../core/build/src"/>
+		<property name="dist.root" value="${basedir}/dist"/>
+		<property name="dist.dir" value="${dist.root}/${name}-${version}"/>
+		<property name="package.dir" value="${basedir}/build/package"/>
+		<property name="resource.dir" value="${basedir}/resources"/>
+
+		<filter token="year" value="${year}"/>
+		<filter token="version" value="${version}"/>
+		<filter token="date" value="${TODAY}"/>
+		<filter token="log" value="true"/>
+		<filter token="verbose" value="true"/>
+
+		<!-- add everything needed to the classpath -->
+		<!-- adjust the settings to your local environment -->
+		<path id="classpath">
+			<fileset dir="${jars.dir}" includes="*.jar *.zip"/>
+			<fileset dir="${jsbml.build.dir}" includes="*.jar *.zip"/>
+			<fileset dir="${jsbml.jars.dir}" includes="*.jar *.zip"/>
+		</path>
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Help on usage                                                       -->
+	<!-- =================================================================== -->
+	<target name="usage" depends="init">
+		<echo message=""/>
+		<echo message=""/>
+		<echo message=" ${Name} Build file"/>
+		<echo message=" -------------------------------------------------------------"/>
+		<echo message=""/>
+		<echo message=" available targets are:"/>
+		<echo message=""/>
+		<echo message="   compile     --> compiles the source code"/>
+		<echo message="   jar         --> generates the ${name}.jar file"/>
+		<echo message="   test        --> runs the tests"/>
+		<echo message="   javadoc     --> generates the API documentation"/>
+		<echo message="   clean       --> cleans up the directory"/>
+		<echo message=""/>
+		<echo message=" See the comments inside the build.xml file for more details."/>
+		<echo message=" -------------------------------------------------------------"/>
+		<echo message=""/>
+		<echo message=""/>
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Prepares the build directory                                        -->
+	<!-- =================================================================== -->
+	<target name="prepare" depends="init">
+		<mkdir dir="${build.dir}"/>
+		<echo message="Done"/>
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Prepares the source code                                            -->
+	<!-- =================================================================== -->
+	<target name="prepare-src" depends="prepare">
+		<!-- create directories -->
+		<mkdir dir="${build.src}"/>
+		<mkdir dir="${build.dest}"/>
+		<mkdir dir="${build.dest}/META-INF"/>
+		<mkdir dir="${package.dir}"/>
+		<mkdir dir="${dist.root}"/>
+		<mkdir dir="${dist.dir}"/>
+
+		<!-- copy src files -->
+		<copy todir="${build.src}" overwrite="yes">
+			<fileset 
+            dir="${src.dir}"
+            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
+			</fileset>
+		</copy>
+
+		<copy todir="${build.src}" overwrite="yes">
+			<fileset 
+  	            dir="${test.src.dir}"
+  	        	includes="org/sbml/jsbml/**"
+  	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
+			</fileset>
+		</copy>
+
+		<copy todir="${build.src}" overwrite="yes">
+			<fileset 
+  	  	            dir="${resource.dir}"
+  	  	        	includes="org/sbml/jsbml/**, **/*.properties"
+  	  	            excludes="**/.svn*, **/*~, **/*.tgz, **/*.zip">
+			</fileset>
+		</copy>
+
+		<!-- TODO : copy the sources into the jsbml.build.src folder to allow to build a jar with everything
+		as well as creating one big documentation -->
+		
+	</target>
+
+
+	<!-- =================================================================== -->
+	<!-- Modify somes files                                                  -->
+	<!-- =================================================================== -->
+	<target name="gen-build-number" unless="dev.mode">
+		<echo message="Updating the files with the build number..."/>
+
+		<replace file="${basedir}/doc/Readme.html"
+                token="[BUILD.NUMBER]"
+                value="${build.name}" />
+
+
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Modify back somes files                                                  -->
+	<!-- =================================================================== -->
+	<target name="gen-build-number-back" depends="jar" unless="dev.mode">
+		<echo message="Updating back the files with [BUILD.NUMBER]..."/>
+
+
+		<replace file="${basedir}/doc/Readme.html"
+                token="${build.name}"
+                value="[BUILD.NUMBER]" />
+
+	</target>
+
+
+	<!-- =================================================================== -->
+	<!-- Compiles the source directory                                       -->
+	<!-- =================================================================== -->
+	<target name="compile" depends="prepare-src">
+		<javac srcdir="${build.src}"
+           destdir="${build.dest}"
+           debug="${debug}"
+           optimize="${optimize}"
+           verbose="${verbose}"
+           source="1.6"
+           target="1.6"
+           classpathref="classpath">
+		</javac>
+		<manifest file="${build.dest}/META-INF/MANIFEST.MF">
+			<section name="${Name}">
+				<attribute name="Specification-Title" value="${Name}"/>
+				<attribute name="Specification-Version" value="${api.version}"/>
+				<attribute name="Implementation-Title" value="${Name}"/>
+				<attribute name="Implementation-Version" value="${version}"/>
+			</section>
+		</manifest>
+
+	</target>
+
+
+	<!-- =================================================================== -->
+	<!-- Creates the class package                                           -->
+	<!-- =================================================================== -->
+	<target name="jar" depends="compile">
+
+		<copy todir="${build.dest}">
+			<fileset dir="${build.src}" 
+				includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties">
+			</fileset>
+		</copy>
+		<jar jarfile="${build.dir}/${name}-${version}.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
+	</target>
+
+
+	<!-- =================================================================== -->
+	<!-- Test the package                                              -->
+	<!-- =================================================================== -->
+	<target name="test" depends="jar">
+
+		<echo message="No junit test implemented for this package yet."/>
+
+	</target>
+
+
+	<!-- =================================================================== -->
+	<!-- Creates the API documentation                                       -->
+	<!-- =================================================================== -->
+	<target name="javadoc" depends="prepare-src">
+		<mkdir dir="${build.javadocs}"/>
+		<javadoc packagenames="org.*"
+    		 excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*"
+             sourcepath="${build.src}"
+             destdir="${build.javadocs}"
+             classpathref="classpath"
+             maxmemory="96m"
+             author="true"
+             version="true"
+             use="true"
+             splitindex="true"
+             noindex="false"
+             windowtitle="${Name} ${version} API Specification"
+             doctitle="${Name} ${version} API Specification"
+    	     breakiterator="yes"
+    		 access="public"
+    >
+			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+			<link href="http://www.biojava.org/docs/api17"/>
+			<link href="http://sbml.org/Special/Software/JSBML/build/apidocs/index.html"/>
+			<tag name="sbml.deprecated" description="Deprecated in SBML since :"/>
+			<tag name="jsbml.note" description="Note"/>
+			<tag name="jsbml.warning"/>
+			<tag name="doc.note"  description="Documentation note"/>
+
+		</javadoc>
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Creates the distribution                                            -->
+	<!-- =================================================================== -->
+	<target name="dist" depends="prepare-src">
+
+		<!-- Creates the standard jar file -->
+
+		<antcall target="clean"/>
+
+		<antcall target="jar"/>
+
+		<antcall target="test"/>
+
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}.jar"/>
+		<copy todir="${dist.root}" file="${build.dir}/${name}-${version}.jar"/>
+
+		<!-- Creates and copy the generated javadoc -->
+		<antcall target="javadoc"/>
+
+		<copy todir="${dist.dir}/doc/api">
+			<fileset dir="${build.javadocs}/" includes="**/*">
+			</fileset>
+		</copy>
+
+		<!-- Copy the source files -->
+		<copy todir="${dist.dir}/src">
+			<fileset dir="${build.src}/" includes="**/*">
+			</fileset>
+		</copy>
+
+		<!-- Copy all the dependencies jar files -->
+		<copy todir="${dist.dir}/lib">
+			<fileset dir="${jars.dir}/" includes="*.jar">
+			</fileset>
+		</copy>
+
+		<!-- these files do not exist in the individual packages but made they should -->
+		<copy todir="${dist.dir}">
+			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt">
+			</fileset>
+		</copy>
+
+		<copy todir="${dist.dir}/doc">
+			<fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java" excludes="posters/** publications/** templates/**">
+
+			</fileset>
+		</copy>
+
+		<!-- Creates the archives to be distributed -->
+		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
+		<tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip">
+		</tar>
+
+	</target>
+
+
+	<!-- =================================================================== -->
+	<!-- Cleans everything                                                   -->
+	<!-- =================================================================== -->
+	<target name="clean" depends="init">
+		<delete includeEmptyDirs="true" quiet="yes">
+			<fileset dir="${build.dir}" includes="**/*"/>
+		</delete>
+		<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes">
+		</delete>
+	</target>
+</project>
+
+<!-- End of file -->

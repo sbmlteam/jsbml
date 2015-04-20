@@ -1,0 +1,88 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id: type_hierarchy.dot 2183 2015-04-10 23:13:25Z alex-thomas $
+# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/distrib/doc/img/type_hierarchy.dot $
+# $Rev: 2183 $
+
+/*
+ * Overview of the distrib extension type hierarchy
+ */
+
+strict digraph G{
+
+	 nodesep=0.25;
+	 ranksep=0.5;
+
+	 edge [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   labelfontname="Helvetica",
+	   labelfontsize=10
+	 ];
+	 node [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   shape=box
+	 ];
+	 
+	 /*
+   * Abstract data types
+   */
+  AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">Abstract<br/>SBasePlugin</font>>, style="filled", fillcolor="#F0F8FF"];
+
+  /*
+  * Interfaces
+  */
+ 
+  IdManager                         [label="<<interface>>\nId Manager"];  
+
+  /*********************
+   * Inheritance graph *
+   *********************/
+  
+  AbstractSBase              -> AbstractNamedSBase         [dir=back,arrowtail=empty];
+  
+   
+  subgraph clusterLayout {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Distributions extension";
+    labelloc=b;
+    labeljust=r;
+
+    // Interfaces
+
+    // Enums
+    
+    // Objects
+
+    DistribFunctionDefinitionPlugin                     [label="Distrib Function\nDefinition Plugin"];
+    DistribInput                     					[label="Distrib\nInput"];
+    DistribSBasePlugin                     				[label="Distrib\nSBasePlugin"];
+    DrawFromDistribution              					[label="Draw From \nDistribution"];
+    Uncertainty                    						[label="Uncertainty"];
+ 
+
+   }
+   
+   /*********************
+    * Inheritance graph *
+    *********************/
+   
+   AbstractSBasePlugin      -> DistribFunctionDefinitionPlugin		[dir=back,arrowtail=empty];    
+   AbstractNamedSBase    -> DistribInput      						[dir=back,arrowtail=empty];
+   AbstractNamedSBase    -> Uncertainty       						[dir=back,arrowtail=empty];
+   AbstractSBasePlugin      -> DistribSBasePlugin    				[dir=back,arrowtail=empty];    
+   AbstractSBase    -> DrawFromDistribution       					[dir=back,arrowtail=empty];
+   IdManager    -> DrawFromDistribution       						[dir=back,arrowtail=empty];
+
+
+}

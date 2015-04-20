@@ -1,0 +1,38 @@
+/*
+ * $Id: LayoutJUnitTests.java 2171 2015-04-01 14:01:42Z niko-rodrigue $
+ * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/test/org/sbml/jsbml/ext/layout/test/LayoutJUnitTests.java $
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2015 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * 6. Marquette University, Milwaukee, WI USA
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
+package org.sbml.jsbml.ext.layout.test;
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+/**
+ * @author Ibrahim Vazirabad
+ * @version $1713$
+ * @since 1.0
+ * @date May 7, 2014
+ */
+@RunWith(value=Suite.class)
+@SuiteClasses(value={TextGlyphTest.class, SpeciesReferenceGlyphTest.class, LayoutExtentionTest.class})
+public class LayoutJUnitTests {
+}

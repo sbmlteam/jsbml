@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1"
+      xmlns:multi="http://www.sbml.org/sbml/level3/version1/multi/version1"
+      multi:required="true">
+  <model name="phosphoreceptor">
+    <listOfCompartments>
+      <compartment id="cell" constant="true" size="1" />
+    </listOfCompartments>
+
+    <!-- We need to define two species types to be able to describe all the reactions. -->
+    <!-- There is not species type for the kinase, that is not used in selectors. -->
+    <multi:listOfSpeciesTypes>
+      <multi:speciesType xmlns:multi="http://www.sbml.org/sbml/level3/version1/multi/version1"
+			 xmlns:xhtml="http://www.w3.org/1999/xhtml"
+			 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			 xmlns:bqbiol="http://biomodels.net/biology-qualifiers/"
+			 multi:id="speciesType1"
+			 multi:bindingSite="false"
+			 multi:name="LGIC">
+	<notes>
+	  <xhtml:body>
+	    <xhtml:p>
+	      LGIC is a Ligand-Gated Ion Channel. It contains a pore that can be open or closed.
+	    </xhtml:p>
+	  </xhtml:body>
+	</notes>
+	<annotation>
+	  <rdf:RDF>
+	    <rdf:Description rdf:about="#_000003">
+	      <bqbiol:isVersionOf>
+		<rdf:Bag>
+		  <rdf:li rdf:resource="urn:miriam:interpro:IPR002394"/>
+		</rdf:Bag>
+	      </bqbiol:isVersionOf>
+	    </rdf:Description>
+	  </rdf:RDF>
+	</annotation>
+	<multi:listOfStateFeatures>
+	  <multi:stateFeature multi:id="stateFeature1"
+			      multi:name="pore"
+			      multi:sboTerm="SBO:0000497">
+	    <multi:listOfPossibleValues>
+	      <multi:possibleValue id="possibleValue1"
+				   multi:name="open"
+				   multi:sboTerm="SBO:0000416" />
+	      <multi:possibleValue id="possibleValue2"
+				   multi:name="closed"
+				   multi:sboTerm="SBO:0000417" />
+	      <multi:possibleValue id="possibleValue3"
+				   multi:name="desensitised"
+				   multi:sboTerm="SBO:0000417" />
+	    </multi:listOfPossibleValues>
+	  </multi:stateFeature>
+	</multi:listOfStateFeatures>
+      </multi:speciesType>
+      <multi:speciesType multi:id="st_recept"
+			 multi:name="receptor"
+			 multi:bindingSite="true">
+	<multi:listOfStateFeatures>
+	  <multi:stateFeature multi:id="Y" multi:name="tyrosine">
+	    <multi:listOfPossibleValues>
+	      <multi:possibleValue multi:id="P" multi:name="phosphorylated" />
+	      <multi:possibleValue multi:id="nonP" multi:name="nonphosphorylated" />
+	    </multi:listOfPossibleValues>
+	  </multi:stateFeature>
+	</multi:listOfStateFeatures>
+      </multi:speciesType>
+      <multi:speciesType multi:id="st_lig" multi:name="ligand" multi:bindingSite="true" />
+    </multi:listOfSpeciesTypes>
+
+    <multi:listOfSelectors>
+      <!-- **************************************************************** -->
+      <!-- Description of receptor, unbound, unphosphorylated -->
+      <!-- **************************************************************** -->
+      <multi:selector multi:id="sel_freereceptor_nonP">
+	<multi:listOfSpeciesTypeStates>
+	  <multi:speciesTypeState multi:id="sts_recept_nonP" multi:speciesType="st_recept"
+				  multi:minOccur="0" multi:maxOccur="1">
+	    <multi:listOfStateFeatureInstances>
+	      <multi:stateFeatureInstance multi:stateFeature="Y">
+		<multi:listOfStateFeatureValues>
+		  <multi:stateFeatureValue multi:possibleValue="nonphosphorylated" />
+		</multi:listOfStateFeatureValues>
+	      </multi:stateFeatureInstance>
+	    </multi:listOfStateFeatureInstances>
+	  </multi:speciesTypeState>
+	</multi:listOfSpeciesTypeStates>
+	<multi:listOfUnboundBindingSites>
+	  <multi:bindingSiteReference multi:speciesTypeState="sts_recept_nonP" />
+	</multi:listOfUnboundBindingSites>
+      </multi:selector>
+      <!-- **************************************************************** -->
+      <!-- Description of receptor, unbound, phosphorylated -->
+      <!-- **************************************************************** -->
+      <multi:selector multi:id="sel_freereceptor_P">
+	<multi:listOfSpeciesTypeStates>
+	  <multi:speciesTypeState multi:id="sts_recept_P" multi:speciesType="st_recept"
+				  multi:minOccur="1" multi:maxOccur="2">
+	    <multi:listOfStateFeatureInstances>
+	      <multi:stateFeatureInstance multi:stateFeature="Y">
+		<multi:listOfStateFeatureValues>
+		  <multi:stateFeatureValue multi:possibleValue="phosphorylated" />
+		</multi:listOfStateFeatureValues>
+	      </multi:stateFeatureInstance>
+	    </multi:listOfStateFeatureInstances>
+	  </multi:speciesTypeState>
+	</multi:listOfSpeciesTypeStates>
+	<multi:listOfUnboundBindingSites>
+	  <multi:bindingSiteReference multi:speciesTypeState="sts_recept_P" />
+	</multi:listOfUnboundBindingSites>
+      </multi:selector>
+      <!-- **************************************************************** -->
+      <!-- Description of ligand, unbound -->
+      <!-- **************************************************************** -->
+      <multi:selector multi:id="sel_freeligand">
+	<multi:listOfSpeciesTypeStates>
+	  <multi:speciesTypeState multi:id="sts_lig" multi:speciesType="st_lig"
+				  multi:minOccur="1" multi:maxOccur="1" />
+	</multi:listOfSpeciesTypeStates>
+	<multi:listOfUnboundBindingSites>
+	  <multi:bindingSiteReference multi:speciesTypeState="sts_lig" />
+	</multi:listOfUnboundBindingSites>
+      </multi:selector>
+      <!-- **************************************************************** -->
+      <!-- Description of the ligand-receptor complex -->
+      <!-- **************************************************************** -->
+      <multi:selector multi:id="sel_complex">
+	<multi:listOfSpeciesTypeStates>
+	  <multi:speciesTypeState multi:id="sts_recept_sc" multi:speciesType="st_recept"
+				  multi:minOccur="1" multi:maxOccur="1" />
+	  <multi:speciesTypeState multi:id="sts_lig_sc" multi:speciesType="st_lig"
+				  multi:minOccur="1" multi:maxOccur="1" />
+	</multi:listOfSpeciesTypeStates>
+	<multi:listOfBonds>
+	  <multi:bond multi:occurrence="required">
+	    <multi:bindingSiteReference multi:speciesTypeState="sts_lig_sc" />
+	    <multi:bindingSiteReference multi:speciesTypeState="sts_recept_sc" />
+	  </multi:bond>
+	</multi:listOfBonds>
+      </multi:selector>
+    </multi:listOfSelectors>
+    <listOfSpecies>
+      <species id="kinase" compartment="cell" boundaryCondition="false"
+	       hasOnlySubstanceUnits="false" constant="false" initialAmount="100" />
+      <species id="recept" compartment="cell" multi:speciesType="st_recept"
+	       boundaryCondition="false" hasOnlySubstanceUnits="false"
+	       constant="false" initialAmount="100" >
+	<multi:listOfSpeciesTypeInstances>
+	  <multi:speciesTypeInstance multi:id="freereceptor_nonP"
+				     multi:initialAmount="100">
+	    <multi:listOfSelectorReferences>
+	      <multi:selectorReference multi:selector="sel_freereceptor_nonP" />
+	    </multi:listOfSelectorReferences>
+	  </multi:speciesTypeInstance>
+	  <multi:speciesTypeInstance multi:id="freereceptor_P"
+				     multi:initialAmount="0">
+	    <multi:listOfSelectorReferences>
+	      <multi:selectorReference multi:selector="sel_freereceptor_P" />
+	    </multi:listOfSelectorReferences>
+	  </multi:speciesTypeInstance>
+	  <multi:speciesTypeInstance multi:id="boundreceptor">
+	    <multi:listOfSelectorReferences>
+	      <multi:selectorReference multi:selector="sel_complex"/>
+	    </multi:listOfSelectorReferences>
+	  </multi:speciesTypeInstance>
+	</multi:listOfSpeciesTypeInstances>
+      </species>
+      <species id="lig" compartment="cell" multi:speciesType="st_lig"
+	       boundaryCondition="false"
+	       hasOnlySubstanceUnits="false" constant="false" initialAmount="1000" >
+	<multi:listOfSpeciesTypeInstances>
+	  <multi:speciesTypeInstance multi:id="freeligand" multi:initialAmount="1000">
+	    <multi:listOfSelectorReferences>
+	      <multi:selectorReference multi:selector="sel_freeligand" />
+	    </multi:listOfSelectorReferences>
+	  </multi:speciesTypeInstance>
+	  <multi:speciesTypeInstance multi:id="boundligand" multi:initialAmount="0">
+	    <multi:listOfSelectorReferences>
+	      <multi:selectorReference multi:selector="sel_complex"/>
+	    </multi:listOfSelectorReferences>
+	  </multi:speciesTypeInstance>
+	</multi:listOfSpeciesTypeInstances>
+      </species>
+    </listOfSpecies>
+
+    <listOfReactions>
+      <!-- **************************************************************** -->
+      <!-- Phosphorylation of the receptor by the kinase when unbound -->
+      <!-- **************************************************************** -->
+      <reaction id="phosphorylation" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference species="recept" stoichiometry="1">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="freeRnonP"
+					multi:speciesTypeInstance="freereceptor_nonP" />
+	    </multi:listOfSpeciesRestriction>
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <multi:productSpeciesReference species="recept" stoichiometry="1">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="freeRP"
+					multi:speciesTypeInstance="freereceptor_P" />
+	    </multi:listOfSpeciesRestriction>
+	  </multi:productSpeciesReference>
+	</listOfProducts>
+	<listOfModifiers>
+	  <modifierSpeciesReference species="kinase" />
+	</listOfModifiers>
+	<kineticLaw>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML" />
+	</kineticLaw>
+	<multi:listOfReactionRules>
+	  <multi:reactionRule multi:id="PhosphorylationUnbound">
+	    <multi:listOfConditions>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeRnonP"/>
+	    </multi:listOfConditions>
+	    <multi:listOfResults>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeRP"/>
+	    </multi:listOfResults>
+	    <kineticLaw>
+	      <math xmlns="http://www.w3.org/1998/Math/MathML" >
+		<apply>
+		  <times />
+		  <ci> cell </ci>
+		  <ci> Vm </ci>
+		  <apply>
+		    <divide />
+		    <ci> recept </ci>
+		    <apply>
+		      <plus />
+		      <ci> recept </ci>
+		      <ci> Km </ci>
+		    </apply>
+		  </apply>
+		</apply>
+	      </math>
+	      <listOfLocalParameters>
+		<localParameter id="Km" value="1" />
+		<localParameter id="Vm" value="1" />
+	      </listOfLocalParameters>
+	    </kineticLaw>
+	  </multi:reactionRule>
+	</multi:listOfReactionRules>
+      </reaction>
+      
+      <!-- **************************************************************** -->
+      <!-- Ligand binding, when the receptor is phosphorylated or not -->
+      <!-- **************************************************************** -->
+      <reaction id="receptLigBinding" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference id="react_recept" species="recept" stoichiometry="1">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="freeRnonP"
+					multi:speciesTypeInstance="freereceptor_nonP" />
+	      <multi:speciesRestriction multi:id="freeRP"
+					multi:speciesTypeInstance="freereceptor_P" />
+	    </multi:listOfSpeciesRestriction>
+	  </speciesReference>
+	  <speciesReference id="react_lig" species="lig" stoichiometry="1">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="freeL"
+					multi:speciesTypeInstance="freeligand" />
+	    </multi:listOfSpeciesRestriction>
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <multi:productSpeciesReference species="recept" stoichiometry="1"
+					 correspondingReactant="react_recept">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="boundR"
+					multi:speciesTypeInstance="boundreceptor" />
+	    </multi:listOfSpeciesRestriction>
+	  </multi:productSpeciesReference>
+	  <multi:productSpeciesReference species="lig" stoichiometry="1"
+					 correspondingReactant="react_lig">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="boundL"
+					multi:speciesTypeInstance="boundligand" />
+	    </multi:listOfSpeciesRestriction>
+	  </multi:productSpeciesReference>
+	</listOfProducts>
+	<kineticLaw>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML" />
+	</kineticLaw>
+	<multi:listOfReactionRules>
+	  <multi:reactionRule multi:id="bindingNonPhospho">
+	    <multi:listOfConditions>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeRnonP" />
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeL" />
+	    </multi:listOfConditions>
+	    <multi:listOfResults>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="boundR" />
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="boundL" />
+	    </multi:listOfResults>
+	    <kineticLaw>
+	      <math xmlns="http://www.w3.org/1998/Math/MathML" >
+		<apply>
+		  <times />
+		  <ci> cell </ci>
+		  <ci> kon_nonphos </ci>
+		  <ci> recept </ci>
+		  <ci> lig </ci>
+		</apply>
+	      </math>
+	      <listOfLocalParameters>
+		<localParameter id="kon_nonphos" value="1"/>
+	      </listOfLocalParameters>
+	    </kineticLaw>
+	  </multi:reactionRule>
+	  <multi:reactionRule multi:id="bindingPhospho">
+	    <multi:listOfConditions>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeRP" />
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeL" />
+	    </multi:listOfConditions>
+	    <multi:listOfResults>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="boundR" />
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="boundL" />
+	    </multi:listOfResults>
+	    <kineticLaw>
+	      <math xmlns="http://www.w3.org/1998/Math/MathML" >
+		<apply>
+		  <times />
+		  <ci> cell </ci>
+		  <ci> kon_phos </ci>
+		  <ci> recept </ci>
+		  <ci> lig </ci>
+		</apply>
+	      </math>
+	      <listOfLocalParameters>
+		<localParameter id="kon_phos" value="10"/>
+	      </listOfLocalParameters>
+	    </kineticLaw>
+	  </multi:reactionRule>
+	</multi:listOfReactionRules>
+      </reaction>
+    </listOfReactions>
+
+  </model>
+</sbml>

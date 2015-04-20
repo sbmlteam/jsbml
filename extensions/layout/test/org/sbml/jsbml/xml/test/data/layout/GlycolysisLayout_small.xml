@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" level="3" version="1" layout:required="false" >
+  <model id="Glycolysis">
+  <listOfLayouts xmlns="http://www.sbml.org/sbml/level3/version1/layout/version1" >
+    <layout id="Glycolysis_Layout">
+      <dimensions width="800" height="1600">
+      </dimensions>
+      <listOfSpeciesGlyphs>
+        <speciesGlyph id="glyph_Gluc" species="Glucose">
+          <boundingBox id="bb_01">
+            <position x="105" y="20"/>
+            <dimensions width="130" height="20"/>
+          </boundingBox>
+        </speciesGlyph>
+        <speciesGlyph id="glyph_ATP_1" species="ATP">
+          <boundingBox id="bb_02">
+            <position x="270" y="70"/>
+            <dimensions width="80" height="20"/>
+          </boundingBox>
+        </speciesGlyph>
+        <speciesGlyph id="glyph_ADP_1" species="ADP">
+          <boundingBox id="bb_03">
+            <position x="270" y="140"/>
+            <dimensions width="80" height="20"/>
+          </boundingBox>
+        </speciesGlyph>
+        <speciesGlyph id="glyph_H_1" species="H+">
+          <boundingBox id="bb_04">
+            <position x="380" y="140"/>
+            <dimensions width="60" height="20"/>
+          </boundingBox>
+        </speciesGlyph>
+        <speciesGlyph id="glyph_G6P" species="Glucose-6-phosphate">
+          <boundingBox id="bb_05">
+            <position x="50" y="190"/>
+            <dimensions width="270" height="20"/>
+          </boundingBox>
+        </speciesGlyph>
+      </listOfSpeciesGlyphs>
+      <listOfReactionGlyphs>
+        <reactionGlyph id="glyph_Hexokinase" reaction="Hexokinase">
+          <curve>
+            <listOfCurveSegments>
+              <lineSegment>
+                <start x="170" y="100">
+                </start>
+                <end x="170" y="130">
+                </end>
+              </lineSegment>
+            </listOfCurveSegments>
+          </curve>
+          <listOfSpeciesReferenceGlyphs>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_01" speciesReference="ref_Gluc" speciesGlyph="glyph_Gluc" role="1">
+              <curve>
+                <listOfCurveSegments>
+                  <lineSegment>
+                    <start x="170" y="100">
+                    </start>
+                    <end x="170" y="50">
+                    </end>
+                  </lineSegment>
+                </listOfCurveSegments>
+              </curve>
+            </speciesReferenceGlyph>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_11" speciesReference="ref_G6P_1" speciesGlyph="glyph_G6P" role="2">
+              <curve>
+                <listOfCurveSegments>
+                  <lineSegment>
+                    <start x="170" y="130">
+                    </start>
+                    <end x="170" y="180">
+                    </end>
+                  </lineSegment>
+                </listOfCurveSegments>
+              </curve>
+            </speciesReferenceGlyph>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_22" speciesReference="ref_ATP_1" speciesGlyph="glyph_ATP_1" role="3">
+              <curve>
+                <listOfCurveSegments>
+                  <cubicBezier>
+                    <start x="170" y="100">
+                    </start>
+                    <end x="260" y="80">
+                    </end>
+                    <basePoint1 x="170" y="80">
+                    </basePoint1>
+                    <basePoint2 x="170" y="80">
+                    </basePoint2>
+                  </cubicBezier>
+                </listOfCurveSegments>
+              </curve>
+            </speciesReferenceGlyph>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_23" speciesReference="ref_ADP_1" speciesGlyph="glyph_ADP_1" role="4">
+              <curve>
+                <listOfCurveSegments>
+                  <cubicBezier>
+                    <start x="170" y="130">
+                    </start>
+                    <end x="260" y="150">
+                    </end>
+                    <basePoint1 x="170" y="150">
+                    </basePoint1>
+                    <basePoint2 x="170" y="150">
+                    </basePoint2>
+                  </cubicBezier>
+                </listOfCurveSegments>
+              </curve>
+            </speciesReferenceGlyph>
+          </listOfSpeciesReferenceGlyphs>
+        </reactionGlyph>
+        <reactionGlyph id="glyph_PGIsomerase" reaction="Phosphoglucoseisomerase">
+          <curve>
+            <listOfCurveSegments>
+              <lineSegment>
+                <start x="170" y="270">
+                </start>
+                <end x="170" y="300">
+                </end>
+              </lineSegment>
+            </listOfCurveSegments>
+          </curve>
+          <listOfSpeciesReferenceGlyphs>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_02" speciesReference="ref_G6P_2" speciesGlyph="glyph_G6P" role="1">
+              <curve>
+                <listOfCurveSegments>
+                  <lineSegment>
+                    <start x="170" y="270">
+                    </start>
+                    <end x="170" y="220">
+                    </end>
+                  </lineSegment>
+                </listOfCurveSegments>
+              </curve>
+            </speciesReferenceGlyph>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_12" speciesReference="ref_F6P_1" speciesGlyph="glyph_F6P" role="2">
+              <curve>
+                <listOfCurveSegments>
+                  <lineSegment>
+                    <start x="170" y="300">
+                    </start>
+                    <end x="170" y="350">
+                    </end>
+                  </lineSegment>
+                </listOfCurveSegments>
+              </curve>
+            </speciesReferenceGlyph>
+          </listOfSpeciesReferenceGlyphs>
+        </reactionGlyph>
+      </listOfReactionGlyphs>
+      <listOfTextGlyphs>
+        <textGlyph id="TextGlyph_01" graphicalObject="glyph_Gluc" originOfText="Glucose">
+          <boundingBox id="bbT_01">
+            <position x="115" y="20">
+            </position>
+            <dimensions width="110" height="20">
+            </dimensions>
+          </boundingBox>
+        </textGlyph>
+        <textGlyph id="TextGlyph_02" graphicalObject="glyph_ATP_1" originOfText="ATP">
+          <boundingBox id="bbT_02">
+            <position x="280" y="70"/>
+            <dimensions width="60" height="20">
+            </dimensions>
+          </boundingBox>
+        </textGlyph>
+        <textGlyph id="TextGlyph_03" graphicalObject="glyph_ADP_1" originOfText="ADP">
+          <boundingBox id="bbT_03">
+            <position x="280" y="140">
+            </position>
+            <dimensions width="60" height="20">
+            </dimensions>
+          </boundingBox>
+        </textGlyph>
+      </listOfTextGlyphs>
+    </layout>
+  </listOfLayouts>
+    <listOfCompartments>
+      <compartment id="Yeast"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="Glucose" name="Glucose" compartment="Yeast"/>
+      <species id="Glucose-6-phosphate" name="Glucose-6-phosphate" compartment="Yeast"/>
+      <species id="Fructose-6-phosphate" name="Fructose-6-phosphate" compartment="Yeast"/>
+      <species id="Fructose-1_6-bisphosphate" name="Fructose-1,6-bisphosphate" compartment="Yeast"/>
+      <species id="Dihydroxyacetonephosphate" name="Dihydroxyacetonephosphate" compartment="Yeast"/>
+      <species id="Glyceraldehyd-3-phosphate" name="Glyceraldehyd-3-phosphate" compartment="Yeast"/>
+      <species id="1_3-Bisphosphoglycerate" name="1,3-Bisphosphoglycerate" compartment="Yeast"/>
+      <species id="3-Phosphoglycerate" name="3-Phosphoglycerate" compartment="Yeast"/>
+      <species id="2-Phosphoglycerate" name="2-Phosphoglycerate" compartment="Yeast"/>
+      <species id="Phosphoenolpyruvate" name="Phosphoenolpyruvate" compartment="Yeast"/>
+      <species id="Pyruvate" name="Pyruvate" compartment="Yeast"/>
+      <species id="ATP" name="ATP" compartment="Yeast"/>
+      <species id="ADP" name="ADP" compartment="Yeast"/>
+      <species id="H+" name="H+" compartment="Yeast"/>
+      <species id="NAD+" name="NAD+" compartment="Yeast"/>
+      <species id="NADH" name="NADH" compartment="Yeast"/>
+      <species id="H2O" name="H2O" compartment="Yeast"/>
+      <species id="Pi" name="Pi" compartment="Yeast"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="Hexokinase" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Glucose">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_Gluc"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="ATP">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_1"/>
+            </annotation>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Glucose-6-phosphate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_G6P_1"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="ADP">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_1"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="H+">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_1"/>
+            </annotation>
+          </speciesReference>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Phosphoglucoseisomerase">
+        <listOfReactants>
+          <speciesReference species="Glucose-6-phosphate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_G6P_2"/>
+            </annotation>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Fructose-6-phosphate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F6P_1"/>
+            </annotation>
+          </speciesReference>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Phosphofructokinase" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Fructose-6-phosphate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F6P_2"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="ATP">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_2"/>
+            </annotation>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Fructose-1_6-bisphosphate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F16BP_1"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="ADP">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_2"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="H+">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_2"/>
+            </annotation>
+          </speciesReference>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Aldolase">
+        <listOfReactants>
+          <speciesReference species="Fructose-1_6-bisphosphate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F16BP_2"/>
+            </annotation>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Dihydroxyacetonephosphate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_DHAP_1"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="Glyceraldehyd-3-phosphate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_GAP_1"/>
+            </annotation>
+          </speciesReference>
+        </listOfProducts>
+      </reaction>
+      <reaction id="triose_phosphate_isomerase">
+        <listOfReactants>
+          <speciesReference species="Dihydroxyacetonephosphate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_DHAP_2"/>
+            </annotation>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Glyceraldehyd-3-phosphate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_GAP_2"/>
+            </annotation>
+          </speciesReference>
+        </listOfProducts>
+      </reaction>
+      <reaction id="GAP_Dehydrogenase" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Glyceraldehyd-3-phosphate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_GAP_3"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="NAD+">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_NAD_1"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="Pi">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_PI_1"/>
+            </annotation>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="1_3-Bisphosphoglycerate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_BPG_1"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="NADH">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_NADH_1"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="H+">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_5"/>
+            </annotation>
+          </speciesReference>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Phosphoglyceratekinase" reversible="false">
+        <listOfReactants>
+          <speciesReference species="1_3-Bisphosphoglycerate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_BPG_2"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="ADP">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_3"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="H+">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_3"/>
+            </annotation>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="3-Phosphoglycerate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_3PG_1"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="ATP">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_3"/>
+            </annotation>
+          </speciesReference>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Phosphoglyceratemutase">
+        <listOfReactants>
+          <speciesReference species="3-Phosphoglycerate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_3PG_2"/>
+            </annotation>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="2-Phosphoglycerate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_2PG_1"/>
+            </annotation>
+          </speciesReference>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Enolase">
+        <listOfReactants>
+          <speciesReference species="3-Phosphoglycerate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_2PG_2"/>
+            </annotation>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="2-Phosphoglycerate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_PEP_1"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="H2O">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H2O_1"/>
+            </annotation>
+          </speciesReference>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Pyruvatekinase" reversible="false">
+        <listOfReactants>
+          <speciesReference species="3-Phosphoglycerate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_PEP_2"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="ADP">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_4"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="H+">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_4"/>
+            </annotation>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="2-Phosphoglycerate">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_Pyr_1"/>
+            </annotation>
+          </speciesReference>
+          <speciesReference species="ATP">
+            <annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_4"/>
+            </annotation>
+          </speciesReference>
+        </listOfProducts>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

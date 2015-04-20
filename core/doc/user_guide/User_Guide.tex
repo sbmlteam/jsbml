@@ -1,0 +1,212 @@
+%\documentclass[draftdoc]{JSBMLdoc}
+\documentclass{JSBMLdoc}
+\usepackage{dirtree}
+\usepackage{makeidx}
+\usepackage[font=small,totoc]{idxlayout}
+
+\makeindex
+
+\input{../common/tex/macros.tex}
+\input{../common/tex/hyphenation.tex}
+
+\hypersetup{
+  bookmarksopenlevel={1},
+  bookmarksnumbered={true},
+  breaklinks={true},
+  pdfpagemode={UseOutlines},
+  pdftitle={User guide for JSBML},
+  pdfauthor={Andreas Dr\"ager} {Nicolas Rodriguez} {Alex Thomas} {Marine Dumousseau}
+ {Alexander D\"orr} {Clemens Wrzodek} {Finja B\"uchel}
+{Florian Mittag} {Nicolas Le Nov{\`e}re} {Andreas Zell} {Michael Hucka},
+  pdfsubject={Software guide},
+  pdfkeywords={JSBML} {libSBML} {Java} {SBML} {API} {LaTeX} {documentation}
+{manual} {guide} {code examples},
+  pdfview={FitV},
+  pdffitwindow={true},
+  pdfstartview={FitV},
+  pdfnewwindow={false},
+  pdfdisplaydoctitle={true},
+  pdfhighlight={/P},
+  plainpages={false},
+  unicode={true}
+}
+
+% -----------------------------------------------------------------------------
+\begin{document}
+
+\title{\textls[20]{User Guide for JSBML}}
+
+\version{1.0 \\[0.5em]{\normalsize Document version: 24 October 2014}}
+
+\newcommand{\where}[1]{\,\textsuperscript{#1}}
+\newcommand{\divider}[1]{\multicolumn{3}{c}{\emph{#1}:}}
+
+\author{%
+  \setlength{\tabcolsep}{20pt}%
+  \begin{tabular}{@{}ccc@{}}
+    \divider{Authors}\\[0.75em]
+    Andreas Dr\"ager\where{a,b}   & Nicolas Rodriguez\where{c,d} & Alex Thomas\where{a}\\
+    Marine Dumousseau\where{d}    & Alexander D\"orr\where{b}    & Clemens Wrzodek\where{b}\\
+    Finja B\"uchel\where{b}       & Florian Mittag\where{b}      & Michael Hucka\where{e}\\[2em]
+    \divider{Principal investigators}\\[0.75em]
+    Bernhard \O. Palsson\where{a} & Andreas Zell\where{b}        & Nicolas Le Nov\`ere\where{c,d}\\
+                                  & Michael Hucka\where{e}\\[2em]
+    \divider{Institutional affiliations}\\[0.5em]
+  \end{tabular}
+  \\
+  \begin{normalsize}
+  \where{a\,}Systems Biology Research Group, University of California, San Diego, La Jolla, CA, USA
+  \\[0.25em]
+  \where{b\,}Center for Bioinformatics Tuebingen, University of Tuebingen, T\"ubingen, Germany
+  \\[0.25em]
+  \where{c\,}The Babraham Institute, Babraham Campus, Cambridge, UK
+  \\[0.25em]
+  \where{d\,}European Bioinformatics Institute, Wellcome Trust Genome Campus, Hinxton, Cambridge, UK
+  \\[0.25em]
+  \where{c\,}Computing and Mathematical Sciences, California Institute of Technology, Pasadena, CA, USA
+  \end{normalsize}
+}
+
+\frontNotice{SBML (the Systems Biology Markup Language) is an XML-based
+  format for storing and exchanging computational descriptions of
+  biological processes.  To read, write, manipulate, and perform
+  higher-level operations on SBML files and data streams, software
+  applications need to map SBML entities to suitable software objects.
+  JSBML provides a pure Java library for this purpose.  It supports all
+  Levels and Versions of SBML, and provides many powerful features,
+  including facilities to help migrate from the use of libSBML (a popular
+  library for SBML that is not written in Java).
+  \\ \\
+  This document provides an introduction to JSBML and its use.  It is aimed
+  at both developers writing new Java-based applications as well as those
+  who want to adapt libSBML-based applications to using JSBML.  This user
+  guide is a companion to the JSBML API documentation.
+  \\ \\
+  \centerline{The JSBML home page is \url{http://sbml.org/Software/JSBML/}.}\\
+  \centerline{The JSBML discussion group is \url{http://sbml.org/forums/jsbml-development}.}
+}
+
+
+\maketitlepage
+\maketableofcontents
+\clearpage
+
+
+\chapter{Getting started with JSBML}
+\label{chp:getting-started}
+
+JSBML is a Java\TTra library that will help you to read, write and
+manipulate SBML files~\cite{Draeger2011a, Draeger2011b}. This chapter
+provides information for quickly getting started with using JSBML.
+
+Before you can use JSBML, you will need to obtain a copy of the library.
+\sec{sec:obtaining-jsbml} below describes different ways of doing
+this, and explains which additional libraries you may need. JSBML also
+requires the use of a Java Runtime Environment (JRE) version~1.5 or
+later~\cite{JavaDownloadURL}. \index{Java Runtime Environment (JRE)} In the
+rest of this document, we assume that you have already installed a suitable
+JRE or Java Development Kit (JDK), and know how to configure the Java class
+path on your system. \index{Java Development Kit (JDK)}
+
+It is also essential to \emph{understand SBML} in order to be able to use
+it (and JSBML) properly. If you are not already familiar with SBML, a good
+starting point for learning about it is the latest SBML
+specification~\cite{SBMLspecs}. You can find answers to many questions in
+the SBML FAQ~\cite{SBMLFAQ} and optionally by asking on one of the SBML
+discussion lists~\cite{SBMLforums}.
+
+\input{JSBML_getting_started}
+\input{JSBML_hello_world_examples}
+
+
+
+\chapter{Differences between JSBML and libSBML}
+\label{chp:jsbml-libsbml-diffs}
+
+Prior to the availability of JSBML, the most widely-used API library for
+SBML offering a Java interface has been libSBML~\cite{Bornstein2008}. As a
+result, many Java application developers working with SBML are already
+accustomed to the classes, methods and general approach provided by
+libSBML. This chapter discusses the main differences between these two
+libraries, and is aimed at current libSBML users who want to transition to
+using JSBML. We also provide some programming examples and hints for how
+to use and work with JSBML. In addition, we provide an overview of the type hierarchy 
+and API of JSBML.
+
+\input{JSBML_compared_to_libSBML}
+\input{JSBML_howto_write_extensions}
+
+
+\chapter{Acknowledgments}
+\label{chp:acknowledgements}
+
+\input{JSBML_Acknowledgments}
+
+
+\appendix
+
+\chapter{Frequently Asked Questions (FAQ)}
+\label{chp:faq}
+
+\input{JSBML_FAQ}
+
+
+\chapter{Open tasks in JSBML development}
+\label{chp:open-tasks}
+
+\input{JSBML_open_tasks}
+
+
+\clearpage
+
+\thispagestyle{plain}
+\pagestyle{plain}
+\bibliography{../common/tex/literature}
+
+% Index
+\setindexprenote{\vspace*{0.1ex}}
+\printindex
+
+\end{document}
+
+
+
+% -----------------------------------------------------------------------------
+% 2012-04-06 <mhucka@caltech.edu> I think these comments are no longer
+% relevant, and can be deleted.  They were originally below the abstract above.
+
+
+% It includes instructions and descriptions of where and how to obtain the JSBML
+% library and the JSBML modules.
+
+%Although the libraries JSBML and libSBML, used to work with files and data
+%structures defined in SBML (Systems Biology Markup Language), are
+%very similar and share a common scope, users should be informed about their
+%major differences to help switch more easily from one library to the other. To
+%this end, the document at hand gives a brief overview of the main differences
+%between the Java\texttrademark{} application programming interfaces (API) of
+%both libraries.
+%
+%In addition, JSBML can be used as a communication layer between the widespread
+%application CellDesigner and any application that works with JSBML as its
+%internal data structure. An example is given, that demonstrates how to
+%convert between CellDesigner's plugin data structures and JSBML objects.
+%
+%In the same way, it is possible to inter-convert between data structures
+%obtained from libSBML and JSBML \textcolor{red}{No need to mention the
+%specific versions in the abstract, I think}. We provides an example of how to
+%read SBML files with libSBML, turn them into JSBML data structures, manipulate
+% them and turn them back to libSBML for writing.
+%
+%Furthermore, JSBML will provides a compatibility module, whose member classes
+%show an identical API as defined in libSBML. In this way, the
+%compatibility module will facilitate a switch from libSBML to JSBML and vice
+%versa by simply exchanging the included JAR file in the project.
+%
+%\textcolor{red}{This document gives an example for the usage of the
+%compatibility module.}
+% Not sure we need to mention in the abstract that we gives examples code for
+% each point and anyway, there is not example at the moment for this module.
+
+% I removed the line return for the \index to try to remove the extra spaces
+% that were added.

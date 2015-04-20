@@ -1,0 +1,80 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id: type_hierarchy.dot 2183 2015-04-10 23:13:25Z alex-thomas $
+# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/req/doc/img/type_hierarchy.dot $
+# $Rev: 2183 $
+
+/*
+ * Overview of the req extension type hierarchy
+ */
+ 
+strict digraph G{
+
+	 nodesep=0.25;
+ 	ranksep=0.5;
+
+	 edge [
+	   fontname="Helvetica",
+	   fontsize=10,
+ 	  labelfontname="Helvetica",
+	   labelfontsize=10
+	 ];
+	 node [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   shape=box
+ 	];
+ 	
+ 	/*
+ 	 * Interfaces
+ 	 */
+ 	
+
+  /*
+   * Abstract data types
+   */
+ 	AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase Plugin</font>>, style="filled", fillcolor="#F0F8FF"]; 	
+ 	AbstractNamedSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  
+  /*
+   * The required elements extension
+   */
+   
+  subgraph clusterReq {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Required Elements extension";
+    labelloc=b;
+    labeljust=r;
+
+    // Interfaces
+
+    // Enums
+
+    // Abstract data types
+  
+    // Objects
+    ReqSBasePlugin                     [label="Req\nSBase\nPlugin"];    
+    ChangedMath					  [label="Changed\nMath"];
+
+      
+    /*
+     * Inheritance graph
+     */
+
+  }
+  
+  /*********************
+   * Inheritance graph *
+   *********************/
+  AbstractSBasePlugin         -> ReqSBasePlugin     [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> ChangedMath     [dir=back,arrowtail=empty];
+
+
+}

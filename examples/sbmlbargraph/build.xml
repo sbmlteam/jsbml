@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- 
+    $Id: build.xml 2109 2015-01-05 04:50:45Z andreas-draeger $ 
+    $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/examples/sbmlbargraph/build.xml $
+
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2015 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+
+    Version: $Rev: 2109 $
+-->
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="sbmlbargraph">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../../../../../../../Applications/Eclipse 3.7"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="sbmlbargraph.classpath">
+        <pathelement location="bin/classes"/>
+        <pathelement location="lib/jsbml-0.8-rc1-with-dependencies.jar"/>
+        <pathelement location="lib/gnu-getopt.jar"/>
+        <pathelement location="lib/swing-layout-1.0.3.jar"/>
+        <pathelement location="lib/jcommon-1.0.17.jar"/>
+        <pathelement location="lib/jfreechart-1.0.14.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin/classes"/>
+        <copy includeemptydirs="false" todir="bin/classes">
+            <fileset dir="src">
+                <include name="org/"/>
+                <exclude name="**/*.java"/>
+                <exclude name="application-icon/"/>
+                <exclude name="windows-launcher/"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin/classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin/classes" source="${source}" target="${target}" includeantruntime="false">
+            <src path="src"/>
+            <include name="org/"/>
+            <exclude name="application-icon/"/>
+            <exclude name="windows-launcher/"/>
+            <classpath refid="sbmlbargraph.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="AboutPane (1)">
+        <java classname="org.sbml.bargraph.AboutPane" failonerror="true" fork="yes">
+            <classpath refid="sbmlbargraph.classpath"/>
+        </java>
+    </target>
+    <target name="Dialog (1)">
+        <java classname="org.sbml.bargraph.Dialog" failonerror="true" fork="yes">
+            <classpath refid="sbmlbargraph.classpath"/>
+        </java>
+    </target>
+    <target name="Log">
+        <java classname="org.sbml.bargraph.Log" failonerror="true" fork="yes">
+            <classpath refid="sbmlbargraph.classpath"/>
+        </java>
+    </target>
+    <target name="MainWindow (1)">
+        <java classname="org.sbml.bargraph.MainWindow" failonerror="true" fork="yes">
+            <classpath refid="sbmlbargraph.classpath"/>
+        </java>
+    </target>
+    <target name="SBML Bar Graph">
+        <java classname="org.sbml.bargraph.Main" failonerror="true" fork="yes">
+            <jvmarg line="-Xdock:name=&quot;SBML Bar Graph&quot;"/>
+            <classpath refid="sbmlbargraph.classpath"/>
+        </java>
+    </target>
+    <target name="create-runnable-jar">
+        <jar destfile="bin/sbmlbargraph.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="org.sbml.bargraph.Main"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ jsbml-0.8-rc1-with-dependencies.jar gnu-getopt.jar swing-layout-1.0.3.jar jcommon-1.0.17.jar jfreechart-1.0.14.jar"/>
+            </manifest>
+            <zipfileset src="lib/jar-in-jar-loader.zip"/>
+            <fileset dir="bin/classes"/>
+            <zipfileset dir="lib" includes="jsbml-0.8-rc1-with-dependencies.jar"/>
+            <zipfileset dir="lib" includes="gnu-getopt.jar"/>
+            <zipfileset dir="lib" includes="swing-layout-1.0.3.jar"/>
+            <zipfileset dir="lib" includes="jcommon-1.0.17.jar"/>
+            <zipfileset dir="lib" includes="jfreechart-1.0.14.jar"/>
+        </jar>
+    </target>
+</project>

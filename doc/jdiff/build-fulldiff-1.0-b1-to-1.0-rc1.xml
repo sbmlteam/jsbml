@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jdiff" default="jdiff_report" basedir=".">
+
+<description>
+Creating a JDiff report between JSBML 1.0-beta1 and 1.0-rc1
+</description>
+
+<target name="jdiff_report" depends="">
+
+  <property environment="env" />
+
+  <!-- This variable is used by the Ant JDiff task. Set it to the
+       location where the jdiff package was unpacked -->
+  <fail unless="env.JDIFF_HOME" message="you have to define the 'JDIFF_HOME' variable to the path where you unpacked the jdiff distribution."/>
+
+  <property name="JDIFF_HOME" value="${env.JDIFF_HOME}" />
+
+  <!-- need to have run the build ant scripts --> 
+
+  <ant dir="../../../tags/jsbml-1.0-beta1" inheritAll="false" inheritRefs="false">
+    <target name="clean" />
+    <target name="bigjar" />
+  </ant>
+
+  <ant dir="../../../tags/jsbml-1.0-rc1" inheritAll="false" inheritRefs="false">
+    <target name="clean" />
+    <target name="bigjar" />
+  </ant>
+  
+
+  <taskdef name="jdiff" 
+           classname="jdiff.JDiffAntTask" 
+           classpath="${JDIFF_HOME}/antjdiff.jar" />
+
+  <jdiff destdir="JSBML_API_fullchanges_1.0-b1_to_1.0-rc1" 
+         verbose="off"
+         stats="on"
+         docchanges="off">
+    <old name="jsbml-1.0b1">
+      <!-- This is the location of your old source files -->
+      <dirset dir="../../../tags/jsbml-1.0-beta1/build/src/" includes="org/**" />
+    </old>
+    <new name="jsbml-1.0-rc1">
+      <!-- This is the location of your new source files -->
+      <dirset dir="../../../tags/jsbml-1.0-rc1/build/src" includes="org/**" />
+    </new>
+  </jdiff>
+</target>
+
+</project>

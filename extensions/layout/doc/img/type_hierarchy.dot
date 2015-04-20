@@ -1,0 +1,127 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id: type_hierarchy.dot 2183 2015-04-10 23:13:25Z alex-thomas $
+# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/doc/img/type_hierarchy.dot $
+# $Rev: 2183 $
+
+/*
+ * Overview of the layout extension type hierarchy
+ */
+
+strict digraph G{
+
+	 nodesep=0.25;
+	 ranksep=0.5;
+
+	 edge [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   labelfontname="Helvetica",
+	   labelfontsize=10
+	 ];
+	 node [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   shape=box
+	 ];
+
+ 	/*
+ 	 * Interfaces
+ 	 */
+ 	
+ 	UniqueNamedSBase                               [label="<<interface>>\nUnique\nNamed\nSBase"];
+
+	 
+   /*
+   * Abstract data types
+   */
+  AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase<br/>Plugin</font>>, style="filled", fillcolor="#F0F8FF"];
+  NameFilter		                       [label=<<font face="Helvetica-Oblique">Name<br/>Filter</font>>, style="filled", fillcolor="#F0F8FF"];
+  
+  
+  /*********************
+   * Inheritance graph *
+   *********************/
+  
+  AbstractSBase -> AbstractNamedSBase      [dir=back,arrowtail=empty];
+  
+   
+  subgraph clusterLayout {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Layout extension";
+    labelloc=b;
+    labeljust=r;
+
+    // Interfaces
+
+    // Enums
+    SpeciesReferenceRole                   [label=<<font face="Helvetica-Oblique">Species Reference<br/>Role</font>>];
+    
+    // Objects
+    BoundingBox                            [label="Bounding\nBox"];
+    CompartmentGlyph                       [label="Compartment\nGlyph"];
+    CubicBezier                            [label="Cubic\nBezier"];
+    Curve                                  [label="Curve"];
+    CurveSegment                           [label="Curve\nSegment"];
+    Dimensions                             [label="Dimensions"];
+    LayoutModelPlugin                      [label="Layout\nModel\nPlugin"];
+    GraphicalObject                        [label="Graphical\nObject"];
+    Layout                                 [label="Layout"];
+    LineSegment                            [label="Line\nSegment"];
+    Point                                  [label="Point"];
+    ReactionGlyph                          [label="Reaction\nGlyph"];
+    SpeciesReferencesGlyph                 [label="SpeciesReferences\nGlyph"];
+    TextGlyph                              [label="Text\nGlyph"];
+    AbstractReferenceGlyph                 [label="Abstract\nReference\nGlyph"];
+    GeneralGlyph                           [label="General\nGlyph"];
+    ReferenceGlyph                         [label="Reference\nGlyph"];
+    SpeciesGlyph                           [label="Species\nGlyph"];
+    NamedSBaseReferenceFilter              [label="Named SBase\nReference Filter"];
+                
+    /*
+     * Inheritance graph
+     */
+     AbstractReferenceGlyph    -> CompartmentGlyph       	[dir=back,arrowtail=empty];
+     AbstractReferenceGlyph    -> GeneralGlyph       		[dir=back,arrowtail=empty];
+     AbstractReferenceGlyph    -> ReactionGlyph          	[dir=back,arrowtail=empty];
+     AbstractReferenceGlyph    -> ReferenceGlyph          	[dir=back,arrowtail=empty];     
+     AbstractReferenceGlyph    -> SpeciesGlyph           	[dir=back,arrowtail=empty];
+     AbstractReferenceGlyph    -> SpeciesReferencesGlyph 	[dir=back,arrowtail=empty];
+     AbstractReferenceGlyph    -> TextGlyph 				[dir=back,arrowtail=empty];
+     GraphicalObject    -> AbstractReferenceGlyph           [dir=back,arrowtail=empty];
+     LineSegment        -> CubicBezier            			[dir=back,arrowtail=empty];
+     CurveSegment        -> LineSegment            			[dir=back,arrowtail=empty];
+     SpeciesReferencesGlyph	-> SpeciesReferenceRole			[dir=back,arrowtail=empty];
+
+   }
+   
+   /*********************
+    * Inheritance graph *
+    *********************/
+   
+   AbstractNamedSBase -> BoundingBox            [dir=back,arrowtail=empty];
+   AbstractNamedSBase -> Curve                  [dir=back,arrowtail=empty];
+   AbstractSBase -> CurveSegment                [dir=back,arrowtail=empty];
+   AbstractNamedSBase -> Dimensions             [dir=back,arrowtail=empty];
+   AbstractNamedSBase -> GraphicalObject        [dir=back,arrowtail=empty];
+   AbstractNamedSBase -> Layout                 [dir=back,arrowtail=empty];
+   AbstractNamedSBase -> Point                  [dir=back,arrowtail=empty];
+   AbstractSBasePlugin -> LayoutModelPlugin		[dir=back,arrowtail=empty];    
+   UniqueNamedSBase -> BoundingBox           	[dir=back,arrowtail=empty];
+   UniqueNamedSBase -> Dimensions        	    [dir=back,arrowtail=empty];
+   UniqueNamedSBase -> GraphicalObject	        [dir=back,arrowtail=empty];
+   UniqueNamedSBase -> Layout            		[dir=back,arrowtail=empty];
+   UniqueNamedSBase -> Point	            	[dir=back,arrowtail=empty];
+   NameFilter -> NamedSBaseReferenceFilter      [dir=back,arrowtail=empty];
+   
+
+}

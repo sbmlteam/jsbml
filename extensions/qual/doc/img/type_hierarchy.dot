@@ -1,0 +1,102 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id: type_hierarchy.dot 2183 2015-04-10 23:13:25Z alex-thomas $
+# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/qual/doc/img/type_hierarchy.dot $
+# $Rev: 2183 $
+
+strict digraph G{
+
+	nodesep=0.25;
+	ranksep=0.5;
+
+	edge [
+	  fontname="Helvetica",
+	  fontsize=10,
+	  labelfontname="Helvetica",
+	  labelfontsize=10
+	];
+	node [
+	  fontname="Helvetica",
+	  fontsize=10,
+	  shape=box
+	];
+  /*
+   * Abstract data types
+   */
+  AbstractMathContainer                      [label=<<font><I>Abstract<br/>MathContainer</I></font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractNamedSBase                         [label=<<font><I>Abstract<br/>NamedSBase</I></font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBase                              [label=<<font><I>Abstract<br/>SBase</I></font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBasePlugin                        [label=<<font><I>AbstractSBase<br/>Plugin</I></font>>, style="filled", fillcolor="#F0F8FF"];
+
+	/*
+	 * Interfaces
+	 */
+	
+  UniqueNamedSBase                           [label="<<interface>>\nUnique Named SBase"];
+  CallableSBase                              [label="<<interface>>\nCallable SBase"];
+
+  subgraph clusterQual {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Qualitative Models Extension";
+    labelloc=b;
+    labeljust=r;
+    
+      // Abstract data types
+   	  InputTransitionEffect		          	 [label=<<font face="Helvetica-Oblique">Input<br/>Transition<br/>Effect</font>>];
+   	  OutputTransitionEffect		       	 [label=<<font face="Helvetica-Oblique">Output<br/>Transition<br/>Effect</font>>];
+   	  Sign							       	 [label=<<font face="Helvetica-Oblique">Sign</font>>];
+    
+	  /*
+	   * Objects
+	   */
+	  FunctionTerm                               [label="Function\nTerm"];
+	  Input                                      [label="Input"];
+	  Output                                     [label="Output"];
+	  QualitativeSpecies                         [label="Qualitative\nSpecies"];
+	  QualModelPlugin                            [label="Qual Model\nPlugin"];
+	  Transition                                 [label="Transition"];
+      
+      /*
+      * inheritance graph
+      */	  
+      Input -> InputTransitionEffect      [dir=back,arrowtail=empty];
+      Transition -> InputTransitionEffect      [dir=back,arrowtail=empty];
+      Output -> OutputTransitionEffect      [dir=back,arrowtail=empty];
+      Transition -> OutputTransitionEffect      [dir=back,arrowtail=empty];      
+      Input -> Sign      [dir=back,arrowtail=empty];      
+      
+  }
+
+  /*
+   * inheritance graph
+   */
+  AbstractMathContainer -> FunctionTerm      [dir=back,arrowtail=empty];
+  UniqueNamedSBase -> Input   [dir=back,arrowtail=empty];
+  CallableSBase -> Input   [dir=back,arrowtail=empty];
+
+  UniqueNamedSBase -> Output   [dir=back,arrowtail=empty];
+  CallableSBase -> Output   [dir=back,arrowtail=empty];
+
+  UniqueNamedSBase -> QualitativeSpecies   [dir=back,arrowtail=empty];
+  UniqueNamedSBase -> Transition   [dir=back,arrowtail=empty];
+
+  
+  AbstractNamedSBase -> QualitativeSpecies   [dir=back,arrowtail=empty];
+  AbstractNamedSBase -> Transition           [dir=back,arrowtail=empty];
+  AbstractNamedSBase -> Input                [dir=back,arrowtail=empty];
+  AbstractNamedSBase -> Output               [dir=back,arrowtail=empty];
+
+  AbstractSBase -> AbstractNamedSBase        [dir=back,arrowtail=empty];
+  AbstractSBase -> AbstractMathContainer     [dir=back,arrowtail=empty];
+  AbstractSBase -> AbstractSBasePlugin       [dir=back,arrowtail=empty,style=dashed];
+  
+  AbstractSBasePlugin -> QualModelPlugin    [dir=back,arrowtail=empty];
+
+}

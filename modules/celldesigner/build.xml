@@ -1,0 +1,696 @@
+<?xml version="1.0"?>
+<!--
+    $Id: build.xml 2109 2015-01-05 04:50:45Z andreas-draeger $ 
+    $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/celldesigner/build.xml $
+
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2015 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+
+    Version: $Rev: 2109 $
+-->
+<project
+  default="usage"
+  basedir="."
+>
+  <!-- =================================================================== -->
+  <!-- Initialization target                                               -->
+  <!-- =================================================================== -->
+
+  <target
+  	name="init"
+  	description="Initialization target"
+  >
+  	<tstamp>
+  	    <format property="YEAR" pattern="yyyy"/>
+	</tstamp>
+
+  	<property file="${basedir}/celldesigner-build.properties"/>  		
+  	
+    <property name="Name" value="${celldesigner.Name}"/>
+    <property name="name" value="${celldesigner.name}"/>
+    <property name="version" value="${celldesigner.version}"/>
+
+    <property name="year" value="${YEAR}"/>
+  	
+		<echo message="Determining the revision number of JSBML" />
+		<exec executable="svn" outputproperty="svninfo.xml">
+			<arg line="info --xml" />
+		</exec>
+		<xmlproperty collapseAttributes="true">
+			<propertyresource name="svninfo.xml" />
+		</xmlproperty>
+		<property name="jsbml.revision" value="${info.entry.revision}" />
+
+  	<echo message="----------- ${Name} ${version} [${year}] ------------"/>
+    <echo message="-----------     ${TODAY}   ------------"/>
+    <echo message="-----------     ${DSTAMP} ${TSTAMP}  ------------"/>
+  	
+    <property environment="env"/>
+    <property name="build.compiler" value="modern"/>
+    <property name="build.sysclasspath" value="ignore"/>
+    <property name="debug" value="on"/>
+    <property name="optimize" value="off"/>
+    <property name="deprecation" value="false"/>
+    <property name="depend" value="true"/>
+    <property name="verbose" value="false"/>
+    
+    <property name="build.number" value="${DSTAMP}-${TSTAMP}"/>
+    <property name="build.name" value="${version} (build ${build.number})"/>
+
+    <property name="src.dir" value="${basedir}/src"/>
+  	<property name="test.src.dir" value="${basedir}/test"/>
+    <property name="build.dir" value="${basedir}/build"/>
+    <property name="build.src" value="${basedir}/build/src"/>
+    <property name="build.dest" value="${basedir}/build/classes"/>
+    <property name="build.javadocs" value="${basedir}/doc/api"/>
+    <property name="jars.dir" value="${basedir}/lib"/>
+    <property name="dist.root" value="${basedir}/dist"/>
+    <property name="dist.dir" value="${dist.root}/${name}-${version}"/>
+    <property name="package.dir" value="${basedir}/build/package"/>
+  	
+  	<property name="jsbml.build.dest" value="${basedir}/../../core/build"/>
+  	<property name="jsbml.jars.dir" value="${basedir}/../../core/lib"/>
+  	<property name="jsbml.package.jars.dir" value="${basedir}/../../build"/>
+  	<property name="examples.src.dir" value="${basedir}/../../examples/test/src"/>
+  	
+    <filter token="year" value="${year}"/>
+    <filter token="version" value="${version}"/>
+    <filter token="date" value="${TODAY}"/>
+    <filter token="log" value="true"/>
+    <filter token="verbose" value="true"/>
+
+    <!-- add everything needed to the classpath -->
+    <!-- adjust the settings to your local environment -->
+    <path  id="classpath">
+      <fileset dir="${jars.dir}" includes="*.jar *.zip"/>
+	    <dirset dir="${jsbml.build.dest}" includes="classes"/>
+      <fileset dir="${jsbml.jars.dir}" includes="*.jar *.zip"/>
+    	<fileset dir="${jsbml.package.jars.dir}" includes="*.jar"/>
+    </path>
+  	
+    <echo message="jsbml build dir = ${jsbml.build.dest}"/> 
+  	
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Help on usage                                                       -->
+  <!-- =================================================================== -->
+  <target
+  	name="usage"
+  	depends="init"
+  	description="Help on usage"
+  >
+    <echo message=""/>
+    <echo message=""/>
+    <echo message="${Name} Build file"/>
+    <echo message="-------------------------------------------------------------"/>
+    <echo message=""/>
+    <echo message=" available targets are:"/>
+    <echo message=""/>
+    <echo message="   compile  --> compiles the source code"/>
+    <echo message="   jar      --> generates the ${name}.jar file"/>
+    <echo message="   javadoc  --> generates the API documentation"/>
+    <echo message="   clean    --> cleans up the directory"/>
+    <echo message=""/>
+    <echo message=" See the comments inside the build.xml file for more details."/>
+    <echo message="-------------------------------------------------------------"/>
+    <echo message=""/>
+    <echo message=""/>
+  </target>
+  
+  <!-- =================================================================== -->
+  <!-- Prepares the build directory                                        -->
+  <!-- =================================================================== -->
+  <target
+  	name="prepare"
+  	depends="init"
+  	description="Prepares the build directory"
+  >
+    <mkdir dir="${build.dir}"/>
+    <echo message="Done"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Prepares the source code                                            -->
+  <!-- =================================================================== -->
+  <target
+  	name="prepare-src"
+  	depends="prepare"
+  	description="Prepares the source code"
+  >
+    <!-- create directories -->
+    <mkdir dir="${build.src}"/>
+    <mkdir dir="${build.dest}"/>
+  	<mkdir dir="${build.dest}/META-INF"/>
+    <mkdir dir="${package.dir}"/>
+<!--    <mkdir dir="${dist.root}"/>
+    <mkdir dir="${dist.dir}"/> -->
+
+    <!-- copy src files -->
+    <copy todir="${build.src}" overwrite="yes">
+        <fileset 
+            dir="${src.dir}"
+            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
+        </fileset>
+    </copy>
+  	
+  	<copy todir="${build.src}" overwrite="yes">
+  	        <fileset 
+  	            dir="${test.src.dir}"
+  	          	includes="org/sbml/jsbml/**"
+  	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
+  	        </fileset>
+  	</copy>
+  	
+  	<!-- copy some examples java files used in the tests of this module -->
+  	<copy todir="${build.src}" overwrite="yes">
+  	        <fileset 
+  	            dir="${examples.src.dir}"
+  	          	includes="org/sbml/jsbml/gui/**"
+  	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
+  	        </fileset>
+  	</copy>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory                                       -->
+  <!-- =================================================================== -->
+  <target
+  	name="compile"
+  	depends="prepare-src"
+  	description="Compiles the source directory"
+  >   
+    <javac srcdir="${build.src}"
+           destdir="${build.dest}"
+           debug="${debug}"
+           optimize="${optimize}"
+           verbose="${verbose}"
+    	   fork="true"
+    	   includeantruntime="false"
+    	   listfiles="yes"
+    	   memoryMaximumSize="512M"
+    	   compiler="modern"
+    	   nowarn="no"
+           source="1.6"
+           target="1.6"
+           classpathref="classpath">
+    </javac>      
+
+  	<property name="api.version" value="1.0-beta"/>
+  	<property name="vendor" value="The JSBML Team"/>
+	
+  	<manifest file="${build.dest}/META-INF/MANIFEST.MF">
+      <attribute name="Bundle-Name"                         value="${Name}"/>
+      <attribute name="Built-By"                            value="${user.name}"/>
+      <attribute name="Built-Date"                          value="${TODAY}"/>
+      <attribute name="Bundle-Version"                      value="${version}"/>
+      <attribute name="Bundle-Revision"                     value="${jsbml.revision}"/>
+      <attribute name="Bundle-Vendor"                       value="${vendor}"/>
+      <attribute name="Bundle-RequiredExecutionEnvironment" value="JavaSE-1.6"/>
+	  <attribute name="Created-By"                          value="${vendor}"/>
+
+	  <section name="${Name}">
+		  <attribute name="Specification-Title"    value="${Name}"/>
+		  <attribute name="Specification-Version"  value="${api.version}"/>
+		  <attribute name="Specification-Vendor"   value="${vendor}"/>
+		  <attribute name="Implementation-Title"   value="${Name}"/>
+		  <attribute name="Implementation-Version" value="${version}, Revision ${jsbml.revision} (Build ${build.number})"/>
+		  <attribute name="Implementation-Vendor"  value="${vendor}"/>
+	      <attribute name="Implementation-URL"     value="http://sbml.org/Software/JSBML/"/>
+	  </section>
+	</manifest>
+
+  </target>
+  
+
+  <!-- =================================================================== -->  
+  <!-- Creates the class package                                           -->
+  <!-- =================================================================== -->
+  <target
+  	name="jar"
+  	depends="compile"
+  	description="Creates the class package"
+  >
+      
+    <copy todir="${build.dest}">
+        <fileset
+            dir="${build.src}"
+            includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo" > 
+        </fileset>
+    </copy>
+    <jar
+      basedir="${build.dest}"
+      index="true"
+      jarfile="${build.dir}/${name}-${version}.jar"
+      manifest="${build.dest}/META-INF/MANIFEST.MF"
+    />
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the source jar package                                      -->
+  <!-- =================================================================== -->
+  <target
+    name="jar-src"
+  	depends="prepare-src"
+  	description=""
+  >
+    <jar
+  	  basedir="${build.src}"
+      includes="**/*.java"
+      index="true"
+      jarfile="${build.dir}/${name}-${version}-src.jar"
+      manifest="${build.dest}/META-INF/MANIFEST.MF"
+    />
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the distribution                                            -->
+  <!-- =================================================================== -->
+  <target
+  	name="dist"
+  	depends="prepare-src"
+  	description="Creates the distribution"
+  >
+
+    <mkdir dir="${dist.root}"/>
+    <mkdir dir="${dist.dir}"/>
+
+    <!-- Creates the standard jar file -->
+
+    <antcall target="clean"/>
+
+    <antcall target="jar"/>
+    <antcall target="jar-src"/>
+    <copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-src.jar"/>
+
+    <copy todir="${dist.dir}" file="${build.dir}/${name}-${version}.jar"/>
+    <copy todir="${dist.root}" file="${build.dir}/${name}-${version}.jar"/>
+
+
+    <!-- Creates and copy the generated javadoc -->
+    <antcall target="jar-javadoc"/>
+
+    <copy todir="${dist.dir}/doc/api">
+      <fileset dir="${build.javadocs}/" includes="**/*">
+      </fileset>
+    </copy>
+    <copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-javadoc.jar"/>
+
+    <!-- Copy the source files -->
+    <copy todir="${dist.dir}/src">
+      <fileset dir="${build.src}/" includes="**/*">
+      </fileset>
+    </copy>
+
+    <!-- Copy all the dependencies jar files -->
+    <copy todir="${dist.dir}/lib">
+      <fileset dir="${jars.dir}/" includes="*.jar" excludes="jsbml*.jar celldesigner*.jar">
+      </fileset>
+    </copy>
+
+
+    <copy todir="${dist.dir}">
+      <fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt build.xml">
+      </fileset>
+    </copy>
+    <copy todir="${dist.dir}/licenses">
+      <fileset dir="${basedir}/licenses" includes="**/*">
+      </fileset>
+    </copy>
+
+    <copy todir="${dist.dir}/doc">
+      <fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java">
+
+      </fileset>
+    </copy>
+
+    <!-- Creates the archives to be distributed -->
+    <zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
+
+    <!-- Not generating a tar.gz a having only a zip file should be enough -->
+    <!-- <tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip"/> -->
+
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Creates the API documentation                                       -->
+  <!-- =================================================================== -->
+  <target
+  	name="javadoc"
+  	depends="prepare-src"
+  	description="Creates the API documentation"
+  >
+    <mkdir dir="${build.javadocs}"/>
+    <javadoc
+  	  packagenames="org.*"
+      excludepackagenames="org.sbml.jsbml.test.*"
+      sourcepath="${build.src}"
+      destdir="${build.javadocs}"
+      classpathref="classpath"
+      maxmemory="96m"
+      author="true"
+      version="true"
+      use="true"
+      splitindex="true"
+      noindex="false"
+      windowtitle="${Name} ${version} API"
+      doctitle="${Name} ${version} API"
+      breakiterator="yes"
+    >
+      <link href="http://docs.oracle.com/javase/6/docs/api/"/>
+      <link href="http://sbml.org/Special/Software/JSBML/build/apidocs/index.html"/>
+      <link href="http://celldesigner.org/help/plugin/"/>
+   </javadoc>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the javadocs jar package                                      -->
+  <!-- =================================================================== -->
+  <target
+  	name="jar-javadoc"
+  	depends="javadoc"
+  	description="Creates the javadocs jar package"
+  >
+    <jar
+      basedir="${build.javadocs}"
+      index="true"
+      jarfile="${build.dir}/${name}-${version}-javadoc.jar"
+      manifest="${build.dest}/META-INF/MANIFEST.MF"
+    />
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Cleans everything                                                   -->
+  <!-- =================================================================== -->
+  <target
+  	name="clean"
+  	depends="init"
+  	description="Cleans everything"
+  >
+    <delete includeEmptyDirs="true" quiet="yes">
+       <fileset dir="${build.dir}" includes="**/*"/>
+    </delete>
+  	<delete dir="${build.dir}" quiet="yes"/>
+    <delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes"/>
+  </target>
+	
+	
+  <!-- =================================================================== -->
+  <!-- Creates a JSBML JAR, which includes the CellDesigner module         -->
+  <!-- =================================================================== -->
+  <target
+    name="jsbml"
+    depends="prepare"
+    description="Build a version of JSBML for CellDesigner plugins"
+  >
+    <echo message="Defining basic properties of the JSBML project"/>
+    <property name="jsbml.dir"     value="${basedir}/../../"/>
+    <property name="jsbml.name"    value="JSBML"/>
+    <property name="jsbml.version" value="1.0-b1"/>
+    <mkdir dir="${build.dir}/classes"/>
+
+
+    <echo message="Determining the revision number of JSBML"/>
+    <exec executable="svn" outputproperty="${jsbml.dir}/svninfo.xml">
+      <arg line="info --xml ${jsbml.dir}"/>
+    </exec>
+    <xmlproperty collapseAttributes="true">
+      <propertyresource name="${jsbml.dir}/svninfo.xml"/>
+    </xmlproperty>
+    <property name="jsbml.revision" value="${info.entry.revision}"/>
+
+    <echo message="Compiling the entire JSBML project for revision ${jsbml.revision}"/>
+    
+    <path id="jsbml.classpath">
+      <fileset dir="${jsbml.dir}/core/lib" includes="**.jar, **/*.jar, **.zip"/>
+    </path>
+
+    <!-- Compile JSBML including core and all extension packages -->
+    <javac
+      classpathref="jsbml.classpath"
+      compiler="${build.compiler}"
+      debug="${debug}"
+      deprecation="${deprecation}"
+      destdir="${basedir}/build/classes/"
+      fork="true"
+      includeantruntime="false"
+      listfiles="yes"
+      memoryMaximumSize="512M"
+      nowarn="no"
+      optimize="${optimize}"
+      source="1.6"
+      target="1.6"
+      verbose="${verbose}"
+      excludes="org/sbml/jsbml/math/**"
+    >
+     <!-- TODO: the excludes statement is only temporary and needs to be removed!!! -->
+    	
+      <!-- Source -->
+      <src path="${jsbml.dir}/core/src"/>
+      <src path="${jsbml.dir}/extensions/comp/src"/>
+      <src path="${jsbml.dir}/extensions/fbc/src"/>
+      <src path="${jsbml.dir}/extensions/groups/src"/>
+      <src path="${jsbml.dir}/extensions/layout/src"/>
+      <src path="${jsbml.dir}/extensions/multi/src"/>
+      <src path="${jsbml.dir}/extensions/qual/src"/>
+      <src path="${jsbml.dir}/extensions/render/src"/>
+      <src path="${jsbml.dir}/extensions/req/src"/>
+      <src path="${jsbml.dir}/extensions/spatial/src"/>
+      <src path="${jsbml.dir}/examples/test/src"/>
+      <!-- Resources -->
+      <src path="${jsbml.dir}/core/resources"/>
+   	  <src path="${jsbml.dir}/examples/resources"/>
+      <src path="${jsbml.dir}/extensions/comp/resources"/>
+      <src path="${jsbml.dir}/extensions/fbc/resources"/>
+      <src path="${jsbml.dir}/extensions/groups/resources"/>
+      <src path="${jsbml.dir}/extensions/layout/resources"/>
+      <src path="${jsbml.dir}/extensions/multi/resources"/>
+      <src path="${jsbml.dir}/extensions/qual/resources"/>
+      <src path="${jsbml.dir}/extensions/render/resources"/>
+      <src path="${jsbml.dir}/extensions/req/resources"/>
+      <src path="${jsbml.dir}/extensions/spatial/resources"/>
+    </javac>
+    
+    <!--
+      If we want to have both modules, libSBMLio and CellDesigner included
+      within the same JAR file, we have to compile both modules separately,
+      because a different version of libSBML is in both modules.
+    -->
+
+    <!-- CellDesigner -->
+
+    <path id="celldesigner.classpath">
+      <fileset dir="${jsbml.dir}/core/lib" includes="**.jar, **/*.jar, **.zip"/>
+      <fileset dir="${basedir}/lib"        includes="**.jar, **/*.jar, **.zip"/>
+    </path>
+
+    <javac
+      classpathref="celldesigner.classpath"
+      compiler="${build.compiler}"
+      debug="${debug}"
+      deprecation="${deprecation}"
+      destdir="${basedir}/build/classes"
+      fork="true"
+      includeantruntime="false"
+      listfiles="yes"
+      memoryMaximumSize="512M"
+      nowarn="no"
+      optimize="${optimize}"
+      source="1.6"
+      target="1.6"
+      verbose="${verbose}"
+    >
+      <!-- Source -->
+      <src path="${basedir}/src"/>
+      <!-- Resources -->
+      <src path="${basedir}/resources"/>
+    </javac>
+    
+    <!-- libSBMLio
+    <path id="libSBMLio.classpath">
+      <fileset dir="${jsbml.dir}/core/lib" includes="**.jar, **/*.jar, **.zip"/>
+      <fileset dir="${jsbml.dir}/modules/libSBMLio/lib" includes="**.jar, **/*.jar, **.zip"/>
+    </path>
+    <javac
+      classpathref="libSBMLio.classpath"
+      compiler="${build.compiler}"
+      debug="${debug}"
+      deprecation="${deprecation}"
+      destdir="${basedir}/build/classes"
+      fork="true"
+      includeantruntime="false"
+      listfiles="yes"
+      memoryMaximumSize="512M"
+      nowarn="no"
+      optimize="${optimize}"
+      source="1.6"
+      target="1.6"
+      verbose="${verbose}"
+    >
+      <src path="${jsbml.dir}/modules/libSBMLio/src"/>
+      <src path="${jsbml.dir}/modules/libSBMLio/resources"/>  
+    </javac>-->
+    
+    <copy file="${jsbml.dir}/AUTHORS.txt" tofile="${jsbml.dir}/core/licenses/JSBML-AUTHORS.txt"/>
+
+    <echo message="Packing a minimal JAR file containing only parts required for CellDesigner plugins"/>
+    <property name="vendor" value="The JSBML Team"/>
+
+    <jar
+      compress="true"
+      filesetmanifest="mergewithoutmain"
+      index="true"
+      indexMetaInf="true"
+      jarfile="${basedir}/lib/jsbml-${jsbml.version}-incl-libs.jar"
+      level="9"
+      manifestencoding="utf-8"
+      strict="warn"
+      update="true"
+    >
+
+      <manifest>
+        <attribute name="Built-By"                            value="${user.name}"/>
+        <attribute name="Built-Date"                          value="${TODAY}"/>
+        <attribute name="Bundle-Name"                         value="${jsbml.name}"/>
+        <attribute name="Bundle-Version"                      value="${version}"/>
+        <attribute name="Bundle-Vendor"                       value="${vendor}"/>
+        <attribute name="Bundle-RequiredExecutionEnvironment" value="JavaSE-1.6"/>
+        <attribute name="Created-By"                          value="${vendor}"/>
+        <section name="${jsbml.name}">
+          <attribute name="Specification-Title"               value="${jsbml.name}"/>
+          <attribute name="Specification-Version"             value="${jsbml.version}"/>
+          <attribute name="Specification-Vendor"              value="${vendor}"/>
+          <attribute name="Implementation-Title"              value="${jsbml.name}"/>
+          <attribute name="Implementation-Version"            value="Revision ${jsbml.revision} (Build ${DSTAMP}-${TSTAMP})"/>
+          <attribute name="Implementation-Vendor"             value="${vendor}"/>
+          <attribute name="Implementation-URL"                value="http://sbml.org/Software/JSBML/"/>
+        </section>
+      </manifest>
+      <fileset dir="${basedir}/build/classes" includes="META-INF/**"/>
+
+      <!-- Licenses -->
+      <zipfileset dir="${jsbml.dir}/core" prefix="META-INF/">
+        <include name="licenses/COPYING.txt"/>
+        <include name="licenses/COPYING.html"/>
+        <include name="licenses/lib-licenses/*.txt"/>
+        <include name="licenses/lib-licenses/*.html"/>
+        <include name="licenses/JSBML-AUTHORS.txt"/>
+      </zipfileset>
+      <!-- Binaries -->
+      <fileset
+        dir="${basedir}/build/classes"
+        includes="**.class **/*.class"
+        excludes="**/.svn*, **/package-info.class"
+      />
+      <!-- Resources -->
+      <fileset dir="${jsbml.dir}/core/resources"                 includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <fileset dir="${jsbml.dir}/examples/resources"             includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <fileset dir="${jsbml.dir}/extensions/comp/resources"      includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <fileset dir="${jsbml.dir}/extensions/fbc/resources"       includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <fileset dir="${jsbml.dir}/extensions/groups/resources"    includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <fileset dir="${jsbml.dir}/extensions/layout/resources"    includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <fileset dir="${jsbml.dir}/extensions/multi/resources"     includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <fileset dir="${jsbml.dir}/extensions/qual/resources"      includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <fileset dir="${jsbml.dir}/extensions/render/resources"    includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <fileset dir="${jsbml.dir}/extensions/spatial/resources"   includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <fileset dir="${jsbml.dir}/modules/celldesigner/resources" includes="**.txt, **/*.txt, **.png, **/*.png, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <fileset dir="${jsbml.dir}/modules/libSBMLio/resources"    includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      <!-- 3rd party libraries -->
+      <zipfileset excludes="META-INF/**, **/package-info.class, **/package.html, **/*.java readme.txt LICENSE" src="${jsbml.dir}/core/lib/biojava-1.7-ontology.jar"/>
+      <zipfileset excludes="META-INF/**, **/package-info.class, **/package.html, **/*.java" src="${jsbml.dir}/core/lib/jigsaw-dateParser.jar"/>
+      <zipfileset excludes="META-INF/**, **/package-info.class, **/package.html, **/*.java" src="${jsbml.dir}/core/lib/log4j-1.2.8.jar"/>
+      <zipfileset excludes="META-INF/**, **/package-info.class, **/package.html, **/*.java" src="${jsbml.dir}/core/lib/stax-api-1.0.1.jar"/>
+      <zipfileset excludes="META-INF/**, **/package-info.class, **/package.html, **/*.java" src="${jsbml.dir}/core/lib/stax2-api-3.0.3.jar"/>
+      <zipfileset excludes="META-INF/**, **/package-info.class, **/package.html, **/*.java" src="${jsbml.dir}/core/lib/staxmate-2.0.0.jar"/>
+      <zipfileset excludes="META-INF/**, **/package-info.class, **/package.html, **/*.java" src="${jsbml.dir}/core/lib/woodstox-core-lgpl-4.0.9.jar"/>
+      <zipfileset excludes="META-INF/**, **/package-info.class, **/package.html, **/*.java" src="${jsbml.dir}/core/lib/xstream-1.3.1.jar"/>
+      <zipfileset excludes="META-INF/**, **/package-info.class, **/package.html, **/*.java" src="${jsbml.dir}/core/lib/spi-full-0.2.4.jar"/>
+    </jar>
+    
+    <!-- Remove temporary file again: -->
+    <delete file="${jsbml.dir}/core/licenses/JSBML-AUTHORS.txt"/>
+
+  </target>
+    
+    <!-- =================================================================== -->
+    <!-- Build example plugin                                                -->
+    <!-- =================================================================== -->
+    <target
+      name="build_example"
+      depends="jsbml"
+      description="Creates a minimal CellDesigner plugin based on JSBML">
+
+      <property name="plugin.name" value="CellDesigner Test Plugin"/>
+
+      <path id="plugin.classpath">
+        <fileset dir="${basedir}/lib" includes="**.jar, **/*.jar, **.zip"/>
+      </path>
+
+      <javac
+        classpathref="plugin.classpath"
+        compiler="${build.compiler}"
+        debug="${debug}"
+        deprecation="${deprecation}"
+        destdir="build"
+        fork="true"
+        listfiles="yes"
+        memoryMaximumSize="512M"
+        nowarn="no"
+        optimize="${optimize}"
+        source="1.6"
+        target="1.6"
+        verbose="${verbose}"
+      >
+        <!-- Source -->
+        <src path="${basedir}/test"/>
+        <include name="org/sbml/jsbml/celldesigner/"/>
+      </javac>
+
+      <jar
+        compress="true"
+        duplicate="preserve"
+        filesetmanifest="mergewithoutmain"
+        index="true"
+        indexMetaInf="true"
+        jarfile="${dist.dir}/ExamplePlugin.jar"
+        level="9"
+        manifestencoding="utf-8"
+        strict="warn"
+        update="true"
+      >
+      <manifest>
+        <section name="${plugin.name}">
+          <attribute name="Specification-Title"    value="${plugin.name}"/>
+          <attribute name="Specification-Version"  value="${version}"/>
+          <attribute name="Implementation-Title"   value="${plugin.name}"/>
+          <attribute name="Implementation-Version" value="Revision ${jsbml.revision} (Build ${DSTAMP}-${TSTAMP})"/>
+        </section>
+      </manifest>
+      <fileset
+        dir="build"
+        includes="org/**.class org/**/*.class"
+        excludes="**/.svn*, **/package-info.class"
+      />
+      <zipfileset includes="org/sbml/jsbml/gui/**.class" excludes="**/.svn*, **/package-info.class" src="${basedir}/lib/jsbml-${jsbml.version}-incl-libs.jar"/>
+    </jar>
+
+  </target>
+
+</project>
+
+<!-- End of file -->
+

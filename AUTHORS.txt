@@ -1,0 +1,50 @@
+    ---------------------------------------------------------------
+                             JSBML Authors
+    ---------------------------------------------------------------
+
+                         -- Core developers --
+
+    Nicolas Rodriguez, European Bioinformatics Institute, UK
+    Alex Thomas, University of California, San Diego, USA
+    Andreas Dräger, University of California, San Diego, USA
+                                
+                           -- Contributors --
+
+    Michael Hucka, California Institute of Technology, USA
+    Roland Keller, University of Tuebingen, Germany
+    Victor Kofia, University of Toronto, Canada
+    Ibrahim Vazirabad, Marquette University, USA
+    Leandro Watanabe, University of Utah, USA
+	Harold Gómez, Boston University, USA
+     
+                              -- Alumni --
+     
+    Meike Aichele, University of Tuebingen, Germany
+    Finja Büchel, University of Tuebingen, Germany
+    Alexander Diamantikos, University of Tuebingen, Germany
+    Marine Dumousseau, European Bioinformatics Institute, UK
+    Alexander Dörr, University of Tuebingen, Germany
+    Johannes Eichner, University of Tuebingen, Germany
+    Sebastian Fröhlich, Leibniz Institute of Plant Genetics
+      and Crop Plant Research (IPK), Gatersleben, Germany
+    Stephanie Hoffmann (Tscherneck), University of Tuebingen, Germany
+    Jakob Matthes, University of Tuebingen, Germany
+    Florian Mittag, University of Tuebingen, Germany
+    Sarah Rachel Müller vom Hagen, University of Tuebingen, Germany
+    Eugen Netz, University of Tuebingen, Germany
+    Alexander Peltzer, University of Tuebingen, Germany
+    Jan Rudolph, University of Tuebingen, Germany
+    Simon Schäfer, University of Tuebingen, Germany
+    Clemens Wrzodek, University of Tuebingen, Germany
+                                     
+    ---------------------------------------------------------------
+    For more information about SBML and JSBML, visit the project at
+
+                   http://www.sbml.org/Software/JSBML
+
+    or contact the JSBML Team via email at the following address:
+
+                         jsbml-team@caltech.edu
+    ---------------------------------------------------------------
+
+%file encoding: UTF-8.

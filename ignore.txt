@@ -1,0 +1,17 @@
+target
+*.log
+.classpath
+.project
+.settings
+.wtpmodules
+.fatjar
+*.texlipse
+settings.fatjar
+.idea
+graph.dot
+graph.pdf
+*.ipr
+*.iws
+*.iml
+bin
+build

@@ -1,0 +1,111 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id: type_hierarchy.dot 2183 2015-04-10 23:13:25Z alex-thomas $
+# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/comp/doc/img/type_hierarchy.dot $
+# $Rev: 2183 $
+
+/*
+ * Overview of the comp extension type hierarchy
+ */
+
+strict digraph G{
+
+	 nodesep=0.25;
+	 ranksep=0.5;
+
+	 edge [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   labelfontname="Helvetica",
+	   labelfontsize=10
+	 ];
+	 node [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   shape=box
+	 ];
+	 
+	 /*
+   * Abstract data types
+   */
+  AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">Abstract<br/>SBasePlugin</font>>, style="filled", fillcolor="#F0F8FF"];
+  Model                            		   [label=<<font face="Helvetica-Oblique">Model</font>>, style="filled", fillcolor="#F0F8FF"];
+
+  /*
+  * Interfaces
+  */
+ 
+  UniqueNamedSBase                         [label="<<interface>>\nUnique\nNamed\nSBase"];
+  NamedSBase                         	   [label="<<interface>>\nNamed\nSBase"];
+  IdManager                         	   [label="<<interface>>\nId\nManager"];
+  
+  /*********************
+   * Inheritance graph *
+   *********************/
+  
+  AbstractSBase              -> AbstractNamedSBase         [dir=back,arrowtail=empty];
+  
+   
+  subgraph clusterLayout {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Hierarchical model composition extension";
+    labelloc=b;
+    labeljust=r;
+
+    // Interfaces
+
+    // Enums
+    
+    // Objects
+
+    AbstractNamedSBaseRef               [label="Abstract\nNamed\nSBaseRef"];
+    CompModelPlugin                     [label="Comp\nModel\nPlugin"];
+    CompSBasePlugin                     [label="Comp\nSBase\nPlugin"];
+    CompSBMLDocumentPlugin              [label="Comp\nSBML Document\nPlugin"];
+    Deletion                    		[label="Deletion"];
+    ExternalModelDefinition     		[label="External\nModel\nDefinition"];
+    ModelDefinition     				[label="Model\nDefinition"];
+    Port                    			[label="Port"];
+    ReplacedBy                    		[label="ReplacedBy"];
+    ReplacedElement                    	[label="ReplacedElement"];
+    Submodel                    		[label="Submodel"];
+    SBaseRef                    		[label="SBaseRef"];
+
+     /*
+     * Inheritance graph
+     */
+     CompSBasePlugin    -> CompModelPlugin       	[dir=back,arrowtail=empty];
+     CompSBasePlugin    -> CompSBMLDocumentPlugin   [dir=back,arrowtail=empty];     
+     AbstractNamedSBaseRef    -> Deletion       	[dir=back,arrowtail=empty];
+     AbstractNamedSBaseRef    -> Port       		[dir=back,arrowtail=empty];     
+
+   }
+   
+   /*********************
+    * Inheritance graph *
+    *********************/
+   
+   SBaseRef -> AbstractNamedSBaseRef            	[dir=back,arrowtail=empty];
+   SBaseRef -> ReplacedBy            				[dir=back,arrowtail=empty];
+   SBaseRef -> ReplacedElement            			[dir=back,arrowtail=empty];
+   AbstractSBase -> SBaseRef            			[dir=back,arrowtail=empty];
+   AbstractSBasePlugin      -> CompSBasePlugin    	[dir=back,arrowtail=empty];    
+   AbstractNamedSBase    -> ExternalModelDefinition [dir=back,arrowtail=empty];
+   AbstractNamedSBase    -> Submodel		       	[dir=back,arrowtail=empty];
+   Model    -> ModelDefinition       				[dir=back,arrowtail=empty];
+   NamedSBase -> AbstractNamedSBaseRef            	[dir=back,arrowtail=empty];
+   IdManager -> CompModelPlugin				    	[dir=back,arrowtail=empty];    
+   UniqueNamedSBase -> Deletion				    	[dir=back,arrowtail=empty];    
+   UniqueNamedSBase -> ExternalModelDefinition   	[dir=back,arrowtail=empty];    
+   UniqueNamedSBase -> Submodel					   	[dir=back,arrowtail=empty];    
+   
+}

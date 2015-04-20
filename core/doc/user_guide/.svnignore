@@ -1,0 +1,13 @@
+*.blg
+*.out
+*.idx
+*.ilg
+*.ind
+*.log
+*.toc
+*.aux
+*.bbl
+auto
+User_Guide.toc
+User_Guide.bbl
+*~

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jdiff" default="jdiff_report" basedir=".">
+
+<description>
+Creating a JDiff report between JSBML 0.8 and 1.0
+</description>
+
+<target name="jdiff_report" depends="">
+
+  <property environment="env" />
+
+  <!-- This variable is used by the Ant JDiff task. Set it to the
+       location where the jdiff package was unpacked -->
+  <fail unless="env.JDIFF_HOME" message="you have to define the 'JDIFF_HOME' variable to the path where you unpacked the jdiff distribution."/>
+
+  <property name="JDIFF_HOME" value="${env.JDIFF_HOME}" />
+
+  <taskdef name="jdiff" 
+           classname="jdiff.JDiffAntTask" 
+           classpath="${JDIFF_HOME}/antjdiff.jar" />
+  <jdiff destdir="JSBML_API_changes_0.8_to_1.0" 
+         verbose="off"
+         stats="on"
+         docchanges="off">
+    <old name="jsbml-0.8">
+      <!-- This is the location of your old source files -->
+      <dirset dir="../../../branches/jsbml-0.8/src/" includes="org/**" />
+    </old>
+    <new name="jsbml-1.0">
+      <!-- This is the location of your new source files -->
+      <dirset dir="../../../tags/jsbml-1.0/core/src/" includes="org/**" />
+    </new>
+  </jdiff>
+</target>
+
+</project>

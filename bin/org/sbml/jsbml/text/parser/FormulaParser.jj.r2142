@@ -1,0 +1,714 @@
+ /**
+ * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
+ */
+options
+{
+  JDK_VERSION = "1.5";
+
+  static = false;
+}
+
+PARSER_BEGIN(FormulaParser)
+/*
+ * $Id: FormulaParser.jj 1668 2014-03-12 18:14:29Z andreas-draeger $
+ * $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/trunk/core/files/FormulaParser.jj $
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2015 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK 
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
+package org.sbml.jsbml.text.parser;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Properties;
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.resources.Resource;
+
+/**
+ * Class used to parse infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
+ * <p>
+ * Support almost the same syntax as defined in <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/libsbml.html#parseFormula(java.lang.String)">
+ * the LibSBML C-inspired infix notation taken from SBML Level 1 parser</a>.
+ *
+ * @author Alexander D&ouml;rr
+ * @author Nicolas Rodriguez
+ * @since 0.8
+ * @version $Rev: 1668 $
+ */
+public class FormulaParser implements IFormulaParser
+{
+  public static Properties stringToType = new Properties();
+
+  static
+  {	  
+    String path = "cfg/ASTNodeTokens.xml";
+    try
+    {
+      stringToType.loadFromXML(Resource.class.getResourceAsStream(path));
+    }
+    catch (InvalidPropertiesFormatException e)
+    {
+      throw new RuntimeException("Invalid configuration file entries in file " + Resource.class.getResource(path), e);
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException("Could not read configuration file " + Resource.class.getResource(path), e);
+    }
+  } 
+  
+  private void checkSize(ArrayList < ASTNode > arguments, int i) throws ParseException
+  {
+    if (arguments.size() > i)
+    {
+      throw new ParseException();
+    }
+  }
+
+  private Integer getInteger(ASTNode node)
+  {
+    if (node.isUMinus())
+    {
+      if (node.getChild(0).isInteger())
+      {
+        return - node.getChild(0).getInteger();
+      }
+      else
+      {
+        return null;
+      }
+    }
+    else
+    {
+      if (node.isInteger())
+      {
+        return node.getInteger();
+      }
+      else
+      {
+        return null;
+      }
+    }
+  }
+}
+
+PARSER_END(FormulaParser)
+
+SKIP :
+{
+  " "
+| "\t"
+}
+
+
+
+TOKEN :
+{
+  < INTEGER : (< DIGIT >)+ >
+}
+TOKEN :
+{
+  < DIGIT : [ "0"-"9" ] >
+}
+
+
+TOKEN :
+{
+  < NUMBER :
+    (< DIGIT >)+
+    (
+      "." (< DIGIT >)+
+    )?
+  | "." (< DIGIT >)+ >
+}
+
+TOKEN :
+{
+  < EXPNUMBER : ([ "-" ])? < NUMBER > [ "E", "e" ] ([ "+", "-" ])? < INTEGER > >
+}
+
+TOKEN :
+{
+  < SLPITTER : [ "," ] >
+}
+
+TOKEN :
+{
+  < PLUS : "+" >
+}
+
+TOKEN :
+{
+  < POWER : "^" >
+}
+
+TOKEN :
+{
+  < MINUS : "-" >
+}
+
+TOKEN :
+{
+  < TIMES : "*" >
+}
+
+TOKEN :
+{
+  < DIVIDE : "/" >
+}
+
+TOKEN :
+{
+  < FACTORIAL : "!" >
+}
+
+TOKEN :
+{
+  < OPEN_PAR : "(" >
+}
+
+TOKEN :
+{
+  < CLOSE_PAR : ")" >
+}
+
+TOKEN :
+{
+  < LEFT_BRACES : "{" >
+}
+
+TOKEN :
+{
+  < RIGHT_BRACES : "}" >
+}
+
+TOKEN :
+{
+  < LEFT_BRACKET : "[" >
+}
+
+TOKEN :
+{
+  < RIGHT_BRACKET : "]" >
+}
+
+TOKEN :
+{
+  < COMPARISON :
+	  "<"
+	| "<="
+	| ">"
+	| ">="
+	| "=="
+	| "!=" 
+	>
+}
+
+TOKEN :
+{
+  < BOOLEAN_LOGIC :
+    < AND >
+  | < OR >
+  | < XOR > >
+}
+
+TOKEN :
+{
+  < AND :
+    "and"
+  | "And"
+  | "AND"
+  | "&&" >
+}
+
+TOKEN :
+{
+  < OR :
+    "OR"
+  | "Or"
+  | "or"
+  | "||" >
+}
+
+TOKEN :
+{
+  < XOR :
+    "XOR"
+  | "Xor"
+  | "xor" >
+}
+
+TOKEN :
+{
+  < NOT :
+    "not"
+  | "NOT"
+  | "Not" >
+}
+
+TOKEN :
+{
+  < LOG : "log" >
+}
+
+TOKEN :
+{
+  < STRING : (< LETTER > | [ "_" ] )+ (< IDCHAR >)*>
+}
+
+TOKEN :
+{
+	< IDCHAR : < LETTER > | < DIGIT > | "_" >
+}
+
+TOKEN :
+{
+	< LETTER : [ "a"-"z", "A"-"Z" ]>
+}
+
+Token string() :
+{
+  Token t;
+}
+{
+  (
+    t = < LOG >
+  | t = < STRING >
+  )
+  {
+    return t;
+  }
+}
+
+TOKEN :
+{
+  < EOL :
+    "\n"
+  | "\r" >
+}
+
+ASTNode parse() :
+{
+  ASTNode node = null;
+}
+{
+  node = Expression()
+  {
+    return node;
+  }
+}
+
+private ASTNode Expression() :
+{
+  ASTNode value = null;
+}
+{
+  value = TermLvl1()
+  (
+    < EOF >
+  | < EOL >
+  )
+  {
+    return value;
+  }
+}
+
+private ASTNode TermLvl3() :
+{
+  ASTNode rightChild;
+  ASTNode leftChild;
+  ASTNode node = null;
+}
+{
+  leftChild = Primary()
+  (
+    < POWER > rightChild = Primary()
+    {
+      node = new ASTNode(Type.POWER);
+      node.addChild(leftChild);
+      node.addChild(rightChild);
+      leftChild = node;
+    }
+  | < FACTORIAL >
+    {
+      node = new ASTNode(Type.FUNCTION_FACTORIAL);
+      node.addChild(leftChild);
+      leftChild = node;
+    }
+  )*
+  {
+    return leftChild;
+  }
+}
+
+private ASTNode TermLvl2() :
+{
+  ASTNode rightChild;
+  ASTNode leftChild;
+  ASTNode node = null;
+}
+{
+  leftChild = TermLvl3()
+  (
+    < TIMES > rightChild = TermLvl3()
+    {
+      node = new ASTNode('*');
+      node.addChild(leftChild);
+      node.addChild(rightChild);
+      leftChild = node;
+    }
+  | < DIVIDE > rightChild = TermLvl3()
+    {
+      Integer left, right;
+      left = getInteger(leftChild);
+      right = getInteger(rightChild);
+      if (left != null && right != null)
+      {
+        node = new ASTNode();
+        node.setValue(left, right);
+        leftChild = node;
+      }
+      else
+      {
+        node = new ASTNode('/');
+        node.addChild(leftChild);
+        node.addChild(rightChild);
+        leftChild = node;
+      }
+    }
+  )*
+  {
+    return leftChild;
+  }
+}
+
+private ASTNode TermLvl1() :
+{
+  ASTNode rightChild = null;
+  ASTNode leftChild;
+  ASTNode node = null;
+  Token t;
+  String s;
+  Type type = null;
+}
+{
+  leftChild = TermLvl2()
+  (
+    < PLUS > rightChild = TermLvl2()
+    {
+      node = new ASTNode('+');
+      node.addChild(leftChild);
+      node.addChild(rightChild);
+      leftChild = node;
+    }
+  | < MINUS > rightChild = TermLvl2()
+    {
+      node = new ASTNode('-');
+      node.addChild(leftChild);
+      node.addChild(rightChild);
+      leftChild = node;
+    }
+  | t = < BOOLEAN_LOGIC > rightChild = TermLvl2()
+    {
+      s = t.image;
+      if (s.equalsIgnoreCase("or") || s.equals("||"))
+      {
+        type = ASTNode.Type.LOGICAL_OR;
+      }
+      else if (s.equalsIgnoreCase("and") || s.equals("&&"))
+      {
+        type = ASTNode.Type.LOGICAL_AND;
+      }
+      else if (s.equalsIgnoreCase("xor"))
+      {
+        type = ASTNode.Type.LOGICAL_XOR;
+      }
+      node = new ASTNode(type);
+      node.addChild(leftChild);
+      node.addChild(rightChild);
+      leftChild = node;
+    }
+  | t = < COMPARISON > rightChild = TermLvl2()
+    {
+      s = t.image;
+      if (s.equalsIgnoreCase("<"))
+      {
+        type = ASTNode.Type.RELATIONAL_LT;
+      }
+      else if (s.equalsIgnoreCase(">"))
+      {
+        type = ASTNode.Type.RELATIONAL_GT;
+      }
+      else if (s.equalsIgnoreCase("=="))
+      {
+        type = ASTNode.Type.RELATIONAL_EQ;
+      }
+      else if (s.equalsIgnoreCase("!="))
+      {
+        type = ASTNode.Type.RELATIONAL_NEQ;
+      }
+      else if (s.equalsIgnoreCase(">="))
+      {
+        type = ASTNode.Type.RELATIONAL_GEQ;
+      }
+      else if (s.equalsIgnoreCase("<="))
+      {
+        type = ASTNode.Type.RELATIONAL_LEQ;
+      }
+      node = new ASTNode(type);
+      node.addChild(leftChild);
+      node.addChild(rightChild);
+      leftChild = node;
+    }
+  )*
+  {
+    return leftChild;
+  }
+}
+
+private ASTNode Primary() throws NumberFormatException :
+{
+  Token t;
+  double d;
+  int i;
+  ASTNode node = new ASTNode();
+  ASTNode vector = new ASTNode();
+  ASTNode child, furtherChild;
+  String s;
+  String vals [ ];
+  ArrayList < ASTNode > arguments = new ArrayList < ASTNode > ();
+}
+{
+  t = < INTEGER >
+  {
+    i = Integer.parseInt(t.image);
+    node.setValue(i);
+    return node;
+  }
+| t = < NUMBER >
+  {
+    d = Double.parseDouble(t.image);
+    node.setValue(d);
+    return node;
+  }
+| t = < EXPNUMBER >
+  {
+    s = t.image;
+    vals = s.toLowerCase().split("e");
+    if (vals [ 1 ].startsWith("+"))
+    {
+      i = Integer.parseInt(vals [ 1 ].substring(1));
+    }
+    else
+    {
+      i = Integer.parseInt(vals [ 1 ]);
+    }
+    node.setValue(Double.parseDouble(vals [ 0 ]), i);
+    return node;
+  }
+| LOOKAHEAD(2)
+  t = string() < OPEN_PAR > child = TermLvl1()
+  (
+    < SLPITTER > furtherChild = TermLvl1()
+    {
+      arguments.add(furtherChild);
+    }
+  )*
+  < CLOSE_PAR >
+  {
+    s = t.image;
+    Type type = null;
+    
+    if (stringToType.containsKey(s.toLowerCase()))
+    {
+      type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
+    }
+    
+    if (s.equalsIgnoreCase("pow"))
+    {
+      checkSize(arguments, 1);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("sqr"))
+    {
+      checkSize(arguments, 0);
+      node.addChild(child);
+      node.addChild(new ASTNode(2));
+    }
+    else if (s.equalsIgnoreCase("sqrt"))
+    {
+      checkSize(arguments, 0);
+      node.addChild(new ASTNode(2));
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("not"))
+    {
+      checkSize(arguments, 0);
+      node.addChild(child);
+      type = Type.LOGICAL_NOT;
+    }
+    else if (s.equalsIgnoreCase("ln"))
+    {
+      checkSize(arguments, 0);
+      node.addChild(child);
+      type = Type.FUNCTION_LN;
+    }
+    else if (s.equalsIgnoreCase("lambda"))
+    {
+      node.addChild(child);
+      type = Type.LAMBDA;
+    }
+    else if (s.equalsIgnoreCase("piecewise"))
+    {
+      node.addChild(child);
+      type = Type.FUNCTION_PIECEWISE;
+    }
+    else
+    {
+      node.addChild(child);
+    }
+    
+    if (type != null)
+    {
+      node.setType(type);
+    }
+    else
+    {
+      node.setName(s);
+    }
+    for (ASTNode argument : arguments)
+    {
+      node.addChild(argument);
+    }
+    return node;
+  }
+  |
+  LOOKAHEAD(4)    t = < STRING >
+				  {
+				    ASTNode selector = new ASTNode();
+				    selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
+				    selector.addChild(new ASTNode(t.image));
+				  }
+				  ( < LEFT_BRACKET >
+	                (node = TermLvl1())
+	                {
+					selector.addChild(node);
+	                }
+				    < RIGHT_BRACKET >
+				  )+
+  {return selector; }
+ |
+ < OPEN_PAR > node = TermLvl1() < CLOSE_PAR >
+  {
+    return node;
+  }
+|
+  LOOKAHEAD(2) < LEFT_BRACES > node = TermLvl1()
+  {
+    ASTNode selector = new ASTNode();
+    boolean isSelector = false;
+	  selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
+    vector.setType(ASTNode.Type.VECTOR);
+    vector.addChild(node);
+  }
+   (
+    < SLPITTER > node = TermLvl1()
+    {
+      vector.addChild(node);
+    }
+  )*
+  < RIGHT_BRACES >  {	selector.addChild(vector);
+  }
+  ( < LEFT_BRACKET >
+    (node = TermLvl1())
+	{
+	  isSelector = true;
+	  selector.addChild(node);
+	}
+    < RIGHT_BRACKET >
+  )*
+  {return isSelector ? selector : vector; }
+|
+ < LEFT_BRACES >
+  {
+    vector.setType(ASTNode.Type.VECTOR);
+  }
+  < RIGHT_BRACES >
+  {
+    return vector;
+  }
+| < MINUS > node = Primary()
+  {
+    ASTNode uiMinus = new ASTNode('-');
+    uiMinus.addChild(node);
+    return uiMinus;
+  }
+| < NOT > node = TermLvl1()
+  {
+    ASTNode not = new ASTNode(Type.LOGICAL_NOT);
+    not.addChild(node);
+    return not;
+  }
+| < LOG > child = Primary()
+  {
+    node = new ASTNode(Type.FUNCTION_LN);
+    node.addChild(child);
+    return node;
+  }
+| t = < STRING >
+  {
+    s = t.image;
+    if (s.equalsIgnoreCase("true"))
+    {
+      node = new ASTNode(Type.CONSTANT_TRUE);
+    }
+    else if (s.equalsIgnoreCase("false"))
+    {
+      node = new ASTNode(Type.CONSTANT_FALSE);
+    }
+    else if (s.equalsIgnoreCase("pi"))
+    {
+      node = new ASTNode(Type.CONSTANT_PI);
+    }
+    else if (s.equalsIgnoreCase("avogadro"))
+    {
+      node = new ASTNode(Type.NAME_AVOGADRO);
+    }
+    else if (s.equalsIgnoreCase("time"))
+    {
+      node = new ASTNode(Type.NAME_TIME);
+    }
+    else if (s.equalsIgnoreCase("exponentiale"))
+    {
+      node = new ASTNode(Type.CONSTANT_E);
+    }
+    else if (s.equalsIgnoreCase("-infinity"))
+    {
+      node = new ASTNode(Double.NEGATIVE_INFINITY);
+    }
+    else if (s.equalsIgnoreCase("infinity"))
+    {
+      node = new ASTNode(Double.POSITIVE_INFINITY);
+    }
+    else
+    {
+      node = new ASTNode(s);
+    }
+    return node;
+  }
+}

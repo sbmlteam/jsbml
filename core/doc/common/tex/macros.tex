@@ -1,0 +1,155 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% A collection of useful macros that facilitate maintaining the JSBML
+% documentation.
+%
+% Authors: Michael Hucka, Andreas Dr\"ager
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Here are the organizational rules behind the index:
+% 1. If it's a general SBML concept, it goes as a subitem under SBML
+%
+% 2. If it's an object in JSBML representing an SBML concept, it does
+%    *not* go under SBML
+% 
+
+
+
+% Some helper macros, used later below:
+
+\newcommand{\plainIndexed}              [1]{#1\index{#1}\xspace}
+\newcommand{\codeIndexed}               [1]{\code{#1}\index{#1@\code{#1}}\xspace}
+\newcommand{\codeSubindexed}            [2]{\code{#1}\index{#2@\code{#2}!\code{#1}@\code{#1}}\xspace}
+
+% A
+\newcommand{\Annotation}                {\codeSubindexed{Annotation}{annotations}}
+\newcommand{\AbstractSBase}             {\codeSubindexed{AbstractSBase}{SBase}}
+\newcommand{\AbstractSBasePlugin}       {\codeIndexed{AbstractSBasePlugin}}
+\newcommand{\AbstractNamedSBaseWithUnit}{\codeIndexed{AbstractNamedSBaseWithUnit}}
+\newcommand{\AbstractNamedSBase}        {\codeSubindexed{AbstractNamedSBase}{SBase}}
+\newcommand{\AbstractMathContainer}     {\codeSubindexed{AbstractMathContainer}{SBase}}
+\newcommand{\AbstractReaderWriter}      {\codeIndexed{AbstractReaderWriter}}
+\newcommand{\AndFilter}                 {\code{AndFilter}\index{ListOf*@\code{ListOf*}!\code{AndFilter}}\xspace}
+\newcommand{\ASTNode}                   {\codeIndexed{ASTNode}}
+\newcommand{\ASTType}                   {\codeSubindexed{ASTNode.Type}{ASTNode}}
+\newcommand{\ASTTypeName}               {\codeSubindexed{ASTNode.Type.NAME}{ASTNode}}
+\newcommand{\ASTTypePrefix}             {\codeSubindexed{AST\_TYPE\_*}{ASTNode}}
+\newcommand{\ASTNodeValue}              {\codeIndexed{ASTNodeValue}}
+\newcommand{\ASTNodeCompiler}           {\codeIndexed{ASTNodeCompiler}}
+\newcommand{\AbstractTreeNode}          {\codeIndexed{AbstractTreeNode}}
+\newcommand{\Assignment}                {\codeIndexed{Assignment}}
+\newcommand{\AlgebraicRule}             {\codeIndexed{AlgebraicRule}}
+
+% B
+\newcommand{\Boolean}                   {\plainIndexed{Boolean}}
+\newcommand{\BoundaryConditionFilter}   {\code{BoundaryConditionFilter}\index{ListOf*@\code{ListOf*}!\code{BoundaryConditionFilter}}\xspace}
+
+% C
+\newcommand{\CallableSBase}             {\codeIndexed{CallableSBase}}
+\newcommand{\Comparable}                {\codeIndexed{Comparable}}
+\newcommand{\Compartment}               {\codeIndexed{Compartment}}
+\newcommand{\Cloneable}                 {\codeIndexed{Cloneable}}
+\newcommand{\Creator}                   {\codeSubindexed{Creator}{annotations}}
+\newcommand{\CVTerm}                    {\codeSubindexed{CVTerm}{annotations}}
+\newcommand{\CVTermFilter}              {\code{CVTermFilter}\index{ListOf*@\code{ListOf*}!\code{CVTermFilter}}\xspace}
+
+% D
+\newcommand{\Delay}                     {\codeIndexed{Delay}}
+
+% E
+\newcommand{\Event}                     {\codeIndexed{Event}}
+\newcommand{\EventListener}             {\codeIndexed{EventListener}}
+\newcommand{\EventHandler}              {\codeIndexed{EventHandler}}
+\newcommand{\ExplicitRule}              {\codeIndexed{ExplicitRule}}
+
+% F
+\newcommand{\Filter}                    {\code{Filter}\index{ListOf*@\code{ListOf*}!\code{Filter}}\xspace}
+\newcommand{\FunctionDefinition}        {\codeIndexed{FunctionDefinition}}
+
+% H
+\newcommand{\HeadlessException}         {\codeIndexed{HeadlessException}}
+\newcommand{\History}                   {\codeSubindexed{History}{annotations}}
+
+% I
+\newcommand                             {\InitialAssignment}{\codeIndexed{InitialAssignment}}
+\newcommand{\InvalidArgumentException}  {\codeIndexed{InvalidArgumentException}}
+
+% J
+\newcommand{\JTree}                     {\codeIndexed{JTree}}
+\newcommand{\JFrame}                    {\codeIndexed{JFrame}}
+
+% K
+\newcommand{\KineticLaw}                {\codeIndexed{KineticLaw}}
+
+% L
+\newcommand{\LocalParameter}            {\codeIndexed{LocalParameter}}
+\newcommand{\LibSBMLReader}             {\codeIndexed{LibSBMLReader}}
+\newcommand{\LibSBMLWriter}             {\codeIndexed{LibSBMLWriter}}
+\newcommand{\latex}                     {\LaTeX{}\index{LaTeX@\LaTeX}\xspace}
+\newcommand{\LevelVersionError}         {\codeIndexed{LevelVersionError}}
+
+% M
+\newcommand{\MathContainer}             {\codeIndexed{MathContainer}}
+\newcommand{\Model}                     {\codeIndexed{Model}}
+\newcommand{\ModelCreator}              {\codeSubindexed{ModelCreator}{annotations}}
+\newcommand{\ModelCreatorList}          {\codeSubindexed{ModelCreatorList}{annotations}}
+\newcommand{\ModelHistory}              {\codeSubindexed{ModelHistory}{annotations}}
+
+% N
+\newcommand{\NamedSBase}                {\codeIndexed{NamedSBase}}
+\newcommand{\NamedSBaseWithDerivedUnit} {\codeIndexed{NamedSBaseWithDerivedUnit}}
+
+% O
+\newcommand{\OrFilter}                  {\code{OrFilter}\index{ListOf*@\code{ListOf*}!\code{OrFilter}}\xspace}
+\newcommand{\OverdeterminationValidator}{\codeIndexed{OverdeterminationValidator}}
+
+% P
+\newcommand{\ParseException}            {\codeIndexed{ParseException}}
+\newcommand{\Parameter}                 {\codeIndexed{Parameter}}
+\newcommand{\Priority}                  {\codeIndexed{Priority}}
+\newcommand{\PluginSBMLWriter}          {\codeIndexed{PluginSBMLWriter}}
+
+% Q
+\newcommand{\Quantity}                  {\codeIndexed{Quantity}}
+\newcommand{\QuantityWithUnit}          {\codeIndexed{QuantityWithUnit}}
+
+% S
+\newcommand{\SBase}                     {\codeIndexed{SBase}}
+\newcommand{\SBasePlugin}               {\codeIndexed{SBasePlugin}}
+\newcommand{\SBaseWithDerivedUnit}      {\codeIndexed{SBaseWithDerivedUnit}}
+\newcommand{\SBaseWithUnit}             {\codeIndexed{SBaseWithUnit}}
+\newcommand{\SBML}                      {\plainIndexed{SBML}}
+\newcommand{\SBMLthree}                 {SBML Level~3\index{SBML!Level 3}\xspace}
+\newcommand{\SBMLDocument}              {\codeIndexed{SBMLDocument}}
+\newcommand{\SBMLReader}                {\codeIndexed{SBMLReader}}
+\newcommand{\SBMLWriter}                {\codeIndexed{SBMLWriter}}
+\newcommand{\SBO}                       {\codeIndexed{SBO}}
+\newcommand{\SBOFilter}                 {\code{SBOFilter}\index{ListOf*@\code{ListOf*}!\code{SBOFilter}}\xspace}
+\newcommand{\SimpleSpeciesReference}    {\codeIndexed{SimpleSpeciesReference}\xspace}
+\newcommand{\Reaction}                  {\codeIndexed{Reaction}}
+\newcommand{\Serializable}              {\codeIndexed{Serializable}}
+\newcommand{\Species}                   {\codeIndexed{Species}}
+\newcommand{\SpeciesReference}          {\codeIndexed{SpeciesReference}}
+\newcommand{\StoichiometryMath}         {\codeIndexed{StoichiometryMath}}
+\newcommand{\Symbol}                    {\codeIndexed{Symbol}}
+\newcommand{\String}                    {\codeIndexed{String}}
+\newcommand{\StringTools}               {\codeIndexed{StringTools}}
+\newcommand{\SimpleTreeNodeChangeListener}	{\code{SimpleTreeNodeChangeListener}\xspace}
+
+% T
+\newcommand{\TreeNode}                  {\codeIndexed{TreeNode}}
+\newcommand{\TreeNodeChangeEvent}       {\codeIndexed{TreeNodeChangeEvent}}
+\newcommand{\TreeNodeChangeListener}    {\codeIndexed{TreeNodeChangeListener}}
+\newcommand{\TreeNodeWithChangeSupport} {\codeIndexed{TreeNodeWithChangeSupport}}
+
+% U
+\newcommand{\Unit}                      {\codeIndexed{Unit}}
+\newcommand{\UnitDefinition}            {\codeIndexed{UnitDefinition}}
+\newcommand{\UniqueNamedSBase}          {\codeIndexed{UniqueNamedSBase}}
+\newcommand{\UnitsCompiler}             {\codeIndexed{UnitsCompiler}}
+
+% V
+\newcommand{\Variable}                  {\codeIndexed{Variable}}
+\newcommand{\ValuePair}                 {\codeIndexed{ValuePair}}
+
+% X
+\newcommand{\XMLNode}                   {\codeIndexed{XMLNode}}

@@ -1,0 +1,208 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id: type_hierarchy.dot 2183 2015-04-10 23:13:25Z alex-thomas $
+# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/spatial/doc/img/type_hierarchy.dot $
+# $Rev: 2183 $
+
+/*
+ * Overview of the spatial extension type hierarchy
+ */
+ 
+strict digraph G{
+
+	 nodesep=0.25;
+ 	ranksep=0.5;
+
+	 edge [
+	   fontname="Helvetica",
+	   fontsize=10,
+ 	  labelfontname="Helvetica",
+	   labelfontsize=10
+	 ];
+	 node [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   shape=box
+ 	];
+ 	
+ 	/*
+ 	 * Interfaces
+ 	 */
+ 	
+ 	SBase                                    [label="<<interface>>\nSBase"];
+ 	SBaseWithUnit                            [label="<<interface>>\nSBaseWithUnit"];
+ 	IdManager			                     [label="<<interface>>\nIdManager"];
+   	
+  /*
+   * Abstract data types
+   */
+ 	AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase Plugin</font>>, style="filled", fillcolor="#F0F8FF"]; 	
+ 	AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+ 	AbstractMathContainer                    [label=<<font face="Helvetica-Oblique">Abstract<br/>MathContainer</font>>, style="filled", fillcolor="#F0F8FF"];
+  
+  /*
+   * The spatial extension
+   */
+   
+  subgraph clusterSpatial {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Spatial extension";
+    labelloc=b;
+    labeljust=r;
+
+    // Interfaces
+    SpatialNamedSBase                        	  [label="<<interface>>\nSpatial\nNamed\nSBase"];
+
+    // Enums
+
+    // Abstract data types
+    CoordinateKind                          	  [label=<<font face="Helvetica-Oblique">Coordinate<br/>Kind</font>>];
+    Coefficient                                   [label=<<font face="Helvetica-Oblique">Coefficent</font>>];
+    DataKind                           			  [label=<<font face="Helvetica-Oblique">Compression<br/>Kind</font>>];
+    CompressionKind                           	  [label=<<font face="Helvetica-Oblique">Data<br/>Kind</font>>];
+    InterpolationKind                             [label=<<font face="Helvetica-Oblique">Interpolation<br/>Kind</font>>];
+    PolygonKind                           		  [label=<<font face="Helvetica-Oblique">Polygon<br/>Kind</font>>];
+    GeometryKind                           	 	  [label=<<font face="Helvetica-Oblique">Geometry<br/>Kind</font>>];
+    DiffusionKind                           	  [label=<<font face="Helvetica-Oblique">Diffusion<br/>Kind</font>>];
+    SetOperation                           		  [label=<<font face="Helvetica-Oblique">Set<br/>Operation</font>>];
+    PrimitiveKind                           	  [label=<<font face="Helvetica-Oblique">Primitive<br/>Kind</font>>];
+    BoundaryKind                           		  [label=<<font face="Helvetica-Oblique">Boundary<br/>Kind</font>>];
+    FunctionKind                           		  [label=<<font face="Helvetica-Oblique">Function<br/>Kind</font>>];
+        
+    // Objects
+    AbstractSpatialNamedSBase                     [label="Abstract\nSpatial\nNamedSBase"];    
+    AbstractSpatialSBasePlugin					  [label="Abstract Spatial\nSBase Plugin"];
+    AdjacentDomains                               [label="Adjacent\nDomains"];  
+    AdvectionCoefficient                          [label="Advection\nCoefficient"];
+    ParameterType                          		  [label="Parameter\nType"];
+    AnalyticGeometry                              [label="Analytic\nGeometry"];
+    GeometryDefinition                            [label="Geometry\nDefinition"];
+    AnalyticVolume                                [label="Analytic\nVolume"];
+    Boundary                                      [label="Boundary"];
+    BoundaryCondition                             [label="Boundary\nCondition"];
+    CompartmentMapping                            [label="Compartment\nMapping"];
+    CoordinateComponent                           [label="Coordinate\nComponent"];
+    CoordinateReference                           [label="Coordinate\nReference"];
+    CSGeometry                                    [label="CS\nGeometry"];
+    CSGHomogeneousTransformation                  [label="CSG\nHomogeneous\nTransformation"];
+    CSGTransformation                             [label="CSG\nTransformation"];
+    CSGNode                                       [label="CSG\nNode"];
+    CSGObject                                     [label="CSG\nObject"];
+    CSGPrimitive                                  [label="CSG\nPrimitive"];
+    CSGPseudoPrimitive                            [label="CSG\nPseudoPrimitive"];
+    CSGRotation                                   [label="CSG\nRotation"];
+    CSGScale                                      [label="CSG\nScale"];
+    CSGSetOperator                                [label="CSG\nSet Operator"];
+	CSGTranslation                                [label="CSG\nTranslation"];
+    DiffusionCoefficient                          [label="Diffusion\nCoefficient"];
+    Domain                                        [label="Domain"];
+    DomainType                                    [label="Domain\nType"];
+    Geometry                                      [label="Geometry"];
+    GeometryDefinition                            [label="Geometry\nDefinition"];
+    ImageData                                     [label="Image Data"];
+    InteriorPoint                                 [label="Interior\nPoint"];
+    MixedGeometry                                 [label="Mixed\nGeometry"];
+    OrdinalMapping	                              [label="Ordinal\nMappings"];
+    ParamaterType                                 [label="Parameter\nType"];
+    ParametricGeometry                            [label="Parametric\nGeometry"];
+    ParametricObject                              [label="Parametric\nObject"];
+    PolygonObject                                 [label="Polygon\nObject"];
+    SampledField                                  [label="Sampled\nField"];
+    SampledFieldGeometry                          [label="Sampled\nField\nGeometry"];
+    SampledVolume                                 [label="Sampled\nVolume"];
+    SpatialCompartmentPlugin                      [label="Spatial\nCompartment\nPlugin"];
+    SpatialModelPlugin                            [label="Spatial\nModel\nPlugin"];
+    SpatialParameterPlugin                        [label="Spatial\nParameter\nPlugin"];
+    SpatialPoint                                  [label="Spatial\nPoint"];
+    SpatialReactionPlugin                         [label="Spatial\nReaction\nPlugin"];
+    SpatialSpeciesPlugin                          [label="Spatial\nSpecies\nPlugin"];
+    SpatialSymbolReference                        [label="Spatial\nSymbol\nReference"];
+    TransformationComponent                       [label="Transformation\nComponent"];
+      
+    /*
+     * Inheritance graph
+     */
+     SpatialNamedSBase                -> AbstractSpatialNamedSBase      [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase        -> AdjacentDomains      [dir=back,arrowtail=empty];
+     ParameterType        -> AdvectionCoefficient      [dir=back,arrowtail=empty];
+     GeometryDefinition         -> AnalyticGeometry          [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase    -> GeometryDefinition        [dir=back,arrowtail=empty];
+     SpatialNamedSBase	->	AnalyticVolume      [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase        -> Boundary      [dir=back,arrowtail=empty];
+     ParameterType        -> BoundaryCondition      [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase        -> CompartmentMapping      [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase        -> CoordinateComponent      [dir=back,arrowtail=empty];
+     GeometryDefinition         -> CSGeometry                [dir=back,arrowtail=empty];
+     CSGTransformation -> CSGHomogeneousTransformation      [dir=back,arrowtail=empty];
+     CSGNode -> CSGTransformation      [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase        -> CSGNode      [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase        -> CSGObject      [dir=back,arrowtail=empty];
+     CSGNode -> CSGPrimitive      [dir=back,arrowtail=empty];
+     CSGNode -> CSGPseudoPrimitive      [dir=back,arrowtail=empty];
+     CSGTransformation -> CSGRotation      [dir=back,arrowtail=empty];
+     CSGTransformation -> CSGScale      [dir=back,arrowtail=empty];
+     CSGNode -> CSGSetOperator      [dir=back,arrowtail=empty];
+     CSGTransformation -> CSGTranslation      [dir=back,arrowtail=empty];
+     ParameterType        -> DiffusionCoefficient      [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase        -> Domain      [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase        -> DomainType      [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase        -> Geometry      [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase        -> GeometryDefinition      [dir=back,arrowtail=empty];
+     GeometryDefinition         -> MixedGeometry          [dir=back,arrowtail=empty];
+     GeometryDefinition         -> ParametricGeometry        [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase         -> ParametricObject        [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase         -> SampledField        [dir=back,arrowtail=empty];
+     GeometryDefinition         -> SampledFieldGeometry      [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase         -> SampledVolume        [dir=back,arrowtail=empty];
+     AbstractSpatialSBasePlugin         -> SpatialCompartmentPlugin        [dir=back,arrowtail=empty];
+     AbstractSpatialSBasePlugin         -> SpatialModelPlugin        [dir=back,arrowtail=empty];
+     AbstractSpatialSBasePlugin         -> SpatialParameterPlugin        [dir=back,arrowtail=empty];
+     AbstractSpatialNamedSBase         -> SpatialPoint        [dir=back,arrowtail=empty];
+     AbstractSpatialSBasePlugin         -> SpatialReactionPlugin        [dir=back,arrowtail=empty];
+     AbstractSpatialSBasePlugin         -> SpatialSpeciesPlugin        [dir=back,arrowtail=empty];
+     ParameterType        -> SpatialSymbolReference      [dir=back,arrowtail=empty];
+     SampledField        -> CompressionKind      [dir=back,arrowtail=empty];
+     SampledField        -> DataKind      [dir=back,arrowtail=empty];
+     SampledField        -> InterpolationKind      [dir=back,arrowtail=empty];
+     ParametricObject        -> PolygonKind      [dir=back,arrowtail=empty];
+     Geometry         -> GeometryKind          [dir=back,arrowtail=empty];
+     DiffusionCoefficient         -> DiffusionKind          [dir=back,arrowtail=empty];
+     CSGSetOperator         -> SetOperation          [dir=back,arrowtail=empty];
+     CSGPrimitive         -> PrimitiveKind          [dir=back,arrowtail=empty];
+     AdvectionCoefficient         -> CoordinateKind          [dir=back,arrowtail=empty];
+     CoordinateComponent         -> CoordinateKind          [dir=back,arrowtail=empty];
+     CoordinateReference         -> CoordinateKind          [dir=back,arrowtail=empty];
+     DiffusionCoefficient         -> CoordinateKind          [dir=back,arrowtail=empty];
+     BoundaryCondition         -> BoundaryKind          [dir=back,arrowtail=empty];
+     AnalyticVolume         -> FunctionKind          [dir=back,arrowtail=empty];
+
+
+  }
+  
+  /*********************
+   * Inheritance graph *
+   *********************/
+
+  AbstractSBase         -> AbstractSpatialNamedSBase     [dir=back,arrowtail=empty];
+  AbstractSBasePlugin         -> AbstractSpatialSBasePlugin     [dir=back,arrowtail=empty];
+  AbstractSBase         -> ParameterType     [dir=back,arrowtail=empty];
+  AbstractMathContainer -> AnalyticVolume            [dir=back,arrowtail=empty];
+  SBaseWithUnit -> CoordinateComponent            [dir=back,arrowtail=empty];
+  AbstractSBase         -> CoordinateReference     [dir=back,arrowtail=empty];
+  AbstractSBase         -> AbstractMathContainer     [dir=back,arrowtail=empty];
+  AbstractSBase         -> ImageData                  [dir=back,arrowtail=empty];
+  AbstractSBase         -> InteriorPoint                  [dir=back,arrowtail=empty];
+  AbstractSBase         -> OrdinalMapping                  [dir=back,arrowtail=empty];
+  AbstractSBase         -> ParameterType                  [dir=back,arrowtail=empty];
+  AbstractSBase         -> PolygonObject           [dir=back,arrowtail=empty];
+  IdManager				-> SpatialModelPlugin		 [dir=back,arrowtail=empty];
+  AbstractSBase         -> TransformationComponent           [dir=back,arrowtail=empty];
+
+}

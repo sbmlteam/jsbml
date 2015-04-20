@@ -1,0 +1,277 @@
+<?xml version="1.0"?>
+<!--
+    $Id: build.xml 2109 2015-01-05 04:50:45Z andreas-draeger $ 
+    $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/libSBMLcompat/build.xml $
+
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2015 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+
+    Version: $Rev: 2109 $
+-->
+<project default ="usage" basedir=".">
+  <!-- =================================================================== -->
+  <!-- Initialization target                                               -->
+  <!-- =================================================================== -->
+
+  <target name="init">
+  	<tstamp>
+  	    <format property="YEAR" pattern="yyyy"/>
+	</tstamp>
+
+    <property name="Name" value="LibSBML compatibility module for jsbml"/>
+    <property name="name" value="jsbml-libsbml-compat"/>
+    <property name="version" value="0.1"/>
+
+    <property name="year" value="${YEAR}"/>
+  	
+    <echo message="----------- ${Name} ${version} [${year}] ------------"/>
+    <echo message="-----------     ${TODAY}   ------------"/>
+    <echo message="-----------     ${DSTAMP} ${TSTAMP}  ------------"/>
+  	
+    <property environment="env"/>
+    <property name="build.compiler" value="modern"/>
+    <property name="build.sysclasspath" value="ignore"/>
+    <property name="debug" value="on"/>
+    <property name="optimize" value="off"/>
+    <property name="deprecation" value="false"/>
+    <property name="depend" value="true"/>
+    <property name="verbose" value="false"/>
+    
+    <property name="build.number" value="${DSTAMP}-${TSTAMP}"/>
+    <property name="build.name" value="${version} (build ${build.number})"/>
+
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="test.src.dir" value="${basedir}/test"/>
+    <property name="build.dir" value="${basedir}/build"/>
+    <property name="build.src" value="${basedir}/build/src"/>
+    <property name="build.dest" value="${basedir}/build/classes"/>
+    <property name="build.javadocs" value="${basedir}/build/apidocs"/>
+    <property name="jars.dir" value="${basedir}/lib"/>
+
+<!-- =================================================================== -->
+<!-- You need to setup this value to point to the jsbml source tree      -->
+<!--  jsbml need to be compiled to have the jsbml jar file available     -->
+<!-- =================================================================== -->
+    <property name="jsbml.base.dir" value="${basedir}/../../jsbml_trunk/"/>
+
+    <property name="dist.root" value="${basedir}/dist"/>
+    <property name="dist.dir" value="${dist.root}/${name}-${version}"/>
+    <property name="package.dir" value="${basedir}/build/package"/>
+  	<property name="resource.dir" value="${basedir}/resources"/>
+  	
+    <filter token="year" value="${year}"/>
+    <filter token="version" value="${version}"/>
+    <filter token="date" value="${TODAY}"/>
+    <filter token="log" value="true"/>
+    <filter token="verbose" value="true"/>
+
+    <!-- add everything needed to the classpath -->
+    <!-- adjust the settings to your local environment -->
+    <path id="classpath">
+      <fileset dir="${jars.dir}" includes="*.jar *.zip">
+      </fileset>
+      <fileset dir="${jsbml.base.dir}/lib" includes="*.jar *.zip">
+      </fileset>
+      <fileset dir="${jsbml.base.dir}/build" includes="*.jar *.zip">
+      </fileset>
+    </path>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Help on usage                                                       -->
+  <!-- =================================================================== -->
+  <target name="usage" depends="init">
+    <echo message=""/>
+    <echo message=""/>
+    <echo message="${Name} Build file"/>
+    <echo message="-------------------------------------------------------------"/>
+    <echo message=""/>
+    <echo message=" available targets are:"/>
+    <echo message=""/>
+    <echo message="   compile  --> compiles the source code"/>
+    <echo message="   jar      --> generates the ${name}.jar file"/>
+    <echo message="   test      --> runs the Tests"/>
+    <echo message="   javadoc  --> generates the API documentation"/>
+    <echo message="   clean    --> cleans up the directory"/>
+    <echo message=""/>
+    <echo message=" See the comments inside the build.xml file for more details."/>
+    <echo message="-------------------------------------------------------------"/>
+    <echo message=""/>
+    <echo message=""/>
+  </target>
+  
+  <!-- =================================================================== -->
+  <!-- Prepares the build directory                                        -->
+  <!-- =================================================================== -->
+  <target name="prepare" depends="init">
+    <mkdir dir="${build.dir}"/>
+    <echo message="Done"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Prepares the source code                                            -->
+  <!-- =================================================================== -->
+  <target name="prepare-src" depends="prepare">
+    <!-- create directories if not exist -->
+    <mkdir dir="${build.src}"/>
+    <mkdir dir="${build.dest}"/>
+    <mkdir dir="${package.dir}"/>
+    <mkdir dir="${dist.root}"/>
+    <mkdir dir="${dist.dir}"/>
+
+    <!-- copy src files -->
+    <copy todir="${build.src}" overwrite="yes">
+        <fileset 
+            dir="${src.dir}"
+            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
+        </fileset>
+    </copy>
+ 
+    <!-- copy test files -->
+ 	
+  	<copy todir="${build.src}" overwrite="yes">
+  	        <fileset 
+  	            dir="${test.src.dir}"
+  	        	includes="org/sbml/jsbml/**"
+  	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
+  	        </fileset>
+  	    </copy>
+  	
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Modify somes files                                                  -->
+  <!-- =================================================================== -->
+  <target name="gen-build-number" unless="dev.mode">
+       <echo message="Updating the files with the build number..."/>
+
+       <replace file="${basedir}/doc/Readme.html"
+                token="[BUILD.NUMBER]"
+                value="${build.name}" />
+
+
+   </target>
+  
+  <!-- =================================================================== -->
+  <!-- Modify back somes files                                                  -->
+  <!-- =================================================================== -->
+  <target name="gen-build-number-back" depends="jar" unless="dev.mode">
+       <echo message="Updating back the files with [BUILD.NUMBER]..."/>
+
+
+       <replace file="${basedir}/doc/Readme.html"
+                token="${build.name}"
+                value="[BUILD.NUMBER]" />
+
+   </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory                                       -->
+  <!-- =================================================================== -->
+  <target name="compile" depends="prepare-src">   
+    <javac srcdir="${build.src}"
+           destdir="${build.dest}"
+           debug="${debug}"
+           optimize="${optimize}"
+           verbose="${verbose}"
+           source="1.5"
+           target="1.5"
+           classpathref="classpath">
+    </javac>      
+  </target>
+  
+
+  <!-- =================================================================== -->  
+  <!-- Creates the class package                                           -->
+  <!-- =================================================================== -->
+  <target name="jar" depends="compile">
+      
+    <copy todir="${build.dest}">
+        <fileset
+            dir="${build.src}"
+            includes="**/*.png **/*.gif **/data/* **/*.xml **/*.cfg **/*.obo" > 
+        </fileset>
+    </copy>
+    <jar jarfile="${build.dir}/${name}.jar"
+         basedir="${build.dest}"/>
+  </target>
+
+
+
+  <!-- =================================================================== -->  
+  <!-- Test the jsbml-libsbml-compat library                                              -->
+  <!-- =================================================================== -->
+  <target name="test" depends="init">
+
+
+	<echo message="No test included yet, there is a small test in SBMLDocument.main"/>
+<!--  	
+    <junit printsummary="yes" >
+    	<jvmarg value="-DDATA_FOLDER=${build.dest}/org/sbml/jsbml/xml/test/data/"/>
+        <sysproperty key="DATA_FOLDER" value="${build.dest}/org/sbml/jsbml/xml/test/data"/>
+
+    	<formatter type="plain"/>
+    	<test name="org.sbml.jsbml.xml.test.Tests" outfile="jsbmlTestResults">
+    		<formatter type="plain"/>
+    	</test>
+        <classpath>
+           <path refid="classpath"/>
+           <pathelement location="${build.dir}/${name}.jar"/>
+        </classpath>
+   </junit>
+  	-->
+
+  </target>
+
+	  
+  <!-- =================================================================== -->
+  <!-- Creates the API documentation                                       -->
+  <!-- =================================================================== -->
+  <target name="javadoc" depends="prepare-src">
+    <mkdir dir="${build.javadocs}"/>
+    <javadoc packagenames="org.*"
+             sourcepath="${build.src}"
+             destdir="${build.javadocs}"
+             classpathref="classpath"
+             maxmemory="96m"
+             author="true"
+             version="true"
+             use="true"
+             splitindex="true"
+             noindex="false"
+             windowtitle="${Name} API"
+             doctitle="${Name}"
+    	     breakiterator="yes"
+    >
+		<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+   </javadoc> 	
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Cleans everything                                                   -->
+  <!-- =================================================================== -->
+  <target name="clean" depends="init">
+    <delete includeEmptyDirs="true" quiet="yes">
+       <fileset dir="${build.dir}" includes="**/*"/>
+    </delete>
+  	<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes">
+  	    </delete>
+  </target>
+</project>
+
+<!-- End of file -->

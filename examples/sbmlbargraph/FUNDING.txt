@@ -1,0 +1,3 @@
+The SBML Bar Graph program has been developed thanks to support by the
+National Institutes of Health (USA) under grant GM070923 to the California
+Institute of Technology, under the direction of Michael Hucka.

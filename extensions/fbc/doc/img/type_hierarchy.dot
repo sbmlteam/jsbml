@@ -1,0 +1,110 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id: type_hierarchy.dot 2182 2015-04-10 23:01:33Z alex-thomas $
+# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/doc/img/type_hierarchy.dot $
+# $Rev: 2182 $
+/*
+ * Overview of the Fbc extension type hierarchy
+ */
+
+strict digraph G{
+
+	 nodesep=0.25;
+	 ranksep=0.5;
+
+	 edge [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   labelfontname="Helvetica",
+	   labelfontsize=10
+	 ];
+	 node [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   shape=box
+	 ];
+	 
+	 /*
+   * Abstract data types
+   */
+  AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  SBase                            		   [label=<<font face="Helvetica-Oblique">SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+
+ /*
+  * Interfaces
+  */
+ 
+  UniqueNamedSBase                               [label="<<interface>>\nUnique\nNamed\nSBase"];  
+ 	
+  /*********************
+   * Inheritance graph *
+   *********************/
+  
+  AbstractSBase              -> AbstractNamedSBase         [dir=back,arrowtail=empty];
+  
+   
+  subgraph clusterFbc {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Flux Balance Constraints extension";
+    labelloc=b;
+    labeljust=r;
+
+    // Interfaces
+ 	Association                   [label="<<interface>>\nAssociation"];
+    
+    // Objects
+    And                           [label="And"];
+    Or                            [label="Or"];
+    AbstractFBCSBasePlugin        [label="Abstract\nFBC\nSBase\nPlugin"];
+    LogicalOperator               [label="Logical Operator"];
+    Association                   [label="Association"];
+    FBCModelPlugin                [label="FBC Model Plugin"];
+    FBCReactionPlugin             [label="FBC Reaction Plugin"];
+    FBCSpeciesPlugin              [label="FBC Species Plugin"];
+    FluxObjective                 [label="Flux\nObjective"];
+    GeneProduct                   [label="Gene Product"];
+    GeneProductRef				  [label="Gene\nProduct\nRef"];
+    GeneProteinAssociation		  [label="Gene\nProtein\nAssociation"];
+    Objective					  [label="Objective"];
+    
+    /*
+     * Inheritance graph
+     */
+     LogicalOperator -> And		       				[dir=back,arrowtail=empty];
+     LogicalOperator -> Or      	 				[dir=back,arrowtail=empty];
+     Association -> GeneProductRef 					[dir=back,arrowtail=empty];
+     Association -> LogicalOperator 				[dir=back,arrowtail=empty];
+     AbstractFBCSBasePlugin -> FBCModelPlugin    	[dir=back,arrowtail=empty];
+     AbstractFBCSBasePlugin -> FBCReactionPlugin 	[dir=back,arrowtail=empty];
+     AbstractFBCSBasePlugin -> FBCSpeciesPlugin		[dir=back,arrowtail=empty];
+   }
+   
+   /*********************
+    * Inheritance graph *
+    *********************/
+    
+   AbstractNamedSBase -> Objective             		[dir=back,arrowtail=empty];
+   AbstractSBase -> LogicalOperator             	[dir=back,arrowtail=empty];
+   AbstractNamedSBase -> GeneProteinAssociation     [dir=back,arrowtail=empty];
+   AbstractNamedSBase -> GeneProductRef             [dir=back,arrowtail=empty];
+   AbstractNamedSBase -> GeneProduct            	[dir=back,arrowtail=empty];
+   AbstractNamedSBase -> FluxObjective              [dir=back,arrowtail=empty];
+   SBase -> Association 							[dir=back,arrowtail=empty];
+   AbstractSBase -> LogicalOperator			    	[dir=back,arrowtail=empty];    
+   AbstractSBasePlugin -> AbstractFBCSBasePlugin    [dir=back,arrowtail=empty];
+   UniqueNamedSBase -> FluxObjective				[dir=back,arrowtail=empty];
+   UniqueNamedSBase -> GeneProduct					[dir=back,arrowtail=empty];
+   Association -> GeneProductRef					[dir=back,arrowtail=empty];
+   Association -> LogicalOperator					[dir=back,arrowtail=empty];
+   UniqueNamedSBase -> Objective					[dir=back,arrowtail=empty];
+
+
+}

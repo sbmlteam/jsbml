@@ -1,0 +1,6 @@
+
+To generate the API documentation of libSBMLio modules, you need to have ant installed.
+
+in the root folder of the module, type :
+
+ant javadoc

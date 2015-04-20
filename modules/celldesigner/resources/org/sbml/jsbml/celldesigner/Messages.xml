@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    $Id: Messages.xml 2109 2015-01-05 04:50:45Z andreas-draeger $
+    $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/celldesigner/resources/org/sbml/jsbml/celldesigner/Messages.xml $
+    ----------------------------------------------------------------------------
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2015 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+    ----------------------------------------------------------------------------
+
+    A collection of text messages to be presented to uses upon certain events.
+
+    Author:  Andreas Dräger
+    Version: $Rev: 2109 $
+    Since:   1.0
+  </comment>
+  
+  <entry key="CANNOT_ADD_NODE">Cannot add node {0}.</entry>
+  <entry key="CANNOT_CHANGE_ELEMENT">Cannot change the element {0} in CellDesigner's data structure.</entry>
+  <entry key="CANNOT_CREATE_SPECIES_REFERENCE">Cannot create PluginSpeciesReference due to missing species annotation.</entry>
+  <entry key="CANNOT_DELETE_CVTERM">Cannot remove controlled vocabulary term {1} from CellDesigner object {0}.</entry>
+  <entry key="CANNOT_FIRE_PROPERTY_CHANGE">Cannot fire property change {0}.</entry>
+  <entry key="CANNOT_REMOVE_ELEMENT">Cannot remove the element {0} in CellDesigner's data structure.</entry>
+  <entry key="CHANGING_VALUE_IN_MODEL_REQURES_L3">Changing {0} in the Model only supported with SBML Level > 2.</entry>
+  <entry key="CHANGING_VALUE_NOT_SUPPORTED">Changing {0} in the model not supported.</entry>
+  <entry key="COULD_NOT_SAVE_PROPERTIES_OF">Could not save math properties of {0}.</entry>
+  <entry key="COULD_NOT_PROCESS">Could not process {0}.</entry>
+  <entry key="NO_CORRESPONDING_CLASS_IN_CELLDESIGNER">No counter class for {0} in CellDesigner.</entry>
+  <entry key="NO_SBO_TERM_DEFINED">No SBO term defined for {0}, using {1,number,integer} instead.</entry>
+  <entry key="PARSING_OF_NODE_UNSUCCESSFUL">Parsing of node {0} not successful.</entry>
+  <entry key="PLUGINS_CURRENTLY_NOT_SUPPORTED">Plug-ins are currently not supported. The element {0} can therefore not be considered.</entry>
+  <entry key="ROUNDING_ERROR">The value could not be correctly converted. Error: {0,number}</entry>
+  <entry key="TRYING_TO_REMOVE_ELEMENT">Trying to remove {0} from element {1}, but there is no remove method. Please check the result.</entry>
+  <entry key="UNUSED_FUNCTION_IN_MODEL">Unused function {0} in the model.</entry>
+  <entry key="UNUSED_METHOD">Unused method {0} in the model.</entry>
+  <entry key="UNUSED_PROPERTY_CHANGE">Unused property change {0}</entry>
+  
+</properties>

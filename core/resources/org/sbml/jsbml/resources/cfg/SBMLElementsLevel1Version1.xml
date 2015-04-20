@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    $Id: SBMLElementsLevel1Version1.xml 2109 2015-01-05 04:50:45Z andreas-draeger $
+    $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/resources/org/sbml/jsbml/resources/cfg/SBMLElementsLevel1Version1.xml $
+    ----------------------------------------------------------------------------
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2015 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+    ----------------------------------------------------------------------------
+
+    Mapping between SBML core element names and their representation
+    as JSBML classes
+
+    Version: $Rev: 2109 $
+  </comment>
+  <entry key="algebraicRule">org.sbml.jsbml.AlgebraicRule</entry>
+  <entry key="annotation">org.sbml.jsbml.Annotation</entry>
+  <entry key="assignmentRule">org.sbml.jsbml.AssignmentRule</entry>
+  <entry key="compartment">org.sbml.jsbml.Compartment</entry>
+  <entry key="compartmentVolumeRule">org.sbml.jsbml.AssignmentRule</entry>
+  <entry key="kineticLaw">org.sbml.jsbml.KineticLaw</entry>
+  <entry key="listOfCompartments">org.sbml.jsbml.ListOf</entry>
+  <entry key="listOfLocalParameters">org.sbml.jsbml.ListOf</entry>
+  <entry key="listOfModifiers">org.sbml.jsbml.ListOf</entry>
+  <entry key="listOfParameters">org.sbml.jsbml.ListOf</entry>
+  <entry key="listOfProducts">org.sbml.jsbml.ListOf</entry>
+  <entry key="listOfRules">org.sbml.jsbml.ListOf</entry>
+  <entry key="listOfReactants">org.sbml.jsbml.ListOf</entry>
+  <entry key="listOfReactions">org.sbml.jsbml.ListOf</entry>
+  <entry key="listOfSpecies">org.sbml.jsbml.ListOf</entry>
+  <entry key="listOfUnits">org.sbml.jsbml.ListOf</entry>
+  <entry key="listOfUnitDefinitions">org.sbml.jsbml.ListOf</entry>
+  <entry key="localParameter">org.sbml.jsbml.Parameter</entry>
+  <entry key="math">java.lang.StringBuffer</entry>
+  <entry key="message">java.lang.StringBuffer</entry>
+  <entry key="model">org.sbml.jsbml.Model</entry>
+  <entry key="modifierSpeciesReference">org.sbml.jsbml.ModifierSpeciesReference</entry>
+  <entry key="notes">java.lang.StringBuffer</entry>
+  <entry key="parameter">org.sbml.jsbml.Parameter</entry>
+  <entry key="parameterRule">org.sbml.jsbml.AssignmentRule</entry>
+  <entry key="rateRule">org.sbml.jsbml.RateRule</entry>
+  <entry key="reaction">org.sbml.jsbml.Reaction</entry>
+  <entry key="specie">org.sbml.jsbml.Species</entry>
+  <entry key="specieConcentrationRule">org.sbml.jsbml.AssignmentRule</entry>
+  <entry key="specieReference">org.sbml.jsbml.SpeciesReference</entry>
+  <entry key="unit">org.sbml.jsbml.Unit</entry>
+  <entry key="unitDefinition">org.sbml.jsbml.UnitDefinition</entry>
+</properties>

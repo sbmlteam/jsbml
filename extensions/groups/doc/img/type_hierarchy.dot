@@ -1,0 +1,87 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id: type_hierarchy.dot 2183 2015-04-10 23:13:25Z alex-thomas $
+# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/groups/doc/img/type_hierarchy.dot $
+# $Rev: 2183 $
+/*
+ * Overview of the groups extension type hierarchy
+ */
+
+strict digraph G{
+
+	 nodesep=0.25;
+	 ranksep=0.5;
+
+	 edge [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   labelfontname="Helvetica",
+	   labelfontsize=10
+	 ];
+	 node [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   shape=box
+	 ];
+	 
+	 /*
+   * Abstract data types
+   */
+  AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">Abstract<br/>SBasePlugin</font>>, style="filled", fillcolor="#F0F8FF"];
+  ListOf			                       [label=<<font face="Helvetica-Oblique">List Of</font>>, style="filled", fillcolor="#F0F8FF"];
+  
+  UniqueNamedSBase                         [label="<<interface>>\nUnique\nNamed\nSBase"];
+  NamedSBase                         	   [label="<<interface>>\nNamed\nSBase"];
+  
+  /*********************
+   * Inheritance graph *
+   *********************/
+  
+  AbstractSBase              -> AbstractNamedSBase         [dir=back,arrowtail=empty];
+  
+   
+  subgraph clusterGroups {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Groups extension";
+    labelloc=b;
+    labeljust=r;
+
+    // Interfaces
+
+    // Enums
+    GroupKind                   [label=<<font face="Helvetica-Oblique">Group<br/>Kind</font>>];
+    
+    // Objects
+    Group                                  [label="Group"];
+    GroupsModelPlugin                      [label="Groups\nModel\nPlugin"];
+    MemberConstraint                       [label="Member\nConstraint"];
+	Member                       		   [label="Member"];
+	ListOfMemberConstraint        		   [label="List Of\nMember Constraint"];
+
+	Group -> GroupKind	                   [dir=back,arrowtail=empty];
+   }
+   
+   /*********************
+    * Inheritance graph *
+    *********************/
+   
+   AbstractNamedSBase -> Group                  [dir=back,arrowtail=empty];
+   AbstractNamedSBase -> MemberConstraint       [dir=back,arrowtail=empty];
+   AbstractNamedSBase -> Member                 [dir=back,arrowtail=empty];
+   AbstractSBasePlugin -> GroupsModelPlugin     [dir=back,arrowtail=empty];
+   UniqueNamedSBase -> Group          	        [dir=back,arrowtail=empty];
+   UniqueNamedSBase -> ListOfMemberConstraint   [dir=back,arrowtail=empty];
+   NamedSBase -> ListOfMemberConstraint	        [dir=back,arrowtail=empty];
+   ListOf -> ListOfMemberConstraint		        [dir=back,arrowtail=empty];
+   UniqueNamedSBase -> Member          	        [dir=back,arrowtail=empty];
+   UniqueNamedSBase -> MemberConstraint	        [dir=back,arrowtail=empty];
+
+}

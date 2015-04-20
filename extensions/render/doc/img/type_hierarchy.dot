@@ -1,0 +1,149 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id: type_hierarchy.dot 2183 2015-04-10 23:13:25Z alex-thomas $
+# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/doc/img/type_hierarchy.dot $
+# $Rev: 2183 $
+
+/*
+ * Overview of the render extension type hierarchy
+ */
+ 
+strict digraph G{
+
+	 nodesep=0.25;
+ 	ranksep=0.5;
+
+	 edge [
+	   fontname="Helvetica",
+	   fontsize=10,
+ 	  labelfontname="Helvetica",
+	   labelfontsize=10
+	 ];
+	 node [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   shape=box
+ 	];
+ 	
+ 	/*
+ 	 * Interfaces
+ 	 */
+ 	UniqueNamedSBase                         [label="<<interface>>\nUniqueNamedSBase"];
+ 	
+  /*
+   * Abstract data types
+   */
+ 	AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase Plugin</font>>, style="filled", fillcolor="#F0F8FF"]; 	
+ 	AbstractSBase  		                     [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+ 	AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>Named<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  
+  /*
+   * The render extension
+   */
+   
+  subgraph clusterRender {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Rendering elements extension";
+    labelloc=b;
+    labeljust=r;
+
+    // Interfaces
+    FontRenderStyle                        	  	  [label="<<interface>>\nFont\nRender\nStyle"];
+    Point3D		                        	  	  [label="<<interface>>\nPoint3D"];
+
+    // Enums
+
+    // Abstract data types
+    FontFamily		                          	  [label=<<font face="Helvetica-Oblique">Font<br/>Family</font>>];
+    TextAnchor		                          	  [label=<<font face="Helvetica-Oblique">Text<br/>Anchor</font>>];
+    VTextAnchor		                          	  [label=<<font face="Helvetica-Oblique">VText<br/>Anchor</font>>];
+        
+    // Objects
+    AbstractRenderPlugin                     	  [label="Abstract\nRender\nPlugin"];    
+    ColorDefinition					  			  [label="Color\nDefinition"];
+    GraphicalPrimitive2D                          [label="Graphical\nPrimitive2D"];  
+    GraphicalPrimitive1D                          [label="Graphical\nPrimitive1D"];  
+    Transformation2D                              [label="Transformation2D"];  
+    Transformation                                [label="Transformation"];  
+    Ellipse                                		  [label="Ellipse"];  
+    RenderInformationBase                  		  [label="Render\nInformation\nBase"];  
+    GlobalRenderInformation               		  [label="Global\nRender\nInformation"];  
+    GradientBase              			 		  [label="Gradient\nBase"];  
+    GradientStop              			 		  [label="Gradient\nStop"];  
+    Image		              			 		  [label="Image"];  
+    LinearGradient		              			  [label="Linear\nGradient"];  
+    LineEnding                        			  [label="Line\nEnding"];
+    LocalRenderInformation           			  [label="Local Render\nInformation"];
+    LocalStyle			                          [label="Local\nStyle"];
+    Style			                        	  [label="Style"];
+    Polygon			                        	  [label="Polygon"];
+    RadialGradient	                        	  [label="RadialGradient"];
+    Rectangle		                        	  [label="Rectangle"];
+    RenderPoint		                        	  [label="Render\nPoint"];
+    RenderCubicBezier                       	  [label="Render\nCubic\nBezier"];
+    RenderCurve			                       	  [label="Render\nCurve"];
+    RenderGroup			                       	  [label="Render\nGroup"];
+    RenderLayoutPlugin	                       	  [label="Render\nLayout\nPlugin"];
+    RenderListOfLayoutsPlugin                  	  [label="Render\nList Of\nLayouts Plugin"];
+    Text					                  	  [label="Text"];
+    XMLTools			                          [label="X\nTools"];
+      
+    /*
+     * Inheritance graph
+     */
+     Transformation                -> Transformation2D      [dir=back,arrowtail=empty];
+     Transformation2D                -> GraphicalPrimitive1D      [dir=back,arrowtail=empty];
+     GraphicalPrimitive1D                -> GraphicalPrimitive2D      [dir=back,arrowtail=empty];
+     GraphicalPrimitive2D                -> Ellipse      [dir=back,arrowtail=empty];
+     FontRenderStyle                -> FontFamily      [dir=back,arrowtail=empty];
+     RenderInformationBase                -> GlobalRenderInformation      [dir=back,arrowtail=empty];
+     Transformation2D                -> Image      [dir=back,arrowtail=empty];
+     GradientBase                -> LinearGradient      [dir=back,arrowtail=empty];
+     GraphicalPrimitive2D                -> LineEnding      [dir=back,arrowtail=empty];
+     RenderInformationBase                -> LocalRenderInformation      [dir=back,arrowtail=empty];
+     Style                -> LocalStyle      [dir=back,arrowtail=empty];
+     GraphicalPrimitive2D                -> Polygon      [dir=back,arrowtail=empty];
+     GradientBase                -> RadialGradient      [dir=back,arrowtail=empty];
+     GraphicalPrimitive2D                -> Rectangle      [dir=back,arrowtail=empty];
+     Point3D                -> Rectangle      [dir=back,arrowtail=empty];
+     Point3D                -> RenderPoint      [dir=back,arrowtail=empty];
+     RenderPoint                -> RenderCubicBezier      [dir=back,arrowtail=empty];
+     GraphicalPrimitive1D                -> RenderCurve      [dir=back,arrowtail=empty];
+     GraphicalPrimitive2D                -> RenderGroup      [dir=back,arrowtail=empty];
+     AbstractRenderPlugin                -> RenderLayoutPlugin      [dir=back,arrowtail=empty];
+     AbstractRenderPlugin                -> RenderListOfLayoutsPlugin      [dir=back,arrowtail=empty];
+     GraphicalPrimitive1D                -> Text      [dir=back,arrowtail=empty];
+     FontRenderStyle                -> Text      [dir=back,arrowtail=empty];
+     Point3D                -> Text      [dir=back,arrowtail=empty];
+     FontRenderStyle                -> TextAnchor      [dir=back,arrowtail=empty];
+     FontRenderStyle                -> VTextAnchor      [dir=back,arrowtail=empty];
+
+
+
+  }
+  
+  /*********************
+   * Inheritance graph *
+   *********************/
+  AbstractSBase         -> AbstractNamedSBase     [dir=back,arrowtail=empty];
+  AbstractSBasePlugin         -> AbstractRenderPlugin     [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> ColorDefinition     [dir=back,arrowtail=empty];
+  AbstractSBase         -> Transformation     [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> RenderInformationBase     [dir=back,arrowtail=empty];
+  UniqueNamedSBase         -> RenderInformationBase     [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> GradientBase     [dir=back,arrowtail=empty];
+  UniqueNamedSBase         -> GradientBase     [dir=back,arrowtail=empty];
+  AbstractSBase         -> GradientStop     [dir=back,arrowtail=empty];
+  UniqueNamedSBase         -> Style     [dir=back,arrowtail=empty];
+  AbstractSBase         -> Style     [dir=back,arrowtail=empty];
+  AbstractSBase         -> RenderPoint     [dir=back,arrowtail=empty];
+  UniqueNamedSBase         -> RenderGroup     [dir=back,arrowtail=empty];
+
+}

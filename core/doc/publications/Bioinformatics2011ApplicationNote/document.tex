@@ -1,0 +1,376 @@
+\documentclass{bioinfo}
+\copyrightyear{2011}
+\pubyear{2011}
+
+\usepackage{subfig}
+\usepackage{listings}
+\usepackage{ifthen}
+
+% \usepackage{ulem}
+
+% some nice colors
+\definecolor{royalblue}{cmyk}{.93, .79, 0, 0}
+\definecolor{lightblue}{cmyk}{.10, .017, 0, 0}
+\definecolor{forrestgreen}{cmyk}{.76, 0, .76, .45}
+\definecolor{darkred}{rgb}{.7,0,0}
+\definecolor{winered}{cmyk}{0,1,0.331,0.502}
+\definecolor{lightgray}{gray}{0.97}
+
+\lstset{language=Java,
+morendkeywords={String, Throwable}
+captionpos=b,
+basicstyle=\scriptsize\ttfamily,%\bfseries
+stringstyle=\color{darkred}\scriptsize\ttfamily,
+keywordstyle=\color{royalblue}\bfseries\ttfamily,
+ndkeywordstyle=\color{forrestgreen},
+numbers=left,
+numberstyle=\scriptsize,
+% backgroundcolor=\color{lightgray},
+breaklines=true,
+tabsize=2,
+frame=single,
+breakatwhitespace=true,
+identifierstyle=\color{black},
+% morecomment=[l][\color{forrestgreen}]{//},
+% morecomment=[s][\color{lightblue}]{/**}{*/},
+% morecomment=[s][\color{forrestgreen}]{/*}{*/},
+commentstyle=\ttfamily\itshape\color{forrestgreen}
+% framexleftmargin=5mm,
+% rulesepcolor=\color{lightgray}
+% frameround=ttff
+}
+
+\hyphenation{
+SBML-squeez-er
+Tree-Node
+}
+
+
+\begin{document}
+\firstpage{1}
+\application
+\title[JSBML: The Java library for SBML]{JSBML: a flexible Java library
+for working with SBML} \author[Dr\"ager and Rodriguez \textit{et~al.}]{Andreas
+Dr\"ager\,$^{1,*}$,
+Nicolas Rodriguez\,$^{2,*}$,
+Marine Dumousseau\,$^{2}$,
+Alexander~D\"orr\,$^{1}$,
+Clemens Wrzodek\,$^{1}$,
+Nicolas Le Nov\`{e}re\,$^{2}$,
+Andreas Zell\,$^{1}$,
+Michael~Hucka\,$^{3,}$\footnote{to whom correspondence should be addressed}}
+\address{$^{1}$Center for Bioinformatics Tuebingen (ZBIT), University of
+Tuebingen, T\"ubingen, Germany\\
+$^{2}$European Bioinformatics Institute, Wellcome Trust Genome Campus,
+Hinxton, Cambridge, UK\\
+$^{3}$Computing and Mathematical Sciences, California Institute of Technology,
+Pasadena, CA, USA}
+
+\history{Received on XXXXX; revised on XXXXX; accepted on XXXXX}
+
+\editor{Associate Editor: XXXXXXX}
+
+\maketitle
+
+
+\begin{abstract}
+
+\section{Summary:}
+The specifications of the Systems Biology Markup Language (SBML) define
+standards for storing and exchanging computer models of biological processes in
+text files. In order to perform model simulations, graphical visualizations, and
+other software manipulations, an in-memory representation of SBML is required. We
+developed JSBML for this purpose. In contrast to prior implementations of SBML
+APIs, JSBML has been designed from the ground up for the Java\texttrademark{}
+programming language, and can therefore be used on all platforms supported by a
+Java Runtime Environment. This offers important benefits for Java users,
+including the ability to distribute software as Java Web Start applications.
+JSBML supports all SBML Levels and Versions through Level~3 Version~1, and we
+have strived to maintain the highest possible degree of compatibility with the
+popular library libSBML. JSBML also supports modules that can facilitate the
+development of plugins for end-user applications, as well as ease migration from
+a libSBML-based backend.
+
+\section{Availability:} Source code, binaries, and documentation for JSBML can
+be freely obtained under the terms of the LGPL 2.1 from the website
+\href{http://sbml.org/Software/JSBML}{http://sbml.org/Software/JSBML}.
+
+\section{Contact:} \href{mailto:jsbml-team@sbml.org}{jsbml-team@sbml.org}
+
+\section{Supplementary information:} Supplementary data are available at
+Bioinformatics online.
+
+\end{abstract}
+
+
+\section{Introduction}
+
+The XML-based Systems Biology Markup Language (SBML, \citealt{M.Hucka03012003})
+is the \emph{de facto} standard file format for the storage and exchange of
+quantitative computational models in systems biology, supported by more than
+210 software packages to date (Mar.~2011).
+Much of this success is due to its
+clearly defined specifications and the availability of libSBML~\citep{Bornstein2008},
+a portable, robust, full-featured, and easy-to-use library.
+
+LibSBML provides many methods for the manipulation and validation of
+SBML files through its Application Programming Interface (API).
+Primarily written in C and C++, libSBML also provides automatically-generated
+language bindings for Java\texttrademark, among other programming languages.
+%, MATLAB\texttrademark, Perl, and many more}.
+However, the full platform independence brought by the use of Java is limited in
+libSBML because the binding is only a wrapper
+around the C/C++ core, implemented using the Java Native Interface (JNI).
+As a consequence, some software developers experience difficulties
+deploying portable libSBML-based Java applications.
+% Furthermore, the libSBML API and type hierarchy are not sufficiently
+% intuitive from a Java programmer's perspective just because they were not
+% designed directly for Java.
+Several groups in the SBML community thus began to
+develop their own Java libraries for SBML. To avoid needless duplication, some of
+these groups recently pooled their efforts and created JSBML, an
+open-source project to develop a pure Java library for SBML.
+
+The primary aim of the project is to provide an API 
+that maps all SBML elements to a flexible and extended
+Java type hierarchy. Where possible, JSBML strives for
+100\,\% compatibility with libSBML's Java API, to ease the transition from
+one library to the other. There are currently no plans to re-implement 
+the more complex functionalities of libSBML, such as model consistency checking,
+SBML validation, and conversion between different SBML Levels and Versions;
+separate community efforts are underway to provide such libSBML facilities
+via web services.
+
+The software produced by the project is freely available from
+\href{http://sbml.org/Software/JSBML}{http://sbml.org/Software/JSBML}.
+
+
+%\section{Approach}
+
+%\begin{methods}
+%\section{Methods}
+\section{Implementation}
+
+A key achievement of the JSBML project is the development of an extended type
+hierarchy, designed from scratch based on the SBML specifications, but still
+following the naming conventions of methods and classes in
+libSBML. For each element defined in at least one SBML Level/Version combination,
+JSBML provides a corresponding class reflecting all of its properties. SBML
+elements or attributes not part of higher SBML Levels (removed or made
+obsolete) are marked as deprecated. JSBML defines superclasses or interfaces for
+elements that share common properties. For instance, the interface
+\texttt{NamedSBase} does not directly correspond to a data type in one of the
+SBML specifications, but serves as the superclass of all \texttt{SBase}-derived
+classes that can be addressed by an identifier and a name. Similarly, all classes
+that may contain a mathematical expression implement the
+interface \texttt{MathContainer}. A full overview of this type hierarchy can be
+found in the supplementary data associated with this article. JSBML also
+supports SBML \emph{notes} in XHTML format, as well as SBML
+\emph{annotations}, including MIRIAM identifiers \citep{Novere2005} and
+SBO terms \citep{Novere2006b}.
+When building JSBML, the latest SBO OBO export can directly be downloaded and
+parsed \citep{Holland2008}.
+% Predefined units are automatically annotated with the correct
+% Unit Ontology terms.
+The \texttt{Model} class provides several methods, all beginning with the name
+\texttt{find*}, for querying SBML elements. Filters enable users to search lists
+for elements that possess specific properties. All \texttt{ListOf*} elements in
+JSBML implement Java's \texttt{List} interface, making iteration and the use of
+generic Java types possible. Fig.~\ref{fig:JSBML} demonstrates how the
+hierarchically structured content of an SBML file can be easily visualized in the form
+of a tree.
+\begin{figure*}
+\centerline{
+  \subfloat[The SBML parser in JSBML understands the hierarchical data structure
+of SBML.]{\label{lst:JSBMLVisualizer}
+    \raisebox{2.82cm}{
+      \parbox{.55\textwidth}{
+        \begin{minipage}[t][5.7cm][c]{.55\textwidth}
+          \lstinputlisting[language=Java]{src/JSBMLvisualizer.java}
+        \end{minipage}
+      }
+    }
+  }\hspace{1cm}
+  \subfloat[Example for SBML test case 26.]{\label{fig:JSBMLVisualizer}
+%\raisebox{1.2cm}{
+\includegraphics[width=.24\textwidth,height=170pt]{img/Case26_Tree_Windows.png}
+%}
+  }
+}
+\caption[Using JSBML for reading and visualizing an SBML file using
+JSBML]{Using JSBML for reading and visualizing an SBML file. The type
+\texttt{SBase} extends the Java interfaces \texttt{Serializable} for saving
+JSBML objects in binary form or sending them over a network connection,
+\texttt{Cloneable} for creating deep object copies, and \texttt{TreeNode}.
+The last interface allows callers to apply any recursive operation, such as
+using \texttt{JTree} for display (see~\ref{fig:JSBMLVisualizer} for an
+example).}
+\label{fig:JSBML}
+\end{figure*}
+
+JSBML includes parsers that read mathematical formulas in both MathML
+format and an infix formula syntax.  Internally, it converts formulas
+into an abstract syntax tree representation; it can write out the
+trees in MathML, infix, and \LaTeX{} formula notations.
+% and also be visualized in a \texttt{JTree} since they also implement
+% \texttt{TreeNode}.
+In addition, although JSBML does not implement full-featured
+consistency checking of SBML models, it does throw Java exceptions in some
+situations to prevent users from creating invalid content.
+It implements a check for overdetermined models
+using the algorithm of \citet{Hopcroft1973}; this is 
+also used to identify variables in algebraic rules. Further, JSBML can
+automatically derive the units of a mathematical expression.
+Whenever a property of some \texttt{SBase} is altered, an
+\texttt{SBaseChangeEvent} is fired that notifies dedicated listeners.
+As one possible application, graphical user interfaces could automatically
+react when the model is changed. Using modules, JSBML capabilities can be
+further extended; it can therefore be used as a communication layer between an
+application and libSBML or CellDesigner \citep{Funahashi2003}---this also
+facilitates turning an existing application into a plugin for CellDesigner.
+%\end{methods}
+
+%\section{Implementation}
+
+% JSBML is written entirely in Java version 1.5 and does
+% not require additional non-Java software.
+% % It was successfully tested under MacOS X, Windows 7, Vista, XP, and Linux
+% % (openSuSE 11.2, Ubuntu 10.04).
+% It is distributed in source-code form as well as precompiled JAR files,
+% with different JAR distributions available depending on whether required
+% third-party libraries are included. We also provide a convenient build
+% file offering several options for users to easily create customized JAR files.
+% Since it is distributed under the terms of the Lesser GNU Public License (LGPL), 
+% JSBML can freely be used even in proprietary software.
+
+%\section{Discussion}
+
+
+\section{Conclusion}
+
+JSBML is an ongoing project that provides comprehensive and entirely Java-based
+data structures to read, write, and manipulate SBML files. Its layered
+architecture allows for the creation of Java Web Start applications and
+CellDesigner plugins based on stand-alone programs with very little effort.
+%
+New versions of SBMLsqueezer \citep{Draeger2008} and Biomodels Database
+\citep{Li2010} have  already been released using JSBML. Many other projects are
+planned.
+
+\section*{Acknowledgement}
+
+\paragraph{Authors' contribution\textcolon} NR and AD contributed equally to
+this work.
+
+\paragraph{Funding\textcolon}
+The development of JSBML is funded by a grant from the National Institute of
+General Medical Sciences (NIGMS, USA), funds from EMBL-EBI (Germany, UK), and
+the Federal Ministry of Education and Research (BMBF, Germany) in the projects
+Virtual Liver and Spher4Sys (grant numbers 0315756 and 0315384C).
+
+\paragraph{Conflict of Interest\textcolon} none declared.
+
+%\bibliographystyle{natbib}
+%\bibliographystyle{achemnat}
+%\bibliographystyle{plainnat}
+%\bibliographystyle{abbrv}
+%\bibliographystyle{bioinformatics}
+%
+%\bibliographystyle{plain}
+%
+%\bibliography{Document}
+
+
+% \bibliographystyle{natbib}
+% \bibliography{../../literature}
+
+\begin{thebibliography}{}
+
+\bibitem[Bornstein {\em et~al.}(2008)Bornstein, Keating, Jouraku, and
+  Hucka]{Bornstein2008}
+Bornstein {\em et~al.} (2008).
+\newblock {LibSBML: an API Library for SBML}.
+\newblock {\em Bioinformatics\/}, {\bf 24}(6), 880--881.
+
+\bibitem[Dr{\"a}ger {\em et~al.}(2008)Dr{\"a}ger, Hassis, Supper, Schr{\"o}der,
+  and Zell]{Draeger2008}
+Dr{\"a}ger {\em et~al.} (2008).
+\newblock {SBMLsqueezer: a CellDesigner plug-in to generate kinetic rate
+  equations for biochemical networks}.
+\newblock {\em BMC Syst. Biol.\/}, {\bf 2}(1), 39.
+
+% \bibitem[Dr{\"a}ger {\em et~al.}(2009)Dr{\"a}ger, Planatscher, Wouamba,
+%   Schr{\"o}der, Hucka, Endler, Golebiewski, M{\"u}ller, and Zell]{Draeger2009}
+% Dr{\"a}ger {\em et~al.} (2009).
+% \newblock {{SBML2\LaTeX: Conversion of SBML files into human-readable
+%   reports}}.
+% \newblock {\em Bioinformatics\/}, {\bf 25}(11), 1455--1456.
+
+\bibitem[Funahashi {\em et~al.}(2003)Funahashi, Tanimura, Morohashi, and
+  Kitano]{Funahashi2003}
+Funahashi {\em et~al.} (2003).
+\newblock {CellDesigner: a process diagram editor for gene-regulatory and
+  biochemical networks}.
+\newblock {\em BioSilico\/}, {\bf 1}(5), 159--162.
+
+\bibitem[Holland {\em et~al.}(2008)Holland, Down, Pocock, Prli\'{c}, Huen,
+  James, Foisy, Dr\"ager, Yates, Heuer, and Schreiber]{Holland2008}
+Holland {\em et~al.} (2008).
+\newblock {BioJava: an Open-Source Framework for Bioinformatics}.
+\newblock {\em Bioinformatics\/}, {\bf 24}(18), 2096--2097.
+
+\bibitem[Hopcroft and Karp(1973)Hopcroft and Karp]{Hopcroft1973}
+Hopcroft and Karp (1973).
+\newblock {An $n^{5/2}$ algorithm for maximum matchings in bipartite graphs}.
+\newblock {\em SIAM J. Comput.\/}, {\bf 2}, 225.
+
+\bibitem[Hucka {\em et~al.}(2003)Hucka, Finney, Sauro, Bolouri, Doyle, Kitano,
+  Arkin, Bornstein, Bray, Cornish-Bowden, Cuellar, Dronov, Gilles, Ginkel, Gor,
+  Goryanin, Hedley, Hodgman, Hofmeyr, Hunter, Juty, Kasberger, Kremling,
+  Kummer, Le~Nov{\`e}re, Loew, Lucio, Mendes, Minch, Mjolsness, Nakayama,
+  Nelson, Nielsen, Sakurada, Schaff, Shapiro, Shimizu, Spence, Stelling,
+  Takahashi, Tomita, Wagner, Wang, and the rest of~the
+  SBML~Forum]{M.Hucka03012003}
+Hucka {\em et~al.} (2003).
+\newblock {The systems biology markup language (SBML): a medium for
+  representation and exchange of biochemical network models}.
+\newblock {\em Bioinformatics\/}, {\bf 19}(4), 524--531.
+
+\bibitem[Le~Nov{\`e}re {\em et~al.}(2005)Le~Nov{\`e}re, Finney, Hucka, Bhalla,
+  Campagne, Collado-Vides, Crampin, Halstead, Klipp, Mendes, Nielsen, Sauro,
+  Shapiro, Snoep, Spence, and Wanner]{Novere2005}
+Le~Nov{\`e}re {\em et~al.} (2005).
+\newblock {Minimum information requested in the annotation of biochemical
+  models (MIRIAM)}.
+\newblock {\em Nat. Biotechnol.\/}, {\bf 23}(12), 1509--1515.
+
+\bibitem[Le~Nov{\`e}re {\em et~al.}(2006)Le~Nov{\`e}re, Courtot, and
+  Laibe]{Novere2006b}
+Le~Nov{\`e}re {\em et~al.} (2006).
+\newblock Adding semantics in kinetics models of biochemical pathways.
+\newblock In Kettner and Hicks, eds., {\em 2\textsuperscript{nd}
+  International ESCEC Workshop.
+%   on Experimental Standard Conditions on Enzyme
+%   Characterizations.
+  Beilstein Institut, R{\"u}desheim, Germany\/}, pages
+  137--153, R{\"u}dessheim/Rhein, Germany. ESEC.
+
+\bibitem[Li {\em et~al.}(2010)Li, Donizelli, Rodriguez, Dharuri, Endler, Chelliah, Li, 
+He, Henry, Stefan, Snoep, Hucka, Le Nov{\`e}re and Laibe]{Li2010}
+Li {\em et~al.} (2010).
+\newblock BioModels Database: An enhanced, curated and annotated resource for published quantitative kinetic models.
+\newblock {\em BMC Syst Biol}, 2010, 4, 92
+%   title   = {{BioModels Database: An enhanced, curated and annotated resource for published quantitative kinetic models.}},
+%   journal = {BMC Systems Biology},
+%   year    = {2010},
+%   month   = {Jun},
+%   volume  = {4},
+%   pages   = {92},
+%   pmid    = {20587024}
+
+
+
+
+\end{thebibliography}
+
+\end{document}

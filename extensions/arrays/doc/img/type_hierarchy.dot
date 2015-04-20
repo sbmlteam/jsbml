@@ -1,0 +1,126 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id: type_hierarchy.dot 2183 2015-04-10 23:13:25Z alex-thomas $
+# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/arrays/doc/img/type_hierarchy.dot $
+# $Rev: 2183 $
+
+/*
+ * Overview of the arrays extension type hierarchy
+ */
+
+strict digraph G{
+
+	 nodesep=0.25;
+	 ranksep=0.5;
+
+	 edge [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   labelfontname="Helvetica",
+	   labelfontsize=10
+	 ];
+	 node [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   shape=box
+	 ];
+	 
+  /*
+   * Interfaces
+   */
+
+  IdManager			                               [label="<<interface>>\nId Manager"];	 
+  CallableSBase		                               [label="<<interface>>\nCallable\nSBase"];	 
+  ASTNodeCompiler	                               [label="<<interface>>\nASTNode\nCompiler"];	 
+  
+	 /*
+   * Abstract data types
+   */
+  AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractMathContainer                    [label=<<font face="Helvetica-Oblique">Abstract<br/>MatchContainer</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">Abstract<br/>SBasePlugin</font>>, style="filled", fillcolor="#F0F8FF"];
+  
+  /*********************
+   * Inheritance graph *
+   *********************/
+    
+   
+  subgraph clusterLayout {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Arrays extension";
+    labelloc=b;
+    labeljust=r;
+
+    // Interfaces
+    
+    // Enums
+    
+    // Objects
+
+    ArraysSBasePlugin            		[label="Arrays\nSBase\nPlugin"];
+    Dimension                     		[label="Dimension"];
+    Index                     			[label="Index"];
+    ArraysCompiler                     	[label="Arrays\nCompiler"];
+    StaticallyComputableCompiler        [label="Statically Computable\nCompiler"];
+    VectorCompiler        				[label="Vector\nCompiler"];
+    ArraysFlattening        			[label="Arrays\nFlattening"];
+    ArraysMath        					[label="Arrays\nMath"];
+
+
+   }
+   
+   subgraph clusterValidators {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Arrays validators and checks";
+    labelloc=b;
+    labeljust=r;
+    
+    ArraysMathValidator						        [label="Arrays\nMath Validator"];
+    ArraysValidator        							[label="Arrays\nValidator"];    
+    DimensionValidator        						[label="Dimension\nValidator"];
+    ExtendedSBaseValidator        					[label="Extended SBase\nValidator"];
+    IndexValidator        							[label="Index\nValidator"];
+    ArraysConstraint        						[label="Arrays\nConstraint"];
+    ArraysMathCheck        							[label="Arrays\nMath Check"];
+    DimensionArrayDimCheck        					[label="Dimension\nArray\nDim Check"];
+    DimensionIDCheck        						[label="Dimension\nID Check"];
+    DimensionSizeCheck        						[label="Dimension\nSize Check"];
+    IndexArrayDimCheck        						[label="Index Array\nDim Check"];
+    IndexAttributesCheck        					[label="Index Attributes\nCheck"];
+    SBaseWithDimensionCheck     					[label="SBase With Dimension\nCheck"];
+    
+    ArraysConstraint -> ArraysMathCheck            		[dir=back,arrowtail=empty];
+    ArraysConstraint -> DimensionArrayDimCheck          [dir=back,arrowtail=empty];
+    ArraysConstraint -> DimensionIDCheck            	[dir=back,arrowtail=empty];
+    ArraysConstraint -> DimensionSizeCheck            	[dir=back,arrowtail=empty];	
+    ArraysConstraint -> IndexArrayDimCheck            	[dir=back,arrowtail=empty];
+    ArraysConstraint -> IndexAttributesCheck            [dir=back,arrowtail=empty];
+    ArraysConstraint -> SBaseWithDimensionCheck         [dir=back,arrowtail=empty];
+	    	    
+	}
+   
+   /*********************
+    * Inheritance graph *
+    *********************/
+   
+   AbstractSBasePlugin -> ArraysSBasePlugin            	[dir=back,arrowtail=empty];
+   AbstractNamedSBase -> Dimension            			[dir=back,arrowtail=empty];
+   AbstractMathContainer -> Index            			[dir=back,arrowtail=empty];
+   ASTNodeCompiler -> ArraysCompiler            		[dir=back,arrowtail=empty];
+   ASTNodeCompiler -> StaticallyComputableCompiler      [dir=back,arrowtail=empty];
+   ASTNodeCompiler -> VectorCompiler            		[dir=back,arrowtail=empty];
+   IdManager -> ArraysSBasePlugin            			[dir=back,arrowtail=empty];
+   CallableSBase -> Dimension            				[dir=back,arrowtail=empty];
+
+}

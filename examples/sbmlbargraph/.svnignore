@@ -1,0 +1,13 @@
+*.iml
+*.ipr
+*.iws
+*.log
+*.texlipse
+.classpath
+.fatjar
+.idea
+.project
+.settings
+.wtpmodules
+build
+target

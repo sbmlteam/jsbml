@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    $Id: Messages.xml 2154 2015-03-21 19:11:07Z andreas-draeger $
+    $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/resources/org/sbml/jsbml/resources/cfg/Messages.xml $
+    ----------------------------------------------------------------------------
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2015 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+    ----------------------------------------------------------------------------
+
+    A collection of text messages to be presented to uses upon certain events.
+
+    Author:  Andreas Dräger
+    Version: $Rev: 2154 $
+    Since:   1.0
+  </comment>
+  
+  <entry key="LOSS_OF_INFORMATION_DUE_TO_ROUNDING">Loss of information because the illegal non-integer exponent {0,number} has been rounded to {1,number,integer}.</entry>
+  <entry key="UNDEFINED_ATTRIBUTE">Attribute ''{0}'' is not part of the definition of an SBML Level {1,number,integer} Version {2,number,integer} {3} element.</entry>
+  
+  <entry key="SBMLCoreParser.instanciationError">The element ''{0}'' could not be instanciated as a Java object!</entry>
+  <entry key="SBMLCoreParser.namespaceIgnored">Namespace ignored on ''{0}''! {1} = {2}</entry>
+  <entry key="SBMLCoreParser.reactionWithoutParticipantsError">The reaction ''{0}'' does not contain any reactants or products.</entry>
+  <entry key="SBMLCoreParser.unknownAttributeOnElement">Could not recognize the attribute \"{0}\" on the element {1}. Please check the specification for SBML.</entry>
+  <entry key="SBMLCoreParser.unknownElement">The element ''{0}'' is not recognized.</entry>
+  <entry key="SBMLCoreParser.unknownReferenceError1">No {0} matches the {1} ''{2}'' of {3} ''{4}''.</entry>
+  <entry key="SBMLCoreParser.unknownReferenceError2">No {0} matches the {1} ''{2}'' of an {2}.</entry>
+  <entry key="SBMLCoreParser.unknownReferenceError3">No {0} matches the {1} ''{2}'' of a {2}.</entry>
+  <entry key="SBMLCoreParser.unknownReferenceError4">No {0} matches the {1} ''{2}'' of an {3} in {4} ''{5}''.</entry>
+  <entry key="SBMLCoreParser.unknownReferenceError5">No {0} matches the {1} ''{2}'' of an {3}.</entry>
+  <entry key="SBMLCoreParser.unknownReferenceError6">No {0} matches the {1} ''{2}'' of the {3} in {4} ''{5}''.</entry>
+  
+</properties>

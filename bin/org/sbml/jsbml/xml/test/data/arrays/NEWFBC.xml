@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" level="3" arrays:required="true" fbc:required="false" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version1" comp:required="true" xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1" version="1" layout:required="false">
+  <model id="NEWFBC" metaid="iBioSim8">
+    <comp:listOfPorts xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1">
+      <comp:port comp:idRef="Cell" sboTerm="SBO:0000601" comp:id="compartment__Cell"/>
+    </comp:listOfPorts>
+    <fbc:listOfFluxBounds xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version1">
+      <fbc:fluxBound fbc:reaction="R1" fbc:value="0" fbc:operation="greaterEqual"/>
+      <fbc:fluxBound fbc:reaction="R1" fbc:value="10" fbc:operation="lessEqual"/>
+      <fbc:fluxBound fbc:reaction="R0" fbc:value="0" fbc:operation="greaterEqual">
+        <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
+          <arrays:dimension arrays:id="d0" arrays:size="n" arrays:arrayDimension="0"/>
+        </arrays:listOfDimensions>
+        <arrays:listOfIndices xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
+          <arrays:index arrays:referencedAttribute="fbc:reaction" arrays:arrayDimension="0">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">            
+              <ci> d0 </ci>
+            </math>
+                    </arrays:index>
+        </arrays:listOfIndices>
+      </fbc:fluxBound>
+      <fbc:fluxBound fbc:reaction="R0" fbc:value="10" fbc:operation="lessEqual">
+        <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
+          <arrays:dimension arrays:id="d0" arrays:size="n" arrays:arrayDimension="0"/>
+        </arrays:listOfDimensions>
+        <arrays:listOfIndices xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
+          <arrays:index arrays:referencedAttribute="fbc:reaction" arrays:arrayDimension="0">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">            
+              <ci> d0 </ci>
+            </math>
+                    </arrays:index>
+        </arrays:listOfIndices>
+      </fbc:fluxBound>
+    </fbc:listOfFluxBounds>
+    <fbc:listOfObjectives xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version1" fbc:activeObjective="MAX">
+      <fbc:objective fbc:type="maximize" fbc:id="MAX">
+        <fbc:listOfFluxObjectives>
+          <fbc:fluxObjective fbc:reaction="R0" fbc:coefficient="1">
+            <arrays:listOfIndices xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
+              <arrays:index arrays:referencedAttribute="fbc:reaction" arrays:arrayDimension="0">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">                
+                  <cn type="integer"> 0 </cn>
+                </math>
+                            </arrays:index>
+            </arrays:listOfIndices>
+          </fbc:fluxObjective>
+        </fbc:listOfFluxObjectives>
+      </fbc:objective>
+    </fbc:listOfObjectives>
+    <listOfCompartments>
+      <compartment id="Cell" constant="true" spatialDimensions="3" size="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="S0" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" metaid="iBioSim2" boundaryCondition="false" compartment="Cell"/>
+      <species id="S1" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" metaid="iBioSim3" boundaryCondition="true" compartment="Cell"/>
+      <species id="S2" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" metaid="iBioSim7" boundaryCondition="true" compartment="Cell">
+        <annotation>
+</annotation>
+            </species>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="n" constant="true" metaid="iBioSim6" value="2"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="R1" metaid="iBioSim5" reversible="false" fast="false" compartment="Cell">
+        <listOfReactants>
+          <speciesReference constant="true" species="S2" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="S0" stoichiometry="2"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R0" metaid="iBioSim4" reversible="false" fast="false" compartment="Cell">
+        <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
+          <arrays:dimension arrays:id="d0" arrays:size="n" arrays:arrayDimension="0"/>
+        </arrays:listOfDimensions>
+        <listOfReactants>
+          <speciesReference constant="true" species="S0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="S1" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
