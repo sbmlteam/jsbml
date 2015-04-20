@@ -22,11 +22,15 @@
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;
 
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
+
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
+import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * Checks if the given {@link Dimension} object has size that is both
@@ -37,7 +41,12 @@ import org.sbml.jsbml.ext.arrays.Dimension;
  * @since 1.0
  * @date Jun 10, 2014
  */
-public class DimensionSizeCheck extends ArraysConstraint{
+public class DimensionSizeCheck extends ArraysConstraint {
+
+  /**
+   * Localization support.
+   */
+  private static final transient ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.arrays.validator.constraints.Messages");
 
   /**
    * 
@@ -66,8 +75,7 @@ public class DimensionSizeCheck extends ArraysConstraint{
     }
 
     if (!dim.isSetSize()) {
-      String shortMsg = "Dimension objects shoud have a value for the attribute arrays:size but "
-          + dim.toString() + "does not have one.";
+      String shortMsg = MessageFormat.format("Dimension objects shoud have a value for the attribute arrays:size but {0} does not have one.", dim.toString());
       logMissingDimensionAttribute(shortMsg);
     }
     else {
@@ -87,29 +95,25 @@ public class DimensionSizeCheck extends ArraysConstraint{
     Parameter param = model.getParameter(id);
 
     if (param == null) {
-      String shortMsg = "The attribute arrays:size of a Dimension object should point to an existing parameter "
-          + "but " + dim.toString() + "points to a non-existing parameter";
+      String shortMsg = MessageFormat.format("The attribute arrays:size of a Dimension object should point to an existing parameter but {0} points to a non-existing parameter", dim.toString());
       logDimensionSizeInvalid(shortMsg);
       return;
     }
 
     if (!param.isConstant()) {
-      String shortMsg = "The attribute arrays:size of a Dimension object should point to a constant parameter but "
-          + dim.toString() + "has a non-constant value.";
+      String shortMsg = MessageFormat.format("The attribute arrays:size of a Dimension object should point to a constant parameter but {0} has a non-constant value.", dim.toString());
 
       logDimensionSizeValueInconsistency(shortMsg);
     }
 
     // Test if it is an integer
     if (param.getValue() % 1 != 0) {
-      String shortMsg = "The attribute arrays:size of a Dimension object should point to a parameter containing"
-          + "an integer value.";
+      String shortMsg = "The attribute arrays:size of a Dimension object should point to a parameter containing an integer value.";
       logDimensionSizeValueInconsistency(shortMsg);
     }
 
     if (param.getValue()  < 0) {
-      String shortMsg = "The attribute arrays:size of a Dimension object should point to a parameter that has a non-negative"
-          + "integer value but " + dim.toString() + "has a negative value.";
+      String shortMsg = MessageFormat.format("The attribute arrays:size of a Dimension object should point to a parameter that has a non-negative integer value but {0} has a negative value.", dim.toString());
       logDimensionSizeValueInconsistency(shortMsg);
     }
 
@@ -117,8 +121,7 @@ public class DimensionSizeCheck extends ArraysConstraint{
 
     if (arraysSBasePlugin != null) {
       if (arraysSBasePlugin.getDimensionCount() > 0) {
-        String shortMsg = "The attribute arrays:size of a Dimension object should point to a scalar parameter but "
-            + dim.toString() + "has a non-scalar value.";
+        String shortMsg = MessageFormat.format("The attribute arrays:size of a Dimension object should point to a scalar parameter but {0} has a non-scalar value.", dim.toString());
         logDimensionSizeInvalid(shortMsg);
       }
     }
@@ -132,12 +135,8 @@ public class DimensionSizeCheck extends ArraysConstraint{
   private void logMissingDimensionAttribute(String shortMsg) {
     int code = 20202, severity = 2, category = 0, line = -1, column = -1;
 
-    String pkg = "arrays";
-    String msg = "A Dimension object must have a value for the attributes"+
-        "arrays:arrayDimension and arrays:size, and may additionally" +
-        "have the attributes arrays:id and arrays:name. (Reference:"+
-        "SBML Level 3 Package Specification for Arrays, Version 1, Section 3.3 on page 6.)";
-
+    String pkg = ArraysConstants.packageName;
+    String msg = bundle.getString("DimensionSizeCheck.logMissingDimensionAttribute");
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
@@ -151,11 +150,8 @@ public class DimensionSizeCheck extends ArraysConstraint{
   private void logDimensionSizeInvalid(String shortMsg) {
     int code = 20204, severity = 2, category = 0, line = -1, column = -1;
 
-    String pkg = "arrays";
-    String msg = "The value of the arrays:size attribute, if set on a given Dimension object,"+
-        "must be a valid SIdRef to an object of type Parameter. (Reference: " +
-        "SBML Level 3 Package Specification for Arrays, Version 1, Section 3.3 on page 6.)";
-
+    String pkg = ArraysConstants.packageName;
+    String msg = bundle.getString("DimensionSizeCheck.logDimensionSizeInvalid");
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
@@ -169,11 +165,8 @@ public class DimensionSizeCheck extends ArraysConstraint{
   private void logDimensionSizeValueInconsistency(String shortMsg) {
     int code = 20205, severity = 2, category = 0, line = -1, column = -1;
 
-    String pkg = "arrays";
-    String msg = "The value of the Parameter referenced by the arrays:size attribute"+
-        "must be a non-negative scalar constant integer. (Reference: SBML Level 3 Package"+
-        "Specification for Arrays, Version 1, Section 3.3 on page 6.)";
-
+    String pkg = ArraysConstants.packageName;
+    String msg = bundle.getString("DimensionSizeCheck.logDimensionSizeValueInconsistency");
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }

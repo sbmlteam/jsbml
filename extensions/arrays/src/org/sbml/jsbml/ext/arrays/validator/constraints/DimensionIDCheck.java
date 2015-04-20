@@ -37,8 +37,7 @@ import org.sbml.jsbml.ext.arrays.Dimension;
  * @since 1.0
  * @date Dec 29, 2014
  */
-public class DimensionIDCheck extends ArraysConstraint
-{
+public class DimensionIDCheck extends ArraysConstraint {
 
   /**
    * 
@@ -101,7 +100,7 @@ public class DimensionIDCheck extends ArraysConstraint
   private void logDuplicatedDimensionId(String shortMsg) {
     int code = 20103, severity = 2, category = 0, line = -1, column = -1;
 
-    String pkg = "arrays";
+    String pkg = ArraysConstants.packageName;
     String msg = "";
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }

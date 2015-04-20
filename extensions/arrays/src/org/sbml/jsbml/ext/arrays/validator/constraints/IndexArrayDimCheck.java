@@ -22,14 +22,17 @@
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Index;
+import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * This checks if the {@link Index} objects of a given {@link SBase} have valid array dimension.
@@ -40,6 +43,11 @@ import org.sbml.jsbml.ext.arrays.Index;
  * @date Jun 18, 2014
  */
 public class IndexArrayDimCheck extends ArraysConstraint {
+
+  /**
+   * Localization support.
+   */
+  private static final transient ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.arrays.validator.constraints.Messages");
 
   /**
    * 
@@ -64,7 +72,7 @@ public class IndexArrayDimCheck extends ArraysConstraint {
   @Override
   public void check() {
 
-    if (model == null || sbase == null) {
+    if ((model == null) || (sbase == null)) {
       return;
     }
 
@@ -72,7 +80,7 @@ public class IndexArrayDimCheck extends ArraysConstraint {
 
     Map<String, Integer> attributeToMaxDim = new HashMap<String, Integer>();
 
-    if (arraysSBasePlugin == null || arraysSBasePlugin.getIndexCount() == 0) {
+    if ((arraysSBasePlugin == null) || (arraysSBasePlugin.getIndexCount() == 0)) {
       return;
     }
 
@@ -106,17 +114,14 @@ public class IndexArrayDimCheck extends ArraysConstraint {
         }
         else
         {
-          String shortMsg = "A listOfIndices should have Index objects with"
-              + "unique attribute arrays:arrayDimension, but the value " + arrayDim +
-              "is used multiple times.";
+          String shortMsg = MessageFormat.format("A listOfIndices should have Index objects with unique attribute arrays:arrayDimension, but the value {0,number,integer} is used multiple times.", arrayDim);
           logArrayDimensionUniqueness(shortMsg);
         }
       }
 
       for (int i = 0; i <= max; i++) {
         if (!isSetArrayDimAt[i]) {
-          String shortMsg = "A listOfIndices should have an Index with arrays:arrayDimension "
-              + i + " before adding an Index object with arrays:arrayDimension " + max;
+          String shortMsg = MessageFormat.format("A listOfIndices should have an Index with arrays:arrayDimension {0,number,integer} before adding an Index object with arrays:arrayDimension {1,number,integer}", i, max);
           logArrayDimensionMissing(shortMsg);
           return;
         }
@@ -134,11 +139,8 @@ public class IndexArrayDimCheck extends ArraysConstraint {
   private void logArrayDimensionUniqueness(String shortMsg) {
     int code = 20111, severity = 2, category = 0, line = -1, column = -1;
 
-    String pkg = "arrays";
-    String msg = "The  ListOfIndices  associated with an SBase object must not have multiple Index"+
-        "objects with the same arrays:arrayDimension attribute. (Reference: SBML Level 3 Package"+
-        "Specification for Arrays, Version 1, Section 3.3 on page 6.)";
-
+    String pkg = ArraysConstants.packageName;
+    String msg = bundle.getString("IndexArrayDimCheck.logArrayDimensionUniqueness");
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
@@ -153,15 +155,8 @@ public class IndexArrayDimCheck extends ArraysConstraint {
   private void logArrayDimensionMissing(String shortMsg) {
     int code = 20110, severity = 2, category = 0, line = -1, column = -1;
 
-    String pkg = "arrays";
-    String msg = "The ListOfIndices associated with an SBase object must have a Index object"+
-        "with arrays:arrayDimension attribute set to 0 before adding a Index object with"+
-        "arrays:arrayDimension attribute set to 1. Similarly, the ListOfIndices in an SBase"+
-        "object must have Index objects, where one of them has arrays:arrayDimension attribute"+
-        "set to 0 and the other set to 1 before adding a Index object with arrays:arrayDimension"+
-        "attribute set to 2. (Reference: SBML Level 3 Package Specification for Arrays, Version 1,"+
-        "Section 3.3 on page 6.)";
-
+    String pkg = ArraysConstants.packageName;
+    String msg = bundle.getString("IndexArrayDimCheck.logArrayDimensionMissing");
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }

@@ -22,11 +22,15 @@
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;
 
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
+
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
+import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * This checks if the {@link Dimension} objects of a given {@link SBase} have valid array dimension.
@@ -37,6 +41,11 @@ import org.sbml.jsbml.ext.arrays.Dimension;
  * @date Jun 10, 2014
  */
 public class DimensionArrayDimCheck extends ArraysConstraint {
+
+  /**
+   * Localization support.
+   */
+  private static final transient ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.arrays.validator.constraints.Messages");
 
   /**
    * 
@@ -60,7 +69,7 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
   @Override
   public void check() {
 
-    if (model == null || sbase == null) {
+    if ((model == null) || (sbase == null)) {
       return;
     }
 
@@ -91,17 +100,14 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
       }
       else
       {
-        String shortMsg = "A listOfDimensions should have Dimension objects with"
-            + " unique attribute arrays:arrayDimension, but the value " + arrayDim +
-            " is used multiple times.";
+        String shortMsg = MessageFormat.format("A listOfDimensions should have Dimension objects with unique attribute arrays:arrayDimension, but the value {0,number,integer} is used multiple times.", arrayDim);
         logArrayDimensionUniqueness(shortMsg);
       }
     }
 
     for (int i = 0; i <= max; i++) {
       if (!isSetArrayDimAt[i]) {
-        String shortMsg = "A listOfDimensions should have a Dimension with arrays:arrayDimension "
-            + i + "before adding a Dimension object with arrays:arrayDimension " + max;
+        String shortMsg = MessageFormat.format("A listOfDimensions should have a Dimension with arrays:arrayDimension {0,number,integer} before adding a Dimension object with arrays:arrayDimension {1,number,integer}", i, max);
         logArrayDimensionMissing(shortMsg);
         return;
       }
@@ -117,11 +123,8 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
   private void logArrayDimensionUniqueness(String shortMsg) {
     int code = 20104, severity = 2, category = 0, line = -1, column = -1;
 
-    String pkg = "arrays";
-    String msg = "The ListOfDimensions associated with an SBase object must not have multiple Dimension"+
-        "objects with the same arrays:arrayDimension attribute. (Reference: SBML Level 3 Package"+
-        "Specification for Arrays, Version 1, Section 3.3 on page 6.)";
-
+    String pkg = ArraysConstants.packageName;
+    String msg = bundle.getString("DimensionArrayDimCheck.logArrayDimensionUniqueness");
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
@@ -136,15 +139,8 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
   private void logArrayDimensionMissing(String shortMsg) {
     int code = 20103, severity = 2, category = 0, line = -1, column = -1;
 
-    String pkg = "arrays";
-    String msg = "The ListOfDimensions associated with an SBase object must have a Dimension object"+
-        "with arrays:arrayDimension attribute set to 0 before adding a Dimension object with"+
-        "arrays:arrayDimension attribute set to 1. Similarly, the ListOfDimensions in an SBase"+
-        "object must have Dimension objects, where one of them has arrays:arrayDimension attribute"+
-        "set to 0 and the other set to 1 before adding a Dimension object with arrays:arrayDimension"+
-        "attribute set to 2. (Reference: SBML Level 3 Package Specification for Arrays, Version 1,"+
-        "Section 3.3 on page 6.)";
-
+    String pkg = ArraysConstants.packageName;
+    String msg = bundle.getString("DimensionArrayDimCheck.logArrayDimensionMissing");
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
