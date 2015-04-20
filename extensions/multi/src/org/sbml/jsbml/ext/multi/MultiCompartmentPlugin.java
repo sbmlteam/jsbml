@@ -50,19 +50,19 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
    * 
    */
   private String compartmentType;
-  
+
   /**
    * 
    */
   private Boolean isType;
-  
+
   /**
    * 
    */
-  private ListOf<CompartmentReference> listOfCompartmentReferences; 
-  
+  private ListOf<CompartmentReference> listOfCompartmentReferences;
+
   /**
-   * Creates an MultiCompartmentPlugin instance 
+   * Creates an MultiCompartmentPlugin instance
    */
   public MultiCompartmentPlugin() {
     super();
@@ -71,9 +71,11 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
 
 
   /**
-   * Creates a MultiCompartmentPlugin instance associated with the given {@link Compartment}.
+   * Creates a {@link MultiCompartmentPlugin} instance associated with the given
+   * {@link Compartment}.
    * 
-   * @param id the compartment to extend.
+   * @param compartment
+   *        the compartment to extend.
    */
   public MultiCompartmentPlugin(Compartment compartment) {
     super(compartment);
@@ -83,6 +85,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public MultiCompartmentPlugin(MultiCompartmentPlugin obj) {
     super(obj);
@@ -106,7 +109,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
   public void initDefaults() {
     setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
-  
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
@@ -152,7 +155,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
     return getParent();
   }
 
-  
+
   /**
    * Returns {@code true} if {@link #listOfCompartmentReferences} contains at least
    * one element.
@@ -181,14 +184,14 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
       listOfCompartmentReferences.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfCompartmentReferences.setPackageName(null);
-      listOfCompartmentReferences.setPackageName(MultiConstants.shortLabel); 
+      listOfCompartmentReferences.setPackageName(MultiConstants.shortLabel);
       listOfCompartmentReferences.setSBaseListType(ListOf.Type.other);
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfCompartmentReferences);
       }
     }
-    
+
     return listOfCompartmentReferences;
   }
 
@@ -203,14 +206,14 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
   public void setListOfCompartmentReferences(ListOf<CompartmentReference> listOfCompartmentReferences) {
     unsetListOfCompartmentReferences();
     this.listOfCompartmentReferences = listOfCompartmentReferences;
-    
+
     if (listOfCompartmentReferences != null) {
       listOfCompartmentReferences.unsetNamespace();
       listOfCompartmentReferences.setNamespace(MultiConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfCompartmentReferences.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfCompartmentReferences.setPackageName(null);
-      listOfCompartmentReferences.setPackageName(MultiConstants.shortLabel);       
+      listOfCompartmentReferences.setPackageName(MultiConstants.shortLabel);
       listOfCompartmentReferences.setSBaseListType(ListOf.Type.other);
 
       if (isSetExtendedSBase()) {
@@ -229,8 +232,8 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
    */
   public boolean unsetListOfCompartmentReferences() {
     if (isSetListOfCompartmentReferences()) {
-      ListOf<CompartmentReference> oldCompartmentReferences = this.listOfCompartmentReferences;
-      this.listOfCompartmentReferences = null;
+      ListOf<CompartmentReference> oldCompartmentReferences = listOfCompartmentReferences;
+      listOfCompartmentReferences = null;
       oldCompartmentReferences.fireNodeRemovedEvent();
       return true;
     }
@@ -380,7 +383,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
     return getCompartmentReferenceCount();
   }
 
-  
+
   /**
    * Returns the value of {@link #compartmentType}.
    *
@@ -390,7 +393,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
     if (isSetCompartmentType()) {
       return compartmentType;
     }
-    
+
     return null;
   }
 
@@ -424,15 +427,15 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
    */
   public boolean unsetCompartmentType() {
     if (isSetCompartmentType()) {
-      String oldCompartmentType = this.compartmentType;
-      this.compartmentType = null;
-      firePropertyChange(MultiConstants.compartmentType, oldCompartmentType, this.compartmentType);
+      String oldCompartmentType = compartmentType;
+      compartmentType = null;
+      firePropertyChange(MultiConstants.compartmentType, oldCompartmentType, compartmentType);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #isType}.
    *
@@ -458,7 +461,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
 
     return false;
   }
-  
+
 
   /**
    * Returns whether {@link #isType} is set.
@@ -489,14 +492,14 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
    */
   public boolean unsetIsType() {
     if (isSetIsType()) {
-      Boolean oldIsType = this.isType;
-      this.isType = null;
-      firePropertyChange(MultiConstants.isType, oldIsType, this.isType);
+      Boolean oldIsType = isType;
+      isType = null;
+      firePropertyChange(MultiConstants.isType, oldIsType, isType);
       return true;
     }
     return false;
   }
-  
+
   @Override
   public boolean getAllowsChildren() {
     return true;
@@ -506,11 +509,11 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
   public int getChildCount() {
     int count = 0;
 
-     if (isSetListOfCompartmentReferences()) {
+    if (isSetListOfCompartmentReferences()) {
       count++;
-     }
+    }
 
-     return count;
+    return count;
   }
 
   @Override
@@ -519,15 +522,15 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
       throw new IndexOutOfBoundsException(index + " < 0");
     }
     int pos = 0;
-    
-     if (isSetListOfCompartmentReferences()) {
-       if (pos == index) {
-         return getListOfCompartmentReferences();
-       }
-       pos++;
-     }
 
-     throw new IndexOutOfBoundsException(
+    if (isSetListOfCompartmentReferences()) {
+      if (pos == index) {
+        return getListOfCompartmentReferences();
+      }
+      pos++;
+    }
+
+    throw new IndexOutOfBoundsException(
       MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
         index, Math.min(pos, 0)));
   }

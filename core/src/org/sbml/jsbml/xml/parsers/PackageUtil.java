@@ -48,25 +48,25 @@ public class PackageUtil {
    */
   private static final transient Logger logger = Logger.getLogger(PackageUtil.class);
 
-  
+
   /**
    * Checks the whole {@link SBMLDocument}, including all siblings, to make sure
    * that the package version and namespace is set properly.
    * 
-   * <p>It will print warnings or errors when problems are found, nothing will be changed. 
+   * <p>It will print warnings or errors when problems are found, nothing will be changed.
    * 
    * @param doc the {@link SBMLDocument} to check.
    */
   public static void checkPackages(SBMLDocument doc) {
     checkPackages(doc, false, false);
   }
-  
+
   /**
    * Checks the whole {@link SBMLDocument}, including all siblings, to make sure
    * that the package version and namespace is set properly.
    *
    * <p>The given boolean parameters will indicate if the method will print warnings
-   * or errors when problems are found, and if it will try to fix problems. 
+   * or errors when problems are found, and if it will try to fix problems.
    *
    * @param doc the {@link SBMLDocument} to check.
    * @param silent boolean to indicate if errors and warnings should be shown.
@@ -76,24 +76,24 @@ public class PackageUtil {
     if (doc == null) {
       return;
     }
-    
+
     // getting the list of declared L3 packages from the declared namespaces
     // TODO - add a proper method to get this list directly from SBMLdocument?
     Map<String, String> declaredNamespaces = doc.getDeclaredNamespaces();
-    List<String> packageNamespaces = new ArrayList<String>(); 
-        
+    List<String> packageNamespaces = new ArrayList<String>();
+
     if (declaredNamespaces != null && declaredNamespaces.size() > 0) {
       for (String xmlns : declaredNamespaces.keySet()) {
         if (xmlns.startsWith("xmlns:")) {
           String namespace = declaredNamespaces.get(xmlns);
-          
+
           if (doc.isPackageEnabled(namespace)) {
             packageNamespaces.add(namespace);
           }
         }
       }
     }
-    
+
     checkPackages(doc, packageNamespaces, silent, fix);
   }
 
@@ -102,7 +102,7 @@ public class PackageUtil {
    * that the package version and namespace is set properly.
    *
    * <p>The given boolean parameters will indicate if the method will print warnings
-   * or errors when problems are found, and if it will try to fix problems. 
+   * or errors when problems are found, and if it will try to fix problems.
    * 
    * @param sbase the {@link SBase} to check.
    * @param packageNamespaces the {@link List} of namespaces that are expected to be found SBML L3 packages.
@@ -112,28 +112,28 @@ public class PackageUtil {
   public static void checkPackages(SBase sbase, List<String> packageNamespaces, boolean silent, boolean fix) {
     if (sbase == null) {
       return;
-    }    
+    }
     if (packageNamespaces == null) {
       packageNamespaces = new ArrayList<String>();
     }
-  
+
     Map<String, PackageInfo> prefixMap = new HashMap<String, PackageInfo>();
     Map<String, PackageInfo> namespaceMap = new HashMap<String, PackageInfo>();
-    
+
     for (String namespace : packageNamespaces) {
 
       // Get the package parser
       PackageParser packageParser = ParserManager.getManager().getPackageParser(namespace);
-      
+
       if (packageParser != null) {
         PackageInfo pi = new PackageInfo();
         pi.prefix = packageParser.getPackageName();
         pi.namespace = namespace;
         pi.version = extractPackageVersion(namespace);
-        
+
         prefixMap.put(pi.prefix, pi);
         namespaceMap.put(namespace, pi);
-        
+
         if (logger.isDebugEnabled()) {
           logger.debug(pi);
         }
@@ -142,10 +142,10 @@ public class PackageUtil {
         logger.warn("Package namespace unknow: '" + namespace + "'");
       }
     }
-    
+
     // recursive test for all children if prefix is not "core"
     checkPackages(sbase, prefixMap, namespaceMap, silent, fix);
-    
+
   }
 
   /**
@@ -153,7 +153,7 @@ public class PackageUtil {
    * that the package version and namespace is set properly.
    *
    * <p>The given boolean parameters will indicate if the method will print warnings
-   * or errors when problems are found, and if it will try to fix problems. 
+   * or errors when problems are found, and if it will try to fix problems.
    * 
    * @param sbase the {@link SBase} to check.
    * @param prefixMap map between package name (or prefix or label) and a {@link PackageInfo} object,
@@ -163,17 +163,17 @@ public class PackageUtil {
    * @param silent boolean to indicate if errors and warnings should be shown.
    * @param fix boolean to indicate if encountered problems should be fixed.
    */
-  private static void checkPackages(SBase sbase, Map<String, PackageInfo> prefixMap, 
+  private static void checkPackages(SBase sbase, Map<String, PackageInfo> prefixMap,
     Map<String, PackageInfo> namespaceMap, boolean silent, boolean fix)
   {
     if (sbase == null) {
       return;
     }
-    
+
     String packageName = sbase.getPackageName();
     String elementNamespace = sbase.getNamespace();
     int packageVersion = sbase.getPackageVersion();
-    
+
     if (packageName.equals("core") && packageVersion != 0) {
       if (!silent) {
         logger.warn("The element '" + sbase.getElementName() + "' seems to be part of SBML core but it's package version is not '0'!");
@@ -183,18 +183,18 @@ public class PackageUtil {
       }
     }
     // TODO - do we want to check and set the namespace for core elements ? namespace not set at the moment for them
-//    if (packageName.equals("core") && elementNamespace == null) {
-//      logger.warn("The element '" + sbase.getElementName() + "' seems to be part of SBML core but it's package namespace is not set!");
-//    }
-    
+    //    if (packageName.equals("core") && elementNamespace == null) {
+    //      logger.warn("The element '" + sbase.getElementName() + "' seems to be part of SBML core but it's package namespace is not set!");
+    //    }
+
     // check package name != core
     if (!packageName.equals("core")) {
       PackageInfo pi = getPackageInfo(sbase, packageName, packageVersion, elementNamespace, prefixMap, namespaceMap, silent, fix);
-      
+
       if (pi == null) {
         return;
       }
-      
+
       // checking package version
       if (packageVersion != -1 && packageVersion != pi.version) {
         if (!silent) {
@@ -204,17 +204,17 @@ public class PackageUtil {
         if (fix) {
           sbase.setPackageVersion(pi.version);
         }
-      } 
-      else if (packageVersion == -1) 
+      }
+      else if (packageVersion == -1)
       {
         if (!silent) {
-          logger.warn("The element '" + sbase.getElementName() + "' does not have a package version set!");          
+          logger.warn("The element '" + sbase.getElementName() + "' does not have a package version set!");
         }
         if (fix) {
           sbase.setPackageVersion(pi.version);
         }
       }
-      
+
       // checking package namespace
       if ((elementNamespace == null) || (!elementNamespace.equals(pi.namespace))) {
         if (!silent) {
@@ -227,7 +227,7 @@ public class PackageUtil {
         }
       }
     }
-    
+
     // check all SBasePlugin
     int nbPlugins = sbase.getNumPlugins();
 
@@ -239,20 +239,20 @@ public class PackageUtil {
         packageName = sbasePlugin.getPackageName();
         elementNamespace = sbasePlugin.getElementNamespace();
         packageVersion = sbasePlugin.getPackageVersion();
-        
+
         if (packageName.equals("core")) {
           if (!silent) {
             logger.error("The element '" + sbasePlugin.getClass().getSimpleName() + "' has it's package version set to 'core'!");
           }
           continue;
         }
-        
+
         PackageInfo pi = getPackageInfo(sbase, packageName, packageVersion, elementNamespace, prefixMap, namespaceMap, silent, fix);
-        
+
         if (pi == null) {
           continue;
         }
-        
+
         // checking package version
         if (packageVersion != -1 && packageVersion != pi.version) {
           if (!silent) {
@@ -262,8 +262,8 @@ public class PackageUtil {
           if (fix) {
             sbasePlugin.setPackageVersion(pi.version);
           }
-        } 
-        else if (packageVersion == -1) 
+        }
+        else if (packageVersion == -1)
         {
           if (!silent) {
             logger.warn("The element '" + sbasePlugin.getClass().getSimpleName() + "' does not have a package version set!");
@@ -272,14 +272,14 @@ public class PackageUtil {
             sbasePlugin.setPackageVersion(pi.version);
           }
         }
-        
+
         // checking package namespace
         if ((elementNamespace == null) || (!elementNamespace.equals(pi.namespace))) {
           if (!silent) {
             logger.warn("The element '" + sbasePlugin.getClass().getSimpleName() + "' does not seems to have"
                 + " the expected package namespace. Found '" + elementNamespace + "', expected '" + pi.namespace + "'");
           }
-          
+
           if (sbasePlugin instanceof AbstractSBasePlugin) {
             ((AbstractSBasePlugin) sbasePlugin).setNamespace(null);
             ((AbstractSBasePlugin) sbasePlugin).setNamespace(pi.namespace);
@@ -290,19 +290,19 @@ public class PackageUtil {
 
     }
 
-    
+
     // check all children
     int childCount = sbase.getChildCount();
-    
+
     for (int i = 0; i < childCount; i++) {
       Object childObj = sbase.getChildAt(i);
-      
+
       if (childObj instanceof SBase) {
         checkPackages((SBase) childObj, prefixMap, namespaceMap, silent, fix);
       }
     }
   }
-  
+
   /**
    * 
    * @param namespace
@@ -310,24 +310,24 @@ public class PackageUtil {
    */
   private static int extractPackageVersion(String namespace) {
     int versionIndex = namespace.lastIndexOf("version");
-    
+
     if (versionIndex == -1) {
       return -1;
     }
-    
+
     String versionStr = namespace.substring(versionIndex + 7);
-    
+
     int version = -1;
-    
+
     try {
       version = Integer.parseInt(versionStr);
     } catch (NumberFormatException e) {
       e.printStackTrace();
     }
-    
+
     return version;
   }
-  
+
   /**
    * @param sbase
    * @param packageName
@@ -339,34 +339,34 @@ public class PackageUtil {
    * @param fix
    * @return
    */
-  private static PackageInfo getPackageInfo(SBase sbase, String packageName, int packageVersion, String elementNamespace, Map<String, PackageInfo> prefixMap, 
+  private static PackageInfo getPackageInfo(SBase sbase, String packageName, int packageVersion, String elementNamespace, Map<String, PackageInfo> prefixMap,
     Map<String, PackageInfo> namespaceMap, boolean silent, boolean fix) {
-    
+
     PackageInfo pi = prefixMap.get(packageName);
 
     if (pi == null) {
       pi = namespaceMap.get(elementNamespace);
     }
-    
+
     if (pi == null) {
       // The package might not be enabled on the SBMLDocument. Can happen when cloning part of a model.
       if (!silent) {
         logger.warn("The package '" + packageName + "' does not seem to be enabled.");
       }
       SBMLDocument doc = sbase.getSBMLDocument();
-      
+
       if (doc != null) {
         // Get the package parser
-        PackageParser packageParser = ParserManager.getManager().getPackageParser(packageName); 
+        PackageParser packageParser = ParserManager.getManager().getPackageParser(packageName);
 
         if (packageParser == null) {
           return null; // There is something wrong with the packageName or the ParserManager
         }
-        
+
         if (packageVersion != -1) {
           elementNamespace = packageParser.getNamespaceFor(doc.getLevel(), doc.getVersion(), packageVersion);
-        } 
-        // if elementNamespace is null there, there is a problem, getting the default namespace. 
+        }
+        // if elementNamespace is null there, there is a problem, getting the default namespace.
         if (elementNamespace == null) {
           if (!silent) {
             logger.warn("Could not find a namespace for the package '" + packageName + "' using SBML level '"
@@ -396,7 +396,7 @@ public class PackageUtil {
         logger.info("Can not found SBMLDocument on the element '" + sbase.getElementName() + "'. Stopping the check");
       }
     }
-    
+
     return pi;
   }
 
@@ -410,16 +410,26 @@ public class PackageUtil {
  */
 final class PackageInfo {
 
+  /**
+   * 
+   */
   String prefix;
+  /**
+   * 
+   */
   String namespace;
+  /**
+   * 
+   */
   int version;
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    return "PackageInfo [prefix=" + prefix + ", namespace=" + namespace
-      + ", version=" + version + "]";
+    return getClass().getSimpleName() + " [prefix=" + prefix + ", namespace="
+        + namespace + ", version=" + version + "]";
   }
+
 }

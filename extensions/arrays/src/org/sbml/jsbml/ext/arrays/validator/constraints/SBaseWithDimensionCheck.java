@@ -22,10 +22,14 @@
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;
 
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
+
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
+import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * This checks if the given {@link SBase} is allowed to have a listOfDimensions.
@@ -36,6 +40,11 @@ import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
  * @date Jun 18, 2014
  */
 public class SBaseWithDimensionCheck extends ArraysConstraint {
+
+  /**
+   * Localization support.
+   */
+  private static final transient ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.arrays.validator.constraints.Messages");
 
   /**
    * 
@@ -63,7 +72,7 @@ public class SBaseWithDimensionCheck extends ArraysConstraint {
     if (arraysSBasePlugin != null)
     {
       if (arraysSBasePlugin.isSetListOfDimensions()) {
-        String shortMsg = "The object " + sbase.toString() + " cannot have a listOfDimensions.";
+        String shortMsg = MessageFormat.format(bundle.getString("SBaseWithDimensionCheck.check"), sbase.getElementName());
         logDimensionError(shortMsg);
       }
     }
@@ -77,11 +86,8 @@ public class SBaseWithDimensionCheck extends ArraysConstraint {
   private void logDimensionError(String shortMsg) {
     int code = 20107, severity = 2, category = 0, line = -1, column = -1;
 
-    String pkg = "arrays";
-    String msg = "In SBML Level~3 Core, Models, FunctionDefinitions, Units," +
-        "UnitDefinitions, KineticLaws, LocalParameters, Triggers,"+
-        "Priorities, and Delays are not permitted to have a ListOfDimensions."+
-        " (Reference: SBML Level 3 11 Package Specification for Arrays, Version 1, Section 3.3 on page 7.)";
+    String pkg = ArraysConstants.packageName;
+    String msg = bundle.getString("SBaseWithDimensionCheck.logDimensionError");
 
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
