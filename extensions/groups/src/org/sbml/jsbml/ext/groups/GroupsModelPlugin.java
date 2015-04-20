@@ -136,8 +136,8 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    * @param group
    * @return {@code true} (as specified by {@link Collection#add})
    */
-  public void addGroup(Group group) {
-    getListOfGroups().add(group);
+  public boolean addGroup(Group group) {
+    return getListOfGroups().add(group);
   }
 
   /**
@@ -163,14 +163,14 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   public ListOf<Group> getListOfGroups() {
     if (!isSetListOfGroups()) {
       listOfGroups = new ListOf<Group>();
-    
+
       listOfGroups.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGroups.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'groups'
       listOfGroups.setPackageName(null);
-      listOfGroups.setPackageName(GroupsConstants.shortLabel);      
+      listOfGroups.setPackageName(GroupsConstants.shortLabel);
       listOfGroups.setSBaseListType(ListOf.Type.other);
-      
+
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfGroups);
       }
@@ -220,9 +220,9 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
       listOfGroups.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'groups'
       listOfGroups.setPackageName(null);
-      listOfGroups.setPackageName(GroupsConstants.shortLabel);      
+      listOfGroups.setPackageName(GroupsConstants.shortLabel);
       listOfGroups.setSBaseListType(ListOf.Type.other);
-      
+
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfGroups);
       }

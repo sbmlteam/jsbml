@@ -486,14 +486,14 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   public void setListOfColorDefinitions(ListOf<ColorDefinition> listOfColorDefinitions) {
     unsetListOfColorDefinitions();
     this.listOfColorDefinitions = listOfColorDefinitions;
-    
+
     if (listOfColorDefinitions != null) {
       listOfColorDefinitions.unsetNamespace();
       listOfColorDefinitions.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfColorDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfColorDefinitions.setPackageName(null);
-      listOfColorDefinitions.setPackageName(RenderConstants.shortLabel);      
+      listOfColorDefinitions.setPackageName(RenderConstants.shortLabel);
       listOfColorDefinitions.setSBaseListType(ListOf.Type.other);
 
       registerChild(this.listOfColorDefinitions);
@@ -581,22 +581,22 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * @param listOfGradientDefinitions
+   * @param listOfGradientDefintions
    */
   public void setListOfGradientDefinitions(ListOf<GradientBase> listOfGradientDefintions) {
     unsetListOfGradientDefinitions();
-    this.listOfGradientDefinitions = listOfGradientDefintions;
-    
+    listOfGradientDefinitions = listOfGradientDefintions;
+
     if (listOfGradientDefintions != null) {
       listOfGradientDefintions.unsetNamespace();
       listOfGradientDefintions.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGradientDefintions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfGradientDefintions.setPackageName(null);
-      listOfGradientDefintions.setPackageName(RenderConstants.shortLabel);      
+      listOfGradientDefintions.setPackageName(RenderConstants.shortLabel);
       listOfGradientDefintions.setSBaseListType(ListOf.Type.other);
 
-      registerChild(this.listOfGradientDefinitions);
+      registerChild(listOfGradientDefinitions);
     }
   }
 
@@ -740,14 +740,14 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   public void setListOfLineEndings(ListOf<LineEnding> listOfLineEndings) {
     unsetListOfLineEndings();
     this.listOfLineEndings = listOfLineEndings;
-    
+
     if (listOfLineEndings != null) {
       listOfLineEndings.unsetNamespace();
       listOfLineEndings.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfLineEndings.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfLineEndings.setPackageName(null);
-      listOfLineEndings.setPackageName(RenderConstants.shortLabel);      
+      listOfLineEndings.setPackageName(RenderConstants.shortLabel);
       listOfLineEndings.setSBaseListType(ListOf.Type.other);
 
       registerChild(this.listOfLineEndings);

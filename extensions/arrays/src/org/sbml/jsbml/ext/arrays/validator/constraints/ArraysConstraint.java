@@ -111,6 +111,6 @@ public abstract class ArraysConstraint {
     message.setMessage(shortMsg);
     error.setShortMessage(shortMessage);
     listOfErrors.add(error);
-
   }
+
 }

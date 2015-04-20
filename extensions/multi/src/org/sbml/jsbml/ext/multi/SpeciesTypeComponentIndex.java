@@ -38,30 +38,35 @@ import org.sbml.jsbml.util.StringTools;
  * @since 1.1
  */
 public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
-  
+
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 8707971676849587247L;
+
   /**
    * 
    */
   private String component;
-  
+
   /**
    * 
    */
   private String identifyingParent;
-  
+
   /**
    * 
    */
   private Integer occur;
-  
+
   /**
    * 
    */
   private ListOf<DenotedSpeciesTypeComponentIndex> listOfDenotedSpeciesTypeComponentIndexes;
 
-  
+
   /**
-   * Creates an SpeciesTypeComponentIndex instance 
+   * Creates an SpeciesTypeComponentIndex instance
    */
   public SpeciesTypeComponentIndex() {
     super();
@@ -125,10 +130,11 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public SpeciesTypeComponentIndex(SpeciesTypeComponentIndex obj) {
     super(obj);
-    
+
     // copy all class attributes
     if (obj.isSetListOfDenotedSpeciesTypeComponentIndexes()) {
       setListOfDenotedSpeciesTypeComponentIndexes(obj.getListOfDenotedSpeciesTypeComponentIndexes());
@@ -148,6 +154,7 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
   /**
    * clones this class
    */
+  @Override
   public SpeciesTypeComponentIndex clone() {
     return new SpeciesTypeComponentIndex(this);
   }
@@ -163,8 +170,8 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
   }
 
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -174,11 +181,11 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
     int result = super.hashCode();
     result = prime * result + ((component == null) ? 0 : component.hashCode());
     result = prime * result
-      + ((identifyingParent == null) ? 0 : identifyingParent.hashCode());
+        + ((identifyingParent == null) ? 0 : identifyingParent.hashCode());
     result = prime
-      * result
-      + ((listOfDenotedSpeciesTypeComponentIndexes == null) ? 0
-        : listOfDenotedSpeciesTypeComponentIndexes.hashCode());
+        * result
+        + ((listOfDenotedSpeciesTypeComponentIndexes == null) ? 0
+          : listOfDenotedSpeciesTypeComponentIndexes.hashCode());
     result = prime * result + ((occur == null) ? 0 : occur.hashCode());
     return result;
   }
@@ -237,9 +244,9 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
   @Override
   public String toString() {
     return "SpeciesTypeComponentIndex [component = " + component
-      + ", identifyingParent = " + identifyingParent + ", occur = " + occur
-      + ", listOfDenotedSpeciesTypeComponentIndexes.size = "
-      + getDenotedSpeciesTypeComponentIndexCount() + ", id = " + getId() + "]";
+        + ", identifyingParent = " + identifyingParent + ", occur = " + occur
+        + ", listOfDenotedSpeciesTypeComponentIndexes.size = "
+        + getDenotedSpeciesTypeComponentIndexCount() + ", id = " + getId() + "]";
   }
 
 
@@ -247,8 +254,8 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
   public boolean isIdMandatory() {
     return true;
   }
-  
-  
+
+
   /**
    * Returns {@code true} if {@link #listOfDenotedSpeciesTypeComponentIndexes} is not null.
    *
@@ -289,19 +296,19 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
    * If {@link #listOfDenotedSpeciesTypeComponentIndexes} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfDenotedSpeciesTypeComponentIndexes
+   * @param listOfDenotedSpeciesTypeComponentIndices
    */
-  public void setListOfDenotedSpeciesTypeComponentIndexes(ListOf<DenotedSpeciesTypeComponentIndex> listOfDenotedSpeciesTypeComponentIndexs) {
+  public void setListOfDenotedSpeciesTypeComponentIndexes(ListOf<DenotedSpeciesTypeComponentIndex> listOfDenotedSpeciesTypeComponentIndices) {
     unsetListOfDenotedSpeciesTypeComponentIndexes();
-    this.listOfDenotedSpeciesTypeComponentIndexes = listOfDenotedSpeciesTypeComponentIndexs;
-    if (listOfDenotedSpeciesTypeComponentIndexs != null) {
-      listOfDenotedSpeciesTypeComponentIndexs.unsetNamespace();
-      listOfDenotedSpeciesTypeComponentIndexs.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-      listOfDenotedSpeciesTypeComponentIndexs.setPackageVersion(-1);
+    listOfDenotedSpeciesTypeComponentIndexes = listOfDenotedSpeciesTypeComponentIndices;
+    if (listOfDenotedSpeciesTypeComponentIndices != null) {
+      listOfDenotedSpeciesTypeComponentIndices.unsetNamespace();
+      listOfDenotedSpeciesTypeComponentIndices.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfDenotedSpeciesTypeComponentIndices.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
-      listOfDenotedSpeciesTypeComponentIndexs.setPackageName(null);
-      listOfDenotedSpeciesTypeComponentIndexs.setPackageName(MultiConstants.shortLabel);
-      this.listOfDenotedSpeciesTypeComponentIndexes.setSBaseListType(ListOf.Type.other);
+      listOfDenotedSpeciesTypeComponentIndices.setPackageName(null);
+      listOfDenotedSpeciesTypeComponentIndices.setPackageName(MultiConstants.shortLabel);
+      listOfDenotedSpeciesTypeComponentIndexes.setSBaseListType(ListOf.Type.other);
 
       registerChild(listOfDenotedSpeciesTypeComponentIndexes);
     }
@@ -317,8 +324,8 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
    */
   public boolean unsetListOfDenotedSpeciesTypeComponentIndexes() {
     if (isSetListOfDenotedSpeciesTypeComponentIndexes()) {
-      ListOf<DenotedSpeciesTypeComponentIndex> oldDenotedSpeciesTypeComponentIndexs = this.listOfDenotedSpeciesTypeComponentIndexes;
-      this.listOfDenotedSpeciesTypeComponentIndexes = null;
+      ListOf<DenotedSpeciesTypeComponentIndex> oldDenotedSpeciesTypeComponentIndexs = listOfDenotedSpeciesTypeComponentIndexes;
+      listOfDenotedSpeciesTypeComponentIndexes = null;
       oldDenotedSpeciesTypeComponentIndexs.fireNodeRemovedEvent();
       return true;
     }
@@ -423,7 +430,7 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
     return getDenotedSpeciesTypeComponentIndexCount();
   }
 
-  
+
   /**
    * Returns the value of {@link #component}.
    *
@@ -467,15 +474,15 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
    */
   public boolean unsetComponent() {
     if (isSetComponent()) {
-      String oldComponent = this.component;
-      this.component = null;
-      firePropertyChange(MultiConstants.component, oldComponent, this.component);
+      String oldComponent = component;
+      component = null;
+      firePropertyChange(MultiConstants.component, oldComponent, component);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #identifyingParent}.
    *
@@ -519,15 +526,15 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
    */
   public boolean unsetIndentifyingParent() {
     if (isSetIndentifyingParent()) {
-      String oldIndentifyingParent = this.identifyingParent;
-      this.identifyingParent = null;
-      firePropertyChange(MultiConstants.identifyingParent, oldIndentifyingParent, this.identifyingParent);
+      String oldIndentifyingParent = identifyingParent;
+      identifyingParent = null;
+      firePropertyChange(MultiConstants.identifyingParent, oldIndentifyingParent, identifyingParent);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #occur}.
    *
@@ -571,15 +578,15 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
    */
   public boolean unsetOccur() {
     if (isSetOccur()) {
-      Integer oldOccur = this.occur;
-      this.occur = null;
-      firePropertyChange(MultiConstants.occur, oldOccur, this.occur);
+      Integer oldOccur = occur;
+      occur = null;
+      firePropertyChange(MultiConstants.occur, oldOccur, occur);
       return true;
     }
     return false;
   }
 
-  
+
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -602,7 +609,7 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
     if (isSetOccur()) {
       attributes.put(MultiConstants.shortLabel + ":" + MultiConstants.occur, occur.toString());
     }
-    
+
     return attributes;
   }
 
@@ -628,5 +635,5 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
     }
     return isAttributeRead;
   }
-  
+
 }
