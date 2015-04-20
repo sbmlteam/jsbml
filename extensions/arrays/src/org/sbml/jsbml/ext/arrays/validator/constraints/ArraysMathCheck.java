@@ -22,8 +22,10 @@
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.MathContainer;
@@ -32,6 +34,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.util.ArraysMath;
+import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * @author Leandro Watanabe
@@ -39,7 +42,12 @@ import org.sbml.jsbml.ext.arrays.util.ArraysMath;
  * @since 1.0
  * @date Jun 29, 2014
  */
-public class ArraysMathCheck extends ArraysConstraint{
+public class ArraysMathCheck extends ArraysConstraint {
+
+  /**
+   * Localization support.
+   */
+  private static final transient ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.arrays.validator.constraints.Messages");
 
   //TODO: get right messages
   /**
@@ -61,24 +69,24 @@ public class ArraysMathCheck extends ArraysConstraint{
    */
   @Override
   public void check() {
-    if (model == null || mathContainer == null || !mathContainer.isSetMath()) {
+    if ((model == null) || (mathContainer == null) || !mathContainer.isSetMath()) {
       return;
     }
-//    if (!ArraysMath.isVectorBalanced(model, mathContainer)) {
-//      String shortMsg = "Vectors should not be ragged.";
-//      logVectorInconsistency(shortMsg);
-//      return;
-//    }
-//    if (!ArraysMath.checkVectorMath(model, mathContainer)) {
-//      String shortMsg = "If vectors appears in mathematical operations, then the vector dimensions should match in"
-//          + " size unless it is a scalar." +  mathContainer.toString() + " has invalid vector operation.";
-//      logMathVectorIrregular(shortMsg);
-//    }
-//    if (!ArraysMath.checkVectorAssignment(model, mathContainer)) {
-//      String shortMsg = "When there is an assignment, then it must the the case that the left-hand matches the"
-//          + " right-hand size in dimension sizes but " + mathContainer.toString() + " doesn't.";
-//      logMathVectorIrregular(shortMsg);
-//    }
+    //    if (!ArraysMath.isVectorBalanced(model, mathContainer)) {
+    //      String shortMsg = "Vectors should not be ragged.";
+    //      logVectorInconsistency(shortMsg);
+    //      return;
+    //    }
+    //    if (!ArraysMath.checkVectorMath(model, mathContainer)) {
+    //      String shortMsg = "If vectors appears in mathematical operations, then the vector dimensions should match in"
+    //          + " size unless it is a scalar." +  mathContainer.toString() + " has invalid vector operation.";
+    //      logMathVectorIrregular(shortMsg);
+    //    }
+    //    if (!ArraysMath.checkVectorAssignment(model, mathContainer)) {
+    //      String shortMsg = "When there is an assignment, then it must the the case that the left-hand matches the"
+    //          + " right-hand size in dimension sizes but " + mathContainer.toString() + " doesn't.";
+    //      logMathVectorIrregular(shortMsg);
+    //    }
 
     List<ASTNode> selectorNodes = getSelectorNodes(mathContainer);
     for (ASTNode selectorNode : selectorNodes) {
@@ -104,8 +112,7 @@ public class ArraysMathCheck extends ArraysConstraint{
 
       if (sbase == null)
       {
-        String shortMsg = "The first argument of " +
-            math.toString() + " does not have a valid SIdRef.";
+        String shortMsg = MessageFormat.format("The first argument of {0} does not have a valid SIdRef.", math.toString());
         logSelectorInconsistency(shortMsg);
         return;
       }
@@ -114,8 +121,7 @@ public class ArraysMathCheck extends ArraysConstraint{
 
       if (arraysSBasePlugin.getDimensionCount() < math.getChildCount()-1)
       {
-        String shortMsg = "Selector number of arguments of " +
-            math.toString() + " is inconsistency .";
+        String shortMsg = MessageFormat.format("Selector number of arguments of {0} is inconsistency .", math.toString());
         logSelectorInconsistency(shortMsg);
       }
 
@@ -124,16 +130,14 @@ public class ArraysMathCheck extends ArraysConstraint{
     }
     else if (!obj.isVector())
     {
-      String shortMsg = "The first argument of a selector object should be a vector or an arrayed object and " +
-          math.toString() + " violates this condition.";
+      String shortMsg = MessageFormat.format("The first argument of a selector object should be a vector or an arrayed object and {0} violates this condition.", math.toString());
       logSelectorInconsistency(shortMsg);
     }
 
     boolean isStaticComp = ArraysMath.isStaticallyComputable(model, mathContainer);
 
     if (!isStaticComp) {
-      String shortMsg = "Selector arguments other than first should either be dimensions id or constant but " +
-          math.toString() + " violates this condition.";
+      String shortMsg = MessageFormat.format("Selector arguments other than first should either be dimensions id or constant but {0} violates this condition.", math.toString());
       logSelectorInconsistency(shortMsg);
       return;
     }
@@ -141,8 +145,7 @@ public class ArraysMathCheck extends ArraysConstraint{
     boolean isBounded = ArraysMath.evaluateSelectorBounds(model, mathContainer);
 
     if (!isBounded) {
-      String shortMsg = "Selector arguments other than first should not go out of bounds but " +
-          math.toString() + " violates this condition.";
+      String shortMsg = MessageFormat.format("Selector arguments other than first should not go out of bounds but {0} violates this condition.", math.toString());
       logSelectorInconsistency(shortMsg);
     }
 
@@ -185,12 +188,8 @@ public class ArraysMathCheck extends ArraysConstraint{
   private void logMathVectorIrregular(String shortMsg) {
     int code = 10211, severity = 0, category = 0, line = 0, column = 0;
 
-    String pkg = "arrays";
-    String msg = "For MathML operations with two or more operands involving MathML vectors or SBase objects with a list of Dimension"+
-        "objects, the number of dimensions and their size must agree for all operands unless the operand is a scalar type"+
-        "(i.e., it does not have a list of Dimension 31 objects). (Reference: SBML Level 3 Package Specification for"+
-        "Arrays, Version 1, Section 3.5 on page 10.)";
-
+    String pkg = ArraysConstants.packageName;
+    String msg = bundle.getString("ArraysMathCheck.logMathVectorIrregular");
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
@@ -204,11 +203,10 @@ public class ArraysMathCheck extends ArraysConstraint{
   private void logSelectorInconsistency(String shortMsg) {
     int code = 10207, severity = 0, category = 0, line = 0, column = 0;
 
-    String pkg = "arrays";
-    String msg = "The first argument of a MathML selector must be a MathML vector object or a valid identifier" +
-        "to an SBase object extended with a list of Dimension objects. (Reference: SBML Level 3 Package" +
-        "Specification for Arrays, Version 1, Section 3.5 on page 10.)";
+    String pkg = ArraysConstants.packageName;
+    String msg = bundle.getString("ArraysMathCheck.logSelectorInconsistency");
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
+
 }
