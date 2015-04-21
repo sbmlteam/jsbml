@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.sbml.jsbml.util.Option;
@@ -170,39 +171,45 @@ public class SBMLErrorLog {
    * @see #getNumErrors()
    */
   public int getNumFailsWithSeverity(SBMLError.SEVERITY severity) {
+    return getErrorsBySeverity(severity).size();
+  }
 
-    int nbWithSeverity = 0;
-
+  /**
+   * 
+   * @param severity
+   * @return
+   */
+  public List<SBMLError> getErrorsBySeverity(SBMLError.SEVERITY severity) {
+    List<SBMLError> listOfErrors = new LinkedList<SBMLError>();
     for (SBMLError error : validationErrors) {
       switch(severity) {
       case INFO: {
         if (error.isInfo()) {
-          nbWithSeverity++;
+          listOfErrors.add(error);
         }
         break;
       }
       case WARNING: {
         if (error.isWarning()) {
-          nbWithSeverity++;
+          listOfErrors.add(error);
         }
         break;
       }
       case ERROR: {
         if (error.isError()) {
-          nbWithSeverity++;
+          listOfErrors.add(error);
         }
         break;
       }
       case FATAL: {
         if (error.isFatal()) {
-          nbWithSeverity++;
+          listOfErrors.add(error);
         }
         break;
       }
       }
     }
-
-    return nbWithSeverity;
+    return listOfErrors;
   }
 
   /**
