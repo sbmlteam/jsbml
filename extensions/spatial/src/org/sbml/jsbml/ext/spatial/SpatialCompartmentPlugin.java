@@ -22,6 +22,7 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
@@ -30,6 +31,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -197,6 +199,55 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,pos));
+  }
+  
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetCompartmentMapping()) {
+      attributes.remove("compartmentMapping");
+      attributes.put(SpatialConstants.shortLabel + ":compartmentMapping",
+        getCompartmentMapping());
+    }
+    return attributes;
+  }
+
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
+        && (SpatialConstants.shortLabel == prefix);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(SpatialConstants.compartmentMapping)) {
+        setCompartmentMapping(value);
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
+  
+  @Override
+  public int hashCode() {
+    final int prime = 1259;
+    int hashCode = super.hashCode();
+    if (isSetCompartmentMapping()) {
+      hashCode += prime * getCompartmentMapping().hashCode();
+    }
+    return hashCode;
+  }
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("SpatialCompartmentPlugin [compartmentMapping=");
+    builder.append(compartmentMapping);
+    builder.append("]");
+    return builder.toString();
   }
 
 }
