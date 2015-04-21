@@ -198,6 +198,20 @@ Variable {
     return isSetStoichiometry() ? false : true;
   }
 
+  /**
+   * 
+   * @param math
+   * @return
+   * @deprecated since SBML Level 3 this should not be used anymore.
+   */
+  @Deprecated
+  public StoichiometryMath createStoichiometryMath(ASTNode math) {
+    StoichiometryMath sm = new StoichiometryMath(getLevel(), getVersion());
+    sm.setMath(math);
+    setStoichiometryMath(sm);
+    return sm;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SimpleSpeciesReference#equals(java.lang.Object)
    */
@@ -345,8 +359,8 @@ Variable {
 
   /**
    * 
-   * @return the stoichiometryMath of this SpeciesReference. Can be null if
-   *         the stoichiometryMath is not set.
+   * @return the stoichiometryMath of this SpeciesReference. Can be {@code null}
+   *  if the stoichiometryMath is not set.
    * @deprecated since SBML Level 3 this should not be used anymore.
    */
   @Deprecated
