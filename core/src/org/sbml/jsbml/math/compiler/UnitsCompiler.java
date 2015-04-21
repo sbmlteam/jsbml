@@ -122,7 +122,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    */
   @Override
   public <T> ASTNode2Value<Boolean> and(List<ASTNode2> values) throws SBMLException {
-    ASTNode2Value<Boolean> value = dimensionless();
+    ASTNode2Value<Boolean> value = (ASTNode2Value<Boolean>) dimensionless();
     boolean val = true;
     for (ASTNode2 v : values) {
       val &= v.compile(this).toBoolean();
@@ -647,7 +647,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    */
   @Override
   public <T> ASTNode2Value<Double> getConstantE() {
-    ASTNode2Value<Double> v = dimensionless();
+    ASTNode2Value<Double> v = (ASTNode2Value<Double>) dimensionless();
     v.setValue(Math.E);
     return v;
   }
@@ -657,7 +657,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    */
   @Override
   public <T> ASTNode2Value<Boolean> getConstantFalse() {
-    ASTNode2Value<Boolean> v = dimensionless();
+    ASTNode2Value<Boolean> v = (ASTNode2Value<Boolean>) dimensionless();
     v.setValue(false);
     return v;
   }
@@ -667,7 +667,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    */
   @Override
   public <T> ASTNode2Value<Double> getConstantPi() {
-    ASTNode2Value<Double> v = dimensionless();
+    ASTNode2Value<Double> v = (ASTNode2Value<Double>) dimensionless();
     v.setValue(Math.PI);
     return v;
   }
@@ -677,7 +677,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    */
   @Override
   public <T> ASTNode2Value<Boolean> getConstantTrue() {
-    ASTNode2Value<Boolean> v = dimensionless();
+    ASTNode2Value<Boolean> v = (ASTNode2Value<Boolean>) dimensionless();
     v.setValue(true);
     return v;
   }
@@ -796,7 +796,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
   @Override
   // TODO: Specify generic type T i.e. ASTNode2Value<?>
   public <T> ASTNode2Value<?> lt(ASTNode2 left, ASTNode2 right) throws SBMLException {
-    ASTNode2Value<?> v = dimensionless(), leftvalue, rightvalue;
+    ASTNode2Value<?> v = (ASTNode2Value<?>) dimensionless(), leftvalue, rightvalue;
     leftvalue = left.compile(this);
     rightvalue = right.compile(this);
     unifyUnits(leftvalue, rightvalue);
@@ -851,7 +851,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
   @Override
   // TODO: Specify type T i.e. ASTNode2Value<Boolean>
   public ASTNode2Value<?> neq(ASTNode2 left, ASTNode2 right) throws SBMLException {
-    ASTNode2Value<?> v = dimensionless(), leftvalue, rightvalue;
+    ASTNode2Value<?> v = (ASTNode2Value<?>) dimensionless(), leftvalue, rightvalue;
     leftvalue = left.compile(this);
     rightvalue = right.compile(this);
     unifyUnits(leftvalue, rightvalue);
@@ -864,7 +864,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    */
   @Override
   public <T> ASTNode2Value<Boolean> not(ASTNode2 value) throws SBMLException {
-    ASTNode2Value<Boolean> v = dimensionless();
+    ASTNode2Value<Boolean> v = (ASTNode2Value<Boolean>) dimensionless();
     v.setValue(!value.compile(this).toBoolean());
     return v;
   }
@@ -874,7 +874,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    */
   @Override
   public <T> ASTNode2Value<Boolean> or(List<ASTNode2> values) throws SBMLException {
-    ASTNode2Value<Boolean> v = dimensionless();
+    ASTNode2Value<Boolean> v = (ASTNode2Value<Boolean>) dimensionless();
     v.setValue(false);
     for (ASTNode2 value : values) {
       if (value.compile(this).toBoolean()) {
@@ -1326,7 +1326,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    */
   @Override
   public <T> ASTNode2Value<Boolean> xor(List<ASTNode2> values) throws SBMLException {
-    ASTNode2Value<Boolean> value = dimensionless();
+    ASTNode2Value<Boolean> value = (ASTNode2Value<Boolean>) dimensionless();
     boolean v = false;
     for (int i = 0; i < values.size(); i++) {
       if (values.get(i).compile(this).toBoolean()) {

@@ -25,6 +25,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.ResourceManager;
 

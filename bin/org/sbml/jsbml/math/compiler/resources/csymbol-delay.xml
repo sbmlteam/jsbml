@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-  <apply>
-    <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/delay"> delay </csymbol>
-    <ci> x </ci>
-  </apply>
-</math>
