@@ -29,6 +29,7 @@ import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author Alex-Thomas
+ * @author Piero Dalle Pezze
  * @version $Rev$
  * @since 1.0
  * @date Jan 20, 2014
@@ -66,13 +67,13 @@ public class CSGTranslation extends CSGTransformation {
   public CSGTranslation(CSGTranslation csgt) {
     super(csgt);
     if (csgt.isSetTranslateX()) {
-      translateX = new Double(csgt.getTranslateX());
+      setTranslateX(csgt.getTranslateX());
     }
     if (csgt.isSetTranslateY()) {
-      translateY = new Double(csgt.getTranslateY());
+      setTranslateY(csgt.getTranslateY());
     }
     if (csgt.isSetTranslateZ()) {
-      translateZ = new Double(csgt.getTranslateZ());
+      setTranslateZ(csgt.getTranslateZ());
     }
   }
 
@@ -286,7 +287,7 @@ public class CSGTranslation extends CSGTransformation {
 
   @Override
   public int hashCode() {
-    final int prime = 313;//Change this prime number
+    final int prime = 1693;
     int hashCode = super.hashCode();
     if (isSetTranslateX()) {
       hashCode += prime * getTranslateX();

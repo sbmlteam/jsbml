@@ -62,7 +62,7 @@ public class DomainType extends AbstractSpatialNamedSBase {
   public DomainType(DomainType sb) {
     super(sb);
     if (sb.isSetSpatialDimensions()) {
-      spatialDimensions = Integer.valueOf(sb.getSpatialDimensions());
+      setSpatialDimensions(sb.getSpatialDimensions());
     }
   }
 

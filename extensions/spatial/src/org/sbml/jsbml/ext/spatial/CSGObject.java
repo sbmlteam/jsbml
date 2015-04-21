@@ -79,19 +79,15 @@ public class CSGObject extends AbstractSpatialNamedSBase {
    */
   public CSGObject(CSGObject csgo) {
     super(csgo);
-
     if (csgo.isSetDomainType()) {
-      domainType = new String(csgo.getDomainType());
+      setDomainType(csgo.getDomainType());
     }
-
     if (csgo.isSetOrdinal()) {
-      ordinal = new Integer(csgo.getOrdinal());
+      setOrdinal(csgo.getOrdinal());
     }
-
     if (csgo.isSetCSGNode()) {
       setCSGNode((CSGNode) csgo.getCSGNode().clone());
     }
-
   }
 
 
@@ -303,7 +299,7 @@ public class CSGObject extends AbstractSpatialNamedSBase {
 
   @Override
   public int hashCode() {
-    final int prime = 1999;//Change this prime number
+    final int prime = 1669;
     int hashCode = super.hashCode();
     if (isSetOrdinal()) {
       hashCode += prime * getOrdinal();
