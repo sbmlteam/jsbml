@@ -1548,9 +1548,8 @@ public class ASTNode extends AbstractTreeNode {
    * @param exponent
    */
   public ASTNode(double mantissa, int exponent) {
-    astnode2 = new ASTCnExponentialNode();
-    ((ASTCnExponentialNode) astnode2).setMantissa(mantissa);
-    ((ASTCnExponentialNode) astnode2).setExponent(exponent);
+    this(ASTNode.Type.REAL_E);
+    setValue(mantissa, exponent);
   }
 
   /**
@@ -2800,7 +2799,22 @@ public class ASTNode extends AbstractTreeNode {
    *           if this node is not of type real.
    */
   public double getReal() {
-    return isReal() ? ((ASTCnRealNode) astnode2).getReal() : Double.NaN;
+    if (isReal()) { // TODO - return the value for any AStNumber ?
+      // TODO - modify ASTCnNumberNode to return double for the getNumber() method
+      if (astnode2 instanceof ASTCnRealNode) {
+        return ((ASTCnRealNode) astnode2).getNumber();
+      } 
+      else if (astnode2 instanceof ASTCnExponentialNode) {
+        ASTCnExponentialNode ast = (ASTCnExponentialNode) astnode2;
+        return Double.valueOf(ast.getMantissa() + "e" + ast.getExponent());
+      }
+      else if (astnode2 instanceof ASTCnRationalNode) {
+        ASTCnRationalNode ast = (ASTCnRationalNode) astnode2;
+        return Double.valueOf(ast.getNumerator() + "/" + ast.getDenominator());
+      }      
+    }
+    
+    return Double.NaN;
   }
 
   /**
@@ -3164,7 +3178,8 @@ public class ASTNode extends AbstractTreeNode {
    */
   public boolean isReal() {
     return astnode2 instanceof ASTCnRealNode
-        || astnode2 instanceof ASTCnRationalNode;
+        || astnode2 instanceof ASTCnRationalNode
+        || astnode2 instanceof ASTCnExponentialNode;
   }
 
   /**
