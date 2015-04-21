@@ -415,14 +415,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
       attributes.remove("functionType");
       attributes.put(SpatialConstants.shortLabel + ":functionType", getFunctionType().toString());
     }
-    if (isSetSBOTerm()) {
-      attributes.remove(TreeNodeChangeEvent.sboTerm);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.sboTerm, getSBOTermID());
-    }
-    if (isSetMetaId()) {
-      attributes.remove(TreeNodeChangeEvent.metaId);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.metaId, getMetaId());
-    }
+
     return attributes;
   }
 
