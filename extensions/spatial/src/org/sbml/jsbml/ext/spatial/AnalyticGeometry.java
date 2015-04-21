@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
@@ -34,6 +35,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -283,5 +285,49 @@ public class AnalyticGeometry extends GeometryDefinition {
     }
     return equal;
   }
+  
+  @Override
+  public int hashCode() {
+    final int prime = 1039;//Change this prime number
+    int hashCode = super.hashCode();
+    if (isSetListOfAnalyticVolumes()) {
+      hashCode += prime * getListOfAnalyticVolumes().hashCode();
+    }
+    return hashCode;
+  }
+  
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetListOfAnalyticVolumes()) {
+      attributes.put(SpatialConstants.shortLabel + ":listOfAnalyticVolumes", getListOfAnalyticVolumes().toString());
+    }
+    return attributes;
+  }
+
+
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
+        && (SpatialConstants.shortLabel == prefix);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(SpatialConstants.listOfAnalyticVolumes)) {
+        try {
+          setListOfAnalyticVolumes(listOfAnalyticVolumes.valueOf(value));
+        } catch (Exception e) {
+          MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.listOfAnalyticVolumes);
+        }
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
+  
+  
 
 }

@@ -36,6 +36,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -110,6 +111,9 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     if (node.isSetFunctionType()) {
       functionType = node.getFunctionType();
     }
+    if (node.isSetDomainType()) {
+      domainType = node.getDomainType();
+    }    
   }
 
   /**
@@ -372,7 +376,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   @Override
   public int hashCode() {
-    final int prime = 431;//Change this prime number
+    final int prime = 1093;//Changed. It was 431
     int hashCode = super.hashCode();
     if (isSetSpatialId()) {
       hashCode += prime * getSpatialId().hashCode();

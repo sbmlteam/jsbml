@@ -352,7 +352,10 @@ public class SpatialConstants {
    * 
    */
   public static final String listOfGeometryDefinitions = "listOfGeometryDefinitions";
-
+  /**
+   * 
+   */
+  public static final String listOfAnalyticVolumes = "listOfAnalyticVolumes";
   /**
    * 
    */
