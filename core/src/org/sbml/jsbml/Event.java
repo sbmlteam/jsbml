@@ -332,6 +332,18 @@ UniqueNamedSBase {
     return t;
   }
 
+  /**
+   * Creates a new {@link Trigger} instance and sets it to this {@link Event}.
+   * 
+   * @param math math the math expression for the new {@link Trigger}
+   * @return the new {@link Trigger} instance.
+   */
+  public Trigger createTrigger(ASTNode math) {
+    Trigger t = createTrigger();
+    t.setMath(math);
+    return t;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#equals(java.lang.Object)
    */
