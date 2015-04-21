@@ -29,6 +29,7 @@ import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author Alex Thomas
+ * @author Piero Dalle Pezze
  * @version $Rev$
  * @since 1.0
  * @date Jan 20, 2014
@@ -70,16 +71,18 @@ public class CSGRotation extends CSGTransformation {
   public CSGRotation(CSGRotation csgt) {
     super(csgt);
     if (csgt.isSetRotateAxisX()) {
-      rotateAxisX = new Double(csgt.getRotateAxisX());
+      setRotateAxisX(csgt.getRotateAxisX());
     }
     if (csgt.isSetRotateAxisY()) {
-      rotateAxisY = new Double(csgt.getRotateAxisY());
+      setRotateAxisY(csgt.getRotateAxisY());
     }
     if (csgt.isSetRotateAxisZ()) {
-      rotateAxisZ = new Double(csgt.getRotateAxisZ());
+      setRotateAxisZ(csgt.getRotateAxisZ());
     }
+    if (csgt.isSetRotateAngleInRadians()) {
+      setRotateAngleInRadians(csgt.getRotateAngleInRadians());
+    }    
   }
-
 
   /**
    * @param level
@@ -345,7 +348,7 @@ public class CSGRotation extends CSGTransformation {
 
   @Override
   public int hashCode() {
-    final int prime = 313;//Change this prime number
+    final int prime = 1787;
     int hashCode = super.hashCode();
     if (isSetRotateAxisX()) {
       hashCode += prime * getRotateAxisX();

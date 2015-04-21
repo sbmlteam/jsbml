@@ -29,6 +29,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
  * @author Alex-Thomas
+ * @author Piero Dalle Pezze
  * @version $Rev$
  * @since 1.0
  * @date Jan 20, 2014
@@ -99,7 +100,19 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
     return new CSGHomogeneousTransformation(this);
   }
 
-
+  @Override
+  public int hashCode() {
+    final int prime = 1697;
+    int hashCode = super.hashCode();
+    if (isSetForwardTransformation()) {
+      hashCode += prime * getForwardTransformation().hashCode();
+    }
+    if (isSetReverseTransformation()) {
+      hashCode += prime * getReverseTransformation().hashCode();
+    }
+    return hashCode;
+  }
+  
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);

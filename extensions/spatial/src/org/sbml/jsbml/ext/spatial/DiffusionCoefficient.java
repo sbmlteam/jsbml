@@ -92,15 +92,15 @@ public class DiffusionCoefficient extends ParameterType {
     super(diffCoeff);
 
     if (diffCoeff.isSetDiffusionKind()) {
-      diffusionKind = diffCoeff.getDiffusionKind();
+      setDiffusionKind(diffCoeff.getDiffusionKind());
     }
 
     if (diffCoeff.isSetCoordinateReference1()) {
-      coordinateReference1 = diffCoeff.getCoordinateReference1();
+      setCoordinateReference1(diffCoeff.getCoordinateReference1());
     }
 
     if (diffCoeff.isSetCoordinateReference2()) {
-      coordinateReference2 = diffCoeff.getCoordinateReference2();
+      setCoordinateReference2(diffCoeff.getCoordinateReference2());
     }
   }
 
@@ -314,7 +314,7 @@ public class DiffusionCoefficient extends ParameterType {
 
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1531;
     int hashCode = super.hashCode();
 
     if (isSetDiffusionKind()) {

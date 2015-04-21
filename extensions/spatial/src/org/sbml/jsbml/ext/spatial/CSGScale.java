@@ -30,6 +30,7 @@ import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author Alex Thomas
+ * @author Piero Dalle Pezze
  * @version $Rev$
  * @since 1.0
  * @date Jan 20, 2014
@@ -68,13 +69,13 @@ public class CSGScale extends CSGTransformation {
   public CSGScale(CSGScale csgt) {
     super(csgt);
     if (csgt.isSetScaleX()) {
-      scaleX = new Double(csgt.getScaleX());
+      setScaleX(csgt.getScaleX());
     }
     if (csgt.isSetScaleY()) {
-      scaleY = new Double(csgt.getScaleY());
+      setScaleY(csgt.getScaleY());
     }
     if (csgt.isSetScaleZ()) {
-      scaleZ = new Double(csgt.getScaleZ());
+      setScaleZ(csgt.getScaleZ());
     }
   }
 
@@ -288,7 +289,7 @@ public class CSGScale extends CSGTransformation {
 
   @Override
   public int hashCode() {
-    final int prime = 313;//Change this prime number
+    final int prime = 1777;
     int hashCode = super.hashCode();
     if (isSetScaleX()) {
       hashCode += prime * getScaleX();

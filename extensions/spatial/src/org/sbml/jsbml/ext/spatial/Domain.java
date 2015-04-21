@@ -96,7 +96,7 @@ public class Domain extends AbstractSpatialNamedSBase {
       setListOfInteriorPoints(dm.getListOfInteriorPoints().clone());
     }
     if (dm.isSetDomainType()) {
-      domainType = new String(dm.getDomainType());
+      setDomainType(dm.getDomainType());
     }
 
   }
@@ -359,10 +359,13 @@ public class Domain extends AbstractSpatialNamedSBase {
    */
   @Override
   public int hashCode() {
-    final int prime = 1531;//Change this prime number
+    final int prime = 1571;
     int hashCode = super.hashCode();
     if (isSetDomainType()) {
       hashCode += prime * getDomainType().hashCode();
+    }
+    if (isSetListOfInteriorPoints()) {
+      hashCode += prime * getListOfInteriorPoints().hashCode();
     }
     return hashCode;
   }
