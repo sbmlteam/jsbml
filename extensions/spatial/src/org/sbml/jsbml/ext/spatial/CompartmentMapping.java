@@ -31,6 +31,7 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -40,11 +41,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -4623759168043277022L;
-
-  /**
-   * 
-   */
-  private String compartment;
 
   /**
    * 
@@ -70,9 +66,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
   public CompartmentMapping(CompartmentMapping cm) {
     super(cm);
 
-    if (cm.isSetCompartment()) {
-      compartment = new String(cm.getCompartment());
-    }
     if (cm.isSetDomainType()) {
       domainType = new String(cm.getDomainType());
     }
@@ -117,10 +110,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     if (equal) {
       CompartmentMapping cm = (CompartmentMapping) object;
 
-      equal &= cm.isSetCompartment() == isSetCompartment();
-      if (equal && isSetCompartment()) {
-        equal &= cm.getCompartment().equals(getCompartment());
-      }
       equal &= cm.isSetDomainType() == isSetDomainType();
       if (equal && isSetDomainType()) {
         equal &= cm.getDomainType().equals(getDomainType());
@@ -133,54 +122,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     return equal;
   }
 
-  /**
-   * Returns the value of compartment
-   *
-   * @return the value of compartment
-   */
-  public String getCompartment() {
-    if (isSetCompartment()) {
-      return compartment;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.compartment, this);
-  }
-
-  /**
-   * Returns whether compartment is set
-   *
-   * @return whether compartment is set
-   */
-  public boolean isSetCompartment() {
-    return compartment != null;
-  }
-
-
-  /**
-   * Sets the value of compartment
-   * @param compartment
-   */
-  public void setCompartment(String compartment) {
-    String oldCompartment = this.compartment;
-    this.compartment = compartment;
-    firePropertyChange(SpatialConstants.compartment, oldCompartment, this.compartment);
-  }
-
-  /**
-   * Unsets the variable compartment
-   *
-   * @return {@code true}, if compartment was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetCompartment() {
-    if (isSetCompartment()) {
-      String oldCompartment = compartment;
-      compartment = null;
-      firePropertyChange(SpatialConstants.compartment, oldCompartment, compartment);
-      return true;
-    }
-    return false;
-  }
 
   /**
    * Returns the value of domainType
@@ -307,11 +248,8 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
 
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1319;//Changed, it was 983
     int hashCode = super.hashCode();
-    if (isSetCompartment()) {
-      hashCode += prime * getCompartment().hashCode();
-    }
     if (isSetDomainType()) {
       hashCode += prime * getDomainType().hashCode();
     }
@@ -325,10 +263,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetCompartment()) {
-      attributes.remove("compartment");
-      attributes.put(SpatialConstants.shortLabel + ":compartment", getCompartment());
-    }
     if (isSetDomainType()) {
       attributes.remove("domainType");
       attributes.put(SpatialConstants.shortLabel + ":domainType",
@@ -349,10 +283,7 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
         && (SpatialConstants.shortLabel == prefix);
     if (!isAttributeRead) {
       isAttributeRead = true;
-      if (attributeName.equals(SpatialConstants.compartment)) {
-        setCompartment(value);
-      }
-      else if (attributeName.equals(SpatialConstants.domainType)) {
+      if (attributeName.equals(SpatialConstants.domainType)) {
         setDomainType(value);
       }
       else if (attributeName.equals(SpatialConstants.unitSize)) {
@@ -372,9 +303,7 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("CompartmentMapping [compartment=");
-    builder.append(compartment);
-    builder.append(", domainType=");
+    builder.append("CompartmentMapping [domainType=");
     builder.append(domainType);
     builder.append(", unitSize=");
     builder.append(unitSize);
