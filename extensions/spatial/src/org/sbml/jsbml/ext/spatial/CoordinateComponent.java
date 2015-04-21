@@ -38,6 +38,7 @@ import org.sbml.jsbml.util.ResourceManager;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -452,6 +453,12 @@ SBaseWithUnit {
     if (isSetUnits()) {
       hashCode += prime * getUnits().hashCode();
     }
+    if (isSetBoundaryMaximum()) {
+      hashCode += prime * getBoundaryMaximum()().hashCode();
+    }    
+    if (isSetBoundaryMinimum()) {
+      hashCode += prime * getBoundaryMinimum()().hashCode();
+    }        
     return hashCode;
   }
 
@@ -502,6 +509,14 @@ SBaseWithUnit {
       attributes.remove("unit");
       attributes.put(SpatialConstants.shortLabel+":unit", getUnits());
     }
+    if (isSetBoundaryMaximum()()) {
+      attributes.remove("boundaryMaximum");
+      attributes.put(SpatialConstants.shortLabel+":boundaryMaximum", getBoundaryMaximum()());
+    }
+    if (isSetBoundaryMinimum()()) {
+      attributes.remove("boundaryMinimum");
+      attributes.put(SpatialConstants.shortLabel+":boundaryMinimum", getBoundaryMinimum()());
+    }
     return attributes;
   }
 
@@ -532,6 +547,22 @@ SBaseWithUnit {
             SpatialConstants.unit);
         }
       }
+      else if (attributeName.equals(SpatialConstants.boundaryMaximum)) {
+        try {
+          setBoundaryMaximum(value);
+        } catch (Exception e) {
+          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.boundaryMaximum);
+        }
+      }
+      else if (attributeName.equals(SpatialConstants.boundaryMinimum)) {
+        try {
+          setBoundaryMinimum(value);
+        } catch (Exception e) {
+          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.boundaryMinimum);
+        }
+      }      
       else {
         isAttributeRead = false;
       }

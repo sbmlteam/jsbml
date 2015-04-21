@@ -60,7 +60,7 @@ public class ParameterType extends AbstractSBase {
   /**
    * Refers to species object that the parameter is associated with
    */
-  private String speciesRef;
+  private String speciesRef; // TODO Check whether this is the correct name. 
 
   /**
    * 

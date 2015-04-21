@@ -32,6 +32,7 @@ import org.sbml.jsbml.AbstractSBase;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @version $Rev$
  * @since 1.0
  * @date 09.09.2011
@@ -121,7 +122,7 @@ public abstract class CoordinateReference extends AbstractSBase {
 
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1373;//Changed, it was 983
     int hashCode = super.hashCode();
     if (isSetCoordinate()) {
       hashCode += prime * getCoordinate().hashCode();
