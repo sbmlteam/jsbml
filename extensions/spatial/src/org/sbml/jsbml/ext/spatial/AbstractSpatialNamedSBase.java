@@ -105,9 +105,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
   }
 
   @Override
-  public AbstractSpatialNamedSBase clone() {
-    return new AbstractSpatialNamedSBase(this);
-  }
+  public abstract AbstractSpatialNamedSBase clone();
   
   /**
    * Initializes the default values using the namespace.

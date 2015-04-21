@@ -355,10 +355,6 @@ public class SpatialConstants {
   /**
    * 
    */
-  public static final String listOfAnalyticVolumes = "listOfAnalyticVolumes";
-  /**
-   * 
-   */
   public static final String coordinateComponent = "coordinateComponent";
   /**
    * 

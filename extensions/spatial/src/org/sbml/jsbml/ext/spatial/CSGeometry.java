@@ -90,17 +90,29 @@ public class CSGeometry extends GeometryDefinition {
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
   @Override
-  public boolean equals(Object object) {
-    boolean equal = super.equals(object);
-    if (equal) {
-      CSGeometry csg = (CSGeometry) object;
-      equal &= csg.isSetListOfCSGObjects() == isSetListOfCSGObjects();
-      if (equal && isSetListOfCSGObjects()) {
-        equal &= csg.getListOfCSGObjects().equals(getListOfCSGObjects());
-      }
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-    return equal;
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    CSGeometry other = (CSGeometry) obj;
+    if (listOfCSGObjects == null) {
+      if (other.listOfCSGObjects != null) {
+        return false;
+      }
+    } else if (!listOfCSGObjects.equals(other.listOfCSGObjects)) {
+      return false;
+    }
+    return true;
   }
 
 
@@ -258,17 +270,29 @@ public class CSGeometry extends GeometryDefinition {
     return csgo;
   }
 
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
    */
-  // public CSGObject createCSGObject(String id, int bar) {
-  //   CSGObject csgo = createCSGObject(id);
-  //   csgo.setBar(bar);
-  //   return csgo;
-  // }
-  /**
-   * 
-   */
+  @Override
+  public int hashCode() {
+    final int prime = 1301;
+    int result = super.hashCode();
+    result = prime * result
+      + ((listOfCSGObjects == null) ? 0 : listOfCSGObjects.hashCode());
+    return result;
+  }
 
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("CS [spatialId=");
+    builder.append(spatialId);
+    builder.append("]");
+    return builder.toString();
+  }
+  
 }

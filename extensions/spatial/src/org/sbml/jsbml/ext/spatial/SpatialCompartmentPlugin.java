@@ -22,7 +22,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Map;
 
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
@@ -199,33 +198,6 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,pos));
-  }
-  
-  @Override
-  public Map<String, String> writeXMLAttributes() {
-    Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetCompartmentMapping()) {
-      attributes.remove("compartmentMapping");
-      attributes.put(SpatialConstants.shortLabel + ":compartmentMapping",
-        getCompartmentMapping());
-    }
-    return attributes;
-  }
-
-  @Override
-  public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
-    if (!isAttributeRead) {
-      isAttributeRead = true;
-      if (attributeName.equals(SpatialConstants.compartmentMapping)) {
-        setCompartmentMapping(value);
-      }
-      else {
-        isAttributeRead = false;
-      }
-    }
-    return isAttributeRead;
   }
   
   @Override

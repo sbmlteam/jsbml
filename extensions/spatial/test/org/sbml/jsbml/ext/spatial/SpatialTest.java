@@ -84,7 +84,6 @@ public class SpatialTest {
 
     CompartmentMapping spatialCompMap = new CompartmentMapping();
     spatialComp.setCompartmentMapping(spatialCompMap);
-    spatialCompMap.setCompartment("comp1");
     spatialCompMap.setDomainType("DomainType1");
 
     SBMLWriter.write(doc, System.out, ' ', (short) 2);
