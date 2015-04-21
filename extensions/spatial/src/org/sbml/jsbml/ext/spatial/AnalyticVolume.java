@@ -103,16 +103,16 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
   public AnalyticVolume(AnalyticVolume node) {
     super(node);
     if (node.isSetSpatialId()) {
-      spatialId = new String(node.getSpatialId());
+      setSpatialId(node.getSpatialId());
     }
     if (node.isSetOrdinal()) {
-      ordinal = new Integer(node.getOrdinal());
+      setOrdinal(node.getOrdinal());
     }
     if (node.isSetFunctionType()) {
-      functionType = node.getFunctionType();
+      setFunctionType(node.getFunctionType());
     }
     if (node.isSetDomainType()) {
-      domainType = node.getDomainType();
+      setDomainType(node.getDomainType());
     }    
   }
 
