@@ -286,6 +286,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
   ASTNode node = null;
   Token t;
   Type type = null;
+  String s;
     leftChild = TermLvl2();
     label_3:
     while (true) {
@@ -320,7 +321,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
       case BOOLEAN_LOGIC:
         t = jj_consume_token(BOOLEAN_LOGIC);
         rightChild = TermLvl2();
-      type = Type.getTypeFor(t.image);
+      s = t.image;
 
       if (s.equalsIgnoreCase("or") || s.equals("||"))
       {
@@ -724,11 +725,6 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_26() {
-    if (jj_scan_token(EXPNUMBER)) return true;
-    return false;
-  }
-
   private boolean jj_3R_12() {
     Token xsp;
     xsp = jj_scanpos;
@@ -872,13 +868,13 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3R_34() {
-    if (jj_scan_token(FACTORIAL)) return true;
+  private boolean jj_3R_32() {
+    if (jj_scan_token(STRING)) return true;
     return false;
   }
 
-  private boolean jj_3R_32() {
-    if (jj_scan_token(STRING)) return true;
+  private boolean jj_3R_34() {
+    if (jj_scan_token(FACTORIAL)) return true;
     return false;
   }
 
@@ -894,14 +890,14 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3R_33() {
-    if (jj_scan_token(POWER)) return true;
-    return false;
-  }
-
   private boolean jj_3_3() {
     if (jj_scan_token(LEFT_BRACES)) return true;
     if (jj_3R_10()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_33() {
+    if (jj_scan_token(POWER)) return true;
     return false;
   }
 
@@ -920,6 +916,12 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
+  private boolean jj_3R_30() {
+    if (jj_scan_token(NOT)) return true;
+    if (jj_3R_10()) return true;
+    return false;
+  }
+
   private boolean jj_3R_13() {
     if (jj_3R_19()) return true;
     Token xsp;
@@ -927,12 +929,6 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
       xsp = jj_scanpos;
       if (jj_3R_20()) { jj_scanpos = xsp; break; }
     }
-    return false;
-  }
-
-  private boolean jj_3R_30() {
-    if (jj_scan_token(NOT)) return true;
-    if (jj_3R_10()) return true;
     return false;
   }
 
@@ -957,14 +953,19 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
+  private boolean jj_3R_29() {
+    if (jj_scan_token(MINUS)) return true;
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
   private boolean jj_3R_22() {
     if (jj_scan_token(DIVIDE)) return true;
     return false;
   }
 
-  private boolean jj_3R_29() {
-    if (jj_scan_token(MINUS)) return true;
-    if (jj_3R_19()) return true;
+  private boolean jj_3R_26() {
+    if (jj_scan_token(EXPNUMBER)) return true;
     return false;
   }
 

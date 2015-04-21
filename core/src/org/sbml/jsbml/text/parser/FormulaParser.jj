@@ -453,6 +453,7 @@ private ASTNode TermLvl1() :
   ASTNode node = null;
   Token t;
   Type type = null;
+  String s;
 }
 {
   leftChild = TermLvl2()
@@ -473,7 +474,7 @@ private ASTNode TermLvl1() :
     }
   | t = < BOOLEAN_LOGIC > rightChild = TermLvl2()
     {
-      type = Type.getTypeFor(t.image);
+      s = t.image;
 
       if (s.equalsIgnoreCase("or") || s.equals("||"))
       {
