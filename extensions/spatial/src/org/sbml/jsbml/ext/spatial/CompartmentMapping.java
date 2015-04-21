@@ -225,21 +225,12 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
 
   /**
    * 
-   * @return get compartment instance of {@link Compartment} class
-   */
-  public Compartment getCompartmentInstance() {
-    Model m = getModel();
-    return m != null ? m.getCompartment(getCompartment()) : null;
-  }
-
-  /**
-   * 
    * @return the domainType instance of the {@link DomainType} class
    */
   public DomainType getDomainTypeInstance() {
     Model m = getModel();
     if (m!=null) {
-      SpatialModelPlugin sm = (SpatialModelPlugin) m.getExtension(getCompartmentInstance().getElementName());
+      SpatialModelPlugin sm = (SpatialModelPlugin) m.getExtension(packageName);
       sm.getGeometry().getListOfDomainTypes().get(getDomainType());
     }
     return null;

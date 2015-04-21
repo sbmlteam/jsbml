@@ -67,9 +67,7 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
   }
 
   @Override
-  public AbstractSpatialSBasePlugin clone() {
-    return new AbstractSpatialSBasePlugin(this);
-  }
+  public abstract AbstractSpatialSBasePlugin clone();
   
   /**
    * Initializes the default values using the namespace.
