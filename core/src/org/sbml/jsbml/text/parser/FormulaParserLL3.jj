@@ -817,7 +817,21 @@ private ASTNode termLevel2() :
     {
       // TODO - do we want to ignore the case for those cases ? 
       String s = t.image;
-      Type type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
+      Type type = null; // ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
+
+      if (s.equalsIgnoreCase("or") || s.equalsIgnoreCase("||"))
+      {
+        type = ASTNode.Type.LOGICAL_OR;
+      }
+      else if (s.equalsIgnoreCase("and") || s.equalsIgnoreCase("&&"))
+      {
+        type = ASTNode.Type.LOGICAL_AND;
+      }
+      else if (s.equalsIgnoreCase("xor"))
+      {
+        type = ASTNode.Type.LOGICAL_XOR;
+      }
+      
       node = new ASTNode(type);
       node.addChild(leftChild);
       node.addChild(rightChild);
