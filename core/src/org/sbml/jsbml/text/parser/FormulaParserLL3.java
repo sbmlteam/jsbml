@@ -548,84 +548,67 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   }
 
   final public Token string() throws ParseException {
-    trace_call("string");
-    try {
   Token t;
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LOG:
-        t = jj_consume_token(LOG);
-        break;
-      case STRING:
-        t = jj_consume_token(STRING);
-        break;
-      default:
-        jj_la1[0] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case LOG:
+      t = jj_consume_token(LOG);
+      break;
+    case STRING:
+      t = jj_consume_token(STRING);
+      break;
+    default:
+      jj_la1[0] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     {if (true) return t;}
     throw new Error("Missing return statement in function");
-    } finally {
-      trace_return("string");
-    }
   }
 
   final public ASTNode parse() throws ParseException {
-    trace_call("parse");
-    try {
   ASTNode node = null;
-      node = expression();
+    node = expression();
     {if (true) return node;}
     throw new Error("Missing return statement in function");
-    } finally {
-      trace_return("parse");
-    }
   }
 
   final private ASTNode expression() throws ParseException {
-    trace_call("expression");
-    try {
   ASTNode value = null;
-      value = termLevel2();
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case 0:
-        jj_consume_token(0);
-        break;
-      case EOL:
-        jj_consume_token(EOL);
-        break;
-      default:
-        jj_la1[1] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
+    value = termLevel2();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case 0:
+      jj_consume_token(0);
+      break;
+    case EOL:
+      jj_consume_token(EOL);
+      break;
+    default:
+      jj_la1[1] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     {if (true) return value;}
     throw new Error("Missing return statement in function");
-    } finally {
-      trace_return("expression");
-    }
   }
 
   final private ASTNode termLevel2() throws ParseException {
-    trace_call("termLevel2");
-    try {
   ASTNode rightChild = null;
   ASTNode leftChild;
   ASTNode node = null;
   Token t;
-      leftChild = termLevel3();
-      label_1:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case BOOLEAN_LOGIC:
-          ;
-          break;
-        default:
-          jj_la1[2] = jj_gen;
-          break label_1;
-        }
-        t = jj_consume_token(BOOLEAN_LOGIC);
-        rightChild = termLevel3();
+    leftChild = termLevel3();
+    label_1:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case BOOLEAN_LOGIC:
+        ;
+        break;
+      default:
+        jj_la1[2] = jj_gen;
+        break label_1;
+      }
+      t = jj_consume_token(BOOLEAN_LOGIC);
+      rightChild = termLevel3();
       // TODO - do we want to ignore the case for those cases ? 
       String s = t.image;
       Type type = null; // ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
@@ -647,34 +630,29 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
-      }
+    }
         {if (true) return leftChild;}
     throw new Error("Missing return statement in function");
-    } finally {
-      trace_return("termLevel2");
-    }
   }
 
   final private ASTNode termLevel3() throws ParseException {
-    trace_call("termLevel3");
-    try {
   ASTNode rightChild = null;
   ASTNode leftChild;
   ASTNode node = null;
   Token t;
-      leftChild = termLevel4();
-      label_2:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMPARISON:
-          ;
-          break;
-        default:
-          jj_la1[3] = jj_gen;
-          break label_2;
-        }
-        t = jj_consume_token(COMPARISON);
-        rightChild = termLevel4();
+    leftChild = termLevel4();
+    label_2:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case COMPARISON:
+        ;
+        break;
+      default:
+        jj_la1[3] = jj_gen;
+        break label_2;
+      }
+      t = jj_consume_token(COMPARISON);
+      rightChild = termLevel4();
       String s = t.image;
       Type type = null;
 
@@ -706,93 +684,83 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
-      }
+    }
         {if (true) return leftChild;}
     throw new Error("Missing return statement in function");
-    } finally {
-      trace_return("termLevel3");
-    }
   }
 
   final private ASTNode termLevel4() throws ParseException {
-    trace_call("termLevel4");
-    try {
   ASTNode rightChild = null;
   ASTNode leftChild;
   ASTNode node = null;
-      leftChild = termLevel5();
-      label_3:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case PLUS:
-        case MINUS:
-          ;
-          break;
-        default:
-          jj_la1[4] = jj_gen;
-          break label_3;
-        }
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case PLUS:
-          jj_consume_token(PLUS);
-          rightChild = termLevel5();
+    leftChild = termLevel5();
+    label_3:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case PLUS:
+      case MINUS:
+        ;
+        break;
+      default:
+        jj_la1[4] = jj_gen;
+        break label_3;
+      }
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case PLUS:
+        jj_consume_token(PLUS);
+        rightChild = termLevel5();
       node = new ASTNode('+');
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
-          break;
-        case MINUS:
-          jj_consume_token(MINUS);
-          rightChild = termLevel5();
+        break;
+      case MINUS:
+        jj_consume_token(MINUS);
+        rightChild = termLevel5();
       node = new ASTNode('-');
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
-          break;
-        default:
-          jj_la1[5] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
+        break;
+      default:
+        jj_la1[5] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
       }
+    }
         {if (true) return leftChild;}
     throw new Error("Missing return statement in function");
-    } finally {
-      trace_return("termLevel4");
-    }
   }
 
   final private ASTNode termLevel5() throws ParseException {
-    trace_call("termLevel5");
-    try {
   ASTNode rightChild = null;
   ASTNode leftChild;
   ASTNode node = null;
-      leftChild = termLevel6();
-      label_4:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case TIMES:
-        case DIVIDE:
-        case MODULO:
-          ;
-          break;
-        default:
-          jj_la1[6] = jj_gen;
-          break label_4;
-        }
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case TIMES:
-          jj_consume_token(TIMES);
-          rightChild = termLevel6();
+    leftChild = termLevel6();
+    label_4:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case TIMES:
+      case DIVIDE:
+      case MODULO:
+        ;
+        break;
+      default:
+        jj_la1[6] = jj_gen;
+        break label_4;
+      }
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case TIMES:
+        jj_consume_token(TIMES);
+        rightChild = termLevel6();
       node = new ASTNode('*');
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
-          break;
-        case DIVIDE:
-          jj_consume_token(DIVIDE);
-          rightChild = termLevel6();
+        break;
+      case DIVIDE:
+        jj_consume_token(DIVIDE);
+        rightChild = termLevel6();
       Integer left, right;
       left = getInteger(leftChild);
       right = getInteger(rightChild);
@@ -810,100 +778,85 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
         node.addChild(rightChild);
         leftChild = node;
       }
-          break;
-        case MODULO:
-          jj_consume_token(MODULO);
-          rightChild = termLevel6();
+        break;
+      case MODULO:
+        jj_consume_token(MODULO);
+        rightChild = termLevel6();
       node = createModulo(leftChild, rightChild);
       leftChild = node;
-          break;
-        default:
-          jj_la1[7] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-      }
-    {if (true) return leftChild;}
-    throw new Error("Missing return statement in function");
-    } finally {
-      trace_return("termLevel5");
-    }
-  }
-
-  final private ASTNode termLevel6() throws ParseException {
-    trace_call("termLevel6");
-    try {
-  ASTNode node = null;
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case MINUS:
-        jj_consume_token(MINUS);
-        node = termLevel7();
-    ASTNode uiMinus = new ASTNode('-');
-    uiMinus.addChild(node);
-    {if (true) return uiMinus;}
-        break;
-      case NOT:
-        jj_consume_token(NOT);
-        node = termLevel7();
-    ASTNode not = new ASTNode(Type.LOGICAL_NOT);
-    not.addChild(node);
-    {if (true) return not;}
-        break;
-      case INTEGER:
-      case NUMBER:
-      case EXPNUMBER:
-      case OPEN_PAR:
-      case LEFT_BRACES:
-      case LOG:
-      case STRING:
-        node = termLevel7();
-    {if (true) return node;}
         break;
       default:
-        jj_la1[8] = jj_gen;
+        jj_la1[7] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-    throw new Error("Missing return statement in function");
-    } finally {
-      trace_return("termLevel6");
     }
+    {if (true) return leftChild;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final private ASTNode termLevel6() throws ParseException {
+  ASTNode node = null;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case MINUS:
+      jj_consume_token(MINUS);
+      node = termLevel7();
+    ASTNode uiMinus = new ASTNode('-');
+    uiMinus.addChild(node);
+    {if (true) return uiMinus;}
+      break;
+    case NOT:
+      jj_consume_token(NOT);
+      node = termLevel7();
+    ASTNode not = new ASTNode(Type.LOGICAL_NOT);
+    not.addChild(node);
+    {if (true) return not;}
+      break;
+    case INTEGER:
+    case NUMBER:
+    case EXPNUMBER:
+    case OPEN_PAR:
+    case LEFT_BRACES:
+    case LOG:
+    case STRING:
+      node = termLevel7();
+    {if (true) return node;}
+      break;
+    default:
+      jj_la1[8] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    throw new Error("Missing return statement in function");
   }
 
   final private ASTNode termLevel7() throws ParseException {
-    trace_call("termLevel7");
-    try {
   ASTNode rightChild;
   ASTNode leftChild;
   ASTNode node = null;
-      leftChild = termLevel8();
-      label_5:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case POWER:
-          ;
-          break;
-        default:
-          jj_la1[9] = jj_gen;
-          break label_5;
-        }
-        jj_consume_token(POWER);
-        rightChild = termLevel8();
+    leftChild = termLevel8();
+    label_5:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case POWER:
+        ;
+        break;
+      default:
+        jj_la1[9] = jj_gen;
+        break label_5;
+      }
+      jj_consume_token(POWER);
+      rightChild = termLevel8();
       node = new ASTNode(Type.POWER);
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
-      }
+    }
     {if (true) return leftChild;}
     throw new Error("Missing return statement in function");
-    } finally {
-      trace_return("termLevel7");
-    }
   }
 
   final private ASTNode termLevel8() throws ParseException, NumberFormatException {
-    trace_call("termLevel8");
-    try {
   Token t;
   double d;
   int i;
@@ -913,21 +866,21 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   String s;
   String vals [ ];
   ArrayList < ASTNode > arguments = new ArrayList < ASTNode > ();
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case INTEGER:
-        t = jj_consume_token(INTEGER);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case INTEGER:
+      t = jj_consume_token(INTEGER);
     i = Integer.parseInt(t.image); // Could use StringTools.parseXXX methods here but not doing so allow to support different locale ??
     node.setValue(i);
     {if (true) return node;}
-        break;
-      case NUMBER:
-        t = jj_consume_token(NUMBER);
+      break;
+    case NUMBER:
+      t = jj_consume_token(NUMBER);
     d = Double.parseDouble(t.image);
     node.setValue(d);
     {if (true) return node;}
-        break;
-      case EXPNUMBER:
-        t = jj_consume_token(EXPNUMBER);
+      break;
+    case EXPNUMBER:
+      t = jj_consume_token(EXPNUMBER);
     s = t.image;
     vals = s.toLowerCase().split("e");
     if (vals [ 1 ].startsWith("+"))
@@ -940,28 +893,28 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     }
     node.setValue(Double.parseDouble(vals [ 0 ]), i);
     {if (true) return node;}
-        break;
-      default:
-        jj_la1[14] = jj_gen;
-        if (jj_2_1(2)) {
-          t = string();
-          jj_consume_token(OPEN_PAR);
-          child = termLevel2();
-          label_6:
-          while (true) {
-            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-            case SPLITTER:
-              ;
-              break;
-            default:
-              jj_la1[10] = jj_gen;
-              break label_6;
-            }
-            jj_consume_token(SPLITTER);
-            furtherChild = termLevel2();
-      arguments.add(furtherChild);
+      break;
+    default:
+      jj_la1[14] = jj_gen;
+      if (jj_2_1(2)) {
+        t = string();
+        jj_consume_token(OPEN_PAR);
+        child = termLevel2();
+        label_6:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case SPLITTER:
+            ;
+            break;
+          default:
+            jj_la1[10] = jj_gen;
+            break label_6;
           }
-          jj_consume_token(CLOSE_PAR);
+          jj_consume_token(SPLITTER);
+          furtherChild = termLevel2();
+      arguments.add(furtherChild);
+        }
+        jj_consume_token(CLOSE_PAR);
     s = t.image;
     Type type = null;
     if (ignoreCase)
@@ -1037,90 +990,90 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       node.addChild(argument);
     }
     {if (true) return node;}
-        } else {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case OPEN_PAR:
-            jj_consume_token(OPEN_PAR);
-            node = termLevel2();
-            jj_consume_token(CLOSE_PAR);
+      } else {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_PAR:
+          jj_consume_token(OPEN_PAR);
+          node = termLevel2();
+          jj_consume_token(CLOSE_PAR);
     {if (true) return node;}
-            break;
-          default:
-            jj_la1[15] = jj_gen;
-            if (jj_2_2(4)) {
-              t = jj_consume_token(STRING);
+          break;
+        default:
+          jj_la1[15] = jj_gen;
+          if (jj_2_2(4)) {
+            t = jj_consume_token(STRING);
     ASTNode selector = new ASTNode();
     selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
     selector.addChild(new ASTNode(t.image));
-              label_7:
-              while (true) {
-                jj_consume_token(LEFT_BRACKET);
-                node = termLevel2();
-      selector.addChild(node);
-                jj_consume_token(RIGHT_BRACKET);
-                switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-                case LEFT_BRACKET:
-                  ;
-                  break;
-                default:
-                  jj_la1[11] = jj_gen;
-                  break label_7;
-                }
-              }
-    {if (true) return selector;}
-            } else if (jj_2_3(2)) {
-              jj_consume_token(LEFT_BRACES);
+            label_7:
+            while (true) {
+              jj_consume_token(LEFT_BRACKET);
               node = termLevel2();
+      selector.addChild(node);
+              jj_consume_token(RIGHT_BRACKET);
+              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+              case LEFT_BRACKET:
+                ;
+                break;
+              default:
+                jj_la1[11] = jj_gen;
+                break label_7;
+              }
+            }
+    {if (true) return selector;}
+          } else if (jj_2_3(2)) {
+            jj_consume_token(LEFT_BRACES);
+            node = termLevel2();
     ASTNode selector = new ASTNode();
     vector = new ASTNode();
     boolean isSelector = false;
     selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
     vector.setType(ASTNode.Type.VECTOR);
     vector.addChild(node);
-              label_8:
-              while (true) {
-                switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-                case SPLITTER:
-                  ;
-                  break;
-                default:
-                  jj_la1[12] = jj_gen;
-                  break label_8;
-                }
-                jj_consume_token(SPLITTER);
-                node = termLevel2();
-      vector.addChild(node);
+            label_8:
+            while (true) {
+              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+              case SPLITTER:
+                ;
+                break;
+              default:
+                jj_la1[12] = jj_gen;
+                break label_8;
               }
-              jj_consume_token(RIGHT_BRACES);
+              jj_consume_token(SPLITTER);
+              node = termLevel2();
+      vector.addChild(node);
+            }
+            jj_consume_token(RIGHT_BRACES);
     selector.addChild(vector);
-              label_9:
-              while (true) {
-                switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-                case LEFT_BRACKET:
-                  ;
-                  break;
-                default:
-                  jj_la1[13] = jj_gen;
-                  break label_9;
-                }
-                jj_consume_token(LEFT_BRACKET);
-                node = termLevel2();
+            label_9:
+            while (true) {
+              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+              case LEFT_BRACKET:
+                ;
+                break;
+              default:
+                jj_la1[13] = jj_gen;
+                break label_9;
+              }
+              jj_consume_token(LEFT_BRACKET);
+              node = termLevel2();
       isSelector = true;
       selector.addChild(node);
-                jj_consume_token(RIGHT_BRACKET);
-              }
+              jj_consume_token(RIGHT_BRACKET);
+            }
     {if (true) return isSelector ? selector : vector;}
-            } else {
-              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-              case LEFT_BRACES:
-                jj_consume_token(LEFT_BRACES);
+          } else {
+            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+            case LEFT_BRACES:
+              jj_consume_token(LEFT_BRACES);
     vector = new ASTNode();
     vector.setType(ASTNode.Type.VECTOR);
-                jj_consume_token(RIGHT_BRACES);
+              jj_consume_token(RIGHT_BRACES);
     {if (true) return vector;}
-                break;
-              case STRING:
-                t = jj_consume_token(STRING);
+              break;
+            case STRING:
+              t = jj_consume_token(STRING);
     s = t.image;
     if (ignoreCase)
     {
@@ -1168,20 +1121,17 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       node = new ASTNode(s);
     }
     {if (true) return node;}
-                break;
-              default:
-                jj_la1[16] = jj_gen;
-                jj_consume_token(-1);
-                throw new ParseException();
-              }
+              break;
+            default:
+              jj_la1[16] = jj_gen;
+              jj_consume_token(-1);
+              throw new ParseException();
             }
           }
         }
       }
-    throw new Error("Missing return statement in function");
-    } finally {
-      trace_return("termLevel8");
     }
+    throw new Error("Missing return statement in function");
   }
 
   private boolean jj_2_1(int xla) {
@@ -1563,7 +1513,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
           }
         }
       }
-      trace_token(token, "");
       return token;
     }
     token = oldToken;
@@ -1601,7 +1550,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
     jj_gen++;
-      trace_token(token, " (in getNextToken)");
     return token;
   }
 
@@ -1687,55 +1635,12 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     return new ParseException(token, exptokseq, tokenImage);
   }
 
-  private int trace_indent = 0;
-  private boolean trace_enabled = true;
-
-/** Enable tracing. */
+  /** Enable tracing. */
   final public void enable_tracing() {
-    trace_enabled = true;
   }
 
-/** Disable tracing. */
+  /** Disable tracing. */
   final public void disable_tracing() {
-    trace_enabled = false;
-  }
-
-  private void trace_call(String s) {
-    if (trace_enabled) {
-      for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
-      System.out.println("Call:   " + s);
-    }
-    trace_indent = trace_indent + 2;
-  }
-
-  private void trace_return(String s) {
-    trace_indent = trace_indent - 2;
-    if (trace_enabled) {
-      for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
-      System.out.println("Return: " + s);
-    }
-  }
-
-  private void trace_token(Token t, String where) {
-    if (trace_enabled) {
-      for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
-      System.out.print("Consumed token: <" + tokenImage[t.kind]);
-      if (t.kind != 0 && !tokenImage[t.kind].equals("\"" + t.image + "\"")) {
-        System.out.print(": \"" + t.image + "\"");
-      }
-      System.out.println(" at line " + t.beginLine + " column " + t.beginColumn + ">" + where);
-    }
-  }
-
-  private void trace_scan(Token t1, int t2) {
-    if (trace_enabled) {
-      for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
-      System.out.print("Visited token: <" + tokenImage[t1.kind]);
-      if (t1.kind != 0 && !tokenImage[t1.kind].equals("\"" + t1.image + "\"")) {
-        System.out.print(": \"" + t1.image + "\"");
-      }
-      System.out.println(" at line " + t1.beginLine + " column " + t1.beginColumn + ">; Expected token: <" + tokenImage[t2] + ">");
-    }
   }
 
   private void jj_rescan_token() {

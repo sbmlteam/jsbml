@@ -107,7 +107,7 @@ public class TestInfixOperatorPrecedence {
     // TODO: Test by comparing nodes in the tree
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
-    assertTrue(n.toFormula().equals("5+2*4+4*8"));
+    assertTrue(n.toFormula().equals("5+(2*4)+(4*8)"));
   }
 
   /**
