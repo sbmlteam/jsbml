@@ -35,6 +35,7 @@ import org.sbml.jsbml.xml.XMLNode;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -72,6 +73,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
   /**
    * @author Alex Thomas
    * @author Andreas Dr&auml;ger
+   * @author Piero Dalle Pezze
    * @version $Rev$
    * @since 1.0
    */
@@ -83,7 +85,11 @@ public class SampledField extends AbstractSpatialNamedSBase {
     /**
      * 
      */
-    DEFLATED;
+    DEFLATED,
+    /**
+     * 
+     */
+    BASE64;
   }
 
   /**
@@ -111,10 +117,6 @@ public class SampledField extends AbstractSpatialNamedSBase {
   /**
    * 
    */
-  private DataKind dataType;
-  /**
-   * 
-   */
   private Integer numSamples1;
   /**
    * 
@@ -132,6 +134,14 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * 
    */
   private CompressionKind compression;
+  /**
+   * 
+   */
+  private Integer samplesLength;
+  /**
+   * 
+   */
+  private DataKind dataType;  
   /**
    * 
    */
@@ -164,6 +174,9 @@ public class SampledField extends AbstractSpatialNamedSBase {
     if (sf.isSetCompression()) {
       setCompression(sf.getCompression());
     }
+    if (sf.isSetSamplesLength()) {
+      setSamplesLength(sf.getSamplesLength());
+    }    
     if (sf.isSetInterpolation()) {
       setInterpolation(sf.getInterpolation());
     }
@@ -223,6 +236,10 @@ public class SampledField extends AbstractSpatialNamedSBase {
       if (equal && isSetInterpolation()) {
         equal &= sf.getInterpolation().equals(getInterpolation());
       }
+      equal &= sf.isSetSamplesLength() == isSetSamplesLength();
+      if (equal && isSetSamplesLength()) {
+        equal &= sf.getSamplesLength() == getSamplesLength();
+      }      
       equal &= sf.isSetDataType() == isSetDataType();
       if (equal && isSetDataType()) {
         equal &= sf.getDataType().equals(getDataType());
@@ -543,6 +560,67 @@ public class SampledField extends AbstractSpatialNamedSBase {
   }
 
 
+/**
+ * Returns the value of {@link #samplesLength}.
+ *
+ * @return the value of {@link #samplesLength}.
+ */
+public int getSamplesLength() {
+  if (isSetSamplesLength()) {
+    return samplesLength;
+  }
+  // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+  throw new PropertyUndefinedError(SpatialConstants.samplesLength, this);
+}
+
+
+/**
+ * Returns whether {@link #samplesLength} is set.
+ *
+ * @return whether {@link #samplesLength} is set.
+ */
+public boolean isSetSamplesLength() {
+  return this.samplesLength != null;
+}
+
+/**
+ * Sets the value of samplesLength
+ *
+ * @param samplesLength the value of samplesLength to be set.
+ */
+public void setSamplesLength(String samplesLength) {
+  Integer oldSamplesLength = this.samplesLength;
+  this.samplesLength = StringTools.parseSBMLInt(samplesLength);
+  firePropertyChange(SpatialConstants.samplesLength, oldSamplesLength, this.samplesLength);
+}
+
+/**
+ * Sets the value of samplesLength
+ *
+ * @param samplesLength the value of samplesLength to be set.
+ */
+public void setSamplesLength(int samplesLength) {
+  Integer oldSamplesLength = this.samplesLength;
+  this.samplesLength = samplesLength;
+  firePropertyChange(SpatialConstants.samplesLength, oldSamplesLength, this.samplesLength);
+}
+
+
+/**
+ * Unsets the variable samplesLength.
+ *
+ * @return {@code true} if samplesLength was set before, otherwise {@code false}.
+ */
+public boolean unsetSamplesLength() {
+  if (isSetSamplesLength()) {
+    Integer oldSamplesLength = this.samplesLength;
+    this.samplesLength = null;
+    firePropertyChange(SpatialConstants.samplesLength, oldSamplesLength, this.samplesLength);
+    return true;
+  }
+  return false;
+}
+  
   /**
    * Returns the value of data
    *
@@ -657,7 +735,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1997;
     int hashCode = super.hashCode();
     if (isSetNumSamples1()) {
       hashCode += prime * getNumSamples1();
@@ -677,6 +755,10 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
     if (isSetCompression()) {
       hashCode += prime * getCompression().hashCode();
+    }
+    
+    if (isSetSamplesLength()) {
+      hashCode += prime * getSamplesLength();
     }
 
     if (isSetInterpolation()) {
@@ -767,6 +849,13 @@ public class SampledField extends AbstractSpatialNamedSBase {
           MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.compression);
         }
       }
+      else if (attributeName.equals(SpatialConstants.samplesLength)) {
+        try {
+          setSamplesLength(String.valueOf(value));
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.samplesLength);
+        }
+      }
       else if (attributeName.equals(SpatialConstants.dataType)) {
         try {
           setDataType(DataKind.valueOf(value));
@@ -800,6 +889,8 @@ public class SampledField extends AbstractSpatialNamedSBase {
     builder.append(interpolation);
     builder.append(", compression=");
     builder.append(compression);
+    builder.append(", samplesLength=");
+    builder.append(samplesLength);    
     builder.append(", data=");
     builder.append(data);
     builder.append("]");
