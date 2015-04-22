@@ -197,7 +197,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
    */
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 2039;
     int hashCode = super.hashCode();
     if (isSetIsLocal()) {
       hashCode += prime * isLocal.hashCode();

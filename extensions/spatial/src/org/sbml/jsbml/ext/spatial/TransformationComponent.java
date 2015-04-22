@@ -29,7 +29,6 @@ import java.util.StringTokenizer;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Alex Thomas
@@ -112,6 +111,9 @@ public class TransformationComponent extends AbstractSBase {
       if (equal && isSetComponents()) {
         equal &= tc.getComponents().equals(getComponents());
       }
+      if (equal && isSetComponentsLength()) {
+        equal &= tc.getComponentsLength() == getComponentsLength();
+      }      
     }
     return equal;
   }
@@ -178,7 +180,7 @@ public class TransformationComponent extends AbstractSBase {
    */
   public int getComponentsLength() {
     if (isSetComponentsLength()) {
-      return componentsLength;
+      return componentsLength.intValue();
     }
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(SpatialConstants.componentsLength, this);
@@ -204,6 +206,9 @@ public class TransformationComponent extends AbstractSBase {
     if (isSetComponents()) {
       hashCode += prime * getComponents().hashCode();
     }
+    if (isSetComponentsLength()) {
+      hashCode += prime * getComponentsLength();
+    }    
     return hashCode;
   }
 
@@ -222,15 +227,6 @@ public class TransformationComponent extends AbstractSBase {
       attributes.remove("componentsLength");
       attributes.put(SpatialConstants.shortLabel + ":componentsLength",
         String.valueOf(getComponentsLength()));
-    }
-
-    if (isSetSBOTerm()) {
-      attributes.remove(TreeNodeChangeEvent.sboTerm);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.sboTerm, getSBOTermID());
-    }
-    if (isSetMetaId()) {
-      attributes.remove(TreeNodeChangeEvent.metaId);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.metaId, getMetaId());
     }
     return attributes;
   }
