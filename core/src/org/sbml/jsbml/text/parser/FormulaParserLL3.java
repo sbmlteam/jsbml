@@ -626,7 +626,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
         type = ASTNode.Type.LOGICAL_XOR;
       }
 
-      node = new ASTNode(type);
+      node = new ASTNode(type); // TODO - those elements can have more children
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
@@ -680,7 +680,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       {
         type = ASTNode.Type.RELATIONAL_LEQ;
       }
-      node = new ASTNode(type);
+      node = new ASTNode(type); // TODO - those elements can have more children
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
@@ -932,9 +932,10 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       checkSize(arguments, 0); // TODO - we need to set the type for all those if-then-else cases
       node.addChild(child);
     }
-    else if (s.equals("lambda"))
+    else if (s.equals("lambda")) // TODO - lamdba is present in ASTNodeToken.xml so this will never be called. Remove or update the xml if we need to do
+    // something specific here.
     {
-      node.addChild(child);
+      node.addChild(child); // TODO - write all the children here and create the BVAR and other new node ?
     }
     else if (s.equals("modulo") || s.equals("mod"))
     {
@@ -944,27 +945,28 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       node = createModulo(child, rightChild);
       {if (true) return node;}
     }
-    else if (s.equals("not"))
+    else if (s.equals("not")) // TODO - present in ASTNodeToken.xml so this will never be called.
     {
       checkSize(arguments, 0);
       node.addChild(child);
     }
     else if (s.equals("piecewise"))
     {
-      node.addChild(child);
+      node.setType(ASTNode.Type.FUNCTION_PIECEWISE); // TODO - we don't create the CONSTRUCTOR_PIECE node in this .jj, I think
+      node.addChild(child);  // TODO - write all the children here and create the CONSTRUCTOR_PIECE and other new node ?
     }
-    else if (s.equals("pow") || s.equals("power"))
+    else if (s.equals("pow") || s.equals("power")) // TODO - present in ASTNodeToken.xml so this will never be called.
     {
       checkSize(arguments, 1);
       node.addChild(child);
     }
-    else if (s.equals("sqr"))
+    else if (s.equals("sqr")) // TODO - present in ASTNodeToken.xml so this will never be called.
     {
       checkSize(arguments, 0);
       node.addChild(child);
       node.addChild(new ASTNode(2));
     }
-    else if (s.equals("sqrt"))
+    else if (s.equals("sqrt")) // TODO - present in ASTNodeToken.xml so this will never be called.
     {
       checkSize(arguments, 0);
       node.addChild(new ASTNode(2));
@@ -1155,11 +1157,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_37() {
-    if (jj_scan_token(STRING)) return true;
-    return false;
-  }
-
   private boolean jj_3R_17() {
     if (jj_3R_19()) return true;
     Token xsp;
@@ -1208,11 +1205,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     return false;
   }
 
-  private boolean jj_3R_28() {
-    if (jj_scan_token(MODULO)) return true;
-    return false;
-  }
-
   private boolean jj_3_2() {
     if (jj_scan_token(STRING)) return true;
     Token xsp;
@@ -1224,19 +1216,24 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     return false;
   }
 
-  private boolean jj_3R_22() {
-    if (jj_scan_token(MINUS)) return true;
+  private boolean jj_3R_28() {
+    if (jj_scan_token(MODULO)) return true;
     return false;
   }
 
-  private boolean jj_3R_31() {
-    if (jj_scan_token(POWER)) return true;
+  private boolean jj_3R_22() {
+    if (jj_scan_token(MINUS)) return true;
     return false;
   }
 
   private boolean jj_3R_35() {
     if (jj_scan_token(OPEN_PAR)) return true;
     if (jj_3R_12()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_31() {
+    if (jj_scan_token(POWER)) return true;
     return false;
   }
 
@@ -1325,6 +1322,12 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     return false;
   }
 
+  private boolean jj_3_3() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_3R_12()) return true;
+    return false;
+  }
+
   private boolean jj_3R_10() {
     Token xsp;
     xsp = jj_scanpos;
@@ -1371,9 +1374,8 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     return false;
   }
 
-  private boolean jj_3_3() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_3R_12()) return true;
+  private boolean jj_3R_37() {
+    if (jj_scan_token(STRING)) return true;
     return false;
   }
 
