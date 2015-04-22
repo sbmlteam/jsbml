@@ -4357,4 +4357,25 @@ public class ASTNode extends AbstractTreeNode {
     // pointer to whatever they are referencing.
   }
 
+  /**
+   * Returns a simple tree view of the ASTNode internal, including mainly
+   * node type and hierarchy.
+   * 
+   * @param n
+   * @param tree
+   * @param indent
+   * @return a simple tree view of the ASTNode internal
+   */
+  public static String astNodeToTree(ASTNode n, String tree, String indent) {
+    tree = tree + indent + n.getType() + " " + 
+        (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + "\n";
+    
+    for (ASTNode child : n.getChildren()) {
+      tree = astNodeToTree(child, tree, indent + "  ");
+    }
+    
+    return tree;
+  }
+  
+
 }
