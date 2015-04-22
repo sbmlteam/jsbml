@@ -298,11 +298,9 @@ public class ParameterType extends AbstractSBase {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetSpId()) {
-      attributes.remove("spatialRef");
       attributes.put(SpatialConstants.shortLabel + ":spatialRef", getSpId());
     }
     if (isSetSpeciesReference()) {
-      attributes.remove("variable");
       attributes.put(SpatialConstants.shortLabel + ":variable",
         String.valueOf(getSpeciesReference()));
     }

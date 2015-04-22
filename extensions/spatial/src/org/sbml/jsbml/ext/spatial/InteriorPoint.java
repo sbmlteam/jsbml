@@ -31,7 +31,6 @@ import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Alex Thomas
@@ -198,12 +197,7 @@ public class InteriorPoint extends AbstractSBase {
    * @param coord1
    */
   public void setCoord1(double coord1) {
-    Double oldCoord1;
-    if (isSetCoord1()) {
-      oldCoord1 = this.coord1;
-    } else {
-      oldCoord1 = null;
-    }
+    Double oldCoord1 = this.coord1;
     this.coord1 = coord1;
     firePropertyChange(SpatialConstants.coord1, oldCoord1, this.coord1);
   }
@@ -217,7 +211,7 @@ public class InteriorPoint extends AbstractSBase {
    */
   public boolean unsetCoord1() {
     if (isSetCoord1()) {
-      double oldCoord1 = coord1;
+      Double oldCoord1 = coord1;
       coord1 = null;
       firePropertyChange(SpatialConstants.coord1, oldCoord1, coord1);
       return true;
@@ -253,12 +247,7 @@ public class InteriorPoint extends AbstractSBase {
    * @param coord2
    */
   public void setCoord2(double coord2) {
-    Double oldCoord2;
-    if (isSetCoord2()) {
-      oldCoord2 = this.coord2;
-    } else {
-      oldCoord2 = null;
-    }
+    Double oldCoord2 = this.coord2;
     this.coord2 = coord2;
     firePropertyChange(SpatialConstants.coord2, oldCoord2, this.coord2);
   }
@@ -272,7 +261,7 @@ public class InteriorPoint extends AbstractSBase {
    */
   public boolean unsetCoord2() {
     if (isSetCoord2()) {
-      double oldCoord2 = coord2;
+      Double oldCoord2 = coord2;
       coord2 = null;
       firePropertyChange(SpatialConstants.coord2, oldCoord2, coord2);
       return true;
@@ -309,12 +298,7 @@ public class InteriorPoint extends AbstractSBase {
    * @param coord3
    */
   public void setCoord3(double coord3) {
-    Double oldCoord3;
-    if (isSetCoord3()) {
-      oldCoord3 = coord1;
-    } else {
-      oldCoord3 = null;
-    }
+    Double oldCoord3 = coord1;
     this.coord3 = coord3;
     firePropertyChange(SpatialConstants.coord3, oldCoord3, this.coord3);
   }

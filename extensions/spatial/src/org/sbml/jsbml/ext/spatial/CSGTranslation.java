@@ -158,7 +158,7 @@ public class CSGTranslation extends CSGTransformation {
    * @param translateX
    */
   public void setTranslateX(double translateX) {
-    double oldTranslateX = this.translateX;
+    Double oldTranslateX = this.translateX;
     this.translateX = translateX;
     firePropertyChange(SpatialConstants.translateX, oldTranslateX, this.translateX);
   }
@@ -172,7 +172,7 @@ public class CSGTranslation extends CSGTransformation {
    */
   public boolean unsetTranslateX() {
     if (isSetTranslateX()) {
-      double oldTranslateX = translateX;
+      Double oldTranslateX = translateX;
       translateX = null;
       firePropertyChange(SpatialConstants.translateX, oldTranslateX, translateX);
       return true;
@@ -210,7 +210,7 @@ public class CSGTranslation extends CSGTransformation {
    * @param translateY
    */
   public void setTranslateY(double translateY) {
-    double oldTranslateY = this.translateY;
+    Double oldTranslateY = this.translateY;
     this.translateY = translateY;
     firePropertyChange(SpatialConstants.translateY, oldTranslateY, this.translateY);
   }
@@ -224,7 +224,7 @@ public class CSGTranslation extends CSGTransformation {
    */
   public boolean unsetTranslateY() {
     if (isSetTranslateY()) {
-      double oldTranslateY = translateY;
+      Double oldTranslateY = translateY;
       translateY = null;
       firePropertyChange(SpatialConstants.translateY, oldTranslateY, translateY);
       return true;
@@ -262,7 +262,7 @@ public class CSGTranslation extends CSGTransformation {
    * @param translateZ
    */
   public void setTranslateZ(double translateZ) {
-    double oldTranslateZ = this.translateZ;
+    Double oldTranslateZ = this.translateZ;
     this.translateZ = translateZ;
     firePropertyChange(SpatialConstants.translateZ, oldTranslateZ, this.translateZ);
   }
@@ -276,7 +276,7 @@ public class CSGTranslation extends CSGTransformation {
    */
   public boolean unsetTranslateZ() {
     if (isSetTranslateZ()) {
-      double oldTranslateZ = translateZ;
+      Double oldTranslateZ = translateZ;
       translateZ = null;
       firePropertyChange(SpatialConstants.translateZ, oldTranslateZ, translateZ);
       return true;
@@ -306,16 +306,13 @@ public class CSGTranslation extends CSGTransformation {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetTranslateX()) {
-      attributes.remove("translateX");
-      attributes.put(SpatialConstants.shortLabel + ":translateX", String.valueOf(getTranslateX()));
+      attributes.put(SpatialConstants.shortLabel + ":translateX", translateX.toString());
     }
     if (isSetTranslateY()) {
-      attributes.remove("translateY");
-      attributes.put(SpatialConstants.shortLabel + ":translateY", String.valueOf(getTranslateY()));
+      attributes.put(SpatialConstants.shortLabel + ":translateY", translateY.toString());
     }
     if (isSetTranslateZ()) {
-      attributes.remove("translateZ");
-      attributes.put(SpatialConstants.shortLabel + ":translateZ", String.valueOf(getTranslateZ()));
+      attributes.put(SpatialConstants.shortLabel + ":translateZ", translateZ.toString());
     }
     return attributes;
   }

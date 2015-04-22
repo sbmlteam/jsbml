@@ -23,7 +23,6 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.util.Map;
 
-import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
@@ -215,7 +214,7 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
    */
   public boolean unsetUnitSize() {
     if (isSetUnitSize()) {
-      double oldUnitSize = unitSize;
+      Double oldUnitSize = unitSize;
       unitSize = null;
       firePropertyChange(SpatialConstants.unitSize, oldUnitSize, unitSize);
       return true;

@@ -168,7 +168,7 @@ public class CSGRotation extends CSGTransformation {
    * @param rotateAxisX
    */
   public void setRotateAxisX(double rotateAxisX) {
-    double oldRotateAxisX = this.rotateAxisX;
+    Double oldRotateAxisX = this.rotateAxisX;
     this.rotateAxisX = rotateAxisX;
     firePropertyChange(SpatialConstants.rotateAxisX, oldRotateAxisX, this.rotateAxisX);
   }
@@ -182,7 +182,7 @@ public class CSGRotation extends CSGTransformation {
    */
   public boolean unsetRotateAxisX() {
     if (isSetRotateAxisX()) {
-      double oldRotateAxisX = rotateAxisX;
+      Double oldRotateAxisX = rotateAxisX;
       rotateAxisX = null;
       firePropertyChange(SpatialConstants.rotateAxisX, oldRotateAxisX, rotateAxisX);
       return true;
@@ -220,7 +220,7 @@ public class CSGRotation extends CSGTransformation {
    * @param rotateAxisY
    */
   public void setRotateAxisY(double rotateAxisY) {
-    double oldRotateAxisY = this.rotateAxisY;
+    Double oldRotateAxisY = this.rotateAxisY;
     this.rotateAxisY = rotateAxisY;
     firePropertyChange(SpatialConstants.rotateAxisY, oldRotateAxisY, this.rotateAxisY);
   }
@@ -234,7 +234,7 @@ public class CSGRotation extends CSGTransformation {
    */
   public boolean unsetRotateAxisY() {
     if (isSetRotateAxisY()) {
-      double oldRotateAxisY = rotateAxisY;
+      Double oldRotateAxisY = rotateAxisY;
       rotateAxisY = null;
       firePropertyChange(SpatialConstants.rotateAxisY, oldRotateAxisY, rotateAxisY);
       return true;
@@ -272,7 +272,7 @@ public class CSGRotation extends CSGTransformation {
    * @param rotateAxisZ
    */
   public void setRotateAxisZ(double rotateAxisZ) {
-    double oldRotateAxisZ = this.rotateAxisZ;
+    Double oldRotateAxisZ = this.rotateAxisZ;
     this.rotateAxisZ = rotateAxisZ;
     firePropertyChange(SpatialConstants.rotateAxisZ, oldRotateAxisZ, this.rotateAxisZ);
   }
@@ -286,7 +286,7 @@ public class CSGRotation extends CSGTransformation {
    */
   public boolean unsetRotateAxisZ() {
     if (isSetRotateAxisZ()) {
-      double oldRotateAxisZ = rotateAxisZ;
+      Double oldRotateAxisZ = rotateAxisZ;
       rotateAxisZ = null;
       firePropertyChange(SpatialConstants.rotateAxisZ, oldRotateAxisZ, rotateAxisZ);
       return true;
@@ -324,7 +324,7 @@ public class CSGRotation extends CSGTransformation {
    * @param rotateAngleInRadians
    */
   public void setRotateAngleInRadians(double rotateAngleInRadians) {
-    double oldRotateAngleInRadians = this.rotateAngleInRadians;
+    Double oldRotateAngleInRadians = this.rotateAngleInRadians;
     this.rotateAngleInRadians = rotateAngleInRadians;
     firePropertyChange(SpatialConstants.rotateAngleInRadians, oldRotateAngleInRadians, this.rotateAngleInRadians);
   }
@@ -338,7 +338,7 @@ public class CSGRotation extends CSGTransformation {
    */
   public boolean unsetRotateAngleInRadians() {
     if (isSetRotateAngleInRadians()) {
-      double oldRotateAngleInRadians = rotateAngleInRadians;
+      Double oldRotateAngleInRadians = rotateAngleInRadians;
       rotateAngleInRadians = null;
       firePropertyChange(SpatialConstants.rotateAngleInRadians, oldRotateAngleInRadians, rotateAngleInRadians);
       return true;
@@ -370,20 +370,16 @@ public class CSGRotation extends CSGTransformation {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetRotateAxisX()) {
-      attributes.remove("rotateAxisX");
-      attributes.put(SpatialConstants.shortLabel + ":rotateAxisX", String.valueOf(getRotateAxisX()));
+      attributes.put(SpatialConstants.shortLabel + ":rotateAxisX", rotateAxisX.toString());
     }
     if (isSetRotateAxisY()) {
-      attributes.remove("rotateAxisY");
-      attributes.put(SpatialConstants.shortLabel + ":rotateAxisY", String.valueOf(getRotateAxisY()));
+      attributes.put(SpatialConstants.shortLabel + ":rotateAxisY", rotateAxisY.toString());
     }
     if (isSetRotateAxisZ()) {
-      attributes.remove("rotateAxisZ");
-      attributes.put(SpatialConstants.shortLabel + ":rotateAxisZ", String.valueOf(getRotateAxisZ()));
+      attributes.put(SpatialConstants.shortLabel + ":rotateAxisZ", rotateAxisZ.toString());
     }
     if (isSetRotateAngleInRadians()) {
-      attributes.remove("rotateAngleInRadians");
-      attributes.put(SpatialConstants.shortLabel + ":rotateAngleInRadians", String.valueOf(getRotateAngleInRadians()));
+      attributes.put(SpatialConstants.shortLabel + ":rotateAngleInRadians", rotateAngleInRadians.toString());
     }
     return attributes;
   }
