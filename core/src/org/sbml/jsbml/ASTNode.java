@@ -2031,6 +2031,9 @@ public class ASTNode extends AbstractTreeNode {
       value.setUIFlag(getChildCount() <= 1);
       break;
     default : // UNKNOWN:
+      if (logger.isDebugEnabled()) {
+        logger.debug("setType, reached the default case block. type = " + getType());
+      }
       value = compiler.unknownValue();
       break;
     }
@@ -3384,7 +3387,7 @@ public class ASTNode extends AbstractTreeNode {
    *         {@code false} otherwise.
    */
   public boolean isVector() {
-    return astnode2 instanceof ASTFunction;
+    return astnode2 instanceof ASTFunction && astnode2.getType().equals(Type.VECTOR);
   }
 
   /**

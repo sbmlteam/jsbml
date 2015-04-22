@@ -29,8 +29,8 @@ import java.io.StringReader;
 
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.FormulaParser;
+import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.ParseException;
 
 /**
@@ -354,11 +354,15 @@ public class MathTest {
 
     ASTNode n = null;
     String formula = "y[i+(3*6)-sin(x)]";
-    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    FormulaParserLL3 parser = new FormulaParserLL3(new StringReader(formula));
     try {
       n = parser.parse();
       assertTrue(n.getType() == ASTNode.Type.FUNCTION_SELECTOR);
-      assertTrue(n.equals(ASTNode.parseFormula("selector(y,i+(3*6)-sin(x))")));
+      assertTrue(n.getChildCount() == 2);
+      ASTNode n2 = ASTNode.parseFormula("selector(y,i+(3*6)-sin(x))");
+      assertTrue(n2.getChildCount() == 2);
+      assertTrue(n2.getType() == ASTNode.Type.FUNCTION_SELECTOR);
+      assertTrue(n.equals(n2));
     } catch (ParseException e) {
       e.printStackTrace();
       assertTrue(false);
@@ -393,7 +397,7 @@ public class MathTest {
 
     ASTNode n = null;
     String formula = "{sin(x), 96+21, 6^2, boo}";
-    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    FormulaParserLL3 parser = new FormulaParserLL3(new StringReader(formula));
     try {
       n = parser.parse();
       assertTrue(n.getType() == ASTNode.Type.VECTOR);
