@@ -24,14 +24,14 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
 
 
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -55,6 +55,36 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     QUADRILATERAL;
   }
 
+  public enum CompressionKind {
+    /**
+     * 
+     */
+    UNCOMPRESSED,
+    /**
+     * 
+     */
+    DEFLATED,
+    /**
+     * 
+     */
+    BASE64;
+  }
+
+  public enum DataKind {
+    /**
+     * 
+     */
+    UINT8,
+    /**
+     * 
+     */
+    UINT16,
+    /**
+     * 
+     */
+    UINT32;
+  }  
+  
   /**
    * 
    */
@@ -66,7 +96,17 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
   /**
    * 
    */
-  private PolygonObject polygonObject;
+  private CompressionKind compression;
+  /**
+   * 
+   */
+  private Integer pointIndexLength;
+  /**
+   * 
+   */
+  private DataKind dataType;
+  
+  
   /**
    * Generated serial version identifier.
    */
@@ -84,19 +124,21 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    */
   public ParametricObject(ParametricObject po) {
     super(po);
-
     if (po.isSetDomainType()) {
-      domainType = new String(po.getDomainType());
+      setDomainType(po.getDomainType());
     }
-
     if (po.isSetPolygonType()) {
       setPolygonType(po.getPolygonType());
     }
-
-    if (po.isSetPolygonObject()) {
-      setPolygonObject(po.getPolygonObject().clone());
+    if (po.isSetCompression()) {
+      setCompression(po.getCompression());
     }
-
+    if (po.isSetPointIndexLength()) {
+      setPointIndexLength(po.getPointIndexLength());
+    }
+    if (po.isSetDataType()) {
+      setDataType(po.getDataType());
+    }    
   }
 
 
@@ -136,16 +178,22 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
       if (equal && isSetDomainType()) {
         equal &= po.getDomainType().equals(getDomainType());
       }
-
       equal &= po.isSetPolygonType() == isSetPolygonType();
       if (equal && isSetPolygonType()) {
         equal &= po.getPolygonType().equals(getPolygonType());
       }
-
-      equal &= po.isSetPolygonObject() == isSetPolygonObject();
-      if (equal && isSetPolygonObject()) {
-        equal &= po.getPolygonObject().equals(getPolygonObject());
+      equal &= po.isSetCompression() == isSetCompression();
+      if (equal && isSetCompression()) {
+        equal &= po.getCompression().equals(getCompression());
       }
+      equal &= po.isSetPointIndexLength() == isSetPointIndexLength();
+      if (equal && isSetPointIndexLength()) {
+        equal &= po.getPointIndexLength() == getPointIndexLength();
+      }
+      equal &= po.isSetDataType() == isSetDataType();
+      if (equal && isSetDataType()) {
+        equal &= po.getDataType().equals(getDataType());
+      }      
     }
     return equal;
   }
@@ -233,7 +281,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     return domainType != null;
   }
 
-
+  
   /**
    * Sets the value of domain
    * @param domain
@@ -261,106 +309,197 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     return false;
   }
 
+  
+  
   /**
-   * Returns the value of polygonObject
+   * Returns the value of compression.
    *
-   * @return the value of polygonObject
+   * @return the value of compression.
    */
-  public PolygonObject getPolygonObject() {
-    if (isSetPolygonObject()) {
-      return polygonObject;
+  public CompressionKind getCompression() {
+    if (isSetCompression()) {
+      return compression;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.polygonObject, this);
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(SpatialConstants.compression, this);
   }
 
 
   /**
-   * Returns whether polygonObject is set
+   * Returns whether compression is set.
    *
-   * @return whether polygonObject is set
+   * @return whether compression is set.
    */
-  public boolean isSetPolygonObject() {
-    return polygonObject != null;
+  public boolean isSetCompression() {
+    return this.compression != null;
   }
 
-
   /**
-   * Sets the value of polygonObject
-   * @param polygonObject
+   * Sets the value of compression
+   * @param compression
    */
-  public void setPolygonObject(PolygonObject polygonObject) {
-    PolygonObject oldPolygonObject = this.polygonObject;
-    this.polygonObject = polygonObject;
-    firePropertyChange(SpatialConstants.polygonObject, oldPolygonObject, this.polygonObject);
-  }
-
+  public void setCompression(String compression) {
+    setCompression(CompressionKind.valueOf(compression));
+  }  
 
   /**
-   * Unsets the variable polygonObject
+   * Sets the value of compression
    *
-   * @return {@code true}, if polygonObject was set before,
-   *         otherwise {@code false}
+   * @param compression the value of compression to be set.
    */
-  public boolean unsetPolygonObject() {
-    if (isSetPolygonObject()) {
-      PolygonObject oldPolygonObject = polygonObject;
-      polygonObject = null;
-      firePropertyChange(SpatialConstants.polygonObject, oldPolygonObject, polygonObject);
+  public void setCompression(CompressionKind compression) {
+    CompressionKind oldCompression = this.compression;
+    this.compression = compression;
+    firePropertyChange(SpatialConstants.compression, oldCompression, this.compression);
+  }
+
+
+  /**
+   * Unsets the variable compression.
+   *
+   * @return {@code true} if compression was set before, otherwise {@code false}.
+   */
+  public boolean unsetCompression() {
+    if (isSetCompression()) {
+      CompressionKind oldCompression = this.compression;
+      this.compression = null;
+      firePropertyChange(SpatialConstants.compression, oldCompression, this.compression);
+      return true;
+    }
+    return false;
+  }
+  
+  
+  /**
+   * Returns the value of pointIndexLength.
+   *
+   * @return the value of pointIndexLength.
+   */
+  public int getPointIndexLength() {
+    if (isSetPointIndexLength()) {
+      return pointIndexLength.intValue();
+    }
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(SpatialConstants.pointIndexLength, this);
+  }
+
+
+  /**
+   * Returns whether pointIndexLength is set.
+   *
+   * @return whether pointIndexLength is set.
+   */
+  public boolean isSetPointIndexLength() {
+    return this.pointIndexLength != null;
+  }
+
+
+  /**
+   * Sets the value of pointIndexLength
+   *
+   * @param pointIndexLength the value of pointIndexLength to be set.
+   */
+  public void setPointIndexLength(int pointIndexLength) {
+    Integer oldPointIndexLength = this.pointIndexLength;
+    this.pointIndexLength = pointIndexLength;
+    firePropertyChange(SpatialConstants.pointIndexLength, oldPointIndexLength, this.pointIndexLength);
+  }
+
+
+  /**
+   * Unsets the variable pointIndexLength.
+   *
+   * @return {@code true} if pointIndexLength was set before, otherwise {@code false}.
+   */
+  public boolean unsetPointIndexLength() {
+    if (isSetPointIndexLength()) {
+      Integer oldPointIndexLength = this.pointIndexLength;
+      this.pointIndexLength = null;
+      firePropertyChange(SpatialConstants.pointIndexLength, oldPointIndexLength, this.pointIndexLength);
       return true;
     }
     return false;
   }
 
-
-  @Override
-  public boolean getAllowsChildren() {
-    return true;
+  
+  /**
+   * Returns the value of dataType.
+   *
+   * @return the value of dataType.
+   */
+  public DataKind getDataType() {
+    if (isSetDataType()) {
+      return dataType;
+    }
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(SpatialConstants.dataType, this);
   }
 
 
-  @Override
-  public int getChildCount() {
-    int count = super.getChildCount();
-    if (isSetPolygonObject()) {
-      count++;
-    }
-    return count;
+  /**
+   * Returns whether dataType is set.
+   *
+   * @return whether dataType is set.
+   */
+  public boolean isSetDataType() {
+    return this.dataType != null;
+  }
+
+  /**
+   * Sets the value of dataType
+   * @param dataType
+   */
+  public void setDataType(String dataType) {
+    setDataType(DataKind.valueOf(dataType));
+  }
+
+  /**
+   * Sets the value of dataType
+   *
+   * @param dataType the value of dataType to be set.
+   */
+  public void setDataType(DataKind dataType) {
+    DataKind oldDataType = this.dataType;
+    this.dataType = dataType;
+    firePropertyChange(SpatialConstants.dataType, oldDataType, this.dataType);
   }
 
 
-  @Override
-  public TreeNode getChildAt(int index) {
-    if (index < 0) {
-      throw new IndexOutOfBoundsException(index + " < 0");
+  /**
+   * Unsets the variable dataType.
+   *
+   * @return {@code true} if dataType was set before, otherwise {@code false}.
+   */
+  public boolean unsetDataType() {
+    if (isSetDataType()) {
+      DataKind oldDataType = this.dataType;
+      this.dataType = null;
+      firePropertyChange(SpatialConstants.dataType, oldDataType, this.dataType);
+      return true;
     }
-    int count = super.getChildCount(), pos = 0;
-    if (index < count) {
-      return super.getChildAt(index);
-    } else {
-      index -= count;
-    }
-    if (isSetPolygonObject()) {
-      if (pos == index) {
-        return getPolygonObject();
-      }
-      pos++;
-    }
-    throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", index,
-      +Math.min(pos, 0)));
+    return false;
   }
+  
 
 
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 2003;
     int hashCode = super.hashCode();
     if (isSetDomainType()) {
       hashCode += prime * getDomainType().hashCode();
     }
     if (isSetPolygonType()) {
       hashCode += prime * getPolygonType().hashCode();
+    }
+    if (isSetCompression()) {
+      hashCode += prime * getCompression().hashCode();
+    }
+    if (isSetPointIndexLength()) {
+      hashCode += prime * getPointIndexLength();
+    }
+    if (isSetDataType()) {
+      hashCode += prime * getDataType().hashCode();
     }
     return hashCode;
   }
@@ -373,12 +512,26 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
       attributes.remove("domainType");
       attributes.put(SpatialConstants.shortLabel + ":domainType", getDomainType());
     }
-
     if (isSetPolygonType()) {
       attributes.remove("polygonType");
       attributes.put(SpatialConstants.shortLabel + ":polygonType",
         getPolygonType().toString());
     }
+    if (isSetCompression()) {
+      attributes.remove("compression");
+      attributes.put(SpatialConstants.shortLabel + ":compression",
+        getCompression().toString());
+    }
+    if (isSetPointIndexLength()) {
+      attributes.remove("pointIndexLength");
+      attributes.put(SpatialConstants.shortLabel + ":pointIndexLength",
+        String.valueOf(getPointIndexLength()));
+    }
+    if (isSetDataType()) {
+      attributes.remove("dataType");
+      attributes.put(SpatialConstants.shortLabel + ":dataType",
+        getDataType().toString());
+    }    
 
     return attributes;
   }
@@ -398,7 +551,6 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
             SpatialConstants.domainType);
         }
       }
-
       else if (attributeName.equals(SpatialConstants.polygonType)) {
         try {
           setPolygonType(value);
@@ -406,6 +558,27 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
           MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.polygonType);
         }
       }
+      else if (attributeName.equals(SpatialConstants.compression)) {
+        try {
+          setCompression(value);
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.polygonType);
+        }
+      }
+      else if (attributeName.equals(SpatialConstants.pointIndexLength)) {
+        try {
+          setPointIndexLength(StringTools.parseSBMLInt(value));
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.polygonType);
+        }
+      }
+      else if (attributeName.equals(SpatialConstants.dataType)) {
+        try {
+          setDataType(value);
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.polygonType);
+        }
+      }      
       else {
         isAttributeRead = false;
       }
@@ -424,6 +597,12 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     builder.append(polygonType);
     builder.append(", domain=");
     builder.append(domainType);
+    builder.append(", compression=");
+    builder.append(compression);
+    builder.append(", pointIndexLength=");
+    builder.append(pointIndexLength);
+    builder.append(", dataType=");
+    builder.append(dataType);    
     builder.append("]");
     return builder.toString();
   }

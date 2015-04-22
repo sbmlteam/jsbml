@@ -32,6 +32,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
+ * @deprecated
  */
 public class SpatialPoint extends AbstractSpatialNamedSBase {
 
