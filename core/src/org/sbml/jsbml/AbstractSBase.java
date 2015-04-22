@@ -1839,6 +1839,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#setAnnotation(java.lang.String)
+   */
+  @Override
+  public void setAnnotation(String nonRDFAnnotation) throws XMLStreamException {
+    setAnnotation(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(nonRDFAnnotation)));
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#setHistory(org.sbml.jsbml.History)
    */
   @Override
