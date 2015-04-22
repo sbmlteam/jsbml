@@ -461,10 +461,6 @@ public class SpatialConstants {
    */
   public static final String listOfParametricObjects = "listOfParametricObjects";
   /**
-   * @deprecated
-   */
-  public static final String spatialPoint = "spatialPoint";
-  /**
    *
    */
   public static final String spatialPoints = "spatialPoints";  
