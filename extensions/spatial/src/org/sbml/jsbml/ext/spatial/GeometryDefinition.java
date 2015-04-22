@@ -144,7 +144,7 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
    * @param isActive
    */
   public void setIsActive(boolean isActive) {
-    boolean oldIsActive = this.isActive;
+    Boolean oldIsActive = this.isActive;
     this.isActive = isActive;
     firePropertyChange(SpatialConstants.isActive, oldIsActive, this.isActive);
   }
@@ -157,7 +157,7 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
    */
   public boolean unsetIsActive() {
     if (isSetIsActive()) {
-      boolean oldIsActive = isActive;
+      Boolean oldIsActive = isActive;
       isActive = null;
       firePropertyChange(SpatialConstants.isActive, oldIsActive, isActive);
       return true;

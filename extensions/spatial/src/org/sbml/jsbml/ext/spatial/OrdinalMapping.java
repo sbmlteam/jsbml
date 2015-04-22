@@ -153,7 +153,7 @@ public class OrdinalMapping extends AbstractSBase {
    * @param ordinal
    */
   public void setOrdinal(int ordinal) {
-    int oldOrdinal = this.ordinal;
+    Integer oldOrdinal = this.ordinal;
     this.ordinal = ordinal;
     firePropertyChange(SpatialConstants.ordinal, oldOrdinal, this.ordinal);
   }
@@ -167,7 +167,7 @@ public class OrdinalMapping extends AbstractSBase {
    */
   public boolean unsetOrdinal() {
     if (isSetOrdinal()) {
-      int oldOrdinal = ordinal;
+      Integer oldOrdinal = ordinal;
       ordinal = null;
       firePropertyChange(SpatialConstants.ordinal, oldOrdinal, ordinal);
       return true;
@@ -246,11 +246,9 @@ public class OrdinalMapping extends AbstractSBase {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetOrdinal()) {
-      attributes.remove("ordinal");
-      attributes.put(SpatialConstants.shortLabel + ":ordinal", String.valueOf(getOrdinal()));
+      attributes.put(SpatialConstants.shortLabel + ":ordinal", ordinal.toString());
     }
     if (isSetGeometryDefinition()) {
-      attributes.remove("geometryDefinition");
       attributes.put(SpatialConstants.shortLabel + ":geometryDefinition",
         getGeometryDefinition());
     }

@@ -32,7 +32,6 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.ResourceManager;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
