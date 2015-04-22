@@ -29,10 +29,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeAdapter;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.xml.XMLAttributes;
+import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * Contains all the MIRIAM URIs for a MIRIAM qualifier in the annotation element
@@ -504,6 +507,42 @@ public class CVTerm extends AnnotationElement {
     type = Type.UNKNOWN_QUALIFIER;
     qualifier = null;
     resourceURIs = new ArrayList<String>();
+  }
+
+  /**
+   * 
+   * @param miriam
+   */
+  public CVTerm(XMLNode miriam) {
+    this();
+    if (miriam.getName().equals("annotation")) {
+      miriam = miriam.getChildAt(0);
+    }
+    if (miriam.getName().equals("RDF")) {
+      miriam = miriam.getChildAt(0);
+    }
+    if (miriam.getName().equals("Description")) {
+      miriam = miriam.getChildAt(0);
+    }
+    if (miriam.getURI().equals("http://biomodels.net/biology-qualifiers/")) {
+      if (miriam.getPrefix().equals("bqbiol")) {
+        setQualifier(Qualifier.getBiologicalQualifierFor(miriam.getName()));
+      } else {
+        setQualifier(Qualifier.getModelQualifierFor(miriam.getName()));
+      }
+      miriam = miriam.getChildAt(0);
+    }
+    if (miriam.getName().equals("Bag")) {
+      for (int j = 0; j < miriam.getChildCount(); j++) {
+        XMLNode child = miriam.getChildAt(j);
+        if (child.getName().equals("li")) {
+          XMLAttributes attributes = child.getAttributes();
+          for (int i = 0; i < attributes.size(); i++) {
+            addResource(attributes.getValue(i));
+          }
+        }
+      }
+    }
   }
 
   /**

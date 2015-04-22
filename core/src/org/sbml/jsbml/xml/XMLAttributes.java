@@ -510,10 +510,17 @@ public class XMLAttributes {
    * @return the number of attributes in this {@link XMLAttributes} set.
    */
   public int getLength() {
-
     return attributeNames.size();
   }
 
+  /**
+   * 
+   * @return
+   * @see #getLength()
+   */
+  public int size() {
+    return attributeNames.size();
+  }
 
   /**
    * Returns the local name of an attribute in this {@link XMLAttributes} set (by position).
