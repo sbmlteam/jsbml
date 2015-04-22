@@ -4,7 +4,7 @@
 options
 {
   JDK_VERSION = "1.5";
-
+  DEBUG_PARSER = false;
   static = false;
 }
 
@@ -1078,10 +1078,11 @@ private ASTNode termLevel8() throws NumberFormatException :
     {
       type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
       node.setType(type);
+      node.addChild(child);
     }
     else if (s.equals("ln"))
     {
-      checkSize(arguments, 0);
+      checkSize(arguments, 0); // TODO - we need to set the type for all those if-then-else cases
       node.addChild(child);
     }
     else if (s.equals("lambda"))
@@ -1136,6 +1137,7 @@ private ASTNode termLevel8() throws NumberFormatException :
     {
       node.setName(s);
     }
+    
     for (ASTNode argument : arguments)
     {
       node.addChild(argument);

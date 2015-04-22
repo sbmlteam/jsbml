@@ -126,6 +126,7 @@ public class ASTNodeInfixParsingTest {
       assertTrue(n.getType() == ASTNode.Type.FUNCTION_COS);
       assertTrue(n.isFunction() == true);
       assertTrue(n.isName() == false);
+      assertTrue(n.getChildCount() == 1);
       assertTrue(n.getName() == null); // TODO - should the original String be conserved and accessible through getName()
       assertTrue(n.toFormula().equals("cos(x)"));
 
