@@ -32,11 +32,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
@@ -58,6 +60,11 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 8629109724566600238L;
+
+  /**
+   * Localization support.
+   */
+  protected static final transient ResourceBundle resourceBundle = ResourceManager.getBundle("org.sbml.jsbml.resources.Messages");
 
   /**
    * 
