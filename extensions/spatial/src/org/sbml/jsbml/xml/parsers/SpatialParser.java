@@ -68,7 +68,7 @@ import org.sbml.jsbml.ext.spatial.SpatialCompartmentPlugin;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
 import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
 import org.sbml.jsbml.ext.spatial.SpatialParameterPlugin;
-import org.sbml.jsbml.ext.spatial.SpatialPoint;
+import org.sbml.jsbml.ext.spatial.SpatialPoints;
 import org.sbml.jsbml.ext.spatial.SpatialReactionPlugin;
 import org.sbml.jsbml.ext.spatial.SpatialSpeciesPlugin;
 import org.sbml.jsbml.ext.spatial.SpatialSymbolReference;
@@ -77,6 +77,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -378,7 +379,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     } else if (contextObject instanceof ParametricGeometry) {
       ParametricGeometry pg = (ParametricGeometry) contextObject;
       if (elementName.equals(SpatialConstants.listOfSpatialPoints)){
-        ListOf<SpatialPoint> listOfSpatialPoints = pg.getListOfSpatialPoints();
+        ListOf<SpatialPoints> listOfSpatialPoints = pg.getListOfSpatialPoints();
         return listOfSpatialPoints;
       } else if (elementName.equals(SpatialConstants.listOfParametricObjects)){
         ListOf<ParametricObject> listOfParametricObjects = pg.getListOfParametricObjects();
@@ -387,9 +388,11 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     } else if (contextObject instanceof ParametricObject) {
       ParametricObject po = (ParametricObject) contextObject;
       if (elementName.equals(SpatialConstants.imageData)){
-        PolygonObject polygonObject = new PolygonObject();
-        po.setPolygonObject(polygonObject);
-        return polygonObject;
+        // TODO: THIS NEEDS to be updated with the details provided in the spatial package v0.90,
+        // See ArrayData text child and PointIndex text child
+        //PolygonObject polygonObject = new PolygonObject();
+        //po.setPolygonObject(polygonObject);
+        //return polygonObject;
       }
     }
 
@@ -491,10 +494,10 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         CSGHomogeneousTransformation elem = new CSGHomogeneousTransformation();
         csgso.addCSGNode(elem);
         return elem;
-      } else if (elementName.equals(SpatialConstants.spatialPoint)) {
+      } else if (elementName.equals(SpatialConstants.spatialPoints)) {
         ParametricGeometry pg = (ParametricGeometry) listOf.getParentSBMLObject();
-        SpatialPoint elem = new SpatialPoint();
-        pg.addSpatialPoint(elem);
+        SpatialPoints elem = new SpatialPoints();
+        pg.addSpatialPoints(elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.parametricObject)) {
         ParametricGeometry pg = (ParametricGeometry) listOf.getParentSBMLObject();
