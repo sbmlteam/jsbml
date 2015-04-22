@@ -70,7 +70,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
     super(sampledFieldGeometry);
 
     if (sampledFieldGeometry.isSetSampledField()) {
-      sampledField = new String(sampledFieldGeometry.getSampledField());
+      setSampledField(sampledFieldGeometry.getSampledField());
     }
 
     if (isSetListOfSampledVolumes()) {
@@ -372,11 +372,14 @@ public class SampledFieldGeometry extends GeometryDefinition {
    */
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1951;
     int hashCode = super.hashCode();
     if (isSetSampledField()) {
       hashCode += prime * getSampledField().hashCode();
     }
+    if (isSetListOfSampledVolumes()) {
+      hashCode += prime * getListOfSampledVolumes().hashCode();
+    }    
     return hashCode;
   }
 
@@ -415,6 +418,18 @@ public class SampledFieldGeometry extends GeometryDefinition {
       }
     }
     return isAttributeRead;
+  }
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("SampledFieldGeometry [sampledField=");
+    builder.append(sampledField);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

@@ -32,6 +32,7 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -78,16 +79,16 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
   public SampledVolume(SampledVolume sv) {
     super(sv);
     if (sv.isSetDomainType()) {
-      domainType = new String(sv.getDomainType());
+      setDomainType(sv.getDomainType());
     }
     if (sv.isSetSampledValue()) {
-      sampledValue = new Double(sv.getSampledValue());
+      setSampledValue(sv.getSampledValue());
     }
     if (sv.isSetMinValue()) {
-      minValue = new Double(sv.getMinValue());
+      setMinValue(sv.getMinValue());
     }
     if (sv.isSetMaxValue()) {
-      maxValue = new Double(sv.getMaxValue());
+      setMaxValue(sv.getMaxValue());
     }
   }
 
@@ -193,7 +194,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
    */
   public double getSampledValue() {
     if (isSetSampledValue()) {
-      return sampledValue;
+      return sampledValue.doubleValue();
     }
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(SpatialConstants.sampledValue, this);
@@ -213,7 +214,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
    * @param sampledValue
    */
   public void setSampledValue(double sampledValue) {
-    double oldSampledValue = this.sampledValue;
+    Double oldSampledValue = this.sampledValue;
     this.sampledValue = sampledValue;
     firePropertyChange(SpatialConstants.sampledValue, oldSampledValue, this.sampledValue);
   }
@@ -227,7 +228,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
    */
   public boolean unsetSampledValue() {
     if (isSetSampledValue()) {
-      double oldSampledValue = sampledValue;
+      Double oldSampledValue = sampledValue;
       sampledValue = null;
       firePropertyChange(SpatialConstants.sampledValue, oldSampledValue, sampledValue);
       return true;
@@ -243,7 +244,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
    */
   public double getMinValue() {
     if (isSetMinValue()) {
-      return minValue;
+      return minValue.doubleValue();
     }
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(SpatialConstants.minValue, this);
@@ -293,7 +294,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
    */
   public double getMaxValue() {
     if (isSetMaxValue()) {
-      return maxValue;
+      return maxValue.doubleValue();
     }
     throw new PropertyUndefinedError(SpatialConstants.maxValue, this);
   }
@@ -339,7 +340,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
 
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1949;
     int hashCode = super.hashCode();
     if (isSetSampledValue()) {
       hashCode += prime * getSampledValue();
