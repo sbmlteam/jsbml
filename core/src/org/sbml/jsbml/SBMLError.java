@@ -131,6 +131,8 @@ public class SBMLError extends XMLException {
    */
   public SBMLError(String message) {
     super(message);
+    this.message = new Message();
+    this.message.setMessage(message);
   }
 
   /**
