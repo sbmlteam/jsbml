@@ -170,7 +170,7 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
    */
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1559;
     int hashCode = super.hashCode();
     if (isSetIsActive()) {
       hashCode += prime * getIsActive().hashCode();

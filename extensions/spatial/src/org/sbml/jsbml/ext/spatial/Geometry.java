@@ -38,6 +38,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -113,17 +114,17 @@ public class Geometry extends AbstractSpatialNamedSBase {
    */
   public Geometry(Geometry sb) {
     super(sb);
-    if (sb.isSetCoordinateSystem()) {
-      setCoordinateSystem(sb.getCoordinateSystem());
-    }
-    if (sb.isSetListOfAdjacentDomains()) {
-      setListOfAdjacentDomains(sb.getListOfAdjacentDomains().clone());
-    }
-    if (sb.isSetListOfDomains()) {
-      setListOfDomains(sb.getListOfDomains().clone());
+    if (sb.isSetListOfCoordinateComponents()) {
+      setListOfCoordinateComponents(sb.getListOfCoordinateComponents().clone());
     }
     if (sb.isSetListOfDomainTypes()) {
       setListOfDomainTypes(sb.getListOfDomainTypes().clone());
+    }        
+    if (sb.isSetListOfDomains()) {
+      setListOfDomains(sb.getListOfDomains().clone());
+    }    
+    if (sb.isSetListOfAdjacentDomains()) {
+      setListOfAdjacentDomains(sb.getListOfAdjacentDomains().clone());
     }
     if (sb.isSetListOfGeometryDefinitions()) {
       setListOfGeometryDefinitions(sb.getListOfGeometryDefinitions().clone());
@@ -131,6 +132,9 @@ public class Geometry extends AbstractSpatialNamedSBase {
     if (sb.isSetListOfSampledFields()) {
       setListOfSampledFields(sb.getListOfSampledFields().clone());
     }
+    if (sb.isSetCoordinateSystem()) {
+      setCoordinateSystem(sb.getCoordinateSystem());
+    }    
   }
 
   /**
@@ -196,7 +200,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
       if (equal && isSetListOfSampledFields()) {
         equal &= gm.getListOfSampledFields() == getListOfSampledFields();
       }
-
     }
     return equal;
   }
@@ -529,7 +532,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * Creates a new GeometryDefinition element and adds it to the ListOfGeometryDefinitions list
    * @return
    */
-  public SampledFieldGeometry createSampledFieldGeometryn() {
+  public SampledFieldGeometry createSampledFieldGeometry() {
     return createSampledFieldGeometry(null);
   }
 
@@ -1237,16 +1240,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
       attributes.remove("coordinateSystem");
       attributes.put(SpatialConstants.shortLabel + ':' + SpatialConstants.coordinateSystem, coordinateSystem.toString());
     }
-    if (isSetSBOTerm()) {
-      attributes.remove(TreeNodeChangeEvent.sboTerm);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.sboTerm, getSBOTermID());
-    }
-    if (isSetMetaId()) {
-      attributes.remove(TreeNodeChangeEvent.metaId);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.metaId, getMetaId());
-    }
-    //TODO: Not sure why sboTerm and metaId are written here...?
-
     return attributes;
   }
 
@@ -1259,6 +1252,24 @@ public class Geometry extends AbstractSpatialNamedSBase {
     int hashCode = super.hashCode();
     if (isSetCoordinateSystem()) {
       hashCode += prime * coordinateSystem.hashCode();
+    }
+    if (isSetListOfAdjacentDomains()) {
+      hashCode += prime * listOfAdjacentDomains.hashCode();
+    }
+    if (isSetListOfCoordinateComponents()) {
+      hashCode += prime * listOfCoordinateComponents.hashCode();
+    }    
+    if (isSetListOfDomains()) {
+      hashCode += prime * listOfDomains.hashCode();
+    }    
+    if (isSetListOfDomainTypes()) {
+      hashCode += prime * listOfDomainTypes.hashCode();
+    }    
+    if (isSetListOfGeometryDefinitions()) {
+      hashCode += prime * listOfGeometryDefinitions.hashCode();
+    }    
+    if (isSetListOfSampledFields()) {
+      hashCode += prime * listOfSampledFields.hashCode();
     }
     return hashCode;
   }

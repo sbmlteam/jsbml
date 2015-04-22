@@ -121,6 +121,19 @@ public class MixedGeometry extends GeometryDefinition {
     return equal;
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 1543;
+    int hashCode = super.hashCode();
+    if (isSetListOfGeometryDefinitions()) {
+      hashCode += prime * getListOfGeometryDefinitions().hashCode();
+    }
+    if (isSetListOfOrdinalMappings()) {
+      hashCode += prime * getListOfOrdinalMappings().hashCode();
+    }
+    return hashCode;
+  } 
+  
   /**
    * Returns {@code true}, if listOfGeometryDefinitions contains at least one element.
    *
