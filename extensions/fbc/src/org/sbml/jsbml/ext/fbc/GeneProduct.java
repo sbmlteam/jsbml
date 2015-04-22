@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.fbc;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
@@ -44,6 +45,65 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
    * 
    */
   private String label;
+
+  /**
+   * 
+   */
+  private String associatedSpecies;
+
+
+  /**
+   * Returns the value of {@link #associatedSpecies}.
+   *
+   * @return the value of {@link #associatedSpecies}.
+   */
+  public String getAssociatedSpecies() {
+    //TODO: if variable is boolean, create an additional "isVar"
+    //TODO: return primitive data type if possible (e.g., int instead of Integer)
+    if (isSetAssociatedSpecies()) {
+      return associatedSpecies;
+    }
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(FBCConstants.associatedSpecies, this);
+  }
+
+
+  /**
+   * Returns whether {@link #associatedSpecies} is set.
+   *
+   * @return whether {@link #associatedSpecies} is set.
+   */
+  public boolean isSetAssociatedSpecies() {
+    return associatedSpecies != null;
+  }
+
+
+  /**
+   * Sets the value of associatedSpecies
+   *
+   * @param associatedSpecies the value of associatedSpecies to be set.
+   */
+  public void setAssociatedSpecies(String associatedSpecies) {
+    String oldAssociatedSpecies = this.associatedSpecies;
+    this.associatedSpecies = associatedSpecies;
+    firePropertyChange(FBCConstants.associatedSpecies, oldAssociatedSpecies, this.associatedSpecies);
+  }
+
+
+  /**
+   * Unsets the variable associatedSpecies.
+   *
+   * @return {@code true} if associatedSpecies was set before, otherwise {@code false}.
+   */
+  public boolean unsetAssociatedSpecies() {
+    if (isSetAssociatedSpecies()) {
+      String oldAssociatedSpecies = associatedSpecies;
+      associatedSpecies = null;
+      firePropertyChange(FBCConstants.associatedSpecies, oldAssociatedSpecies, associatedSpecies);
+      return true;
+    }
+    return false;
+  }
 
   /**
    * 
@@ -186,6 +246,8 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
 
       if (attributeName.equals(FBCConstants.geneProductIdentifier) || attributeName.equals(FBCConstants.label)) {
         setLabel(value);
+      } else if (attributeName.equals(FBCConstants.associatedSpecies)) {
+        setAssociatedSpecies(value);
       } else {
         isAttributeRead = false;
       }
@@ -259,6 +321,9 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
     }
     if (isSetLabel()) {
       attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.label, getLabel());
+    }
+    if (isSetAssociatedSpecies()) {
+      attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.associatedSpecies, getAssociatedSpecies());
     }
 
     return attributes;

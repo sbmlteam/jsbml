@@ -178,6 +178,36 @@ public class FBCConstants {
    */
   public static final String or = "or";
 
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String associatedSpecies = "associatedSpecies";
+
+  /**
+   * 
+   */
+  public static final String fluxObjective = "fluxObjective";
+
+  /**
+   * 
+   */
+  public static final String objective = "objective";
+
+  /**
+   * 
+   */
+  public static final String fluxBound = "fluxBound";
+
+  /**
+   * 
+   */
+  public static final String listOfFluxObjectives = "listOfFluxObjectives";
+
+  /**
+   * 
+   */
+  public static final String listOfFluxes = "listOfFluxes";
+
   static {
     namespaces = new ArrayList<String>();
     namespaces.add(namespaceURI_L3V1V1);

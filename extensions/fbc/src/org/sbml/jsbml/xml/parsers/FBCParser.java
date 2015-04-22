@@ -69,6 +69,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @since 1.0
  * @version $Rev$
  */
+@SuppressWarnings("deprecation")
 @ProviderFor(ReadingParser.class)
 public class FBCParser extends AbstractReaderWriter implements PackageParser {
 
@@ -191,7 +192,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
    */
   // Create the proper object and link it to his parent.
   @Override
-  @SuppressWarnings({"unchecked", "deprecation"})
+  @SuppressWarnings({"unchecked"})
   public Object processStartElement(String elementName, String uri, String prefix,
     boolean hasAttributes, boolean hasNamespaces, Object contextObject)
   {
@@ -226,7 +227,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
     } else if (contextObject instanceof Objective) {
       Objective objective = (Objective) contextObject;
 
-      if (elementName.equals("listOfFluxObjectives") || elementName.equals("listOfFluxes")) {
+      if (elementName.equals(FBCConstants.listOfFluxObjectives) || elementName.equals(FBCConstants.listOfFluxes)) {
         // listOfFluxes was the first name of listOfFluxObjectives in the preliminary specifications
         ListOf<FluxObjective> listOfFluxObjectives = objective.getListOfFluxObjectives();
         groupList = FBCList.listOfFluxObjectives;
@@ -285,7 +286,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
     else if (contextObject instanceof ListOf<?>) {
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
-      if (elementName.equals("fluxBound")
+      if (elementName.equals(FBCConstants.fluxBound)
           && groupList.equals(FBCList.listOfFluxBounds)) {
         Model model = (Model) listOf.getParentSBMLObject();
         FBCModelPlugin extendeModel = (FBCModelPlugin) model.getExtension(FBCConstants.shortLabel);
@@ -294,7 +295,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         extendeModel.addFluxBound(fluxBound);
         return fluxBound;
 
-      } else if (elementName.equals("objective")
+      } else if (elementName.equals(FBCConstants.objective)
           && groupList.equals(FBCList.listOfObjectives)) {
         Model model = (Model) listOf.getParentSBMLObject();
         FBCModelPlugin extendeModel = (FBCModelPlugin) model.getExtension(FBCConstants.shortLabel);
@@ -303,7 +304,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         extendeModel.addObjective(objective);
 
         return objective;
-      } else if (elementName.equals("fluxObjective")
+      } else if (elementName.equals(FBCConstants.fluxObjective)
           && groupList.equals(FBCList.listOfFluxObjectives)) {
         Objective objective = (Objective) listOf.getParentSBMLObject();
 
@@ -311,7 +312,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         objective.addFluxObjective(fluxObjective);
 
         return fluxObjective;
-      } else if (elementName.equals("geneProduct")
+      } else if (elementName.equals(FBCConstants.geneProduct)
           && groupList.equals(FBCList.listOfGeneProducts)) {
         Model model = (Model) listOf.getParentSBMLObject();
         FBCModelPlugin extendeModel = (FBCModelPlugin) model.getExtension(FBCConstants.shortLabel);
@@ -329,12 +330,13 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
    */
-  @SuppressWarnings("deprecation")
   @Override
   public void writeElement(SBMLObjectForXML xmlObject,
     Object sbmlElementToWrite) {
 
-    logger.debug("FBCParser: writeElement");
+    if (logger.isDebugEnabled()) {
+      logger.debug("FBCParser: writeElement");
+    }
 
     if (sbmlElementToWrite instanceof SBase) {
       SBase sbase = (SBase) sbmlElementToWrite;
