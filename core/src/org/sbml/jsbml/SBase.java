@@ -864,6 +864,13 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public void setAnnotation(XMLNode nonRDFAnnotation);
 
   /**
+   * 
+   * @param nonRDFAnnotation
+   * @throws XMLStreamException
+   */
+  public void setAnnotation(String nonRDFAnnotation) throws XMLStreamException;
+
+  /**
    * Sets the history.
    * 
    * @param history the history of this {@link SBase}
