@@ -306,7 +306,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    * @param ordinal
    */
   public void setOrdinal(int ordinal) {
-    int oldOrdinal = this.ordinal;
+    Integer oldOrdinal = this.ordinal;
     this.ordinal = ordinal;
     firePropertyChange(SpatialConstants.ordinal, oldOrdinal, this.ordinal);
   }
@@ -319,7 +319,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   public boolean unsetOrdinal() {
     if (isSetOrdinal()) {
-      int oldOrdinal = ordinal;
+      Integer oldOrdinal = ordinal;
       ordinal = null;
       firePropertyChange(SpatialConstants.ordinal, oldOrdinal, ordinal);
       return true;
