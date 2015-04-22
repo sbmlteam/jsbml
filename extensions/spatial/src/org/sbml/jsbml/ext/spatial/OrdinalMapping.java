@@ -67,7 +67,7 @@ public class OrdinalMapping extends AbstractSBase {
     super(om);
 
     if (om.isSetGeometryDefinition()) {
-      setGeometryDefinition(new String(om.getGeometryDefinition()));
+      setGeometryDefinition(om.getGeometryDefinition());
     }
     if (om.isSetOrdinal()) {
       setOrdinal(om.getOrdinal());
@@ -228,7 +228,7 @@ public class OrdinalMapping extends AbstractSBase {
    */
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 2039;
     int hashCode = super.hashCode();
     if (isSetOrdinal()) {
       hashCode += prime * getOrdinal();

@@ -36,6 +36,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -341,7 +342,7 @@ public class InteriorPoint extends AbstractSBase {
    */
   @Override
   public int hashCode() {
-    final int prime = 509;//Change this prime number
+    final int prime = 1627;
     int hashCode = super.hashCode();
     if (isSetCoord1()) {
       hashCode += prime * getCoord1();
@@ -360,24 +361,13 @@ public class InteriorPoint extends AbstractSBase {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetCoord1()) {
-      attributes.remove("coord1");
       attributes.put(SpatialConstants.shortLabel + ":coord1", String.valueOf(getCoord1()));
     }
     if (isSetCoord2()) {
-      attributes.remove("coord2");
       attributes.put(SpatialConstants.shortLabel + ":coord2", String.valueOf(getCoord2()));
     }
     if (isSetCoord3()) {
-      attributes.remove("coord3");
       attributes.put(SpatialConstants.shortLabel + ":coord3", String.valueOf(getCoord3()));
-    }
-    if (isSetSBOTerm()) {
-      attributes.remove(TreeNodeChangeEvent.sboTerm);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.sboTerm, getSBOTermID());
-    }
-    if (isSetMetaId()) {
-      attributes.remove(TreeNodeChangeEvent.metaId);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.metaId, getMetaId());
     }
     return attributes;
   }

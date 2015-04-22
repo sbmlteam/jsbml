@@ -35,6 +35,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
+ * @deprecated
  */
 public class ImageData extends AbstractSBase {
 
@@ -46,11 +47,11 @@ public class ImageData extends AbstractSBase {
   /**
    * 
    */
-  private Integer samplesLength;
+  private Integer samplesLength; // TODO: is this field really required??
   /**
    * 
    */
-  private Integer samples[];
+  private Integer[] samples;
 
   /**
    * 
@@ -71,11 +72,11 @@ public class ImageData extends AbstractSBase {
   public ImageData(ImageData im) {
     super(im);
     if (im.isSetSamples()) {
-      samples = im.getSamples().clone();
+      setSamples(im.getSamples().clone());
       samplesLength = samples.length;
     }
     if (im.isSetDataType()) {
-      dataType = new String(im.getDataType());
+      setDataType(im.getDataType());
     }
   }
 
