@@ -2815,6 +2815,8 @@ public class ASTNode extends AbstractTreeNode {
         ASTCnRationalNode ast = (ASTCnRationalNode) astnode2;
         return Double.valueOf(ast.getNumerator() + "/" + ast.getDenominator());
       }      
+    } else if (isInteger()) {
+      return ((ASTCnIntegerNode) astnode2).getNumber();
     }
     
     return Double.NaN;
@@ -4095,8 +4097,11 @@ public class ASTNode extends AbstractTreeNode {
     if (astnode2.getType() == Type.UNKNOWN) {
       setType(Type.REAL);
     }
-    if (astnode2 instanceof ASTCnRealNode) {
+    if (astnode2.getType() == Type.REAL) {
       ((ASTCnRealNode) astnode2).setReal(value);
+    }
+    if (astnode2.getType() == Type.INTEGER) {
+      ((ASTCnIntegerNode) astnode2).setInteger((int)value);
     }
     // FUNCTION_EXP
     if (astnode2.getType() == Type.FUNCTION_EXP) {
@@ -4118,7 +4123,7 @@ public class ASTNode extends AbstractTreeNode {
     if (astnode2.getType() == Type.UNKNOWN) {
       setType(Type.REAL_E);
     }
-    if (astnode2 instanceof ASTCnExponentialNode) {
+    if (astnode2.getType() == Type.REAL_E) {
       ((ASTCnExponentialNode) astnode2).setMantissa(mantissa);
       ((ASTCnExponentialNode) astnode2).setExponent(exponent);
     }
@@ -4134,7 +4139,7 @@ public class ASTNode extends AbstractTreeNode {
     if (astnode2.getType() == Type.UNKNOWN) {
       setType(Type.INTEGER);
     }
-    if (astnode2 instanceof ASTCnIntegerNode) {
+    if (astnode2.getType() == Type.INTEGER) {
       ((ASTCnIntegerNode) astnode2).setInteger(value);
     }
   }
