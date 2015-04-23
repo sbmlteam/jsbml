@@ -401,24 +401,14 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     } else if (contextObject instanceof ParametricGeometry) {
       ParametricGeometry pg = (ParametricGeometry) contextObject;
       if (elementName.equals(SpatialConstants.spatialPoints)){
-        SpatialPoints spatialPoints = pg.getSpatialPoints();
-        return spatialPoints;
+        SpatialPoints sp = new SpatialPoints();
+        pg.setSpatialPoints(sp);
+        return sp;
       } else if (elementName.equals(SpatialConstants.listOfParametricObjects)){
         ListOf<ParametricObject> listOfParametricObjects = pg.getListOfParametricObjects();
         return listOfParametricObjects;
       }
-    } else if (contextObject instanceof ParametricObject) {
-      ParametricObject po = (ParametricObject) contextObject;
-      if (elementName.equals(SpatialConstants.imageData)){
-        // TODO: THIS NEEDS to be updated with the details provided in the spatial package v0.90,
-        // See ArrayData text child and PointIndex text child
-        //PolygonObject polygonObject = new PolygonObject();
-        //po.setPolygonObject(polygonObject);
-        //return polygonObject;
-      }
-    }
-
-    else if (contextObject instanceof ListOf<?>) {
+    } else if (contextObject instanceof ListOf<?>) {
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
       if (elementName.equals(SpatialConstants.coordinateComponent)) {
