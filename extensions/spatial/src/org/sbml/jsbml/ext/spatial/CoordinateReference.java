@@ -23,8 +23,10 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.SBMLException;
 
 
 
@@ -111,6 +113,15 @@ public abstract class CoordinateReference extends AbstractSBase {
     return coordinate != null;
   }
 
+  /**
+   * @param coordinate
+   */
+  public void setCoordinate(String coordinate) {
+    if (!Pattern.matches("[a-z]*", coordinate)) {
+      throw new SBMLException("The value is not all lower-case.");
+    }
+    setCoordinate(CoordinateKind.valueOf(coordinate.toUpperCase()));
+  }
 
   /**
    * @param coordinate the coordinate to set
@@ -151,7 +162,7 @@ public abstract class CoordinateReference extends AbstractSBase {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.coordinate)) {
         try {
-          setCoordinate(CoordinateKind.valueOf(value));
+          setCoordinate(value);          
         } catch (Exception e) {
           MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
