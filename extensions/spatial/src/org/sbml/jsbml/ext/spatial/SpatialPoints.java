@@ -42,44 +42,6 @@ public class SpatialPoints extends AbstractSBase {
   private static final long serialVersionUID = -3467717442431545263L;
 
 
-  public enum CompressionKind {
-    /**
-     * 
-     */
-    UNCOMPRESSED,
-    /**
-     * 
-     */
-    DEFLATED,
-    /**
-     * 
-     */
-    BASE64;
-  }
-
-  public enum DataKind {
-    /**
-     * 
-     */
-    UINT8,
-    /**
-     * 
-     */
-    UINT16,
-    /**
-     * 
-     */
-    UINT32,
-    /**
-     * 
-     */
-    FLOAT,
-    /**
-     * 
-     */
-    DOUBLE;
-  }
-  
   /**
    * 
    */
