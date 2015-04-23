@@ -215,15 +215,24 @@ public class ParserManager {
               namespaceToNameMap.put(namespaceURI, packageName);
             }
           }
-        } catch (InstantiationException | IllegalAccessException
-            | ClassNotFoundException e) 
+        } catch (ClassNotFoundException e) 
+        {
+          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
+          // e.printStackTrace();
+        }
+        catch (InstantiationException e) 
+        {
+          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
+          // e.printStackTrace();
+        }
+        catch (IllegalAccessException e) 
         {
           System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
           // e.printStackTrace();
         }
       }
     }
-    
+
 
   }
 
