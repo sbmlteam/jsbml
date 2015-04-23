@@ -267,6 +267,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         param.addExtension(SpatialConstants.namespaceURI, spatialParam);
       }
 
+      // TODO: CHECK create method. this might be the source of the problem.
       if (elementName.equals(SpatialConstants.spatialSymbolReference)) {
         SpatialSymbolReference ssr = new SpatialSymbolReference();
         spatialParam.setParamType(ssr);
