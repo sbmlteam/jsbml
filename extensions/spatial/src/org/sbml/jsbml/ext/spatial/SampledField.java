@@ -553,6 +553,22 @@ public class SampledField extends AbstractSpatialNamedSBase {
     return false;
   }
 
+  /**
+   * Appends the variable data to samples.
+   * @return {@code true} if data was appended to samples, otherwise {@code false}.
+   */
+  public boolean append(String data) {
+    if (data == null) { return false; }
+    if (isSetSamples()) {
+      String oldSamples = this.samples;
+      this.samples = this.samples + data;
+      firePropertyChange(SpatialConstants.samples, oldSamples, this.samples);
+    } else {
+      setSamples(data);
+    }
+    return true;
+  }
+  
 /**
  * Returns the value of {@link #samplesLength}.
  *
