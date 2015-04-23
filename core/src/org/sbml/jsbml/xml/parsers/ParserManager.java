@@ -21,8 +21,10 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
@@ -91,7 +93,8 @@ public class ParserManager {
   private void init() {
     // loading the ReadingParsers
     Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
-
+    List<String> classNames = new ArrayList<String>();
+    
     // TODO - each time we add one HashMap entry, check that it was not defined already
     // so that we notice problems as early as possible if two packages declared to take care of the same namespace
 
@@ -102,7 +105,9 @@ public class ParserManager {
         if (readingParser != null) {
 
           String packageName = "core";
-
+          classNames.add(readingParser.getClass().getName());
+          System.out.println("###DEBUG####; class name = " + readingParser.getClass().getName());
+          
           if (readingParser instanceof PackageParser) {
             packageName = ((PackageParser) readingParser).getPackageName();
             packageParsers.put(packageName, (PackageParser) readingParser);
@@ -133,6 +138,8 @@ public class ParserManager {
         if (writingParser != null) {
 
           String packageName = "core";
+          classNames.add(writingParser.getClass().getName());
+          System.out.println("###DEBUG####; writer class name = " + writingParser.getClass().getName());
 
           if (writingParser instanceof PackageParser) {
             packageName = ((PackageParser) writingParser).getPackageName();
@@ -149,6 +156,74 @@ public class ParserManager {
 
       }
     }
+    
+    // TODO - check the maps and add the parsers by hand if they are not present.
+    // prevent problems when developers are not setting properly eclipse, when jar 
+    // files are not generated with 
+ 
+    String[] parserDefaults = {"org.sbml.jsbml.xml.parsers.SBMLCoreParser", "org.sbml.jsbml.xml.parsers.XMLNodeReader", 
+     "org.sbml.jsbml.xml.parsers.MathMLStaxParser", "org.sbml.jsbml.xml.parsers.ArraysParser", "org.sbml.jsbml.xml.parsers.CompParser",
+     "org.sbml.jsbml.xml.parsers.DistribParser", "org.sbml.jsbml.xml.parsers.DynParser", "org.sbml.jsbml.xml.parsers.FBCParser",
+     "org.sbml.jsbml.xml.parsers.GroupsParser", "org.sbml.jsbml.xml.parsers.L3LayoutParser", "org.sbml.jsbml.xml.parsers.LayoutParser",
+     "org.sbml.jsbml.xml.parsers.MultiParser", "org.sbml.jsbml.xml.parsers.QualParser", "org.sbml.jsbml.xml.parsers.RenderParser",
+     "org.sbml.jsbml.xml.parsers.ReqParser", "org.sbml.jsbml.xml.parsers.SpatialParser"};
+
+    for (String parserClassName  : parserDefaults) {
+      if (! classNames.contains(parserClassName)) {
+        System.out.println("###DEBUG### adding parser '" + parserClassName + "' by hand");
+        
+        try {
+          Object newInstance = Class.forName(parserClassName).newInstance();
+          
+          if (newInstance instanceof ReadingParser) {
+            ReadingParser readingParser = (ReadingParser) newInstance;
+            
+            String packageName = "core";
+            classNames.add(readingParser.getClass().getName());
+            System.out.println("###DEBUG####; class name = " + readingParser.getClass().getName());
+            
+            if (readingParser instanceof PackageParser) {
+              packageName = ((PackageParser) readingParser).getPackageName();
+              packageParsers.put(packageName, (PackageParser) readingParser);
+            }
+            for (String namespaceURI : readingParser.getNamespaces()) {
+              readingParsers.put(namespaceURI, readingParser);
+              namespaceToNameMap.put(namespaceURI, packageName);
+            }
+
+            if (readingParser instanceof WritingParser) {
+              for (String namespaceURI : readingParser.getNamespaces()) {
+                writingParsers.put(namespaceURI, (WritingParser) readingParser);
+              }
+            }
+          }
+          else if (newInstance instanceof WritingParser)
+          {
+            WritingParser writingParser = (WritingParser) newInstance;
+
+            String packageName = "core";
+            classNames.add(writingParser.getClass().getName());
+            System.out.println("###DEBUG####; writer class name = " + writingParser.getClass().getName());
+
+            if (writingParser instanceof PackageParser) {
+              packageName = ((PackageParser) writingParser).getPackageName();
+              packageParsers.put(packageName, (PackageParser) writingParser);
+            }
+
+            for (String namespaceURI : writingParser.getNamespaces()) {
+              writingParsers.put(namespaceURI, writingParser);
+              namespaceToNameMap.put(namespaceURI, packageName);
+            }
+          }
+        } catch (InstantiationException | IllegalAccessException
+            | ClassNotFoundException e) 
+        {
+          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
+          // e.printStackTrace();
+        }
+      }
+    }
+    
 
   }
 
