@@ -38,54 +38,6 @@ import org.sbml.jsbml.util.StringTools;
 public class ParametricObject extends AbstractSpatialNamedSBase {
 
   /**
-   * @author Alex Thomas
-   * @author Andreas Dr&auml;ger
-   * @version $Rev$
-   * @since 1.0
-   */
-  public enum PolygonKind {
-    /**
-     * 
-     */
-    TRIANGLE,
-
-    /**
-     * 
-     */
-    QUADRILATERAL;
-  }
-
-  public enum CompressionKind {
-    /**
-     * 
-     */
-    UNCOMPRESSED,
-    /**
-     * 
-     */
-    DEFLATED,
-    /**
-     * 
-     */
-    BASE64;
-  }
-
-  public enum DataKind {
-    /**
-     * 
-     */
-    UINT8,
-    /**
-     * 
-     */
-    UINT16,
-    /**
-     * 
-     */
-    UINT32;
-  }  
-  
-  /**
    * 
    */
   private PolygonKind polygonType;
