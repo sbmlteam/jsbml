@@ -37,27 +37,6 @@ public class DiffusionCoefficient extends ParameterType {
 
   /**
    * 
-   * @author
-   * @version
-   * @since
-   */
-  public static enum DiffusionKind {
-    /**
-     * Isotropic
-     */
-    ISOTROPIC,
-    /**
-     * Tensor
-     */
-    TENSOR,
-    /**
-     * Anisotropic
-     */
-    ANISOTROPIC;
-  }
-
-  /**
-   * 
    */
   private DiffusionKind diffusionKind;
   /**
