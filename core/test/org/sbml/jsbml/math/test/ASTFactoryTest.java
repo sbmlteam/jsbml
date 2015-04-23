@@ -334,8 +334,10 @@ public class ASTFactoryTest {
     boolean status = false;
     try {
       ASTUnaryFunctionNode abs = (ASTUnaryFunctionNode) ASTFactory.parseFormula("abs(-1)");
-      status = abs.getType() == Type.FUNCTION_ABS
-          && ((ASTCnIntegerNode)abs.getChildAt(0)).getNumber() == -1;
+      status = abs.getType() == Type.FUNCTION_ABS;
+      if (status && abs.getChildAt(0).getType() == Type.MINUS) {
+        status = ((ASTCnIntegerNode)abs.getChildAt(0).getChildAt(0)).getNumber() == 1;
+      }
     } catch (ParseException e) {
       e.printStackTrace();
     }

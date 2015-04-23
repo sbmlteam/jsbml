@@ -370,7 +370,7 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
       node = new ASTUnaryFunctionNode(Type.FUNCTION_ABS);
       ((ASTUnaryFunctionNode)node).addChild(child);
     }
-    if (s.equalsIgnoreCase("factorial"))
+    else if (s.equalsIgnoreCase("factorial"))
     {
       checkSize(arguments, 0);
       node = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
