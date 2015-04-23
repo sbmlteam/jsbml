@@ -515,6 +515,11 @@ public class SpatialConstants {
   /**
    * 
    */
+  public static final String arrayData = "arrayData";
+  
+  /**
+   * 
+   */
   public static final String arrayDataLength = "arrayDataLength";
 
   /**

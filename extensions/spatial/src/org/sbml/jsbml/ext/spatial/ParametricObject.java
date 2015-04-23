@@ -514,21 +514,21 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
         try {
           setCompression(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.polygonType);
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.compression);
         }
       }
       else if (attributeName.equals(SpatialConstants.pointIndexLength)) {
         try {
           setPointIndexLength(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.polygonType);
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.pointIndexLength);
         }
       }
       else if (attributeName.equals(SpatialConstants.dataType)) {
         try {
           setDataType(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.polygonType);
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.dataType);
         }
       }      
       else {
