@@ -286,7 +286,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
     int pos = 0;
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +Math.min(pos, 0)));
+      Math.min(pos, 0)));
   }
 
   /**

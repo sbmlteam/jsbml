@@ -397,7 +397,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jlibsbml.SBase#appendNotes(java.lang.String)
+   * @see org.sbml.jsbml.SBase#appendNotes(java.lang.String)
    */
   @Override
   public void appendNotes(String notes) throws XMLStreamException {

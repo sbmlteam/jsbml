@@ -622,7 +622,7 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
     
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}",
-      childIndex, +Math.min(pos, 0)));
+      childIndex, Math.min(pos, 0)));
   }
 
   @Override

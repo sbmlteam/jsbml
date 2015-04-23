@@ -344,7 +344,7 @@ SBaseWithUnit {
     }
     throw new IndexOutOfBoundsException(isLeaf() ? MessageFormat.format(
       "Node {0} has no children.", getElementName()) : MessageFormat.format(
-        "Index {0,number,integer} >= {1,number,integer}", childIndex, +Math.min(pos, 0)));
+        "Index {0,number,integer} >= {1,number,integer}", childIndex, Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)

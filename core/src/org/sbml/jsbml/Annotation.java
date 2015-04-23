@@ -577,6 +577,14 @@ public class Annotation extends AnnotationElement {
     return getNonRDFannotation();
   }
 
+  /**
+   * 
+   * @param nonRDFannotation
+   */
+  public void setXMLNode(XMLNode nonRDFannotation) {
+    setNonRDFAnnotation(nonRDFannotation);
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
    */

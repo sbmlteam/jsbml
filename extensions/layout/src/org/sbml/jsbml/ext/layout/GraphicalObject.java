@@ -250,7 +250,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}",
-      index, +Math.min(pos, 0)));
+      index, Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
