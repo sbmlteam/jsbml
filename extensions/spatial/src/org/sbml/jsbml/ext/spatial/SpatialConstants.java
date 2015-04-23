@@ -151,7 +151,7 @@ public class SpatialConstants {
   /**
    * 
    */
-  public static final String spatialId = "spatialId";
+  public static final String spatialId = "id";
   /**
    * 
    */
@@ -521,6 +521,11 @@ public class SpatialConstants {
    * 
    */
   public static final String arrayDataLength = "arrayDataLength";
+
+  /**
+   * 
+   */
+  public static final String spatialRef = "spatialRef";
 
   /**
    * @param level
