@@ -43,25 +43,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public class AnalyticVolume extends AbstractMathContainer implements SpatialNamedSBase{
 
   /**
-   * @author Alex Thomas
-   * @author Andreas Dr&auml;ger
-   * @version $Rev$
-   * @since 1.0
-   * @date 10.12.2014
-   */
-  public static enum FunctionKind {
-    /**
-     * Math child element contains an inequality
-     */
-    LAYERED,
-    //    /**
-    //     * Shape is represented by a real-valued function whose sign
-    //     * indicates coverage by the shape
-    //     */
-    //    R_FUNCTION;
-  }
-
-  /**
    * 
    */
   String spatialId;
