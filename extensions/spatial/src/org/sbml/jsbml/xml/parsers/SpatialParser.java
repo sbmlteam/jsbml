@@ -336,14 +336,15 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         //        sfg.setSampledField(sf);
         //        return sf;
       }
-    } else if (contextObject instanceof SampledField) {
+      // NOTE: This has been moved in the listOf section below.
+//    } else if (contextObject instanceof SampledField) {
       //      SampledField sf = (SampledField) contextObject; // No more child in 0.88
       //      if (elementName.equals(SpatialConstants.imageData)){
       //        ImageData im = new ImageData();
       //        sf.setImageData(im);
       //        // sf.set
       //        return im;
-      //      }
+      //      } 
     } else if (contextObject instanceof CSGeometry) {
       CSGeometry csg = (CSGeometry) contextObject;
       if (elementName.equals(SpatialConstants.listOfCSGObjects)){
@@ -471,6 +472,11 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         SampledVolume elem = new SampledVolume();
         sfg.addSampledVolume(elem);
         return elem;
+      } else if (elementName.equals(SpatialConstants.sampledField)) {
+        Geometry g = (Geometry) listOf.getParentSBMLObject();
+        SampledField elem = new SampledField();
+        g.addSampledField(elem);
+        return elem;        
       } else if (elementName.equals(SpatialConstants.csgPrimitive)) {
         CSGSetOperator csgso = (CSGSetOperator) listOf.getParentSBMLObject();
         CSGPrimitive elem = new CSGPrimitive();
