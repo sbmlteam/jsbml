@@ -84,7 +84,30 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @ProviderFor(ReadingParser.class)
 public class SpatialParser extends AbstractReaderWriter implements PackageParser {
 
-  // TODO - check that it is properly updated to the 0.88 draft specs
+  // TODO - check that it is properly updated to the 0.90 draft specs
+
+  @Override
+  public void processCharactersOf(String elementName, String characters,
+    Object contextObject) {
+    if (contextObject instanceof SpatialPoints) {
+      SpatialPoints spatialPoints = (SpatialPoints) contextObject;
+      if(!spatialPoints.isSetArrayData()) {
+        spatialPoints.setArrayData(characters);
+      } else {
+        spatialPoints.append(characters);
+      }
+    }
+    if (contextObject instanceof ParametricObject) {
+      ParametricObject parametricObject = (ParametricObject) contextObject;
+    }
+  }
+
+  @Override
+  public void writeCharacters(SBMLObjectForXML xmlObject,
+    Object sbmlElementToWrite) {
+    // TODO Auto-generated method stub
+    super.writeCharacters(xmlObject, sbmlElementToWrite);
+  }
 
   /**
    * A {@link Logger} for this class.
