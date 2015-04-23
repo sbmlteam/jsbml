@@ -689,7 +689,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedNotes.getChildCount(); i++)
           {
             if (curBody.addChild(addedNotes.getChildAt(i)) < 0) {
-              logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedNotes.getChildAt(i)) + "' to the 'body' XMLNode.");
+              logger.warn(MessageFormat.format(
+                resourceBundle.getString("AbstractSBase.appendNotes"),
+                SBMLtools.toXML(addedNotes.getChildAt(i))));
               return;
             }
           }
@@ -731,7 +733,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i = 0; i < addedNotes.getChildCount(); i++)
           {
             if (curNotes.addChild(addedNotes.getChildAt(i)) < 0) {
-              logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedNotes.getChildAt(i)) + "' to the 'body' XMLNode.");
+              logger.warn(MessageFormat.format(
+                resourceBundle.getString("AbstractSBase.appendNotes"),
+                SBMLtools.toXML(addedNotes.getChildAt(i))));
               return;
             }
           }
@@ -760,7 +764,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    *             Level/Version combination than this current {@link SBase}, an
    *             {@link LevelVersionError} is thrown. This method is only
    *             package-wide visible because it is not intended to be a
-   *             "real" check, rather than to indicate potential errors.
+   *             <i>real</i> check, rather than to indicate potential errors.
    */
   protected boolean checkLevelAndVersionCompatibility(SBase sbase) {
     if (sbase.getLevelAndVersion().equals(getLevelAndVersion())) {
@@ -812,7 +816,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
 
     throw new IllegalArgumentException(MessageFormat.format(
-      "The package namespace or name ''{0}'' is unknown!",
+      resourceBundle.getString("AbstractSBase.createPlugin"),
       nameOrUri));
   }
 
@@ -843,13 +847,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void enablePackage(String packageURIOrName, boolean enabled) {
-
     SBMLDocument doc = getSBMLDocument();
 
     if (doc != null) {
       doc.enablePackage(packageURIOrName, enabled);
-    } else {
-      logger.debug("Package not enabled, could not find the SBMLDocument.");
+    } else if (logger.isDebugEnabled()) {
+      logger.debug(resourceBundle.getString("AbstractSBase.enablePackage"));
     }
   }
 
@@ -998,7 +1001,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     TreeNode parent = getParent();
 
     if (logger.isDebugEnabled()) {
-      logger.debug("fireNodeRemovedEvent called on " + this + " (parent = " + parent + ")");
+      logger.debug(MessageFormat.format(
+        resourceBundle.getString("AbstractSBase.fireNodeRemovedEvent"),
+        this, parent));
     }
 
     if ((parent != null) && (parent instanceof SBase)) {
@@ -1076,10 +1081,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
     }
 
-    throw new IndexOutOfBoundsException(isLeaf() ? MessageFormat.format(
-      "Node {0} has no children.", getElementName()) : MessageFormat.format(
-        "Index {0,number,integer} >= {1,number,integer}",
-        childIndex, Math.min(pos, 0)));
+    throw new IndexOutOfBoundsException(isLeaf() ?
+      MessageFormat.format(resourceBundle.getString("IndexExceedsBoundsException2"), getElementName()) :
+        MessageFormat.format(resourceBundle.getString("IndexExceedsBoundsException"),
+          childIndex, Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
@@ -1111,7 +1116,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return annotation.getCVTerm(index);
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "No such controlled vocabulary term with index {0,number,integer}.", index));
+      resourceBundle.getString("AbstractSBase.getCVTerm"), index));
   }
 
   /* (non-Javadoc)
@@ -1154,16 +1159,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public SBasePlugin getExtension(String nameOrUri) {
-
     // use always the package name in the map
     PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
 
     if (packageParser != null) {
-
       return extensions.get(packageParser.getPackageName());
     }
 
-    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!", nameOrUri));
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
   }
 
   /* (non-Javadoc)
@@ -1383,7 +1387,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
     }
 
-    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!", nameOrUri));
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
   }
 
   /* (non-Javadoc)
@@ -1616,7 +1621,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       //      return false;
     }
 
-    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!", nameOrUri));
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
   }
 
   /* (non-Javadoc)
@@ -1691,11 +1697,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if ((sbase != null) && (sbase.getParent() != null)) {
       if (sbase.getParent() == this) {
         logger.warn(MessageFormat.format(
-          "Trying to register {0} ''{1}'', which is already registered under {2} ''{3}''.",
+          resourceBundle.getString("AbstractSBase.registerChild1"),
           sbase.getElementName(), sbase, getElementName(), this));
       } else {
         logger.warn(MessageFormat.format(
-          "{0} ''{1}'' is associated to the different parent ''{2}''. Please remove it there before adding it to this ''{3}'' or add a clone of it to this element.",
+          resourceBundle.getString("AbstractSBase.registerChild2"),
           sbase.getClass().getSimpleName(), sbase, sbase.getParent(), this));
       }
       return false;
@@ -1743,7 +1749,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         sbase.addAllChangeListeners(listeners);
 
         throw new IllegalArgumentException(MessageFormat.format(
-          "Cannot register {0}.", sbase.getElementName()));
+          resourceBundle.getString("AbstractSBase.registerChild3"),
+          sbase.getElementName()));
       }
 
       // TODO - set package version and namespace if needed
@@ -1918,7 +1925,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
       } else if (!SyntaxChecker.isValidMetaId(metaId)) {
         throw new IllegalArgumentException(MessageFormat.format(
-          "\"{0}\" is not a valid meta-identifier for this {1}.",
+          resourceBundle.getString("AbstractSBase.setMetaId"),
           metaId, getElementName()));
       }
     }
@@ -2031,7 +2038,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
     if (!SBO.checkTerm(term)) {
       throw new IllegalArgumentException(MessageFormat.format(
-        "Cannot set invalid SBO term {0,number,integer} because it must not be smaller than zero or larger than 9999999.",
+        resourceBundle.getString("AbstractSBase.setSBOTerm"),
         term));
     }
     Integer oldTerm = Integer.valueOf(sboTerm);
@@ -2086,8 +2093,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public void unregisterChild(SBase sbase) {
 
     if (logger.isDebugEnabled()) {
-      logger.debug("unregister called! " + sbase.getElementName() + " "
-          + (sbase instanceof NamedSBase ? ((NamedSBase) sbase).getId() : ""));
+      logger.debug(MessageFormat.format(
+        resourceBundle.getString("AbstractSBase.unregisterChild1"),
+        sbase.getElementName(),
+        (sbase instanceof NamedSBase ? ((NamedSBase) sbase).getId() : "")));
     }
 
     if ((sbase != null)) {
@@ -2103,7 +2112,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       // If possible, recursively unregister all ids of the SBase in our model:
       if ((idManager != null)
           && !idManager.unregister(sbase)) {
-        throw new IllegalArgumentException(MessageFormat.format("Cannot unregister {0}.",
+        throw new IllegalArgumentException(MessageFormat.format(
+          resourceBundle.getString("AbstractSBase.unregisterChild2"),
           sbase.getElementName()));
       }
 
@@ -2125,7 +2135,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   private void unregisterChild(SBasePlugin sbasePlugin)  {
 
     if (logger.isDebugEnabled()) {
-      logger.debug("AbstractSBase - #unregisterChild(SBasePlugin) - called on '" + sbasePlugin + "'");
+      logger.debug(MessageFormat.format(
+        resourceBundle.getString("AbstractSBase.unregisterChild3"),
+        sbasePlugin));
     }
 
     int childCount = sbasePlugin.getChildCount();
@@ -2223,7 +2235,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return;
     }
 
-    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!", nameOrUri));
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"),
+      nameOrUri));
   }
 
   @Override

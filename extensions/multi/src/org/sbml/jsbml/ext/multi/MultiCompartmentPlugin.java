@@ -531,7 +531,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
     }
 
     throw new IndexOutOfBoundsException(
-      MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
+      MessageFormat.format(resourceBundle.getString("IndexExceedsBoundsException"),
         index, Math.min(pos, 0)));
   }
 

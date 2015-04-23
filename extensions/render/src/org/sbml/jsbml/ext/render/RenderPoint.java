@@ -118,7 +118,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
     }
     int pos = 0;
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", childIndex,
+      resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
       Math.min(pos, 0)));
   }
 

@@ -198,7 +198,7 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
     }
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}",
+      resourceBundle.getString("IndexExceedsBoundsException"),
       index, pos));
   }
 
