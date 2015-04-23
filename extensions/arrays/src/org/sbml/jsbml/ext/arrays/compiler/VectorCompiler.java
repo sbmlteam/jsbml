@@ -3670,8 +3670,11 @@ public class VectorCompiler implements ASTNodeCompiler {
   private void plusRecursive(List<ASTNode> values, ASTNode node) throws IndexOutOfBoundsException, SBMLException{
     if (!node.isVector()) {
       double result = 0;
-      node.getChildren().clear();
-      node.setType(ASTNode.Type.PLUS);
+      // TODO: Set type was causing a new ASTNode2 object to be created
+      // and this was preventing the children of the original node
+      // object from being updated.
+      //node.getChildren().clear();
+      //node.setType(ASTNode.Type.PLUS);
       if (values.size() > 0) {
         for (int i = 0; i < values.size(); ++i) {
           ASTNode value = values.get(i);
@@ -3683,7 +3686,9 @@ public class VectorCompiler implements ASTNodeCompiler {
             throw new SBMLException();
           }
         }
-        node.addChild(new ASTNode(result));
+        // TODO: Find a better fix
+        //node.addChild(new ASTNode(result));
+        node.setValue(result);
         return;
       }
     }

@@ -3970,7 +3970,7 @@ public class ASTNode extends AbstractTreeNode {
       astnode2 = new ASTCSymbolTimeNode();
       break;
     case PLUS :
-      astnode2 = new ASTArithmeticOperatorNode(Type.PLUS);
+      astnode2 = new ASTArithmeticOperatorNode(Type.PLUS);        
       break;
     case POWER:
       astnode2 = new ASTPowerNode();
