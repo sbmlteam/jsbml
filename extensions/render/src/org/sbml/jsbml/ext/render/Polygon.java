@@ -107,7 +107,7 @@ public class Polygon extends GraphicalPrimitive2D {
       pos++;
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", childIndex,
+      resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
       Math.min(pos, 0)));
   }
 

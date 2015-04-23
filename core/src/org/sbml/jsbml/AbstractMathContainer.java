@@ -150,7 +150,7 @@ MathContainer {
       pos++;
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}",
+      resourceBundle.getString("IndexExceedsBoundsException"),
       index, Math.min(pos, 0)));
   }
 
@@ -180,12 +180,14 @@ MathContainer {
           name = getElementName();
           SBase parent = getParentSBMLObject();
           if ((parent != null) && (parent instanceof NamedSBase)) {
-            name += " in " + parent.toString();
+            name = MessageFormat.format(
+              resourceBundle.getString("AbstractMathContainer.inclusion"),
+              name, parent.toString());
           }
         }
         logger.warn(MessageFormat.format(
-          "Could not derive unit from syntax tree of {0}: {1}", name,
-          exc.getLocalizedMessage()));
+          resourceBundle.getString("AbstractMathContainer.getDerivedUnitDefinition"),
+          name, exc.getLocalizedMessage()));
         logger.debug(exc.getLocalizedMessage(), exc);
       }
     }
@@ -233,8 +235,8 @@ MathContainer {
   public String getFormula() {
     try {
       return isSetMath() ? getMath().toFormula() : "";
-    } catch (Throwable e) {
-      logger.warn("Could not create infix formula from syntax tree.", e);
+    } catch (Throwable exc) {
+      logger.warn(resourceBundle.getString("AbstractMathContainer.toFormula"), exc);
       return "invalid";
     }
   }
@@ -352,4 +354,5 @@ MathContainer {
     }
     return attributes;
   }
+
 }

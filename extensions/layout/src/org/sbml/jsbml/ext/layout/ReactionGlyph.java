@@ -227,7 +227,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
       pos++;
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}",
+      resourceBundle.getString("IndexExceedsBoundsException"),
       index, Math.min(pos, 0)));
   }
 

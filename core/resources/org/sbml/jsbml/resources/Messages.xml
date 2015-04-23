@@ -30,6 +30,27 @@
   </comment>
   
   <entry key="IndexExceedsBoundsException">Index {0,number,integer} >= {1,number,integer}</entry>
+  <entry key="IndexExceedsBoundsException2">Node {0} has no children.</entry>
+  
+  <entry key="AbstractMathContainer.toFormula">Could not create infix formula from syntax tree.</entry>
+  <entry key="AbstractMathContainer.inclusion">{0} in {1}</entry>
+  <entry key="AbstractMathContainer.getDerivedUnitDefinition">Could not derive unit from syntax tree of {0}: {1}</entry>
+  
+  <entry key="AbstractNamedSBase.checkIdentifier">\"{0}\" is not a valid identifier for this {1}.</entry>
+  
+  <entry key="AbstractSBase.appendNotes">There was a problem adding the given XMLNode: ''{0}'' to the ''body'' XMLNode.</entry>
+  <entry key="AbstractSBase.createPlugin">The package namespace or name ''{0}'' is unknown!</entry>
+  <entry key="AbstractSBase.enablePackage">Package not enabled, could not find the SBMLDocument.</entry>
+  <entry key="AbstractSBase.fireNodeRemovedEvent">fireNodeRemovedEvent called on {0} (parent = {1})</entry>
+  <entry key="AbstractSBase.getCVTerm">No such controlled vocabulary term with index {0,number,integer}.</entry>
+  <entry key="AbstractSBase.registerChild1">Trying to register {0} ''{1}'', which is already registered under {2} ''{3}''.</entry>
+  <entry key="AbstractSBase.registerChild2">{0} ''{1}'' is associated to the different parent ''{2}''. Please remove it there before adding it to this ''{3}'' or add a clone of it to this element.</entry>
+  <entry key="AbstractSBase.registerChild3">Cannot register {0}.</entry>
+  <entry key="AbstractSBase.setMetaId">\"{0}\" is not a valid meta-identifier for this {1}.</entry>
+  <entry key="AbstractSBase.setSBOTerm">Cannot set invalid SBO term {0,number,integer} because it must not be smaller than zero or larger than 9999999.</entry>
+  <entry key="AbstractSBase.unregisterChild1">unregister called! {0} {1}</entry>
+  <entry key="AbstractSBase.unregisterChild2">Cannot unregister {0}.</entry>
+  <entry key="AbstractSBase.unregisterChild3">AbstractSBase - #unregisterChild(SBasePlugin) - called on ''{0}''</entry>
   
   <entry key="AbstractSBase.addDeclaredNamespace">The only allowed prefix for a namespace is 'xmlns:'.</entry>
   <entry key="AbstractSBase.addExtensionExc">The package namespace or name ''{0}'' is unknown!</entry>

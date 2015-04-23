@@ -1345,7 +1345,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
       }
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", index,
+      resourceBundle.getString("IndexExceedsBoundsException"), index,
       Math.min(pos, 0)));
   }
 

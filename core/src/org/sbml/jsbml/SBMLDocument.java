@@ -662,7 +662,7 @@ public class SBMLDocument extends AbstractSBase {
         return getModel();
       }
     }
-    throw new IndexOutOfBoundsException(MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
+    throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexExceedsBoundsException"),
       index, Math.min(pos, 0)));
   }
 
