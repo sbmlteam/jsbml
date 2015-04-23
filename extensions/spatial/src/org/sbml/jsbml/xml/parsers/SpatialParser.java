@@ -86,29 +86,6 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
 
   // TODO - check that it is properly updated to the 0.90 draft specs
 
-  @Override
-  public void processCharactersOf(String elementName, String characters,
-    Object contextObject) {
-    if (contextObject instanceof SpatialPoints) {
-      SpatialPoints spatialPoints = (SpatialPoints) contextObject;
-      if(!spatialPoints.isSetArrayData()) {
-        spatialPoints.setArrayData(characters);
-      } else {
-        spatialPoints.append(characters);
-      }
-    }
-    if (contextObject instanceof ParametricObject) {
-      ParametricObject parametricObject = (ParametricObject) contextObject;
-    }
-  }
-
-  @Override
-  public void writeCharacters(SBMLObjectForXML xmlObject,
-    Object sbmlElementToWrite) {
-    // TODO Auto-generated method stub
-    super.writeCharacters(xmlObject, sbmlElementToWrite);
-  }
-
   /**
    * A {@link Logger} for this class.
    */
@@ -119,6 +96,28 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
    */
   public static final String namespaceURIrequired = "http://www.sbml.org/sbml/level3/version1/req/version1";
 
+  
+  
+  @Override
+  public void processCharactersOf(String elementName, String characters,
+    Object contextObject) {
+    if (contextObject instanceof SpatialPoints) {
+      SpatialPoints spatialPoints = (SpatialPoints) contextObject;
+      spatialPoints.append(characters);
+    }
+    if (contextObject instanceof ParametricObject) {
+      ParametricObject parametricObject = (ParametricObject) contextObject;
+      parametricObject.append(characters);
+    }
+  }
+
+  @Override
+  public void writeCharacters(SBMLObjectForXML xmlObject,
+    Object sbmlElementToWrite) {
+    // TODO Auto-generated method stub
+    super.writeCharacters(xmlObject, sbmlElementToWrite);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
    */

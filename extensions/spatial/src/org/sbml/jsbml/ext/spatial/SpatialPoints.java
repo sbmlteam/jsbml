@@ -233,7 +233,6 @@ public class SpatialPoints extends AbstractSBase {
   public void setArrayData(String arrayData) {
     String oldArrayData = this.arrayData;
     this.arrayData = arrayData;
-    arrayDataLength = 1;
     firePropertyChange(SpatialConstants.arrayData, oldArrayData, this.arrayData);
   }
 
@@ -247,7 +246,7 @@ public class SpatialPoints extends AbstractSBase {
     if (isSetArrayData()) {
       String oldArrayData = this.arrayData;
       this.arrayData = null;
-      arrayDataLength = null;
+      this.arrayDataLength = null;
       firePropertyChange(SpatialConstants.arrayData, oldArrayData, this.arrayData);
       return true;
     }
@@ -259,18 +258,15 @@ public class SpatialPoints extends AbstractSBase {
    * @return {@code true} if data was appended to arrayData, otherwise {@code false}.
    */
   public boolean append(String data) {
+    if (data == null) { return false; }
     if (isSetArrayData()) {
       String oldArrayData = this.arrayData;
-      if(compression == CompressionKind.UNCOMPRESSED) {
-        this.arrayData = this.arrayData + "; " + data;
-      } else { // data is compressed
-        this.arrayData = this.arrayData + " " + data;        
-      }
-      arrayDataLength++;
+      this.arrayData = this.arrayData + data;
       firePropertyChange(SpatialConstants.arrayData, oldArrayData, this.arrayData);
-      return true;
+    } else {
+      setArrayData(data);
     }
-    return false;
+    return true;
   }
   
   /**
@@ -280,7 +276,7 @@ public class SpatialPoints extends AbstractSBase {
    */
   public int getArrayDataLength() {
     if (isSetArrayDataLength()) {
-      return arrayDataLength.intValue();
+      return arrayDataLength;
     }
     // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
     throw new PropertyUndefinedError(SpatialConstants.arrayDataLength, this);
@@ -417,11 +413,6 @@ public class SpatialPoints extends AbstractSBase {
       attributes.put(SpatialConstants.shortLabel + ":arrayDataLength",
         String.valueOf(getArrayDataLength()));
     }
-    if (isSetArrayData()) {
-      attributes.remove("arrayData");
-      attributes.put(SpatialConstants.shortLabel + ":arrayData",
-        getArrayData());
-    }
     if (isSetDataType()) {
       attributes.remove("dataType");
       attributes.put(SpatialConstants.shortLabel + ":dataType",
@@ -448,13 +439,6 @@ public class SpatialPoints extends AbstractSBase {
         setArrayDataLength(StringTools.parseSBMLInt(value));
       } catch (Exception e) {
         MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.arrayDataLength);
-      }
-    }
-    else if (attributeName.equals(SpatialConstants.arrayData)) {
-      try {
-        setArrayData(value);
-      } catch (Exception e) {
-        MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.arrayData);
       }
     }
     else if (attributeName.equals(SpatialConstants.dataType)) {
