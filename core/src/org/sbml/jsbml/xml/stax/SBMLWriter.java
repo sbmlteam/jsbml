@@ -1025,6 +1025,7 @@ public class SBMLWriter {
         childParser.writeElement(childXmlObject, nextObjectToWrite);
         childParser.writeNamespaces(childXmlObject, nextObjectToWrite);
         childParser.writeAttributes(childXmlObject, nextObjectToWrite);
+        childParser.writeCharacters(childXmlObject, nextObjectToWrite);
 
         if (!childXmlObject.isSetName()) {
           logger.error("XML name not set, element ignored!");
@@ -1062,6 +1063,11 @@ public class SBMLWriter {
             indent + indentCount, false);
           elementIsNested = isClosedAnnotation = true;
         }
+        
+        if (childXmlObject.getCharacters() != null && childXmlObject.getCharacters().trim().length() != 0) {
+          newOutPutElement.addCharacters(childXmlObject.getCharacters());
+        }
+        
         if (s.getChildCount() > 0) {
           // make sure that we'll have line breaks if an element has any sub elements.
           elementIsNested = true;

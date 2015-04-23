@@ -68,12 +68,13 @@ public class ParserManager {
    */
   private Logger logger = Logger.getLogger(ParserManager.class);
 
-  private String[] parserDefaults = {"org.sbml.jsbml.xml.parsers.UncertMLXMLNodeReader", 
+  private String[] parserDefaults = 
+    {"org.sbml.jsbml.xml.parsers.UncertMLXMLNodeReader", "org.sbml.jsbml.xml.parsers.SBMLCoreParser", 
     "org.sbml.jsbml.xml.parsers.MathMLStaxParser", "org.sbml.jsbml.xml.parsers.ArraysParser", "org.sbml.jsbml.xml.parsers.CompParser",
     "org.sbml.jsbml.xml.parsers.DistribParser", "org.sbml.jsbml.xml.parsers.DynParser", "org.sbml.jsbml.xml.parsers.FBCParser",
     "org.sbml.jsbml.xml.parsers.GroupsParser", "org.sbml.jsbml.xml.parsers.L3LayoutParser", "org.sbml.jsbml.xml.parsers.LayoutParser",
     "org.sbml.jsbml.xml.parsers.MultiParser", "org.sbml.jsbml.xml.parsers.QualParser", "org.sbml.jsbml.xml.parsers.RenderParser",
-    "org.sbml.jsbml.xml.parsers.ReqParser", "org.sbml.jsbml.xml.parsers.SpatialParser", "org.sbml.jsbml.xml.parsers.XMLNodeReader", "org.sbml.jsbml.xml.parsers.SBMLCoreParser"};
+    "org.sbml.jsbml.xml.parsers.ReqParser", "org.sbml.jsbml.xml.parsers.SpatialParser", "org.sbml.jsbml.xml.parsers.XMLNodeReader"};
 
 
   /**
@@ -114,7 +115,6 @@ public class ParserManager {
 
           String packageName = "core";
           classNames.add(readingParser.getClass().getName());
-          System.out.println("###DEBUG####; class name = " + readingParser.getClass().getName());
           
           if (readingParser instanceof PackageParser) {
             packageName = ((PackageParser) readingParser).getPackageName();
@@ -147,7 +147,6 @@ public class ParserManager {
 
           String packageName = "core";
           classNames.add(writingParser.getClass().getName());
-          System.out.println("###DEBUG####; writer class name = " + writingParser.getClass().getName());
 
           if (writingParser instanceof PackageParser) {
             packageName = ((PackageParser) writingParser).getPackageName();
@@ -171,7 +170,6 @@ public class ParserManager {
  
     for (String parserClassName  : parserDefaults) {
       if (! classNames.contains(parserClassName)) {
-        System.out.println("###DEBUG### adding parser '" + parserClassName + "' by hand");
         
         try {
           Object newInstance = Class.forName(parserClassName).newInstance();
@@ -180,7 +178,6 @@ public class ParserManager {
             ReadingParser readingParser = (ReadingParser) newInstance;
             
             String packageName = "core";
-            System.out.println("###DEBUG####; class name = " + readingParser.getClass().getName());
             
             if (readingParser instanceof PackageParser) {
               packageName = ((PackageParser) readingParser).getPackageName();
@@ -203,7 +200,6 @@ public class ParserManager {
             WritingParser writingParser = (WritingParser) newInstance;
 
             String packageName = "core";
-            System.out.println("###DEBUG####; writer class name = " + writingParser.getClass().getName());
 
             if (writingParser instanceof PackageParser) {
               packageName = ((PackageParser) writingParser).getPackageName();
@@ -217,18 +213,23 @@ public class ParserManager {
           }
         } catch (ClassNotFoundException e) 
         {
-          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
-          // e.printStackTrace();
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+          }
         }
         catch (InstantiationException e) 
         {
-          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
-          // e.printStackTrace();
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
         }
         catch (IllegalAccessException e) 
         {
-          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
-          // e.printStackTrace();
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
         }
       }
     }
@@ -333,7 +334,6 @@ public class ParserManager {
     
     for (String parserClassName  : parserDefaults) {
       if (! classNames.contains(parserClassName)) {
-        System.out.println("###DEBUG### getReadingParsers - adding parser '" + parserClassName + "' by hand");
         
         try {
           Object newInstance = Class.forName(parserClassName).newInstance();
@@ -341,26 +341,29 @@ public class ParserManager {
           if (newInstance instanceof ReadingParser) {
             ReadingParser readingParser = (ReadingParser) newInstance;
             
-            System.out.println("###DEBUG#### getReadingParsers -  class name = " + readingParser.getClass().getName());
-            
             for (String namespaceURI : readingParser.getNamespaces()) {
               clonedMap.put(namespaceURI, readingParser);
             }
           }
         } catch (ClassNotFoundException e) 
         {
-          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
-          // e.printStackTrace();
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+          }
         }
         catch (InstantiationException e) 
         {
-          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
-          // e.printStackTrace();
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
         }
         catch (IllegalAccessException e) 
         {
-          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
-          // e.printStackTrace();
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
         }
       }
     }
@@ -421,7 +424,6 @@ public class ParserManager {
 
     for (String parserClassName  : parserDefaults) {
       if (! classNames.contains(parserClassName)) {
-        System.out.println("###DEBUG### getWritingParsers - adding parser '" + parserClassName + "' by hand");
         
         try {
           Object newInstance = Class.forName(parserClassName).newInstance();
@@ -429,26 +431,29 @@ public class ParserManager {
           if (newInstance instanceof WritingParser) {
             WritingParser readingParser = (WritingParser) newInstance;
             
-            System.out.println("###DEBUG#### getWritingParsers -  class name = " + readingParser.getClass().getName());
-            
             for (String namespaceURI : readingParser.getNamespaces()) {
               clonedMap.put(namespaceURI, readingParser);
             }
           }
         } catch (ClassNotFoundException e) 
         {
-          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
-          // e.printStackTrace();
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+          }
         }
         catch (InstantiationException e) 
         {
-          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
-          // e.printStackTrace();
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
         }
         catch (IllegalAccessException e) 
         {
-          System.out.println("###DEBUG### problem loading class '" + parserClassName + "': " + e.getMessage());
-          // e.printStackTrace();
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
         }
       }
     }
