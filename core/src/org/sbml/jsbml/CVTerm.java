@@ -29,7 +29,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.tree.TreeNode;
-import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeAdapter;
