@@ -94,7 +94,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
       Variable nsb = getModel().findVariable(variable);
       if (nsb == null) {
         throw new IllegalArgumentException(MessageFormat.format(
-          NO_SUCH_VARIABLE_EXCEPTION_MSG,
+          resourceBundle.getString("Assignment.NO_SUCH_VARIABLE_EXCEPTION_MSG"),
           m.getId(), variable));
       }
       setVariable(nsb);
@@ -218,8 +218,8 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
     if (!variable.isConstant()) {
       if ((getLevel() < 3) && (variable instanceof SpeciesReference)) {
         throw new IllegalArgumentException(MessageFormat.format(
-          ILLEGAL_VARIABLE_EXCEPTION_MSG, variable.getId(),
-          getElementName()));
+          resourceBundle.getString("Assignment.ILLEGAL_VARIABLE_EXCEPTION_MSG"),
+          variable.getId(), getElementName()));
       }
       if (variable.isSetId()) {
         setVariable(variable.getId());
@@ -228,8 +228,8 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
       }
     } else {
       throw new IllegalArgumentException(MessageFormat.format(
-        ILLEGAL_CONSTANT_VARIABLE_MSG, variable.getId(),
-        getElementName()));
+        resourceBundle.getString("Assignment.ILLEGAL_CONSTANT_VARIABLE_MSG"),
+        variable.getId(), getElementName()));
     }
   }
 

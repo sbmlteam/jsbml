@@ -63,7 +63,7 @@ public class Annotation extends AnnotationElement {
   /**
    * The RDF syntax name space definition URI.
    */
-  public static final transient String URI_RDF_SYNTAX_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+  public static final transient String URI_RDF_SYNTAX_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"; //$NON-NLS-1$
 
   /**
    * Returns a {@link String} which represents the given {@link Qualifier}.
@@ -231,10 +231,15 @@ public class Annotation extends AnnotationElement {
    * @param annotation some non RDF annotations.
    * @throws XMLStreamException
    */
-  public void appendNoRDFAnnotation(String annotation) throws XMLStreamException {
-    XMLNode oldNonRDFAnnotation = null;
-    XMLNode annotationToAppend = XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation));
+  public void appendNonRDFAnnotation(String annotation) throws XMLStreamException {
+    appendNonRDFAnnotation(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation)));
+  }
 
+  /**
+   * @param annotationToAppend
+   */
+  public void appendNonRDFAnnotation(XMLNode annotationToAppend) {
+    XMLNode oldNonRDFAnnotation = null;
     if (nonRDFannotation == null) {
       // check if the annotation contain an annotation top level element or not
       if (!annotationToAppend.getName().equals("annotation")) {
@@ -374,7 +379,9 @@ public class Annotation extends AnnotationElement {
   @Override
   public TreeNode getChildAt(int childIndex) {
     if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(childIndex + " < 0");
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"),
+        childIndex, 0));
     }
     int pos = 0;
     if (isSetHistory()) {
