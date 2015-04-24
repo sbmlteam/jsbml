@@ -501,9 +501,9 @@ SBaseWithUnit {
   public void setVariable(Variable variable) {
     if (variable != null) {
       if (variable.isConstant()) {
-        throw new IllegalArgumentException(
-          MessageFormat.format(ILLEGAL_CONSTANT_VARIABLE_MSG,
-            variable.getId(), getElementName()));
+        throw new IllegalArgumentException(MessageFormat.format(
+          resourceBundle.getString("Assignment.ILLEGAL_CONSTANT_VARIABLE_MSG"),
+          variable.getId(), getElementName()));
       }
       if (isSetUnits() && !(variable instanceof Parameter)) {
         throw new IllegalArgumentException(MessageFormat.format(
@@ -512,8 +512,8 @@ SBaseWithUnit {
       }
       if ((getLevel() < 3) && (variable instanceof SpeciesReference)) {
         throw new IllegalArgumentException(MessageFormat.format(
-          ILLEGAL_VARIABLE_EXCEPTION_MSG, variable.getId(),
-          getElementName()));
+          resourceBundle.getString("Assignment.ILLEGAL_VARIABLE_EXCEPTION_MSG"),
+          variable.getId(), getElementName()));
       }
       if (variable.isSetId()) {
         String oldVariable = variableID;

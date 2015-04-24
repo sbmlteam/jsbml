@@ -157,7 +157,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public void addPlugin(String nameOrUri, SBasePlugin sbasePlugin);
 
-  /**
+  /*
    * Adds an additional name space to the set of name spaces of this
    * {@link SBase} if the given name space is not yet present within this
    * {@link SortedSet}.
@@ -165,6 +165,55 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * @param namespace the namespace to add
    */
   //  protected void setNamespace(String namespace);
+
+  /**
+   * Appends the given annotation to the 'annotation' subelement of this object.
+   * Whereas the SBase 'notes' subelement is a container for content to be shown
+   * directly to humans, the 'annotation' element is a container for optional
+   * software-generated content not meant to be shown to humans. Every object
+   * derived from SBase can have its own value for 'annotation'. The element's
+   * content type is XML type 'any', allowing essentially arbitrary well-formed
+   * XML data content.
+   * SBML places a few restrictions on the organization of the content of
+   * annotations; these are intended to help software tools read and write the
+   * data as well as help reduce conflicts between annotations added by
+   * different tools. Please see the SBML specifications for more details.
+   * Unlike {@link SBase#setAnnotation(XMLNode)} or
+   * {@link SBase#setAnnotation(String)}, this method allows other
+   * annotations to be preserved when an application adds its own data.
+   * 
+   * @param annotation
+   *        an XML string that is to be copied and appended to the content of
+   *        the 'annotation' subelement of this object
+   * @throws XMLStreamException
+   *         thrown if the given annotation String cannot be parsed into
+   *         {@link XMLNode} objects.
+   * @see #appendAnnotation(XMLNode)
+   */
+  public void appendAnnotation(String annotation) throws XMLStreamException;
+
+
+  /**
+   * Appends the given annotation to the 'annotation' subelement of this object.
+   * Whereas the SBase 'notes' subelement is a container for content to be shown
+   * directly to humans, the 'annotation' element is a container for optional
+   * software-generated content not meant to be shown to humans. Every object
+   * derived from SBase can have its own value for 'annotation'. The element's
+   * content type is XML type 'any', allowing essentially arbitrary well-formed
+   * XML data content.
+   * SBML places a few restrictions on the organization of the content of
+   * annotations; these are intended to help software tools read and write the
+   * data as well as help reduce conflicts between annotations added by
+   * different tools. Please see the SBML specifications for more details.
+   * Unlike {@link SBase#setAnnotation(XMLNode)} or
+   * {@link SBase#setAnnotation(String)}, this method allows other
+   * annotations to be preserved when an application adds its own data.
+   * 
+   * @param annotation
+   *        an XML structure that is to be copied and appended to the content of
+   *        the 'annotation' subelement of this object
+   */
+  public void appendAnnotation(XMLNode annotation);
 
   /**
    * Appends 'notes' to the notes String of this object.

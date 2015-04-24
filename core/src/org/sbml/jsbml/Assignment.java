@@ -33,26 +33,6 @@ package org.sbml.jsbml;
 public interface Assignment extends MathContainer {
 
   /**
-   * Error message to indicate that a {@link SpeciesReference} cannot be used
-   * as the {@link Variable} in this {@link Assignment} because the SBML Level
-   * &lt; 3.
-   */
-  public static final String ILLEGAL_VARIABLE_EXCEPTION_MSG = "Cannot set SpeciesReference {0} as the Variable in {1} for SBML Level < 3";
-
-  /**
-   * Error message to be displayed in case that a {@link Variable} with
-   * constant property set to {@code true} is to be assigned to this
-   * {@link Assignment}.
-   */
-  public static final String ILLEGAL_CONSTANT_VARIABLE_MSG = "Cannot set the constant variable {0} as the target of this {1}.";
-
-  /**
-   * Message to be displayed if no {@link Variable} can be found in the
-   * associated {@link Model} that would have the desired identifier.
-   */
-  public static final String NO_SUCH_VARIABLE_EXCEPTION_MSG = "Model {0} does not contain any variable with identifier {1}.";
-
-  /**
    * Returns the variableID of this {@link Assignment}. Returns an empty
    *         {@link String} if it is not set.
    * 

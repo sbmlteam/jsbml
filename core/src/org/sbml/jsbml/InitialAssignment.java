@@ -134,7 +134,8 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
     }
     if (nsb == null) {
       throw new IllegalArgumentException(MessageFormat.format(
-        NO_SUCH_VARIABLE_EXCEPTION_MSG, m.getId(), variable));
+        resourceBundle.getString("Assignment.NO_SUCH_VARIABLE_EXCEPTION_MSG"),
+        m.getId(), variable));
     }
     setVariable(nsb.getId());
   }
@@ -290,7 +291,8 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
   @Override
   public void setVariable(Variable variable) {
     if ((getLevel() < 3) && (variable != null) && (variable instanceof SpeciesReference)) {
-      throw new IllegalArgumentException(MessageFormat.format(Assignment.ILLEGAL_VARIABLE_EXCEPTION_MSG,
+      throw new IllegalArgumentException(MessageFormat.format(
+        resourceBundle.getString("Assignment.ILLEGAL_VARIABLE_EXCEPTION_MSG"),
         variable.getId(), getElementName()));
     }
     setVariable(variable != null ? variable.getId() : null);
