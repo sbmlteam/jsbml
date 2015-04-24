@@ -528,6 +528,11 @@ public class SpatialConstants {
   public static final String spatialRef = "spatialRef";
 
   /**
+   * 
+   */
+  public static final Object listOfSampledFields = "listOfSampledFields";
+
+  /**
    * @param level
    * @param version
    * @return

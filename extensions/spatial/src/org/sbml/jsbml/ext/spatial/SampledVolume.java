@@ -395,7 +395,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
             SpatialConstants.domainType);
         }
       }
-      if (attributeName.equals(SpatialConstants.sampledValue)) {
+      else if (attributeName.equals(SpatialConstants.sampledValue)) {
         try {
           setSampledValue(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
@@ -403,7 +403,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
             SpatialConstants.sampledValue);
         }
       }
-      if (attributeName.equals(SpatialConstants.minValue)) {
+      else if (attributeName.equals(SpatialConstants.minValue)) {
         try {
           setMinValue(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
@@ -411,7 +411,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
             SpatialConstants.minValue);
         }
       }
-      if (attributeName.equals(SpatialConstants.maxValue)) {
+      else if (attributeName.equals(SpatialConstants.maxValue)) {
         try {
           setMaxValue(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
