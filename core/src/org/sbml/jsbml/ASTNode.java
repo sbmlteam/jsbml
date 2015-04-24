@@ -3775,7 +3775,7 @@ public class ASTNode extends AbstractTreeNode {
     String sType = type.toString();
 
     if (logger.isDebugEnabled()) {
-      logger.debug(MessageFormat.format("setType called: typeBefore={0} typeAfter={1}", this.type, sType));
+      logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.setType"), this.type, sType));
     }
 
     if (sType.startsWith("NAME") || sType.startsWith("CONSTANT")) {
@@ -3815,18 +3815,18 @@ public class ASTNode extends AbstractTreeNode {
   public void setUnits(String unitId) {
     if (!isNumber()) {
       throw new IllegalArgumentException(MessageFormat.format(
-        "Unexpected attribute {0}, a unit can only be assigned to literal numbers.",
+        resourceBundle.getString("ASTNode.setUnits1"),
         unitId));
     }
     if (parentSBMLObject != null) {
       if (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId)) {
         throw new IllegalArgumentException(MessageFormat.format(
-          "Unexpected attribute {0}, only a valid unit kind or the identifier of a unit definition are allowed here.",
+          resourceBundle.getString("ASTNode.setUnits2"),
           unitId));
       }
       if (parentSBMLObject.isSetLevel() && (parentSBMLObject.getLevel() < 3)) {
         throw new IllegalArgumentException(MessageFormat.format(
-          "Cannot set unit {0} for a numbers in an ASTNode before SBML Level 3.",
+          resourceBundle.getString("ASTNode.setUnits3"),
           unitId));
       }
     }
@@ -4104,7 +4104,6 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public String toString() {
     String formula = "";
-    String errorMsg = "Could not compile ASTNode to formula: ";
     try {
       formula = compile(new FormulaCompiler()).toString();
     } catch (SBMLException e) {
@@ -4112,15 +4111,15 @@ public class ASTNode extends AbstractTreeNode {
       e.printStackTrace();
 
       if (logger.isDebugEnabled()) {
-        logger.error(errorMsg, e);
+        logger.error(MessageFormat.format(resourceBundle.getString("ASTNode.toString"), e.getMessage()), e);
       } else {
         // TODO: Do not print this message if parsing the file !!! Or remove it
-        logger.warn(errorMsg + e.getMessage());
+        logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.toString"), e.getMessage()));
       }
     } catch (RuntimeException e) {
       // added to prevent a crash when we cannot create the formula
       if (logger.isDebugEnabled()) {
-        logger.error(errorMsg, e);
+        logger.error(MessageFormat.format(resourceBundle.getString("ASTNode.toString"), e.getMessage()), e);
       }
     }
     return formula;
