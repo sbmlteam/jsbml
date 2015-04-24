@@ -173,7 +173,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(childIndex + " < 0");
+      throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexSurpassesBoundsException"), childIndex, 0));
     }
 
     int pos = 0;
