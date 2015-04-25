@@ -97,7 +97,6 @@
             <req:listOfChangedMaths>
                 <req:changedMath req:changedBy="spatial" req:viableWithoutChange="true"/>
             </req:listOfChangedMaths>
-            <spatial:spatialSymbolReference spatial:spatialRef="spatial"/>
         </species>
         <species id="s1_cyt" compartment="Cytosol" initialConcentration="10" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" spatial:isSpatial="true">
             <annotation>
@@ -110,7 +109,6 @@
             <req:listOfChangedMaths>
                 <req:changedMath req:changedBy="spatial" req:viableWithoutChange="true"/>
             </req:listOfChangedMaths>
-            <spatial:spatialSymbolReference spatial:spatialRef="spatial"/>
         </species>
         <species id="s2_nuc" compartment="Nucleus" initialConcentration="5" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" spatial:isSpatial="true">
             <annotation>
@@ -123,7 +121,6 @@
             <req:listOfChangedMaths>
                 <req:changedMath req:changedBy="spatial" req:viableWithoutChange="true"/>
             </req:listOfChangedMaths>
-            <spatial:spatialSymbolReference spatial:spatialRef="spatial"/>
         </species>
         <species id="s1_EC" compartment="Extracellular" initialConcentration="0" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" spatial:isSpatial="true">
             <annotation>
@@ -136,7 +133,6 @@
             <req:listOfChangedMaths>
                 <req:changedMath req:changedBy="spatial" req:viableWithoutChange="true"/>
             </req:listOfChangedMaths>
-            <spatial:spatialSymbolReference spatial:spatialRef="spatial"/>
         </species>
     </listOfSpecies>
     <listOfParameters>
@@ -147,61 +143,49 @@
             <spatial:spatialSymbolReference spatial:id="y"/>
         </parameter>
         <parameter id="s1_nuc_diff" value="10" constant="true">
-            <spatial:diffusionCoefficient spatial:variable="s1_nuc" spatial:type="isotropic"/>
-            <spatial:listOfCoordinateReferences>
-                <spatial:coordinateReference spatial:coordinate="cartesianX"/>
-                <spatial:coordinateReference spatial:coordinate="cartesianY"/>
-            </spatial:listOfCoordinateReferences>
+            <spatial:diffusionCoefficient spatial:variable="s1_nuc" spatial:type="isotropic" spatial:coordinateReference1="cartesianX" spatial:coordinateReference2="cartesianY"/>
         </parameter>
         <parameter id="s1_nuc_BC_Xm" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_nuc" spatial:coordinateBoundary="Xmin" spatial:type="Dirichlet" spatial:boundaryDomainType="Nucleus"/>
+            <spatial:boundaryCondition spatial:variable="s1_nuc" spatial:coordinateBoundary="Xmin" spatial:type="dirichlet" spatial:boundaryDomainType="Nucleus"/>
         </parameter>
         <parameter id="s1_nuc_BC_Xp" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_nuc" spatial:coordinateBoundary="Xmax" spatial:type="Dirichlet" spatial:boundaryDomainType="Nucleus"/>
+            <spatial:boundaryCondition spatial:variable="s1_nuc" spatial:coordinateBoundary="Xmax" spatial:type="dirichlet" spatial:boundaryDomainType="Nucleus"/>
         </parameter>
         <parameter id="s1_nuc_BC_Ym" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_nuc" spatial:coordinateBoundary="Ymin" spatial:type="Dirichlet" spatial:boundaryDomainType="Nucleus"/>
+            <spatial:boundaryCondition spatial:variable="s1_nuc" spatial:coordinateBoundary="Ymin" spatial:type="dirichlet" spatial:boundaryDomainType="Nucleus"/>
         </parameter>
         <parameter id="s1_nuc_BC_Yp" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_nuc" spatial:coordinateBoundary="Ymax" spatial:type="Dirichlet" spatial:boundaryDomainType="Nucleus"/>
+            <spatial:boundaryCondition spatial:variable="s1_nuc" spatial:coordinateBoundary="Ymax" spatial:type="dirichlet" spatial:boundaryDomainType="Nucleus"/>
         </parameter>
         <parameter id="s1_cyt_diff" value="10" constant="true">
-            <spatial:diffusionCoefficient spatial:variable="s1_cyt" spatial:type="isotropic"/>
-            <spatial:listOfCoordinateReferences>
-                <spatial:coordinateReference spatial:coordinate="cartesianX"/>
-                <spatial:coordinateReference spatial:coordinate="cartesianY"/>
-            </spatial:listOfCoordinateReferences>
+            <spatial:diffusionCoefficient spatial:variable="s1_cyt" spatial:type="isotropic" spatial:coordinateReference1="cartesianX" spatial:coordinateReference2="cartesianY"/>
         </parameter>
         <parameter id="s1_cyt_BC_Xm" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_cyt" spatial:coordinateBoundary="Xmin" spatial:type="Dirichlet" spatial:boundaryDomainType="Cytosol"/>
+            <spatial:boundaryCondition spatial:variable="s1_cyt" spatial:coordinateBoundary="Xmin" spatial:type="dirichlet" spatial:boundaryDomainType="Cytosol"/>
         </parameter>
         <parameter id="s1_cyt_BC_Xp" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_cyt" spatial:coordinateBoundary="Xmax" spatial:type="Dirichlet" spatial:boundaryDomainType="Cytosol"/>
+            <spatial:boundaryCondition spatial:variable="s1_cyt" spatial:coordinateBoundary="Xmax" spatial:type="dirichlet" spatial:boundaryDomainType="Cytosol"/>
         </parameter>
         <parameter id="s1_cyt_BC_Ym" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_cyt" spatial:coordinateBoundary="Ymin" spatial:type="Dirichlet" spatial:boundaryDomainType="Cytosol"/>
+            <spatial:boundaryCondition spatial:variable="s1_cyt" spatial:coordinateBoundary="Ymin" spatial:type="dirichlet" spatial:boundaryDomainType="Cytosol"/>
         </parameter>
         <parameter id="s1_cyt_BC_Yp" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_cyt" spatial:coordinateBoundary="Ymax" spatial:type="Dirichlet"/>
+            <spatial:boundaryCondition spatial:variable="s1_cyt" spatial:coordinateBoundary="Ymax" spatial:type="dirichlet"/>
         </parameter>
         <parameter id="s1_EC_diff" value="10" constant="true">
-            <spatial:diffusionCoefficient spatial:variable="s1_EC" spatial:type="isotropic"/>
-            <spatial:listOfCoordinateReferences>
-                <spatial:coordinateReference spatial:coordinate="cartesianX"/>
-                <spatial:coordinateReference spatial:coordinate="cartesianY"/>
-            </spatial:listOfCoordinateReferences>
+            <spatial:diffusionCoefficient spatial:variable="s1_EC" spatial:type="isotropic" spatial:coordinateReference1="cartesianX" spatial:coordinateReference2="cartesianY"/>
         </parameter>
         <parameter id="s1_EC_BC_Xm" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_EC" spatial:coordinateBoundary="Xmin" spatial:type="Dirichlet" spatial:boundaryDomainType="Extracellular"/>
+            <spatial:boundaryCondition spatial:variable="s1_EC" spatial:coordinateBoundary="Xmin" spatial:type="dirichlet" spatial:boundaryDomainType="Extracellular"/>
         </parameter>
         <parameter id="s1_EC_BC_Xp" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_EC" spatial:coordinateBoundary="Xmax" spatial:type="Dirichlet" spatial:boundaryDomainType="Extracellular"/>
+            <spatial:boundaryCondition spatial:variable="s1_EC" spatial:coordinateBoundary="Xmax" spatial:type="dirichlet" spatial:boundaryDomainType="Extracellular"/>
         </parameter>
         <parameter id="s1_EC_BC_Ym" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_EC" spatial:coordinateBoundary="Ymin" spatial:type="Dirichlet" spatial:boundaryDomainType="Extracellular"/>
+            <spatial:boundaryCondition spatial:variable="s1_EC" spatial:coordinateBoundary="Ymin" spatial:type="dirichlet" spatial:boundaryDomainType="Extracellular"/>
         </parameter>
         <parameter id="s1_EC_BC_Yp" value="0" constant="true">
-            <spatial:boundaryCondition spatial:variable="s1_EC" spatial:coordinateBoundary="Ymax" spatial:type="Dirichlet" spatial:boundaryDomainType="Extracellular"/>
+            <spatial:boundaryCondition spatial:variable="s1_EC" spatial:coordinateBoundary="Ymax" spatial:type="dirichlet" spatial:boundaryDomainType="Extracellular"/>
         </parameter>
         <parameter id="KMOLE" value="0.00166112956810631" units="uM_um3_molecules_1" constant="true"/>
     </listOfParameters>
@@ -292,7 +276,7 @@
         </spatial:sampledFieldGeometry>
       </spatial:listOfGeometryDefinitions>
       <spatial:listOfSampledFields>
- <spatial:sampledField spatial:id="imgtest" spatial:dataType="uint8" spatial:numSamples1="800" spatial:numSamples2="950" spatial:numSamples3="1" spatial:interpolationType="linear" spatial:compression="deflated" spatial:samplesLength="3440">120 218 237 221 193 142 27 57 12 64 193 124 122 255 185 22 216 195 30 54 240 216 238 97 83 20 89 239 154 75 183 168 2 237 96 146 249 243 71 146 36 73 146 36 73 146 36 73 26 217 117 57 3 233 181 15 64 164 215 60 248 144 248 144 238 240 224 67 226 67 226 67 138 229 193 135 196 135 196 135 196 135 148 197 131 15 137 15 137 15 137 15 41 139 7 31 18 31 18 31 82 44 15 62 36 62 36 62 164 88 30 124 72 124 72 124 72 177 60 248 144 248 144 248 144 98 121 240 33 241 33 241 33 197 242 224 67 226 67 226 67 226 67 202 226 193 135 196 135 196 135 20 203 3 16 137 15 137 15 137 15 137 15 169 0 15 62 36 62 36 31 175 36 62 36 62 164 237 62 28 136 100 125 72 124 72 124 72 124 72 124 72 133 121 240 33 241 33 241 33 241 33 101 241 224 67 226 67 186 229 3 16 137 
+ <spatial:sampledField spatial:id="imgtest" spatial:dataType="uint8" spatial:numSamples1="800" spatial:numSamples2="950" spatial:numSamples3="1" spatial:interpolation="linear" spatial:compression="deflated" spatial:samplesLength="3440">120 218 237 221 193 142 27 57 12 64 193 124 122 255 185 22 216 195 30 54 240 216 238 97 83 20 89 239 154 75 183 168 2 237 96 146 249 243 71 146 36 73 146 36 73 146 36 73 26 217 117 57 3 233 181 15 64 164 215 60 248 144 248 144 238 240 224 67 226 67 226 67 138 229 193 135 196 135 196 135 196 135 148 197 131 15 137 15 137 15 137 15 41 139 7 31 18 31 18 31 82 44 15 62 36 62 36 62 164 88 30 124 72 124 72 124 72 177 60 248 144 248 144 248 144 98 121 240 33 241 33 241 33 197 242 224 67 226 67 226 67 226 67 202 226 193 135 196 135 196 135 20 203 3 16 137 15 137 15 137 15 137 15 169 0 15 62 36 62 36 31 175 36 62 36 62 164 237 62 28 136 100 125 72 124 72 124 72 124 72 124 72 133 121 240 33 241 33 241 33 241 33 101 241 224 67 226 67 186 229 3 16 137 
  15 233 14 15 62 36 62 36 62 36 62 164 52 31 128 72 175 121 240 33 241 33 241 33 241 33 101 241 224 67 250 193 7 32 18 31 18 31 82 176 15 64 164 215 60 248 144 248 144 248 144 248 144 248 144 246 243 224 67 226 67 186 229 3 16 241 193 135 196 135 20 203 131 15 241 193 135 196 135 20 236 3 16 241 193 135 116 135 7 31 226 131 15 137 15 137 15 137 15 137 15 137 15 137 15 169 27 15 62 196 7 32 18 31 18 31 82 26 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 32 18 31 82 48 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 64 196 7 31 18 31 18 31 82 26 15 62 196 7 31 210 45 31 128 8 15 62 36 62 36 62 36 62 164 253 60 248 16 31 128 72 124 72 193 60 248 16 31 124 72 124 72 177 60 248 16 31 124 72 124 72 124 72 89 60 0 17 31 124 136 15 62 164 96 30 124 136 15 62 196 7 31 18 31 82 22 15 62 196 7 31 226 131 15 41 150 7 31 226 13
  1 15 241 193 135 20 203 131 15 241 193 135 248 224 67 138 229 193 135 248 224 67 124 240 33 197 242 224 67 124 240 33 62 248 144 98 121 240 33 62 248 16 31 124 72 124 72 89 60 248 16 31 124 136 15 62 164 88 30 124 136 15 62 196 7 30 146 245 33 241 33 241 33 241 33 29 201 131 15 241 193 135 248 224 67 138 229 193 135 248 224 67 124 240 33 197 242 224 67 124 240 33 62 248 144 240 144 248 144 248 144 10 243 224 67 124 240 33 62 240 144 172 15 137 15 137 15 169 48 15 62 196 7 31 226 3 15 201 250 144 248 144 248 144 10 243 224 67 124 240 33 60 240 144 248 144 146 120 240 33 62 248 16 31 124 72 177 60 248 16 31 124 8 15 62 36 62 36 62 164 253 60 248 16 31 124 8 15 62 36 62 36 60 36 62 164 194 60 248 16 31 124 136 15 62 164 88 30 124 136 15 62 132 7 31 18 31 18 31 210 126 30 124 136 15 64 132 7 31 226 131 15 41 141 7 31 226 3 16 241 193 135 240 224 67 226 67 42 192 3 16 241 193 135 248 224 67 120 0 34 37 250 0 68 120 0 34 62 0 17 30 128 72 153 62 0 17 31 128 8 15 62 196 7 31 82 26 
  15 62 196 7 30 194 131 15 241 129 135 132 135 196 135 84 214 135 19 22 30 120 136 15 62 132 7 30 18 31 210 102 30 124 136 15 60 132 7 31 226 131 15 9 15 137 15 169 46 15 62 196 7 31 226 131 15 225 193 135 196 135 180 159 7 31 226 131 15 225 193 135 248 224 67 202 226 193 135 248 224 67 120 240 33 62 248 144 178 120 240 33 60 248 16 31 124 8 15 62 196 7 31 210 126 30 124 136 15 62 132 7 31 226 3 16 225 193 135 196 135 84 154 7 31 226 131 15 225 193 135 248 224 67 120 240 33 241 33 85 230 193 135 248 224 67 120 240 33 62 248 16 30 124 72 124 72 149 121 240 33 60 248 16 31 124 8 15 62 196 7 31 210 126 30 124 136 15 62 132 7 31 226 131 15 225 193 135 196 135 84 153 7 31 226 131 15 225 193 135 240 0 68 124 240 33 21 224 193 135 248 224 67 120 240 33 60 248 16 31 124 72 251 121 0 34 60 248 16 31 124 8 15 62 196 7 32 194 131 15 169 54 15 62 196 7 31 194 131 15 241 193 135 240 224 67 120 240 33 241 33 157 201 131 15 225 1 136 248 224 67 120 240 33 60 248 16 31 124 72 165 121 240 33 
