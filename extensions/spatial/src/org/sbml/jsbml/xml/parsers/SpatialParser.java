@@ -101,11 +101,15 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
   @Override
   public void processCharactersOf(String elementName, String characters,
     Object contextObject) {
-    if (contextObject instanceof SpatialPoints) {
+    if (contextObject instanceof SampledField) {
+      SampledField sampledField = (SampledField) contextObject;
+      sampledField.append(characters);
+    }
+    else if (contextObject instanceof SpatialPoints) {
       SpatialPoints spatialPoints = (SpatialPoints) contextObject;
       spatialPoints.append(characters);
     }
-    if (contextObject instanceof ParametricObject) {
+    else if (contextObject instanceof ParametricObject) {
       ParametricObject parametricObject = (ParametricObject) contextObject;
       parametricObject.append(characters);
     }
@@ -114,8 +118,24 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
   @Override
   public void writeCharacters(SBMLObjectForXML xmlObject,
     Object sbmlElementToWrite) {
-    // TODO Auto-generated method stub
-    super.writeCharacters(xmlObject, sbmlElementToWrite);
+    if(sbmlElementToWrite instanceof SampledField) {
+      SampledField sampledField = (SampledField) sbmlElementToWrite;
+      if(sampledField.isSetSamples()) {
+        xmlObject.setCharacters(sampledField.getSamples()); 
+      }
+    }
+    else if(sbmlElementToWrite instanceof SpatialPoints) {
+      SpatialPoints spatialPoints = (SpatialPoints) sbmlElementToWrite;
+      if(spatialPoints.isSetArrayData()) {
+        xmlObject.setCharacters(spatialPoints.getArrayData()); 
+      }
+    }
+    else if(sbmlElementToWrite instanceof ParametricObject) {
+      ParametricObject parametricObject = (ParametricObject) sbmlElementToWrite;
+      if(parametricObject.isSetPointIndex()) {
+        xmlObject.setCharacters(parametricObject.getPointIndex()); 
+      }
+    }    
   }
   
   /* (non-Javadoc)
