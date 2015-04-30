@@ -1,6 +1,6 @@
 /*
- * $Id: DisablePackageTests.java 2171 2015-04-01 14:01:42Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/test/org/sbml/jsbml/test/DisablePackageTests.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -49,7 +49,7 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 
 /**
  * @author Nicolas Rodriguez
- * @version $Rev: 2171 $
+ * @version $Rev$
  * @since 1.0
  * @date 2014-06-17
  */

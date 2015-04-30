@@ -2,8 +2,8 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
   <comment>
-    $Id: UserMessages.xml 2109 2015-01-05 04:50:45Z andreas-draeger $
-    $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/examples/resources/org/sbml/jsbml/gui/UserMessages.xml $
+    $Id$
+    $URL$
     ----------------------------------------------------------------------------
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
@@ -26,7 +26,7 @@
     A collection of text messages to be presented to uses upon certain events.
 
     Author:  Ibrahim Vazirabad
-    Version: $Rev: 2109 $
+    Version: $Rev$
     Since:   1.0
   </comment>
   

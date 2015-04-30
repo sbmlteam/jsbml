@@ -1,6 +1,6 @@
 /*
- * $Id: PossibleSpeciesFeatureValue.java 2174 2015-04-02 15:57:29Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/multi/src/org/sbml/jsbml/ext/multi/PossibleSpeciesFeatureValue.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,7 +36,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * optional name.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2174 $
+ * @version $Rev$
  * @since 1.0
  */
 public class PossibleSpeciesFeatureValue extends AbstractNamedSBase  implements UniqueNamedSBase {

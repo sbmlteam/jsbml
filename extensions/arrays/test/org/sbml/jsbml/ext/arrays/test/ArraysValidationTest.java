@@ -1,6 +1,6 @@
 /*
- * $Id: ArraysValidationTest.java 2115 2015-01-21 17:41:11Z leandrohw $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/arrays/test/org/sbml/jsbml/ext/arrays/test/ArraysValidationTest.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -54,7 +54,7 @@ import org.sbml.jsbml.text.parser.ParseException;
  * Test cases for validation.
  * 
  * @author Leandro Watanabe
- * @version $Rev: 2115 $
+ * @version $Rev$
  * @since 1.0
  * @date Jun 16, 2014
  */

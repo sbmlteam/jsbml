@@ -1,6 +1,6 @@
 /*
- * $Id: ASTConstantNumber.java 2037 2014-10-19 03:26:24Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/ASTConstantNumber.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -37,7 +37,7 @@ import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
  * in a mathematical expression.
  * 
  * @author Victor Kofia
- * @version $Rev: 2037 $
+ * @version $Rev$
  * @since 1.0
  * @date May 30, 2014
  */

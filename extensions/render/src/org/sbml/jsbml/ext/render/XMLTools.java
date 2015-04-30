@@ -1,6 +1,6 @@
 /*
- * $Id: XMLTools.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/src/org/sbml/jsbml/ext/render/XMLTools.java $
+ * $Id$
+ * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -32,7 +32,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev: 2109 $
+ * @version $Rev$
  * @since 1.0
  * @date 03.06.2012
  */

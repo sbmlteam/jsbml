@@ -1,6 +1,6 @@
 /*
- * $Id: FormulaCompilerLibSBML.java 2158 2015-03-25 14:35:26Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/util/compilers/FormulaCompilerLibSBML.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,7 +36,7 @@ import org.sbml.jsbml.SBMLException;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 2158 $
+ * @version $Rev$
  * 
  */
 

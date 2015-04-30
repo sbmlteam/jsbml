@@ -1,6 +1,6 @@
 /*
- * $Id: LayoutPluginChangeListener.java 2132 2015-03-13 04:51:23Z yvazirabad $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/celldesigner/src/org/sbml/jsbml/celldesigner/LayoutPluginChangeListener.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -41,7 +41,7 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev: 2132 $
+ * @version $Rev$
  * @since 1.0
  * @date Sep 10, 2014
  */

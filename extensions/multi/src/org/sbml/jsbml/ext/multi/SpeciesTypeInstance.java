@@ -1,6 +1,6 @@
 /*
- * $Id: SpeciesTypeInstance.java 2177 2015-04-03 08:52:13Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/multi/src/org/sbml/jsbml/ext/multi/SpeciesTypeInstance.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -32,7 +32,7 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2177 $
+ * @version $Rev$
  * @since 1.0
  * @date 16.10.2013
  */

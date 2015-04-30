@@ -10,8 +10,8 @@
       Author : D. Lucio, J. Schaff, A. Finney, M. Hucka, H. Sauro
       Description : XML Schema for the Systems Biology Markup Language Level 1
       Version : 1
-      Modified : $Date: 2011-01-20 17:08:06 -0500 (Thu, 20 Jan 2011) $
-      Revision: $Id: sbml-l1v1.xsd 540 2011-01-20 22:08:06Z mhucka $
+      Modified : $Date$
+      Revision: $Id$
 
       Copyright 2002-2003 California Institute of Technology and Japan Science
       and Technology Corporation.

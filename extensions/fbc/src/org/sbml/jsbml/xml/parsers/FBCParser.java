@@ -1,6 +1,6 @@
 /*
- * $Id: FBCParser.java 2151 2015-03-19 22:19:11Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/src/org/sbml/jsbml/xml/parsers/FBCParser.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -67,7 +67,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 2151 $
+ * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class FBCParser extends AbstractReaderWriter implements PackageParser {

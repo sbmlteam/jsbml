@@ -1,6 +1,6 @@
 /*
- * $Id: ImageTest.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/test/org/sbml/jsbml/ext/render/test/ImageTest.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,7 +31,7 @@ import org.sbml.jsbml.ext.render.Image;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev: 2109 $
+ * @version $Rev$
  * @since 1.0
  * @date Jun 15, 2014
  */

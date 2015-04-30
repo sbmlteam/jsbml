@@ -1,6 +1,6 @@
 /*
- * $Id: ASTFunctionTest.java 2085 2014-11-12 23:17:46Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/math/test/ASTFunctionTest.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -53,7 +53,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * Test cases for {@link ASTFunction}
  * 
  * @author Victor Kofia
- * @version $Rev: 2085 $
+ * @version $Rev$
  * @since 1.0
  * @date Jul 27, 2014
  */

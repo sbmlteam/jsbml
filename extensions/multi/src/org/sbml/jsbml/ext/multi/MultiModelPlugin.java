@@ -1,6 +1,6 @@
 /*
- * $Id: MultiModelPlugin.java 2172 2015-04-01 16:09:36Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/multi/src/org/sbml/jsbml/ext/multi/MultiModelPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,7 +36,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * complexes, the element model is extended to be linked to a list of {@link SpeciesType}s.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2172 $
+ * @version $Rev$
  * @since 1.0
  */
 public class MultiModelPlugin extends AbstractSBasePlugin {

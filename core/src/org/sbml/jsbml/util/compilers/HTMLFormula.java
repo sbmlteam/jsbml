@@ -1,6 +1,6 @@
 /*
- * $Id: HTMLFormula.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/util/compilers/HTMLFormula.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -37,7 +37,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @date 2010-04-08
  * @since 0.8
- * @version $Rev: 2109 $
+ * @version $Rev$
  */
 @SuppressWarnings("deprecation")
 public class HTMLFormula extends MathMLCompiler {

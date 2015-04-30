@@ -1,6 +1,6 @@
 /*
- * $Id: ASTNode.java 2157 2015-03-25 14:00:27Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/ASTNode.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -90,7 +90,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * @author Nicolas Rodriguez
  * @author Alexander D&ouml;rr
  * @since 0.8
- * @version $Rev: 2157 $
+ * @version $Rev$
  */
 public class ASTNode extends AbstractTreeNode {
 
@@ -3782,6 +3782,19 @@ public class ASTNode extends AbstractTreeNode {
     } else if (astnode2 instanceof ASTCiNumberNode) {
       ((ASTCiNumberNode) astnode2).setRefId(name);
     }
+  }
+
+  /**
+   * Sets the Parent of the node to the given value
+   * 
+   * @param node the orphan node
+   * @param parent the parent
+   */
+  public void setParentSBMLObject(MathContainer parent) {
+    if (astnode2 != null) {
+      astnode2.setParentSBMLObject(parent);
+    } 
+    // TODO - else we could create a new ASTUnknown (so no singleton) and store the value there until the type is defined properly?
   }
 
   /**

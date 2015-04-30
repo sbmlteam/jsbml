@@ -1,6 +1,6 @@
 /*
- * $Id: XMLNodeReader.java 1559 2013-11-28 13:27:11Z niko-rodrigue $
- * $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-new-annotation-rw/src/org/sbml/jsbml/xml/parsers/XMLNodeReader.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -46,7 +46,7 @@ import org.sbml.jsbml.xml.XMLTriple;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 1559 $
+ * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class XMLNodeReader implements ReadingParser {

@@ -1,6 +1,6 @@
 /*
- * $Id: SBaseRef.java 2161 2015-03-26 16:53:02Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/comp/src/org/sbml/jsbml/ext/comp/SBaseRef.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +38,7 @@ import org.sbml.jsbml.UnitDefinition;
  * a value in a given SBaseRef object instance.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2161 $
+ * @version $Rev$
  * @since 1.0
  */
 public class SBaseRef extends AbstractSBase {

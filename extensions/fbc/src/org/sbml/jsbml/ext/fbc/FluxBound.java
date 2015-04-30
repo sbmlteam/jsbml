@@ -1,6 +1,6 @@
 /*
- * $Id: FluxBound.java 2161 2015-03-26 16:53:02Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/src/org/sbml/jsbml/ext/fbc/FluxBound.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -37,7 +37,7 @@ import org.sbml.jsbml.util.StringTools;
  * the maximum or minimum value that a reaction flux can obtain at steady state.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2161 $
+ * @version $Rev$
  * @since 1.0
  * @date 27.10.2011
  * @deprecated Only defined in FBC Version 1.
@@ -50,7 +50,7 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @author Andreas Dr&auml;ger
    * @since 1.0
-   * @version $Rev: 2161 $
+   * @version $Rev$
    * @deprecated Only defined in FBC version 1.
    */
   @Deprecated

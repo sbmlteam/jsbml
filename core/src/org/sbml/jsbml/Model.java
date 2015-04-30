@@ -1,5 +1,5 @@
 /*
- * $Id: Model.java 2151 2015-03-19 22:19:11Z andreas-draeger $ $URL:
+ * $Id$ $URL:
  * https://jsbml
  * .svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/Model.java $
  * ----------------------------------------------------------------------------
@@ -56,7 +56,7 @@ import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev: 2151 $
+ * @version $Rev$
  */
 public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdManager {
 

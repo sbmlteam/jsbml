@@ -6,8 +6,8 @@
  * @author  Akiya Jouraku (Java conversion)
  * @author  Ben Bornstein
  *
- * $Id: TestASTNode.java 2102 2014-12-11 17:37:15Z andreas-draeger $
- * $HeadURL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/test/sbml/TestASTNode.java $
+ * $Id$
+ * $HeadURL$
  *
  * This test file was converted from src/sbml/test/TestASTNode.c
  * with the help of conversion sciprt (ctest_converter.pl).
@@ -39,7 +39,7 @@ import org.sbml.jsbml.ASTNode.Type;
 
 /**
  * 
- * @version $Rev: 2102 $
+ * @version $Rev$
  */
 public class TestASTNode {
 

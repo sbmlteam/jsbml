@@ -1,6 +1,6 @@
 /*
- * $Id: TidySBMLWriter.java 2163 2015-03-26 17:14:31Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/tidy/src/org/sbml/jsbml/TidySBMLWriter.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -47,7 +47,7 @@ import org.w3c.tidy.Tidy;
  * 
  * @author Nicolas Rodriguez
  * @since 1.1
- * @version $Rev: 2163 $
+ * @version $Rev$
  */
 public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneable, Serializable {
 

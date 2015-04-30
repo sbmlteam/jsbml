@@ -1,6 +1,6 @@
 /*
- * $Id: ArraysSBasePlugin.java 2165 2015-03-30 16:11:24Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/arrays/src/org/sbml/jsbml/ext/arrays/ArraysSBasePlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -51,7 +51,7 @@ import org.sbml.jsbml.util.IdManager;
  * {@link SBase} that has one or more array dimensions.
  * 
  * @author Leandro Watanabe
- * @version $Rev: 2165 $
+ * @version $Rev$
  * @since 1.0
  * @date May 9, 2014
  * @see Dimension

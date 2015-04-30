@@ -1,6 +1,6 @@
 /*
- * $Id: Dimensions.java 2171 2015-04-01 14:01:42Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/src/org/sbml/jsbml/ext/layout/Dimensions.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -48,7 +48,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev: 2171 $
+ * @version $Rev$
  */
 public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
 

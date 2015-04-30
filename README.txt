@@ -35,7 +35,7 @@
   | 8. Acknowledgments                                              |
    `---------------------------------------------------------------'
                   Date of last update to this file:
-        $Date: 2015-03-19 11:15:08 -0400 (Thu, 19 Mar 2015) $
+        $Date$
 
 
 0. FOREWORD
@@ -195,9 +195,9 @@ following agencies who helped make JSBML possible:
 
 -----------------------------------------------
 File author: M. Hucka, A. Draeger, N. Rodriguez
-Last Modified: $Date: 2015-03-19 11:15:08 -0400 (Thu, 19 Mar 2015) $
-Last Modified By: $Author: niko-rodrigue $
-$HeadURL: svn://svn.code.sf.net/p/jsbml/code/trunk/README.txt $
+Last Modified: $Date$
+Last Modified By: $Author$
+$HeadURL$
 -----------------------------------------------
 
 # The following is for [X]Emacs users.  Please leave in place.

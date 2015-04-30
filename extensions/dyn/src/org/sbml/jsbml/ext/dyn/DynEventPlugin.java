@@ -1,6 +1,6 @@
 /*
- * $Id: DynEventPlugin.java 2180 2015-04-08 15:48:28Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/dyn/src/org/sbml/jsbml/ext/dyn/DynEventPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,7 +36,7 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * @author Harold G&oacute;mez
  * @since 1.0
- * @version $Rev: 2180 $
+ * @version $Rev$
  */
 public class DynEventPlugin extends DynSBasePlugin {
 

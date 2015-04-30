@@ -1,6 +1,6 @@
 /*
- * $Id: ASTCSymbolBaseNode.java 1905 2014-07-30 00:46:09Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/ASTCSymbolBaseNode.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -27,7 +27,7 @@ package org.sbml.jsbml.math;
  * that contains a definitionURL and name attribute.
  * 
  * @author Victor Kofia
- * @version $Rev: 1905 $
+ * @version $Rev$
  * @since 1.0
  * @date Jun 18, 2014
  */

@@ -1,6 +1,6 @@
 /*
- * $Id: LibSBMLFormulaCompiler.java 2143 2015-03-18 15:39:02Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/util/compilers/LibSBMLFormulaCompiler.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -34,7 +34,7 @@ import org.sbml.jsbml.SBMLException;
  * <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)">formulaToString</a>
  * method.
  * 
- * @version $Rev: 2143 $
+ * @version $Rev$
  * @since 1.0
  */
 public class LibSBMLFormulaCompiler extends FormulaCompiler {

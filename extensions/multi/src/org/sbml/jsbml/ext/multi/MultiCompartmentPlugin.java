@@ -1,6 +1,6 @@
 /*
- * $Id: MultiCompartmentPlugin.java 2186 2015-04-20 11:37:47Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/multi/src/org/sbml/jsbml/ext/multi/MultiCompartmentPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,7 +35,7 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2186 $
+ * @version $Rev$
  * @since 1.0
  */
 public class MultiCompartmentPlugin extends AbstractSBasePlugin  {

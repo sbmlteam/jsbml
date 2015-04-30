@@ -1,6 +1,6 @@
 /*
- * $Id: ASTNode2Value.java 2002 2014-09-29 13:18:46Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/compiler/ASTNode2Value.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -47,7 +47,7 @@ import org.w3c.dom.Node;
  * 
  * @author Victor Kofia
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2002 $
+ * @version $Rev$
  * @since 1.0
  * @date Aug 2, 2014
  */

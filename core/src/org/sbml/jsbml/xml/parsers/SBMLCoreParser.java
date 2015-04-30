@@ -1,6 +1,6 @@
 /*
- * $Id: SBMLCoreParser.java 2165 2015-03-30 16:11:24Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/xml/parsers/SBMLCoreParser.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -81,7 +81,7 @@ import org.sbml.jsbml.xml.stax.XMLLogger;
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev: 2165 $
+ * @version $Rev$
  */
 // It might be better to have one parser per level and version
 // rather than one SBMLCoreParser which parses everything.

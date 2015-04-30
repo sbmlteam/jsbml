@@ -1,6 +1,6 @@
 /*
- * $Id: UnregisterTests.java 2172 2015-04-01 16:09:36Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/xml/test/UnregisterTests.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -43,7 +43,7 @@ import org.sbml.jsbml.SpeciesReference;
 
 /**
  * 
- * @version $Rev: 2172 $
+ * @version $Rev$
  * @since 1.0
  */
 public class UnregisterTests {

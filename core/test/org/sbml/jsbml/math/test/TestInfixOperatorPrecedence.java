@@ -1,6 +1,6 @@
 /*
- * $Id: TestInfixOperatorPrecedence.java 2158 2015-03-25 14:35:26Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/math/test/TestInfixOperatorPrecedence.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -40,7 +40,7 @@ import org.sbml.jsbml.util.compilers.FormulaCompiler;
  * @see FormulaCompiler
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 2158 $
+ * @version $Rev$
  */
 public class TestInfixOperatorPrecedence {
 
@@ -107,7 +107,8 @@ public class TestInfixOperatorPrecedence {
     // TODO: Test by comparing nodes in the tree
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
-    assertTrue(n.toFormula().equals("5+(2*4)+(4*8)"));
+    // we are doing two tests, to be able to pass the test if we use the new ASTNode class or the old one.
+    assertTrue(n.toFormula().equals("5+(2*4)+(4*8)") || n.toFormula().equals("5+2*4+4*8"));
   }
 
   /**

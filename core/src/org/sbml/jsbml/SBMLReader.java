@@ -1,6 +1,6 @@
 /*
- * $Id: SBMLReader.java 2153 2015-03-20 14:04:55Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/SBMLReader.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -58,7 +58,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev: 2153 $
+ * @version $Rev$
  */
 public class SBMLReader implements Cloneable, Serializable {
 

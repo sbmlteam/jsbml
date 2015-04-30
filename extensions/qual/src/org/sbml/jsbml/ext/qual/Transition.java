@@ -1,6 +1,6 @@
 /*
- * $Id: Transition.java 2180 2015-04-08 15:48:28Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/qual/src/org/sbml/jsbml/ext/qual/Transition.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -50,9 +50,9 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Florian Mittag
- * @version $Rev: 2180 $
+ * @version $Rev$
  * @since 1.0
- * @date $Date: 2015-04-08 11:48:28 -0400 (Wed, 08 Apr 2015) $
+ * @date $Date$
  */
 public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
 

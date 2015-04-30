@@ -1,6 +1,6 @@
 /*
- * $Id: ASTCiNumberNodeTest.java 1984 2014-09-15 00:23:38Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/math/test/ASTCiNumberNodeTest.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -42,7 +42,7 @@ import org.sbml.jsbml.math.ASTCiNumberNode;
  * Test cases for {@link ASTCiNumberNode}
  * 
  * @author Victor Kofia
- * @version $Rev: 1984 $
+ * @version $Rev$
  * @since 1.0
  * @date Jul 30, 2014
  */

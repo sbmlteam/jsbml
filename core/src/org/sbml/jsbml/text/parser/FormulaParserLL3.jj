@@ -10,8 +10,8 @@ options
 
 PARSER_BEGIN(FormulaParserLL3)
 /*
- * $Id: FormulaParserLL3.jj 1663 2014-03-12 13:47:27Z niko-rodrigue $
- * $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/trunk/core/files/FormulaParserLL3.jj $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -444,7 +444,7 @@ in the text-string formula syntax.</caption>
  * @author Alexander D&ouml;rr
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 1663 $
+ * @version $Rev$
  */
 public class FormulaParserLL3 implements IFormulaParser
 {

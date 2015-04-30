@@ -1,6 +1,6 @@
 /*
- * $Id: RecursionTest.java 2088 2014-11-16 06:56:46Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/math/test/RecursionTest.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +38,7 @@ import org.sbml.jsbml.text.parser.ParseException;
 /**
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2088 $
+ * @version $Rev$
  * @since 1.0
  * @date 16.10.2014
  */

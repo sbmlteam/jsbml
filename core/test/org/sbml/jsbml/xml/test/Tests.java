@@ -1,6 +1,6 @@
 /*
- * $Id: Tests.java 2150 2015-03-19 16:58:56Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/xml/test/Tests.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,7 +35,7 @@ import org.sbml.jsbml.test.RemoveFromParentTest;
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev: 2150 $
+ * @version $Rev$
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={SBML_L1VxTests.class, SBML_L2V1Test.class, CheckConsistencyTests.class, GetNotesStringTests.class,

@@ -4,7 +4,7 @@
 # dot -Tpng type_hierarchy.dot -otype_hierarchy.png
 #
 # $Id: type_hierarchy.dot 
-# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/dyn/doc/img/type_hierarchy.dot $
+# $URL$
 
 /*
  * Overview of the dynamic structures extension type hierarchy

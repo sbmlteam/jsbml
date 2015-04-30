@@ -1,6 +1,6 @@
 /*
- * $Id: DimensionSizeCheck.java 2187 2015-04-20 12:48:23Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/arrays/src/org/sbml/jsbml/ext/arrays/validator/constraints/DimensionSizeCheck.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -37,7 +37,7 @@ import org.sbml.jsbml.util.ResourceManager;
  * scalar and constant. Also, the size should be a non-negative integer.
  * 
  * @author Leandro Watanabe
- * @version $Rev: 2187 $
+ * @version $Rev$
  * @since 1.0
  * @date Jun 10, 2014
  */

@@ -1,6 +1,6 @@
 /*
- * $Id: SimpleCellDesignerPlugin.java 2124 2015-03-10 10:58:26Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/celldesigner/test/org/sbml/jsbml/celldesigner/SimpleCellDesignerPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -39,7 +39,7 @@ import org.sbml.jsbml.gui.JSBMLvisualizer;
  * the tree will refresh itself and all nodes will become unexpanded.
  *
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2124 $
+ * @version $Rev$
  * @since 1.0
  * @date 16.04.2014
  */

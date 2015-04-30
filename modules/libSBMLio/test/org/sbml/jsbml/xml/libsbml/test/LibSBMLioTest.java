@@ -1,6 +1,6 @@
 /*
- * $Id: LibSBMLioTest.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/libSBMLio/test/org/sbml/jsbml/xml/libsbml/test/LibSBMLioTest.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,7 +35,7 @@ import org.sbml.jsbml.xml.libsbml.LibSBMLReader;
 /**
  * @author Andreas Dr&auml;ger
  * @date 2010-12-01
- * @version $Rev: 2109 $
+ * @version $Rev$
  */
 public class LibSBMLioTest {
 

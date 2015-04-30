@@ -1,6 +1,6 @@
 /*
- * $Id: DistribConstants.java 2162 2015-03-26 16:59:42Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/distrib/src/org/sbml/jsbml/ext/distrib/DistribConstants.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * @author Nicolas Rodriguez
- * @version $Rev: 2162 $
+ * @version $Rev$
  * @since 1.1
  * @date 26.03.2015
  */

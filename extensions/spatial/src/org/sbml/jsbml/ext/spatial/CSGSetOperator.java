@@ -1,6 +1,6 @@
 /*
- * $Id: CSGSetOperator.java 2181 2015-04-09 13:44:21Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/spatial/src/org/sbml/jsbml/ext/spatial/CSGSetOperator.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,7 +36,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * @author Alex Thomas
- * @version $Rev: 2181 $
+ * @version $Rev$
  * @since 1.0
  * @date Jan 20, 2014
  */
@@ -44,7 +44,7 @@ public class CSGSetOperator extends CSGNode {
 
   /**
    * @author Alex Thomas
-   * @version $Rev: 2181 $
+   * @version $Rev$
    * @since 1.0
    * @date 10.12.2014
    */

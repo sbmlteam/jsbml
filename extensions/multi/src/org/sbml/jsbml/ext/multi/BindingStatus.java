@@ -1,6 +1,6 @@
 /*
- * $Id: BindingStatus.java 2184 2015-04-14 06:45:39Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/multi/src/org/sbml/jsbml/ext/multi/BindingStatus.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,7 +30,7 @@ package org.sbml.jsbml.ext.multi;
  *
  *
  * @author Nicolas Rodriguez
- * @version $Rev: 2184 $
+ * @version $Rev$
  * @since 1.1
  */
 public enum BindingStatus {

@@ -1,6 +1,6 @@
 /*
- * $Id: L3LayoutParser.java 2121 2015-03-07 06:53:57Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/src/org/sbml/jsbml/xml/parsers/L3LayoutParser.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -91,7 +91,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 2121 $
+ * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class L3LayoutParser extends AbstractReaderWriter implements PackageParser {

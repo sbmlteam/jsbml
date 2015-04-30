@@ -1,6 +1,6 @@
 /*
- * $Id:  ASTNode2Tests.java 10:30:56 PM SloGGy $
- * $URL: ASTNode2Tests.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 

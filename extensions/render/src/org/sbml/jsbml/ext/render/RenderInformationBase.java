@@ -1,6 +1,6 @@
 /*
- * $Id: RenderInformationBase.java 2186 2015-04-20 11:37:47Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/src/org/sbml/jsbml/ext/render/RenderInformationBase.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +38,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev: 2186 $
+ * @version $Rev$
  * @since 1.0
  * @date 04.05.2012
  */

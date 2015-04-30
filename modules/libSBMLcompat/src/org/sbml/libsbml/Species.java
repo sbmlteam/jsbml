@@ -1,6 +1,6 @@
 /*
- * $Id: Species.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/libSBMLcompat/src/org/sbml/libsbml/Species.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.

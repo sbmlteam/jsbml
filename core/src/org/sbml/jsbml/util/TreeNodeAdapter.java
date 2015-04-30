@@ -1,6 +1,6 @@
 /*
- * $Id: TreeNodeAdapter.java 2127 2015-03-10 17:44:19Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/util/TreeNodeAdapter.java $
+ * $Id$
+ * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -55,7 +55,7 @@ import org.sbml.jsbml.ListOf;
  * </ul>
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2127 $
+ * @version $Rev$
  * @since 0.8
  * @date 19.07.2011
  */

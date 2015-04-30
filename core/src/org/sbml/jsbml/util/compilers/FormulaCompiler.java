@@ -1,6 +1,6 @@
 /*
- * $Id: FormulaCompiler.java 2142 2015-03-16 15:34:34Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/util/compilers/FormulaCompiler.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -46,7 +46,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Alexander D&ouml;rr
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev: 2142 $
+ * @version $Rev$
  */
 
 /*

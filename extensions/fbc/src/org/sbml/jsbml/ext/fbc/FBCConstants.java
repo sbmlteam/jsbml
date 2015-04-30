@@ -1,6 +1,6 @@
 /*
- * $Id: FBCConstants.java 2151 2015-03-19 22:19:11Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/src/org/sbml/jsbml/ext/fbc/FBCConstants.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,7 +29,7 @@ import java.util.List;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 2151 $
+ * @version $Rev$
  */
 public class FBCConstants {
 

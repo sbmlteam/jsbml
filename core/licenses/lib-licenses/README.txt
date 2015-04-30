@@ -17,6 +17,6 @@ The JSBML Project
 
 -------------------------------------------------------------------------------
 Date of last update to this file:
-$Date: 2010-12-14 17:37:30 -0500 (Tue, 14 Dec 2010) $
-$URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/licenses/lib-licenses/README.txt $
+$Date$
+$URL$
 -------------------------------------------------------------------------------

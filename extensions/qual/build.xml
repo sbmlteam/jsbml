@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: build.xml 2109 2015-01-05 04:50:45Z andreas-draeger $ 
-    $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/qual/build.xml $
+    $Id$ 
+    $URL$
 
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
@@ -19,7 +19,7 @@
     in the file named "LICENSE.txt" included with this software distribution
     and also available online as http://sbml.org/Software/JSBML/License.
 
-    Version: $Rev: 2109 $
+    Version: $Rev$
 -->
 <project default ="usage" basedir=".">
 	<!-- =================================================================== -->

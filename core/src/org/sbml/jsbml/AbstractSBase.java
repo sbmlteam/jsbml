@@ -1,6 +1,6 @@
 /*
- * $Id: AbstractSBase.java 2168 2015-03-31 12:59:32Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/AbstractSBase.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -56,7 +56,7 @@ import org.sbml.jsbml.xml.parsers.ParserManager;
  * @author Nicolas Rodriguez
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev: 2168 $
+ * @version $Rev$
  */
 public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 

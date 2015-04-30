@@ -1,6 +1,6 @@
 /*
- * $Id: CompModelPlugin.java 2165 2015-03-30 16:11:24Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/comp/src/org/sbml/jsbml/ext/comp/CompModelPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -41,7 +41,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * {@link Submodel}s and the other for holding {@link Port}s.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2165 $
+ * @version $Rev$
  * @since 1.0
  */
 public class CompModelPlugin extends CompSBasePlugin implements IdManager {

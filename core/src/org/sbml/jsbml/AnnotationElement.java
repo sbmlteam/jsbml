@@ -1,6 +1,6 @@
 /*
- * $Id: AnnotationElement.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/AnnotationElement.java $
+ * $Id$
+ * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -28,7 +28,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * A common super class for all those elements that can be part of an {@link Annotation}.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2109 $
+ * @version $Rev$
  * @since 0.8
  * @date 08.07.2011
  */

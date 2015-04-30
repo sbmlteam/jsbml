@@ -1,6 +1,6 @@
 /*
- * $Id: ASTFactoryTest.java 2088 2014-11-16 06:56:46Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/math/test/ASTFactoryTest.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -57,7 +57,7 @@ import org.sbml.jsbml.math.parser.ParseException;
  * Test cases for {@link ASTFactory}
  *
  * @author Victor Kofia
- * @version $Rev: 2088 $
+ * @version $Rev$
  * @since 1.0
  * @date Jul 25, 2014
  */

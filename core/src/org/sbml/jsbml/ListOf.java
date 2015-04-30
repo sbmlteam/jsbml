@@ -1,6 +1,6 @@
 /*
- * $Id: ListOf.java 2170 2015-04-01 10:04:01Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/ListOf.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -45,7 +45,7 @@ import org.sbml.jsbml.util.filters.Filter;
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev: 2170 $
+ * @version $Rev$
  * @param <T>
  */
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {

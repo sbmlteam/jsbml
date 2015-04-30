@@ -1,6 +1,6 @@
 /*
- * $Id: ASTNode2.java 1924 2014-08-07 20:39:14Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/ASTNode2.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -37,7 +37,7 @@ import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
  * expression.
  * 
  * @author Victor Kofia
- * @version $Rev: 1924 $
+ * @version $Rev$
  * @since 1.0
  * @date May 30, 2014
  */

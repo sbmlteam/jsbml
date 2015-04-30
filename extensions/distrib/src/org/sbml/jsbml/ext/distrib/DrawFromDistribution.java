@@ -1,6 +1,6 @@
 /*
- * $Id: DrawFromDistribution.java 2165 2015-03-30 16:11:24Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/distrib/src/org/sbml/jsbml/ext/distrib/DrawFromDistribution.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +38,7 @@ import org.sbml.jsbml.xml.XMLNode;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2165 $
+ * @version $Rev$
  * @since 1.1
  * @date 26.03.2015
  */

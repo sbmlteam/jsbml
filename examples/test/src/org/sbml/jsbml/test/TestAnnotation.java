@@ -1,6 +1,6 @@
 /*
- * $Id: TestAnnotation.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/examples/test/src/org/sbml/jsbml/test/TestAnnotation.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -34,7 +34,7 @@ import org.sbml.jsbml.Species;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2109 $
+ * @version $Rev$
  * @since 0.8
  * @date 27.10.2011
  */

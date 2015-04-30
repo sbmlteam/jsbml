@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    $Id$
+    $URL$
+    ----------------------------------------------------------------------------
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2015 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+    ----------------------------------------------------------------------------
+
+    A collection of text messages to be presented to uses upon certain events.
+
+    Author:  Andreas Dräger
+    Version: $Rev$
+    Since:   1.1
+  </comment>
+  
+  <entry key="IndexExceedsBoundsException">Index {0,number,integer} >= {1,number,integer}</entry>
+  <entry key="IndexExceedsBoundsException2">Node {0} has no children.</entry>
+  <entry key="IndexSurpassesBoundsException">Index {0,number,integer} &#60; {0,number,integer}</entry>
+  <entry key="NullArgument">Argument is null.</entry>
+  
+  <entry key="AbstractMathContainer.toFormula">Could not create infix formula from syntax tree.</entry>
+  <entry key="AbstractMathContainer.inclusion">{0} in {1}</entry>
+  <entry key="AbstractMathContainer.getDerivedUnitDefinition">Could not derive unit from syntax tree of {0}: {1}</entry>
+  
+  <entry key="AbstractNamedSBase.checkIdentifier">\"{0}\" is not a valid identifier for this {1}.</entry>
+  
+  <entry key="AbstractSBase.appendNotes">There was a problem adding the given XMLNode: ''{0}'' to the ''body'' XMLNode.</entry>
+  <entry key="AbstractSBase.createPlugin">The package namespace or name ''{0}'' is unknown!</entry>
+  <entry key="AbstractSBase.enablePackage">Package not enabled, could not find the SBMLDocument.</entry>
+  <entry key="AbstractSBase.fireNodeRemovedEvent">fireNodeRemovedEvent called on {0} (parent = {1})</entry>
+  <entry key="AbstractSBase.getCVTerm">No such controlled vocabulary term with index {0,number,integer}.</entry>
+  <entry key="AbstractSBase.registerChild1">Trying to register {0} ''{1}'', which is already registered under {2} ''{3}''.</entry>
+  <entry key="AbstractSBase.registerChild2">{0} ''{1}'' is associated to the different parent ''{2}''. Please remove it there before adding it to this ''{3}'' or add a clone of it to this element.</entry>
+  <entry key="AbstractSBase.registerChild3">Cannot register {0}.</entry>
+  <entry key="AbstractSBase.setMetaId">\"{0}\" is not a valid meta-identifier for this {1}.</entry>
+  <entry key="AbstractSBase.setSBOTerm">Cannot set invalid SBO term {0,number,integer} because it must not be smaller than zero or larger than 9999999.</entry>
+  <entry key="AbstractSBase.unregisterChild1">unregister called! {0} {1}</entry>
+  <entry key="AbstractSBase.unregisterChild2">Cannot unregister {0}.</entry>
+  <entry key="AbstractSBase.unregisterChild3">AbstractSBase - #unregisterChild(SBasePlugin) - called on ''{0}''</entry>
+  
+  <entry key="AbstractSBase.addDeclaredNamespace">The only allowed prefix for a namespace is 'xmlns:'.</entry>
+  <entry key="AbstractSBase.addExtensionExc">The package namespace or name ''{0}'' is unknown!</entry>
+  <entry key="AbstractSBase.setNamespaceExc">An SBase element cannot belong to two different namespaces! Current namespace = ''{0}'', new namespace = ''{1}''</entry>
+  <entry key="AbstractSBase.emptyNotes">The notes to append are empty!</entry>
+  <entry key="AbstractSBase.invalidNotesStructure">The given 'notes' String does not have the proper structure, excepting the children 'head' and 'body' to the 'html' element.</entry>
+  <entry key="AbstractSBase.problemAddingXMLNode">There was a problem adding the given XMLNode: ''{0}'' to the ''body'' XMLNode.</entry>
+  
+  <entry key="Assignment.ILLEGAL_CONSTANT_VARIABLE_MSG">Cannot set the constant variable {0} as the target of this {1}.</entry>
+  <entry key="Assignment.ILLEGAL_VARIABLE_EXCEPTION_MSG">Cannot set SpeciesReference {0} as the Variable in {1} for SBML Level &#60; 3</entry>
+  <entry key="Assignment.NO_SUCH_VARIABLE_EXCEPTION_MSG">Model {0} does not contain any variable with identifier {1}.</entry>
+  
+  <entry key="ASTNode.INVALID_OPERATOR_MSG">Invalid operator {0}. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.</entry>
+  <entry key="ASTNode.log">logarithm cannot be created for null values</entry>
+  <entry key="ASTNode.relational">Cannot create a relational node with null arguments.</entry>
+  <entry key="ASTNode1">Clone constructor: Origin type = {0}</entry>
+  <entry key="ASTNode.arithmeticOperation">Cannot divide by zero.</entry>
+  <entry key="ASTNode.compile1">Fractions must have one numerator and one denominator, here {0,number,integer} elements are given.</entry>
+  <entry key="ASTNode.compile2">ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ({0}, {1})</entry>
+  <entry key="ASTNode.compile3">ASTNode of type FUNCTION but the variable is null: ({0}, {1})! Check that your object is linked to a Model.</entry>
+  <entry key="ASTNode.compile4">getCharacter() should be called only when isOperator().</entry>
+  <entry key="ASTNode.getDenominator">getDenominator() should be called only when getType() == RATIONAL.</entry>
+  <entry key="ASTNode.getExponent">getExponent() should be called only when getType() == REAL_E or REAL</entry>
+  <entry key="ASTNode.getInteger">getInteger() should be called only when getType() == INTEGER</entry>
+  <entry key="ASTNode.getMantissa">getMantissa() should be called only when getType() == REAL or REAL_E</entry>
+  <entry key="ASTNode.getName">getName() should be called only when !isNumber() &#38;&#38; !isOperator()</entry>
+  <entry key="ASTNode.getNumerator">getNumerator() should be called only when isRational()</entry>
+  <entry key="ASTNode.getReal">getReal() should be called only when isReal() returns true.</entry>
+  <entry key="ASTNode.getReferencedNamedSBases">Name of this node is {0}  but no variable is set.</entry>
+  <entry key="ASTNode.getVariable1">The name \"{0}\" represented by this node is an argument in a function call, i.e., a placeholder for some other element. No corresponding CallableSBase exists in the model</entry>
+  <entry key="ASTNode.getVariable2">Cannot find any element with id \"{0}\" in the model.</entry>
+  <entry key="ASTNode.getVariable3">This ASTNode is not yet linked to a model and can therefore not determine its variable \"{0}\".</entry>
+  <entry key="ASTNode.getVariable4">getVariable() should be called only when isVariable() == true.</entry>
+  <entry key="ASTNode.initDefaults">initDefaults called! type was {0}</entry>
+  <entry key="ASTNode.reduceToBinary1">MINUS node with {0,number,integer} children left unchanged</entry>
+  <entry key="ASTNode.reduceToBinary2">DIVIDE node with {0,number,integer} children left unchanged</entry>
+  <entry key="ASTNode.reduceToBinary3">NOT node with {0,number,integer} children left unchanged</entry>
+  <entry key="ASTNode.reduceToBinary4">XOR node with {0,number,integer} children left unchanged</entry>
+  <entry key="ASTNode.reduceToBinary5">{0} node with {1,number,integer} children left unchanged</entry>
+  <entry key="ASTNode.setType">setType called: typeBefore={0} typeAfter={1}</entry>
+  <entry key="ASTNode.setUnits1">Unexpected attribute {0}, a unit can only be assigned to literal numbers.</entry>
+  <entry key="ASTNode.setUnits2">Unexpected attribute {0}, only a valid unit kind or the identifier of a unit definition are allowed here.</entry>
+  <entry key="ASTNode.setUnits3">Cannot set unit {0} for a numbers in an ASTNode before SBML Level 3.</entry>
+  <entry key="ASTNode.toString">Could not compile ASTNode to formula: {0}</entry>
+
+</properties>

@@ -3,9 +3,9 @@
 # dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
 # dot -Tpng type_hierarchy.dot -otype_hierarchy.png
 #
-# $Id: type_hierarchy.dot 825 2011-10-07 12:04:59Z andreas-draeger $
-# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/celldesigner/doc/img/type_hierarchy.dot $
-# $Rev: 825 $
+# $Id$
+# $URL$
+# $Rev$
 
 strict digraph G{
 

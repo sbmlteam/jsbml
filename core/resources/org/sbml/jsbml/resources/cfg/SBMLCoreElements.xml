@@ -2,8 +2,8 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
   <comment>
-    $Id: SBMLCoreElements.xml 2109 2015-01-05 04:50:45Z andreas-draeger $
-    $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/resources/org/sbml/jsbml/resources/cfg/SBMLCoreElements.xml $
+    $Id$
+    $URL$
     ----------------------------------------------------------------------------
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
@@ -25,7 +25,7 @@
     Mapping between SBML core element names and their representation
     as JSBML classes.
 
-    Version: $Rev: 2109 $
+    Version: $Rev$
   </comment>
   <entry key="algebraicRule">org.sbml.jsbml.AlgebraicRule</entry>
   <entry key="annotation">org.sbml.jsbml.Annotation</entry>

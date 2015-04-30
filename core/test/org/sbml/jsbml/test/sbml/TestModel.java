@@ -5,8 +5,8 @@
  *
  * This test file was converted libsbml http://sbml.org/software/libsbml
  *
- * $Id: TestModel.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/test/sbml/TestModel.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -70,7 +70,7 @@ import org.sbml.jsbml.text.parser.ParseException;
  * @author  Akiya Jouraku
  * @author  Ben Bornstein
  * @since 0.8
- * @version $Rev: 2109 $
+ * @version $Rev$
  *
  */
 @SuppressWarnings("deprecation")
@@ -879,7 +879,7 @@ public class TestModel {
     pr = (AssignmentRule) M.getRule(3);
     scr.getFormula();
     assertTrue(ar.getFormula().equals("x+1")); // .equals("x + 1")
-    assertTrue(scr.getFormula().equals("(k*t)/(1+k)")); // .equals("k * t/(1 + k)"));
+    assertTrue(scr.getFormula().equals("(k*t)/(1+k)") || scr.getFormula().equals("k*t/(1+k)")); // .equals("k * t/(1 + k)"));
     assertTrue(cvr.getFormula().equals("0.1*t")); // .equals("0.10 * t"));
     assertTrue(pr.getFormula().equals("k3/k2"));
   }

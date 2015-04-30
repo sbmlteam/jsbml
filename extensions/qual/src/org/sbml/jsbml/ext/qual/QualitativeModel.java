@@ -1,6 +1,6 @@
 /*
- * $Id: QualitativeModel.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/qual/src/org/sbml/jsbml/ext/qual/QualitativeModel.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,9 +28,9 @@ import org.sbml.jsbml.Model;
  * @author Finja B&uuml;chel
  * @author Florian Mittag
  * @author Clemens Wrzodek
- * @version $Rev: 2109 $
+ * @version $Rev$
  * @since 1.0
- * @date $Date: 2015-01-04 23:50:45 -0500 (Sun, 04 Jan 2015) $
+ * @date $Date$
  * @deprecated use {@link QualModelPlugin} instead.
  */
 @Deprecated

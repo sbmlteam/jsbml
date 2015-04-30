@@ -1,6 +1,6 @@
 /*
- * $Id: SBMLInputConverter.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/SBMLInputConverter.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,7 +35,7 @@ import org.sbml.jsbml.util.ProgressListener;
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev: 2109 $
+ * @version $Rev$
  * @param <T> The type of input model that can be treated by this converter.
  */
 public interface SBMLInputConverter<T> {

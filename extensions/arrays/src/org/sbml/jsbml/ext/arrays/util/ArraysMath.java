@@ -1,6 +1,6 @@
 /*
- * $Id: ArraysMath.java 2110 2015-01-05 22:02:49Z leandrohw $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/arrays/src/org/sbml/jsbml/ext/arrays/util/ArraysMath.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -47,7 +47,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
  * @author Leandro Watanabe
- * @version $Rev: 2110 $
+ * @version $Rev$
  * @since 1.0
  * @date Jun 26, 2014
  */

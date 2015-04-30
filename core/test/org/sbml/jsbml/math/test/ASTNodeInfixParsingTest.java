@@ -1,6 +1,6 @@
 /*
- * $Id: ASTNodeInfixParsingTest.java 2157 2015-03-25 14:00:27Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/math/test/ASTNodeInfixParsingTest.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -41,7 +41,7 @@ import org.sbml.jsbml.util.compilers.LibSBMLFormulaCompiler;
  * Tests related to {@link ASTNode#parseFormula(String)} and {@link ASTNode#parseFormula(String, IFormulaParser)}.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2157 $
+ * @version $Rev$
  * @since 1.0
  */
 public class ASTNodeInfixParsingTest {

@@ -1,6 +1,6 @@
 /*
- * $Id:  SBMLExportPluginAction.java 1776 Jun 3, 2014 4:51:26 PM yvazirabad $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/modules/celldesigner/test/org/sbml/jsbml/celldesigner/SBMLExportPluginAction.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.

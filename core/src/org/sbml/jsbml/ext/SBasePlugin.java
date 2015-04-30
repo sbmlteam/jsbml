@@ -1,6 +1,6 @@
 /*
- * $Id: SBasePlugin.java 2151 2015-03-19 22:19:11Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/ext/SBasePlugin.java $
+ * $Id$
+ * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -35,7 +35,7 @@ import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
  * there new attributes or elements.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2151 $
+ * @version $Rev$
  * @since 1.0
  */
 public interface SBasePlugin extends TreeNodeWithChangeSupport {

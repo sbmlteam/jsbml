@@ -1,6 +1,6 @@
 /*
- * $Id: GroupsConstants.java 2117 2015-02-19 19:03:29Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/groups/src/org/sbml/jsbml/ext/groups/GroupsConstants.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,7 +28,7 @@ import java.util.List;
  * Contains some constants related to the groups package.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2117 $
+ * @version $Rev$
  * @since 1.0
  */
 public class GroupsConstants {

@@ -1,6 +1,6 @@
 /*
- * $Id: Submodel.java 2168 2015-03-31 12:59:32Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/comp/src/org/sbml/jsbml/ext/comp/Submodel.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -42,7 +42,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * Submodel instances represent submodels contained within {@link CompModelPlugin}.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2168 $
+ * @version $Rev$
  * @since 1.0
  */
 public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {

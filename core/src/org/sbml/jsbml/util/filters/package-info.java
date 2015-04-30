@@ -1,6 +1,6 @@
 /*
- * $Id: package-info.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/util/filters/package-info.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,7 +25,7 @@
  * All classes in this package implement the interface {@link org.sbml.jsbml.util.filters.Filter} that can
  * be used to, e.g., select entries from a {@link org.sbml.jsbml.ListOf} object.
  * 
- * @version $Rev: 2109 $
+ * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.util.filters;

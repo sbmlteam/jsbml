@@ -1,6 +1,6 @@
 /*
- * $Id: ASTBinaryFunctionNodeTest.java 1897 2014-07-26 01:01:14Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/math/test/ASTBinaryFunctionNodeTest.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -36,7 +36,7 @@ import org.sbml.jsbml.math.ASTCnIntegerNode;
  * Test cases for {@link ASTBinaryFunctionNode}
  * 
  * @author Victor Kofia
- * @version $Rev: 1897 $
+ * @version $Rev$
  * @since 1.0
  * @date Jul 25, 2014
  */

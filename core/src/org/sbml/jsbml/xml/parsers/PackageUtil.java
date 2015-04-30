@@ -1,6 +1,6 @@
 /*
- * $Id: PackageUtil.java 2186 2015-04-20 11:37:47Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/xml/parsers/PackageUtil.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +38,7 @@ import org.sbml.jsbml.ext.SBasePlugin;
 /**
  *
  * @author Nicolas Rodriguez
- * @version $Rev: 2186 $
+ * @version $Rev$
  * @since 1.1
  */
 public class PackageUtil {
@@ -405,7 +405,7 @@ public class PackageUtil {
 /**
  *
  * @author Nicolas Rodriguez
- * @version $Rev: 2186 $
+ * @version $Rev$
  * @since 1.1
  */
 final class PackageInfo {

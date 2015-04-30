@@ -1,6 +1,6 @@
 /*
- * $Id: ListOfObjectives.java 2170 2015-04-01 10:04:01Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/src/org/sbml/jsbml/ext/fbc/ListOfObjectives.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,7 +30,7 @@ import org.sbml.jsbml.ListOf;
  * required attribute activeObjective.
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 2170 $
+ * @version $Rev$
  */
 public class ListOfObjectives extends ListOf<Objective> {
 

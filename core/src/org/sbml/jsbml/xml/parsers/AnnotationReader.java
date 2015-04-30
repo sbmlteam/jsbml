@@ -1,6 +1,6 @@
 /*
- * $Id: AnnotationReader.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/xml/parsers/AnnotationReader.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,7 +29,7 @@ import org.sbml.jsbml.xml.XMLNode;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 2109 $
+ * @version $Rev$
  */
 public interface AnnotationReader {
 

@@ -5,8 +5,8 @@
  */</template><template autoinsert="true" context="constructorcomment_context" deleted="false" description="Comment for created constructors" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.constructorcomment" name="constructorcomment">/**
  * ${tags}
  */</template><template autoinsert="false" context="filecomment_context" deleted="false" description="Comment for created Java files" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment">/*
- * $$Id:  ${file_name} ${time} ${user} $$
- * $$URL: ${file_name} $$
+ * $$Id${file_name} ${time} ${user} $$
+ * $$URL${file_name} $$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit &lt;http://sbml.org/Software/JSBML&gt; 
  * for the latest version of JSBML and more information about SBML. 

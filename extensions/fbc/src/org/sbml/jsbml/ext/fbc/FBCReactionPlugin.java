@@ -1,6 +1,6 @@
 /*
- * $Id: FBCReactionPlugin.java 2155 2015-03-25 11:39:52Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/src/org/sbml/jsbml/ext/fbc/FBCReactionPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -34,7 +34,7 @@ import org.sbml.jsbml.Reaction;
  * Introduced to FBC in version 2.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2155 $
+ * @version $Rev$
  * @since 1.1
  * @date 06.03.2015
  */

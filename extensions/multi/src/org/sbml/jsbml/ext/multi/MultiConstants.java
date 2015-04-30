@@ -1,6 +1,6 @@
 /*
- * $Id: MultiConstants.java 2179 2015-04-07 16:12:08Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/multi/src/org/sbml/jsbml/ext/multi/MultiConstants.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,7 +28,7 @@ import java.util.List;
  * Contains some constants related to the multi package.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2179 $
+ * @version $Rev$
  * @since 1.0
  * @date 16.10.2013
  */

@@ -1,6 +1,6 @@
 /*
- * $Id: GeneProteinAssociation.java 2161 2015-03-26 16:53:02Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/src/org/sbml/jsbml/ext/fbc/GeneProteinAssociation.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,7 +31,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
  * Introduced to FBC in version 2.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2161 $
+ * @version $Rev$
  * @since 1.1
  * @date 06.03.2015
  */

@@ -1,6 +1,6 @@
 /*
- * $Id: ArraysCompiler.java 2117 2015-02-19 19:03:29Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/arrays/src/org/sbml/jsbml/ext/arrays/compiler/ArraysCompiler.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -40,7 +40,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * This compiler is used to evaluate an {@link ASTNode} object to a real number.
  * 
  * @author Leandro Watanabe
- * @version $Rev: 2117 $
+ * @version $Rev$
  * @since 1.0
  * @date Jun 20, 2014
  */

@@ -1,6 +1,6 @@
 /*
- * $Id: FBCVersion2Test.java 2167 2015-03-31 08:45:35Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/test/org/sbml/jsbml/ext/fbc/test/FBCVersion2Test.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -55,7 +55,7 @@ import org.sbml.jsbml.util.ModelBuilder;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2167 $
+ * @version $Rev$
  * @since 1.1
  * @date 06.03.2015
  */

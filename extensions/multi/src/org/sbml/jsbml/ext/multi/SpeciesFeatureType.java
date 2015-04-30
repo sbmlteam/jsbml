@@ -1,6 +1,6 @@
 /*
- * $Id: SpeciesFeatureType.java 2174 2015-04-02 15:57:29Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/multi/src/org/sbml/jsbml/ext/multi/SpeciesFeatureType.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -44,7 +44,7 @@ import org.sbml.jsbml.util.StringTools;
  * {@link SpeciesFeatureType} is linked to a list of possible values.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2174 $
+ * @version $Rev$
  * @since 1.0
  */
 public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueNamedSBase {

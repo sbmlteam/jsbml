@@ -1,6 +1,6 @@
 /*
- * $Id: ASTFactory.java 2088 2014-11-16 06:56:46Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/ASTFactory.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -29,6 +29,7 @@ import java.util.Scanner;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
@@ -41,7 +42,7 @@ import org.sbml.jsbml.math.parser.ParseException;
  * trees or alter the topology of existing ones.
  * 
  * @author Victor Kofia
- * @version $Rev: 2088 $
+ * @version $Rev$
  * @since 1.0
  * @date Jun 20, 2014
  */
@@ -803,6 +804,15 @@ public class ASTFactory {
     return new ASTTimesNode(node1, new ASTCnIntegerNode(integer));
   }
 
+  /**
+   * @param astNode
+   * @return
+   */
+  public static ASTNode2 toASTNode2(ASTNode astNode) {
+    // TODO - method needed when trying to use the old ASTNode class, to implement the ASTNode.toASTNode2() method.
+    return null;
+  }
+  
   /**
    * Creates a new {@link ASTMinusNode} that has exactly one child and
    * which is of type {@link Type.MINUS}, i.e., this negates what is encoded in ast.

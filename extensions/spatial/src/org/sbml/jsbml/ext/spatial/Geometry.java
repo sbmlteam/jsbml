@@ -1,6 +1,6 @@
 /*
- * $Id: Geometry.java 2181 2015-04-09 13:44:21Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/spatial/src/org/sbml/jsbml/ext/spatial/Geometry.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -39,14 +39,14 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev: 2181 $
+ * @version $Rev$
  */
 public class Geometry extends AbstractSpatialNamedSBase {
 
   /**
    * 
    * @author Alex Thomas
-   * @version $Rev: 2181 $
+   * @version $Rev$
    * @since 0.8
    */
   public static enum GeometryKind {

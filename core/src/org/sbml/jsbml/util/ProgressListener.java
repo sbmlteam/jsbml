@@ -1,6 +1,6 @@
 /*
- * $Id: ProgressListener.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/util/ProgressListener.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,7 +28,7 @@ import java.util.EventListener;
  * handling these events should implement this interface.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2109 $
+ * @version $Rev$
  * @since 1.0
  * @date 2014-02-15
  */

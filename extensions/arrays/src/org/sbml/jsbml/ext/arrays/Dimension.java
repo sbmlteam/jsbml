@@ -1,6 +1,6 @@
 /*
- * $Id: Dimension.java 2161 2015-03-26 16:53:02Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/arrays/src/org/sbml/jsbml/ext/arrays/Dimension.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -39,7 +39,7 @@ import org.sbml.jsbml.util.StringTools;
  * is arrayed.
  * 
  * @author Leandro Watanabe
- * @version $Rev: 2161 $
+ * @version $Rev$
  * @since 1.0
  * @date May 11, 2014
  */

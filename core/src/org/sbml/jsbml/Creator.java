@@ -1,6 +1,6 @@
 /*
- * $Id: Creator.java 2145 2015-03-18 15:53:09Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/Creator.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +38,7 @@ import org.sbml.jsbml.validator.SyntaxChecker;
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev: 2145 $
+ * @version $Rev$
  */
 public class Creator extends AnnotationElement {
 

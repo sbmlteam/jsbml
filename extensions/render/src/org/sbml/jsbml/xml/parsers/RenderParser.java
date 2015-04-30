@@ -1,6 +1,6 @@
 /*
- * $Id: RenderParser.java 2180 2015-04-08 15:48:28Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/src/org/sbml/jsbml/xml/parsers/RenderParser.java $
+ * $Id$
+ * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -54,7 +54,7 @@ import org.sbml.jsbml.ext.render.Style;
  * @author Jakob Matthes
  * @author Eugen Netz
  * @author Jan Rudolph
- * @version $Rev: 2180 $
+ * @version $Rev$
  * @since 1.0
  * @date 04.06.2012
  */

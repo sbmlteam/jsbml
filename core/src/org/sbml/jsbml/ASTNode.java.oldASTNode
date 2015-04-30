@@ -1,6 +1,6 @@
 /*
- * $Id: ASTNode.java 2258 2015-04-24 08:07:52Z andreas-draeger $
- * $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/ASTNode.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,6 +38,8 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.math.ASTNode2;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
@@ -56,7 +58,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * @author Nicolas Rodriguez
  * @author Alexander D&ouml;rr
  * @since 0.8
- * @version $Rev: 2258 $
+ * @version $Rev$
  */
 public class ASTNode extends AbstractTreeNode {
 
@@ -1469,6 +1471,16 @@ public class ASTNode extends AbstractTreeNode {
   public ASTNode(CallableSBase nsb) {
     this(Type.NAME);
     setVariable(nsb);
+  }
+
+  /**
+   * Create a new node of type {@link ASTNode} from the given {@link ASTNode2}
+   *
+   * @param node
+   *          {@link ASTNode2}
+   */
+  public ASTNode(ASTNode2 node) {
+    // TODO - check the different classes of ASTNode2 to set the proper ASTNode fields
   }
 
   /**
@@ -3748,6 +3760,16 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
+   * Sets the Parent of the node to the given value
+   * 
+   * @param node the orphan node
+   * @param parent the parent
+   */
+  public void setParentSBMLObject(MathContainer parent) {
+    parentSBMLObject = parent;
+  }
+
+  /**
    * Sets the style of the mathML element represented by this {@link ASTNode}.
    * 
    * @param style
@@ -4053,6 +4075,16 @@ public class ASTNode extends AbstractTreeNode {
       child.fireNodeAddedEvent();
     }
   }
+
+  /**
+   * Return the {@link ASTNode2} corresponding to the current {@link ASTNode}
+   *
+   * @return node {@link ASTNode2}
+   */
+  public ASTNode2 toASTNode2() {
+    return ASTFactory.toASTNode2(this);
+  }
+
 
   /**
    * Converts this {@link ASTNode} to a text string using a specific syntax for

@@ -4,8 +4,8 @@
  *
  * This test file was converted from libsbml http://sbml.org/software/libsbml
  *
- * $Id: TestReadFromFile5.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $HeadURL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/test/sbml/TestReadFromFile5.java $
+ * $Id$
+ * $HeadURL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -50,7 +50,7 @@ import org.sbml.jsbml.SpeciesReference;
  * @author  Akiya Jouraku
  * @author  Ben Bornstein
  * @since 0.8
- * @version $Rev: 2109 $
+ * @version $Rev$
  */
 public class TestReadFromFile5 {
 

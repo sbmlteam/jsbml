@@ -1,6 +1,6 @@
 /*
- * $Id: GroupKind.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/groups/src/org/sbml/jsbml/ext/groups/GroupKind.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -27,7 +27,7 @@ package org.sbml.jsbml.ext.groups;
  * 
  * @author Clemens Wrzodek
  * @since 3.0
- * @version $Rev: 2109 $
+ * @version $Rev$
  */
 public enum GroupKind {
   /**

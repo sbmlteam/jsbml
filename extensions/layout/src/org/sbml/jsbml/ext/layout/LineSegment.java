@@ -1,6 +1,6 @@
 /*
- * $Id: LineSegment.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/src/org/sbml/jsbml/ext/layout/LineSegment.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,7 +35,7 @@ import javax.swing.tree.TreeNode;
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev: 2109 $
+ * @version $Rev$
  */
 public class LineSegment extends CurveSegment {
 

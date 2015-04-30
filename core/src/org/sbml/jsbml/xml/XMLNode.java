@@ -1,6 +1,6 @@
 /*
- * $Id: XMLNode.java 2138 2015-03-13 17:29:01Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/xml/XMLNode.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -101,7 +101,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev: 2138 $
+ * @version $Rev$
  */
 public class XMLNode extends XMLToken {
 

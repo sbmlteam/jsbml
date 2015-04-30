@@ -1,6 +1,6 @@
 /*
- * $Id: SBMLWriter.java 2168 2015-03-31 12:59:32Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/xml/stax/SBMLWriter.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -67,7 +67,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
+import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.PackageUtil;
 import org.sbml.jsbml.xml.parsers.ParserManager;
@@ -81,7 +81,7 @@ import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev: 2168 $
+ * @version $Rev$
  */
 public class SBMLWriter {
 
@@ -784,7 +784,7 @@ public class SBMLWriter {
       SMOutputElement mathElement = element.addElement(mathMLNamespace, "math");
       MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
         writer, createIndentationString(indent + indentCount));
-      boolean isSBMLNamespaceNeeded = compiler.isSBMLNamespaceNeeded(m.getMath().toASTNode2());
+      boolean isSBMLNamespaceNeeded = compiler.isSBMLNamespaceNeeded(m.getMath());
 
       // TODO: add all other namespaces !!
 
@@ -813,7 +813,7 @@ public class SBMLWriter {
       writer.writeCharacters(whitespaces);
       writer.writeCharacters("\n");
 
-      compiler.compile(m.getMath().toASTNode2());
+      compiler.compile(m.getMath());
 
       writer.writeCharacters(whitespaces);
     }

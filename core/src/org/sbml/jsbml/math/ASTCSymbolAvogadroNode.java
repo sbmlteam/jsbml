@@ -1,6 +1,6 @@
 /*
- * $Id: ASTCSymbolAvogadroNode.java 2095 2014-12-04 15:05:58Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/ASTCSymbolAvogadroNode.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -37,7 +37,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * An Abstract Syntax Tree (AST) node representing avogadro's number
  * 
  * @author Victor Kofia
- * @version $Rev: 2095 $
+ * @version $Rev$
  * @since 1.0
  * @date May 30, 2014
  */

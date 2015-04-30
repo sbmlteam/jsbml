@@ -1,6 +1,6 @@
 /*
- * $Id: PluginSBMLReader.java 2120 2015-03-07 01:42:40Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/celldesigner/src/org/sbml/jsbml/celldesigner/PluginSBMLReader.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -121,7 +121,7 @@ import org.sbml.libsbml.libsbml;
 /**
  *
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2120 $
+ * @version $Rev$
  * @since 0.8
  */
 @SuppressWarnings("deprecation")

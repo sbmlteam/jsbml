@@ -1,6 +1,6 @@
 /*
- * $Id: package-info.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/celldesigner/src/org/sbml/jsbml/celldesigner/package-info.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,7 +29,7 @@
  * 
  * @author Andreas Dr&auml;ger
  * @author Alexander Peltzer
- * @version $Rev: 2109 $
+ * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.celldesigner;

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- 
-    $Id: build.xml 2152 2015-03-20 11:30:36Z niko-rodrigue $ 
-    $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/build.xml $
+    $Id$ 
+    $URL$
 
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
@@ -20,7 +20,7 @@
     in the file named "LICENSE.txt" included with this software distribution
     and also available online as http://sbml.org/Software/JSBML/License.
 
-    Version: $Rev: 2152 $
+    Version: $Rev$
 -->
 
 <project

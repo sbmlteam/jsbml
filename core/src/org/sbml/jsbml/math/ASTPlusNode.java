@@ -1,6 +1,6 @@
 /*
- * $Id: ASTPlusNode.java 2035 2014-10-16 16:23:56Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/ASTPlusNode.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,7 +35,7 @@ import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
  * An Abstract Syntax Tree (AST) node representing the plus operator
  * 
  * @author Victor Kofia
- * @version $Rev: 2035 $
+ * @version $Rev$
  * @since 1.0
  * @date Jul 2, 2014
  */

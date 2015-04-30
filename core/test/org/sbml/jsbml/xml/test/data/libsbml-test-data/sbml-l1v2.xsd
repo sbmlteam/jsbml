@@ -7,8 +7,8 @@
       Description : XML Schema for the Systems Biology Markup Language Level 1.
                     This is designed for XML Schema version 1.0.
       Version : 2
-      Modified : $Date: 2011-01-20 17:08:06 -0500 (Thu, 20 Jan 2011) $
-      Revision: $Id: sbml-l1v2.xsd 540 2011-01-20 22:08:06Z mhucka $
+      Modified : $Date$
+      Revision: $Id$
 
       Copyright 2003 California Institute of Technology and Japan Science and 
       Technology Corporation.

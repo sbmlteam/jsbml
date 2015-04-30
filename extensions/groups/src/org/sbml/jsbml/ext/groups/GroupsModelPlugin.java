@@ -1,6 +1,6 @@
 /*
- * $Id: GroupModelPlugin.java 834 2011-10-24 13:10:20Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/groups/src/org/sbml/jsbml/ext/groups/GroupModelPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,7 +36,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Nicolas Rodriguez
  * @author Clemens Wrzodek
  * @since 1.0
- * @version $Rev: 834 $
+ * @version $Rev$
  */
 public class GroupsModelPlugin extends AbstractSBasePlugin {
 

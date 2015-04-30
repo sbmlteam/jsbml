@@ -1,6 +1,6 @@
 /*
- * $Id: AbstractSBasePlugin.java 2181 2015-04-09 13:44:21Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/ext/AbstractSBasePlugin.java $
+ * $Id$
+ * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -37,7 +37,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 /**
  * @author Andreas Dr&auml;ger
  * @author Florian Mittag
- * @version $Rev: 2181 $
+ * @version $Rev$
  * @since 1.0
  * @date 28.10.2011
  */

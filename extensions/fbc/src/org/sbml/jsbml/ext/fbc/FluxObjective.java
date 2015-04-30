@@ -1,6 +1,6 @@
 /*
- * $Id: FluxObjective.java 2161 2015-03-26 16:53:02Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/src/org/sbml/jsbml/ext/fbc/FluxObjective.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,7 +36,7 @@ import org.sbml.jsbml.util.StringTools;
  * variable weighted by a signed linear coefficient.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2161 $
+ * @version $Rev$
  * @since 1.0
  * @date 27.10.2011
  */

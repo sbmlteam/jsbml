@@ -1,6 +1,6 @@
 /*
- * $Id: FBCSpeciesPlugin.java 2166 2015-03-31 06:36:12Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/src/org/sbml/jsbml/ext/fbc/FBCSpeciesPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +38,7 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2166 $
+ * @version $Rev$
  * @since 1.0
  * @date 02.10.2013
  */

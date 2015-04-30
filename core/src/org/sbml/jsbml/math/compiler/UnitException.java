@@ -1,6 +1,6 @@
 /*
- * $Id: UnitException.java 2002 2014-09-29 13:18:46Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/compiler/UnitException.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -32,7 +32,7 @@ import org.sbml.jsbml.SBMLException;
  * @author Victor Kofia
  * @date 2014-09-25
  * @since 0.8
- * @version $Rev: 2002 $
+ * @version $Rev$
  */
 public class UnitException extends SBMLException {
 

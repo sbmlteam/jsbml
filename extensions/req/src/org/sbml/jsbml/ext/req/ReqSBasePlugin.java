@@ -1,6 +1,6 @@
 /*
- * $Id: ReqSBasePlugin.java 2180 2015-04-08 15:48:28Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/req/src/org/sbml/jsbml/ext/req/ReqSBasePlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -46,7 +46,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * children.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2180 $
+ * @version $Rev$
  * @since 1.0
  */
 public class ReqSBasePlugin extends AbstractSBasePlugin {

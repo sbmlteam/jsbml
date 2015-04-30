@@ -1,6 +1,6 @@
 /*
- * $Id: SimpleCellDesignerPluginAction.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/modules/celldesigner/test/org/sbml/jsbml/celldesigner/SimpleCellDesignerPluginAction.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,7 +28,7 @@ import javax.xml.stream.XMLStreamException;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2109 $
+ * @version $Rev$
  * @since 1.0
  * @date 16.04.2014
  */

@@ -1,6 +1,6 @@
 /*
- * $Id: CompilerTest.java 2158 2015-03-25 14:35:26Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/arrays/test/org/sbml/jsbml/ext/arrays/test/CompilerTest.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -47,7 +47,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * Test cases for the arrays compiler
  * 
  * @author Leandro Watanabe
- * @version $Rev: 2158 $
+ * @version $Rev$
  * @since 1.0
  * @date Jun 26, 2014
  */

@@ -1,6 +1,6 @@
 /*
- * $Id: AbstractReaderWriter.java 2136 2015-03-13 16:17:24Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/xml/parsers/AbstractReaderWriter.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -46,7 +46,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 2136 $
+ * @version $Rev$
  */
 public abstract class AbstractReaderWriter implements ReadingParser, WritingParser {
 

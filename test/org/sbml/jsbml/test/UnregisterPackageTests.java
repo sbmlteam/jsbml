@@ -1,6 +1,6 @@
 /*
- * $Id: UnregisterPackageTests.java 2168 2015-03-31 12:59:32Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/test/org/sbml/jsbml/test/UnregisterPackageTests.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -88,7 +88,7 @@ import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
  * Tests the registration and un-registration of global or local id using
  * package elements.
  * 
- * @version $Rev: 2168 $
+ * @version $Rev$
  * @since 1.0
  */
 @SuppressWarnings("deprecation")

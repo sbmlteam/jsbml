@@ -1,6 +1,6 @@
 /*
- * $Id: UnitDefinition.java 2166 2015-03-31 06:36:12Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/UnitDefinition.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -41,7 +41,7 @@ import org.sbml.jsbml.util.ValuePair;
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev: 2166 $
+ * @version $Rev$
  */
 public class UnitDefinition extends AbstractNamedSBase {
 

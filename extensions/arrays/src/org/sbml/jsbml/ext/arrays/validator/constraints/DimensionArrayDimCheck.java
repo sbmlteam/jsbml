@@ -1,6 +1,6 @@
 /*
- * $Id: DimensionArrayDimCheck.java 2187 2015-04-20 12:48:23Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/arrays/src/org/sbml/jsbml/ext/arrays/validator/constraints/DimensionArrayDimCheck.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,7 +36,7 @@ import org.sbml.jsbml.util.ResourceManager;
  * This checks if the {@link Dimension} objects of a given {@link SBase} have valid array dimension.
  * 
  * @author Leandro Watanabe
- * @version $Rev: 2187 $
+ * @version $Rev$
  * @since 1.0
  * @date Jun 10, 2014
  */

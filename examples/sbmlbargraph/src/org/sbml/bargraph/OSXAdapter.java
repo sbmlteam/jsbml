@@ -64,7 +64,7 @@ import java.lang.reflect.Proxy;
 /**
  * 
  * @author Michael Hucka
- * @version $Rev: 2102 $
+ * @version $Rev$
  */
 public class OSXAdapter implements InvocationHandler {
 

@@ -1,6 +1,6 @@
 /*
- * $Id: FBCModelPlugin.java 2168 2015-03-31 12:59:32Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/src/org/sbml/jsbml/ext/fbc/FBCModelPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +38,7 @@ import org.sbml.jsbml.xml.XMLNode;
  * and list of {@link Objective}
  * 
  * @author Nicolas Rodriguez
- * @version $Rev: 2168 $
+ * @version $Rev$
  * @since 1.0
  * @date 27.10.2011
  */

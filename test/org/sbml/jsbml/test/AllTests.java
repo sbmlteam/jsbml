@@ -1,6 +1,6 @@
 /*
- * $Id: AllTests.java 2165 2015-03-30 16:11:24Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/test/org/sbml/jsbml/test/AllTests.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +38,7 @@ import org.sbml.jsbml.xml.test.Tests;
  * JUnit {@link TestSuite} to regroup all the tests done for jsbml-core and the L3 packages.
  *
  * @author Nicolas Rodriguez
- * @version $Rev: 2165 $
+ * @version $Rev$
  * @since 1.0
  */
 @RunWith(value=Suite.class)

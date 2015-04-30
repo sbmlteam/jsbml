@@ -1,6 +1,6 @@
 /*
- * $Id: MathMLStaxParser.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/xml/parsers/MathMLStaxParser.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,6 +25,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.tree.TreeNode;
+
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ASTNode;
@@ -32,7 +34,6 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -43,7 +44,7 @@ import org.sbml.jsbml.util.StringTools;
  *
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev: 2109 $
+ * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class MathMLStaxParser implements ReadingParser {
@@ -139,8 +140,7 @@ public class MathMLStaxParser implements ReadingParser {
     }
 
     if (attributeName.equals("type") || attributeName.equals("definitionURL")) {
-      // TODO:
-      // astNode.setType(value);
+      astNode.setType(value);
       // System.out.println("MathMLStaxParser : processAttribute : astNode Type = " + astNode.getType());
     } else if (attributeName.equals("id")) {
       astNode.setId(value);
@@ -360,7 +360,8 @@ public class MathMLStaxParser implements ReadingParser {
 
     ASTNode astNode = new ASTNode();
     astNode.setType(elementName);
-    ASTFactory.setParentSBMLObject(astNode.toASTNode2(), mathContainer);
+    astNode.setParent((TreeNode) contextObject);
+    astNode.setParentSBMLObject(mathContainer);
 
     if (setMath) {
       mathContainer.setMath(astNode);

@@ -1,6 +1,6 @@
 /*
- * $Id: DistribParser.java 2135 2015-03-13 15:23:03Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/distrib/src/org/sbml/jsbml/xml/parsers/DistribParser.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -56,7 +56,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 2135 $
+ * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class DistribParser extends AbstractReaderWriter implements PackageParser {

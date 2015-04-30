@@ -1,6 +1,6 @@
 /*
- * $Id: FindUnitsCompiler.java 1973 2014-09-08 14:37:18Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/compiler/FindUnitsCompiler.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -40,7 +40,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
  * 
  * @author Nicolas Rodriguez
  * @author Victor Kofia
- * @version $Rev: 1973 $
+ * @version $Rev$
  * @since 1.0
  * @date Aug 8, 2014
  */

@@ -1,6 +1,6 @@
 /*
- * $Id: PerformanceTest.java 2134 2015-03-13 13:02:35Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/test/PerformanceTest.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,7 +36,7 @@ import org.sbml.jsbml.SBMLWriter;
 
 /**
  * @author Nicolas Rodriguez
- * @version $Rev: 2134 $
+ * @version $Rev$
  * @since 1.0
  */
 public class PerformanceTest {

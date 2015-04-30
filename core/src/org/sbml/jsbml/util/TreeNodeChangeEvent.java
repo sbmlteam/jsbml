@@ -1,6 +1,6 @@
 /*
- * $Id: TreeNodeChangeEvent.java 2165 2015-03-30 16:11:24Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/util/TreeNodeChangeEvent.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -34,7 +34,7 @@ import org.sbml.jsbml.SBase;
  * @author Andreas Dr&auml;ger
  * @date 2010-11-14
  * @since 0.8
- * @version $Rev: 2165 $
+ * @version $Rev$
  */
 public class TreeNodeChangeEvent extends PropertyChangeEvent {
 

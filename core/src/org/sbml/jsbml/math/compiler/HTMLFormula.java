@@ -1,6 +1,6 @@
 /*
- * $Id: HTMLFormula.java 2002 2014-09-29 13:18:46Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/compiler/HTMLFormula.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -39,7 +39,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Victor Kofia
  * @date 2014-09-25
  * @since 0.8
- * @version $Rev: 2002 $
+ * @version $Rev$
  */
 public class HTMLFormula extends MathMLXMLStreamCompiler {
 

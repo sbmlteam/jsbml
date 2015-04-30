@@ -1,6 +1,6 @@
 /*
- * $Id: BoundaryCondition.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/spatial/src/org/sbml/jsbml/ext/spatial/BoundaryCondition.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -32,14 +32,14 @@ import org.sbml.jsbml.SBMLException;
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev: 2109 $
+ * @version $Rev$
  */
 public class BoundaryCondition extends ParameterType {
 
   /**
    * 
    * @author Andreas Dr&auml;ger
-   * @version $Rev: 2109 $
+   * @version $Rev$
    * @since 0.8
    */
   public static enum BoundaryKind {

@@ -1,6 +1,6 @@
 /*
- * $Id: GroupsParser.java 2117 2015-02-19 19:03:29Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/groups/src/org/sbml/jsbml/xml/parsers/GroupsParser.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -45,7 +45,7 @@ import org.sbml.jsbml.ext.groups.MemberConstraint;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 2117 $
+ * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class GroupsParser extends AbstractReaderWriter implements PackageParser {

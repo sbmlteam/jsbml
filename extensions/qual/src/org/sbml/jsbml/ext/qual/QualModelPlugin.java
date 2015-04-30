@@ -1,6 +1,6 @@
 /*
- * $Id: QualModelPlugin.java 2180 2015-04-08 15:48:28Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/qual/src/org/sbml/jsbml/ext/qual/QualModelPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -42,7 +42,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Florian Mittag
  * @author Clemens Wrzodek
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2180 $
+ * @version $Rev$
  * @since 1.0
  * @date 16.04.2014
  */

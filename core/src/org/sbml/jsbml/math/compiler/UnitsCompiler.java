@@ -1,6 +1,6 @@
 /*
- * $Id: UnitsCompiler.java 2012 2014-10-04 17:13:50Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/compiler/UnitsCompiler.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -54,7 +54,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Victor Kofia
  * @date 2014-09-25
  * @since 0.8
- * @version $Rev: 2012 $
+ * @version $Rev$
  */
 public class UnitsCompiler implements ASTNode2Compiler {
 

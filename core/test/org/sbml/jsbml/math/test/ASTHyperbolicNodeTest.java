@@ -1,6 +1,6 @@
 /*
- * $Id: ASTHyperbolicNodeTest.java 1928 2014-08-09 21:26:36Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/math/test/ASTHyperbolicNodeTest.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -35,7 +35,7 @@ import org.sbml.jsbml.math.ASTHyperbolicNode;
  * Test cases for {@link ASTHyperbolicNode}
  * 
  * @author Victor Kofia
- * @version $Rev: 1928 $
+ * @version $Rev$
  * @since 1.0
  * @date Jul 25, 2014
  */

@@ -1,6 +1,6 @@
 /*
- * $Id: HashCodeTest.java 2109 2015-01-05 04:50:45Z andreas-draeger $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/core/test/org/sbml/jsbml/test/HashCodeTest.java $
+ * $Id$
+ * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -40,7 +40,7 @@ import org.sbml.jsbml.text.parser.ParseException;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2109 $
+ * @version $Rev$
  * @since 0.8
  * @date 03.08.2011
  */

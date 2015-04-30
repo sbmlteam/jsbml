@@ -1,6 +1,6 @@
 /*
- * $Id: MultiSpeciesPlugin.java 2179 2015-04-07 16:12:08Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/multi/src/org/sbml/jsbml/ext/multi/MultiSpeciesPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -34,7 +34,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @author Nicolas Rodriguez
  * @author Marine Dumousseau
  * @since 1.0
- * @version $Rev: 2179 $
+ * @version $Rev$
  */
 public class MultiSpeciesPlugin extends AbstractSBasePlugin { 
 

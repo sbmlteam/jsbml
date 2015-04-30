@@ -1,6 +1,6 @@
 /*
- * $Id: package-info.java 1771 2014-06-02 23:20:19Z kofiav $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/branches/jsbml-1.0-ASTNode2/core/src/org/sbml/jsbml/math/package-info.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -20,7 +20,7 @@
  */
 /**
  * @author Victor Kofia
- * @version $Rev: 1771 $
+ * @version $Rev$
  * @since 1.0
  * @date May 30, 2014
  */

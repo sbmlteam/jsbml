@@ -1,6 +1,6 @@
 /*
- * $Id: AbstractFBCSBasePlugin.java 2168 2015-03-31 12:59:32Z niko-rodrigue $
- * $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/fbc/src/org/sbml/jsbml/ext/fbc/AbstractFBCSBasePlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -26,7 +26,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 /**
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2168 $
+ * @version $Rev$
  * @since 1.1
  * @date 06.03.2015
  */
