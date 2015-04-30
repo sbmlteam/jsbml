@@ -84,6 +84,14 @@ public class ASTNode extends AbstractTreeNode {
      */
     CONSTANT_PI,
     /**
+     *
+     */
+    CONSTRUCTOR_PIECE,
+    /**
+     *
+     */
+    CONSTRUCTOR_OTHERWISE,
+    /**
      * 
      */
     CONSTANT_TRUE,
@@ -298,6 +306,22 @@ public class ASTNode extends AbstractTreeNode {
      */
     POWER,
     /**
+     *
+     */
+    PRODUCT,
+    /**
+     *
+     */
+    QUALIFIER_BVAR,
+    /**
+     *
+     */
+    QUALIFIER_DEGREE,
+    /**
+     *
+     */
+    QUALIFIER_LOGBASE,
+    /**
      * An {@link ASTNode} of this {@link Type} contains two integer values:
      * a numerator and a denominator.
      */
@@ -338,6 +362,10 @@ public class ASTNode extends AbstractTreeNode {
      * Not equal
      */
     RELATIONAL_NEQ,
+    /**
+     *
+     */
+    SUM,
     /**
      * 
      */
