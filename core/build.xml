@@ -186,9 +186,27 @@
   	  	            excludes="**/.svn*, **/*~, **/*.tgz, **/*.zip">
 			</fileset>
 		</copy>
+		
+		<echo message="Value of the use-old-astnode property in core = '${use.old.astnodes}'"/>
+		<antcall target="prepare-old-astnode" inheritrefs="true" inheritall="true"/>
 
 	</target>
 
+	<!-- =================================================================== -->
+	<!-- Prepares the source code to use the old ASTNode class               -->
+	<!-- =================================================================== -->
+	<target
+	  name="prepare-old-astnode"
+	  description="Prepares the source code to use the old ASTNode class"
+	  if="${use.old.astnodes}"
+	>
+	  <echo message="Building JSBML core using the old ASTNode class!"/>
+	  <copy file="${build.src}/org/sbml/jsbml/ASTNode.java.oldASTNode" tofile="${build.src}/org/sbml/jsbml/ASTNode.java.newASTNode" overwrite="yes"/>
+	  <copy file="${build.src}/org/sbml/jsbml/ASTNode.java.oldASTNode" tofile="${build.src}/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
+
+	  <property name="version" value="${version}-oldASTNode"/>
+
+	</target>
 
 	<!-- =================================================================== -->
 	<!-- Modify some files                                                  -->
@@ -283,6 +301,9 @@
 			</fileset>
 		</copy>
 		<jar jarfile="${build.dir}/${name}-${version}.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
+
+		<echo message="Value of the use-old-astnode property in core = '${use.old.astnodes}'"/>
+		<antcall target="revert-old-astnode" inheritrefs="true" inheritall="true"/>
 	</target>
 
 	<!-- =================================================================== -->
@@ -351,6 +372,20 @@
 		</jar>
 	</target>
 
+	<!-- =================================================================== -->
+	<!-- Revert the source code to use the new ASTNode class                 -->
+	<!-- =================================================================== -->
+	<target
+	  name="revert-old-astnode"
+	  description="Prepares the source code to use the new ASTNode class"
+	  if="${use.old.astnodes}"
+	>
+	  <echo message="Reverting JSBML core using the new ASTNode class!"/>
+	  <copy file="${build.src}/org/sbml/jsbml/ASTNode.java.newASTNode" tofile="${build.src}/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
+
+	  <property name="version" value="${version}-oldASTNode"/>
+
+	</target>
 
 	<!-- =================================================================== -->
 	<!-- Test the jsbml library                                              -->

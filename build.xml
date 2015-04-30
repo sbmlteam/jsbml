@@ -176,9 +176,12 @@
 
 		<property name="prepare.src.target.done" value="true"/>
 
+		<echo message="Value of the use-old-astnode property = '${use.old.astnodes}'"/>
+
 		<ant dir="${core.base.dir}" inheritAll="false" inheritRefs="false">
-			<target name="clean" />
-			<target name="jar" />
+		  <property name="use.old.astnodes" value="${use.old.astnodes}"/>
+		  <target name="clean" />
+		  <target name="jar" />
 		</ant>
 
 		<copy todir="${build.src}">
