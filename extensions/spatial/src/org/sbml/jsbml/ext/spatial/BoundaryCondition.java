@@ -37,35 +37,6 @@ import org.sbml.jsbml.SBMLException;
 public class BoundaryCondition extends ParameterType {
 
   /**
-   * 
-   * @author Andreas Dr&auml;ger
-   * @version $Rev$
-   * @since 0.8
-   */
-  public static enum BoundaryKind {
-    /**
-     * Neumann
-     */
-    NEUMANN,
-    /**
-     * Dirichlet
-     */
-    DIRICHLET,
-    /**
-     * Robin value coefficient
-     */
-    ROBIN_VALUECOEFFICIENT,
-    /**
-     * Robin inward normal gradient coefficient
-     */
-    ROBIN_INWARDNORMALGRADIENTCOEFFICIENT,
-    /**
-     * Robin sum
-     */
-    ROBIN_SUM;
-  }
-
-  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -6986768113234565819L;
@@ -83,7 +54,7 @@ public class BoundaryCondition extends ParameterType {
   /**
    * 
    */
-  private BoundaryKind type;
+  private BoundaryConditionKind type;
 
   /**
    * 
@@ -168,7 +139,7 @@ public class BoundaryCondition extends ParameterType {
    *
    * @return the value of type
    */
-  public BoundaryKind getType() {
+  public BoundaryConditionKind getType() {
     if (isSetType()) {
       return type;
     }
@@ -191,8 +162,8 @@ public class BoundaryCondition extends ParameterType {
    * Sets the value of type
    * @param type
    */
-  public void setType(BoundaryKind type) {
-    BoundaryKind oldType = this.type;
+  public void setType(BoundaryConditionKind type) {
+    BoundaryConditionKind oldType = this.type;
     this.type = type;
     firePropertyChange(SpatialConstants.type, oldType, this.type);
   }
@@ -204,7 +175,7 @@ public class BoundaryCondition extends ParameterType {
     if (!Pattern.matches("[a-z]*", type)) {
       throw new SBMLException("The value is not all lower-case.");
     }
-    setType(BoundaryKind.valueOf(type.toUpperCase()));
+    setType(BoundaryConditionKind.valueOf(type.toUpperCase()));
   }
 
   /**
@@ -215,7 +186,7 @@ public class BoundaryCondition extends ParameterType {
    */
   public boolean unsetType() {
     if (isSetType()) {
-      BoundaryKind oldType = type;
+      BoundaryConditionKind oldType = type;
       type = null;
       firePropertyChange(SpatialConstants.type, oldType, type);
       return true;

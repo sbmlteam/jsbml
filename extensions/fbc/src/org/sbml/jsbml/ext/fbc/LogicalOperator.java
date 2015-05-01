@@ -223,7 +223,7 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
       return getListOfAssociations().get(index);
     }
     throw new IndexOutOfBoundsException(
-      MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
+      MessageFormat.format(resourceBundle.getString("IndexExceedsBoundsException"),
         index, Math.min(pos, 0)));
   }
 

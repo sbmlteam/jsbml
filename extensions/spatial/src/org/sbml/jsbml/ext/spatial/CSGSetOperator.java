@@ -44,27 +44,6 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class CSGSetOperator extends CSGNode {
 
   /**
-   * @author Alex Thomas
-   * @version $Rev$
-   * @since 1.0
-   * @date 10.12.2014
-   */
-  public static enum SetOperation {
-    /**
-     * 
-     */
-    UNION,
-    /**
-     * 
-     */
-    INTERSECTION,
-    /**
-     * 
-     */
-    RELATIVECOMPONENT;
-  }
-
-  /**
    * 
    */
   private static final long serialVersionUID = 3448308755493169761L;
@@ -630,7 +609,7 @@ public class CSGSetOperator extends CSGNode {
       pos++;
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", index,
+      resourceBundle.getString("IndexExceedsBoundsException"), index,
       Math.min(pos, 0)));
   }
 

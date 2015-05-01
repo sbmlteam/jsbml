@@ -44,19 +44,6 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class Geometry extends AbstractSpatialNamedSBase {
 
   /**
-   * 
-   * @author Alex Thomas
-   * @version $Rev$
-   * @since 0.8
-   */
-  public static enum GeometryKind {
-    /**
-     * cartesian
-     */
-    CARTESIAN;
-  }
-
-  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 9115597691155572976L;
@@ -1358,7 +1345,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
       }
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", index,
+      resourceBundle.getString("IndexExceedsBoundsException"), index,
       Math.min(pos, 0)));
   }
 

@@ -162,7 +162,8 @@ NamedSBase {
   boolean checkIdentifier(String sID) {
     if ((sID == null) || !SyntaxChecker.isValidId(sID, getLevel(), getVersion())) {
       throw new IllegalArgumentException(MessageFormat.format(
-        "\"{0}\" is not a valid identifier for this {1}.", sID, getElementName()));
+        resourceBundle.getString("AbstractNamedSBase.checkIdentifier"),
+        sID, getElementName()));
     }
     return true;
   }

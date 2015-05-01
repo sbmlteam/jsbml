@@ -37,44 +37,6 @@ import org.sbml.jsbml.util.ResourceManager;
 public class CSGPrimitive extends CSGNode{
 
   /**
-   * @author Alex Thomas
-   * @version $Rev$
-   * @since 1.0
-   * @date 10.12.2014
-   */
-  public enum PrimitiveKind {
-    /**
-     * sphere
-     */
-    SPHERE,
-    /**
-     * cube
-     */
-    CUBE,
-    /**
-     * cylinder
-     */
-    CYLINDER,
-    /**
-     * cone
-     */
-    CONE,
-    /**
-     * circle
-     */
-    CIRCLE,
-    /**
-     * square
-     */
-    SQUARE,
-    /**
-     * rightTriangle
-     */
-    RIGHTTRIANGLE;
-
-  }
-
-  /**
    * 
    */
   private static final long serialVersionUID = -6783804853380306509L;

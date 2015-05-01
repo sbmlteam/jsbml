@@ -287,7 +287,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0 || childIndex >= 1) {
       throw new IndexOutOfBoundsException(MessageFormat.format(
-        "Index {0,number,integer} >= {1,number,integer}", childIndex,
+        resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
         +Math.min(getChildCount(), 0)));
     }
 

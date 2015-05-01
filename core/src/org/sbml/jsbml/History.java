@@ -184,7 +184,7 @@ public class History extends AnnotationElement {
       pos++;
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}",
+      resourceBundle.getString("IndexExceedsBoundsException"),
       childIndex, Math.min(pos, 0)));
   }
 

@@ -142,7 +142,7 @@ public class SpatialParameterPlugin extends AbstractSpatialSBasePlugin {
     }
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", index,pos));
+      resourceBundle.getString("IndexExceedsBoundsException"), index,pos));
   }
 
   /* (non-Javadoc)

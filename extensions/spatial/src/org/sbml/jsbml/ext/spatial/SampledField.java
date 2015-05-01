@@ -42,74 +42,6 @@ import org.sbml.jsbml.xml.XMLNode;
 public class SampledField extends AbstractSpatialNamedSBase {
 
   /**
-   * @author Alex Thomas
-   * @author Andreas Dr&auml;ger
-   * @version $Rev$
-   * @since 1.0
-   */
-  public enum DataKind {
-    /**
-     * 
-     */
-    DOUBLE,
-    /**
-     * 
-     */
-    FLOAT,
-    /**
-     * 
-     */
-    UINT8,
-    /**
-     * 
-     */
-    UINT16,
-    /**
-     * 
-     */
-    UINT32;
-  }
-
-  /**
-   * @author Alex Thomas
-   * @author Andreas Dr&auml;ger
-   * @author Piero Dalle Pezze
-   * @version $Rev$
-   * @since 1.0
-   */
-  public enum CompressionKind {
-    /**
-     * 
-     */
-    UNCOMPRESSED,
-    /**
-     * 
-     */
-    DEFLATED,
-    /**
-     * 
-     */
-    BASE64;
-  }
-
-  /**
-   * @author Alex Thomas
-   * @author Andreas Dr&auml;ger
-   * @version $Rev$
-   * @since 1.0
-   */
-  public enum InterpolationKind {
-    /**
-     * 
-     */
-    NEARESTNEIGHBOR,
-    /**
-     * 
-     */
-    LINEAR;
-  }
-
-  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 4345673559248715940L;
@@ -728,7 +660,7 @@ public boolean unsetSamplesLength() {
       pos++;
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", index,
+      resourceBundle.getString("IndexExceedsBoundsException"), index,
       Math.min(pos, 0)));
   }
 
