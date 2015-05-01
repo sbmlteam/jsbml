@@ -126,9 +126,9 @@ public class MathMLStaxParser implements ReadingParser {
     ASTNode astNode = (ASTNode) contextObject;
 
     // NOTE: By default cn ASTNodes are of type REAL
-    if (value.equals("integer")) {
-      astNode.setType(Type.INTEGER);
-    }
+//    if (value.equals("integer")) {
+//      astNode.setType(Type.INTEGER);
+//    }
 
     // System.out.println("MathMLStaxParser : processAttribute called");
     // System.out.println("MathMLStaxParser : processAttribute : element name = " + elementName + ", attribute name = " + attributeName +

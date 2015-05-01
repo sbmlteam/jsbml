@@ -1670,6 +1670,10 @@ public class ASTNode extends AbstractTreeNode {
    *            the node to add as child.
    */
   public void addChild(ASTNode child) {
+    if (logger.isDebugEnabled()) {
+      logger.debug(" adding child current node: \n" + astNodeToTree(this, "", ""));
+      logger.debug(" adding child: \n" + astNodeToTree(child, "", ""));
+    }
     listOfNodes.add(child);
     setParentSBMLObject(child, parentSBMLObject, 0);
     child.setParent(this);
@@ -3791,6 +3795,10 @@ public class ASTNode extends AbstractTreeNode {
    */
   public void setType(String typeStr) {
     // System.out.println("ASTNode: setType(String) called.");
+    if (logger.isDebugEnabled()) {
+      logger.debug("ASTNode: setType(String) called: " + typeStr);
+    }
+    
     Type type = Type.getTypeFor(typeStr);
     setType(type);
     if (type != Type.UNKNOWN) {
@@ -3848,7 +3856,7 @@ public class ASTNode extends AbstractTreeNode {
       setValue(Maths.AVOGADRO_L3V1);
       definitionURL = URI_AVOGADRO_DEFINITION;
     }
-    Type oldValue = getType();
+    Type oldValue = this.type;
     this.type = type;
     firePropertyChange(TreeNodeChangeEvent.type, oldValue, type);
   }
@@ -4221,6 +4229,26 @@ public class ASTNode extends AbstractTreeNode {
     for (ASTNode child : getChildren()) {
       child.updateVariables();
     }
+  }
+
+  /**
+   * Returns a simple tree view of the ASTNode internal, including mainly
+   * node type and hierarchy.
+   * 
+   * @param n
+   * @param tree
+   * @param indent
+   * @return a simple tree view of the ASTNode internal
+   */
+  public static String astNodeToTree(ASTNode n, String tree, String indent) {
+    tree = tree + indent + n.getType() + " " + 
+        (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + "\n";
+    
+    for (ASTNode child : n.getChildren()) {
+      tree = astNodeToTree(child, tree, indent + "  ");
+    }
+    
+    return tree;
   }
 
 }
