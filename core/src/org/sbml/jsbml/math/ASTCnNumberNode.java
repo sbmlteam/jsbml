@@ -356,6 +356,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    * @param String units
    */
   public void setUnits(String units) {
+    // TODO - add some checks on the unit, like it was done before?
     String old = this.units;
     this.units = units;
     firePropertyChange(TreeNodeChangeEvent.units, old, this.units);

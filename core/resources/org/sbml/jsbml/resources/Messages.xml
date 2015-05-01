@@ -92,5 +92,10 @@
   <entry key="ASTNode.reduceToBinary3">NOT node with {0,number,integer} children left unchanged</entry>
   <entry key="ASTNode.reduceToBinary4">XOR node with {0,number,integer} children left unchanged</entry>
   <entry key="ASTNode.reduceToBinary5">{0} node with {1,number,integer} children left unchanged</entry>
+  <entry key="ASTNode.setType">setType called: typeBefore={0} typeAfter={1}</entry>
+  <entry key="ASTNode.setUnits1">Unexpected attribute {0}, a unit can only be assigned to literal numbers.</entry>
+  <entry key="ASTNode.setUnits2">Unexpected attribute {0}, only a valid unit kind or the identifier of a unit definition are allowed here.</entry>
+  <entry key="ASTNode.setUnits3">Cannot set unit {0} for a numbers in an ASTNode before SBML Level 3.</entry>
+  <entry key="ASTNode.toString">Could not compile ASTNode to formula: {0}</entry>
 
 </properties>

@@ -101,11 +101,15 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
   @Override
   public void processCharactersOf(String elementName, String characters,
     Object contextObject) {
-    if (contextObject instanceof SpatialPoints) {
+    if (contextObject instanceof SampledField) {
+      SampledField sampledField = (SampledField) contextObject;
+      sampledField.append(characters);
+    }
+    else if (contextObject instanceof SpatialPoints) {
       SpatialPoints spatialPoints = (SpatialPoints) contextObject;
       spatialPoints.append(characters);
     }
-    if (contextObject instanceof ParametricObject) {
+    else if (contextObject instanceof ParametricObject) {
       ParametricObject parametricObject = (ParametricObject) contextObject;
       parametricObject.append(characters);
     }
@@ -114,8 +118,24 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
   @Override
   public void writeCharacters(SBMLObjectForXML xmlObject,
     Object sbmlElementToWrite) {
-    // TODO Auto-generated method stub
-    super.writeCharacters(xmlObject, sbmlElementToWrite);
+    if(sbmlElementToWrite instanceof SampledField) {
+      SampledField sampledField = (SampledField) sbmlElementToWrite;
+      if(sampledField.isSetSamples()) {
+        xmlObject.setCharacters(sampledField.getSamples()); 
+      }
+    }
+    else if(sbmlElementToWrite instanceof SpatialPoints) {
+      SpatialPoints spatialPoints = (SpatialPoints) sbmlElementToWrite;
+      if(spatialPoints.isSetArrayData()) {
+        xmlObject.setCharacters(spatialPoints.getArrayData()); 
+      }
+    }
+    else if(sbmlElementToWrite instanceof ParametricObject) {
+      ParametricObject parametricObject = (ParametricObject) sbmlElementToWrite;
+      if(parametricObject.isSetPointIndex()) {
+        xmlObject.setCharacters(parametricObject.getPointIndex()); 
+      }
+    }    
   }
   
   /* (non-Javadoc)
@@ -191,7 +211,6 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
   public void processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject) {
-
     if (contextObject instanceof Species) {
       Species species = (Species) contextObject;
       SpatialSpeciesPlugin spatialSpecies = null;
@@ -302,7 +321,11 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       } else if (elementName.equals(SpatialConstants.listOfGeometryDefinitions)) {
         ListOf<GeometryDefinition> listOfGeometryDefinitions = geometry.getListOfGeometryDefinitions();
         return listOfGeometryDefinitions;
+      } else if (elementName.equals(SpatialConstants.listOfSampledFields)) {
+        ListOf<SampledField> listOfSampledFields = geometry.getListOfSampledFields();
+        return listOfSampledFields;
       }
+      
     } else if (contextObject instanceof CoordinateComponent) {
       CoordinateComponent cc = (CoordinateComponent) contextObject;
       if (elementName.equals(SpatialConstants.boundaryMinimum)) {
@@ -332,20 +355,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       if (elementName.equals(SpatialConstants.listOfSampledVolumes)){
         ListOf<SampledVolume> listOfSampledVolumes = sfg.getListOfSampledVolumes();
         return listOfSampledVolumes;
-        //      } else if (elementName.equals(SpatialConstants.sampledField)){
-        //        SampledField sf = new SampledField(); // SampleField is not a child anymore in 0.88 but just a SIdRef
-        //        sfg.setSampledField(sf);
-        //        return sf;
       }
-      // NOTE: This has been moved in the listOf section below.
-//    } else if (contextObject instanceof SampledField) {
-      //      SampledField sf = (SampledField) contextObject; // No more child in 0.88
-      //      if (elementName.equals(SpatialConstants.imageData)){
-      //        ImageData im = new ImageData();
-      //        sf.setImageData(im);
-      //        // sf.set
-      //        return im;
-      //      } 
     } else if (contextObject instanceof CSGeometry) {
       CSGeometry csg = (CSGeometry) contextObject;
       if (elementName.equals(SpatialConstants.listOfCSGObjects)){

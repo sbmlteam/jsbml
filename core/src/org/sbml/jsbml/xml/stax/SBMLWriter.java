@@ -163,7 +163,7 @@ public class SBMLWriter {
       System.out.println(Calendar.getInstance().getTime());
 
       String fileName = file.getAbsolutePath();
-      String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
+      String jsbmlWriteFileName = fileName.replaceFirst("\\.xml", "-jsbml.xml");
 
       System.out.printf("Reading %s and writing %s\n",
         fileName, jsbmlWriteFileName);

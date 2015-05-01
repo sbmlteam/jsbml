@@ -31,5 +31,6 @@
   
   <entry key="COMPARTMENT_MAPPING_NOT_SET">Spatial's compartmenMapping is not set for the compartment this species resides in.</entry>
   <entry key="COULD_NOT_READ">Could not recognized the value {0} for the attribute {1} on the ''SpatialSpecies'' element.</entry>
+  <entry key="COULD_NOT_READ_ATTRIBUTE">Could not recognized the value {0} for the attribute {1} on the ''{2}'' element.</entry>	
   
 </properties>

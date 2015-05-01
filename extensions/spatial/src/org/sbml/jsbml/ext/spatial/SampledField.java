@@ -27,9 +27,11 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.parsers.SpatialParser;
 
 
 /**
@@ -82,6 +84,11 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * 
    */
   private XMLNode data;
+
+  /**
+   * 
+   */
+  private Logger logger = Logger.getLogger(SampledField.class);
 
   /**
    * 
@@ -219,7 +226,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @param numSamples1
    */
   public void setNumSamples1(int numSamples1) {
-    int oldNumSamples1 = this.numSamples1;
+    Integer oldNumSamples1 = this.numSamples1;
     this.numSamples1 = numSamples1;
     firePropertyChange(SpatialConstants.numSamples1, oldNumSamples1, this.numSamples1);
   }
@@ -233,7 +240,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetNumSamples1() {
     if (isSetNumSamples1()) {
-      int oldNumSamples1 = numSamples1;
+      Integer oldNumSamples1 = numSamples1;
       numSamples1 = null;
       firePropertyChange(SpatialConstants.numSamples1, oldNumSamples1, numSamples1);
       return true;
@@ -271,7 +278,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @param numSamples2
    */
   public void setNumSamples2(int numSamples2) {
-    int oldNumSamples2 = this.numSamples2;
+    Integer oldNumSamples2 = this.numSamples2;
     this.numSamples2 = numSamples2;
     firePropertyChange(SpatialConstants.numSamples2, oldNumSamples2, this.numSamples2);
   }
@@ -285,7 +292,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetNumSamples2() {
     if (isSetNumSamples2()) {
-      int oldNumSamples2 = numSamples2;
+      Integer oldNumSamples2 = numSamples2;
       numSamples2 = null;
       firePropertyChange(SpatialConstants.numSamples2, oldNumSamples2, numSamples2);
       return true;
@@ -324,7 +331,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @param numSamples3
    */
   public void setNumSamples3(int numSamples3) {
-    int oldNumSamples3 = this.numSamples3;
+    Integer oldNumSamples3 = this.numSamples3;
     this.numSamples3 = numSamples3;
     firePropertyChange(SpatialConstants.numSamples3, oldNumSamples3, this.numSamples3);
   }
@@ -338,7 +345,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetNumSamples3() {
     if (isSetNumSamples3()) {
-      int oldNumSamples3 = numSamples3;
+      Integer oldNumSamples3 = numSamples3;
       numSamples3 = null;
       firePropertyChange(SpatialConstants.numSamples3, oldNumSamples3, numSamples3);
       return true;
@@ -785,37 +792,29 @@ public boolean unsetSamplesLength() {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetNumSamples1()) {
-      attributes.remove("numSamples1");
       attributes.put(SpatialConstants.shortLabel + ":numSamples1", String.valueOf(getNumSamples1()));
     }
-
     if (isSetNumSamples2()) {
-      attributes.remove("numSamples2");
       attributes.put(SpatialConstants.shortLabel + ":numSamples2",
         String.valueOf(getNumSamples2()));
     }
     if (isSetNumSamples3()) {
-      attributes.remove("numSamples3");
       attributes.put(SpatialConstants.shortLabel + ":numSamples3",
         String.valueOf(getNumSamples3()));
     }
     if (isSetDataType()) {
-      attributes.remove("dataType");
       attributes.put(SpatialConstants.shortLabel + ":dataType",
         getDataType().toString());
     }
     if (isSetCompression()) {
-      attributes.remove("compression");
       attributes.put(SpatialConstants.shortLabel + ":compression",
         getCompression().toString());
     }
     if (isSetInterpolation()) {
-      attributes.remove("interpolation");
       attributes.put(SpatialConstants.shortLabel + ":interpolation",
         getInterpolation().toString());
     }
     if (isSetSamplesLength()) {
-      attributes.remove("samplesLength");
       attributes.put(SpatialConstants.shortLabel + ":samplesLength",
         String.valueOf(getSamplesLength()));
     }    
@@ -825,31 +824,28 @@ public boolean unsetSamplesLength() {
 
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.numSamples1)) {
         try {
           setNumSamples1(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.numSamples1);
+          logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.numSamples1, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.numSamples2)) {
         try {
           setNumSamples2(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.numSamples2);
+          logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.numSamples2, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.numSamples3)) {
         try {
           setNumSamples3(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.numSamples3);
+          logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.numSamples3, getElementName()));
         }
       }
 
@@ -857,28 +853,28 @@ public boolean unsetSamplesLength() {
         try {
           setInterpolation(InterpolationKind.valueOf(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.interpolation);
+          logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.interpolation, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.compression)) {
         try {
           setCompression(CompressionKind.valueOf(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.compression);
+          logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.compression, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.samplesLength)) {
         try {
           setSamplesLength(String.valueOf(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.samplesLength);
+          logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.samplesLength, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.dataType)) {
         try {
           setDataType(DataKind.valueOf(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.dataType);
+          logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.dataType, getElementName()));
         }
       }
       else {
