@@ -114,6 +114,25 @@ public class MathMLXMLStreamCompiler {
   }
 
   /**
+   * 
+   * @param indent
+   * @throws XMLStreamException
+   */
+  public MathMLXMLStreamCompiler(String indent) throws XMLStreamException {
+    SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
+    writer = smFactory.createStax2Writer(new StringWriter());
+    this.indent = indent;
+  }
+
+  /**
+   * @throws XMLStreamException
+   * 
+   */
+  public MathMLXMLStreamCompiler() throws XMLStreamException {
+    this("");
+  }
+
+  /**
    * Writes an {@link ASTNode} the mathML.
    * 
    * @param astNode the {@link ASTNode} to serialize as mathML

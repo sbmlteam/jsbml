@@ -131,7 +131,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +Math.min(pos, 0)));
+      Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)

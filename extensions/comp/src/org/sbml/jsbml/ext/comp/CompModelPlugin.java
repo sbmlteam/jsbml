@@ -273,7 +273,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}",
-      childIndex, +Math.min(pos, 0)));
+      childIndex, Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)

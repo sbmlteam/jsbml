@@ -114,7 +114,7 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     JFileChooser chooser = new JFileChooser(new File(System
       .getProperties().getProperty("user.home") + "/Desktop"));
-    SBMLFileFilter fileFilter=new SBMLFileFilter();
+    SBMLFileFilter fileFilter = new SBMLFileFilter();
     chooser.setFileFilter(fileFilter);
     int retrival = chooser.showSaveDialog(null);
     if (retrival == JFileChooser.APPROVE_OPTION) {

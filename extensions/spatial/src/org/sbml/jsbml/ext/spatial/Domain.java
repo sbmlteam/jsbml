@@ -349,7 +349,7 @@ public class Domain extends AbstractSpatialNamedSBase {
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,
-      +Math.min(pos, 0)));
+      Math.min(pos, 0)));
   }
 
 
