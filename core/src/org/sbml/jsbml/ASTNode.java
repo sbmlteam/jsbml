@@ -619,12 +619,6 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
-   * Message to indicate that an {@link ASTNode.Type} type has been chosen which
-   * cannot be used as an operator.
-   */
-  public static final transient String INVALID_OPERATOR_MSG = "Invalid operator %s. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.";
-
-  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -1391327698196553142L;
@@ -1244,8 +1238,7 @@ public class ASTNode extends AbstractTreeNode {
   private static ASTNode relational(ASTNode.Type type, ASTNode left,
     ASTNode right) {
     if ((left == null) || (right == null)) {
-      throw new NullPointerException(
-          "Cannot create a relational node with null arguments.");
+      throw new NullPointerException(resourceBundle.getString("ASTNode.relational"));
     }
     return new ASTNode(ASTFactory.relational(type, left.toASTNode2(),
       right.toASTNode2()));
@@ -1759,12 +1752,9 @@ public class ASTNode extends AbstractTreeNode {
       break;
     case DIVIDE :
       int childCount = getChildCount();
-      if (childCount != 2) {
-        throw new SBMLException(
-          MessageFormat
-          .format(
-            "Fractions must have one numerator and one denominator, here {0,number,integer} elements are given.",
-            childCount));
+      if (childCount != 2) { 
+        throw new SBMLException(MessageFormat.format(
+          resourceBundle.getString("ASTNode.compile1"), childCount));
       }
       value = compiler.frac(getLeftChild(), getRightChild());
       break;
@@ -1958,26 +1948,17 @@ public class ASTNode extends AbstractTreeNode {
           value = compiler.function((FunctionDefinition) variable,
             getChildren());
         } else {
-          logger
-          .warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-              + getName()
-              + ", "
-              + getParentSBMLObject().getElementName()
-              + ")");
-          throw new SBMLException(
-            "ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-                + getName() + ", " + getParentSBMLObject().getElementName()
-                + ")");
+          String message = MessageFormat.format(
+            resourceBundle.getString("ASTNode.compile2"),
+            getName(), getParentSBMLObject().getElementName());
+          logger.warn(message);
+          throw new SBMLException(message);
           // value = compiler.compile(variable);
         }
       } else {
-        logger
-        .debug(MessageFormat
-          .format(
-            "ASTNode of type FUNCTION but the variable is null: ({0}, {1})! Check that your object is linked to a Model.",
-            getName(), (getParentSBMLObject() != null
-            ? getParentSBMLObject().getElementName()
-              : null)));
+        logger.debug(MessageFormat.format(
+          resourceBundle.getString("ASTNode.compile3"),
+          getName(), (getParentSBMLObject() != null ? getParentSBMLObject().getElementName() : null)));
         value = compiler.function(getName(), getChildren());
       }
       break;
@@ -2514,8 +2495,7 @@ public class ASTNode extends AbstractTreeNode {
         break;
       }
     }
-    throw new IllegalArgumentException(
-        "getCharacter() should be called only when isOperator().");
+    throw new IllegalArgumentException(resourceBundle.getString("ASTNode.compile4"));
   }
 
   /**
@@ -2597,8 +2577,7 @@ public class ASTNode extends AbstractTreeNode {
     if (isRational()) {
       return ((ASTCnRationalNode) astnode2).getDenominator();
     }
-    throw new IllegalArgumentException(
-        "getDenominator() should be called only when getType() == RATIONAL.");
+    throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getDenominator"));
   }
 
   /**
@@ -2613,7 +2592,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Gets the exponent value of this ASTNode. This function should be called
-   * only when getType() returns REAL_E or REAL, otherwise an Exception is
+   * only when {@link #getType()} returns REAL_E or REAL, otherwise an Exception is
    * thrown.
    *
    * @return the value of the exponent of this ASTNode.
@@ -2624,8 +2603,7 @@ public class ASTNode extends AbstractTreeNode {
     if (astnode2 instanceof ASTCnExponentialNode) {
       return ((ASTCnExponentialNode) astnode2).getExponent();
     }
-    throw new IllegalArgumentException(
-        "getExponent() should be called only when getType() == REAL_E or REAL");
+    throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getExponent"));
   }
 
   /**
@@ -2649,8 +2627,7 @@ public class ASTNode extends AbstractTreeNode {
     if (isInteger()) {
       return ((ASTCnIntegerNode) astnode2).getInteger();
     }
-    throw new IllegalArgumentException(
-        "getInteger() should be called only when getType() == INTEGER");
+    throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getInteger"));
   }
 
   /**
@@ -2717,8 +2694,7 @@ public class ASTNode extends AbstractTreeNode {
     if (astnode2 instanceof ASTCnExponentialNode) {
       return ((ASTCnExponentialNode) toASTNode2()).getMantissa();
     }
-    throw new IllegalArgumentException(
-        "getMantissa() should be called only when getType() == REAL or REAL_E");
+    throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getMantissa"));
   }
 
   /**
@@ -2732,9 +2708,9 @@ public class ASTNode extends AbstractTreeNode {
    */
   public String getName() {
     if (isNumber() || isOperator()) {
-      throw new IllegalArgumentException(
-          "getName() should be called only when !isNumber() && !isOperator()");
+      throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getName"));
     }
+
     String name = null;
     if (astnode2 instanceof ASTCiNumberNode) {
       if (((ASTCiNumberNode)astnode2).isSetRefId()) {
@@ -2761,8 +2737,7 @@ public class ASTNode extends AbstractTreeNode {
     if (isRational()) {
       return ((ASTCnRationalNode) astnode2).getNumerator();
     }
-    throw new IllegalArgumentException(
-        "getNumerator() should be called only when isRational()");
+    throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getNumerator"));
   }
 
   /*
@@ -2818,8 +2793,8 @@ public class ASTNode extends AbstractTreeNode {
     } else if (isInteger()) {
       return ((ASTCnIntegerNode) astnode2).getNumber();
     }
-    
-    return Double.NaN;
+
+    throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getReal"));
   }
 
   /**
@@ -2835,6 +2810,22 @@ public class ASTNode extends AbstractTreeNode {
     // TODO: Has no analogous method in the new math package.
     // TODO: Is this method still necessary or is the 'testing' complete?
     return null;
+/*
+    Set<NamedSBase> l = new HashSet<NamedSBase>();
+    if (isString()) {
+      if (getVariable() != null) {
+        l.add(getVariable());
+      } else {
+        logger.warn(MessageFormat.format(
+          resourceBundle.getString("ASTNode.getReferencedNamedSBases"),
+          getName()));
+      }
+    }
+    for (ASTNode child : listOfNodes) {
+      l.addAll(child.getReferencedNamedSBases());
+    }
+    return l;
+*/
   }
 
   /**
@@ -2908,13 +2899,15 @@ public class ASTNode extends AbstractTreeNode {
    *           if {@link #isVariable()} returns {@code false}.
    */
   public CallableSBase getVariable() {
+    // TODO - this method is probably not reflecting the old behavior
+    // as the method as quite complex before.
     if (astnode2 instanceof ASTCiNumberNode) {
       return ((ASTCiNumberNode) astnode2).getReferenceInstance();
     } else if (astnode2 instanceof ASTCiFunctionNode) {
       return ((ASTCiFunctionNode) astnode2).getReferenceInstance();
-    } else {
-      return null;
-    }
+    } 
+
+    throw new RuntimeException(resourceBundle.getString("ASTNode.getVariable4"));
   }
 
   /*

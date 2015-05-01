@@ -31,6 +31,8 @@
   
   <entry key="IndexExceedsBoundsException">Index {0,number,integer} >= {1,number,integer}</entry>
   <entry key="IndexExceedsBoundsException2">Node {0} has no children.</entry>
+  <entry key="IndexSurpassesBoundsException">Index {0,number,integer} &#60; {0,number,integer}</entry>
+  <entry key="NullArgument">Argument is null.</entry>
   
   <entry key="AbstractMathContainer.toFormula">Could not create infix formula from syntax tree.</entry>
   <entry key="AbstractMathContainer.inclusion">{0} in {1}</entry>
@@ -58,5 +60,37 @@
   <entry key="AbstractSBase.emptyNotes">The notes to append are empty!</entry>
   <entry key="AbstractSBase.invalidNotesStructure">The given 'notes' String does not have the proper structure, excepting the children 'head' and 'body' to the 'html' element.</entry>
   <entry key="AbstractSBase.problemAddingXMLNode">There was a problem adding the given XMLNode: ''{0}'' to the ''body'' XMLNode.</entry>
+  
+  <entry key="Assignment.ILLEGAL_CONSTANT_VARIABLE_MSG">Cannot set the constant variable {0} as the target of this {1}.</entry>
+  <entry key="Assignment.ILLEGAL_VARIABLE_EXCEPTION_MSG">Cannot set SpeciesReference {0} as the Variable in {1} for SBML Level &#60; 3</entry>
+  <entry key="Assignment.NO_SUCH_VARIABLE_EXCEPTION_MSG">Model {0} does not contain any variable with identifier {1}.</entry>
+  
+  <entry key="ASTNode.INVALID_OPERATOR_MSG">Invalid operator {0}. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.</entry>
+  <entry key="ASTNode.log">logarithm cannot be created for null values</entry>
+  <entry key="ASTNode.relational">Cannot create a relational node with null arguments.</entry>
+  <entry key="ASTNode1">Clone constructor: Origin type = {0}</entry>
+  <entry key="ASTNode.arithmeticOperation">Cannot divide by zero.</entry>
+  <entry key="ASTNode.compile1">Fractions must have one numerator and one denominator, here {0,number,integer} elements are given.</entry>
+  <entry key="ASTNode.compile2">ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ({0}, {1})</entry>
+  <entry key="ASTNode.compile3">ASTNode of type FUNCTION but the variable is null: ({0}, {1})! Check that your object is linked to a Model.</entry>
+  <entry key="ASTNode.compile4">getCharacter() should be called only when isOperator().</entry>
+  <entry key="ASTNode.getDenominator">getDenominator() should be called only when getType() == RATIONAL.</entry>
+  <entry key="ASTNode.getExponent">getExponent() should be called only when getType() == REAL_E or REAL</entry>
+  <entry key="ASTNode.getInteger">getInteger() should be called only when getType() == INTEGER</entry>
+  <entry key="ASTNode.getMantissa">getMantissa() should be called only when getType() == REAL or REAL_E</entry>
+  <entry key="ASTNode.getName">getName() should be called only when !isNumber() &#38;&#38; !isOperator()</entry>
+  <entry key="ASTNode.getNumerator">getNumerator() should be called only when isRational()</entry>
+  <entry key="ASTNode.getReal">getReal() should be called only when isReal() returns true.</entry>
+  <entry key="ASTNode.getReferencedNamedSBases">Name of this node is {0}  but no variable is set.</entry>
+  <entry key="ASTNode.getVariable1">The name \"{0}\" represented by this node is an argument in a function call, i.e., a placeholder for some other element. No corresponding CallableSBase exists in the model</entry>
+  <entry key="ASTNode.getVariable2">Cannot find any element with id \"{0}\" in the model.</entry>
+  <entry key="ASTNode.getVariable3">This ASTNode is not yet linked to a model and can therefore not determine its variable \"{0}\".</entry>
+  <entry key="ASTNode.getVariable4">getVariable() should be called only when isVariable() == true.</entry>
+  <entry key="ASTNode.initDefaults">initDefaults called! type was {0}</entry>
+  <entry key="ASTNode.reduceToBinary1">MINUS node with {0,number,integer} children left unchanged</entry>
+  <entry key="ASTNode.reduceToBinary2">DIVIDE node with {0,number,integer} children left unchanged</entry>
+  <entry key="ASTNode.reduceToBinary3">NOT node with {0,number,integer} children left unchanged</entry>
+  <entry key="ASTNode.reduceToBinary4">XOR node with {0,number,integer} children left unchanged</entry>
+  <entry key="ASTNode.reduceToBinary5">{0} node with {1,number,integer} children left unchanged</entry>
 
 </properties>

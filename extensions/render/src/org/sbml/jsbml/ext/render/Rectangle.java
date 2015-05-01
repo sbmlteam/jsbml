@@ -789,7 +789,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(childIndex + " < 0");
+      throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexSurpassesBoundsException"), childIndex, 0));
     }
     int pos = 0;
     throw new IndexOutOfBoundsException(MessageFormat.format(

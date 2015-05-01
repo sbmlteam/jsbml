@@ -92,21 +92,21 @@ public class TestAnnotation {
     {
       cvTerm.addResource("urn:miriam:kegg.compound:" + urn_id);
       annotation.addCVTerm(cvTerm);
-      annotation.appendNoRDFAnnotation("http://www.genome.jp/dbget-bin/www_bget?cpd:" + urn_id);
+      annotation.appendNonRDFAnnotation("http://www.genome.jp/dbget-bin/www_bget?cpd:" + urn_id);
     }
 
     if (urn_id.startsWith("G"))
     {
       cvTerm.addResource("urn:miriam:kegg.glycan:" + urn_id);
       annotation.addCVTerm(cvTerm);
-      annotation.appendNoRDFAnnotation("<myApp:xxx>http://www.genome.jp/dbget-bin/www_bget?gl:" + urn_id + "</myApp:xxx>");
+      annotation.appendNonRDFAnnotation("<myApp:xxx>http://www.genome.jp/dbget-bin/www_bget?gl:" + urn_id + "</myApp:xxx>");
     }
 
     if (urn_id.contains("."))
     {
       cvTerm.addResource("urn:miriam:ec-code:" + urn_id);
       annotation.addCVTerm(cvTerm);
-      annotation.appendNoRDFAnnotation("http://www.genome.jp/dbget-bin/www_bget?ec:" + urn_id);
+      annotation.appendNonRDFAnnotation("http://www.genome.jp/dbget-bin/www_bget?ec:" + urn_id);
     }
 
     System.out.println("The Annotation is still empty as there is no metaid defined on the species !!");

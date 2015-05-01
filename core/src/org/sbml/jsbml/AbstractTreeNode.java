@@ -93,7 +93,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   @SuppressWarnings("unchecked")
   public static int indexOf(TreeNode parent, TreeNode child) {
     if (child == null) {
-      throw new IllegalArgumentException("Argument is null.");
+      throw new IllegalArgumentException(resourceBundle.getString("NullArgument"));
     }
     // linear search
     Enumeration<TreeNode> e = parent.children();
@@ -276,7 +276,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
             return getChildAt(index++);
           }
         }
-        throw new NoSuchElementException("Enumeration");
+        throw new NoSuchElementException(Enumeration.class.getSimpleName());
       }
     };
   }
