@@ -179,8 +179,6 @@ public class SBMLWriter {
         // testDocument.checkConsistency();
         // System.out.println(XMLNode.convertXMLNodeToString(testDocument.getModel().getAnnotation().getNonRDFannotation()));
         
-        System.out.println(ASTNode.astNodeToTree(testDocument.getModel().getReaction(0).getKineticLaw().getMath(), "", ""));
-        
         System.out.println("Going to check package version and namespace for all elements.");
         PackageUtil.checkPackages(testDocument);
         

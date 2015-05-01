@@ -140,7 +140,7 @@ public class MathMLStaxParser implements ReadingParser {
     }
 
     if (attributeName.equals("type") || attributeName.equals("definitionURL")) {
-      astNode.setType(value);
+      // Done in SBMLReader - astNode.setType(value);
       // System.out.println("MathMLStaxParser : processAttribute : astNode Type = " + astNode.getType());
     } else if (attributeName.equals("id")) {
       astNode.setId(value);

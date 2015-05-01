@@ -923,13 +923,13 @@ public class SBMLReader {
               hasNamespace, sbmlElements.peek());
 
             if (processedElement != null) {
-              /* // TODO - I don't think we need this code any more!?
+               // TODO - we won't need this code any more if the list of child is stored directly in the ASTNode facade
               if (processedElement instanceof ASTNode) {
                 ASTNode astNode = (ASTNode) processedElement;
                 if (currentNode.getLocalPart().equals("cn") && hasAttributes) {
-                  // Object object = sbmlElements.peek();
-                  // if (object != null && object instanceof ASTNode) {
-                  //  ASTNode parent = (ASTNode) object;
+                   Object object = sbmlElements.peek();
+                   if (object != null && object instanceof ASTNode) {
+                    ASTNode parent = (ASTNode) object;
                     if (att.next().getValue().equals("integer")) {
                       astNode.setType(Type.INTEGER);
                     } else if(att.next().getValue().equals("e-notation")) {
@@ -937,13 +937,13 @@ public class SBMLReader {
                     } else if(att.next().getValue().equals("rational")) {
                       astNode.setType(Type.RATIONAL);
                     }
-                     // TODO - wrong, we need to remove the last one! in fact, we don't need to remove and add it again the ASTNode as it's the same
-                    // parent.removeChild(0);
-                    // parent.addChild(astNode);
+                     // we need to remove the last child as the hierarchy of children are stored in the ASTNode2 and not directly in the ASTNode
+                    parent.removeChild(parent.getChildCount() - 1);
+                    parent.addChild(astNode);
                   }
-                // }
+                 }
               }
-              */
+              
               sbmlElements.push(processedElement);
             } else {
               // It is normal to have sometimes null returned as some of the
