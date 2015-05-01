@@ -84,7 +84,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @ProviderFor(ReadingParser.class)
 public class SpatialParser extends AbstractReaderWriter implements PackageParser {
 
-  // TODO - check that it is properly updated to the 0.88 draft specs
+  // TODO - check that it is properly updated to the 0.90 draft specs
 
   /**
    * A {@link Logger} for this class.
@@ -96,6 +96,28 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
    */
   public static final String namespaceURIrequired = "http://www.sbml.org/sbml/level3/version1/req/version1";
 
+  
+  
+  @Override
+  public void processCharactersOf(String elementName, String characters,
+    Object contextObject) {
+    if (contextObject instanceof SpatialPoints) {
+      SpatialPoints spatialPoints = (SpatialPoints) contextObject;
+      spatialPoints.append(characters);
+    }
+    if (contextObject instanceof ParametricObject) {
+      ParametricObject parametricObject = (ParametricObject) contextObject;
+      parametricObject.append(characters);
+    }
+  }
+
+  @Override
+  public void writeCharacters(SBMLObjectForXML xmlObject,
+    Object sbmlElementToWrite) {
+    // TODO Auto-generated method stub
+    super.writeCharacters(xmlObject, sbmlElementToWrite);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
    */
@@ -245,6 +267,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         param.addExtension(SpatialConstants.namespaceURI, spatialParam);
       }
 
+      // TODO: CHECK create method. this might be the source of the problem.
       if (elementName.equals(SpatialConstants.spatialSymbolReference)) {
         SpatialSymbolReference ssr = new SpatialSymbolReference();
         spatialParam.setParamType(ssr);
@@ -314,14 +337,15 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         //        sfg.setSampledField(sf);
         //        return sf;
       }
-    } else if (contextObject instanceof SampledField) {
+      // NOTE: This has been moved in the listOf section below.
+//    } else if (contextObject instanceof SampledField) {
       //      SampledField sf = (SampledField) contextObject; // No more child in 0.88
       //      if (elementName.equals(SpatialConstants.imageData)){
       //        ImageData im = new ImageData();
       //        sf.setImageData(im);
       //        // sf.set
       //        return im;
-      //      }
+      //      } 
     } else if (contextObject instanceof CSGeometry) {
       CSGeometry csg = (CSGeometry) contextObject;
       if (elementName.equals(SpatialConstants.listOfCSGObjects)){
@@ -379,24 +403,14 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     } else if (contextObject instanceof ParametricGeometry) {
       ParametricGeometry pg = (ParametricGeometry) contextObject;
       if (elementName.equals(SpatialConstants.spatialPoints)){
-        SpatialPoints spatialPoints = pg.getSpatialPoints();
-        return spatialPoints;
+        SpatialPoints sp = new SpatialPoints();
+        pg.setSpatialPoints(sp);
+        return sp;
       } else if (elementName.equals(SpatialConstants.listOfParametricObjects)){
         ListOf<ParametricObject> listOfParametricObjects = pg.getListOfParametricObjects();
         return listOfParametricObjects;
       }
-    } else if (contextObject instanceof ParametricObject) {
-      ParametricObject po = (ParametricObject) contextObject;
-      if (elementName.equals(SpatialConstants.imageData)){
-        // TODO: THIS NEEDS to be updated with the details provided in the spatial package v0.90,
-        // See ArrayData text child and PointIndex text child
-        //PolygonObject polygonObject = new PolygonObject();
-        //po.setPolygonObject(polygonObject);
-        //return polygonObject;
-      }
-    }
-
-    else if (contextObject instanceof ListOf<?>) {
+    } else if (contextObject instanceof ListOf<?>) {
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
       if (elementName.equals(SpatialConstants.coordinateComponent)) {
@@ -459,6 +473,11 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         SampledVolume elem = new SampledVolume();
         sfg.addSampledVolume(elem);
         return elem;
+      } else if (elementName.equals(SpatialConstants.sampledField)) {
+        Geometry g = (Geometry) listOf.getParentSBMLObject();
+        SampledField elem = new SampledField();
+        g.addSampledField(elem);
+        return elem;        
       } else if (elementName.equals(SpatialConstants.csgPrimitive)) {
         CSGSetOperator csgso = (CSGSetOperator) listOf.getParentSBMLObject();
         CSGPrimitive elem = new CSGPrimitive();

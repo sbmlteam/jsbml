@@ -329,6 +329,7 @@ public class BoundaryCondition extends ParameterType {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.type)) {
+        // TODO: In the specs v0.90, the type name begins with capital letter.
         if (!Pattern.matches("[a-z]*", value)) {
           throw new SBMLException("The value is not all lower-case.");
         }

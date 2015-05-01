@@ -1249,8 +1249,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
   @Override
   public void writeCharacters(SBMLObjectForXML xmlObject,
     Object sbmlElementToWrite) {
-    // The method should never be called !
-    log4jLogger.warn("The SBML core XML element should not have any content, everything should be stored as attribute.");
+    // The SBML core XML element should not have any content, everything should be stored as attribute.
   }
 
   /* (non-Javadoc)

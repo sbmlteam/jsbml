@@ -69,6 +69,10 @@ public class SampledField extends AbstractSpatialNamedSBase {
   /**
    * 
    */
+  private String samples;
+  /**
+   * 
+   */
   private Integer samplesLength;
   /**
    * 
@@ -106,14 +110,15 @@ public class SampledField extends AbstractSpatialNamedSBase {
     if (sf.isSetCompression()) {
       setCompression(sf.getCompression());
     }
+    if (sf.isSetSamples()) {
+      setSamples(sf.getSamples());
+    }        
     if (sf.isSetSamplesLength()) {
       setSamplesLength(sf.getSamplesLength());
     }    
     if (sf.isSetInterpolation()) {
       setInterpolation(sf.getInterpolation());
     }
-
-    // TODO - data ?
   }
 
   /**
@@ -172,6 +177,10 @@ public class SampledField extends AbstractSpatialNamedSBase {
       if (equal && isSetSamplesLength()) {
         equal &= sf.getSamplesLength() == getSamplesLength();
       }      
+      equal &= sf.isSetSamples() == isSetSamples();
+      if (equal && isSetSamples()) {
+        equal &= sf.getSamples() == getSamples();
+      }
       equal &= sf.isSetDataType() == isSetDataType();
       if (equal && isSetDataType()) {
         equal &= sf.getDataType().equals(getDataType());
@@ -491,7 +500,75 @@ public class SampledField extends AbstractSpatialNamedSBase {
     return false;
   }
 
+  
+  /**
+   * Returns the value of {@link #samples}.
+   *
+   * @return the value of {@link #samples}.
+   */
+  public String getSamples() {
+    if (isSetSamples()) {
+      return samples;
+    }
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(SpatialConstants.samples, this);
+  }
 
+
+  /**
+   * Returns whether {@link #samples} is set.
+   *
+   * @return whether {@link #samples} is set.
+   */
+  public boolean isSetSamples() {
+    return this.samples != null;
+  }
+
+
+  /**
+   * Sets the value of samples
+   *
+   * @param samples the value of samples to be set.
+   */
+  public void setSamples(String samples) {
+    String oldSamples = this.samples;
+    this.samples = samples;
+    firePropertyChange(SpatialConstants.samples, oldSamples, this.samples);
+  }
+
+
+  /**
+   * Unsets the variable samples.
+   *
+   * @return {@code true} if samples was set before, otherwise {@code false}.
+   */
+  public boolean unsetSamples() {
+    if (isSetSamples()) {
+      String oldSamples = this.samples;
+      this.samples = null;
+      this.samplesLength = null;
+      firePropertyChange(SpatialConstants.samples, oldSamples, this.samples);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Appends the variable data to samples.
+   * @return {@code true} if data was appended to samples, otherwise {@code false}.
+   */
+  public boolean append(String data) {
+    if (data == null) { return false; }
+    if (isSetSamples()) {
+      String oldSamples = this.samples;
+      this.samples = this.samples + data;
+      firePropertyChange(SpatialConstants.samples, oldSamples, this.samples);
+    } else {
+      setSamples(data);
+    }
+    return true;
+  }
+  
 /**
  * Returns the value of {@link #samplesLength}.
  *
@@ -689,6 +766,10 @@ public boolean unsetSamplesLength() {
       hashCode += prime * getCompression().hashCode();
     }
     
+    if (isSetSamples()) {
+      hashCode += prime * getSamples().hashCode();
+    }
+    
     if (isSetSamplesLength()) {
       hashCode += prime * getSamplesLength();
     }
@@ -733,6 +814,11 @@ public boolean unsetSamplesLength() {
       attributes.put(SpatialConstants.shortLabel + ":interpolation",
         getInterpolation().toString());
     }
+    if (isSetSamplesLength()) {
+      attributes.remove("samplesLength");
+      attributes.put(SpatialConstants.shortLabel + ":samplesLength",
+        String.valueOf(getSamplesLength()));
+    }    
     return attributes;
   }
 
@@ -823,6 +909,8 @@ public boolean unsetSamplesLength() {
     builder.append(compression);
     builder.append(", samplesLength=");
     builder.append(samplesLength);    
+    builder.append(", samples=");
+    builder.append(samples);        
     builder.append(", data=");
     builder.append(data);
     builder.append("]");

@@ -695,7 +695,7 @@ public class SBMLReader {
         if (!characters.isWhiteSpace()) {
           isText = true; // the characters are not only 'white spaces'
         }
-        if ((sbmlElements.peek() instanceof XMLNode) || isInsideNotes || isInsideAnnotation) {
+        if ((!sbmlElements.isEmpty() && (sbmlElements.peek() instanceof XMLNode)) || isInsideNotes || isInsideAnnotation) {
           isText = true; // We want to keep the whitespace/formatting when reading html block
         }
 

@@ -21,8 +21,10 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
@@ -66,6 +68,15 @@ public class ParserManager {
    */
   private Logger logger = Logger.getLogger(ParserManager.class);
 
+  private String[] parserDefaults = 
+    {"org.sbml.jsbml.xml.parsers.UncertMLXMLNodeReader", "org.sbml.jsbml.xml.parsers.SBMLCoreParser", 
+    "org.sbml.jsbml.xml.parsers.MathMLStaxParser", "org.sbml.jsbml.xml.parsers.ArraysParser", "org.sbml.jsbml.xml.parsers.CompParser",
+    "org.sbml.jsbml.xml.parsers.DistribParser", "org.sbml.jsbml.xml.parsers.DynParser", "org.sbml.jsbml.xml.parsers.FBCParser",
+    "org.sbml.jsbml.xml.parsers.GroupsParser", "org.sbml.jsbml.xml.parsers.L3LayoutParser", "org.sbml.jsbml.xml.parsers.LayoutParser",
+    "org.sbml.jsbml.xml.parsers.MultiParser", "org.sbml.jsbml.xml.parsers.QualParser", "org.sbml.jsbml.xml.parsers.RenderParser",
+    "org.sbml.jsbml.xml.parsers.ReqParser", "org.sbml.jsbml.xml.parsers.SpatialParser", "org.sbml.jsbml.xml.parsers.XMLNodeReader"};
+
+
   /**
    * Private constructor to make sure that we have only one {@link ParserManager} per JVM.
    */
@@ -91,7 +102,8 @@ public class ParserManager {
   private void init() {
     // loading the ReadingParsers
     Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
-
+    List<String> classNames = new ArrayList<String>();
+    
     // TODO - each time we add one HashMap entry, check that it was not defined already
     // so that we notice problems as early as possible if two packages declared to take care of the same namespace
 
@@ -102,7 +114,8 @@ public class ParserManager {
         if (readingParser != null) {
 
           String packageName = "core";
-
+          classNames.add(readingParser.getClass().getName());
+          
           if (readingParser instanceof PackageParser) {
             packageName = ((PackageParser) readingParser).getPackageName();
             packageParsers.put(packageName, (PackageParser) readingParser);
@@ -133,6 +146,7 @@ public class ParserManager {
         if (writingParser != null) {
 
           String packageName = "core";
+          classNames.add(writingParser.getClass().getName());
 
           if (writingParser instanceof PackageParser) {
             packageName = ((PackageParser) writingParser).getPackageName();
@@ -149,6 +163,77 @@ public class ParserManager {
 
       }
     }
+    
+    // TODO - check the maps and add the parsers by hand if they are not present.
+    // prevent problems when developers are not setting properly eclipse, when jar 
+    // files are not generated with 
+ 
+    for (String parserClassName  : parserDefaults) {
+      if (! classNames.contains(parserClassName)) {
+        
+        try {
+          Object newInstance = Class.forName(parserClassName).newInstance();
+          
+          if (newInstance instanceof ReadingParser) {
+            ReadingParser readingParser = (ReadingParser) newInstance;
+            
+            String packageName = "core";
+            
+            if (readingParser instanceof PackageParser) {
+              packageName = ((PackageParser) readingParser).getPackageName();
+              packageParsers.put(packageName, (PackageParser) readingParser);
+            }
+            for (String namespaceURI : readingParser.getNamespaces()) {
+              readingParsers.put(namespaceURI, readingParser);
+              namespaceToNameMap.put(namespaceURI, packageName);
+            }
+
+            if (readingParser instanceof WritingParser) {
+              for (String namespaceURI : readingParser.getNamespaces()) {
+                writingParsers.put(namespaceURI, (WritingParser) readingParser);
+              }
+            }
+          }
+          
+          if (newInstance instanceof WritingParser)
+          {
+            WritingParser writingParser = (WritingParser) newInstance;
+
+            String packageName = "core";
+
+            if (writingParser instanceof PackageParser) {
+              packageName = ((PackageParser) writingParser).getPackageName();
+              packageParsers.put(packageName, (PackageParser) writingParser);
+            }
+
+            for (String namespaceURI : writingParser.getNamespaces()) {
+              writingParsers.put(namespaceURI, writingParser);
+              namespaceToNameMap.put(namespaceURI, packageName);
+            }
+          }
+        } catch (ClassNotFoundException e) 
+        {
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+          }
+        }
+        catch (InstantiationException e) 
+        {
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
+        }
+        catch (IllegalAccessException e) 
+        {
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
+        }
+      }
+    }
+
 
   }
 
@@ -225,6 +310,7 @@ public class ParserManager {
   public Map<String, ReadingParser> getReadingParsers() {
 
     Map<String, ReadingParser> clonedMap = new HashMap<String, ReadingParser>();
+    List<String> classNames = new ArrayList<String>();
 
     Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
 
@@ -234,6 +320,8 @@ public class ParserManager {
 
         if (readingParser != null) {
 
+          classNames.add(readingParser.getClass().getName());
+          
           for (String namespaceURI : readingParser.getNamespaces()) {
             clonedMap.put(namespaceURI, readingParser);
           }
@@ -243,6 +331,43 @@ public class ParserManager {
         // No need to print the message again, it is printed once in the init() method
       }
     }
+    
+    for (String parserClassName  : parserDefaults) {
+      if (! classNames.contains(parserClassName)) {
+        
+        try {
+          Object newInstance = Class.forName(parserClassName).newInstance();
+          
+          if (newInstance instanceof ReadingParser) {
+            ReadingParser readingParser = (ReadingParser) newInstance;
+            
+            for (String namespaceURI : readingParser.getNamespaces()) {
+              clonedMap.put(namespaceURI, readingParser);
+            }
+          }
+        } catch (ClassNotFoundException e) 
+        {
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+          }
+        }
+        catch (InstantiationException e) 
+        {
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
+        }
+        catch (IllegalAccessException e) 
+        {
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
+        }
+      }
+    }
+
 
     return clonedMap;
   }
@@ -255,6 +380,7 @@ public class ParserManager {
   public Map<String, WritingParser> getWritingParsers() {
 
     Map<String, WritingParser> clonedMap = new HashMap<String, WritingParser>();
+    List<String> classNames = new ArrayList<String>();
 
     Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
 
@@ -263,6 +389,8 @@ public class ParserManager {
         ReadingParser readingParser = readingParserList.next();
 
         if (readingParser != null && readingParser instanceof WritingParser) {
+
+          classNames.add(readingParser.getClass().getName());
 
           for (String namespaceURI : readingParser.getNamespaces()) {
             clonedMap.put(namespaceURI, (WritingParser) readingParser);
@@ -282,6 +410,8 @@ public class ParserManager {
 
         if (writingParser != null) {
 
+          classNames.add(writingParser.getClass().getName());
+
           for (String namespaceURI : writingParser.getNamespaces()) {
             clonedMap.put(namespaceURI, writingParser);
           }
@@ -292,6 +422,41 @@ public class ParserManager {
       }
     }
 
+    for (String parserClassName  : parserDefaults) {
+      if (! classNames.contains(parserClassName)) {
+        
+        try {
+          Object newInstance = Class.forName(parserClassName).newInstance();
+          
+          if (newInstance instanceof WritingParser) {
+            WritingParser readingParser = (WritingParser) newInstance;
+            
+            for (String namespaceURI : readingParser.getNamespaces()) {
+              clonedMap.put(namespaceURI, readingParser);
+            }
+          }
+        } catch (ClassNotFoundException e) 
+        {
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+          }
+        }
+        catch (InstantiationException e) 
+        {
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
+        }
+        catch (IllegalAccessException e) 
+        {
+          if (logger.isDebugEnabled()) {
+            logger.debug("problem loading class '" + parserClassName + "': " + e.getMessage());
+            e.printStackTrace();
+          }
+        }
+      }
+    }
 
     return clonedMap;
   }

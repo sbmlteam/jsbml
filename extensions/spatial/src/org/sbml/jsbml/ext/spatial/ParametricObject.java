@@ -52,6 +52,10 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
   /**
    * 
    */
+  private String pointIndex;  
+  /**
+   * 
+   */
   private Integer pointIndexLength;
   /**
    * 
@@ -85,6 +89,9 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     if (po.isSetCompression()) {
       setCompression(po.getCompression());
     }
+    if (po.isSetPointIndex()) {
+      setPointIndex(po.getPointIndex());
+    }    
     if (po.isSetPointIndexLength()) {
       setPointIndexLength(po.getPointIndexLength());
     }
@@ -137,6 +144,10 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
       equal &= po.isSetCompression() == isSetCompression();
       if (equal && isSetCompression()) {
         equal &= po.getCompression().equals(getCompression());
+      }
+      equal &= po.isSetPointIndex() == isSetPointIndex();
+      if (equal && isSetPointIndex()) {
+        equal &= po.getPointIndex() == getPointIndex();
       }
       equal &= po.isSetPointIndexLength() == isSetPointIndexLength();
       if (equal && isSetPointIndexLength()) {
@@ -323,13 +334,81 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
   
   
   /**
+   * Returns the value of {@link #pointIndex}.
+   *
+   * @return the value of {@link #pointIndex}.
+   */
+  public String getPointIndex() {
+    if (isSetPointIndex()) {
+      return pointIndex;
+    }
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(SpatialConstants.pointIndex, this);
+  }
+
+
+  /**
+   * Returns whether {@link #pointIndex} is set.
+   *
+   * @return whether {@link #pointIndex} is set.
+   */
+  public boolean isSetPointIndex() {
+    return this.pointIndex != null;
+  }
+
+
+  /**
+   * Sets the value of pointIndex
+   *
+   * @param pointIndex the value of pointIndex to be set.
+   */
+  public void setPointIndex(String pointIndex) {
+    String oldPointIndex = this.pointIndex;
+    this.pointIndex = pointIndex;
+    firePropertyChange(SpatialConstants.pointIndex, oldPointIndex, this.pointIndex);
+  }
+
+
+  /**
+   * Unsets the variable pointIndex.
+   *
+   * @return {@code true} if pointIndex was set before, otherwise {@code false}.
+   */
+  public boolean unsetPointIndex() {
+    if (isSetPointIndex()) {
+      String oldPointIndex = this.pointIndex;
+      this.pointIndex = null;
+      this.pointIndexLength = null;
+      firePropertyChange(SpatialConstants.pointIndex, oldPointIndex, this.pointIndex);
+      return true;
+    }
+    return false;
+  }
+  
+  /**
+   * Appends the variable data to pointIndex.
+   * @return {@code true} if data was appended to pointIndex, otherwise {@code false}.
+   */
+  public boolean append(String data) {
+    if (data == null) { return false; }
+    if (isSetPointIndex()) {
+      String oldPointIndex = this.pointIndex;
+      this.pointIndex = this.pointIndex + data;
+      firePropertyChange(SpatialConstants.pointIndex, oldPointIndex, this.pointIndex);
+    } else {
+      setPointIndex(data);
+    }
+    return true;
+  }
+  
+  /**
    * Returns the value of pointIndexLength.
    *
    * @return the value of pointIndexLength.
    */
   public int getPointIndexLength() {
     if (isSetPointIndexLength()) {
-      return pointIndexLength.intValue();
+      return pointIndexLength;
     }
     // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
     throw new PropertyUndefinedError(SpatialConstants.pointIndexLength, this);
@@ -447,6 +526,9 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     if (isSetCompression()) {
       hashCode += prime * getCompression().hashCode();
     }
+    if (isSetPointIndex()) {
+      hashCode += prime * getPointIndex().hashCode();
+    }
     if (isSetPointIndexLength()) {
       hashCode += prime * getPointIndexLength();
     }
@@ -514,21 +596,21 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
         try {
           setCompression(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.polygonType);
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.compression);
         }
       }
       else if (attributeName.equals(SpatialConstants.pointIndexLength)) {
         try {
           setPointIndexLength(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.polygonType);
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.pointIndexLength);
         }
       }
       else if (attributeName.equals(SpatialConstants.dataType)) {
         try {
           setDataType(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.polygonType);
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.dataType);
         }
       }      
       else {
@@ -551,6 +633,8 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     builder.append(domainType);
     builder.append(", compression=");
     builder.append(compression);
+    builder.append(", pointIndex=");
+    builder.append(pointIndex);
     builder.append(", pointIndexLength=");
     builder.append(pointIndexLength);
     builder.append(", dataType=");

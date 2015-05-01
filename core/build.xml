@@ -368,6 +368,7 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.ReqParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.UncertMLXMLNodeReader" />
 			</service>
 		</jar>
 	</target>
