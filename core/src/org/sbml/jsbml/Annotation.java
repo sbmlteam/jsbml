@@ -157,9 +157,8 @@ public class Annotation extends AnnotationElement {
    * 
    */
   public Annotation(String annotation) throws XMLStreamException {
-    this();
     // parse the String as an XMLNode
-    nonRDFannotation = XMLNode.convertStringToXMLNode(annotation);
+    this(XMLNode.convertStringToXMLNode(annotation));
   }
 
   /**
@@ -182,6 +181,15 @@ public class Annotation extends AnnotationElement {
   }
 
   /**
+   * 
+   * @param annotation
+   */
+  public Annotation(XMLNode annotation) {
+    this();
+    nonRDFannotation = annotation;
+  }
+
+  /**
    * Adds a {@link CVTerm}.
    * 
    * @param cvTerm
@@ -198,6 +206,23 @@ public class Annotation extends AnnotationElement {
     boolean success = listOfCVTerms.add(cvTerm);
     firePropertyChange(TreeNodeChangeEvent.addCVTerm, null, cvTerm);
     return success;
+  }
+
+  /**
+   * Adds an additional namespace to the set of declared namespaces of this
+   * {@link SBase}.
+   * 
+   * @param prefix the prefix of the namespace to add
+   * @param uri the namespace uri
+   * 
+   */
+  public void addDeclaredNamespace(String prefix, String uri)
+  {
+    if (!isSetNonRDFannotation()) {
+      nonRDFannotation = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
+    }
+
+    nonRDFannotation.addNamespace(uri, prefix);
   }
 
   /**
@@ -244,6 +269,18 @@ public class Annotation extends AnnotationElement {
   @Override
   public Annotation clone() {
     return new Annotation(this);
+  }
+
+  /**
+   * @see org.sbml.jsbml.SBase#getHistory()
+   * @return
+   */
+  private History createHistory() {
+    history = new History();
+    history.parent = this;
+    history.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+
+    return history;
   }
 
   /* (non-Javadoc)
@@ -301,6 +338,7 @@ public class Annotation extends AnnotationElement {
     return l;
   }
 
+
   /**
    * Returns the about String of this object.
    * 
@@ -310,6 +348,7 @@ public class Annotation extends AnnotationElement {
     return about == null ? "" : about;
   }
 
+
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
@@ -317,7 +356,6 @@ public class Annotation extends AnnotationElement {
   public boolean getAllowsChildren() {
     return true;
   }
-
 
   /**
    * Returns the {@link XMLNode} representing non RDF annotations.
@@ -328,58 +366,6 @@ public class Annotation extends AnnotationElement {
   @Deprecated
   public XMLNode getAnnotationBuilder() {
     return nonRDFannotation;
-  }
-
-
-  /**
-   * 
-   * 
-   * @return
-   */
-  public XMLNode getFullAnnotation() {
-
-    XMLNode nonRdfAnnotationClone = null;
-
-    if (isSetNonRDFannotation()) {
-      nonRdfAnnotationClone = nonRDFannotation.clone();
-    }
-
-    // TODO - get the list of AnnotationWriter from the manager
-    List<AnnotationWriter> annotationParsers = new ArrayList<AnnotationWriter>();
-    // hack to delete
-    annotationParsers.add(new SBMLRDFAnnotationParser());
-
-    // calling the annotation parsers so that they update the XMLNode before returning it to the user
-    for (AnnotationWriter annoWriter : annotationParsers) {
-      nonRdfAnnotationClone = annoWriter.writeAnnotation((SBase) getParent(), nonRdfAnnotationClone);
-    }
-
-    return nonRdfAnnotationClone;
-  }
-
-  /**
-   * 
-   * 
-   * @return
-   */
-  public String getFullAnnotationString() {
-
-    XMLNode fullAnnotation = getFullAnnotation();
-
-    // System.out.println("getFullAnnotationString - " + fullAnnotation);
-
-    if (fullAnnotation != null) {
-      try {
-        return fullAnnotation.toXMLString();
-      } catch (XMLStreamException e) {
-        Logger logger = Logger.getLogger(Annotation.class);
-        if (logger.isDebugEnabled()) {
-          e.printStackTrace();
-        }
-      }
-    }
-
-    return "";
   }
 
   /* (non-Javadoc)
@@ -414,7 +400,7 @@ public class Annotation extends AnnotationElement {
     //		}
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}",
-      childIndex, +Math.min(pos, 0)));
+      childIndex, Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
@@ -447,6 +433,75 @@ public class Annotation extends AnnotationElement {
 
 
   /**
+   * Gives the number of {@link CVTerm}s in this {@link Annotation}.
+   * 
+   * @return the number of controlled vocabulary terms in this {@link Annotation}.
+   */
+  public int getCVTermCount() {
+    return isSetListOfCVTerms() ? listOfCVTerms.size() : 0;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public XMLNamespaces getDeclaredNamespaces() {
+    return isSetNonRDFannotation() ? nonRDFannotation.getNamespaces() : null;
+  }
+
+  /**
+   * 
+   * 
+   * @return
+   */
+  public XMLNode getFullAnnotation() {
+
+    XMLNode nonRdfAnnotationClone = null;
+
+    if (isSetNonRDFannotation()) {
+      nonRdfAnnotationClone = nonRDFannotation.clone();
+    }
+
+    // TODO - get the list of AnnotationWriter from the manager
+    List<AnnotationWriter> annotationParsers = new ArrayList<AnnotationWriter>();
+    // hack to delete
+    annotationParsers.add(new SBMLRDFAnnotationParser());
+
+    // calling the annotation parsers so that they update the XMLNode before returning it to the user
+    for (AnnotationWriter annoWriter : annotationParsers) {
+      nonRdfAnnotationClone = annoWriter.writeAnnotation((SBase) getParent(), nonRdfAnnotationClone);
+    }
+
+    return nonRdfAnnotationClone;
+  }
+
+
+  /**
+   * 
+   * 
+   * @return
+   */
+  public String getFullAnnotationString() {
+
+    XMLNode fullAnnotation = getFullAnnotation();
+
+    // System.out.println("getFullAnnotationString - " + fullAnnotation);
+
+    if (fullAnnotation != null) {
+      try {
+        return fullAnnotation.toXMLString();
+      } catch (XMLStreamException e) {
+        Logger logger = Logger.getLogger(Annotation.class);
+        if (logger.isDebugEnabled()) {
+          e.printStackTrace();
+        }
+      }
+    }
+
+    return "";
+  }
+
+  /**
    * Returns the {@link History} of the Annotation.
    * 
    * @return the {@link History} of the Annotation.
@@ -455,18 +510,6 @@ public class Annotation extends AnnotationElement {
     if (!isSetHistory()) {
       createHistory();
     }
-
-    return history;
-  }
-
-  /**
-   * @see org.sbml.jsbml.SBase#getHistory()
-   * @return
-   */
-  private History createHistory() {
-    history = new History();
-    history.parent = this;
-    history.addAllChangeListeners(getListOfTreeNodeChangeListeners());
 
     return history;
   }
@@ -483,6 +526,19 @@ public class Annotation extends AnnotationElement {
     return listOfCVTerms;
   }
 
+  /**
+   * Returns the {@link XMLNode} containing annotations other than
+   * the official RDF annotation, as defined in the SBML specifications.
+   * 
+   * @return the {@link XMLNode} containing annotations other than RDF
+   *         annotation. Return null if there are none.
+   */
+  public XMLNode getNonRDFannotation() {
+    if (nonRDFannotation != null) {
+      return nonRDFannotation;
+    }
+    return null;
+  }
 
   /**
    * Returns the String containing annotations other than RDF
@@ -503,21 +559,6 @@ public class Annotation extends AnnotationElement {
   }
 
   /**
-   * Returns the {@link XMLNode} containing annotations other than
-   * the official RDF annotation, as defined in the SBML specifications.
-   * 
-   * @return the {@link XMLNode} containing annotations other than RDF
-   *         annotation. Return null if there are none.
-   */
-  public XMLNode getNonRDFannotation() {
-    if (nonRDFannotation != null) {
-      return nonRDFannotation;
-    }
-    return null;
-  }
-
-
-  /**
    * Gives the number of {@link CVTerm}s in this {@link Annotation}.
    * 
    * @return the number of controlled vocabulary terms in this {@link Annotation}.
@@ -527,13 +568,13 @@ public class Annotation extends AnnotationElement {
     return getCVTermCount();
   }
 
+
   /**
-   * Gives the number of {@link CVTerm}s in this {@link Annotation}.
    * 
-   * @return the number of controlled vocabulary terms in this {@link Annotation}.
+   * @return
    */
-  public int getCVTermCount() {
-    return isSetListOfCVTerms() ? listOfCVTerms.size() : 0;
+  public XMLNode getXMLNode() {
+    return getNonRDFannotation();
   }
 
   /* (non-Javadoc)
@@ -551,7 +592,6 @@ public class Annotation extends AnnotationElement {
     }
     return hashCode;
   }
-
 
   /**
    * 
@@ -571,6 +611,7 @@ public class Annotation extends AnnotationElement {
   public boolean isSetAbout() {
     return about != null;
   }
+
 
   /**
    * Checks if the {@link Annotation} is initialized.
@@ -613,7 +654,6 @@ public class Annotation extends AnnotationElement {
     return history != null && !history.isEmpty();
   }
 
-
   /**
    * Checks if the list of {@link CVTerm} is not empty.
    * 
@@ -652,6 +692,7 @@ public class Annotation extends AnnotationElement {
   public boolean isSetOtherAnnotationThanRDF() {
     return isSetNonRDFannotation();
   }
+
 
   /**
    * Checks if the RDF part of the Annotation is initialized.
@@ -699,7 +740,6 @@ public class Annotation extends AnnotationElement {
     return false;
   }
 
-
   /**
    * Removes the given {@link CVTerm}.
    * 
@@ -717,6 +757,8 @@ public class Annotation extends AnnotationElement {
 
     return success;
   }
+
+
 
   /**
    * Removes the {@link CVTerm} at the given index.
@@ -748,8 +790,6 @@ public class Annotation extends AnnotationElement {
     firePropertyChange(TreeNodeChangeEvent.about, oldAbout, this.about);
   }
 
-
-
   /**
    * Changes the {@link History} instance to 'history'
    * 
@@ -761,6 +801,18 @@ public class Annotation extends AnnotationElement {
     this.history.parent = this;
     this.history.addAllChangeListeners(getListOfTreeNodeChangeListeners());
     firePropertyChange(TreeNodeChangeEvent.history, oldHistory, this.history);
+  }
+
+  /**
+   * Sets the value of the non RDF annotations
+   * 
+   * @param nonRDFAnnotationStr
+   * @throws XMLStreamException
+   */
+  public void setNonRDFAnnotation(String nonRDFAnnotationStr) throws XMLStreamException {
+    if (nonRDFAnnotationStr != null) {
+      setNonRDFAnnotation(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(nonRDFAnnotationStr)));
+    }
   }
 
   /**
@@ -788,18 +840,6 @@ public class Annotation extends AnnotationElement {
 
     firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
       oldNonRDFAnnotation, nonRDFannotation);
-  }
-
-  /**
-   * Sets the value of the non RDF annotations
-   * 
-   * @param nonRDFAnnotationStr
-   * @throws XMLStreamException
-   */
-  public void setNonRDFAnnotation(String nonRDFAnnotationStr) throws XMLStreamException {
-    if (nonRDFAnnotationStr != null) {
-      setNonRDFAnnotation(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(nonRDFAnnotationStr)));
-    }
   }
 
   /**
@@ -839,31 +879,6 @@ public class Annotation extends AnnotationElement {
       firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
         oldNonRDFAnnotation, nonRDFannotation);
     }
-  }
-
-  /**
-   * Adds an additional namespace to the set of declared namespaces of this
-   * {@link SBase}.
-   * 
-   * @param prefix the prefix of the namespace to add
-   * @param uri the namespace uri
-   * 
-   */
-  public void addDeclaredNamespace(String prefix, String uri)
-  {
-    if (!isSetNonRDFannotation()) {
-      nonRDFannotation = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
-    }
-
-    nonRDFannotation.addNamespace(uri, prefix);
-  }
-
-  /**
-   * 
-   * @return
-   */
-  public XMLNamespaces getDeclaredNamespaces() {
-    return isSetNonRDFannotation() ? nonRDFannotation.getNamespaces() : null;
   }
 
 }

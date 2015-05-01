@@ -34,6 +34,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -283,5 +284,16 @@ public class AnalyticGeometry extends GeometryDefinition {
     }
     return equal;
   }
+  
+  @Override
+  public int hashCode() {
+    final int prime = 1039;//Change this prime number
+    int hashCode = super.hashCode();
+    if (isSetListOfAnalyticVolumes()) {
+      hashCode += prime * getListOfAnalyticVolumes().hashCode();
+    }
+    return hashCode;
+  }
+
 
 }

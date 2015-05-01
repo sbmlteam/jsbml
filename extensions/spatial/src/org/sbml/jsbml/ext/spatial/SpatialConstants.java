@@ -352,7 +352,6 @@ public class SpatialConstants {
    * 
    */
   public static final String listOfGeometryDefinitions = "listOfGeometryDefinitions";
-
   /**
    * 
    */
@@ -462,9 +461,9 @@ public class SpatialConstants {
    */
   public static final String listOfParametricObjects = "listOfParametricObjects";
   /**
-   * 
+   *
    */
-  public static final String spatialPoint = "spatialPoint";
+  public static final String spatialPoints = "spatialPoints";  
   /**
    * 
    */
@@ -508,6 +507,15 @@ public class SpatialConstants {
    * 
    */
   public static final String data = "data";
+  /**
+   * 
+   */
+  public static final String pointIndexLength = "pointIndexLength";
+
+  /**
+   * 
+   */
+  public static final String arrayDataLength = "arrayDataLength";
 
   /**
    * @param level

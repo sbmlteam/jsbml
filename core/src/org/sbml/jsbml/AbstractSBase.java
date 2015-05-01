@@ -1743,6 +1743,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           "Cannot register {0}.", sbase.getElementName()));
       }
 
+      // TODO - set package version and namespace if needed
+
       /*
        * Now, we can add all previous listeners. The next change will
        * be fired after registering all ids.
@@ -1772,6 +1774,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   private void registerChild(SBasePlugin sbasePlugin)  {
     // Could/Should be used by the method #firePropertyChange
 
+    // TODO - set package version and namespace if needed
+	  
     int childCount = sbasePlugin.getChildCount();
 
     if (childCount > 0) {

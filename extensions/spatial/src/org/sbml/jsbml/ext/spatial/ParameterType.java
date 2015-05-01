@@ -60,7 +60,7 @@ public class ParameterType extends AbstractSBase {
   /**
    * Refers to species object that the parameter is associated with
    */
-  private String speciesRef;
+  private String speciesRef; // TODO Check whether this is the correct name. 
 
   /**
    * 
@@ -87,10 +87,10 @@ public class ParameterType extends AbstractSBase {
   public ParameterType(ParameterType ref) {
     super(ref);
     if (ref.isSetSpId()) {
-      spId = new String(ref.getSpId());
+      setSpId(ref.getSpId());
     }
     if (ref.isSetSpeciesReference()) {
-      speciesRef = new String(ref.getSpeciesReference());
+      setSpeciesReference(ref.getSpeciesReference());
     }
   }
   
@@ -280,7 +280,7 @@ public class ParameterType extends AbstractSBase {
    */
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1901;
     int hashCode = super.hashCode();
     if (isSetSpId()) {
       hashCode += prime * getSpId().hashCode();
@@ -298,11 +298,9 @@ public class ParameterType extends AbstractSBase {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetSpId()) {
-      attributes.remove("spatialRef");
       attributes.put(SpatialConstants.shortLabel + ":spatialRef", getSpId());
     }
     if (isSetSpeciesReference()) {
-      attributes.remove("variable");
       attributes.put(SpatialConstants.shortLabel + ":variable",
         String.valueOf(getSpeciesReference()));
     }

@@ -36,6 +36,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @version $Rev$
  * @since 1.0
  * @date Jan 21, 2014
+ * @deprecated
  */
 public class PolygonObject extends AbstractSBase {
 

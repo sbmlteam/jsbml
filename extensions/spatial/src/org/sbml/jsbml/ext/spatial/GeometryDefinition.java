@@ -144,7 +144,7 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
    * @param isActive
    */
   public void setIsActive(boolean isActive) {
-    boolean oldIsActive = this.isActive;
+    Boolean oldIsActive = this.isActive;
     this.isActive = isActive;
     firePropertyChange(SpatialConstants.isActive, oldIsActive, this.isActive);
   }
@@ -157,7 +157,7 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
    */
   public boolean unsetIsActive() {
     if (isSetIsActive()) {
-      boolean oldIsActive = isActive;
+      Boolean oldIsActive = isActive;
       isActive = null;
       firePropertyChange(SpatialConstants.isActive, oldIsActive, isActive);
       return true;
@@ -170,7 +170,7 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
    */
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1559;
     int hashCode = super.hashCode();
     if (isSetIsActive()) {
       hashCode += prime * getIsActive().hashCode();

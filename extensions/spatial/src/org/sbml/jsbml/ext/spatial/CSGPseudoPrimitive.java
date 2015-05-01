@@ -64,11 +64,9 @@ public class CSGPseudoPrimitive extends CSGNode{
    */
   public CSGPseudoPrimitive(CSGPseudoPrimitive csgp) {
     super(csgp);
-
     if (csgp.isSetCsgObjectRef()) {
-      csgObjectRef = new String(csgp.getCsgObjectRef());
+      setCsgObjectRef(csgp.getCsgObjectRef());
     }
-
   }
 
 
@@ -166,7 +164,7 @@ public class CSGPseudoPrimitive extends CSGNode{
 
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1741;
     int hashCode = super.hashCode();
     if (isSetCsgObjectRef()) {
       hashCode += prime * getCsgObjectRef().hashCode();

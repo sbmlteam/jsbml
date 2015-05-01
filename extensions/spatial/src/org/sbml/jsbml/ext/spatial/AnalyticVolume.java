@@ -36,6 +36,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -102,14 +103,17 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
   public AnalyticVolume(AnalyticVolume node) {
     super(node);
     if (node.isSetSpatialId()) {
-      spatialId = new String(node.getSpatialId());
+      setSpatialId(node.getSpatialId());
     }
     if (node.isSetOrdinal()) {
-      ordinal = new Integer(node.getOrdinal());
+      setOrdinal(node.getOrdinal());
     }
     if (node.isSetFunctionType()) {
-      functionType = node.getFunctionType();
+      setFunctionType(node.getFunctionType());
     }
+    if (node.isSetDomainType()) {
+      setDomainType(node.getDomainType());
+    }    
   }
 
   /**
@@ -302,7 +306,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    * @param ordinal
    */
   public void setOrdinal(int ordinal) {
-    int oldOrdinal = this.ordinal;
+    Integer oldOrdinal = this.ordinal;
     this.ordinal = ordinal;
     firePropertyChange(SpatialConstants.ordinal, oldOrdinal, this.ordinal);
   }
@@ -315,7 +319,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   public boolean unsetOrdinal() {
     if (isSetOrdinal()) {
-      int oldOrdinal = ordinal;
+      Integer oldOrdinal = ordinal;
       ordinal = null;
       firePropertyChange(SpatialConstants.ordinal, oldOrdinal, ordinal);
       return true;
@@ -372,7 +376,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   @Override
   public int hashCode() {
-    final int prime = 431;//Change this prime number
+    final int prime = 1093;//Changed. It was 431
     int hashCode = super.hashCode();
     if (isSetSpatialId()) {
       hashCode += prime * getSpatialId().hashCode();
@@ -411,14 +415,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
       attributes.remove("functionType");
       attributes.put(SpatialConstants.shortLabel + ":functionType", getFunctionType().toString());
     }
-    if (isSetSBOTerm()) {
-      attributes.remove(TreeNodeChangeEvent.sboTerm);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.sboTerm, getSBOTermID());
-    }
-    if (isSetMetaId()) {
-      attributes.remove(TreeNodeChangeEvent.metaId);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.metaId, getMetaId());
-    }
+
     return attributes;
   }
 

@@ -30,6 +30,7 @@ import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author Alex Thomas
+ * @author Piero Dalle Pezze
  * @version $Rev$
  * @since 1.0
  * @date Jan 20, 2014
@@ -68,13 +69,13 @@ public class CSGScale extends CSGTransformation {
   public CSGScale(CSGScale csgt) {
     super(csgt);
     if (csgt.isSetScaleX()) {
-      scaleX = new Double(csgt.getScaleX());
+      setScaleX(csgt.getScaleX());
     }
     if (csgt.isSetScaleY()) {
-      scaleY = new Double(csgt.getScaleY());
+      setScaleY(csgt.getScaleY());
     }
     if (csgt.isSetScaleZ()) {
-      scaleZ = new Double(csgt.getScaleZ());
+      setScaleZ(csgt.getScaleZ());
     }
   }
 
@@ -159,7 +160,7 @@ public class CSGScale extends CSGTransformation {
    * @param scaleX
    */
   public void setScaleX(double scaleX) {
-    double oldScaleX = this.scaleX;
+    Double oldScaleX = this.scaleX;
     this.scaleX = scaleX;
     firePropertyChange(SpatialConstants.scaleX, oldScaleX, this.scaleX);
   }
@@ -173,7 +174,7 @@ public class CSGScale extends CSGTransformation {
    */
   public boolean unsetScaleX() {
     if (isSetScaleX()) {
-      double oldScaleX = scaleX;
+      Double oldScaleX = scaleX;
       scaleX = null;
       firePropertyChange(SpatialConstants.scaleX, oldScaleX, scaleX);
       return true;
@@ -211,7 +212,7 @@ public class CSGScale extends CSGTransformation {
    * @param scaleY
    */
   public void setScaleY(double scaleY) {
-    double oldScaleY = this.scaleY;
+    Double oldScaleY = this.scaleY;
     this.scaleY = scaleY;
     firePropertyChange(SpatialConstants.scaleY, oldScaleY, this.scaleY);
   }
@@ -225,7 +226,7 @@ public class CSGScale extends CSGTransformation {
    */
   public boolean unsetScaleY() {
     if (isSetScaleY()) {
-      double oldScaleY = scaleY;
+      Double oldScaleY = scaleY;
       scaleY = null;
       firePropertyChange(SpatialConstants.scaleY, oldScaleY, scaleY);
       return true;
@@ -263,7 +264,7 @@ public class CSGScale extends CSGTransformation {
    * @param scaleZ
    */
   public void setScaleZ(double scaleZ) {
-    double oldScaleZ = this.scaleZ;
+    Double oldScaleZ = this.scaleZ;
     this.scaleZ = scaleZ;
     firePropertyChange(SpatialConstants.scaleZ, oldScaleZ, this.scaleZ);
   }
@@ -277,7 +278,7 @@ public class CSGScale extends CSGTransformation {
    */
   public boolean unsetScaleZ() {
     if (isSetScaleZ()) {
-      double oldScaleZ = scaleZ;
+      Double oldScaleZ = scaleZ;
       scaleZ = null;
       firePropertyChange(SpatialConstants.scaleZ, oldScaleZ, scaleZ);
       return true;
@@ -288,7 +289,7 @@ public class CSGScale extends CSGTransformation {
 
   @Override
   public int hashCode() {
-    final int prime = 313;//Change this prime number
+    final int prime = 1777;
     int hashCode = super.hashCode();
     if (isSetScaleX()) {
       hashCode += prime * getScaleX();
@@ -307,16 +308,13 @@ public class CSGScale extends CSGTransformation {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetScaleX()) {
-      attributes.remove("scaleX");
-      attributes.put(SpatialConstants.shortLabel + ":scaleX", String.valueOf(getScaleX()));
+      attributes.put(SpatialConstants.shortLabel + ":scaleX", scaleX.toString());
     }
     if (isSetScaleY()) {
-      attributes.remove("scaleY");
-      attributes.put(SpatialConstants.shortLabel + ":scaleY", String.valueOf(getScaleY()));
+      attributes.put(SpatialConstants.shortLabel + ":scaleY", scaleY.toString());
     }
     if (isSetScaleZ()) {
-      attributes.remove("scaleZ");
-      attributes.put(SpatialConstants.shortLabel + ":scaleZ", String.valueOf(getScaleZ()));
+      attributes.put(SpatialConstants.shortLabel + ":scaleZ", scaleZ.toString());
     }
     return attributes;
   }

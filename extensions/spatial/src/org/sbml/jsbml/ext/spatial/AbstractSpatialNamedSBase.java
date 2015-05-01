@@ -34,6 +34,7 @@ import org.sbml.jsbml.util.ResourceManager;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -103,6 +104,9 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
     this.spatialId = spatialId;
   }
 
+  @Override
+  public abstract AbstractSpatialNamedSBase clone();
+  
   /**
    * Initializes the default values using the namespace.
    */

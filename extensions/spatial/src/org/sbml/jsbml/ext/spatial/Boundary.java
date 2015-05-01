@@ -126,7 +126,7 @@ public class Boundary extends AbstractSpatialNamedSBase {
    * @param value
    */
   public void setValue(double value) {
-    double oldValue = this.value;
+    Double oldValue = this.value;
     this.value = value;
     firePropertyChange(SpatialConstants.value, oldValue, this.value);
   }
@@ -140,7 +140,7 @@ public class Boundary extends AbstractSpatialNamedSBase {
    */
   public boolean unsetValue() {
     if (isSetValue()) {
-      double oldValue = value;
+      Double oldValue = value;
       value = null;
       firePropertyChange(SpatialConstants.value, oldValue, value);
       return true;

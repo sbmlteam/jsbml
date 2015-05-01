@@ -40,12 +40,11 @@ public class AdvectionCoefficient extends ParameterType {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 8982184068116596444L;
-
+  
   /**
    * 
    */
   private CoordinateKind coordinate;
-
 
   /**
    * 

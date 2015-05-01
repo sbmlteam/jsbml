@@ -103,12 +103,9 @@ public class CSGPrimitive extends CSGNode{
    */
   public CSGPrimitive(CSGPrimitive csgp) {
     super(csgp);
-
-
     if (csgp.isSetPrimitiveType()) {
-      primitiveType = csgp.getPrimitiveType();
+      setPrimitiveType(csgp.getPrimitiveType());
     }
-
   }
 
 
@@ -213,7 +210,7 @@ public class CSGPrimitive extends CSGNode{
 
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1081;
     int hashCode = super.hashCode();
     if (isSetPrimitiveType()) {
       hashCode += prime * getPrimitiveType().hashCode();

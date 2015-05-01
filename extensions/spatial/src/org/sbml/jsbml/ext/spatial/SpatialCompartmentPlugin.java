@@ -30,6 +30,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -197,6 +198,28 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,pos));
+  }
+  
+  @Override
+  public int hashCode() {
+    final int prime = 1259;
+    int hashCode = super.hashCode();
+    if (isSetCompartmentMapping()) {
+      hashCode += prime * getCompartmentMapping().hashCode();
+    }
+    return hashCode;
+  }
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("SpatialCompartmentPlugin [compartmentMapping=");
+    builder.append(compartmentMapping);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

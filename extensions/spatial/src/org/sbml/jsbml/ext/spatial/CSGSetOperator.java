@@ -36,6 +36,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * @author Alex Thomas
+ * @author Piero Dalle Pezze
  * @version $Rev$
  * @since 1.0
  * @date Jan 20, 2014
@@ -105,15 +106,15 @@ public class CSGSetOperator extends CSGNode {
     }
 
     if (csgso.isSetOperationType()) {
-      operationType = csgso.getOperationType();
+      setOperationType(csgso.getOperationType());
     }
 
     if (csgso.isSetComplementA()) {
-      complementA = new String(csgso.getComplementA());
+      setComplementA(csgso.getComplementA());
     }
 
     if (csgso.isSetComplementB()) {
-      complementB = new String(csgso.getComplementB());
+      setComplementB(csgso.getComplementB());
     }
   }
 
@@ -638,7 +639,7 @@ public class CSGSetOperator extends CSGNode {
    */
   @Override
   public int hashCode() {
-    final int prime = 983;//Change this prime number
+    final int prime = 1861;
     int hashCode = super.hashCode();
     if (isSetOperationType()) {
       hashCode += prime * getOperationType().hashCode();

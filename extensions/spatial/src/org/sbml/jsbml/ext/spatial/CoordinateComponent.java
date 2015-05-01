@@ -38,6 +38,7 @@ import org.sbml.jsbml.util.ResourceManager;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
@@ -452,6 +453,12 @@ SBaseWithUnit {
     if (isSetUnits()) {
       hashCode += prime * getUnits().hashCode();
     }
+    if (isSetBoundaryMaximum()) {
+      hashCode += prime * getBoundaryMaximum().hashCode();
+    }    
+    if (isSetBoundaryMinimum()) {
+      hashCode += prime * getBoundaryMinimum().hashCode();
+    }        
     return hashCode;
   }
 

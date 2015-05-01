@@ -31,6 +31,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 /**
  * 
  * @author Alex Thomas
+ * @author Piero Dalle Pezze
  * @version $Rev$
  * @since 1.0
  * @date Jan 22, 2014
@@ -65,6 +66,9 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
     initDefaults();
   }
 
+  @Override
+  public abstract AbstractSpatialSBasePlugin clone();
+  
   /**
    * Initializes the default values using the namespace.
    */
@@ -138,6 +142,11 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
   public Model getModel() {
     SBMLDocument doc = getSBMLDocument();
     return doc != null ? doc.getModel() : null;
+  }
+  
+  @Override
+  public String toString() {
+    return super.toString();
   }
 
 }
