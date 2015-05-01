@@ -378,9 +378,9 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       }
     } else if (contextObject instanceof ParametricGeometry) {
       ParametricGeometry pg = (ParametricGeometry) contextObject;
-      if (elementName.equals(SpatialConstants.listOfSpatialPoints)){
-        ListOf<SpatialPoints> listOfSpatialPoints = pg.getListOfSpatialPoints();
-        return listOfSpatialPoints;
+      if (elementName.equals(SpatialConstants.spatialPoints)){
+        SpatialPoints spatialPoints = pg.getSpatialPoints();
+        return spatialPoints;
       } else if (elementName.equals(SpatialConstants.listOfParametricObjects)){
         ListOf<ParametricObject> listOfParametricObjects = pg.getListOfParametricObjects();
         return listOfParametricObjects;
@@ -497,7 +497,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       } else if (elementName.equals(SpatialConstants.spatialPoints)) {
         ParametricGeometry pg = (ParametricGeometry) listOf.getParentSBMLObject();
         SpatialPoints elem = new SpatialPoints();
-        pg.addSpatialPoints(elem);
+        pg.setSpatialPoints(elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.parametricObject)) {
         ParametricGeometry pg = (ParametricGeometry) listOf.getParentSBMLObject();

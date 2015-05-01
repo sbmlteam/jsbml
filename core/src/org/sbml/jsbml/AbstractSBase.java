@@ -318,10 +318,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void addDeclaredNamespace(String prefix, String namespace) {
-
     if ((!prefix.startsWith("xmlns:")) && (!prefix.equals("xmlns"))) {
       if (prefix.indexOf(":") != -1) {
-        throw new IllegalArgumentException("The only allowed prefix for a namespace is 'xmlns:'.");
+        throw new IllegalArgumentException(resourceBundle.getString("AbstractSBase.addDeclaredNamespace"));
       }
       prefix = "xmlns:" + prefix;
     }
@@ -360,7 +359,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbasePlugin);
     } else {
       throw new IllegalArgumentException(MessageFormat.format(
-        "The package namespace or name ''{0}'' is unknown!", nameOrUri));
+        resourceBundle.getString("AbstractSBase.addExtensionExc"), nameOrUri));
     }
   }
 
@@ -384,12 +383,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @param namespace the XML namespace to which this {@link SBase} belong.
    */
   public void setNamespace(String namespace) {
-
     if ((elementNamespace != null) && (!elementNamespace.equals(namespace))) {
       // if we implement proper conversion some days, we need to unset the namespace before changing it.
-      logger.error(MessageFormat.format("An SBase element cannot belong to two different namespaces! Current namespace = ''{0}'', new namespace = ''{1}''", elementNamespace, namespace));
-      //		  throw new IllegalArgumentException(MessageFormat.format("An SBase element cannot belong to two different namespaces ! "
-      //			  		+ "Current namespace = '{0}', new namespace = '{1}' ", elementNamespace, namespace));
+      logger.error(MessageFormat.format(
+        resourceBundle.getString("AbstractSBase.setNamespaceExc"),
+        elementNamespace, namespace));
+      // throw new IllegalArgumentException(MessageFormat.format(resourceBundle.getString("AbstractSBase.setNamespaceExc"), elementNamespace, namespace));
     }
     String old = elementNamespace;
     elementNamespace = namespace;
@@ -496,7 +495,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       else
       {
         // the given notes is empty
-        logger.info("The notes to append are empty !!");
+        logger.info(resourceBundle.getString("AbstractSBase.emptyNotes"));
         return;
       }
     }
@@ -533,7 +532,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           // The given notes node needs to be added to a parent node
           // if the node is neither "html" nor "body" element because the
           // children of addedNotes will be added to the current notes later if the
-          // node is neither "html" nor "body" (i.e. any XHTML element that
+          // node is neither "html" nor "body" (i.e., any XHTML element that
           // would be permitted within a "body" element)
           addedNotes.addChild(notes);
           addedNotesType = NOTES_TYPE.NotesAny;
@@ -569,7 +568,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if (!headFound || !bodyFound || otherElementFound)
       {
         // TODO - throw an exception as well
-        logger.warn("The given 'notes' String does not have the proper structure, excepting the children 'head' and 'body' to the 'html' element.");
+        logger.warn(resourceBundle.getString("AbstractSBase.invalidNotesStructure"));
         return;
       }
     }
@@ -639,7 +638,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedBody.getChildCount(); i++)
           {
             if (curBody.addChild(addedBody.getChildAt(i)) < 0) {
-              logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedBody.getChildAt(i)) + "' to the 'body' XMLNode.");
+              logger.warn(MessageFormat.format(
+                resourceBundle.getString("AbstractSBase.problemAddingXMLNode"),
+                SBMLtools.toXML(addedBody.getChildAt(i))));
               return;
             }
           }
@@ -650,10 +651,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           // adds the given body or other tag (permitted in the body) to the current
           // html tag
 
-          for (i=0; i < addedNotes.getChildCount(); i++)
+          for (i = 0; i < addedNotes.getChildCount(); i++)
           {
             if (curBody.addChild(addedNotes.getChildAt(i)) < 0) {
-              logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedNotes.getChildAt(i)) + "' to the 'body' XMLNode.");
+              logger.warn(MessageFormat.format(
+                resourceBundle.getString("AbstractSBase.problemAddingXMLNode"),
+                SBMLtools.toXML(addedNotes.getChildAt(i))));
               return;
             }
           }
@@ -1775,7 +1778,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     // Could/Should be used by the method #firePropertyChange
 
     // TODO - set package version and namespace if needed
-	  
+
     int childCount = sbasePlugin.getChildCount();
 
     if (childCount > 0) {
@@ -1825,6 +1828,22 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       this.annotation.setAbout('#' + getMetaId());
     }
     firePropertyChange(TreeNodeChangeEvent.setAnnotation, oldAnnotation, this.annotation);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.xml.XMLNode)
+   */
+  @Override
+  public void setAnnotation(XMLNode nonRDFAnnotation) {
+    getAnnotation().setNonRDFAnnotation(nonRDFAnnotation);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#setAnnotation(java.lang.String)
+   */
+  @Override
+  public void setAnnotation(String nonRDFAnnotation) throws XMLStreamException {
+    setAnnotation(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(nonRDFAnnotation)));
   }
 
   /* (non-Javadoc)
@@ -2204,7 +2223,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return;
     }
 
-    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
+    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!", nameOrUri));
   }
 
   @Override

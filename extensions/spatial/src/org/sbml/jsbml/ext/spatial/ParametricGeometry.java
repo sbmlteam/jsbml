@@ -28,6 +28,7 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
  * @author Alex Thomas
@@ -41,7 +42,7 @@ public class ParametricGeometry extends GeometryDefinition {
   /**
    * 
    */
-  ListOf<SpatialPoints> listOfSpatialPoints;
+  SpatialPoints spatialPoints;
   /**
    * 
    */
@@ -69,8 +70,8 @@ public class ParametricGeometry extends GeometryDefinition {
       setListOfParametricObjects(pg.getListOfParametricObjects().clone());
     }
 
-    if (pg.isSetListOfSpatialPoints()) {
-      setListOfSpatialPoints(pg.getListOfSpatialPoints().clone());
+    if (pg.isSetSpatialPoints()) {
+      setSpatialPoints(pg.getSpatialPoints().clone());
     }
 
   }
@@ -113,9 +114,9 @@ public class ParametricGeometry extends GeometryDefinition {
         equal &= pg.getListOfParametricObjects().equals(getListOfParametricObjects());
       }
 
-      equal &= pg.isSetListOfSpatialPoints() == isSetListOfSpatialPoints();
-      if (equal && isSetListOfSpatialPoints()) {
-        equal &= pg.getListOfSpatialPoints().equals(getListOfSpatialPoints());
+      equal &= pg.isSetSpatialPoints() == isSetSpatialPoints();
+      if (equal && isSetSpatialPoints()) {
+        equal &= pg.getSpatialPoints().equals(getSpatialPoints());
       }
 
     }
@@ -129,8 +130,8 @@ public class ParametricGeometry extends GeometryDefinition {
     if (isSetListOfParametricObjects()) {
       hashCode += prime * getListOfParametricObjects().hashCode();
     }
-    if (isSetListOfSpatialPoints()) {
-      hashCode += prime * getListOfSpatialPoints().hashCode();
+    if (isSetSpatialPoints()) {
+      hashCode += prime * getSpatialPoints().hashCode();
     }
     return hashCode;
   }
@@ -251,7 +252,7 @@ public class ParametricGeometry extends GeometryDefinition {
   //}
   /**
    * Creates a new ParametricObject element and adds it to the ListOfParametricObjects list
-   * @return
+   * @return a new {@link ParametricObject} element
    */
   public ParametricObject createParametricObject() {
     return createParametricObject(null);
@@ -270,145 +271,59 @@ public class ParametricGeometry extends GeometryDefinition {
     return parametricObject;
   }
 
-  /**
-   * 
-   */
 
-
+  
   /**
-   * Returns {@code true}, if listOfSpatialPoints contains at least one element.
+   * Returns the value of {@link #spatialPoints}.
    *
-   * @return {@code true}, if listOfSpatialPoints contains at least one element,
-   *         otherwise {@code false}
+   * @return the value of {@link #spatialPoints}.
    */
-  public boolean isSetListOfSpatialPoints() {
-    if ((listOfSpatialPoints == null) || listOfSpatialPoints.isEmpty()) {
-      return false;
+  public SpatialPoints getSpatialPoints() {
+    if (isSetSpatialPoints()) {
+      return spatialPoints;
     }
-    return true;
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(SpatialConstants.spatialPoints, this);
   }
 
 
   /**
-   * Returns the listOfSpatialPoints. Creates it if it is not already existing.
+   * Returns whether {@link #spatialPoints} is set.
    *
-   * @return the listOfSpatialPoints
+   * @return whether {@link #spatialPoints} is set.
    */
-  public ListOf<SpatialPoints> getListOfSpatialPoints() {
-    if (!isSetListOfSpatialPoints()) {
-      listOfSpatialPoints = new ListOf<SpatialPoints>(getLevel(),
-          getVersion());
-      listOfSpatialPoints.setNamespace(SpatialConstants.namespaceURI);
-      listOfSpatialPoints.setSBaseListType(ListOf.Type.other);
-      registerChild(listOfSpatialPoints);
-    }
-    return listOfSpatialPoints;
+  public boolean isSetSpatialPoints() {
+    return this.spatialPoints != null;
   }
 
 
   /**
-   * Sets the given {@code ListOf<SpatialPoint>}. If listOfSpatialPoints
-   * was defined before and contains some elements, they are all unset.
+   * Sets the value of spatialPoints
    *
-   * @param listOfSpatialPoints
+   * @param spatialPoints the value of spatialPoints to be set.
    */
-  public void setListOfSpatialPoints(ListOf<SpatialPoints> listOfSpatialPoints) {
-    unsetListOfSpatialPoints();
-    this.listOfSpatialPoints = listOfSpatialPoints;
-    registerChild(this.listOfSpatialPoints);
+  public void setSpatialPoints(SpatialPoints spatialPoints) {
+    SpatialPoints oldSpatialPoints = this.spatialPoints;
+    this.spatialPoints = spatialPoints;
+    firePropertyChange(SpatialConstants.spatialPoints, oldSpatialPoints, this.spatialPoints);
   }
 
 
   /**
-   * Returns {@code true}, if listOfSpatialPoints contain at least one element,
-   *         otherwise {@code false}
+   * Unsets the variable spatialPoints.
    *
-   * @return {@code true}, if listOfSpatialPoints contain at least one element,
-   *         otherwise {@code false}
+   * @return {@code true} if spatialPoints was set before, otherwise {@code false}.
    */
-  public boolean unsetListOfSpatialPoints() {
-    if (isSetListOfSpatialPoints()) {
-      ListOf<SpatialPoints> oldSpatialPoints = listOfSpatialPoints;
-      listOfSpatialPoints = null;
-      oldSpatialPoints.fireNodeRemovedEvent();
+  public boolean unsetSpatialPoints() {
+    if (isSetSpatialPoints()) {
+      SpatialPoints oldSpatialPoints = this.spatialPoints;
+      this.spatialPoints = null;
+      firePropertyChange(SpatialConstants.spatialPoints, oldSpatialPoints, this.spatialPoints);
       return true;
     }
     return false;
   }
 
-
-  /**
-   * Adds a new {@link SpatialPoints} to the listOfSpatialPoints.
-   * <p>The listOfSpatialPoints is initialized if necessary.
-   *
-   * @param spatialPoints the element to add to the list
-   * @return true (as specified by {@link Collection#add})
-   */
-  public boolean addSpatialPoints(SpatialPoints spatialPoints) {
-    return getListOfSpatialPoints().add(spatialPoints);
-  }
-
-
-  /**
-   * Removes an element from the listOfSpatialPoints.
-   *
-   * @param spatialPoints the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
-   */
-  public boolean removeSpatialPoints(SpatialPoints spatialPoints) {
-    if (isSetListOfSpatialPoints()) {
-      return getListOfSpatialPoints().remove(spatialPoints);
-    }
-    return false;
-  }
-
-
-  /**
-   * Removes an element from the listOfSpatialPoints at the given index.
-   *
-   * @param i the index where to remove the {@link SpatialPoint}
-   * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
-   */
-  public void removeSpatialPoints(int i) {
-    if (!isSetListOfSpatialPoints()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    //    if (getListOfSpatialPoints().size() == 1) {
-    //      throw new SBMLException("There must be at least one SpatialPoint defined for this list");
-    //    }
-    getListOfSpatialPoints().remove(i);
-  }
-
-
-  /*
-   * TODO: if the ID is mandatory for SpatialPoints objects,
-   * one should also add this methods
-   */
-  //public void removeSpatialPoints(String id) {
-  //  getListOfSpatialPoints().removeFirst(new NameFilter(id));
-  //}
-  /**
-   * Creates a new SpatialPoints element and adds it to the ListOfSpatialPoints list
-   * @return
-   */
-  public SpatialPoints createSpatialPoints() {
-    return createSpatialPoints(null);
-  }
-
-
-  /**
-   * Creates a new {@link SpatialPoints} element and adds it to the ListOfSpatialPoints list
-   * @param id
-   *
-   * @return a new {@link SpatialPoints} element
-   */
-  public SpatialPoints createSpatialPoints(String id) {
-    SpatialPoints spatialPoints = new SpatialPoints(getLevel(), getVersion());
-    addSpatialPoints(spatialPoints);
-    return spatialPoints;
-  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getAllowsChildren()
@@ -427,7 +342,7 @@ public class ParametricGeometry extends GeometryDefinition {
     if (isSetListOfParametricObjects()) {
       count++;
     }
-    if (isSetListOfSpatialPoints()) {
+    if (isSetSpatialPoints()) {
       count++;
     }
     return count;
@@ -453,9 +368,9 @@ public class ParametricGeometry extends GeometryDefinition {
       }
       pos++;
     }
-    if (isSetListOfSpatialPoints()) {
+    if (isSetSpatialPoints()) {
       if (pos == index) {
-        return getListOfSpatialPoints();
+        return getSpatialPoints();
       }
       pos++;
     }
