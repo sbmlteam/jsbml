@@ -1432,7 +1432,7 @@ public class ASTNode extends AbstractTreeNode {
    *          the {@link ASTNode} to be copied.
    */
   public ASTNode(ASTNode astNode) {
-    this();
+    super(astNode);
 
     if (astNode.isSetASTNode2()) {
       astnode2 = astNode.toASTNode2().clone();
