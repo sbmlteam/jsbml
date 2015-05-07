@@ -38,7 +38,7 @@
   <entry key="AbstractMathContainer.inclusion">{0} in {1}</entry>
   <entry key="AbstractMathContainer.getDerivedUnitDefinition">Could not derive unit from syntax tree of {0}: {1}</entry>
   
-  <entry key="AbstractNamedSBase.checkIdentifier">\"{0}\" is not a valid identifier for this {1}.</entry>
+  <entry key="AbstractNamedSBase.checkIdentifier">"{0}" is not a valid identifier for this {1}.</entry>
   
   <entry key="AbstractSBase.appendNotes">There was a problem adding the given XMLNode: ''{0}'' to the ''body'' XMLNode.</entry>
   <entry key="AbstractSBase.createPlugin">The package namespace or name ''{0}'' is unknown!</entry>
@@ -48,7 +48,7 @@
   <entry key="AbstractSBase.registerChild1">Trying to register {0} ''{1}'', which is already registered under {2} ''{3}''.</entry>
   <entry key="AbstractSBase.registerChild2">{0} ''{1}'' is associated to the different parent ''{2}''. Please remove it there before adding it to this ''{3}'' or add a clone of it to this element.</entry>
   <entry key="AbstractSBase.registerChild3">Cannot register {0}.</entry>
-  <entry key="AbstractSBase.setMetaId">\"{0}\" is not a valid meta-identifier for this {1}.</entry>
+  <entry key="AbstractSBase.setMetaId">"{0}" is not a valid meta-identifier for this {1}.</entry>
   <entry key="AbstractSBase.setSBOTerm">Cannot set invalid SBO term {0,number,integer} because it must not be smaller than zero or larger than 9999999.</entry>
   <entry key="AbstractSBase.unregisterChild1">unregister called! {0} {1}</entry>
   <entry key="AbstractSBase.unregisterChild2">Cannot unregister {0}.</entry>
@@ -82,9 +82,9 @@
   <entry key="ASTNode.getNumerator">getNumerator() should be called only when isRational()</entry>
   <entry key="ASTNode.getReal">getReal() should be called only when isReal() returns true.</entry>
   <entry key="ASTNode.getReferencedNamedSBases">Name of this node is {0}  but no variable is set.</entry>
-  <entry key="ASTNode.getVariable1">The name \"{0}\" represented by this node is an argument in a function call, i.e., a placeholder for some other element. No corresponding CallableSBase exists in the model</entry>
-  <entry key="ASTNode.getVariable2">Cannot find any element with id \"{0}\" in the model.</entry>
-  <entry key="ASTNode.getVariable3">This ASTNode is not yet linked to a model and can therefore not determine its variable \"{0}\".</entry>
+  <entry key="ASTNode.getVariable1">The name "{0}" represented by this node is an argument in a function call, i.e., a placeholder for some other element. No corresponding CallableSBase exists in the model</entry>
+  <entry key="ASTNode.getVariable2">Cannot find any element with id "{0}" in the model.</entry>
+  <entry key="ASTNode.getVariable3">This ASTNode is not yet linked to a model and can therefore not determine its variable "{0}".</entry>
   <entry key="ASTNode.getVariable4">getVariable() should be called only when isVariable() == true.</entry>
   <entry key="ASTNode.initDefaults">initDefaults called! type was {0}</entry>
   <entry key="ASTNode.reduceToBinary1">MINUS node with {0,number,integer} children left unchanged</entry>
@@ -97,5 +97,22 @@
   <entry key="ASTNode.setUnits2">Unexpected attribute {0}, only a valid unit kind or the identifier of a unit definition are allowed here.</entry>
   <entry key="ASTNode.setUnits3">Cannot set unit {0} for a numbers in an ASTNode before SBML Level 3.</entry>
   <entry key="ASTNode.toString">Could not compile ASTNode to formula: {0}</entry>
-
+  
+  <entry key="Compartment.ERROR_MESSAGE_INVALID_DIM">Spatial dimensions must be within '{0, 3}', but {0,number} was given.</entry>
+  <entry key="Compartment.ERROR_MESSAGE_ZERO_DIM">Cannot set {0} for compartment {1} if the spatial dimensions are zero.</entry>
+  <entry key="Compartment.writeXMLAttributes">Illegal non-integer spatial dimensions {0,number}.</entry>
+  
+  <entry key="Creator.setEmail">Invalid e-mail address {0}</entry>
+  
+  <entry key="CVTerm.INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG">Invalid combination of type {0} with qualifier {1}.</entry>
+  <entry key="CVTerm.setBiologicalQualifierType">{0} is not a valid Biological Qualifier.</entry>
+  <entry key="CVTerm.setModelQualifierType1">Model qualifier types can only be applied if the type is set to Model Qualifier.</entry>
+  <entry key="CVTerm.setModelQualifierType2">{0} is not a valid Model Qualifier.</entry>
+  <entry key="CVTerm.setQualifierType">{0} is not a valid qualifier.</entry>
+  <entry key="CVTerm.Type.MODEL_QUALIFIER">The model</entry>
+  <entry key="CVTerm.Type.BIOLOGICAL_QUALIFIER">The biological entity</entry>
+  <entry key="CVTerm.Type.UNKNOWN_QUALIFIER">The element</entry>
+  <entry key="CVTerm.Qualifier.UNKNOWN">has something to do with</entry>
+  <entry key="CVTerm.humanReadable">{0} {1} {2}.</entry>
+  
 </properties>
