@@ -4384,13 +4384,63 @@ public class ASTNode extends AbstractTreeNode {
    */
   public static String astNodeToTree(ASTNode n, String tree, String indent) {
     tree = tree + indent + n.getType() + " " + 
-        (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + "\n";
+        (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") +
+        (n.isName() ? n.getName() : "") + ", " + 
+        (n.isSetUserObjects() ? n.userObjectKeySet() : " no userObject") + "\n";
     
     for (ASTNode child : n.getChildren()) {
       tree = astNodeToTree(child, tree, indent + "  ");
     }
     
     return tree;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#clearUserObjects()
+   */
+  @Override
+  public void clearUserObjects() {
+    astnode2.clearUserObjects();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#containsUserObjectKey(java.lang.Object)
+   */
+  @Override
+  public boolean containsUserObjectKey(Object key) {
+    return astnode2.containsUserObjectKey(key);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getUserObject(java.lang.Object)
+   */
+  @Override
+  public Object getUserObject(Object key) {
+    return astnode2.getUserObject(key);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#isSetUserObjects()
+   */
+  @Override
+  public boolean isSetUserObjects() {
+    return astnode2.isSetUserObjects();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#putUserObject(java.lang.Object, java.lang.Object)
+   */
+  @Override
+  public void putUserObject(Object key, Object userObject) {
+    astnode2.putUserObject(key, userObject);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#userObjectKeySet()
+   */
+  @Override
+  public Set<Object> userObjectKeySet() {
+    return astnode2.userObjectKeySet();
   }
   
 
