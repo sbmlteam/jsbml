@@ -928,22 +928,35 @@ public class SBMLReader {
                 ASTNode astNode = (ASTNode) processedElement;
                 if (currentNode.getLocalPart().equals("cn") && hasAttributes) {
                    Object object = sbmlElements.peek();
-                   if (object != null && object instanceof ASTNode) {
-                    ASTNode parent = (ASTNode) object;
-                    if (att.next().getValue().equals("integer")) {
-                      astNode.setType(Type.INTEGER);
-                    } else if(att.next().getValue().equals("e-notation")) {
-                      astNode.setType(Type.REAL_E);
-                    } else if(att.next().getValue().equals("rational")) {
-                      astNode.setType(Type.RATIONAL);
-                    }
-                     // we need to remove the last child as the hierarchy of children are stored in the ASTNode2 and not directly in the ASTNode
-                    parent.removeChild(parent.getChildCount() - 1);
-                    parent.addChild(astNode);
-                  }
-                 }
+                   
+                   while (att.hasNext()) {
+
+                     Attribute attribute = att.next();
+                     String attributeName = attribute.getName().getLocalPart();
+
+                     if (attributeName.equals("type")) {
+                       String type = attribute.getValue();
+
+                       if (type.equalsIgnoreCase("integer")) { 
+                         System.out.println("SBMLReader - encountered an integer in MathML !");
+                         astNode.setType(Type.INTEGER);
+                       } else if(type.equalsIgnoreCase("e-notation")) {
+                         astNode.setType(Type.REAL_E);
+                       } else if(type.equalsIgnoreCase("rational")) {
+                         astNode.setType(Type.RATIONAL);
+                       }
+
+                       if (object != null && object instanceof ASTNode) {
+                         ASTNode parent = (ASTNode) object;
+
+                         // we need to remove the last child as the hierarchy of children are stored in the ASTNode2 and not directly in the ASTNode
+                         parent.removeChild(parent.getChildCount() - 1);
+                         parent.addChild(astNode);
+                       } // else the parent can be directly a MathContainer - nothing to do in this case.
+                     }
+                   }
+                }
               }
-              
               sbmlElements.push(processedElement);
             } else {
               // It is normal to have sometimes null returned as some of the
