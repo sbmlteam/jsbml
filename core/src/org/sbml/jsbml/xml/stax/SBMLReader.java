@@ -938,7 +938,6 @@ public class SBMLReader {
                        String type = attribute.getValue();
 
                        if (type.equalsIgnoreCase("integer")) { 
-                         System.out.println("SBMLReader - encountered an integer in MathML !");
                          astNode.setType(Type.INTEGER);
                        } else if(type.equalsIgnoreCase("e-notation")) {
                          astNode.setType(Type.REAL_E);

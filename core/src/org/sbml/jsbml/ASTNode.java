@@ -3815,6 +3815,10 @@ public class ASTNode extends AbstractTreeNode {
    *          the type to which this node should be set
    */
   public void setType(ASTNode.Type type) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("setType(Type) called - '" + type + "' " + (astnode2 != null ? astnode2.getType() : ""));
+    }
+
     ASTNode2 old = astnode2;
     switch (type) {
     case CONSTANT_E :
@@ -4047,6 +4051,9 @@ public class ASTNode extends AbstractTreeNode {
    *          the type as a String.
    */
   public void setType(String typeStr) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("setType(String) called - '" + typeStr + "'");
+    }
     Type type = Type.getTypeFor(typeStr);
     setType(type);
     if (type != Type.UNKNOWN) {
