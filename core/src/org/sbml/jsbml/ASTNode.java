@@ -2603,6 +2603,9 @@ public class ASTNode extends AbstractTreeNode {
     if (astnode2 instanceof ASTCnExponentialNode) {
       return ((ASTCnExponentialNode) astnode2).getExponent();
     }
+    if (isNumber()) {
+      return 1;
+    }
     throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getExponent"));
   }
 
@@ -2693,6 +2696,9 @@ public class ASTNode extends AbstractTreeNode {
   public double getMantissa() {
     if (astnode2 instanceof ASTCnExponentialNode) {
       return ((ASTCnExponentialNode) toASTNode2()).getMantissa();
+    }
+    if (isReal()) {
+      return getReal();
     }
     throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getMantissa"));
   }
