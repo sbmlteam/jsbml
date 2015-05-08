@@ -3315,7 +3315,7 @@ public class ASTNode extends AbstractTreeNode {
    * @see #isName()
    */
   public boolean isString() {
-    return isName() || isFunction();
+    return isName() || (getType() == Type.FUNCTION);
   }
 
   /**
