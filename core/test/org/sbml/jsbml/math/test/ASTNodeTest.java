@@ -144,7 +144,7 @@ public class ASTNodeTest {
    * {@link org.sbml.jsbml.ASTNode#getReal()}.
    */
   @Test
-  public final void testRealE() {
+  public void testRealE() {
     ASTNode realENode = new ASTNode(0.14, 4);
     assertTrue(realENode.isReal());
     assertTrue(realENode.getReal() == 1400.0);
@@ -155,7 +155,21 @@ public class ASTNodeTest {
     assertTrue(realENode.getMantissa() == 0.27);
     assertTrue(realENode.getExponent() == 3);
   }
-
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ASTNode#getMantissa()},
+   * {@link org.sbml.jsbml.ASTNode#getMantissa()},
+   * {@link org.sbml.jsbml.ASTNode#isReal()} and
+   * {@link org.sbml.jsbml.ASTNode#getReal()}.
+   */
+  @Test
+  public void testGetMantissaForReal() {
+    ASTNode realNode = new ASTNode(1.0001);
+    assertTrue(realNode.isReal());
+    assertTrue(realNode.getReal() == 1.0001);
+    assertTrue(realNode.getExponent() == 1);
+    assertTrue(realNode.getMantissa() == 1.0001);
+  }
 
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#setValue(int numerator, int denominator)},
