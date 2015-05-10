@@ -171,6 +171,62 @@ public class ASTNodeInfixParsingTest {
     
   }
   
+  @Test public void notParsingTests() {
+
+    try {
+      // not(x)
+      ASTNode n = ASTNode.parseFormula("not(x)", l3Parser);
+      String formula = ASTNode.formulaToString(n, l3Compiler);
+      System.out.println("formula 'not(x)' = " + formula);
+      n = ASTNode.parseFormula(formula, l3Parser); 
+
+      // !(x)
+      n = ASTNode.parseFormula("!(x)", l3Parser);
+      formula = ASTNode.formulaToString(n, l3Compiler);
+      System.out.println("formula '!(x)' = " + formula);
+      n = ASTNode.parseFormula(formula, l3Parser); 
+
+    } catch (ParseException e) {
+      // should never happen
+      e.printStackTrace();
+      assertTrue(false);
+    }
+  }
+  
+  @Test public void orParsingTests() {
+
+    try {
+      // or(x, y)
+      ASTNode n = ASTNode.parseFormula("or(x,y)", l3Parser);
+      String formula = ASTNode.formulaToString(n, l3Compiler);
+      System.out.println("formula 'or(x, y)' = " + formula);
+      n = ASTNode.parseFormula(formula, l3Parser); 
+
+      // x || y
+      n = ASTNode.parseFormula("x || y", l3Parser);
+      formula = ASTNode.formulaToString(n, l3Compiler);
+      System.out.println("formula 'x || y' = " + formula);
+      n = ASTNode.parseFormula(formula, l3Parser); 
+
+      // x or y
+      n = ASTNode.parseFormula("x or y", parser); // or(x,y) does not work ==> difference compared to the L1 supported syntax?
+      formula = ASTNode.formulaToString(n);
+      System.out.println("formula 'x or y)' = " + formula);
+      n = ASTNode.parseFormula(formula, parser); 
+
+      // or(x, y)
+      n = ASTNode.parseFormula("or(x,y)", l3Parser);
+      formula = ASTNode.formulaToString(n, oldL1Compiler);
+      System.out.println("formula 'or(x, y)' = " + formula);
+      n = ASTNode.parseFormula(formula, l3Parser);       
+      
+    } catch (ParseException e) {
+      // should never happen
+      e.printStackTrace();
+      assertTrue(false);
+    }
+  }
+  
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
@@ -1127,6 +1183,54 @@ public class ASTNodeInfixParsingTest {
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
   @Test
+  public void testExpCaseInsensitive() {
+    boolean status = false;
+    try {
+      ASTNode exp = ASTNode.parseFormula("Exp(-1)", caseInsensitiveParser);
+      status = (exp.getType() == ASTNode.Type.FUNCTION_EXP) && (exp.getType() != ASTNode.Type.FUNCTION);
+      if (status) {
+        ASTNode n = exp.getChild(0);
+        status = n.getType() == ASTNode.Type.MINUS;
+        if (status) {
+          n = n.getChild(0);
+          status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1);
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      status = false;
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
+   */
+  @Test
+  public void testExpCaseSensitive() {
+    boolean status = false;
+    try {
+      ASTNode exp = ASTNode.parseFormula("Exp(-1)", caseSensitiveParser);
+      status = (exp.getType() != ASTNode.Type.FUNCTION_EXP) && (exp.getType() == ASTNode.Type.FUNCTION);
+      if (status) {
+        ASTNode n = exp.getChild(0);
+        status = n.getType() == ASTNode.Type.MINUS;
+        if (status) {
+          n = n.getChild(0);
+          status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1);
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      status = false;
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
+   */
+  @Test
   public void testFalseCaseInsensitive() {
     boolean status = false;
     try {
@@ -1229,7 +1333,7 @@ public class ASTNodeInfixParsingTest {
     }
     assertTrue(status);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
@@ -1292,7 +1396,7 @@ public class ASTNodeInfixParsingTest {
     }
     assertTrue(status);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
@@ -1336,7 +1440,7 @@ public class ASTNodeInfixParsingTest {
     }
     assertTrue(status);
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
@@ -1359,7 +1463,7 @@ public class ASTNodeInfixParsingTest {
     }
     assertTrue(status);
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
@@ -1375,6 +1479,58 @@ public class ASTNodeInfixParsingTest {
         if (status) {
           status = infinity.getName().equals("Infinity");
         }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      status = false;
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
+   */
+  @Test
+  public void testNanCaseInsensitive() {
+    boolean status = false;
+    try {
+      // Verify 'NaN'
+      ASTNode nan = ASTNode.parseFormula("Nan", caseInsensitiveParser);
+      status = (nan.getType() == ASTNode.Type.REAL) && (nan.getType() != ASTNode.Type.NAME);
+      if (status) {
+        status = nan.getReal() == Double.NaN;
+      }
+      // Verify 'NotANumber'
+      nan = ASTNode.parseFormula("NotANumber", caseInsensitiveParser);
+      status = status && (nan.getType() == ASTNode.Type.REAL) && (nan.getType() != ASTNode.Type.NAME);
+      if (status) {
+        status = nan.getReal() == Double.NaN;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      status = false;
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
+   */
+  @Test
+  public void testNanCaseSensitive() {
+    boolean status = false;
+    try {
+      // Verify 'NaN'
+      ASTNode nan = ASTNode.parseFormula("Nan", caseSensitiveParser);
+      status = (nan.getType() != ASTNode.Type.REAL) && (nan.getType() == ASTNode.Type.NAME);
+      if (status) {
+        status = nan.getName().equals("Nan");
+      }
+      // Verify 'NotANumber'
+      nan = ASTNode.parseFormula("NotANumber", caseSensitiveParser);
+      status = status && (nan.getType() != ASTNode.Type.REAL) && (nan.getType() == ASTNode.Type.NAME);
+      if (status) {
+        status = nan.getName().equals("Nan");
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -1405,7 +1561,7 @@ public class ASTNodeInfixParsingTest {
     }
     assertTrue(status);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
@@ -1456,7 +1612,7 @@ public class ASTNodeInfixParsingTest {
     }
     assertTrue(status);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
@@ -1516,7 +1672,7 @@ public class ASTNodeInfixParsingTest {
     }
     assertTrue(status);
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
@@ -1568,7 +1724,7 @@ public class ASTNodeInfixParsingTest {
     }
     assertTrue(status);
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
@@ -1863,6 +2019,34 @@ public class ASTNodeInfixParsingTest {
       status = false;
     }
     assertTrue(status);
+  }
+
+  @Test public void xorParsingTests() {
+
+    try {
+      // xor(x, y)
+      ASTNode n = ASTNode.parseFormula("xor(x,y)", l3Parser);
+      String formula = ASTNode.formulaToString(n, l3Compiler);
+      System.out.println("formula 'xor(x, y)' = " + formula);
+      n = ASTNode.parseFormula(formula, l3Parser); 
+      
+      // x xor y
+      n = ASTNode.parseFormula("x xor y", parser); // xor(x,y) does not work ==> difference compared to the L1 supported syntax?
+      formula = ASTNode.formulaToString(n);
+      System.out.println("formula 'x xor y)' = " + formula);
+      n = ASTNode.parseFormula(formula, parser); 
+
+      // xor(x, y)
+      n = ASTNode.parseFormula("xor(x,y)", l3Parser);
+      formula = ASTNode.formulaToString(n, oldL1Compiler);
+      System.out.println("formula 'xor(x, y)' = " + formula);
+      n = ASTNode.parseFormula(formula, l3Parser);       
+      
+    } catch (ParseException e) {
+      // should never happen
+      e.printStackTrace();
+      assertTrue(false);
+    }
   }
 
 }
