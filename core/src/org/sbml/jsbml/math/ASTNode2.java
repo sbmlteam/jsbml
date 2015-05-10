@@ -261,6 +261,11 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    */
   public void unsetParentSBMLObject();
 
+  /**
+   * Set the strictness of this node
+   * 
+   * @param {@code boolean} strict
+   */
   public abstract void setStrictness(boolean strict);
 
 }
