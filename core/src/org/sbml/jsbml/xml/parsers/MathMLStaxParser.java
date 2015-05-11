@@ -176,19 +176,17 @@ public class MathMLStaxParser implements ReadingParser {
 
     ASTNode astNode = (ASTNode) contextObject;
 
-    // System.out.println("MathMLStaxParser : processCharactersOf : context type : " + astNode.getType());
-
-    FunctionDefinition functionDef = null;
-
-    try {
-      functionDef = astNode.getParentSBMLObject().getModel().getFunctionDefinition(characters.trim());
-    } catch(NullPointerException e) {
-
-      logger.debug("WARNING : cannot recognize properly functionDefinition in mathML block !!!");
-    }
-
     if (isFunctionDefinition)
     {
+      FunctionDefinition functionDef = null;
+
+      try {
+        functionDef = astNode.getParentSBMLObject().getModel().getFunctionDefinition(characters.trim());
+      } catch(NullPointerException e) {
+
+        logger.debug("WARNING : cannot recognize properly functionDefinition in mathML block !!!");
+      }
+
       if (logger.isDebugEnabled()) {
         logger.debug("MathMLStaxParser : processCharactersOf : function found !!");
         logger.debug("Model : " + astNode.getParentSBMLObject().getModel() + ", functionDef = " + functionDef);
@@ -199,7 +197,7 @@ public class MathMLStaxParser implements ReadingParser {
         logger.warn("Cannot recognize functionDefinition with id '" + characters.trim() + "'");
       }
 
-      astNode.setType(Type.FUNCTION);
+      // astNode.setType(Type.FUNCTION); // Done in processStartElement already.
     }
 
     if (astNode.isName() || astNode.isFunction()) {
@@ -265,7 +263,8 @@ public class MathMLStaxParser implements ReadingParser {
 
       // add other type of ASTNode in the test ??
       if ((astNode.isFunction() || astNode.isOperator() || astNode.isRelational() ||
-          astNode.isLogical()) && !elementName.equals("apply") && !elementName.equals("piecewise"))
+          astNode.isLogical()) && !elementName.equals("apply") && !elementName.equals("piecewise")
+          && !elementName.equals("lamdba") && !astNode.getType().equals(ASTNode.Type.LAMBDA))
       {
         if (logger.isDebugEnabled()) {
           logger.debug("processEndElement : stack stay the same. ASTNode type = " + astNode.getType());
@@ -359,10 +358,15 @@ public class MathMLStaxParser implements ReadingParser {
     }
 
     ASTNode astNode = new ASTNode();
-    astNode.setType(elementName);
+
+    if (isFunctionDefinition) {
+      astNode.setType(Type.FUNCTION);
+    } else {
+      astNode.setType(elementName);
+    }
     astNode.setParent((TreeNode) contextObject);
     astNode.setParentSBMLObject(mathContainer);
-
+    
     if (setMath) {
       mathContainer.setMath(astNode);
     } else {

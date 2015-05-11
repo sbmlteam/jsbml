@@ -3792,7 +3792,7 @@ public class ASTNode extends AbstractTreeNode {
   public void setParentSBMLObject(MathContainer parent) {
     if (astnode2 != null) {
       astnode2.setParentSBMLObject(parent);
-    } 
+    }
     // TODO - else we could create a new ASTUnknown (so no singleton) and store the value there until the type is defined properly?
   }
 
@@ -4038,7 +4038,14 @@ public class ASTNode extends AbstractTreeNode {
     if (old != null && old instanceof ASTFunction) {
       if (astnode2 instanceof ASTFunction) {
         ((ASTFunction) astnode2).swapChildren((ASTFunction) old);
+        if (((ASTFunction) old).isSetName()) {
+          ((ASTFunction) astnode2).setName(((ASTFunction) old).getName());
+        }
       }
+    }
+    if (old != null && old.getParentSBMLObject() != null) {
+      astnode2.setParentSBMLObject(old.getParentSBMLObject());
+      astnode2.setParent(old.getParent());
     }
   }
 
