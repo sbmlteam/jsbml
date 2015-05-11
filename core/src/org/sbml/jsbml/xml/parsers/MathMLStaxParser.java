@@ -125,24 +125,19 @@ public class MathMLStaxParser implements ReadingParser {
 
     ASTNode astNode = (ASTNode) contextObject;
 
-    // NOTE: By default cn ASTNodes are of type REAL
-//    if (value.equals("integer")) {
-//      astNode.setType(Type.INTEGER);
-//    }
-
     // System.out.println("MathMLStaxParser : processAttribute called");
     // System.out.println("MathMLStaxParser : processAttribute : element name = " + elementName + ", attribute name = " + attributeName +
     // ", value = " + value + ", prefix = " + prefix + ", " + isLastAttribute + ", " + contextObject);
 
     // Possible value : type, id, style, class, encoding, definitionURL ...
     if (attributeName.equals("definitionURL")) {
+      // astNode.setType(value);  // Done in SBMLReader
       astNode.setDefinitionURL(value);
     }
 
-    if (attributeName.equals("type") || attributeName.equals("definitionURL")) {
-      // Done in SBMLReader - astNode.setType(value);
-      // System.out.println("MathMLStaxParser : processAttribute : astNode Type = " + astNode.getType());
-    } else if (attributeName.equals("id")) {
+    // if attributeName.equals("type") // Done in SBMLReader - astNode.setType(value);
+    
+    if (attributeName.equals("id")) {
       astNode.setId(value);
     } else if (attributeName.equals("style")) {
       astNode.setStyle(value);

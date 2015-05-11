@@ -2726,6 +2726,10 @@ public class ASTNode extends AbstractTreeNode {
       if (((ASTCiFunctionNode)astnode2).isSetRefId()) {
         name = ((ASTCiFunctionNode) astnode2).getRefId();
       }
+    } else if (astnode2 instanceof ASTCSymbolBaseNode) {
+      if (((ASTCSymbolBaseNode)astnode2).isSetName()) {
+        name = ((ASTCSymbolBaseNode) astnode2).getName();
+      }      
     }
     return name;
   }
@@ -3088,7 +3092,8 @@ public class ASTNode extends AbstractTreeNode {
    *         Avogadro.
    */
   public boolean isName() {
-    return astnode2 instanceof ASTCiNumberNode || astnode2 instanceof ASTCiFunctionNode;
+    return astnode2 instanceof ASTCiNumberNode || astnode2 instanceof ASTCiFunctionNode
+        || astnode2 instanceof ASTCSymbolAvogadroNode || astnode2 instanceof ASTCSymbolTimeNode;
   }
 
   /**
@@ -3248,6 +3253,8 @@ public class ASTNode extends AbstractTreeNode {
       return ((ASTFunction) astnode2).isSetName();
     } else if (astnode2 instanceof ASTCSymbolBaseNode) {
       return ((ASTCSymbolBaseNode) astnode2).isSetName();
+    } else if (astnode2 instanceof ASTCiNumberNode) {
+      return ((ASTCiNumberNode) astnode2).isSetRefId();
     }
     return false;
   }
@@ -3780,6 +3787,8 @@ public class ASTNode extends AbstractTreeNode {
       ((ASTCiFunctionNode) astnode2).setRefId(name);
     } else if (astnode2 instanceof ASTCiNumberNode) {
       ((ASTCiNumberNode) astnode2).setRefId(name);
+    } else if (astnode2 instanceof ASTCSymbolBaseNode) {
+      ((ASTCSymbolBaseNode) astnode2).setName(name);
     }
   }
 

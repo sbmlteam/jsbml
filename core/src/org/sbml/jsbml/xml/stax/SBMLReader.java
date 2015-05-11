@@ -955,7 +955,37 @@ public class SBMLReader {
                      }
                    }
                 }
+                if (currentNode.getLocalPart().equals("csymbol") && hasAttributes) {
+                  Object object = sbmlElements.peek();
+
+                  while (att.hasNext()) {
+
+                    Attribute attribute = att.next();
+                    String attributeName = attribute.getName().getLocalPart();
+
+                    if (attributeName.equals("definitionURL")) {
+                      String type = attribute.getValue();
+
+                      if (type.equalsIgnoreCase("http://www.sbml.org/sbml/symbols/time")) { 
+                        astNode.setType(Type.NAME_TIME);
+                      } else if(type.equalsIgnoreCase("e-notation")) {
+                        astNode.setType(Type.REAL_E);
+                      } else if(type.equalsIgnoreCase("rational")) {
+                        astNode.setType(Type.RATIONAL);
+                      }
+
+                      if (object != null && object instanceof ASTNode) {
+                        ASTNode parent = (ASTNode) object;
+
+                        // we need to remove the last child as the hierarchy of children are stored in the ASTNode2 and not directly in the ASTNode
+                        parent.removeChild(parent.getChildCount() - 1);
+                        parent.addChild(astNode);
+                      } // else the parent can be directly a MathContainer - nothing to do in this case.
+                    }
+                  }
+                }
               }
+
               sbmlElements.push(processedElement);
             } else {
               // It is normal to have sometimes null returned as some of the
