@@ -966,12 +966,12 @@ public class SBMLReader {
                     if (attributeName.equals("definitionURL")) {
                       String type = attribute.getValue();
 
-                      if (type.equalsIgnoreCase("http://www.sbml.org/sbml/symbols/time")) { 
+                      if (type.equalsIgnoreCase(ASTNode.URI_TIME_DEFINITION)) { 
                         astNode.setType(Type.NAME_TIME);
-                      } else if(type.equalsIgnoreCase("e-notation")) {
-                        astNode.setType(Type.REAL_E);
-                      } else if(type.equalsIgnoreCase("rational")) {
-                        astNode.setType(Type.RATIONAL);
+                      } else if(type.equalsIgnoreCase(ASTNode.URI_DELAY_DEFINITION)) {
+                        astNode.setType(Type.FUNCTION_DELAY);
+                      } else if(type.equalsIgnoreCase(ASTNode.URI_AVOGADRO_DEFINITION)) {
+                        astNode.setType(Type.NAME_AVOGADRO);
                       }
 
                       if (object != null && object instanceof ASTNode) {
