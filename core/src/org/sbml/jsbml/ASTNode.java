@@ -2910,13 +2910,37 @@ public class ASTNode extends AbstractTreeNode {
    */
   public CallableSBase getVariable() {
     // TODO - this method is probably not reflecting the old behavior
-    // as the method as quite complex before.
+    // as the method was quite complex before.
     if (astnode2 instanceof ASTCiNumberNode) {
       return ((ASTCiNumberNode) astnode2).getReferenceInstance();
     } else if (astnode2 instanceof ASTCiFunctionNode) {
       return ((ASTCiFunctionNode) astnode2).getReferenceInstance();
     } 
 
+    /*
+     * Possibly the name is just from the argument list
+     * of some function definition. Hence, it won't be
+     * possible to determine an element with the same
+     * identifier within the model. In this case, this
+     * warning is kind of senseless.
+     */
+    if ((parent != null) && (parent instanceof ASTNode)) {
+      ASTNode parentNode = (ASTNode) parent;
+      if ((parentNode.getType() == Type.LAMBDA) && (parentNode.getRightChild() != this)) {
+        /*
+         * The second condition is important, because the argument list
+         * comprises only the first n children. Child n + 1 is the
+         * expression for the function.
+         */
+        if (logger.isDebugEnabled()) {
+          logger.debug(MessageFormat.format(
+            resourceBundle.getString("ASTNode.getVariable1"),
+            getName()));
+        }
+        return null;
+      }
+    }
+    
     throw new RuntimeException(resourceBundle.getString("ASTNode.getVariable4"));
   }
 
@@ -4056,6 +4080,7 @@ public class ASTNode extends AbstractTreeNode {
       astnode2.setParentSBMLObject(old.getParentSBMLObject());
       astnode2.setParent(old.getParent());
     }
+    // TODO - copy units if declared and both node are numbers?
   }
 
   /**
@@ -4135,19 +4160,11 @@ public class ASTNode extends AbstractTreeNode {
    *          the double format number to which this node's value should be set
    */
   public void setValue(double value) {
-    if (astnode2.getType() == Type.UNKNOWN) {
+    if (astnode2.getType() != Type.REAL) {
       setType(Type.REAL);
     }
     if (astnode2.getType() == Type.REAL) {
       ((ASTCnRealNode) astnode2).setReal(value);
-    }
-    if (astnode2.getType() == Type.INTEGER) {
-      ((ASTCnIntegerNode) astnode2).setInteger((int)value);
-    }
-    // FUNCTION_EXP
-    if (astnode2.getType() == Type.FUNCTION_EXP) {
-      ASTCnRealNode real = new ASTCnRealNode(value);
-      ((ASTUnaryFunctionNode)astnode2).setChild(real);
     }
   }
 
@@ -4161,7 +4178,7 @@ public class ASTNode extends AbstractTreeNode {
    *          the exponent of this node's real-numbered value
    */
   public void setValue(double mantissa, int exponent) {
-    if (astnode2.getType() == Type.UNKNOWN) {
+    if (astnode2.getType() != Type.REAL_E) {
       setType(Type.REAL_E);
     }
     if (astnode2.getType() == Type.REAL_E) {
@@ -4177,7 +4194,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param value
    */
   public void setValue(int value) {
-    if (astnode2.getType() == Type.UNKNOWN) {
+    if (astnode2.getType() != Type.INTEGER) {
       setType(Type.INTEGER);
     }
     if (astnode2.getType() == Type.INTEGER) {
@@ -4195,7 +4212,7 @@ public class ASTNode extends AbstractTreeNode {
    *          the denominator value of the rational
    */
   public void setValue(int numerator, int denominator) {
-    if (astnode2.getType() == Type.UNKNOWN) {
+    if (astnode2.getType() != Type.RATIONAL) {
       setType(Type.RATIONAL);
     }
     if (astnode2 instanceof ASTCnRationalNode) {
