@@ -1050,7 +1050,11 @@ public class ASTNode extends AbstractTreeNode {
       // the javacc parser can throw some TokenMgrError at least
       throw new ParseException(e);
     }
-
+    
+//    System.out.println("AbstractMathContainer - parseFormula - " + ASTNode.astNodeToTree(result, "", ""));
+//    System.out.println("AbstractMathContainer - parseFormula - " + result.toFormula());
+//    System.out.println("AbstractMathContainer - parseFormula - " + result.toMathML());
+    
     return result;
   }
 
@@ -2442,7 +2446,13 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public boolean equals(Object object) {
-    return astnode2.equals(((ASTNode)object).toASTNode2());
+    if (object instanceof ASTNode) {
+      // TODO - check if astNode2 is null ?
+      return astnode2.equals(((ASTNode)object).toASTNode2());
+    } 
+    // TODO - compare things from AbstractTreeNode ?
+    
+    return false;
   }
 
   /**
@@ -2757,7 +2767,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public TreeNode getParent() {
-    return astnode2.isSetParent() ? astnode2.getParent() : null;
+    return astnode2.isSetParent() ? new ASTNode((ASTNode2) astnode2.getParent()) : null;
   }
 
   /**
@@ -4432,7 +4442,8 @@ public class ASTNode extends AbstractTreeNode {
     tree = tree + indent + n.getType() + " " + 
         (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") +
         (n.isName() ? n.getName() : "") + ", " + 
-        (n.isSetUserObjects() ? n.userObjectKeySet() : " no userObject") + "\n";
+        (n.isSetUserObjects() ? n.userObjectKeySet() : " no userObject") + ", " + 
+        (n.getParent() != null ? n.getParent().getClass().getSimpleName() : "no parent") + "\n";
     
     for (ASTNode child : n.getChildren()) {
       tree = astNodeToTree(child, tree, indent + "  ");
