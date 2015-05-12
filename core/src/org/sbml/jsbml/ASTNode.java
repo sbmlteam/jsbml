@@ -1439,8 +1439,9 @@ public class ASTNode extends AbstractTreeNode {
     super(astNode);
 
     if (astNode.isSetASTNode2()) {
-      astnode2 = astNode.toASTNode2().clone();
+      astnode2 = astNode.astnode2.clone();
     }
+    // TODO - what about AbstractTreeNode things ?
   }
 
   /**

@@ -69,12 +69,13 @@ ASTCSymbolBaseNode {
    * The name of the MathML element represented by this
    * {@link ASTCiFunctionNode}.
    */
-  private String name;
+  private String name; // TODO - remove this unused class attribute ? 
 
   /**
    * refId attribute for MathML element
    */
-  private String refId;
+  private String refId; // TODO - should we use the setName method for that to ensure to have both set/get. Or we overwrite the setName/getName to return
+  // the refId
 
   /**
    * Creates a new {@link ASTCiFunctionNode}.
@@ -97,8 +98,8 @@ ASTCSymbolBaseNode {
     if (node.isSetDefinitionURL()) {
       setDefinitionURL(node.getDefinitionURL());      
     }
-    if (node.isSetName()) {
-      setName(node.getName());      
+    if (node.isSetRefId()) {
+      setRefId(node.getRefId());
     }
   }
   
