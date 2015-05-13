@@ -804,8 +804,9 @@ public boolean unsetSamplesLength() {
         String.valueOf(getNumSamples3()));
     }
     if (isSetDataType()) {
+      // see DataKind.java
       attributes.put(SpatialConstants.shortLabel + ":dataType",
-        getDataType().toString());
+        getDataType().toString().toLowerCase());
     }
     if (isSetCompression()) {
       attributes.put(SpatialConstants.shortLabel + ":compression",
@@ -873,7 +874,8 @@ public boolean unsetSamplesLength() {
       }
       else if (attributeName.equals(SpatialConstants.dataType)) {
         try {
-          setDataType(DataKind.valueOf(value));
+          // see DataKind.java
+          setDataType(DataKind.valueOf(value.toUpperCase()));
         } catch (Exception e) {
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.dataType, getElementName()));
         }

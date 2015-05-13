@@ -23,7 +23,12 @@ package org.sbml.jsbml.ext.spatial;
 
 
 /**
- * This enum type was created following the specifications defined in Spatial Package v0.90.
+ * This enum type was created following the specifications defined in Spatial Package v0.90. 
+ * 
+ * The fields here are intentionally left upper case (in contrast to the spec where they are lower case) 
+ * because float and double are in conflict with the Java primitive types float and double. 
+ * Classes using DataKind need to use the methods toLowerCase() and toUpperCase() to deal with these values 
+ * in the methods writeXMLAttributes() and readAttribute(). 
  * @author Piero Dalle Pezze
  * @version $Rev$
  * @since 1.0
@@ -33,15 +38,15 @@ public enum DataKind {
   /**
    * To indicate 8-bit unsigned integer
    */
-  uint8,
+  UINT8,
   /**
    * To indicate 16-bit unsigned integer
    */
-  uint16,
+  UINT16,
   /**
    * To indicate 32-bit unsigned integer
    */
-  uint32,
+  UINT32,
   /**
    * To indicate single-precision (32-bit) floating point values
    */
