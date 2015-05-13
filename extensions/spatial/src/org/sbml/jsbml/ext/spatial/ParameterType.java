@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
@@ -40,6 +41,12 @@ import org.sbml.jsbml.Species;
  */
 public class ParameterType extends AbstractSBase {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(ParameterType.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -320,16 +327,16 @@ public class ParameterType extends AbstractSBase {
         try {
           setSpId(value);
         } catch (Exception e) {
-          MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.spatialId);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.spatialId, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.variable)) {
         try {
           setSpeciesReference(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.variable);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.variable, getElementName()));
         }
       }
       else {

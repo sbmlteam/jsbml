@@ -33,10 +33,10 @@ public enum PolygonKind {
   /**
    * 
    */
-  TRIANGLE,
+  triangle,
 
   /**
    * 
    */
-  QUADRILATERAL;
+  quadrilateral;
 }

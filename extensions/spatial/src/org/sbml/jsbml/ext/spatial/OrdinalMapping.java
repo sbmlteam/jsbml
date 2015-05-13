@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
@@ -38,6 +39,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class OrdinalMapping extends AbstractSBase {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(OrdinalMapping.class);
+  
   /**
    * 
    */
@@ -268,16 +275,16 @@ public class OrdinalMapping extends AbstractSBase {
         try {
           setOrdinal(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.ordinal);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.ordinal, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.geometryDefinition)) {
         try {
           setGeometryDefinition(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.geometryDefinition);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.geometryDefinition, getElementName()));
         }
       }
       else {

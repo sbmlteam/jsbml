@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
@@ -36,6 +37,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CSGRotation extends CSGTransformation {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(CSGRotation.class);
+  
   /**
    * 
    */
@@ -395,31 +402,32 @@ public class CSGRotation extends CSGTransformation {
         try {
           setRotateAxisX(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.rotateAxisX);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.rotateAxisX, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.rotateAxisY)) {
         try {
           setRotateAxisY(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.rotateAxisY);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.rotateAxisY, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.rotateAxisZ)) {
         try {
           setRotateAxisZ(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.rotateAxisZ);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.rotateAxisZ, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.rotateAngleInRadians)) {
         try {
           setRotateAngleInRadians(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.rotateAngleInRadians);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.rotateAngleInRadians, getElementName()));
         }
       }
       else {

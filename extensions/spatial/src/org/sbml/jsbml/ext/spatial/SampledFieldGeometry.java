@@ -28,6 +28,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
@@ -41,6 +42,13 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class SampledFieldGeometry extends GeometryDefinition {
 
+  
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(SampledFieldGeometry.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -408,9 +416,8 @@ public class SampledFieldGeometry extends GeometryDefinition {
         try {
           setSampledField(value);
         } catch (Exception e) {
-          MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.sampledField);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.sampledField, getElementName()));
         }
       }
       else {

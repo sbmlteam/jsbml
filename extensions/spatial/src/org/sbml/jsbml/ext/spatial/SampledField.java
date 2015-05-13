@@ -43,6 +43,12 @@ import org.sbml.jsbml.xml.parsers.SpatialParser;
  */
 public class SampledField extends AbstractSpatialNamedSBase {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(SampledField.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -84,11 +90,6 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * 
    */
   private XMLNode data;
-
-  /**
-   * 
-   */
-  private Logger logger = Logger.getLogger(SampledField.class);
 
   /**
    * 

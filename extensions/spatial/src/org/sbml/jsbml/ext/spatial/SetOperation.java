@@ -1,6 +1,6 @@
 /*
- * $Id: CompressionKind.java 2206 2015-04-23 09:57:59Z pdp10 $
- * $URL: svn+ssh://pdp10@svn.code.sf.net/p/jsbml/code/trunk/extensions/spatial/src/org/sbml/jsbml/ext/spatial/CompressionKind.java $
+ * $Id: SetOperation.java 2206 2015-04-23 09:57:59Z pdp10 $
+ * $URL: svn+ssh://pdp10@svn.code.sf.net/p/jsbml/code/trunk/extensions/spatial/src/org/sbml/jsbml/ext/spatial/setOperation.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -33,13 +33,13 @@ public enum SetOperation {
   /**
    * 
    */
-  UNION,
+  union,
   /**
    * 
    */
-  INTERSECTION,
+  intersection,
   /**
    * 
    */
-  RELATIVECOMPONENT;
+  difference;
 }

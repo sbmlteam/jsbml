@@ -25,6 +25,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.SBMLException;
 
@@ -38,9 +39,15 @@ import org.sbml.jsbml.SBMLException;
  * @version $Rev$
  * @since 1.0
  * @date 09.09.2011
+ * @deprecated Not present in spec 0.90, as be moved into DiffusionCoefficient.
  */
 public abstract class CoordinateReference extends AbstractSBase {
 
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(CoordinateReference.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -117,10 +124,7 @@ public abstract class CoordinateReference extends AbstractSBase {
    * @param coordinate
    */
   public void setCoordinate(String coordinate) {
-    if (!Pattern.matches("[a-z]*", coordinate)) {
-      throw new SBMLException("The value is not all lower-case.");
-    }
-    setCoordinate(CoordinateKind.valueOf(coordinate.toUpperCase()));
+    setCoordinate(CoordinateKind.valueOf(coordinate));
   }
 
   /**
@@ -160,13 +164,13 @@ public abstract class CoordinateReference extends AbstractSBase {
         && (SpatialConstants.shortLabel == prefix);
     if (!isAttributeRead) {
       isAttributeRead = true;
+      System.out.println(attributeName);
       if (attributeName.equals(SpatialConstants.coordinate)) {
         try {
           setCoordinate(value);          
         } catch (Exception e) {
-          MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.coordinate);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinate, getElementName()));
         }
       }
       else {

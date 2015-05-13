@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
@@ -36,6 +37,11 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class SpatialPoints extends AbstractSBase {
 
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(SpatialPoints.class);
+  
   /**
    * 
    */
@@ -431,21 +437,24 @@ public class SpatialPoints extends AbstractSBase {
       try {
         setCompression(value);
       } catch (Exception e) {
-        MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.compression);
+        logger.warn(MessageFormat.format(
+          SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.compression, getElementName()));
       }
     }
     else if (attributeName.equals(SpatialConstants.arrayDataLength)) {
       try {
         setArrayDataLength(StringTools.parseSBMLInt(value));
       } catch (Exception e) {
-        MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.arrayDataLength);
+        logger.warn(MessageFormat.format(
+          SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.arrayDataLength, getElementName()));
       }
     }
     else if (attributeName.equals(SpatialConstants.dataType)) {
       try {
         setDataType(value);
       } catch (Exception e) {
-        MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.dataType);
+        logger.warn(MessageFormat.format(
+          SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.dataType, getElementName()));
       }
     }      
     else {

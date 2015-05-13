@@ -29,6 +29,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
@@ -43,6 +44,12 @@ import org.sbml.jsbml.util.ResourceManager;
  */
 public class Domain extends AbstractSpatialNamedSBase {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(Domain.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -398,8 +405,8 @@ public class Domain extends AbstractSpatialNamedSBase {
         try {
           setDomainType(value);
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.domainType);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.domainType, getElementName()));
         }
       }
       else {

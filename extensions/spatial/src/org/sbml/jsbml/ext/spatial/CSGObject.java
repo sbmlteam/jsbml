@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
@@ -40,6 +41,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CSGObject extends AbstractSpatialNamedSBase {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(CSGObject.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -342,8 +349,8 @@ public class CSGObject extends AbstractSpatialNamedSBase {
         try {
           setDomainType(value);
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.domainType);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.domainType, getElementName()));
         }
       }
 
@@ -351,7 +358,8 @@ public class CSGObject extends AbstractSpatialNamedSBase {
         try {
           setOrdinal(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value, SpatialConstants.ordinal);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.ordinal, getElementName()));
         }
       }
       else {

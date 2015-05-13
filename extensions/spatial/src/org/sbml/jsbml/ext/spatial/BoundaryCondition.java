@@ -25,6 +25,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 
@@ -36,6 +37,12 @@ import org.sbml.jsbml.SBMLException;
  */
 public class BoundaryCondition extends ParameterType {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(BoundaryCondition.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -172,10 +179,7 @@ public class BoundaryCondition extends ParameterType {
    * @param type
    */
   public void setType(String type) {
-    if (!Pattern.matches("[a-z]*", type)) {
-      throw new SBMLException("The value is not all lower-case.");
-    }
-    setType(BoundaryConditionKind.valueOf(type.toUpperCase()));
+    setType(BoundaryConditionKind.valueOf(type));
   }
 
   /**
@@ -329,21 +333,19 @@ public class BoundaryCondition extends ParameterType {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.type)) {
-        // TODO: In the specs v0.90, the type name begins with capital letter.
-        if (!Pattern.matches("[a-z]*", value)) {
-          throw new SBMLException("The value is not all lower-case.");
-        }
         try {
           setType(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.type);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.type, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.coordinateBoundary)) {
         try {
           setCoordinateBoundary(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.coordinateBoundary);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinateBoundary, getElementName()));
         }
       }
 
@@ -351,7 +353,8 @@ public class BoundaryCondition extends ParameterType {
         try {
           setBoundaryDomainType(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.boundaryDomainType);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.boundaryDomainType, getElementName()));
         }
       }
       else {

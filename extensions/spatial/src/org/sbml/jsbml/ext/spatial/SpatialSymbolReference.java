@@ -21,8 +21,10 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
@@ -33,6 +35,12 @@ import org.sbml.jsbml.PropertyUndefinedError;
  */
 public class SpatialSymbolReference extends ParameterType {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(SpatialSymbolReference.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -153,9 +161,13 @@ public class SpatialSymbolReference extends ParameterType {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
-      System.out.println("SpatialSymbolReference: debug attribute name: " + attributeName);
       if (attributeName.equals(SpatialConstants.spatialRef)) {
-        setSpatialRef(value);
+        try {
+          setSpatialRef(value);          
+        } catch (Exception e) {
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.spatialRef, getElementName()));
+        }
       }
       else {
         isAttributeRead = false;

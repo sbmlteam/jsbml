@@ -32,13 +32,13 @@ public enum DiffusionKind {
   /**
    * Isotropic
    */
-  ISOTROPIC,
+  isotropic,
   /**
    * Tensor
    */
-  TENSOR,
+  tensor,
   /**
    * Anisotropic
    */
-  ANISOTROPIC;
+  anisotropic;
 }

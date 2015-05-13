@@ -33,7 +33,7 @@ public enum FunctionKind {
   /**
    * Math child element contains an inequality
    */
-  LAYERED,
+  layered,
   //    /**
   //     * Shape is represented by a real-valued function whose sign
   //     * indicates coverage by the shape

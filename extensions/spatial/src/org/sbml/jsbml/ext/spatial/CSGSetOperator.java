@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
@@ -43,6 +44,12 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class CSGSetOperator extends CSGNode {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(CSGSetOperator.class);
+  
   /**
    * 
    */
@@ -661,17 +668,20 @@ public class CSGSetOperator extends CSGNode {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.operationType)) {
-        if (!Pattern.matches("[a-z]*", value)) {
-          throw new SBMLException("The value is not all lower-case.");
+        try {
+          setOperationType(SetOperation.valueOf(value));
+        } catch (Exception e) {
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.operationType, getElementName()));
         }
-        setOperationType(SetOperation.valueOf(value.toUpperCase()));
       }
 
       else if (attributeName.equals(SpatialConstants.complementA)) {
         try {
           setComplementA(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.complementA);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.complementA, getElementName()));
         }
       }
 
@@ -679,7 +689,8 @@ public class CSGSetOperator extends CSGNode {
         try {
           setComplementB(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.complementB);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.complementB, getElementName()));
         }
       }
       else {
