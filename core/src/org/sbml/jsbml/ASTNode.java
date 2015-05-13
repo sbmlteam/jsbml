@@ -74,6 +74,7 @@ import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
@@ -1436,12 +1437,13 @@ public class ASTNode extends AbstractTreeNode {
    *          the {@link ASTNode} to be copied.
    */
   public ASTNode(ASTNode astNode) {
-    super(astNode);
+    // not calling the super constructor has it is making problem with the userObjects
+    // which are cloned in the ASTNode2 clone method anyway.
+    listOfListeners = new ArrayList<TreeNodeChangeListener>();
 
     if (astNode.isSetASTNode2()) {
       astnode2 = astNode.astnode2.clone();
     }
-    // TODO - what about AbstractTreeNode things ?
   }
 
   /**
@@ -2768,7 +2770,20 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public TreeNode getParent() {
-    return astnode2.isSetParent() ? new ASTNode((ASTNode2) astnode2.getParent()) : null;
+    if (astnode2 != null && astnode2.isSetParent()) {
+      TreeNode parent = astnode2.getParent();
+      
+      if (parent instanceof ASTNode2) {
+        return new ASTNode((ASTNode2) parent);
+      } else if (parent instanceof MathContainer) {
+        return parent;
+      } else {
+        logger.warn("The parent of an ASTNode should only be a MathContainer or an ASTNode, found '" + parent.getClass().getSimpleName() + "'");
+        return parent;
+      }
+    }
+    
+    return null;
   }
 
   /**
@@ -3820,6 +3835,7 @@ public class ASTNode extends AbstractTreeNode {
   public void setName(String name) {
     if (astnode2 instanceof ASTCiFunctionNode) {
       ((ASTCiFunctionNode) astnode2).setRefId(name);
+      ((ASTCiFunctionNode) astnode2).setName(name);
     } else if (astnode2 instanceof ASTCiNumberNode) {
       ((ASTCiNumberNode) astnode2).setRefId(name);
     } else if (astnode2 instanceof ASTCSymbolBaseNode) {
@@ -3838,6 +3854,40 @@ public class ASTNode extends AbstractTreeNode {
       astnode2.setParentSBMLObject(parent);
     }
     // TODO - else we could create a new ASTUnknown (so no singleton) and store the value there until the type is defined properly?
+  }
+
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#isSetParent()
+   */
+  @Override
+  public boolean isSetParent() {
+    if (astnode2 != null) {
+      return astnode2.isSetParent();
+    }
+
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#setParent(javax.swing.tree.TreeNode)
+   */
+  @Override
+  public void setParent(TreeNode parent) {
+    if (astnode2 != null && parent != null) {
+      if (parent instanceof MathContainer) {
+        astnode2.setParent(parent);  
+      } else if (parent instanceof ASTNode) {
+        astnode2.setParent(((ASTNode) parent).toASTNode2()); // TODO - will be much better to have parent and children directly in ASTNode and not ASTNode2
+      } else if (parent instanceof ASTNode2) {
+        logger.debug("The parent of an ASTNode should only be a MathContainer or an ASTNode, found an ASTNode2");
+        astnode2.setParent(parent);
+      } else {
+        logger.warn("The parent of an ASTNode should only be a MathContainer or an ASTNode, found '" + parent.getClass().getSimpleName() + "'");
+        astnode2.setParent(parent);
+      }
+    }
   }
 
   /**
