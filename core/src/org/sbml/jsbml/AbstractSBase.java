@@ -988,7 +988,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (oldValue != null && oldValue instanceof SBasePlugin) {
       unregisterChild((SBasePlugin) oldValue);
     }
-    if (oldValue != null && oldValue instanceof SBase) {
+    if ((oldValue != null && oldValue instanceof SBase) && !propertyName.equals(TreeNodeChangeEvent.parentSBMLObject)) {
       unregisterChild((SBase) oldValue);
     }
 
