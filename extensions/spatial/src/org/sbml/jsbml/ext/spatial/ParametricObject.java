@@ -569,8 +569,9 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     }
     if (isSetDataType()) {
       attributes.remove("dataType");
+      // see DataKind.java
       attributes.put(SpatialConstants.shortLabel + ":dataType",
-        getDataType().toString());
+        getDataType().toString().toLowerCase());
     }    
 
     return attributes;
@@ -617,7 +618,8 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
       }
       else if (attributeName.equals(SpatialConstants.dataType)) {
         try {
-          setDataType(value);
+          // see DataKind.java
+          setDataType(value.toUpperCase());
         } catch (Exception e) {
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.dataType, getElementName()));
