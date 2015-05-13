@@ -33,15 +33,15 @@ public enum DataKind {
   /**
    * To indicate 8-bit unsigned integer
    */
-  UINT8,
+  uint8,
   /**
    * To indicate 16-bit unsigned integer
    */
-  UINT16,
+  uint16,
   /**
    * To indicate 32-bit unsigned integer
    */
-  UINT32,
+  uint32,
   /**
    * To indicate single-precision (32-bit) floating point values
    */

@@ -24,7 +24,9 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.xml.parsers.SpatialParser;
 
 
 /**
@@ -47,6 +49,11 @@ public class DiffusionCoefficient extends ParameterType {
    * 
    */
   private CoordinateKind coordinateReference2;
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(DiffusionCoefficient.class);
 
 
   /**
@@ -317,19 +324,17 @@ public class DiffusionCoefficient extends ParameterType {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
 
-
     if (isSetDiffusionKind()) {
       attributes.remove("type");
       attributes.put(SpatialConstants.shortLabel + ":type",
-        String.valueOf(getDiffusionKind()));
-    }
+        String.valueOf(getDiffusionKind()).toLowerCase());
+    } 
 
     if (isSetCoordinateReference1()) {
       attributes.remove("coordinateReference1");
       attributes.put(SpatialConstants.shortLabel + ":coordinateReference1",
         String.valueOf(getCoordinateReference1()));
     }
-
 
     if (isSetCoordinateReference2()) {
       attributes.remove("coordinateReference2");
@@ -347,13 +352,13 @@ public class DiffusionCoefficient extends ParameterType {
         && (SpatialConstants.shortLabel == prefix);
     if (!isAttributeRead) {
       isAttributeRead = true;
+      
       if (attributeName.equals(SpatialConstants.type)) {
         try {
           setDiffusionKind(DiffusionKind.valueOf(value));
         } catch (Exception e) {
-          MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.type);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.type, getElementName()));
         }
       }
 
@@ -361,7 +366,7 @@ public class DiffusionCoefficient extends ParameterType {
         try {
           setCoordinateReference1(CoordinateKind.valueOf(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.coordinateReference1);
+          logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinateReference1, getElementName()));
         }
       }
 
@@ -369,7 +374,7 @@ public class DiffusionCoefficient extends ParameterType {
         try {
           setCoordinateReference2(CoordinateKind.valueOf(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.coordinateReference2);
+          logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinateReference2, getElementName()));
         }
       }
       else {

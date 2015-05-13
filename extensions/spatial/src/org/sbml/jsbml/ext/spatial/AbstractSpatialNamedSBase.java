@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.ResourceManager;
@@ -40,6 +41,11 @@ import org.sbml.jsbml.util.ResourceManager;
  */
 public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements SpatialNamedSBase {
 
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(AbstractSpatialNamedSBase.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -238,8 +244,8 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
         try {
           setSpatialId(value);
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.spatialId);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.spatialId, getElementName()));
         }
       }
       else {

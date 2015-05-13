@@ -33,30 +33,30 @@ public enum PrimitiveKind {
   /**
    * sphere
    */
-  SPHERE,
+  sphere,
   /**
    * cube
    */
-  CUBE,
+  cube,
   /**
    * cylinder
    */
-  CYLINDER,
+  cylinder,
   /**
    * cone
    */
-  CONE,
+  cone,
   /**
    * circle
    */
-  CIRCLE,
+  circle,
   /**
    * square
    */
-  SQUARE,
+  square,
   /**
    * rightTriangle
    */
-  RIGHTTRIANGLE;
+  rightTriangle;
 
 }

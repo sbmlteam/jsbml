@@ -32,21 +32,21 @@ public enum BoundaryConditionKind {
   /**
    * Neumann
    */
-  NEUMANN,
+  Neumann,
   /**
    * Dirichlet
    */
-  DIRICHLET,
+  Dirichlet,
   /**
    * Robin value coefficient
    */
-  ROBIN_VALUECOEFFICIENT,
+  Robin_valueCoefficient,
   /**
    * Robin inward normal gradient coefficient
    */
-  ROBIN_INWARDNORMALGRADIENTCOEFFICIENT,
+  Robin_inwardNormalGradientCoefficient,
   /**
    * Robin sum
    */
-  ROBIN_SUM;
+  Robin_sum;
 }

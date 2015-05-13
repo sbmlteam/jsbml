@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 
 
@@ -35,7 +36,12 @@ import org.sbml.jsbml.PropertyUndefinedError;
  */
 public class AdvectionCoefficient extends ParameterType {
 
-
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(AdvectionCoefficient.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -178,9 +184,8 @@ public class AdvectionCoefficient extends ParameterType {
         try {
           setCoordinate(CoordinateKind.valueOf(value));
         } catch (Exception e) {
-          MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.coordinate);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinate, getElementName()));
         }
       }
       else {

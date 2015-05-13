@@ -33,9 +33,9 @@ public enum InterpolationKind {
   /**
    * 
    */
-  NEARESTNEIGHBOR,
+  nearestneighbor,
   /**
    * 
    */
-  LINEAR;
+  linear;
 }

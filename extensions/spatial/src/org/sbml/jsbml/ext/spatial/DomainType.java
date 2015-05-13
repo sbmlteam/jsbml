@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.StringTools;
@@ -37,6 +38,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class DomainType extends AbstractSpatialNamedSBase {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(DomainType.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -202,8 +209,8 @@ public class DomainType extends AbstractSpatialNamedSBase {
         try {
           setSpatialDimensions(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.spatialDimensions);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.spatialDimensions, getElementName()));
           isAttributeRead = false;
         }
       }

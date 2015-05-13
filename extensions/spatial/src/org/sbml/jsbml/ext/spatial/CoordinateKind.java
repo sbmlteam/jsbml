@@ -32,14 +32,14 @@ public enum CoordinateKind {
   /**
    * cartesianX
    */
-  CARTESIANX,
+  cartesianX,
   /**
    * cartesianY
    */
-  CARTESIANY,
+  cartesianY,
   /**
    * cartesianZ
    */
-  CARTESIANZ;
+  cartesianZ;
 
 }

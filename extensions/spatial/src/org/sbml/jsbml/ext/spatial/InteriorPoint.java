@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.ResourceManager;
@@ -41,6 +42,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class InteriorPoint extends AbstractSBase {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(InteriorPoint.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -367,24 +374,24 @@ public class InteriorPoint extends AbstractSBase {
         try {
           setCoord1(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.coord1);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coord1, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.coord2)) {
         try {
           setCoord2(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.coord2);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coord2, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.coord3)) {
         try {
           setCoord3(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.coord3);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coord3, getElementName()));
         }
       }
       else {

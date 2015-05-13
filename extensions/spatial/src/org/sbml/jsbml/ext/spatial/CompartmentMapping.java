@@ -21,8 +21,10 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
@@ -36,6 +38,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CompartmentMapping extends AbstractSpatialNamedSBase {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(CompartmentMapping.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -273,10 +281,20 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.domainType)) {
-        setDomainType(value);
+        try {
+          setDomainType(value);
+        } catch (Exception e) {
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.domainType, getElementName()));
+        }
       }
       else if (attributeName.equals(SpatialConstants.unitSize)) {
-        setUnitSize(StringTools.parseSBMLDouble(value));
+        try {
+          setUnitSize(StringTools.parseSBMLDouble(value));
+        } catch (Exception e) {
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.unitSize, getElementName()));
+        }
       }
       else {
         isAttributeRead = false;

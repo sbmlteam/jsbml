@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
@@ -37,6 +38,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CSGScale extends CSGTransformation {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(CSGScale.class);
+  
   /**
    * 
    */
@@ -330,24 +337,24 @@ public class CSGScale extends CSGTransformation {
         try {
           setScaleX(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.scaleX);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.scaleX, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.scaleY)) {
         try {
           setScaleY(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.scaleY);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.scaleY, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.scaleZ)) {
         try {
           setScaleZ(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.scaleZ);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.scaleZ, getElementName()));
         }
       }
       else {
