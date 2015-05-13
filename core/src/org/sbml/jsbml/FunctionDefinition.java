@@ -39,7 +39,7 @@ import org.sbml.jsbml.validator.SyntaxChecker;
  * @version $Rev$
  */
 public class FunctionDefinition extends AbstractMathContainer implements
-CallableSBase, UniqueNamedSBase {
+CallableSBase, UniqueNamedSBase, NamedSBase {
 
   // TODO - for L3V2, we probably will need to have AbstractMathContainer extending AbstractNamedSBase ??
 
@@ -78,14 +78,10 @@ CallableSBase, UniqueNamedSBase {
   public FunctionDefinition(FunctionDefinition sb) {
     super(sb);
     if (sb.isSetId()) {
-      id = new String(sb.getId());
-    } else {
-      id = null;
+      setId(id);
     }
     if (sb.isSetName()) {
-      name = new String(sb.getName());
-    } else {
-      name = null;
+      setName(sb.getName());
     }
   }
 
@@ -123,9 +119,7 @@ CallableSBase, UniqueNamedSBase {
         ASTNode.Type.LAMBDA, lambda.getType()));
     }
     if (id != null) {
-      this.id = new String(id);
-    } else {
-      this.id = null;
+      setId(id);
     }
     name = null;
   }
@@ -140,9 +134,7 @@ CallableSBase, UniqueNamedSBase {
   public FunctionDefinition(String id, int level, int version) {
     super(level, version);
     if (id != null) {
-      this.id = new String(id);
-    } else {
-      this.id = null;
+      setId(id);
     }
     name = null;
   }
@@ -366,7 +358,7 @@ CallableSBase, UniqueNamedSBase {
     String oldId = this.id;
 
     IdManager idManager = getIdManager(this);
-    if ((oldId != null) && (idManager != null)) {
+    if (idManager != null) { // (oldId != null) // As the register and unregister are recursive, we need to call the unregister all the time until we have a non recursive method
       // Delete previous identifier only if defined.
       idManager.unregister(this); // TODO - do we need non recursive method on the IdManager interface ??
     }
@@ -392,7 +384,6 @@ CallableSBase, UniqueNamedSBase {
     if (getLevel() < 2) {
       // throw new PropertyNotAvailableError(SBaseChangedEvent.id, this);
       // We can use internally ASTNode even if working on level 1 model !!
-      throw new PropertyNotAvailableException("Level 1 not supported", this);
     }
 
     if (math.getType() != ASTNode.Type.LAMBDA) {
