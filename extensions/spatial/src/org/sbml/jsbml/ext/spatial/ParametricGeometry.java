@@ -305,6 +305,7 @@ public class ParametricGeometry extends GeometryDefinition {
   public void setSpatialPoints(SpatialPoints spatialPoints) {
     SpatialPoints oldSpatialPoints = this.spatialPoints;
     this.spatialPoints = spatialPoints;
+    registerChild(spatialPoints);
     firePropertyChange(SpatialConstants.spatialPoints, oldSpatialPoints, this.spatialPoints);
   }
 
