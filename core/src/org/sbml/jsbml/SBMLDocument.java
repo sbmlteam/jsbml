@@ -649,7 +649,8 @@ public class SBMLDocument extends AbstractSBase {
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
-      throw new IndexOutOfBoundsException(index + " < 0");
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
     }
     int count = super.getChildCount(), pos = 0;
     if (index < count) {

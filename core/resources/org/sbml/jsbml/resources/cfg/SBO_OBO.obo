@@ -1,6 +1,6 @@
 format-version: 1.2
-date: 31:03:2015 07:00
-data-version: 16:03:2015 16:52
+date: 14:05:2015 07:00
+data-version: 13:05:2015 13:49
 saved-by: SBO community
 auto-generated-by: SBO Browser (http://www.ebi.ac.uk/sbo/)
 default-namespace: sbo
@@ -4224,6 +4224,49 @@ name: flux balance framework
 def: "Modelling approach, typically used for metabolic models, where the flow of metabolites (flux) through a network can be calculated. This approach will generally produce a set of solutions (solution space), which may be reduced using objective functions and constraints on individual fluxes." [src_code:NR]
 comment: created in response to \[SF req #108\]
 is_a: SBO:0000004 ! modelling framework
+
+[Term]
+id: SBO:0000625
+name: flux bound
+def: "A parameter that limits the upper or lower value that a flux may assume. This parameter may be determined experimentally, or may be the result of theoretical investigation." [src_code:NR]
+comment: Created in response to \[SF req #109\].
+is_a: SBO:0000613 ! reaction parameter
+
+[Term]
+id: SBO:0000626
+name: default flux bound
+def: "A value used for flux bound in cases where a precise value, supported experimentally or theoretically, is not available." [src_code:NR]
+comment: Created in response to \[SF req #109\].
+is_a: SBO:0000625 ! flux bound
+
+[Term]
+id: SBO:0000627
+name: exchange reaction
+def: "A modeling process to provide matter influx or efflux to a model, for example to replenish a metabolic network with raw materials (eg carbon / energy sources). Such reactions are conceptual, created solely for modeling purposes, and do not have a physical correspondence. Exchange reactions, often represented as 'R_EX_', can operate in the negative (uptake) direction or positive (secretion) direction. By convention, a negative flux through an exchange reaction represents uptake of the corresponding metabolite, and a positive flux represent discharge." [src_code:NR]
+comment: Created in response to \[SF req #110\]
+is_a: SBO:0000375 ! process
+
+[Term]
+id: SBO:0000628
+name: demand reaction
+def: "A modeling process analogous to exchange reaction, but which operates upon \"internal\" metabolites. Metabolites that are consumed by these reactions are assumed to be used in intra-cellular processes that are not part of the model. Demand reactions, often represented 'R_DM_', can also deliver metabolites (from intra-cellular processes that are not considered in the model)." [src_code:NR]
+comment: Created in response to \[SF req #110\].
+is_a: SBO:0000375 ! process
+
+[Term]
+id: SBO:0000629
+name: biomass production
+def: "Biomass production, often represented 'R_BIOMASS_', is usually the optimization target reaction of constraint-based models, and can consume multiple reactants to produce multiple products. It is also assumed that parts of the reactants are also consumed in unrepresented processes and hence products do not have to reflect all the atom composition of the reactants. Formulation of a biomass production process entails definition of the macromolecular content (eg. cellular protein fraction), metabolic constitution of each fraction (eg. amino acids), and subsequently the atomic composition (eg. nitrogen atoms). More complex biomass functions can additionally incorporate details of essential vitamins and cofactors required for growth." [src_code:NR]
+comment: Created in response to \[SF req #110\].
+is_a: SBO:0000395 ! encapsulating process
+
+[Term]
+id: SBO:0000630
+name: ATP maintenance
+def: "A modeling representation of the energetics of an organism that are attributed to energy costs not directly related to those for growth." [src_code:NR]
+comment: Created in response to \[SF req #110\].
+synonym: "maintenance energy" []
+is_a: SBO:0000395 ! encapsulating process
 
 [Typedef]
 id: is_a

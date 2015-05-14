@@ -404,7 +404,6 @@ public class MathMLParser implements ReadingParser, WritingParser {
   public void writeCharacters(SBMLObjectForXML xmlObject,
     Object sbmlElementToWrite) {
     // TODO Auto-generated method stub
-
   }
 
   /* (non-Javadoc)

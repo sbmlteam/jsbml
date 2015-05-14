@@ -186,7 +186,8 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
   @Override
   public Geometry getChildAt(int index) {
     if (index < 0) {
-      throw new IndexOutOfBoundsException(index + " < 0");
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
     }
     int pos = 0;
 
