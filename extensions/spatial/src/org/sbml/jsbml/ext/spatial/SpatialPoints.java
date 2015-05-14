@@ -434,33 +434,40 @@ public class SpatialPoints extends AbstractSBase {
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
         && (SpatialConstants.shortLabel == prefix);
-    if (attributeName.equals(SpatialConstants.compression)) {
-      try {
-        setCompression(value);
-      } catch (Exception e) {
-        logger.warn(MessageFormat.format(
-          SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.compression, getElementName()));
+    if(!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(SpatialConstants.compression)) {
+        try {
+          setCompression(value);
+
+        } catch (Exception e) {
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.compression, getElementName()));
+        }
       }
-    }
-    else if (attributeName.equals(SpatialConstants.arrayDataLength)) {
-      try {
-        setArrayDataLength(StringTools.parseSBMLInt(value));
-      } catch (Exception e) {
-        logger.warn(MessageFormat.format(
-          SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.arrayDataLength, getElementName()));
+      else if (attributeName.equals(SpatialConstants.arrayDataLength)) {
+        try {
+          setArrayDataLength(StringTools.parseSBMLInt(value));
+
+        } catch (Exception e) {
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.arrayDataLength, getElementName()));
+        }
       }
-    }
-    else if (attributeName.equals(SpatialConstants.dataType)) {
-      try {
-        // see DataKind.java
-        setDataType(value.toUpperCase());
-      } catch (Exception e) {
-        logger.warn(MessageFormat.format(
-          SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.dataType, getElementName()));
+      else if (attributeName.equals(SpatialConstants.dataType)) {
+        try {
+          // see DataKind.java
+          setDataType(value.toUpperCase());
+
+        } catch (Exception e) {
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.dataType, getElementName()));
+        }
+      }      
+      else {
+        isAttributeRead = false;
       }
-    }      
-    else {
-      isAttributeRead = false;
     }
     return isAttributeRead;
   }
