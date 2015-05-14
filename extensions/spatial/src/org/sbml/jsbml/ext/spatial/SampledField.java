@@ -850,8 +850,8 @@ public boolean unsetSamplesLength() {
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.numSamples3, getElementName()));
         }
       }
-
-      else if (attributeName.equals(SpatialConstants.interpolation)) {
+      // TODO: update the following IF, after Lucian has decided whether it is called interpolation or interpolationType 
+      else if (attributeName.equals(SpatialConstants.interpolation) || attributeName.equals("interpolationType")) {
         try {
           setInterpolation(InterpolationKind.valueOf(value));
         } catch (Exception e) {
