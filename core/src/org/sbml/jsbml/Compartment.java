@@ -43,19 +43,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public class Compartment extends Symbol {
 
   /**
-   * This message will be displayed if the user tries to set the spatial
-   * dimensions of this element to a value other than 0, 1, 2, or 3.
-   */
-  private static final String ERROR_MESSAGE_INVALID_DIM = "Spatial dimensions must be within '{0, 3}', but {0,number} was given.";
-
-  /**
-   * This is the error message to be displayed if an application tries to set
-   * units or size attribute for this compartment but the spatial dimensions
-   * have been set to zero.
-   */
-  private static final String ERROR_MESSAGE_ZERO_DIM = "Cannot set {0} for compartment {1} if the spatial dimensions are zero.";
-
-  /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(Compartment.class);
@@ -325,15 +312,15 @@ public class Compartment extends Symbol {
   public String getPredefinedUnitID() {
     if (getLevel() < 3) {
       if (getLevel() < 2) {
-        return "volume";
+        return UnitDefinition.VOLUME;
       }
       switch ((short) getSpatialDimensions()) {
       case 3:
-        return "volume";
+        return UnitDefinition.VOLUME;
       case 2:
-        return "area";
+        return UnitDefinition.AREA;
       case 1:
-        return "length";
+        return UnitDefinition.LENGTH;
       default:
         break;
       }
@@ -745,7 +732,7 @@ public class Compartment extends Symbol {
         oldSpatialDimensions, spatialDimensions);
     } else {
       throw new IllegalArgumentException(MessageFormat.format(
-        ERROR_MESSAGE_INVALID_DIM, spatialDimension));
+        resourceBundle.getString("Compartment.ERROR_MESSAGE_INVALID_DIM"), spatialDimension));
     }
   }
 
@@ -793,7 +780,7 @@ public class Compartment extends Symbol {
       super.setUnits(units);
     } else {
       throw new IllegalArgumentException(MessageFormat.format(
-        ERROR_MESSAGE_ZERO_DIM, "units", getId()));
+        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "units", getId()));
     }
   }
 
@@ -811,7 +798,7 @@ public class Compartment extends Symbol {
       super.setUnits(unit);
     } else {
       throw new IllegalArgumentException(MessageFormat.format(
-        ERROR_MESSAGE_ZERO_DIM, "unit", getId()));
+        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "unit", getId()));
     }
   }
 
@@ -832,7 +819,7 @@ public class Compartment extends Symbol {
       super.setUnits(unitKind);
     } else {
       throw new IllegalArgumentException(MessageFormat.format(
-        ERROR_MESSAGE_ZERO_DIM, "unit kind", getId()));
+        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "unit kind", getId()));
     }
   }
 
@@ -865,7 +852,7 @@ public class Compartment extends Symbol {
       super.setValue(value);
     } else {
       throw new IllegalArgumentException(MessageFormat.format(
-        ERROR_MESSAGE_ZERO_DIM, "size", getId()));
+        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "size", getId()));
     }
   }
 
@@ -1007,10 +994,9 @@ public class Compartment extends Symbol {
           .toString((short) getSpatialDimensions()) : StringTools
           .toString(en, getSpatialDimensions()));
         if ((level < 3)
-            && (((short) getSpatialDimensions())
-                - getSpatialDimensions() != 0d)) {
+            && (((short) getSpatialDimensions()) - getSpatialDimensions() != 0d)) {
           logger.warn(MessageFormat.format(
-            "Illegal non-integer spatial dimensions {0,number}.",
+            resourceBundle.getString("Compartment.writeXMLAttributes"),
             getSpatialDimensions()));
         }
       }

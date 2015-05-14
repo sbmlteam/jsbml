@@ -29,6 +29,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeAdapter;
@@ -49,22 +50,6 @@ import org.sbml.jsbml.xml.XMLNode;
 public class CVTerm extends AnnotationElement {
 
   /**
-   * The Uniform Resource Identifier pointing to <a href="http://biomodels.net/model-qualifiers/">http://biomodels.net/model-qualifiers/</a>
-   */
-  public static final String URI_BIOMODELS_NET_MODEL_QUALIFIERS = "http://biomodels.net/model-qualifiers/"; //$NON-NLS-1$
-  /**
-   * The Uniform Resource Identifier pointing to <a href="http://biomodels.net/biology-qualifiers/">http://biomodels.net/biology-qualifiers/</a>
-   */
-  public static final String URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS = "http://biomodels.net/biology-qualifiers/"; //$NON-NLS-1$
-
-
-  // TODO: it would be probably safer to try to load the list a qualifier
-  // from the web at http://www.ebi.ac.uk/miriam/main/qualifiers/xml/
-  // We can have a copy of the file in the jar in case the web access fail but
-  // the online one would be better as you can have new qualifiers defined at
-  // any time.
-
-  /**
    * This {@code enum} list all the possible MIRIAM qualifiers.
    * @doc.note See http://co.mbine.org/standards/qualifiers
    * 
@@ -77,7 +62,7 @@ public class CVTerm extends AnnotationElement {
      * B). This relation may be used to express, for example, that a specific
      * DNA sequence encodes a particular protein.
      */
-    BQB_ENCODES,
+    BQB_ENCODES("encodes"),
     /**
      * Represents the MIRIAM biological qualifier 'hasPart': the biological
      * entity represented by the model element includes the subject of the
@@ -85,7 +70,7 @@ public class CVTerm extends AnnotationElement {
      * logically. This relation might be used to link a complex to the
      * description of its components.
      */
-    BQB_HAS_PART,
+    BQB_HAS_PART("hasPart"),
     /**
      * Represents the MIRIAM biological qualifier 'hasProperty': the subject of
      * the referenced resource (biological entity B) is a property of the
@@ -93,7 +78,7 @@ public class CVTerm extends AnnotationElement {
      * be used when a biological entity exhibits a certain enzymatic activity or
      * exerts a specific function.
      */
-    BQB_HAS_PROPERTY,
+    BQB_HAS_PROPERTY("hasProperty"),
     /**
      * Represents the MIRIAM biological qualifier 'hasTaxon': the biological
      * entity represented by the model element is taxonomically restricted,
@@ -101,7 +86,7 @@ public class CVTerm extends AnnotationElement {
      * (biological entity B). This relation may be used to ascribe a species
      * restriction to a biochemical reaction.
      */
-    BQB_HAS_TAXON,
+    BQB_HAS_TAXON("hasTaxon"),
     /**
      * Represents the MIRIAM biological qualifier 'hasVersion': the subject of
      * the referenced resource (biological entity B) is a version or an instance
@@ -109,14 +94,14 @@ public class CVTerm extends AnnotationElement {
      * may be used to represent an isoform or modified form of a biological
      * entity.
      */
-    BQB_HAS_VERSION,
+    BQB_HAS_VERSION("hasVersion"),
     /**
      * Represents the MIRIAM biological qualifier 'is': the biological entity
      * represented by the model element has identity with the subject of the
      * referenced resource (biological entity B). This relation might be used to
      * link a reaction to its exact counterpart in a database, for instance.
      */
-    BQB_IS,
+    BQB_IS("is"),
     /**
      * Represents the MIRIAM biological qualifier 'isDescribedBy': the
      * biological entity represented by the model element is described by the
@@ -125,7 +110,7 @@ public class CVTerm extends AnnotationElement {
      * literature that describes the concentration of that species or the value
      * of that parameter.
      */
-    BQB_IS_DESCRIBED_BY,
+    BQB_IS_DESCRIBED_BY("isDescribedBy"),
     /**
      * Represents the MIRIAM biological qualifier 'isEncodedBy': the biological
      * entity represented by the model element is encoded, directly or
@@ -133,14 +118,14 @@ public class CVTerm extends AnnotationElement {
      * entity B). This relation may be used to express, for example, that a
      * protein is encoded by a specific DNA sequence.
      */
-    BQB_IS_ENCODED_BY,
+    BQB_IS_ENCODED_BY("isEncodedBy"),
     /**
      * Represents the MIRIAM biological qualifier 'isHomologTo': the biological
      * entity represented by the model element is homologous to the subject of
      * the referenced resource (biological entity B). This relation can be used
      * to represent biological entities that share a common ancestor.
      */
-    BQB_IS_HOMOLOG_TO,
+    BQB_IS_HOMOLOG_TO("isHomologTo"),
     /**
      * Represents the MIRIAM biological qualifier 'isPartOf': the biological
      * entity represented by the model element is a physical or logical part of
@@ -148,13 +133,13 @@ public class CVTerm extends AnnotationElement {
      * relation may be used to link a model component to a description of the
      * complex in which it is a part.
      */
-    BQB_IS_PART_OF,
+    BQB_IS_PART_OF("isPartOf"),
     /**
      * Represents the MIRIAM biological qualifier 'isPropertyOf': the biological
      * entity represented by the model element is a property of the referenced
      * resource (biological entity B).
      */
-    BQB_IS_PROPERTY_OF,
+    BQB_IS_PROPERTY_OF("isPropertyOf"),
     /**
      * Represents the MIRIAM biological qualifier 'isVersionOf': the biological
      * entity represented by the model element is a version or an instance of
@@ -162,7 +147,7 @@ public class CVTerm extends AnnotationElement {
      * relation may be used to represent, for example, the 'superclass' or
      * 'parent' form of a particular biological entity.
      */
-    BQB_IS_VERSION_OF,
+    BQB_IS_VERSION_OF("isVersionOf"),
     /**
      * Represents the MIRIAM biological qualifier 'occursIn': the biological
      * entity represented by the model element is physically limited to a
@@ -170,41 +155,11 @@ public class CVTerm extends AnnotationElement {
      * entity B). This relation may be used to ascribe a compartmental location,
      * within which a reaction takes place.
      */
-    BQB_OCCURS_IN,
+    BQB_OCCURS_IN("occursIn"),
     /**
      * Represents an unknown MIRIAM biological qualifier.
      */
-    BQB_UNKNOWN,
-    /**
-     * Represents the MIRIAM model qualifier 'is': the modeling object
-     * represented by the model element is identical with the subject of the
-     * referenced resource (modeling object B). For instance, this qualifier
-     * might be used to link an encoded model to a database of models.
-     */
-    BQM_IS,
-    /**
-     * Represents the MIRIAM model qualifier 'isDerivedFrom': the modeling
-     * object represented by the model element is derived from the modeling
-     * object represented by the referenced resource (modeling object B). This
-     * relation may be used, for instance, to express a refinement or adaptation
-     * in usage for a previously described modeling component.
-     */
-    BQM_IS_DERIVED_FROM,
-    /**
-     * Represents the MIRIAM model qualifier 'isDescribedBy': the modeling
-     * object represented by the model element is described by the subject of
-     * the referenced resource (modeling object B). This relation might be used
-     * to link a model or a kinetic law to the literature that describes it.
-     */
-    BQM_IS_DESCRIBED_BY,
-    /**
-     * Represents the MIRIAM model qualifier 'isInstanceOf':
-     * the modelling object represented by the model element is an instance
-     * of the subject of the referenced resource (modelling object B).
-     * For instance, this qualifier might be used to link a specific model
-     * with its generic form.
-     */
-    BQM_IS_INSTANCE_OF,
+    BQB_UNKNOWN("unknownQualifier"),
     /**
      * Represents the MIRIAM model qualifier 'hasInstance':
      * the modelling object represented by the model element has for instance
@@ -212,126 +167,41 @@ public class CVTerm extends AnnotationElement {
      * For instance, this qualifier might be used to link a generic model with its
      * specific forms.
      */
-    BQM_HAS_INSTANCE,
+    BQM_HAS_INSTANCE("hasInstance"),
+    /**
+     * Represents the MIRIAM model qualifier 'is': the modeling object
+     * represented by the model element is identical with the subject of the
+     * referenced resource (modeling object B). For instance, this qualifier
+     * might be used to link an encoded model to a database of models.
+     */
+    BQM_IS("is"),
+    /**
+     * Represents the MIRIAM model qualifier 'isDerivedFrom': the modeling
+     * object represented by the model element is derived from the modeling
+     * object represented by the referenced resource (modeling object B). This
+     * relation may be used, for instance, to express a refinement or adaptation
+     * in usage for a previously described modeling component.
+     */
+    BQM_IS_DERIVED_FROM("isDerivedFrom"),
+    /**
+     * Represents the MIRIAM model qualifier 'isDescribedBy': the modeling
+     * object represented by the model element is described by the subject of
+     * the referenced resource (modeling object B). This relation might be used
+     * to link a model or a kinetic law to the literature that describes it.
+     */
+    BQM_IS_DESCRIBED_BY("isDescribedBy"),
+    /**
+     * Represents the MIRIAM model qualifier 'isInstanceOf':
+     * the modelling object represented by the model element is an instance
+     * of the subject of the referenced resource (modelling object B).
+     * For instance, this qualifier might be used to link a specific model
+     * with its generic form.
+     */
+    BQM_IS_INSTANCE_OF("isInstanceOf"),
     /**
      * Represents an unknown MIRIAM model qualifier.
      */
-    BQM_UNKNOWN;
-
-    /**
-     * 
-     */
-    private static final String HAS_INSTANCE = "hasInstance"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String IS_INSTANCE_OF = "isInstanceOf"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String IS_DERIVED_FROM = "isDerivedFrom"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String OCCURS_IN = "occursIn"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String IS_VERSION_OF = "isVersionOf"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String IS_PART_OF = "isPartOf"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String IS_HOMOLOG_TO = "isHomologTo"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String IS_ENCODED_BY = "isEncodedBy"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String IS_DESCRIBED_BY = "isDescribedBy"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String IS = "is"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String IS_PROPERTY_OF = "isPropertyOf"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String HAS_TAXON = "hasTaxon"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String HAS_PROPERTY = "hasProperty"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String HAS_VERSION = "hasVersion"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String HAS_PART = "hasPart"; //$NON-NLS-1$
-    /**
-     * 
-     */
-    private static final String ENCODES = "encodes"; //$NON-NLS-1$
-
-    /**
-     * Returns a name corresponding to this Qualifier Object.
-     * 
-     * @return a name corresponding to this Qualifier Object.
-     */
-    public String getElementNameEquivalent() {
-
-      switch (this) {
-      case BQB_ENCODES:
-        return ENCODES;
-      case BQB_HAS_PART:
-        return HAS_PART;
-      case BQB_HAS_VERSION:
-        return HAS_VERSION;
-      case BQB_HAS_PROPERTY:
-        return HAS_PROPERTY;
-      case BQB_HAS_TAXON:
-        return HAS_TAXON;
-      case BQB_IS_PROPERTY_OF:
-        return IS_PROPERTY_OF;
-      case BQB_IS:
-        return IS;
-      case BQB_IS_DESCRIBED_BY:
-        return IS_DESCRIBED_BY;
-      case BQB_IS_ENCODED_BY:
-        return IS_ENCODED_BY;
-      case BQB_IS_HOMOLOG_TO:
-        return IS_HOMOLOG_TO;
-      case BQB_IS_PART_OF:
-        return IS_PART_OF;
-      case BQB_IS_VERSION_OF:
-        return IS_VERSION_OF;
-      case BQB_OCCURS_IN:
-        return OCCURS_IN;
-      case BQM_IS:
-        return IS;
-      case BQM_IS_DESCRIBED_BY:
-        return IS_DESCRIBED_BY;
-      case BQM_IS_DERIVED_FROM:
-        return IS_DERIVED_FROM;
-      case BQM_IS_INSTANCE_OF:
-        return IS_INSTANCE_OF;
-      case BQM_HAS_INSTANCE:
-        return HAS_INSTANCE;
-
-      default:
-        return "unknownQualifier";
-      }
-    }
+    BQM_UNKNOWN("unknownQualifier");
 
     /**
      * 
@@ -340,31 +210,31 @@ public class CVTerm extends AnnotationElement {
      */
     public static Qualifier getBiologicalQualifierFor(String elementNameEquivalent) {
 
-      if (elementNameEquivalent.equals(ENCODES)) {
+      if (elementNameEquivalent.equals(BQB_ENCODES)) {
         return BQB_ENCODES;
-      } else if (elementNameEquivalent.equals(HAS_PART)) {
+      } else if (elementNameEquivalent.equals(BQB_HAS_PART.nameEquivalent)) {
         return BQB_HAS_PART;
-      } else if (elementNameEquivalent.equals(HAS_VERSION)) {
+      } else if (elementNameEquivalent.equals(BQB_HAS_VERSION.nameEquivalent)) {
         return BQB_HAS_VERSION;
-      } else if (elementNameEquivalent.equals(HAS_PROPERTY)) {
+      } else if (elementNameEquivalent.equals(BQB_HAS_PROPERTY.nameEquivalent)) {
         return BQB_HAS_PROPERTY;
-      } else if (elementNameEquivalent.equals(HAS_TAXON)) {
+      } else if (elementNameEquivalent.equals(BQB_HAS_TAXON.nameEquivalent)) {
         return BQB_HAS_TAXON;
-      } else if (elementNameEquivalent.equals(IS_PROPERTY_OF)) {
+      } else if (elementNameEquivalent.equals(BQB_IS_PROPERTY_OF.nameEquivalent)) {
         return BQB_IS_PROPERTY_OF;
-      } else if (elementNameEquivalent.equals(IS)) {
+      } else if (elementNameEquivalent.equals(BQB_IS.nameEquivalent)) {
         return BQB_IS;
-      } else if (elementNameEquivalent.equals(IS_DESCRIBED_BY)) {
+      } else if (elementNameEquivalent.equals(BQB_IS_DESCRIBED_BY.nameEquivalent)) {
         return BQB_IS_DESCRIBED_BY;
-      } else if (elementNameEquivalent.equals(IS_ENCODED_BY)) {
+      } else if (elementNameEquivalent.equals(BQB_IS_ENCODED_BY.nameEquivalent)) {
         return BQB_IS_ENCODED_BY;
-      } else if (elementNameEquivalent.equals(IS_HOMOLOG_TO)) {
+      } else if (elementNameEquivalent.equals(BQB_IS_HOMOLOG_TO.nameEquivalent)) {
         return BQB_IS_HOMOLOG_TO;
-      } else if (elementNameEquivalent.equals(IS_PART_OF)) {
+      } else if (elementNameEquivalent.equals(BQB_IS_PART_OF.nameEquivalent)) {
         return BQB_IS_PART_OF;
-      } else if (elementNameEquivalent.equals(IS_VERSION_OF)) {
+      } else if (elementNameEquivalent.equals(BQB_IS_VERSION_OF.nameEquivalent)) {
         return BQB_IS_VERSION_OF;
-      } else if (elementNameEquivalent.equals(OCCURS_IN)) {
+      } else if (elementNameEquivalent.equals(BQB_OCCURS_IN.nameEquivalent)) {
         return BQB_OCCURS_IN;
       }
 
@@ -378,19 +248,42 @@ public class CVTerm extends AnnotationElement {
      */
     public static Qualifier getModelQualifierFor(String elementNameEquivalent) {
 
-      if (elementNameEquivalent.equals(IS)) {
+      if (elementNameEquivalent.equals(BQM_IS.nameEquivalent)) {
         return BQM_IS;
-      } else if (elementNameEquivalent.equals(IS_DESCRIBED_BY)) {
+      } else if (elementNameEquivalent.equals(BQM_IS_DESCRIBED_BY.nameEquivalent)) {
         return BQM_IS_DESCRIBED_BY;
-      } else if (elementNameEquivalent.equals(IS_DERIVED_FROM)) {
+      } else if (elementNameEquivalent.equals(BQM_IS_DERIVED_FROM.nameEquivalent)) {
         return BQM_IS_DERIVED_FROM;
-      } else if (elementNameEquivalent.equals(IS_INSTANCE_OF)) {
+      } else if (elementNameEquivalent.equals(BQM_IS_INSTANCE_OF.nameEquivalent)) {
         return BQM_IS_INSTANCE_OF;
-      } else if (elementNameEquivalent.equals(HAS_INSTANCE)) {
+      } else if (elementNameEquivalent.equals(BQM_HAS_INSTANCE.nameEquivalent)) {
         return BQM_HAS_INSTANCE;
       }
 
       return BQM_UNKNOWN;
+    }
+
+
+    /**
+     * The name equivalent.
+     */
+    private String nameEquivalent;
+
+    /**
+     * 
+     * @param nameEquivalent
+     */
+    private Qualifier(String nameEquivalent) {
+      this.nameEquivalent = nameEquivalent;
+    }
+
+    /**
+     * Returns a name corresponding to this Qualifier Object.
+     * 
+     * @return a name corresponding to this Qualifier Object.
+     */
+    public String getElementNameEquivalent() {
+      return nameEquivalent;
     }
 
     /**
@@ -413,7 +306,6 @@ public class CVTerm extends AnnotationElement {
       return toString().startsWith("BQM_");
     }
   }
-
   /**
    * This enum list all the possible MIRIAM qualifiers type.
    * 
@@ -422,16 +314,33 @@ public class CVTerm extends AnnotationElement {
     /**
      * If the MIRIAM qualifier is a biological qualifier.
      */
-    BIOLOGICAL_QUALIFIER,
+    BIOLOGICAL_QUALIFIER("bqbiol", URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS),
     /**
      * If the MIRIAM qualifier is a model qualifier.
      */
-    MODEL_QUALIFIER,
+    MODEL_QUALIFIER("bqmodel", URI_BIOMODELS_NET_MODEL_QUALIFIERS),
     /**
      * If the MIRIAM qualifier is unknown.
      */
-    UNKNOWN_QUALIFIER;
+    UNKNOWN_QUALIFIER("unknown", null);
 
+    /**
+     * 
+     */
+    private String nameEquivalent;
+    /**
+     * 
+     */
+    private String namespaceURI;
+
+    /**
+     * 
+     * @param nameEquivalent
+     * @param namespaceURI
+     */
+    private Type(String nameEquivalent, String namespaceURI) {
+      this.nameEquivalent = nameEquivalent;
+    }
 
     /**
      * Returns a name corresponding to this Type of qualifier Object.
@@ -439,16 +348,7 @@ public class CVTerm extends AnnotationElement {
      * @return a name corresponding to this Type of qualifier Object.
      */
     public String getElementNameEquivalent() {
-      switch (this) {
-      case BIOLOGICAL_QUALIFIER:
-        return "bqbiol";
-      case MODEL_QUALIFIER:
-        return "bqmodel";
-      case UNKNOWN_QUALIFIER:
-        return "unknown";
-      default:
-        return null;
-      }
+      return nameEquivalent;
     }
 
     /**
@@ -456,27 +356,31 @@ public class CVTerm extends AnnotationElement {
      * @return
      */
     public String getNamespaceURI() {
-      switch (this) {
-      case BIOLOGICAL_QUALIFIER:
-        return URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS;
-      case MODEL_QUALIFIER:
-        return URI_BIOMODELS_NET_MODEL_QUALIFIERS;
-      default:
-        return null;
-      }
+      return namespaceURI;
     }
   }
 
-  /**
-   * Message to indicate an illegal combination of a {@link Type} and a
-   * {@link Qualifier} attribute.
-   */
-  private static final String INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG = "Invalid combination of type {0} with qualifier {1}.";
+
+  // TODO: it would be probably safer to try to load the list a qualifier
+  // from the web at http://www.ebi.ac.uk/miriam/main/qualifiers/xml/
+  // We can have a copy of the file in the jar in case the web access fail but
+  // the online one would be better as you can have new qualifiers defined at
+  // any time.
 
   /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -3648054739091227113L;
+
+  /**
+   * The Uniform Resource Identifier pointing to <a href="http://biomodels.net/biology-qualifiers/">http://biomodels.net/biology-qualifiers/</a>
+   */
+  public static final String URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS = "http://biomodels.net/biology-qualifiers/"; //$NON-NLS-1$
+
+  /**
+   * The Uniform Resource Identifier pointing to <a href="http://biomodels.net/model-qualifiers/">http://biomodels.net/model-qualifiers/</a>
+   */
+  public static final String URI_BIOMODELS_NET_MODEL_QUALIFIERS = "http://biomodels.net/model-qualifiers/"; //$NON-NLS-1$
 
   /**
    * Represents the MIRIAM qualifier node in the annotation node of a SBML
@@ -506,42 +410,6 @@ public class CVTerm extends AnnotationElement {
     type = Type.UNKNOWN_QUALIFIER;
     qualifier = null;
     resourceURIs = new ArrayList<String>();
-  }
-
-  /**
-   * 
-   * @param miriam
-   */
-  public CVTerm(XMLNode miriam) {
-    this();
-    if (miriam.getName().equals("annotation")) {
-      miriam = miriam.getChildAt(0);
-    }
-    if (miriam.getName().equals("RDF")) {
-      miriam = miriam.getChildAt(0);
-    }
-    if (miriam.getName().equals("Description")) {
-      miriam = miriam.getChildAt(0);
-    }
-    if (miriam.getURI().equals("http://biomodels.net/biology-qualifiers/")) {
-      if (miriam.getPrefix().equals("bqbiol")) {
-        setQualifier(Qualifier.getBiologicalQualifierFor(miriam.getName()));
-      } else {
-        setQualifier(Qualifier.getModelQualifierFor(miriam.getName()));
-      }
-      miriam = miriam.getChildAt(0);
-    }
-    if (miriam.getName().equals("Bag")) {
-      for (int j = 0; j < miriam.getChildCount(); j++) {
-        XMLNode child = miriam.getChildAt(j);
-        if (child.getName().equals("li")) {
-          XMLAttributes attributes = child.getAttributes();
-          for (int i = 0; i < attributes.size(); i++) {
-            addResource(attributes.getValue(i));
-          }
-        }
-      }
-    }
   }
 
   /**
@@ -610,12 +478,48 @@ public class CVTerm extends AnnotationElement {
     } else if (isModelQualifier()) {
       setModelQualifierType(qualifier);
     } else {
-      throw new IllegalArgumentException(String
-        .format(INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG, type,
-          qualifier));
+      throw new IllegalArgumentException(MessageFormat.format(
+        resourceBundle.getString("CVTerm.INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG"),
+        type, qualifier));
     }
     for (String resource : resources) {
       addResource(resource);
+    }
+  }
+
+  /**
+   * 
+   * @param miriam
+   */
+  public CVTerm(XMLNode miriam) {
+    this();
+    if (miriam.getName().equals("annotation")) {
+      miriam = miriam.getChildAt(0);
+    }
+    if (miriam.getName().equals("RDF")) {
+      miriam = miriam.getChildAt(0);
+    }
+    if (miriam.getName().equals("Description")) {
+      miriam = miriam.getChildAt(0);
+    }
+    if (miriam.getURI().equals("http://biomodels.net/biology-qualifiers/")) {
+      if (miriam.getPrefix().equals("bqbiol")) {
+        setQualifier(Qualifier.getBiologicalQualifierFor(miriam.getName()));
+      } else {
+        setQualifier(Qualifier.getModelQualifierFor(miriam.getName()));
+      }
+      miriam = miriam.getChildAt(0);
+    }
+    if (miriam.getName().equals("Bag")) {
+      for (int j = 0; j < miriam.getChildCount(); j++) {
+        XMLNode child = miriam.getChildAt(j);
+        if (child.getName().equals("li")) {
+          XMLAttributes attributes = child.getAttributes();
+          for (int i = 0; i < attributes.size(); i++) {
+            addResource(attributes.getValue(i));
+          }
+        }
+      }
     }
   }
 
@@ -693,35 +597,6 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * Returns a list of resource URIs that contain the given pattern(s). This is
-   * useful to obtain, e.g., all KEGG resources this term points to.
-   * 
-   * @param patterns
-   *        an arbitrary number of patterns, e.g.,
-   *        {@code urn:miriam:kegg.reaction:R.*}, {@code .*kegg.*}  or just {@code kegg} that
-   *        are matched to all resources using an OR-operation, i.e.,
-   *        if just one of the patterns matches a resource, this resource will
-   *        appear in the returned list.
-   * @return A list of all resources that contain the given pattern. This list
-   *         can be empty, but never {@code null}. The order of the resources
-   *         in that list will be identical to the order in this {@link CVTerm}.
-   * @see Pattern
-   * @see Matcher#find()
-   * 
-   */
-  public List<String> filterResources(String... patterns) {
-    Pattern pattern;
-    Pattern[] patternList = new Pattern[patterns.length];
-
-    for (int i = 0; i < patternList.length; i++) {
-      pattern = Pattern.compile(patterns[i]);
-      patternList[i] = pattern;
-    }
-
-    return filterResources(patternList);
-  }
-
-  /**
    * Returns a list of resource URIs that contain the given {@link Pattern}(s). This is
    * useful to obtain, e.g., all KEGG resources this term points to.
    * 
@@ -754,6 +629,35 @@ public class CVTerm extends AnnotationElement {
     }
 
     return selectedResources;
+  }
+
+  /**
+   * Returns a list of resource URIs that contain the given pattern(s). This is
+   * useful to obtain, e.g., all KEGG resources this term points to.
+   * 
+   * @param patterns
+   *        an arbitrary number of patterns, e.g.,
+   *        {@code urn:miriam:kegg.reaction:R.*}, {@code .*kegg.*}  or just {@code kegg} that
+   *        are matched to all resources using an OR-operation, i.e.,
+   *        if just one of the patterns matches a resource, this resource will
+   *        appear in the returned list.
+   * @return A list of all resources that contain the given pattern. This list
+   *         can be empty, but never {@code null}. The order of the resources
+   *         in that list will be identical to the order in this {@link CVTerm}.
+   * @see Pattern
+   * @see Matcher#find()
+   * 
+   */
+  public List<String> filterResources(String... patterns) {
+    Pattern pattern;
+    Pattern[] patternList = new Pattern[patterns.length];
+
+    for (int i = 0; i < patternList.length; i++) {
+      pattern = Pattern.compile(patterns[i]);
+      patternList[i] = pattern;
+    }
+
+    return filterResources(patternList);
   }
 
   /* (non-Javadoc)
@@ -830,15 +734,6 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * Returns the number of resources for this {@link CVTerm}.
-   * 
-   * @return the number of resources for this {@link CVTerm}.
-   */
-  public int getResourceCount() {
-    return resourceURIs.size();
-  }
-
-  /**
    * Returns the qualifier {@link Type} for this CVTerm.
    * 
    * @return the qualifier {@link Type} for this CVTerm.
@@ -847,6 +742,15 @@ public class CVTerm extends AnnotationElement {
    */
   public Type getQualifierType() {
     return type;
+  }
+
+  /**
+   * Returns the number of resources for this {@link CVTerm}.
+   * 
+   * @return the number of resources for this {@link CVTerm}.
+   */
+  public int getResourceCount() {
+    return resourceURIs.size();
   }
 
   /**
@@ -926,6 +830,18 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
+   * Returns {@code true} if the {@link Qualifier} of this {@link CVTerm}
+   * is set and is different from {@link Qualifier#BQM_UNKNOWN} and {@link Qualifier#BQB_UNKNOWN}.
+   * 
+   * @return {@code true} if the {@link Qualifier} of this {@link CVTerm}
+   *         is set.
+   */
+  public boolean isSetQualifier() {
+    return (qualifier != null) && (!qualifier.equals(Qualifier.BQM_UNKNOWN))
+        && (!qualifier.equals(Qualifier.BQB_UNKNOWN));
+  }
+
+  /**
    * Checks whether or not the {@link Type} has been set for this
    * {@link CVTerm}.
    * 
@@ -955,18 +871,6 @@ public class CVTerm extends AnnotationElement {
   @Deprecated
   public boolean isSetTypeQualifier() {
     return isSetQualifier();
-  }
-
-  /**
-   * Returns {@code true} if the {@link Qualifier} of this {@link CVTerm}
-   * is set and is different from {@link Qualifier#BQM_UNKNOWN} and {@link Qualifier#BQB_UNKNOWN}.
-   * 
-   * @return {@code true} if the {@link Qualifier} of this {@link CVTerm}
-   *         is set.
-   */
-  public boolean isSetQualifier() {
-    return (qualifier != null) && (!qualifier.equals(Qualifier.BQM_UNKNOWN))
-        && (!qualifier.equals(Qualifier.BQB_UNKNOWN));
   }
 
   /**
@@ -1008,6 +912,17 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
+   * Removes the ith resource URI from the {@link CVTerm}.
+   * 
+   * @param index
+   * @return the removed URI.
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size())
+   */
+  public String removeResource(int index) {
+    return resourceURIs.remove(index);
+  }
+
+  /**
    * Removes the first occurrence of the given resource URI from the {@link CVTerm}.
    * 
    * @param resource
@@ -1020,17 +935,6 @@ public class CVTerm extends AnnotationElement {
         break;
       }
     }
-  }
-
-  /**
-   * Removes the ith resource URI from the {@link CVTerm}.
-   * 
-   * @param index
-   * @return the removed URI.
-   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size())
-   */
-  public String removeResource(int index) {
-    return resourceURIs.remove(index);
   }
 
   /**
@@ -1060,12 +964,12 @@ public class CVTerm extends AnnotationElement {
           firePropertyChange(TreeNodeChangeEvent.qualifier, oldValue, qualifier);
         } else {
           throw new IllegalArgumentException(MessageFormat.format(
-            INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG, type,
-            qualifier));
+            resourceBundle.getString("CVTerm.INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG"),
+            type, qualifier));
         }
       } else {
         throw new IllegalArgumentException(MessageFormat.format(
-          "{0} is not a valid Biological Qualifier.", qualifier.toString()));
+          resourceBundle.getString("CVTerm.setBiologicalQualifierType"), qualifier.toString()));
       }
     }
   }
@@ -1099,11 +1003,11 @@ public class CVTerm extends AnnotationElement {
           firePropertyChange(TreeNodeChangeEvent.qualifier, oldValue, qualifier);
         } else {
           throw new IllegalArgumentException(
-              "Model qualifier types can only be applyed if the type is set to Model Qualifier.");
+            resourceBundle.getString("CVTerm.setModelQualifierType1"));
         }
       } else {
         throw new IllegalArgumentException(MessageFormat.format(
-          "{0} is not a valid Model Qualifier.", qualifier.toString()));
+          resourceBundle.getString("CVTerm.setModelQualifierType2"), qualifier.toString()));
       }
     }
   }
@@ -1170,7 +1074,7 @@ public class CVTerm extends AnnotationElement {
       firePropertyChange(TreeNodeChangeEvent.qualifier, oldQualifier, qualifier);
     } else {
       throw new IllegalArgumentException(MessageFormat.format(
-        "{0} is not a valid qualifier.", type.toString()));
+        resourceBundle.getString("CVTerm.setQualifierType"), type.toString()));
     }
   }
 
@@ -1183,36 +1087,61 @@ public class CVTerm extends AnnotationElement {
    */
   @Override
   public String toString() {
-    StringBuilder buffer = new StringBuilder();
+    String element, relationship;
 
     switch (getQualifierType()) {
     case MODEL_QUALIFIER:
-      buffer.append("the model ");
-      buffer.append(getModelQualifierType().getElementNameEquivalent());
+      element = resourceBundle.getString("CVTerm.Type.MODEL_QUALIFIER");
+      relationship = getModelQualifierType().getElementNameEquivalent();
       break;
     case BIOLOGICAL_QUALIFIER:
-      buffer.append("the biological entity ");
-      buffer.append(getBiologicalQualifierType().getElementNameEquivalent());
+      element = resourceBundle.getString("CVTerm.Type.BIOLOGICAL_QUALIFIER");
+      relationship = getBiologicalQualifierType().getElementNameEquivalent();
       break;
     default: // UNKNOWN_QUALIFIER
-      buffer.append("element has something to do with");
+      element = resourceBundle.getString("CVTerm.Type.UNKNOWN_QUALIFIER");
+      relationship = resourceBundle.getString("CVTerm.Qualifier.UNKNOWN");
       break;
     }
-    int i = 0;
-    if (resourceURIs.size() > 0) {
-      buffer.append(' ');
-    }
-    String uri;
-    for (i = 0; i < resourceURIs.size(); i++) {
-      uri = resourceURIs.get(i);
-      if (i > 0) {
-        buffer.append(", ");
-      }
-      buffer.append(uri);
-    }
+
+    return MessageFormat.format(
+      resourceBundle.getString("CVTerm.humanReadable"), element, relationship, resourceURIs);
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public String toXML() {
+    StringBuffer buffer = new StringBuffer();
+    toXML("  ", buffer);
     return buffer.toString();
   }
 
+  /**
+   * Writes all the MIRIAM annotations of the {@link CVTerm} in 'buffer'
+   * 
+   * @param indent
+   * @param buffer
+   */
+  public void toXML(String indent, StringBuffer buffer) {
+    StringTools.append(buffer, "<", type.getElementNameEquivalent(), ":", getQualifier().getElementNameEquivalent(), ">\n", indent, "<rdf:Bag>\n");
+    if (resourceURIs != null) {
+      for (int i = 0; i < getResourceCount(); i++) {
+        StringTools.append(buffer, indent, indent, "<rdf:li rdf:resource=\"", getResourceURI(i), "\"/>\n");
+      }
+    }
+    StringTools.append(buffer, indent, "</rdf:Bag>\n", "</", type.getElementNameEquivalent(), ":", getQualifier().getElementNameEquivalent(), ">\n");
+  }
+
+  /**
+   * 
+   * @return
+   * @throws XMLStreamException
+   */
+  public XMLNode toXMLNode() throws XMLStreamException {
+    return XMLNode.convertStringToXMLNode(toXML());
+  }
 
   /**
    * Unsets the biological qualifier if it is set and of the type {@link Type#BIOLOGICAL_QUALIFIER}
@@ -1247,8 +1176,6 @@ public class CVTerm extends AnnotationElement {
     qualifier = null;
   }
 
-
-
   /**
    * Unsets the qualifier type if it is set.
    * 
@@ -1257,22 +1184,6 @@ public class CVTerm extends AnnotationElement {
     if (isSetQualifierType()) {
       firePropertyChange(TreeNodeChangeEvent.qualifier, type, null);
       type = null;
-    }
-  }
-
-  /**
-   * Writes all the MIRIAM annotations of the {@link CVTerm} in 'buffer'
-   * 
-   * @param indent
-   * @param buffer
-   */
-  public void toXML(String indent, StringBuffer buffer) {
-    if (resourceURIs != null) {
-      for (int i = 0; i < getResourceCount(); i++) {
-        String resourceURI = getResourceURI(i);
-        StringTools.append(buffer, "<rdf:li rdf:resource=\"",
-          resourceURI, "\"/>\n");
-      }
     }
   }
 
