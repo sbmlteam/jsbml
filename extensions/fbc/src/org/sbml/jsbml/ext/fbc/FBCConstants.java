@@ -39,6 +39,21 @@ public class FBCConstants {
   public static final String activeObjective = "activeObjective";
 
   /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String and = "and";
+
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String associatedSpecies = "associatedSpecies";
+
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String association = "association";
+
+  /**
    * 
    */
   public static final String charge = "charge";
@@ -54,6 +69,16 @@ public class FBCConstants {
   public static final String coefficient = "coefficient";
 
   /**
+   * 
+   */
+  public static final String fluxBound = "fluxBound";
+
+  /**
+   * 
+   */
+  public static final String fluxObjective = "fluxObjective";
+
+  /**
    * @since jsbml 1.1, introduced to FBC in version 2.
    */
   public static final String geneProduct = "geneProduct";
@@ -65,129 +90,75 @@ public class FBCConstants {
   public static final String geneProductAssociation = "geneProductAssociation";
 
   /**
-   * 
-   * @since jsbml 1.1, introduced in FBC version 2
-   */
-  public static final String geneProductReference = "geneProductRef";
-
-  /**
    * @since jsbml 1.1, introduced to FBC in version 2.
    */
   public static final String geneProductIdentifier = "geneProductIdentifier"; // not in use any more?
 
   /**
    * 
+   * @since jsbml 1.1, introduced in FBC version 2
    */
-  public static final String label = "label";
+  public static final String geneProductReference = "geneProductRef";
+
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String geneProteinAssociation = "geneProteinAssociation";
 
   /**
    * 
    */
-  public static final String listOfObjectives = "listOfObjectives";
+  public static final String label = "label";
+  /**
+   * Introduced to FBC in version 2: The left child of a logical association rule.
+   */
+  public static final String leftChild = "leftChild";
 
+  /**
+   * 
+   */
+  public static final String listOfFluxes = "listOfFluxes";
+
+  /**
+   * 
+   */
+  public static final String listOfFluxObjectives = "listOfFluxObjectives";
   /**
    * @since jsbml 1.1, introduced to FBC in version 2.
    */
   public static final String listOfGeneProducts = "listOfGeneProducts";
-
   /**
    * 
    */
-  public static final int MIN_SBML_LEVEL = 3;
-
-  /**
-   * 
-   */
-  public static final int MIN_SBML_VERSION = 1;
-
-  /**
-   * 
-   */
-  public static final List<String> namespaces;
-
-  /**
-   * The namespace URI of this parser for SBML level 3, version 1 and package version 1.
-   */
-  public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
-  /**
-   * The namespace URI of this parser for SBML level 3, version 1 and package version 2.
-   */
-  public static final String namespaceURI_L3V1V2 = "http://www.sbml.org/sbml/level3/version1/fbc/version2";
-
-  /**
-   * The latest namespace URI of this parser, this value can change between releases.
-   */
-  public static final String namespaceURI = namespaceURI_L3V1V2;
-
-  /**
-   * 
-   */
-  public static final String operation = "operation";
-  /**
-   * 
-   */
-  public static final String packageName = "Flux Balance Constraints";
-  /**
-   * 
-   */
-  public static final String reaction = "reaction";
-  /**
-   * 
-   */
-  public static final String shortLabel = "fbc";
-  /**
-   * 
-   */
-  public static final String type = "type";
-  /**
-   * Introduced to FBC in version 2.
-   */
-  public static final String upperFluxBound = "upperFluxBound";
+  public static final String listOfObjectives = "listOfObjectives";
   /**
    * Introduced to FBC in version 2.
    */
   public static final String lowerFluxBound = "lowerFluxBound";
   /**
-   * Introduced to FBC in version 2.
+   * 
    */
-  public static final String geneProteinAssociation = "geneProteinAssociation";
-  /**
-   * Introduced to FBC in version 2.
-   */
-  public static final String association = "association";
-  /**
-   * Introduced to FBC in version 2: The left child of a logical association rule.
-   */
-  public static final String leftChild = "leftChild";
-  /**
-   * Introduced to FBC in version 2: The right child of a logical association rule.
-   */
-  public static final String rightChild = "rightChild";
-
+  public static final int MIN_SBML_LEVEL = 3;
   /**
    * 
    */
-  public static final String value = "value";
-
-  /**
-   * Introduced to FBC in version 2.
-   */
-  public static final String and = "and";
-  /**
-   * Introduced to FBC in version 2.
-   */
-  public static final String or = "or";
-
-  /**
-   * Introduced to FBC in version 2.
-   */
-  public static final String associatedSpecies = "associatedSpecies";
-
+  public static final int MIN_SBML_VERSION = 1;
   /**
    * 
    */
-  public static final String fluxObjective = "fluxObjective";
-
+  public static final List<String> namespaces;
+  /**
+   * The namespace URI of this parser for SBML level 3, version 1 and package version 2.
+   */
+  public static final String namespaceURI_L3V1V2 = "http://www.sbml.org/sbml/level3/version1/fbc/version2";
+  /**
+   * The latest namespace URI of this parser, this value can change between releases.
+   */
+  public static final String namespaceURI = namespaceURI_L3V1V2;
+  /**
+   * The namespace URI of this parser for SBML level 3, version 1 and package version 1.
+   */
+  public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
   /**
    * 
    */
@@ -196,17 +167,51 @@ public class FBCConstants {
   /**
    * 
    */
-  public static final String fluxBound = "fluxBound";
+  public static final String operation = "operation";
+
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String or = "or";
+  /**
+   * 
+   */
+  public static final String packageName = "Flux Balance Constraints";
 
   /**
    * 
    */
-  public static final String listOfFluxObjectives = "listOfFluxObjectives";
+  public static final String reaction = "reaction";
+
+  /**
+   * Introduced to FBC in version 2: The right child of a logical association rule.
+   */
+  public static final String rightChild = "rightChild";
 
   /**
    * 
    */
-  public static final String listOfFluxes = "listOfFluxes";
+  public static final String shortLabel = "fbc";
+
+  /**
+   * Introduced to FBC in Version 2 Release 4.
+   */
+  public static final String strict = "strict";
+
+  /**
+   * 
+   */
+  public static final String type = "type";
+
+  /**
+   * Introduced to FBC in version 2.
+   */
+  public static final String upperFluxBound = "upperFluxBound";
+
+  /**
+   * 
+   */
+  public static final String value = "value";
 
   static {
     namespaces = new ArrayList<String>();

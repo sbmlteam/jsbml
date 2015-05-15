@@ -23,12 +23,15 @@ package org.sbml.jsbml.ext.fbc;
 
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.xml.XMLNode;
 
@@ -48,6 +51,75 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -7451190347195219863L;
+
+  /**
+   * The mandatory attribute strict is used to apply an additional set of
+   * restrictions to the model.
+   * The strict attribute ensures that the Flux Balance Constraints package can
+   * be used to encode legacy FBA models expressible as Linear Programs (LP’s)
+   * with software that is unable to analyze arbitrary mathematical expressions.
+   */
+  private Boolean strict;
+
+  /**
+   * Returns the value of {@link #strict}.
+   *
+   * @return the value of {@link #strict}.
+   */
+  public boolean getStrict() {
+    if (isSetStrict()) {
+      return strict;
+    }
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(FBCConstants.strict, this);
+  }
+
+  /**
+   * Returns the value of {@link #strict}.
+   *
+   * @return the value of {@link #strict}.
+   */
+  public boolean isStrict() {
+    return getStrict();
+  }
+
+
+  /**
+   * Returns whether {@link #strict} is set.
+   *
+   * @return whether {@link #strict} is set.
+   */
+  public boolean isSetStrict() {
+    return strict != null;
+  }
+
+
+  /**
+   * Sets the value of strict
+   *
+   * @param strict the value of strict to be set.
+   */
+  public void setStrict(boolean strict) {
+    boolean oldStrict = this.strict;
+    this.strict = strict;
+    firePropertyChange(FBCConstants.strict, oldStrict, this.strict);
+  }
+
+
+  /**
+   * Unsets the variable strict.
+   *
+   * @return {@code true} if strict was set before, otherwise {@code false}.
+   */
+  public boolean unsetStrict() {
+    if (isSetStrict()) {
+      boolean oldStrict = strict;
+      strict = null;
+      firePropertyChange(FBCConstants.strict, oldStrict, strict);
+      return true;
+    }
+    return false;
+  }
 
   /**
    * @deprecated Only defined in FBC version 1.
@@ -532,6 +604,10 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
+    if (attributeName.equals(FBCConstants.strict)) {
+      setStrict(StringTools.parseSBMLBoolean(value));
+      return true;
+    }
     return false;
   }
 
@@ -703,7 +779,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
       listOfFluxBounds.setPackageName(FBCConstants.shortLabel);
       listOfFluxBounds.setSBaseListType(ListOf.Type.other);
     }
-    
+
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfFluxBounds);
     }
@@ -844,7 +920,13 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
-    return null;
+    Map<String, String> attributes = new TreeMap<String, String>();
+
+    if (isSetStrict()) {
+      attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.strict, Boolean.toString(isStrict()));
+    }
+
+    return attributes;
   }
 
   /**
