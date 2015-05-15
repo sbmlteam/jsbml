@@ -53,75 +53,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   private static final long serialVersionUID = -7451190347195219863L;
 
   /**
-   * The mandatory attribute strict is used to apply an additional set of
-   * restrictions to the model.
-   * The strict attribute ensures that the Flux Balance Constraints package can
-   * be used to encode legacy FBA models expressible as Linear Programs (LP’s)
-   * with software that is unable to analyze arbitrary mathematical expressions.
-   */
-  private Boolean strict;
-
-  /**
-   * Returns the value of {@link #strict}.
-   *
-   * @return the value of {@link #strict}.
-   */
-  public boolean getStrict() {
-    if (isSetStrict()) {
-      return strict;
-    }
-    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
-    throw new PropertyUndefinedError(FBCConstants.strict, this);
-  }
-
-  /**
-   * Returns the value of {@link #strict}.
-   *
-   * @return the value of {@link #strict}.
-   */
-  public boolean isStrict() {
-    return getStrict();
-  }
-
-
-  /**
-   * Returns whether {@link #strict} is set.
-   *
-   * @return whether {@link #strict} is set.
-   */
-  public boolean isSetStrict() {
-    return strict != null;
-  }
-
-
-  /**
-   * Sets the value of strict
-   *
-   * @param strict the value of strict to be set.
-   */
-  public void setStrict(boolean strict) {
-    boolean oldStrict = this.strict;
-    this.strict = strict;
-    firePropertyChange(FBCConstants.strict, oldStrict, this.strict);
-  }
-
-
-  /**
-   * Unsets the variable strict.
-   *
-   * @return {@code true} if strict was set before, otherwise {@code false}.
-   */
-  public boolean unsetStrict() {
-    if (isSetStrict()) {
-      boolean oldStrict = strict;
-      strict = null;
-      firePropertyChange(FBCConstants.strict, oldStrict, strict);
-      return true;
-    }
-    return false;
-  }
-
-  /**
    * @deprecated Only defined in FBC version 1.
    */
   @Deprecated
@@ -136,6 +67,16 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    * 
    */
   private ListOfObjectives listOfObjectives;
+
+
+  /**
+   * The mandatory attribute strict is used to apply an additional set of
+   * restrictions to the model.
+   * The strict attribute ensures that the Flux Balance Constraints package can
+   * be used to encode legacy FBA models expressible as Linear Programs (LP’s)
+   * with software that is unable to analyze arbitrary mathematical expressions.
+   */
+  private Boolean strict;
 
 
   /**
@@ -166,7 +107,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     super(model);
   }
 
-
   /**
    * Adds a new {@link FluxBound} to the listOfFluxBounds.
    * <p>The listOfFluxBounds is initialized if necessary.
@@ -180,7 +120,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     return getListOfFluxBounds().add(fluxBound);
   }
 
-
   /**
    * Adds a new {@link GeneProduct} to the {@link #listOfGeneProducts}.
    * <p>The listOfGeneProducts is initialized if necessary.
@@ -192,7 +131,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   public boolean addGeneProduct(GeneProduct geneProduct) {
     return getListOfGeneProducts().add(geneProduct);
   }
-
 
   /**
    * Adds a new {@link Objective} to the listOfObjectives.
@@ -249,6 +187,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     return createGeneProduct(null);
   }
 
+
   /**
    * Creates a new {@link GeneProduct} element and adds it to the {@link #listOfGeneProducts} list.
    * @param id
@@ -270,6 +209,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     return createObjective(null);
   }
 
+
   /**
    * Creates a new {@link Objective} element and adds it to the ListOfObjectives
    * list
@@ -283,6 +223,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     return objective;
   }
 
+
   /**
    * Gets the {@code activeObjective}.
    * <p>If the {@code activeObjective} is not defined, an empty String is returned.
@@ -292,6 +233,20 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   public String getActiveObjective() {
     return isSetListOfObjectives() ? listOfObjectives.getActiveObjective() : "";
   }
+
+
+  /**
+   * 
+   * @return
+   */
+  public Objective getActiveObjectiveInstance() {
+    if (!isSetActiveObjective()) {
+      return null;
+    }
+
+    return getListOfObjectives().firstHit(new NameFilter(getActiveObjective()));
+  }
+
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
@@ -299,6 +254,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   public boolean getAllowsChildren() {
     return true;
   }
+
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
@@ -369,7 +325,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   public FluxBound getFluxBound(int i) {
     return getListOfFluxBounds().get(i);
   }
-
   /**
    * Return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
    * 
@@ -562,6 +517,27 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   }
 
   /**
+   * Returns the value of {@link #strict}.
+   *
+   * @return the value of {@link #strict}.
+   */
+  public boolean getStrict() {
+    if (isSetStrict()) {
+      return strict;
+    }
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(FBCConstants.strict, this);
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetActiveObjective() {
+    return isSetListOfObjectives() && getListOfObjectives().isSetActiveObjective();
+  }
+
+  /**
    * Returns {@code true} if listOfFluxBounds contains at least one element.
    *
    * @return {@code true} if listOfFluxBounds contains at least one element,
@@ -597,6 +573,24 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     // when calling the getListOfObjectives() when there are not yet any objective object added to the list.
     // This happen for example when reading a file.
     return listOfObjectives != null;
+  }
+
+  /**
+   * Returns whether {@link #strict} is set.
+   *
+   * @return whether {@link #strict} is set.
+   */
+  public boolean isSetStrict() {
+    return strict != null;
+  }
+
+  /**
+   * Returns the value of {@link #strict}.
+   *
+   * @return the value of {@link #strict}.
+   */
+  public boolean isStrict() {
+    return getStrict();
   }
 
   /* (non-Javadoc)
@@ -863,6 +857,17 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   }
 
   /**
+   * Sets the value of strict
+   *
+   * @param strict the value of strict to be set.
+   */
+  public void setStrict(boolean strict) {
+    Boolean oldStrict = this.strict;
+    this.strict = strict;
+    firePropertyChange(FBCConstants.strict, oldStrict, this.strict);
+  }
+
+  /**
    * Returns {@code true} if {@link #listOfFluxBounds} contain at least one
    * element, otherwise {@code false}
    * 
@@ -915,6 +920,21 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     return false;
   }
 
+  /**
+   * Unsets the variable strict.
+   *
+   * @return {@code true} if strict was set before, otherwise {@code false}.
+   */
+  public boolean unsetStrict() {
+    if (isSetStrict()) {
+      boolean oldStrict = strict;
+      strict = null;
+      firePropertyChange(FBCConstants.strict, oldStrict, strict);
+      return true;
+    }
+    return false;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
    */
@@ -927,26 +947,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     }
 
     return attributes;
-  }
-
-  /**
-   * 
-   * @return
-   */
-  public Objective getActiveObjectiveInstance() {
-    if (!isSetActiveObjective()) {
-      return null;
-    }
-
-    return getListOfObjectives().firstHit(new NameFilter(getActiveObjective()));
-  }
-
-  /**
-   * 
-   * @return
-   */
-  public boolean isSetActiveObjective() {
-    return isSetListOfObjectives() && getListOfObjectives().isSetActiveObjective();
   }
 
 }
