@@ -1414,6 +1414,11 @@ public class ASTNode extends AbstractTreeNode {
    * {@link ASTNode}
    */
   private ASTNode2 astnode2;
+  
+  /**
+   * Child nodes.
+   */
+  private List<ASTNode> listOfNodes;
 
   /**
    * A {@link Logger} for this class.
@@ -1658,9 +1663,15 @@ public class ASTNode extends AbstractTreeNode {
    *          the node to add as child.
    */
   public void addChild(ASTNode child) {
+    /*
     if (isFunction()) {
       ((ASTFunction) astnode2).addChild(child.toASTNode2());
     }
+    */
+    if (!isSetListOfNodes()) {
+      listOfNodes = new ArrayList<ASTNode>();
+    }
+    listOfNodes.add(child);
   }
 
   /**
@@ -2521,12 +2532,19 @@ public class ASTNode extends AbstractTreeNode {
    *           - if the index is out of range (index < 0 || index >= size()).
    */
   public ASTNode getChild(int index) {
+    // TODO: 
+    /*
     if (isSetASTNode2() && (astnode2 instanceof ASTFunction)) {
       ASTNode child  = new ASTNode(((ASTFunction) astnode2).getChildAt(index));
       child.parent = this;
       return child;
     }
     return null;
+    */
+    if (!isSetListOfNodes()) {
+      listOfNodes = new ArrayList<ASTNode>();
+    }
+    return listOfNodes.get(index);
   }
 
   /*
@@ -2546,7 +2564,10 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public int getChildCount() {
+    /*
     return isSetASTNode2() ? astnode2.getChildCount() : 0;
+    */
+    return listOfNodes == null ? 0 : listOfNodes.size();
   }
 
   /**
@@ -2652,11 +2673,14 @@ public class ASTNode extends AbstractTreeNode {
    * @return the left child of this ASTNode. This is equivalent to getChild(0);
    */
   public ASTNode getLeftChild() {
+    /*
     ASTNode leftChild = null;
     if (astnode2 instanceof ASTFunction) {
       leftChild = new ASTNode(((ASTFunction) astnode2).getChildAt(0));
     }
     return leftChild;
+    */
+    return getChild(0);
   }
 
   /**
@@ -2665,6 +2689,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return the list of children of the current ASTNode.
    */
   public List<ASTNode> getListOfNodes() {
+    /*
     if (isFunction()) {
       List<ASTNode2> ast2 = ((ASTFunction) astnode2).getListOfNodes();
       List<ASTNode> ast = new ArrayList<ASTNode>();
@@ -2676,6 +2701,20 @@ public class ASTNode extends AbstractTreeNode {
     return new ArrayList<ASTNode>();
     //throw new IllegalArgumentException(
     //    "ASTNodes of type BOOLEAN or NUMBER do not contain children");
+    */
+    if (!isSetListOfNodes()) {
+      listOfNodes = new ArrayList<ASTNode>();
+    }
+    return listOfNodes;
+  }
+
+  /**
+   * Returns true iff listOfNodes is not equal to null
+   * 
+   * @return boolean
+   */
+  private boolean isSetListOfNodes() {
+    return listOfNodes != null;
   }
 
   /**
@@ -2687,6 +2726,7 @@ public class ASTNode extends AbstractTreeNode {
    *         filter.
    */
   public List<ASTNode> getListOfNodes(Filter filter) {
+    /*
     if (isFunction()) {
       List<ASTNode2> ast2 = ((ASTFunction) astnode2).getListOfNodes(filter);
       List<ASTNode> ast = new ArrayList<ASTNode>();
@@ -2697,6 +2737,19 @@ public class ASTNode extends AbstractTreeNode {
     }
     throw new IllegalArgumentException(
         "ASTNodes of type BOOLEAN or NUMBER do not contain children");
+    */
+    if (!isSetListOfNodes()) {
+      listOfNodes = new ArrayList<ASTNode>();
+    }
+    ArrayList<ASTNode> filteredList = new ArrayList<ASTNode>();
+    
+    for (ASTNode node : listOfNodes) {
+      if (filter.accepts(node)) {
+        filteredList.add(node);
+      }
+    }
+
+    return filteredList;
   }
 
   /**
@@ -2870,12 +2923,18 @@ public class ASTNode extends AbstractTreeNode {
    * @return This is equivalent to calling {@code getListOfNodes().getLast()}.
    */
   public ASTNode getRightChild() {
+    /*
     if (isFunction()) {
       int childCount = ((ASTFunction) toASTNode2()).getChildCount();
       return new ASTNode(
         ((ASTFunction) toASTNode2()).getChildAt(childCount - 1));
     }
     return null;
+    */
+    if (!isSetListOfNodes()) {
+      listOfNodes = new ArrayList<ASTNode>();
+    }
+    return listOfNodes.get(listOfNodes.size() - 1);
   }
 
   /**
@@ -3004,9 +3063,17 @@ public class ASTNode extends AbstractTreeNode {
    *          {@link ASTNode} to insert as the n<sup>th</sup> child
    */
   public void insertChild(int n, ASTNode newChild) {
+    /*
     if (isFunction()) {
       ((ASTFunction) astnode2).insertChild(n, newChild.toASTNode2());
     }
+    */
+    if (!isSetListOfNodes()) {
+      listOfNodes = new ArrayList<ASTNode>();
+    }
+    listOfNodes.add(n, newChild);
+    setParentSBMLObject(newChild, getParentSBMLObject(), 0);
+    newChild.setParent(this);
   }
 
   /**
@@ -3605,9 +3672,17 @@ public class ASTNode extends AbstractTreeNode {
    *          an {@code ASTNode}
    */
   public void prependChild(ASTNode child) {
+    /*
     if (astnode2 instanceof ASTFunction) {
       ((ASTFunction) astnode2).prependChild(child.toASTNode2());
     }
+    */
+    if (!isSetListOfNodes()) {
+      listOfNodes = new ArrayList<ASTNode>();
+    }
+    listOfNodes.add(0, child);
+    setParentSBMLObject(child, getParentSBMLObject(), 0);
+    child.setParent(this);
   }
 
   /**
@@ -3694,8 +3769,20 @@ public class ASTNode extends AbstractTreeNode {
    *
    */
   public boolean removeChild(int n) {
+    /*
     return astnode2 instanceof ASTFunction ? ((ASTFunction) astnode2)
       .removeChild(n) : false;
+    */
+    if (!isSetListOfNodes()) {
+      listOfNodes = new ArrayList<ASTNode>();
+    }
+    if ((listOfNodes.size() > n) && (n >= 0)) {
+      ASTNode removed = listOfNodes.remove(n);
+      resetParentSBMLObject(removed);
+      removed.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -3711,9 +3798,23 @@ public class ASTNode extends AbstractTreeNode {
    *          an ASTNode representing the name/value/formula to substitute
    */
   public void replaceArgument(String bvar, ASTNode arg) {
+    /*
     if (astnode2 instanceof ASTLambdaFunctionNode) {
       ((ASTLambdaFunctionNode) astnode2)
       .replaceArgument(bvar, arg.toASTNode2());
+    }
+    */
+    if (!isSetListOfNodes()) {
+      listOfNodes = new ArrayList<ASTNode>();
+    }
+    int n = 0;
+    for (ASTNode child : listOfNodes) {
+      if (child.isString() && child.getName().equals(bvar)) {
+        replaceChild(n, arg.clone());
+      } else if (child.getChildCount() > 0) {
+        child.replaceArgument(bvar, arg);
+      }
+      n++;
     }
   }
 
@@ -3727,11 +3828,28 @@ public class ASTNode extends AbstractTreeNode {
    * @return the element previously at the specified position
    */
   public ASTNode replaceChild(int n, ASTNode newChild) {
+    /*
     if (astnode2 instanceof ASTFunction) {
       return new ASTNode(((ASTFunction) astnode2).replaceChild(n,
         newChild.toASTNode2()));
     }
     return null;
+    */
+    if (!isSetListOfNodes()) {
+      listOfNodes = new ArrayList<ASTNode>();
+    }
+    // Removing the node at position n
+    ASTNode oldChild = listOfNodes.remove(n);
+    resetParentSBMLObject(oldChild);
+    oldChild.fireNodeRemovedEvent();
+
+    // Adding the new child at position n
+    setParentSBMLObject(newChild, getParentSBMLObject(), 0);
+    newChild.parent = this;
+    listOfNodes.add(n, newChild);
+    newChild.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+    newChild.fireNodeAddedEvent();
+    return newChild;
   }
 
   /**
