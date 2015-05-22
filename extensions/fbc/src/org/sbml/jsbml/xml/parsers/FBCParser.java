@@ -140,29 +140,20 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
 
     if (contextObject instanceof Species) {
       Species species = (Species) contextObject;
-      FBCSpeciesPlugin fbcSpecies = null;
-
-      if (species.getExtension(FBCConstants.shortLabel) != null) {
-        fbcSpecies = (FBCSpeciesPlugin) species.getExtension(FBCConstants.shortLabel);
-      } else {
-        fbcSpecies = new FBCSpeciesPlugin(species);
-        species.addExtension(FBCConstants.shortLabel, fbcSpecies);
-      }
-
+      FBCSpeciesPlugin fbcSpecies = (FBCSpeciesPlugin) species.getPlugin(FBCConstants.shortLabel);
       contextObject = fbcSpecies;
 
     } else if (contextObject instanceof Reaction) {
       Reaction reaction = (Reaction) contextObject;
-      FBCReactionPlugin fbcReaction = null;
+      contextObject = (FBCReactionPlugin) reaction.getPlugin(FBCConstants.shortLabel);
+      
+    } else if (contextObject instanceof Model) {
 
-      if (reaction.getExtension(FBCConstants.shortLabel) != null) {
-        fbcReaction = (FBCReactionPlugin) reaction.getExtension(FBCConstants.shortLabel);
-      } else {
-        fbcReaction = new FBCReactionPlugin(reaction);
-        reaction.addExtension(FBCConstants.shortLabel, fbcReaction);
-      }
+      contextObject = ((Model) contextObject).getPlugin(FBCConstants.shortLabel);
 
-      contextObject = fbcReaction;
+      // TODO - could be generic in AbstractReaderWriter.processAttribute. If packageName = 'core', just call
+      // getPlugin. The plugin will be created if needed or returned if already present.
+      
     }
 
     super.processAttribute(elementName, attributeName, value, uri, prefix, isLastAttribute, contextObject);
@@ -198,14 +189,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
   {
     if (contextObject instanceof Model) {
       Model model = (Model) contextObject;
-      FBCModelPlugin fbcModel = null;
-
-      if (model.getExtension(FBCConstants.namespaceURI) != null) {
-        fbcModel = (FBCModelPlugin) model.getExtension(FBCConstants.shortLabel);
-      } else {
-        fbcModel = new FBCModelPlugin(model);
-        model.addExtension(FBCConstants.namespaceURI, fbcModel);
-      }
+      FBCModelPlugin fbcModel = (FBCModelPlugin) model.getPlugin(FBCConstants.shortLabel);
 
       if (elementName.equals(FBCList.listOfFluxBounds.name())) {
 
@@ -235,14 +219,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       }
     } else if (contextObject instanceof Reaction) {
       Reaction reaction = (Reaction) contextObject;
-      FBCReactionPlugin fbcReaction = null;
-
-      if (reaction.getExtension(FBCConstants.shortLabel) != null) {
-        fbcReaction = (FBCReactionPlugin) reaction.getExtension(FBCConstants.shortLabel);
-      } else {
-        fbcReaction = new FBCReactionPlugin(reaction);
-        reaction.addExtension(FBCConstants.shortLabel, fbcReaction);
-      }
+      FBCReactionPlugin fbcReaction = (FBCReactionPlugin) reaction.getPlugin(FBCConstants.shortLabel);
 
       // both names are in used at the moment, while the specs are finalized.
       if (elementName.equals(FBCConstants.geneProductAssociation) || elementName.equals(FBCConstants.geneProteinAssociation)) {
