@@ -67,7 +67,6 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     tidy.setXmlTags(true);
     tidy.setIndentContent(true);
     tidy.setXmlOut(true);
-    tidy.setAsciiChars(false);
     tidy.setInputEncoding("UTF-8");
     tidy.setOutputEncoding("UTF-8");
     
@@ -672,9 +671,6 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, getProgramName(), getProgramVersion());
     StringWriter stringWriter = new StringWriter();
 
-    System.out.println("Tidy input encoding : " + tidy.getInputEncoding());
-    System.out.println("Tidy onput encoding : " + tidy.getOutputEncoding());
-    
     tidy.parse(new StringReader(sbmlDocString), stringWriter); // run tidy, providing an input and output stream
 
     return stringWriter.toString();
