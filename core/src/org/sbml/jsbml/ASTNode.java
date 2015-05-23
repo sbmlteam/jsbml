@@ -69,7 +69,6 @@ import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 import org.sbml.jsbml.math.ASTUnknown;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
-import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
@@ -80,6 +79,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
 import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
 import org.sbml.jsbml.util.compilers.LaTeXCompiler;
+import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
@@ -717,17 +717,11 @@ public class ASTNode extends AbstractTreeNode {
    *         children
    */
   public static ASTNode diff(ASTNode... ast) {
-    ASTNode2[] ast2 = new ASTNode2[ast.length];
+    ASTNode minus = new ASTNode(Type.MINUS);
     for (int i = 0; i < ast.length; i++) {
-      ast2[i] = ast[i].toASTNode2();
+      minus.addChild(ast[i]);
     }
-    ASTNode node = null;
-    if (ast.length == 2) {
-      node = new ASTNode(ASTFactory.minus(ast2[0], ast2[1]));
-    } else {
-      node = new ASTNode(ASTFactory.diff(ast2));
-    }
-    return node;
+    return minus;
   }
 
   /**
@@ -740,7 +734,10 @@ public class ASTNode extends AbstractTreeNode {
    * @return a new {@link ASTNode} of type RELATIONAL_EQ.
    */
   public static ASTNode eq(ASTNode left, ASTNode right) {
-    return new ASTNode(ASTFactory.eq(left.toASTNode2(), right.toASTNode2()));
+    ASTNode eq = new ASTNode(Type.RELATIONAL_EQ);
+    eq.addChild(left);
+    eq.addChild(right);
+    return eq;
   }
 
   /**
@@ -753,7 +750,10 @@ public class ASTNode extends AbstractTreeNode {
    *         the power of the given exponent.
    */
   public static ASTNode exp(ASTNode exponent) {
-    return new ASTNode(ASTFactory.exp(exponent.toASTNode2()));
+    ASTNode pow = new ASTNode(Type.POWER);
+    pow.addChild(new ASTNode(Math.E));
+    pow.addChild(exponent);
+    return pow;
   }
 
   /**
@@ -812,8 +812,11 @@ public class ASTNode extends AbstractTreeNode {
    *         children.
    */
   public static ASTNode frac(ASTNode numerator, ASTNode denominator) {
-    return new ASTNode(ASTFactory.frac(numerator.toASTNode2(),
-      denominator.toASTNode2()));
+    ASTNode divide = new ASTNode(Type.DIVIDE);
+    divide.addChild(numerator);
+    divide.addChild(denominator);
+    return divide;
+
   }
 
   /**
@@ -881,7 +884,10 @@ public class ASTNode extends AbstractTreeNode {
    * @return an {@link ASTNode} representing greater or equal.
    */
   public static ASTNode geq(ASTNode left, ASTNode right) {
-    return new ASTNode(ASTFactory.geq(left.toASTNode2(), right.toASTNode2()));
+    ASTNode geq = new ASTNode(Type.RELATIONAL_GEQ);
+    geq.addChild(left);
+    geq.addChild(right);
+    return geq;
   }
 
   /**
@@ -896,7 +902,10 @@ public class ASTNode extends AbstractTreeNode {
    *         and right child.
    */
   public static ASTNode gt(ASTNode left, ASTNode right) {
-    return new ASTNode(ASTFactory.gt(left.toASTNode2(), right.toASTNode2()));
+    ASTNode gt = new ASTNode(Type.RELATIONAL_GT);
+    gt.addChild(left);
+    gt.addChild(right);
+    return gt;
   }
 
   /**
@@ -911,7 +920,10 @@ public class ASTNode extends AbstractTreeNode {
    *         left and right child.
    */
   public static ASTNode leq(ASTNode left, ASTNode right) {
-    return new ASTNode(ASTFactory.leq(left.toASTNode2(), right.toASTNode2()));
+    ASTNode leq = new ASTNode(Type.RELATIONAL_LEQ);
+    leq.addChild(left);
+    leq.addChild(right);
+    return leq;
   }
 
   /**
@@ -958,7 +970,10 @@ public class ASTNode extends AbstractTreeNode {
    *         {@link ASTNode}s.
    */
   public static ASTNode lt(ASTNode left, ASTNode right) {
-    return new ASTNode(ASTFactory.lt(left.toASTNode2(), right.toASTNode2()));
+    ASTNode lt = new ASTNode(Type.RELATIONAL_GT);
+    lt.addChild(left);
+    lt.addChild(right);
+    return lt;
   }
 
   /**
@@ -989,7 +1004,10 @@ public class ASTNode extends AbstractTreeNode {
    *         {@link ASTNode}s.
    */
   public static ASTNode neq(ASTNode left, ASTNode right) {
-    return new ASTNode(ASTFactory.neq(left.toASTNode2(), right.toASTNode2()));
+    ASTNode neq = new ASTNode(Type.RELATIONAL_NEQ);
+    neq.addChild(left);
+    neq.addChild(right);
+    return neq;
   }
 
   /**
@@ -1314,11 +1332,11 @@ public class ASTNode extends AbstractTreeNode {
    *         children.
    */
   public static ASTNode sum(ASTNode... ast) {
-    ASTNode2[] ast2 = new ASTNode2[ast.length];
+    ASTNode sum = new ASTNode(Type.PLUS);
     for (int i = 0; i < ast.length; i++) {
-      ast2[i] = ast[i].toASTNode2();
+      sum.addChild(ast[i]);
     }
-    return new ASTNode(ASTFactory.sum(ast2));
+    return sum;
   }
 
   /**
@@ -1351,11 +1369,11 @@ public class ASTNode extends AbstractTreeNode {
    *         children.
    */
   public static ASTNode times(ASTNode... ast) {
-    ASTNode2[] ast2 = new ASTNode2[ast.length];
+    ASTNode product = new ASTNode(Type.PRODUCT);
     for (int i = 0; i < ast.length; i++) {
-      ast2[i] = ast[i].toASTNode2();
+      product.addChild(ast[i]);
     }
-    return new ASTNode(ASTFactory.product(ast2));
+    return product;
   }
 
   /**
@@ -1387,7 +1405,9 @@ public class ASTNode extends AbstractTreeNode {
    *         type minus, i.e., this negates what is encoded in ast.
    */
   public static ASTNode uMinus(ASTNode ast) {
-    return new ASTNode(ASTFactory.uMinus(ast.toASTNode2()));
+    ASTNode minus = new ASTNode(Type.MINUS);
+    minus.addChild(ast);
+    return minus;
   }
 
   /**
@@ -1664,11 +1684,6 @@ public class ASTNode extends AbstractTreeNode {
    *          the node to add as child.
    */
   public void addChild(ASTNode child) {
-    /*
-    if (isFunction()) {
-      ((ASTFunction) astnode2).addChild(child.toASTNode2());
-    }
-    */
     if (!isSetListOfNodes()) {
       listOfNodes = new ArrayList<ASTNode>();
     }
@@ -2533,15 +2548,6 @@ public class ASTNode extends AbstractTreeNode {
    *           - if the index is out of range (index < 0 || index >= size()).
    */
   public ASTNode getChild(int index) {
-    // TODO: 
-    /*
-    if (isSetASTNode2() && (astnode2 instanceof ASTFunction)) {
-      ASTNode child  = new ASTNode(((ASTFunction) astnode2).getChildAt(index));
-      child.parent = this;
-      return child;
-    }
-    return null;
-    */
     if (!isSetListOfNodes()) {
       listOfNodes = new ArrayList<ASTNode>();
     }
@@ -2565,9 +2571,6 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public int getChildCount() {
-    /*
-    return isSetASTNode2() ? astnode2.getChildCount() : 0;
-    */
     return listOfNodes == null ? 0 : listOfNodes.size();
   }
 
@@ -2674,13 +2677,6 @@ public class ASTNode extends AbstractTreeNode {
    * @return the left child of this ASTNode. This is equivalent to getChild(0);
    */
   public ASTNode getLeftChild() {
-    /*
-    ASTNode leftChild = null;
-    if (astnode2 instanceof ASTFunction) {
-      leftChild = new ASTNode(((ASTFunction) astnode2).getChildAt(0));
-    }
-    return leftChild;
-    */
     return getChild(0);
   }
 
@@ -2690,19 +2686,6 @@ public class ASTNode extends AbstractTreeNode {
    * @return the list of children of the current ASTNode.
    */
   public List<ASTNode> getListOfNodes() {
-    /*
-    if (isFunction()) {
-      List<ASTNode2> ast2 = ((ASTFunction) astnode2).getListOfNodes();
-      List<ASTNode> ast = new ArrayList<ASTNode>();
-      for (ASTNode2 node : ast2) {
-        ast.add(new ASTNode(node));
-      }
-      return ast;
-    }
-    return new ArrayList<ASTNode>();
-    //throw new IllegalArgumentException(
-    //    "ASTNodes of type BOOLEAN or NUMBER do not contain children");
-    */
     if (!isSetListOfNodes()) {
       listOfNodes = new ArrayList<ASTNode>();
     }
@@ -2727,18 +2710,6 @@ public class ASTNode extends AbstractTreeNode {
    *         filter.
    */
   public List<ASTNode> getListOfNodes(Filter filter) {
-    /*
-    if (isFunction()) {
-      List<ASTNode2> ast2 = ((ASTFunction) astnode2).getListOfNodes(filter);
-      List<ASTNode> ast = new ArrayList<ASTNode>();
-      for (ASTNode2 node : ast2) {
-        ast.add(new ASTNode(node));
-      }
-      return ast;
-    }
-    throw new IllegalArgumentException(
-        "ASTNodes of type BOOLEAN or NUMBER do not contain children");
-    */
     if (!isSetListOfNodes()) {
       listOfNodes = new ArrayList<ASTNode>();
     }
@@ -2924,14 +2895,6 @@ public class ASTNode extends AbstractTreeNode {
    * @return This is equivalent to calling {@code getListOfNodes().getLast()}.
    */
   public ASTNode getRightChild() {
-    /*
-    if (isFunction()) {
-      int childCount = ((ASTFunction) toASTNode2()).getChildCount();
-      return new ASTNode(
-        ((ASTFunction) toASTNode2()).getChildAt(childCount - 1));
-    }
-    return null;
-    */
     if (!isSetListOfNodes()) {
       listOfNodes = new ArrayList<ASTNode>();
     }
@@ -4537,7 +4500,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public String toMathML() {
     try {
-      return MathMLXMLStreamCompiler.toMathML(astnode2);
+      return MathMLXMLStreamCompiler.toMathML(this);
     } catch (RuntimeException e) {
       // added to prevent a crash when we cannot create the mathML
       // TODO: log the exception
