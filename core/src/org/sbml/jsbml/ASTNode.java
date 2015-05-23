@@ -1448,6 +1448,7 @@ public class ASTNode extends AbstractTreeNode {
 
     if (astNode.isSetASTNode2()) {
       astnode2 = astNode.astnode2.clone();
+      listOfNodes = astNode.getListOfNodes(); // swap children in other facade as well
     }
   }
 
