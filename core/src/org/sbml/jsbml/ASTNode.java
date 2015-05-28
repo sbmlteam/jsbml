@@ -1684,10 +1684,7 @@ public class ASTNode extends AbstractTreeNode {
    *          the node to add as child.
    */
   public void addChild(ASTNode child) {
-    if (!isSetListOfNodes()) {
-      listOfNodes = new ArrayList<ASTNode>();
-    }
-    listOfNodes.add(child);
+    insertChild(getChildCount(), child);
   }
 
   /**
@@ -2548,10 +2545,7 @@ public class ASTNode extends AbstractTreeNode {
    *           - if the index is out of range (index < 0 || index >= size()).
    */
   public ASTNode getChild(int index) {
-    if (!isSetListOfNodes()) {
-      listOfNodes = new ArrayList<ASTNode>();
-    }
-    return listOfNodes.get(index);
+    return getListOfNodes().get(index);
   }
 
   /*
@@ -2711,7 +2705,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public List<ASTNode> getListOfNodes(Filter filter) {
     if (!isSetListOfNodes()) {
-      listOfNodes = new ArrayList<ASTNode>();
+      throw new IndexOutOfBoundsException();
     }
     ArrayList<ASTNode> filteredList = new ArrayList<ASTNode>();
     
@@ -2786,29 +2780,6 @@ public class ASTNode extends AbstractTreeNode {
       return ((ASTCnRationalNode) astnode2).getNumerator();
     }
     throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getNumerator"));
-  }
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see javax.swing.tree.TreeNode#getParent()
-   */
-  @Override
-  public TreeNode getParent() {
-    if (astnode2 != null && astnode2.isSetParent()) {
-      TreeNode parent = astnode2.getParent();
-      
-      if (parent instanceof ASTNode2) {
-        return new ASTNode((ASTNode2) parent);
-      } else if (parent instanceof MathContainer) {
-        return parent;
-      } else {
-        logger.warn("The parent of an ASTNode should only be a MathContainer or an ASTNode, found '" + parent.getClass().getSimpleName() + "'");
-        return parent;
-      }
-    }
-    
-    return null;
   }
 
   /**
@@ -2896,7 +2867,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public ASTNode getRightChild() {
     if (!isSetListOfNodes()) {
-      listOfNodes = new ArrayList<ASTNode>();
+      throw new IndexOutOfBoundsException();
     }
     return listOfNodes.get(listOfNodes.size() - 1);
   }
@@ -3027,17 +2998,10 @@ public class ASTNode extends AbstractTreeNode {
    *          {@link ASTNode} to insert as the n<sup>th</sup> child
    */
   public void insertChild(int n, ASTNode newChild) {
-    /*
-    if (isFunction()) {
-      ((ASTFunction) astnode2).insertChild(n, newChild.toASTNode2());
-    }
-    */
-    if (!isSetListOfNodes()) {
-      listOfNodes = new ArrayList<ASTNode>();
-    }
-    listOfNodes.add(n, newChild);
+    getListOfNodes().add(n, newChild);
     setParentSBMLObject(newChild, getParentSBMLObject(), 0);
     newChild.setParent(this);
+    newChild.fireNodeAddedEvent();
   }
 
   /**
@@ -3636,17 +3600,7 @@ public class ASTNode extends AbstractTreeNode {
    *          an {@code ASTNode}
    */
   public void prependChild(ASTNode child) {
-    /*
-    if (astnode2 instanceof ASTFunction) {
-      ((ASTFunction) astnode2).prependChild(child.toASTNode2());
-    }
-    */
-    if (!isSetListOfNodes()) {
-      listOfNodes = new ArrayList<ASTNode>();
-    }
-    listOfNodes.add(0, child);
-    setParentSBMLObject(child, getParentSBMLObject(), 0);
-    child.setParent(this);
+    insertChild(0, child);
   }
 
   /**
@@ -3950,26 +3904,6 @@ public class ASTNode extends AbstractTreeNode {
     }
 
     return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#setParent(javax.swing.tree.TreeNode)
-   */
-  @Override
-  public void setParent(TreeNode parent) {
-    if (astnode2 != null && parent != null) {
-      if (parent instanceof MathContainer) {
-        astnode2.setParent(parent);  
-      } else if (parent instanceof ASTNode) {
-        astnode2.setParent(((ASTNode) parent).toASTNode2()); // TODO - will be much better to have parent and children directly in ASTNode and not ASTNode2
-      } else if (parent instanceof ASTNode2) {
-        logger.debug("The parent of an ASTNode should only be a MathContainer or an ASTNode, found an ASTNode2");
-        astnode2.setParent(parent);
-      } else {
-        logger.warn("The parent of an ASTNode should only be a MathContainer or an ASTNode, found '" + parent.getClass().getSimpleName() + "'");
-        astnode2.setParent(parent);
-      }
-    }
   }
 
   /**
@@ -4519,7 +4453,6 @@ public class ASTNode extends AbstractTreeNode {
     String formula = "";
     try {
       formula = compile(new FormulaCompiler()).toString();
-      //formula = compile(new FormulaCompiler()).toString();
     } catch (SBMLException e) {
       // log the exception
       e.printStackTrace();
