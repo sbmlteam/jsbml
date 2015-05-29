@@ -488,7 +488,8 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
     String term = node.compile(this).toString();
 
-    if (node.isRelational() || node.isNumber() || node.isString()) {
+    if (node.isRelational() || node.isNumber() || node.isString()
+        || node.isFunction()) {
       return term;
     }
     
