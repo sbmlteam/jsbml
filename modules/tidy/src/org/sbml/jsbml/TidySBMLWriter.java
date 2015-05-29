@@ -77,6 +77,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     tidy.setWraplen(200);
     tidy.setSpaces(2);
     tidy.setXmlSpace(true);
+    tidy.setQuiet(true);
   }
 
   /**
