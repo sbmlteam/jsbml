@@ -30,7 +30,8 @@ package org.sbml.jsbml.ext.spatial;
  */
 public enum GeometryKind {
   /**
-   * cartesian
+   * 
    */
-  CARTESIAN;
+  cartesian;
+  
 }

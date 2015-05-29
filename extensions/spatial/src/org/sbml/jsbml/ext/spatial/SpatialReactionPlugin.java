@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.util.StringTools;
@@ -33,10 +34,17 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
+ * @author Piero Dalle Pezze
  * @since 1.0
  * @version $Rev$
  */
 public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
+  
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(SpatialReactionPlugin.class);
 
   /**
    * Generated serial version identifier.
@@ -142,7 +150,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
    * @param isLocal
    */
   public void setIsLocal(boolean isLocal) {
-    boolean oldIsLocal = this.isLocal;
+    Boolean oldIsLocal = this.isLocal;
     this.isLocal = isLocal;
     firePropertyChange(SpatialConstants.isLocal, oldIsLocal, this.isLocal);
   }
@@ -156,7 +164,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
    */
   public boolean unsetIsLocal() {
     if (isSetIsLocal()) {
-      boolean oldIsLocal = isLocal;
+      Boolean oldIsLocal = isLocal;
       isLocal = null;
       firePropertyChange(SpatialConstants.isLocal, oldIsLocal, isLocal);
       return true;
@@ -234,9 +242,8 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
         try {
           setIsLocal(StringTools.parseSBMLBoolean(value));
         } catch (Exception e) {
-          MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.isLocal);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.isLocal, getClass().getSimpleName()));
         }
       }
       else {

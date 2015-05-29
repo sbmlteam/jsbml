@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" spatial:required="true" xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" req:required="true" xmlns:req="http://www.sbml.org/sbml/level3/version1/req/version1" version="1">
+  <model>
+    <spatial:geometry xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1">
+      <spatial:listOfAdjacentDomains>
+        <spatial:adjacentDomains spatial:domain2="Cytosol0" spatial:id="Cytosol_Extracellular_membrane_Cytosol0" spatial:domain1="Cytosol_Extracellular_membrane0"/>
+        <spatial:adjacentDomains spatial:domain2="Extracellular0" spatial:id="Cytosol_Extracellular_membrane_Extracellular0" spatial:domain1="Cytosol_Extracellular_membrane0"/>
+        <spatial:adjacentDomains spatial:domain2="Nucleus0" spatial:id="Nucleus_Cytosol_membrane_Nucleus0" spatial:domain1="Nucleus_Cytosol_membrane0"/>
+        <spatial:adjacentDomains spatial:domain2="Cytosol0" spatial:id="Nucleus_Cytosol_membrane_Cytosol0" spatial:domain1="Nucleus_Cytosol_membrane0"/>
+      </spatial:listOfAdjacentDomains>
+      <spatial:listOfCoordinateComponents>
+        <spatial:coordinateComponent spatial:id="x" spatial:type="cartesianX" spatial:unit="um">
+          <spatial:boundary spatial:id="Xmin" spatial:value="0.0"/>
+          <spatial:boundary spatial:id="Xmax" spatial:value="800.0"/>
+        </spatial:coordinateComponent>
+        <spatial:coordinateComponent spatial:id="y" spatial:type="cartesianY" spatial:unit="um">
+          <spatial:boundary spatial:id="Ymin" spatial:value="0.0"/>
+          <spatial:boundary spatial:id="Ymax" spatial:value="950.0"/>
+        </spatial:coordinateComponent>
+      </spatial:listOfCoordinateComponents>
+      <spatial:listOfDomains>
+        <spatial:domain spatial:id="Extracellular0" spatial:domainType="Extracellular"/>
+        <spatial:domain spatial:id="Cytosol_Extracellular_membrane0" spatial:domainType="Cytosol_Extracellular_membrane"/>
+        <spatial:domain spatial:id="Cytosol0" spatial:domainType="Cytosol"/>
+        <spatial:domain spatial:id="Nucleus_Cytosol_membrane0" spatial:domainType="Nucleus_Cytosol_membrane"/>
+        <spatial:domain spatial:id="Nucleus0" spatial:domainType="Nucleus"/>
+      </spatial:listOfDomains>
+      <spatial:listOfDomainTypes>
+        <spatial:domainType spatial:id="Extracellular" spatial:spatialDimensions="3"/>
+        <spatial:domainType spatial:id="Cytosol_Extracellular_membrane" spatial:spatialDimensions="2"/>
+        <spatial:domainType spatial:id="Cytosol" spatial:spatialDimensions="3"/>
+        <spatial:domainType spatial:id="Nucleus_Cytosol_membrane" spatial:spatialDimensions="2"/>
+        <spatial:domainType spatial:id="Nucleus" spatial:spatialDimensions="3"/>
+      </spatial:listOfDomainTypes>
+      <spatial:listOfSampledFieldGeometrys>
+        <spatial:sampledFieldGeometry spatial:id="mySampledField">
+          <spatial:listOfSampledVolumes>
+            <spatial:sampledVolume spatial:id="Extracellular" spatial:maxValue="0.0" spatial:minValue="0.0" spatial:domainType="Extracellular" spatial:sampledValue="0.0"/>
+            <spatial:sampledVolume spatial:id="Cytosol" spatial:maxValue="0.0" spatial:minValue="0.0" spatial:domainType="Cytosol" spatial:sampledValue="128.0"/>
+            <spatial:sampledVolume spatial:id="Nucleus" spatial:maxValue="0.0" spatial:minValue="0.0" spatial:domainType="Nucleus" spatial:sampledValue="255.0"/>
+          </spatial:listOfSampledVolumes>
+        </spatial:sampledFieldGeometry>
+      </spatial:listOfSampledFieldGeometrys>
+      <spatial:listOfSampledFields>
+        <spatial:sampledField spatial:samplesLength="3440" spatial:id="imgtest" spatial:compression="deflated" spatial:dataType="uint8" spatial:interpolation="linear" spatial:numSamples1="800" spatial:numSamples2="950" spatial:numSamples3="1">120 218 237 221 193 142 27 57 12 64 193 124 122 255 185 22 216 195 30 54 240 216 238 97 83 20 89 239 154 75 183 168 2 237 96 146 249 243 71 146 36 73 146 36 73 146 36 73 26 217 117 57 3 233 181 15 64 164 215 60 248 144 248 144 238 240 224 67 226 67 226 67 138 229 193 135 196 135 196 135 196 135 148 197 131 15 137 15 137 15 137 15 41 139 7 31 18 31 18 31 82 44 15 62 36 62 36 62 164 88 30 124 72 124 72 124 72 177 60 248 144 248 144 248 144 98 121 240 33 241 33 241 33 197 242 224 67 226 67 226 67 226 67 202 226 193 135 196 135 196 135 20 203 3 16 137 15 137 15 137 15 137 15 169 0 15 62 36 62 36 31 175 36 62 36 62 164 237 62 28 136 100 125 72 124 72 124 72 124 72 124 72 133 121 240 33 241 33 241 33 241 33 101 241 224 67 226 67 186 229 3 16 137 
+ 15 233 14 15 62 36 62 36 62 36 62 164 52 31 128 72 175 121 240 33 241 33 241 33 241 33 101 241 224 67 250 193 7 32 18 31 18 31 82 176 15 64 164 215 60 248 144 248 144 248 144 248 144 248 144 246 243 224 67 226 67 186 229 3 16 241 193 135 196 135 20 203 131 15 241 193 135 196 135 20 236 3 16 241 193 135 116 135 7 31 226 131 15 137 15 137 15 137 15 137 15 137 15 137 15 169 27 15 62 196 7 32 18 31 18 31 82 26 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 62 196 7 32 18 31 82 48 15 62 196 7 31 18 31 82 44 15 62 196 7 31 18 31 82 44 15 64 196 7 31 18 31 18 31 82 26 15 62 196 7 31 210 45 31 128 8 15 62 36 62 36 62 36 62 164 253 60 248 16 31 128 72 124 72 193 60 248 16 31 124 72 124 72 177 60 248 16 31 124 72 124 72 124 72 89 60 0 17 31 124 136 15 62 164 96 30 124 136 15 62 196 7 31 18 31 82 22 15 62 196 7 31 226 131 15 41 150 7 31 226 13
+ 1 15 241 193 135 20 203 131 15 241 193 135 248 224 67 138 229 193 135 248 224 67 124 240 33 197 242 224 67 124 240 33 62 248 144 98 121 240 33 62 248 16 31 124 72 124 72 89 60 248 16 31 124 136 15 62 164 88 30 124 136 15 62 196 7 30 146 245 33 241 33 241 33 241 33 29 201 131 15 241 193 135 248 224 67 138 229 193 135 248 224 67 124 240 33 197 242 224 67 124 240 33 62 248 144 240 144 248 144 248 144 10 243 224 67 124 240 33 62 240 144 172 15 137 15 137 15 169 48 15 62 196 7 31 226 3 15 201 250 144 248 144 248 144 10 243 224 67 124 240 33 60 240 144 248 144 146 120 240 33 62 248 16 31 124 72 177 60 248 16 31 124 8 15 62 36 62 36 62 164 253 60 248 16 31 124 8 15 62 36 62 36 60 36 62 164 194 60 248 16 31 124 136 15 62 164 88 30 124 136 15 62 132 7 31 18 31 18 31 210 126 30 124 136 15 64 132 7 31 226 131 15 41 141 7 31 226 3 16 241 193 135 240 224 67 226 67 42 192 3 16 241 193 135 248 224 67 120 0 34 37 250 0 68 120 0 34 62 0 17 30 128 72 153 62 0 17 31 128 8 15 62 196 7 31 82 26 
+ 15 62 196 7 30 194 131 15 241 129 135 132 135 196 135 84 214 135 19 22 30 120 136 15 62 132 7 30 18 31 210 102 30 124 136 15 60 132 7 31 226 131 15 9 15 137 15 169 46 15 62 196 7 31 226 131 15 225 193 135 196 135 180 159 7 31 226 131 15 225 193 135 248 224 67 202 226 193 135 248 224 67 120 240 33 62 248 144 178 120 240 33 60 248 16 31 124 8 15 62 196 7 31 210 126 30 124 136 15 62 132 7 31 226 3 16 225 193 135 196 135 84 154 7 31 226 131 15 225 193 135 248 224 67 120 240 33 241 33 85 230 193 135 248 224 67 120 240 33 62 248 16 30 124 72 124 72 149 121 240 33 60 248 16 31 124 8 15 62 196 7 31 210 126 30 124 136 15 62 132 7 31 226 131 15 225 193 135 196 135 84 153 7 31 226 131 15 225 193 135 240 0 68 124 240 33 21 224 193 135 248 224 67 120 240 33 60 248 16 31 124 72 251 121 0 34 60 248 16 31 124 8 15 62 196 7 32 194 131 15 169 54 15 62 196 7 31 194 131 15 241 193 135 240 224 67 120 240 33 241 33 157 201 131 15 225 1 136 248 224 67 120 240 33 60 248 16 31 124 72 165 121 240 33 
+ 60 0 17 31 124 8 15 62 132 7 31 226 131 15 169 52 15 62 132 7 31 226 131 15 225 1 136 240 224 67 124 240 33 149 230 193 135 248 224 67 120 240 33 60 248 16 31 124 8 15 64 132 7 30 210 161 62 0 17 30 124 8 15 62 132 7 31 194 131 15 225 193 135 240 224 67 58 147 7 31 194 131 15 225 193 135 248 224 67 120 0 34 62 248 16 30 124 72 135 242 224 67 124 240 33 60 0 17 31 124 8 15 62 132 7 31 226 3 16 41 135 199 250 47 62 132 199 223 46 86 52 17 83 211 209 60 214 15 241 161 209 62 214 219 0 209 76 30 235 179 248 208 60 30 235 139 248 208 40 30 235 235 248 208 16 31 235 94 124 168 59 143 245 155 0 81 39 30 255 187 217 235 247 241 161 6 60 214 147 241 161 131 121 172 199 227 67 167 242 88 41 1 162 35 125 172 85 19 136 9 106 16 143 175 133 24 161 70 241 248 18 136 25 106 183 143 149 29 31 58 133 199 218 17 32 58 130 199 218 21 31 42 207 99 109 140 15 225 193 135 78 245 177 214 9 64 12 82 3 215 199 199 64 76 82 35 121 124 8 196 40 53 147 199 103 64 204 82 67 121 0 34 60 126 11 196 56 53 
+ 149 199 39 64 204 83 201 62 214 58 8 136 121 106 46 143 247 64 12 84 83 63 93 1 34 60 248 16 30 143 1 49 84 77 230 241 14 136 169 42 141 71 73 31 139 15 89 31 55 129 24 171 134 243 224 67 62 93 1 34 60 248 208 161 60 10 251 88 124 104 55 15 62 132 7 31 82 51 30 63 1 49 94 101 240 56 213 7 32 202 224 81 219 135 5 34 60 248 16 30 128 200 151 143 60 32 134 44 60 248 16 30 62 96 9 15 11 68 120 88 32 194 131 15 249 155 93 64 132 7 31 194 227 84 30 126 8 75 201 58 142 226 193 135 240 0 68 120 240 161 242 60 58 249 0 68 211 121 88 32 194 195 2 81 5 30 124 8 143 86 60 252 87 213 194 3 16 225 241 128 15 64 52 155 135 223 38 37 62 44 16 225 97 129 136 15 62 132 7 31 234 227 99 241 33 60 90 250 240 5 93 120 240 33 60 248 80 57 30 189 125 0 162 223 241 56 221 135 5 34 60 248 208 22 30 221 125 0 162 223 240 224 67 120 52 230 241 206 7 32 154 204 195 2 209 99 60 38 248 0 68 147 121 188 245 1 136 238 241 224 67 120 52 231 1 136 158 225 193 135 240 104 207 227 189 15 64 116 205 245 97 129 2
+ 32 1 30 131 124 0 130 199 92 30 124 40 158 71 35 31 128 40 156 7 31 194 131 15 64 240 224 131 15 133 234 152 230 3 16 60 198 250 0 68 193 58 230 249 32 4 143 161 60 62 244 1 8 30 51 125 0 162 88 30 51 125 0 130 7 31 128 232 226 131 15 61 198 99 170 15 64 240 152 199 195 2 81 40 143 185 62 0 193 131 15 62 240 224 131 15 61 195 99 176 15 64 240 224 131 15 60 248 240 1 75 143 240 224 67 124 12 226 193 135 172 15 62 132 7 31 218 202 163 163 15 63 97 130 7 31 124 232 121 30 124 8 143 89 60 248 192 131 15 255 196 86 79 235 224 67 120 240 129 7 30 120 124 11 196 117 162 131 15 62 240 224 131 15 60 248 224 67 137 58 186 242 248 16 136 75 133 7 31 124 224 193 7 31 120 224 193 135 210 116 240 33 60 248 224 3 15 60 248 192 131 15 64 148 197 131 15 215 11 15 62 248 192 3 15 62 232 224 131 15 37 241 232 237 99 241 65 7 30 124 224 193 7 31 74 214 193 7 31 120 204 229 193 7 30 124 252 18 136 171 70 199 84 30 22 8 30 124 240 65 7 30 124 40 149 7 31 124 224 193 7 31 120 224 193 7 29 124 248 
+ 9 69 60 248 224 67 120 240 161 186 60 248 224 3 15 62 0 161 131 15 11 4 15 62 248 192 131 15 62 180 159 7 31 128 208 193 7 31 120 240 193 7 29 124 60 230 3 16 58 70 242 224 131 14 62 248 192 131 15 95 64 232 224 131 15 21 224 193 7 32 120 240 193 7 30 124 240 129 7 31 79 250 0 4 15 62 248 160 131 143 91 62 0 193 131 15 62 232 0 228 150 15 64 240 224 131 15 58 248 224 131 14 62 130 125 0 130 7 31 124 208 193 199 45 31 128 224 193 7 31 120 240 193 7 29 128 4 251 0 4 15 62 248 160 3 16 62 240 224 131 15 58 0 225 131 14 62 10 248 0 4 143 97 64 248 160 131 15 62 232 224 131 15 60 248 216 233 3 16 60 102 1 225 131 14 62 248 160 3 144 4 31 128 224 49 10 8 31 116 240 193 7 29 128 100 248 0 132 14 62 248 192 3 144 59 60 0 161 131 15 62 232 224 227 158 15 64 240 224 131 15 58 248 184 229 3 16 60 166 0 225 131 14 62 98 121 240 129 199 16 32 23 32 116 240 193 7 29 128 240 65 7 32 21 124 0 2 199 8 32 124 176 193 7 31 112 0 194 7 29 124 212 240 1 8 29 19 128 240 65 7 32 124 208 193 71 170
+  15 64 232 232 239 227 226 3 15 64 248 160 3 144 92 31 128 224 193 7 31 116 204 5 114 241 129 7 32 207 248 0 132 142 230 64 248 192 3 16 62 232 0 36 223 7 32 120 244 6 194 7 29 128 240 129 7 32 27 124 0 66 71 107 33 124 224 1 136 15 88 116 16 2 8 29 128 240 65 7 32 190 128 224 65 72 3 31 128 208 209 152 200 197 7 29 128 240 65 7 32 59 120 0 66 71 87 32 49 239 78 135 58 10 137 122 115 58 212 208 72 220 107 211 161 126 66 248 160 3 145 4 30 67 129 184 233 173 149 240 65 7 38 41 60 46 58 212 75 72 240 75 210 161 78 64 46 62 240 0 36 139 199 36 32 238 115 123 33 23 31 120 16 146 200 227 162 67 77 128 60 243 126 116 168 5 145 139 15 60 8 225 131 14 70 170 232 104 15 196 189 29 193 228 226 131 14 70 54 240 184 232 208 225 68 158 125 21 58 244 136 144 171 131 142 166 62 220 207 41 91 228 226 131 14 64 182 241 232 7 196 181 28 35 36 229 21 232 208 153 68 146 94 128 14 157 8 228 226 131 14 66 54 235 104 3 196 53 156 4 228 226 131 13 66 10 232 56 30 136 203 55 141 200 197 7 28 128 20 
+ 209 113 40 16 247 109 164 144 45 207 13 135 142 0 178 235 185 233 80 113 33 91 159 26 15 85 38 178 253 153 233 80 89 35 21 30 24 14 213 52 82 227 97 217 80 45 33 255 254 121 157 103 165 67 21 132 84 125 82 58 180 153 72 237 231 132 67 58 206 135 193 8 16 58 4 8 30 226 131 14 1 130 135 248 224 67 42 9 196 52 196 7 30 2 132 15 241 193 135 248 192 67 128 240 33 241 33 157 8 196 32 196 7 31 2 132 15 241 1 136 248 224 67 128 0 34 213 246 1 136 0 33 68 124 32 34 64 0 17 31 132 8 16 64 164 51 124 0 34 64 0 17 31 128 8 16 64 196 7 32 2 4 16 201 39 44 201 2 145 44 16 201 2 145 0 225 67 124 240 33 64 248 16 31 124 8 16 64 196 7 31 210 33 64 204 67 124 0 34 64 0 17 32 124 136 15 64 4 8 31 146 5 34 89 32 146 5 34 89 32 18 32 124 136 15 62 4 8 31 226 131 15 1 130 135 248 224 67 170 15 196 40 196 7 30 2 132 15 241 129 135 0 193 67 124 224 33 21 5 98 4 226 3 15 1 66 135 248 192 67 128 240 33 109 255 6 226 252 197 7 40 2 4 17 241 193 136 0 1 69 42 236 3 21 1 194 137 248 128 73 128 16 35 62 
+ 40 17 32 148 72 131 129 80 34 62 72 17 32 160 136 15 70 4 8 35 226 3 18 1 194 136 248 96 68 128 136 27 64 68 137 248 96 68 128 64 34 62 24 17 32 140 136 15 68 4 8 33 226 67 110 19 32 66 5 16 65 34 62 184 17 32 140 136 15 68 4 8 34 226 131 16 1 34 66 248 16 33 128 8 16 62 4 8 32 2 68 128 148 244 193 12 31 122 33 196 158 1 68 62 137 241 33 64 0 17 32 128 168 236 119 21 183 150 15 217 40 128 8 18 64 132 8 31 2 4 16 17 2 136 0 17 31 128 8 16 66 4 8 32 226 67 132 0 34 66 0 209 195 68 200 225 67 214 11 32 66 4 16 49 194 135 16 1 68 140 0 34 68 248 16 35 2 132 17 1 34 68 0 17 35 128 136 16 64 68 8 32 34 4 16 17 194 135 8 1 68 132 0 34 68 196 135 24 1 68 136 0 34 68 0 17 34 128 136 17 64 196 8 31 98 4 16 33 2 136 16 1 68 66 4 16 33 2 136 16 1 68 132 240 33 66 0 17 33 128 136 16 62 132 8 32 98 4 16 9 23 62 196 8 32 66 132 15 33 2 136 16 225 67 132 0 34 68 248 16 32 128 72 125 133 152 169 16 225 67 132 0 34 66 248 16 34 128 8 17 62 132 8 32 66 4 16 169 35 17 19 20 34 128 8 17 64 68 8 
+ 32 66 132 15 33 2 136 16 1 68 58 216 136 137 9 17 64 132 8 32 66 4 16 33 2 136 48 225 67 42 111 196 124 68 8 32 66 4 16 33 194 135 16 1 68 132 0 34 149 39 98 40 34 4 16 33 194 135 8 1 68 132 0 34 68 0 145 170 11 49 10 17 2 136 8 225 67 132 240 33 66 240 144 246 11 49 0 17 130 135 8 193 67 132 240 33 66 240 144 246 10 113 228 34 132 15 1 194 135 8 1 68 132 240 33 21 16 226 168 69 8 31 34 132 15 17 2 136 148 6 196 33 139 16 62 68 8 31 34 132 15 41 75 136 195 21 32 128 136 16 62 4 8 31 82 154 16 231 42 66 0 17 33 124 136 16 62 36 64 164 10 68 156 167 8 225 67 132 0 34 5 11 113 148 66 132 15 33 2 136 20 76 196 17 10 17 62 132 8 32 82 48 17 71 39 68 248 144 248 144 98 137 56 50 17 194 135 116 71 136 227 18 34 127 131 224 67 136 88 24 210 55 68 156 138 244 210 136 3 145 94 27 113 24 210 43 37 14 65 146 36 73 146 36 73 146 36 73 146 36 73 146 36 73 146 36 73 82 195 254 1 20 164 156 86 </spatial:sampledField>
+      </spatial:listOfSampledFields>
+    </spatial:geometry>
+    <listOfUnitDefinitions>
+      <unitDefinition id="substance">
+        <listOfUnits>
+          <unit scale="0" kind="item" multiplier="1" exponent="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="volume">
+        <listOfUnits>
+          <unit scale="0" kind="metre" multiplier="1E-6" exponent="3"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="area">
+        <listOfUnits>
+          <unit scale="0" kind="metre" multiplier="1E-6" exponent="2"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="molecules">
+        <listOfUnits>
+          <unit scale="0" kind="item" multiplier="1" exponent="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="umol_um3_litre_1">
+        <listOfUnits>
+          <unit scale="0" kind="mole" multiplier="1E-21" exponent="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="um3">
+        <listOfUnits>
+          <unit scale="0" kind="metre" multiplier="1E-6" exponent="3"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="um2">
+        <listOfUnits>
+          <unit scale="0" kind="metre" multiplier="1E-6" exponent="2"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="uM_um3_molecules_1">
+        <listOfUnits>
+          <unit scale="0" kind="dimensionless" multiplier="1E-21" exponent="1"/>
+          <unit scale="0" kind="item" multiplier="1" exponent="-1"/>
+          <unit scale="0" kind="mole" multiplier="1" exponent="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="molecules_um_2_s_1">
+        <listOfUnits>
+          <unit scale="0" kind="dimensionless" multiplier="1E12" exponent="1"/>
+          <unit scale="0" kind="item" multiplier="1" exponent="1"/>
+          <unit scale="0" kind="metre" multiplier="1" exponent="-2"/>
+          <unit scale="0" kind="second" multiplier="1" exponent="-1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="pA_um_2">
+        <listOfUnits>
+          <unit scale="0" kind="dimensionless" multiplier="1" exponent="1"/>
+          <unit scale="0" kind="ampere" multiplier="1" exponent="1"/>
+          <unit scale="0" kind="metre" multiplier="1" exponent="-2"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="uM_um_s_1">
+        <listOfUnits>
+          <unit scale="0" kind="dimensionless" multiplier="1E-9" exponent="1"/>
+          <unit scale="0" kind="metre" multiplier="1" exponent="-2"/>
+          <unit scale="0" kind="mole" multiplier="1" exponent="1"/>
+          <unit scale="0" kind="second" multiplier="1" exponent="-1"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment name="Extracellular" constant="true" id="Extracellular" spatialDimensions="3">
+        <spatial:compartmentMapping xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:id="ExtracellularExtracellular" spatial:domainType="Extracellular" spatial:unitSize="1.0"/>
+      </compartment>
+      <compartment name="Cytosol_Extracellular_membrane" constant="true" id="Cytosol_Extracellular_membrane" spatialDimensions="2">
+        <spatial:compartmentMapping xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:id="Cytosol_Extracellular_membraneCytosol_Extracellular_membrane" spatial:domainType="Cytosol_Extracellular_membrane" spatial:unitSize="1.0"/>
+      </compartment>
+      <compartment name="Cytosol" constant="true" id="Cytosol" spatialDimensions="3">
+        <spatial:compartmentMapping xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:id="CytosolCytosol" spatial:domainType="Cytosol" spatial:unitSize="1.0"/>
+      </compartment>
+      <compartment name="Nucleus_Cytosol_membrane" constant="true" id="Nucleus_Cytosol_membrane" spatialDimensions="2">
+        <spatial:compartmentMapping xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:id="Nucleus_Cytosol_membraneNucleus_Cytosol_membrane" spatial:domainType="Nucleus_Cytosol_membrane" spatial:unitSize="1.0"/>
+      </compartment>
+      <compartment name="Nucleus" constant="true" id="Nucleus" spatialDimensions="3">
+        <spatial:compartmentMapping xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:id="NucleusNucleus" spatial:domainType="Nucleus" spatial:unitSize="1.0"/>
+      </compartment>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species boundaryCondition="false" constant="false" substanceUnits="molecules" hasOnlySubstanceUnits="false" compartment="Nucleus" id="s1_nuc" spatial:isSpatial="true" initialConcentration="0">
+        <annotation>
+                <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+                    <vcell:VCMLSpecific>
+                        <vcell:Compound Name="s1_2"/>
+                    </vcell:VCMLSpecific>
+                </vcell:VCellInfo>
+            </annotation>
+              <req:listOfChangedMaths xmlns:req="http://www.sbml.org/sbml/level3/version1/req/version1">
+          <req:changedMath req:changedBy="spatial" req:viableWithoutChange="true"/>
+        </req:listOfChangedMaths>
+      </species>
+      <species boundaryCondition="false" constant="false" substanceUnits="molecules" hasOnlySubstanceUnits="false" compartment="Cytosol" id="s1_cyt" spatial:isSpatial="true" initialConcentration="10">
+        <annotation>
+                <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+                    <vcell:VCMLSpecific>
+                        <vcell:Compound Name="s1_2"/>
+                    </vcell:VCMLSpecific>
+                </vcell:VCellInfo>
+            </annotation>
+              <req:listOfChangedMaths xmlns:req="http://www.sbml.org/sbml/level3/version1/req/version1">
+          <req:changedMath req:changedBy="spatial" req:viableWithoutChange="true"/>
+        </req:listOfChangedMaths>
+      </species>
+      <species boundaryCondition="false" constant="false" substanceUnits="molecules" hasOnlySubstanceUnits="false" compartment="Nucleus" id="s2_nuc" spatial:isSpatial="true" initialConcentration="5">
+        <annotation>
+                <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+                    <vcell:VCMLSpecific>
+                        <vcell:Compound Name="s2_2"/>
+                    </vcell:VCMLSpecific>
+                </vcell:VCellInfo>
+            </annotation>
+              <req:listOfChangedMaths xmlns:req="http://www.sbml.org/sbml/level3/version1/req/version1">
+          <req:changedMath req:changedBy="spatial" req:viableWithoutChange="true"/>
+        </req:listOfChangedMaths>
+      </species>
+      <species boundaryCondition="false" constant="false" substanceUnits="molecules" hasOnlySubstanceUnits="false" compartment="Extracellular" id="s1_EC" spatial:isSpatial="true" initialConcentration="0">
+        <annotation>
+                <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+                    <vcell:VCMLSpecific>
+                        <vcell:Compound Name="s1_2"/>
+                    </vcell:VCMLSpecific>
+                </vcell:VCellInfo>
+            </annotation>
+              <req:listOfChangedMaths xmlns:req="http://www.sbml.org/sbml/level3/version1/req/version1">
+          <req:changedMath req:changedBy="spatial" req:viableWithoutChange="true"/>
+        </req:listOfChangedMaths>
+      </species>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter value="0" id="x">
+        <spatial:spatialSymbolReference xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:spatialRef="x"/>
+      </parameter>
+      <parameter value="0" id="y">
+        <spatial:spatialSymbolReference xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:spatialRef="y"/>
+      </parameter>
+      <parameter constant="true" id="s1_nuc_diff" value="10">
+        <spatial:diffusionCoefficient xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:variable="s1_nuc" spatial:coordinateReference2="cartesianY" spatial:type="isotropic" spatial:coordinateReference1="cartesianX"/>
+      </parameter>
+      <parameter constant="true" id="s1_nuc_BC_Xm" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Xmin" spatial:variable="s1_nuc" spatial:boundaryDomainType="Nucleus" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="s1_nuc_BC_Xp" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Xmax" spatial:variable="s1_nuc" spatial:boundaryDomainType="Nucleus" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="s1_nuc_BC_Ym" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Ymin" spatial:variable="s1_nuc" spatial:boundaryDomainType="Nucleus" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="s1_nuc_BC_Yp" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Ymax" spatial:variable="s1_nuc" spatial:boundaryDomainType="Nucleus" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="s1_cyt_diff" value="10">
+        <spatial:diffusionCoefficient xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:variable="s1_cyt" spatial:coordinateReference2="cartesianY" spatial:type="isotropic" spatial:coordinateReference1="cartesianX"/>
+      </parameter>
+      <parameter constant="true" id="s1_cyt_BC_Xm" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Xmin" spatial:variable="s1_cyt" spatial:boundaryDomainType="Cytosol" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="s1_cyt_BC_Xp" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Xmax" spatial:variable="s1_cyt" spatial:boundaryDomainType="Cytosol" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="s1_cyt_BC_Ym" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Ymin" spatial:variable="s1_cyt" spatial:boundaryDomainType="Cytosol" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="s1_cyt_BC_Yp" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Ymax" spatial:variable="s1_cyt" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="s1_EC_diff" value="10">
+        <spatial:diffusionCoefficient xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:variable="s1_EC" spatial:coordinateReference2="cartesianY" spatial:type="isotropic" spatial:coordinateReference1="cartesianX"/>
+      </parameter>
+      <parameter constant="true" id="s1_EC_BC_Xm" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Xmin" spatial:variable="s1_EC" spatial:boundaryDomainType="Extracellular" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="s1_EC_BC_Xp" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Xmax" spatial:variable="s1_EC" spatial:boundaryDomainType="Extracellular" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="s1_EC_BC_Ym" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Ymin" spatial:variable="s1_EC" spatial:boundaryDomainType="Extracellular" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="s1_EC_BC_Yp" value="0">
+        <spatial:boundaryCondition xmlns:spatial="http://www.sbml.org/sbml/level3/version1/spatial/version1" spatial:coordinateBoundary="Ymax" spatial:variable="s1_EC" spatial:boundaryDomainType="Extracellular" spatial:type="Dirichlet"/>
+      </parameter>
+      <parameter constant="true" id="KMOLE" units="uM_um3_molecules_1" value="0.00166112956810631"/>
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="s2_nuc" metaid="CDMT00006">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <ci> x </ci>
+        </math>
+            </assignmentRule>
+    </listOfRules>
+    <listOfReactions>
+      <reaction name="flux1" fast="false" id="flux1" reversible="true">
+        <listOfReactants>
+          <speciesReference species="s1_cyt" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s1_nuc" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <cn> 5 </cn>
+              <ci> s1_cyt </ci>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="I" units="pA_um_2" value="0"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="flux2" fast="false" id="flux2" reversible="true">
+        <listOfReactants>
+          <speciesReference species="s1_cyt" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s1_EC" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <cn> 5 </cn>
+              <ci> s1_cyt </ci>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

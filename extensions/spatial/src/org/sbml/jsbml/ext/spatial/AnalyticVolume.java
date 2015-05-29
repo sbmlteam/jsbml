@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
@@ -42,6 +43,12 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class AnalyticVolume extends AbstractMathContainer implements SpatialNamedSBase{
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(AnalyticVolume.class);
+  
   /**
    * 
    */
@@ -413,31 +420,33 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
         try {
           setSpatialId(value);
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.spatialId);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.spatialId, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.ordinal)) {
         try {
           setOrdinal(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.ordinal);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.ordinal, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.domainType)) {
         try {
           setDomainType(value);
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.domainType);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.domainType, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.functionType)) {
-        if (!Pattern.matches("[a-z]*", value)) {
-          throw new SBMLException("The value is not all lower-case.");
+        try {
+          setFunctionType(FunctionKind.valueOf(value));
+        } catch (Exception e) {
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.functionType, getElementName()));
         }
-        setFunctionType(FunctionKind.valueOf(value.toUpperCase()));
       }
       else {
         isAttributeRead = false;

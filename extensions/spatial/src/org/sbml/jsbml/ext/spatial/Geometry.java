@@ -29,6 +29,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.ResourceManager;
@@ -43,6 +44,12 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class Geometry extends AbstractSpatialNamedSBase {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(Geometry.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -1205,8 +1212,8 @@ public class Geometry extends AbstractSpatialNamedSBase {
         try {
           setCoordinateSystem(GeometryKind.valueOf(value));
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.coordinateSystem);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinateSystem, getElementName()));
         }
       }
       else {

@@ -142,6 +142,9 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
   public void setCompartmentMapping(CompartmentMapping compartmentMapping) {
     CompartmentMapping oldCompartmentMapping = this.compartmentMapping;
     this.compartmentMapping = compartmentMapping;
+    if (isSetExtendedSBase()) {
+      getExtendedSBase().registerChild(compartmentMapping);
+    }
     firePropertyChange(SpatialConstants.compartmentMapping, oldCompartmentMapping, this.compartmentMapping);
   }
 

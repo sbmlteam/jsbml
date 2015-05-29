@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
@@ -41,6 +42,13 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
 
+  
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(SpatialSpeciesPlugin.class);
+  
   /**
    * Generated serial version identifier.
    */

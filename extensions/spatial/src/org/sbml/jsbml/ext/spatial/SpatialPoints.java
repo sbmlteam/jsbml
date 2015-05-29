@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
@@ -36,6 +37,11 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class SpatialPoints extends AbstractSBase {
 
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(SpatialPoints.class);
+  
   /**
    * 
    */
@@ -415,8 +421,9 @@ public class SpatialPoints extends AbstractSBase {
     }
     if (isSetDataType()) {
       attributes.remove("dataType");
+      // see DataKind.java
       attributes.put(SpatialConstants.shortLabel + ":dataType",
-        getDataType().toString());
+        getDataType().toString().toLowerCase());
     }    
 
     return attributes;
@@ -427,29 +434,40 @@ public class SpatialPoints extends AbstractSBase {
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
         && (SpatialConstants.shortLabel == prefix);
-    if (attributeName.equals(SpatialConstants.compression)) {
-      try {
-        setCompression(value);
-      } catch (Exception e) {
-        MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.compression);
+    if(!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(SpatialConstants.compression)) {
+        try {
+          setCompression(value);
+
+        } catch (Exception e) {
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.compression, getElementName()));
+        }
       }
-    }
-    else if (attributeName.equals(SpatialConstants.arrayDataLength)) {
-      try {
-        setArrayDataLength(StringTools.parseSBMLInt(value));
-      } catch (Exception e) {
-        MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.arrayDataLength);
+      else if (attributeName.equals(SpatialConstants.arrayDataLength)) {
+        try {
+          setArrayDataLength(StringTools.parseSBMLInt(value));
+
+        } catch (Exception e) {
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.arrayDataLength, getElementName()));
+        }
       }
-    }
-    else if (attributeName.equals(SpatialConstants.dataType)) {
-      try {
-        setDataType(value);
-      } catch (Exception e) {
-        MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.dataType);
+      else if (attributeName.equals(SpatialConstants.dataType)) {
+        try {
+          // see DataKind.java
+          setDataType(value.toUpperCase());
+
+        } catch (Exception e) {
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.dataType, getElementName()));
+        }
+      }      
+      else {
+        isAttributeRead = false;
       }
-    }      
-    else {
-      isAttributeRead = false;
     }
     return isAttributeRead;
   }

@@ -32,13 +32,13 @@ public enum CompressionKind {
   /**
    * If no compression is used
    */
-  UNCOMPRESSED,
+  uncompressed,
   /**
    * If the deflation algorithm was used to compress the text version of the data
    */
-  DEFLATED,
+  deflated,
   /**
    * If the base 64 algorithm was used to transform the binary form of the actual members into text
    */
-  BASE64;
+  base64;
 }

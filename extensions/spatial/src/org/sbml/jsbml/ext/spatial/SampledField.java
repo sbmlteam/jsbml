@@ -43,6 +43,12 @@ import org.sbml.jsbml.xml.parsers.SpatialParser;
  */
 public class SampledField extends AbstractSpatialNamedSBase {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(SampledField.class);
+  
   /**
    * Generated serial version identifier.
    */
@@ -84,11 +90,6 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * 
    */
   private XMLNode data;
-
-  /**
-   * 
-   */
-  private Logger logger = Logger.getLogger(SampledField.class);
 
   /**
    * 
@@ -803,8 +804,9 @@ public boolean unsetSamplesLength() {
         String.valueOf(getNumSamples3()));
     }
     if (isSetDataType()) {
+      // see DataKind.java
       attributes.put(SpatialConstants.shortLabel + ":dataType",
-        getDataType().toString());
+        getDataType().toString().toLowerCase());
     }
     if (isSetCompression()) {
       attributes.put(SpatialConstants.shortLabel + ":compression",
@@ -848,8 +850,8 @@ public boolean unsetSamplesLength() {
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.numSamples3, getElementName()));
         }
       }
-
-      else if (attributeName.equals(SpatialConstants.interpolation)) {
+      // TODO: update the following IF, after Lucian has decided whether it is called interpolation or interpolationType 
+      else if (attributeName.equals(SpatialConstants.interpolation) || attributeName.equals("interpolationType")) {
         try {
           setInterpolation(InterpolationKind.valueOf(value));
         } catch (Exception e) {
@@ -872,7 +874,8 @@ public boolean unsetSamplesLength() {
       }
       else if (attributeName.equals(SpatialConstants.dataType)) {
         try {
-          setDataType(DataKind.valueOf(value));
+          // see DataKind.java
+          setDataType(DataKind.valueOf(value.toUpperCase()));
         } catch (Exception e) {
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.dataType, getElementName()));
         }

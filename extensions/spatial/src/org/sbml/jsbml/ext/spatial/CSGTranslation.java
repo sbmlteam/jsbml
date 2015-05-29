@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
@@ -36,6 +37,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CSGTranslation extends CSGTransformation {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(CSGTranslation.class);
+  
   /**
    * 
    */
@@ -328,24 +335,24 @@ public class CSGTranslation extends CSGTransformation {
         try {
           setTranslateX(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.translateX);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.translateX, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.translateY)) {
         try {
           setTranslateY(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.translateY);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.translateY, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.translateZ)) {
         try {
           setTranslateZ(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.translateZ);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.translateZ, getElementName()));
         }
       }
       else {

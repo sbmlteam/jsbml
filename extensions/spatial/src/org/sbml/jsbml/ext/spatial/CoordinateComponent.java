@@ -23,17 +23,16 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBaseWithUnit;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * @author Alex Thomas
@@ -44,6 +43,12 @@ import org.sbml.jsbml.util.ResourceManager;
  */
 public class CoordinateComponent extends AbstractSpatialNamedSBase implements
 SBaseWithUnit {
+  
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(CoordinateComponent.class);
 
   /**
    * Generated serial version identifier.
@@ -70,11 +75,6 @@ SBaseWithUnit {
    * 
    */
   private String unit;
-
-  /**
-   * 
-   */
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
   /**
    * 
@@ -159,6 +159,7 @@ SBaseWithUnit {
   public void setBoundaryMinimum(Boundary boundaryMinimum) {
     Boundary oldMinimum = this.boundaryMinimum;
     this.boundaryMinimum = boundaryMinimum;
+    registerChild(boundaryMinimum);
     firePropertyChange(SpatialConstants.boundaryMinimum, oldMinimum, this.boundaryMinimum);
   }
 
@@ -210,6 +211,7 @@ SBaseWithUnit {
   public void setBoundaryMaximum(Boundary boundaryMaximum) {
     Boundary oldMaximum = boundaryMaximum;
     this.boundaryMaximum = boundaryMaximum;
+    registerChild(boundaryMaximum);
     firePropertyChange(SpatialConstants.boundaryMaximum, oldMaximum, boundaryMaximum);
   }
 
@@ -521,22 +523,22 @@ SBaseWithUnit {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
-
+      
       if (attributeName.equals(SpatialConstants.type)) {
         try {
           setType(CoordinateKind.valueOf(value));
         }
         catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.type);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.type, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.unit)) {
         try {
           setUnits(value);
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.unit);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.unit, getElementName()));
         }
       }
       else {

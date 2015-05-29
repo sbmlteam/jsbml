@@ -25,7 +25,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.sbml.jsbml.ListOf;
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.ResourceManager;
 
@@ -37,6 +37,12 @@ import org.sbml.jsbml.util.ResourceManager;
  */
 public class AdjacentDomains extends AbstractSpatialNamedSBase {
 
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(AdjacentDomains.class);
+  
   /**
    * 
    */
@@ -272,16 +278,16 @@ public class AdjacentDomains extends AbstractSpatialNamedSBase {
         try {
           setDomain1(value);
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.domain1);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.domain1, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.domain2)) {
         try {
           setDomain2(value);
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.domain2);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.domain2, getElementName()));          
         }
       }
       else {

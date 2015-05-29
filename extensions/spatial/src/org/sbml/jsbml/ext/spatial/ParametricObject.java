@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
@@ -37,6 +38,11 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class ParametricObject extends AbstractSpatialNamedSBase {
 
+  /**
+   * A {@link Logger} for this class.
+   */
+  private Logger logger = Logger.getLogger(ParametricObject.class);
+  
   /**
    * 
    */
@@ -563,8 +569,9 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     }
     if (isSetDataType()) {
       attributes.remove("dataType");
+      // see DataKind.java
       attributes.put(SpatialConstants.shortLabel + ":dataType",
-        getDataType().toString());
+        getDataType().toString().toLowerCase());
     }    
 
     return attributes;
@@ -581,36 +588,41 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
         try {
           setDomainType(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.domainType);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.domainType, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.polygonType)) {
         try {
           setPolygonType(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.polygonType);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.polygonType, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.compression)) {
         try {
           setCompression(value);
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.compression);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.compression, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.pointIndexLength)) {
         try {
           setPointIndexLength(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.pointIndexLength);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.pointIndexLength, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.dataType)) {
         try {
-          setDataType(value);
+          // see DataKind.java
+          setDataType(value.toUpperCase());
         } catch (Exception e) {
-          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.dataType);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.dataType, getElementName()));
         }
       }      
       else {
