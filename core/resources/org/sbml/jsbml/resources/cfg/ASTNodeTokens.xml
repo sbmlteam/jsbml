@@ -66,6 +66,8 @@
   <entry key="cosh">FUNCTION_COSH</entry>
   <entry key="cot">FUNCTION_COT</entry>
   <entry key="coth">FUNCTION_COTH</entry>
+  <entry key="sinh">FUNCTION_SINH</entry>
+  <entry key="tanh">FUNCTION_TANH</entry>
   <entry key="csc">FUNCTION_CSC</entry>  
   <entry key="csch">FUNCTION_CSCH</entry>
   <entry key="atan">FUNCTION_ARCTAN</entry>

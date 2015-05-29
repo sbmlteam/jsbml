@@ -1092,6 +1092,7 @@ public class ASTNodeInfixParsingTest {
     try {
       ASTNode delay = ASTNode.parseFormula("Delay(-x)", caseInsensitiveParser);
       status = (delay.getType() == ASTNode.Type.FUNCTION_DELAY) && (delay.getType() != ASTNode.Type.FUNCTION);
+      System.out.println(status + " " + delay.getType());
       if (status) {
         ASTNode n = delay.getChild(0);
         status = n.getType() == ASTNode.Type.MINUS;
@@ -1274,6 +1275,7 @@ public class ASTNodeInfixParsingTest {
     try {
       ASTNode floor = ASTNode.parseFormula("Floor(-x)", caseSensitiveParser);
       status = (floor.getType() == ASTNode.Type.FUNCTION_FLOOR) && (floor.getType() != ASTNode.Type.FUNCTION);
+      System.out.println(status + "" + floor.getType());
       if (status) {
         ASTNode n = floor.getChild(0);
         status = n.getType() == ASTNode.Type.MINUS;
@@ -1366,7 +1368,7 @@ public class ASTNodeInfixParsingTest {
 //        ASTNode base = ln.getChild(0);
 //        status = (base.getType() == ASTNode.Type.CONSTANT_E);
 //        if (status) {
-          ASTNode n = ln.getChild(1);
+          ASTNode n = ln.getChild(0);
           status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
 //        }
       }
@@ -1407,7 +1409,7 @@ public class ASTNodeInfixParsingTest {
       ASTNode log = ASTNode.parseFormula("Log(1000)", caseInsensitiveParser);
       status = (log.getType() == ASTNode.Type.FUNCTION_LOG) && (log.getType() != ASTNode.Type.FUNCTION);
       if (status) {
-        ASTNode n = log.getChild(1);
+        ASTNode n = log.getChild(0);
         status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
       }
     } catch (Exception e) {
@@ -2008,7 +2010,7 @@ public class ASTNodeInfixParsingTest {
       ASTNode booleanTrue = ASTNode.parseFormula("True", caseSensitiveParser);
       status = (booleanTrue.getType() != ASTNode.Type.CONSTANT_TRUE) && (booleanTrue.getType() == ASTNode.Type.NAME);
       if (status) {
-        status = booleanTrue.getName().equals("True");
+        status = booleanTrue.getName().equals("True"); // TODO - name is not stored if invalid ??
       }
     } catch (Exception e) {
       e.printStackTrace();
