@@ -166,7 +166,8 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
-      throw new IndexOutOfBoundsException(index + " < 0");
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
     }
     int pos = 0;
 

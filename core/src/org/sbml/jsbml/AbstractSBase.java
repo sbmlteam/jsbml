@@ -981,13 +981,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     // in those cases.
 
     // the parent need to be set as well (would be done, if we call the registerChild method)
-    if (newValue != null && newValue instanceof SBasePlugin) {
+    if ((newValue != null) && (newValue instanceof SBasePlugin)) {
       ((AbstractTreeNode) newValue).setParent(this);
     }
 
-    if (oldValue != null && oldValue instanceof SBasePlugin) {
+    if ((oldValue != null) && (oldValue instanceof SBasePlugin)) {
       unregisterChild((SBasePlugin) oldValue);
     }
+
     if ((oldValue != null && oldValue instanceof SBase) && !propertyName.equals(TreeNodeChangeEvent.parentSBMLObject)) {
       unregisterChild((SBase) oldValue);
     }

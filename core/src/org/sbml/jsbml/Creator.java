@@ -56,7 +56,7 @@ public class Creator extends AnnotationElement {
   /**
    * URI for the RDF syntax name space definition for VCards.
    */
-  public static final transient String URI_RDF_VCARD_NS = "http://www.w3.org/2001/vcard-rdf/3.0#";
+  public static final transient String URI_RDF_VCARD_NS = "http://www.w3.org/2001/vcard-rdf/3.0#"; //$NON-NLS-1$
 
   /**
    * email of the creator
@@ -367,7 +367,7 @@ public class Creator extends AnnotationElement {
    */
   public int setEmail(String email) {
     if ((email != null) && !SyntaxChecker.isValidEmailAddress(email.trim())) {
-      String errorMessage = MessageFormat.format("Invalid e-mail address {0}", email);
+      String errorMessage = MessageFormat.format(resourceBundle.getString("Creator.setEmail"), email);
       logger.warn(errorMessage); // TODO: Do we really need both: exception and error?
       throw new IllegalArgumentException(errorMessage);
     }

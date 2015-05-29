@@ -258,7 +258,9 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
    */
   @Override
   public void writeCharacters(SBMLObjectForXML xmlObject,
-    Object sbmlElementToWrite) {}
+    Object sbmlElementToWrite) {
+    // The SBML core XML element should not have any content, everything should be stored as attribute.
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)

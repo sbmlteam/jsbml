@@ -187,7 +187,8 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
   @Override
   public CompartmentMapping getChildAt(int index) {
     if (index < 0) {
-      throw new IndexOutOfBoundsException(index + " < 0");
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
     }
 
     int pos = 0;

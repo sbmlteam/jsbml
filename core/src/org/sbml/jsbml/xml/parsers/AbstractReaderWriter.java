@@ -141,7 +141,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
     Object contextObject)
   {
     // TODO: read the namespace, not sure if it is handled by other parsers
-    
+
     if (contextObject instanceof SBMLDocument && getNamespaces().contains(URI) && this instanceof PackageParser) {
       if (logger.isDebugEnabled()) {
         logger.debug("processNamespace - uri = " + URI);
@@ -269,7 +269,10 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
   public void writeCharacters(SBMLObjectForXML xmlObject,
     Object sbmlElementToWrite)
   {
-    logger.error("writeCharacters: " + xmlObject.getName() + " XML element do not have any characters !!");
+    // The SBML core XML element should not have any content, everything should be stored as attribute.
+    if (logger.isDebugEnabled()) {
+      logger.debug("writeCharacters: " + xmlObject.getName() + " XML element does not have any characters!");
+    }
   }
 
 
