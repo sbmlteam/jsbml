@@ -443,7 +443,7 @@ public class ASTNodeInfixParsingTest {
     boolean status = false;
     try {
       ASTNode arccsc = ASTNode.parseFormula("ArcCsc(x)", caseInsensitiveParser);
-      status = arccsc.getType() == ASTNode.Type.FUNCTION_ARCCSCH;
+      status = arccsc.getType() == ASTNode.Type.FUNCTION_ARCCSC;
       if (status) {
         ASTNode n = arccsc.getChild(0);
         status = n.getType() == ASTNode.Type.NAME && n.getName().equals("x");
@@ -463,7 +463,7 @@ public class ASTNodeInfixParsingTest {
     boolean status = false;
     try {
       ASTNode arccsc = ASTNode.parseFormula("ArcCsc(x)", caseSensitiveParser);
-      status = (arccsc.getType() != ASTNode.Type.FUNCTION_ARCCSCH) && (arccsc.getType() == ASTNode.Type.FUNCTION);
+      status = (arccsc.getType() != ASTNode.Type.FUNCTION_ARCCSC) && (arccsc.getType() == ASTNode.Type.FUNCTION);
       if (status) {
         ASTNode n = arccsc.getChild(0);
         status = n.getType() == ASTNode.Type.NAME && n.getName().equals("x");
@@ -807,7 +807,7 @@ public class ASTNodeInfixParsingTest {
         status = n.getType() == ASTNode.Type.MINUS;
         if (status) {
           n = n.getChild(0);
-          status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1);
+          status = (n.getType() == ASTNode.Type.NAME) && (n.getName().equals("x"));
         }
       }
 
@@ -832,7 +832,7 @@ public class ASTNodeInfixParsingTest {
         status = n.getType() == ASTNode.Type.MINUS;
         if (status) {
           n = n.getChild(0);
-          status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1);
+          status = (n.getType() == ASTNode.Type.NAME) && (n.getName().equals("x"));
         }
       }
 
@@ -1097,7 +1097,7 @@ public class ASTNodeInfixParsingTest {
         status = n.getType() == ASTNode.Type.MINUS;
         if (status) {
           n = n.getChild(0);
-          status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1);
+          status = (n.getType() == ASTNode.Type.NAME) && (n.getName().equals("x"));
         }
       }
 
@@ -1122,7 +1122,7 @@ public class ASTNodeInfixParsingTest {
         status = n.getType() == ASTNode.Type.MINUS;
         if (status) {
           n = n.getChild(0);
-          status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1);
+          status = (n.getType() == ASTNode.Type.NAME) && (n.getName().equals("x"));
         }
       }
 
@@ -1279,7 +1279,7 @@ public class ASTNodeInfixParsingTest {
         status = n.getType() == ASTNode.Type.MINUS;
         if (status) {
           n = n.getChild(0);
-          status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1);
+          status = (n.getType() == ASTNode.Type.NAME) && (n.getName().equals("x"));
         }
       }
 
@@ -1304,7 +1304,7 @@ public class ASTNodeInfixParsingTest {
         status = n.getType() == ASTNode.Type.MINUS;
         if (status) {
           n = n.getChild(0);
-          status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1);
+          status = (n.getType() == ASTNode.Type.NAME) && (n.getName().equals("x"));
         }
       }
 
@@ -1363,12 +1363,12 @@ public class ASTNodeInfixParsingTest {
       ASTNode ln = ASTNode.parseFormula("Ln(1000)", caseInsensitiveParser);
       status = (ln.getType() == ASTNode.Type.FUNCTION_LN) && (ln.getType() != ASTNode.Type.FUNCTION);
       if (status) {
-        ASTNode base = ln.getChild(0);
-        status = (base.getType() == ASTNode.Type.CONSTANT_E);
-        if (status) {
+//        ASTNode base = ln.getChild(0);
+//        status = (base.getType() == ASTNode.Type.CONSTANT_E);
+//        if (status) {
           ASTNode n = ln.getChild(1);
           status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
-        }
+//        }
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -1407,12 +1407,8 @@ public class ASTNodeInfixParsingTest {
       ASTNode log = ASTNode.parseFormula("Log(1000)", caseInsensitiveParser);
       status = (log.getType() == ASTNode.Type.FUNCTION_LOG) && (log.getType() != ASTNode.Type.FUNCTION);
       if (status) {
-        ASTNode base = log.getChild(0);
-        status = (base.getType() == ASTNode.Type.INTEGER) && (base.getInteger() == 10);
-        if (status) {
-          ASTNode n = log.getChild(1);
-          status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
-        }
+        ASTNode n = log.getChild(1);
+        status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
       }
     } catch (Exception e) {
       e.printStackTrace();
