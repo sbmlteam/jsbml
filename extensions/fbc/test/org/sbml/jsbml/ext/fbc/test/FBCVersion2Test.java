@@ -29,14 +29,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.xml.stream.XMLStreamException;
 
+import org.junit.Assert;
+import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.Unit;
@@ -51,6 +55,7 @@ import org.sbml.jsbml.ext.fbc.GeneProductRef;
 import org.sbml.jsbml.ext.fbc.GeneProteinAssociation;
 import org.sbml.jsbml.ext.fbc.Or;
 import org.sbml.jsbml.util.ModelBuilder;
+import org.sbml.jsbml.xml.XMLNode;
 
 
 /**
@@ -72,7 +77,8 @@ public class FBCVersion2Test {
 
     Model model = builder.buildModel("fbc_test", "Simple test model for FBC version 2");
     FBCModelPlugin modelPlugin = (FBCModelPlugin) model.getPlugin(FBCConstants.shortLabel);
-
+    modelPlugin.setStrict(true);
+    
     GeneProduct geneProduct = modelPlugin.createGeneProduct("gene1");
     geneProduct.setMetaId("meta_gene1");
     geneProduct.setName("ETFC");
@@ -142,8 +148,21 @@ public class FBCVersion2Test {
     reactionPlugin.setUpperFluxBound(upperFluxBound);
 
     SBMLDocument doc = builder.getSBMLDocument();
+    doc.addDeclaredNamespace("html", JSBML.URI_XHTML_DEFINITION);
+    
     try {
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      System.out.println(docStr);
+      
+      System.out.println("Re-reading the model.");
+      SBMLDocument doc2 = new SBMLReader().readSBMLFromString(docStr);
+      
+      Assert.assertTrue(((FBCModelPlugin) doc2.getModel().getPlugin(FBCConstants.shortLabel)).isSetStrict());
+      Assert.assertTrue(((FBCModelPlugin) doc2.getModel().getPlugin(FBCConstants.shortLabel)).getStrict() == true);
+      
+      // System.out.println(new SBMLWriter().writeSBMLToString(doc2));
+      
     } catch (SBMLException exc) {
       exc.printStackTrace();
     } catch (XMLStreamException exc) {
@@ -152,6 +171,7 @@ public class FBCVersion2Test {
     JTree tree = new JTree(doc);
     tree.setPreferredSize(new Dimension(640, 480));
     JOptionPane.showMessageDialog(null, new JScrollPane(tree));
+    
   }
 
 

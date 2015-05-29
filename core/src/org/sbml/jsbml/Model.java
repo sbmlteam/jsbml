@@ -287,6 +287,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
 
     // necessary if a comp ModelDefinition is cloned into a core Model for example
     unsetNamespace();
+    packageName = "core";
+    setPackageVersion(0);
   }
 
   /**

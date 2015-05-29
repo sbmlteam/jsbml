@@ -34,6 +34,7 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.util.StringTools;
@@ -953,8 +954,8 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   protected String relation(ASTNode left, String symbol, ASTNode right)
       throws SBMLException {
 
-    return concat((left.isRelational()) ? brackets(left) : left, symbol,
-      (right.isRelational()) ? brackets(right) : right).toString();
+    return brackets(concat((left.isRelational()) ? brackets(left) : left, symbol,
+      (right.isRelational()) ? brackets(right) : right)).toString();
   }
 
   /* (non-Javadoc)

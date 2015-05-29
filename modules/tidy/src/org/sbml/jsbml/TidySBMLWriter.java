@@ -67,7 +67,9 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     tidy.setXmlTags(true);
     tidy.setIndentContent(true);
     tidy.setXmlOut(true);
-
+    tidy.setInputEncoding("UTF-8");
+    tidy.setOutputEncoding("UTF-8");
+    
     tidy.setDropEmptyParas(false);
 
     tidy.setSmartIndent(true);
