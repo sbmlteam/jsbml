@@ -2473,11 +2473,12 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public boolean equals(Object object) {
+    boolean equal = super.equals(object);
+    
     if (object instanceof ASTNode) {
       // TODO - check if astNode2 is null ?
-      return astnode2.equals(((ASTNode)object).toASTNode2());
+      return equal && astnode2.equals(((ASTNode)object).toASTNode2());
     } 
-    // TODO - compare things from AbstractTreeNode ?
     
     return false;
   }
@@ -2971,7 +2972,12 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public int hashCode() {
-    return astnode2.hashCode();
+    final int prime = 787;
+    int hashCode = super.hashCode();
+
+    hashCode += prime * astnode2.hashCode();
+
+    return hashCode;
   }
 
   /**
@@ -3687,12 +3693,8 @@ public class ASTNode extends AbstractTreeNode {
    *
    */
   public boolean removeChild(int n) {
-    /*
-    return astnode2 instanceof ASTFunction ? ((ASTFunction) astnode2)
-      .removeChild(n) : false;
-    */
     if (!isSetListOfNodes()) {
-      listOfNodes = new ArrayList<ASTNode>();
+      return false;
     }
     if ((listOfNodes.size() > n) && (n >= 0)) {
       ASTNode removed = listOfNodes.remove(n);
@@ -3762,11 +3764,8 @@ public class ASTNode extends AbstractTreeNode {
     oldChild.fireNodeRemovedEvent();
 
     // Adding the new child at position n
-    setParentSBMLObject(newChild, getParentSBMLObject(), 0);
-    newChild.parent = this;
-    listOfNodes.add(n, newChild);
-    newChild.addAllChangeListeners(getListOfTreeNodeChangeListeners());
-    newChild.fireNodeAddedEvent();
+    insertChild(n, newChild);
+    
     return newChild;
   }
 
@@ -3890,20 +3889,6 @@ public class ASTNode extends AbstractTreeNode {
       astnode2.setParentSBMLObject(parent);
     }
     // TODO - else we could create a new ASTUnknown (so no singleton) and store the value there until the type is defined properly?
-  }
-
-  
-  
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#isSetParent()
-   */
-  @Override
-  public boolean isSetParent() {
-    if (astnode2 != null) {
-      return astnode2.isSetParent();
-    }
-
-    return false;
   }
 
   /**
