@@ -210,7 +210,7 @@ public class CVTerm extends AnnotationElement {
      */
     public static Qualifier getBiologicalQualifierFor(String elementNameEquivalent) {
 
-      if (elementNameEquivalent.equals(BQB_ENCODES)) {
+      if (elementNameEquivalent.equals(BQB_ENCODES.nameEquivalent)) {
         return BQB_ENCODES;
       } else if (elementNameEquivalent.equals(BQB_HAS_PART.nameEquivalent)) {
         return BQB_HAS_PART;
