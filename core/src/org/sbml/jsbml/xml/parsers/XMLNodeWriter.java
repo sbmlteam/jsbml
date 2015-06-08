@@ -23,14 +23,16 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.io.StringWriter;
 
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.log4j.Logger;
+import org.codehaus.stax2.XMLStreamWriter2;
 import org.codehaus.staxmate.SMOutputFactory;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
+
+import com.ctc.wstx.stax.WstxOutputFactory;
 
 /**
  * 
@@ -90,9 +92,12 @@ public class XMLNodeWriter {
     String xml = "";
     StringWriter stream = new StringWriter();
 
-    SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
+    // Explicitly creating WstxOutputFactory as it is needed by staxmate and it is then easier for 
+    // OSGi to find the needed dependencies
+    WstxOutputFactory outputFactory = new WstxOutputFactory();
+    SMOutputFactory smFactory = new SMOutputFactory(outputFactory);
+    XMLStreamWriter2 writer = smFactory.createStax2Writer(stream);
 
-    XMLStreamWriter writer = smFactory.createStax2Writer(stream);
     //			writer.writeCharacters("\n");
     XMLNodeWriter xmlNodewriter = new XMLNodeWriter(writer, 0, 2, ' ');
     xmlNodewriter.write(xmlNode);
