@@ -1290,7 +1290,7 @@ public class ASTNode extends AbstractTreeNode {
    *          the parent
    */
   static void setParentSBMLObject(ASTNode node, MathContainer parent) {
-    node.toASTNode2().setParentSBMLObject(parent);
+    setParentSBMLObject(node, parent, 0);
   }
 
   /**
@@ -1309,7 +1309,10 @@ public class ASTNode extends AbstractTreeNode {
     int depth) {
     // TODO: Is using depth for testing still required? Can we remove this
     // method?
-    setParentSBMLObject(node, parent);
+    node.setParentSBMLObject(parent);
+    for (ASTNode child : node.getListOfNodes()) {
+      setParentSBMLObject(child, parent, depth + 1);
+    }
   }
 
   /**
