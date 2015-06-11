@@ -1452,7 +1452,7 @@ public class ASTNodeInfixParsingTest {
         ASTNode n = infinity.getChild(0);
         status = (n.getType() == ASTNode.Type.REAL) && (n.getType() != ASTNode.Type.NAME);
         if (status) {
-          status = infinity.getReal() == Double.POSITIVE_INFINITY;
+          status = n.getReal() == Double.POSITIVE_INFINITY;
         }
       }
     } catch (Exception e) {
@@ -1475,7 +1475,7 @@ public class ASTNodeInfixParsingTest {
         ASTNode n = infinity.getChild(0);
         status = (n.getType() != ASTNode.Type.REAL) && (n.getType() == ASTNode.Type.NAME);
         if (status) {
-          status = infinity.getName().equals("Infinity");
+          status = n.getName().equals("Infinity");
         }
       }
     } catch (Exception e) {
