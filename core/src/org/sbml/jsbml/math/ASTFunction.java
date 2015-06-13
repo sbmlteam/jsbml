@@ -490,7 +490,6 @@ public class ASTFunction extends AbstractASTNode {
 				child.setParentSBMLObject(container);
 			}
 		}
-
 	}
 
 	/**

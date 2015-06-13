@@ -1468,10 +1468,12 @@ public class ASTNode extends AbstractTreeNode {
     // not calling the super constructor has it is making problem with the userObjects
     // which are cloned in the ASTNode2 clone method anyway.
     listOfListeners = new ArrayList<TreeNodeChangeListener>();
-
     if (astNode.isSetASTNode2()) {
       astnode2 = astNode.astnode2.clone();
-      listOfNodes = astNode.getListOfNodes(); // swap children in other facade as well
+      listOfNodes = new ArrayList<ASTNode>();
+      for (ASTNode node : astNode.getListOfNodes()) {
+        listOfNodes.add(node.clone());        
+      }
     }
   }
 
@@ -3721,12 +3723,6 @@ public class ASTNode extends AbstractTreeNode {
    *          an ASTNode representing the name/value/formula to substitute
    */
   public void replaceArgument(String bvar, ASTNode arg) {
-    /*
-    if (astnode2 instanceof ASTLambdaFunctionNode) {
-      ((ASTLambdaFunctionNode) astnode2)
-      .replaceArgument(bvar, arg.toASTNode2());
-    }
-    */
     if (!isSetListOfNodes()) {
       listOfNodes = new ArrayList<ASTNode>();
     }
@@ -3751,20 +3747,12 @@ public class ASTNode extends AbstractTreeNode {
    * @return the element previously at the specified position
    */
   public ASTNode replaceChild(int n, ASTNode newChild) {
-    /*
-    if (astnode2 instanceof ASTFunction) {
-      return new ASTNode(((ASTFunction) astnode2).replaceChild(n,
-        newChild.toASTNode2()));
-    }
-    return null;
-    */
     if (!isSetListOfNodes()) {
       listOfNodes = new ArrayList<ASTNode>();
     }
+    
     // Removing the node at position n
-    ASTNode oldChild = listOfNodes.remove(n);
-    resetParentSBMLObject(oldChild);
-    oldChild.fireNodeRemovedEvent();
+    removeChild(n);
 
     // Adding the new child at position n
     insertChild(n, newChild);
