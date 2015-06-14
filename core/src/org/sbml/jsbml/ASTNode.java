@@ -24,6 +24,7 @@ package org.sbml.jsbml;
 import java.io.StringReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -1467,13 +1468,18 @@ public class ASTNode extends AbstractTreeNode {
   public ASTNode(ASTNode astNode) {
     // not calling the super constructor has it is making problem with the userObjects
     // which are cloned in the ASTNode2 clone method anyway.
-    listOfListeners = new ArrayList<TreeNodeChangeListener>();
+    super(astNode);
     if (astNode.isSetASTNode2()) {
       astnode2 = astNode.astnode2.clone();
       listOfNodes = new ArrayList<ASTNode>();
+      ASTNode child = null;
       for (ASTNode node : astNode.getListOfNodes()) {
-        listOfNodes.add(node.clone());        
+        child = node.clone();
+        child.setParent(this); // update parent
+        listOfNodes.add(child);        
       }
+      listOfListeners = new ArrayList<TreeNodeChangeListener>();
+      parent = astNode.getParent();
     }
   }
 
