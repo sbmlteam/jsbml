@@ -1,5 +1,5 @@
 format-version: 1.2
-date: 14:05:2015 07:00
+date: 14:06:2015 07:00
 data-version: 13:05:2015 13:49
 saved-by: SBO community
 auto-generated-by: SBO Browser (http://www.ebi.ac.uk/sbo/)
@@ -1066,19 +1066,6 @@ def: "Reaction scheme where the products are created from the reactants and the 
 is_a: SBO:0000041 ! mass action rate law for irreversible reactions
 
 [Term]
-id: SBO:0000231
-name: occurring entity representation
-def: "Representation of an entity that manifests, unfolds or develops through time, such as a discrete event, or a mutual or reciprocal action or influence that happens between participating physical entities, and/or other occurring entities. " [src_code:NR]
-comment: modified as part of ontology 'refactoring' process \[SF bug #3172586\]\nName changed to \"interaction\" on November 18 2008 by Nicolas Le Novere.\nDefinition changed to mention interaction with other interactions, in order to cover \"process\" and \"relationship\".
-is_a: SBO:0000000 ! systems biology representation
-
-[Term]
-id: SBO:0000232
-name: obsolete event
-def: "A phenomenon that takes place and which may be observable, or may be determined to have occurred as the result of an action or process." [src_code:NR]
-is_obsolete: true
-
-[Term]
 id: SBO:0000167
 name: biochemical or transport reaction
 def: "An event involving one or more physical entities that modifies the structure, location or free energy of at least one of the participants." [src_code:NR]
@@ -1515,6 +1502,19 @@ id: SBO:0000230
 name: linear density of an entity
 def: "Mass of an entity per unit length." [src_code:NR]
 is_a: SBO:0000227 ! mass density of an entity
+
+[Term]
+id: SBO:0000231
+name: occurring entity representation
+def: "Representation of an entity that manifests, unfolds or develops through time, such as a discrete event, or a mutual or reciprocal action or influence that happens between participating physical entities, and/or other occurring entities. " [src_code:NR]
+comment: modified as part of ontology 'refactoring' process \[SF bug #3172586\]\nName changed to \"interaction\" on November 18 2008 by Nicolas Le Novere.\nDefinition changed to mention interaction with other interactions, in order to cover \"process\" and \"relationship\".
+is_a: SBO:0000000 ! systems biology representation
+
+[Term]
+id: SBO:0000232
+name: obsolete event
+def: "A phenomenon that takes place and which may be observable, or may be determined to have occurred as the result of an action or process." [src_code:NR]
+is_obsolete: true
 
 [Term]
 id: SBO:0000233

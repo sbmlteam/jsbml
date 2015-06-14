@@ -67,8 +67,11 @@ import org.sbml.jsbml.util.StringTools;
 
 public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
+  /**
+   * 
+   */
   public static final String FORMULA_ARGUMENT_SEPARATOR = "";
-  
+
   /**
    * Basic method which links several elements with a mathematical operator.
    * All empty StringBuffer object are excluded.
@@ -480,7 +483,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   /**
    * Creates brackets if needed.
    *
-   * @param nodes
+   * @param node
    * @return
    * @throws SBMLException
    */
@@ -492,7 +495,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
         || node.isFunction()) {
       return term;
     }
-    
+
     return term = brackets(term).toString();
   }
 
