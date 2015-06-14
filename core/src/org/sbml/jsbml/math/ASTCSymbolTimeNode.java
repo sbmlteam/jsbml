@@ -95,6 +95,9 @@ implements ASTCSymbolNode {
 		if (node.isSetEncoding()) {
 			setEncoding(node.getEncoding());
 		}
+		if (node.isSetName()) {
+		  setName(node.getName());
+		}
 	}
 
 	/*

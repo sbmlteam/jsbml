@@ -1478,8 +1478,7 @@ public class ASTNode extends AbstractTreeNode {
         child.setParent(this); // update parent
         listOfNodes.add(child);        
       }
-      listOfListeners = new ArrayList<TreeNodeChangeListener>();
-      parent = astNode.getParent();
+      //parent = astNode.getParent();
     }
   }
 
