@@ -31,6 +31,7 @@ import java.util.Iterator;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
@@ -42,8 +43,6 @@ import javax.xml.stream.events.XMLEvent;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
-
-import com.ctc.wstx.stax.WstxInputFactory;
 
 /**
  * 
@@ -143,11 +142,6 @@ public class PerformanceTestPureStax {
    */
   public static void main(String[] args) throws SBMLException {
 
-    // Making sure that we use the good XML library
-    System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
-    System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
-    System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
-
     if (args.length < 1) {
       System.out.println("Usage: java org.sbml.jsbml.test.PerformanceTest sbmlFileName|folder");
       System.exit(0);
@@ -189,7 +183,9 @@ public class PerformanceTestPureStax {
 
     double globalInit = Calendar.getInstance().getTimeInMillis();
     double globalEnd = 0;
-    WstxInputFactory inputFactory = new WstxInputFactory();
+    XMLInputFactory inputFactory = XMLInputFactory.newFactory();
+    
+    System.out.println("XMLInputFactory class = " + inputFactory.getClass().getName());    
 
     for (File file : files)
     {
