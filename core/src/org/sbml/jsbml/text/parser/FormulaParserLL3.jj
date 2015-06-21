@@ -1225,11 +1225,11 @@ private ASTNode termLevel8() throws NumberFormatException :
       s = s.toLowerCase();
     }
     // TODO - should we set the name of the ASTNode
-    if (s.equalsIgnoreCase("true")) // TODO - do we want to ignore the case for those ?
+    if (s.equals("true")) // TODO - do we want to ignore the case for those ?
     {
       node = new ASTNode(Type.CONSTANT_TRUE);
     }
-    else if (s.equalsIgnoreCase("false")) // TODO - do we want to ignore the case for those ?
+    else if (s.equals("false")) // TODO - do we want to ignore the case for those ?
     {
       node = new ASTNode(Type.CONSTANT_FALSE);
     }
