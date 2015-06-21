@@ -621,39 +621,6 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
-   * Generated serial version identifier.
-   */
-  private static final long serialVersionUID = -1391327698196553142L;
-
-  /**
-   * The URI for the definition of the csymbol for avogadro.
-   */
-  public static final transient String URI_AVOGADRO_DEFINITION = "http://www.sbml.org/sbml/symbols/avogadro";
-
-  /**
-   * The URI for the definition of the csymbol for delay.
-   */
-  public static final transient String URI_DELAY_DEFINITION = "http://www.sbml.org/sbml/symbols/delay";
-
-  /**
-   * URI for the definition of MathML.
-   */
-  public static final transient String URI_MATHML_DEFINITION = "http://www.w3.org/1998/Math/MathML";
-
-  // TODO: check how we set the math in level 1
-
-  /**
-   * URI prefix for the definition of MathML, it will be used to write the sbml
-   * file
-   */
-  public static final String URI_MATHML_PREFIX = "";
-
-  /**
-   * The URI for the definition of the csymbol for time.
-   */
-  public static final transient String URI_TIME_DEFINITION = "http://www.sbml.org/sbml/symbols/time";
-
-  /**
    * Creates and returns an {@link ASTNode} that computes the absolute value of
    * the given double value.
    *
@@ -707,6 +674,31 @@ public class ASTNode extends AbstractTreeNode {
     }
     return new ASTNode(ASTFactory.arithmeticOperation(operator, list));
   }
+
+  /**
+   * Returns a simple tree view of the ASTNode internal, including mainly
+   * node type and hierarchy.
+   * 
+   * @param n
+   * @param tree
+   * @param indent
+   * @return a simple tree view of the ASTNode internal
+   */
+  public static String astNodeToTree(ASTNode n, String tree, String indent) {
+    tree = tree + indent + n.getType() + " " + 
+        (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") +
+        (n.isName() ? n.getName() : "") + ", " + 
+        (n.isSetUserObjects() ? n.userObjectKeySet() : " no userObject") + ", " + 
+        (n.getParent() != null ? n.getParent().getClass().getSimpleName() : "no parent") + "\n";
+    
+    for (ASTNode child : n.getChildren()) {
+      tree = astNodeToTree(child, tree, indent + "  ");
+    }
+    
+    return tree;
+  }
+
+  // TODO: check how we set the math in level 1
 
   /**
    * Creates a new {@link ASTNode} of type MINUS and adds the given nodes as
@@ -1434,11 +1426,42 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -1391327698196553142L;
+
+  /**
+   * The URI for the definition of the csymbol for avogadro.
+   */
+  public static final transient String URI_AVOGADRO_DEFINITION = "http://www.sbml.org/sbml/symbols/avogadro";
+
+  /**
+   * The URI for the definition of the csymbol for delay.
+   */
+  public static final transient String URI_DELAY_DEFINITION = "http://www.sbml.org/sbml/symbols/delay";
+
+  /**
+   * URI for the definition of MathML.
+   */
+  public static final transient String URI_MATHML_DEFINITION = "http://www.w3.org/1998/Math/MathML";
+
+  /**
+   * URI prefix for the definition of MathML, it will be used to write the sbml
+   * file
+   */
+  public static final String URI_MATHML_PREFIX = "";
+
+  /**
+   * The URI for the definition of the csymbol for time.
+   */
+  public static final transient String URI_TIME_DEFINITION = "http://www.sbml.org/sbml/symbols/time";
+  
+  /**
    * A pointer to the {@link ASTNode2} corresponding to the current
    * {@link ASTNode}
    */
   private ASTNode2 astnode2;
-  
+
   /**
    * Child nodes.
    */
@@ -1724,6 +1747,14 @@ public class ASTNode extends AbstractTreeNode {
    */
   private void arithmeticOperation(Type operator, ASTNode astnode) {
     astnode2 = ASTFactory.arithmeticOperation(operator, astnode.toASTNode2());
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#clearUserObjects()
+   */
+  @Override
+  public void clearUserObjects() {
+    astnode2.clearUserObjects();
   }
 
   /*
@@ -2438,6 +2469,14 @@ public class ASTNode extends AbstractTreeNode {
       .containsUndeclaredUnits() : true;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#containsUserObjectKey(java.lang.Object)
+   */
+  @Override
+  public boolean containsUserObjectKey(Object key) {
+    return astnode2.containsUserObjectKey(key);
+  }
+
   /**
    * Evaluates recursively this ASTNode and creates a new UnitDefinition with
    * respect to all referenced elements.
@@ -2698,15 +2737,6 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
-   * Returns true iff listOfNodes is not equal to null
-   * 
-   * @return boolean
-   */
-  private boolean isSetListOfNodes() {
-    return listOfNodes != null;
-  }
-
-  /**
    * Returns the list of children of the current ASTNode that satisfy the given
    * filter.
    *
@@ -2929,6 +2959,14 @@ public class ASTNode extends AbstractTreeNode {
     return astnode2 instanceof ASTCnNumberNode
         ? ((ASTCnNumberNode<?>) astnode2).getUnitsInstance()
           : null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getUserObject(java.lang.Object)
+   */
+  @Override
+  public Object getUserObject(Object key) {
+    return astnode2.getUserObject(key);
   }
 
   /**
@@ -3307,6 +3345,15 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
+   * Returns true iff listOfNodes is not equal to null
+   * 
+   * @return boolean
+   */
+  private boolean isSetListOfNodes() {
+    return listOfNodes != null;
+  }
+
+  /**
    * @return
    */
   public boolean isSetName() {
@@ -3355,6 +3402,14 @@ public class ASTNode extends AbstractTreeNode {
     return astnode2 instanceof ASTCnNumberNode
         ? ((ASTCnNumberNode<?>) astnode2).isSetUnits()
           : false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#isSetUserObjects()
+   */
+  @Override
+  public boolean isSetUserObjects() {
+    return astnode2.isSetUserObjects();
   }
 
   /**
@@ -3617,6 +3672,14 @@ public class ASTNode extends AbstractTreeNode {
    */
   public void prependChild(ASTNode child) {
     insertChild(0, child);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#putUserObject(java.lang.Object, java.lang.Object)
+   */
+  @Override
+  public void putUserObject(Object key, Object userObject) {
+    astnode2.putUserObject(key, userObject);
   }
 
   /**
@@ -4474,69 +4537,6 @@ public class ASTNode extends AbstractTreeNode {
   public void updateVariables() {
     // TODO: Of no use anymore as none of the new ci nodes store a direct
     // pointer to whatever they are referencing.
-  }
-
-  /**
-   * Returns a simple tree view of the ASTNode internal, including mainly
-   * node type and hierarchy.
-   * 
-   * @param n
-   * @param tree
-   * @param indent
-   * @return a simple tree view of the ASTNode internal
-   */
-  public static String astNodeToTree(ASTNode n, String tree, String indent) {
-    tree = tree + indent + n.getType() + " " + 
-        (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") +
-        (n.isName() ? n.getName() : "") + ", " + 
-        (n.isSetUserObjects() ? n.userObjectKeySet() : " no userObject") + ", " + 
-        (n.getParent() != null ? n.getParent().getClass().getSimpleName() : "no parent") + "\n";
-    
-    for (ASTNode child : n.getChildren()) {
-      tree = astNodeToTree(child, tree, indent + "  ");
-    }
-    
-    return tree;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#clearUserObjects()
-   */
-  @Override
-  public void clearUserObjects() {
-    astnode2.clearUserObjects();
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#containsUserObjectKey(java.lang.Object)
-   */
-  @Override
-  public boolean containsUserObjectKey(Object key) {
-    return astnode2.containsUserObjectKey(key);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#getUserObject(java.lang.Object)
-   */
-  @Override
-  public Object getUserObject(Object key) {
-    return astnode2.getUserObject(key);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#isSetUserObjects()
-   */
-  @Override
-  public boolean isSetUserObjects() {
-    return astnode2.isSetUserObjects();
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#putUserObject(java.lang.Object, java.lang.Object)
-   */
-  @Override
-  public void putUserObject(Object key, Object userObject) {
-    astnode2.putUserObject(key, userObject);
   }
 
   /* (non-Javadoc)

@@ -56,7 +56,7 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
    */
   public ASTPowerNode() {
     super();
-    setType(Type.POWER);
+    setType(Type.FUNCTION_POWER);
   }
   
   /**
@@ -65,7 +65,7 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
    */
   public ASTPowerNode(ASTNode2 basis, ASTNode2 exponent) {
     super(basis, exponent);
-    setType(Type.POWER);
+    setType(Type.FUNCTION_POWER);
   }
 
   /**
@@ -119,7 +119,7 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
    */
   @Override
   public boolean isAllowableType(Type type) {
-    return type == Type.POWER;
+    return type == Type.FUNCTION_POWER;
   }
 
   /* (non-Javadoc)
