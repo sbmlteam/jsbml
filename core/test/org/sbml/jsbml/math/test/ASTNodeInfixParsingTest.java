@@ -1500,9 +1500,9 @@ public class ASTNodeInfixParsingTest {
       }
       // Verify 'NotANumber'
       nan = ASTNode.parseFormula("NotANumber", caseInsensitiveParser);
-      status = status && (nan.getType() == ASTNode.Type.REAL) && (nan.getType() != ASTNode.Type.NAME);
+      status = (nan.getType() == ASTNode.Type.REAL) && (nan.getType() != ASTNode.Type.NAME);
       if (status) {
-        status = nan.getReal() == Double.NaN;
+        status = Double.compare(nan.getReal(), Double.NaN) == 0 ? true : false;
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -1528,7 +1528,7 @@ public class ASTNodeInfixParsingTest {
       nan = ASTNode.parseFormula("NotANumber", caseSensitiveParser);
       status = status && (nan.getType() != ASTNode.Type.REAL) && (nan.getType() == ASTNode.Type.NAME);
       if (status) {
-        status = nan.getName().equals("Nan");
+        status = Double.compare(nan.getReal(), Double.NaN) == 0 ? true : false;
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -1587,7 +1587,7 @@ public class ASTNodeInfixParsingTest {
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
   @Test
-  public void testPowerCaseInsensitive() {
+  public void testPowerFunctionCaseInsensitive() {
     boolean status = false;
     try {
       // Verify 'pow'
@@ -1615,7 +1615,7 @@ public class ASTNodeInfixParsingTest {
    * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
    */
   @Test
-  public void testPowerCaseSensitive() {
+  public void testPowerFunctionCaseSensitive() {
     boolean status = false;
     try {
       // Verify 'pow'
@@ -1631,6 +1631,30 @@ public class ASTNodeInfixParsingTest {
       if (status) {
         ASTNode n = power.getChild(0);
         status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      status = false;
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ASTNode#parseFormula(java.lang.String, org.sbml.jsbml.text.parser.IFormulaParser)}.
+   */
+  @Test
+  public void testPowerOperatorCaseInsensitive() {
+    boolean status = false;
+    try {
+      ASTNode power = ASTNode.parseFormula("x^1000", caseInsensitiveParser);
+      status = (power.getType() == ASTNode.Type.POWER) && (power.getType() != ASTNode.Type.FUNCTION);
+      if (status) {
+        ASTNode n = power.getChild(0);
+        status = (n.getType() == ASTNode.Type.NAME) && (n.getName().equals("x"));
+        if (status) {
+            n = power.getChild(1);
+            status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
+        }
       }
     } catch (Exception e) {
       e.printStackTrace();

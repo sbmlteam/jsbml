@@ -4144,6 +4144,7 @@ public class ASTNode extends AbstractTreeNode {
       break;
     case POWER:
       astnode2 = new ASTPowerNode();
+      astnode2.setType(Type.POWER);
       break;
     case RATIONAL :
       astnode2 = new ASTCnRationalNode();

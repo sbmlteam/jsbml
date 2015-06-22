@@ -1241,7 +1241,7 @@ private ASTNode termLevel8() throws NumberFormatException :
     {
       node = new ASTNode(Type.NAME_AVOGADRO);
     }
-    else if (s.equals("time")) // TODO - do we want to ignore the case for those ?
+    else if (s.equals("time"))
     {
       node = new ASTNode(Type.NAME_TIME);
     }
@@ -1249,15 +1249,15 @@ private ASTNode termLevel8() throws NumberFormatException :
     {
       node = new ASTNode(Type.CONSTANT_E);
     }
-    else if (s.equals("-infinity") || s.equals("-INF"))
+    else if (s.equals("-infinity") || s.equals("-inf"))
     {
       node = new ASTNode(Double.NEGATIVE_INFINITY);
     }
-    else if (s.equals("infinity") || s.equals("INF"))
+    else if (s.equals("infinity") || s.equals("inf"))
     {
       node = new ASTNode(Double.POSITIVE_INFINITY);
     }
-    else if (s.equals("NotANumber") || s.equals("NaN")) // TODO - do we want to ignore the case for those ?
+    else if (s.equals("notanumber") || s.equals("nan"))
     {
       node = new ASTNode(Double.NaN);
     }

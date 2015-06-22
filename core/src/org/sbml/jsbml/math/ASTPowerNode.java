@@ -119,7 +119,7 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
    */
   @Override
   public boolean isAllowableType(Type type) {
-    return type == Type.FUNCTION_POWER;
+    return type == Type.FUNCTION_POWER || type == Type.POWER;
   }
 
   /* (non-Javadoc)
