@@ -1502,7 +1502,7 @@ public class ASTNodeInfixParsingTest {
       nan = ASTNode.parseFormula("NotANumber", caseInsensitiveParser);
       status = (nan.getType() == ASTNode.Type.REAL) && (nan.getType() != ASTNode.Type.NAME);
       if (status) {
-        status = Double.compare(nan.getReal(), Double.NaN) == 0 ? true : false;
+        status = Double.compare(nan.getReal(), Double.NaN) == 0;
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -1528,7 +1528,7 @@ public class ASTNodeInfixParsingTest {
       nan = ASTNode.parseFormula("NotANumber", caseSensitiveParser);
       status = status && (nan.getType() != ASTNode.Type.REAL) && (nan.getType() == ASTNode.Type.NAME);
       if (status) {
-        status = Double.compare(nan.getReal(), Double.NaN) == 0 ? true : false;
+        status = Double.compare(nan.getReal(), Double.NaN) == 0;
       }
     } catch (Exception e) {
       e.printStackTrace();
