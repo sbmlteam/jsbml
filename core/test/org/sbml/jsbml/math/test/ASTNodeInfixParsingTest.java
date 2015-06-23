@@ -1273,7 +1273,7 @@ public class ASTNodeInfixParsingTest {
   public void testFloorCaseInsensitive() {
     boolean status = false;
     try {
-      ASTNode floor = ASTNode.parseFormula("Floor(-x)", caseSensitiveParser);
+      ASTNode floor = ASTNode.parseFormula("Floor(-x)", caseInsensitiveParser);
       status = (floor.getType() == ASTNode.Type.FUNCTION_FLOOR) && (floor.getType() != ASTNode.Type.FUNCTION);
       System.out.println(status + "" + floor.getType());
       if (status) {
@@ -1360,17 +1360,18 @@ public class ASTNodeInfixParsingTest {
    */
   @Test
   public void testLnCaseInsensitive() {
+    // TODO: this test case needs to be fixed
     boolean status = false;
     try {
       ASTNode ln = ASTNode.parseFormula("Ln(1000)", caseInsensitiveParser);
       status = (ln.getType() == ASTNode.Type.FUNCTION_LN) && (ln.getType() != ASTNode.Type.FUNCTION);
       if (status) {
-//        ASTNode base = ln.getChild(0);
-//        status = (base.getType() == ASTNode.Type.CONSTANT_E);
-//        if (status) {
-          ASTNode n = ln.getChild(0);
-          status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
-//        }
+          ASTNode base = ln.getLeftChild();
+          status = (base.getType() == ASTNode.Type.CONSTANT_E);
+          if (status) {
+            ASTNode n = ln.getRightChild();
+            status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
+          }
       }
     } catch (Exception e) {
       e.printStackTrace();

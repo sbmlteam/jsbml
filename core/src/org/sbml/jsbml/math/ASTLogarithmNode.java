@@ -122,7 +122,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
     child.fireNodeAddedEvent();
-    if (child.getType() == Type.CONSTANT_E && getChildCount() == 0) {
+    if (child.getType() == Type.CONSTANT_E && getChildCount() == 1) {
       setType(Type.FUNCTION_LN);
     }
   }
