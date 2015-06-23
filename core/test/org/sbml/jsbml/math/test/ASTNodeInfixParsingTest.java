@@ -1528,7 +1528,7 @@ public class ASTNodeInfixParsingTest {
       nan = ASTNode.parseFormula("NotANumber", caseSensitiveParser);
       status = status && (nan.getType() != ASTNode.Type.REAL) && (nan.getType() == ASTNode.Type.NAME);
       if (status) {
-        status = Double.compare(nan.getReal(), Double.NaN) == 0;
+        status = nan.getName().equals("NotANumber");
       }
     } catch (Exception e) {
       e.printStackTrace();
