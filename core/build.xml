@@ -201,8 +201,8 @@
 	  if="${use.old.astnodes}"
 	>
 	  <echo message="Building JSBML core using the old ASTNode class!"/>
-	  <copy file="${build.src}/org/sbml/jsbml/ASTNode.java.oldASTNode" tofile="${build.src}/org/sbml/jsbml/ASTNode.java.newASTNode" overwrite="yes"/>
-	  <copy file="${build.src}/org/sbml/jsbml/ASTNode.java.oldASTNode" tofile="${build.src}/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
+	  <copy file="${src.dir}/org/sbml/jsbml/ASTNode.java" tofile="${build.src}/org/sbml/jsbml/ASTNode.java.newASTNode" overwrite="yes"/>
+	  <copy file="${src.dir}/org/sbml/jsbml/ASTNode.java.oldASTNode" tofile="${build.src}/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
 
 	  <property name="version" value="${version}-oldASTNode"/>
 
@@ -382,7 +382,7 @@
 	  if="${use.old.astnodes}"
 	>
 	  <echo message="Reverting JSBML core using the new ASTNode class!"/>
-	  <copy file="${build.src}/org/sbml/jsbml/ASTNode.java.newASTNode" tofile="${build.src}/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
+	  <copy file="${src.dir}/org/sbml/jsbml/ASTNode.java" tofile="${build.src}/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
 
 	  <property name="version" value="${version}-oldASTNode"/>
 

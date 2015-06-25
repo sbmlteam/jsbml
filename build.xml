@@ -456,6 +456,23 @@
 			<fileset dir="${build.javadocs}/" includes="**/*"/>
 		</copy>
 
+		<!-- generate the jars using the old ASTNode class -->  
+		<property name="use.old.astnodes" value="true"/>
+		<!-- backup the jars using the new ASTNode class -->  
+		<copy tofile="${dist.dir}/${name}-${version}-newASTNode-with-dependencies.jar" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
+		<copy tofile="${dist.dir}/${name}-${version}-newASTNode.jar" file="${dist.dir}/${name}-${version}.jar" />
+		<antcall target="jar" inheritrefs="true" inheritall="true"/>
+		<antcall target="bigjar"  inheritrefs="true" inheritall="true"/>
+		<!-- rename and copy all jars, restore the jars using the new ASTNode class as the default -->  
+		<copy tofile="${dist.root}/${name}-${version}-oldASTNode-with-dependencies.jar" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
+		<copy tofile="${dist.root}/${name}-${version}-oldASTNode.jar" file="${dist.dir}/${name}-${version}.jar" />
+		<copy tofile="${dist.dir}/${name}-${version}-oldASTNode-with-dependencies.jar" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
+		<copy tofile="${dist.dir}/${name}-${version}-oldASTNode.jar" file="${dist.dir}/${name}-${version}.jar" />
+		<copy file="${dist.dir}/${name}-${version}-newASTNode-with-dependencies.jar" tofile="${dist.dir}/${name}-${version}-with-dependencies.jar" overwrite="true"/>
+		<copy file="${dist.dir}/${name}-${version}-newASTNode.jar" tofile="${dist.dir}/${name}-${version}.jar" overwrite="true"/>
+		<delete file="${dist.dir}/${name}-${version}-newASTNode.jar" verbose="true"/>
+		<delete file="${dist.dir}/${name}-${version}-newASTNode-with-dependencies.jar" verbose="true"/>			
+		
 		<!-- Copy the source files -->
 		<copy todir="${dist.dir}/src">
 			<fileset dir="${build.src}/" includes="**/*"/>
