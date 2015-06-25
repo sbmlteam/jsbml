@@ -11,7 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -34,7 +34,7 @@ import org.sbml.jsbml.validator.SyntaxChecker;
 /**
  * Contains all the information about a creator of a {@link Model} (or other
  * {@link SBase} in level 3).
- * 
+ *
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
@@ -80,9 +80,9 @@ public class Creator extends AnnotationElement {
    * Holding any additional vCard elements.
    * This is a quick and dirty solution as the vCard can contain
    * many elements that have sub-elements.
-   * 
+   *
    * TODO: use an XMLNode to hold all the additional informations
-   * 
+   *
    */
   private Map<String, String> otherAttributes;
 
@@ -101,7 +101,7 @@ public class Creator extends AnnotationElement {
 
   /**
    * Creates a {@link Creator} instance from a given {@link Creator}.
-   * 
+   *
    * @param creator
    */
   public Creator(Creator creator) {
@@ -124,7 +124,7 @@ public class Creator extends AnnotationElement {
 
   /**
    * Creates a {@link Creator} instance.
-   * 
+   *
    * @param givenName
    * @param familyName
    * @param organization
@@ -206,7 +206,7 @@ public class Creator extends AnnotationElement {
   /**
    * Returns the email from the {@link Creator}. Returns an empty String if it is
    *         not set.
-   * 
+   *
    * @return the email from the {@link Creator}. Returns an empty String if it is
    *         not set.
    */
@@ -217,7 +217,7 @@ public class Creator extends AnnotationElement {
   /**
    * Returns the familyName from the {@link Creator}. Returns an empty String if
    *         it is not set.
-   * 
+   *
    * @return the familyName from the {@link Creator}. Returns an empty String if
    *         it is not set.
    */
@@ -228,7 +228,7 @@ public class Creator extends AnnotationElement {
   /**
    * Returns the givenName from the {@link Creator}. Returns an empty String if
    * it is not set.
-   * 
+   *
    * @return the givenName from the {@link Creator}. Returns an empty String if
    * it is not set.
    */
@@ -239,7 +239,7 @@ public class Creator extends AnnotationElement {
   /**
    * Returns the organisation from the {@link Creator}. Returns an empty String
    * if it is not set.
-   * 
+   *
    * @return the organisation from the {@link Creator}. Returns an empty String
    * if it is not set.
    */
@@ -252,7 +252,7 @@ public class Creator extends AnnotationElement {
    * if it is not set.
    * <p>
    * Equal to {@link #getOrganisation()}
-   * 
+   *
    * @return the organisation from the {@link Creator}. Returns an empty String
    * if it is not set.
    */
@@ -288,7 +288,7 @@ public class Creator extends AnnotationElement {
   /**
    * Returns {@code true} or false depending on whether this
    * {@link Creator}'s email has been set.
-   * 
+   *
    * @return {@code true} if the email of this {@link Creator} is not {@code null}.
    */
   public boolean isSetEmail() {
@@ -298,7 +298,7 @@ public class Creator extends AnnotationElement {
   /**
    * Returns {@code true} or false depending on whether this
    * {@link Creator}'s familyName has been set.
-   * 
+   *
    * @return {@code true} if the familyName of this {@link Creator} is not {@code null}.
    */
   public boolean isSetFamilyName() {
@@ -308,7 +308,7 @@ public class Creator extends AnnotationElement {
   /**
    * Returns {@code true} or false depending on whether this
    * {@link Creator}'s givenName has been set.
-   * 
+   *
    * @return {@code true} if the givenName of this {@link Creator} is not {@code null}.
    */
   public boolean isSetGivenName() {
@@ -318,7 +318,7 @@ public class Creator extends AnnotationElement {
   /**
    * Returns {@code true} or false depending on whether this
    * {@link Creator}'s organisation has been set.
-   * 
+   *
    * @return {@code true} if the organisation of this {@link Creator} is not {@code null}.
    */
   public boolean isSetOrganisation() {
@@ -329,7 +329,7 @@ public class Creator extends AnnotationElement {
    * Returns {@code true} or false depending on whether this
    * {@link Creator}'s organisation has been set.
    * <p>Equal to {@link #isSetOrganisation()}
-   * 
+   *
    * @return {@code true} or false depending on whether this
    * {@link Creator}'s organisation has been set.
    */
@@ -343,7 +343,7 @@ public class Creator extends AnnotationElement {
    * @param attributeName
    * @param prefix
    * @param value
-   * 
+   *
    * @return {@code true} if the XML attribute is known by this {@link Creator}.
    */
   public boolean readAttribute(String elementName, String attributeName,
@@ -361,15 +361,14 @@ public class Creator extends AnnotationElement {
    * Sets the email if it follows the syntax rules of valid e-mail addresses
    * according to
    * <a href="http://en.wikipedia.org/wiki/E-mail_address">http://en.wikipedia.org/wiki/E-mail_address</a>.
-   * 
+   *
    * @param email
    * @return {@link JSBML#OPERATION_SUCCESS}
    */
   public int setEmail(String email) {
     if ((email != null) && !SyntaxChecker.isValidEmailAddress(email.trim())) {
       String errorMessage = MessageFormat.format(resourceBundle.getString("Creator.setEmail"), email);
-      logger.warn(errorMessage); // TODO: Do we really need both: exception and error?
-      throw new IllegalArgumentException(errorMessage);
+      logger.warn(errorMessage);
     }
     String oldValue = this.email;
     this.email = email.trim();
@@ -379,7 +378,7 @@ public class Creator extends AnnotationElement {
 
   /**
    * Sets the family name
-   * 
+   *
    * @param familyName
    * @return {@link JSBML#OPERATION_SUCCESS}
    */
@@ -392,7 +391,7 @@ public class Creator extends AnnotationElement {
 
   /**
    * Sets the given name
-   * 
+   *
    * @param givenName
    * @return {@link JSBML#OPERATION_SUCCESS}
    */
@@ -405,7 +404,7 @@ public class Creator extends AnnotationElement {
 
   /**
    * Sets the organisation
-   * 
+   *
    * @param organisation
    */
   public void setOrganisation(String organisation) {
@@ -417,7 +416,7 @@ public class Creator extends AnnotationElement {
   /**
    * Sets the organisation
    * <p>Equal to {@link #setOrganisation(String)}.
-   * 
+   *
    * @param organization
    */
   public void setOrganization(String organization) {
@@ -425,7 +424,7 @@ public class Creator extends AnnotationElement {
   }
 
   /**
-   * 
+   *
    * @param attributeName
    * @param attributeValue
    * @deprecated those other attributes are not saved when writing the model
@@ -439,7 +438,7 @@ public class Creator extends AnnotationElement {
   }
 
   /**
-   * 
+   *
    * @return
    * @deprecated those other attributes are not saved when writing the model
    */
@@ -453,7 +452,7 @@ public class Creator extends AnnotationElement {
   }
 
   /**
-   * 
+   *
    * @return
    * @deprecated those other attributes are not saved when writing the model
    */
@@ -463,7 +462,7 @@ public class Creator extends AnnotationElement {
   }
 
   /**
-   * 
+   *
    * @param attributeName
    * @return
    * @deprecated those other attributes are not saved when writing the model
@@ -478,7 +477,7 @@ public class Creator extends AnnotationElement {
 
   /**
    * Returns the information about the {@link Creator} as a {@link String}.
-   * 
+   *
    * @return the information about the {@link Creator} as a {@link String}.
    */
   @Override
@@ -511,7 +510,7 @@ public class Creator extends AnnotationElement {
 
   /**
    * Unsets the email of this {@link Creator}.
-   * 
+   *
    * @return {@link JSBML#OPERATION_SUCCESS}
    */
   public int unsetEmail() {
@@ -523,7 +522,7 @@ public class Creator extends AnnotationElement {
 
   /**
    * Unsets the familyName of this {@link Creator}.
-   * 
+   *
    * @return {@link JSBML#OPERATION_SUCCESS}
    */
   public int unsetFamilyName() {
@@ -535,7 +534,7 @@ public class Creator extends AnnotationElement {
 
   /**
    * Unsets the givenName of this {@link Creator}.
-   * 
+   *
    * @return {@link JSBML#OPERATION_SUCCESS}
    */
   public int unsetGivenName() {
@@ -547,7 +546,7 @@ public class Creator extends AnnotationElement {
 
   /**
    * Unsets the organisation of this {@link Creator}.
-   * 
+   *
    */
   public void unsetOrganization() {
     String oldValue = organisation;
