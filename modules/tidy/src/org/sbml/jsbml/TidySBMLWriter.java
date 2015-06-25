@@ -59,25 +59,24 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
   /**
    * 
    */
-  private static Tidy tidy = new Tidy();  // obtain a new Tidy instance
+  private static final transient Tidy tidy = new Tidy();  // obtain a new Tidy instance
 
   static {
-
     // set desired configuration options using tidy setters
-    tidy.setXmlTags(true);
+    tidy.setDropEmptyParas(false);
+    tidy.setHideComments(false);
     tidy.setIndentContent(true);
-    tidy.setXmlOut(true);
     tidy.setInputEncoding("UTF-8");
     tidy.setOutputEncoding("UTF-8");
-    
-    tidy.setDropEmptyParas(false);
-
-    tidy.setSmartIndent(true);
-    tidy.setWrapScriptlets(true);
-    tidy.setWraplen(200);
-    tidy.setSpaces(2);
-    tidy.setXmlSpace(true);
     tidy.setQuiet(true);
+    tidy.setSmartIndent(true);
+    tidy.setTrimEmptyElements(true);
+    tidy.setWraplen(200);
+    tidy.setWrapAttVals(false);
+    tidy.setWrapScriptlets(true);
+    tidy.setXmlOut(true);
+    tidy.setXmlSpace(true);
+    tidy.setXmlTags(true);
   }
 
   /**
@@ -111,7 +110,20 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
 
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument);
 
+    setIndentation(indentChar, indentCount);
     tidy.parse(new StringReader(sbmlDocString), new FileWriter(file)); // run tidy, providing an input and output stream
+  }
+
+  /**
+   * @param indentChar
+   * @param indentCount
+   */
+  public static void setIndentation(char indentChar, short indentCount) {
+    if (indentChar == ' ') {
+      tidy.setSpaces(indentCount);
+    } else {
+      tidy.setTabsize(indentCount);
+    }
   }
 
   /**
@@ -146,6 +158,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     SBMLWriter sbmlWriter = new SBMLWriter();
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
 
+    setIndentation(' ', (short) 2);
     tidy.parse(new StringReader(sbmlDocString), new FileWriter(file)); // run tidy, providing an input and output stream
   }
 
@@ -189,6 +202,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     sbmlWriter.setIndentationCount(indentCount);
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
 
+    setIndentation(indentChar, indentCount);
     tidy.parse(new StringReader(sbmlDocString), new FileWriter(file)); // run tidy, providing an input and output stream
   }
 
@@ -213,6 +227,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     sbmlWriter.setIndentationCount(indentCount);
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument);
 
+    setIndentation(indentChar, indentCount);
     tidy.parse(new StringReader(sbmlDocString), stream); // run tidy, providing an input and output stream
   }
 
@@ -244,6 +259,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     SBMLWriter sbmlWriter = new SBMLWriter();
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
 
+    setIndentation(' ', (short) 2);
     tidy.parse(new StringReader(sbmlDocString), stream); // run tidy, providing an input and output stream
   }
 
@@ -283,6 +299,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     sbmlWriter.setIndentationCount(indentCount);
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
 
+    setIndentation(indentChar, indentCount);
     tidy.parse(new StringReader(sbmlDocString), stream); // run tidy, providing an input and output stream
   }
 
@@ -318,6 +335,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument);
 
     try {
+      setIndentation(indentChar, indentCount);
       tidy.parse(new StringReader(sbmlDocString), new FileWriter(fileName));  // run tidy, providing an input and output stream
     } catch (IOException e) {
       throw new SBMLException(e);
@@ -357,6 +375,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
 
     try {
+      setIndentation(' ', (short) 2);
       tidy.parse(new StringReader(sbmlDocString), new FileWriter(fileName));  // run tidy, providing an input and output stream
     } catch (IOException e) {
       throw new SBMLException(e);
@@ -405,6 +424,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, programName, programVersion);
 
     try {
+      setIndentation(indentChar, indentCount);
       tidy.parse(new StringReader(sbmlDocString), new FileWriter(fileName));  // run tidy, providing an input and output stream
     } catch (IOException e) {
       throw new SBMLException(e);
@@ -518,6 +538,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
   {
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument);
 
+    setIndentation(' ', (short) 2);
     tidy.parse(new StringReader(sbmlDocString), new FileWriter(file)); // run tidy, providing an input and output stream
   }
 
@@ -546,6 +567,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
   {
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, getProgramName(), getProgramVersion());
 
+    setIndentation(' ', (short) 2);
     tidy.parse(new StringReader(sbmlDocString), stream); // run tidy, providing an input and output stream
   }
 
@@ -579,6 +601,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, getProgramName(), getProgramVersion());
 
     try {
+      setIndentation(' ', (short) 2);
       tidy.parse(new StringReader(sbmlDocString), new FileWriter(fileName));  // run tidy, providing an input and output stream
     } catch (IOException e) {
       throw new SBMLException(e);
@@ -613,6 +636,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, getProgramName(), getProgramVersion());
 
     try {
+      setIndentation(' ', (short) 2);
       tidy.parse(new StringReader(sbmlDocString), new FileWriter(file));  // run tidy, providing an input and output stream
     } catch (IOException e) {
       throw new SBMLException(e);
@@ -672,6 +696,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     String sbmlDocString = sbmlWriter.writeSBMLToString(sbmlDocument, getProgramName(), getProgramVersion());
     StringWriter stringWriter = new StringWriter();
 
+    setIndentation(' ', (short) 2);
     tidy.parse(new StringReader(sbmlDocString), stringWriter); // run tidy, providing an input and output stream
 
     return stringWriter.toString();

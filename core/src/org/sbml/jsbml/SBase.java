@@ -940,11 +940,14 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @param metaid
    *        the meatId to be set.
+   * @throws IllegalArgumentException
+   *         if the given metaid does not follow the pattern for valid metaids
+   *         ore if it is already used in the {@link SBMLDocument}
    * @throws PropertyNotAvailableException
    *         in SBML level 1, as this attribute was introduced only from SBML
    *         level 2.
    */
-  public void setMetaId(String metaid);
+  public void setMetaId(String metaid) throws IllegalArgumentException;
 
   /**
    * Sets the notes with 'notes'.

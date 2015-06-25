@@ -41,12 +41,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.swing.tree.TreeNode;
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.log4j.Logger;
-import org.codehaus.stax2.XMLOutputFactory2;
 import org.codehaus.stax2.XMLStreamWriter2;
 import org.codehaus.staxmate.SMOutputFactory;
 import org.codehaus.staxmate.out.SMNamespace;
@@ -74,6 +72,8 @@ import org.sbml.jsbml.xml.parsers.ParserManager;
 import org.sbml.jsbml.xml.parsers.WritingParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 
+import com.ctc.wstx.stax.WstxOutputFactory;
+
 /**
  * A SBMLWriter provides the methods to write a SBML file.
  * 
@@ -84,6 +84,13 @@ import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
  * @version $Rev$
  */
 public class SBMLWriter {
+
+  static {
+    // Making sure that we use the good XML library
+    System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
+    System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
+    System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
+  }
 
   /**
    * Returns the default symbol to be used to indent new elements in the XML
@@ -177,7 +184,9 @@ public class SBMLWriter {
         afterRead = Calendar.getInstance().getTimeInMillis();
 
         // testDocument.checkConsistency();
-        // System.out.println(XMLNode.convertXMLNodeToString(testDocument.getModel().getAnnotation().getNonRDFannotation()));
+
+        System.out.println("Model Notes = " + XMLNode.convertXMLNodeToString(testDocument.getModel().getNotes()));
+        System.out.println("MathML = " + testDocument.getModel().getReaction(0).getKineticLaw().getMath().toMathML());
         
         System.out.println("Going to check package version and namespace for all elements.");
         PackageUtil.checkPackages(testDocument);
@@ -538,25 +547,18 @@ public class SBMLWriter {
     // check package version and namespace in general and register packages if needed.
     PackageUtil.checkPackages(sbmlDocument, true, true);
     
-    // Making sure that we use the good XML library
-    System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
-    System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
-    System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
-
     initializePackageParsers();
 
-    SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
+    // Explicitly creating WstxOutputFactory as it is needed by staxmate and it is then easier for 
+    // OSGi to find the needed dependencies
+    WstxOutputFactory factory = new WstxOutputFactory();
+    SMOutputFactory smFactory = new SMOutputFactory(factory);
     XMLStreamWriter2 streamWriter = smFactory.createStax2Writer(stream);
-
-    // For this to work, the elements need to be completely empty (no whitespace or line return)
-    streamWriter.setProperty(XMLOutputFactory2.P_AUTOMATIC_EMPTY_ELEMENTS, Boolean.TRUE);
 
     SMOutputDocument outputDocument = SMOutputFactory.createOutputDocument(
       streamWriter, "1.0", "UTF-8", false);
     // to have the automatic indentation working, we should probably only be using StaxMate classes and not directly StAX
     // outputDocument.setIndentation("\n  ", 1, 1);
-
-    // TODO - check if we need to enable some packages
 
     String SBMLNamespace = JSBML.getNamespaceFrom(sbmlDocument.getLevel(),
       sbmlDocument.getVersion());
@@ -687,13 +689,10 @@ public class SBMLWriter {
     }
 
     StringWriter stream = new StringWriter();
-    SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
-
+    WstxOutputFactory outputFactory = new WstxOutputFactory();
+    SMOutputFactory smFactory = new SMOutputFactory(outputFactory);
     XMLStreamWriter2 writer = smFactory.createStax2Writer(stream);
-
-    // For this to work, the elements need to be completely empty (no whitespace or line return)
-    writer.setProperty(XMLOutputFactory2.P_AUTOMATIC_EMPTY_ELEMENTS, Boolean.TRUE);
-
+    
     // Create an xml fragment to avoid having the xml declaration
     SMRootFragment outputDocument = SMOutputFactory.createOutputFragment(writer);
 

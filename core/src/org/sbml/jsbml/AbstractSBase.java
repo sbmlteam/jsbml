@@ -1906,7 +1906,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jsbml.SBase#setMetaId(java.lang.String)
    */
   @Override
-  public void setMetaId(String metaId) {
+  public void setMetaId(String metaId) throws IllegalArgumentException {
     if (metaId != null) {
       if (isSetMetaId() && getMetaId().equals(metaId)) {
         /* Do nothing if the identical metaId has already been assigned to this

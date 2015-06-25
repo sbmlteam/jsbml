@@ -28,7 +28,6 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -41,31 +40,16 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.StringTools;
 
+import com.ctc.wstx.stax.WstxOutputFactory;
+
+//TODO: Let this implement the regular ASTNodeCompiler interface?
+
 /**
  * Writes an {@link ASTNode} the mathML.
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
- */
-// TODO: Let this implement the regular ASTNodeCompiler interface.
-/**
- * @author Andreas Dr&auml;ger
- * @version $Rev$
- * @since 1.0
- * @date 10.12.2014
- */
-/**
- * @author Andreas Dr&auml;ger
- * @version $Rev$
- * @since 1.0
- * @date 10.12.2014
- */
-/**
- * @author Andreas Dr&auml;ger
- * @version $Rev$
- * @since 1.0
- * @date 10.12.2014
  */
 public class MathMLXMLStreamCompiler {
 
@@ -119,7 +103,10 @@ public class MathMLXMLStreamCompiler {
    * @throws XMLStreamException
    */
   public MathMLXMLStreamCompiler(String indent) throws XMLStreamException {
-    SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
+    // Explicitly creating WstxOutputFactory as it is needed by staxmate and it is then easier for 
+    // OSGi to find the needed dependencies
+    WstxOutputFactory outputFactory = new WstxOutputFactory();
+    SMOutputFactory smFactory = new SMOutputFactory(outputFactory);
     writer = smFactory.createStax2Writer(new StringWriter());
     this.indent = indent;
   }
@@ -143,8 +130,10 @@ public class MathMLXMLStreamCompiler {
     String mathML = "";
     StringWriter stream = new StringWriter();
 
-    SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory
-      .newInstance());
+    // Explicitly creating WstxOutputFactory as it is needed by staxmate and it is then easier for 
+    // OSGi to find the needed dependencies
+    WstxOutputFactory outputFactory = new WstxOutputFactory();
+    SMOutputFactory smFactory = new SMOutputFactory(outputFactory);
 
     try {
       XMLStreamWriter writer = smFactory.createStax2Writer(stream);

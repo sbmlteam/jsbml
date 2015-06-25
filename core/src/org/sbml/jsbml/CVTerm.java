@@ -209,36 +209,7 @@ public class CVTerm extends AnnotationElement {
      * @return
      */
     public static Qualifier getBiologicalQualifierFor(String elementNameEquivalent) {
-
-      if (elementNameEquivalent.equals(BQB_ENCODES)) {
-        return BQB_ENCODES;
-      } else if (elementNameEquivalent.equals(BQB_HAS_PART.nameEquivalent)) {
-        return BQB_HAS_PART;
-      } else if (elementNameEquivalent.equals(BQB_HAS_VERSION.nameEquivalent)) {
-        return BQB_HAS_VERSION;
-      } else if (elementNameEquivalent.equals(BQB_HAS_PROPERTY.nameEquivalent)) {
-        return BQB_HAS_PROPERTY;
-      } else if (elementNameEquivalent.equals(BQB_HAS_TAXON.nameEquivalent)) {
-        return BQB_HAS_TAXON;
-      } else if (elementNameEquivalent.equals(BQB_IS_PROPERTY_OF.nameEquivalent)) {
-        return BQB_IS_PROPERTY_OF;
-      } else if (elementNameEquivalent.equals(BQB_IS.nameEquivalent)) {
-        return BQB_IS;
-      } else if (elementNameEquivalent.equals(BQB_IS_DESCRIBED_BY.nameEquivalent)) {
-        return BQB_IS_DESCRIBED_BY;
-      } else if (elementNameEquivalent.equals(BQB_IS_ENCODED_BY.nameEquivalent)) {
-        return BQB_IS_ENCODED_BY;
-      } else if (elementNameEquivalent.equals(BQB_IS_HOMOLOG_TO.nameEquivalent)) {
-        return BQB_IS_HOMOLOG_TO;
-      } else if (elementNameEquivalent.equals(BQB_IS_PART_OF.nameEquivalent)) {
-        return BQB_IS_PART_OF;
-      } else if (elementNameEquivalent.equals(BQB_IS_VERSION_OF.nameEquivalent)) {
-        return BQB_IS_VERSION_OF;
-      } else if (elementNameEquivalent.equals(BQB_OCCURS_IN.nameEquivalent)) {
-        return BQB_OCCURS_IN;
-      }
-
-      return BQB_UNKNOWN;
+      return getQualifierFor(elementNameEquivalent, "BQB_", BQB_UNKNOWN);
     }
 
     /**
@@ -247,20 +218,23 @@ public class CVTerm extends AnnotationElement {
      * @return
      */
     public static Qualifier getModelQualifierFor(String elementNameEquivalent) {
+      return getQualifierFor(elementNameEquivalent, "BQM_", BQM_UNKNOWN);
+    }
 
-      if (elementNameEquivalent.equals(BQM_IS.nameEquivalent)) {
-        return BQM_IS;
-      } else if (elementNameEquivalent.equals(BQM_IS_DESCRIBED_BY.nameEquivalent)) {
-        return BQM_IS_DESCRIBED_BY;
-      } else if (elementNameEquivalent.equals(BQM_IS_DERIVED_FROM.nameEquivalent)) {
-        return BQM_IS_DERIVED_FROM;
-      } else if (elementNameEquivalent.equals(BQM_IS_INSTANCE_OF.nameEquivalent)) {
-        return BQM_IS_INSTANCE_OF;
-      } else if (elementNameEquivalent.equals(BQM_HAS_INSTANCE.nameEquivalent)) {
-        return BQM_HAS_INSTANCE;
+    /**
+     * @param elementNameEquivalent
+     * @param prefix
+     * @param unknownQualifier
+     * @return
+     */
+    private static Qualifier getQualifierFor(String elementNameEquivalent,
+      String prefix, Qualifier unknownQualifier) {
+      for (Qualifier q : values()) {
+        if (q.name().startsWith(prefix) && q.getElementNameEquivalent().equals(elementNameEquivalent)) {
+          return q;
+        }
       }
-
-      return BQM_UNKNOWN;
+      return unknownQualifier;
     }
 
 
@@ -305,7 +279,9 @@ public class CVTerm extends AnnotationElement {
     public boolean isModelQualifier() {
       return toString().startsWith("BQM_");
     }
+
   }
+
   /**
    * This enum list all the possible MIRIAM qualifiers type.
    * 

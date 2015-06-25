@@ -34,7 +34,6 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.util.StringTools;
@@ -67,6 +66,11 @@ import org.sbml.jsbml.util.StringTools;
  */
 
 public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
+
+  /**
+   * 
+   */
+  public static final String FORMULA_ARGUMENT_SEPARATOR = "";
 
   /**
    * Basic method which links several elements with a mathematical operator.
@@ -459,21 +463,40 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   /**
    * Creates brackets if needed.
    *
-   * @param nodes
+   * @param node
    * @return
    * @throws SBMLException
    */
-  protected String checkDenominatorBrackets(ASTNode nodes) throws SBMLException {
-    if ((nodes.getType() == Type.POWER) && (nodes.getChildCount() > 1)
-        && nodes.getRightChild().toString().equals("1")) {
-      return checkDenominatorBrackets(nodes.getLeftChild());
+  protected String checkDenominatorBrackets(ASTNode node) throws SBMLException {
+    if ((node.getType() == Type.POWER) && (node.getChildCount() > 1)
+        && node.getRightChild().toString().equals("1")) {
+      return checkDenominatorBrackets(node.getLeftChild());
     }
-    String term = nodes.compile(this).toString();
-    if (nodes.isSum() || nodes.isDifference() || nodes.isUMinus()
-        || (nodes.getType() == Type.TIMES)) {
+    String term = node.compile(this).toString();
+    if (node.isSum() || node.isDifference() || node.isUMinus()
+        || (node.getType() == Type.TIMES)) {
       term = brackets(term).toString();
     }
     return term;
+  }
+
+  /**
+   * Creates brackets if needed.
+   *
+   * @param node
+   * @return
+   * @throws SBMLException
+   */
+  protected String checkRelationalArgumentBrackets(ASTNode node) throws SBMLException {
+
+    String term = node.compile(this).toString();
+
+    if (node.isRelational() || node.isNumber() || node.isString()
+        || node.isFunction()) {
+      return term;
+    }
+
+    return term = brackets(term).toString();
   }
 
   /* (non-Javadoc)
@@ -954,8 +977,9 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   protected String relation(ASTNode left, String symbol, ASTNode right)
       throws SBMLException {
 
-    return brackets(concat((left.isRelational()) ? brackets(left) : left, symbol,
-      (right.isRelational()) ? brackets(right) : right)).toString();
+    return brackets(new StringBuffer().append(checkRelationalArgumentBrackets(left))
+      .append(FORMULA_ARGUMENT_SEPARATOR).append(symbol).append(FORMULA_ARGUMENT_SEPARATOR)
+      .append(checkRelationalArgumentBrackets(right))).toString();
   }
 
   /* (non-Javadoc)

@@ -70,6 +70,7 @@ import org.sbml.jsbml.xml.parsers.XMLNodeReader;
 
 import com.ctc.wstx.stax.WstxInputFactory;
 
+
 /**
  * Provides all the methods to read a SBML file.
  *
@@ -82,7 +83,13 @@ import com.ctc.wstx.stax.WstxInputFactory;
  */
 public class SBMLReader {
 
-
+  static {
+    // Making sure that we use the good XML library
+    System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
+    System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
+    System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
+  }
+  
   /**
    * Contains all the initialized parsers.
    */
@@ -532,11 +539,6 @@ public class SBMLReader {
    * @throws XMLStreamException
    */
   private Object readXMLFromXMLEventReader(XMLEventReader xmlEventReader, TreeNodeChangeListener listener)  throws XMLStreamException {
-
-    // Making sure that we use the good XML library
-    System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
-    System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
-    System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
 
     initializePackageParsers();
 
