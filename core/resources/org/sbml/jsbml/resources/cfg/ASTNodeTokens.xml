@@ -104,4 +104,5 @@
   <entry key="times">TIMES</entry>
   <entry key="vector">VECTOR</entry>
   <entry key="lambda">LAMBDA</entry>
+  <entry key="delay">FUNCTION_DELAY</entry>
 </properties>

@@ -1360,18 +1360,13 @@ public class ASTNodeInfixParsingTest {
    */
   @Test
   public void testLnCaseInsensitive() {
-    // TODO: this test case needs to be fixed
     boolean status = false;
     try {
       ASTNode ln = ASTNode.parseFormula("Ln(1000)", caseInsensitiveParser);
       status = (ln.getType() == ASTNode.Type.FUNCTION_LN) && (ln.getType() != ASTNode.Type.FUNCTION);
       if (status) {
-          ASTNode base = ln.getLeftChild();
-          status = (base.getType() == ASTNode.Type.CONSTANT_E);
-          if (status) {
-            ASTNode n = ln.getRightChild();
-            status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
-          }
+        ASTNode n = (ASTNode) ln.getChildAt(0);
+        status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -1408,7 +1403,7 @@ public class ASTNodeInfixParsingTest {
     boolean status = false;
     try {
       ASTNode log = ASTNode.parseFormula("Log(1000)", caseInsensitiveParser);
-      status = (log.getType() == ASTNode.Type.FUNCTION_LOG) && (log.getType() != ASTNode.Type.FUNCTION);
+      status = (log.getType() == ASTNode.Type.FUNCTION_LN) && (log.getType() != ASTNode.Type.FUNCTION);
       if (status) {
         ASTNode n = log.getChild(0);
         status = (n.getType() == ASTNode.Type.INTEGER) && (n.getInteger() == 1000);
@@ -2055,7 +2050,7 @@ public class ASTNodeInfixParsingTest {
       
       // x xor y
       n = ASTNode.parseFormula("x xor y", parser); // xor(x,y) does not work ==> difference compared to the L1 supported syntax?
-      formula = ASTNode.formulaToString(n);
+      formula = ASTNode.formulaToString(n, oldL1Compiler);
       System.out.println("formula 'x xor y)' = " + formula);
       n = ASTNode.parseFormula(formula, parser); 
 

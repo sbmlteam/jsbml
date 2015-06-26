@@ -4016,7 +4016,8 @@ public class ASTNode extends AbstractTreeNode {
       break;
     case FUNCTION_LN :
       astnode2 = new ASTLogarithmNode();
-      ((ASTLogarithmNode)astnode2).addChild(new ASTConstantNumber(Math.E));
+      //((ASTLogarithmNode)astnode2).addChild(new ASTConstantNumber(Math.E));
+      astnode2.setType(Type.FUNCTION_LN);
       break;
     case FUNCTION_LOG :
       astnode2 = new ASTLogarithmNode();
