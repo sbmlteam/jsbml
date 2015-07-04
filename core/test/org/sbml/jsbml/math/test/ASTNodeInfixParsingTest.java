@@ -2046,20 +2046,12 @@ public class ASTNodeInfixParsingTest {
       ASTNode n = ASTNode.parseFormula("xor(x,y)", l3Parser);
       String formula = ASTNode.formulaToString(n, l3Compiler);
       System.out.println("formula 'xor(x, y)' = " + formula);
-      n = ASTNode.parseFormula(formula, l3Parser); 
-      
-      // x xor y
-      n = ASTNode.parseFormula("x xor y", parser); // xor(x,y) does not work ==> difference compared to the L1 supported syntax?
-      formula = ASTNode.formulaToString(n, oldL1Compiler);
-      System.out.println("formula 'x xor y)' = " + formula);
-      n = ASTNode.parseFormula(formula, parser); 
-
+      n = ASTNode.parseFormula(formula, l3Parser);
       // xor(x, y)
       n = ASTNode.parseFormula("xor(x,y)", l3Parser);
       formula = ASTNode.formulaToString(n, oldL1Compiler);
       System.out.println("formula 'xor(x, y)' = " + formula);
       n = ASTNode.parseFormula(formula, l3Parser);       
-      
     } catch (ParseException e) {
       // should never happen
       e.printStackTrace();
