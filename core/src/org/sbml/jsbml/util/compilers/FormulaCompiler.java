@@ -977,7 +977,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   protected String relation(ASTNode left, String symbol, ASTNode right)
       throws SBMLException {
 
-    return brackets(new StringBuffer().append(checkRelationalArgumentBrackets(left))
+    return (new StringBuffer().append(checkRelationalArgumentBrackets(left))
       .append(FORMULA_ARGUMENT_SEPARATOR).append(symbol).append(FORMULA_ARGUMENT_SEPARATOR)
       .append(checkRelationalArgumentBrackets(right))).toString();
   }

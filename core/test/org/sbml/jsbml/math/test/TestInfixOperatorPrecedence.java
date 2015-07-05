@@ -87,8 +87,8 @@ public class TestInfixOperatorPrecedence {
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
 
-    // assertTrue(n.toFormula().equals("(V0 > 3) && (V1 > 3)")); // L3Compiler output: (gt(V0, 3)) && (gt(V1, 3))
-    assertTrue(n.toFormula().equals("((V0 > 3)) && ((V1 > 3))")); // TODO - correct the compiler
+    assertTrue(n.toFormula().equals("(V0 > 3) && (V1 > 3)")); // L3Compiler output: (gt(V0, 3)) && (gt(V1, 3))
+    //assertTrue(n.toFormula().equals("((V0 > 3)) && ((V1 > 3))")); // TODO - correct the compiler
   }
 
   /**
