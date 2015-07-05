@@ -963,7 +963,7 @@ public class ASTNode extends AbstractTreeNode {
    *         {@link ASTNode}s.
    */
   public static ASTNode lt(ASTNode left, ASTNode right) {
-    ASTNode lt = new ASTNode(Type.RELATIONAL_GT);
+    ASTNode lt = new ASTNode(Type.RELATIONAL_LT);
     lt.addChild(left);
     lt.addChild(right);
     return lt;
