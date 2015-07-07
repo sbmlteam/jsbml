@@ -48,7 +48,7 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   /**
    * 
    */
-  private GeneProteinAssociation geneProteinAssociation;
+  private GeneProductAssociation geneProductAssociation;
 
   /**
    * A reference to a global parameter in the model for the lower bound of
@@ -75,8 +75,8 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   public FBCReactionPlugin(FBCReactionPlugin reactionPlugin) {
     super(reactionPlugin);
 
-    if (reactionPlugin.isSetGeneProteinAssociation()) {
-      setGeneProteinAssociation(reactionPlugin.getGeneProteinAssociation().clone());
+    if (reactionPlugin.isSetGeneProductAssociation()) {
+      setGeneProductAssociation(reactionPlugin.getGeneProductAssociation().clone());
     }
     if (reactionPlugin.isSetLowerFluxBound()) {
       setLowerFluxBound(reactionPlugin.getLowerFluxBound());
@@ -105,8 +105,8 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
    * 
    * @return
    */
-  public GeneProteinAssociation createGeneProteinAssociation() {
-    return createGeneProteinAssociation(null);
+  public GeneProductAssociation createGeneProductAssociation() {
+    return createGeneProductAssociation(null);
   }
 
   /**
@@ -114,9 +114,9 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
    * @param id
    * @return
    */
-  public GeneProteinAssociation createGeneProteinAssociation(String id) {
-    GeneProteinAssociation gpa = new GeneProteinAssociation(id, getLevel(), getVersion());
-    setGeneProteinAssociation(gpa);
+  public GeneProductAssociation createGeneProductAssociation(String id) {
+    GeneProductAssociation gpa = new GeneProductAssociation(id, getLevel(), getVersion());
+    setGeneProductAssociation(gpa);
     return gpa;
   }
 
@@ -129,11 +129,11 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
       return false;
     }
     FBCReactionPlugin other = (FBCReactionPlugin) obj;
-    if (geneProteinAssociation == null) {
-      if (other.geneProteinAssociation != null) {
+    if (geneProductAssociation == null) {
+      if (other.geneProductAssociation != null) {
         return false;
       }
-    } else if (!geneProteinAssociation.equals(other.geneProteinAssociation)) {
+    } else if (!geneProductAssociation.equals(other.geneProductAssociation)) {
       return false;
     }
     if (lowerFluxBound == null) {
@@ -172,9 +172,9 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
     }
     int pos = 0;
 
-    if (isSetGeneProteinAssociation()) {
+    if (isSetGeneProductAssociation()) {
       if (pos == index) {
-        return getGeneProteinAssociation();
+        return getGeneProductAssociation();
       }
       pos++;
     }
@@ -189,16 +189,16 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
    */
   @Override
   public int getChildCount() {
-    return isSetGeneProteinAssociation() ? 1 : 0;
+    return isSetGeneProductAssociation() ? 1 : 0;
   }
 
   /**
-   * Returns the value of {@link #geneProteinAssociation}.
+   * Returns the value of {@link #geneProductAssociation}.
    *
-   * @return the value of {@link #geneProteinAssociation}.
+   * @return the value of {@link #geneProductAssociation}.
    */
-  public GeneProteinAssociation getGeneProteinAssociation() {
-    return geneProteinAssociation;
+  public GeneProductAssociation getGeneProductAssociation() {
+    return geneProductAssociation;
   }
 
   /**
@@ -265,19 +265,19 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
-    result = prime * result + ((geneProteinAssociation == null) ? 0 : geneProteinAssociation.hashCode());
+    result = prime * result + ((geneProductAssociation == null) ? 0 : geneProductAssociation.hashCode());
     result = prime * result + ((lowerFluxBound == null) ? 0 : lowerFluxBound.hashCode());
     result = prime * result + ((upperFluxBound == null) ? 0 : upperFluxBound.hashCode());
     return result;
   }
 
   /**
-   * Returns whether {@link #geneProteinAssociation} is set.
+   * Returns whether {@link #geneProductAssociation} is set.
    *
-   * @return whether {@link #geneProteinAssociation} is set.
+   * @return whether {@link #geneProductAssociation} is set.
    */
-  public boolean isSetGeneProteinAssociation() {
-    return geneProteinAssociation != null;
+  public boolean isSetGeneProductAssociation() {
+    return geneProductAssociation != null;
   }
 
   /**
@@ -332,16 +332,18 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   }
 
   /**
-   * Sets the value of geneProteinAssociation
-   * @param geneProteinAssociation the value of geneProteinAssociation to be set.
+   * Sets the value of {@link #geneProductAssociation}
+   * 
+   * @param geneProductAssociation
+   *        the value of {@link #geneProductAssociation} to be set.
    */
-  public void setGeneProteinAssociation(GeneProteinAssociation geneProteinAssociation) {
-    GeneProteinAssociation oldGeneProteinAssociation = this.geneProteinAssociation;
-    this.geneProteinAssociation = geneProteinAssociation;
+  public void setGeneProductAssociation(GeneProductAssociation geneProductAssociation) {
+    GeneProductAssociation oldGeneProductAssociation = geneProductAssociation;
+    this.geneProductAssociation = geneProductAssociation;
     if (isSetExtendedSBase()) {
-      getExtendedSBase().registerChild(geneProteinAssociation);
+      getExtendedSBase().registerChild(geneProductAssociation);
     }
-    firePropertyChange(FBCConstants.geneProteinAssociation, oldGeneProteinAssociation, this.geneProteinAssociation);
+    firePropertyChange(FBCConstants.geneProductAssociation, oldGeneProductAssociation, geneProductAssociation);
   }
 
   /**
@@ -393,8 +395,8 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append(getClass().getSimpleName());
-    builder.append(" [geneProteinAssociation=");
-    builder.append(geneProteinAssociation);
+    builder.append(" [geneProductAssociation=");
+    builder.append(geneProductAssociation);
     builder.append(", lowerFluxBound=");
     builder.append(lowerFluxBound);
     builder.append(", upperFluxBound=");
@@ -404,16 +406,16 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   }
 
   /**
-   * Unsets the variable geneProteinAssociation.
+   * Unsets the variable {@link #geneProductAssociation}.
    *
-   * @return {@code true} if geneProteinAssociation was set before,
+   * @return {@code true} if {@link #geneProductAssociation} was set before,
    *         otherwise {@code false}.
    */
-  public boolean unsetGeneProteinAssociation() {
-    if (isSetGeneProteinAssociation()) {
-      GeneProteinAssociation oldGeneProteinAssociation = geneProteinAssociation;
-      geneProteinAssociation = null;
-      firePropertyChange(FBCConstants.geneProteinAssociation, oldGeneProteinAssociation, geneProteinAssociation);
+  public boolean unsetGeneProductAssociation() {
+    if (isSetGeneProductAssociation()) {
+      GeneProductAssociation oldGeneProductAssociation = geneProductAssociation;
+      geneProductAssociation = null;
+      firePropertyChange(FBCConstants.geneProductAssociation, oldGeneProductAssociation, geneProductAssociation);
       return true;
     }
     return false;

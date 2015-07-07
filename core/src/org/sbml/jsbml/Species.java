@@ -339,36 +339,49 @@ public class Species extends Symbol {
       // According to SBML specification of Level 3 Version 1, page 44, lines 20-22:
       specUnit = model.getSubstanceUnitsInstance();
     }
-    Compartment compartment = getCompartmentInstance();
-    if ((specUnit != null) && !hasOnlySubstanceUnits() && (compartment != null)
-        && (0d < compartment.getSpatialDimensions())) {
-      UnitDefinition sizeUnit; // = getSpatialSizeUnitsInstance();
-      if ((model != null) && isSetSpatialSizeUnits()) {
-        sizeUnit = model.getUnitDefinition(getSpatialSizeUnits());
-      } else {
-        sizeUnit = compartment.getDerivedUnitDefinition();
-      }
-      if (sizeUnit != null) {
-        UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
-        derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
-        if (derivedUD.isSetName()) {
-          derivedUD.setName(derivedUD.getName() + " per "
-              + (sizeUnit.isSetName() ? sizeUnit.getName() : sizeUnit.getId()));
+    if (isSetHasOnlySubstanceUnits() && !hasOnlySubstanceUnits()) {
+      Compartment compartment = getCompartmentInstance();
+      if ((specUnit != null) && (compartment != null)
+          && (0d < compartment.getSpatialDimensions())) {
+        UnitDefinition sizeUnit; // = getSpatialSizeUnitsInstance();
+        if ((model != null) && isSetSpatialSizeUnits()) {
+          sizeUnit = model.getUnitDefinition(getSpatialSizeUnits());
+        } else {
+          sizeUnit = compartment.getDerivedUnitDefinition();
         }
-        /*
-         * If possible, let's return an equivalent unit that is already part of the model
-         * rather than returning some newly created UnitDefinition:
-         */
-        if (model != null) {
-          UnitDefinition ud = model.findIdentical(derivedUD);
-          if (ud != null) {
-            return ud;
+        if (sizeUnit != null) {
+          UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
+          derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
+          if (derivedUD.isSetName()) {
+            derivedUD.setName(derivedUD.getName() + " per "
+                + (sizeUnit.isSetName() ? sizeUnit.getName() : sizeUnit.getId()));
           }
+          /*
+           * If possible, let's return an equivalent unit that is already part of the model
+           * rather than returning some newly created UnitDefinition:
+           */
+          if (model != null) {
+            UnitDefinition ud = model.findIdentical(derivedUD);
+            if (ud != null) {
+              return ud;
+            }
+          }
+          return derivedUD;
         }
-        return derivedUD;
       }
     }
     return specUnit;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getDerivedUnits()
+   */
+  @Override
+  public String getDerivedUnits() {
+    if (isSetHasOnlySubstanceUnits() && !hasOnlySubstanceUnits()) {
+      // TODO!!! Here is something wrong! This method must return the same as getDerivedUnitInstance(), I think!
+    }
+    return super.getDerivedUnits();
   }
 
   /* (non-Javadoc)

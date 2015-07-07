@@ -35,7 +35,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
  * @since 1.1
  * @date 06.03.2015
  */
-public class GeneProteinAssociation extends AbstractNamedSBase {
+public class GeneProductAssociation extends AbstractNamedSBase {
 
   /**
    * Generated serial version identifier.
@@ -50,7 +50,7 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
   /**
    * 
    */
-  public GeneProteinAssociation() {
+  public GeneProductAssociation() {
     super();
     initDefaults();
   }
@@ -67,7 +67,7 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
   /**
    * @param gpa
    */
-  public GeneProteinAssociation(GeneProteinAssociation gpa) {
+  public GeneProductAssociation(GeneProductAssociation gpa) {
     super(gpa);
     if (gpa.isSetAssociation()) {
       setAssociation((Association) gpa.getAssociation().clone());
@@ -78,7 +78,7 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
    * @param level
    * @param version
    */
-  public GeneProteinAssociation(int level, int version) {
+  public GeneProductAssociation(int level, int version) {
     super(level, version);
     initDefaults();
   }
@@ -86,7 +86,7 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
   /**
    * @param id
    */
-  public GeneProteinAssociation(String id) {
+  public GeneProductAssociation(String id) {
     super(id);
     initDefaults();
   }
@@ -96,7 +96,7 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
    * @param level
    * @param version
    */
-  public GeneProteinAssociation(String id, int level, int version) {
+  public GeneProductAssociation(String id, int level, int version) {
     super(id, level, version);
     initDefaults();
   }
@@ -107,7 +107,7 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
    * @param level
    * @param version
    */
-  public GeneProteinAssociation(String id, String name, int level, int version) {
+  public GeneProductAssociation(String id, String name, int level, int version) {
     super(id, name, level, version);
     initDefaults();
   }
@@ -116,8 +116,8 @@ public class GeneProteinAssociation extends AbstractNamedSBase {
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public GeneProteinAssociation clone() {
-    return new GeneProteinAssociation(this);
+  public GeneProductAssociation clone() {
+    return new GeneProductAssociation(this);
   }
 
   /* (non-Javadoc)
