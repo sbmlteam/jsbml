@@ -52,7 +52,7 @@ import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCReactionPlugin;
 import org.sbml.jsbml.ext.fbc.GeneProduct;
 import org.sbml.jsbml.ext.fbc.GeneProductRef;
-import org.sbml.jsbml.ext.fbc.GeneProteinAssociation;
+import org.sbml.jsbml.ext.fbc.GeneProductAssociation;
 import org.sbml.jsbml.ext.fbc.Or;
 import org.sbml.jsbml.util.ModelBuilder;
 import org.sbml.jsbml.xml.XMLNode;
@@ -124,7 +124,7 @@ public class FBCVersion2Test {
     }
 
     FBCReactionPlugin reactionPlugin = (FBCReactionPlugin) reaction.getPlugin(FBCConstants.shortLabel);
-    GeneProteinAssociation gpa = reactionPlugin.createGeneProteinAssociation("R_ETF_assoc");
+    GeneProductAssociation gpa = reactionPlugin.createGeneProductAssociation("R_ETF_assoc");
     Association association = new Or(level, version);
     And and = new And(level, version);
     GeneProductRef gpr = new GeneProductRef("gprf1", "R_ETF transcript 2", level, version);

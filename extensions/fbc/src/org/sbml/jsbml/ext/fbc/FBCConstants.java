@@ -101,11 +101,6 @@ public class FBCConstants {
   public static final String geneProductReference = "geneProductRef";
 
   /**
-   * Introduced to FBC in version 2.
-   */
-  public static final String geneProteinAssociation = "geneProteinAssociation";
-
-  /**
    * 
    */
   public static final String label = "label";
