@@ -57,6 +57,12 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue eq(ASTNode left, ASTNode right) throws SBMLException {
+    if (left != null && left.getParent().getChildCount() > 2 ||
+        left != null && left.getParent().getChildCount() < 2) 
+    {
+      return function("eq", ((ASTNode) left.getParent()).getListOfNodes());
+    }
+    
     return new ASTNodeValue(relation(left, " == ", right), this);
   }
 
@@ -74,6 +80,12 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue geq(ASTNode left, ASTNode right) throws SBMLException {
+    if (left != null && left.getParent().getChildCount() > 2 ||
+        left != null && left.getParent().getChildCount() < 2) 
+    {
+      return function("geq", ((ASTNode) left.getParent()).getListOfNodes());
+    }
+    
     return new ASTNodeValue(relation(left, " >= ", right), this);
   }
 
@@ -83,6 +95,12 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue gt(ASTNode left, ASTNode right) throws SBMLException {
+    if (left != null && left.getParent().getChildCount() > 2 ||
+        left != null && left.getParent().getChildCount() < 2) 
+    {
+      return function("gt", ((ASTNode) left.getParent()).getListOfNodes());
+    }
+    
     return new ASTNodeValue(relation(left, " > ", right), this);
   }
 
@@ -92,6 +110,12 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue leq(ASTNode left, ASTNode right) throws SBMLException {
+    if (left != null && left.getParent().getChildCount() > 2 ||
+        left != null && left.getParent().getChildCount() < 2) 
+    {
+      return function("leq", ((ASTNode) left.getParent()).getListOfNodes());
+    }
+    
     return new ASTNodeValue(relation(left, " <= ", right), this);
   }
 
@@ -101,6 +125,12 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue lt(ASTNode left, ASTNode right) throws SBMLException {
+    if (left != null && left.getParent().getChildCount() > 2 ||
+        left != null && left.getParent().getChildCount() < 2) 
+    {
+      return function("lt", ((ASTNode) left.getParent()).getListOfNodes());
+    }
+    
     return new ASTNodeValue(relation(left, " < ", right), this);
   }
 
@@ -138,6 +168,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
     // TODO
     return function(" xor ", nodes);
   }
+  
 
 
 }
