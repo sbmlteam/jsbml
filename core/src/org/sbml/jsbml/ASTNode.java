@@ -4133,7 +4133,7 @@ public class ASTNode extends AbstractTreeNode {
   public String toString() {
     String formula = "";
     try {
-      formula = compile(new FormulaCompiler()).toString();
+      formula = toFormula();
     } catch (SBMLException e) {
       // log the exception
       e.printStackTrace();
