@@ -363,6 +363,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
       else if (elementName.equals(generalGlyph)) {
         newElement = new GeneralGlyph();
       }
+      else if (elementName.equals(LayoutConstants.graphicalObject)) {
+        newElement = new GraphicalObject();
+      }
 
       if (newElement != null) {
         listOf.add(newElement);
