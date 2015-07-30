@@ -224,6 +224,14 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       if (elementName.equals(FBCConstants.geneProductAssociation)) {
         GeneProductAssociation gPA = fbcReaction.createGeneProductAssociation();
         return gPA;
+      } 
+      else if (elementName.equals(FBCConstants.geneProteinAssociation)) {
+        // FBCConstants.geneProteinAssociation has been used for a very long time in the FBC v2 release candidates
+        // so we are keeping it here in case some files still use it.
+        logger.warn("You are using an invalid element name '" + FBCConstants.geneProteinAssociation 
+          + "'. It was only used for few FBC V2 release candidates.");
+        GeneProductAssociation gPA = fbcReaction.createGeneProductAssociation();
+        return gPA;
       }
     } else if (contextObject instanceof GeneProductAssociation) {
       GeneProductAssociation gPA = (GeneProductAssociation) contextObject;
