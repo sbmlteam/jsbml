@@ -198,8 +198,7 @@ implements ASTNode2 {
 	@Override
 	public abstract ASTNode2 getChildAt(int childIndex);
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#getId()
 	 */
 	@Override
@@ -232,8 +231,7 @@ implements ASTNode2 {
 		return "";
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#getParentSBMLObject()
 	 */
 	@Override
@@ -241,8 +239,7 @@ implements ASTNode2 {
 		return parentSBMLObject;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#getStyle()
 	 */
 	@Override
@@ -279,6 +276,7 @@ implements ASTNode2 {
 	 */
 	@Override
 	public int hashCode() {
+	  // TODO: ??
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -290,8 +288,7 @@ implements ASTNode2 {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#isSetId()
 	 */
 	@Override
@@ -299,8 +296,7 @@ implements ASTNode2 {
 		return id != null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#isSetMathMLClass()
 	 */
 	@Override
@@ -308,8 +304,7 @@ implements ASTNode2 {
 		return mathMLClass != null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#isSetParentSBMLObject()
 	 */
 	@Override
@@ -317,8 +312,7 @@ implements ASTNode2 {
 		return parentSBMLObject != null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#isSetStyle()
 	 */
 	@Override
@@ -326,8 +320,7 @@ implements ASTNode2 {
 		return style != null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#isSetType()
 	 */
 	@Override
@@ -335,8 +328,7 @@ implements ASTNode2 {
 		return type != null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#isStrict()
 	 */
 	@Override
@@ -365,8 +357,7 @@ implements ASTNode2 {
 		return value;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#setId(java.lang.String)
 	 */
 	@Override
@@ -376,8 +367,7 @@ implements ASTNode2 {
 		firePropertyChange(TreeNodeChangeEvent.id, oldValue, id);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#setMathMLClass(java.lang.String)
 	 */
 	@Override
@@ -420,8 +410,7 @@ implements ASTNode2 {
 		this.strict = strict;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#setStyle(java.lang.String)
 	 */
 	@Override
@@ -431,8 +420,7 @@ implements ASTNode2 {
 		firePropertyChange(TreeNodeChangeEvent.style, oldValue, style);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#setType(java.lang.String)
 	 */
 	@Override
@@ -441,8 +429,7 @@ implements ASTNode2 {
 		setType(type);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.math.ASTNode2#setType(org.sbml.jsbml.ASTNode.Type)
 	 */
 	@Override

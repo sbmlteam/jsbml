@@ -79,8 +79,7 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
     setType(type);
   }
   
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTUnaryFunctionNode#clone()
    */
   @Override

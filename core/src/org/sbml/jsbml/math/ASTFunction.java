@@ -304,8 +304,6 @@ public class ASTFunction extends AbstractASTNode {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result
-				+ ((listOfNodes == null) ? 0 : listOfNodes.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}

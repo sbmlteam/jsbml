@@ -81,8 +81,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     setType(type);
   }
   
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#addChild(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
@@ -103,8 +102,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     child.fireNodeAddedEvent();
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
    */
   @Override
@@ -150,8 +148,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     return getChildAt(0);
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#getChildAt(int)
    */
   @Override
@@ -162,8 +159,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     return listOfNodes.get(childIndex);
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#insertChild(int, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
@@ -211,8 +207,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     return getChildCount() > 0;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#prependChild(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
@@ -232,8 +227,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     child.setParent(this);
   }
   
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#removeChild(int)
    */
   @Override
@@ -263,8 +257,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     }
   }
   
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#swapChildren(org.sbml.jsbml.math.ASTFunction)
    */
   @Override

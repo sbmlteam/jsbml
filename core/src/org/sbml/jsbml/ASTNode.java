@@ -24,7 +24,6 @@ package org.sbml.jsbml;
 import java.io.StringReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -74,7 +73,6 @@ import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
@@ -3013,8 +3011,7 @@ public class ASTNode extends AbstractTreeNode {
     throw new RuntimeException(resourceBundle.getString("ASTNode.getVariable4"));
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    *
    * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
    */
@@ -3022,9 +3019,7 @@ public class ASTNode extends AbstractTreeNode {
   public int hashCode() {
     final int prime = 787;
     int hashCode = super.hashCode();
-
     hashCode += prime * astnode2.hashCode();
-
     return hashCode;
   }
 
