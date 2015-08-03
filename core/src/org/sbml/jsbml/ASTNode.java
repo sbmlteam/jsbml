@@ -1076,8 +1076,22 @@ public class ASTNode extends AbstractTreeNode {
    * @return a piecewise {@link ASTNode}.
    */
   public static ASTNode piecewise(ASTNode node, ASTNode... nodes) {
-    ASTNode piecewise = new ASTNode(Type.FUNCTION_PIECEWISE, node
-      .getParentSBMLObject());
+    return piecewise(node.getParentSBMLObject(), nodes);
+  }
+
+  /**
+   * @param parentSBMLObject
+   *        a link to the container in which this {@link ASTNode} will be
+   *        inserted. This can be useful if complex operations on units,
+   *        species, etc. are necessary when creating this formula.
+   *        Can be {@code null}.
+   * @param nodes
+   * @return
+   * @see #piecewise(ASTNode, ASTNode...)
+   */
+  public static ASTNode piecewise(MathContainer parentSBMLObject,
+    ASTNode[] nodes) {
+    ASTNode piecewise = new ASTNode(Type.FUNCTION_PIECEWISE, parentSBMLObject);
     for (ASTNode n : nodes) {
       piecewise.addChild(n);
     }
