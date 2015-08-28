@@ -1181,7 +1181,7 @@ specialized \TreeNodeChangeListener{}s that synchronize any change in the
 JSBML data structure with corresponding libSBML data structures.
 
 \begin{figure}[htb]
-  \exampleFile{src/libSBMLio_example.java}
+  \exampleFile{src/org/sbml/jsbml/xml/libsbml/libSBMLio_example.java}
   \caption{A simple example showing how to convert libSBML data structures
     into JSBML data objects.  To run this example, you need libSBML
     installed on your system.  You may need to set environment variables,
@@ -1210,7 +1210,7 @@ creating a plugin for CellDesigner which displays the SBML data structure
 in a tree, like the example in \fig{fig:JSBMLvisualizer-output}.
 
 \begin{figure}[thb]
-  \exampleFile{src/cdplugin_example.java}
+  \exampleFile{src/org/sbml/jsbml/celldesigner/cdplugin_example.java}
   \caption{A simple implementation of CellDesigner's abstract class
     \code{PluginAction}.}
   \label{lst:PluginAction}
@@ -1229,14 +1229,14 @@ implementation of the \TreeNodeChangeListener{} interface for
 synchronization of changes in JSBML's data structures with CellDesigner.
 
 \begin{figure}[thb]
-  \exampleFile[style = java, lastline = 66]{src/SimpleCellDesignerPlugin.java}
+  \exampleFile[style = java, lastline = 66]{src/org/sbml/jsbml/celldesigner/SimpleCellDesignerPlugin.java}
   \caption{A simple example for a CellDesigner plugin using JSBML as a
     communication layer. Continued in next figure.}
   \label{lst:Plugin1}
 \end{figure}
 
 \begin{figure}[thb]
-  \exampleFile[style = java, firstline = 67]{src/SimpleCellDesignerPlugin.java}
+  \exampleFile[style = java, firstline = 67]{src/org/sbml/jsbml/celldesigner/SimpleCellDesignerPlugin.java}
   \caption{(Continued.) A simple example for a CellDesigner plugin using JSBML as a
     communication layer.}
   \label{lst:Plugin2}
