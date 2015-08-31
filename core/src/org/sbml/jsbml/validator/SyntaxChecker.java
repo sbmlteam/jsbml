@@ -44,9 +44,58 @@ import java.util.regex.Pattern;
 public class SyntaxChecker {
 
   /**
+   * 
+   */
+  private static Pattern chemicalFormulaPattern;
+
+  /**
    * The only instance of this class.
    */
   private static final SyntaxChecker syntaxChecker = new SyntaxChecker();
+
+  /**
+   * 
+   * @return
+   */
+  private static Pattern initChemicalFormulaPattern() {
+    String period[] = new String[7];
+    String lanthanide = "La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu";
+    String actinide = "Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr";
+    period[0] = "H|He";
+    period[1] = "Li|Be|B|C|N|O|F|Ne";
+    period[2] = "Na|Mg|Al|Si|P|S|Cl|Ar";
+    period[3] = "K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr";
+    period[4] = "Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I|Xe";
+    period[5] = "Cs|Ba|" + lanthanide + "|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn";
+    period[6] = "Fr|Ra|" + actinide + "Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Uut|Fl|Uup|Lv|Uus|Uuo";
+
+    StringBuilder atoms = new StringBuilder();
+    atoms.append(period[0]);
+    for (int i = 1; i < period.length; i++) {
+      atoms.append('|');
+      atoms.append(period[i]);
+    }
+
+    String compoundName = "[A-Z][a-z]*";
+
+    String residues = "[A-Z][a-z]*";
+
+    String regex = "((" + atoms.toString() + "|" + residues + ")+\\d*)*|(" + compoundName + ")?";
+
+    return Pattern.compile(regex);
+  }
+
+  /**
+   * 
+   * @param chemicalFormula
+   * @return
+   */
+  public static boolean isValidChemicalFormula(String chemicalFormula) {
+    if (chemicalFormulaPattern == null) {
+      SyntaxChecker.chemicalFormulaPattern = initChemicalFormulaPattern();
+    }
+    return SyntaxChecker.chemicalFormulaPattern.matcher(chemicalFormula).matches();
+  }
 
   /**
    * Definition of valid e-mail address {@link String}s.
@@ -95,6 +144,7 @@ public class SyntaxChecker {
     }
     return syntaxChecker.emailPattern.matcher(email).matches();
   }
+
 
   /**
    * Checks whether the given idCandidate is a valid identifier according to
@@ -149,7 +199,6 @@ public class SyntaxChecker {
     return syntaxChecker.SIdL2Pattern.matcher(idCandidate).matches();
   }
 
-
   /**
    * Checks if the given identifier candidate satisfies the requirements for a
    * valid meta identifier (see SBML L2V4 p. 12 for details).
@@ -179,17 +228,11 @@ public class SyntaxChecker {
    * Definition of valid e-mail addresses. Initialized upon first use.
    */
   private Pattern emailPattern;
-
   /**
    * {@link Pattern} to recognize valid meta-identifier strings for SBML
    * elements.
    */
   private Pattern metaIdPattern;
-  /**
-   * Simplified {@link Pattern} to recognize valid meta-identifier strings for
-   * SBML elements.
-   */
-  private Pattern simpleMetaIdPattern;
 
   /**
    * Collection of reserved names that must not be used as identifiers (names)
@@ -207,6 +250,12 @@ public class SyntaxChecker {
    * Pattern to recognize valid SIds, i.e., identifier strings for SBML elements.
    */
   private Pattern SIdL2Pattern;
+
+  /**
+   * Simplified {@link Pattern} to recognize valid meta-identifier strings for
+   * SBML elements.
+   */
+  private Pattern simpleMetaIdPattern;
 
   /**
    * Name {@link Pattern} for SBML Level 1 version 1.
