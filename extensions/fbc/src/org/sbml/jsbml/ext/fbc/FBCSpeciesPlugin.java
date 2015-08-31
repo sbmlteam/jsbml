@@ -27,10 +27,12 @@ import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.validator.SyntaxChecker;
 
 /**
  * {@link FBCSpeciesPlugin} is the extended {@link Species} class with the additional
@@ -43,6 +45,11 @@ import org.sbml.jsbml.util.StringTools;
  * @date 02.10.2013
  */
 public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
+
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final transient Logger logger = Logger.getLogger(FBCSpeciesPlugin.class);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#getParent()
@@ -213,7 +220,11 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
       setCharge(StringTools.parseSBMLInt(value));
       return true;
     } else if (attributeName.equals(FBCConstants.chemicalFormula)) {
-      setChemicalFormula(value);
+      try {
+        setChemicalFormula(value);
+      } catch (IllegalArgumentException exc) {
+        logger.error("Skipped invalid chemical formula: " + chemicalFormula);
+      }
       return true;
     }
 
@@ -236,14 +247,19 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
   /**
    * Sets the value of chemicalFormula.
    * 
-   * The format of chemical formula must consist only of atomic names (as  in  the  Periodic  Table)
-   * or user defined compounds either of which take the form of a single capital letter followed
-   * by zero or more lower-case letters. Where there is more than a single atom  present,
-   * this is indicated with an integer. With regards to order (and enhance inter-operability)
+   * The format of chemical formula must consist only of atomic names (as  in
+   * the  Periodic  Table) or user defined compounds either of which take the
+   * form of a single capital letter followed by zero or more lower-case
+   * letters. Where there is more than a single atom  present, this is indicated
+   * with an integer. With regards to order (and enhance interoperability)
    * it is recommended to use the Hill system order (Hill 1900, 2012).
    * @param chemicalFormula
    */
   public void setChemicalFormula(String chemicalFormula) {
+    if ((chemicalFormula != null) &&
+        !SyntaxChecker.isValidChemicalFormula(chemicalFormula)) {
+      throw new IllegalArgumentException(chemicalFormula);
+    }
     String oldChemicalFormula = this.chemicalFormula;
     this.chemicalFormula = chemicalFormula;
     firePropertyChange(FBCConstants.chemicalFormula, oldChemicalFormula, this.chemicalFormula);

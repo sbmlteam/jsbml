@@ -41,7 +41,7 @@ public class JSBMLvisualizer extends JFrame {
 
   /**
    * @param tree
-   *        The sbml root node of an SBML file
+   *        The SBML root node of an SBML file
    */
   public JSBMLvisualizer(SBase tree) {
     super("SBML Structure Visualization");
@@ -57,7 +57,7 @@ public class JSBMLvisualizer extends JFrame {
    * Main. Note: this doesn't perform error checking, but should. It is an
    * illustration only.
    * 
-   * @param args
+   * @param args path to an SBML file.
    * @throws Exception
    */
   public static void main(String[] args) throws Exception {
