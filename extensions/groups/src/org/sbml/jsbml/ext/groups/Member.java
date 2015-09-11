@@ -319,7 +319,19 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
    */
   @Override
   public String toString() {
-    return "Member [idRef=" + idRef + " metaIdRef=" + metaIdRef + "]";
+    StringBuilder builder = new StringBuilder();
+    builder.append("Member [idRef=");
+    builder.append(idRef);
+    builder.append(", metaIdRef=");
+    builder.append(metaIdRef);
+    builder.append(", id=");
+    builder.append(getId());
+    builder.append(", name=");
+    builder.append(getName());
+    builder.append(", sboTerm=");
+    builder.append(getSBOTerm());
+    builder.append("]");
+    return builder.toString();
   }
 
   /* (non-Javadoc)

@@ -42,6 +42,29 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
+   * This is a collection of possible values for the {@code kind} attribute within
+   * a {@link Group}. It has been defined in version 3 of the Groups proposal.
+   * 
+   * @author Clemens Wrzodek
+   * @since 3.0
+   * @version $Rev$
+   */
+  public enum Kind {
+    /**
+     * the group is a class, and its members have an <i>is-a</i> relationship to the group
+     */
+    classification,
+    /**
+     * the group is a collection of parts, and its members have a <i>part-of</i> relationship to the group
+     */
+    partonomy,
+    /**
+     * the grouping is one of convenience, without an implied relationship
+     */
+    collection
+  }
+
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 2361503116934849753L;
@@ -49,7 +72,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Defined in version 3 of the groups proposal.
    */
-  private GroupKind kind = null;
+  private Kind kind = null;
 
   /**
    * 
@@ -225,7 +248,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return
    */
-  public GroupKind getKind() {
+  public Kind getKind() {
     return kind;
   }
 
@@ -244,14 +267,14 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfMembers.setPackageName(null);
       listOfMembers.setPackageName(GroupsConstants.shortLabel);
       listOfMembers.setSBaseListType(ListOf.Type.other);
-      
+
       registerChild(listOfMembers);
     }
 
     return listOfMembers;
   }
 
-  
+
   /**
    * Returns {@code true} if {@link #listOfMembers} is not null.
    *
@@ -272,7 +295,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfMembers(ListOf<Member> listOfMembers) {
     unsetListOfMembers();
     this.listOfMembers = listOfMembers;
-    
+
     if (listOfMembers != null) {
       listOfMembers.unsetNamespace();
       listOfMembers.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
@@ -282,7 +305,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfMembers.setPackageName(GroupsConstants.shortLabel);
       listOfMembers.setSBaseListType(ListOf.Type.other);
 
-      registerChild(this.listOfMembers);          
+      registerChild(this.listOfMembers);
     }
   }
 
@@ -296,8 +319,8 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public boolean unsetListOfMembers() {
     if (isSetListOfMembers()) {
-      ListOf<Member> oldMembers = this.listOfMembers;
-      this.listOfMembers = null;
+      ListOf<Member> oldMembers = listOfMembers;
+      listOfMembers = null;
       oldMembers.fireNodeRemovedEvent();
       return true;
     }
@@ -423,7 +446,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     return null;
   }
 
-  
+
   /**
    * Returns the number of {@link Member}s of this {@link Group}.
    * 
@@ -526,7 +549,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfMemberConstraints(ListOfMemberConstraint listOfMemberConstraints) {
     unsetListOfMemberConstraints();
     this.listOfMemberConstraints = listOfMemberConstraints;
-    
+
     if (listOfMemberConstraints != null) {
       listOfMemberConstraints.unsetNamespace();
       listOfMemberConstraints.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
@@ -534,8 +557,8 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
       // changing the ListOf package name from 'core' to 'groups'
       listOfMemberConstraints.setPackageName(null);
       listOfMemberConstraints.setPackageName(GroupsConstants.shortLabel);
-      listOfMemberConstraints.setSBaseListType(ListOf.Type.other);      
-      
+      listOfMemberConstraints.setSBaseListType(ListOf.Type.other);
+
       registerChild(this.listOfMemberConstraints);
     }
   }
@@ -633,7 +656,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 
     if (!isAttributeRead && attributeName.equals("kind")) {
       try {
-        setKind(GroupKind.valueOf(value));
+        setKind(Kind.valueOf(value));
         isAttributeRead = true;
       } catch (Exception e) {
         throw new SBMLException("Could not recognized the value '" + value
@@ -648,7 +671,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param kind
    */
-  public void setKind(GroupKind kind) {
+  public void setKind(Kind kind) {
     this.kind = kind;
   }
 
