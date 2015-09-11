@@ -41,72 +41,17 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class GroupsModelPlugin extends AbstractSBasePlugin {
 
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
-   */
-  @Override
-  public String getPackageName() {
-    return GroupsConstants.shortLabel;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
-   */
-  @Override
-  public String getPrefix() {
-    return GroupsConstants.shortLabel;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
-   */
-  @Override
-  public String getURI() {
-    return getElementNamespace();
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
-   */
-  @Override
-  public SBMLDocument getParent() {
-    if (isSetExtendedSBase()) {
-      return (SBMLDocument) getExtendedSBase().getParent();
-    }
-
-    return null;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
-   */
-  @Override
-  public SBMLDocument getParentSBMLObject() {
-    return getParent();
-  }
   /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 3334444867660252255L;
+
+
   /**
    * 
    */
   protected ListOf<Group> listOfGroups;
 
-
-  /**
-   * Creates a new {@link GroupsModelPlugin} instance
-   * 
-   * @param model
-   */
-  public GroupsModelPlugin(Model model) {
-    super(model);
-    initDefaults();
-  }
 
   /**
    * Creates a new {@link GroupsModelPlugin} instance cloned from the given parameter.
@@ -121,13 +66,17 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     }
   }
 
+
   /**
+   * Creates a new {@link GroupsModelPlugin} instance
    * 
+   * @param model
    */
-  private void initDefaults() {
-    setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
-    setPackageVersion(-1);
+  public GroupsModelPlugin(Model model) {
+    super(model);
+    initDefaults();
   }
+
 
   /**
    * Adds a new element to the listOfGroups.
@@ -138,6 +87,91 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    */
   public boolean addGroup(Group group) {
     return getListOfGroups().add(group);
+  }
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
+   */
+  @Override
+  public GroupsModelPlugin clone() {
+    return new GroupsModelPlugin(this);
+  }
+  /**
+   * Creates a new instance of {@link Group} and add it to this {@link GroupsModelPlugin}.
+   * 
+   * @return the new {@link Group} instance.
+   */
+  public Group createGroup() {
+    return createGroup(null);
+  }
+
+
+  /**
+   * Creates a new instance of {@link Group} and add it to this {@link GroupsModelPlugin}.
+   * 
+   * @param id the id to be set to the new {@link Group}.
+   * @return the new {@link Group} instance.
+   */
+  public Group createGroup(String id) {
+    Group g = new Group(getLevel(), getVersion());
+    if (id != null) {
+      g.setId(id);
+    }
+    addGroup(g);
+    return g;
+  }
+
+  /**
+   * Creates a new instance of {@link Group} and add it to this {@link GroupsModelPlugin}.
+   * For each id in the memberIds array, a new {@link Member} instance is created and added to the {@link Group}
+   * as well.
+   * 
+   * @param id the id to be set to the new {@link Group}.
+   * @param memberIds the ids to be set to the new {@link Member} instances.
+   * @return the new {@link Group} instance.
+   */
+  public Group createGroup(String id, String... memberIds) {
+    Group g = createGroup(id);
+
+    if (memberIds != null) {
+      for (String memberId: memberIds) {
+        g.createMember(memberId);
+      }
+    }
+
+    return g;
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
+   */
+  @Override
+  public SBase getChildAt(int childIndex) {
+    if (childIndex < 0 || childIndex >= 1) {
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
+        +Math.min(getChildCount(), 0)));
+    }
+
+    return listOfGroups;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    if (isSetListOfGroups()) {
+      return 1;
+    }
+    return 0;
   }
 
   /**
@@ -153,6 +187,29 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     }
 
     return listOfGroups.get(i);
+  }
+
+  /**
+   * Gets the {@link Group} that has the given id.
+   * 
+   * @param sbmlID
+   * @return the {@link Group} that has the given id or {@code null} if no
+   *         {@link Group} is found that matches {@code sbmlID}.
+   */
+  public SBase getGroup(String sbmlID) {
+    if (isSetListOfGroups()) {
+      return listOfGroups.firstHit(new NameFilter(sbmlID));
+    }
+    return null;
+  }
+
+  /**
+   * Returns the number of {@link Group}s of this {@link GroupsModelPlugin}.
+   * 
+   * @return the number of {@link Group}s of this {@link GroupsModelPlugin}.
+   */
+  public int getGroupCount() {
+    return isSetListOfGroups() ? listOfGroups.size() : 0;
   }
 
   /**
@@ -183,19 +240,62 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    * Returns the number of {@link Group}s of this {@link GroupsModelPlugin}.
    * 
    * @return the number of {@link Group}s of this {@link GroupsModelPlugin}.
-   */
-  public int getGroupCount() {
-    return isSetListOfGroups() ? listOfGroups.size() : 0;
-  }
-
-  /**
-   * Returns the number of {@link Group}s of this {@link GroupsModelPlugin}.
-   * 
-   * @return the number of {@link Group}s of this {@link GroupsModelPlugin}.
    * @libsbml.deprecated same as {@link #getGroupCount()}
    */
   public int getNumGroups() {
     return getGroupCount();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return GroupsConstants.shortLabel;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+   */
+  @Override
+  public SBMLDocument getParent() {
+    if (isSetExtendedSBase()) {
+      return (SBMLDocument) getExtendedSBase().getParent();
+    }
+
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public SBMLDocument getParentSBMLObject() {
+    return getParent();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+   */
+  @Override
+  public String getPrefix() {
+    return GroupsConstants.shortLabel;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+   */
+  @Override
+  public String getURI() {
+    return getElementNamespace();
+  }
+
+  /**
+   * 
+   */
+  private void initDefaults() {
+    setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
+    setPackageVersion(-1);
   }
 
   /**
@@ -204,6 +304,15 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    */
   public boolean isSetListOfGroups() {
     return listOfGroups != null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    // No attribute define on this plugin
+    return false;
   }
 
   /**
@@ -229,6 +338,14 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     }
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "GroupModelPlugin [nb Group = " + getGroupCount() + "]";
+  }
+
   /**
    * Removes the {@link #listOfGroups} from this {@link Model} and notifies
    * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.
@@ -247,129 +364,11 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
-   */
-  @Override
-  public GroupsModelPlugin clone() {
-    return new GroupsModelPlugin(this);
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "GroupModelPlugin [nb Group = " + getGroupCount() + "]";
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix, String value) {
-    // No attribute define on this plugin
-    return false;
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
     // No attribute define on this plugin
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
-   */
-  @Override
-  public SBase getChildAt(int childIndex) {
-    if (childIndex < 0 || childIndex >= 1) {
-      throw new IndexOutOfBoundsException(MessageFormat.format(
-        resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
-        +Math.min(getChildCount(), 0)));
-    }
-
-    return listOfGroups;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
-   */
-  @Override
-  public int getChildCount() {
-    if (isSetListOfGroups()) {
-      return 1;
-    }
-    return 0;
-  }
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getAllowsChildren()
-   */
-  @Override
-  public boolean getAllowsChildren() {
-    return true;
-  }
-
-  /**
-   * Creates a new instance of {@link Group} and add it to this {@link GroupsModelPlugin}.
-   * 
-   * @return the new {@link Group} instance.
-   */
-  public Group createGroup() {
-    Group g = new Group();
-    addGroup(g);
-    return g;
-  }
-
-  /**
-   * Creates a new instance of {@link Group} and add it to this {@link GroupsModelPlugin}.
-   * 
-   * @param id the id to be set to the new {@link Group}.
-   * @return the new {@link Group} instance.
-   */
-  public Group createGroup(String id) {
-    Group g = new Group();
-    g.setId(id);
-    addGroup(g);
-    return g;
-  }
-
-  /**
-   * Creates a new instance of {@link Group} and add it to this {@link GroupsModelPlugin}.
-   * For each id in the memberIds array, a new {@link Member} instance is created and added to the {@link Group}
-   * as well.
-   * 
-   * 
-   * @param id the id to be set to the new {@link Group}.
-   * @param memberIds the ids to be set to the new {@link Member} instances.
-   * @return the new {@link Group} instance.
-   */
-  public Group createGroup(String id, String... memberIds) {
-    Group g = createGroup(id);
-
-    if (memberIds != null) {
-      for (String memberId: memberIds) {
-        g.createMember(memberId);
-      }
-    }
-
-    return g;
-  }
-
-  /**
-   * Gets the {@link Group} that has the given id.
-   * 
-   * @param sbmlID
-   * @return the {@link Group} that has the given id or {@code null} if no
-   *         {@link Group} is found that matches {@code sbmlID}.
-   */
-  public SBase getGroup(String sbmlID) {
-    if (isSetListOfGroups()) {
-      return listOfGroups.firstHit(new NameFilter(sbmlID));
-    }
     return null;
   }
 
