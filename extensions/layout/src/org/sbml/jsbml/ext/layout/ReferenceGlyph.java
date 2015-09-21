@@ -338,16 +338,15 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
     firePropertyChange(LayoutConstants.speciesGlyph, oldValue, this.glyph);
   }
 
-
   /**
-   * The reference is an optional attribute that is used to connect the {@link ReferenceGlyph}
-   * with an element of the containing {@link Model}.
+   * The reference is an optional attribute that is used to connect the
+   * {@link ReferenceGlyph} with an element of the containing {@link Model}.
    *
    * @param reference
    */
   @Override
-  public void setReference(String reference) {
-    setReference(reference, LayoutConstants.reference);
+  public boolean setReference(String reference) {
+    return setReference(reference, LayoutConstants.reference);
   }
 
   /**

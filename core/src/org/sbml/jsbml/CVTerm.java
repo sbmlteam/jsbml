@@ -506,7 +506,7 @@ public class CVTerm extends AnnotationElement {
    * 
    * @param urn
    *            string representing the resource; e.g.,
-   *            'urn:miriam:kegg.reaction:R00351'
+   *            'http://identifiers.org/kegg.reaction/R00351'
    * @return {@code true} as specified in {@link Collection#add(Object)}
    */
   public boolean addResource(String urn) {
@@ -522,7 +522,7 @@ public class CVTerm extends AnnotationElement {
    * Adds list of resources to the {@link CVTerm}.
    * 
    * @param resources a list of strings representing the resources; e.g.,
-   *            'urn:miriam:kegg.reaction:R00351'
+   *            'http://identifiers.org/kegg.reaction/R00351'
    * @return {@code true} if all the resources have been added properly.
    */
   public boolean addResources(String... resources) {
@@ -540,7 +540,7 @@ public class CVTerm extends AnnotationElement {
    * 
    * @param uri
    *            string representing the resource; e.g.,
-   *            'urn:miriam:kegg.reaction:R00351'
+   *            'http://identifiers.org/kegg.reaction/R00351'
    * 
    * @return {@code true} if 'uri' has been added to the list of resourceURI of this
    *         CVTerm.
@@ -578,7 +578,7 @@ public class CVTerm extends AnnotationElement {
    * 
    * @param patterns
    *        an arbitrary number of {@link Pattern}(s), e.g.,
-   *        {@code urn:miriam:kegg.reaction:R.*}, {@code .*kegg.*}  or just {@code kegg} that
+   *        {@code http://identifiers.org/kegg.reaction/R.*}, {@code .*kegg.*}  or just {@code kegg} that
    *        are matched to all resources using an OR-operation, i.e.,
    *        if just one of the patterns matches a resource, this resource will
    *        appear in the returned list.
@@ -613,7 +613,7 @@ public class CVTerm extends AnnotationElement {
    * 
    * @param patterns
    *        an arbitrary number of patterns, e.g.,
-   *        {@code urn:miriam:kegg.reaction:R.*}, {@code .*kegg.*}  or just {@code kegg} that
+   *        {@code http://idenifiers.org/kegg.reaction/R.*}, {@code .*kegg.*}  or just {@code kegg} that
    *        are matched to all resources using an OR-operation, i.e.,
    *        if just one of the patterns matches a resource, this resource will
    *        appear in the returned list.
