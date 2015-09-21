@@ -55,7 +55,7 @@ public class HashCodeTest {
     Model model = doc1.createModel("test_model");
     Compartment c = model.createCompartment("c1");
     Species s = model.createSpecies("s1", c);
-    s.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:kegg.compound:C00001"));
+    s.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "http://identifiers.org/kegg.compound/C00001"));
     Rule r = model.createAlgebraicRule();
     r.setMath(ASTNode.parseFormula("sin(3) + 1"));
 
@@ -71,8 +71,8 @@ public class HashCodeTest {
     }
     assertTrue(doc1.hashCode() == doc2.hashCode());
     assertTrue(model.hashCode() != doc2.hashCode());
-    assertTrue(s.getCVTerm(0).equals(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:kegg.compound:C00001")));
-    assertTrue(s.getCVTerm(0).hashCode() == (new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:kegg.compound:C00001")).hashCode());
+    assertTrue(s.getCVTerm(0).equals(new CVTerm(CVTerm.Qualifier.BQB_IS, "http://identifiers.org/kegg.compound/C00001")));
+    assertTrue(s.getCVTerm(0).hashCode() == (new CVTerm(CVTerm.Qualifier.BQB_IS, "http://identifiers.org/kegg.compound/C00001")).hashCode());
     assertTrue(doc1.equals(doc2));
     assertTrue(doc2.equals(doc1));
   }

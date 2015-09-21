@@ -26,8 +26,11 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.CompartmentalizedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
@@ -71,7 +74,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  *
  */
 @SuppressWarnings("deprecation")
-public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNamedSBase {
+public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.
@@ -84,7 +87,12 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
    * 
    */
   private String compartment;
-  
+
+  /**
+   * 
+   */
+  private ListOf<InSpeciesTypeBond> listOfInSpeciesTypeBonds;
+
   /**
    * 
    */
@@ -93,34 +101,18 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
   /**
    * 
    */
-  private ListOf<SpeciesTypeInstance> listOfSpeciesTypeInstances;
-  
-  /**
-   * 
-   */
   private ListOf<SpeciesTypeComponentIndex> listOfSpeciesTypeComponentIndexes;
 
   /**
    * 
    */
-  private ListOf<InSpeciesTypeBond> listOfInSpeciesTypeBonds;
-  
+  private ListOf<SpeciesTypeInstance> listOfSpeciesTypeInstances;
+
   /**
-   * Creates an SpeciesType instance 
+   * Creates an SpeciesType instance
    */
   public SpeciesType() {
     super();
-    initDefaults();
-  }
-
-
-  /**
-   * Creates a SpeciesType instance with an id.
-   * 
-   * @param id the identifier for the new element.
-   */
-  public SpeciesType(String id) {
-    super(id);
     initDefaults();
   }
 
@@ -133,6 +125,44 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
    */
   public SpeciesType(int level, int version) {
     this(null, null, level, version);
+  }
+
+
+  /**
+   * Clone constructor
+   * @param obj
+   */
+  public SpeciesType(SpeciesType obj) {
+    super(obj);
+
+    // copy all class attributes
+    if (obj.isSetListOfSpeciesFeatureTypes()) {
+      setListOfSpeciesFeatureTypes(obj.getListOfSpeciesFeatureTypes().clone());
+    }
+    if (obj.isSetListOfSpeciesTypeInstances()) {
+      setListOfSpeciesTypeInstances(obj.getListOfSpeciesTypeInstances().clone());
+    }
+    if (obj.isSetListOfSpeciesTypeComponentIndexes()) {
+      setListOfSpeciesTypeComponentIndexes(obj.getListOfSpeciesTypeComponentIndexes().clone());
+    }
+    if (obj.isSetListOfInSpeciesTypeBonds()) {
+      setListOfInSpeciesTypeBonds(obj.getListOfInSpeciesTypeBonds().clone());
+    }
+    if (obj.isSetCompartment()) {
+      setCompartment(obj.getCompartment());
+    }
+
+  }
+
+
+  /**
+   * Creates a SpeciesType instance with an id.
+   * 
+   * @param id the identifier for the new element.
+   */
+  public SpeciesType(String id) {
+    super(id);
+    initDefaults();
   }
 
 
@@ -168,75 +198,171 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
 
 
   /**
-   * Clone constructor
+   * Adds a new {@link InSpeciesTypeBond} to the {@link #listOfInSpeciesTypeBonds}.
+   * <p>The listOfInSpeciesTypeBonds is initialized if necessary.
+   *
+   * @param inSpeciesTypeBond the element to add to the list
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
+   * @see java.util.Collection#add(Object)
    */
-  public SpeciesType(SpeciesType obj) {
-    super(obj);
-    
-    // copy all class attributes
-    if (obj.isSetListOfSpeciesFeatureTypes()) {
-      setListOfSpeciesFeatureTypes(obj.getListOfSpeciesFeatureTypes().clone());
-    }
-    if (obj.isSetListOfSpeciesTypeInstances()) {
-      setListOfSpeciesTypeInstances(obj.getListOfSpeciesTypeInstances().clone());
-    }
-    if (obj.isSetListOfSpeciesTypeComponentIndexes()) {
-      setListOfSpeciesTypeComponentIndexes(obj.getListOfSpeciesTypeComponentIndexes().clone());
-    }
-    if (obj.isSetListOfInSpeciesTypeBonds()) {
-      setListOfInSpeciesTypeBonds(obj.getListOfInSpeciesTypeBonds().clone());
-    }
-    if (obj.isSetCompartment()) {
-      setCompartment(obj.getCompartment());
-    }
+  public boolean addInSpeciesTypeBond(InSpeciesTypeBond inSpeciesTypeBond) {
+    return getListOfInSpeciesTypeBonds().add(inSpeciesTypeBond);
+  }
 
+
+  /**
+   * Adds a new {@link SpeciesFeatureType} to the {@link #listOfSpeciesFeatureTypes}.
+   * <p>The listOfSpeciesFeatureTypes is initialized if necessary.
+   *
+   * @param speciesFeatureType the element to add to the list
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
+   * @see java.util.Collection#add(Object)
+   */
+  public boolean addSpeciesFeatureType(SpeciesFeatureType speciesFeatureType) {
+    return getListOfSpeciesFeatureTypes().add(speciesFeatureType);
+  }
+
+
+  /**
+   * Adds a new {@link SpeciesTypeComponentIndex} to the {@link #listOfSpeciesTypeComponentIndexes}.
+   * <p>The listOfSpeciesTypeComponentIndexes is initialized if necessary.
+   *
+   * @param speciesTypeComponentIndex the element to add to the list
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
+   * @see java.util.Collection#add(Object)
+   */
+  public boolean addSpeciesTypeComponentIndex(SpeciesTypeComponentIndex speciesTypeComponentIndex) {
+    return getListOfSpeciesTypeComponentIndexes().add(speciesTypeComponentIndex);
+  }
+
+
+  /**
+   * Adds a new {@link SpeciesTypeInstance} to the {@link #listOfSpeciesTypeInstances}.
+   * <p>The listOfSpeciesTypeInstances is initialized if necessary.
+   *
+   * @param speciesTypeInstance the element to add to the list
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
+   * @see java.util.Collection#add(Object)
+   */
+  public boolean addSpeciesTypeInstance(SpeciesTypeInstance speciesTypeInstance) {
+    return getListOfSpeciesTypeInstances().add(speciesTypeInstance);
   }
 
 
   /**
    * clones this class
    */
+  @Override
   public SpeciesType clone() {
     return new SpeciesType(this);
   }
 
 
   /**
-   * Initializes the default values using the namespace.
+   * Creates a new InSpeciesTypeBond element and adds it to the
+   * {@link #listOfInSpeciesTypeBonds} list.
+   *
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfInSpeciesTypeBonds}
    */
-  public void initDefaults() {
-    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-    packageName = MultiConstants.shortLabel;
-    setPackageVersion(-1);
+  public InSpeciesTypeBond createInSpeciesTypeBond() {
+    return createInSpeciesTypeBond(null);
   }
-  
-  
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
+
+
+  /**
+   * Creates a new {@link InSpeciesTypeBond} element and adds it to the
+   * {@link #listOfInSpeciesTypeBonds} list.
+   *
+   * @param id the identifier that is to be applied to the new element.
+   * @return the newly created {@link InSpeciesTypeBond} element, which is the last
+   *         element in the {@link #listOfInSpeciesTypeBonds}.
    */
-  @Override
-  public int hashCode() {
-    final int prime = 5807;
-    int result = super.hashCode();
-    result = prime * result
-      + ((compartment == null) ? 0 : compartment.hashCode());
-    result = prime
-      * result
-      + ((listOfInSpeciesTypeBonds == null) ? 0
-        : listOfInSpeciesTypeBonds.hashCode());
-    result = prime
-      * result
-      + ((listOfSpeciesFeatureTypes == null) ? 0
-        : listOfSpeciesFeatureTypes.hashCode());
-    result = prime
-      * result
-      + ((listOfSpeciesTypeComponentIndexes == null) ? 0
-        : listOfSpeciesTypeComponentIndexes.hashCode());
-    result = prime
-      * result
-      + ((listOfSpeciesTypeInstances == null) ? 0
-        : listOfSpeciesTypeInstances.hashCode());
-    return result;
+  public InSpeciesTypeBond createInSpeciesTypeBond(String id) {
+    InSpeciesTypeBond inSpeciesTypeBond = new InSpeciesTypeBond(id);
+    addInSpeciesTypeBond(inSpeciesTypeBond);
+    return inSpeciesTypeBond;
+  }
+
+
+  /**
+   * Creates a new SpeciesFeatureType element and adds it to the
+   * {@link #listOfSpeciesFeatureTypes} list.
+   *
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfSpeciesFeatureTypes}
+   */
+  public SpeciesFeatureType createSpeciesFeatureType() {
+    return createSpeciesFeatureType(null);
+  }
+
+
+  /**
+   * Creates a new {@link SpeciesFeatureType} element and adds it to the
+   * {@link #listOfSpeciesFeatureTypes} list.
+   *
+   * @param id the identifier that is to be applied to the new element.
+   * @return the newly created {@link SpeciesFeatureType} element, which is the last
+   *         element in the {@link #listOfSpeciesFeatureTypes}.
+   */
+  public SpeciesFeatureType createSpeciesFeatureType(String id) {
+    SpeciesFeatureType speciesFeatureType = new SpeciesFeatureType(id);
+    addSpeciesFeatureType(speciesFeatureType);
+    return speciesFeatureType;
+  }
+
+
+  /**
+   * Creates a new SpeciesTypeComponentIndex element and adds it to the
+   * {@link #listOfSpeciesTypeComponentIndexes} list.
+   *
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfSpeciesTypeComponentIndexes}
+   */
+  public SpeciesTypeComponentIndex createSpeciesTypeComponentIndex() {
+    return createSpeciesTypeComponentIndex(null);
+  }
+
+
+  /**
+   * Creates a new {@link SpeciesTypeComponentIndex} element and adds it to the
+   * {@link #listOfSpeciesTypeComponentIndexes} list.
+   *
+   * @param id the identifier that is to be applied to the new element.
+   * @return the newly created {@link SpeciesTypeComponentIndex} element, which is the last
+   *         element in the {@link #listOfSpeciesTypeComponentIndexes}.
+   */
+  public SpeciesTypeComponentIndex createSpeciesTypeComponentIndex(String id) {
+    SpeciesTypeComponentIndex speciesTypeComponentIndex = new SpeciesTypeComponentIndex(id);
+    addSpeciesTypeComponentIndex(speciesTypeComponentIndex);
+    return speciesTypeComponentIndex;
+  }
+
+
+  /**
+   * Creates a new SpeciesTypeInstance element and adds it to the
+   * {@link #listOfSpeciesTypeInstances} list.
+   *
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfSpeciesTypeInstances}
+   */
+  public SpeciesTypeInstance createSpeciesTypeInstance() {
+    return createSpeciesTypeInstance(null);
+  }
+
+
+  /**
+   * Creates a new {@link SpeciesTypeInstance} element and adds it to the
+   * {@link #listOfSpeciesTypeInstances} list.
+   *
+   * @param id the identifier that is to be applied to the new element.
+   * @return the newly created {@link SpeciesTypeInstance} element, which is the last
+   *         element in the {@link #listOfSpeciesTypeInstances}.
+   */
+  public SpeciesTypeInstance createSpeciesTypeInstance(String id) {
+    SpeciesTypeInstance speciesTypeInstance = new SpeciesTypeInstance(id);
+    addSpeciesTypeInstance(speciesTypeInstance);
+    return speciesTypeInstance;
   }
 
 
@@ -293,967 +419,6 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
     return true;
   }
 
-  
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "SpeciesType [id = " + getId() + ", name = " + getName() + ", compartment=" + compartment
-      + ", listOfSpeciesFeatureTypes.size = " + getSpeciesFeatureTypeCount()
-      + ", listOfSpeciesTypeInstances.size = " + getSpeciesTypeInstanceCount()
-      + ", listOfSpeciesTypeComponentIndexes.size = "
-      + getSpeciesTypeComponentIndexCount() + ", listOfInSpeciesTypeBonds.size = "
-      + getInSpeciesTypeBondCount() + "]";
-  }
-
-
-  /**
-   * Returns {@code true} if {@link #listOfSpeciesFeatureTypes} contains at least
-   * one element.
-   *
-   * @return {@code true} if {@link #listOfSpeciesFeatureTypes} contains at least
-   *         one element, otherwise {@code false}.
-   */
-  public boolean isSetListOfSpeciesFeatureTypes() {
-    if (listOfSpeciesFeatureTypes == null) {
-      return false;
-    }
-    return true;
-  }
-
-
-  /**
-   * Returns the {@link #listOfSpeciesFeatureTypes}.
-   * Creates it if it does not already exist.
-   *
-   * @return the {@link #listOfSpeciesFeatureTypes}.
-   */
-  public ListOf<SpeciesFeatureType> getListOfSpeciesFeatureTypes() {
-    if (listOfSpeciesFeatureTypes == null) {
-      listOfSpeciesFeatureTypes = new ListOf<SpeciesFeatureType>();
-      listOfSpeciesFeatureTypes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-      listOfSpeciesFeatureTypes.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'multi'
-      listOfSpeciesFeatureTypes.setPackageName(null);
-      listOfSpeciesFeatureTypes.setPackageName(MultiConstants.shortLabel);
-      listOfSpeciesFeatureTypes.setSBaseListType(ListOf.Type.other);
-
-      registerChild(listOfSpeciesFeatureTypes);
-    }
-    return listOfSpeciesFeatureTypes;
-  }
-
-
-  /**
-   * Sets the given {@code ListOf<SpeciesFeatureType>}.
-   * If {@link #listOfSpeciesFeatureTypes} was defined before and contains some
-   * elements, they are all unset.
-   *
-   * @param listOfSpeciesFeatureTypes
-   */
-  public void setListOfSpeciesFeatureTypes(ListOf<SpeciesFeatureType> listOfSpeciesFeatureTypes) {
-    unsetListOfSpeciesFeatureTypes();
-    this.listOfSpeciesFeatureTypes = listOfSpeciesFeatureTypes;
-    if (listOfSpeciesFeatureTypes != null) {
-      listOfSpeciesFeatureTypes.unsetNamespace();
-      listOfSpeciesFeatureTypes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-      listOfSpeciesFeatureTypes.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'multi'
-      listOfSpeciesFeatureTypes.setPackageName(null);
-      listOfSpeciesFeatureTypes.setPackageName(MultiConstants.shortLabel);
-      this.listOfSpeciesFeatureTypes.setSBaseListType(ListOf.Type.other);
-
-      registerChild(this.listOfSpeciesFeatureTypes);
-    }
-  }
-
-
-  /**
-   * Returns {@code true} if {@link #listOfSpeciesFeatureTypes} contains at least
-   * one element, otherwise {@code false}.
-   *
-   * @return {@code true} if {@link #listOfSpeciesFeatureTypes} contains at least
-   *         one element, otherwise {@code false}.
-   */
-  public boolean unsetListOfSpeciesFeatureTypes() {
-    if (isSetListOfSpeciesFeatureTypes()) {
-      ListOf<SpeciesFeatureType> oldSpeciesFeatureTypes = this.listOfSpeciesFeatureTypes;
-      this.listOfSpeciesFeatureTypes = null;
-      oldSpeciesFeatureTypes.fireNodeRemovedEvent();
-      return true;
-    }
-    return false;
-  }
-
-
-  /**
-   * Adds a new {@link SpeciesFeatureType} to the {@link #listOfSpeciesFeatureTypes}.
-   * <p>The listOfSpeciesFeatureTypes is initialized if necessary.
-   *
-   * @param speciesFeatureType the element to add to the list
-   * @return {@code true} (as specified by {@link java.util.Collection#add})
-   * @see java.util.Collection#add(Object)
-   */
-  public boolean addSpeciesFeatureType(SpeciesFeatureType speciesFeatureType) {
-    return getListOfSpeciesFeatureTypes().add(speciesFeatureType);
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesFeatureTypes}.
-   *
-   * @param speciesFeatureType the element to be removed from the list.
-   * @return {@code true} if the list contained the specified element and it was
-   *         removed.
-   * @see java.util.List#remove(Object)
-   */
-  public boolean removeSpeciesFeatureType(SpeciesFeatureType speciesFeatureType) {
-    if (isSetListOfSpeciesFeatureTypes()) {
-      return getListOfSpeciesFeatureTypes().remove(speciesFeatureType);
-    }
-    return false;
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesFeatureTypes}.
-   *
-   * @param speciesFeatureTypeId the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or
-   *         {@code null}.
-   */
-  public SpeciesFeatureType removeSpeciesFeatureType(String speciesFeatureTypeId) {
-    if (isSetListOfSpeciesFeatureTypes()) {
-      return getListOfSpeciesFeatureTypes().remove(speciesFeatureTypeId);
-    }
-    return null;
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesFeatureTypes} at the given index.
-   *
-   * @param i the index where to remove the {@link SpeciesFeatureType}.
-   * @return the specified element if it was successfully found and removed.
-   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
-   *         out of bound ({@code (i < 0) || (i > listOfSpeciesFeatureTypes)}).
-   */
-  public SpeciesFeatureType removeSpeciesFeatureType(int i) {
-    if (!isSetListOfSpeciesFeatureTypes()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfSpeciesFeatureTypes().remove(i);
-  }
-
-
-  /**
-   * Creates a new SpeciesFeatureType element and adds it to the
-   * {@link #listOfSpeciesFeatureTypes} list.
-   *
-   * @return the newly created element, i.e., the last item in the
-   *         {@link #listOfSpeciesFeatureTypes}
-   */
-  public SpeciesFeatureType createSpeciesFeatureType() {
-    return createSpeciesFeatureType(null);
-  }
-
-
-  /**
-   * Creates a new {@link SpeciesFeatureType} element and adds it to the
-   * {@link #listOfSpeciesFeatureTypes} list.
-   *
-   * @param id the identifier that is to be applied to the new element.
-   * @return the newly created {@link SpeciesFeatureType} element, which is the last
-   *         element in the {@link #listOfSpeciesFeatureTypes}.
-   */
-  public SpeciesFeatureType createSpeciesFeatureType(String id) {
-    SpeciesFeatureType speciesFeatureType = new SpeciesFeatureType(id);
-    addSpeciesFeatureType(speciesFeatureType);
-    return speciesFeatureType;
-  }
-
-
-  /**
-   * Gets an element from the {@link #listOfSpeciesFeatureTypes} at the given index.
-   *
-   * @param i the index of the {@link SpeciesFeatureType} element to get.
-   * @return an element from the listOfSpeciesFeatureTypes at the given index.
-   * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
-   */
-  public SpeciesFeatureType getSpeciesFeatureType(int i) {
-    if (!isSetListOfSpeciesFeatureTypes()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfSpeciesFeatureTypes().get(i);
-  }
-
-
-  /**
-   * Gets an element from the listOfSpeciesFeatureTypes, with the given id.
-   *
-   * @param speciesFeatureTypeId the id of the {@link SpeciesFeatureType} element to get.
-   * @return an element from the listOfSpeciesFeatureTypes with the given id
-   *         or {@code null}.
-   */
-  public SpeciesFeatureType getSpeciesFeatureType(String speciesFeatureTypeId) {
-    if (isSetListOfSpeciesFeatureTypes()) {
-      return getListOfSpeciesFeatureTypes().get(speciesFeatureTypeId);
-    }
-    return null;
-  }
-
-
-  /**
-   * Returns the number of {@link SpeciesFeatureType}s in this
-   * {@link SpeciesType}.
-   * 
-   * @return the number of {@link SpeciesFeatureType}s in this
-   *         {@link SpeciesType}.
-   */
-  public int getSpeciesFeatureTypeCount() {
-    return isSetListOfSpeciesFeatureTypes() ? getListOfSpeciesFeatureTypes().size() : 0;
-  }
-
-
-  /**
-   * Returns the number of {@link SpeciesFeatureType}s in this
-   * {@link SpeciesType}.
-   * 
-   * @return the number of {@link SpeciesFeatureType}s in this
-   *         {@link SpeciesType}.
-   * @libsbml.deprecated same as {@link #getSpeciesFeatureTypeCount()}
-   */
-  public int getNumSpeciesFeatureTypes() {
-    return getSpeciesFeatureTypeCount();
-  }
-  
-  
-  /**
-   * Returns {@code true} if {@link #listOfSpeciesTypeInstances} contains at least
-   * one element.
-   *
-   * @return {@code true} if {@link #listOfSpeciesTypeInstances} contains at least
-   *         one element, otherwise {@code false}.
-   */
-  public boolean isSetListOfSpeciesTypeInstances() {
-    if (listOfSpeciesTypeInstances == null) {
-      return false;
-    }
-    return true;
-  }
-
-
-  /**
-   * Returns the {@link #listOfSpeciesTypeInstances}.
-   * Creates it if it does not already exist.
-   *
-   * @return the {@link #listOfSpeciesTypeInstances}.
-   */
-  public ListOf<SpeciesTypeInstance> getListOfSpeciesTypeInstances() {
-    if (listOfSpeciesTypeInstances == null) {
-      listOfSpeciesTypeInstances = new ListOf<SpeciesTypeInstance>();
-      listOfSpeciesTypeInstances.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-      listOfSpeciesTypeInstances.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'multi'
-      listOfSpeciesTypeInstances.setPackageName(null);
-      listOfSpeciesTypeInstances.setPackageName(MultiConstants.shortLabel);
-      listOfSpeciesTypeInstances.setSBaseListType(ListOf.Type.other);
-
-      registerChild(this.listOfSpeciesTypeInstances);
-    }
-    return listOfSpeciesTypeInstances;
-  }
-
-
-  /**
-   * Sets the given {@code ListOf<SpeciesTypeInstance>}.
-   * If {@link #listOfSpeciesTypeInstances} was defined before and contains some
-   * elements, they are all unset.
-   *
-   * @param listOfSpeciesTypeInstances
-   */
-  public void setListOfSpeciesTypeInstances(ListOf<SpeciesTypeInstance> listOfSpeciesTypeInstances) {
-    unsetListOfSpeciesTypeInstances();
-    this.listOfSpeciesTypeInstances = listOfSpeciesTypeInstances;
-    if (listOfSpeciesTypeInstances != null) {
-      listOfSpeciesTypeInstances.unsetNamespace();
-      listOfSpeciesTypeInstances.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-      listOfSpeciesTypeInstances.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'multi'
-      listOfSpeciesTypeInstances.setPackageName(null);
-      listOfSpeciesTypeInstances.setPackageName(MultiConstants.shortLabel);
-      this.listOfSpeciesTypeInstances.setSBaseListType(ListOf.Type.other);
-
-      registerChild(this.listOfSpeciesTypeInstances);
-    }
-  }
-
-
-  /**
-   * Returns {@code true} if {@link #listOfSpeciesTypeInstances} contains at least
-   * one element, otherwise {@code false}.
-   *
-   * @return {@code true} if {@link #listOfSpeciesTypeInstances} contains at least
-   *         one element, otherwise {@code false}.
-   */
-  public boolean unsetListOfSpeciesTypeInstances() {
-    if (isSetListOfSpeciesTypeInstances()) {
-      ListOf<SpeciesTypeInstance> oldSpeciesTypeInstances = this.listOfSpeciesTypeInstances;
-      this.listOfSpeciesTypeInstances = null;
-      oldSpeciesTypeInstances.fireNodeRemovedEvent();
-      return true;
-    }
-    return false;
-  }
-
-
-  /**
-   * Adds a new {@link SpeciesTypeInstance} to the {@link #listOfSpeciesTypeInstances}.
-   * <p>The listOfSpeciesTypeInstances is initialized if necessary.
-   *
-   * @param speciesTypeInstance the element to add to the list
-   * @return {@code true} (as specified by {@link java.util.Collection#add})
-   * @see java.util.Collection#add(Object)
-   */
-  public boolean addSpeciesTypeInstance(SpeciesTypeInstance speciesTypeInstance) {
-    return getListOfSpeciesTypeInstances().add(speciesTypeInstance);
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesTypeInstances}.
-   *
-   * @param speciesTypeInstance the element to be removed from the list.
-   * @return {@code true} if the list contained the specified element and it was
-   *         removed.
-   * @see java.util.List#remove(Object)
-   */
-  public boolean removeSpeciesTypeInstance(SpeciesTypeInstance speciesTypeInstance) {
-    if (isSetListOfSpeciesTypeInstances()) {
-      return getListOfSpeciesTypeInstances().remove(speciesTypeInstance);
-    }
-    return false;
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesTypeInstances}.
-   *
-   * @param speciesTypeInstanceId the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or
-   *         {@code null}.
-   */
-  public SpeciesTypeInstance removeSpeciesTypeInstance(String speciesTypeInstanceId) {
-    if (isSetListOfSpeciesTypeInstances()) {
-      return getListOfSpeciesTypeInstances().remove(speciesTypeInstanceId);
-    }
-    return null;
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesTypeInstances} at the given index.
-   *
-   * @param i the index where to remove the {@link SpeciesTypeInstance}.
-   * @return the specified element if it was successfully found and removed.
-   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
-   *         out of bound ({@code (i < 0) || (i > listOfSpeciesTypeInstances)}).
-   */
-  public SpeciesTypeInstance removeSpeciesTypeInstance(int i) {
-    if (!isSetListOfSpeciesTypeInstances()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfSpeciesTypeInstances().remove(i);
-  }
-
-
-  /**
-   * Creates a new SpeciesTypeInstance element and adds it to the
-   * {@link #listOfSpeciesTypeInstances} list.
-   *
-   * @return the newly created element, i.e., the last item in the
-   *         {@link #listOfSpeciesTypeInstances}
-   */
-  public SpeciesTypeInstance createSpeciesTypeInstance() {
-    return createSpeciesTypeInstance(null);
-  }
-
-
-  /**
-   * Creates a new {@link SpeciesTypeInstance} element and adds it to the
-   * {@link #listOfSpeciesTypeInstances} list.
-   *
-   * @param id the identifier that is to be applied to the new element.
-   * @return the newly created {@link SpeciesTypeInstance} element, which is the last
-   *         element in the {@link #listOfSpeciesTypeInstances}.
-   */
-  public SpeciesTypeInstance createSpeciesTypeInstance(String id) {
-    SpeciesTypeInstance speciesTypeInstance = new SpeciesTypeInstance(id);
-    addSpeciesTypeInstance(speciesTypeInstance);
-    return speciesTypeInstance;
-  }
-
-
-  /**
-   * Gets an element from the {@link #listOfSpeciesTypeInstances} at the given index.
-   *
-   * @param i the index of the {@link SpeciesTypeInstance} element to get.
-   * @return an element from the listOfSpeciesTypeInstances at the given index.
-   * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
-   */
-  public SpeciesTypeInstance getSpeciesTypeInstance(int i) {
-    if (!isSetListOfSpeciesTypeInstances()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfSpeciesTypeInstances().get(i);
-  }
-
-
-  /**
-   * Gets an element from the listOfSpeciesTypeInstances, with the given id.
-   *
-   * @param speciesTypeInstanceId the id of the {@link SpeciesTypeInstance} element to get.
-   * @return an element from the listOfSpeciesTypeInstances with the given id
-   *         or {@code null}.
-   */
-  public SpeciesTypeInstance getSpeciesTypeInstance(String speciesTypeInstanceId) {
-    if (isSetListOfSpeciesTypeInstances()) {
-      return getListOfSpeciesTypeInstances().get(speciesTypeInstanceId);
-    }
-    return null;
-  }
-
-
-  /**
-   * Returns the number of {@link SpeciesTypeInstance}s in this
-   * {@link SpeciesType}.
-   * 
-   * @return the number of {@link SpeciesTypeInstance}s in this
-   *         {@link SpeciesType}.
-   */
-  public int getSpeciesTypeInstanceCount() {
-    return isSetListOfSpeciesTypeInstances() ? getListOfSpeciesTypeInstances().size() : 0;
-  }
-
-
-  /**
-   * Returns the number of {@link SpeciesTypeInstance}s in this
-   * {@link SpeciesType}.
-   * 
-   * @return the number of {@link SpeciesTypeInstance}s in this
-   *         {@link SpeciesType}.
-   * @libsbml.deprecated same as {@link #getSpeciesTypeInstanceCount()}
-   */
-  public int getNumSpeciesTypeInstances() {
-    return getSpeciesTypeInstanceCount();
-  }
-
-  
-  /**
-   * Returns {@code true} if {@link #listOfSpeciesTypeComponentIndexes} contains at least
-   * one element.
-   *
-   * @return {@code true} if {@link #listOfSpeciesTypeComponentIndexes} contains at least
-   *         one element, otherwise {@code false}.
-   */
-  public boolean isSetListOfSpeciesTypeComponentIndexes() {
-    if (listOfSpeciesTypeComponentIndexes == null) {
-      return false;
-    }
-    return true;
-  }
-
-
-  /**
-   * Returns the {@link #listOfSpeciesTypeComponentIndexes}.
-   * Creates it if it does not already exist.
-   *
-   * @return the {@link #listOfSpeciesTypeComponentIndexes}.
-   */
-  public ListOf<SpeciesTypeComponentIndex> getListOfSpeciesTypeComponentIndexes() {
-    if (listOfSpeciesTypeComponentIndexes == null) {
-      listOfSpeciesTypeComponentIndexes = new ListOf<SpeciesTypeComponentIndex>();
-      listOfSpeciesTypeComponentIndexes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-      listOfSpeciesTypeComponentIndexes.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'multi'
-      listOfSpeciesTypeComponentIndexes.setPackageName(null);
-      listOfSpeciesTypeComponentIndexes.setPackageName(MultiConstants.shortLabel);
-      listOfSpeciesTypeComponentIndexes.setSBaseListType(ListOf.Type.other);
-
-      registerChild(listOfSpeciesTypeComponentIndexes);
-    }
-    return listOfSpeciesTypeComponentIndexes;
-  }
-
-
-  /**
-   * Sets the given {@code ListOf<SpeciesTypeComponentIndex>}.
-   * If {@link #listOfSpeciesTypeComponentIndexes} was defined before and contains some
-   * elements, they are all unset.
-   *
-   * @param listOfSpeciesTypeComponentIndexes
-   */
-  public void setListOfSpeciesTypeComponentIndexes(ListOf<SpeciesTypeComponentIndex> listOfSpeciesTypeComponentIndexes) {
-    unsetListOfSpeciesTypeComponentIndexes();
-    this.listOfSpeciesTypeComponentIndexes = listOfSpeciesTypeComponentIndexes;
-    
-    if (listOfSpeciesTypeComponentIndexes != null) {
-      listOfSpeciesTypeComponentIndexes.unsetNamespace();
-      listOfSpeciesTypeComponentIndexes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-      listOfSpeciesTypeComponentIndexes.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'multi'
-      listOfSpeciesTypeComponentIndexes.setPackageName(null);
-      listOfSpeciesTypeComponentIndexes.setPackageName(MultiConstants.shortLabel);
-      this.listOfSpeciesTypeComponentIndexes.setSBaseListType(ListOf.Type.other);
-
-      registerChild(listOfSpeciesTypeComponentIndexes);
-    }
-  }
-
-
-  /**
-   * Returns {@code true} if {@link #listOfSpeciesTypeComponentIndexes} contains at least
-   * one element, otherwise {@code false}.
-   *
-   * @return {@code true} if {@link #listOfSpeciesTypeComponentIndexes} contains at least
-   *         one element, otherwise {@code false}.
-   */
-  public boolean unsetListOfSpeciesTypeComponentIndexes() {
-    if (isSetListOfSpeciesTypeComponentIndexes()) {
-      ListOf<SpeciesTypeComponentIndex> oldSpeciesTypeComponentIndexs = this.listOfSpeciesTypeComponentIndexes;
-      this.listOfSpeciesTypeComponentIndexes = null;
-      oldSpeciesTypeComponentIndexs.fireNodeRemovedEvent();
-      return true;
-    }
-    return false;
-  }
-
-
-  /**
-   * Adds a new {@link SpeciesTypeComponentIndex} to the {@link #listOfSpeciesTypeComponentIndexes}.
-   * <p>The listOfSpeciesTypeComponentIndexes is initialized if necessary.
-   *
-   * @param speciesTypeComponentIndex the element to add to the list
-   * @return {@code true} (as specified by {@link java.util.Collection#add})
-   * @see java.util.Collection#add(Object)
-   */
-  public boolean addSpeciesTypeComponentIndex(SpeciesTypeComponentIndex speciesTypeComponentIndex) {
-    return getListOfSpeciesTypeComponentIndexes().add(speciesTypeComponentIndex);
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesTypeComponentIndexes}.
-   *
-   * @param speciesTypeComponentIndex the element to be removed from the list.
-   * @return {@code true} if the list contained the specified element and it was
-   *         removed.
-   * @see java.util.List#remove(Object)
-   */
-  public boolean removeSpeciesTypeComponentIndex(SpeciesTypeComponentIndex speciesTypeComponentIndex) {
-    if (isSetListOfSpeciesTypeComponentIndexes()) {
-      return getListOfSpeciesTypeComponentIndexes().remove(speciesTypeComponentIndex);
-    }
-    return false;
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesTypeComponentIndexes}.
-   *
-   * @param speciesTypeComponentIndexId the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or
-   *         {@code null}.
-   */
-  public SpeciesTypeComponentIndex removeSpeciesTypeComponentIndex(String speciesTypeComponentIndexId) {
-    if (isSetListOfSpeciesTypeComponentIndexes()) {
-      return getListOfSpeciesTypeComponentIndexes().remove(speciesTypeComponentIndexId);
-    }
-    return null;
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesTypeComponentIndexes} at the given index.
-   *
-   * @param i the index where to remove the {@link SpeciesTypeComponentIndex}.
-   * @return the specified element if it was successfully found and removed.
-   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
-   *         out of bound ({@code (i < 0) || (i > listOfSpeciesTypeComponentIndexes)}).
-   */
-  public SpeciesTypeComponentIndex removeSpeciesTypeComponentIndex(int i) {
-    if (!isSetListOfSpeciesTypeComponentIndexes()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfSpeciesTypeComponentIndexes().remove(i);
-  }
-
-
-  /**
-   * Creates a new SpeciesTypeComponentIndex element and adds it to the
-   * {@link #listOfSpeciesTypeComponentIndexes} list.
-   *
-   * @return the newly created element, i.e., the last item in the
-   *         {@link #listOfSpeciesTypeComponentIndexes}
-   */
-  public SpeciesTypeComponentIndex createSpeciesTypeComponentIndex() {
-    return createSpeciesTypeComponentIndex(null);
-  }
-
-
-  /**
-   * Creates a new {@link SpeciesTypeComponentIndex} element and adds it to the
-   * {@link #listOfSpeciesTypeComponentIndexes} list.
-   *
-   * @param id the identifier that is to be applied to the new element.
-   * @return the newly created {@link SpeciesTypeComponentIndex} element, which is the last
-   *         element in the {@link #listOfSpeciesTypeComponentIndexes}.
-   */
-  public SpeciesTypeComponentIndex createSpeciesTypeComponentIndex(String id) {
-    SpeciesTypeComponentIndex speciesTypeComponentIndex = new SpeciesTypeComponentIndex(id);
-    addSpeciesTypeComponentIndex(speciesTypeComponentIndex);
-    return speciesTypeComponentIndex;
-  }
-
-
-  /**
-   * Gets an element from the {@link #listOfSpeciesTypeComponentIndexes} at the given index.
-   *
-   * @param i the index of the {@link SpeciesTypeComponentIndex} element to get.
-   * @return an element from the listOfSpeciesTypeComponentIndexes at the given index.
-   * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
-   */
-  public SpeciesTypeComponentIndex getSpeciesTypeComponentIndex(int i) {
-    if (!isSetListOfSpeciesTypeComponentIndexes()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfSpeciesTypeComponentIndexes().get(i);
-  }
-
-
-  /**
-   * Gets an element from the listOfSpeciesTypeComponentIndexes, with the given id.
-   *
-   * @param speciesTypeComponentIndexId the id of the {@link SpeciesTypeComponentIndex} element to get.
-   * @return an element from the listOfSpeciesTypeComponentIndexes with the given id
-   *         or {@code null}.
-   */
-  public SpeciesTypeComponentIndex getSpeciesTypeComponentIndex(String speciesTypeComponentIndexId) {
-    if (isSetListOfSpeciesTypeComponentIndexes()) {
-      return getListOfSpeciesTypeComponentIndexes().get(speciesTypeComponentIndexId);
-    }
-    return null;
-  }
-
-
-  /**
-   * Returns the number of {@link SpeciesTypeComponentIndex}s in this
-   * {@link SpeciesType}.
-   * 
-   * @return the number of {@link SpeciesTypeComponentIndex}s in this
-   *         {@link SpeciesType}.
-   */
-  public int getSpeciesTypeComponentIndexCount() {
-    return isSetListOfSpeciesTypeComponentIndexes() ? getListOfSpeciesTypeComponentIndexes().size() : 0;
-  }
-
-
-  /**
-   * Returns the number of {@link SpeciesTypeComponentIndex}s in this
-   * {@link SpeciesType}.
-   * 
-   * @return the number of {@link SpeciesTypeComponentIndex}s in this
-   *         {@link SpeciesType}.
-   * @libsbml.deprecated same as {@link #getSpeciesTypeComponentIndexCount()}
-   */
-  public int getNumSpeciesTypeComponentIndexes() {
-    return getSpeciesTypeComponentIndexCount();
-  }
-
-  
-  /**
-   * Returns {@code true} if {@link #listOfInSpeciesTypeBonds} contains at least
-   * one element.
-   *
-   * @return {@code true} if {@link #listOfInSpeciesTypeBonds} contains at least
-   *         one element, otherwise {@code false}.
-   */
-  public boolean isSetListOfInSpeciesTypeBonds() {
-    if (listOfInSpeciesTypeBonds == null) {
-      return false;
-    }
-    return true;
-  }
-
-
-  /**
-   * Returns the {@link #listOfInSpeciesTypeBonds}.
-   * Creates it if it does not already exist.
-   *
-   * @return the {@link #listOfInSpeciesTypeBonds}.
-   */
-  public ListOf<InSpeciesTypeBond> getListOfInSpeciesTypeBonds() {
-    if (listOfInSpeciesTypeBonds == null) {
-      listOfInSpeciesTypeBonds = new ListOf<InSpeciesTypeBond>();
-      listOfInSpeciesTypeBonds.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-      listOfInSpeciesTypeBonds.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'multi'
-      listOfInSpeciesTypeBonds.setPackageName(null);
-      listOfInSpeciesTypeBonds.setPackageName(MultiConstants.shortLabel);
-      listOfInSpeciesTypeBonds.setSBaseListType(ListOf.Type.other);
-
-      registerChild(listOfInSpeciesTypeBonds);
-    }
-    return listOfInSpeciesTypeBonds;
-  }
-
-
-  /**
-   * Sets the given {@code ListOf<InSpeciesTypeBond>}.
-   * If {@link #listOfInSpeciesTypeBonds} was defined before and contains some
-   * elements, they are all unset.
-   *
-   * @param listOfInSpeciesTypeBonds
-   */
-  public void setListOfInSpeciesTypeBonds(ListOf<InSpeciesTypeBond> listOfInSpeciesTypeBonds) {
-    unsetListOfInSpeciesTypeBonds();
-    this.listOfInSpeciesTypeBonds = listOfInSpeciesTypeBonds;
-    if (listOfInSpeciesTypeBonds != null) {
-      listOfInSpeciesTypeBonds.unsetNamespace();
-      listOfInSpeciesTypeBonds.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-      listOfInSpeciesTypeBonds.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'multi'
-      listOfInSpeciesTypeBonds.setPackageName(null);
-      listOfInSpeciesTypeBonds.setPackageName(MultiConstants.shortLabel);
-      this.listOfInSpeciesTypeBonds.setSBaseListType(ListOf.Type.other);
-
-      registerChild(listOfInSpeciesTypeBonds);
-    }
-  }
-
-
-  /**
-   * Returns {@code true} if {@link #listOfInSpeciesTypeBonds} contains at least
-   * one element, otherwise {@code false}.
-   *
-   * @return {@code true} if {@link #listOfInSpeciesTypeBonds} contains at least
-   *         one element, otherwise {@code false}.
-   */
-  public boolean unsetListOfInSpeciesTypeBonds() {
-    if (isSetListOfInSpeciesTypeBonds()) {
-      ListOf<InSpeciesTypeBond> oldInSpeciesTypeBonds = this.listOfInSpeciesTypeBonds;
-      this.listOfInSpeciesTypeBonds = null;
-      oldInSpeciesTypeBonds.fireNodeRemovedEvent();
-      return true;
-    }
-    return false;
-  }
-
-
-  /**
-   * Adds a new {@link InSpeciesTypeBond} to the {@link #listOfInSpeciesTypeBonds}.
-   * <p>The listOfInSpeciesTypeBonds is initialized if necessary.
-   *
-   * @param inSpeciesTypeBond the element to add to the list
-   * @return {@code true} (as specified by {@link java.util.Collection#add})
-   * @see java.util.Collection#add(Object)
-   */
-  public boolean addInSpeciesTypeBond(InSpeciesTypeBond inSpeciesTypeBond) {
-    return getListOfInSpeciesTypeBonds().add(inSpeciesTypeBond);
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfInSpeciesTypeBonds}.
-   *
-   * @param inSpeciesTypeBond the element to be removed from the list.
-   * @return {@code true} if the list contained the specified element and it was
-   *         removed.
-   * @see java.util.List#remove(Object)
-   */
-  public boolean removeInSpeciesTypeBond(InSpeciesTypeBond inSpeciesTypeBond) {
-    if (isSetListOfInSpeciesTypeBonds()) {
-      return getListOfInSpeciesTypeBonds().remove(inSpeciesTypeBond);
-    }
-    return false;
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfInSpeciesTypeBonds}.
-   *
-   * @param inSpeciesTypeBondId the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or
-   *         {@code null}.
-   */
-  public InSpeciesTypeBond removeInSpeciesTypeBond(String inSpeciesTypeBondId) {
-    if (isSetListOfInSpeciesTypeBonds()) {
-      return getListOfInSpeciesTypeBonds().remove(inSpeciesTypeBondId);
-    }
-    return null;
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfInSpeciesTypeBonds} at the given index.
-   *
-   * @param i the index where to remove the {@link InSpeciesTypeBond}.
-   * @return the specified element if it was successfully found and removed.
-   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
-   *         out of bound ({@code (i < 0) || (i > listOfInSpeciesTypeBonds)}).
-   */
-  public InSpeciesTypeBond removeInSpeciesTypeBond(int i) {
-    if (!isSetListOfInSpeciesTypeBonds()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfInSpeciesTypeBonds().remove(i);
-  }
-
-
-  /**
-   * Creates a new InSpeciesTypeBond element and adds it to the
-   * {@link #listOfInSpeciesTypeBonds} list.
-   *
-   * @return the newly created element, i.e., the last item in the
-   *         {@link #listOfInSpeciesTypeBonds}
-   */
-  public InSpeciesTypeBond createInSpeciesTypeBond() {
-    return createInSpeciesTypeBond(null);
-  }
-
-
-  /**
-   * Creates a new {@link InSpeciesTypeBond} element and adds it to the
-   * {@link #listOfInSpeciesTypeBonds} list.
-   *
-   * @param id the identifier that is to be applied to the new element.
-   * @return the newly created {@link InSpeciesTypeBond} element, which is the last
-   *         element in the {@link #listOfInSpeciesTypeBonds}.
-   */
-  public InSpeciesTypeBond createInSpeciesTypeBond(String id) {
-    InSpeciesTypeBond inSpeciesTypeBond = new InSpeciesTypeBond(id);
-    addInSpeciesTypeBond(inSpeciesTypeBond);
-    return inSpeciesTypeBond;
-  }
-
-
-  /**
-   * Gets an element from the {@link #listOfInSpeciesTypeBonds} at the given index.
-   *
-   * @param i the index of the {@link InSpeciesTypeBond} element to get.
-   * @return an element from the listOfInSpeciesTypeBonds at the given index.
-   * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
-   */
-  public InSpeciesTypeBond getInSpeciesTypeBond(int i) {
-    if (!isSetListOfInSpeciesTypeBonds()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfInSpeciesTypeBonds().get(i);
-  }
-
-
-  /**
-   * Gets an element from the listOfInSpeciesTypeBonds, with the given id.
-   *
-   * @param inSpeciesTypeBondId the id of the {@link InSpeciesTypeBond} element to get.
-   * @return an element from the listOfInSpeciesTypeBonds with the given id
-   *         or {@code null}.
-   */
-  public InSpeciesTypeBond getInSpeciesTypeBond(String inSpeciesTypeBondId) {
-    if (isSetListOfInSpeciesTypeBonds()) {
-      return getListOfInSpeciesTypeBonds().get(inSpeciesTypeBondId);
-    }
-    return null;
-  }
-
-
-  /**
-   * Returns the number of {@link InSpeciesTypeBond}s in this
-   * {@link SpeciesType}.
-   * 
-   * @return the number of {@link InSpeciesTypeBond}s in this
-   *         {@link SpeciesType}.
-   */
-  public int getInSpeciesTypeBondCount() {
-    return isSetListOfInSpeciesTypeBonds() ? getListOfInSpeciesTypeBonds().size() : 0;
-  }
-
-
-  /**
-   * Returns the number of {@link InSpeciesTypeBond}s in this
-   * {@link SpeciesType}.
-   * 
-   * @return the number of {@link InSpeciesTypeBond}s in this
-   *         {@link SpeciesType}.
-   * @libsbml.deprecated same as {@link #getInSpeciesTypeBondCount()}
-   */
-  public int getNumInSpeciesTypeBonds() {
-    return getInSpeciesTypeBondCount();
-  }
-  
-  
-  /**
-   * Returns the value of {@link #compartment}.
-   *
-   * @return the value of {@link #compartment}.
-   */
-  public String getCompartment() {
-    if (isSetCompartment()) {
-      return compartment;
-    }
-
-    return null;
-  }
-
-
-  /**
-   * Returns whether {@link #compartment} is set.
-   *
-   * @return whether {@link #compartment} is set.
-   */
-  public boolean isSetCompartment() {
-    return compartment != null;
-  }
-
-
-  /**
-   * Sets the value of compartment
-   *
-   * @param compartment the value of compartment to be set.
-   */
-  public void setCompartment(String compartment) {
-    String oldCompartment = this.compartment;
-    this.compartment = compartment;
-    firePropertyChange(MultiConstants.compartment, oldCompartment, this.compartment);
-  }
-
-
-  /**
-   * Unsets the variable compartment.
-   *
-   * @return {@code true} if compartment was set before, otherwise {@code false}.
-   */
-  public boolean unsetCompartment() {
-    if (isSetCompartment()) {
-      String oldCompartment = this.compartment;
-      this.compartment = null;
-      firePropertyChange(MultiConstants.compartment, oldCompartment, this.compartment);
-      return true;
-    }
-    return false;
-  }
-  
-  
-  @Override
-  public boolean isIdMandatory() {
-    return false;
-  }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
@@ -1271,7 +436,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
     } else {
       index -= count;
     }
-    
+
     if (isSetListOfSpeciesFeatureTypes()) {
       if (pos == index) {
         return getListOfSpeciesFeatureTypes();
@@ -1327,6 +492,473 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#getCompartment()
+   */
+  @Override
+  public String getCompartment() {
+    return isSetCompartment() ? compartment : "";
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#getCompartmentInstance()
+   */
+  @Override
+  public Compartment getCompartmentInstance() {
+    if (isSetCompartment()) {
+      Model model = getModel();
+      if (model != null) {
+        return model.getCompartment(getCompartment());
+      }
+    }
+    return null;
+  }
+
+
+  /**
+   * Gets an element from the {@link #listOfInSpeciesTypeBonds} at the given index.
+   *
+   * @param i the index of the {@link InSpeciesTypeBond} element to get.
+   * @return an element from the listOfInSpeciesTypeBonds at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public InSpeciesTypeBond getInSpeciesTypeBond(int i) {
+    if (!isSetListOfInSpeciesTypeBonds()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfInSpeciesTypeBonds().get(i);
+  }
+
+
+  /**
+   * Gets an element from the listOfInSpeciesTypeBonds, with the given id.
+   *
+   * @param inSpeciesTypeBondId the id of the {@link InSpeciesTypeBond} element to get.
+   * @return an element from the listOfInSpeciesTypeBonds with the given id
+   *         or {@code null}.
+   */
+  public InSpeciesTypeBond getInSpeciesTypeBond(String inSpeciesTypeBondId) {
+    if (isSetListOfInSpeciesTypeBonds()) {
+      return getListOfInSpeciesTypeBonds().get(inSpeciesTypeBondId);
+    }
+    return null;
+  }
+
+
+  /**
+   * Returns the number of {@link InSpeciesTypeBond}s in this
+   * {@link SpeciesType}.
+   * 
+   * @return the number of {@link InSpeciesTypeBond}s in this
+   *         {@link SpeciesType}.
+   */
+  public int getInSpeciesTypeBondCount() {
+    return isSetListOfInSpeciesTypeBonds() ? getListOfInSpeciesTypeBonds().size() : 0;
+  }
+
+
+  /**
+   * Returns the {@link #listOfInSpeciesTypeBonds}.
+   * Creates it if it does not already exist.
+   *
+   * @return the {@link #listOfInSpeciesTypeBonds}.
+   */
+  public ListOf<InSpeciesTypeBond> getListOfInSpeciesTypeBonds() {
+    if (listOfInSpeciesTypeBonds == null) {
+      listOfInSpeciesTypeBonds = new ListOf<InSpeciesTypeBond>();
+      listOfInSpeciesTypeBonds.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfInSpeciesTypeBonds.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'multi'
+      listOfInSpeciesTypeBonds.setPackageName(null);
+      listOfInSpeciesTypeBonds.setPackageName(MultiConstants.shortLabel);
+      listOfInSpeciesTypeBonds.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfInSpeciesTypeBonds);
+    }
+    return listOfInSpeciesTypeBonds;
+  }
+
+
+  /**
+   * Returns the {@link #listOfSpeciesFeatureTypes}.
+   * Creates it if it does not already exist.
+   *
+   * @return the {@link #listOfSpeciesFeatureTypes}.
+   */
+  public ListOf<SpeciesFeatureType> getListOfSpeciesFeatureTypes() {
+    if (listOfSpeciesFeatureTypes == null) {
+      listOfSpeciesFeatureTypes = new ListOf<SpeciesFeatureType>();
+      listOfSpeciesFeatureTypes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesFeatureTypes.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'multi'
+      listOfSpeciesFeatureTypes.setPackageName(null);
+      listOfSpeciesFeatureTypes.setPackageName(MultiConstants.shortLabel);
+      listOfSpeciesFeatureTypes.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfSpeciesFeatureTypes);
+    }
+    return listOfSpeciesFeatureTypes;
+  }
+
+
+  /**
+   * Returns the {@link #listOfSpeciesTypeComponentIndexes}.
+   * Creates it if it does not already exist.
+   *
+   * @return the {@link #listOfSpeciesTypeComponentIndexes}.
+   */
+  public ListOf<SpeciesTypeComponentIndex> getListOfSpeciesTypeComponentIndexes() {
+    if (listOfSpeciesTypeComponentIndexes == null) {
+      listOfSpeciesTypeComponentIndexes = new ListOf<SpeciesTypeComponentIndex>();
+      listOfSpeciesTypeComponentIndexes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesTypeComponentIndexes.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'multi'
+      listOfSpeciesTypeComponentIndexes.setPackageName(null);
+      listOfSpeciesTypeComponentIndexes.setPackageName(MultiConstants.shortLabel);
+      listOfSpeciesTypeComponentIndexes.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfSpeciesTypeComponentIndexes);
+    }
+    return listOfSpeciesTypeComponentIndexes;
+  }
+
+
+  /**
+   * Returns the {@link #listOfSpeciesTypeInstances}.
+   * Creates it if it does not already exist.
+   *
+   * @return the {@link #listOfSpeciesTypeInstances}.
+   */
+  public ListOf<SpeciesTypeInstance> getListOfSpeciesTypeInstances() {
+    if (listOfSpeciesTypeInstances == null) {
+      listOfSpeciesTypeInstances = new ListOf<SpeciesTypeInstance>();
+      listOfSpeciesTypeInstances.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesTypeInstances.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'multi'
+      listOfSpeciesTypeInstances.setPackageName(null);
+      listOfSpeciesTypeInstances.setPackageName(MultiConstants.shortLabel);
+      listOfSpeciesTypeInstances.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfSpeciesTypeInstances);
+    }
+    return listOfSpeciesTypeInstances;
+  }
+
+
+  /**
+   * Returns the number of {@link InSpeciesTypeBond}s in this
+   * {@link SpeciesType}.
+   * 
+   * @return the number of {@link InSpeciesTypeBond}s in this
+   *         {@link SpeciesType}.
+   * @libsbml.deprecated same as {@link #getInSpeciesTypeBondCount()}
+   */
+  public int getNumInSpeciesTypeBonds() {
+    return getInSpeciesTypeBondCount();
+  }
+
+
+  /**
+   * Returns the number of {@link SpeciesFeatureType}s in this
+   * {@link SpeciesType}.
+   * 
+   * @return the number of {@link SpeciesFeatureType}s in this
+   *         {@link SpeciesType}.
+   * @libsbml.deprecated same as {@link #getSpeciesFeatureTypeCount()}
+   */
+  public int getNumSpeciesFeatureTypes() {
+    return getSpeciesFeatureTypeCount();
+  }
+
+
+  /**
+   * Returns the number of {@link SpeciesTypeComponentIndex}s in this
+   * {@link SpeciesType}.
+   * 
+   * @return the number of {@link SpeciesTypeComponentIndex}s in this
+   *         {@link SpeciesType}.
+   * @libsbml.deprecated same as {@link #getSpeciesTypeComponentIndexCount()}
+   */
+  public int getNumSpeciesTypeComponentIndexes() {
+    return getSpeciesTypeComponentIndexCount();
+  }
+
+
+  /**
+   * Returns the number of {@link SpeciesTypeInstance}s in this
+   * {@link SpeciesType}.
+   * 
+   * @return the number of {@link SpeciesTypeInstance}s in this
+   *         {@link SpeciesType}.
+   * @libsbml.deprecated same as {@link #getSpeciesTypeInstanceCount()}
+   */
+  public int getNumSpeciesTypeInstances() {
+    return getSpeciesTypeInstanceCount();
+  }
+
+
+  /**
+   * Gets an element from the {@link #listOfSpeciesFeatureTypes} at the given index.
+   *
+   * @param i the index of the {@link SpeciesFeatureType} element to get.
+   * @return an element from the listOfSpeciesFeatureTypes at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public SpeciesFeatureType getSpeciesFeatureType(int i) {
+    if (!isSetListOfSpeciesFeatureTypes()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfSpeciesFeatureTypes().get(i);
+  }
+
+
+  /**
+   * Gets an element from the listOfSpeciesFeatureTypes, with the given id.
+   *
+   * @param speciesFeatureTypeId the id of the {@link SpeciesFeatureType} element to get.
+   * @return an element from the listOfSpeciesFeatureTypes with the given id
+   *         or {@code null}.
+   */
+  public SpeciesFeatureType getSpeciesFeatureType(String speciesFeatureTypeId) {
+    if (isSetListOfSpeciesFeatureTypes()) {
+      return getListOfSpeciesFeatureTypes().get(speciesFeatureTypeId);
+    }
+    return null;
+  }
+
+
+  /**
+   * Returns the number of {@link SpeciesFeatureType}s in this
+   * {@link SpeciesType}.
+   * 
+   * @return the number of {@link SpeciesFeatureType}s in this
+   *         {@link SpeciesType}.
+   */
+  public int getSpeciesFeatureTypeCount() {
+    return isSetListOfSpeciesFeatureTypes() ? getListOfSpeciesFeatureTypes().size() : 0;
+  }
+
+
+  /**
+   * Gets an element from the {@link #listOfSpeciesTypeComponentIndexes} at the given index.
+   *
+   * @param i the index of the {@link SpeciesTypeComponentIndex} element to get.
+   * @return an element from the listOfSpeciesTypeComponentIndexes at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public SpeciesTypeComponentIndex getSpeciesTypeComponentIndex(int i) {
+    if (!isSetListOfSpeciesTypeComponentIndexes()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfSpeciesTypeComponentIndexes().get(i);
+  }
+
+
+  /**
+   * Gets an element from the listOfSpeciesTypeComponentIndexes, with the given id.
+   *
+   * @param speciesTypeComponentIndexId the id of the {@link SpeciesTypeComponentIndex} element to get.
+   * @return an element from the listOfSpeciesTypeComponentIndexes with the given id
+   *         or {@code null}.
+   */
+  public SpeciesTypeComponentIndex getSpeciesTypeComponentIndex(String speciesTypeComponentIndexId) {
+    if (isSetListOfSpeciesTypeComponentIndexes()) {
+      return getListOfSpeciesTypeComponentIndexes().get(speciesTypeComponentIndexId);
+    }
+    return null;
+  }
+
+
+  /**
+   * Returns the number of {@link SpeciesTypeComponentIndex}s in this
+   * {@link SpeciesType}.
+   * 
+   * @return the number of {@link SpeciesTypeComponentIndex}s in this
+   *         {@link SpeciesType}.
+   */
+  public int getSpeciesTypeComponentIndexCount() {
+    return isSetListOfSpeciesTypeComponentIndexes() ? getListOfSpeciesTypeComponentIndexes().size() : 0;
+  }
+
+
+  /**
+   * Gets an element from the {@link #listOfSpeciesTypeInstances} at the given index.
+   *
+   * @param i the index of the {@link SpeciesTypeInstance} element to get.
+   * @return an element from the listOfSpeciesTypeInstances at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public SpeciesTypeInstance getSpeciesTypeInstance(int i) {
+    if (!isSetListOfSpeciesTypeInstances()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfSpeciesTypeInstances().get(i);
+  }
+
+
+  /**
+   * Gets an element from the listOfSpeciesTypeInstances, with the given id.
+   *
+   * @param speciesTypeInstanceId the id of the {@link SpeciesTypeInstance} element to get.
+   * @return an element from the listOfSpeciesTypeInstances with the given id
+   *         or {@code null}.
+   */
+  public SpeciesTypeInstance getSpeciesTypeInstance(String speciesTypeInstanceId) {
+    if (isSetListOfSpeciesTypeInstances()) {
+      return getListOfSpeciesTypeInstances().get(speciesTypeInstanceId);
+    }
+    return null;
+  }
+
+
+  /**
+   * Returns the number of {@link SpeciesTypeInstance}s in this
+   * {@link SpeciesType}.
+   * 
+   * @return the number of {@link SpeciesTypeInstance}s in this
+   *         {@link SpeciesType}.
+   */
+  public int getSpeciesTypeInstanceCount() {
+    return isSetListOfSpeciesTypeInstances() ? getListOfSpeciesTypeInstances().size() : 0;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 5807;
+    int result = super.hashCode();
+    result = prime * result
+        + ((compartment == null) ? 0 : compartment.hashCode());
+    result = prime
+        * result
+        + ((listOfInSpeciesTypeBonds == null) ? 0
+          : listOfInSpeciesTypeBonds.hashCode());
+    result = prime
+        * result
+        + ((listOfSpeciesFeatureTypes == null) ? 0
+          : listOfSpeciesFeatureTypes.hashCode());
+    result = prime
+        * result
+        + ((listOfSpeciesTypeComponentIndexes == null) ? 0
+          : listOfSpeciesTypeComponentIndexes.hashCode());
+    result = prime
+        * result
+        + ((listOfSpeciesTypeInstances == null) ? 0
+          : listOfSpeciesTypeInstances.hashCode());
+    return result;
+  }
+
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+    packageName = MultiConstants.shortLabel;
+    setPackageVersion(-1);
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isCompartmentMandatory()
+   */
+  @Override
+  public boolean isCompartmentMandatory() {
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SpeciesType#isIdMandatory()
+   */
+  @Override
+  public boolean isIdMandatory() {
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isSetCompartment()
+   */
+  @Override
+  public boolean isSetCompartment() {
+    return (compartment != null) && (compartment.length() > 0);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isSetCompartmentInstance()
+   */
+  @Override
+  public boolean isSetCompartmentInstance() {
+    return getCompartmentInstance() != null;
+  }
+
+
+  /**
+   * Returns {@code true} if {@link #listOfInSpeciesTypeBonds} contains at least
+   * one element.
+   *
+   * @return {@code true} if {@link #listOfInSpeciesTypeBonds} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean isSetListOfInSpeciesTypeBonds() {
+    if (listOfInSpeciesTypeBonds == null) {
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * Returns {@code true} if {@link #listOfSpeciesFeatureTypes} contains at least
+   * one element.
+   *
+   * @return {@code true} if {@link #listOfSpeciesFeatureTypes} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean isSetListOfSpeciesFeatureTypes() {
+    if (listOfSpeciesFeatureTypes == null) {
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * Returns {@code true} if {@link #listOfSpeciesTypeComponentIndexes} contains at least
+   * one element.
+   *
+   * @return {@code true} if {@link #listOfSpeciesTypeComponentIndexes} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean isSetListOfSpeciesTypeComponentIndexes() {
+    if (listOfSpeciesTypeComponentIndexes == null) {
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * Returns {@code true} if {@link #listOfSpeciesTypeInstances} contains at least
+   * one element.
+   *
+   * @return {@code true} if {@link #listOfSpeciesTypeInstances} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean isSetListOfSpeciesTypeInstances() {
+    if (listOfSpeciesTypeInstances == null) {
+      return false;
+    }
+    return true;
+  }
+
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
@@ -1347,6 +979,402 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
 
     return isAttributeRead;
 
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfInSpeciesTypeBonds}.
+   *
+   * @param inSpeciesTypeBond the element to be removed from the list.
+   * @return {@code true} if the list contained the specified element and it was
+   *         removed.
+   * @see java.util.List#remove(Object)
+   */
+  public boolean removeInSpeciesTypeBond(InSpeciesTypeBond inSpeciesTypeBond) {
+    if (isSetListOfInSpeciesTypeBonds()) {
+      return getListOfInSpeciesTypeBonds().remove(inSpeciesTypeBond);
+    }
+    return false;
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfInSpeciesTypeBonds} at the given index.
+   *
+   * @param i the index where to remove the {@link InSpeciesTypeBond}.
+   * @return the specified element if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
+   *         out of bound ({@code (i < 0) || (i > listOfInSpeciesTypeBonds)}).
+   */
+  public InSpeciesTypeBond removeInSpeciesTypeBond(int i) {
+    if (!isSetListOfInSpeciesTypeBonds()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfInSpeciesTypeBonds().remove(i);
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfInSpeciesTypeBonds}.
+   *
+   * @param inSpeciesTypeBondId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or
+   *         {@code null}.
+   */
+  public InSpeciesTypeBond removeInSpeciesTypeBond(String inSpeciesTypeBondId) {
+    if (isSetListOfInSpeciesTypeBonds()) {
+      return getListOfInSpeciesTypeBonds().remove(inSpeciesTypeBondId);
+    }
+    return null;
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfSpeciesFeatureTypes} at the given index.
+   *
+   * @param i the index where to remove the {@link SpeciesFeatureType}.
+   * @return the specified element if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
+   *         out of bound ({@code (i < 0) || (i > listOfSpeciesFeatureTypes)}).
+   */
+  public SpeciesFeatureType removeSpeciesFeatureType(int i) {
+    if (!isSetListOfSpeciesFeatureTypes()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfSpeciesFeatureTypes().remove(i);
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfSpeciesFeatureTypes}.
+   *
+   * @param speciesFeatureType the element to be removed from the list.
+   * @return {@code true} if the list contained the specified element and it was
+   *         removed.
+   * @see java.util.List#remove(Object)
+   */
+  public boolean removeSpeciesFeatureType(SpeciesFeatureType speciesFeatureType) {
+    if (isSetListOfSpeciesFeatureTypes()) {
+      return getListOfSpeciesFeatureTypes().remove(speciesFeatureType);
+    }
+    return false;
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfSpeciesFeatureTypes}.
+   *
+   * @param speciesFeatureTypeId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or
+   *         {@code null}.
+   */
+  public SpeciesFeatureType removeSpeciesFeatureType(String speciesFeatureTypeId) {
+    if (isSetListOfSpeciesFeatureTypes()) {
+      return getListOfSpeciesFeatureTypes().remove(speciesFeatureTypeId);
+    }
+    return null;
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfSpeciesTypeComponentIndexes} at the given index.
+   *
+   * @param i the index where to remove the {@link SpeciesTypeComponentIndex}.
+   * @return the specified element if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
+   *         out of bound ({@code (i < 0) || (i > listOfSpeciesTypeComponentIndexes)}).
+   */
+  public SpeciesTypeComponentIndex removeSpeciesTypeComponentIndex(int i) {
+    if (!isSetListOfSpeciesTypeComponentIndexes()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfSpeciesTypeComponentIndexes().remove(i);
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfSpeciesTypeComponentIndexes}.
+   *
+   * @param speciesTypeComponentIndex the element to be removed from the list.
+   * @return {@code true} if the list contained the specified element and it was
+   *         removed.
+   * @see java.util.List#remove(Object)
+   */
+  public boolean removeSpeciesTypeComponentIndex(SpeciesTypeComponentIndex speciesTypeComponentIndex) {
+    if (isSetListOfSpeciesTypeComponentIndexes()) {
+      return getListOfSpeciesTypeComponentIndexes().remove(speciesTypeComponentIndex);
+    }
+    return false;
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfSpeciesTypeComponentIndexes}.
+   *
+   * @param speciesTypeComponentIndexId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or
+   *         {@code null}.
+   */
+  public SpeciesTypeComponentIndex removeSpeciesTypeComponentIndex(String speciesTypeComponentIndexId) {
+    if (isSetListOfSpeciesTypeComponentIndexes()) {
+      return getListOfSpeciesTypeComponentIndexes().remove(speciesTypeComponentIndexId);
+    }
+    return null;
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfSpeciesTypeInstances} at the given index.
+   *
+   * @param i the index where to remove the {@link SpeciesTypeInstance}.
+   * @return the specified element if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
+   *         out of bound ({@code (i < 0) || (i > listOfSpeciesTypeInstances)}).
+   */
+  public SpeciesTypeInstance removeSpeciesTypeInstance(int i) {
+    if (!isSetListOfSpeciesTypeInstances()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfSpeciesTypeInstances().remove(i);
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfSpeciesTypeInstances}.
+   *
+   * @param speciesTypeInstance the element to be removed from the list.
+   * @return {@code true} if the list contained the specified element and it was
+   *         removed.
+   * @see java.util.List#remove(Object)
+   */
+  public boolean removeSpeciesTypeInstance(SpeciesTypeInstance speciesTypeInstance) {
+    if (isSetListOfSpeciesTypeInstances()) {
+      return getListOfSpeciesTypeInstances().remove(speciesTypeInstance);
+    }
+    return false;
+  }
+
+
+  /**
+   * Removes an element from the {@link #listOfSpeciesTypeInstances}.
+   *
+   * @param speciesTypeInstanceId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or
+   *         {@code null}.
+   */
+  public SpeciesTypeInstance removeSpeciesTypeInstance(String speciesTypeInstanceId) {
+    if (isSetListOfSpeciesTypeInstances()) {
+      return getListOfSpeciesTypeInstances().remove(speciesTypeInstanceId);
+    }
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#setCompartment(org.sbml.jsbml.Compartment)
+   */
+  @Override
+  public boolean setCompartment(Compartment compartment) {
+    return setCompartment(compartment.getId());
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#setCompartment(java.lang.String)
+   */
+  @Override
+  public boolean setCompartment(String compartment) {
+    if (compartment != this.compartment) {
+      String oldCompartment = this.compartment;
+      this.compartment = compartment;
+      firePropertyChange(MultiConstants.compartment, oldCompartment, this.compartment);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Sets the given {@code ListOf<InSpeciesTypeBond>}.
+   * If {@link #listOfInSpeciesTypeBonds} was defined before and contains some
+   * elements, they are all unset.
+   *
+   * @param listOfInSpeciesTypeBonds
+   */
+  public void setListOfInSpeciesTypeBonds(ListOf<InSpeciesTypeBond> listOfInSpeciesTypeBonds) {
+    unsetListOfInSpeciesTypeBonds();
+    this.listOfInSpeciesTypeBonds = listOfInSpeciesTypeBonds;
+    if (listOfInSpeciesTypeBonds != null) {
+      listOfInSpeciesTypeBonds.unsetNamespace();
+      listOfInSpeciesTypeBonds.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfInSpeciesTypeBonds.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'multi'
+      listOfInSpeciesTypeBonds.setPackageName(null);
+      listOfInSpeciesTypeBonds.setPackageName(MultiConstants.shortLabel);
+      this.listOfInSpeciesTypeBonds.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfInSpeciesTypeBonds);
+    }
+  }
+
+
+  /**
+   * Sets the given {@code ListOf<SpeciesFeatureType>}.
+   * If {@link #listOfSpeciesFeatureTypes} was defined before and contains some
+   * elements, they are all unset.
+   *
+   * @param listOfSpeciesFeatureTypes
+   */
+  public void setListOfSpeciesFeatureTypes(ListOf<SpeciesFeatureType> listOfSpeciesFeatureTypes) {
+    unsetListOfSpeciesFeatureTypes();
+    this.listOfSpeciesFeatureTypes = listOfSpeciesFeatureTypes;
+    if (listOfSpeciesFeatureTypes != null) {
+      listOfSpeciesFeatureTypes.unsetNamespace();
+      listOfSpeciesFeatureTypes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesFeatureTypes.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'multi'
+      listOfSpeciesFeatureTypes.setPackageName(null);
+      listOfSpeciesFeatureTypes.setPackageName(MultiConstants.shortLabel);
+      this.listOfSpeciesFeatureTypes.setSBaseListType(ListOf.Type.other);
+
+      registerChild(this.listOfSpeciesFeatureTypes);
+    }
+  }
+
+
+  /**
+   * Sets the given {@code ListOf<SpeciesTypeComponentIndex>}.
+   * If {@link #listOfSpeciesTypeComponentIndexes} was defined before and contains some
+   * elements, they are all unset.
+   *
+   * @param listOfSpeciesTypeComponentIndexes
+   */
+  public void setListOfSpeciesTypeComponentIndexes(ListOf<SpeciesTypeComponentIndex> listOfSpeciesTypeComponentIndexes) {
+    unsetListOfSpeciesTypeComponentIndexes();
+    this.listOfSpeciesTypeComponentIndexes = listOfSpeciesTypeComponentIndexes;
+
+    if (listOfSpeciesTypeComponentIndexes != null) {
+      listOfSpeciesTypeComponentIndexes.unsetNamespace();
+      listOfSpeciesTypeComponentIndexes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesTypeComponentIndexes.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'multi'
+      listOfSpeciesTypeComponentIndexes.setPackageName(null);
+      listOfSpeciesTypeComponentIndexes.setPackageName(MultiConstants.shortLabel);
+      this.listOfSpeciesTypeComponentIndexes.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfSpeciesTypeComponentIndexes);
+    }
+  }
+
+
+  /**
+   * Sets the given {@code ListOf<SpeciesTypeInstance>}.
+   * If {@link #listOfSpeciesTypeInstances} was defined before and contains some
+   * elements, they are all unset.
+   *
+   * @param listOfSpeciesTypeInstances
+   */
+  public void setListOfSpeciesTypeInstances(ListOf<SpeciesTypeInstance> listOfSpeciesTypeInstances) {
+    unsetListOfSpeciesTypeInstances();
+    this.listOfSpeciesTypeInstances = listOfSpeciesTypeInstances;
+    if (listOfSpeciesTypeInstances != null) {
+      listOfSpeciesTypeInstances.unsetNamespace();
+      listOfSpeciesTypeInstances.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfSpeciesTypeInstances.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'multi'
+      listOfSpeciesTypeInstances.setPackageName(null);
+      listOfSpeciesTypeInstances.setPackageName(MultiConstants.shortLabel);
+      this.listOfSpeciesTypeInstances.setSBaseListType(ListOf.Type.other);
+
+      registerChild(this.listOfSpeciesTypeInstances);
+    }
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "SpeciesType [id = " + getId() + ", name = " + getName() + ", compartment=" + compartment
+        + ", listOfSpeciesFeatureTypes.size = " + getSpeciesFeatureTypeCount()
+        + ", listOfSpeciesTypeInstances.size = " + getSpeciesTypeInstanceCount()
+        + ", listOfSpeciesTypeComponentIndexes.size = "
+        + getSpeciesTypeComponentIndexCount() + ", listOfInSpeciesTypeBonds.size = "
+        + getInSpeciesTypeBondCount() + "]";
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#unsetCompartment()
+   */
+  @Override
+  public boolean unsetCompartment() {
+    return setCompartment((String) null);
+  }
+
+  /**
+   * Returns {@code true} if {@link #listOfInSpeciesTypeBonds} contains at least
+   * one element, otherwise {@code false}.
+   *
+   * @return {@code true} if {@link #listOfInSpeciesTypeBonds} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean unsetListOfInSpeciesTypeBonds() {
+    if (isSetListOfInSpeciesTypeBonds()) {
+      ListOf<InSpeciesTypeBond> oldInSpeciesTypeBonds = listOfInSpeciesTypeBonds;
+      listOfInSpeciesTypeBonds = null;
+      oldInSpeciesTypeBonds.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns {@code true} if {@link #listOfSpeciesFeatureTypes} contains at least
+   * one element, otherwise {@code false}.
+   *
+   * @return {@code true} if {@link #listOfSpeciesFeatureTypes} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean unsetListOfSpeciesFeatureTypes() {
+    if (isSetListOfSpeciesFeatureTypes()) {
+      ListOf<SpeciesFeatureType> oldSpeciesFeatureTypes = listOfSpeciesFeatureTypes;
+      listOfSpeciesFeatureTypes = null;
+      oldSpeciesFeatureTypes.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns {@code true} if {@link #listOfSpeciesTypeComponentIndexes} contains at least
+   * one element, otherwise {@code false}.
+   *
+   * @return {@code true} if {@link #listOfSpeciesTypeComponentIndexes} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean unsetListOfSpeciesTypeComponentIndexes() {
+    if (isSetListOfSpeciesTypeComponentIndexes()) {
+      ListOf<SpeciesTypeComponentIndex> oldSpeciesTypeComponentIndexs = listOfSpeciesTypeComponentIndexes;
+      listOfSpeciesTypeComponentIndexes = null;
+      oldSpeciesTypeComponentIndexs.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns {@code true} if {@link #listOfSpeciesTypeInstances} contains at least
+   * one element, otherwise {@code false}.
+   *
+   * @return {@code true} if {@link #listOfSpeciesTypeInstances} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean unsetListOfSpeciesTypeInstances() {
+    if (isSetListOfSpeciesTypeInstances()) {
+      ListOf<SpeciesTypeInstance> oldSpeciesTypeInstances = listOfSpeciesTypeInstances;
+      listOfSpeciesTypeInstances = null;
+      oldSpeciesTypeInstances.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
   }
 
   /* (non-Javadoc)

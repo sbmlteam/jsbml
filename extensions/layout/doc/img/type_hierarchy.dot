@@ -31,11 +31,12 @@ strict digraph G{
  	/*
  	 * Interfaces
  	 */
- 	
- 	UniqueNamedSBase                               [label="<<interface>>\nUnique\nNamed\nSBase"];
+ 	CompartmentalizedSBase                 [label="<<interface>>\nCompartmentalized\nSBase", style="filled", fillcolor="#F0F8FF"];
+ 	NamedSBase                             [label="<<interface>>\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
+ 	UniqueNamedSBase                       [label="<<interface>>\nUnique\nNamed\nSBase", style="filled", fillcolor="#F0F8FF"];
 
 	 
-   /*
+  /*
    * Abstract data types
    */
   AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
@@ -97,10 +98,10 @@ strict digraph G{
      AbstractReferenceGlyph    -> SpeciesGlyph           	[dir=back,arrowtail=empty];
      AbstractReferenceGlyph    -> SpeciesReferencesGlyph 	[dir=back,arrowtail=empty];
      AbstractReferenceGlyph    -> TextGlyph 				[dir=back,arrowtail=empty];
-     GraphicalObject    -> AbstractReferenceGlyph           [dir=back,arrowtail=empty];
-     LineSegment        -> CubicBezier            			[dir=back,arrowtail=empty];
-     CurveSegment        -> LineSegment            			[dir=back,arrowtail=empty];
-     SpeciesReferencesGlyph	-> SpeciesReferenceRole			[dir=back,arrowtail=empty];
+     GraphicalObject           -> AbstractReferenceGlyph    [dir=back,arrowtail=empty];
+     LineSegment               -> CubicBezier            	[dir=back,arrowtail=empty];
+     CurveSegment              -> LineSegment            	[dir=back,arrowtail=empty];
+     SpeciesReferencesGlyph    -> SpeciesReferenceRole		[dir=back,arrowtail=empty];
 
    }
    
@@ -108,20 +109,23 @@ strict digraph G{
     * Inheritance graph *
     *********************/
    
-   AbstractNamedSBase -> BoundingBox            [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> Curve                  [dir=back,arrowtail=empty];
-   AbstractSBase -> CurveSegment                [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> Dimensions             [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> GraphicalObject        [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> Layout                 [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> Point                  [dir=back,arrowtail=empty];
-   AbstractSBasePlugin -> LayoutModelPlugin		[dir=back,arrowtail=empty];    
-   UniqueNamedSBase -> BoundingBox           	[dir=back,arrowtail=empty];
-   UniqueNamedSBase -> Dimensions        	    [dir=back,arrowtail=empty];
-   UniqueNamedSBase -> GraphicalObject	        [dir=back,arrowtail=empty];
-   UniqueNamedSBase -> Layout            		[dir=back,arrowtail=empty];
-   UniqueNamedSBase -> Point	            	[dir=back,arrowtail=empty];
-   NameFilter -> NamedSBaseReferenceFilter      [dir=back,arrowtail=empty];
-   
+   AbstractNamedSBase     -> BoundingBox               [dir=back,arrowtail=empty];
+   AbstractNamedSBase     -> Curve                     [dir=back,arrowtail=empty];
+   AbstractSBase          -> CurveSegment              [dir=back,arrowtail=empty];
+   AbstractNamedSBase     -> Dimensions                [dir=back,arrowtail=empty];
+   AbstractNamedSBase     -> GraphicalObject           [dir=back,arrowtail=empty];
+   AbstractNamedSBase     -> Layout                    [dir=back,arrowtail=empty];
+   AbstractNamedSBase     -> Point                     [dir=back,arrowtail=empty];
+   AbstractSBasePlugin    -> LayoutModelPlugin		   [dir=back,arrowtail=empty];    
+   CompartmentalizedSBase -> CompartmentGlyph          [dir=back,arrowtail=empty,style=dashed];
+   NamedSBase             -> AbstractNamedSBase        [dir=back,arrowtail=empty,style=dashed];
+   NamedSBase             -> CompartmentalizedSBase    [dir=back,arrowtail=empty,style=dashed];
+   NamedSBase             -> UniqueNamedSBase          [dir=back,arrowtail=empty,style=dashed];
+   UniqueNamedSBase       -> BoundingBox           	   [dir=back,arrowtail=empty,style=dashed];
+   UniqueNamedSBase       -> Dimensions        	       [dir=back,arrowtail=empty,style=dashed];
+   UniqueNamedSBase       -> GraphicalObject	       [dir=back,arrowtail=empty,style=dashed];
+   UniqueNamedSBase       -> Layout            		   [dir=back,arrowtail=empty,style=dashed];
+   UniqueNamedSBase       -> Point	            	   [dir=back,arrowtail=empty,style=dashed];
+   NameFilter             -> NamedSBaseReferenceFilter [dir=back,arrowtail=empty];
 
 }

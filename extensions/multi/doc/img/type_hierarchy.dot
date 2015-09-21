@@ -23,6 +23,22 @@ strict digraph G{
 	  fontsize=10,
 	  shape=box
 	];
+	
+   /*
+    * Interfaces
+    */
+   CompartmentalizedSBase                 [label="<<interface>>\nCompartmentalized\nSBase", style="filled", fillcolor="#F0F8FF"];
+   NamedSBase                             [label="<<interface>>\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
+   UniqueNamedSBase                       [label="<<interface>>\nUnique\nNamed\nSBase", style="filled", fillcolor="#F0F8FF"];
+	
 
+   
+   /*********************
+    * Inheritance graph *
+    *********************/
 
+   NamedSBase             -> AbstractNamedSBase        [dir=back,arrowtail=empty,style=dashed];
+   NamedSBase             -> CompartmentalizedSBase    [dir=back,arrowtail=empty,style=dashed];
+   NamedSBase             -> UniqueNamedSBase          [dir=back,arrowtail=empty,style=dashed];
+   
 }

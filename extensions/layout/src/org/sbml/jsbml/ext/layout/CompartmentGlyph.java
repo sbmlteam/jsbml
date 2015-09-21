@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.CompartmentalizedSBase;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
@@ -40,7 +41,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @version $Rev$
  */
-public class CompartmentGlyph extends AbstractReferenceGlyph {
+public class CompartmentGlyph extends AbstractReferenceGlyph implements CompartmentalizedSBase {
 
   /**
    * Generated serial version identifier.
@@ -102,20 +103,18 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
     return new CompartmentGlyph(this);
   }
 
-  /**
-   * 
-   * @return
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#getCompartment()
    */
+  @Override
   public String getCompartment() {
     return getReference();
   }
 
-  /**
-   * Note that the return type of this method is {@link NamedSBase} because it
-   * could be possible to link some element from other packages to this glyph.
-   * 
-   * @return
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#getCompartmentInstance()
    */
+  @Override
   public NamedSBase getCompartmentInstance() {
     return getNamedSBaseInstance();
   }
@@ -134,11 +133,28 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
     throw new PropertyUndefinedError(LayoutConstants.order, this);
   }
 
-  /**
-   * @return
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isCompartmentMandatory()
    */
+  @Override
+  public boolean isCompartmentMandatory() {
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isSetCompartment()
+   */
+  @Override
   public boolean isSetCompartment() {
     return isSetReference();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isSetCompartmentInstance()
+   */
+  @Override
+  public boolean isSetCompartmentInstance() {
+    return getCompartmentInstance() != null;
   }
 
   /**
@@ -180,27 +196,20 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
     return isAttributeRead;
   }
 
-  /**
-   * The compartment attribute is used to add a reference to the id of
-   * the corresponding {@link Compartment} in the {@link org.sbml.jsbml.Model}. Since
-   * the compartment is optional, the user can specify {@link Compartment}s
-   * in the {@link Layout} that are not part of the {@link org.sbml.jsbml.Model}.
-   * 
-   * This attribute is optional.
-   * 
-   * @param compartment
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#setCompartment(org.sbml.jsbml.Compartment)
    */
-  public void setCompartment(Compartment compartment) {
-    setCompartment(compartment.getId());
+  @Override
+  public boolean setCompartment(Compartment compartment) {
+    return setCompartment(compartment.getId());
   }
 
-  /**
-   * See annotation for setCompartment(Compartment)
-   * 
-   * @param compartment
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#setCompartment(java.lang.String)
    */
-  public void setCompartment(String compartment) {
-    setReference(compartment, TreeNodeChangeEvent.compartment);
+  @Override
+  public boolean setCompartment(String compartment) {
+    return setReference(compartment, TreeNodeChangeEvent.compartment);
   }
 
   /**
@@ -223,11 +232,12 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
     firePropertyChange(LayoutConstants.order, oldOrder, this.order);
   }
 
-  /**
-   * 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#unsetCompartment()
    */
-  public void unsetCompartment() {
-    unsetReference();
+  @Override
+  public boolean unsetCompartment() {
+    return unsetReference();
   }
 
   /**
