@@ -35,8 +35,10 @@ strict digraph G{
 	 * Interfaces
 	 */
 	
-  UniqueNamedSBase                           [label="<<interface>>\nUnique Named SBase"];
-  CallableSBase                              [label="<<interface>>\nCallable SBase"];
+  UniqueNamedSBase                       [label="<<interface>>\nUnique Named SBase", style="filled", fillcolor="#F0F8FF"];
+  CallableSBase                          [label="<<interface>>\nCallable SBase", style="filled", fillcolor="#F0F8FF"];
+  CompartmentalizedSBase                 [label="<<interface>>\nCompartmentalized\nSBase", style="filled", fillcolor="#F0F8FF"];
+  NamedSBase                             [label="<<interface>>\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
 
   subgraph clusterQual {
     fontname="Helvetica";
@@ -77,26 +79,31 @@ strict digraph G{
   /*
    * inheritance graph
    */
-  AbstractMathContainer -> FunctionTerm      [dir=back,arrowtail=empty];
-  UniqueNamedSBase -> Input   [dir=back,arrowtail=empty];
-  CallableSBase -> Input   [dir=back,arrowtail=empty];
-
-  UniqueNamedSBase -> Output   [dir=back,arrowtail=empty];
-  CallableSBase -> Output   [dir=back,arrowtail=empty];
-
-  UniqueNamedSBase -> QualitativeSpecies   [dir=back,arrowtail=empty];
-  UniqueNamedSBase -> Transition   [dir=back,arrowtail=empty];
-
+  AbstractMathContainer -> FunctionTerm          [dir=back,arrowtail=empty];
+  UniqueNamedSBase      -> Input                 [dir=back,arrowtail=empty];
+  CallableSBase         -> Input                 [dir=back,arrowtail=empty];
   
-  AbstractNamedSBase -> QualitativeSpecies   [dir=back,arrowtail=empty];
-  AbstractNamedSBase -> Transition           [dir=back,arrowtail=empty];
-  AbstractNamedSBase -> Input                [dir=back,arrowtail=empty];
-  AbstractNamedSBase -> Output               [dir=back,arrowtail=empty];
+  CompartmentalizedSBase -> QualitativeSpecies    [dir=back,arrowtail=empty,style=dashed];
 
-  AbstractSBase -> AbstractNamedSBase        [dir=back,arrowtail=empty];
-  AbstractSBase -> AbstractMathContainer     [dir=back,arrowtail=empty];
-  AbstractSBase -> AbstractSBasePlugin       [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase      -> Output                [dir=back,arrowtail=empty];
+  CallableSBase         -> Output                [dir=back,arrowtail=empty];
+
+  UniqueNamedSBase      -> QualitativeSpecies    [dir=back,arrowtail=empty];
+  UniqueNamedSBase      -> Transition            [dir=back,arrowtail=empty];
   
-  AbstractSBasePlugin -> QualModelPlugin    [dir=back,arrowtail=empty];
+  AbstractNamedSBase    -> QualitativeSpecies    [dir=back,arrowtail=empty];
+  AbstractNamedSBase    -> Transition            [dir=back,arrowtail=empty];
+  AbstractNamedSBase    -> Input                 [dir=back,arrowtail=empty];
+  AbstractNamedSBase    -> Output                [dir=back,arrowtail=empty];
+
+  AbstractSBase         -> AbstractNamedSBase    [dir=back,arrowtail=empty];
+  AbstractSBase         -> AbstractMathContainer [dir=back,arrowtail=empty];
+  AbstractSBase         -> AbstractSBasePlugin   [dir=back,arrowtail=empty,style=dashed];
+  
+  AbstractSBasePlugin   -> QualModelPlugin       [dir=back,arrowtail=empty];
+  
+  NamedSBase             -> AbstractNamedSBase        [dir=back,arrowtail=empty,style=dashed];
+  NamedSBase             -> CompartmentalizedSBase    [dir=back,arrowtail=empty,style=dashed];
+  NamedSBase             -> UniqueNamedSBase          [dir=back,arrowtail=empty,style=dashed];
 
 }

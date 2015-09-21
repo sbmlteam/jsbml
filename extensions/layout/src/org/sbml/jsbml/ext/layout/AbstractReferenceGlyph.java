@@ -167,9 +167,10 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
 
   /**
    * @param sbase
+   * @return {@code true} if this operation caused any change.
    */
-  public void setReference(String sbase) {
-    setReference(sbase, "reference");
+  public boolean setReference(String sbase) {
+    return setReference(sbase, "reference");
   }
 
   /**
@@ -178,11 +179,16 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
    * 
    * @param sbase
    * @param type
+   * @return {@code true} if this operation caused any change.
    */
-  void setReference(String sbase, String type) {
-    String oldSBase = reference;
-    reference = sbase;
-    firePropertyChange(type, oldSBase, reference);
+  boolean setReference(String sbase, String type) {
+    if (sbase != reference) {
+      String oldSBase = reference;
+      reference = sbase;
+      firePropertyChange(type, oldSBase, reference);
+      return true;
+    }
+    return false;
   }
 
   /* (non-Javadoc)
@@ -201,10 +207,10 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
   }
 
   /**
-   * 
+   * @return {@code true} if this operation caused any change.
    */
-  public void unsetReference() {
-    setReference((String) null);
+  public boolean unsetReference() {
+    return setReference((String) null);
   }
 
 }

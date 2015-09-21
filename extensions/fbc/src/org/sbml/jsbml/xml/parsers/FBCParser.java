@@ -52,7 +52,7 @@ import org.sbml.jsbml.ext.fbc.FluxBound;
 import org.sbml.jsbml.ext.fbc.FluxObjective;
 import org.sbml.jsbml.ext.fbc.GeneProduct;
 import org.sbml.jsbml.ext.fbc.GeneProductRef;
-import org.sbml.jsbml.ext.fbc.GeneProteinAssociation;
+import org.sbml.jsbml.ext.fbc.GeneProductAssociation;
 import org.sbml.jsbml.ext.fbc.LogicalOperator;
 import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.ext.fbc.Or;
@@ -145,15 +145,15 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
 
     } else if (contextObject instanceof Reaction) {
       Reaction reaction = (Reaction) contextObject;
-      contextObject = (FBCReactionPlugin) reaction.getPlugin(FBCConstants.shortLabel);
-      
+      contextObject = reaction.getPlugin(FBCConstants.shortLabel);
+
     } else if (contextObject instanceof Model) {
 
       contextObject = ((Model) contextObject).getPlugin(FBCConstants.shortLabel);
 
       // TODO - could be generic in AbstractReaderWriter.processAttribute. If packageName = 'core', just call
       // getPlugin. The plugin will be created if needed or returned if already present.
-      
+
     }
 
     super.processAttribute(elementName, attributeName, value, uri, prefix, isLastAttribute, contextObject);
@@ -221,13 +221,20 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       Reaction reaction = (Reaction) contextObject;
       FBCReactionPlugin fbcReaction = (FBCReactionPlugin) reaction.getPlugin(FBCConstants.shortLabel);
 
-      // both names are in used at the moment, while the specs are finalized.
-      if (elementName.equals(FBCConstants.geneProductAssociation) || elementName.equals(FBCConstants.geneProteinAssociation)) {
-        GeneProteinAssociation gPA = fbcReaction.createGeneProteinAssociation();
+      if (elementName.equals(FBCConstants.geneProductAssociation)) {
+        GeneProductAssociation gPA = fbcReaction.createGeneProductAssociation();
+        return gPA;
+      } 
+      else if (elementName.equals(FBCConstants.geneProteinAssociation)) {
+        // FBCConstants.geneProteinAssociation has been used for a very long time in the FBC v2 release candidates
+        // so we are keeping it here in case some files still use it.
+        logger.warn("You are using an invalid element name '" + FBCConstants.geneProteinAssociation 
+          + "'. It was only used for few FBC V2 release candidates.");
+        GeneProductAssociation gPA = fbcReaction.createGeneProductAssociation();
         return gPA;
       }
-    } else if (contextObject instanceof GeneProteinAssociation) {
-      GeneProteinAssociation gPA = (GeneProteinAssociation) contextObject;
+    } else if (contextObject instanceof GeneProductAssociation) {
+      GeneProductAssociation gPA = (GeneProductAssociation) contextObject;
 
       // and + or + geneProductRef
       if (elementName.equals(FBCConstants.and)) {

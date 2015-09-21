@@ -73,7 +73,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    * The mandatory attribute strict is used to apply an additional set of
    * restrictions to the model.
    * The strict attribute ensures that the Flux Balance Constraints package can
-   * be used to encode legacy FBA models expressible as Linear Programs (LP’s)
+   * be used to encode legacy FBA models expressible as Linear Programs (LP's)
    * with software that is unable to analyze arbitrary mathematical expressions.
    */
   private Boolean strict;

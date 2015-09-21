@@ -41,8 +41,8 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
  * @since 0.8
  * @version $Rev$
  */
-public class Reaction extends AbstractNamedSBase implements CallableSBase,
-UniqueNamedSBase {
+public class Reaction extends AbstractNamedSBase
+implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.
@@ -543,18 +543,23 @@ UniqueNamedSBase {
    * @return the compartmentID of this {@link Reaction}. The empty
    *         {@link String} if it is not set.
    */
+  @Override
   public String getCompartment() {
     return isSetCompartment() ? compartmentID : "";
   }
 
-  /**
-   * 
-   * @return the Compartment instance which has the compartmentID of this
-   *         Reaction as id. Can be null if it doesn't exist.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#getCompartmentInstance()
    */
+  @Override
   public Compartment getCompartmentInstance() {
-    Model m = getModel();
-    return m != null ? m.getCompartment(compartmentID) : null;
+    if (isSetCompartment()) {
+      Model m = getModel();
+      if (m != null) {
+        return m.getCompartment(compartmentID);
+      }
+    }
+    return null;
   }
 
   /* (non-Javadoc)
@@ -911,6 +916,14 @@ UniqueNamedSBase {
     return hasReactant(s) || hasProduct(s) || hasModifier(s);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isCompartmentMandatory()
+   */
+  @Override
+  public boolean isCompartmentMandatory() {
+    return false;
+  }
+
   /**
    * 
    * @return the boolean value of fast if it is set, {@code false} otherwise.
@@ -935,22 +948,20 @@ UniqueNamedSBase {
     return getReversible();
   }
 
-  /**
-   * 
-   * @return {@code true} if the compartmentID of this Reaction is not {@code null}.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isSetCompartment()
    */
+  @Override
   public boolean isSetCompartment() {
     return compartmentID != null;
   }
 
-  /**
-   * 
-   * @return {@code true} if the Compartment which has the compartmentID of this
-   *         Reaction as id is not null;
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isSetCompartmentInstance()
    */
+  @Override
   public boolean isSetCompartmentInstance() {
-    Model m = getModel();
-    return m != null ? m.getCompartment(compartmentID) != null : false;
+    return getCompartmentInstance() != null;
   }
 
   /**
@@ -1015,11 +1026,11 @@ UniqueNamedSBase {
     if (!isAttributeRead) {
       isAttributeRead = true;
 
-      if (attributeName.equals("reversible")) {
+      if (attributeName.equals(TreeNodeChangeEvent.reversible)) {
         setReversible(StringTools.parseSBMLBoolean(value));
-      } else if (attributeName.equals("fast")) {
+      } else if (attributeName.equals(TreeNodeChangeEvent.fast)) {
         setFast(StringTools.parseSBMLBoolean(value));
-      } else if (attributeName.equals("compartment")) {
+      } else if (attributeName.equals(TreeNodeChangeEvent.compartment)) {
         this.setCompartment(value);
       } else {
         isAttributeRead = false;
@@ -1180,14 +1191,12 @@ UniqueNamedSBase {
     return remove(listOfReactants, id);
   }
 
-  /**
-   * Sets the compartmentID of this {@link Reaction} to the id of the {@link Compartment}
-   * 'compartment'.
-   * 
-   * @param compartment
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#setCompartment(org.sbml.jsbml.Compartment)
    */
-  public void setCompartment(Compartment compartment) {
-    setCompartment(compartment != null ? compartment.getId() : null);
+  @Override
+  public boolean setCompartment(Compartment compartment) {
+    return setCompartment(compartment != null ? compartment.getId() : null);
   }
 
   /**
@@ -1198,15 +1207,20 @@ UniqueNamedSBase {
    * @throws PropertyNotAvailableException
    *             if Level &lt; 3.
    */
-  public void setCompartment(String compartmentID) {
+  @Override
+  public boolean setCompartment(String compartmentID) {
     if (getLevel() < 3) {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.compartment,
         this);
     }
-    String oldCompartmentID = this.compartmentID;
-    this.compartmentID = compartmentID;
-    firePropertyChange(TreeNodeChangeEvent.compartment, oldCompartmentID,
-      compartmentID);
+    if (compartmentID != this.compartmentID) {
+      String oldCompartmentID = this.compartmentID;
+      this.compartmentID = compartmentID;
+      firePropertyChange(TreeNodeChangeEvent.compartment, oldCompartmentID,
+        compartmentID);
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -1287,6 +1301,18 @@ UniqueNamedSBase {
     this.reversible = Boolean.valueOf(reversible);
     isSetReversible = true;
     firePropertyChange(TreeNodeChangeEvent.reversible, oldReversible, reversible);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#unsetCompartment()
+   */
+  @Override
+  public boolean unsetCompartment() {
+    if (getLevel() > 2) {
+      // Avoid exception when unsetting a compartment attribute.
+      return setCompartment((String) null);
+    }
+    return false;
   }
 
   /**
@@ -1385,15 +1411,15 @@ UniqueNamedSBase {
     Map<String, String> attributes = super.writeXMLAttributes();
 
     if (isSetReversible()) {
-      attributes.put("reversible", Boolean.toString(getReversible()));
+      attributes.put(TreeNodeChangeEvent.reversible, Boolean.toString(getReversible()));
     }
     if (isSetFast()) {
-      attributes.put("fast", Boolean.toString(getFast()));
+      attributes.put(TreeNodeChangeEvent.fast, Boolean.toString(getFast()));
     }
 
     if (2 < getLevel()) {
       if (isSetCompartment()) {
-        attributes.put("compartment", getCompartment());
+        attributes.put(TreeNodeChangeEvent.compartment, getCompartment());
       }
     }
 

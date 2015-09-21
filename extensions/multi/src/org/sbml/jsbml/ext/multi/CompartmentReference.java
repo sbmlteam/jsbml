@@ -19,21 +19,37 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.CompartmentalizedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
 
+/**
+ * 
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.0
+ * @date 21.09.2015
+ */
+public class CompartmentReference extends AbstractNamedSBase implements CompartmentalizedSBase {
 
-public class CompartmentReference extends AbstractNamedSBase {
-
-  private String compartment; 
-  
   /**
-   * Creates an CompartmentReference instance 
+   * Generated serial version identifier
+   */
+  private static final long serialVersionUID = 6455311889725292763L;
+
+  /**
+   * 
+   */
+  private String compartment;
+
+  /**
+   * Creates an CompartmentReference instance
    */
   public CompartmentReference() {
     super();
@@ -42,13 +58,16 @@ public class CompartmentReference extends AbstractNamedSBase {
 
 
   /**
-   * Creates a CompartmentReference instance with an id.
-   * 
-   * @param id the identifier for the new element.
+   * Clone constructor
+   * @param obj
    */
-  public CompartmentReference(String id) {
-    super(id);
-    initDefaults();
+  public CompartmentReference(CompartmentReference obj) {
+    super(obj);
+
+    // compartment
+    if (obj.isSetCompartment()) {
+      setCompartment(obj.getCompartment());
+    }
   }
 
 
@@ -60,6 +79,17 @@ public class CompartmentReference extends AbstractNamedSBase {
    */
   public CompartmentReference(int level, int version) {
     this(null, null, level, version);
+  }
+
+
+  /**
+   * Creates a CompartmentReference instance with an id.
+   * 
+   * @param id the identifier for the new element.
+   */
+  public CompartmentReference(String id) {
+    super(id);
+    initDefaults();
   }
 
 
@@ -93,49 +123,18 @@ public class CompartmentReference extends AbstractNamedSBase {
     initDefaults();
   }
 
-
-  /**
-   * Clone constructor
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
    */
-  public CompartmentReference(CompartmentReference obj) {
-    super(obj);
-    
-    // compartment
-    if (obj.isSetCompartment()) {
-      setCompartment(obj.getCompartment());
-    }
-  }
-
-
-  /**
-   * clones this class
-   */
+  @Override
   public CompartmentReference clone() {
     return new CompartmentReference(this);
   }
 
-
-  /**
-   * Initializes the default values using the namespace.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#getCompartment()
    */
-  public void initDefaults() {
-    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
-    packageName = MultiConstants.shortLabel;
-    setPackageVersion(-1);
-  }
-  
-
   @Override
-  public boolean isIdMandatory() {
-    return false;
-  }
-
-  
-  /**
-   * Returns the value of {@link #compartment}.
-   *
-   * @return the value of {@link #compartment}.
-   */
   public String getCompartment() {
     if (isSetCompartment()) {
       return compartment;
@@ -144,45 +143,117 @@ public class CompartmentReference extends AbstractNamedSBase {
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#getCompartmentInstance()
+   */
+  @Override
+  public Compartment getCompartmentInstance() {
+    if (isSetCompartment()) {
+      Model model = getModel();
+      if (model != null) {
+        return model.getCompartment(getCompartment());
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    // TODO - removed once the mechanism are in place to set package version and namespace
+    setNamespace(MultiConstants.namespaceURI);
+    packageName = MultiConstants.shortLabel;
+    setPackageVersion(-1);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isCompartmentMandatory()
+   */
+  @Override
+  public boolean isCompartmentMandatory() {
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  @Override
+  public boolean isIdMandatory() {
+    return false;
+  }
 
   /**
    * Returns whether {@link #compartment} is set.
    *
    * @return whether {@link #compartment} is set.
    */
+  @Override
   public boolean isSetCompartment() {
     return compartment != null;
   }
 
-
-  /**
-   * Sets the value of compartment
-   *
-   * @param compartment the value of compartment to be set.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isSetCompartmentInstance()
    */
-  public void setCompartment(String compartment) {
-    String oldCompartment = this.compartment;
-    this.compartment = compartment;
-    firePropertyChange(MultiConstants.compartment, oldCompartment, this.compartment);
+  @Override
+  public boolean isSetCompartmentInstance() {
+    return getCompartmentInstance() != null;
   }
 
-
-  /**
-   * Unsets the variable compartment.
-   *
-   * @return {@code true} if compartment was set before, otherwise {@code false}.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
-  public boolean unsetCompartment() {
-    if (isSetCompartment()) {
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(MultiConstants.compartment)) {
+        setCompartment(value);
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#setCompartment(org.sbml.jsbml.Compartment)
+   */
+  @Override
+  public boolean setCompartment(Compartment compartment) {
+    return setCompartment(compartment.getId());
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#setCompartment(java.lang.String)
+   */
+  @Override
+  public boolean setCompartment(String compartment) {
+    if (compartment != this.compartment) {
       String oldCompartment = this.compartment;
-      this.compartment = null;
+      this.compartment = compartment;
       firePropertyChange(MultiConstants.compartment, oldCompartment, this.compartment);
       return true;
     }
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#unsetCompartment()
+   */
+  @Override
+  public boolean unsetCompartment() {
+    return setCompartment((String) null);
+  }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -200,24 +271,6 @@ public class CompartmentReference extends AbstractNamedSBase {
       attributes.put(MultiConstants.shortLabel + ":" + MultiConstants.compartment, getCompartment());
     }
     return attributes;
-  }
-
-
-  @Override
-  public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-
-    if (!isAttributeRead) {
-      isAttributeRead = true;
-
-      if (attributeName.equals(MultiConstants.compartment)) {
-        setCompartment(value);
-      }
-      else {
-        isAttributeRead = false;
-      }
-    }
-    return isAttributeRead;
   }
 
 }

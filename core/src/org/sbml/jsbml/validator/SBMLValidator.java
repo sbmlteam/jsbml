@@ -545,7 +545,7 @@ public class SBMLValidator {
     try {
       SBMLErrorLog sbmlErrorLog = (SBMLErrorLog) xstream.fromXML(reader);
 
-      logger.debug("Call and Parsing of the results done !!!");
+      logger.debug("Call and Parsing of the results done!");
 
       // logger.debug("File = " + resultsObj.getFile().getName());
 

@@ -792,7 +792,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return getHistory();
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#createPlugin(java.lang.String)
    */
@@ -1372,9 +1371,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
 
     if (packageParser != null) {
-
-      if (extensions.get(packageParser.getPackageName()) != null) {
-        return extensions.get(packageParser.getPackageName());
+      SBasePlugin plugin = extensions.get(packageParser.getPackageName());
+      if (plugin != null) {
+        return plugin;
       } else {
         return createPlugin(nameOrUri);
       }
@@ -1516,17 +1515,26 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#isPackageURIEnabled(java.lang.String)
+   */
   @Override
   public boolean isPackageURIEnabled(String packageURIOrName) {
     return isPackageEnabled(packageURIOrName);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#isPkgEnabled(java.lang.String)
+   */
   @Override
   @Deprecated
   public boolean isPkgEnabled(String packageURIOrName) {
     return isPackageEnabled(packageURIOrName);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#isPkgURIEnabled(java.lang.String)
+   */
   @Override
   @Deprecated
   public boolean isPkgURIEnabled(String packageURIOrName) {

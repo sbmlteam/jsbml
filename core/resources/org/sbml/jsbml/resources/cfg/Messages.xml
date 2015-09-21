@@ -35,7 +35,7 @@
   <entry key="SBMLCoreParser.instanciationError">The element ''{0}'' could not be instanciated as a Java object!</entry>
   <entry key="SBMLCoreParser.namespaceIgnored">Namespace ignored on ''{0}''! {1} = {2}</entry>
   <entry key="SBMLCoreParser.reactionWithoutParticipantsError">The reaction ''{0}'' does not contain any reactants or products.</entry>
-  <entry key="SBMLCoreParser.unknownAttributeOnElement">Could not recognize the attribute \"{0}\" on the element {1}. Please check the specification for SBML.</entry>
+  <entry key="SBMLCoreParser.unknownAttributeOnElement">Could not recognize the attribute ''{0}'' on the element {1}. Please check the specification for SBML.</entry>
   <entry key="SBMLCoreParser.unknownElement">The element ''{0}'' is not recognized.</entry>
   <entry key="SBMLCoreParser.unknownReferenceError1">No {0} matches the {1} ''{2}'' of {3} ''{4}''.</entry>
   <entry key="SBMLCoreParser.unknownReferenceError2">No {0} matches the {1} ''{2}'' of an {2}.</entry>

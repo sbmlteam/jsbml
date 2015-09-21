@@ -185,8 +185,8 @@ public class SBMLWriter {
 
         // testDocument.checkConsistency();
 
-        System.out.println("Model Notes = " + XMLNode.convertXMLNodeToString(testDocument.getModel().getNotes()));
-        System.out.println("MathML = " + testDocument.getModel().getReaction(0).getKineticLaw().getMath().toMathML());
+//        System.out.println("Model Notes = " + XMLNode.convertXMLNodeToString(testDocument.getModel().getNotes()));
+//        System.out.println("MathML = " + testDocument.getModel().getReaction(0).getKineticLaw().getMath().toMathML());
         
         System.out.println("Going to check package version and namespace for all elements.");
         PackageUtil.checkPackages(testDocument);

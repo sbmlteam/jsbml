@@ -32,14 +32,14 @@ import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.math.ASTFactory;
+import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.math.ASTNode2;
-import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
@@ -625,6 +625,23 @@ public class ASTNode extends AbstractTreeNode {
   public static final transient String URI_TIME_DEFINITION = "http://www.sbml.org/sbml/symbols/time";
 
   /**
+   * The String representing the first implementation of the ASTNode, since 0.8.
+   */
+  public static final String IMPLEMENTATION_HISTORIC = "old ASTNode";
+
+  /**
+   * The String representing the facade implementation for the new {@link ASTNode2} implementation.
+   */
+  public static final String IMPLEMENTATION_ASTNODE2 = "new ASTNode2";
+
+  /**
+   * The String representing the actual implementation of this class, values can be {@link #IMPLEMENTATION_HISTORIC}
+   * or {@link #IMPLEMENTATION_ASTNODE2}.
+   */
+  public static final String IMPLEMENTATION_VERSION = IMPLEMENTATION_HISTORIC;
+  
+  
+  /**
    * Creates and returns an {@link ASTNode} that computes the absolute value
    * of the given double value.
    * 
@@ -1078,8 +1095,22 @@ public class ASTNode extends AbstractTreeNode {
    * @return a piecewise {@link ASTNode}.
    */
   public static ASTNode piecewise(ASTNode node, ASTNode... nodes) {
-    ASTNode piecewise = new ASTNode(Type.FUNCTION_PIECEWISE, node
-      .getParentSBMLObject());
+    return piecewise(node.getParentSBMLObject(), nodes);
+  }
+
+  /**
+   * @param parentSBMLObject
+   *        a link to the container in which this {@link ASTNode} will be
+   *        inserted. This can be useful if complex operations on units,
+   *        species, etc. are necessary when creating this formula.
+   *        Can be {@code null}.
+   * @param nodes
+   * @return
+   * @see #piecewise(ASTNode, ASTNode...)
+   */
+  public static ASTNode piecewise(MathContainer parentSBMLObject,
+    ASTNode[] nodes) {
+    ASTNode piecewise = new ASTNode(Type.FUNCTION_PIECEWISE, parentSBMLObject);
     for (ASTNode n : nodes) {
       piecewise.addChild(n);
     }
@@ -4173,7 +4204,7 @@ public class ASTNode extends AbstractTreeNode {
   public String toString() {
     String formula = "";
     try {
-      formula = compile(new FormulaCompiler()).toString();
+      formula = toFormula();
     } catch (SBMLException e) {
       // log the exception
       e.printStackTrace();
@@ -4191,6 +4222,76 @@ public class ASTNode extends AbstractTreeNode {
       }
     }
     return formula;
+  }
+
+  
+  
+  /**
+   * Returns a simple String representing the content of the ASTNode.
+   * 
+   * @return a simple String representing the content of the ASTNode.
+   */
+  public String toSimpleString() {
+    StringBuffer buffer = new StringBuffer("ASTNode [type=");    
+    buffer.append(type);
+    
+    if (isInteger()) 
+    {
+      buffer.append(", ").append(getInteger());
+    }
+    else if (isReal()) 
+    {
+      buffer.append(", ").append(getReal());
+      
+      if (isRational()) 
+      {
+        buffer.append(" (").append(getNumerator()).append(" / ").append(getDenominator());
+      }
+      else if (exponent != 0) 
+      {
+        buffer.append(" (").append(getMantissa()).append("e").append(getExponent());
+      }
+    }
+    else if (isName()) 
+    {
+      buffer.append(", name = ").append(getName());
+    }
+    
+    if (definitionURL != null) 
+    {
+      buffer.append(", definitionURL = ").append(getDefinitionURL());
+    }
+
+    if (unitId != null) {
+      buffer.append(", units = ").append(getUnits());
+    }
+    
+    if (getChildCount() > 0) {
+      buffer.append(", nb children = ").append(getChildCount());
+    }
+    
+    if (isSetUserObjects()) {
+      buffer.append(", user object keys = ").append(userObjectKeySet()); 
+    }
+    
+    if (getParent() == null) {
+      buffer.append(", no parent defined");
+    }
+    
+    if (id != null) {
+      buffer.append(", id = ").append(getId());
+    }
+    if (style != null) {
+      buffer.append(", style = ").append(getStyle());
+    }
+    if (encoding != null) {
+      buffer.append(", encoding = ").append(getEncoding());
+    }
+    if (className != null) {
+      buffer.append(", className = ").append(getClassName());
+    }
+    
+    return buffer.toString();
   }
 
   /**

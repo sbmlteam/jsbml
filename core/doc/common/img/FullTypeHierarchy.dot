@@ -67,6 +67,7 @@ strict digraph G{
 
   Assignment                               [label="<<interface>>\nAssignment", style="filled", fillcolor="#F0F8FF"];
   CallableSBase                            [label="<<interface>>\nCallableSBase", style="filled", fillcolor="#F0F8FF"];
+  CompartmentalizedSBase                   [label="<<interface>>\nCompartmentalized\nSBase", style="filled", fillcolor="#F0F8FF"];
   MathContainer                            [label="<<interface>>\nMathContainer", style="filled", fillcolor="#F0F8FF"];
   NamedSBase                               [label="<<interface>>\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
   NamedSBaseWithDerivedUnit                [label="<<interface>>\nNamedSBase\nWithDerivedUnit", style="filled", fillcolor="#F0F8FF"];
@@ -127,7 +128,7 @@ strict digraph G{
   RateRule                                 [label="Rate\nRule"];
   Reaction                                 [label="Reaction"];
   SBMLDocument                             [label="SBML\nDocument"];
-  SimpleTreeNodeChangeListener             [label="Simple\nTreeNode\nChangeListener", fillcolor="#FFFFE0"];
+  SimpleTreeNodeChangeListener             [label="Simple\nTreeNode\nChangeListener", style="filled", fillcolor="#F0F8FF"];
   Species                                  [label="Species"];
   SpeciesReference                         [label="Species\nReference"];
   SpeciesType                              [label="Species\nType"];
@@ -185,6 +186,8 @@ strict digraph G{
   CallableSBase              -> FunctionDefinition           [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> Reaction                     [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> TreeNodeWithChangeSupport    [dir=back,arrowtail=empty,style=dashed];
+  CompartmentalizedSBase     -> Species                      [dir=back,arrowtail=empty,style=dashed];
+  CompartmentalizedSBase     -> Reaction                     [dir=back,arrowtail=empty,style=dashed];
   EventObject                -> PropertyChangeEvent          [dir=back,arrowtail=empty];
   EventListener              -> PropertyChangeEvent          [style=invis]; // Helper for better layout
   EventListener              -> PropertyChangeListener       [dir=back,arrowtail=empty,style=dashed];
@@ -194,6 +197,7 @@ strict digraph G{
   MathContainer              -> AbstractMathContainer        [dir=back,arrowtail=empty,style=dashed];
   MathContainer              -> Assignment                   [dir=back,arrowtail=empty,style=dashed];
   NamedSBase                 -> AbstractNamedSBase           [dir=back,arrowtail=empty,style=dashed];
+  NamedSBase                 -> CompartmentalizedSBase       [dir=back,arrowtail=empty,style=dashed];
   NamedSBase                 -> NamedSBaseWithDerivedUnit    [dir=back,arrowtail=empty,style=dashed];
   NamedSBase                 -> UniqueNamedSBase             [dir=back,arrowtail=empty,style=dashed];
   NamedSBaseWithDerivedUnit  -> AbstractNamedSBaseWithUnit   [dir=back,arrowtail=empty,style=dashed];

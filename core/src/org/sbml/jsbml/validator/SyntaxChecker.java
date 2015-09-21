@@ -4,13 +4,13 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2015 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  * <p>
  * In order to save memory, all patterns in this class are only initialized
  * upon their first use.
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0
@@ -44,9 +44,58 @@ import java.util.regex.Pattern;
 public class SyntaxChecker {
 
   /**
+   * 
+   */
+  private static Pattern chemicalFormulaPattern;
+
+  /**
    * The only instance of this class.
    */
   private static final SyntaxChecker syntaxChecker = new SyntaxChecker();
+
+  /**
+   * 
+   * @return
+   */
+  private static Pattern initChemicalFormulaPattern() {
+    String period[] = new String[7];
+    String lanthanide = "La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu";
+    String actinide = "Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr";
+    period[0] = "H|He";
+    period[1] = "Li|Be|B|C|N|O|F|Ne";
+    period[2] = "Na|Mg|Al|Si|P|S|Cl|Ar";
+    period[3] = "K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr";
+    period[4] = "Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I|Xe";
+    period[5] = "Cs|Ba|" + lanthanide + "|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn";
+    period[6] = "Fr|Ra|" + actinide + "Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Uut|Fl|Uup|Lv|Uus|Uuo";
+
+    StringBuilder atoms = new StringBuilder();
+    atoms.append(period[0]);
+    for (int i = 1; i < period.length; i++) {
+      atoms.append('|');
+      atoms.append(period[i]);
+    }
+
+    String compoundName = "[A-Z][a-z]*";
+
+    String residues = "[A-Z][a-z]*";
+
+    String regex = "((" + atoms.toString() + "|" + residues + ")+\\d*)*|(" + compoundName + ")?";
+
+    return Pattern.compile(regex);
+  }
+
+  /**
+   * 
+   * @param chemicalFormula
+   * @return
+   */
+  public static boolean isValidChemicalFormula(String chemicalFormula) {
+    if (chemicalFormulaPattern == null) {
+      SyntaxChecker.chemicalFormulaPattern = initChemicalFormulaPattern();
+    }
+    return SyntaxChecker.chemicalFormulaPattern.matcher(chemicalFormula).matches();
+  }
 
   /**
    * Definition of valid e-mail address {@link String}s.
@@ -89,15 +138,18 @@ public class SyntaxChecker {
    */
   public static boolean isValidEmailAddress(String email) {
     if (syntaxChecker.emailPattern == null) {
+      //Does not handle non-printable unicode characters, and will return an error. The log error message will return a "?"
+      //for any non-printable unicode. Also the regex pattern to capture this is \\p{C}.
       syntaxChecker.emailPattern = Pattern.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
     }
     return syntaxChecker.emailPattern.matcher(email).matches();
   }
 
+
   /**
    * Checks whether the given idCandidate is a valid identifier according to
    * the SBML specifications.
-   * 
+   *
    * @param idCandidate
    *            The {@link String} to be tested.
    * @param level
@@ -147,11 +199,10 @@ public class SyntaxChecker {
     return syntaxChecker.SIdL2Pattern.matcher(idCandidate).matches();
   }
 
-
   /**
    * Checks if the given identifier candidate satisfies the requirements for a
    * valid meta identifier (see SBML L2V4 p. 12 for details).
-   * 
+   *
    * @param idCandidate
    * @return {@code true} if the given argument is a valid meta identifier
    *         {@link String}, {@code false} otherwise.
@@ -177,17 +228,11 @@ public class SyntaxChecker {
    * Definition of valid e-mail addresses. Initialized upon first use.
    */
   private Pattern emailPattern;
-
   /**
    * {@link Pattern} to recognize valid meta-identifier strings for SBML
    * elements.
    */
   private Pattern metaIdPattern;
-  /**
-   * Simplified {@link Pattern} to recognize valid meta-identifier strings for
-   * SBML elements.
-   */
-  private Pattern simpleMetaIdPattern;
 
   /**
    * Collection of reserved names that must not be used as identifiers (names)
@@ -207,6 +252,12 @@ public class SyntaxChecker {
   private Pattern SIdL2Pattern;
 
   /**
+   * Simplified {@link Pattern} to recognize valid meta-identifier strings for
+   * SBML elements.
+   */
+  private Pattern simpleMetaIdPattern;
+
+  /**
    * Name {@link Pattern} for SBML Level 1 version 1.
    */
   private Pattern SNameL1V1;
@@ -224,7 +275,7 @@ public class SyntaxChecker {
   }
 
   /**
-   * 
+   *
    * @return
    */
   private Set<String> getReservedNamesL1V1() {
@@ -292,7 +343,7 @@ public class SyntaxChecker {
   }
 
   /**
-   * 
+   *
    */
   private void initReservedNamesL1V2() {
     reservedNamesL1V2 = new TreeSet<String>(getReservedNamesL1V1());
@@ -300,7 +351,7 @@ public class SyntaxChecker {
   }
 
   /**
-   * 
+   *
    */
   private void initSIdL2Pattern() {
     String underscore = "_";

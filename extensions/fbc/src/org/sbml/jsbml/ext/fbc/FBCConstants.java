@@ -84,6 +84,12 @@ public class FBCConstants {
   public static final String geneProduct = "geneProduct";
 
   /**
+   * Used only in some of the FBC v2 release candidates
+   */
+  @Deprecated
+  public static final String       geneProteinAssociation = "geneProteinAssociation";
+
+  /**
    * 
    * @since jsbml 1.1, introduced in FBC version 2
    */
@@ -99,11 +105,6 @@ public class FBCConstants {
    * @since jsbml 1.1, introduced in FBC version 2
    */
   public static final String geneProductReference = "geneProductRef";
-
-  /**
-   * Introduced to FBC in version 2.
-   */
-  public static final String geneProteinAssociation = "geneProteinAssociation";
 
   /**
    * 

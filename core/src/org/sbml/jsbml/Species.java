@@ -37,17 +37,17 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 0.8
  * @version $Rev$
  */
-public class Species extends Symbol {
-
-  /**
-   * Generated serial version identifier.
-   */
-  private static final long serialVersionUID = 4427015656530890393L;
+public class Species extends Symbol implements CompartmentalizedSBase {
 
   /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(Species.class);
+
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 4427015656530890393L;
 
   /**
    * True means initial amount is set. False means that an initial
@@ -103,7 +103,7 @@ public class Species extends Symbol {
   private String speciesTypeID;
 
   /**
-   * Creates a Species instance. By default, the charge, compartmentID,
+   * Creates a Species instance. By default, the charge, {@link #compartmentID},
    * speciesTypeID, conversionFactorID, hasOnlySubstanceUnits,
    * boundaryCondition are {@code null}.
    */
@@ -114,7 +114,7 @@ public class Species extends Symbol {
 
   /**
    * Creates a Species instance from a level and version. By default, the
-   * charge, compartmentID, speciesTypeID, conversionFactorID,
+   * charge, {@link #compartmentID}, speciesTypeID, conversionFactorID,
    * hasOnlySubstanceUnits, boundaryCondition are {@code null}.
    * 
    * @param level
@@ -180,7 +180,7 @@ public class Species extends Symbol {
 
   /**
    * Creates a Species instance from a level and verison. By default, the
-   * charge, compartmentID, speciesTypeID, conversionFactorID,
+   * charge, {@link #compartmentID}, speciesTypeID, conversionFactorID,
    * hasOnlySubstanceUnits, boundaryCondition are {@code null}.
    * 
    * @param id
@@ -287,25 +287,26 @@ public class Species extends Symbol {
     return isSetCharge() ? charge : 0;
   }
 
-  /**
-   * 
-   * @return the compartmentID of this Species. The empty String if it is not
-   *         set.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#getCompartment()
    */
+  @Override
   public String getCompartment() {
     return isSetCompartment() ? compartmentID : "";
   }
 
-  /**
-   * 
-   * @return The Compartment instance which as the compartmentID of this
-   *         Species as id. Null if it doesn't exist.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#getCompartmentInstance()
    */
+  @Override
   public Compartment getCompartmentInstance() {
-    if (getModel() == null) {
-      return null;
+    if (isSetCompartment()) {
+      Model model = getModel();
+      if (model != null) {
+        return model.getCompartment(compartmentID);
+      }
     }
-    return getModel().getCompartment(compartmentID);
+    return null;
   }
 
   /**
@@ -339,36 +340,49 @@ public class Species extends Symbol {
       // According to SBML specification of Level 3 Version 1, page 44, lines 20-22:
       specUnit = model.getSubstanceUnitsInstance();
     }
-    Compartment compartment = getCompartmentInstance();
-    if ((specUnit != null) && !hasOnlySubstanceUnits() && (compartment != null)
-        && (0d < compartment.getSpatialDimensions())) {
-      UnitDefinition sizeUnit; // = getSpatialSizeUnitsInstance();
-      if ((model != null) && isSetSpatialSizeUnits()) {
-        sizeUnit = model.getUnitDefinition(getSpatialSizeUnits());
-      } else {
-        sizeUnit = compartment.getDerivedUnitDefinition();
-      }
-      if (sizeUnit != null) {
-        UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
-        derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
-        if (derivedUD.isSetName()) {
-          derivedUD.setName(derivedUD.getName() + " per "
-              + (sizeUnit.isSetName() ? sizeUnit.getName() : sizeUnit.getId()));
+    if (isSetHasOnlySubstanceUnits() && !hasOnlySubstanceUnits()) {
+      Compartment compartment = getCompartmentInstance();
+      if ((specUnit != null) && (compartment != null)
+          && (0d < compartment.getSpatialDimensions())) {
+        UnitDefinition sizeUnit; // = getSpatialSizeUnitsInstance();
+        if ((model != null) && isSetSpatialSizeUnits()) {
+          sizeUnit = model.getUnitDefinition(getSpatialSizeUnits());
+        } else {
+          sizeUnit = compartment.getDerivedUnitDefinition();
         }
-        /*
-         * If possible, let's return an equivalent unit that is already part of the model
-         * rather than returning some newly created UnitDefinition:
-         */
-        if (model != null) {
-          UnitDefinition ud = model.findIdentical(derivedUD);
-          if (ud != null) {
-            return ud;
+        if (sizeUnit != null) {
+          UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
+          derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
+          if (derivedUD.isSetName()) {
+            derivedUD.setName(derivedUD.getName() + " per "
+                + (sizeUnit.isSetName() ? sizeUnit.getName() : sizeUnit.getId()));
           }
+          /*
+           * If possible, let's return an equivalent unit that is already part of the model
+           * rather than returning some newly created UnitDefinition:
+           */
+          if (model != null) {
+            UnitDefinition ud = model.findIdentical(derivedUD);
+            if (ud != null) {
+              return ud;
+            }
+          }
+          return derivedUD;
         }
-        return derivedUD;
       }
     }
     return specUnit;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getDerivedUnits()
+   */
+  @Override
+  public String getDerivedUnits() {
+    if (isSetHasOnlySubstanceUnits() && !hasOnlySubstanceUnits()) {
+      // TODO!!! Here is something wrong! This method must return the same as getDerivedUnitInstance(), I think!
+    }
+    return super.getDerivedUnits();
   }
 
   /* (non-Javadoc)
@@ -609,6 +623,14 @@ public class Species extends Symbol {
     return isSetBoundaryCondition() ? boundaryCondition : false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isCompartmentMandatory()
+   */
+  @Override
+  public boolean isCompartmentMandatory() {
+    return true;
+  }
+
   /**
    * 
    * @return the value of the hasOnlySubstanceUnits Boolean if it is set,
@@ -635,24 +657,20 @@ public class Species extends Symbol {
     return isSetCharge;
   }
 
-  /**
-   * 
-   * @return {@code true} if the compartmentID of this Species is not {@code null}.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isSetCompartment()
    */
+  @Override
   public boolean isSetCompartment() {
     return compartmentID != null;
   }
 
-  /**
-   * 
-   * @return {@code true} if the Compartment instance which has the compartmentID of
-   *         this Species as id is not {@code null}.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#isSetCompartmentInstance()
    */
+  @Override
   public boolean isSetCompartmentInstance() {
-    if (getModel() == null) {
-      return false;
-    }
-    return getModel().getCompartment(compartmentID) != null;
+    return getCompartmentInstance() != null;
   }
 
   /**
@@ -881,26 +899,22 @@ public class Species extends Symbol {
     firePropertyChange(TreeNodeChangeEvent.charge, oldCharge, this.charge);
   }
 
-  /**
-   * Sets the {@link #compartmentID} of this {@link Species} to the id of
-   * 'compartment'.
-   * 
-   * @param compartment
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#setCompartment(org.sbml.jsbml.Compartment)
    */
-  public void setCompartment(Compartment compartment) {
+  @Override
+  public boolean setCompartment(Compartment compartment) {
     if (compartment != null) {
-      setCompartment(compartment.getId());
-    } else {
-      unsetCompartment();
+      return setCompartment(compartment.getId());
     }
+    return unsetCompartment();
   }
 
-  /**
-   * Sets the {@link #compartmentID} of this {@link Species} to 'compartment'.
-   * 
-   * @param compartment
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#setCompartment(java.lang.String)
    */
-  public void setCompartment(String compartment) {
+  @Override
+  public boolean setCompartment(String compartment) {
     if ((compartment != null) && (compartment.trim().length() == 0)) {
       compartment = null;
       // If we pass the empty String or null, the value is reset.
@@ -915,7 +929,9 @@ public class Species extends Symbol {
       }
       firePropertyChange(TreeNodeChangeEvent.compartment, oldCompartment,
         compartmentID);
+      return true;
     }
+    return false;
   }
 
   /**
@@ -1159,11 +1175,12 @@ public class Species extends Symbol {
     firePropertyChange(TreeNodeChangeEvent.charge, oldCharge, charge);
   }
 
-  /**
-   * Remove the reference to a comparmtent.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.CompartmentalizedSBase#unsetCompartment()
    */
-  public void unsetCompartment() {
-    setCompartment((String) null);
+  @Override
+  public boolean unsetCompartment() {
+    return setCompartment((String) null);
   }
 
   /**
@@ -1214,14 +1231,14 @@ public class Species extends Symbol {
     Map<String, String> attributes = super.writeXMLAttributes();
     Locale en = Locale.ENGLISH;
     if (isSetCompartment()) {
-      attributes.put("compartment", getCompartment());
+      attributes.put(TreeNodeChangeEvent.compartment, getCompartment());
     }
     if (isSetInitialAmount()) {
-      attributes.put("initialAmount",
+      attributes.put(TreeNodeChangeEvent.initialAmount,
         StringTools.toString(en, getInitialAmount()));
     }
     if (isSetBoundaryCondition()) {
-      attributes.put("boundaryCondition",
+      attributes.put(TreeNodeChangeEvent.boundaryCondition,
         Boolean.toString(getBoundaryCondition()));
     }
 
@@ -1231,19 +1248,19 @@ public class Species extends Symbol {
           StringTools.toString(en, getInitialConcentration()));
       }
       if (isSetSubstanceUnits()) {
-        attributes.put("substanceUnits", getSubstanceUnits());
+        attributes.put(TreeNodeChangeEvent.substanceUnits, getSubstanceUnits());
       }
       if (isSetHasOnlySubstanceUnits()) {
-        attributes.put("hasOnlySubstanceUnits",
+        attributes.put(TreeNodeChangeEvent.hasOnlySubstanceUnits,
           Boolean.toString(getHasOnlySubstanceUnits()));
       }
       if (isSetConstant()) {
-        attributes.put("constant", Boolean.toString(getConstant()));
+        attributes.put(TreeNodeChangeEvent.constant, Boolean.toString(getConstant()));
       }
     }
     if (getLevel() < 3) {
       if (isSetCharge) {
-        attributes.put("charge", Integer.toString(getCharge()));
+        attributes.put(TreeNodeChangeEvent.charge, Integer.toString(getCharge()));
       }
     }
     if (getLevel() == 2) {
