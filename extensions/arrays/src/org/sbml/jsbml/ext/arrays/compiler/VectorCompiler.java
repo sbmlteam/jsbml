@@ -81,7 +81,7 @@ public class VectorCompiler implements ASTNodeCompiler {
   /**
    * 
    */
-  private final boolean useId;
+  private boolean useId;
   /**
    * 
    */
@@ -4060,6 +4060,8 @@ public class VectorCompiler implements ASTNodeCompiler {
       nodes.get(0).compile(this);
       ASTNode vector = getNode();
       ASTNode selector = new ASTNode(ASTNode.Type.FUNCTION_SELECTOR);
+      boolean temp = useId;
+      useId = false;
       boolean useNumber = true;
       for (int i = 1; i < nodes.size(); ++i) {
         nodes.get(i).compile(this);
@@ -4089,6 +4091,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       } else {
         setNode(selector);
       }
+      useId = temp;
     }
     return dummy;
   }
