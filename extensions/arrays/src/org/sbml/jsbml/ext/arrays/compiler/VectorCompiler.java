@@ -2346,7 +2346,7 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
-  
+
   /**
    * 
    * @param left
@@ -3168,8 +3168,24 @@ public class VectorCompiler implements ASTNodeCompiler {
 
     plus(negValues);
 
+    ASTNode plus = getNode();
+    ASTNode minus = new ASTNode(ASTNode.Type.MINUS);
+    if(plus.getChildCount() > 0) {
+      minus.addChild(plus.getChild(0));
+
+      for(int i = 1; i < plus.getChildCount(); i++)
+      {
+        if(plus.getChild(i).getType() == ASTNode.Type.MINUS && plus.getChild(i).getChildCount() == 1)
+        {
+          minus.addChild(plus.getChild(i).getChild(0));
+        }
+      }
+      
+      setNode(minus);
+    }
     return dummy;
   }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#neq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
