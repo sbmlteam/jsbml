@@ -83,12 +83,16 @@ import com.ctc.wstx.stax.WstxInputFactory;
  */
 public class SBMLReader {
 
-  static {
-    // Making sure that we use the good XML library
-    System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
-    System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
-    System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
-  }
+  // Commenting out this static block as setting those system properties has some unwanted side
+  // effect, for example in OSGi where the properties are global
+  // The fact to use directly WstxOutputFactory and WstxInputFactory when creating the parser
+  // should prevent the problem that setting those properties was fixing.
+//  static {
+//    // Making sure that we use the good XML library
+//    System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
+//    System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
+//    System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
+//  }
   
   /**
    * Contains all the initialized parsers.
