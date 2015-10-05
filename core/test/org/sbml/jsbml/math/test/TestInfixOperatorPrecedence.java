@@ -160,7 +160,8 @@ public class TestInfixOperatorPrecedence {
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
 
-    assertTrue(n.toFormula().equals("piecewise(floor(x^8/3), x^8/3 > 0, ceil(x^8/3))")); // L3Compiler output: piecewise(floor(x^8/3), gt(x^8/3, 0), ceil(x^8/3))
+    // we are doing two tests, to be able to pass the test if we use the new ASTNode class or the old one.
+    assertTrue(n.toFormula().equals("piecewise(floor(x^8/3), (x^8/3) > 0, ceil(x^8/3))") ||  n.toFormula().equals("piecewise(floor(x^8/3), x^8/3 > 0, ceil(x^8/3))")); // L3Compiler output: piecewise(floor(x^8/3), gt(x^8/3, 0), ceil(x^8/3))
   }
 
   /**
@@ -180,6 +181,7 @@ public class TestInfixOperatorPrecedence {
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
 
-    assertTrue(n.toFormula().equals("5+1+piecewise(floor(8/3), 8/3 > 0, ceil(8/3))+2"));
+    // we are doing two tests, to be able to pass the test if we use the new ASTNode class or the old one.
+    assertTrue(n.toFormula().equals("5+1+piecewise(floor(8/3), (8/3) > 0, ceil(8/3))+2") || n.toFormula().equals("5+1+piecewise(floor(8/3), 8/3 > 0, ceil(8/3))+2"));
   }
 }

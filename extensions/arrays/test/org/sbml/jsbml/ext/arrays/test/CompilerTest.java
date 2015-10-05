@@ -249,6 +249,7 @@ public class CompilerTest {
       ASTNode vector = ASTNode.parseFormula("{{2,4,6}} - {{1,2,3}} - 1");
       VectorCompiler compiler = new VectorCompiler(model);
       vector.compile(compiler);
+      System.out.println("testVectorMinus - formula = " + compiler.getNode().toFormula());
       assertTrue(compiler.getNode().toFormula().equals("{{0,1,2}}"));
 
       vector = ASTNode.parseFormula("6 - {{2, 3}}");

@@ -2695,7 +2695,9 @@ public class ASTNode extends AbstractTreeNode {
     if (astnode2 instanceof ASTCnExponentialNode) {
       return ((ASTCnExponentialNode) astnode2).getExponent();
     }
-    if (isNumber()) {
+    if (isReal()) {
+      return 0; // The old behavior is to have exponent = 0 for REAL number
+    } else if (isNumber()) {
       return 1;
     }
     throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getExponent"));

@@ -167,7 +167,7 @@ public class ASTNodeTest {
     ASTNode realNode = new ASTNode(1.0001);
     assertTrue(realNode.isReal());
     assertTrue(realNode.getReal() == 1.0001);
-    assertTrue(realNode.getExponent() == 1);
+    assertTrue(realNode.getExponent() == 0);
     assertTrue(realNode.getMantissa() == 1.0001);
   }
 
