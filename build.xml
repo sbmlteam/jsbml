@@ -113,6 +113,20 @@
 			<fileset dir="${build.dir}" includes="*.jar *.zip"/>
 		</path>
 
+		<!-- add everything to setup tests using the simulation core library -->
+		<property name="simulation.core.dir" value="${basedir}/../simulation-core" />
+		<property name="simulation.core.version" value="1.4" />
+		
+		<property name="sbml-test-cases-2013-01-01" value="${basedir}/../simulation-core/sbml-test-cases-2013-01-01" />
+		
+		<path id="simulation.core.classpath">
+			<fileset dir="${simulation.core.dir}/lib" includes="*.jar" excludes="jsbml*"/>
+			<path refid="classpath"/>
+			<fileset dir="${simulation.core.dir}/dist/SimulationCoreLibrary-${simulation.core.version}/" includes="*.jar"/>
+			<fileset dir="${simulation.core.dir}/lib/ext-lib/" includes="*.jar"/>
+		</path>
+		
+		
 	</target>
 
 	<!-- =================================================================== -->
@@ -350,6 +364,29 @@
 		</junit>
 		<echo message=""/>
 
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Test the jsbml library (long)                                       -->
+	<!-- =================================================================== -->
+	<target
+	  name="extra-test"
+	  description="Test the jsbml library over the libsbml test suite"
+	  depends="init"
+	>
+
+		<!-- Launching the tests for core and packages -->
+		<echo message="There should be NO failures or errors."/>
+		<echo message=""/>
+		<echo message="You can see a detailled output of the tests on the file: simulation-coreTestResults.txt"/>
+		<echo message=""/>
+
+		<java classname="org.simulator.SBMLTestSuiteRunner" classpathref="simulation.core.classpath" output="simulation-coreTestResults.txt">
+			<arg value="${sbml-test-cases-2013-01-01}/cases/semantic/"/>
+			<arg value="1"/>
+			<arg value="1185"/>
+		</java>
+		
 	</target>
 
 
