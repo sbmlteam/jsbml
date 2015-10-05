@@ -27,6 +27,7 @@ import java.text.MessageFormat;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode;
 
 /**
  * This very simple implementation of an {@link TreeNodeChangeListener} writes
@@ -100,12 +101,15 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
    * argument is {@code null}, it returns "null". In case that the call of
    * {@link #toString()} fails, the simple class name of the object is returned.
    * 
-   * @param object
+   * @param object the java Object to write as a String
    * @return some {@link String} representation of the given object.
    */
   private String saveToString(Object object) {
     if (object == null) {
       return "null";
+    }
+    if (object instanceof ASTNode) {
+      return ((ASTNode) object).toSimpleString();
     }
     try {
       return object.toString();
