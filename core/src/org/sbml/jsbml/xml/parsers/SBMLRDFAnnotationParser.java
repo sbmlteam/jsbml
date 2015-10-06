@@ -910,7 +910,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
      * @param contextSBase the {@link SBase} in which we will add the created {@link CVTerm}s.
      * @param descriptionNode the rdf:Description {@link XMLNode} that contain the qualifiers and URIs.
      */
-    private void readRDFURIs(SBase contextSBase, XMLNode descriptionNode) {
+    private void readRDFURIs(Object contextSBase, XMLNode descriptionNode) {
 
       logger.debug("readRDFURIs called");
 
@@ -966,7 +966,15 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
         CVTerm.Qualifier qualifier = CVTerm.Qualifier.getModelQualifierFor(bqmodelNode.getName());
         CVTerm cvTerm = new CVTerm(CVTerm.Type.MODEL_QUALIFIER, qualifier, resources.toArray(new String[resources.size()]));
-        contextSBase.addCVTerm(cvTerm);
+        
+        if (contextSBase instanceof SBase) {
+          ((SBase) contextSBase).addCVTerm(cvTerm);
+        } else if (contextSBase instanceof CVTerm) {
+          ((CVTerm) contextSBase).addNestedCVTerm(cvTerm);
+        }
+
+        // read nested annotations
+        readRDFURIs(cvTerm, bagNode);
 
         removeXmlNodeIfEmpty(bagNode);
         boolean nodeRemoved = removeXmlNodeIfEmpty(bqmodelNode);
@@ -1013,7 +1021,15 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
         CVTerm.Qualifier qualifier = CVTerm.Qualifier.getBiologicalQualifierFor(bqbiolNode.getName());
         CVTerm cvTerm = new CVTerm(CVTerm.Type.BIOLOGICAL_QUALIFIER, qualifier, resources.toArray(new String[resources.size()]));
-        contextSBase.addCVTerm(cvTerm);
+
+        if (contextSBase instanceof SBase) {
+          ((SBase) contextSBase).addCVTerm(cvTerm);
+        } else if (contextSBase instanceof CVTerm) {
+          ((CVTerm) contextSBase).addNestedCVTerm(cvTerm);
+        }
+
+        // read nested annotations
+        readRDFURIs(cvTerm, bagNode);
 
         removeXmlNodeIfEmpty(bagNode);
         boolean nodeRemoved = removeXmlNodeIfEmpty(bqbiolNode);
@@ -1661,38 +1677,75 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         for (; i >= 0; i--)
         {
           CVTerm cvterm = contextObject.getCVTerm(i);
-          XMLNode qualifierNode = null;
-
-          int trueIndex = getLastIndexOf(descriptionNode, precedingElementName, precedingElementNamespaceURI);
-          String cvtermURI = CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS;
-          String cvtermPrefix = "bqbiol";
-
-          if (cvterm.isModelQualifier())
-          {
-            cvtermURI = CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS;
-            cvtermPrefix = "bqmodel";
-          }
-          if (trueIndex == -1)
-          {
-            trueIndex = 0;
-          }
-
-          qualifierNode = getOrCreateCVTerm(descriptionNode, trueIndex, cvterm.getQualifier().getElementNameEquivalent(),
-            cvtermURI, cvtermPrefix, cvterm.getUserObject(CUSTOM_RDF));
-
-          XMLNode bagNode = getOrCreate(qualifierNode, "Bag", Annotation.URI_RDF_SYNTAX_NS, "rdf");
-
-          int liIndex = 0;
-          for (String uri : cvterm.getResources())
-          {
-            // rdf:li node
-            XMLNode liNode = getOrCreate(bagNode, liIndex, "li", Annotation.URI_RDF_SYNTAX_NS, "rdf");
-            liNode.addAttr("resource", uri, Annotation.URI_RDF_SYNTAX_NS, "rdf");
-
-            liIndex++;
-          }
+          
+          writeCVTerm(cvterm, descriptionNode, precedingElementName, precedingElementNamespaceURI);
         }
       }
     }
 
+    /**
+     * 
+     * @param currentCVTerm
+     * @param parentNode
+     */
+    private void writeURIs(CVTerm currentCVTerm, XMLNode parentNode)
+    {
+      if (currentCVTerm.getNestedCVTermCount() > 0)
+      {
+        String precedingElementName = "li";
+        String precedingElementNamespaceURI = Annotation.URI_RDF_SYNTAX_NS;
+
+        int i = currentCVTerm.getListOfNestedCVTerms().size() - 1;
+        for (; i >= 0; i--)
+        {
+          CVTerm cvterm = currentCVTerm.getNestedCVTerm(i);          
+          writeCVTerm(cvterm, parentNode, precedingElementName, precedingElementNamespaceURI);
+        }
+      }
+    }
+
+    /**
+     * @param cvterm
+     * @param parentNode
+     * @param precedingElementName
+     * @param precedingElementNamespaceURI
+     */
+    private void writeCVTerm(CVTerm cvterm, XMLNode parentNode, 
+        String precedingElementName, String precedingElementNamespaceURI) 
+    {
+      XMLNode qualifierNode = null;
+
+      int trueIndex = getLastIndexOf(parentNode, precedingElementName, precedingElementNamespaceURI);
+      String cvtermURI = CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS;
+      String cvtermPrefix = "bqbiol";
+
+      if (cvterm.isModelQualifier())
+      {
+        cvtermURI = CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS;
+        cvtermPrefix = "bqmodel";
+      }
+      if (trueIndex == -1)
+      {
+        trueIndex = 0;
+      }
+
+      qualifierNode = getOrCreateCVTerm(parentNode, trueIndex, cvterm.getQualifier().getElementNameEquivalent(),
+          cvtermURI, cvtermPrefix, cvterm.getUserObject(CUSTOM_RDF));
+
+      XMLNode bagNode = getOrCreate(qualifierNode, "Bag", Annotation.URI_RDF_SYNTAX_NS, "rdf");
+
+      int liIndex = 0;
+      for (String uri : cvterm.getResources())
+      {
+        // rdf:li node
+        XMLNode liNode = getOrCreate(bagNode, liIndex, "li", Annotation.URI_RDF_SYNTAX_NS, "rdf");
+        liNode.addAttr("resource", uri, Annotation.URI_RDF_SYNTAX_NS, "rdf");
+
+        liIndex++;
+      }
+      
+      // write nested annotations
+      writeURIs(cvterm, bagNode);
+    }
+    
 }

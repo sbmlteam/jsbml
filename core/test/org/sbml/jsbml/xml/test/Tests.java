@@ -41,7 +41,7 @@ import org.sbml.jsbml.test.RemoveFromParentTest;
 @SuiteClasses(value={SBML_L1VxTests.class, SBML_L2V1Test.class, CheckConsistencyTests.class, GetNotesStringTests.class,
   UnregisterTests.class, RemoveFromParentTest.class, CVTermTests.class, RemoveFromParentTest.class, ASTNodeTest.class,
   ASTNodeInfixParsingTest.class, TestInfixOperatorPrecedence.class, IdRegistrationTest.class, XMLTokenTest.class,
-  CreatorTests.class})
+  CreatorTests.class, NestedCVTermTests.class})
 public class Tests {
 
 }
