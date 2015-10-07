@@ -25,13 +25,17 @@ import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.distrib.DistribFunctionDefinitionPlugin;
 import org.sbml.jsbml.ext.distrib.DistribInput;
+import org.sbml.jsbml.ext.distrib.DistribSBasePlugin;
 import org.sbml.jsbml.ext.distrib.DrawFromDistribution;
+import org.sbml.jsbml.ext.distrib.Uncertainty;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNamespaces;
 import org.sbml.jsbml.xml.XMLNode;
@@ -107,6 +111,103 @@ public class DistribModelBuilder {
     draw.setUncertML(xmlNode);
   }
 
+
+  /**
+   * Creates the constructs needed for a uncertml Range.
+   * 
+   * <p>If any {@link Uncertainty} instance was set in the given {@link SBase}, it
+   * will be replaced.
+   * 
+   * @param sbase an SBase where we will add uncertainty information
+   * @param lower the lower value of the Range
+   * @param upper the upper value of the Range
+   * 
+   */
+  public static void createRange(SBase sbase, String lower, String upper) {
+
+    DistribSBasePlugin distrib = (DistribSBasePlugin) sbase.getPlugin("distrib");
+    Uncertainty draw = distrib.createUncertainty();
+
+    // UncertML element
+    XMLNode xmlNode = new XMLNode(new XMLTriple("UncertML"), new XMLAttributes(), new XMLNamespaces());
+    xmlNode.addNamespace("http://www.uncertml.org/3.0");
+
+    // Range element
+    XMLNode distNode = new XMLNode(new XMLTriple("Range"), new XMLAttributes(), new XMLNamespaces());
+    distNode.addAttr("definition", "http://www.uncertml.org/statistics"); // TODO - check which definitions to use 
+    xmlNode.addChild(distNode);
+
+
+    XMLNode lowerNode = new XMLNode(new XMLTriple("lower"), new XMLAttributes(), new XMLNamespaces());
+    lowerNode.addChild(new XMLNode(lower));
+    distNode.addChild(lowerNode);
+    distNode.addChild(new XMLNode("\n              "));
+
+    XMLNode upperNode = new XMLNode(new XMLTriple("upper"), new XMLAttributes(), new XMLNamespaces());
+    upperNode.addChild(new XMLNode(upper));
+    distNode.addChild(upperNode);
+    distNode.addChild(new XMLNode("\n            "));
+
+//      XMLNode varNode = new XMLNode(new XMLTriple("var"), new XMLAttributes(), new XMLNamespaces());
+//      varNode.addAttr("varId", inputs[i]);
+//      inputNode.addChild(varNode);
+//      inputNode.addChild(new XMLNode("\n              "));
+
+    // adding the UncertML XMLNode to the DrawFromDistribution object
+    draw.setUncertML(xmlNode);
+    
+  }
+
+  /**
+   * Creates the constructs needed for a StatisticsCollection.
+   * 
+   * <p>If any {@link Uncertainty} instance was set in the given {@link SBase}, it
+   * will be replaced.
+   * 
+   * 
+   * @param sbase an SBase where we will add uncertainty information
+   * @param inputTypes the array of input types, used to create the XML child element of the UncertML StatisticsCollection.
+   * @param inputs the array of inputs, used to create the child element of the value element
+   * @param values the array of statistics values
+   * 
+   */
+  public static void createStatisticsCollection(SBase sbase, String[] inputTypes, String[] inputs, String[] values) {
+
+    DistribSBasePlugin distrib = (DistribSBasePlugin) sbase.getPlugin("distrib");
+    Uncertainty draw = distrib.createUncertainty();
+    String definition = "http://www.uncertml.org/statistics";
+    
+    // UncertML element
+    XMLNode xmlNode = new XMLNode(new XMLTriple("UncertML"), new XMLAttributes(), new XMLNamespaces());
+    xmlNode.addNamespace("http://www.uncertml.org/3.0");
+
+    // Range element
+    XMLNode distNode = new XMLNode(new XMLTriple("StatisticsCollection"), new XMLAttributes(), new XMLNamespaces());
+    distNode.addAttr("definition", definition); // TODO - check which definitions to use 
+    xmlNode.addChild(distNode);
+
+    for (int i=0; i < inputs.length; i++) {
+
+      XMLNode inputNode = new XMLNode(new XMLTriple(inputTypes[i]), new XMLAttributes(), new XMLNamespaces());
+      inputNode.addAttr("definition", definition);
+      distNode.addChild(inputNode);
+      distNode.addChild(new XMLNode("\n              "));
+
+      XMLNode valueNode = new XMLNode(new XMLTriple("value"), new XMLAttributes(), new XMLNamespaces());
+      inputNode.addChild(valueNode);
+      inputNode.addChild(new XMLNode("\n                "));
+            
+      XMLNode varNode = new XMLNode(new XMLTriple(inputs[i]), new XMLAttributes(), new XMLNamespaces());
+      varNode.addChild(new XMLNode(values[i]));
+      valueNode.addChild(varNode);
+      valueNode.addChild(new XMLNode("\n                "));
+    }
+
+    // adding the UncertML XMLNode to the DrawFromDistribution object
+    draw.setUncertML(xmlNode);
+    
+  }
+  
   /**
    * @param args
    * @throws SBMLException
@@ -120,6 +221,14 @@ public class DistribModelBuilder {
     FunctionDefinition f = m.createFunctionDefinition("f");
 
     createDistribution(f, "NormalDistribution", new String[] { "mean", "stddev" }, new String[] {"avg", "sd"});
+
+    Parameter p = m.createParameter("p1");
+    
+    createRange(p, "2.1", "4.5");
+
+    Parameter p2 = m.createParameter("p2");
+
+    createStatisticsCollection(p2, new String[] { "Mean", "StandardDeviation" }, new String[] {"rVal", "prVal"}, new String[] {"4.1", "0.5"});
 
     String docStr = new SBMLWriter().writeSBMLToString(doc);
 
