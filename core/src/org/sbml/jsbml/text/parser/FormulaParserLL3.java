@@ -547,6 +547,18 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
           return node;
   }
 
+  private boolean compareString(String str1, String str2)
+  {
+        if (ignoreCase)
+        {
+                return str1.equalsIgnoreCase(str2);
+        }
+        else
+        {
+                return str1.equals(str2);
+        }
+  }
+
   final public Token string() throws ParseException {
   Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -927,16 +939,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       node.setType(type);
       node.addChild(child);
     }
-    else if (s.equals("ln"))
-    {
-      checkSize(arguments, 0); // TODO - we need to set the type for all those if-then-else cases
-      node.addChild(child);
-    }
-    else if (s.equals("lambda")) // TODO - lamdba is present in ASTNodeToken.xml so this will never be called. Remove or update the xml if we need to do
-    // something specific here.
-    {
-      node.addChild(child); // TODO - write all the children here and create the BVAR and other new node ?
-    }
     else if (s.equals("modulo") || s.equals("mod"))
     {
       checkSize(arguments, 1);
@@ -945,32 +947,11 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       node = createModulo(child, rightChild);
       {if (true) return node;}
     }
-    else if (s.equals("not")) // TODO - present in ASTNodeToken.xml so this will never be called.
-    {
-      checkSize(arguments, 0);
-      node.addChild(child);
-    }
     else if (s.equals("piecewise"))
     {
+      type = ASTNode.Type.FUNCTION_PIECEWISE;
       node.setType(ASTNode.Type.FUNCTION_PIECEWISE); // TODO - we don't create the CONSTRUCTOR_PIECE node in this .jj, I think
       node.addChild(child);  // TODO - write all the children here and create the CONSTRUCTOR_PIECE and other new node ?
-    }
-    else if (s.equals("pow") || s.equals("power")) // TODO - present in ASTNodeToken.xml so this will never be called.
-    {
-      checkSize(arguments, 1);
-      node.addChild(child);
-    }
-    else if (s.equals("sqr")) // TODO - present in ASTNodeToken.xml so this will never be called.
-    {
-      checkSize(arguments, 0);
-      node.addChild(child);
-      node.addChild(new ASTNode(2));
-    }
-    else if (s.equals("sqrt")) // TODO - present in ASTNodeToken.xml so this will never be called.
-    {
-      checkSize(arguments, 0);
-      node.addChild(new ASTNode(2));
-      node.addChild(child);
     }
     else
     {
@@ -1082,39 +1063,39 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       s = s.toLowerCase();
     }
     // TODO - should we set the name of the ASTNode
-    if (s.equalsIgnoreCase("true")) // TODO - do we want to ignore the case for those ?
+    if (compareString(s, "true"))
     {
       node = new ASTNode(Type.CONSTANT_TRUE);
     }
-    else if (s.equalsIgnoreCase("false")) // TODO - do we want to ignore the case for those ?
+    else if (compareString(s, "false"))
     {
       node = new ASTNode(Type.CONSTANT_FALSE);
     }
-    else if (s.equals("pi"))
+    else if (compareString(s, "pi"))
     {
       node = new ASTNode(Type.CONSTANT_PI);
     }
-    else if (s.equals("avogadro"))
+    else if (compareString(s, "avogadro"))
     {
       node = new ASTNode(Type.NAME_AVOGADRO);
     }
-    else if (s.equals("time")) // TODO - do we want to ignore the case for those ?
+    else if (compareString(s, "time"))
     {
       node = new ASTNode(Type.NAME_TIME);
     }
-    else if (s.equals("exponentiale"))
+    else if (compareString(s, "exponentiale"))
     {
       node = new ASTNode(Type.CONSTANT_E);
     }
-    else if (s.equals("-infinity") || s.equals("-INF"))
+    else if (compareString(s, "-infinity") || compareString(s, "-inf"))
     {
       node = new ASTNode(Double.NEGATIVE_INFINITY);
     }
-    else if (s.equals("infinity") || s.equals("INF"))
+    else if (compareString(s, "infinity") || compareString(s, "inf"))
     {
       node = new ASTNode(Double.POSITIVE_INFINITY);
     }
-    else if (s.equals("NotANumber") || s.equals("NaN")) // TODO - do we want to ignore the case for those ?
+    else if (compareString(s, "notanumber") || compareString(s, "nan"))
     {
       node = new ASTNode(Double.NaN);
     }
@@ -1157,62 +1138,9 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_17() {
-    if (jj_3R_19()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_20()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_19() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_23()) {
-    jj_scanpos = xsp;
-    if (jj_3R_24()) {
-    jj_scanpos = xsp;
-    if (jj_3R_25()) return true;
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_23() {
-    if (jj_scan_token(MINUS)) return true;
-    if (jj_3R_29()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_11() {
-    if (jj_scan_token(LEFT_BRACKET)) return true;
-    if (jj_3R_12()) return true;
-    if (jj_scan_token(RIGHT_BRACKET)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_36() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_scan_token(RIGHT_BRACES)) return true;
-    return false;
-  }
-
   private boolean jj_3_1() {
     if (jj_3R_10()) return true;
     if (jj_scan_token(OPEN_PAR)) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_scan_token(STRING)) return true;
-    Token xsp;
-    if (jj_3R_11()) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_11()) { jj_scanpos = xsp; break; }
-    }
     return false;
   }
 
@@ -1223,12 +1151,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
 
   private boolean jj_3R_22() {
     if (jj_scan_token(MINUS)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_35() {
-    if (jj_scan_token(OPEN_PAR)) return true;
-    if (jj_3R_12()) return true;
     return false;
   }
 
@@ -1249,6 +1171,12 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       xsp = jj_scanpos;
       if (jj_3R_31()) { jj_scanpos = xsp; break; }
     }
+    return false;
+  }
+
+  private boolean jj_3_3() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_3R_12()) return true;
     return false;
   }
 
@@ -1274,6 +1202,11 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
 
   private boolean jj_3R_21() {
     if (jj_scan_token(PLUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_37() {
+    if (jj_scan_token(STRING)) return true;
     return false;
   }
 
@@ -1307,6 +1240,19 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     return false;
   }
 
+  private boolean jj_3R_11() {
+    if (jj_scan_token(LEFT_BRACKET)) return true;
+    if (jj_3R_12()) return true;
+    if (jj_scan_token(RIGHT_BRACKET)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_36() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_scan_token(RIGHT_BRACES)) return true;
+    return false;
+  }
+
   private boolean jj_3R_33() {
     if (jj_scan_token(NUMBER)) return true;
     return false;
@@ -1319,12 +1265,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
 
   private boolean jj_3R_25() {
     if (jj_3R_29()) return true;
-    return false;
-  }
-
-  private boolean jj_3_3() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_3R_12()) return true;
     return false;
   }
 
@@ -1374,11 +1314,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     return false;
   }
 
-  private boolean jj_3R_37() {
-    if (jj_scan_token(STRING)) return true;
-    return false;
-  }
-
   private boolean jj_3R_26() {
     if (jj_scan_token(TIMES)) return true;
     return false;
@@ -1400,6 +1335,52 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     if (jj_3R_28()) return true;
     }
     }
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(STRING)) return true;
+    Token xsp;
+    if (jj_3R_11()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_11()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    if (jj_3R_19()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_20()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_19() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_23()) {
+    jj_scanpos = xsp;
+    if (jj_3R_24()) {
+    jj_scanpos = xsp;
+    if (jj_3R_25()) return true;
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_23() {
+    if (jj_scan_token(MINUS)) return true;
+    if (jj_3R_29()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_35() {
+    if (jj_scan_token(OPEN_PAR)) return true;
+    if (jj_3R_12()) return true;
     return false;
   }
 
