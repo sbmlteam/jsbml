@@ -86,13 +86,20 @@ public class DistribModelBuilder {
       input.setId(inputs[i]);
     }
 
+    String distribUrl = distribution;
+    
+    if (distribUrl.endsWith("Distribution")) {
+      distribUrl = distribUrl.substring(0, distribUrl.length() - 12);
+    }
+    String definition = "http://www.uncertml.org/distributions/" + toUncertmlURL(distribUrl);
+    
     // UncertML element
     XMLNode xmlNode = new XMLNode(new XMLTriple("UncertML"), new XMLAttributes(), new XMLNamespaces());
     xmlNode.addNamespace("http://www.uncertml.org/3.0");
 
     // NormalDistribution element
     XMLNode distNode = new XMLNode(new XMLTriple(distribution), new XMLAttributes(), new XMLNamespaces());
-    distNode.addAttr("definition", "http://www.uncertml.org/distributions");
+    distNode.addAttr("definition", definition);
     xmlNode.addChild(distNode);
 
 
@@ -134,24 +141,29 @@ public class DistribModelBuilder {
 
     // Range element
     XMLNode distNode = new XMLNode(new XMLTriple("Range"), new XMLAttributes(), new XMLNamespaces());
-    distNode.addAttr("definition", "http://www.uncertml.org/statistics"); // TODO - check which definitions to use 
+    distNode.addAttr("definition", "http://www.uncertml.org/statistics/range"); // TODO - check which definitions to use 
     xmlNode.addChild(distNode);
 
 
     XMLNode lowerNode = new XMLNode(new XMLTriple("lower"), new XMLAttributes(), new XMLNamespaces());
-    lowerNode.addChild(new XMLNode(lower));
+    XMLNode rValNode = new XMLNode(new XMLTriple("rVal"), new XMLAttributes(), new XMLNamespaces());
+    
+    
+    rValNode.addChild(new XMLNode(lower));
+    lowerNode.addChild(rValNode);
+    lowerNode.addChild(new XMLNode("\n              "));
     distNode.addChild(lowerNode);
     distNode.addChild(new XMLNode("\n              "));
 
+    
     XMLNode upperNode = new XMLNode(new XMLTriple("upper"), new XMLAttributes(), new XMLNamespaces());
-    upperNode.addChild(new XMLNode(upper));
+    rValNode = new XMLNode(new XMLTriple("rVal"), new XMLAttributes(), new XMLNamespaces());
+
+    rValNode.addChild(new XMLNode(upper));
+    upperNode.addChild(rValNode);
+    upperNode.addChild(new XMLNode("\n              "));
     distNode.addChild(upperNode);
     distNode.addChild(new XMLNode("\n            "));
-
-//      XMLNode varNode = new XMLNode(new XMLTriple("var"), new XMLAttributes(), new XMLNamespaces());
-//      varNode.addAttr("varId", inputs[i]);
-//      inputNode.addChild(varNode);
-//      inputNode.addChild(new XMLNode("\n              "));
 
     // adding the UncertML XMLNode to the DrawFromDistribution object
     draw.setUncertML(xmlNode);
@@ -171,11 +183,37 @@ public class DistribModelBuilder {
    * @param values the array of statistics values
    * 
    */
-  public static void createStatisticsCollection(SBase sbase, String[] inputTypes, String[] inputs, String[] values) {
+  public static void createStatisticsCollection(SBase sbase, String[] inputTypes, String[] inputs, String[] values) 
+  {
+    createStatisticsCollection(sbase, inputTypes, inputs, values, new String[inputs.length], new String[inputs.length]);
+  }
+  
+  /**
+   * Creates the constructs needed for a StatisticsCollection.
+   * 
+   * <p>If any {@link Uncertainty} instance was set in the given {@link SBase}, it
+   * will be replaced.
+   * 
+   * 
+   * @param sbase an SBase where we will add uncertainty information
+   * @param inputTypes the array of input types, used to create the XML child element of the UncertML StatisticsCollection.
+   * @param inputs the array of inputs, used to create the child element of the value element
+   * @param values the array of statistics values
+   * @param attributeNames the array of attributes, one per inputs.
+   * @param attributeValues the array of attribute values, one per inputs.
+   */
+  public static void createStatisticsCollection(SBase sbase, String[] inputTypes, String[] inputs, String[] values, String[] attributeNames, String[] attributeValues) {
 
     DistribSBasePlugin distrib = (DistribSBasePlugin) sbase.getPlugin("distrib");
     Uncertainty draw = distrib.createUncertainty();
-    String definition = "http://www.uncertml.org/statistics";
+    String definition_base = "http://www.uncertml.org/statistics";
+    
+    if (attributeNames == null) {
+      attributeNames = new String[inputs.length];
+    }
+    if (attributeValues == null) {
+      attributeValues = new String[inputs.length];
+    }
     
     // UncertML element
     XMLNode xmlNode = new XMLNode(new XMLTriple("UncertML"), new XMLAttributes(), new XMLNamespaces());
@@ -183,13 +221,20 @@ public class DistribModelBuilder {
 
     // Range element
     XMLNode distNode = new XMLNode(new XMLTriple("StatisticsCollection"), new XMLAttributes(), new XMLNamespaces());
-    distNode.addAttr("definition", definition); // TODO - check which definitions to use 
+    distNode.addAttr("definition", definition_base + "/statistics-collection"); 
     xmlNode.addChild(distNode);
 
     for (int i=0; i < inputs.length; i++) {
 
+      String definition = definition_base  + "/" + toUncertmlURL(inputTypes[i]);
+      
       XMLNode inputNode = new XMLNode(new XMLTriple(inputTypes[i]), new XMLAttributes(), new XMLNamespaces());
       inputNode.addAttr("definition", definition);
+
+      if (attributeNames[i] != null && attributeValues[i] != null) {
+        inputNode.addAttr(attributeNames[i], attributeValues[i]);
+      }
+      
       distNode.addChild(inputNode);
       distNode.addChild(new XMLNode("\n              "));
 
@@ -207,7 +252,37 @@ public class DistribModelBuilder {
     draw.setUncertML(xmlNode);
     
   }
-  
+
+  /**
+   * Returns a new String with the first upper case character transformed to lower case
+   * and all following upper case characters transformed to '-' + lower case.
+   * 
+   *  <p>For example: 'StandardDeviation' ==> 'standard-deviation', 'CoefficientOfVariation' ==> 'coefficient-of-variation'
+   * 
+   * @param string
+   * @return
+   */
+  private static String toUncertmlURL(String string) {
+
+    StringBuffer sb = new StringBuffer();
+    String lowercase = string.toLowerCase();
+    
+    sb.append(lowercase.charAt(0));
+    
+    for (int i = 1; i < string.length(); i++) {
+      char currentChar = string.charAt(i);
+      
+      if (Character.isUpperCase(currentChar)) {
+        sb.append('-').append(Character.toLowerCase(currentChar));
+      } else {
+        sb.append(currentChar);
+      }
+    }
+    
+    return sb.toString();
+  }
+
+
   /**
    * @param args
    * @throws SBMLException
@@ -220,7 +295,7 @@ public class DistribModelBuilder {
 
     FunctionDefinition f = m.createFunctionDefinition("f");
 
-    createDistribution(f, "NormalDistribution", new String[] { "mean", "stddev" }, new String[] {"avg", "sd"});
+    createDistribution(f, "NormalDistribution", new String[] {"mean", "stddev"}, new String[] {"avg", "sd"});
 
     Parameter p = m.createParameter("p1");
     
@@ -228,7 +303,12 @@ public class DistribModelBuilder {
 
     Parameter p2 = m.createParameter("p2");
 
-    createStatisticsCollection(p2, new String[] { "Mean", "StandardDeviation" }, new String[] {"rVal", "prVal"}, new String[] {"4.1", "0.5"});
+    createStatisticsCollection(p2, new String[] {"Mean", "StandardDeviation"}, new String[] {"rVal", "prVal"}, new String[] {"4.1", "0.5"});
+
+    Parameter p3 = m.createParameter("p3");
+
+    createStatisticsCollection(p3, new String[] {"Moment", "Moment"}, new String[] {"rVal", "rVal"}, new String[] {"4.1", "0.5"},
+        new String[] {"order", "order"}, new String[] {"1", "2"});
 
     String docStr = new SBMLWriter().writeSBMLToString(doc);
 
