@@ -111,11 +111,40 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
     if (object instanceof ASTNode) {
       return ((ASTNode) object).toSimpleString();
     }
+    if (object instanceof PropertyChangeEvent) {
+      return toString((PropertyChangeEvent) object);
+    }
+    
     try {
       return object.toString();
     } catch (Throwable t) {
       return object.getClass().getSimpleName();
     }
   }
+  
+  public String toString(PropertyChangeEvent evt) {
+    StringBuilder sb = new StringBuilder(evt.getClass().getName());
+    sb.append("[propertyName=").append(evt.getPropertyName());
+    
+    if (evt.getOldValue() != null && evt.getOldValue() instanceof ASTNode) {
+      sb.append("; oldValue=").append(((ASTNode) evt.getOldValue()).toSimpleString());
+    } else {
+      sb.append("; oldValue=").append(evt.getOldValue());
+    }
+    if (evt.getNewValue() != null && evt.getNewValue() instanceof ASTNode) {
+      sb.append("; newValue=").append(((ASTNode) evt.getNewValue()).toSimpleString());
+    } else {
+      sb.append("; newValue=").append(evt.getNewValue());
+    }
+    sb.append("; propagationId=").append(evt.getPropagationId());
+    
+    if (evt.getSource() != null && evt.getSource() instanceof ASTNode) {
+      sb.append("; source=").append(((ASTNode) evt.getSource()).toSimpleString());
+    } else {        
+      sb.append("; source=").append(evt.getSource());
+    }
+    return sb.append("]").toString();
+}
+
 
 }
