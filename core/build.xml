@@ -167,7 +167,7 @@
 		<copy todir="${build.src}" overwrite="yes">
 			<fileset 
             dir="${src.dir}"
-            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip">
+            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip **/*.java.*">
 			</fileset>
 		</copy>
 
@@ -188,23 +188,22 @@
 		</copy>
 		
 		<echo message="Value of the use-old-astnode property in core = '${use.old.astnodes}'"/>
-		<antcall target="prepare-old-astnode" inheritrefs="true" inheritall="true"/>
+		<antcall target="prepare-new-astnode" inheritrefs="true" inheritall="true"/>
 
 	</target>
 
 	<!-- =================================================================== -->
-	<!-- Prepares the source code to use the old ASTNode class               -->
+	<!-- Prepares the source code to use the new ASTNode class        -->
 	<!-- =================================================================== -->
 	<target
-	  name="prepare-old-astnode"
-	  description="Prepares the source code to use the old ASTNode class"
-	  if="${use.old.astnodes}"
+	  name="prepare-new-astnode"
+	  description="Prepares the source code to use the new ASTNode class"
+	  unless="${use.old.astnodes}"
 	>
-	  <echo message="Building JSBML core using the old ASTNode class!"/>
-	  <copy file="${src.dir}/org/sbml/jsbml/ASTNode.java" tofile="${build.src}/org/sbml/jsbml/ASTNode.java.newASTNode" overwrite="yes"/>
-	  <copy file="${src.dir}/org/sbml/jsbml/ASTNode.java.oldASTNode" tofile="${build.src}/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
-
-	  <property name="version" value="${version}-oldASTNode"/>
+	  <echo message="Building JSBML core using the new ASTNode class!"/>
+	  <copy file="${src.dir}/org/sbml/jsbml/ASTNode.java" tofile="${build.src}/org/sbml/jsbml/ASTNode.java.oldASTNode" overwrite="yes"/>
+	  <copy file="${src.dir}/org/sbml/jsbml/ASTNode.java.newASTNode" tofile="${build.src}/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
+		<copy file="${src.dir}/org/sbml/jsbml/ASTNode.java.newASTNode" tofile="${build.src}/org/sbml/jsbml/ASTNode.java.newASTNode" overwrite="yes"/>
 
 	</target>
 
@@ -303,7 +302,7 @@
 		<jar jarfile="${build.dir}/${name}-${version}.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
 
 		<echo message="Value of the use-old-astnode property in core = '${use.old.astnodes}'"/>
-		<antcall target="revert-old-astnode" inheritrefs="true" inheritall="true"/>
+		<antcall target="revert-new-astnode" inheritrefs="true" inheritall="true"/>
 	</target>
 
 	<!-- =================================================================== -->
@@ -377,14 +376,12 @@
 	<!-- Revert the source code to use the new ASTNode class                 -->
 	<!-- =================================================================== -->
 	<target
-	  name="revert-old-astnode"
-	  description="Prepares the source code to use the new ASTNode class"
-	  if="${use.old.astnodes}"
+	  name="revert-new-astnode"
+	  description="Prepares the source code to use the old ASTNode class"
+	  unless="${use.old.astnodes}"
 	>
-	  <echo message="Reverting JSBML core using the new ASTNode class!"/>
-	  <copy file="${src.dir}/org/sbml/jsbml/ASTNode.java" tofile="${build.src}/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
-
-	  <property name="version" value="${version}-oldASTNode"/>
+	  <echo message="Reverting JSBML core using the old ASTNode class!"/>
+	  <copy file="${build.src}/org/sbml/jsbml/ASTNode.java.oldASTNode" tofile="${build.src}/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
 
 	</target>
 

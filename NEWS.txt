@@ -1,12 +1,21 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ===========================================================================
-Version 1.1 (xx-xx-2015)
+Version 1.1-b1 (xx-10-2015)
 ===========================================================================
 
  * New Features:
 
+ - implemented FBC version 2
 
+ - implemented distrib version 1 draft
+ 
+ - merged with the ASTNode2 branch
+
+* Layout
+
+ - added a createCurve method to ReactionGlyph
+ 
  * Bug Fixes:
 
   - Methods that accepted Double/Integer/Boolean values or returned those
@@ -17,6 +26,7 @@ Version 1.1 (xx-xx-2015)
   - Tracker item #83: the equals method from StringBuilder is
     not implemented so we have to compare the content of the StringBuilder
     or use other utility method to compare properly the StringBuilders.
+  
   
 ===========================================================================
 Version 1.0 (09-12-2014)

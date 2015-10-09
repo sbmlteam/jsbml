@@ -46,7 +46,7 @@
 
 		<property name="Name" value="JSBML" />
 		<property name="name" value="jsbml" />
-		<property name="version" value="1.1-dev" />
+		<property name="version" value="1.1-b1" />
 		<property name="api.version" value="1.0" />
 
 		<property name="year" value="${YEAR}" />
@@ -190,14 +190,13 @@
 
 		<property name="prepare.src.target.done" value="true"/>
 
-		<echo message="Value of the use-old-astnode property = '${use.old.astnodes}'"/>
-
 		<ant dir="${core.base.dir}" inheritAll="false" inheritRefs="false">
-		  <property name="use.old.astnodes" value="${use.old.astnodes}"/>
+		  <property name="use.old.astnodes" value="true"/>
 		  <target name="clean" />
 		  <target name="jar" />
 		</ant>
 
+		
 		<copy todir="${build.src}">
 			<fileset dir="${core.base.dir}/build/src" includes="**/*"/>
 		</copy>
@@ -473,6 +472,7 @@
 		<!-- Cleaning before starting -->
 		<antcall target="clean" inheritrefs="true" inheritall="true"/>
 
+		<!-- generate the jars using the old ASTNode class -->  
 		<!-- Creates the standard jar files -->
 		<antcall target="jar" inheritrefs="true" inheritall="true"/>
 
@@ -493,22 +493,40 @@
 			<fileset dir="${build.javadocs}/" includes="**/*"/>
 		</copy>
 
-		<!-- generate the jars using the old ASTNode class -->  
-		<property name="use.old.astnodes" value="true"/>
-		<!-- backup the jars using the new ASTNode class -->  
-		<copy tofile="${dist.dir}/${name}-${version}-newASTNode-with-dependencies.jar" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
-		<copy tofile="${dist.dir}/${name}-${version}-newASTNode.jar" file="${dist.dir}/${name}-${version}.jar" />
-		<antcall target="jar" inheritrefs="true" inheritall="true"/>
-		<antcall target="bigjar"  inheritrefs="true" inheritall="true"/>
-		<!-- rename and copy all jars, restore the jars using the new ASTNode class as the default -->  
-		<copy tofile="${dist.root}/${name}-${version}-oldASTNode-with-dependencies.jar" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
-		<copy tofile="${dist.root}/${name}-${version}-oldASTNode.jar" file="${dist.dir}/${name}-${version}.jar" />
+		<!-- backup the jars using the old ASTNode class -->  
 		<copy tofile="${dist.dir}/${name}-${version}-oldASTNode-with-dependencies.jar" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
 		<copy tofile="${dist.dir}/${name}-${version}-oldASTNode.jar" file="${dist.dir}/${name}-${version}.jar" />
-		<copy file="${dist.dir}/${name}-${version}-newASTNode-with-dependencies.jar" tofile="${dist.dir}/${name}-${version}-with-dependencies.jar" overwrite="true"/>
-		<copy file="${dist.dir}/${name}-${version}-newASTNode.jar" tofile="${dist.dir}/${name}-${version}.jar" overwrite="true"/>
-		<delete file="${dist.dir}/${name}-${version}-newASTNode.jar" verbose="true"/>
-		<delete file="${dist.dir}/${name}-${version}-newASTNode-with-dependencies.jar" verbose="true"/>			
+	
+		<!-- re-generating the jsbml-core jar file -->
+		<!-- copying by hand the ASTNode2 facade  --> 
+	  <copy file="${core.base.dir}/src/org/sbml/jsbml/ASTNode.java.newASTNode" tofile="${core.base.dir}/src/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
+		<copy file="${core.base.dir}/src/org/sbml/jsbml/ASTNode.java.newASTNode" tofile="${core.base.dir}/build/src/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
+		<delete file="${build.dest}/org/sbml/jsbml/test/ASTNodeVersionTest.class" />
+
+		<ant dir="${core.base.dir}" inheritAll="false" inheritRefs="false">
+		  <target name="clean" />
+		  <target name="jar" />
+		</ant>
+		
+		<copy file="${core.base.dir}/src/org/sbml/jsbml/ASTNode.java.newASTNode" tofile="${build.dir}/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
+		
+		<!-- re-generating the global jsbml jar files -->
+		<antcall target="jar" inheritrefs="true" inheritall="true"/>
+		<antcall target="bigjar"  inheritrefs="true" inheritall="true"/>
+
+		<!-- restoring the ASTNode class -->
+	  <copy file="${core.base.dir}/src/org/sbml/jsbml/ASTNode.java.oldASTNode" tofile="${core.base.dir}/src/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
+	  <copy file="${core.base.dir}/src/org/sbml/jsbml/ASTNode.java.oldASTNode" tofile="${core.base.dir}/build/src/org/sbml/jsbml/ASTNode.java" overwrite="yes"/>
+
+		<!-- rename and copy all jars, restore the jars using the old ASTNode class as the default -->  
+		<copy tofile="${dist.root}/${name}-${version}-newASTNode-with-dependencies.jar" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
+		<copy tofile="${dist.root}/${name}-${version}-newASTNode.jar" file="${dist.dir}/${name}-${version}.jar" />
+		<copy tofile="${dist.dir}/${name}-${version}-newASTNode-with-dependencies.jar" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
+		<copy tofile="${dist.dir}/${name}-${version}-newASTNode.jar" file="${dist.dir}/${name}-${version}.jar" />
+		<copy file="${dist.dir}/${name}-${version}-oldASTNode-with-dependencies.jar" tofile="${dist.dir}/${name}-${version}-with-dependencies.jar" overwrite="true"/>
+		<copy file="${dist.dir}/${name}-${version}-oldASTNode.jar" tofile="${dist.dir}/${name}-${version}.jar" overwrite="true"/>
+		<delete file="${dist.dir}/${name}-${version}-oldASTNode.jar" verbose="true"/>
+		<delete file="${dist.dir}/${name}-${version}-oldASTNode-with-dependencies.jar" verbose="true"/>			
 		
 		<!-- Copy the source files -->
 		<copy todir="${dist.dir}/src">
@@ -691,6 +709,7 @@
 		<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes">
 		</delete>
 	</target>
+
 
 </project>
 
