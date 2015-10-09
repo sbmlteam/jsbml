@@ -448,6 +448,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
       }
       if (-1 < changeType) {
         boolean userObjectChange = propertyName.equals(TreeNodeChangeEvent.userObject);
+        boolean parentSBMLChange = propertyName.equals(TreeNodeChangeEvent.parentSBMLObject);
         boolean newValIsTreeNode = newValue instanceof TreeNodeWithChangeSupport;
         boolean oldValIsTreeNode = oldValue instanceof TreeNodeWithChangeSupport;
         if ((changeType == 0) && newValIsTreeNode && !userObjectChange
@@ -459,7 +460,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
            * because the parent is already in the model.
            */
           ((TreeNodeWithChangeSupport) newValue).fireNodeAddedEvent();
-        } else if ((changeType == 1) && oldValIsTreeNode && !userObjectChange) {
+        } else if ((changeType == 1) && oldValIsTreeNode && !userObjectChange && !parentSBMLChange) {
           ((TreeNodeWithChangeSupport) oldValue).fireNodeRemovedEvent();
         } else {
           // TODO: check if notifying and updating the metaId is necessary

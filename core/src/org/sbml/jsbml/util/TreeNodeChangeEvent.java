@@ -371,11 +371,25 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
   /**
    * 
    */
+  public static final String number = "number"; //$NON-NLS-1$
+  /**
+   * 
+   */
   public static final String base = "base"; //$NON-NLS-1$
   /**
    * 
    */
   public static String numPiece = "numPiece"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String mathMLClass = "class"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String refId = "refId"; //$NON-NLS-1$
+
+
 
   /* ==========================================================================
    * Annotation

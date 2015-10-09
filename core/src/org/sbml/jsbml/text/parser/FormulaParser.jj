@@ -10,8 +10,8 @@ options
 
 PARSER_BEGIN(FormulaParser)
 /*
- * $Id: FormulaParser.jj 1668 2014-03-12 18:14:29Z andreas-draeger $
- * $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/trunk/core/files/FormulaParser.jj $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -49,7 +49,7 @@ import org.sbml.jsbml.resources.Resource;
  * @author Alexander D&ouml;rr
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev: 1668 $
+ * @version $Rev$
  */
 public class FormulaParser implements IFormulaParser
 {
@@ -105,6 +105,43 @@ public class FormulaParser implements IFormulaParser
       }
     }
   }
+
+  /**
+ * Returns a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+ *
+ * <p/> The formula produced for 'a % b' or modulo(a, b) is 'piecewise(floor(a/b), gt(a/b, 0), ceil(a/b))'
+ *
+ * @param leftChild
+ * @param rightChild
+ * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+ * @see http://sbml.org/Documents/FAQ#Why_can.27t_I_use_the_.3Crem.3E_operator_in_SBML_MathML.3F
+ */
+  private ASTNode createModulo(ASTNode leftChild, ASTNode rightChild)
+  {
+      ASTNode node = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
+		
+	  ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
+	  ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
+	  aDividedByB.addChild(leftChild);
+	  aDividedByB.addChild(rightChild);
+		
+	  floorNode.addChild(aDividedByB);
+	  node.addChild(floorNode);
+		
+	  ASTNode greaterThan = new ASTNode(ASTNode.Type.RELATIONAL_GT);
+	  greaterThan.addChild(aDividedByB.clone());
+	  greaterThan.addChild(new ASTNode(0));
+		
+	  node.addChild(greaterThan);
+		
+	  ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
+	  ceilNode.addChild(aDividedByB.clone());
+		
+	  node.addChild(ceilNode);
+
+	  return node;	
+  }    
+  
 }
 
 PARSER_END(FormulaParser)
@@ -174,6 +211,11 @@ TOKEN :
 
 TOKEN :
 {
+  < MODULO : "%" >
+}
+
+TOKEN :
+{
   < FACTORIAL : "!" >
 }
 
@@ -230,9 +272,9 @@ TOKEN :
 TOKEN :
 {
   < AND :
-    "and"
-  | "And"
+    "And"
   | "AND"
+  | "and"
   | "&&" >
 }
 
@@ -361,6 +403,8 @@ private ASTNode TermLvl2() :
   ASTNode rightChild;
   ASTNode leftChild;
   ASTNode node = null;
+  Token t;
+  Type type = null;
 }
 {
   leftChild = TermLvl3()
@@ -379,7 +423,7 @@ private ASTNode TermLvl2() :
       right = getInteger(rightChild);
       if (left != null && right != null)
       {
-        node = new ASTNode();
+        node = new ASTNode(Type.RATIONAL);
         node.setValue(left, right);
         leftChild = node;
       }
@@ -390,6 +434,11 @@ private ASTNode TermLvl2() :
         node.addChild(rightChild);
         leftChild = node;
       }
+    }
+  | < MODULO > rightChild = TermLvl3()
+    {
+      node = createModulo(leftChild, rightChild);
+      leftChild = node;
     }
   )*
   {
@@ -403,8 +452,8 @@ private ASTNode TermLvl1() :
   ASTNode leftChild;
   ASTNode node = null;
   Token t;
-  String s;
   Type type = null;
+  String s;
 }
 {
   leftChild = TermLvl2()
@@ -426,6 +475,7 @@ private ASTNode TermLvl1() :
   | t = < BOOLEAN_LOGIC > rightChild = TermLvl2()
     {
       s = t.image;
+
       if (s.equalsIgnoreCase("or") || s.equals("||"))
       {
         type = ASTNode.Type.LOGICAL_OR;
@@ -486,7 +536,7 @@ private ASTNode Primary() throws NumberFormatException :
   Token t;
   double d;
   int i;
-  ASTNode node = new ASTNode();
+  ASTNode node = null;
   ASTNode vector = new ASTNode();
   ASTNode child, furtherChild;
   String s;
@@ -497,12 +547,14 @@ private ASTNode Primary() throws NumberFormatException :
   t = < INTEGER >
   {
     i = Integer.parseInt(t.image);
+    node = new ASTNode(Type.INTEGER);
     node.setValue(i);
     return node;
   }
 | t = < NUMBER >
   {
     d = Double.parseDouble(t.image);
+    node = new ASTNode(Type.REAL);
     node.setValue(d);
     return node;
   }
@@ -518,6 +570,7 @@ private ASTNode Primary() throws NumberFormatException :
     {
       i = Integer.parseInt(vals [ 1 ]);
     }
+    node = new ASTNode(Type.REAL_E);
     node.setValue(Double.parseDouble(vals [ 0 ]), i);
     return node;
   }
@@ -538,57 +591,97 @@ private ASTNode Primary() throws NumberFormatException :
     {
       type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
     }
-    
-    if (s.equalsIgnoreCase("pow"))
+    if (s.equalsIgnoreCase("abs"))
+    {
+      type = Type.FUNCTION_ABS;
+      node = new ASTNode(type);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("factorial"))
     {
       checkSize(arguments, 1);
+      type = Type.FUNCTION_FACTORIAL;
+      node = new ASTNode(type);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("eq"))
+    {
+      checkSize(arguments, 1);
+      type = Type.VECTOR;
+      node = new ASTNode(type);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("pow"))
+    {
+      checkSize(arguments, 1);
+      type = Type.FUNCTION_POWER;
+      node = new ASTNode(type);
       node.addChild(child);
     }
     else if (s.equalsIgnoreCase("sqr"))
     {
       checkSize(arguments, 0);
+      type = Type.FUNCTION_EXP;
+      node = new ASTNode(type);
       node.addChild(child);
       node.addChild(new ASTNode(2));
     }
     else if (s.equalsIgnoreCase("sqrt"))
     {
       checkSize(arguments, 0);
+      type = Type.FUNCTION_ROOT;
+      node = new ASTNode(type);
       node.addChild(new ASTNode(2));
       node.addChild(child);
     }
     else if (s.equalsIgnoreCase("not"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
       type = Type.LOGICAL_NOT;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equalsIgnoreCase("ln"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
       type = Type.FUNCTION_LN;
+      node = new ASTNode(type);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("lt"))
+    {
+      checkSize(arguments, 0);
+      type = Type.RELATIONAL_LT;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equalsIgnoreCase("lambda"))
     {
-      node.addChild(child);
       type = Type.LAMBDA;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equalsIgnoreCase("piecewise"))
     {
-      node.addChild(child);
       type = Type.FUNCTION_PIECEWISE;
+      node = new ASTNode(type);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("selector"))
+    {
+      type = Type.FUNCTION_SELECTOR;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else
     {
+      node = new ASTNode(Type.FUNCTION);
       node.addChild(child);
     }
     
-    if (type != null)
+    if (type == null)
     {
-      node.setType(type);
-    }
-    else
-    {
+      node = new ASTNode();
       node.setName(s);
     }
     for (ASTNode argument : arguments)

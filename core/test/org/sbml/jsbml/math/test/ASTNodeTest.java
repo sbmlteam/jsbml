@@ -4,7 +4,7 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2015 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -12,7 +12,7 @@
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -52,7 +52,7 @@ public class ASTNodeTest {
     ASTNode loneNode = new ASTNode();
     assertTrue(loneNode.getChildCount() == 0);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#getInteger()} and
    * {@link org.sbml.jsbml.ASTNode#setValue(int value)}.
@@ -99,7 +99,7 @@ public class ASTNodeTest {
     ASTNode realNode = new ASTNode(1.0);
     assertTrue(realNode.isOne());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isNumber()}.
    */
@@ -108,7 +108,7 @@ public class ASTNodeTest {
     ASTNode realNum = new ASTNode(1.0);
     assertTrue(realNum.isNumber());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isNumber()}.
    */
@@ -117,7 +117,7 @@ public class ASTNodeTest {
     ASTNode integerNum = new ASTNode(1);
     assertTrue(integerNum.isNumber());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isName()}.
    */
@@ -126,7 +126,7 @@ public class ASTNodeTest {
     ASTNode name = new ASTNode("Reaction");
     assertTrue(name.isName());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isLambda()}.
    */
@@ -136,7 +136,7 @@ public class ASTNodeTest {
     lambda.setType("lambda");
     assertTrue(lambda.isLambda());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#setValue(double mantissa, int exponent)},
    * {@link org.sbml.jsbml.ASTNode#getMantissa()},
@@ -144,7 +144,7 @@ public class ASTNodeTest {
    * {@link org.sbml.jsbml.ASTNode#getReal()}.
    */
   @Test
-  public final void testRealE() {
+  public void testRealE() {
     ASTNode realENode = new ASTNode(0.14, 4);
     assertTrue(realENode.isReal());
     assertTrue(realENode.getReal() == 1400.0);
@@ -155,7 +155,21 @@ public class ASTNodeTest {
     assertTrue(realENode.getMantissa() == 0.27);
     assertTrue(realENode.getExponent() == 3);
   }
-
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ASTNode#getMantissa()},
+   * {@link org.sbml.jsbml.ASTNode#getMantissa()},
+   * {@link org.sbml.jsbml.ASTNode#isReal()} and
+   * {@link org.sbml.jsbml.ASTNode#getReal()}.
+   */
+  @Test
+  public void testGetMantissaForReal() {
+    ASTNode realNode = new ASTNode(1.0001);
+    assertTrue(realNode.isReal());
+    assertTrue(realNode.getReal() == 1.0001);
+    assertTrue(realNode.getExponent() == 0);
+    assertTrue(realNode.getMantissa() == 1.0001);
+  }
 
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#setValue(int numerator, int denominator)},
@@ -242,7 +256,7 @@ public class ASTNodeTest {
     assertTrue(neq.getLeftChild().equals(nine));
     assertTrue(neq.getRightChild().equals(ten));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isBoolean()}.
    */
@@ -345,7 +359,7 @@ public class ASTNodeTest {
     ASTNode pow = ASTNode.pow(two, three);
     assertTrue(pow.isOperator());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isPiecewise()}.
    */
@@ -355,7 +369,7 @@ public class ASTNodeTest {
     ASTNode piecewise = ASTNode.piecewise(plus, minus);
     assertTrue(piecewise.isPiecewise());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isInfinity()}.
    */
@@ -364,7 +378,7 @@ public class ASTNodeTest {
     ASTNode plusInfinity = new ASTNode(Double.POSITIVE_INFINITY);
     assertTrue(plusInfinity.isInfinity());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isNegInfinity()}.
    */
@@ -373,7 +387,7 @@ public class ASTNodeTest {
     ASTNode minusInfinity = new ASTNode(Double.NEGATIVE_INFINITY);
     assertTrue(minusInfinity.isNegInfinity());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isMinusOne()}.
    */
@@ -382,7 +396,7 @@ public class ASTNodeTest {
     ASTNode minusOne = new ASTNode(-1);
     assertTrue(minusOne.isMinusOne());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isMinusOne()}.
    */
@@ -391,7 +405,7 @@ public class ASTNodeTest {
     ASTNode minusOne = new ASTNode(-1.0);
     assertTrue(minusOne.isMinusOne());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isLogical()}.
    */
@@ -401,7 +415,7 @@ public class ASTNodeTest {
     logicalAND.setType("and");
     assertTrue(logicalAND.isLogical());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isLogical()}.
    */
@@ -411,7 +425,7 @@ public class ASTNodeTest {
     logicalOR.setType("or");
     assertTrue(logicalOR.isLogical());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isLogical()}.
    */
@@ -421,7 +435,7 @@ public class ASTNodeTest {
     logicalXOR.setType("xor");
     assertTrue(logicalXOR.isLogical());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isLogical()}.
    */
@@ -431,7 +445,7 @@ public class ASTNodeTest {
     logicalNOT.setType("not");
     assertTrue(logicalNOT.isLogical());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isBoolean()}.
    */
@@ -441,7 +455,7 @@ public class ASTNodeTest {
     logicalBoolean.setType("not");
     assertTrue(logicalBoolean.isBoolean());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isNaN()}.
    */
@@ -450,7 +464,7 @@ public class ASTNodeTest {
     ASTNode NaN = new ASTNode(Double.NaN);
     assertTrue(NaN.isNaN());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#toFormula()}.
    */
@@ -460,7 +474,7 @@ public class ASTNodeTest {
     ASTNode frac = ASTNode.frac(numerator, denominator);
     assertTrue(frac.toFormula().equalsIgnoreCase("22/7"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#toLaTeX()}.
    */
@@ -470,7 +484,7 @@ public class ASTNodeTest {
     ASTNode eNode = ASTNode.exp(exponent);
     assertTrue(eNode.toLaTeX().equalsIgnoreCase("\\mathrm{e}^{2}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#toMathML()}.
    */
@@ -479,16 +493,16 @@ public class ASTNodeTest {
     ASTNode numerator = new ASTNode(22), denominator = new ASTNode(7);
     ASTNode frac = ASTNode.frac(numerator, denominator);
     String mathml = "<?xml version='1.0' encoding='UTF-8'?>\n"
-                  + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
-                  + "  <apply>\n"
-                  + "    <divide/>\n"
-                  + "    <cn type=\"integer\"> 22 </cn>\n"
-                  + "    <cn type=\"integer\"> 7 </cn>\n"
-                  + "  </apply>\n"
-                  + "</math>";
+        + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+        + "  <apply>\n"
+        + "    <divide/>\n"
+        + "    <cn type=\"integer\"> 22 </cn>\n"
+        + "    <cn type=\"integer\"> 7 </cn>\n"
+        + "  </apply>\n"
+        + "</math>";
     assertTrue(frac.toMathML().equalsIgnoreCase(mathml));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -498,7 +512,7 @@ public class ASTNodeTest {
     cos.setType("cos");
     assertTrue(cos.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -508,7 +522,7 @@ public class ASTNodeTest {
     sin.setType("sin");
     assertTrue(sin.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -518,7 +532,7 @@ public class ASTNodeTest {
     tan.setType("tan");
     assertTrue(tan.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -528,7 +542,7 @@ public class ASTNodeTest {
     sec.setType("sec");
     assertTrue(sec.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -538,7 +552,7 @@ public class ASTNodeTest {
     csc.setType("csc");
     assertTrue(csc.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -548,7 +562,7 @@ public class ASTNodeTest {
     cot.setType("cot");
     assertTrue(cot.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -558,7 +572,7 @@ public class ASTNodeTest {
     sinh.setType("sinh");
     assertTrue(sinh.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -568,7 +582,7 @@ public class ASTNodeTest {
     cosh.setType("cosh");
     assertTrue(cosh.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -578,7 +592,7 @@ public class ASTNodeTest {
     tanh.setType("tanh");
     assertTrue(tanh.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -588,7 +602,7 @@ public class ASTNodeTest {
     sech.setType("sech");
     assertTrue(sech.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -598,7 +612,7 @@ public class ASTNodeTest {
     csch.setType("csch");
     assertTrue(csch.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -608,7 +622,7 @@ public class ASTNodeTest {
     coth.setType("coth");
     assertTrue(coth.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -618,7 +632,7 @@ public class ASTNodeTest {
     arcSin.setType("arcsin");
     assertTrue(arcSin.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -628,7 +642,7 @@ public class ASTNodeTest {
     arcCos.setType("arccos");
     assertTrue(arcCos.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -638,7 +652,7 @@ public class ASTNodeTest {
     arcTan.setType("arctan");
     assertTrue(arcTan.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -648,7 +662,7 @@ public class ASTNodeTest {
     arcSec.setType("arcsec");
     assertTrue(arcSec.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -658,7 +672,7 @@ public class ASTNodeTest {
     arcCsc.setType("arccsc");
     assertTrue(arcCsc.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -668,7 +682,7 @@ public class ASTNodeTest {
     arcCot.setType("arccot");
     assertTrue(arcCot.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -678,7 +692,7 @@ public class ASTNodeTest {
     arcSinh.setType("arcsinh");
     assertTrue(arcSinh.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -688,7 +702,7 @@ public class ASTNodeTest {
     arcCosh.setType("arccosh");
     assertTrue(arcCosh.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -698,7 +712,7 @@ public class ASTNodeTest {
     arcTanh.setType("arctanh");
     assertTrue(arcTanh.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -708,7 +722,7 @@ public class ASTNodeTest {
     arcSech.setType("arcsech");
     assertTrue(arcSech.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -718,7 +732,7 @@ public class ASTNodeTest {
     arcCsch.setType("arccsch");
     assertTrue(arcCsch.isFunction());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
@@ -728,5 +742,5 @@ public class ASTNodeTest {
     arcCoth.setType("arccoth");
     assertTrue(arcCoth.isFunction());
   }
-  
+
 }

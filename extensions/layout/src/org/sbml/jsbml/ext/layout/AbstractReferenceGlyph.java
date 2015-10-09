@@ -1,6 +1,6 @@
 /*
- * $Id: AbstractReferenceGlyph.java 1445 2013-01-04 08:54:54Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/layout/src/org/sbml/jsbml/ext/layout/AbstractReferenceGlyph.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,7 +31,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * 
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev: 1445 $
+ * @version $Rev$
  */
 public abstract class AbstractReferenceGlyph extends GraphicalObject {
 

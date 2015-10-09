@@ -88,6 +88,7 @@ public class ArraysFlattening {
 
       Map<String, ASTNode> idToVector = new HashMap<String, ASTNode>();
       getVectors(flattenedDoc.getModel(), idToVector);
+
       convert(flattenedDoc, model, new ArraysCompiler(), idToVector, new ArrayList<Integer>());
       convertMath(flattenedDoc, model, idToVector);
 
@@ -133,7 +134,8 @@ public class ArraysFlattening {
       catch(IllegalArgumentException exception)
       {
         throw new SBMLException(MessageFormat.format(
-          "Could not add SBase {0} because this object has an id that is already present in the model. Flattening Failed.", child));
+          "Could not add SBase {0} because this object has an id that"
+              + " is already present in the model. Flattening Failed.", child));
       }
       return;
     }
@@ -148,7 +150,8 @@ public class ArraysFlattening {
     }
 
     throw new SBMLException(MessageFormat.format(
-      "Could not add SBase {0} to the model because {1} does not have the correct type (ListOf).", child, parent));
+      "Could not add SBase {0} to the model because {1} does not"
+          + " have the correct type (ListOf).", child, parent));
   }
 
   /**
@@ -596,6 +599,22 @@ public class ArraysFlattening {
       }
     }
   }
+
+  //  /**
+  //   *
+  //   * @param sbase
+  //   * @param dimId
+  //   * @param index
+  //   */
+  //  private static void updateIndexMath(SBase sbase, String dimId, int index)
+  //  {
+  //    ArraysSBasePlugin plugin = (ArraysSBasePlugin) sbase.getPlugin("arrays");
+  //
+  //    for(Index i : plugin.getListOfIndices())
+  //    {
+  //      i.setMath(replaceDimensionId(i.getMath(), dimId, index));
+  //    }
+  //  }
 
   /**
    * This updates the metaid of an SBase.

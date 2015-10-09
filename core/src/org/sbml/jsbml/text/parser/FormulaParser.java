@@ -95,6 +95,42 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     }
   }
 
+  /**
+ * Returns a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+ *
+ * <p/> The formula produced for 'a % b' or modulo(a, b) is 'piecewise(floor(a/b), gt(a/b, 0), ceil(a/b))'
+ *
+ * @param leftChild
+ * @param rightChild
+ * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+ * @see http://sbml.org/Documents/FAQ#Why_can.27t_I_use_the_.3Crem.3E_operator_in_SBML_MathML.3F
+ */
+  private ASTNode createModulo(ASTNode leftChild, ASTNode rightChild)
+  {
+      ASTNode node = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
+
+          ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
+          ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
+          aDividedByB.addChild(leftChild);
+          aDividedByB.addChild(rightChild);
+
+          floorNode.addChild(aDividedByB);
+          node.addChild(floorNode);
+
+          ASTNode greaterThan = new ASTNode(ASTNode.Type.RELATIONAL_GT);
+          greaterThan.addChild(aDividedByB.clone());
+          greaterThan.addChild(new ASTNode(0));
+
+          node.addChild(greaterThan);
+
+          ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
+          ceilNode.addChild(aDividedByB.clone());
+
+          node.addChild(ceilNode);
+
+          return node;
+  }
+
   final public Token string() throws ParseException {
   Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -184,12 +220,15 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
   ASTNode rightChild;
   ASTNode leftChild;
   ASTNode node = null;
+  Token t;
+  Type type = null;
     leftChild = TermLvl3();
     label_2:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case TIMES:
       case DIVIDE:
+      case MODULO:
         ;
         break;
       default:
@@ -213,7 +252,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
       right = getInteger(rightChild);
       if (left != null && right != null)
       {
-        node = new ASTNode();
+        node = new ASTNode(Type.RATIONAL);
         node.setValue(left, right);
         leftChild = node;
       }
@@ -224,6 +263,12 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
         node.addChild(rightChild);
         leftChild = node;
       }
+        break;
+      case MODULO:
+        jj_consume_token(MODULO);
+        rightChild = TermLvl3();
+      node = createModulo(leftChild, rightChild);
+      leftChild = node;
         break;
       default:
         jj_la1[5] = jj_gen;
@@ -240,8 +285,8 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
   ASTNode leftChild;
   ASTNode node = null;
   Token t;
-  String s;
   Type type = null;
+  String s;
     leftChild = TermLvl2();
     label_3:
     while (true) {
@@ -277,6 +322,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
         t = jj_consume_token(BOOLEAN_LOGIC);
         rightChild = TermLvl2();
       s = t.image;
+
       if (s.equalsIgnoreCase("or") || s.equals("||"))
       {
         type = ASTNode.Type.LOGICAL_OR;
@@ -341,7 +387,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
   Token t;
   double d;
   int i;
-  ASTNode node = new ASTNode();
+  ASTNode node = null;
   ASTNode vector = new ASTNode();
   ASTNode child, furtherChild;
   String s;
@@ -351,12 +397,14 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     case INTEGER:
       t = jj_consume_token(INTEGER);
     i = Integer.parseInt(t.image);
+    node = new ASTNode(Type.INTEGER);
     node.setValue(i);
     {if (true) return node;}
       break;
     case NUMBER:
       t = jj_consume_token(NUMBER);
     d = Double.parseDouble(t.image);
+    node = new ASTNode(Type.REAL);
     node.setValue(d);
     {if (true) return node;}
       break;
@@ -372,6 +420,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     {
       i = Integer.parseInt(vals [ 1 ]);
     }
+    node = new ASTNode(Type.REAL_E);
     node.setValue(Double.parseDouble(vals [ 0 ]), i);
     {if (true) return node;}
       break;
@@ -403,57 +452,97 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     {
       type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
     }
-
-    if (s.equalsIgnoreCase("pow"))
+    if (s.equalsIgnoreCase("abs"))
+    {
+      type = Type.FUNCTION_ABS;
+      node = new ASTNode(type);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("factorial"))
     {
       checkSize(arguments, 1);
+      type = Type.FUNCTION_FACTORIAL;
+      node = new ASTNode(type);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("eq"))
+    {
+      checkSize(arguments, 1);
+      type = Type.VECTOR;
+      node = new ASTNode(type);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("pow"))
+    {
+      checkSize(arguments, 1);
+      type = Type.FUNCTION_POWER;
+      node = new ASTNode(type);
       node.addChild(child);
     }
     else if (s.equalsIgnoreCase("sqr"))
     {
       checkSize(arguments, 0);
+      type = Type.FUNCTION_EXP;
+      node = new ASTNode(type);
       node.addChild(child);
       node.addChild(new ASTNode(2));
     }
     else if (s.equalsIgnoreCase("sqrt"))
     {
       checkSize(arguments, 0);
+      type = Type.FUNCTION_ROOT;
+      node = new ASTNode(type);
       node.addChild(new ASTNode(2));
       node.addChild(child);
     }
     else if (s.equalsIgnoreCase("not"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
       type = Type.LOGICAL_NOT;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equalsIgnoreCase("ln"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
       type = Type.FUNCTION_LN;
+      node = new ASTNode(type);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("lt"))
+    {
+      checkSize(arguments, 0);
+      type = Type.RELATIONAL_LT;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equalsIgnoreCase("lambda"))
     {
-      node.addChild(child);
       type = Type.LAMBDA;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equalsIgnoreCase("piecewise"))
     {
-      node.addChild(child);
       type = Type.FUNCTION_PIECEWISE;
+      node = new ASTNode(type);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("selector"))
+    {
+      type = Type.FUNCTION_SELECTOR;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else
     {
+      node = new ASTNode(Type.FUNCTION);
       node.addChild(child);
     }
 
-    if (type != null)
+    if (type == null)
     {
-      node.setType(type);
-    }
-    else
-    {
+      node = new ASTNode();
       node.setName(s);
     }
     for (ASTNode argument : arguments)
@@ -636,26 +725,6 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_14() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_21()) {
-    jj_scanpos = xsp;
-    if (jj_3R_22()) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3R_21() {
-    if (jj_scan_token(TIMES)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_25() {
-    if (jj_scan_token(EXPNUMBER)) return true;
-    return false;
-  }
-
   private boolean jj_3R_12() {
     Token xsp;
     xsp = jj_scanpos;
@@ -677,18 +746,41 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3R_27() {
+  private boolean jj_3R_14() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_21()) {
+    jj_scanpos = xsp;
+    if (jj_3R_22()) {
+    jj_scanpos = xsp;
+    if (jj_3R_23()) return true;
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_21() {
+    if (jj_scan_token(TIMES)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_25() {
+    if (jj_scan_token(NUMBER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_28() {
     if (jj_scan_token(LEFT_BRACES)) return true;
     if (jj_scan_token(RIGHT_BRACES)) return true;
     return false;
   }
 
-  private boolean jj_3R_11() {
-    if (jj_3R_13()) return true;
+  private boolean jj_3R_10() {
+    if (jj_3R_11()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3R_14()) { jj_scanpos = xsp; break; }
+      if (jj_3R_12()) { jj_scanpos = xsp; break; }
     }
     return false;
   }
@@ -704,18 +796,58 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3R_10() {
-    if (jj_3R_11()) return true;
+  private boolean jj_3R_11() {
+    if (jj_3R_13()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3R_12()) { jj_scanpos = xsp; break; }
+      if (jj_3R_14()) { jj_scanpos = xsp; break; }
     }
     return false;
   }
 
   private boolean jj_3R_24() {
-    if (jj_scan_token(NUMBER)) return true;
+    if (jj_scan_token(INTEGER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_19() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_24()) {
+    jj_scanpos = xsp;
+    if (jj_3R_25()) {
+    jj_scanpos = xsp;
+    if (jj_3R_26()) {
+    jj_scanpos = xsp;
+    if (jj_3_1()) {
+    jj_scanpos = xsp;
+    if (jj_3_2()) {
+    jj_scanpos = xsp;
+    if (jj_3R_27()) {
+    jj_scanpos = xsp;
+    if (jj_3_3()) {
+    jj_scanpos = xsp;
+    if (jj_3R_28()) {
+    jj_scanpos = xsp;
+    if (jj_3R_29()) {
+    jj_scanpos = xsp;
+    if (jj_3R_30()) {
+    jj_scanpos = xsp;
+    if (jj_3R_31()) {
+    jj_scanpos = xsp;
+    if (jj_3R_32()) return true;
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
     return false;
   }
 
@@ -726,82 +858,33 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3R_23() {
-    if (jj_scan_token(INTEGER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_19() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_23()) {
-    jj_scanpos = xsp;
-    if (jj_3R_24()) {
-    jj_scanpos = xsp;
-    if (jj_3R_25()) {
-    jj_scanpos = xsp;
-    if (jj_3_1()) {
-    jj_scanpos = xsp;
-    if (jj_3_2()) {
-    jj_scanpos = xsp;
-    if (jj_3R_26()) {
-    jj_scanpos = xsp;
-    if (jj_3_3()) {
-    jj_scanpos = xsp;
-    if (jj_3R_27()) {
-    jj_scanpos = xsp;
-    if (jj_3R_28()) {
-    jj_scanpos = xsp;
-    if (jj_3R_29()) {
-    jj_scanpos = xsp;
-    if (jj_3R_30()) {
-    jj_scanpos = xsp;
-    if (jj_3R_31()) return true;
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    return false;
-  }
-
   private boolean jj_3R_18() {
     if (jj_scan_token(COMPARISON)) return true;
     return false;
   }
 
-  private boolean jj_3R_33() {
-    if (jj_scan_token(FACTORIAL)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_31() {
-    if (jj_scan_token(STRING)) return true;
+  private boolean jj_3R_23() {
+    if (jj_scan_token(MODULO)) return true;
     return false;
   }
 
   private boolean jj_3R_32() {
-    if (jj_scan_token(POWER)) return true;
+    if (jj_scan_token(STRING)) return true;
     return false;
   }
 
-  private boolean jj_3R_20() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_32()) {
-    jj_scanpos = xsp;
-    if (jj_3R_33()) return true;
-    }
+  private boolean jj_3R_34() {
+    if (jj_scan_token(FACTORIAL)) return true;
     return false;
   }
 
-  private boolean jj_3R_30() {
+  private boolean jj_3_1() {
+    if (jj_3R_8()) return true;
+    if (jj_scan_token(OPEN_PAR)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_31() {
     if (jj_scan_token(LOG)) return true;
     if (jj_3R_19()) return true;
     return false;
@@ -809,6 +892,32 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
 
   private boolean jj_3_3() {
     if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_3R_10()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_33() {
+    if (jj_scan_token(POWER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_20() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_33()) {
+    jj_scanpos = xsp;
+    if (jj_3R_34()) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_30() {
+    if (jj_scan_token(NOT)) return true;
     if (jj_3R_10()) return true;
     return false;
   }
@@ -823,36 +932,30 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
+  private boolean jj_3R_27() {
+    if (jj_scan_token(OPEN_PAR)) return true;
+    if (jj_3R_10()) return true;
+    return false;
+  }
+
   private boolean jj_3R_8() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_scan_token(26)) {
+    if (jj_scan_token(27)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(27)) return true;
+    if (jj_scan_token(28)) return true;
     }
     return false;
   }
 
-  private boolean jj_3_1() {
-    if (jj_3R_8()) return true;
-    if (jj_scan_token(OPEN_PAR)) return true;
+  private boolean jj_3R_16() {
+    if (jj_scan_token(MINUS)) return true;
     return false;
   }
 
   private boolean jj_3R_29() {
-    if (jj_scan_token(NOT)) return true;
-    if (jj_3R_10()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_17() {
-    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_26() {
-    if (jj_scan_token(OPEN_PAR)) return true;
-    if (jj_3R_10()) return true;
+    if (jj_scan_token(MINUS)) return true;
+    if (jj_3R_19()) return true;
     return false;
   }
 
@@ -861,14 +964,8 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3R_28() {
-    if (jj_scan_token(MINUS)) return true;
-    if (jj_3R_19()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_16() {
-    if (jj_scan_token(MINUS)) return true;
+  private boolean jj_3R_26() {
+    if (jj_scan_token(EXPNUMBER)) return true;
     return false;
   }
 
@@ -889,7 +986,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0xc000000,0x40000001,0x2200,0x2200,0x1800,0x1800,0x300500,0x300500,0x80,0x40000,0x80,0x40000,0x68,0x4000,0xe010400,};
+      jj_la1_0 = new int[] {0x18000000,0x80000001,0x4200,0x4200,0x3800,0x3800,0x600500,0x600500,0x80,0x80000,0x80,0x80000,0x68,0x8000,0x1c020400,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[3];
   private boolean jj_rescan = false;
@@ -1075,7 +1172,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[31];
+    boolean[] la1tokens = new boolean[32];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -1089,7 +1186,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
         }
       }
     }
-    for (int i = 0; i < 31; i++) {
+    for (int i = 0; i < 32; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

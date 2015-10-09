@@ -1,6 +1,6 @@
 /*
- * $Id:  ColorDefinitionTest.java 1733 May 15, 2014 10:40:13 PM yvazirabad $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/test/org/sbml/jsbml/ext/render/test/ColorDefinitionTest.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.

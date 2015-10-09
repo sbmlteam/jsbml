@@ -714,7 +714,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
 
     if (args.length < 1) {
       System.out.println(
-          "Usage: java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
+          "Usage: java org.sbml.jsbml.TidySBMLWriter sbmlFileName");
       System.exit(0);
     }
 
@@ -732,7 +732,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
         @Override
         public boolean accept(File pathname)
         {
-          if (pathname.getName().contains("-jsbml"))
+          if (pathname.getName().contains("-jsbmlTidy"))
           {
             return false;
           }
