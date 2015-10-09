@@ -113,6 +113,20 @@
 			<fileset dir="${build.dir}" includes="*.jar *.zip"/>
 		</path>
 
+		<!-- add everything to setup tests using the simulation core library -->
+		<property name="simulation.core.dir" value="${basedir}/../simulation-core" />
+		<property name="simulation.core.version" value="1.4" />
+		
+		<property name="sbml-test-cases-2013-01-01" value="${basedir}/../simulation-core/sbml-test-cases-2013-01-01" />
+		
+		<path id="simulation.core.classpath">
+			<fileset dir="${simulation.core.dir}/lib" includes="*.jar" excludes="jsbml*"/>
+			<path refid="classpath"/>
+			<fileset dir="${simulation.core.dir}/dist/SimulationCoreLibrary-${simulation.core.version}/" includes="*.jar"/>
+			<fileset dir="${simulation.core.dir}/lib/ext-lib/" includes="*.jar"/>
+		</path>
+		
+		
 	</target>
 
 	<!-- =================================================================== -->
@@ -176,9 +190,12 @@
 
 		<property name="prepare.src.target.done" value="true"/>
 
+		<echo message="Value of the use-old-astnode property = '${use.old.astnodes}'"/>
+
 		<ant dir="${core.base.dir}" inheritAll="false" inheritRefs="false">
-			<target name="clean" />
-			<target name="jar" />
+		  <property name="use.old.astnodes" value="${use.old.astnodes}"/>
+		  <target name="clean" />
+		  <target name="jar" />
 		</ant>
 
 		<copy todir="${build.src}">
@@ -349,6 +366,29 @@
 
 	</target>
 
+	<!-- =================================================================== -->
+	<!-- Test the jsbml library (long)                                       -->
+	<!-- =================================================================== -->
+	<target
+	  name="extra-test"
+	  description="Test the jsbml library over the libsbml test suite"
+	  depends="init"
+	>
+
+		<!-- Launching the tests for core and packages -->
+		<echo message="There should be NO failures or errors."/>
+		<echo message=""/>
+		<echo message="You can see a detailled output of the tests on the file: simulation-coreTestResults.txt"/>
+		<echo message=""/>
+
+		<java classname="org.simulator.SBMLTestSuiteRunner" classpathref="simulation.core.classpath" output="simulation-coreTestResults.txt">
+			<arg value="${sbml-test-cases-2013-01-01}/cases/semantic/"/>
+			<arg value="1"/>
+			<arg value="1185"/>
+		</java>
+		
+	</target>
+
 
 	<!-- =================================================================== -->
 	<!-- Creates the API documentation                                       -->
@@ -453,6 +493,23 @@
 			<fileset dir="${build.javadocs}/" includes="**/*"/>
 		</copy>
 
+		<!-- generate the jars using the old ASTNode class -->  
+		<property name="use.old.astnodes" value="true"/>
+		<!-- backup the jars using the new ASTNode class -->  
+		<copy tofile="${dist.dir}/${name}-${version}-newASTNode-with-dependencies.jar" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
+		<copy tofile="${dist.dir}/${name}-${version}-newASTNode.jar" file="${dist.dir}/${name}-${version}.jar" />
+		<antcall target="jar" inheritrefs="true" inheritall="true"/>
+		<antcall target="bigjar"  inheritrefs="true" inheritall="true"/>
+		<!-- rename and copy all jars, restore the jars using the new ASTNode class as the default -->  
+		<copy tofile="${dist.root}/${name}-${version}-oldASTNode-with-dependencies.jar" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
+		<copy tofile="${dist.root}/${name}-${version}-oldASTNode.jar" file="${dist.dir}/${name}-${version}.jar" />
+		<copy tofile="${dist.dir}/${name}-${version}-oldASTNode-with-dependencies.jar" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
+		<copy tofile="${dist.dir}/${name}-${version}-oldASTNode.jar" file="${dist.dir}/${name}-${version}.jar" />
+		<copy file="${dist.dir}/${name}-${version}-newASTNode-with-dependencies.jar" tofile="${dist.dir}/${name}-${version}-with-dependencies.jar" overwrite="true"/>
+		<copy file="${dist.dir}/${name}-${version}-newASTNode.jar" tofile="${dist.dir}/${name}-${version}.jar" overwrite="true"/>
+		<delete file="${dist.dir}/${name}-${version}-newASTNode.jar" verbose="true"/>
+		<delete file="${dist.dir}/${name}-${version}-newASTNode-with-dependencies.jar" verbose="true"/>			
+		
 		<!-- Copy the source files -->
 		<copy todir="${dist.dir}/src">
 			<fileset dir="${build.src}/" includes="**/*"/>

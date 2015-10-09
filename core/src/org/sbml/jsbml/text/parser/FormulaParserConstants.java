@@ -52,41 +52,43 @@ public interface FormulaParserConstants {
   /** RegularExpression Id. */
   int DIVIDE = 12;
   /** RegularExpression Id. */
-  int FACTORIAL = 13;
+  int MODULO = 13;
   /** RegularExpression Id. */
-  int OPEN_PAR = 14;
+  int FACTORIAL = 14;
   /** RegularExpression Id. */
-  int CLOSE_PAR = 15;
+  int OPEN_PAR = 15;
   /** RegularExpression Id. */
-  int LEFT_BRACES = 16;
+  int CLOSE_PAR = 16;
   /** RegularExpression Id. */
-  int RIGHT_BRACES = 17;
+  int LEFT_BRACES = 17;
   /** RegularExpression Id. */
-  int LEFT_BRACKET = 18;
+  int RIGHT_BRACES = 18;
   /** RegularExpression Id. */
-  int RIGHT_BRACKET = 19;
+  int LEFT_BRACKET = 19;
   /** RegularExpression Id. */
-  int COMPARISON = 20;
+  int RIGHT_BRACKET = 20;
   /** RegularExpression Id. */
-  int BOOLEAN_LOGIC = 21;
+  int COMPARISON = 21;
   /** RegularExpression Id. */
-  int AND = 22;
+  int BOOLEAN_LOGIC = 22;
   /** RegularExpression Id. */
-  int OR = 23;
+  int AND = 23;
   /** RegularExpression Id. */
-  int XOR = 24;
+  int OR = 24;
   /** RegularExpression Id. */
-  int NOT = 25;
+  int XOR = 25;
   /** RegularExpression Id. */
-  int LOG = 26;
+  int NOT = 26;
   /** RegularExpression Id. */
-  int STRING = 27;
+  int LOG = 27;
   /** RegularExpression Id. */
-  int IDCHAR = 28;
+  int STRING = 28;
   /** RegularExpression Id. */
-  int LETTER = 29;
+  int IDCHAR = 29;
   /** RegularExpression Id. */
-  int EOL = 30;
+  int LETTER = 30;
+  /** RegularExpression Id. */
+  int EOL = 31;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -106,6 +108,7 @@ public interface FormulaParserConstants {
     "\"-\"",
     "\"*\"",
     "\"/\"",
+    "\"%\"",
     "\"!\"",
     "\"(\"",
     "\")\"",

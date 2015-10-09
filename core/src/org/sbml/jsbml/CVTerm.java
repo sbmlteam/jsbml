@@ -371,6 +371,12 @@ public class CVTerm extends AnnotationElement {
   private List<String> resourceURIs;
 
   /**
+   * Contains all the {@link CVTerm} that qualifies this {@link CVTerm}. Since
+   * SBML level 2 version 5 (and future SBML L3V2), the annotations can be recursive.
+   */
+  private List<CVTerm> listOfNestedCVTerms;
+  
+  /**
    * Represents the type of MIRIAM qualifier for this {@link CVTerm}. It
    * depends on the name space in the SBML file, it can be a model qualifier
    * or a biological qualifier.
@@ -1162,5 +1168,156 @@ public class CVTerm extends AnnotationElement {
       type = null;
     }
   }
+  
+  
+  /**
+   * Returns {@code true} if {@link #listOfNestedCVTerms} contains at least
+   * one element.
+   *
+   * @return {@code true} if {@link #listOfNestedCVTerms} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean isSetListOfNestedCVTerms() {
+    if (listOfNestedCVTerms == null) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Returns the {@link #listOfNestedCVTerms}.
+   * Creates it if it does not already exist.
+   *
+   * @return the {@link #listOfNestedCVTerms}.
+   */
+  public List<CVTerm> getListOfNestedCVTerms() {
+    if (listOfNestedCVTerms == null) {
+      listOfNestedCVTerms = new ArrayList<CVTerm>();      
+    }
+    return listOfNestedCVTerms;
+  }
+
+  /**
+   * Sets the given {@code ListOf<CVTerm>}.
+   * If {@link #listOfNestedCVTerms} was defined before and contains some
+   * elements, they are all unset.
+   *
+   * @param listOfNestedCVTerms
+   */
+  public void setListOfNestedCVTerms(List<CVTerm> listOfCVTerms) {
+    unsetListOfNestedCVTerms();
+    this.listOfNestedCVTerms = listOfCVTerms;
+  }
+
+  /**
+   * Returns {@code true} if {@link #listOfNestedCVTerms} contains at least
+   * one element, otherwise {@code false}.
+   *
+   * @return {@code true} if {@link #listOfNestedCVTerms} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean unsetListOfNestedCVTerms() {
+    if (isSetListOfNestedCVTerms()) {
+      List<CVTerm> oldCVTerms = this.listOfNestedCVTerms;
+      this.listOfNestedCVTerms = null;
+      // oldCVTerms.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Adds a new {@link CVTerm} to the {@link #listOfNestedCVTerms}.
+   * <p>The listOfNestedCVTerms is initialized if necessary.
+   *
+   * @param cvTerm the element to add to the list
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
+   * @see java.util.Collection#add(Object)
+   */
+  public boolean addNestedCVTerm(CVTerm cvTerm) {
+    return getListOfNestedCVTerms().add(cvTerm);
+  }
+
+  /**
+   * Removes an element from the {@link #listOfNestedCVTerms}.
+   *
+   * @param cvTerm the element to be removed from the list.
+   * @return {@code true} if the list contained the specified element and it was
+   *         removed.
+   * @see java.util.List#remove(Object)
+   */
+  public boolean removeNestedCVTerm(CVTerm cvTerm) {
+    if (isSetListOfNestedCVTerms()) {
+      return getListOfNestedCVTerms().remove(cvTerm);
+    }
+    return false;
+  }
+
+  /**
+   * Removes an element from the {@link #listOfNestedCVTerms} at the given index.
+   *
+   * @param i the index where to remove the {@link CVTerm}.
+   * @return the specified element if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
+   *         out of bound ({@code (i < 0) || (i > listOfNestedCVTerms)}).
+   */
+  public CVTerm removeNestedCVTerm(int i) {
+    if (!isSetListOfNestedCVTerms()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfNestedCVTerms().remove(i);
+  }
+
+  /**
+   * Creates a new {@link CVTerm} element and adds it to the
+   * {@link #listOfNestedCVTerms} list.
+   *
+   * @return the newly created {@link CVTerm} element, which is the last
+   *         element in the {@link #listOfNestedCVTerms}.
+   */
+  public CVTerm createNestedCVTerm() {
+    CVTerm cvTerm = new CVTerm();
+    addNestedCVTerm(cvTerm);
+    return cvTerm;
+  }
+
+  /**
+   * Gets an element from the {@link #listOfNestedCVTerms} at the given index.
+   *
+   * @param i the index of the {@link CVTerm} element to get.
+   * @return an element from the listOfNestedCVTerms at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public CVTerm getNestedCVTerm(int i) {
+    if (!isSetListOfNestedCVTerms()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfNestedCVTerms().get(i);
+  }
+
+  /**
+   * Returns the number of {@link CVTerm}s in this
+   * {@link CVTerm}.
+   * 
+   * @return the number of {@link CVTerm}s in this
+   *         {@link CVTerm}.
+   */
+  public int getNestedCVTermCount() {
+    return isSetListOfNestedCVTerms() ? getListOfNestedCVTerms().size() : 0;
+  }
+
+  /**
+   * Returns the number of {@link CVTerm}s in this
+   * {@link CVTerm}.
+   * 
+   * @return the number of {@link CVTerm}s in this
+   *         {@link CVTerm}.
+   * @libsbml.deprecated same as {@link #getCVTermCount()}
+   */
+  public int getNumNestedCVTerms() {
+    return getNestedCVTermCount();
+  }
+
 
 }

@@ -11,7 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -24,6 +24,8 @@ package org.sbml.jsbml.xml.parsers;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
@@ -39,7 +41,7 @@ import org.sbml.jsbml.util.StringTools;
  * file. The name space URI of this parser is
  * "http://www.w3.org/1998/Math/MathML". This parser is able to read and write
  * MathML expressions (implements ReadingParser and WritingParser).
- * 
+ *
  * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
@@ -71,17 +73,17 @@ public class MathMLStaxParser implements ReadingParser {
   private transient Logger logger = Logger.getLogger(MathMLStaxParser.class);
 
   /**
-   * 
+   *
    */
   private boolean lastElementWasApply;
 
   /**
-   * 
+   *
    */
   private boolean isFunctionDefinition;
 
   /**
-   * 
+   *
    * @return
    */
   public int getIndent() {
@@ -89,7 +91,7 @@ public class MathMLStaxParser implements ReadingParser {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public boolean getIndenting() {
@@ -98,7 +100,7 @@ public class MathMLStaxParser implements ReadingParser {
 
 
   /**
-   * 
+   *
    * @return
    */
   public boolean getOmitXMLDeclaration() {
@@ -128,17 +130,14 @@ public class MathMLStaxParser implements ReadingParser {
     // ", value = " + value + ", prefix = " + prefix + ", " + isLastAttribute + ", " + contextObject);
 
     // Possible value : type, id, style, class, encoding, definitionURL ...
-    if (attributeName.equals("type")) {
-      astNode.setIsSetNumberType(true);
-    }
     if (attributeName.equals("definitionURL")) {
+      // astNode.setType(value);  // Done in SBMLReader
       astNode.setDefinitionURL(value);
     }
 
-    if (attributeName.equals("type") || attributeName.equals("definitionURL")) {
-      astNode.setType(value);
-      // System.out.println("MathMLStaxParser : processAttribute : astNode Type = " + astNode.getType());
-    } else if (attributeName.equals("id")) {
+    // if attributeName.equals("type") // Done in SBMLReader - astNode.setType(value);
+    
+    if (attributeName.equals("id")) {
       astNode.setId(value);
     } else if (attributeName.equals("style")) {
       astNode.setStyle(value);
@@ -172,19 +171,17 @@ public class MathMLStaxParser implements ReadingParser {
 
     ASTNode astNode = (ASTNode) contextObject;
 
-    // System.out.println("MathMLStaxParser : processCharactersOf : context type : " + astNode.getType());
-
-    FunctionDefinition functionDef = null;
-
-    try {
-      functionDef = astNode.getParentSBMLObject().getModel().getFunctionDefinition(characters.trim());
-    } catch(NullPointerException e) {
-
-      logger.debug("WARNING : cannot recognize properly functionDefinition in mathML block !!!");
-    }
-
     if (isFunctionDefinition)
     {
+      FunctionDefinition functionDef = null;
+
+      try {
+        functionDef = astNode.getParentSBMLObject().getModel().getFunctionDefinition(characters.trim());
+      } catch(NullPointerException e) {
+
+        logger.debug("WARNING : cannot recognize properly functionDefinition in mathML block !!!");
+      }
+
       if (logger.isDebugEnabled()) {
         logger.debug("MathMLStaxParser : processCharactersOf : function found !!");
         logger.debug("Model : " + astNode.getParentSBMLObject().getModel() + ", functionDef = " + functionDef);
@@ -195,7 +192,7 @@ public class MathMLStaxParser implements ReadingParser {
         logger.warn("Cannot recognize functionDefinition with id '" + characters.trim() + "'");
       }
 
-      astNode.setType(Type.FUNCTION);
+      // astNode.setType(Type.FUNCTION); // Done in processStartElement already.
     }
 
     if (astNode.isName() || astNode.isFunction()) {
@@ -261,7 +258,8 @@ public class MathMLStaxParser implements ReadingParser {
 
       // add other type of ASTNode in the test ??
       if ((astNode.isFunction() || astNode.isOperator() || astNode.isRelational() ||
-          astNode.isLogical()) && !elementName.equals("apply") && !elementName.equals("piecewise"))
+          astNode.isLogical()) && !elementName.equals("apply") && !elementName.equals("piecewise")
+          && !elementName.equals("lamdba") && !astNode.getType().equals(ASTNode.Type.LAMBDA))
       {
         if (logger.isDebugEnabled()) {
           logger.debug("processEndElement : stack stay the same. ASTNode type = " + astNode.getType());
@@ -354,9 +352,16 @@ public class MathMLStaxParser implements ReadingParser {
       return null;
     }
 
-    ASTNode astNode = new ASTNode(mathContainer);
-    astNode.setType(elementName);
+    ASTNode astNode = new ASTNode();
 
+    if (isFunctionDefinition) {
+      astNode.setType(Type.FUNCTION);
+    } else {
+      astNode.setType(elementName);
+    }
+    astNode.setParent((TreeNode) contextObject);
+    astNode.setParentSBMLObject(mathContainer);
+    
     if (setMath) {
       mathContainer.setMath(astNode);
     } else {
@@ -413,7 +418,7 @@ public class MathMLStaxParser implements ReadingParser {
   }
 
   /**
-   * 
+   *
    */
   private static final List<String> namespaces = new ArrayList<String>();
 

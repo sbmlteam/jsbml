@@ -11,7 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -48,6 +48,7 @@ import javax.xml.stream.events.XMLEvent;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.JSBML;
@@ -72,7 +73,7 @@ import com.ctc.wstx.stax.WstxInputFactory;
 
 /**
  * Provides all the methods to read a SBML file.
- * 
+ *
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
@@ -101,12 +102,12 @@ public class SBMLReader {
   /**
    * The parent of the mathML we are parsing through the readMathML methods.
    * It allow to parse properly the FunctionDefinition contained in the mathML.
-   * 
+   *
    */
   private MathContainer astNodeParent;
 
   /**
-   * 
+   *
    */
   private List<AnnotationReader> annotationParsers = new ArrayList<AnnotationReader>();
 
@@ -125,7 +126,7 @@ public class SBMLReader {
   /**
    * Creates the ReadingParser instances and stores them in a
    * HashMap.
-   * 
+   *
    * @return the map containing the ReadingParser instances.
    */
   private Map<String, ReadingParser> initializePackageParsers() {
@@ -164,7 +165,7 @@ public class SBMLReader {
 
   /**
    * Initializes the packageParser {@link HashMap} of this class.
-   * 
+   *
    */
   public void initializeAnnotationParsers() {
 
@@ -192,10 +193,10 @@ public class SBMLReader {
   /**
    * Reads the file that is passed as argument and write it to the console,
    * using the method {@link SBMLWriter#write(SBMLDocument, java.io.OutputStream)}.
-   * 
+   *
    * @param args the command line arguments, we are taking the first one as
    * the file name to read.
-   * 
+   *
    * @throws IOException if the file name is not valid.
    * @throws SBMLException if there are any problems reading or writing the SBML model.
    * @throws XMLStreamException if there are any problems reading or writing the XML file.
@@ -267,7 +268,7 @@ public class SBMLReader {
   }
 
   /**
-   * 
+   *
    * @param file
    * @return
    * @throws XMLStreamException
@@ -279,7 +280,7 @@ public class SBMLReader {
 
   /**
    * Reads a SBML String from the given file.
-   * 
+   *
    * @param file
    *            A file containing SBML content.
    * @param listener
@@ -325,7 +326,7 @@ public class SBMLReader {
 
   /**
    * Reads SBML from a given file.
-   * 
+   *
    * @param file
    *            The path to an SBML file.
    * @return the matching SBMLDocument instance.
@@ -340,7 +341,7 @@ public class SBMLReader {
   /**
    * Reads the SBML file 'fileName' and creates/initialises a SBMLDocument
    * instance.
-   * 
+   *
    * @param fileName
    *         name of the SBML file to read.
    * @return the initialised SBMLDocument.
@@ -349,13 +350,15 @@ public class SBMLReader {
    */
   public SBMLDocument readSBMLFile(String fileName)
       throws XMLStreamException, IOException {
+    File file = new File(fileName);
+    System.out.println(file.getAbsolutePath());
     return readSBML(new File(fileName));
   }
 
 
   /**
    * Reads an {@link SBMLDocument} from the given {@link XMLEventReader}
-   * 
+   *
    * @param xmlEventReader
    * @param listener
    * @return
@@ -367,7 +370,7 @@ public class SBMLReader {
   }
 
   /**
-   * 
+   *
    * @param xmlEventReader
    * @return
    * @throws XMLStreamException
@@ -378,7 +381,7 @@ public class SBMLReader {
 
   /**
    * Reads a mathML String into an {@link ASTNode}.
-   * 
+   *
    * @param mathML
    * @param listener
    * @return an {@link ASTNode} representing the given mathML String.
@@ -398,7 +401,7 @@ public class SBMLReader {
 
   /**
    * Reads a mathML {@link String} into an {@link ASTNode}.
-   * 
+   *
    * @param mathML
    * @param listener
    * @param parent the parent {@link MathContainer} of the mathML to parse
@@ -421,7 +424,7 @@ public class SBMLReader {
   }
 
   /**
-   * 
+   *
    * @param mathML
    * @return
    * @throws XMLStreamException
@@ -432,7 +435,7 @@ public class SBMLReader {
 
   /**
    * Reads a notes XML {@link String} into an {@link XMLNode}.
-   * 
+   *
    * @param notesXHTML
    * @param listener
    * @return an {@link XMLNode} representing the given notes {@link String}.
@@ -477,7 +480,7 @@ public class SBMLReader {
   }
 
   /**
-   * 
+   *
    * @param notesXHTML
    * @return
    * @throws XMLStreamException
@@ -488,7 +491,7 @@ public class SBMLReader {
 
   /**
    * Reads a SBML document from the given {@code stream}.
-   * 
+   *
    * @param stream
    * @param listener
    * @return
@@ -502,7 +505,7 @@ public class SBMLReader {
   }
 
   /**
-   * 
+   *
    * @param stream
    * @return
    * @throws XMLStreamException
@@ -514,7 +517,7 @@ public class SBMLReader {
   /**
    * Reads a XML document from the given {@code stream}. It need to be a self contain part of
    * an SBML document.
-   * 
+   *
    * @param stream
    * @param listener
    * @return
@@ -532,8 +535,8 @@ public class SBMLReader {
    * Reads an XML document from the given {@link XMLEventReader}. It need to represent a self contain part of
    * an SBML document. It can be either a math element, a notes element or the whole SBML model. If math or notes are given,
    * a Rule containing the math or notes will be returned, otherwise an SBMLDocument is returned.
-   * 
-   * 
+   *
+   *
    * @param xmlEventReader
    * @param listener
    * @return an {@code Object} representing the given XML.
@@ -817,7 +820,7 @@ public class SBMLReader {
 
   /**
    * Reads a SBML model from the given XML String.
-   * 
+   *
    * @param xml
    * @param listener
    * @return
@@ -832,7 +835,7 @@ public class SBMLReader {
   }
 
   /**
-   * 
+   *
    * @param xml
    * @return
    * @throws XMLStreamException
@@ -843,7 +846,7 @@ public class SBMLReader {
 
   /**
    * Reads an XML {@link String} that should the part of a SBML model.
-   * 
+   *
    * @param xml
    * @param listener
    * @return
@@ -857,7 +860,7 @@ public class SBMLReader {
 
   /**
    * Process a {@link StartElement} event.
-   * 
+   *
    * @param startElement
    * @param currentNode
    * @param isHTML
@@ -926,6 +929,69 @@ public class SBMLReader {
               hasNamespace, sbmlElements.peek());
 
             if (processedElement != null) {
+               // TODO - we won't need this code any more if the list of child is stored directly in the ASTNode facade
+              if (processedElement instanceof ASTNode) {
+                ASTNode astNode = (ASTNode) processedElement;
+                if (currentNode.getLocalPart().equals("cn") && hasAttributes) {
+                   Object object = sbmlElements.peek();
+                   
+                   while (att.hasNext()) {
+
+                     Attribute attribute = att.next();
+                     String attributeName = attribute.getName().getLocalPart();
+
+                     if (attributeName.equals("type")) {
+                       String type = attribute.getValue();
+
+                       if (type.equalsIgnoreCase("integer")) { 
+                         astNode.setType(Type.INTEGER);
+                       } else if(type.equalsIgnoreCase("e-notation")) {
+                         astNode.setType(Type.REAL_E);
+                       } else if(type.equalsIgnoreCase("rational")) {
+                         astNode.setType(Type.RATIONAL);
+                       }
+
+                       if (object != null && object instanceof ASTNode) {
+                         ASTNode parent = (ASTNode) object;
+
+                         // we need to remove the last child as the hierarchy of children are stored in the ASTNode2 and not directly in the ASTNode
+                         parent.removeChild(parent.getChildCount() - 1);
+                         parent.addChild(astNode);
+                       } // else the parent can be directly a MathContainer - nothing to do in this case.
+                     }
+                   }
+                }
+                if (currentNode.getLocalPart().equals("csymbol") && hasAttributes) {
+                  Object object = sbmlElements.peek();
+
+                  while (att.hasNext()) {
+
+                    Attribute attribute = att.next();
+                    String attributeName = attribute.getName().getLocalPart();
+
+                    if (attributeName.equals("definitionURL")) {
+                      String type = attribute.getValue();
+
+                      if (type.equalsIgnoreCase(ASTNode.URI_TIME_DEFINITION)) { 
+                        astNode.setType(Type.NAME_TIME);
+                      } else if(type.equalsIgnoreCase(ASTNode.URI_DELAY_DEFINITION)) {
+                        astNode.setType(Type.FUNCTION_DELAY);
+                      } else if(type.equalsIgnoreCase(ASTNode.URI_AVOGADRO_DEFINITION)) {
+                        astNode.setType(Type.NAME_AVOGADRO);
+                      }
+
+                      if (object != null && object instanceof ASTNode) {
+                        ASTNode parent = (ASTNode) object;
+
+                        // we need to remove the last child as the hierarchy of children are stored in the ASTNode2 and not directly in the ASTNode
+                        parent.removeChild(parent.getChildCount() - 1);
+                        parent.addChild(astNode);
+                      } // else the parent can be directly a MathContainer - nothing to do in this case.
+                    }
+                  }
+                }
+              }
+
               sbmlElements.push(processedElement);
             } else {
               // It is normal to have sometimes null returned as some of the
@@ -954,7 +1020,7 @@ public class SBMLReader {
 
   /**
    * Process Namespaces of the current element on the stack.
-   * 
+   *
    * @param nam
    * @param currentNode
    * @param sbmlElements
@@ -1002,7 +1068,7 @@ public class SBMLReader {
 
   /**
    * Process Attributes of the current element on the stack.
-   * 
+   *
    * @param att
    * @param currentNode
    * @param sbmlElements
@@ -1056,7 +1122,7 @@ public class SBMLReader {
 
   /**
    * Process the end of an element.
-   * 
+   *
    * @param currentNode
    * @param isNested
    * @param isText

@@ -74,9 +74,11 @@ public class CreatorTests {
     
     try {
       c.setEmail("invalid.email.com ");
-      Assert.fail("Invalid emails should throw an Exception !!");
+      // We do not throw an Exception any more
+      // Assert.fail("Invalid emails should throw an Exception !!");
     } catch (Exception e) {
-      Assert.assertTrue(c.getEmail().equals("valid.with.spaces@email.com"));
+      // Assert.assertTrue(c.getEmail().equals("valid.with.spaces@email.com"));
+      Assert.fail("Invalid emails should not throw an Exception !!");
     }
   }
   

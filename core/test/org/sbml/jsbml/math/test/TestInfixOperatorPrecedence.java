@@ -11,7 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -35,7 +35,7 @@ import org.sbml.jsbml.util.compilers.FormulaCompiler;
 /**
  * Tests in order to insure that the operator precedence is respected when parsing
  * an infix formula into an ASTNode.
- * 
+ *
  * @see FormulaParserLL3
  * @see FormulaCompiler
  * @author Nicolas Rodriguez
@@ -60,7 +60,7 @@ public class TestInfixOperatorPrecedence {
 
 
   /**
-   * 
+   *
    */
   @Test public void testParseLogicalOperator() {
 
@@ -88,10 +88,11 @@ public class TestInfixOperatorPrecedence {
     System.out.println(n.toFormula());
 
     assertTrue(n.toFormula().equals("(V0 > 3) && (V1 > 3)")); // L3Compiler output: (gt(V0, 3)) && (gt(V1, 3))
+    //assertTrue(n.toFormula().equals("((V0 > 3)) && ((V1 > 3))")); // TODO - correct the compiler
   }
 
   /**
-   * 
+   *
    */
   @Test public void testPlus() {
 
@@ -104,13 +105,15 @@ public class TestInfixOperatorPrecedence {
       assertTrue(false);
     }
 
+    // TODO: Test by comparing nodes in the tree
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
-    assertTrue(n.toFormula().equals("5+2*4+4*8"));
+    // we are doing two tests, to be able to pass the test if we use the new ASTNode class or the old one.
+    assertTrue(n.toFormula().equals("5+(2*4)+(4*8)") || n.toFormula().equals("5+2*4+4*8"));
   }
 
   /**
-   * 
+   *
    */
   @Test public void testPower() {
 
@@ -157,11 +160,12 @@ public class TestInfixOperatorPrecedence {
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
 
-    assertTrue(n.toFormula().equals("piecewise(floor(x^8/3), x^8/3 > 0, ceil(x^8/3))")); // L3Compiler output: piecewise(floor(x^8/3), gt(x^8/3, 0), ceil(x^8/3))
+    // we are doing two tests, to be able to pass the test if we use the new ASTNode class or the old one.
+    assertTrue(n.toFormula().equals("piecewise(floor(x^8/3), (x^8/3) > 0, ceil(x^8/3))") ||  n.toFormula().equals("piecewise(floor(x^8/3), x^8/3 > 0, ceil(x^8/3))")); // L3Compiler output: piecewise(floor(x^8/3), gt(x^8/3, 0), ceil(x^8/3))
   }
 
   /**
-   * 
+   *
    */
   @Test public void testModulo() {
 
@@ -177,6 +181,7 @@ public class TestInfixOperatorPrecedence {
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
 
-    assertTrue(n.toFormula().equals("5+1+piecewise(floor(8/3), 8/3 > 0, ceil(8/3))+2"));
+    // we are doing two tests, to be able to pass the test if we use the new ASTNode class or the old one.
+    assertTrue(n.toFormula().equals("5+1+piecewise(floor(8/3), (8/3) > 0, ceil(8/3))+2") || n.toFormula().equals("5+1+piecewise(floor(8/3), 8/3 > 0, ceil(8/3))+2"));
   }
 }

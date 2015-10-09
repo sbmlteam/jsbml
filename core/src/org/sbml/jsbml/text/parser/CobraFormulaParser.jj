@@ -1118,6 +1118,7 @@ private ASTNode termLevel8() throws NumberFormatException :
     }
     else if (s.equals("piecewise"))
     {
+      type = ASTNode.Type.FUNCTION_PIECEWISE;      
       node.addChild(child);
       type = Type.FUNCTION_PIECEWISE;
     }

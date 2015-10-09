@@ -1,6 +1,6 @@
 /*
- * $Id: CompParser.java 1445 2013-01-04 08:54:54Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/comp/src/org/sbml/jsbml/xml/parsers/CompParser.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -55,7 +55,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev: 1445 $
+ * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class CompParser extends AbstractReaderWriter implements PackageParser {

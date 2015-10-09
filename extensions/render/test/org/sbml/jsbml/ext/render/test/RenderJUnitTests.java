@@ -1,6 +1,6 @@
 /*
- * $Id:  RenderJUnitTests.java 1771 May 17, 2014 7:36:18 PM yvazirabad $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/test/org/sbml/jsbml/ext/render/test/RenderJUnitTests.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.

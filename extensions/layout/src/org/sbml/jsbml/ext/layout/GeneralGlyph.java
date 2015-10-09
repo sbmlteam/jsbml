@@ -1,6 +1,6 @@
 /*
- * $Id: ReactionGlyph.java 1464 2013-03-06 10:52:43Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/layout/src/org/sbml/jsbml/ext/layout/ReactionGlyph.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -46,7 +46,7 @@ import org.sbml.jsbml.util.ListOfWithName;
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev: 1464 $
+ * @version $Rev$
  */
 public class GeneralGlyph extends AbstractReferenceGlyph {
 
