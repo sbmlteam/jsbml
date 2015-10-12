@@ -27,16 +27,16 @@ Version 1.1-b1 (12-10-2015)
   - Improved cellDesigner LayoutConverter.
  
   - Added a new class PackageUtil to check and fix the package versions and
-    namespaces if needed. This method is called after we read a file from XML
-    or before we write the model to XML. In the near future, the method
+    namespaces if needed. This method is called after we read a file from
+    XML or before we write the model to XML. In the near future, the method
     SBase.registerChild will take care of setting everything properly.
  
   - Added a default load of the parsers for environment not setup properly
     for it (eclipse, matlab dynamic path, OSGi, ...).
   
   - Modified the way we initialize the XML factories so that it is explicit
-    (to OSGi for example) which classes and packages are used. Then there is
-    no more need to define the System properties about the XML factories
+    (to OSGi for example) which classes and packages are used. Then there
+    is no more need to define the System properties about the XML factories
     which solve an other reported problem with OSGi bundles. Thanks to all
     users who reported and tested problems related to OSGi.
  
@@ -66,9 +66,9 @@ Version 1.1-b1 (12-10-2015)
  * Bug Fixes:
 
   - Methods that accepted Double/Integer/Boolean values or returned those
-    where updated to double/integer/boolean in the spatial and render package.
-    Instead of null values PropertyUndefinedExceptions are now thrown when
-    necessary. 
+    where updated to double/integer/boolean in the spatial and render
+    package. Instead of null values PropertyUndefinedExceptions are now
+    thrown when necessary. 
 
   - Tracker item #83: the equals method from StringBuilder is
     not implemented so we have to compare the content of the StringBuilder
@@ -83,9 +83,9 @@ Version 1.1-b1 (12-10-2015)
   
   - Tracker item #87: changed HashMap to Map in the SBMLValidator API.
   
-  - When writing math formula, in some cases, parentheses were not generated
-    properly surrounding relational expressions. Thanks to Miguel de Alba
-    for reporting this problem.
+  - When writing math formula, in some cases, parentheses were not
+    generated properly surrounding relational expressions. Thanks to Miguel
+    de Alba for reporting this problem.
      
   
 ===========================================================================
