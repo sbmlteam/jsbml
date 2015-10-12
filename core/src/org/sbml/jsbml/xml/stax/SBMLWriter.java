@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1174,7 +1175,11 @@ public class SBMLWriter {
     String programVersion) throws XMLStreamException, SBMLException {
     ByteArrayOutputStream stream = new ByteArrayOutputStream();
     write(d, stream, programName, programVersion);
-    return stream.toString();
+    try {
+      return stream.toString("UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      return stream.toString(); 
+    }
   }
 
 }
