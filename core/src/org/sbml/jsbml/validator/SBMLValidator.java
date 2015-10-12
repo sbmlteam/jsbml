@@ -48,6 +48,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.util.Detail;
@@ -437,13 +438,18 @@ public class SBMLValidator {
    * due to warnings @em or errors.  Callers should inspect the severity
    * flag in the individual SBMLError objects to determine the nature of the failures.
    * 
+   * <p>This method is called from {@link SBMLDocument#checkConsistency()}. To know what
+   * to set in the parameters map, you can have a look at {@link SBMLDocument#setConsistencyChecks(CHECK_CATEGORY, boolean)}.
+   * But the key should be one of the category in {@link SBMLValidator#CHECK_CATEGORY} and the value should
+   * be "true" or "false".
+   * 
    * @param fileName a file name
    * @param parameters parameters for the libsbml checkConsistency()
    * @return an {@link SBMLErrorLog} containing the list of errors.
    * 
    * @see <a href="http://sbml.org/Facilities/Validator/Validator_Web_API">sbml.org Validator Web API</a>
    */
-  public static SBMLErrorLog checkConsistency(String fileName, HashMap<String, String> parameters)
+  public static SBMLErrorLog checkConsistency(String fileName, Map<String, String> parameters)
   {
     Logger logger = Logger.getLogger(SBMLValidator.class);
 
