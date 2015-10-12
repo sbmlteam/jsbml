@@ -1,20 +1,67 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ===========================================================================
-Version 1.1-b1 (xx-10-2015)
+Version 1.1-b1 (12-10-2015)
 ===========================================================================
 
  * New Features:
 
- - implemented FBC version 2
-
- - implemented distrib version 1 draft
+  - Changed the default jsbml formula compiler. Warning as it change the
+    default output for comparison operators. The parsing is now very close
+    to what the libSBML L3 parser is doing.
  
- - merged with the ASTNode2 branch
+  - Added support for the nested CVTerms introduced in L2V5 and L3V2. We
+    created some new methods in the CVTerm class to be able to manipulate
+    those.
+  
+  - Merged with the ASTNode2 branch (experimental). This is not used by
+    default but is starting to work well. We were able to pass all tests
+    from the SBML test suite using the ASTNode facade that use ASTNode2
+    underneath. We made it work so that no API change is needed so old
+    code should work without modifications. 
 
-* Layout
+  - Changed the printing of ASTNode in SimpleTreeNodeChangeListener to
+    avoid many exceptions being printed when reading an xml file and the
+    log4j DEBUG is activated (sf tracker item #88).
+ 
+  - Improved cellDesigner LayoutConverter.
+ 
+  - Added a new class PackageUtil to check and fix the package versions and
+    namespaces if needed. This method is called after we read a file from XML
+    or before we write the model to XML. In the near future, the method
+    SBase.registerChild will take care of setting everything properly.
+ 
+  - Added a default load of the parsers for environment not setup properly
+    for it (eclipse, matlab dynamic path, OSGi, ...).
+  
+  - Modified the way we initialize the XML factories so that it is explicit
+    (to OSGi for example) which classes and packages are used. Then there is
+    no more need to define the System properties about the XML factories
+    which solve an other reported problem with OSGi bundles. Thanks to all
+    users who reported and tested problems related to OSGi.
+ 
+  - Implemented a new interface CompartmentalizedSBase and changed all
+    elements that can have a compartment so that they extends it.
+  
+  - Added a createCurve method to ReactionGlyph.
+ 
+  - Improvements in the arrays flattening code.
 
- - added a createCurve method to ReactionGlyph
+  - Updated spatial to implement version 0.90 of the draft specifications.
+ 
+  - Implemented FBC version 2.
+ 
+  - Implemented distrib version 1 draft 0.15.
+ 
+  - Modified the SBMLReader so that we are able to parse some UncertML
+    Strings as XMLNode, even when they are on their own, via 
+    org.sbml.jsbml.xml.XMLNode.convertStringToXMLNode(String).
+  
+  - Added a new class DistribModelBuilder to help users to create distrib
+    elements, including uncertML XMLNode.
+   
+  - Implemented the multi draft rev 459 (Nov 2014).
+ 
  
  * Bug Fixes:
 
@@ -27,6 +74,19 @@ Version 1.1-b1 (xx-10-2015)
     not implemented so we have to compare the content of the StringBuilder
     or use other utility method to compare properly the StringBuilders.
   
+  - Tracker item #84: corrected and improved the XMLNode.toString method.
+  
+  - Tracker item #85: removing spaces with the String.trim() method in 
+    org.sbml.jsbml.Creator.setEmail(String) before checking the validity
+    of the email address. Thanks to Camille Laibe who reported this
+    problem.
+  
+  - Tracker item #87: changed HashMap to Map in the SBMLValidator API.
+  
+  - When writing math formula, in some cases, parentheses were not generated
+    properly surrounding relational expressions. Thanks to Miguel de Alba
+    for reporting this problem.
+     
   
 ===========================================================================
 Version 1.0 (09-12-2014)
@@ -74,7 +134,7 @@ Version 1.0 (09-12-2014)
 
  * Support for SBML Level 3 'Arrays' package:
 
-  - Several fixes and improvments in the validation code and the
+  - Several fixes and improvements in the validation code and the
     flattening code.
 
 
