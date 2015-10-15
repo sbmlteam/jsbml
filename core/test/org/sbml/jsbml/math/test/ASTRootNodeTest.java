@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math.test;
 
@@ -33,7 +33,6 @@ import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTRootNode;
 
-
 /**
  * Test cases for {@link ASTRootNode}
  * 
@@ -43,10 +42,13 @@ import org.sbml.jsbml.math.ASTRootNode;
  * @date Jul 23, 2014
  */
 public class ASTRootNodeTest {
-  
+
+  /**
+   * 
+   */
   @Rule
   public ExpectedException exception = ExpectedException.none();
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#clone()}.
    */
@@ -56,7 +58,7 @@ public class ASTRootNodeTest {
     ASTRootNode unknown = squareRoot.clone();
     assertTrue(unknown.equals(squareRoot));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#ASTRootNode(org.sbml.jsbml.math.ASTRootNode)}.
    */
@@ -76,7 +78,7 @@ public class ASTRootNodeTest {
     ASTRootNode unknown = squareRoot.clone();
     assertTrue(unknown.equals(squareRoot));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#getChildCount()}.
    */
@@ -84,7 +86,7 @@ public class ASTRootNodeTest {
   public final void testGetChildCount() {
     assertTrue(true);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#getRadicand()}.
    */
@@ -125,7 +127,7 @@ public class ASTRootNodeTest {
     squareRoot.setRootExponent(integer);
     assertTrue(squareRoot.getRootExponent().equals(integer));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#getRadicand()}.
    */
@@ -135,18 +137,18 @@ public class ASTRootNodeTest {
     ASTRootNode squareRoot = new ASTRootNode(four);
     assertTrue(squareRoot.getRadicand().equals(four));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTRootNode#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTRootNode#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableType() {
     ASTRootNode root = new ASTRootNode();
     assertTrue(root.isAllowableType(Type.FUNCTION_ROOT) && !root.isAllowableType(null));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTRootNode#setRadicand()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTRootNode#setRadicand(org.sbml.jsbml.math.ASTNode2)}.
    */
   @Test
   public final void testSetRadicand() {
@@ -155,9 +157,9 @@ public class ASTRootNodeTest {
     squareRoot.setRadicand(radicand);
     assertTrue(squareRoot.getRadicand().equals(radicand));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTRootNode#setRootExponent()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTRootNode#setRootExponent(org.sbml.jsbml.math.ASTNode2)}.
    */
   @Test
   public final void testSetRootExponent() {
@@ -166,7 +168,7 @@ public class ASTRootNodeTest {
     root.setRootExponent(rootExponent);
     assertTrue(root.getRootExponent().equals(rootExponent));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#toFormula()}.
    */
@@ -175,7 +177,7 @@ public class ASTRootNodeTest {
     ASTRootNode root = new ASTRootNode(new ASTCnIntegerNode(4), new ASTCnIntegerNode(10000));
     assertTrue(root.toFormula().equals("(10000)^(1/4.0)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#toLaTeX()}.
    */
@@ -183,8 +185,8 @@ public class ASTRootNodeTest {
   public final void testToLaTeX() {
     ASTRootNode root = new ASTRootNode(new ASTCnIntegerNode(4), new ASTCnIntegerNode(10000));
     assertTrue(root.toLaTeX().equals("\\sqrt[4.0]{10000}"));
-  }  
-  
+  }
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#toMathML()}.
    */
@@ -192,6 +194,6 @@ public class ASTRootNodeTest {
   public final void testToMathML() {
     ASTRootNode root = new ASTRootNode(new ASTCnIntegerNode(4), new ASTCnIntegerNode(10000));
     assertTrue(root.toMathML().equals(ASTFactory.parseMathML("root.xml")));
-  }  
-  
+  }
+
 }

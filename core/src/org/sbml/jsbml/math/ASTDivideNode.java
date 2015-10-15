@@ -59,12 +59,12 @@ public class ASTDivideNode extends ASTBinaryFunctionNode {
     super();
     setType(Type.DIVIDE);
   }
-  
+
   /**
-   * Copy constructor; Creates a deep copy of the given {@link ASTDivideFunctionNode}.
+   * Copy constructor; Creates a deep copy of the given {@link ASTDivideNode}.
    * 
    * @param node
-   *            the {@link ASTDivideFunctionNode} to be copied.
+   *            the {@link ASTDivideNode} to be copied.
    */
   public ASTDivideNode(ASTDivideNode node) {
     super(node);
@@ -73,12 +73,14 @@ public class ASTDivideNode extends ASTBinaryFunctionNode {
   /**
    * Creates a new {@link ASTDivideNode} with the specified numerator
    * {@link ASTNode2} and denominator {@link ASTNode2}.
+   * @param numerator
+   * @param denominator
    */
   public ASTDivideNode(ASTNode2 numerator, ASTNode2 denominator) {
     super(numerator, denominator);
     setType(Type.DIVIDE);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -87,7 +89,7 @@ public class ASTDivideNode extends ASTBinaryFunctionNode {
   public ASTDivideNode clone() {
     return new ASTDivideNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */

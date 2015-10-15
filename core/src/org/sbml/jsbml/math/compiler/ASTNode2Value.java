@@ -24,11 +24,11 @@ package org.sbml.jsbml.math.compiler;
 
 import java.io.IOException;
 
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.xml.parsers.MathMLParser;
@@ -48,9 +48,11 @@ import org.w3c.dom.Node;
  * @author Victor Kofia
  * @author Andreas Dr&auml;ger
  * @version $Rev$
+ * @param <T>
  * @since 1.0
  * @date Aug 2, 2014
  */
+@SuppressWarnings("deprecation")
 public class ASTNode2Value<T> {
 
   /**
@@ -90,6 +92,7 @@ public class ASTNode2Value<T> {
   private int version;
 
   /**
+   * @param compiler
    * 
    */
   public ASTNode2Value(ASTNode2Compiler compiler) {
@@ -103,6 +106,7 @@ public class ASTNode2Value<T> {
   /**
    * 
    * @param value
+   * @param compiler
    */
   public ASTNode2Value(T value, ASTNode2Compiler compiler) {
     this(compiler);
@@ -112,6 +116,7 @@ public class ASTNode2Value<T> {
   /**
    * 
    * @param type
+   * @param compiler
    */
   ASTNode2Value(Type type, ASTNode2Compiler compiler) {
     this(compiler);
@@ -121,6 +126,7 @@ public class ASTNode2Value<T> {
   /**
    * 
    * @param unit
+   * @param compiler
    */
   public ASTNode2Value(UnitDefinition unit, ASTNode2Compiler compiler) {
     this(compiler);
@@ -406,7 +412,6 @@ public class ASTNode2Value<T> {
    * This method is analog to the toDouble method but tries to convert this
    * value into an integer.
    * 
-   * @param compiler
    * @return
    * @throws SBMLException
    */
@@ -460,7 +465,7 @@ public class ASTNode2Value<T> {
    *         In case this {@link ASTNodeValue} contains an instance of
    *         {@link Boolean}, zero is returned for false and one for true. If
    *         the value is null or cannot be converted to any number,
-   *         {@link Double.NaN} will be returned. Note that if the value of
+   *         {@link Double#NaN} will be returned. Note that if the value of
    *         this container is an instance of
    *         {@link CallableSBase}, the value can only be
    *         converted to a number if the compiler associated with this

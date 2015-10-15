@@ -29,8 +29,6 @@ import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
 
-
-
 /**
  * An Abstract Syntax Tree (AST) node representing a MathML qualifier element
  * in a mathematical expression.
@@ -53,7 +51,7 @@ public class ASTQualifierNode extends ASTFunction {
   public ASTQualifierNode() {
     super();
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTQualifierNode}.
    * 
@@ -66,12 +64,13 @@ public class ASTQualifierNode extends ASTFunction {
 
   /**
    * Creates a new {@link ASTQualifierNode} of the given type {@link Type}
+   * @param type
    */
   public ASTQualifierNode(Type type) {
     super();
     setType(type);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -114,14 +113,14 @@ public class ASTQualifierNode extends ASTFunction {
       case QUALIFIER_LOGBASE:
       case CONSTRUCTOR_PIECE:
       case CONSTRUCTOR_OTHERWISE:
-        return true;    
+        return true;
       default:
         break;
-      }      
+      }
     }
     return false;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
    */

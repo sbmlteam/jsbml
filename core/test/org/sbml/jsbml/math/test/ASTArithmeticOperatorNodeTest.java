@@ -42,6 +42,9 @@ import org.sbml.jsbml.math.ASTFactory;
  */
 public class ASTArithmeticOperatorNodeTest extends TestCase {
 
+  /**
+   * 
+   */
   @Rule
   public ExpectedException exception = ExpectedException.none();
 
@@ -54,7 +57,7 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     ASTArithmeticOperatorNode unknown = operator.clone();
     assertTrue(operator.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#clone()}.
    */
@@ -66,7 +69,7 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     ASTArithmeticOperatorNode unknown = operator.clone();
     assertTrue(operator.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#ASTArithmeticOperatorNode(org.sbml.jsbml.math.ASTArithmeticOperatorNode)}.
    */
@@ -76,17 +79,17 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     ASTArithmeticOperatorNode unknown = new ASTArithmeticOperatorNode(operator);
     assertTrue(operator.equals(unknown));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableType() {
     ASTArithmeticOperatorNode operator = new ASTArithmeticOperatorNode();
     assertTrue(operator.isAllowableType(Type.PLUS) && operator.isAllowableType(Type.MINUS)
-            && operator.isAllowableType(Type.DIVIDE) && operator.isAllowableType(Type.TIMES)
-            && operator.isAllowableType(Type.SUM) && operator.isAllowableType(Type.PRODUCT)
-            && !operator.isAllowableType(null));
+      && operator.isAllowableType(Type.DIVIDE) && operator.isAllowableType(Type.TIMES)
+      && operator.isAllowableType(Type.SUM) && operator.isAllowableType(Type.PRODUCT)
+      && !operator.isAllowableType(null));
   }
 
   /**
@@ -108,7 +111,7 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     operator.setCharacter('-');
     assertTrue(operator.getType() == Type.MINUS);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#setCharacter(char)}.
    */
@@ -118,7 +121,7 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     operator.setCharacter('+');
     assertTrue(operator.getType() == Type.PLUS);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#setCharacter(char)}.
    */
@@ -139,7 +142,7 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     divide.addChild(new ASTCnIntegerNode(1));
     assertTrue(divide.toFormula().equals("1/1"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toFormula()}.
    */
@@ -150,7 +153,7 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     minus.addChild(new ASTCnIntegerNode(1));
     assertTrue(minus.toFormula().equals("1-1"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toFormula()}.
    */
@@ -161,7 +164,7 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     plus.addChild(new ASTCnIntegerNode(1));
     assertTrue(plus.toFormula().equals("1+1"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toFormula()}.
    */
@@ -172,17 +175,17 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     times.addChild(new ASTCnIntegerNode(1));
     assertTrue(times.toFormula().equals("1*1"));
   }
-  
-//  /**
-//   * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#setCharacter(char)}.
-//   */
-//  @Test
-//  public final void testSetCharacterUnknown() {
-//    ASTArithmeticOperatorNode operator = new ASTArithmeticOperatorNode();
-//    exception.expect(IllegalArgumentException.class);
-//    operator.setCharacter('!');
-//  }  
-  
+
+  //  /**
+  //   * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#setCharacter(char)}.
+  //   */
+  //  @Test
+  //  public final void testSetCharacterUnknown() {
+  //    ASTArithmeticOperatorNode operator = new ASTArithmeticOperatorNode();
+  //    exception.expect(IllegalArgumentException.class);
+  //    operator.setCharacter('!');
+  //  }
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toLaTeX()}.
    */
@@ -193,7 +196,7 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     divide.addChild(new ASTCnIntegerNode(1));
     assertTrue(divide.toLaTeX().equals("\\frac{1}{1}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toLaTeX()}.
    */
@@ -204,7 +207,7 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     minus.addChild(new ASTCnIntegerNode(1));
     assertTrue(minus.toLaTeX().equals("1-1"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toLaTeX()}.
    */
@@ -215,7 +218,7 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     plus.addChild(new ASTCnIntegerNode(1));
     assertTrue(plus.toLaTeX().equals("1+1"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toLaTeX()}.
    */
@@ -225,8 +228,8 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     times.addChild(new ASTCnIntegerNode(1));
     times.addChild(new ASTCnIntegerNode(1));
     assertTrue(times.toLaTeX().equals("1\\cdot 1"));
-  }  
-  
+  }
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toMathML()}.
    */
@@ -235,9 +238,9 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     ASTArithmeticOperatorNode divide = new ASTArithmeticOperatorNode(Type.DIVIDE);
     divide.addChild(new ASTCnIntegerNode(1));
     divide.addChild(new ASTCnIntegerNode(1));
-    assertTrue(divide.toMathML().equals(ASTFactory.parseMathML("divide.xml")));  
+    assertTrue(divide.toMathML().equals(ASTFactory.parseMathML("divide.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toMathML()}.
    */
@@ -246,9 +249,9 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     ASTArithmeticOperatorNode minus = new ASTArithmeticOperatorNode(Type.MINUS);
     minus.addChild(new ASTCnIntegerNode(1));
     minus.addChild(new ASTCnIntegerNode(1));
-    assertTrue(minus.toMathML().equals(ASTFactory.parseMathML("minus.xml")));  
+    assertTrue(minus.toMathML().equals(ASTFactory.parseMathML("minus.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toMathML()}.
    */
@@ -259,7 +262,7 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     plus.addChild(new ASTCnIntegerNode(1));
     assertTrue(plus.toMathML().equals(ASTFactory.parseMathML("plus.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toMathML()}.
    */
@@ -269,6 +272,6 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     times.addChild(new ASTCnIntegerNode(1));
     times.addChild(new ASTCnIntegerNode(1));
     assertTrue(times.toMathML().equals(ASTFactory.parseMathML("times.xml")));
-  }  
-  
+  }
+
 }

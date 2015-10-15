@@ -27,8 +27,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-
-
 /**
  * An Abstract Syntax Tree (AST) node representing a function with two
  * parameters
@@ -44,7 +42,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    * 
    */
   private static final long serialVersionUID = -4036869111918452252L;
-  
+
   /**
    * A {@link Logger} for this class.
    */
@@ -56,7 +54,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   public ASTBinaryFunctionNode() {
     super();
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTBinaryFunctionNode}.
    * 
@@ -70,34 +68,36 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   /**
    * Creates a new {@link ASTBinaryFunctionNode} with the specified
    * children.
+   * @param leftChild
+   * @param rightChild
    */
   public ASTBinaryFunctionNode(ASTNode2 leftChild, ASTNode2 rightChild) {
     this();
     addChild(leftChild);
     addChild(rightChild);
   }
-  
+
   /**
    * Adds a child to this node.
    * 
    * @param child
    *            the node to add as child.
-   *            
+   * 
    * @throws NullPointerException if the child is null
    * @throws IndexOutOfBoundsException if strictness is set to true
-   *            and max child limit has been exceeded          
+   *            and max child limit has been exceeded
    */
   @Override
   public void addChild(ASTNode2 child) {
     if (! isSetList())  {
       listOfNodes = new ArrayList<ASTNode2>(2);
-    } 
+    }
     if (isStrict() && getChildCount() == 2) {
       throw new IndexOutOfBoundsException("max child limit exceeded");
     }
     if (getChildCount() >= 2) {
       logger.debug("Max child limit exceeded. To add more children " +
-                   "to ASTBinaryFunctionNode set strictness to false.");
+          "to ASTBinaryFunctionNode set strictness to false.");
     }
     listOfNodes.add(child);
     ASTFactory.setParentSBMLObject(child, parentSBMLObject);
@@ -116,7 +116,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
 
   /**
    * @throws IndexOutOfBoundsException if strictness is set to true
-   *            and max child limit has been exceeded          
+   *            and max child limit has been exceeded
    */
   @Override
   public ASTNode2 getChildAt(int childIndex) {
@@ -153,11 +153,11 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    *            long the index of the {@link ASTNode2} being added
    * @param newChild
    *            {@link ASTNode2} to insert as the n<sup>th</sup> child
-   *            
+   * 
    * @throws NullPointerException if the child is null
    * @throws IndexOutOfBoundsException if strictness is set to true
-   *           and max child limit has been exceeded    
-   *     
+   *           and max child limit has been exceeded
+   * 
    */
   @Override
   public void insertChild(int n, ASTNode2 newChild) {
@@ -169,7 +169,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
     }
     if (getChildCount() == 2) {
       logger.debug("Max child limit exceeded. To add more children " +
-                   "to ASTBinaryFunctionNode set strictness to false.");
+          "to ASTBinaryFunctionNode set strictness to false.");
     }
     listOfNodes.add(n, newChild);
     ASTFactory.setParentSBMLObject(newChild, parentSBMLObject);
@@ -184,7 +184,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   public boolean isSetLeftChild() {
     return getChildCount() > 0;
   }
-  
+
   /**
    * Return true iff right child has been set
    * 
@@ -193,18 +193,18 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   public boolean isSetRightChild() {
     return getChildCount() > 1;
   }
-  
+
   /**
-   * Adds the given node as a child of this {@link ASTBinaryFunctionNode}. 
+   * Adds the given node as a child of this {@link ASTBinaryFunctionNode}.
    * This method adds child nodes from right to left.
    * 
    * @param child
    *            an {@code ASTNode2}
-   *            
-   * @throws NullPointerException if the child is null   
+   * 
+   * @throws NullPointerException if the child is null
    * @throws IndexOutOfBoundsException if strictness is set to true
-   *           and max child limit has been exceeded    
-   *           
+   *           and max child limit has been exceeded
+   * 
    */
   @Override
   public void prependChild(ASTNode2 child) {
@@ -216,13 +216,13 @@ public class ASTBinaryFunctionNode extends ASTFunction {
     }
     if (getChildCount() == 2) {
       logger.debug("Max child limit exceeded. To add more children " +
-                   "to ASTBinaryFunctionNode set strictness to false.");
+          "to ASTBinaryFunctionNode set strictness to false.");
     }
     listOfNodes.add(0, child);
     ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#removeChild(int)
@@ -266,7 +266,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
     }
     addChild(child);
   }
-  
+
   /**
    * <p>
    * Swaps the children of this {@link ASTFunction} with the children of that
@@ -291,10 +291,10 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    * @param that
    *        the other node whose children should be used to replace this
    *        node's children
-   *        
+   * 
    * @throws IndexOutOfBoundsException if strictness is set to true
-   *           and max child limit has been exceeded    
-   *           
+   *           and max child limit has been exceeded
+   * 
    */
   @Override
   public void swapChildren(ASTFunction that) {
@@ -303,13 +303,13 @@ public class ASTBinaryFunctionNode extends ASTFunction {
     }
     if (that.getChildCount() > 2) {
       logger.debug("Max child limit exceeded. To add more children " +
-                   "to ASTBinaryFunctionNode set strictness to false.");
+          "to ASTBinaryFunctionNode set strictness to false.");
     }
     List<ASTNode2> swap = that.listOfNodes;
     that.listOfNodes = listOfNodes;
     listOfNodes = swap;
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

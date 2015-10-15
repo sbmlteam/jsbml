@@ -77,7 +77,8 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
   }
 
   /**
-   * Creates a new {@link ASTCnIntegerNode} with value {@link int}.
+   * Creates a new {@link ASTCnIntegerNode} with int value.
+   * @param value
    */
   public ASTCnIntegerNode(int value) {
     this();
@@ -154,7 +155,6 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
   /**
    * Returns True iff value has been set
    * 
-   * @param null
    * @return boolean
    */
   public boolean isSetInteger() {
@@ -164,7 +164,7 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
   /**
    * Set the value of this node
    * 
-   * @param Integer value
+   * @param value
    */
   public void setInteger(int value) {
     Integer old = number;

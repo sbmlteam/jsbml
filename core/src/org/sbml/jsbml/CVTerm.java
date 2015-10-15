@@ -375,7 +375,7 @@ public class CVTerm extends AnnotationElement {
    * SBML level 2 version 5 (and future SBML L3V2), the annotations can be recursive.
    */
   private List<CVTerm> listOfNestedCVTerms;
-  
+
   /**
    * Represents the type of MIRIAM qualifier for this {@link CVTerm}. It
    * depends on the name space in the SBML file, it can be a model qualifier
@@ -1168,8 +1168,8 @@ public class CVTerm extends AnnotationElement {
       type = null;
     }
   }
-  
-  
+
+
   /**
    * Returns {@code true} if {@link #listOfNestedCVTerms} contains at least
    * one element.
@@ -1192,7 +1192,7 @@ public class CVTerm extends AnnotationElement {
    */
   public List<CVTerm> getListOfNestedCVTerms() {
     if (listOfNestedCVTerms == null) {
-      listOfNestedCVTerms = new ArrayList<CVTerm>();      
+      listOfNestedCVTerms = new ArrayList<CVTerm>();
     }
     return listOfNestedCVTerms;
   }
@@ -1201,12 +1201,11 @@ public class CVTerm extends AnnotationElement {
    * Sets the given {@code ListOf<CVTerm>}.
    * If {@link #listOfNestedCVTerms} was defined before and contains some
    * elements, they are all unset.
-   *
-   * @param listOfNestedCVTerms
+   * @param listOfCVTerms
    */
   public void setListOfNestedCVTerms(List<CVTerm> listOfCVTerms) {
     unsetListOfNestedCVTerms();
-    this.listOfNestedCVTerms = listOfCVTerms;
+    listOfNestedCVTerms = listOfCVTerms;
   }
 
   /**
@@ -1218,8 +1217,8 @@ public class CVTerm extends AnnotationElement {
    */
   public boolean unsetListOfNestedCVTerms() {
     if (isSetListOfNestedCVTerms()) {
-      List<CVTerm> oldCVTerms = this.listOfNestedCVTerms;
-      this.listOfNestedCVTerms = null;
+      List<CVTerm> oldCVTerms = listOfNestedCVTerms;
+      listOfNestedCVTerms = null;
       // oldCVTerms.fireNodeRemovedEvent();
       return true;
     }
@@ -1313,7 +1312,7 @@ public class CVTerm extends AnnotationElement {
    * 
    * @return the number of {@link CVTerm}s in this
    *         {@link CVTerm}.
-   * @libsbml.deprecated same as {@link #getCVTermCount()}
+   * @libsbml.deprecated same as {@link #getNestedCVTermCount()}
    */
   public int getNumNestedCVTerms() {
     return getNestedCVTermCount();

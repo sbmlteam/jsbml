@@ -153,6 +153,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
 
   /**
    * 
+   * @param u
    * @return
    */
   @SuppressWarnings("deprecation")
@@ -183,6 +184,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
 
   /**
    * Creates an HTML string representation of this UnitDefinition.
+   * @param ud
    * 
    * @return
    */
@@ -225,7 +227,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
       }
       if (reactant.isSetStoichiometryMath()) {
         reactionEqn.append(reactant.getStoichiometryMath().getMath().toASTNode2()
-            .compile((ASTNode2Compiler) this));
+          .compile((ASTNode2Compiler) this));
       } else if (reactant.getStoichiometry() != 1d) {
         reactionEqn.append(reactant.getStoichiometry());
       }

@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math.test;
 
@@ -32,7 +32,6 @@ import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTLambdaFunctionNode;
 import org.sbml.jsbml.math.ASTPlusNode;
 import org.sbml.jsbml.math.ASTQualifierNode;
-
 
 /**
  * Test cases for {@link ASTLambdaFunctionNode}
@@ -53,7 +52,7 @@ public class ASTLambdaFunctionTest {
     ASTLambdaFunctionNode unknown = lambda.clone();
     assertTrue(lambda.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#clone()}.
    */
@@ -65,7 +64,7 @@ public class ASTLambdaFunctionTest {
     ASTLambdaFunctionNode unknown = lambda.clone();
     assertTrue(lambda.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#ASTLambdaFunctionNode(org.sbml.jsbml.math.ASTLambdaFunctionNode)}.
    */
@@ -75,7 +74,7 @@ public class ASTLambdaFunctionTest {
     ASTLambdaFunctionNode unknown = new ASTLambdaFunctionNode(lambda);
     assertTrue(lambda.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#getBvarCount()}.
    */
@@ -84,7 +83,7 @@ public class ASTLambdaFunctionTest {
     ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
     assertTrue(lambda.getBvarCount() == 0);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#getBvarCount()}.
    */
@@ -105,7 +104,7 @@ public class ASTLambdaFunctionTest {
     lambda.addChild(plus);
     assertTrue(lambda.getBvarCount() == 2);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#getBvarCount()}.
    */
@@ -122,39 +121,39 @@ public class ASTLambdaFunctionTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableType() {
     ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
     assertTrue(lambda.isAllowableType(Type.LAMBDA) && !lambda.isAllowableType(null));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunction#replaceArgument(java.lang.String, org.sbml.jsbml.math.ASTNode2)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#replaceArgument(java.lang.String, org.sbml.jsbml.math.ASTNode2)}.
    */
   @Test
   public final void testReplaceArgument() {
     ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
-    
+
     ASTQualifierNode bvarX = new ASTQualifierNode(Type.QUALIFIER_BVAR);
     bvarX.setName("bvarX");
     ASTCiFunctionNode x = new ASTCiFunctionNode();
     x.setName("x");
     bvarX.addChild(x);
     lambda.addChild(bvarX);
-    
+
     ASTQualifierNode bvarY = new ASTQualifierNode(Type.QUALIFIER_BVAR);
     bvarY.setName("bvarY");
     ASTCiFunctionNode y = new ASTCiFunctionNode();
     y.setName("y");
     bvarY.addChild(y);
-    
+
     lambda.replaceArgument("bvarX", bvarY);
-    
+
     assertTrue(lambda.getChildAt(0).equals(bvarY));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#toFormula()}.
    */
@@ -175,7 +174,7 @@ public class ASTLambdaFunctionTest {
     lambda.addChild(plus);
     assertTrue(lambda.toFormula().equals("lambda(x, y, x+y)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#toLaTeX()}.
    */
@@ -196,7 +195,7 @@ public class ASTLambdaFunctionTest {
     lambda.addChild(plus);
     assertTrue(lambda.toLaTeX().equals("\\lambda\\left(x, y\\right) = x+y"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#toMathML()}.
    */
@@ -217,5 +216,5 @@ public class ASTLambdaFunctionTest {
     lambda.addChild(plus);
     assertTrue(lambda.toMathML().equals(ASTFactory.parseMathML("lambda.xml")));
   }
-  
+
 }

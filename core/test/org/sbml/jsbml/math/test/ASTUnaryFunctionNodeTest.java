@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math.test;
 
@@ -33,7 +33,6 @@ import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 
-
 /**
  * Test cases for {@link ASTUnaryFunctionNode}
  * 
@@ -43,7 +42,10 @@ import org.sbml.jsbml.math.ASTUnaryFunctionNode;
  * @date Jul 24, 2014
  */
 public class ASTUnaryFunctionNodeTest {
-  
+
+  /**
+   * 
+   */
   @Rule
   public ExpectedException exception = ExpectedException.none();
 
@@ -57,7 +59,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.addChild(one);
     assertTrue(unary.getChild().equals(one));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#addChild(org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -71,7 +73,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.addChild(two);
     assertTrue(unary.getChildAt(1).equals(two));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#addChild(org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -84,7 +86,7 @@ public class ASTUnaryFunctionNodeTest {
     exception.expect(IndexOutOfBoundsException.class);
     unary.addChild(two);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#getChild()}.
    */
@@ -104,7 +106,7 @@ public class ASTUnaryFunctionNodeTest {
     ASTUnaryFunctionNode unknown = new ASTUnaryFunctionNode(unary);
     assertTrue(unary.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#getChild()}.
    */
@@ -115,7 +117,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.setChild(one);
     assertTrue(unary.getChild().equals(one));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#getChildAt(int)}.
    */
@@ -136,7 +138,7 @@ public class ASTUnaryFunctionNodeTest {
     exception.expect(IndexOutOfBoundsException.class);
     unary.getChildAt(0);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#getChildAt(int)}.
    */
@@ -150,7 +152,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.addChild(two);
     assertTrue(unary.getChildAt(1).equals(two));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#getChildAt(int)}.
    */
@@ -172,7 +174,7 @@ public class ASTUnaryFunctionNodeTest {
     exception.expect(IndexOutOfBoundsException.class);
     unary.getChild();
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#insertChild(int, org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -183,7 +185,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.insertChild(0, one);
     assertTrue(unary.getChild().equals(one));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#insertChild(int, org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -210,16 +212,16 @@ public class ASTUnaryFunctionNodeTest {
     exception.expect(IndexOutOfBoundsException.class);
     unary.insertChild(1, two);
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableType() {
     ASTUnaryFunctionNode A = new ASTUnaryFunctionNode();
     assertTrue(A.isAllowableType(Type.FUNCTION_CEILING) && A.isAllowableType(Type.FUNCTION_FLOOR)
-            && A.isAllowableType(Type.FUNCTION_ABS) && A.isAllowableType(Type.FUNCTION_EXP)
-            && !A.isAllowableType(null));
+      && A.isAllowableType(Type.FUNCTION_ABS) && A.isAllowableType(Type.FUNCTION_EXP)
+      && !A.isAllowableType(null));
   }
 
   /**
@@ -232,7 +234,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.prependChild(one);
     assertTrue(unary.getChildAt(0).equals(one));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#prependChild(org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -246,7 +248,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.prependChild(two);
     assertTrue(unary.getChildAt(0).equals(two) && unary.getChildAt(1).equals(one));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#prependChild(org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -270,7 +272,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.addChild(one);
     assertTrue(unary.removeChild(0) && unary.getChildCount() == 0);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#removeChild(int)}.
    */
@@ -290,7 +292,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.setChild(one);
     assertTrue(unary.getChild().equals(one));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#setChild(org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -303,7 +305,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.setChild(two);
     assertTrue(unary.getChild().equals(two));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#swapChildren(org.sbml.jsbml.math.ASTFunction)}.
    */
@@ -318,7 +320,7 @@ public class ASTUnaryFunctionNodeTest {
     A.swapChildren(B);
     assertTrue(A.getChild().equals(two) && B.getChild().equals(one));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#swapChildren(org.sbml.jsbml.math.ASTFunction)}.
    */
@@ -336,9 +338,9 @@ public class ASTUnaryFunctionNodeTest {
     B.addChild(three);
     A.swapChildren(B);
     assertTrue(A.getChildAt(0).equals(two) && A.getChildAt(1).equals(three)
-               && B.getChildAt(0).equals(one));
+      && B.getChildAt(0).equals(one));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#swapChildren(org.sbml.jsbml.math.ASTFunction)}.
    */
@@ -356,7 +358,7 @@ public class ASTUnaryFunctionNodeTest {
     exception.expect(IndexOutOfBoundsException.class);
     A.swapChildren(B);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toFormula()}.
    */
@@ -367,7 +369,7 @@ public class ASTUnaryFunctionNodeTest {
     abs.setChild(negativeFive);
     assertTrue(abs.toFormula().equals("abs(-5)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toFormula()}.
    */
@@ -378,7 +380,7 @@ public class ASTUnaryFunctionNodeTest {
     ceil.setChild(negativeFive);
     assertTrue(ceil.toFormula().equals("ceil(-5)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toFormula()}.
    */
@@ -389,7 +391,7 @@ public class ASTUnaryFunctionNodeTest {
     exp.setChild(negativeFive);
     assertTrue(exp.toFormula().equals("exp(-5)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toFormula()}.
    */
@@ -411,7 +413,7 @@ public class ASTUnaryFunctionNodeTest {
     floor.setChild(five);
     assertTrue(floor.toFormula().equals("floor(5)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toLaTeX()}.
    */
@@ -422,7 +424,7 @@ public class ASTUnaryFunctionNodeTest {
     abs.setChild(negativeFive);
     assertTrue(abs.toLaTeX().equals("\\left\\lvert-5\\right\\rvert"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toLaTeX()}.
    */
@@ -433,7 +435,7 @@ public class ASTUnaryFunctionNodeTest {
     ceil.setChild(negativeFive);
     assertTrue(ceil.toLaTeX().equals("\\left\\lceil -5\\right\\rceil "));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toLaTeX()}.
    */
@@ -445,7 +447,7 @@ public class ASTUnaryFunctionNodeTest {
     assertTrue(exp.toLaTeX().equals("\\exp{\\left(-5\\right)}"));
   }
 
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toLaTeX()}.
    */
@@ -466,8 +468,8 @@ public class ASTUnaryFunctionNodeTest {
     ASTUnaryFunctionNode floor = new ASTUnaryFunctionNode(Type.FUNCTION_FLOOR);
     floor.setChild(five);
     assertTrue(floor.toLaTeX().equals("\\left\\lfloor 5\\right\\rfloor "));
-  }  
-  
+  }
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toMathML()}.
    */
@@ -478,7 +480,7 @@ public class ASTUnaryFunctionNodeTest {
     abs.setChild(negativeFive);
     assertTrue(abs.toMathML().equals(ASTFactory.parseMathML("abs.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toMathML()}.
    */
@@ -489,7 +491,7 @@ public class ASTUnaryFunctionNodeTest {
     ceil.setChild(negativeFive);
     assertTrue(ceil.toMathML().equals(ASTFactory.parseMathML("ceil.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toMathML()}.
    */
@@ -500,7 +502,7 @@ public class ASTUnaryFunctionNodeTest {
     exp.setChild(negativeFive);
     assertTrue(exp.toMathML().equals(ASTFactory.parseMathML("exp.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toMathML()}.
    */
@@ -521,6 +523,6 @@ public class ASTUnaryFunctionNodeTest {
     ASTUnaryFunctionNode floor = new ASTUnaryFunctionNode(Type.FUNCTION_FLOOR);
     floor.setChild(five);
     assertTrue(floor.toMathML().equals(ASTFactory.parseMathML("floor.xml")));
-  }    
-  
+  }
+
 }

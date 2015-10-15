@@ -52,7 +52,6 @@ import org.sbml.jsbml.math.ASTTimesNode;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 import org.sbml.jsbml.math.parser.ParseException;
 
-
 /**
  * Test cases for {@link ASTFactory}
  *
@@ -63,11 +62,14 @@ import org.sbml.jsbml.math.parser.ParseException;
  */
 public class ASTFactoryTest {
 
+  /**
+   * 
+   */
   @Rule
   public ExpectedException exception = ExpectedException.none();
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#arithmeticOperation(org.sbml.jsbml.ASTNode.Type, org.sbml.jsbml.math.ASTNode2)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#arithmeticOperation(Type, ASTNode2...)}.
    */
   @Test
   public final void testArithmeticOperation() {
@@ -78,7 +80,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#diff(org.sbml.jsbml.math.ASTNode2)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#diff(ASTNode2...)}.
    */
   @Test
   public final void testDiff() {
@@ -89,7 +91,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#diff(org.sbml.jsbml.math.ASTNode2)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#diff(ASTNode2...)}.
    */
   @Test
   public final void testDiffNoArgument() {
@@ -300,7 +302,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#multiplyWith(org.sbml.jsbml.math.ASTQualifierNode, org.sbml.jsbml.math.ASTQualifierNode)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#multiplyWith(ASTNode2...)}.
    */
   @Test
   public final void testMultiplyWith() {
@@ -313,7 +315,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#neq(org.sbml.jsbml.math.ASTQualifierNode, org.sbml.jsbml.math.ASTQualifierNode)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#neq(ASTNode2, ASTNode2)}.
    */
   @Test
   public final void testNeq() {
@@ -613,7 +615,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#piecewise(org.sbml.jsbml.math.ASTQualifierNode, org.sbml.jsbml.math.ASTQualifierNode)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#piecewise(ASTQualifierNode, ASTQualifierNode...)}.
    */
   @Test
   public final void testPiecewise() {
@@ -714,7 +716,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#product(org.sbml.jsbml.math.ASTNode2)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#product(ASTNode2...)}.
    */
   @Test
   public final void testProduct() {
@@ -728,7 +730,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#product(org.sbml.jsbml.math.ASTNode2)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#product(ASTNode2...)}.
    */
   @Test
   public final void testProductNoArguments() {
@@ -738,7 +740,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#reduceToBinary()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#reduceToBinary(org.sbml.jsbml.math.ASTFunction)}.
    */
   @Test
   public final void testReduceToBinaryDiff() {
@@ -752,7 +754,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#reduceToBinary()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#reduceToBinary(org.sbml.jsbml.math.ASTFunction)}.
    */
   @Test
   public final void testReduceToBinaryIllegalArgument() {
@@ -761,7 +763,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#reduceToBinary()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#reduceToBinary(org.sbml.jsbml.math.ASTFunction)}.
    */
   @Test
   public final void testReduceToBinaryProduct() {
@@ -775,7 +777,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#reduceToBinary()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#reduceToBinary(org.sbml.jsbml.math.ASTFunction)}.
    */
   @Test
   public final void testReduceToBinarySum() {
@@ -830,7 +832,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#sum(org.sbml.jsbml.math.ASTNode2)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#sum(ASTNode2...)}.
    */
   @Test
   public final void testSum() {
@@ -841,7 +843,7 @@ public class ASTFactoryTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#sum(org.sbml.jsbml.math.ASTNode2)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#sum(ASTNode2...)}.
    */
   @Test
   public final void testSumNoArgument() {

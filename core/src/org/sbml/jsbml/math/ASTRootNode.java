@@ -32,7 +32,6 @@ import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
 import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing a root function
  * 
@@ -47,7 +46,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
    * 
    */
   private static final long serialVersionUID = -8803559492792642628L;
-  
+
   /**
    * A {@link Logger} for this class.
    */
@@ -65,14 +64,13 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
    * Creates a new {@link ASTRootNode} with the specified radicand and
    * a root exponent of 2.
    * 
-   * @param rootExponent {@link ASTNode2}
    * @param radicand {@link ASTNode2}
    */
   public ASTRootNode(ASTNode2 radicand) {
     this();
     addChild(radicand);
   }
-  
+
   /**
    * Creates a new {@link ASTRootNode} with the specified radicand and
    * rootExponent.
@@ -85,7 +83,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
     addChild(rootExponent);
     addChild(radicand);
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTRootNode}.
    * 
@@ -95,7 +93,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
   public ASTRootNode(ASTRootNode node) {
     super(node);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTUnaryFunctionNode#clone()
@@ -104,7 +102,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
   public ASTRootNode clone() {
     return new ASTRootNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -145,7 +143,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
    */
   public ASTNode2 getRadicand() {
     if (isSetRightChild()) {
-      return getRightChild();      
+      return getRightChild();
     }
     PropertyUndefinedError error = new PropertyUndefinedError("radicand", this);
     if (isStrict()) {
@@ -154,7 +152,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
     logger.warn(error);
     return null;
   }
-  
+
   /**
    * Return the root exponent of this {@link ASTRootNode}
    * 
@@ -162,11 +160,11 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
    */
   public ASTNode2 getRootExponent() {
     if (getChildCount() > 1) {
-      return getLeftChild();      
+      return getLeftChild();
     }
     return new ASTCnIntegerNode(2);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */
@@ -190,7 +188,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
   public boolean isSetRightChild() {
     return getChildCount() > 0;
   }
-  
+
   /**
    * Set the radicand of this {@link ASTRootNode}
    * 
@@ -199,7 +197,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
   public void setRadicand(ASTNode2 radicand) {
     setRightChild(radicand);
   }
-  
+
   /**
    * Set the root exponent of this {@link ASTRootNode}
    * 
@@ -208,7 +206,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
   public void setRootExponent(ASTNode2 rootExponent) {
     switch(getChildCount()) {
     case 0:
-      addChild(rootExponent);          
+      addChild(rootExponent);
       break;
     case 1:
       insertChild(0, rootExponent);

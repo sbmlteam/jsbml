@@ -36,7 +36,6 @@ import org.sbml.jsbml.math.ASTCnRealNode;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.util.StringTools;
 
-
 /**
  * Converts {@link ASTNode2Value} objects into a LaTeX {@link String} to be
  * included into scientific writings or to be displayed in a GUI.
@@ -51,7 +50,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
 
   /**
    * Requires LaTeX package booktabs. Produces a fancy line at the bottom of a
-   * table. This variable also includes the {@code end{longtable}}
+   * table. This variable also includes the <code>end{longtable}</code>
    * command and a new line.
    */
   public static final String bottomrule = "\\bottomrule\\end{longtable}" + newLine();
@@ -321,8 +320,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
   }
 
   /**
-   * 
-   * @param settings
+   * @param namesInEquations
    */
   public LaTeXCompiler(boolean namesInEquations) {
     setPrintNameIfAvailable(namesInEquations);
@@ -472,8 +470,8 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
 
   /**
    * Creates brackets if needed.
+   * @param node
    * 
-   * @param nodes
    * @return
    * @throws SBMLException
    */
@@ -953,11 +951,6 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * 
    * @param sbase
    *            the SBase, whose name or id is to be returned.
-   * @param mathMode
-   *            if true this method returns the name typesetted in mathmode,
-   *            i.e., mathrm for names and mathtt for ids, otherwise texttt
-   *            will be used for ids and normalfont (nothing) will be used for
-   *            names.
    * @return The name or the ID of the SBase (according to the field
    *         printNameIfAvailable), whose LaTeX special symbols are masked and
    *         which is type set in typewriter font if it is an id. The mathmode
@@ -1037,6 +1030,10 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
     return printNameIfAvailable;
   }
 
+  /**
+   * @param id
+   * @return
+   */
   public StringBuilder label(String id) {
     return command("label", new StringBuilder(id));
   }

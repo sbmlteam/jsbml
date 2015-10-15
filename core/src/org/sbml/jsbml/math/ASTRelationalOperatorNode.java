@@ -24,13 +24,13 @@ package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
 import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
-
 
 /**
  * An Abstract Syntax Tree (AST) node representing a relational
@@ -59,7 +59,7 @@ public class ASTRelationalOperatorNode extends ASTFunction {
   public ASTRelationalOperatorNode() {
     super();
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTRelationalOperatorNode}.
    * 
@@ -72,14 +72,15 @@ public class ASTRelationalOperatorNode extends ASTFunction {
 
   /**
    * Creates a new {@link ASTRelationalOperatorNode} without a pointer
-   * to its containing {@link MathContainer} but with the specified 
+   * to its containing {@link MathContainer} but with the specified
    * {@link Type}.
+   * @param type
    */
   public ASTRelationalOperatorNode(Type type) {
     this();
     setType(type);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -88,7 +89,7 @@ public class ASTRelationalOperatorNode extends ASTFunction {
   public ASTRelationalOperatorNode clone() {
     return new ASTRelationalOperatorNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -120,7 +121,7 @@ public class ASTRelationalOperatorNode extends ASTFunction {
     }
     return processValue(value);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */
@@ -134,10 +135,10 @@ public class ASTRelationalOperatorNode extends ASTFunction {
       case RELATIONAL_LEQ:
       case RELATIONAL_LT:
       case RELATIONAL_NEQ:
-        return true;    
+        return true;
       default:
         break;
-      }      
+      }
     }
     return false;
   }

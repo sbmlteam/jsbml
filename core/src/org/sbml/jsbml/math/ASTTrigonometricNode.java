@@ -46,7 +46,7 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
    * 
    */
   private static final long serialVersionUID = 8375728473620884311L;
-  
+
   /**
    * A {@link Logger} for this class.
    */
@@ -58,7 +58,7 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
   public ASTTrigonometricNode() {
     super();
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTTrigonometricNode}.
    * 
@@ -71,12 +71,13 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
 
   /**
    * Creates a new {@link ASTTrigonometricNode} of type {@link Type}.
+   * @param type
    */
   public ASTTrigonometricNode(Type type) {
     super();
     setType(type);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTUnaryFunctionNode#clone()
@@ -85,7 +86,7 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
   public ASTTrigonometricNode clone() {
     return new ASTTrigonometricNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -95,7 +96,7 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
     switch(getType()) {
     case FUNCTION_SEC:
       value = compiler.sec(getChild());
-      break;    
+      break;
     case FUNCTION_ARCCOS:
       value = compiler.arccos(getChild());
       break;
@@ -155,7 +156,7 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
       case FUNCTION_CSC:
       case FUNCTION_SIN:
       case FUNCTION_TAN:
-        return true; 
+        return true;
       default:
         break;
       }
@@ -170,7 +171,7 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
   public String toFormula() throws SBMLException {
     return compile(new FormulaCompiler()).toString();
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#toLaTeX()
    */

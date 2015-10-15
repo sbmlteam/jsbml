@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math.test;
 
@@ -32,7 +32,6 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTBoolean;
 import org.sbml.jsbml.math.ASTFactory;
 
-
 /**
  * Test cases for {@link ASTBoolean}
  * 
@@ -42,10 +41,13 @@ import org.sbml.jsbml.math.ASTFactory;
  * @date Jul 18, 2014
  */
 public class ASTBooleanTest {
-  
+
+  /**
+   * 
+   */
   @Rule
   public ExpectedException exception = ExpectedException.none();
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#clone()}.
    */
@@ -55,7 +57,7 @@ public class ASTBooleanTest {
     ASTBoolean unknown = node.clone();
     assertTrue(unknown.equals(node));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean(org.sbml.jsbml.math.ASTBoolean)}.
    */
@@ -65,18 +67,18 @@ public class ASTBooleanTest {
     ASTBoolean unknown = new ASTBoolean(node);
     assertTrue(unknown.equals(node));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getAllowsChildren()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#getAllowsChildren()}.
    */
   @Test
   public final void testGetAllowsChildren() {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
     assertFalse(node.getAllowsChildren());
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getChildAt()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#getChildAt(int)}.
    */
   @Test
   public final void testGetChildAt() {
@@ -86,25 +88,25 @@ public class ASTBooleanTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getAllowsChildren()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#getAllowsChildren()}.
    */
   @Test
   public final void testGetChildCount() {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
     assertTrue(node.getChildCount() == 0);
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getValue()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#getValue()}.
    */
   @Test
   public final void testGetValueFalse() {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
     assertFalse(node.getValue());
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getValue()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#getValue()}.
    */
   @Test
   public final void testGetValueNonStrictException() {
@@ -112,9 +114,9 @@ public class ASTBooleanTest {
     node.setStrictness(false);
     assertFalse(node.getValue());
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getValue()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#getValue()}.
    */
   @Test
   public final void testGetValueStrictException() {
@@ -122,9 +124,9 @@ public class ASTBooleanTest {
     exception.expect(PropertyUndefinedError.class);
     node.getValue();
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getValue()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#getValue()}.
    */
   @Test
   public final void testGetValueTrue() {
@@ -133,32 +135,32 @@ public class ASTBooleanTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableTypeConstantFalse() {
     ASTBoolean node = new ASTBoolean();
     assertTrue(node.isAllowableType(Type.CONSTANT_FALSE));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableTypeConstantTrue() {
     ASTBoolean node = new ASTBoolean();
     assertTrue(node.isAllowableType(Type.CONSTANT_TRUE));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableTypeNull() {
     ASTBoolean node = new ASTBoolean();
     assertFalse(node.isAllowableType(null));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isSetType()}.
    */
@@ -167,7 +169,7 @@ public class ASTBooleanTest {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
     assertTrue(node.isSetType());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isSetType()}.
    */
@@ -176,7 +178,7 @@ public class ASTBooleanTest {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
     assertTrue(node.isSetType());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isSetType()}.
    */
@@ -185,9 +187,9 @@ public class ASTBooleanTest {
     ASTBoolean node = new ASTBoolean();
     assertFalse(node.isSetType());
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#setValue()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#setValue(boolean)}.
    */
   @Test
   public final void testSetValueFalse() {
@@ -195,9 +197,9 @@ public class ASTBooleanTest {
     node.setValue(false);
     assertTrue(node.getType() == Type.CONSTANT_FALSE);
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#setValue()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#setValue(boolean)}.
    */
   @Test
   public final void testSetValueTrue() {
@@ -205,7 +207,7 @@ public class ASTBooleanTest {
     node.setValue(true);
     assertTrue(node.getType() == Type.CONSTANT_TRUE);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#toFormula()}.
    */
@@ -214,7 +216,7 @@ public class ASTBooleanTest {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
     assertTrue(node.toFormula().equals("false"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#toFormula()}.
    */
@@ -232,7 +234,7 @@ public class ASTBooleanTest {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
     assertTrue(node.toLaTeX().equals("\\mathrm{false}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#toLaTeX()}.
    */
@@ -241,7 +243,7 @@ public class ASTBooleanTest {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
     assertTrue(node.toLaTeX().equals("\\mathrm{true}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#toMathML()}.
    */
@@ -250,7 +252,7 @@ public class ASTBooleanTest {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
     assertTrue(node.toMathML().equals(ASTFactory.parseMathML("boolean-false.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#toMathML()}.
    */
@@ -259,5 +261,5 @@ public class ASTBooleanTest {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
     assertTrue(node.toMathML().equals(ASTFactory.parseMathML("boolean-true.xml")));
   }
-  
+
 }

@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math.test;
 
@@ -33,7 +33,6 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTConstantNumber;
 import org.sbml.jsbml.math.ASTFactory;
 
-
 /**
  * Test cases for {@link ASTConstantNumber}
  * 
@@ -43,7 +42,10 @@ import org.sbml.jsbml.math.ASTFactory;
  * @date Jul 24, 2014
  */
 public class ASTConstantNumberTest {
-  
+
+  /**
+   * 
+   */
   @Rule
   public ExpectedException exception = ExpectedException.none();
 
@@ -56,7 +58,7 @@ public class ASTConstantNumberTest {
     ASTConstantNumber unknown = constant.clone();
     assertTrue(constant.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#ASTConstantNumber(org.sbml.jsbml.math.ASTConstantNumber)}.
    */
@@ -66,7 +68,7 @@ public class ASTConstantNumberTest {
     ASTConstantNumber unknown = new ASTConstantNumber(constant);
     assertTrue(constant.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#clone()}.
    */
@@ -76,7 +78,7 @@ public class ASTConstantNumberTest {
     ASTConstantNumber unknown = constant.clone();
     assertTrue(constant.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#getValue()}.
    */
@@ -85,7 +87,7 @@ public class ASTConstantNumberTest {
     ASTConstantNumber constant = new ASTConstantNumber(Math.E);
     assertTrue(Double.compare(constant.getValue(), Math.E) == 0);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#getValue()}.
    */
@@ -95,7 +97,7 @@ public class ASTConstantNumberTest {
     constant.setStrictness(false);
     assertTrue(Double.compare(constant.getValue(), Double.NaN) == 0);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#getValue()}.
    */
@@ -104,7 +106,7 @@ public class ASTConstantNumberTest {
     ASTConstantNumber constant = new ASTConstantNumber(Math.PI);
     assertTrue(Double.compare(constant.getValue(), Math.PI) == 0);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#getValue()}.
    */
@@ -114,18 +116,18 @@ public class ASTConstantNumberTest {
     exception.expect(PropertyUndefinedError.class);
     constant.getValue();
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableTypeConstantE() {
     ASTConstantNumber node = new ASTConstantNumber();
     assertTrue(node.isAllowableType(Type.CONSTANT_E));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableTypeConstantPi() {
@@ -134,7 +136,7 @@ public class ASTConstantNumberTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableTypeNull() {
@@ -150,7 +152,7 @@ public class ASTConstantNumberTest {
     ASTConstantNumber node = new ASTConstantNumber(Type.CONSTANT_E);
     assertTrue(node.isSetType());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isSetType()}.
    */
@@ -168,9 +170,9 @@ public class ASTConstantNumberTest {
     ASTConstantNumber node = new ASTConstantNumber();
     assertFalse(node.isSetType());
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#setValue()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#setValue(double)}.
    */
   @Test
   public final void testSetValueE() {
@@ -180,7 +182,7 @@ public class ASTConstantNumberTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#setValue()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#setValue(double)}.
    */
   @Test
   public final void testSetValuePi() {
@@ -188,7 +190,7 @@ public class ASTConstantNumberTest {
     constant.setValue(Math.PI);
     assertTrue(constant.getType() == Type.CONSTANT_PI);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toFormula()}.
    */
@@ -198,7 +200,7 @@ public class ASTConstantNumberTest {
     constant.setValue(Math.E);
     assertTrue(constant.toFormula().equals("e"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toFormula()}.
    */
@@ -208,7 +210,7 @@ public class ASTConstantNumberTest {
     constant.setValue(Math.PI);
     assertTrue(constant.toFormula().equals("pi"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toLaTeX()}.
    */
@@ -218,7 +220,7 @@ public class ASTConstantNumberTest {
     constant.setValue(Math.E);
     assertTrue(constant.toLaTeX().equals("\\mathrm{e}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toLaTeX()}.
    */
@@ -228,7 +230,7 @@ public class ASTConstantNumberTest {
     constant.setValue(Math.PI);
     assertTrue(constant.toLaTeX().equals("\\pi"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toMathML()}.
    */
@@ -238,7 +240,7 @@ public class ASTConstantNumberTest {
     constant.setValue(Math.E);
     assertTrue(constant.toMathML().equals(ASTFactory.parseMathML("e.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toMathML()}.
    */
@@ -247,6 +249,6 @@ public class ASTConstantNumberTest {
     ASTConstantNumber constant = new ASTConstantNumber();
     constant.setValue(Math.PI);
     assertTrue(constant.toMathML().equals(ASTFactory.parseMathML("pi.xml")));
-  }  
+  }
 
 }
