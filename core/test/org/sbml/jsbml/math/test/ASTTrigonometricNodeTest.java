@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math.test;
 
@@ -30,7 +30,6 @@ import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTTrigonometricNode;
 
-
 /**
  * Test cases for {@link ASTTrigonometricNode}
  * 
@@ -40,7 +39,7 @@ import org.sbml.jsbml.math.ASTTrigonometricNode;
  * @date Jul 24, 2014
  */
 public class ASTTrigonometricNodeTest {
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#clone()}.
    */
@@ -60,7 +59,7 @@ public class ASTTrigonometricNodeTest {
     ASTTrigonometricNode unknown = sin.clone();
     assertTrue(sin.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#clone()}.
    */
@@ -70,22 +69,22 @@ public class ASTTrigonometricNodeTest {
     ASTTrigonometricNode unknown = new ASTTrigonometricNode(sin);
     assertTrue(sin.equals(unknown));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableType() {
     ASTTrigonometricNode sin = new ASTTrigonometricNode();
     assertTrue(sin.isAllowableType(Type.FUNCTION_ARCCOS) && sin.isAllowableType(Type.FUNCTION_ARCCOT)
-            && sin.isAllowableType(Type.FUNCTION_ARCCSC) && sin.isAllowableType(Type.FUNCTION_ARCCSC)
-            && sin.isAllowableType(Type.FUNCTION_ARCSEC) && sin.isAllowableType(Type.FUNCTION_ARCSIN)
-            && sin.isAllowableType(Type.FUNCTION_ARCTAN) && sin.isAllowableType(Type.FUNCTION_COS)
-            && sin.isAllowableType(Type.FUNCTION_COT) && sin.isAllowableType(Type.FUNCTION_CSC)
-            && sin.isAllowableType(Type.FUNCTION_SEC) && sin.isAllowableType(Type.FUNCTION_SIN)
-            && sin.isAllowableType(Type.FUNCTION_TAN) && !sin.isAllowableType(null));
+      && sin.isAllowableType(Type.FUNCTION_ARCCSC) && sin.isAllowableType(Type.FUNCTION_ARCCSC)
+      && sin.isAllowableType(Type.FUNCTION_ARCSEC) && sin.isAllowableType(Type.FUNCTION_ARCSIN)
+      && sin.isAllowableType(Type.FUNCTION_ARCTAN) && sin.isAllowableType(Type.FUNCTION_COS)
+      && sin.isAllowableType(Type.FUNCTION_COT) && sin.isAllowableType(Type.FUNCTION_CSC)
+      && sin.isAllowableType(Type.FUNCTION_SEC) && sin.isAllowableType(Type.FUNCTION_SIN)
+      && sin.isAllowableType(Type.FUNCTION_TAN) && !sin.isAllowableType(null));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
    */
@@ -95,7 +94,7 @@ public class ASTTrigonometricNodeTest {
     sin.addChild(new ASTCnIntegerNode(2));
     assertTrue(sin.toFormula().equals("sin(2)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
    */
@@ -105,7 +104,7 @@ public class ASTTrigonometricNodeTest {
     cos.addChild(new ASTCnIntegerNode(2));
     assertTrue(cos.toFormula().equals("cos(2)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
    */
@@ -125,7 +124,7 @@ public class ASTTrigonometricNodeTest {
     sec.addChild(new ASTCnIntegerNode(2));
     assertTrue(sec.toFormula().equals("sec(2)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
    */
@@ -145,7 +144,7 @@ public class ASTTrigonometricNodeTest {
     arcsin.addChild(new ASTCnIntegerNode(2));
     assertTrue(arcsin.toFormula().equals("asin(2)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
    */
@@ -155,7 +154,7 @@ public class ASTTrigonometricNodeTest {
     arccos.addChild(new ASTCnIntegerNode(2));
     assertTrue(arccos.toFormula().equals("acos(2)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
    */
@@ -175,7 +174,7 @@ public class ASTTrigonometricNodeTest {
     arcsec.addChild(new ASTCnIntegerNode(2));
     assertTrue(arcsec.toFormula().equals("asec(2)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
    */
@@ -185,7 +184,7 @@ public class ASTTrigonometricNodeTest {
     arccsc.addChild(new ASTCnIntegerNode(2));
     assertTrue(arccsc.toFormula().equals("acsc(2)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
    */
@@ -195,7 +194,7 @@ public class ASTTrigonometricNodeTest {
     arccos.addChild(new ASTCnIntegerNode(2));
     assertTrue(arccos.toLaTeX().equals("\\arccos{2}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
    */
@@ -205,7 +204,7 @@ public class ASTTrigonometricNodeTest {
     arccsc.addChild(new ASTCnIntegerNode(2));
     assertTrue(arccsc.toLaTeX().equals("\\mathrm{arccsc}\\left(2\\right)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
    */
@@ -225,7 +224,7 @@ public class ASTTrigonometricNodeTest {
     arcsin.addChild(new ASTCnIntegerNode(2));
     assertTrue(arcsin.toLaTeX().equals("\\mathrm{arcsin}\\left(2\\right)"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
    */
@@ -245,7 +244,7 @@ public class ASTTrigonometricNodeTest {
     cos.addChild(new ASTCnIntegerNode(2));
     assertTrue(cos.toLaTeX().equals("\\cos{\\left(2\\right)}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
    */
@@ -255,7 +254,7 @@ public class ASTTrigonometricNodeTest {
     csc.addChild(new ASTCnIntegerNode(2));
     assertTrue(csc.toLaTeX().equals("\\csc{\\left(2\\right)}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
    */
@@ -275,7 +274,7 @@ public class ASTTrigonometricNodeTest {
     sin.addChild(new ASTCnIntegerNode(2));
     assertTrue(sin.toLaTeX().equals("\\sin{\\left(2\\right)}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
    */
@@ -285,7 +284,7 @@ public class ASTTrigonometricNodeTest {
     tan.addChild(new ASTCnIntegerNode(2));
     assertTrue(tan.toLaTeX().equals("\\tan{\\left(2\\right)}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
    */
@@ -295,7 +294,7 @@ public class ASTTrigonometricNodeTest {
     arccos.addChild(new ASTCnIntegerNode(2));
     assertTrue(arccos.toMathML().equals(ASTFactory.parseMathML("arccos.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
    */
@@ -305,7 +304,7 @@ public class ASTTrigonometricNodeTest {
     arccsc.addChild(new ASTCnIntegerNode(2));
     assertTrue(arccsc.toMathML().equals(ASTFactory.parseMathML("arccsc.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
    */
@@ -325,7 +324,7 @@ public class ASTTrigonometricNodeTest {
     arcsin.addChild(new ASTCnIntegerNode(2));
     assertTrue(arcsin.toMathML().equals(ASTFactory.parseMathML("arcsin.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
    */
@@ -345,7 +344,7 @@ public class ASTTrigonometricNodeTest {
     cos.addChild(new ASTCnIntegerNode(2));
     assertTrue(cos.toMathML().equals(ASTFactory.parseMathML("cos.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
    */
@@ -355,7 +354,7 @@ public class ASTTrigonometricNodeTest {
     csc.addChild(new ASTCnIntegerNode(2));
     assertTrue(csc.toMathML().equals(ASTFactory.parseMathML("csc.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
    */
@@ -375,7 +374,7 @@ public class ASTTrigonometricNodeTest {
     sin.addChild(new ASTCnIntegerNode(2));
     assertTrue(sin.toMathML().equals(ASTFactory.parseMathML("sin.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
    */
@@ -385,5 +384,5 @@ public class ASTTrigonometricNodeTest {
     tan.addChild(new ASTCnIntegerNode(2));
     assertTrue(tan.toMathML().equals(ASTFactory.parseMathML("tan.xml")));
   }
-  
+
 }

@@ -63,7 +63,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
     number = null;
     setType(Type.REAL);
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnRealNode}.
    * 
@@ -76,14 +76,15 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
 
   /**
    * Creates a new {@link ASTCnRealNode} that lacks a pointer
-   * to its containing {@link MathContainer} but has the 
-   * specified real value {@link double}.
+   * to its containing {@link MathContainer} but has the
+   * specified real value.
+   * @param value
    */
   public ASTCnRealNode(double value) {
     this();
     setReal(value);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCnNumberNode#clone()
@@ -92,7 +93,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   public ASTCnRealNode clone() {
     return new ASTCnRealNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -104,7 +105,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
       value = (real > 0d) ? compiler.getPositiveInfinity() : compiler
         .getNegativeInfinity();
     } else {
-        value = compiler.compile(real, isSetUnits() ? getUnits().toString() : null);        
+      value = compiler.compile(real, isSetUnits() ? getUnits().toString() : null);
     }
     return processValue(value);
   }
@@ -114,23 +115,28 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
    */
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (!super.equals(obj))
+    }
+    if (!super.equals(obj)) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     ASTCnRealNode other = (ASTCnRealNode) obj;
     if (number == null) {
-      if (other.number != null)
+      if (other.number != null) {
         return false;
-    } else if (!number.equals(other.number))
+      }
+    } else if (!number.equals(other.number)) {
       return false;
+    }
     return true;
   }
 
   /**
-   * Get the real value of this node. 
+   * Get the real value of this node.
    * 
    * @return double real
    */
@@ -161,7 +167,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
    * Returns {@code true} if this {@link ASTCnRealNode} represents the special IEEE 754 value infinity,
    * {@code false} otherwise.
    * 
-   * @return {@code true} if this {@link ASTCnRealNode} is the special IEEE 754 value 
+   * @return {@code true} if this {@link ASTCnRealNode} is the special IEEE 754 value
    * infinity,
    *         {@code false} otherwise.
    */
@@ -183,8 +189,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   }
 
   /**
-   * Returns true iff a value has been set
-   * @param null
+   * Returns {@code true} iff a value has been set
    * @return boolean
    */
   public boolean isSetReal() {
@@ -194,12 +199,12 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   /**
    * Set the value of this node
    * 
-   * @param double value
+   * @param real
    */
   public void setReal(double real) {
-    Double old = this.number;
-    this.number = real;
-    firePropertyChange(TreeNodeChangeEvent.number, old, this.number);
+    Double old = number;
+    number = real;
+    firePropertyChange(TreeNodeChangeEvent.number, old, number);
   }
 
   /* (non-Javadoc)
@@ -209,7 +214,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   public String toFormula() throws SBMLException {
     return compile(new FormulaCompiler()).toString();
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#toLaTeX()
    */
@@ -217,7 +222,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   public String toLaTeX() throws SBMLException {
     return compile(new LaTeXCompiler()).toString();
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#toMathML()
    */

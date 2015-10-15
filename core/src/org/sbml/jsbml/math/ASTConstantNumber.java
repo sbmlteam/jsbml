@@ -47,7 +47,7 @@ public class ASTConstantNumber extends ASTNumber {
    * 
    */
   private static final long serialVersionUID = -6872240196225149289L;
-  
+
   /**
    * A {@link Logger} for this class.
    */
@@ -59,7 +59,7 @@ public class ASTConstantNumber extends ASTNumber {
   public ASTConstantNumber() {
     super();
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTConstantNumber}.
    * 
@@ -69,17 +69,17 @@ public class ASTConstantNumber extends ASTNumber {
   public ASTConstantNumber(ASTConstantNumber node) {
     super(node);
     if (node.isSetValue()) {
-      setValue(node.getValue());      
+      setValue(node.getValue());
     }
     if (node.isSetType()) {
       setType(node.getType());
     }
   }
-  
+
   /**
-   * Creates a new {@link ASTConstantNumber} with value {@link double}.
+   * Creates a new {@link ASTConstantNumber} with double value.
    * 
-   * @param double value
+   * @param value
    */
   public ASTConstantNumber(double value) {
     this();
@@ -90,7 +90,7 @@ public class ASTConstantNumber extends ASTNumber {
    * Creates a new {@link ASTConstantNumber} of type {@link Type}. Value
    * associated with type is automatically set.
    * 
-   * @param Type type
+   * @param type
    */
   public ASTConstantNumber(Type type) {
     this();
@@ -105,7 +105,7 @@ public class ASTConstantNumber extends ASTNumber {
   public ASTConstantNumber clone() {
     return new ASTConstantNumber(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -125,7 +125,7 @@ public class ASTConstantNumber extends ASTNumber {
     }
     return processValue(value);
   }
-  
+
   /**
    * Get the value of this {@link ASTConstantNumber}
    * 
@@ -149,7 +149,7 @@ public class ASTConstantNumber extends ASTNumber {
     logger.warn(error);
     return Double.NaN;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */
@@ -175,11 +175,11 @@ public class ASTConstantNumber extends ASTNumber {
   private boolean isSetValue() {
     return isSetType();
   }
-  
+
   /**
-   * Set the value of this ASTConstantNumber
+   * Set the value of this {@link ASTConstantNumber}
    * 
-   * @param double value
+   * @param value
    */
   public void setValue(double value) {
     switch(Double.compare(value, Math.PI)){

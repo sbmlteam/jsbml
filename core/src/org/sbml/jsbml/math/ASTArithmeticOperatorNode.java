@@ -45,17 +45,17 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @date May 30, 2014
  */
 public class ASTArithmeticOperatorNode extends ASTFunction {
-  
+
   /**
    * 
    */
   private static final long serialVersionUID = -7712374792704509306L;
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(ASTArithmeticOperatorNode.class);
-  
+
   /**
    * Creates a new {@link ASTArithmeticOperatorNode} without a pointer
    * to its containing {@link MathContainer}.
@@ -63,7 +63,7 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
   public ASTArithmeticOperatorNode() {
     super();
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTArithmeticOperatorNode}.
    * 
@@ -73,19 +73,21 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
   public ASTArithmeticOperatorNode(ASTArithmeticOperatorNode node) {
     super(node);
   }
-  
+
   /**
    * Creates a new {@link ASTArithmeticOperatorNode} with a pointer
    * to the specified {@link MathContainer}..
+   * @param container
    */
   public ASTArithmeticOperatorNode(MathContainer container) {
     super(container);
   }
-  
+
   /**
    * Creates a new {@link ASTArithmeticOperatorNode} without a pointer
-   * to its containing {@link MathContainer} but of the specified 
+   * to its containing {@link MathContainer} but of the specified
    * {@link Type}.
+   * @param type
    */
   public ASTArithmeticOperatorNode(Type type) {
     this();
@@ -95,6 +97,8 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
   /**
    * Creates a new {@link ASTArithmeticOperatorNode} of type
    * {@link Type} and container {@link MathContainer}.
+   * @param type
+   * @param container
    */
   public ASTArithmeticOperatorNode(Type type, MathContainer container) {
     this(container);
@@ -108,7 +112,7 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
   public ASTArithmeticOperatorNode clone() {
     return new ASTArithmeticOperatorNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -148,7 +152,7 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
     }
     return processValue(value);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */
@@ -169,10 +173,10 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
     }
     return false;
   }
-  
+
   /**
-   * Sets the value of this {@link ASTArithmeticOperatorNode} to the given character. If 
-   * character is one of +, -, *, / or ^, the node type will be set accordingly. 
+   * Sets the value of this {@link ASTArithmeticOperatorNode} to the given character. If
+   * character is one of +, -, *, / or ^, the node type will be set accordingly.
    * For all other characters, the node type will be set to UNKNOWN.
    * 
    * @param value

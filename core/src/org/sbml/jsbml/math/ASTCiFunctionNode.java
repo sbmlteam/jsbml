@@ -69,7 +69,7 @@ ASTCSymbolBaseNode {
    * The name of the MathML element represented by this
    * {@link ASTCiFunctionNode}.
    */
-  private String name; // TODO - remove this unused class attribute ? 
+  private String name; // TODO - remove this unused class attribute ?
 
   /**
    * refId attribute for MathML element
@@ -86,7 +86,7 @@ ASTCSymbolBaseNode {
     setName(null);
     setType(Type.FUNCTION);
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCiFunctionNode}.
    * 
@@ -96,13 +96,13 @@ ASTCSymbolBaseNode {
   public ASTCiFunctionNode(ASTCiFunctionNode node) {
     super(node);
     if (node.isSetDefinitionURL()) {
-      setDefinitionURL(node.getDefinitionURL());      
+      setDefinitionURL(node.getDefinitionURL());
     }
     if (node.isSetRefId()) {
       setRefId(node.getRefId());
     }
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -110,8 +110,8 @@ ASTCSymbolBaseNode {
   @Override
   public ASTCiFunctionNode clone() {
     return new ASTCiFunctionNode(this);
-  } 
-  
+  }
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#compile(org.sbml.jsbml.math.compiler.ASTNode2Compiler)
@@ -121,7 +121,7 @@ ASTCSymbolBaseNode {
     ASTNode2Value<?> value = null;
     FunctionDefinition variable = getReferenceInstance();
     if (variable instanceof FunctionDefinition) {
-      value = compiler.function((FunctionDefinition) variable,
+      value = compiler.function(variable,
         getChildren());
     } else {
       logger
@@ -132,7 +132,7 @@ ASTCSymbolBaseNode {
           + ")");
       throw new SBMLException(
         "ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-            + (isSetName() ? getName() : "null") + ", " 
+            + (isSetName() ? getName() : "null") + ", "
             + (isSetParentSBMLObject() ? getParentSBMLObject().getElementName() : "null")
             + ")");
     }
@@ -145,23 +145,30 @@ ASTCSymbolBaseNode {
    */
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (!super.equals(obj))
+    }
+    if (!super.equals(obj)) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     ASTCiFunctionNode other = (ASTCiFunctionNode) obj;
     if (definitionURL == null) {
-      if (other.definitionURL != null)
+      if (other.definitionURL != null) {
         return false;
-    } else if (!definitionURL.equals(other.definitionURL))
+      }
+    } else if (!definitionURL.equals(other.definitionURL)) {
       return false;
+    }
     if (name == null) {
-      if (other.name != null)
+      if (other.name != null) {
         return false;
-    } else if (!name.equals(other.name))
+      }
+    } else if (!name.equals(other.name)) {
       return false;
+    }
     return true;
   }
 
@@ -184,7 +191,7 @@ ASTCSymbolBaseNode {
   }
 
   /**
-   * Returns the variable ({@link FunctionDefinition}) of this {@link ASTCiFunctionNode}. 
+   * Returns the variable ({@link FunctionDefinition}) of this {@link ASTCiFunctionNode}.
    * 
    * @return the variable of this node
    */
@@ -200,8 +207,8 @@ ASTCSymbolBaseNode {
       }
     } else {
       logger.debug(MessageFormat.format(
-        "This ASTCiFunctionNode is not yet linked to a model. " 
-      + "No element with id \"{0}\" could be found.", isSetRefId() ? getRefId() : null));
+        "This ASTCiFunctionNode is not yet linked to a model. "
+            + "No element with id \"{0}\" could be found.", isSetRefId() ? getRefId() : null));
     }
     return function;
   }
@@ -232,7 +239,7 @@ ASTCSymbolBaseNode {
     final int prime = 1129;
     int result = super.hashCode();
     result = prime * result
-      + ((definitionURL == null) ? 0 : definitionURL.hashCode());
+        + ((definitionURL == null) ? 0 : definitionURL.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;
   }
@@ -291,9 +298,9 @@ ASTCSymbolBaseNode {
 
   /**
    * Set the definitionURL of the MathML element represented by
-   * this {@link ASTCSymbolCiFunctionNode}
+   * this {@link ASTCiFunctionNode}
    * 
-   * @param String definitionURL
+   * @param definitionURL
    */
   public void setDefinitionURL(String definitionURL) {
     String old = this.definitionURL;
@@ -302,11 +309,11 @@ ASTCSymbolBaseNode {
   }
 
   /**
-   * Set an instance of {@link FunctionDefinition} as the variable of this 
+   * Set an instance of {@link FunctionDefinition} as the variable of this
    * {@link ASTCiFunctionNode}. Note that if the given variable does not
-   * have a declared {@code id} field, the pointer to this variable will 
+   * have a declared {@code id} field, the pointer to this variable will
    * get lost when cloning this node. Only references to identifiers are
-   * permanently stored. The pointer can also not be written to an SBML 
+   * permanently stored. The pointer can also not be written to an SBML
    * file without a valid identifier.
    * 
    * @param function a pointer to a {@link FunctionDefinition}.
@@ -332,7 +339,7 @@ ASTCSymbolBaseNode {
   @Override
   public String toFormula() throws SBMLException {
     if (isSetRefId()) {
-      return compile(new FormulaCompiler()).toString();      
+      return compile(new FormulaCompiler()).toString();
     }
     throw new SBMLException();
   }
@@ -343,7 +350,7 @@ ASTCSymbolBaseNode {
   @Override
   public String toLaTeX() throws SBMLException {
     if (isSetRefId()) {
-      return compile(new LaTeXCompiler()).toString();      
+      return compile(new LaTeXCompiler()).toString();
     }
     throw new SBMLException();
   }
@@ -355,7 +362,7 @@ ASTCSymbolBaseNode {
   public String toMathML() {
     try {
       if (isSetRefId()) {
-        return MathMLXMLStreamCompiler.toMathML(this);        
+        return MathMLXMLStreamCompiler.toMathML(this);
       }
       throw new SBMLException();
     } catch (RuntimeException e) {
@@ -363,7 +370,7 @@ ASTCSymbolBaseNode {
       return null;
     }
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

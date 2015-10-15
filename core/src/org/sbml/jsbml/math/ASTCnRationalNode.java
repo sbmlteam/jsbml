@@ -75,7 +75,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
   public ASTCnRationalNode(ASTCnRationalNode node) {
     super(node);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCnNumberNode#clone()
@@ -84,7 +84,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
   public ASTCnRationalNode clone() {
     return new ASTCnRationalNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -137,51 +137,48 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
   }
 
   /**
-   * Returns True iff denominator has been set
-   * 
-   * @param null
+   * Returns {@code true} iff denominator has been set
    * @return boolean
    */
   public boolean isSetDenominator() {
-    return this.number == null ? false : this.number.getV() != null;
+    return number == null ? false : number.getV() != null;
   }
 
   /**
-   * Returns True iff numerator has been set
+   * Returns {@code true} iff numerator has been set
    * 
-   * @param null
    * @return boolean
    */
   public boolean isSetNumerator() {
-    return this.number == null ? false : this.number.getL() != null;
+    return number == null ? false : number.getL() != null;
   }
 
   /**
    * Set the value of the denominator
    * 
-   * @param int denominator
+   * @param denominator
    */
   public void setDenominator(int denominator) {
     if (! isSetNumber()) {
       setNumber(new ValuePair<Integer,Integer>());
     }
-    Integer old = this.number.getV();
-    this.number.setV(denominator);
-    firePropertyChange(TreeNodeChangeEvent.denominator, old, this.number.getV());
+    Integer old = number.getV();
+    number.setV(denominator);
+    firePropertyChange(TreeNodeChangeEvent.denominator, old, number.getV());
   }
 
   /**
    * Set the value of the numerator
    * 
-   * @param int numerator
+   * @param numerator
    */
   public void setNumerator(int numerator) {
     if (! isSetNumber()) {
       setNumber(new ValuePair<Integer,Integer>());
     }
-    Integer old = this.number.getL();
-    this.number.setL(numerator);
-    firePropertyChange(TreeNodeChangeEvent.numerator, old, this.number.getL());
+    Integer old = number.getL();
+    number.setL(numerator);
+    firePropertyChange(TreeNodeChangeEvent.numerator, old, number.getL());
   }
 
   /* (non-Javadoc)

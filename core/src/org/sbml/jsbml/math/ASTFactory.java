@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math;
 
@@ -36,7 +36,6 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.parser.FormulaParserASTNode2;
 import org.sbml.jsbml.math.parser.ParseException;
 
-
 /**
  * A collection of static methods that can be used to create new abstract syntax
  * trees or alter the topology of existing ones.
@@ -47,12 +46,12 @@ import org.sbml.jsbml.math.parser.ParseException;
  * @date Jun 20, 2014
  */
 public class ASTFactory {
-  
+
   /**
-   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type.LOGICAL_AND} and 
+   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type#LOGICAL_AND} and
    * adds the given nodes as children.
    * 
-   * @param ast 
+   * @param ast
    * @return an {@link ASTLogicalOperatorNode} with the given nodes as children.
    */
   public static ASTLogicalOperatorNode and(ASTNode2... ast) {
@@ -65,22 +64,22 @@ public class ASTFactory {
     }
     return and;
   }
-  
+
   /**
-   * Creates a new {@link ASTArithmeticOperatorNode} of type {@code operator} and adds 
+   * Creates a new {@link ASTArithmeticOperatorNode} of type {@code operator} and adds
    * the given nodes as children.
    * 
    * @param operator the type of arithmetic operation
-   * @param ast the children of the new ASTNode
-   * @return a new {@link ASTNode2} of type {@code operator} and adds the given nodes as 
+   * @param list the children of the new {@link ASTNode2}
+   * @return a new {@link ASTNode2} of type {@code operator} and adds the given nodes as
    * children.
    */
-	public static ASTArithmeticOperatorNode arithmeticOperation(Type operator, ASTNode2... list) {
-		ASTArithmeticOperatorNode node = new ASTArithmeticOperatorNode(operator);
-		node.getListOfNodes().addAll(Arrays.asList(list));
-		return node;
-	}
-  
+  public static ASTArithmeticOperatorNode arithmeticOperation(Type operator, ASTNode2... list) {
+    ASTArithmeticOperatorNode node = new ASTArithmeticOperatorNode(operator);
+    node.getListOfNodes().addAll(Arrays.asList(list));
+    return node;
+  }
+
   /**
    * Counts the number of nodes that have {@link Type} type
    * in the tree rooted at node.
@@ -94,12 +93,12 @@ public class ASTFactory {
     for (int i  = 0; i < node.getChildCount(); i++) {
       TreeNode child = node.getChildAt(i);
       if (child instanceof ASTNode2) {
-        count += countType((ASTNode2) child, type);        
+        count += countType((ASTNode2) child, type);
       }
     }
     return count;
   }
-  
+
   /**
    * Creates a new {@link ASTArithmeticOperatorNode} of type MINUS and adds the given nodes as children.
    * Resulting abstract syntax tree will be reduced to binary form.
@@ -160,7 +159,6 @@ public class ASTFactory {
     return new ASTPowerNode(e, exponent);
   }
 
-
   /**
    * Returns the formula from the given ASTNode2 as an SBML Level 1 text-string
    *         mathematical formula.
@@ -173,8 +171,6 @@ public class ASTFactory {
    *         responsible for freeing it when it is no longer needed. {@code null} is
    *         returned if the given argument is {@code null}.
    * @throws SBMLException
-   * @see #toFormula()
-   * 
    */
   public static String formulaToString(ASTNode2 tree) throws SBMLException {
     return tree.toFormula();
@@ -197,10 +193,10 @@ public class ASTFactory {
 
 
   /**
-   * Creates a new {@link ASTDivideNode} with the given numerator 
+   * Creates a new {@link ASTDivideNode} with the given numerator
    * and denominator.
    * 
-   * @param numerator the numerator {@link int}
+   * @param numerator the integer numerator
    * @param denominator the denominator {@link ASTNode2}
    * @return a new {@link ASTDivideNode} with the given numerator
    * and denominator.
@@ -351,7 +347,7 @@ public class ASTFactory {
    * Subtracts the given number from an {@link ASTNode2}
    * 
    * @param node {@link ASTNode2}
-   * @param real {@link double}
+   * @param real double value
    * 
    * @return minus {@link ASTMinusNode}
    */
@@ -383,8 +379,8 @@ public class ASTFactory {
    * 
    * @return minus {@link ASTMinusNode}
    */
-  public static ASTMinusNode minus(ASTNode2 node, int integer, 
-                                                String unitsID) {
+  public static ASTMinusNode minus(ASTNode2 node, int integer,
+    String unitsID) {
     ASTMinusNode minus = new ASTMinusNode();
     minus.addChild(node);
     ASTCnIntegerNode integerNode = new ASTCnIntegerNode(integer);
@@ -396,7 +392,7 @@ public class ASTFactory {
 
   /**
    * Multiplies an {@link ASTNode2} with the given nodes, i.e., all given nodes
-   * will be children of this {@link ASTArithmeticOperatorNode}, whose type will 
+   * will be children of this {@link ASTArithmeticOperatorNode}, whose type will
    * be set to {@link Type#TIMES}. Resulting abstract syntax tree will be reduced
    * to binary form.
    * 
@@ -445,10 +441,10 @@ public class ASTFactory {
 
 
   /**
-   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type.LOGICAL_NOT} and 
+   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type#LOGICAL_NOT} and
    * adds the given nodes as children.
    * 
-   * @param ast 
+   * @param ast
    * @return an {@link ASTLogicalOperatorNode} with the given nodes as children.
    */
   public static ASTLogicalOperatorNode not(ASTNode2... ast) {
@@ -464,10 +460,10 @@ public class ASTFactory {
 
 
   /**
-   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type.LOGICAL_OR} and 
+   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type#LOGICAL_OR} and
    * adds the given nodes as children.
    * 
-   * @param ast 
+   * @param ast
    * @return an {@link ASTLogicalOperatorNode} with the given nodes as children.
    */
   public static ASTLogicalOperatorNode or(ASTNode2... ast) {
@@ -496,15 +492,15 @@ public class ASTFactory {
   public static ASTNode2 parseFormula(String formula) throws ParseException {
     FormulaParserASTNode2 parser = new FormulaParserASTNode2(new StringReader(formula));
     ASTNode2 result = null;
-    
+
     try {
       result = parser.parse().toASTNode2();
     } catch (Throwable e) {
       // the javacc parser can throw some TokenMgrError at least
       throw new ParseException(e.getMessage());
     }
-    
-    return result; 
+
+    return result;
   }
 
 
@@ -516,7 +512,7 @@ public class ASTFactory {
    */
   public static String parseMathML(String fileName) {
     InputStream stream = ASTFactory.class.getResourceAsStream("/org/sbml/jsbml/math/compiler/resources/" + fileName);
-    
+
     StringBuffer fileContents = new StringBuffer("");
     try {
       Scanner scan = new Scanner(stream);
@@ -568,19 +564,19 @@ public class ASTFactory {
   public static ASTPlusNode plus(ASTNode2 node1, ASTNode2 node2) {
     return new ASTPlusNode(node1, node2);
   }
-  
+
   /**
    * Adds a real number to {@link ASTNode2}.
    * 
    * @param node {@link ASTNode2}
-   * @param real {@link double}
+   * @param real double value
    * 
    * @return plus {@link ASTPlusNode}
    */
   public static ASTPlusNode plus(ASTNode2 node, double real) {
     return new ASTPlusNode(node, new ASTCnRealNode(real));
   }
-  
+
   /**
    * Adds an integer number to {@link ASTNode2}.
    * 
@@ -592,7 +588,7 @@ public class ASTFactory {
   public static ASTPlusNode plus(ASTNode2 node, int integer) {
     return new ASTPlusNode(node, new ASTCnIntegerNode(integer));
   }
-  
+
   /**
    * Creates a power {@link ASTNode2}.
    * 
@@ -603,9 +599,9 @@ public class ASTFactory {
   public static ASTPowerNode pow(ASTNode2 basis, ASTNode2 exponent) {
     return new ASTPowerNode(basis, exponent);
   }
-  
+
   /**
-   * Creates a power {@link ASTPowerNode} with an {@link ASTNode2} 
+   * Creates a power {@link ASTPowerNode} with an {@link ASTNode2}
    * basis and a real exponent.
    * 
    * @param basis the basis
@@ -615,9 +611,9 @@ public class ASTFactory {
   public static ASTPowerNode pow(ASTNode2 basis, double exponent) {
     return new ASTPowerNode(basis, new ASTCnRealNode(exponent));
   }
-  
+
   /**
-   * Creates a power {@link ASTPowerNode} with an {@link ASTNode2} 
+   * Creates a power {@link ASTPowerNode} with an {@link ASTNode2}
    * basis and an integer exponent.
    * 
    * @param basis the basis
@@ -630,10 +626,10 @@ public class ASTFactory {
 
 
   /**
-   * Creates an {@link ASTArithmeticOperatorNode} of type {@link Type.PRODUCT} and 
+   * Creates an {@link ASTArithmeticOperatorNode} of type {@link Type#PRODUCT} and
    * adds the given nodes as children.
    * 
-   * @param ast 
+   * @param ast
    * @return an {@link ASTArithmeticOperatorNode} with the given nodes as children.
    */
   public static ASTArithmeticOperatorNode product(ASTNode2... ast) {
@@ -668,14 +664,14 @@ public class ASTFactory {
       childOperator = new ASTTimesNode();
       break;
     case MINUS:
-      rootNode = (ASTBinaryFunctionNode) (node instanceof ASTMinusNode ? node 
-      : new ASTMinusNode());
+      rootNode = (ASTBinaryFunctionNode) (node instanceof ASTMinusNode ? node
+        : new ASTMinusNode());
       childOperator = new ASTMinusNode();
       break;
     case TIMES:
     case PLUS:
       rootNode = (ASTBinaryFunctionNode) node;
-      childOperator = node.getType() == Type.PLUS ? new ASTPlusNode() 
+      childOperator = node.getType() == Type.PLUS ? new ASTPlusNode()
       : new ASTTimesNode();
       break;
     default:
@@ -683,12 +679,12 @@ public class ASTFactory {
     }
     if (node.getChildCount() <= 2) {
       if (!rootNode.equals(node)) {
-        rootNode.swapChildren(node);        
+        rootNode.swapChildren(node);
       }
       return rootNode;
     }
     if (!rootNode.equals(node)) {
-      rootNode.addChild(node.getChildAt(0));        
+      rootNode.addChild(node.getChildAt(0));
     }
     childOperator.setStrictness(false);
     for (int i = node.getChildCount() - 1; i > 0; i--) {
@@ -698,26 +694,26 @@ public class ASTFactory {
     childOperator.setStrictness(true);
     return rootNode;
   }
-  
+
   /**
-   * Creates a relational {@link ASTRelationalOperatorNode} of the given type with 
+   * Creates a relational {@link ASTRelationalOperatorNode} of the given type with
    * the two given children left and right.
    * <p> Sets the parent SBML object of all nodes to
    * the one provided by the left child.
    * 
    * @param type the type of relational node.
-   * @param left the left child.
-   * @param right the right child.
-   * @return a relational {@link ASTRelationalOperatorNode} of the given type with 
+   * @param a the left child.
+   * @param b the right child.
+   * @return a relational {@link ASTRelationalOperatorNode} of the given type with
    * the two given children left and right.
    */
   public static ASTRelationalOperatorNode relational(Type type, ASTNode2 a, ASTNode2 b) {
-	  ASTRelationalOperatorNode operator = new ASTRelationalOperatorNode(type);
-	  operator.addChild(a);
-	  operator.addChild(b);
-	  return operator;
+    ASTRelationalOperatorNode operator = new ASTRelationalOperatorNode(type);
+    operator.addChild(a);
+    operator.addChild(b);
+    return operator;
   }
-  
+
   /**
    * Creates a root of type {@link ASTNode2}.
    * 
@@ -728,7 +724,7 @@ public class ASTFactory {
   public static ASTRootNode root(ASTNode2 rootExponent, ASTNode2 radicand) {
     return rootExponent != null ? new ASTRootNode(rootExponent, radicand) : new ASTRootNode(radicand);
   }
-  
+
   /**
    * Sets the Parent of the node and its children to the given value
    *
@@ -740,7 +736,7 @@ public class ASTFactory {
   }
 
   /**
-   * Creates a square root of type {@link ASTRootNode} with the 
+   * Creates a square root of type {@link ASTRootNode} with the
    * specified radicand of type {@link ASTNode2}.
    * 
    * @param radicand {@link ASTNode2}
@@ -749,12 +745,12 @@ public class ASTFactory {
   public static ASTRootNode sqrt(ASTNode2 radicand) {
     return root(null, radicand);
   }
-  
+
   /**
-   * Creates an {@link ASTArithmeticOperatorNode} of type {@link Type.SUM} and adds
+   * Creates an {@link ASTArithmeticOperatorNode} of type {@link Type#SUM} and adds
    * the given nodes as children.
    * 
-   * @param ast 
+   * @param ast
    * @return an {@link ASTArithmeticOperatorNode} with the given nodes as children.
    */
   public static ASTArithmeticOperatorNode sum(ASTNode2... ast) {
@@ -767,7 +763,7 @@ public class ASTFactory {
     }
     return sum;
   }
-  
+
   /**
    * Creates a new {@link ASTTimesNode} with exactly two children
    * 
@@ -779,7 +775,7 @@ public class ASTFactory {
   public static ASTTimesNode times(ASTNode2 node1, ASTNode2 node2) {
     return new ASTTimesNode(node1, node2);
   }
-  
+
   /**
    * Adds a real number to {@link ASTNode2}
    * 
@@ -791,7 +787,7 @@ public class ASTFactory {
   public static ASTTimesNode times(ASTNode2 node1, double real) {
     return new ASTTimesNode(node1, new ASTCnRealNode(real));
   }
-  
+
   /**
    * Adds an integer to {@link ASTNode2}
    * 
@@ -812,10 +808,10 @@ public class ASTFactory {
     // TODO - method needed when trying to use the old ASTNode class, to implement the ASTNode.toASTNode2() method.
     return null;
   }
-  
+
   /**
    * Creates a new {@link ASTMinusNode} that has exactly one child and
-   * which is of type {@link Type.MINUS}, i.e., this negates what is encoded in ast.
+   * which is of type {@link Type#MINUS}, i.e., this negates what is encoded in ast.
    * 
    * @param ast {@link ASTNode2}
    * 
@@ -827,12 +823,12 @@ public class ASTFactory {
     um.addChild(ast);
     return um;
   }
-  
+
   /**
-   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type.LOGICAL_XOR} and 
+   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type#LOGICAL_XOR} and
    * adds the given nodes as children.
    * 
-   * @param ast 
+   * @param ast
    * @return an {@link ASTLogicalOperatorNode} with the given nodes as children.
    */
   public static ASTLogicalOperatorNode xor(ASTNode2... ast) {
@@ -845,5 +841,5 @@ public class ASTFactory {
     }
     return xor;
   }
-  
+
 }

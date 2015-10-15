@@ -639,8 +639,8 @@ public class ASTNode extends AbstractTreeNode {
    * or {@link #IMPLEMENTATION_ASTNODE2}.
    */
   public static final String IMPLEMENTATION_VERSION = IMPLEMENTATION_HISTORIC;
-  
-  
+
+
   /**
    * Creates and returns an {@link ASTNode} that computes the absolute value
    * of the given double value.
@@ -3797,7 +3797,6 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Sets the Parent of the node to the given value
    * 
-   * @param node the orphan node
    * @param parent the parent
    */
   public void setParentSBMLObject(MathContainer parent) {
@@ -3829,7 +3828,7 @@ public class ASTNode extends AbstractTreeNode {
     if (logger.isDebugEnabled()) {
       logger.debug("ASTNode: setType(String) called: " + typeStr);
     }
-    
+
     Type type = Type.getTypeFor(typeStr);
     setType(type);
     if (type != Type.UNKNOWN) {
@@ -4224,40 +4223,40 @@ public class ASTNode extends AbstractTreeNode {
     return formula;
   }
 
-  
-  
+
+
   /**
    * Returns a simple String representing the content of the ASTNode.
    * 
    * @return a simple String representing the content of the ASTNode.
    */
   public String toSimpleString() {
-    StringBuffer buffer = new StringBuffer("ASTNode [type=");    
+    StringBuffer buffer = new StringBuffer("ASTNode [type=");
     buffer.append(type);
-    
-    if (isInteger()) 
+
+    if (isInteger())
     {
       buffer.append(", ").append(getInteger());
     }
-    else if (isReal()) 
+    else if (isReal())
     {
       buffer.append(", ").append(getReal());
-      
-      if (isRational()) 
+
+      if (isRational())
       {
         buffer.append(" (").append(getNumerator()).append(" / ").append(getDenominator());
       }
-      else if (exponent != 0) 
+      else if (exponent != 0)
       {
         buffer.append(" (").append(getMantissa()).append("e").append(getExponent());
       }
     }
-    else if (isName()) 
+    else if (isName())
     {
       buffer.append(", name = ").append(getName());
     }
-    
-    if (definitionURL != null) 
+
+    if (definitionURL != null)
     {
       buffer.append(", definitionURL = ").append(getDefinitionURL());
     }
@@ -4265,19 +4264,19 @@ public class ASTNode extends AbstractTreeNode {
     if (unitId != null) {
       buffer.append(", units = ").append(getUnits());
     }
-    
+
     if (getChildCount() > 0) {
       buffer.append(", nb children = ").append(getChildCount());
     }
-    
+
     if (isSetUserObjects()) {
-      buffer.append(", user object keys = ").append(userObjectKeySet()); 
+      buffer.append(", user object keys = ").append(userObjectKeySet());
     }
-    
+
     if (getParent() == null) {
       buffer.append(", no parent defined");
     }
-    
+
     if (id != null) {
       buffer.append(", id = ").append(getId());
     }
@@ -4290,7 +4289,7 @@ public class ASTNode extends AbstractTreeNode {
     if (className != null) {
       buffer.append(", className = ").append(getClassName());
     }
-    
+
     return buffer.toString();
   }
 
@@ -4342,13 +4341,13 @@ public class ASTNode extends AbstractTreeNode {
    * @return a simple tree view of the ASTNode internal
    */
   public static String astNodeToTree(ASTNode n, String tree, String indent) {
-    tree = tree + indent + n.getType() + " " + 
+    tree = tree + indent + n.getType() + " " +
         (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + "\n";
-    
+
     for (ASTNode child : n.getChildren()) {
       tree = astNodeToTree(child, tree, indent + "  ");
     }
-    
+
     return tree;
   }
 

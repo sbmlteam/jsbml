@@ -62,7 +62,7 @@ public interface ASTCSymbolBaseNode extends ASTNode2 {
    * @return boolean
    */
   public boolean isSetName();
-  
+
   /**
    * Returns {@code true} if this node or one of its descendants contains some
    * identifier with the given id. This method can be used to scan a formula
@@ -75,13 +75,13 @@ public interface ASTCSymbolBaseNode extends ASTNode2 {
    *            given id.
    */
   public boolean refersTo(String id);
-  
+
   /**
    * Set the name of the MathML element represented by
    * this {@link ASTCSymbolBaseNode}
    * 
-   * @param String name
+   * @param name
    */
   public void setName(String name);
-  
+
 }

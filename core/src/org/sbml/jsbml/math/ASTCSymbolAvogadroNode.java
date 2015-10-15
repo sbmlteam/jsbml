@@ -31,8 +31,6 @@ import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
-
-
 /**
  * An Abstract Syntax Tree (AST) node representing avogadro's number
  * 
@@ -84,7 +82,7 @@ ASTCSymbolNode {
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCSymbolAvogadroNode}.
    * 
-   * @param astFunction
+   * @param node
    *            the {@link ASTCSymbolAvogadroNode} to be copied.
    */
   public ASTCSymbolAvogadroNode(ASTCSymbolAvogadroNode node) {
@@ -93,13 +91,13 @@ ASTCSymbolNode {
       setDefinitionURL(node.getDefinitionURL());
     }
     if (node.isSetEncoding()) {
-      setEncoding(node.getEncoding());      
+      setEncoding(node.getEncoding());
     }
     if (node.isSetName()) {
       setName(node.getName());
     }
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTConstantNumber#clone()
@@ -117,7 +115,7 @@ ASTCSymbolNode {
     ASTNode2Value<?> value = null;
     switch(getType()) {
     case NAME_AVOGADRO:
-       value = compiler.getConstantAvogadro(isSetName() ? getName() : "avogadro");        
+      value = compiler.getConstantAvogadro(isSetName() ? getName() : "avogadro");
       break;
     default: // UNKNOWN:
       value = compiler.unknownValue();
@@ -131,28 +129,37 @@ ASTCSymbolNode {
    */
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (!super.equals(obj))
+    }
+    if (!super.equals(obj)) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     ASTCSymbolAvogadroNode other = (ASTCSymbolAvogadroNode) obj;
     if (definitionURL == null) {
-      if (other.definitionURL != null)
+      if (other.definitionURL != null) {
         return false;
-    } else if (!definitionURL.equals(other.definitionURL))
+      }
+    } else if (!definitionURL.equals(other.definitionURL)) {
       return false;
+    }
     if (encoding == null) {
-      if (other.encoding != null)
+      if (other.encoding != null) {
         return false;
-    } else if (!encoding.equals(other.encoding))
+      }
+    } else if (!encoding.equals(other.encoding)) {
       return false;
+    }
     if (name == null) {
-      if (other.name != null)
+      if (other.name != null) {
         return false;
-    } else if (!name.equals(other.name))
+      }
+    } else if (!name.equals(other.name)) {
       return false;
+    }
     return true;
   }
 
@@ -221,9 +228,9 @@ ASTCSymbolNode {
     final int prime = 1511;
     int result = super.hashCode();
     result = prime * result
-      + ((definitionURL == null) ? 0 : definitionURL.hashCode());
+        + ((definitionURL == null) ? 0 : definitionURL.hashCode());
     result = prime * result
-      + ((encoding == null) ? 0 : encoding.hashCode());
+        + ((encoding == null) ? 0 : encoding.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;
   }
@@ -235,7 +242,7 @@ ASTCSymbolNode {
   public boolean isAllowableType(Type type) {
     return type == Type.NAME_AVOGADRO;
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
@@ -283,19 +290,19 @@ ASTCSymbolNode {
    * Set the definitionURL of the MathML element represented by
    * this {@link ASTCSymbolAvogadroNode}
    * 
-   * @param String definitionURL
+   * @param definitionURL
    */
   private void setDefinitionURL(String definitionURL) {
     String old = this.definitionURL;
     this.definitionURL = definitionURL;
     firePropertyChange(TreeNodeChangeEvent.definitionURL, old, encoding);
   }
-  
+
   /**
    * Set the encoding of the MathML element represented by
    * this {@link ASTCSymbolAvogadroNode}
    * 
-   * @param String encoding
+   * @param encoding
    */
   private void setEncoding(String encoding) {
     String old = this.encoding;

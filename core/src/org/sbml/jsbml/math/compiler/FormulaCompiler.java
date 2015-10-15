@@ -208,6 +208,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
    * @param exponent
    * @param basis
    * @return
+   * @throws NumberFormatException
    * @throws IllegalFormatException
    *             If the given exponent represents a zero.
    */
@@ -227,7 +228,6 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
   /**
    * Returns the given selector as StringBuffer.
    *
-   * @param operator
    * @param elements
    * @return
    */
@@ -285,7 +285,6 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
   /**
    * Returns the given vector as StringBuffer.
    *
-   * @param operator
    * @param elements
    * @return
    */

@@ -34,7 +34,6 @@ import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
 import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing a function with only one
  * parameter
@@ -50,7 +49,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
    * 
    */
   private static final long serialVersionUID = -8088831456874690229L;
-  
+
   /**
    * A {@link Logger} for this class.
    */
@@ -62,7 +61,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   public ASTUnaryFunctionNode() {
     super();
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTUnaryFunctionNode}.
    * 
@@ -75,12 +74,13 @@ public class ASTUnaryFunctionNode extends ASTFunction {
 
   /**
    * Creates a new {@link ASTUnaryFunctionNode} of type {@link Type}
+   * @param type
    */
   public ASTUnaryFunctionNode(Type type) {
     super();
     setType(type);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#addChild(org.sbml.jsbml.math.ASTNode2)
    */
@@ -89,13 +89,13 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     if (isSetChild()) {
       if (isStrict()) {
         throw new IndexOutOfBoundsException("max child limit exceeded");
-      }      
+      }
       logger.debug("Max child limit exceeded. To add more children " +
           "to ASTUnaryFunctionNode set strictness to false.");
     }
     if (! isSetList())  {
       listOfNodes = new ArrayList<ASTNode2>(1);
-    } 
+    }
     listOfNodes.add(child);
     ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
@@ -109,7 +109,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   public ASTUnaryFunctionNode clone() {
     return new ASTUnaryFunctionNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -190,14 +190,14 @@ public class ASTUnaryFunctionNode extends ASTFunction {
       case FUNCTION_EXP:
       case FUNCTION_FACTORIAL:
       case FUNCTION_FLOOR:
-        return true;    
+        return true;
       default:
         break;
-      }      
+      }
     }
     return false;
   }
-  
+
   /**
    * Returns true iff the child of this node has been set
    * 
@@ -226,7 +226,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#removeChild(int)
    */
@@ -243,11 +243,11 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     removed.fireNodeRemovedEvent();
     return true;
   }
-  
+
   /**
    * Set the child of this node
    * 
-   * @param {@link ASTNode2} child
+   * @param child
    */
   public void setChild(ASTNode2 child) {
     if (isSetChild()) {
@@ -256,7 +256,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
       addChild(child);
     }
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#swapChildren(org.sbml.jsbml.math.ASTFunction)
    */

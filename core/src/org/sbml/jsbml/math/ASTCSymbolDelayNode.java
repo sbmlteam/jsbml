@@ -84,8 +84,7 @@ ASTCSymbolNode {
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCSymbolDelayNode}.
    * 
-   * @param astFunction
-   *            the {@link ASTCSymbolDelayNode} to be copied.
+   * @param node the {@link ASTCSymbolDelayNode} to be copied.
    */
   public ASTCSymbolDelayNode(ASTCSymbolDelayNode node) {
     super(node);
@@ -99,7 +98,7 @@ ASTCSymbolNode {
       setName(node.getName());
     }
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -108,15 +107,15 @@ ASTCSymbolNode {
   public ASTCSymbolDelayNode clone() {
     return new ASTCSymbolDelayNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
     ASTNode2Value<?> value = null;
-    value = isSetName() ? compiler.delay(getName(), getLeftChild(), getRightChild()) 
-            : compiler.delay("delay", getLeftChild(), getRightChild());
+    value = isSetName() ? compiler.delay(getName(), getLeftChild(), getRightChild())
+      : compiler.delay("delay", getLeftChild(), getRightChild());
     return processValue(value);
   }
 
@@ -125,28 +124,37 @@ ASTCSymbolNode {
    */
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (!super.equals(obj))
+    }
+    if (!super.equals(obj)) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     ASTCSymbolDelayNode other = (ASTCSymbolDelayNode) obj;
     if (definitionURL == null) {
-      if (other.definitionURL != null)
+      if (other.definitionURL != null) {
         return false;
-    } else if (!definitionURL.equals(other.definitionURL))
+      }
+    } else if (!definitionURL.equals(other.definitionURL)) {
       return false;
+    }
     if (encoding == null) {
-      if (other.encoding != null)
+      if (other.encoding != null) {
         return false;
-    } else if (!encoding.equals(other.encoding))
+      }
+    } else if (!encoding.equals(other.encoding)) {
       return false;
+    }
     if (name == null) {
-      if (other.name != null)
+      if (other.name != null) {
         return false;
-    } else if (!name.equals(other.name))
+      }
+    } else if (!name.equals(other.name)) {
       return false;
+    }
     return true;
   }
 
@@ -190,9 +198,9 @@ ASTCSymbolNode {
     final int prime = 1291;
     int result = super.hashCode();
     result = prime * result
-      + ((definitionURL == null) ? 0 : definitionURL.hashCode());
+        + ((definitionURL == null) ? 0 : definitionURL.hashCode());
     result = prime * result
-      + ((encoding == null) ? 0 : encoding.hashCode());
+        + ((encoding == null) ? 0 : encoding.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;
   }
@@ -236,7 +244,7 @@ ASTCSymbolNode {
    * Set the definitionURL of the MathML element represented by
    * this {@link ASTCSymbolDelayNode}
    * 
-   * @param String definitionURL
+   * @param definitionURL
    */
   private void setDefinitionURL(String definitionURL) {
     String old = this.definitionURL;
@@ -248,7 +256,7 @@ ASTCSymbolNode {
    * Set the encoding of the MathML element represented by
    * this {@link ASTCSymbolDelayNode}
    * 
-   * @param String encoding
+   * @param encoding
    */
   private void setEncoding(String encoding) {
     String old = this.encoding;

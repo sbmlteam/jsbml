@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math;
 
@@ -51,15 +51,18 @@ public class ASTBoolean extends AbstractASTNode {
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(ASTBoolean.class);
-  
+
+  /**
+   * 
+   */
   public ASTBoolean() {
     super();
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTBoolean}.
    * 
-   * @param node
+   * @param bool
    *            the {@link ASTBoolean} to be copied.
    */
   public ASTBoolean(ASTBoolean bool) {
@@ -68,12 +71,13 @@ public class ASTBoolean extends AbstractASTNode {
 
   /**
    * Creates a new {@link ASTBoolean}.
+   * @param type
    */
   public ASTBoolean(Type type) {
     this();
     setType(type);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#clone()
    */
@@ -100,7 +104,7 @@ public class ASTBoolean extends AbstractASTNode {
     }
     return processValue(value);
   }
-  
+
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
@@ -141,7 +145,7 @@ public class ASTBoolean extends AbstractASTNode {
     logger.warn(error);
     return false;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */
@@ -149,7 +153,7 @@ public class ASTBoolean extends AbstractASTNode {
   public boolean isAllowableType(Type type) {
     return type == Type.CONSTANT_TRUE || type == Type.CONSTANT_FALSE;
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#isSetType()
@@ -158,7 +162,7 @@ public class ASTBoolean extends AbstractASTNode {
   public boolean isSetType() {
     return type == Type.CONSTANT_TRUE || type == Type.CONSTANT_FALSE;
   }
-  
+
   /**
    * Set the value of this {@link ASTBoolean}
    * 
@@ -217,5 +221,5 @@ public class ASTBoolean extends AbstractASTNode {
     builder.append("]");
     return builder.toString();
   }
-  
+
 }

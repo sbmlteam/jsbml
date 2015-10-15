@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math.test;
 
@@ -30,7 +30,6 @@ import org.sbml.jsbml.math.ASTBoolean;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTRelationalOperatorNode;
-
 
 /**
  * Test cases for {@link ASTRelationalOperatorNode}
@@ -51,7 +50,7 @@ public class ASTRelationalOperatorNodeTest {
     ASTRelationalOperatorNode unknown = operator.clone();
     assertTrue(operator.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#clone()}.
    */
@@ -63,7 +62,7 @@ public class ASTRelationalOperatorNodeTest {
     ASTRelationalOperatorNode unknown = operator.clone();
     assertTrue(operator.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#ASTRelationalOperatorNode(org.sbml.jsbml.math.ASTRelationalOperatorNode)}.
    */
@@ -73,7 +72,7 @@ public class ASTRelationalOperatorNodeTest {
     ASTRelationalOperatorNode unknown = new ASTRelationalOperatorNode(operator);
     assertTrue(operator.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#clone()}.
    */
@@ -83,19 +82,19 @@ public class ASTRelationalOperatorNodeTest {
     ASTRelationalOperatorNode unknown = operator.clone();
     assertTrue(operator.equals(unknown));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#isAllowableType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#isAllowableType(Type)}.
    */
   @Test
   public final void testIsAllowableType() {
     ASTRelationalOperatorNode operator = new ASTRelationalOperatorNode();
     assertTrue(operator.isAllowableType(Type.RELATIONAL_EQ) && operator.isAllowableType(Type.RELATIONAL_GEQ)
-            && operator.isAllowableType(Type.RELATIONAL_GT) && operator.isAllowableType(Type.RELATIONAL_LEQ)
-            && operator.isAllowableType(Type.RELATIONAL_LT) && operator.isAllowableType(Type.RELATIONAL_NEQ)
-            && ! operator.isAllowableType(null));
+      && operator.isAllowableType(Type.RELATIONAL_GT) && operator.isAllowableType(Type.RELATIONAL_LEQ)
+      && operator.isAllowableType(Type.RELATIONAL_LT) && operator.isAllowableType(Type.RELATIONAL_NEQ)
+      && ! operator.isAllowableType(null));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toFormula()}.
    */
@@ -106,7 +105,7 @@ public class ASTRelationalOperatorNodeTest {
     eq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(eq.toFormula().equals("true == false"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toFormula()}.
    */
@@ -117,7 +116,7 @@ public class ASTRelationalOperatorNodeTest {
     geq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(geq.toFormula().equals("true >= false"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toFormula()}.
    */
@@ -128,7 +127,7 @@ public class ASTRelationalOperatorNodeTest {
     gt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(gt.toFormula().equals("true > false"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toFormula()}.
    */
@@ -150,7 +149,7 @@ public class ASTRelationalOperatorNodeTest {
     lt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(lt.toFormula().equals("true < false"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toFormula()}.
    */
@@ -161,7 +160,7 @@ public class ASTRelationalOperatorNodeTest {
     neq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(neq.toFormula().equals("true != false"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toLaTeX()}.
    */
@@ -172,7 +171,7 @@ public class ASTRelationalOperatorNodeTest {
     eq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(eq.toLaTeX().equals("\\mathrm{true} = \\mathrm{false}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toLaTeX()}.
    */
@@ -183,7 +182,7 @@ public class ASTRelationalOperatorNodeTest {
     geq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(geq.toLaTeX().equals("\\mathrm{true} \\geq \\mathrm{false}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toLaTeX()}.
    */
@@ -194,7 +193,7 @@ public class ASTRelationalOperatorNodeTest {
     gt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(gt.toLaTeX().equals("\\mathrm{true} > \\mathrm{false}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toLaTeX()}.
    */
@@ -216,7 +215,7 @@ public class ASTRelationalOperatorNodeTest {
     lt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(lt.toLaTeX().equals("\\mathrm{true} < \\mathrm{false}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toLaTeX()}.
    */
@@ -227,7 +226,7 @@ public class ASTRelationalOperatorNodeTest {
     neq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(neq.toLaTeX().equals("\\mathrm{true} \\neq \\mathrm{false}"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toMathML()}.
    */
@@ -238,7 +237,7 @@ public class ASTRelationalOperatorNodeTest {
     eq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(eq.toMathML().equals(ASTFactory.parseMathML("eq.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toMathML()}.
    */
@@ -249,7 +248,7 @@ public class ASTRelationalOperatorNodeTest {
     geq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(geq.toMathML().equals(ASTFactory.parseMathML("geq.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toMathML()}.
    */
@@ -260,7 +259,7 @@ public class ASTRelationalOperatorNodeTest {
     gt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(gt.toMathML().equals(ASTFactory.parseMathML("gt.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toMathML()}.
    */
@@ -282,7 +281,7 @@ public class ASTRelationalOperatorNodeTest {
     lt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(lt.toMathML().equals(ASTFactory.parseMathML("lt.xml")));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toMathML()}.
    */
@@ -293,5 +292,5 @@ public class ASTRelationalOperatorNodeTest {
     neq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(neq.toMathML().equals(ASTFactory.parseMathML("neq.xml")));
   }
-  
+
 }

@@ -31,7 +31,6 @@ import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
 import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing a logical operator
  * in a mathematical expression.
@@ -58,7 +57,7 @@ public class ASTLogicalOperatorNode extends ASTFunction {
   public ASTLogicalOperatorNode() {
     super();
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTLogicalOperatorNode}.
    * 
@@ -71,12 +70,13 @@ public class ASTLogicalOperatorNode extends ASTFunction {
 
   /**
    * Creates a new {@link ASTLogicalOperatorNode} of type {@link Type}.
+   * @param type
    */
   public ASTLogicalOperatorNode(Type type) {
     this();
     setType(type);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -85,7 +85,7 @@ public class ASTLogicalOperatorNode extends ASTFunction {
   public ASTLogicalOperatorNode clone() {
     return new ASTLogicalOperatorNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -129,7 +129,7 @@ public class ASTLogicalOperatorNode extends ASTFunction {
         return true;
       default:
         break;
-      }      
+      }
     }
     return false;
   }

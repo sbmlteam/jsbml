@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, Ontario, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math;
 
@@ -29,6 +29,7 @@ import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -39,7 +40,7 @@ import org.sbml.jsbml.util.filters.Filter;
 /**
  * An {@link ASTNode2} with specified neutral behavior. Serves as a
  * stand-in for {@link ASTNode2} when the empty constructor is called
- * in {@link ASTNode}. 
+ * in {@link ASTNode}.
  * 
  * {@link ASTUnknown} is a singleton and must be accessed through the
  * {@code getInstance()} method.
@@ -51,31 +52,35 @@ import org.sbml.jsbml.util.filters.Filter;
  * @date Oct 2, 2014
  */
 public class ASTUnknown implements ASTNode2 {
-  
+
   /**
    * 
    */
   private static final long serialVersionUID = 7504401136695608469L;
-  
+
+  /**
+   * 
+   */
   private static ASTUnknown instance;
-  
+
+  /**
+   * 
+   * @return
+   */
   public static ASTUnknown getInstance() {
     if (instance == null) {
       instance = new ASTUnknown();
     }
     return instance;
   }
-  
+
   /**
-   * Create a new {@link ASTUnknown} object. This constructor is set to 
+   * Create a new {@link ASTUnknown} object. This constructor is set to
    * private in order to prevent more than one {@link ASTUnknown} from
-   * being constructed. 
-   * 
-   * @param {@code null}
-   * @return {@code null}
+   * being constructed.
    */
   private ASTUnknown() {
-    
+    super();
   }
 
   /* (non-Javadoc)
@@ -83,7 +88,7 @@ public class ASTUnknown implements ASTNode2 {
    */
   @Override
   public boolean addAllChangeListeners(
-      Collection<TreeNodeChangeListener> listeners) {
+    Collection<TreeNodeChangeListener> listeners) {
     // TODO Auto-generated method stub
     return false;
   }
@@ -102,7 +107,7 @@ public class ASTUnknown implements ASTNode2 {
    */
   @Override
   public void addTreeNodeChangeListener(TreeNodeChangeListener listener,
-      boolean recursive) {
+    boolean recursive) {
     // TODO Auto-generated method stub
 
   }
@@ -111,7 +116,7 @@ public class ASTUnknown implements ASTNode2 {
    * @see javax.swing.tree.TreeNode#children()
    */
   @Override
-  public Enumeration children() {
+  public Enumeration<?> children() {
     // TODO Auto-generated method stub
     return null;
   }
@@ -125,6 +130,7 @@ public class ASTUnknown implements ASTNode2 {
 
   }
 
+  @Override
   public ASTNode2 clone() {
     return this;
   }
@@ -161,7 +167,7 @@ public class ASTUnknown implements ASTNode2 {
    */
   @Override
   public List<? extends TreeNode> filter(Filter filter,
-      boolean retainInternalNodes) {
+    boolean retainInternalNodes) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -171,7 +177,7 @@ public class ASTUnknown implements ASTNode2 {
    */
   @Override
   public List<? extends TreeNode> filter(Filter filter,
-      boolean retainInternalNodes, boolean prune) {
+    boolean retainInternalNodes, boolean prune) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -199,7 +205,7 @@ public class ASTUnknown implements ASTNode2 {
    */
   @Override
   public void firePropertyChange(String propertyName, Object oldValue,
-      Object newValue) {
+    Object newValue) {
     // TODO Auto-generated method stub
 
   }
@@ -468,7 +474,7 @@ public class ASTUnknown implements ASTNode2 {
    */
   @Override
   public void removeTreeNodeChangeListener(TreeNodeChangeListener listener,
-      boolean recursive) {
+    boolean recursive) {
     // TODO Auto-generated method stub
 
   }
@@ -589,7 +595,7 @@ public class ASTUnknown implements ASTNode2 {
     // TODO Auto-generated method stub
 
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#userObjectKeySet()
    */
@@ -606,17 +612,17 @@ public class ASTUnknown implements ASTNode2 {
   public String toString() {
     return "ASTUnknown []";
   }
-	
+
   @Override
   public void removeAllTreeNodeChangeListeners(boolean recursive) {
-		// TODO Auto-generated method stub
+    // TODO Auto-generated method stub
   }
-	
+
   @Override
   public boolean addAllChangeListeners(
-			Collection<TreeNodeChangeListener> listeners, boolean recursive) {
-	// TODO Auto-generated method stub
-	return false;
+    Collection<TreeNodeChangeListener> listeners, boolean recursive) {
+    // TODO Auto-generated method stub
+    return false;
   }
 
 }

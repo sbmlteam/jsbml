@@ -440,7 +440,7 @@ public class SBMLValidator {
    * 
    * <p>This method is called from {@link SBMLDocument#checkConsistency()}. To know what
    * to set in the parameters map, you can have a look at {@link SBMLDocument#setConsistencyChecks(CHECK_CATEGORY, boolean)}.
-   * But the key should be one of the category in {@link SBMLValidator#CHECK_CATEGORY} and the value should
+   * But the key should be one of the category in {@link CHECK_CATEGORY} and the value should
    * be "true" or "false".
    * 
    * @param fileName a file name

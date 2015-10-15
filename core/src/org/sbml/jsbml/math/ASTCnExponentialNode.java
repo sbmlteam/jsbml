@@ -77,7 +77,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
     super(node);
     setType(Type.REAL_E);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCnNumberNode#clone()
@@ -86,7 +86,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
   public ASTCnExponentialNode clone() {
     return new ASTCnExponentialNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -115,7 +115,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
   }
 
   /**
-   * Get the mantissa value of this node. 
+   * Get the mantissa value of this node.
    * 
    * @return double mantissa
    */
@@ -142,49 +142,47 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
   /**
    * Returns True iff exponent has been set
    * 
-   * @param null
    * @return boolean
    */
   public boolean isSetExponent() {
-    return this.number == null ? false : this.number.getL() != null;
+    return number == null ? false : number.getL() != null;
   }
 
   /**
-   * Returns True iff mantissa has been set
+   * Returns {@code true} iff mantissa has been set
    * 
-   * @param null
    * @return boolean
    */
   public boolean isSetMantissa() {
-    return this.number == null ? false : this.number.getV() != null;
+    return number == null ? false : number.getV() != null;
   }
 
   /**
    * Set the exponent value of this node
    * 
-   * @param int exponent
+   * @param exponent
    */
   public void setExponent(int exponent) {
     if (! isSetNumber()) {
       setNumber(new ValuePair<Integer,Double>());
     }
-    Integer old = this.number.getL();
-    this.number.setL(exponent);
-    firePropertyChange(TreeNodeChangeEvent.exponent, old, this.number.getL());
+    Integer old = number.getL();
+    number.setL(exponent);
+    firePropertyChange(TreeNodeChangeEvent.exponent, old, number.getL());
   }
 
   /**
    * Get the mantissa value of this node
    * 
-   * @param double mantissa
+   * @param mantissa
    */
   public void setMantissa(double mantissa) {
     if (! isSetNumber()) {
       setNumber(new ValuePair<Integer,Double>());
     }
-    Double old = this.number.getV();
-    this.number.setV(mantissa);
-    firePropertyChange(TreeNodeChangeEvent.mantissa, old, this.number.getV());
+    Double old = number.getV();
+    number.setV(mantissa);
+    firePropertyChange(TreeNodeChangeEvent.mantissa, old, number.getV());
   }
 
   /* (non-Javadoc)

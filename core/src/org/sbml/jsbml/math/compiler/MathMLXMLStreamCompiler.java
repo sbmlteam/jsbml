@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math.compiler;
 
@@ -70,7 +70,10 @@ import org.sbml.jsbml.util.StringTools;
  * @date Aug 8, 2014
  */
 public class MathMLXMLStreamCompiler {
-  
+
+  /**
+   * @param args
+   */
   public static void main(String[] args) {
     ASTCnRealNode formula_base = new ASTCnRealNode(Double.NaN);
     System.out.println(formula_base.toMathML());
@@ -133,12 +136,25 @@ public class MathMLXMLStreamCompiler {
     mathML = stream.toString();
     return mathML;
   }
+
+  /**
+   * 
+   */
   private String indent;
 
+  /**
+   * 
+   */
   private final XMLStreamWriter writer;
 
+  /**
+   * 
+   */
   private final Logger logger = Logger.getLogger(MathMLXMLStreamCompiler.class);
 
+  /**
+   * 
+   */
   private final FindUnitsCompiler findUnitsCompiler = new FindUnitsCompiler();
 
   /**
@@ -170,6 +186,7 @@ public class MathMLXMLStreamCompiler {
 
   /**
    * Compiles this {@link ASTNode2} and produce an XMLStreamWriter representing this node in mathML.
+   * @param node
    * 
    *
    * @throws SBMLException if any problems occur while checking the ASTNode2 tree.
@@ -184,9 +201,9 @@ public class MathMLXMLStreamCompiler {
       if (((ASTCnRealNode)node).isInfinity()) {
         compilePositiveInfinity((ASTCnRealNode) node);
       } else if (((ASTCnRealNode)node).isNegInfinity()) {
-        compileNegativeInfinity((ASTCnRealNode) node);          
+        compileNegativeInfinity((ASTCnRealNode) node);
       } else {
-        compileReal((ASTCnRealNode) node);        
+        compileReal((ASTCnRealNode) node);
       }
       break;
     case INTEGER:
@@ -321,6 +338,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param bvar
+   */
   private void compileBvar(ASTQualifierNode bvar) {
     try {
       writer.writeCharacters(indent);
@@ -334,6 +354,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param ci
+   */
   private void compileCi(ASTCSymbolBaseNode ci) {
     try {
       writer.writeCharacters(indent);
@@ -348,6 +371,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param astNode
+   */
   private void compileConstantElement(ASTNode2 astNode) {
     String constantName = astNode.getType().toString().substring(9).toLowerCase();
     if (constantName.equals("e")) {
@@ -362,6 +388,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param csymbol
+   */
   private void compileCSymbol(ASTCSymbolNode csymbol) {
     try {
       String name = null;
@@ -404,6 +433,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param astNode
+   */
   private void compileElement(ASTFunction astNode) {
     compileElement(astNode.getType().toString().toLowerCase(), astNode);
   }
@@ -420,6 +452,9 @@ public class MathMLXMLStreamCompiler {
   }
 
 
+  /**
+   * @param astConstantNumber
+   */
   private void compileExponentiale(ASTConstantNumber astConstantNumber) {
     try {
       writer.writeCharacters(indent);
@@ -432,12 +467,18 @@ public class MathMLXMLStreamCompiler {
 
 
 
+  /**
+   * @param astNode
+   */
   private void compileFunctionElement(ASTFunction astNode) {
     String functionName = astNode.getType().toString().substring(9).toLowerCase();
     compileElement(functionName, astNode);
   }
 
 
+  /**
+   * @param integer
+   */
   private void compileInteger(ASTCnIntegerNode integer) {
     try {
       writer.writeCharacters(indent);
@@ -457,6 +498,9 @@ public class MathMLXMLStreamCompiler {
   }
 
 
+  /**
+   * @param lambda
+   */
   private void compileLambda(ASTLambdaFunctionNode lambda) {
     try {
       writer.writeCharacters(indent);
@@ -468,7 +512,7 @@ public class MathMLXMLStreamCompiler {
         for (int i = 0; i < nbChildren - 1; i++ ) {
           ASTNode2 child = lambda.getChildAt(i);
           if (child.getType() == Type.QUALIFIER_BVAR) {
-            compileBvar((ASTQualifierNode) child);            
+            compileBvar((ASTQualifierNode) child);
           }
         }
       }
@@ -480,6 +524,9 @@ public class MathMLXMLStreamCompiler {
   }
 
 
+  /**
+   * @param log
+   */
   private void compileLog(ASTLogarithmNode log) {
     if (log.getChildCount() == 1) {
       compileFunctionElement(log);
@@ -511,13 +558,17 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-
-
+  /**
+   * @param operator
+   */
   private void compileLogicalOperator(ASTLogicalOperatorNode operator) {
     String functionName = operator.getType().toString().substring(8).toLowerCase();
     compileElement(functionName, operator);
   }
 
+  /**
+   * @param real
+   */
   private void compileNegativeInfinity(ASTCnRealNode real) {
     try {
       writer.writeCharacters(indent);
@@ -537,6 +588,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param astNode
+   */
   private void compileNotANumber(ASTCnRealNode astNode) {
     try {
       writer.writeCharacters(indent);
@@ -547,6 +601,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param astNode
+   */
   private void compilePi(ASTConstantNumber astNode) {
     try {
       writer.writeCharacters(indent);
@@ -557,6 +614,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param piecewise
+   */
   private void compilePiecewise(ASTPiecewiseFunctionNode piecewise) {
     try {
       writer.writeCharacters(indent);
@@ -595,6 +655,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param astNode
+   */
   private void compilePositiveInfinity(ASTCnRealNode astNode) {
     try {
       writer.writeCharacters(indent);
@@ -605,6 +668,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param rational
+   */
   private void compileRational(ASTCnRationalNode rational) {
     try {
       writer.writeCharacters(indent);
@@ -628,6 +694,9 @@ public class MathMLXMLStreamCompiler {
   }
 
 
+  /**
+   * @param real
+   */
   private void compileReal(ASTCnRealNode real) {
     try {
       if (Double.isNaN(real.getReal())) {
@@ -662,6 +731,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param exponential
+   */
   private void compileReal_e(ASTCnExponentialNode exponential) {
     try {
       writer.writeCharacters(indent);
@@ -684,13 +756,17 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-
+  /**
+   * @param operator
+   */
   private void compileRelationalOperator(ASTRelationalOperatorNode operator) {
     String functionName = operator.getType().toString().substring(11).toLowerCase();
     compileElement(functionName, operator);
   }
-  
-  
+
+  /**
+   * @param root
+   */
   private void compileRootElement(ASTRootNode root) {
     if (root.getChildCount() == 1) {
       compileFunctionElement(root);
@@ -722,6 +798,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param astNode
+   */
   private void compileUserFunction(ASTCiFunctionNode astNode) {
     try {
       writer.writeCharacters(indent);
@@ -737,7 +816,10 @@ public class MathMLXMLStreamCompiler {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * @param astNode
+   */
   private void compileVector(ASTFunction astNode) {
     String functionName = astNode.getType().toString().toLowerCase();
     List<ASTNode2> args = astNode.getListOfNodes();
@@ -755,6 +837,10 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param functionName
+   * @param args
+   */
   private void function(String functionName, ASTNode2... args) {
     try {
       writer.writeCharacters(indent);
@@ -773,10 +859,18 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param functionName
+   * @param args
+   */
   private void function(String functionName, List<ASTNode2> args) {
     function(functionName, args.toArray(new ASTNode2[args.size()]));
   }
 
+  /**
+   * @param astNode
+   * @return
+   */
   public boolean isSBMLNamespaceNeeded(ASTNode2 astNode) {
     SBase sbase = astNode.isSetParentSBMLObject() ? astNode.getParentSBMLObject() : null;
     if ((sbase != null) && (sbase.getLevel() < 3)) {
@@ -784,7 +878,7 @@ public class MathMLXMLStreamCompiler {
     }
     findUnitsCompiler.reset();
     try {
-      astNode.compile((ASTNode2Compiler) findUnitsCompiler);
+      astNode.compile(findUnitsCompiler);
     } catch (SBMLException e) {
       // normal behavior, we use Exception to stop the recursion
       // as soon as a units is found
@@ -792,6 +886,9 @@ public class MathMLXMLStreamCompiler {
     return findUnitsCompiler.isUnitsDefined();
   }
 
+  /**
+   * 
+   */
   private void writeEndElement() {
     try {
       indent = indent.substring(2);
@@ -802,5 +899,5 @@ public class MathMLXMLStreamCompiler {
       e.printStackTrace();
     }
   }
-  
+
 }

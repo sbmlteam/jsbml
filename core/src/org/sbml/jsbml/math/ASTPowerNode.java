@@ -31,7 +31,6 @@ import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
 import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing the power function
  * 
@@ -58,10 +57,12 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
     super();
     setType(Type.FUNCTION_POWER);
   }
-  
+
   /**
    * Creates a new {@link ASTPowerNode} with the specified basis and
    * exponent.
+   * @param basis
+   * @param exponent
    */
   public ASTPowerNode(ASTNode2 basis, ASTNode2 exponent) {
     super(basis, exponent);
@@ -77,7 +78,7 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
   public ASTPowerNode(ASTPowerNode node) {
     super(node);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -86,7 +87,7 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
   public ASTPowerNode clone() {
     return new ASTPowerNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -104,7 +105,7 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
   public ASTNode2 getBasis() {
     return getLeftChild();
   }
-  
+
   /**
    * Get the exponent of this {@link ASTPowerNode}
    * 
@@ -113,7 +114,7 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
   public ASTNode2 getExponent() {
     return getRightChild();
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */

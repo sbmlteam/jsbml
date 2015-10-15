@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math.test;
 
@@ -37,7 +37,6 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.math.ASTCiNumberNode;
 
-
 /**
  * Test cases for {@link ASTCiNumberNode}
  * 
@@ -48,6 +47,9 @@ import org.sbml.jsbml.math.ASTCiNumberNode;
  */
 public class ASTCiNumberNodeTest {
 
+  /**
+   * 
+   */
   @Rule
   public ExpectedException exception = ExpectedException.none();
 
@@ -60,7 +62,7 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode unknown = ci.clone();
     assertTrue(ci.equals(unknown));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#ASTCiNumberNode(org.sbml.jsbml.math.ASTCiNumberNode)}.
    */
@@ -70,9 +72,9 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode unknown = new ASTCiNumberNode(ci);
     assertTrue(ci.equals(unknown));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#containUndeclaredUnits()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#containsUndeclaredUnits()}.
    */
   @Test
   public final void testContainsUndeclaredUnitsFalse() {
@@ -91,11 +93,11 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode ci = new ASTCiNumberNode();
     ci.setParentSBMLObject(constraint);
     ci.setReference(tau);
-    assertTrue(!ci.containsUndeclaredUnits());    
+    assertTrue(!ci.containsUndeclaredUnits());
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#containUndeclaredUnits()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#containsUndeclaredUnits()}.
    */
   @Test
   public final void testContainsUndeclaredUnitsTrue() {
@@ -111,9 +113,9 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode ci = new ASTCiNumberNode();
     ci.setParentSBMLObject(constraint);
     ci.setReference(tau);
-    assertTrue(ci.containsUndeclaredUnits());    
+    assertTrue(ci.containsUndeclaredUnits());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getDefinitionURL()}.
    */
@@ -144,7 +146,7 @@ public class ASTCiNumberNodeTest {
     ci.setStrictness(false);
     assertTrue(ci.getDefinitionURL().isEmpty());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getReferenceInstance()}.
    */
@@ -158,9 +160,9 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode ci = new ASTCiNumberNode();
     ci.setParentSBMLObject(kineticLaw);
     ci.setReference(cytosol);
-    assertTrue(ci.getReferenceInstance().equals(cytosol));    
+    assertTrue(ci.getReferenceInstance().equals(cytosol));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getReferenceInstance()}.
    */
@@ -178,9 +180,9 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode ci = new ASTCiNumberNode();
     ci.setParentSBMLObject(constraint);
     ci.setReference(tau);
-    assertTrue(ci.getReferenceInstance().equals(tau));    
+    assertTrue(ci.getReferenceInstance().equals(tau));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getReferenceInstance()}.
    */
@@ -195,9 +197,9 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode ci = new ASTCiNumberNode();
     ci.setParentSBMLObject(constraint);
     ci.setReference(tau);
-    assertTrue(ci.getReferenceInstance() == null);    
+    assertTrue(ci.getReferenceInstance() == null);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getReferenceInstance()}.
    */
@@ -210,9 +212,9 @@ public class ASTCiNumberNodeTest {
     tau.setConstant(true);
     ASTCiNumberNode ci = new ASTCiNumberNode();
     ci.setReference(tau);
-    assertTrue(ci.getReferenceInstance() == null);    
+    assertTrue(ci.getReferenceInstance() == null);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getRefId()}.
    */
@@ -223,7 +225,7 @@ public class ASTCiNumberNodeTest {
     ci.setRefId(reference);
     assertTrue(ci.getRefId().equals(reference));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getRefId()}.
    */
@@ -233,7 +235,7 @@ public class ASTCiNumberNodeTest {
     exception.expect(PropertyUndefinedError.class);
     ci.getRefId();
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getRefId()}.
    */
@@ -243,7 +245,7 @@ public class ASTCiNumberNodeTest {
     ci.setStrictness(false);
     assertTrue(ci.getRefId().isEmpty());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getType()}.
    */
@@ -252,7 +254,7 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode ci = new ASTCiNumberNode();
     assertTrue(ci.getType() == Type.NAME);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#isSetType()}.
    */
@@ -261,7 +263,7 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode ci = new ASTCiNumberNode();
     assertTrue(ci.isSetType());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getReferenceInstance()}.
    */
@@ -274,11 +276,11 @@ public class ASTCiNumberNodeTest {
     tau.setConstant(true);
     ASTCiNumberNode ci = new ASTCiNumberNode();
     ci.setReference(tau);
-    assertTrue(ci.refersTo("tau2"));    
+    assertTrue(ci.refersTo("tau2"));
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#setType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#setType(Type)}.
    */
   @Test
   public final void testSetTypeAllowed() {
@@ -286,9 +288,9 @@ public class ASTCiNumberNodeTest {
     ci.setType(Type.NAME);
     assertTrue(ci.getType() == Type.NAME);
   }
-  
+
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#setType()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#setType(Type)}.
    */
   @Test
   public final void testSetTypeNotAllowed() {
@@ -296,7 +298,7 @@ public class ASTCiNumberNodeTest {
     exception.expect(IllegalArgumentException.class);
     ci.setType(Type.UNKNOWN);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#toFormula()}.
    */
@@ -311,7 +313,7 @@ public class ASTCiNumberNodeTest {
     ci.setReference(tau);
     assertTrue(ci.toFormula().equals("tau2"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#toLaTeX()}.
    */
@@ -326,7 +328,7 @@ public class ASTCiNumberNodeTest {
     ci.setReference(tau);
     assertTrue(ci.toFormula().equals("tau2"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#toMathML()}.
    */
