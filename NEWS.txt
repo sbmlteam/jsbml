@@ -1,12 +1,12 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ===========================================================================
-Version 1.1-b1 (12-10-2015)
+Version 1.1-beta1 (12-10-2015)
 ===========================================================================
 
  * New Features:
 
-  - Changed the default jsbml formula compiler. Warning as it change the
+  - Changed the default JSBML formula compiler. Warning as it change the
     default output for comparison operators. The parsing is now very close
     to what the libSBML L3 parser is doing.
  
@@ -24,7 +24,7 @@ Version 1.1-b1 (12-10-2015)
     avoid many exceptions being printed when reading an xml file and the
     log4j DEBUG is activated (sf tracker item #88).
  
-  - Improved cellDesigner LayoutConverter.
+  - Improved CellDesigner LayoutConverter.
  
   - Added a new class PackageUtil to check and fix the package versions and
     namespaces if needed. This method is called after we read a file from
@@ -32,7 +32,7 @@ Version 1.1-b1 (12-10-2015)
     SBase.registerChild will take care of setting everything properly.
  
   - Added a default load of the parsers for environment not setup properly
-    for it (eclipse, matlab dynamic path, OSGi, ...).
+    for it (Eclipse, Matlab dynamic path, OSGi, ...).
   
   - Modified the way we initialize the XML factories so that it is explicit
     (to OSGi for example) which classes and packages are used. Then there
@@ -41,7 +41,7 @@ Version 1.1-b1 (12-10-2015)
     users who reported and tested problems related to OSGi.
  
   - Implemented a new interface CompartmentalizedSBase and changed all
-    elements that can have a compartment so that they extends it.
+    elements that can have a compartment so that they extend it.
   
   - Added a createCurve method to ReactionGlyph.
  
@@ -51,7 +51,7 @@ Version 1.1-b1 (12-10-2015)
  
   - Implemented FBC version 2.
  
-  - Implemented distrib version 1 draft 0.15.
+  - Implemented distrib version 1 draft 0.16.
  
   - Modified the SBMLReader so that we are able to parse some UncertML
     Strings as XMLNode, even when they are on their own, via 

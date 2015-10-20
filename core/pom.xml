@@ -23,16 +23,15 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.sbml.jsbml.core</groupId>
-  <artifactId>jsbml</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <groupId>org.sbml.jsbml</groupId>
+  <artifactId>core</artifactId>
   <description>JSBML</description>
   <packaging>jar</packaging>
   
   <parent>
     <groupId>org.sbml.jsbml</groupId>
     <artifactId>jsbml-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-b1</version>
     <relativePath>../</relativePath>
   </parent>
 	<!--
@@ -273,7 +272,7 @@
 		</dependency>
 	</dependencies>
 	
-	<distributionManagement>	
+	<distributionManagement>
 		<repository>
 			<id>jsbmlmavenrepotest.sourceforge.net</id>
 			<name>JSBML Maven2 repository</name>
@@ -285,5 +284,14 @@
 			<url>scp://shell.sourceforge.net/home/project-web/jsbmlmavenrepotest/htdocs/snapshotRepository</url>
 		</snapshotRepository>
 	</distributionManagement>
+
+<!--
+To deploy to EBI:
+        <repository>
+            <id>ebi-maven-repo</id>
+            <name>EBI Maven Repository</name>
+            <url>http://www.ebi.ac.uk/~maven/m2repo/</url>
+		</repository>
+-->
 	
 </project>
