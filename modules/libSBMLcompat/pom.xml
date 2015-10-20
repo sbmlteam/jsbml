@@ -28,12 +28,11 @@
     <parent>
         <groupId>org.sbml.jsbml.modules</groupId>
         <artifactId>modules</artifactId>
-        <version>1.0-a1-SNAPSHOT</version>
+        <version>1.1-b1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.sbml.jsbml.modules.libSBMLcompat</groupId>
-    <artifactId>jsbml_modules_libSBMLcompat</artifactId>
-    <version>1.0-a1-SNAPSHOT</version>
+    <groupId>org.sbml.jsbml.modules</groupId>
+    <artifactId>jsbml-libSBMLcompat</artifactId>
     <packaging>jar</packaging>
 </project>
