@@ -576,30 +576,30 @@ SKIP :
 
 
 
-TOKEN :
-{
-  < INTEGER : (< DIGIT >)+ >
-}
+//TOKEN :
+//{
+//  < INTEGER : (< DIGIT >)+ >
+//}
 TOKEN :
 {
   < DIGIT : [ "0"-"9" ] >
 }
 
 
-TOKEN :
-{
-  < NUMBER :
-    (< DIGIT >)+
-    (
-      "." (< DIGIT >)+
-    )?
-  | "." (< DIGIT >)+ >
-}
-
-TOKEN :
-{
-  < EXPNUMBER : ([ "-" ])? < NUMBER > [ "E", "e" ] ([ "+", "-" ])? < INTEGER > >
-}
+//TOKEN :
+//{
+//  < NUMBER :
+//    (< DIGIT >)+
+//    (
+//      "." (< DIGIT >)+
+//    )?
+//  | "." (< DIGIT >)+ >
+//}
+//
+//TOKEN :
+//{
+//  < EXPNUMBER : ([ "-" ])? < NUMBER > [ "E", "e" ] ([ "+", "-" ])? < INTEGER > >
+//}
 
 TOKEN :
 {
@@ -698,9 +698,10 @@ TOKEN :
   < AND :
     "And"
   | "AND"
+  | "and"
   | "&&" >
 }
-/*    "and"
+/*    
   | "or"
     "not"
   | "xor"
@@ -712,6 +713,7 @@ TOKEN :
   < OR :
     "OR"
   | "Or"
+  | "or"
   | "||" >
 }
 
@@ -742,7 +744,7 @@ TOKEN :
 
 TOKEN :
 {
-	< IDCHAR : < LETTER > | < DIGIT > | "_" >
+	< IDCHAR : < LETTER > | < DIGIT > | "_" | "." >
 }
 
 TOKEN :
@@ -1034,35 +1036,8 @@ private ASTNode termLevel8() throws NumberFormatException :
   ArrayList < ASTNode > arguments = new ArrayList < ASTNode > ();
 }
 {
-  t = < INTEGER >
-  {
-    i = Integer.parseInt(t.image); // Could use StringTools.parseXXX methods here but not doing so allow to support different locale ??
-    node.setValue(i);
-    return node;
-  }
-| t = < NUMBER >
-  {
-    d = Double.parseDouble(t.image);
-    node.setValue(d);
-    return node;
-  }
-| t = < EXPNUMBER >
-  {
-    s = t.image;
-    vals = s.toLowerCase().split("e");
-    if (vals [ 1 ].startsWith("+"))
-    {
-      i = Integer.parseInt(vals [ 1 ].substring(1));
-    }
-    else
-    {
-      i = Integer.parseInt(vals [ 1 ]);
-    }
-    node.setValue(Double.parseDouble(vals [ 0 ]), i);
-    return node;
-  }
   // Function call: f(...)
-| LOOKAHEAD(2)
+  LOOKAHEAD(2)
   t = string() < OPEN_PAR > child = termLevel2()
   (
     < SPLITTER > furtherChild = termLevel2()

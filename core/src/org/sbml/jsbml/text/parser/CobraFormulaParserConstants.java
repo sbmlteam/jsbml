@@ -32,61 +32,55 @@ public interface CobraFormulaParserConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int INTEGER = 3;
+  int DIGIT = 3;
   /** RegularExpression Id. */
-  int DIGIT = 4;
+  int SPLITTER = 4;
   /** RegularExpression Id. */
-  int NUMBER = 5;
+  int PLUS = 5;
   /** RegularExpression Id. */
-  int EXPNUMBER = 6;
+  int POWER = 6;
   /** RegularExpression Id. */
-  int SPLITTER = 7;
+  int MINUS = 7;
   /** RegularExpression Id. */
-  int PLUS = 8;
+  int TIMES = 8;
   /** RegularExpression Id. */
-  int POWER = 9;
+  int DIVIDE = 9;
   /** RegularExpression Id. */
-  int MINUS = 10;
+  int MODULO = 10;
   /** RegularExpression Id. */
-  int TIMES = 11;
+  int OPEN_PAR = 11;
   /** RegularExpression Id. */
-  int DIVIDE = 12;
+  int CLOSE_PAR = 12;
   /** RegularExpression Id. */
-  int MODULO = 13;
+  int LEFT_BRACES = 13;
   /** RegularExpression Id. */
-  int OPEN_PAR = 14;
+  int RIGHT_BRACES = 14;
   /** RegularExpression Id. */
-  int CLOSE_PAR = 15;
+  int LEFT_BRACKET = 15;
   /** RegularExpression Id. */
-  int LEFT_BRACES = 16;
+  int RIGHT_BRACKET = 16;
   /** RegularExpression Id. */
-  int RIGHT_BRACES = 17;
+  int COMPARISON = 17;
   /** RegularExpression Id. */
-  int LEFT_BRACKET = 18;
+  int BOOLEAN_LOGIC = 18;
   /** RegularExpression Id. */
-  int RIGHT_BRACKET = 19;
+  int AND = 19;
   /** RegularExpression Id. */
-  int COMPARISON = 20;
+  int OR = 20;
   /** RegularExpression Id. */
-  int BOOLEAN_LOGIC = 21;
+  int XOR = 21;
   /** RegularExpression Id. */
-  int AND = 22;
+  int NOT = 22;
   /** RegularExpression Id. */
-  int OR = 23;
+  int LOG = 23;
   /** RegularExpression Id. */
-  int XOR = 24;
+  int STRING = 24;
   /** RegularExpression Id. */
-  int NOT = 25;
+  int IDCHAR = 25;
   /** RegularExpression Id. */
-  int LOG = 26;
+  int LETTER = 26;
   /** RegularExpression Id. */
-  int STRING = 27;
-  /** RegularExpression Id. */
-  int IDCHAR = 28;
-  /** RegularExpression Id. */
-  int LETTER = 29;
-  /** RegularExpression Id. */
-  int EOL = 30;
+  int EOL = 27;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -96,10 +90,7 @@ public interface CobraFormulaParserConstants {
     "<EOF>",
     "\" \"",
     "\"\\t\"",
-    "<INTEGER>",
     "<DIGIT>",
-    "<NUMBER>",
-    "<EXPNUMBER>",
     "<SPLITTER>",
     "\"+\"",
     "\"^\"",
