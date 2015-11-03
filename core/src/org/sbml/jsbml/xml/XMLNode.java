@@ -645,7 +645,8 @@ public class XMLNode extends XMLToken {
    * 
    * @param elementName - The local name of the elements to match on. The special value "*" matches all local names.
    * @param elementURI - The namespace URI of the elements to match on. The special value "*" matches all namespaces.
-   * @return the first direct child of this {@link XMLNode} with the given local name and namespace.
+   * @return the first direct child of this {@link XMLNode} with the given local name and namespace or null
+   * if no match found.
    */
   public XMLNode getChildElement(String elementName, String elementURI)
   {
@@ -687,7 +688,7 @@ public class XMLNode extends XMLToken {
    *        - The namespace URI of the elements to match on. The special value
    *        "*" matches all namespaces.
    * @return all the direct children of this {@link XMLNode} with the given
-   *         local name and namespace.
+   *         local name and namespace or an empty List if not match were found.
    */
   public List<XMLNode> getChildElements(String elementName, String elementURI)
   {
