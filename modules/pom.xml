@@ -72,8 +72,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.sbml.jsbml.core</groupId>
-            <artifactId>jsbml_core</artifactId>
+            <groupId>org.sbml.jsbml</groupId>
+            <artifactId>jsbml-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -85,9 +85,9 @@
     </dependencies>
 
     <modules>
-        <module>android</module>
+        <!-- <module>android</module>
         <module>celldesigner</module>
-        <module>libSBMLio</module>
+        <module>libSBMLio</module> cellDesigner and libSBML are dependencies that are not on maven -->
         <module>tidy</module>
     </modules>
     

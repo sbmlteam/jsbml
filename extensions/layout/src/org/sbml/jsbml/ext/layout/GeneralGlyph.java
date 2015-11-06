@@ -164,7 +164,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    * the listOfAdditionalGraphicalObjects (which may only contain {@link GraphicalObject} or {@link GeneralGlyph}s),
    * the listOfSubGlyphs may contain any derived class, such as for example {@link TextGlyph} elements.
    * 
-   * Sets the given ListOf<{@link GraphicalObject}>. If listOfSubGlyphs
+   * Sets the given ListOf&lt;{@link GraphicalObject}&gt;. If listOfSubGlyphs
    * was defined before and contains some elements, they are all unset.
    *
    * @param listOfSubGlyphs
@@ -239,7 +239,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    *
    * @param i the index where to remove the {@link GraphicalObject}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public void removeSubGlyph(int i) {
     if (!isSetListOfSubGlyphs()) {

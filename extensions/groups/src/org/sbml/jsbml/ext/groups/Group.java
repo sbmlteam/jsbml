@@ -422,7 +422,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param i the index of the {@link Member} element to get.
    * @return an element from the listOfMembers at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public Member getMember(int i) {
     if (!isSetListOfMembers()) {
@@ -610,7 +610,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    *
    * @param i the index where to remove the {@link MemberConstraint}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public void removeMemberConstraint(int i) {
     if (!isSetListOfMemberConstraints()) {

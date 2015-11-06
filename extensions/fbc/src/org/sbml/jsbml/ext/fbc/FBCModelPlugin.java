@@ -317,7 +317,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    *
    * @param i the index where to get the {@link FluxBound}
    * @throws IndexOutOfBoundsException
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    * @return an element from the listOfFluxBounds at the given index.
    * @deprecated Only defined in FBC version 1.
    */
@@ -346,7 +346,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    * @param i the index of the {@link GeneProduct} element to get.
    * @return an element from the listOfGeneProducts at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public GeneProduct getGeneProduct(int i) {
     if (!isSetListOfGeneProducts()) {
@@ -477,7 +477,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    *
    * @param i the index where to get the {@link Objective}
    * @throws IndexOutOfBoundsException
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    * @return an element from the listOfObjectives at the given index.
    */
   public Objective getObjective(int i) {
@@ -651,7 +651,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    *
    * @param i the index where to remove the {@link FluxBound}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    * @deprecated Only defined in FBC version 1.
    */
   @Deprecated
@@ -682,7 +682,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    * @param i the index where to remove the {@link GeneProduct}.
    * @return the specified element if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public GeneProduct removeGeneProduct(int i) {
     if (!isSetListOfGeneProducts()) {
@@ -710,7 +710,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    *
    * @param i the index where to remove the {@link Objective}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public void removeObjective(int i) {
     if (!isSetListOfObjectives()) {

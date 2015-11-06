@@ -266,7 +266,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * @param i the index where to remove the {@link Index}.
    * @return the specified element, if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public Index removeIndex(int i) {
     if (!isSetListOfIndices()) {
@@ -291,7 +291,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * @param i the index of the {@link Index} element to get.
    * @return an element from the listOfIndices at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public Index getIndex(int i) {
     if (!isSetListOfIndices()) {
@@ -483,7 +483,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * @param i the index where to remove the {@link Dimension}.
    * @return the specified element, if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public Dimension removeDimension(int i) {
     if (!isSetListOfDimensions()) {
@@ -518,7 +518,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * @param i the dimension of the {@link Dimension} element to get.
    * @return an element from the listOfDimensions at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > 2).
+   * if the index is out of bound (index &lt; 0 || index &gt; 2)
    */
   public Dimension getDimension(int i) {
     if (!isSetListOfDimensions()) {

@@ -186,7 +186,7 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
    * @param i the index of the {@link Association} element to get.
    * @return an element from the listOfAssociations at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public Association getAssociation(int i) {
     if (!isSetListOfAssociations()) {
@@ -323,7 +323,7 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
    * @param i the index where to remove the {@link Association}.
    * @return the specified element if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public Association removeAssociation(int i) {
     if (!isSetListOfAssociations()) {

@@ -31,7 +31,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 /**
  * Parent class to {@link LineSegment} and {@link CubicBezier}.
  * 
- * @author Sebastian Fr&oum;hlich
+ * @author Sebastian Fr&ouml;hlich
  * @author Nicolas Rodriguez
  * @since 1.0
  * @version $Rev$
@@ -40,7 +40,7 @@ public abstract class CurveSegment extends AbstractSBase {
 
   /**
    * 
-   * @author Sebastian Fr&oum;hlich
+   * @author Sebastian Fr&ouml;hlich
    * @author Nicolas Rodriguez
    * @version $Rev$
    * @since 1.0

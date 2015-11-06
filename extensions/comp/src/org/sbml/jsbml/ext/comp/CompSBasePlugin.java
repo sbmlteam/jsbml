@@ -439,7 +439,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    *
    * @param i the index of the element to be removed
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public void removeReplacedElement(int i) {
     if (!isSetListOfReplacedElements()) {

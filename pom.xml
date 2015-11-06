@@ -31,9 +31,11 @@
     <version>1.1-b1</version>
     <packaging>pom</packaging>
 
-<!--
   <build>
     <plugins>
+
+<!-- properties file not used at the moment
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>properties-maven-plugin</artifactId>
@@ -54,8 +56,56 @@
         </executions>
       </plugin>
     </plugins>
-  </build>
 -->
+    
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+        <configuration>
+          <stylesheetfile>${basedir}/stylesheetfile.css</stylesheetfile>
+          <links>
+            <link>http://docs.oracle.com/javase/6/docs/api/</link>
+            <link>http://www.biojava.org/docs/api17</link> <!-- TODO  update -->
+          </links>
+          <tags>
+            <tag>
+              <name>sbml.deprecated</name>
+              <placement>a</placement>
+              <head>Deprecated in SBML since:</head>
+            </tag>
+            <tag>
+              <name>libsbml.deprecated</name>
+              <placement>a</placement>
+              <head>Note: this method is kept here as it exist in libSBML.</head>
+            </tag>
+            <tag>
+              <name>jsbml.note</name>
+              <placement>a</placement>
+              <head>Note:</head>
+            </tag>
+            <tag>
+              <name>jsbml.warning</name>
+              <placement>a</placement>
+              <head>Warning:</head>
+            </tag>
+            <tag>
+              <name>doc.note</name>
+              <placement>a</placement>
+              <head>Documentation note:</head>
+            </tag>
+            <tag>
+              <name>date</name>
+              <placement>a</placement>
+              <head>Last modified:</head>
+            </tag>
+          </tags>
+        </configuration>
+      </plugin>
+      
+    </plugins>
+  </build>
+
 
     <modules>
         <module>core</module>
@@ -63,4 +113,31 @@
         <module>modules</module>
     </modules>
 
+  <repositories>
+    <repository>
+      <id>local-repo</id>
+      <url>http://localhost/repo</url>
+    </repository>
+  </repositories>
+  
+  	<distributionManagement>
+  	<repository>
+      <id>local-repo-deploy</id>
+      <name>Test Maven2 repository</name>
+      <url>file:///var/www/html/repo</url>
+    </repository>
+		<snapshotRepository>
+			<id>jsbmlmavenrepotest.sourceforge.net</id>
+			<name>JSBML Maven2 SNAPSHOT repository</name>
+			<url>scp://shell.sourceforge.net/home/project-web/jsbmlmavenrepotest/htdocs/snapshotRepository</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+<!-- 		<repository>
+			<id>jsbmlmavenrepotest.sourceforge.net</id>
+			<name>JSBML Maven2 repository</name>
+			<url>scp://shell.sourceforge.net/home/project-web/jsbmlmavenrepotest/htdocs/releaseRepository</url>
+		</repository>
+-->
+  
 </project>

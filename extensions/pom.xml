@@ -64,7 +64,7 @@
     <dependencies>
         <dependency>
             <groupId>org.sbml.jsbml</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>jsbml-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

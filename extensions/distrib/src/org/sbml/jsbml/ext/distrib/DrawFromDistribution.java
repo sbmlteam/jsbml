@@ -348,7 +348,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
    * @param i the index where to remove the {@link DistribInput}.
    * @return the specified element, if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public DistribInput removeDistribInput(int i) {
     if (!isSetListOfDistribInputs()) {
@@ -386,7 +386,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
    * @param i the index of the {@link DistribInput} element to get.
    * @return an element from the listOfDistribInputs at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public DistribInput getDistribInput(int i) {
     if (!isSetListOfDistribInputs()) {
