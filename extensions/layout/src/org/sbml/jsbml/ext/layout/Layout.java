@@ -659,7 +659,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param i the index of the {@link CompartmentGlyph} element to get.
    * @return an element from the listOfCompartmentGlyphs at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public CompartmentGlyph getCompartmentGlyph(int i) {
     if (!isSetListOfCompartmentGlyphs()) {
@@ -1048,7 +1048,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param i the index where to remove the {@link CompartmentGlyph}.
    * @return the specified element, if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public CompartmentGlyph removeCompartmentGlyph(int i) {
     if (!isSetListOfCompartmentGlyphs()) {
@@ -1091,7 +1091,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param i the index where to remove the {@link GeneralGlyph}.
    * @return the removed object
    * @throws IndexOutOfBoundsException if the listOf is not set or if the index
-   * is out of bound (index < 0 || index > list.size).
+   * is out of bound (index &lt; 0 || index &gt; list.size).
    * @throws ClassCastException if the additional graphical object at the given
    * index is not an instance of {@link GeneralGlyph}. Note that the element is
    * still removed, but an exception will be thrown. The element will not be
@@ -1126,7 +1126,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param i the index where to remove the {@link ReactionGlyph}.
    * @return the specified element, if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public ReactionGlyph removeReactionGlyph(int i) {
     if (!isSetListOfReactionGlyphs()) {
@@ -1208,7 +1208,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param i the index where to remove the {@link SpeciesGlyph}.
    * @return the specified element, if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public SpeciesGlyph removeSpeciesGlyph(int i) {
     if (!isSetListOfSpeciesGlyphs()) {
@@ -1250,7 +1250,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param i the index where to remove the {@link TextGlyph}.
    * @return the specified element, if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public TextGlyph removeTextGlyph(int i) {
     if (!isSetListOfTextGlyphs()) {

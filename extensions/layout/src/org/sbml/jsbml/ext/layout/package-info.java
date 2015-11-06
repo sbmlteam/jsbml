@@ -32,7 +32,7 @@
  * href="http://otto.bioquant.uni-heidelberg.de/sbml/">Layout proposal by Gauges
  * et al.</a> as an annotation in SBMl level 2
  * </p>
- * <p><img title="JSBML" alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
+ * <p><img alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
  * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;hlich

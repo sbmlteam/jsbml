@@ -487,7 +487,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    *
    * @param i the index where to remove the {@link Port}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public void removePort(int i) {
     if (!isSetListOfPorts()) {
@@ -516,7 +516,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    *
    * @param i the index where to remove the {@link Submodel}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public void removeSubmodel(int i) {
     if (!isSetListOfSubmodels()) {

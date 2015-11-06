@@ -30,7 +30,7 @@
  * "http://identifiers.org/combine.specifications/sbml.level-3.version-1.comp.version-1.release-3"
  * >version 1 release 3</a>.
  * 
- * <p><img title="JSBML" alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
+ * <p><img alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$

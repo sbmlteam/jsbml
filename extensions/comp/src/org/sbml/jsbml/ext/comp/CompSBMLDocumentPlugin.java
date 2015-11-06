@@ -306,7 +306,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    *
    * @param i the index where to remove the {@link ExternalModelDefinition}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public void removeExternalModelDefinition(int i) {
     if (!isSetListOfExternalModelDefinitions()) {
@@ -522,7 +522,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    *
    * @param i the index where to remove the {@link ModelDefinition}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size)
    */
   public void removeModelDefinition(int i) {
     if (!isSetListOfModelDefinitions()) {
