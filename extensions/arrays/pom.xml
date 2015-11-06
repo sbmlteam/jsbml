@@ -35,4 +35,13 @@
     <groupId>org.sbml.jsbml.ext</groupId>
     <artifactId>jsbml-arrays</artifactId>
     <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.sbml.jsbml.ext</groupId>
+            <artifactId>jsbml-comp</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>
