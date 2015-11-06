@@ -31,6 +31,7 @@
     <version>1.1-b1</version>
     <packaging>pom</packaging>
 
+<!--
   <build>
     <plugins>
       <plugin>
@@ -54,6 +55,7 @@
       </plugin>
     </plugins>
   </build>
+-->
 
     <modules>
         <module>core</module>

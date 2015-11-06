@@ -38,8 +38,8 @@
     
     <dependencies>
         <dependency>
-            <groupId>org.sbml.jsbml.ext.layout</groupId>
-            <artifactId>jsbml_ext_layout</artifactId>
+            <groupId>org.sbml.jsbml.ext</groupId>
+            <artifactId>jsbml-layout</artifactId>
             <version>1.1-b1</version>
         </dependency>
     </dependencies>
