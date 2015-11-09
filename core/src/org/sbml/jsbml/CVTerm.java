@@ -1258,7 +1258,7 @@ public class CVTerm extends AnnotationElement {
    * @param i the index where to remove the {@link CVTerm}.
    * @return the specified element if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
-   *         out of bound ({@code (i < 0) || (i > listOfNestedCVTerms)}).
+   *         out of bound ({@code (i &lt; 0) || (i &gt; listOfNestedCVTerms)}).
    */
   public CVTerm removeNestedCVTerm(int i) {
     if (!isSetListOfNestedCVTerms()) {
@@ -1286,7 +1286,7 @@ public class CVTerm extends AnnotationElement {
    * @param i the index of the {@link CVTerm} element to get.
    * @return an element from the listOfNestedCVTerms at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public CVTerm getNestedCVTerm(int i) {
     if (!isSetListOfNestedCVTerms()) {

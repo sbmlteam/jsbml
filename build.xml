@@ -694,6 +694,41 @@
 
 	</target>
 
+	<!-- =================================================================== -->
+	<!-- Install jsbml in the local repo                                     -->
+	<!-- =================================================================== -->
+	<target
+	  name="maven-install"
+      description="Install jsbml localy"
+	  depends="init"
+	>
+		<!-- 	mvn javadoc:jar source:jar install
+		 -->
+		<exec executable="mvn">
+			<arg value="javadoc:jar"/>
+			<arg value="source:jar"/>
+			<arg value="install"/>
+		</exec>
+
+	</target>
+	
+	<!-- =================================================================== -->
+	<!-- Deploy jsbml in a remote repo                                     -->
+	<!-- =================================================================== -->
+	<target
+	  name="maven-deploy"
+      description="Deploy jsbml remotely"
+	  depends="init"
+	>
+		<!-- 	mvn javadoc:jar source:jar deploy
+		 -->
+		<exec executable="mvn">
+			<arg value="javadoc:jar"/>
+			<arg value="source:jar"/>
+			<arg value="deploy"/>
+		</exec>
+
+	</target>
 
 	<!-- =================================================================== -->
 	<!-- Cleans everything                                                   -->
