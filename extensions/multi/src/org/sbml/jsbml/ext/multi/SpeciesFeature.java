@@ -380,7 +380,7 @@ public class SpeciesFeature extends AbstractNamedSBase {
    * @param i the index of the {@link SpeciesFeatureValue} element to get.
    * @return an element from the listOfSpeciesFeatureValues at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public SpeciesFeatureValue getSpeciesFeatureValue(int i) {
     if (!isSetListOfSpeciesFeatureValues()) {

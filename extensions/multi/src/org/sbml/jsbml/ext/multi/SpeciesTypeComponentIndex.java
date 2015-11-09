@@ -396,7 +396,7 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
    * @param i the index of the {@link DenotedSpeciesTypeComponentIndex} element to get.
    * @return an element from the listOfDenotedSpeciesTypeComponentIndexes at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public DenotedSpeciesTypeComponentIndex getDenotedSpeciesTypeComponentIndex(int i) {
     if (!isSetListOfDenotedSpeciesTypeComponentIndexes()) {

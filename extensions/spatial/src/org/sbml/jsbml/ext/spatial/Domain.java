@@ -285,7 +285,7 @@ public class Domain extends AbstractSpatialNamedSBase {
    *
    * @param i the index where to remove the {@link InteriorPoint}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public void removeInteriorPoint(int i) {
     if (!isSetListOfInteriorPoints()) {

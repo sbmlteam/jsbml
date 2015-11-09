@@ -944,7 +944,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * @param i the index where to remove the {@link Transformation2D}.
    * @return the specified element, if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public Transformation2D removeElement(int i) {
     if (!isSetListOfElements()) {
@@ -1037,7 +1037,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * @param i the index of the {@link Transformation2D} element to get.
    * @return an element from the listOfElements at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public Transformation2D getElement(int i) {
     if (!isSetListOfElements()) {

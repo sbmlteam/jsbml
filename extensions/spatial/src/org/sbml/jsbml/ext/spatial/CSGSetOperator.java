@@ -425,7 +425,7 @@ public class CSGSetOperator extends CSGNode {
    *
    * @param i the index where to remove the {@link CSGNode}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public void removeCSGNode(int i) {
     if (!isSetListOfCSGNodes()) {

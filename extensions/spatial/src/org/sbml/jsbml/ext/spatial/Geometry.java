@@ -359,7 +359,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *
    * @param i the index where to remove the {@link SampledField}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public void removeSampledField(int i) {
     if (!isSetListOfSampledFields()) {
@@ -505,7 +505,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *
    * @param i the index where to remove the {@link GeometryDefinition}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public void removeGeometryDefinition(int i) {
     if (!isSetListOfGeometryDefinitions()) {
@@ -719,7 +719,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *
    * @param i the index where to remove the {@link AdjacentDomains}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public void removeAdjacentDomain(int i) {
     if (!isSetListOfAdjacentDomains()) {
@@ -865,7 +865,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *
    * @param i the index where to remove the {@link DomainType}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public void removeDomainType(int i) {
     if (!isSetListOfDomainTypes()) {
@@ -1010,7 +1010,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *
    * @param i the index where to remove the {@link Domain}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public void removeDomain(int i) {
     if (!isSetListOfDomains()) {
@@ -1155,7 +1155,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *
    * @param i the index where to remove the {@link CoordinateComponent}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public void removeCoordinateComponent(int i) {
     if (!isSetListOfCoordinateComponents()) {

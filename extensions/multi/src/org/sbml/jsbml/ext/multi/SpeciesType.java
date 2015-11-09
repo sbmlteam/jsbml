@@ -35,20 +35,22 @@ import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * 
- * <p/>The element SpeciesType, which is part of SBML Level 2 Version 4 specification, is not part
+ * <p>The element SpeciesType, which is part of SBML Level 2 Version 4 specification, is not part
  * of SBML Level 3 Version 1 Core any more. Instead, it will be defined in the multi package. The
  * SpeciesType element carries not only the basic attributes which it had in SBML Level 2 Version 4
  * (metaid, id, name), but is also extended for the needs of describing multi-component entities
  * with the attribute bindingSite and for the needs of multistate entities by linking it to a list of
- * StateFeatures
- * <p/>A species type can be used to describe a component of a supra-macromolecular assembly,
+ * StateFeatures</p>
+ * 
+ * <p>A species type can be used to describe a component of a supra-macromolecular assembly,
  * but also a domain of a macromolecule. Such a domain can be a portion of the macromolecule,
  * a non-connex set of atoms forming a functional domain, or just a conceptual construct suiting
  * the needs of the modeler. The type of component can be specified by referring terms from the
  * subbranch functional entity of the <a href="http://biomodels.net/sbo/">Systems Biology Ontology</a>
  * through the optional sboTerm attribute. The following table provides typical examples of
- * component or domains (the list is absolutely not complete).
+ * component or domains (the list is absolutely not complete).</p>
  * <table>
+ *   <caption>Typical examples of components or domains</caption>
  *   <tr>
  *     <th> SBO identifier </th><th> Definition </th>
  *   </tr><tr>
@@ -520,7 +522,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
    * @param i the index of the {@link InSpeciesTypeBond} element to get.
    * @return an element from the listOfInSpeciesTypeBonds at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public InSpeciesTypeBond getInSpeciesTypeBond(int i) {
     if (!isSetListOfInSpeciesTypeBonds()) {
@@ -703,7 +705,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
    * @param i the index of the {@link SpeciesFeatureType} element to get.
    * @return an element from the listOfSpeciesFeatureTypes at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public SpeciesFeatureType getSpeciesFeatureType(int i) {
     if (!isSetListOfSpeciesFeatureTypes()) {
@@ -746,7 +748,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
    * @param i the index of the {@link SpeciesTypeComponentIndex} element to get.
    * @return an element from the listOfSpeciesTypeComponentIndexes at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public SpeciesTypeComponentIndex getSpeciesTypeComponentIndex(int i) {
     if (!isSetListOfSpeciesTypeComponentIndexes()) {
@@ -789,7 +791,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
    * @param i the index of the {@link SpeciesTypeInstance} element to get.
    * @return an element from the listOfSpeciesTypeInstances at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public SpeciesTypeInstance getSpeciesTypeInstance(int i) {
     if (!isSetListOfSpeciesTypeInstances()) {

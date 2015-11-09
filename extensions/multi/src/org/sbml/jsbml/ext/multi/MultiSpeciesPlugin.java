@@ -273,7 +273,7 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
    * @param i the index of the {@link OutwardBindingSite} element to get.
    * @return an element from the listOfOutwardBindingSites at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public OutwardBindingSite getOutwardBindingSite(int i) {
     if (!isSetListOfOutwardBindingSites()) {
@@ -487,7 +487,7 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
    * @param i the index of the {@link SpeciesFeature} element to get.
    * @return an element from the listOfSpeciesFeatures at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public SpeciesFeature getSpeciesFeature(int i) {
     if (!isSetListOfSpeciesFeatures()) {

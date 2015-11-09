@@ -298,7 +298,7 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
    * @param i the index of the {@link SpeciesTypeComponentMapInProduct} element to get.
    * @return an element from the listOfSpeciesTypeComponentMapInProducts at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public SpeciesTypeComponentMapInProduct getSpeciesTypeComponentMapInProduct(int i) {
     if (!isSetListOfSpeciesTypeComponentMapInProducts()) {
