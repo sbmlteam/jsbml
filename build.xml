@@ -728,6 +728,16 @@
 			<arg value="deploy"/>
 		</exec>
 
+		<!-- deploy a pseudo jar file to be able to have all dependencies defined in one go ? -->
+		<!-- mvn deploy:deploy-file -DpomFile=./dev/maven/pom.xml -Dfile=./dev/maven/jsbml-pom.jar -->
+		
+		<exec executable="mvn">
+			<arg value="deploy:deploy-file"/>
+			<arg value="-DpomFile=./dev/maven/pom.xml"/>
+			<arg value="-Dfile=./dev/maven/jsbml-pom.jar"/>
+		</exec>
+		
+		
 	</target>
 
 	<!-- =================================================================== -->
