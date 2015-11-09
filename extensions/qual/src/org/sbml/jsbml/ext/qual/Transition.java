@@ -38,9 +38,9 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * <p>
  * In logical models a {@link Transition} is used to specify the logical rule associated with a
  * {@link QualitativeSpecies} (that appears as an {@link Output} of this {@link Transition}).
- * For example, the rule if A > 1 : B = 2 would be encapsulated as a {@link Transition} with
+ * For example, the rule if A &gt; 1 : B = 2 would be encapsulated as a {@link Transition} with
  * {@link QualitativeSpecies} "A" as an {@link Input} and "B" as an {@link Output}; the
- * if A > 1 rule being encoded by the math element of a {@link FunctionTerm} with the resultLevel
+ * if A &gt; 1 rule being encoded by the math element of a {@link FunctionTerm} with the resultLevel
  * attribute having a value "2".
  * <p>
  * In Petri net models a {@link Transition} is interpreted, using the common Petri net semantics, as events

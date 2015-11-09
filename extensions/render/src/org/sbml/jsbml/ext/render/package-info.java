@@ -38,7 +38,7 @@
  * engineering class at the University of Tuebingen, Germany, in the summer
  * semester 2012, supervised by Johannes Eichner and Andreas Dr&#228;ger.
  * </p>
- * <p><img title="JSBML" alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
+ * <p><img alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
  * 
  * @author Alexander Diamantikos
  * @author Jakob Matthes

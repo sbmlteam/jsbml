@@ -243,7 +243,7 @@ public class MixedGeometry extends GeometryDefinition {
    *
    * @param i the index where to remove the {@link GeometryDefinition}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public void removeGeometryDefinition(int i) {
     if (!isSetListOfGeometryDefinitions()) {
@@ -454,7 +454,7 @@ public class MixedGeometry extends GeometryDefinition {
    *
    * @param i the index where to remove the {@link OrdinalMapping}
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size)
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public void removeOrdinalMapping(int i) {
     if (!isSetListOfOrdinalMappings()) {

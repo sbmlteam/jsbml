@@ -374,7 +374,7 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
    * @param i the index of the {@link SpeciesFeatureChange} element to get.
    * @return an element from the listOfSpeciesFeatureChanges at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public SpeciesFeatureChange getSpeciesFeatureChange(int i) {
     if (!isSetListOfSpeciesFeatureChanges()) {
