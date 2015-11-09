@@ -285,18 +285,18 @@ public class JSBML {
    * 
    * <p> You can change this behaviour by using the {@link FormulaParserLL3#setCaseSensitive(boolean)}
    * method and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><pre><blockquote>
+<p><pre>
    FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
    caseInsensitiveParser.setCaseSensitive(false);
    ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
-</pre></blockquote></p>
+</pre></p>
    *
    * <p> This method has a different behaviour since JSBML-1.0 compare to JSBML-0.8. There is a different
    * operator precedence, the parsing is now case sensitive for mathML elements and boolean operators are
-   * now differently interpreted: '&&' and '||' are used instead of 'and' and 'or'.<br>
+   * now differently interpreted: '&amp;&amp;' and '||' are used instead of 'and' and 'or'.<br>
    * If you want to use the parser used in JSBML-0.8, you can do that by using the {@link FormulaParser}
    * parser class and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><pre><blockquote>
+<p><blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
 
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);

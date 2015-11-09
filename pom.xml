@@ -105,6 +105,7 @@
               <head>Last modified:</head>
             </tag>
           </tags>
+          <failOnError>false</failOnError>
         </configuration>
       </plugin>
       

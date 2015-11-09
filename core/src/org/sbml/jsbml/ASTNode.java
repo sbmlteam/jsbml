@@ -985,7 +985,7 @@ public class ASTNode extends AbstractTreeNode {
    * 
    * <p> You can change this behaviour by using the {@link FormulaParserLL3#setCaseSensitive(boolean)}
    * method and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><pre><blockquote>
+<p><blockquote><pre>
    FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
    caseInsensitiveParser.setCaseSensitive(false);
    ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
@@ -993,10 +993,10 @@ public class ASTNode extends AbstractTreeNode {
    *
    * <p> This method has a different behaviour since JSBML-1.0 compare to JSBML-0.8. There is a different
    * operator precedence, the parsing is now case sensitive for mathML elements and boolean operators are
-   * now differently interpreted: '&&' and '||' are used instead of 'and' and 'or'.<br>
+   * now differently interpreted: '&amp;&amp;' and '||' are used instead of 'and' and 'or'.<br>
    * If you want to use the parser used in JSBML-0.8, you can do that by using the {@link FormulaParser}
    * parser class and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><pre><blockquote>
+<p><blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
 
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
@@ -1039,14 +1039,14 @@ public class ASTNode extends AbstractTreeNode {
    * 
    * <p>For example, you can change the behaviour of the {@link FormulaParserLL3} class by using the
    * {@link FormulaParserLL3#setCaseSensitive(boolean)} method:
-<p><pre><blockquote>
+<p><blockquote><pre>
    FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
    caseInsensitiveParser.setCaseSensitive(false);
    ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
 </pre></blockquote></p>
    *
    * <p> You can as well use the {@link FormulaParser} class to get the same parsing behaviour as in JSBML-0.8:
-<p><pre><blockquote>
+<p><blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
 
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);

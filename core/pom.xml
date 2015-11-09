@@ -47,7 +47,7 @@
 	  
 		<directory>dist</directory>
 		<outputDirectory>dist/classes</outputDirectory>
-		<finalName>${artifactId}-${version}</finalName>
+		<finalName>${project.artifactId}-${project.version}</finalName>
 		<testOutputDirectory>dist/test-classes</testOutputDirectory>
 		<sourceDirectory>src</sourceDirectory>
 		<scriptSourceDirectory>scripts</scriptSourceDirectory>
