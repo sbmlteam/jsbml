@@ -28,6 +28,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.Assignment;
+import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
@@ -88,7 +90,9 @@ public class ASTCnNumberNodeTest {
    */
   @Test
   public void testDeriveUnit() {
+    AssignmentRule rule = new AssignmentRule(3, 1);
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    number.setParentSBMLObject(rule);
     number.setUnits(Unit.Kind.COULOMB.getName());
     UnitDefinition unitDefinition = number.deriveUnit();
     assertTrue(unitDefinition.getUnitCount() == 1);
