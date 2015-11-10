@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <minus/>
+    <cn type="integer"> 1 </cn>
+    <cn type="integer"> 1 </cn>
+  </apply>
+</math>

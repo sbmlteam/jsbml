@@ -193,7 +193,7 @@ public class ASTCiFunctionNodeTest {
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiFunctionNode#toFormula()}.
    */
-  @Test
+  /*  @Test
   public final void testToFormula() {
     // TODO: This test case might not be consistent with how real SBML elements
     // are manipulated. Verify.
@@ -222,7 +222,8 @@ public class ASTCiFunctionNodeTest {
 
     assertTrue(ci.toFormula().equals("pow3()"));
   }
-
+*/
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiFunctionNode#toFormula()}.
    */
