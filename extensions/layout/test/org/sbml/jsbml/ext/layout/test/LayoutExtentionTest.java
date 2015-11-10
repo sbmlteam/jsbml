@@ -25,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -46,6 +47,7 @@ import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
+import org.sbml.jsbml.xml.test.SBML_L2V1Test;
 
 /**
  * 
@@ -69,16 +71,15 @@ public class LayoutExtentionTest {
 
   static {
     final SBMLReader reader = new SBMLReader();
-    final String LAYOUT = System.getProperty("user.dir") + "/extensions/layout/test/org/sbml/jsbml/xml/test/data/layout/Layout_Example_1.xml";
+    final InputStream fileStream = SBML_L2V1Test.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/layout/Layout_Example_1.xml");
     final String LAYOUT_NS = "http://www.sbml.org/sbml/level3/version1/layout/version1";
 
     try {
-      doc = reader.readSBML(new File(LAYOUT));
+      doc = reader.readSBMLFromStream(fileStream);
     } catch (XMLStreamException e) {
       e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    } 
+
     layoutModel = (LayoutModelPlugin) doc.getModel().getExtension(LAYOUT_NS);
   }
 
