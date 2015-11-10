@@ -35,4 +35,14 @@
     <groupId>org.sbml.jsbml.ext</groupId>
     <artifactId>jsbml-distrib</artifactId>
     <packaging>jar</packaging>
+    
+    <dependencies>
+		<dependency>
+			<groupId>org.sbml.jsbml.modules</groupId>
+			<artifactId>jsbml-tidy</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+    </dependencies>
+    
 </project>

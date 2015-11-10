@@ -61,12 +61,6 @@
 			<testResource>
 				<directory>test</directory>
 			</testResource>
-			<testResource>
-				<directory>resources</directory>
-			</testResource>
-			<testResource>
-				<directory>src</directory>
-			</testResource>			
 		</testResources>
 		
 		<extensions>
@@ -78,7 +72,7 @@
 		</extensions>
 		
 		<plugins>
-		<plugin>
+  		<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<configuration>
