@@ -30,10 +30,35 @@
   <artifactId>jsbml-parent</artifactId>
   <version>1.1-b1</version>
   <packaging>pom</packaging>
+  <description>JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams.</description>
+  <url>http://www.sbml.org/Software/JSBML</url>
+
+  <licenses>
+    <license>
+      <name>LGPL License</name>
+      <url>http://opensource.org/licenses/LGPL-2.1</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>JSBML team</name>
+      <email>jsbml-team@caltech.edu</email>
+      <organization>SBML Team</organization>
+      <organizationUrl>http://www.sbml.org</organizationUrl>
+    </developer>
+  </developers>
+  
+  <scm>
+    <connection>scm:svn:http://svn.code.sf.net/p/jsbml/code/trunk</connection>
+    <developerConnection>scm:svn:https://username@svn.code.sf.net/p/jsbml/code/trunk</developerConnection>
+    <url>https://sourceforge.net/p/jsbml/code/HEAD/tree/trunk/</url>
+  </scm>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <jsbml.version>${project.version}</jsbml.version>
   </properties>
   
   <build>
@@ -42,20 +67,20 @@
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
       <resource>
-	<directory>resources</directory>
+		    <directory>resources</directory>
       </resource>
     </resources>
     <testResources>
       <testResource>
-	<directory>test</directory>
+	      <directory>test</directory>
       </testResource>
     </testResources>
     
     <extensions>
       <extension>
-	<groupId>org.apache.maven.wagon</groupId>
-	<artifactId>wagon-ssh</artifactId>
-	<version>2.4</version>
+		    <groupId>org.apache.maven.wagon</groupId>
+	      <artifactId>wagon-ssh</artifactId>
+	      <version>2.4</version>
       </extension>
     </extensions>
     
