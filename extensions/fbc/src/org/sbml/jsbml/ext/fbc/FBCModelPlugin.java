@@ -387,7 +387,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   public ListOf<FluxBound> getListOfFluxBounds() {
     if (!isSetListOfFluxBounds()) {
       listOfFluxBounds = new ListOf<FluxBound>();
-      listOfFluxBounds.setNamespace(FBCConstants.namespaceURI_L3V1V1); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfFluxBounds.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'fbc'
       listOfFluxBounds.setPackageName(null);
@@ -409,7 +408,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
   public ListOf<GeneProduct> getListOfGeneProducts() {
     if (!isSetListOfGeneProducts()) {
       listOfGeneProducts = new ListOf<GeneProduct>();
-      listOfGeneProducts.setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGeneProducts.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'fbc'
       listOfGeneProducts.setPackageName(null);
@@ -766,7 +764,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
     if (listOfFluxBounds != null) {
       listOfFluxBounds.unsetNamespace();
-      listOfFluxBounds.setNamespace(FBCConstants.namespaceURI_L3V1V1); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfFluxBounds.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'fbc'
       listOfFluxBounds.setPackageName(null);
@@ -791,7 +788,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
     if (listOfGeneProducts != null) {
       listOfGeneProducts.unsetNamespace();
-      listOfGeneProducts.setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGeneProducts.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'fbc'
       listOfGeneProducts.setPackageName(null);
@@ -817,7 +813,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    * 
    * @param listOfObjectives
    */
-  public void setListOfObjectives(ListOf<Objective> listOfObjectives) {
+  public void setListOfObjectives(ListOf<Objective> listOfObjectives) { // TODO - fix the listOfObjectives methods
     if (listOfObjectives instanceof ListOfObjectives) {
       setListOfObjectives((ListOfObjectives) listOfObjectives);
     } else {

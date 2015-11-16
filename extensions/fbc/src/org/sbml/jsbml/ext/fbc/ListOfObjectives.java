@@ -85,7 +85,6 @@ public class ListOfObjectives extends ListOf<Objective> {
    * 
    */
   private void initDefaults() {
-    setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = FBCConstants.shortLabel;
     setSBaseListType(ListOf.Type.other);

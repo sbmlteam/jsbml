@@ -308,7 +308,7 @@ public class PackageUtil {
    * @param namespace
    * @return
    */
-  private static int extractPackageVersion(String namespace) {
+  public static int extractPackageVersion(String namespace) {
     int versionIndex = namespace.lastIndexOf("version");
 
     if (versionIndex == -1) {

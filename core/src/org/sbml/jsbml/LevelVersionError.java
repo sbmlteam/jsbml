@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 
 import java.text.MessageFormat;
 
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.Message;
 
 /**
@@ -61,6 +62,13 @@ public class LevelVersionError extends SBMLError {
    * element and version in second argument.
    */
   public static final String VERSION_MISMATCH_MSG = "Version mismatch between {0} in Version {1,number,integer} and {2} in Version {3,number,integer}.";
+  /**
+   * Message to display in cases that two objects do not have identical
+   * package version attributes. Requires the following replacement arguments: Class
+   * name of first element, package version in first element, class name of second
+   * element and package version in second argument.
+   */
+  public static final String PACKAGE_VERSION_MISMATCH_MSG = "Package '{4}' Version mismatch between {0} in Version {1,number,integer} and {2} in Version {3,number,integer}.";
 
   /**
    * Creates an error message if the level fields of both elements are not
@@ -72,7 +80,7 @@ public class LevelVersionError extends SBMLError {
    */
   public static String levelMismatchMessage(SBase element1, SBase element2) {
     if (element1.getLevel() != element2.getLevel()) {
-      return MessageFormat.format(VERSION_MISMATCH_MSG, element1
+      return MessageFormat.format(LEVEL_MISMATCH_MSG, element1
         .getElementName(), element1.getLevel(), element2
         .getElementName(), element2.getLevel());
     }
@@ -94,6 +102,33 @@ public class LevelVersionError extends SBMLError {
         .getElementName(), element2.getVersion());
     }
     return "";
+  }
+
+  /**
+   * Creates an error message showing the different package versions of the given SBase elements.
+   * 
+   * @param element1
+   * @param element2
+   * @return an error message showing the different package versions.
+   */
+  public static String packageVersionMismatchMessage(SBase element1, SBase element2) {
+    return MessageFormat.format(PACKAGE_VERSION_MISMATCH_MSG, element1
+      .getElementName(), element1.getPackageVersion(), element2
+      .getElementName(), element2.getPackageVersion(),
+      element1.getPackageName());
+  }
+
+  /**
+   * Creates an error message showing the different package versions of the given SBase elements.
+   * 
+   * @param element1
+   * @param element2
+   * @return an error message showing the different package versions.
+   */
+  public static String packageVersionMismatchMessage(SBasePlugin element1, SBase element2) {
+    return MessageFormat.format(PACKAGE_VERSION_MISMATCH_MSG, element1.getClass().getSimpleName(),
+      element1.getPackageVersion(), element2.getElementName(), element2.getPackageVersion(),
+      element1.getPackageName());
   }
 
   /**
@@ -145,10 +180,29 @@ public class LevelVersionError extends SBMLError {
       message.setMessage(levelMismatchMessage(element1, element2));
     } else if (element1.getVersion() != element2.getVersion()) {
       message.setMessage(versionMismatchMessage(element1, element2));
+    } else if (element1.getPackageVersion() != element2.getPackageVersion()) {
+      message.setMessage(packageVersionMismatchMessage(element1, element2));
     }
     setMessage(message);
   }
 
+  /**
+   * 
+   * @param element1
+   * @param element2
+   */
+  public LevelVersionError(SBasePlugin element1, SBase element2) {
+    super();
+    Message message = new Message();
+    
+    if (element1.getPackageVersion() != element2.getPackageVersion()) {
+      message.setMessage(packageVersionMismatchMessage(element1, element2));
+    }
+    setMessage(message);
+  }
+
+  
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBMLError#toString()
    */

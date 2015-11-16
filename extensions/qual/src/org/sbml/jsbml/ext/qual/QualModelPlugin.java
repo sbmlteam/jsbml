@@ -112,7 +112,6 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    */
   public QualModelPlugin(Model model) {
     super(model);
-    setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /**
@@ -354,7 +353,6 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   public ListOf<QualitativeSpecies> getListOfQualitativeSpecies() {
     if (!isSetListOfQualitativeSpecies()) {
       listOfQualitativeSpecies = new ListOf<QualitativeSpecies>();
-      listOfQualitativeSpecies.setNamespace(QualConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfQualitativeSpecies.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfQualitativeSpecies.setPackageName(null);
@@ -374,7 +372,6 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   public ListOf<Transition> getListOfTransitions() {
     if (!isSetListOfTransitions()) {
       listOfTransitions = new ListOf<Transition>();
-      listOfTransitions.setNamespace(QualConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfTransitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfTransitions.setPackageName(null);
@@ -583,7 +580,6 @@ public class QualModelPlugin extends AbstractSBasePlugin {
 
     if (listOfQualitativeSpecies != null) {
       listOfQualitativeSpecies.unsetNamespace();
-      listOfQualitativeSpecies.setNamespace(QualConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfQualitativeSpecies.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfQualitativeSpecies.setPackageName(null);
@@ -608,7 +604,6 @@ public class QualModelPlugin extends AbstractSBasePlugin {
 
     if (listOfTransitions != null) {
       listOfTransitions.unsetNamespace();
-      listOfTransitions.setNamespace(QualConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfTransitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfTransitions.setPackageName(null);

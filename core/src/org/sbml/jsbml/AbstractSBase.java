@@ -47,6 +47,7 @@ import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
 import org.sbml.jsbml.xml.parsers.PackageParser;
+import org.sbml.jsbml.xml.parsers.PackageUtil;
 import org.sbml.jsbml.xml.parsers.ParserManager;
 
 /**
@@ -356,6 +357,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         ((AbstractSBasePlugin) sbasePlugin).setExtendedSBase(this);
       }
 
+      // the package namespace and version will be set in firePropertyChange
       firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbasePlugin);
     } else {
       throw new IllegalArgumentException(MessageFormat.format(
@@ -773,6 +775,104 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     throw new LevelVersionError(this, sbase);
   }
 
+  /**
+   * Checks whether or not the given {@link SBase} has the same package
+   * version configuration than this element or the SBMLDocument. If the package namespace and version combination
+   * for the given {@code sbase} is not yet defined, this method sets it to the
+   * identical values as it is for the current object or the SBMLDocument.
+   * 
+   * @param sbase
+   *            the element to be checked.
+   * @return {@code true} if the given {@code sbase} and this object
+   *         have the same package configuration.
+   * @throws LevelVersionError
+   *             In case the given {@link SBase} has a different, but defined
+   *             package version combination than this current {@link SBase}, an
+   *             {@link LevelVersionError} is thrown. This method is only
+   *             package-wide visible because it is not intended to be a
+   *             <i>real</i> check, rather than to indicate potential errors.
+   */
+  protected boolean checkAndSetPackageNamespaceAndVersion(SBase sbase) {
+    String expectedPackageNamespace = "";
+    int expectedPackageVersion = -1;
+    String packageLabel = sbase.getPackageName();    
+    
+    if (packageLabel.equals("core")) {
+      return true;
+    }
+    
+    if (getPackageName().equals(sbase.getPackageName())) {
+      expectedPackageNamespace = getNamespace();
+      expectedPackageVersion = getPackageVersion();
+    } else if (isSetPlugin(packageLabel)) {
+      SBasePlugin parentSBasePlugin = getPlugin(packageLabel);
+      expectedPackageNamespace = parentSBasePlugin.getElementNamespace();
+      expectedPackageVersion = parentSBasePlugin.getPackageVersion();
+    }
+    
+    if (expectedPackageVersion == sbase.getPackageVersion() &&
+        expectedPackageNamespace != null && expectedPackageNamespace.equals(sbase.getNamespace())) {
+      return true;
+    } else {
+      return ((AbstractSBase) sbase).setPackageNamespaceAndVersion(packageLabel, expectedPackageNamespace, expectedPackageVersion);
+    }
+  }
+
+  /**
+   * Checks whether or not the given {@link SBasePlugin} has the same package
+   * configuration than the SBMLDocument. If the package namespace and version combination
+   * for the given {@code sbasePlugin} is not yet defined, this method sets it to the
+   * identical values as it is for the current SBMLDocument.
+   * 
+   * @param sbasePlugin
+   *            the element to be checked.
+   * @return {@code true} if the given {@code sbase} and this object
+   *         have the same package configuration.
+   * @throws LevelVersionError
+   *             In case the given {@link SBase} has a different, but defined
+   *             package version combination than this current {@link SBase}, an
+   *             {@link LevelVersionError} is thrown. This method is only
+   *             package-wide visible because it is not intended to be a
+   *             <i>real</i> check, rather than to indicate potential errors.
+   */
+  protected boolean checkAndSetPackageNamespaceAndVersion(SBasePlugin sbasePlugin, SBMLDocument doc) {
+    
+    if (doc != null) {
+      String packageNamespace = doc.getEnabledPackageNamespace(sbasePlugin.getPackageName());
+      
+      if (packageNamespace == null) {
+        return false;
+      }
+      
+      int packageVersion = PackageUtil.extractPackageVersion(packageNamespace);
+      
+      if (packageVersion == sbasePlugin.getPackageVersion() &&
+        packageNamespace != null && packageNamespace.equals(sbasePlugin.getElementNamespace()))
+      {
+        return true;
+      } else {
+        sbasePlugin.setPackageVersion(packageVersion);
+        ((AbstractSBasePlugin) sbasePlugin).setNamespace(packageNamespace);
+        
+        boolean success = true;
+        Enumeration<TreeNode> children = children();      
+
+        while (children.hasMoreElements()) {
+          TreeNode child = children.nextElement();
+          if (child instanceof AbstractSBase && ((AbstractSBase) child).getPackageName().equals(sbasePlugin.getPackageName())) 
+          {
+            success &= ((AbstractSBase) child).setPackageNamespaceAndVersion(sbasePlugin.getPackageName(), packageNamespace, packageVersion);
+          }
+        }
+        
+        return success;
+      }
+    }
+    
+    return true;
+  }
+
+ 
   /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */
@@ -982,6 +1082,20 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     // the parent need to be set as well (would be done, if we call the registerChild method)
     if ((newValue != null) && (newValue instanceof SBasePlugin)) {
       ((AbstractTreeNode) newValue).setParent(this);
+
+      // set the proper package namespace and version
+      SBMLDocument doc = getSBMLDocument();
+      SBasePlugin sbasePlugin = (SBasePlugin) newValue;
+      
+      if (doc != null) {
+        String packageNamespace = doc.getEnabledPackageNamespace(sbasePlugin.getPackageName());
+        int packageVersion = PackageUtil.extractPackageVersion(packageNamespace); 
+            
+        ((AbstractSBasePlugin) sbasePlugin).setNamespace(packageNamespace);
+        sbasePlugin.setPackageVersion(packageVersion);
+        
+      }
+
     }
 
     if ((oldValue != null) && (oldValue instanceof SBasePlugin)) {
@@ -1592,6 +1706,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public boolean isSetNotes() {
     return notesXMLNode != null;
   }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#isSetPackageVErsion()
+   */
+  @Override
+  public boolean isSetPackageVErsion() {
+    return packageVersion != -1;
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#isSetParentSBMLObject()
@@ -1708,7 +1830,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return false;
     }
 
-    if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
+    if ((sbase != null) && checkLevelAndVersionCompatibility(sbase) && checkAndSetPackageNamespaceAndVersion(sbase)) {
       SBMLDocument doc = getSBMLDocument();
       if (doc != null) {
         /*
@@ -1754,8 +1876,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           sbase.getElementName()));
       }
 
-      // TODO - set package version and namespace if needed
-
       /*
        * Now, we can add all previous listeners. The next change will
        * be fired after registering all ids.
@@ -1784,7 +1904,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   private void registerChild(SBasePlugin sbasePlugin)  {
     // Could/Should be used by the method #firePropertyChange
 
-    // TODO - set package version and namespace if needed
+    // set package version and namespace if needed
+    checkAndSetPackageNamespaceAndVersion(sbasePlugin, getSBMLDocument());
 
     int childCount = sbasePlugin.getChildCount();
 
@@ -1910,6 +2031,36 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return false;
   }
 
+  /**
+   * Sets recursively the package namespace and version.
+   * 
+   * @param packageLabel the short label of the package
+   * @param namespace the namespace of the package
+   * @param packageVersion the package version
+   * @return
+   */
+  boolean setPackageNamespaceAndVersion(String packageLabel, String namespace, int packageVersion) {
+    
+    if (packageLabel.equals(getPackageName())) {
+      setNamespace(namespace);
+      setPackageVersion(packageVersion);
+      
+      boolean success = true;
+      Enumeration<TreeNode> children = children();      
+
+      while (children.hasMoreElements()) {
+        TreeNode child = children.nextElement();
+        if (child instanceof AbstractSBase && ((AbstractSBase) child).getPackageName().equals(packageLabel)) {
+          success &= ((AbstractSBase) child).setPackageNamespaceAndVersion(packageLabel, namespace, packageVersion);
+        }
+      }
+      return success;
+
+    }
+    
+    return false;
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#setMetaId(java.lang.String)
    */
@@ -2009,8 +2160,29 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public void setPackageVersion(int packageVersion) {
     int oldPackageVersion = this.packageVersion;
 
-    // TODO - add some checks to see if it agree with the package version of the parent
-    // either SBase or SBasePlugin, if the parent belong to a different package ??
+    SBase parent = getParent();
+    SBasePlugin parentPlugin = null;
+    
+    if ((parent != null) && (parent != this)) {
+      int parentPackageVersion = -1;
+      
+      if (parent.getPackageName().equals(packageName)) {
+        parentPackageVersion = parent.getPackageVersion();
+      } else if (parent.isSetPlugin(packageName)) {
+        parentPlugin = parent.getPlugin(packageName);
+        parentPackageVersion = parentPlugin.getPackageVersion();
+      }
+      
+      System.out.println("setPackageVersion - packageVersion = " + packageVersion + ", parentPackageVersion = " + parentPackageVersion);
+      
+      if (packageVersion != -1 && parentPackageVersion != -1 && packageVersion != parentPackageVersion) {
+        if (parentPlugin != null) {
+          throw new LevelVersionError(parentPlugin, this);
+        } else {
+          throw new LevelVersionError(parent, this);
+        }
+      }
+    }
 
     this.packageVersion = packageVersion;
     firePropertyChange(TreeNodeChangeEvent.packageVersion, oldPackageVersion, packageVersion);

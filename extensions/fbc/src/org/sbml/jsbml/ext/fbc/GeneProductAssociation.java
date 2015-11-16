@@ -26,6 +26,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * Introduced to FBC in version 2.
@@ -35,7 +36,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
  * @since 1.1
  * @date 06.03.2015
  */
-public class GeneProductAssociation extends AbstractNamedSBase {
+public class GeneProductAssociation extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.
@@ -59,7 +60,6 @@ public class GeneProductAssociation extends AbstractNamedSBase {
    * 
    */
   private void initDefaults() {
-    setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = FBCConstants.shortLabel;
   }

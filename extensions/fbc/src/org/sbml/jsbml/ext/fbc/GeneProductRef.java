@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.fbc;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * Introduced to FBC in version 2.
@@ -32,7 +33,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
  * @since 1.1
  * @date 06.03.2015
  */
-public class GeneProductRef extends AbstractNamedSBase implements Association {
+public class GeneProductRef extends AbstractNamedSBase implements Association, UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.
@@ -112,7 +113,6 @@ public class GeneProductRef extends AbstractNamedSBase implements Association {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(FBCConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = FBCConstants.shortLabel;
   }
