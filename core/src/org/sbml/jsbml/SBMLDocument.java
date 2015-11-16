@@ -579,7 +579,7 @@ public class SBMLDocument extends AbstractSBase {
     if (packageParser != null) {
       String packageURI = packageURIOrName;
 
-      // if the shorLabel has been used, getting the last namespace in the list of namespaces // TODO - add a getDefaultNamspace() to PackageParser
+      // if the shorLabel has been used, getting the last namespace in the list of namespaces // TODO - add a getDefaultNamespace() to PackageParser
       // TODO - add a getPackageShortLabel() to PackageParser, so that a proper name can be used for packages ? Might be confusing getPackageDisplayName() might be better.
       if (packageURI.equals(packageParser.getPackageName())) { 
         packageURI = packageParser.getPackageNamespaces().get(packageParser.getPackageNamespaces().size() - 1);
@@ -713,6 +713,35 @@ public class SBMLDocument extends AbstractSBase {
     return findSBase(metaid);
   }
 
+  /**
+   * Return the package namespace enabled on this SBMLDocument or null if the package
+   * is not enabled.
+   * 
+   * @param packageNameorUri the name or URI of the package extension.
+   * @return the package namespace enabled on this SBMLDocument or null if the package
+   * is not enabled.
+   */
+  public String getEnabledPackageNamespace(String packageURIOrName) {
+
+    if (enabledPackageMap.containsKey(packageURIOrName)) {
+      return packageURIOrName;
+    }
+    
+    // Get the package URI is needed
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(packageURIOrName);
+
+    if (packageParser != null) {
+
+      for (String packageNamespaceUri : packageParser.getPackageNamespaces()) {
+        if (enabledPackageMap.containsKey(packageNamespaceUri)) {
+          return packageNamespaceUri;
+        }
+      }
+    }
+
+    return null;
+  }
+  
   /**
    * Returns the i<sup>th</sup> error or warning encountered during consistency checking.
    * 

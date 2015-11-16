@@ -33,6 +33,7 @@ import org.sbml.jsbml.Event;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
@@ -49,10 +50,16 @@ import org.sbml.jsbml.ext.dyn.DynCompartmentPlugin;
 import org.sbml.jsbml.ext.dyn.DynConstants;
 import org.sbml.jsbml.ext.dyn.DynEventPlugin;
 import org.sbml.jsbml.ext.dyn.SpatialKind;
+import org.sbml.jsbml.ext.fbc.And;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
+import org.sbml.jsbml.ext.fbc.FBCReactionPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
+import org.sbml.jsbml.ext.fbc.GeneProduct;
+import org.sbml.jsbml.ext.fbc.GeneProductAssociation;
+import org.sbml.jsbml.ext.fbc.GeneProductRef;
 import org.sbml.jsbml.ext.fbc.Objective;
+import org.sbml.jsbml.ext.fbc.Or;
 import org.sbml.jsbml.ext.groups.Group;
 import org.sbml.jsbml.ext.groups.GroupsConstants;
 import org.sbml.jsbml.ext.groups.GroupsModelPlugin;
@@ -63,6 +70,7 @@ import org.sbml.jsbml.ext.qual.QualModelPlugin;
 import org.sbml.jsbml.ext.qual.Transition;
 import org.sbml.jsbml.ext.req.ReqConstants;
 import org.sbml.jsbml.xml.parsers.PackageUtil;
+import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
  * 
@@ -165,9 +173,9 @@ public class PackageVersionTests {
     // check and fix package version and namespaces
     // TODO - update when jsbml will be fixed to set properly package version and namespace -
     // now the fix is done in SBMLCoreParser#processEndDocument when reading a file
-    PackageUtil.checkPackages(doc, true, true);
+    // PackageUtil.checkPackages(doc, true, true);
     System.out.println("Checking packages:");
-    PackageUtil.checkPackages(doc, false, true);
+    PackageUtil.checkPackages(doc, false, false);
   }
 
 
@@ -207,6 +215,120 @@ public class PackageVersionTests {
       Assert.assertTrue(objective.getNamespace().equals(FBCConstants.namespaceURI_L3V1V1));
     }
   }
+
+  
+  /**
+   * Checks that package version and namespace are set properly for FBC version 2.
+   */
+  @Test public void testFbcPackageVersion2() {
+
+    doc = new SBMLDocument(3, 1);
+    m = doc.createModel("test");
+    
+    // using the namespace to create the plugin so that the test is valid even when there is a version 3 or more of fbc
+    FBCModelPlugin fbcModel = ((FBCModelPlugin) m.getPlugin(FBCConstants.namespaceURI_L3V1V2)); 
+    
+    Assert.assertTrue(fbcModel.getPackageVersion() == 2);
+    Assert.assertTrue(fbcModel.getPackageName().equals(FBCConstants.shortLabel));
+    Assert.assertTrue(fbcModel.getElementNamespace().equals(FBCConstants.namespaceURI_L3V1V2));
+
+    fbcModel.createObjective("fbc_O1");
+    
+    ListOf<Objective> objectives = fbcModel.getListOfObjectives();
+
+    Assert.assertTrue(objectives.getPackageVersion() == 2);
+    Assert.assertTrue(objectives.getPackageName().equals(FBCConstants.shortLabel));
+    Assert.assertTrue(objectives.getNamespace().equals(FBCConstants.namespaceURI_L3V1V2));
+
+    for (Objective objective : objectives) {
+      Assert.assertTrue(objective.getPackageVersion() == 2);
+      Assert.assertTrue(objective.getPackageName().equals(FBCConstants.shortLabel));
+      Assert.assertTrue(objective.getNamespace().equals(FBCConstants.namespaceURI_L3V1V2));
+    }
+    
+    fbcModel.createGeneProduct("fbc_GP1");
+    fbcModel.createGeneProduct("fbc_GP2");
+    fbcModel.createGeneProduct("fbc_GP3");
+    
+    ListOf<GeneProduct> geneProducts = fbcModel.getListOfGeneProducts();
+    
+    Assert.assertTrue(geneProducts.getPackageVersion() == 2);
+    Assert.assertTrue(geneProducts.getPackageName().equals(FBCConstants.shortLabel));
+    Assert.assertTrue(geneProducts.getNamespace().equals(FBCConstants.namespaceURI_L3V1V2));
+
+    for (GeneProduct geneProduct : geneProducts) {
+      Assert.assertTrue(geneProduct.getPackageVersion() == 2);
+      Assert.assertTrue(geneProduct.getPackageName().equals(FBCConstants.shortLabel));
+      Assert.assertTrue(geneProduct.getNamespace().equals(FBCConstants.namespaceURI_L3V1V2));      
+    }
+    
+    Reaction r1 = m.createReaction("R1");
+    
+    FBCReactionPlugin fbcReaction = (FBCReactionPlugin) r1.getPlugin("fbc");
+    
+    GeneProductAssociation gpa = fbcReaction.createGeneProductAssociation("fbc_GPA1");
+    
+    Or association = new Or();
+    association.addAssociation(new GeneProductRef("fbc_GPR1"));
+    
+    And and = new And();
+    and.addAssociation(new GeneProductRef("fbc_GPR2"));
+    and.addAssociation(new GeneProductRef("fbc_GPR3"));
+    association.addAssociation(and);
+    
+    gpa.setAssociation(association);
+    
+    Assert.assertTrue(and.getPackageVersion() == 2);
+    Assert.assertTrue(and.getPackageName().equals(FBCConstants.shortLabel));
+    Assert.assertTrue(and.getNamespace().equals(FBCConstants.namespaceURI_L3V1V2));
+    
+    System.out.println("Checking packages for FBC v2 SBMLDocument:");
+    PackageUtil.checkPackages(doc, false, false);
+    System.out.println("Checking packages for FBC v2 SBMLDocument done.");
+    
+    
+    SBMLDocument newDoc = new SBMLDocument(3, 1);
+    Model clonedModel = m.clone();
+    newDoc.setModel(clonedModel);
+
+    Assert.assertFalse(newDoc.isPackageEnabled("fbc"));
+
+    Assert.assertTrue(clonedModel.findNamedSBase("fbc_GPR2") != null);
+    Assert.assertTrue(clonedModel.findNamedSBase("fbc_GPR2").getPackageVersion() == 2);
+    Assert.assertTrue(clonedModel.findNamedSBase("fbc_GPR2").getNamespace().equals(FBCConstants.namespaceURI_L3V1V2));
+
+    
+    try {
+      String docStr = new SBMLWriter().writeSBMLToString(newDoc);
+
+      Assert.assertTrue(newDoc.isPackageEnabled("fbc"));
+
+      SBMLDocument doc3 = new SBMLReader().readSBMLFromString(docStr);
+      
+      Assert.assertTrue(doc3.isPackageEnabled("fbc"));
+      
+      Model m3 = doc3.getModel();
+      
+      Assert.assertTrue(m3.findNamedSBase("fbc_GPR1") != null);
+      Assert.assertTrue(m3.findNamedSBase("fbc_GPR1").getPackageVersion() == 2);
+      Assert.assertTrue(m3.findNamedSBase("fbc_GPR1").getNamespace().equals(FBCConstants.namespaceURI_L3V1V2));
+      
+      Assert.assertTrue(m3.findNamedSBase("fbc_GPA1") != null);
+      Assert.assertTrue(m3.findNamedSBase("fbc_GPA1").getPackageVersion() == 2);
+      Assert.assertTrue(m3.findNamedSBase("fbc_GPA1").getNamespace().equals(FBCConstants.namespaceURI_L3V1V2));
+      
+      System.out.println("Checking packages for FBC v2 SBMLDocument cloned + read/write:");
+      PackageUtil.checkPackages(doc3, false, false);
+      System.out.println("Checking packages for FBC v2 SBMLDocument done.");
+
+      
+    } catch (SBMLException e) {
+      e.printStackTrace();
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+    }
+  }
+
 
   /**
    * Checks that package version and namespace are set properly after cloning the Model element

@@ -43,7 +43,6 @@ public abstract class AbstractFBCSBasePlugin extends AbstractSBasePlugin {
   public AbstractFBCSBasePlugin() {
     super();
     setPackageVersion(-1);
-    elementNamespace = FBCConstants.namespaceURI; // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /**
@@ -61,7 +60,6 @@ public abstract class AbstractFBCSBasePlugin extends AbstractSBasePlugin {
   public AbstractFBCSBasePlugin(SBase sbase) {
     super(sbase);
     setPackageVersion(-1);
-    elementNamespace = FBCConstants.namespaceURI; // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
 
