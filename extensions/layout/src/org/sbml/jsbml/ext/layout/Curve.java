@@ -229,10 +229,11 @@ public class Curve extends AbstractNamedSBase {
    * 
    */
   private void initDefaults() {
-    setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = LayoutConstants.shortLabel;
-    listOfCurveSegments.setNamespace(LayoutConstants.namespaceURI);
+    // changing the ListOf package name from 'core' to 'layout'
+    listOfCurveSegments.setPackageName(null);
+    listOfCurveSegments.setPackageName(LayoutConstants.shortLabel);
     listOfCurveSegments.setSBaseListType(ListOf.Type.other);
     registerChild(listOfCurveSegments);
   }
@@ -272,8 +273,13 @@ public class Curve extends AbstractNamedSBase {
   public void setListOfCurveSegments(ListOf<CurveSegment> listOfCurveSegments) {
     unsetListOfCurveSegments();
     this.listOfCurveSegments = listOfCurveSegments;
-    if ((this.listOfCurveSegments != null) && (this.listOfCurveSegments.getSBaseListType() != ListOf.Type.other)) {
-      this.listOfCurveSegments.setSBaseListType(ListOf.Type.other);
+    if (this.listOfCurveSegments != null) {
+      listOfCurveSegments.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfCurveSegments.setPackageName(null);
+      listOfCurveSegments.setPackageName(LayoutConstants.shortLabel);
+      listOfCurveSegments.setSBaseListType(ListOf.Type.other);
+
     }
     registerChild(this.listOfCurveSegments);
   }

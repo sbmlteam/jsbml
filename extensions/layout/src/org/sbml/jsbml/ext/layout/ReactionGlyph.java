@@ -263,7 +263,6 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferenceGlyphs() {
     if (!isSetListOfSpeciesReferencesGlyphs()) {
       listOfSpeciesReferencesGlyphs = new ListOf<SpeciesReferenceGlyph>();
-      listOfSpeciesReferencesGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesReferencesGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
       listOfSpeciesReferencesGlyphs.setPackageName(null);
@@ -401,8 +400,6 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     listOfSpeciesReferencesGlyphs = listOfSpeciesReferencesGlyph;
     
     if (listOfSpeciesReferencesGlyphs != null) {
-      listOfSpeciesReferencesGlyph.unsetNamespace();
-      listOfSpeciesReferencesGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesReferencesGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
       listOfSpeciesReferencesGlyphs.setPackageName(null);

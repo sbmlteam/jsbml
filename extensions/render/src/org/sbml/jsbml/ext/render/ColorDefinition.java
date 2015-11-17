@@ -141,7 +141,6 @@ public class ColorDefinition extends AbstractNamedSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
   }

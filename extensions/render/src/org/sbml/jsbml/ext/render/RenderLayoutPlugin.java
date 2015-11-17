@@ -139,7 +139,6 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   public ListOf<LocalRenderInformation> getListOfLocalRenderInformation() {
     if (!isSetListOfLocalRenderInformation()) {
       listOfLocalRenderInformation = new ListOf<LocalRenderInformation>();
-      listOfLocalRenderInformation.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfLocalRenderInformation.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfLocalRenderInformation.setPackageName(null);
@@ -170,8 +169,6 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     this.listOfLocalRenderInformation = listOfLocalRenderInformation;
 
     if (listOfLocalRenderInformation != null) {
-      listOfLocalRenderInformation.unsetNamespace();
-      listOfLocalRenderInformation.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfLocalRenderInformation.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfLocalRenderInformation.setPackageName(null);

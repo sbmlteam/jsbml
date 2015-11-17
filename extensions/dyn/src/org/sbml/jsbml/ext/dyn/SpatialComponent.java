@@ -64,9 +64,8 @@ UniqueNamedSBase {
    * Initializes custom Class attributes
    * */
   private void initDefaults() {
-    setNamespace(DynConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
-    packageName = DynConstants.namespaceURI;
+    packageName = DynConstants.shortLabel;
     variable = null;
     spatialIndex = null;
   }

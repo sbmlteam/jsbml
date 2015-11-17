@@ -139,11 +139,6 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
 
 
   @Override
-  public String getElementNamespace() {
-    return DistribConstants.namespaceURI_L3V1V1; // TODO - change to return a String attribute that can be changed
-  }
-
-  @Override
   public String getPackageName() {
     return DistribConstants.shortLabel;
   }
@@ -155,7 +150,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
 
   @Override
   public String getURI() {
-    return DistribConstants.namespaceURI; // TODO - change to return a String attribute that can be changed
+    return getElementNamespace();
   }
 
 

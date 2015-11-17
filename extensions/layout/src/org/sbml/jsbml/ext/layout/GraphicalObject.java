@@ -137,7 +137,6 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = LayoutConstants.shortLabel;
   }

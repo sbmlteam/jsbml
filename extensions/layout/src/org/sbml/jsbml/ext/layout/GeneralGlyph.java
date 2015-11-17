@@ -144,7 +144,6 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   public ListOf<GraphicalObject> getListOfSubGlyphs() {
     if (!isSetListOfSubGlyphs()) {
       listOfSubGlyphs = new ListOfWithName<GraphicalObject>(getLevel(), getVersion(), LayoutConstants.listOfSubGlyphs);
-      listOfSubGlyphs.setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSubGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
       listOfSubGlyphs.setPackageName(null);
@@ -177,8 +176,6 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
     {
       if ((listOfSubGlyphs instanceof ListOfWithName<?>) && (listOfSubGlyphs.getElementName().equals(LayoutConstants.listOfSubGlyphs))) {
         this.listOfSubGlyphs = listOfSubGlyphs;
-        listOfSubGlyphs.unsetNamespace();
-        listOfSubGlyphs.setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
         listOfSubGlyphs.setPackageVersion(-1);
         // changing the ListOf package name from 'core' to 'layout'
         listOfSubGlyphs.setPackageName(null);
@@ -565,7 +562,6 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   public ListOf<ReferenceGlyph> getListOfReferenceGlyphs() {
     if (!isSetListOfReferenceGlyphs()) {
       listOfReferenceGlyphs = new ListOf<ReferenceGlyph>();
-      listOfReferenceGlyphs.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfReferenceGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
       listOfReferenceGlyphs.setPackageName(null);
@@ -662,8 +658,6 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
     if (listOfReferenceGlyph != null)
     {
-      listOfReferenceGlyphs.unsetNamespace();
-      listOfReferenceGlyphs.setPackageName(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfReferenceGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
       listOfReferenceGlyphs.setPackageName(null);

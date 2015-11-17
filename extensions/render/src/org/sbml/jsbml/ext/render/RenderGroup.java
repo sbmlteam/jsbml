@@ -842,7 +842,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public ListOf<Transformation2D> getListOfElements() {
     if (!isSetListOfElements()) {
       listOfElements = new ListOf<Transformation2D>();
-      listOfElements.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfElements.setPackageName(null);
@@ -866,8 +865,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     this.listOfElements = listOfElements;
     
     if (listOfElements != null) {
-      listOfElements.unsetNamespace();
-      listOfElements.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfElements.setPackageName(null);

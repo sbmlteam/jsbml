@@ -54,7 +54,6 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
    * */
   public DynSBasePlugin() {
     super();
-    elementNamespace = DynConstants.namespaceURI;  // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /**
@@ -77,7 +76,13 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
    */
   public DynSBasePlugin(SBase extendedSBase) {
     super(extendedSBase);
-    elementNamespace = DynConstants.namespaceURI;  // TODO - removed once the mechanism are in place to set package version and namespace
+  }
+
+  /**
+   * Initializes custom Class attributes
+   * */
+  private void initDefaults() {
+    setPackageVersion(-1);
   }
 
   /**

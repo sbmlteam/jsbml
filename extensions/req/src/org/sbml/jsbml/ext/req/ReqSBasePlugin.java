@@ -100,7 +100,6 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(ReqConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
 
@@ -169,7 +168,6 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
     if (!isSetListOfChangedMaths()) {
       listOfChangedMaths = new ListOf<ChangedMath>();
 
-      listOfChangedMaths.setNamespace(ReqConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfChangedMaths.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'req'
       listOfChangedMaths.setPackageName(null);
@@ -195,8 +193,6 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
     this.listOfChangedMaths = listOfChangedMaths;
     
     if (listOfChangedMaths != null) {
-      listOfChangedMaths.unsetNamespace();
-      listOfChangedMaths.setNamespace(ReqConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfChangedMaths.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'req'
       listOfChangedMaths.setPackageName(null);
