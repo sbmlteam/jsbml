@@ -25,14 +25,12 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -340,7 +338,6 @@ public class CSGSetOperator extends CSGNode {
     if (!isSetListOfCSGNodes()) {
       listOfCSGNodes = new ListOf<CSGNode>(getLevel(),
           getVersion());
-      listOfCSGNodes.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfCSGNodes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfCSGNodes.setPackageName(null);
@@ -363,7 +360,6 @@ public class CSGSetOperator extends CSGNode {
     this.listOfCSGNodes = listOfCSGNodes;
     
     if (listOfCSGNodes != null) {
-      listOfCSGNodes.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfCSGNodes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfCSGNodes.setPackageName(null);

@@ -164,7 +164,6 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
@@ -278,7 +277,6 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
   public ListOf<DenotedSpeciesTypeComponentIndex> getListOfDenotedSpeciesTypeComponentIndexes() {
     if (listOfDenotedSpeciesTypeComponentIndexes == null) {
       listOfDenotedSpeciesTypeComponentIndexes = new ListOf<DenotedSpeciesTypeComponentIndex>();
-      listOfDenotedSpeciesTypeComponentIndexes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDenotedSpeciesTypeComponentIndexes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfDenotedSpeciesTypeComponentIndexes.setPackageName(null);
@@ -302,8 +300,6 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
     unsetListOfDenotedSpeciesTypeComponentIndexes();
     listOfDenotedSpeciesTypeComponentIndexes = listOfDenotedSpeciesTypeComponentIndices;
     if (listOfDenotedSpeciesTypeComponentIndices != null) {
-      listOfDenotedSpeciesTypeComponentIndices.unsetNamespace();
-      listOfDenotedSpeciesTypeComponentIndices.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDenotedSpeciesTypeComponentIndices.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfDenotedSpeciesTypeComponentIndices.setPackageName(null);

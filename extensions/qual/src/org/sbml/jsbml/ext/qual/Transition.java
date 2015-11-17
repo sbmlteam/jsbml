@@ -666,7 +666,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     listOfFunctionTerms = loft;
 
     if (listOfFunctionTerms != null) {
-      listOfFunctionTerms.unsetNamespace();
       listOfFunctionTerms.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfFunctionTerms.setPackageName(null);
@@ -685,7 +684,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     listOfInputs = loi;
 
     if (listOfInputs != null) {
-      listOfInputs.unsetNamespace();
       listOfInputs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfInputs.setPackageName(null);
@@ -705,7 +703,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     listOfOutputs = loo;
 
     if (listOfOutputs != null) {
-      listOfOutputs.unsetNamespace();
       listOfOutputs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfOutputs.setPackageName(null);

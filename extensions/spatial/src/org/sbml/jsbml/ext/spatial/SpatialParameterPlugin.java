@@ -44,7 +44,7 @@ public class SpatialParameterPlugin extends AbstractSpatialSBasePlugin {
    */
   private ParameterType param;
 
-  // TODO - even firing are missing
+  // TODO - event firing are missing
   // TODO - create, unset methods missing
 
   // TODO - from the 0.85 spatial specs, there are more children defined and the parameter type was dropped

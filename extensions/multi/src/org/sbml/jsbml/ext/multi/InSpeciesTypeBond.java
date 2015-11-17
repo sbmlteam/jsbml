@@ -139,7 +139,6 @@ public class InSpeciesTypeBond extends AbstractNamedSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }

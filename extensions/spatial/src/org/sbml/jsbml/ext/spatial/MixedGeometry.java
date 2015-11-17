@@ -157,7 +157,6 @@ public class MixedGeometry extends GeometryDefinition {
     if (!isSetListOfGeometryDefinitions()) {
       listOfGeometryDefinitions = new ListOf<GeometryDefinition>(getLevel(),
           getVersion());
-      listOfGeometryDefinitions.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGeometryDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfGeometryDefinitions.setPackageName(null);
@@ -180,8 +179,6 @@ public class MixedGeometry extends GeometryDefinition {
     this.listOfGeometryDefinitions = listOfGeometryDefinitions;
     
     if (listOfGeometryDefinitions != null) {
-      listOfGeometryDefinitions.unsetNamespace();
-      listOfGeometryDefinitions.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGeometryDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfGeometryDefinitions.setPackageName(null);
@@ -368,7 +365,6 @@ public class MixedGeometry extends GeometryDefinition {
     if (!isSetListOfOrdinalMappings()) {
       listOfOrdinalMappings = new ListOf<OrdinalMapping>(getLevel(),
           getVersion());
-      listOfOrdinalMappings.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfOrdinalMappings.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfOrdinalMappings.setPackageName(null);
@@ -391,8 +387,6 @@ public class MixedGeometry extends GeometryDefinition {
     this.listOfOrdinalMappings = listOfOrdinalMappings;
     
     if (listOfOrdinalMappings != null) {
-      listOfOrdinalMappings.unsetNamespace();
-      listOfOrdinalMappings.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfOrdinalMappings.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfOrdinalMappings.setPackageName(null);

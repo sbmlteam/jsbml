@@ -93,7 +93,6 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
   
   

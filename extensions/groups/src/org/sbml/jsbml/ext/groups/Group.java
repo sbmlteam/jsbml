@@ -261,7 +261,6 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<Member> getListOfMembers() {
     if (!isSetListOfMembers()) {
       listOfMembers = new ListOf<Member>();
-      listOfMembers.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfMembers.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'groups'
       listOfMembers.setPackageName(null);
@@ -297,8 +296,6 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     this.listOfMembers = listOfMembers;
 
     if (listOfMembers != null) {
-      listOfMembers.unsetNamespace();
-      listOfMembers.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfMembers.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'groups'
       listOfMembers.setPackageName(null);
@@ -489,7 +486,6 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   private void initDefaults() {
-    setNamespace(GroupsConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     packageName = GroupsConstants.shortLabel;
     setPackageVersion(-1);
   }
@@ -529,7 +525,6 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOfMemberConstraint getListOfMemberConstraints() {
     if (!isSetListOfMemberConstraints()) {
       listOfMemberConstraints = new ListOfMemberConstraint(getLevel(), getVersion());
-      listOfMemberConstraints.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfMemberConstraints.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'groups'
       listOfMemberConstraints.setPackageName(null);
@@ -551,8 +546,6 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     this.listOfMemberConstraints = listOfMemberConstraints;
 
     if (listOfMemberConstraints != null) {
-      listOfMemberConstraints.unsetNamespace();
-      listOfMemberConstraints.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfMemberConstraints.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'groups'
       listOfMemberConstraints.setPackageName(null);

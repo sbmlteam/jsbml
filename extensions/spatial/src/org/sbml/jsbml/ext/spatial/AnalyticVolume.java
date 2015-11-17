@@ -120,7 +120,6 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = SpatialConstants.shortLabel;
   }

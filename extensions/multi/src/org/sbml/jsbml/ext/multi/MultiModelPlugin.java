@@ -95,7 +95,6 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
    */
   public MultiModelPlugin(Model model) {
     super(model);
-    setNamespace(MultiConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /**
@@ -136,7 +135,6 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
   public ListOf<SpeciesType> getListOfSpeciesTypes() {
     if (listOfSpeciesTypes == null) {
       listOfSpeciesTypes = new ListOf<SpeciesType>();
-      listOfSpeciesTypes.setNamespace(MultiConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesTypes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypes.setPackageName(null);
@@ -234,8 +232,6 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
     this.listOfSpeciesTypes = listOfSpeciesTypes;
 
     if (listOfSpeciesTypes != null) {
-      listOfSpeciesTypes.unsetNamespace();
-      listOfSpeciesTypes.setNamespace(MultiConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesTypes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypes.setPackageName(null);

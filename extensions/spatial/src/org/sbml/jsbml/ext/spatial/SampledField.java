@@ -31,7 +31,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
-import org.sbml.jsbml.xml.parsers.SpatialParser;
 
 
 /**

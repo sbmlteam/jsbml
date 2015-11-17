@@ -73,7 +73,6 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
   /* (non-Javadoc)

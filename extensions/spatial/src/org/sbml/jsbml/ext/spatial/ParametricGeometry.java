@@ -244,13 +244,6 @@ public class ParametricGeometry extends GeometryDefinition {
 
 
   /**
-   * TODO: if the ID is mandatory for ParametricObject objects,
-   * one should also add this methods
-   */
-  //public void removeParametricObject(String id) {
-  //  getListOfParametricObjects().removeFirst(new NameFilter(id));
-  //}
-  /**
    * Creates a new ParametricObject element and adds it to the ListOfParametricObjects list
    * @return a new {@link ParametricObject} element
    */

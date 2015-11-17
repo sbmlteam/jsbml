@@ -65,7 +65,6 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
    * 
    */
   private void initDefaults() {
-    setNamespace(GroupsConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     packageName = GroupsConstants.shortLabel;
     setPackageVersion(-1);
   }

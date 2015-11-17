@@ -117,7 +117,6 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
@@ -226,7 +225,6 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
   public ListOf<SpeciesFeatureChange> getListOfSpeciesFeatureChanges() {
     if (listOfSpeciesFeatureChanges == null) {
       listOfSpeciesFeatureChanges = new ListOf<SpeciesFeatureChange>();
-      listOfSpeciesFeatureChanges.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesFeatureChanges.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesFeatureChanges.setPackageName(null);
@@ -250,8 +248,6 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
     unsetListOfSpeciesFeatureChanges();
     this.listOfSpeciesFeatureChanges = listOfSpeciesFeatureChanges;
     if (listOfSpeciesFeatureChanges != null) {
-      listOfSpeciesFeatureChanges.unsetNamespace();
-      listOfSpeciesFeatureChanges.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesFeatureChanges.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesFeatureChanges.setPackageName(null);

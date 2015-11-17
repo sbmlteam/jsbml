@@ -107,7 +107,6 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
 
@@ -116,7 +115,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
    */
   @Override
   public String getPackageName() {
-    return MultiConstants.packageName;
+    return MultiConstants.shortLabel;
   }
 
 
@@ -180,7 +179,6 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
   public ListOf<CompartmentReference> getListOfCompartmentReferences() {
     if (listOfCompartmentReferences == null) {
       listOfCompartmentReferences = new ListOf<CompartmentReference>();
-      listOfCompartmentReferences.setNamespace(MultiConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfCompartmentReferences.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfCompartmentReferences.setPackageName(null);
@@ -208,8 +206,6 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
     this.listOfCompartmentReferences = listOfCompartmentReferences;
 
     if (listOfCompartmentReferences != null) {
-      listOfCompartmentReferences.unsetNamespace();
-      listOfCompartmentReferences.setNamespace(MultiConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfCompartmentReferences.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfCompartmentReferences.setPackageName(null);

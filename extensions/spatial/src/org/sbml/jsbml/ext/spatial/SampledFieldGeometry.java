@@ -200,7 +200,6 @@ public class SampledFieldGeometry extends GeometryDefinition {
     if (!isSetListOfSampledVolumes()) {
       listOfSampledVolumes = new ListOf<SampledVolume>(getLevel(),
           getVersion());
-      listOfSampledVolumes.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSampledVolumes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfSampledVolumes.setPackageName(null);
@@ -223,8 +222,6 @@ public class SampledFieldGeometry extends GeometryDefinition {
     this.listOfSampledVolumes = listOfSampledVolumes;
     
     if (listOfSampledVolumes != null) {
-      listOfSampledVolumes.unsetNamespace();
-      listOfSampledVolumes.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSampledVolumes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfSampledVolumes.setPackageName(null);

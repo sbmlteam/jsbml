@@ -308,7 +308,6 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
       } else {
         listOfPorts = new ListOf<Port>();
       }
-      listOfPorts.setNamespace(CompConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfPorts.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfPorts.setPackageName(null);
@@ -335,7 +334,6 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
       } else {
         listOfSubmodels = new ListOf<Submodel>();
       }
-      listOfSubmodels.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSubmodels.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfSubmodels.setPackageName(null);
@@ -568,7 +566,6 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     if ((this.listOfPorts != null)) {
       this.listOfPorts.setSBaseListType(ListOf.Type.other);
       listOfPorts.unsetNamespace();
-      listOfPorts.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfPorts.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfPorts.setPackageName(null);
@@ -590,8 +587,6 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     this.listOfSubmodels = listOfSubmodels;
     if ((this.listOfSubmodels != null)) {
       this.listOfSubmodels.setSBaseListType(ListOf.Type.other);
-      listOfSubmodels.unsetNamespace();
-      listOfSubmodels.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSubmodels.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfSubmodels.setPackageName(null);
