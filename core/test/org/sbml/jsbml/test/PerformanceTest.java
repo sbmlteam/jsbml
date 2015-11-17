@@ -25,7 +25,9 @@ package org.sbml.jsbml.test;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -40,6 +42,9 @@ import org.sbml.jsbml.SBMLWriter;
  * @since 1.0
  */
 public class PerformanceTest {
+
+  private static final double THRESHOLD = 1;
+  private static final List<String> modelLongerThanThresholdList = new ArrayList<String>();
 
   /**
    * Test class used to check the jsbml speed to read and write SBML models.
@@ -146,12 +151,20 @@ public class PerformanceTest {
       System.out.println("Reading: " + nbSecondsRead + " seconds.");
       System.out.println("Writing: " + nbSecondsWrite + " seconds.");
 
+      if (nbSeconds > THRESHOLD) {
+        modelLongerThanThresholdList.add(fileName);
+      }
+      
       if (files.length == 1)
       {
         System.out.println((int)nbMilliseconds);
       }
     }
 
+    if (modelLongerThanThresholdList.size() > 0) {
+      System.out.println("Models longer than '" + THRESHOLD + "' secondes: " + modelLongerThanThresholdList);
+    }
+    
     if (files.length > 1)
     {
       double globalNbMilliseconds = globalEnd - globalInit;
@@ -163,6 +176,7 @@ public class PerformanceTest {
 
       System.out.println((int)globalNbMilliseconds);
     }
+    
   }
 
 }
