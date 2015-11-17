@@ -23,14 +23,12 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -67,11 +65,6 @@ public class InteriorPoint extends AbstractSBase {
    * 
    */
   private Double coord3;
-
-  /**
-   * 
-   */
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
   /**
@@ -121,7 +114,6 @@ public class InteriorPoint extends AbstractSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = SpatialConstants.shortLabel;
   }

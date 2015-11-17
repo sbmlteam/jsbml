@@ -155,7 +155,6 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
@@ -245,7 +244,6 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
   public ListOf<PossibleSpeciesFeatureValue> getListOfPossibleSpeciesFeatureValues() {
     if (listOfPossibleSpeciesFeatureValues == null) {
       listOfPossibleSpeciesFeatureValues = new ListOf<PossibleSpeciesFeatureValue>();
-      listOfPossibleSpeciesFeatureValues.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfPossibleSpeciesFeatureValues.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfPossibleSpeciesFeatureValues.setPackageName(null);
@@ -270,8 +268,6 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
     this.listOfPossibleSpeciesFeatureValues = listOfPossibleSpeciesFeatureValues;
     
     if (listOfPossibleSpeciesFeatureValues != null) {
-      listOfPossibleSpeciesFeatureValues.unsetNamespace();
-      listOfPossibleSpeciesFeatureValues.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfPossibleSpeciesFeatureValues.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfPossibleSpeciesFeatureValues.setPackageName(null);

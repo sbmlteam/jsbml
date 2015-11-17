@@ -579,7 +579,6 @@ public class QualModelPlugin extends AbstractSBasePlugin {
     this.listOfQualitativeSpecies = listOfQualitativeSpecies;
 
     if (listOfQualitativeSpecies != null) {
-      listOfQualitativeSpecies.unsetNamespace();
       listOfQualitativeSpecies.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfQualitativeSpecies.setPackageName(null);
@@ -603,7 +602,6 @@ public class QualModelPlugin extends AbstractSBasePlugin {
     this.listOfTransitions = listOfTransitions;
 
     if (listOfTransitions != null) {
-      listOfTransitions.unsetNamespace();
       listOfTransitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfTransitions.setPackageName(null);

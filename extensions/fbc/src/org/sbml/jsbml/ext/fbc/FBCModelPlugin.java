@@ -763,7 +763,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     this.listOfFluxBounds = listOfFluxBounds;
 
     if (listOfFluxBounds != null) {
-      listOfFluxBounds.unsetNamespace();
       listOfFluxBounds.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'fbc'
       listOfFluxBounds.setPackageName(null);
@@ -787,7 +786,6 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     this.listOfGeneProducts = listOfGeneProducts;
 
     if (listOfGeneProducts != null) {
-      listOfGeneProducts.unsetNamespace();
       listOfGeneProducts.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'fbc'
       listOfGeneProducts.setPackageName(null);
@@ -813,7 +811,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    * 
    * @param listOfObjectives
    */
-  public void setListOfObjectives(ListOf<Objective> listOfObjectives) { // TODO - fix the listOfObjectives methods
+  public void setListOfObjectives(ListOf<Objective> listOfObjectives) {
     if (listOfObjectives instanceof ListOfObjectives) {
       setListOfObjectives((ListOfObjectives) listOfObjectives);
     } else {

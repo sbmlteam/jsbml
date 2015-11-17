@@ -28,6 +28,7 @@ import org.sbml.jsbml.ListOf;
 /**
  * Unlike other SBML {@link ListOf} classes, {@link ListOfObjectives} adds an additional
  * required attribute activeObjective.
+ * 
  * @author Nicolas Rodriguez
  * @since 1.0
  * @version $Rev$

@@ -25,14 +25,12 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -89,11 +87,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * 
    */
   private GeometryKind coordinateSystem;
-
-  /**
-   * 
-   */
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
   /**
    * 
@@ -273,7 +266,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
     if (!isSetListOfSampledFields()) {
       listOfSampledFields = new ListOf<SampledField>(getLevel(),
           getVersion());
-      listOfSampledFields.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSampledFields.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfSampledFields.setPackageName(null);
@@ -296,8 +288,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
     this.listOfSampledFields = listOfSampledFields;
     
     if (listOfSampledFields != null) {
-      listOfSampledFields.unsetNamespace();
-      listOfSampledFields.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSampledFields.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfSampledFields.setPackageName(null);
@@ -419,7 +409,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public ListOf<GeometryDefinition> getListOfGeometryDefinitions() {
     if (!isSetListOfGeometryDefinitions()) {
       listOfGeometryDefinitions = new ListOf<GeometryDefinition>();
-      listOfGeometryDefinitions.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGeometryDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfGeometryDefinitions.setPackageName(null);
@@ -442,8 +431,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
     this.listOfGeometryDefinitions = listOfGeometryDefinitions;
     
     if (listOfGeometryDefinitions != null) {
-      listOfGeometryDefinitions.unsetNamespace();
-      listOfGeometryDefinitions.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGeometryDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfGeometryDefinitions.setPackageName(null);
@@ -633,7 +620,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public ListOf<AdjacentDomains> getListOfAdjacentDomains() {
     if (!isSetListOfAdjacentDomains()) {
       listOfAdjacentDomains = new ListOf<AdjacentDomains>();
-      listOfAdjacentDomains.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfAdjacentDomains.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfAdjacentDomains.setPackageName(null);
@@ -656,8 +642,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
     this.listOfAdjacentDomains = listOfAdjacentDomains;
     
     if (listOfAdjacentDomains != null) {
-      listOfAdjacentDomains.unsetNamespace();
-      listOfAdjacentDomains.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfAdjacentDomains.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfAdjacentDomains.setPackageName(null);
@@ -779,7 +763,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public ListOf<DomainType> getListOfDomainTypes() {
     if (!isSetListOfDomainTypes()) {
       listOfDomainTypes = new ListOf<DomainType>();
-      listOfDomainTypes.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDomainTypes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfDomainTypes.setPackageName(null);
@@ -802,8 +785,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
     this.listOfDomainTypes = listOfDomainTypes;
     
     if (listOfDomainTypes != null) {
-      listOfDomainTypes.unsetNamespace();
-      listOfDomainTypes.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDomainTypes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfDomainTypes.setPackageName(null);
@@ -924,7 +905,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public ListOf<Domain> getListOfDomains() {
     if (!isSetListOfDomains()) {
       listOfDomains = new ListOf<Domain>();
-      listOfDomains.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDomains.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfDomains.setPackageName(null);
@@ -947,8 +927,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
     this.listOfDomains = listOfDomains;
     
     if (listOfDomains != null) {
-      listOfDomains.unsetNamespace();
-      listOfDomains.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDomains.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfDomains.setPackageName(null);
@@ -1069,7 +1047,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public ListOf<CoordinateComponent> getListOfCoordinateComponents() {
     if (!isSetListOfCoordinateComponents()) {
       listOfCoordinateComponents = new ListOf<CoordinateComponent>();
-      listOfCoordinateComponents.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfCoordinateComponents.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfCoordinateComponents.setPackageName(null);
@@ -1092,8 +1069,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
     this.listOfCoordinateComponents = listOfCoordinateComponents;
     
     if (listOfCoordinateComponents != null) {
-      listOfCoordinateComponents.unsetNamespace();
-      listOfCoordinateComponents.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfCoordinateComponents.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfCoordinateComponents.setPackageName(null);

@@ -221,7 +221,6 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     if (!isSetListOfGroups()) {
       listOfGroups = new ListOf<Group>();
 
-      listOfGroups.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGroups.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'groups'
       listOfGroups.setPackageName(null);
@@ -294,7 +293,6 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    * 
    */
   private void initDefaults() {
-    setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
   }
 
@@ -325,7 +323,6 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     this.listOfGroups = listOfGroups;
 
     if (listOfGroups != null) {
-      listOfGroups.setNamespace(GroupsConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGroups.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'groups'
       listOfGroups.setPackageName(null);

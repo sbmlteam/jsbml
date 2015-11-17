@@ -344,7 +344,6 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
       } else {
         listOfReplacedElements = new ListOf<ReplacedElement>();
       }
-      listOfReplacedElements.setNamespace(CompConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfReplacedElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfReplacedElements.setPackageName(null);
@@ -379,8 +378,6 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
     this.listOfReplacedElements = listOfReplacedElements;
 
     if (listOfReplacedElements != null) {
-      listOfReplacedElements.unsetNamespace();
-      listOfReplacedElements.setNamespace(CompConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfReplacedElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfReplacedElements.setPackageName(null);

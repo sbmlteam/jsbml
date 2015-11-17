@@ -25,7 +25,6 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
@@ -33,7 +32,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.util.ResourceManager;
 
 
 /**
@@ -64,11 +62,6 @@ public class Domain extends AbstractSpatialNamedSBase {
    * 
    */
   private ListOf<InteriorPoint> listOfInteriorPoints;
-
-  /**
-   * 
-   */
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
   /**
    * 
@@ -194,7 +187,6 @@ public class Domain extends AbstractSpatialNamedSBase {
   public ListOf<InteriorPoint> getListOfInteriorPoints() {
     if (!isSetListOfInteriorPoints()) {
       listOfInteriorPoints = new ListOf<InteriorPoint>();
-      listOfInteriorPoints.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfInteriorPoints.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfInteriorPoints.setPackageName(null);
@@ -217,8 +209,6 @@ public class Domain extends AbstractSpatialNamedSBase {
     this.listOfInteriorPoints = listOfInteriorPoints;
     
     if (listOfInteriorPoints != null) {
-      listOfInteriorPoints.unsetNamespace();
-      listOfInteriorPoints.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfInteriorPoints.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfInteriorPoints.setPackageName(null);

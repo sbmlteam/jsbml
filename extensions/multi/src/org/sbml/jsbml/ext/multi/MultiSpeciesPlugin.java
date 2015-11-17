@@ -94,7 +94,6 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
    */
   public MultiSpeciesPlugin(Species species) {
     super(species);
-    setNamespace(MultiConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
   }
 
 
@@ -148,7 +147,6 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
   public ListOf<OutwardBindingSite> getListOfOutwardBindingSites() {
     if (listOfOutwardBindingSites == null) {
       listOfOutwardBindingSites = new ListOf<OutwardBindingSite>();
-      listOfOutwardBindingSites.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfOutwardBindingSites.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfOutwardBindingSites.setPackageName(null);
@@ -175,8 +173,6 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
     this.listOfOutwardBindingSites = listOfOutwardBindingSites;
 
     if (listOfOutwardBindingSites != null) {
-      listOfOutwardBindingSites.unsetNamespace();
-      listOfOutwardBindingSites.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfOutwardBindingSites.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfOutwardBindingSites.setPackageName(null);
@@ -333,7 +329,6 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
   public ListOf<SpeciesFeature> getListOfSpeciesFeatures() {
     if (listOfSpeciesFeatures == null) {
       listOfSpeciesFeatures = new ListOf<SpeciesFeature>();
-      listOfSpeciesFeatures.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesFeatures.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesFeatures.setPackageName(null);
@@ -360,8 +355,6 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
     this.listOfSpeciesFeatures = listOfSpeciesFeatures;
 
     if (listOfSpeciesFeatures != null) {
-      listOfSpeciesFeatures.unsetNamespace();
-      listOfSpeciesFeatures.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesFeatures.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesFeatures.setPackageName(null);

@@ -568,7 +568,6 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
   public ListOf<InSpeciesTypeBond> getListOfInSpeciesTypeBonds() {
     if (listOfInSpeciesTypeBonds == null) {
       listOfInSpeciesTypeBonds = new ListOf<InSpeciesTypeBond>();
-      listOfInSpeciesTypeBonds.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfInSpeciesTypeBonds.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfInSpeciesTypeBonds.setPackageName(null);
@@ -590,7 +589,6 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
   public ListOf<SpeciesFeatureType> getListOfSpeciesFeatureTypes() {
     if (listOfSpeciesFeatureTypes == null) {
       listOfSpeciesFeatureTypes = new ListOf<SpeciesFeatureType>();
-      listOfSpeciesFeatureTypes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesFeatureTypes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesFeatureTypes.setPackageName(null);
@@ -612,7 +610,6 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
   public ListOf<SpeciesTypeComponentIndex> getListOfSpeciesTypeComponentIndexes() {
     if (listOfSpeciesTypeComponentIndexes == null) {
       listOfSpeciesTypeComponentIndexes = new ListOf<SpeciesTypeComponentIndex>();
-      listOfSpeciesTypeComponentIndexes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesTypeComponentIndexes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypeComponentIndexes.setPackageName(null);
@@ -634,7 +631,6 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
   public ListOf<SpeciesTypeInstance> getListOfSpeciesTypeInstances() {
     if (listOfSpeciesTypeInstances == null) {
       listOfSpeciesTypeInstances = new ListOf<SpeciesTypeInstance>();
-      listOfSpeciesTypeInstances.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesTypeInstances.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypeInstances.setPackageName(null);
@@ -861,7 +857,6 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
@@ -1204,8 +1199,6 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
     unsetListOfInSpeciesTypeBonds();
     this.listOfInSpeciesTypeBonds = listOfInSpeciesTypeBonds;
     if (listOfInSpeciesTypeBonds != null) {
-      listOfInSpeciesTypeBonds.unsetNamespace();
-      listOfInSpeciesTypeBonds.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfInSpeciesTypeBonds.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfInSpeciesTypeBonds.setPackageName(null);
@@ -1228,8 +1221,6 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
     unsetListOfSpeciesFeatureTypes();
     this.listOfSpeciesFeatureTypes = listOfSpeciesFeatureTypes;
     if (listOfSpeciesFeatureTypes != null) {
-      listOfSpeciesFeatureTypes.unsetNamespace();
-      listOfSpeciesFeatureTypes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesFeatureTypes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesFeatureTypes.setPackageName(null);
@@ -1253,8 +1244,6 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
     this.listOfSpeciesTypeComponentIndexes = listOfSpeciesTypeComponentIndexes;
 
     if (listOfSpeciesTypeComponentIndexes != null) {
-      listOfSpeciesTypeComponentIndexes.unsetNamespace();
-      listOfSpeciesTypeComponentIndexes.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesTypeComponentIndexes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypeComponentIndexes.setPackageName(null);
@@ -1277,8 +1266,6 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
     unsetListOfSpeciesTypeInstances();
     this.listOfSpeciesTypeInstances = listOfSpeciesTypeInstances;
     if (listOfSpeciesTypeInstances != null) {
-      listOfSpeciesTypeInstances.unsetNamespace();
-      listOfSpeciesTypeInstances.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesTypeInstances.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypeInstances.setPackageName(null);

@@ -23,11 +23,9 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.SBMLException;
 
 
 
@@ -81,7 +79,6 @@ public abstract class CoordinateReference extends AbstractSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = SpatialConstants.shortLabel;
   }

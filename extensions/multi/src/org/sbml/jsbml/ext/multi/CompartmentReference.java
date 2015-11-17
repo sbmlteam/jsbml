@@ -161,8 +161,6 @@ public class CompartmentReference extends AbstractNamedSBase implements Compartm
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    // TODO - removed once the mechanism are in place to set package version and namespace
-    setNamespace(MultiConstants.namespaceURI);
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }

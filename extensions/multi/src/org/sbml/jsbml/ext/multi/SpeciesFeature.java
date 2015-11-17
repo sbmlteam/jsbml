@@ -163,7 +163,6 @@ public class SpeciesFeature extends AbstractNamedSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
@@ -261,7 +260,6 @@ public class SpeciesFeature extends AbstractNamedSBase {
   public ListOf<SpeciesFeatureValue> getListOfSpeciesFeatureValues() {
     if (listOfSpeciesFeatureValues == null) {
       listOfSpeciesFeatureValues = new ListOf<SpeciesFeatureValue>();
-      listOfSpeciesFeatureValues.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesFeatureValues.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesFeatureValues.setPackageName(null);
@@ -286,8 +284,6 @@ public class SpeciesFeature extends AbstractNamedSBase {
     this.listOfSpeciesFeatureValues = listOfSpeciesFeatureValues;
     
     if (listOfSpeciesFeatureValues != null) {
-      listOfSpeciesFeatureValues.unsetNamespace();
-      listOfSpeciesFeatureValues.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesFeatureValues.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesFeatureValues.setPackageName(null);

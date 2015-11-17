@@ -139,7 +139,6 @@ public class CSGeometry extends GeometryDefinition {
     if (!isSetListOfCSGObjects()) {
       listOfCSGObjects = new ListOf<CSGObject>(getLevel(),
           getVersion());
-      listOfCSGObjects.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfCSGObjects.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfCSGObjects.setPackageName(null);
@@ -162,8 +161,6 @@ public class CSGeometry extends GeometryDefinition {
     this.listOfCSGObjects = listOfCSGObjects;
     
     if (listOfCSGObjects != null) {
-      listOfCSGObjects.unsetNamespace();
-      listOfCSGObjects.setNamespace(SpatialConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfCSGObjects.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
       listOfCSGObjects.setPackageName(null);
@@ -242,13 +239,6 @@ public class CSGeometry extends GeometryDefinition {
   }
 
 
-  /*
-   * TODO: if the ID is mandatory for CSGObject objects,
-   * one should also add this methods
-   */
-  //public void removeCSGObject(String id) {
-  //  getListOfCSGObjects().removeFirst(new NameFilter(id));
-  //}
   /**
    * Creates a new CSGObject element and adds it to the ListOfCSGObjects list
    * @return

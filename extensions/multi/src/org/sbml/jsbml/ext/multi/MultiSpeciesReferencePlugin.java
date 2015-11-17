@@ -94,7 +94,6 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
   }
   
   
@@ -173,7 +172,6 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
   public ListOf<SpeciesTypeComponentMapInProduct> getListOfSpeciesTypeComponentMapInProducts() {
     if (listOfSpeciesTypeComponentMapInProducts == null) {
       listOfSpeciesTypeComponentMapInProducts = new ListOf<SpeciesTypeComponentMapInProduct>();
-      listOfSpeciesTypeComponentMapInProducts.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesTypeComponentMapInProducts.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypeComponentMapInProducts.setPackageName(null);
@@ -200,8 +198,6 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
     this.listOfSpeciesTypeComponentMapInProducts = listOfSpeciesTypeComponentMapInProducts;
 
     if (listOfSpeciesTypeComponentMapInProducts != null) {
-      listOfSpeciesTypeComponentMapInProducts.unsetNamespace();
-      listOfSpeciesTypeComponentMapInProducts.setNamespace(MultiConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpeciesTypeComponentMapInProducts.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypeComponentMapInProducts.setPackageName(null);

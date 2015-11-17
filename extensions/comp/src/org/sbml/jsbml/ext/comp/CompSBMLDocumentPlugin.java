@@ -141,7 +141,6 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
       } else {
         listOfExternalModelDefinitions = new ListOf<ExternalModelDefinition>();
       }
-      listOfExternalModelDefinitions.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfExternalModelDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfExternalModelDefinitions.setPackageName(null);
@@ -243,8 +242,6 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
     this.listOfExternalModelDefinitions = listOfExternalModelDefinitions;
     
     if (listOfExternalModelDefinitions != null) {
-      listOfExternalModelDefinitions.unsetNamespace();
-      listOfExternalModelDefinitions.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfExternalModelDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfExternalModelDefinitions.setPackageName(null);
@@ -431,7 +428,6 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
       } else {
         listOfModelDefinitions = new ListOf<ModelDefinition>();
       }
-      listOfModelDefinitions.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfModelDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfModelDefinitions.setPackageName(null);
@@ -459,8 +455,6 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
     this.listOfModelDefinitions = listOfModelDefinitions;
     
     if (listOfModelDefinitions != null) {
-      listOfModelDefinitions.unsetNamespace();
-      listOfModelDefinitions.setNamespace(CompConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfModelDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfModelDefinitions.setPackageName(null);
