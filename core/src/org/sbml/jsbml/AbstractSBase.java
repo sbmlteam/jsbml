@@ -2173,8 +2173,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         parentPackageVersion = parentPlugin.getPackageVersion();
       }
       
-      System.out.println("setPackageVersion - packageVersion = " + packageVersion + ", parentPackageVersion = " + parentPackageVersion);
-      
       if (packageVersion != -1 && parentPackageVersion != -1 && packageVersion != parentPackageVersion) {
         if (parentPlugin != null) {
           throw new LevelVersionError(parentPlugin, this);

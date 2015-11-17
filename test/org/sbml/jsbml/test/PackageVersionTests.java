@@ -170,10 +170,7 @@ public class PackageVersionTests {
     tr1.createOutput("Q_O1");
     qualModel.createTransition("Q_T2", new Input("Q_I2"), new Output("Q_O2"));
 
-    // check and fix package version and namespaces
-    // TODO - update when jsbml will be fixed to set properly package version and namespace -
-    // now the fix is done in SBMLCoreParser#processEndDocument when reading a file
-    // PackageUtil.checkPackages(doc, true, true);
+    // check package version and namespaces
     System.out.println("Checking packages:");
     PackageUtil.checkPackages(doc, false, false);
   }
