@@ -131,11 +131,6 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
   }
 
   @Override
-  public String getElementNamespace() {
-    return DistribConstants.namespaceURI;
-  }
-
-  @Override
   public String getPackageName() {
     return DistribConstants.shortLabel;
   }
@@ -143,11 +138,6 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
   @Override
   public String getPrefix() {
     return DistribConstants.shortLabel;
-  }
-
-  @Override
-  public String getURI() {
-    return DistribConstants.namespaceURI; // TODO - update to return a stored String that can change
   }
 
 
@@ -196,6 +186,12 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
     return false;
+  }
+
+  @Override
+  public String getURI() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 

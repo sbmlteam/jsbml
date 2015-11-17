@@ -271,7 +271,6 @@ public class RenderCurve extends GraphicalPrimitive1D {
   public ListOf<RenderPoint> getListOfElements() {
     if (!isSetListOfElements()) {
       listOfElements = new ListOf<RenderPoint>(getLevel(), getVersion());
-      listOfElements.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfElements.setPackageName(null);
@@ -290,8 +289,6 @@ public class RenderCurve extends GraphicalPrimitive1D {
     this.listOfElements = listOfElements;
     
     if (listOfElements != null) {
-      listOfElements.unsetNamespace();
-      listOfElements.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfElements.setPackageName(null);

@@ -152,7 +152,6 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
   public ListOf<GlobalRenderInformation> getListOfGlobalRenderInformation() {
     if (!isSetListOfGlobalRenderInformation()) {
       listOfGlobalRenderInformation = new ListOf<GlobalRenderInformation>();
-      listOfGlobalRenderInformation.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGlobalRenderInformation.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfGlobalRenderInformation.setPackageName(null);
@@ -219,12 +218,8 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    */
   public void setListOfGlobalRenderInformation(ListOf<GlobalRenderInformation> listOfGlobalRenderInformation) {
     unsetListOfGlobalRenderInformation();
-    this.listOfGlobalRenderInformation = listOfGlobalRenderInformation;
 
     if (listOfGlobalRenderInformation != null) {
-      listOfGlobalRenderInformation.unsetNamespace();
-      listOfGlobalRenderInformation = new ListOf<GlobalRenderInformation>();
-      listOfGlobalRenderInformation.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGlobalRenderInformation.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfGlobalRenderInformation.setPackageName(null);
@@ -234,6 +229,8 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfGlobalRenderInformation);
     }
+
+    this.listOfGlobalRenderInformation = listOfGlobalRenderInformation;
   }
 
   /**

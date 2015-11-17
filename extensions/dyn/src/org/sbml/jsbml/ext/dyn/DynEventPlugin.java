@@ -160,7 +160,6 @@ public class DynEventPlugin extends DynSBasePlugin {
   public ListOf<DynElement> getListOfDynElements() {
     if (listOfDynElements == null) {
       listOfDynElements = new ListOf<DynElement>();
-      listOfDynElements.setNamespace(DynConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDynElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'dyn'
       listOfDynElements.setPackageName(null);
@@ -194,7 +193,6 @@ public class DynEventPlugin extends DynSBasePlugin {
     this.listOfDynElements = listOfDynElements;
     
     if (this.listOfDynElements != null) {
-      listOfDynElements.setNamespace(DynConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDynElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'dyn'
       listOfDynElements.setPackageName(null);

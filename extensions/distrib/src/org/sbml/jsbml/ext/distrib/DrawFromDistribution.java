@@ -165,7 +165,6 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(DistribConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = DistribConstants.shortLabel;
   }
@@ -246,7 +245,6 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
   public ListOf<DistribInput> getListOfDistribInputs() {
     if (!isSetListOfDistribInputs()) {
       listOfDistribInputs = new ListOf<DistribInput>();
-      listOfDistribInputs.setNamespace(DistribConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDistribInputs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'distrib'
       listOfDistribInputs.setPackageName(null);
@@ -270,8 +268,6 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
     this.listOfDistribInputs = listOfDistribInputs;
 
     if (listOfDistribInputs != null) {
-      listOfDistribInputs.unsetNamespace();
-      listOfDistribInputs.setNamespace(DistribConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDistribInputs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'distrib'
       listOfDistribInputs.setPackageName(null);

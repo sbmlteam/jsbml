@@ -168,7 +168,6 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
     backgroundColor = new Color(0, 0, 0);
@@ -469,7 +468,6 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   public ListOf<ColorDefinition> getListOfColorDefinitions() {
     if (!isSetListOfColorDefinitions()) {
       listOfColorDefinitions = new ListOf<ColorDefinition>(getLevel(), getVersion());
-      listOfColorDefinitions.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfColorDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfColorDefinitions.setPackageName(null);
@@ -488,8 +486,6 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
     this.listOfColorDefinitions = listOfColorDefinitions;
 
     if (listOfColorDefinitions != null) {
-      listOfColorDefinitions.unsetNamespace();
-      listOfColorDefinitions.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfColorDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfColorDefinitions.setPackageName(null);
@@ -569,7 +565,6 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   public ListOf<GradientBase> getListOfGradientDefinitions() {
     if (!isSetListOfGradientDefinitions()) {
       listOfGradientDefinitions = new ListOf<GradientBase>(getLevel(), getVersion());
-      listOfGradientDefinitions.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGradientDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfGradientDefinitions.setPackageName(null);
@@ -588,8 +583,6 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
     listOfGradientDefinitions = listOfGradientDefintions;
 
     if (listOfGradientDefintions != null) {
-      listOfGradientDefintions.unsetNamespace();
-      listOfGradientDefintions.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfGradientDefintions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfGradientDefintions.setPackageName(null);
@@ -722,7 +715,6 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   public ListOf<LineEnding> getListOfLineEndings() {
     if (!isSetListOfLineEndings()) {
       listOfLineEndings = new ListOf<LineEnding>(getLevel(), getVersion());
-      listOfLineEndings.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfLineEndings.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfLineEndings.setPackageName(null);
@@ -742,8 +734,6 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
     this.listOfLineEndings = listOfLineEndings;
 
     if (listOfLineEndings != null) {
-      listOfLineEndings.unsetNamespace();
-      listOfLineEndings.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfLineEndings.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfLineEndings.setPackageName(null);

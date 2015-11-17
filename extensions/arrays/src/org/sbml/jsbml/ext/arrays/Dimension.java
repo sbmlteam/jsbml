@@ -154,7 +154,6 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    setNamespace(ArraysConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     packageName = ArraysConstants.shortLabel;
     arrayDimension = -1;

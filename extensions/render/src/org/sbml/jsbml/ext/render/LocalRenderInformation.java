@@ -187,7 +187,6 @@ public class LocalRenderInformation extends RenderInformationBase {
   public ListOf<LocalStyle> getListOfLocalStyles() {
     if (!isSetListOfLocalStyles()) {
       listOfLocalStyles = new ListOf<LocalStyle>(getLevel(), getVersion());
-      listOfLocalStyles.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfLocalStyles.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfLocalStyles.setPackageName(null);
@@ -206,8 +205,6 @@ public class LocalRenderInformation extends RenderInformationBase {
     this.listOfLocalStyles = listOfLocalStyles;
 
     if (listOfLocalStyles != null) {
-      listOfLocalStyles.unsetNamespace();
-      listOfLocalStyles.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfLocalStyles.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfLocalStyles.setPackageName(null);

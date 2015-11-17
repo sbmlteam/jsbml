@@ -76,7 +76,6 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
    */
   public LayoutModelPlugin(Model model) {
     super(model);
-    setNamespace(LayoutConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
     setPackageVersion(-1);
     createListOfLayout();
   }
@@ -138,7 +137,6 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
    */
   private ListOf<Layout> createListOfLayout() {
     listOfLayouts = new ListOf<Layout>();
-    listOfLayouts.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
     listOfLayouts.setPackageVersion(-1);
     // changing the ListOf package name from 'core' to 'layout'
     listOfLayouts.setPackageName(null);
@@ -330,8 +328,6 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
     this.listOfLayouts = listOfLayouts;
     
     if (listOfLayouts != null) {
-      listOfLayouts.unsetNamespace();
-      listOfLayouts.setNamespace(LayoutConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfLayouts.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
       listOfLayouts.setPackageName(null);

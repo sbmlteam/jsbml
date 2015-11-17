@@ -94,7 +94,6 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
   public ListOf<SpatialComponent> getListOfSpatialComponents() {
     if (listOfSpatialComponents == null) {
       listOfSpatialComponents = new ListOf<SpatialComponent>();
-      listOfSpatialComponents.setNamespace(DynConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpatialComponents.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'dyn'
       listOfSpatialComponents.setPackageName(null);
@@ -131,7 +130,6 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
     this.listOfSpatialComponents = listOfSpatialComponents;
     
     if ((this.listOfSpatialComponents != null)) {
-      listOfSpatialComponents.setNamespace(DynConstants.namespaceURI);  // TODO - removed once the mechanism are in place to set package version and namespace
       listOfSpatialComponents.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'dyn'
       listOfSpatialComponents.setPackageName(null);

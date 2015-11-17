@@ -156,7 +156,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public ListOf<Index> getListOfIndices() {
     if (!isSetListOfIndices()) {
       listOfIndices = new ListOf<Index>();
-      listOfIndices.setNamespace(ArraysConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfIndices.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'arrays'
       listOfIndices.setPackageName(null);
@@ -181,8 +180,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     this.listOfIndices = listOfIndices;
 
     if (listOfIndices != null) {
-      listOfIndices.unsetNamespace();
-      listOfIndices.setNamespace(ArraysConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfIndices.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'arrays'
       listOfIndices.setPackageName(null);
@@ -363,7 +360,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public ListOf<Dimension> getListOfDimensions() {
     if (!isSetListOfDimensions()) {
       listOfDimensions = new ListOf<Dimension>();
-      listOfDimensions.setNamespace(ArraysConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDimensions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'arrays'
       listOfDimensions.setPackageName(null);
@@ -388,8 +384,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     this.listOfDimensions = listOfDimensions;
 
     if (listOfDimensions != null) {
-      listOfDimensions.unsetNamespace();
-      listOfDimensions.setNamespace(ArraysConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfDimensions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'arrays'
       listOfDimensions.setPackageName(null);

@@ -187,7 +187,6 @@ public class GlobalRenderInformation extends RenderInformationBase {
   public ListOf<Style> getListOfStyles() {
     if (!isSetListOfStyles()) {
       listOfStyles = new ListOf<Style>(getLevel(), getVersion());
-      listOfStyles.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfStyles.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfStyles.setPackageName(null);
@@ -207,8 +206,6 @@ public class GlobalRenderInformation extends RenderInformationBase {
     this.listOfStyles = listOfStyles;
     
     if (listOfStyles != null) {
-      listOfStyles.unsetNamespace();
-      listOfStyles.setNamespace(RenderConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
       listOfStyles.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfStyles.setPackageName(null);
