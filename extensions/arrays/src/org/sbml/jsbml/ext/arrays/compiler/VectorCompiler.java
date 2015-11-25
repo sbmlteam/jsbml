@@ -3169,19 +3169,23 @@ public class VectorCompiler implements ASTNodeCompiler {
     plus(negValues);
 
     ASTNode plus = getNode();
-    ASTNode minus = new ASTNode(ASTNode.Type.MINUS);
-    if(plus.getChildCount() > 0) {
-      minus.addChild(plus.getChild(0));
+    setNode(plus);
+    if(useId)
+    {
+      ASTNode minus = new ASTNode(ASTNode.Type.MINUS);
+      if(plus.getChildCount() > 0) {
+        minus.addChild(plus.getChild(0));
 
-      for(int i = 1; i < plus.getChildCount(); i++)
-      {
-        if(plus.getChild(i).getType() == ASTNode.Type.MINUS && plus.getChild(i).getChildCount() == 1)
+        for(int i = 1; i < plus.getChildCount(); i++)
         {
-          minus.addChild(plus.getChild(i).getChild(0));
+          if(plus.getChild(i).getType() == ASTNode.Type.MINUS && plus.getChild(i).getChildCount() == 1)
+          {
+            minus.addChild(plus.getChild(i).getChild(0));
+          }
         }
+
+        setNode(minus);
       }
-      
-      setNode(minus);
     }
     return dummy;
   }
@@ -3688,11 +3692,11 @@ public class VectorCompiler implements ASTNodeCompiler {
       double result = 0;
 
       node.getChildren().clear();
-      
+
       if (! node.getType().equals(ASTNode.Type.PLUS)) {
         node.setType(ASTNode.Type.PLUS);
       }
-      
+
       if (values.size() > 0) {
         for (int i = 0; i < values.size(); ++i) {
           ASTNode value = values.get(i);

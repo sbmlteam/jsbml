@@ -60,6 +60,42 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class FlatteningTest {
 
+  
+  @Test
+  public void sizeZeroTest() {
+    try {
+      SBMLDocument document = new SBMLDocument(3,1);
+
+      Model model = document.createModel();
+
+      Species spec = model.createSpecies("s");
+
+      Parameter param = model.createParameter("n");
+
+      param.setConstant(true);
+
+      param.setValue(0);
+
+      ArraysSBasePlugin arraysSBasePlugin = new ArraysSBasePlugin(spec);
+
+      spec.addExtension(ArraysConstants.shortLabel, arraysSBasePlugin);
+
+      Dimension dim = arraysSBasePlugin.createDimension("i");
+
+      dim.setArrayDimension(0);
+
+      dim.setSize("n");
+
+      SBMLDocument flattened = ArraysFlattening.convert(document);
+
+      assertTrue(flattened.getModel().getSpeciesCount() == 0);
+
+    } catch (SBMLException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
   /**
    * 
    */
@@ -538,12 +574,12 @@ public class FlatteningTest {
       inda.setReferencedAttribute("species");
       inda.setArrayDimension(0);
       inda.setMath(ASTNode.parseFormula("j"));
-      
+
       Index impa = arraysSBasePlugina.createIndex();
       impa.setReferencedAttribute("id");
       impa.setArrayDimension(0);
       impa.setMath(ASTNode.parseFormula("j"));
-      
+
       SpeciesReference b = r.createProduct(B);
       b.setId("b");
       ArraysSBasePlugin arraysSBasePluginb = new ArraysSBasePlugin(b);
@@ -559,7 +595,7 @@ public class FlatteningTest {
       impb.setReferencedAttribute("id");
       impb.setArrayDimension(0);
       impb.setMath(ASTNode.parseFormula("j"));
-      
+
       SBMLWriter.write(doc, System.out, ' ', (short) 2);
       System.out.println("\n-------------------------------------------");
       SBMLDocument flattened = ArraysFlattening.convert(doc);
@@ -712,10 +748,10 @@ public class FlatteningTest {
     SBMLDocument doc;
     try {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/VoteModel.xml"));
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
-      SBMLDocument flattened = ArraysFlattening.convert(doc);
-
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      //SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      //SBMLDocument flattened = ArraysFlattening.convert(doc);
+      //SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      ArraysFlattening.convert(doc);
 
     } catch (XMLStreamException e) {
       assertTrue(false);
@@ -749,29 +785,96 @@ public class FlatteningTest {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/layoutTest.xml"));
       SBMLWriter.write(doc, System.out, ' ', (short) 2);
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-      
+
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
 
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
-   
+
+  }
+
+//  @Test
+//  public void testMetaIdRef() {
+//    SBMLDocument doc;
+//    try {
+//      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/xyz.xml"));
+//      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+//      SBMLDocument flattened = ArraysFlattening.convert(doc);
+//
+//      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+//
+//    } catch (XMLStreamException e) {
+//      assertTrue(false);
+//    }
+//
+//  }
+
+  @Test
+  public void getmodel() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/example04.xml"));
+      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
+
+  }
+
+//  @Test
+//  public void testASTNodeType()
+//  {
+//    SBMLDocument doc = new SBMLDocument(3,1);
+//    Model model = doc.createModel("foo");
+//    FunctionDefinition function = model.createFunctionDefinition("uniform");
+//    Constraint c = model.createConstraint();
+//    try {
+//      function.setMath(ASTNode.parseFormula("lambda(a,b,(a+b)/2)"));
+//      c.setMath(ASTNode.parseFormula("uniform(0,1) > 0.5"));
+//    }
+//    catch (ParseException e1) {
+//      assertTrue(false);
+//    }
+//    System.out.println(c.getMath().toString());
+//    doc = ArraysFlattening.convert(model.getSBMLDocument());
+//    assertTrue(c.getMath().getType() == doc.getModel().getConstraint(0).getMath().getType());
+//  }
+  
+  @Test
+  public void testTime() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/and.xml"));
+      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
+
   }
   
   @Test
-  public void testMetaIdRef() {
+  public void toggleTime() {
     SBMLDocument doc;
     try {
-      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/xyz.xml"));
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/toggleSwitch.xml"));
       SBMLWriter.write(doc, System.out, ' ', (short) 2);
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-      
+
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
 
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
-   
+
   }
 }
 

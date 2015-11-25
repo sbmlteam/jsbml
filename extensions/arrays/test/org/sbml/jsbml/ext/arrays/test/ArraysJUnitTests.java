@@ -35,6 +35,6 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={ArrayExtensionTest.class, ArraysWriteTest.class, MathTest.class, ArraysValidationTest.class,
-  CompilerTest.class})
+  CompilerTest.class, FlatteningTest.class})
 public class ArraysJUnitTests {
 }
