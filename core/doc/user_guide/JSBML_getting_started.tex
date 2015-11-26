@@ -19,6 +19,9 @@ download it from the JSBML area on SourceForge~\cite{JSBMLdownload}. Once
 you have installed the JAR file on your computer, it is sufficient to add
 it to your Java build and/or class path in order to use JSBML.
 
+\subsection{Maven dependencies}
+
+%% TODO
 
 \subsection{The JSBML archive without dependencies}
 
@@ -32,9 +35,8 @@ it to your Java build and/or class path in order to use JSBML.
     \toprule
     \textbf{\sffamily Library name} & \textbf{Purpose} & \textbf{Source URL} \\
     \midrule
-    biojava-1.7-ontology.jar
-    & A stripped-down version of biojava-1.7
-    containing mostly ontology-related classes~\citep{Holland2008}.
+    biojava3-ontology-3.1.0.jar
+    & biojava3 ontology-related classes~\citep{Holland2008}.
     \index{Ontology}
     & \href{http://biojava.org}{biojava.org} \\
 
@@ -43,19 +45,15 @@ it to your Java build and/or class path in order to use JSBML.
     run the tests in the \code{tests} folder.
     & \href{http://www.junit.org}{www.junit.org} \\
 
-    stax2-api-3.0.3.jar
+    stax2-api-3.1.4.jar
     & Used for reading and writing XML.
     & \href{http://docs.codehaus.org/display/WSTX/StAX2}{docs.codehaus.org/display/WSTX/StAX2} \\
 
-    stax-api-1.0.1.jar
-    & Used for reading and writing XML.
-    & \href{http://stax.codehaus.org}{stax.codehaus.org} \\
-
-    woodstox-core-lgpl-4.0.9.jar
+    woodstox-core-5.0.1.jar
     & Used for reading and writing XML.
     & \href{http://woodstox.codehaus.org}{woodstox.codehaus.org} \\
     
-    staxmate-2.0.0.jar
+    staxmate-2.3.0.jar
     & Used for reading and writing XML. Provides a more user-friendly StAX
     interface.
     & \href{http://staxmate.codehaus.org}{staxmate.codehaus.org} \\
@@ -70,7 +68,7 @@ it to your Java build and/or class path in order to use JSBML.
     Dec. 2010), containing classes for date manipulation. 
     & \href{http://jigsaw.w3.org}{jigsaw.w3.org} \\
 
-    log4j-1.2.8.jar
+    log4j-1.2.17.jar
     & Library for logging errors and other diagnostics.
     & \href{http://logging.apache.org/log4j}{logging.apache.org/log4j} \\
 
@@ -101,7 +99,7 @@ both ZIP and compressed TAR archive formats.
 Download whichever format is more convenient for you and unpack the archive
 on your computer somewhere.  The act of unpacking the archive will create a
 folder on your computer named after the distribution version; for
-example, this may be ``\code{jsbml-1.0}''.  Next, you will need to compile
+example, this may be ``\code{jsbml-}\jsbmlversion''.  Next, you will need to compile
 the Java source code.  JSBML comes with a \emph{build file} (i.e., scripted
 instructions in a specialized format) for Apache Ant~\citep{ApacheAnt};
 you can use other approaches for compiling the JSBML classes and
@@ -112,7 +110,7 @@ code archive:
 
 \begin{example}[style=bash, title={Compiling JSBML with Ant; this example
     uses Bash shell syntax.}] 
-cd jsbml-1.0
+cd jsbml-|\jsbmlversion|
 ant compile
 \end{example}
 
@@ -137,13 +135,13 @@ ant jar
 
 The fourth approach to obtaining a copy of JSBML is to retrieve it directly
 from the Subversion repository~\cite{JSBMLSVN}.  Here is an example of how
-to retrieve the latest version of the core JSBML sources:
+to retrieve the latest version of the JSBML sources:
 
 \newcommand{\dirname}{\code{\emph{\color{winered}jsbml}}\xspace}
 
 \begin{example}[style=bash, title={Downloading the latest JSBML 
     sources from the JSBML project's Subversion repository.}]
-svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/core |\dirname|
+svn co https://svn.code.sf.net/p/jsbml/code/trunk |\dirname|
 cd |\dirname|
 \end{example}
 
@@ -170,7 +168,10 @@ Next, you need to do an extra step to configure the annotation processor,
 because the different parsers in JSBML are registered automatically using
 Java annotations.  To configure the annotation processor in Eclipse, follow
 the instructions found on the web page
-\url{https://code.google.com/p/spi/wiki/EclipseSettings}.
+\url{https://code.google.com/p/spi/wiki/EclipseSettings}. If you checkout 
+the full trunk (and not just the core), you can find a folder dev, which 
+contains a README.txt file that has also these instructions and further 
+important information.
 
 Finally, you can run the \code{ParserManager} class to check that the list of
 parsers are not empty and that they contain the parsers you need.
@@ -208,7 +209,7 @@ the same level as your JSBML core folder, e.g., next to the folder
 
 \begin{example}[style=bash, title={Downloading the latest JSBML extensions
     source folder from the project's Subversion repository.}] 
-svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions extensions
+svn co https://svn.code.sf.net/p/jsbml/code/trunk/extensions jsbml-extensions
 \end{example}
 
 Each of the extensions has its own Ant build script, located in a file
@@ -224,6 +225,7 @@ ant compile
 
 \subsubsection{JSBML Modules}
 \label{sec:jsbml-modules}
+%% TODO - add few words about the tidy writer module
 
 JSBML currently provides five additional modules.  Each provides features
 for task-specific purposes. Binary versions of the modules can be found at
@@ -250,7 +252,7 @@ would like to obtain, where the variable \modulename is one of the names
 listed in the first column of \tab{tab:jsbml-modules}:
 
 \begin{example}[style=bash, title={Obtaining a JSBML module.}]
-svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/modules/|\modulename| |\modulename|
+svn co https://svn.code.sf.net/p/jsbml/code/trunk/modules/|\modulename| |\modulename|
 \end{example}
 
 (In other words, if you would like to obtain both the Android and libSBML
@@ -311,7 +313,7 @@ writing, there is only one example available:
 
 \begin{example}[style=bash, title={Retrieving the \emph{SBML Bar Graph}
     example application.}] 
-svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/examples/sbmlbargraph sbmlbargraph
+svn co https://svn.code.sf.net/p/jsbml/code/trunk/examples/sbmlbargraph sbmlbargraph
 \end{example}
 
 Finally, please read the ``\code{README.txt}'' file in the freshly-obtained
