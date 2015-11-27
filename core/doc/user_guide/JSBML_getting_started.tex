@@ -19,10 +19,6 @@ download it from the JSBML area on SourceForge~\cite{JSBMLdownload}. Once
 you have installed the JAR file on your computer, it is sufficient to add
 it to your Java build and/or class path in order to use JSBML.
 
-\subsection{Maven dependencies}
-
-%% TODO
-
 \subsection{The JSBML archive without dependencies}
 
 \begin{table}[b]
@@ -86,6 +82,40 @@ third-party libraries on your computer, you will need to add them
 \emph{all} to your Java build and/or class path in order to use JSBML.
 
 
+\subsection{Maven dependencies}
+
+JSBML can also be obtained through Apache Maven~\citep{ApacheMaven}.
+If you are already using Maven in your project, you can add JSBML
+as a dependency, just add the following lines into your pom.xml:
+
+\begin{example}[language=XML, title={Maven instructions to add to your pom.xml.}]
+  <repositories>
+    <repository>
+      <id>ebi-repo</id>
+      <name>The EBI repository</name>
+      <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+      <releases><enabled>true</enabled></releases>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.sbml.jsbml</groupId>
+      <artifactId>jsbml</artifactId>
+      <version>|\jsbmlversion|</version>
+    </dependency>
+  </dependencies> 
+\end{example}
+
+The jsbml artifact will include jsbml-core plus all L3 packages. Like this
+there is not need to list all the packages by hand and when
+a new one is developed, you will get it without having to make too much change to your
+pom files. 
+
+If you want to pick which package to include, you can list them one by one, there are
+further instructions at \url{http://sbml.org/Software/JSBML/docs/Maven_Configuration}.
+
+
 \subsection{The JSBML source archive}
 \label{sec:jsbml-source-archive}
 
@@ -94,7 +124,7 @@ excludes third-party dependency libraries, except that the JSBML files are
 not compiled into class files; you must compile them yourself. As with the
 other options described above, the source distribution is available from
 the JSBML area on SourceForge~\cite{JSBMLdownload}, as an archive file in
-both ZIP and compressed TAR archive formats.
+ZIP format.
 
 Download whichever format is more convenient for you and unpack the archive
 on your computer somewhere.  The act of unpacking the archive will create a
@@ -319,15 +349,5 @@ svn co https://svn.code.sf.net/p/jsbml/code/trunk/examples/sbmlbargraph sbmlbarg
 Finally, please read the ``\code{README.txt}'' file in the freshly-obtained
 \code{sbmlbargraph} folder to learn more about how to get started with the
 example application.
-
-
-
-% JSBML also provides several modules. Two of them should ease developers to
-% interact with CellDesigner or libSBML and one module eases switching from
-% libSBML to JSBML or the other way around.
-
-% If you performed all the steps above, you should have a JSBML library, based on
-% the latest version of all classes. You can now include the created JAR file into
-% your build or class path and start using JSBML.
 
 
