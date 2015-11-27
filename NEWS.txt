@@ -1,6 +1,24 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ===========================================================================
+Version 1.1 (03-12-2015)
+===========================================================================
+
+ * New Features:
+
+  - Finish to implement support for multiple version of a L3 package.
+  
+  - Improvement of the maven pom files, change to the maven groud ids and
+    artifact ids, they should be stable now.
+
+  - Added some utility classes to improve support for SBML files written by
+    the cobra toolbox before the fbc package was created. The 
+    CobraFormulaParser class can parse properly the Cobra gene associations
+    String into an ASTNode. The CobraUtils class contain a method to parse
+    the SBML notes into a java Properties object.
+    
+  
+===========================================================================
 Version 1.1-beta1 (12-10-2015)
 ===========================================================================
 
