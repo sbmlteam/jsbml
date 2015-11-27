@@ -941,6 +941,12 @@ public class SBMLDocument extends AbstractSBase {
   /**
    * Returns {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}.
    * 
+   * <p>If the namespace was declared on the sbml element, or if any elements of this package were found while building the SBMLDocument structure,
+   * the package will be enabled.
+   * <p>For the parameter '{@code packageNameorUri}', you should use the package shortLabel or name, for example 'distrib', as given by {@link org.sbml.jsbml.ext.distrib.DistribConstants#shortLabel},
+   * this way, you don't mind about the specific package version.
+   * If you want to check for a specific package version, then you can use the namespace instead.
+   * 
    * @param packageURIOrName the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}, {@code false} otherwise.
    */
@@ -981,8 +987,9 @@ public class SBMLDocument extends AbstractSBase {
    * if the package was disabled using the method {@link #disablePackage(String)} or {@code null} if this package
    * was neither enabled or disabled on this {@link SBMLDocument}.
    * 
-   * <p>This method can be used, for example, by the {@link SBMLWriter} to know if a package was really disabled
-   * or if the user forgot to enable it.
+   * <p>This method can be used, for example, by the {@link SBMLWriter} to know if a package was really disabled,
+   * in which case the package elements won't be written down,
+   * or if the user forgot to enable it, in which case it will be enabled and the package elements will be written.
    * 
    * @param packageURIOrName the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}, {@code false}
