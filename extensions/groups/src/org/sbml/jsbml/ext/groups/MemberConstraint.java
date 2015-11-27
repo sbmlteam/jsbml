@@ -28,11 +28,13 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
+ * This class was removed from the specifications as of version 0.7 (2015-11-24) as
+ * no software wanted to implement support for it.
+ * It might be added back in a future version of the specifications if somebody want to implement it. 
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
- * @date 2013-11-18
  */
 public class MemberConstraint extends AbstractNamedSBase  implements UniqueNamedSBase {
 
