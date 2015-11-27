@@ -160,7 +160,7 @@ public class PackageVersionTests {
     g2.createMemberWithIdRef("G_M4", "S1");
     g2.getMember(0).setIdRef("S2");
     g2.getMember("G_M2").setIdRef(cell);
-    g2.createMemberConstraint("G_MC1").setDistinctAttribute("test");
+//    g2.createMemberConstraint("G_MC1").setDistinctAttribute("test");
 
     QualModelPlugin qualModel = (QualModelPlugin) m.getPlugin(QualConstants.shortLabel);
     qualModel.createQualitativeSpecies("Q_QS1");

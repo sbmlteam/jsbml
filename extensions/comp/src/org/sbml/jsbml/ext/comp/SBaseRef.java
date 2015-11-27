@@ -547,8 +547,12 @@ public class SBaseRef extends AbstractSBase {
    */
   @Override
   public String toString() {
-    return "SBaseRef [portRef=" + portRef + ", idRef=" + idRef
-        + ", unitRef=" + unitRef + ", metaIdRef=" + metaIdRef
+    return "SBaseRef ["
+        + (isSetPortRef() ? ", portRef=" + getPortRef() : "")
+        + (isSetIdRef() ? ", idRef=" + getIdRef() : "")
+        + (isSetMetaIdRef() ? ", metaIdRef=" + getMetaIdRef() : "")        
+        + (isSetUnitRef() ? ", unitIdRef=" + getUnitRef() : "")
+        + (isSetSBaseRef() ? "SBaseRef child is set" : "")
         + "]";
   }
 

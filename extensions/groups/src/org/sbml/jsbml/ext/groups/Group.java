@@ -686,7 +686,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   public String toString() {
     return "Group [id=" + getId() + ", name=" + getName()
         + (isSetKind()?", kind=" + getKind():"")
-        + ", listOfMembers=" + listOfMembers + "]";
+        + ", memberCount=" + getMemberCount() + "]";
   }
 
   /* (non-Javadoc)
