@@ -41,6 +41,8 @@ public class DenotedSpeciesTypeComponentIndex extends AbstractSBase {
    */
   private String speciesTypeComponentIndex;
   
+  // TODO - missing the reference attribute although the whole class might be removed from the specs.
+  
   
   /**
    * Creates an DenotedSpeciesTypeComponentIndex instance 

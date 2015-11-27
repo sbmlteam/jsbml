@@ -60,8 +60,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
   /**
    * 
    */
-  private Boolean constant;             // TODO: extends/implements the jsbml interface
-  // that has the constant attribute.
+  private Boolean constant;             // TODO: extends/implements the jsbml interface that has the constant attribute?
   /**
    * 
    */
@@ -184,6 +183,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
   @Override
   public boolean equals(Object object) {
     boolean equals = super.equals(object);
+    
     if (equals) {
       QualitativeSpecies qs = (QualitativeSpecies) object;
       equals &= qs.isSetConstant() == isSetConstant();

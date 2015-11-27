@@ -108,7 +108,9 @@ public class GroupsParser extends AbstractReaderWriter implements PackageParser 
       }
       else if (elementName.equals("listOfMemberConstraints")) {
 
-        return group.getListOfMemberConstraints();
+     // removed in version 0.7 of the specs but could be added again in the future  
+        // return group.getListOfMemberConstraints();
+        logger.warn("Your model make use of listOfMemberConstraints which was removed in version 0.7 of the groups specification !");
       }
 
     }

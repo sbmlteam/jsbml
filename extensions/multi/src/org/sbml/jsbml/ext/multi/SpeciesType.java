@@ -854,7 +854,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
 
 
   /**
-   * Initializes the default values using the namespace.
+   * Initializes the default values.
    */
   public void initDefaults() {
     packageName = MultiConstants.shortLabel;
