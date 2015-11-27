@@ -859,6 +859,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
         while (children.hasMoreElements()) {
           TreeNode child = children.nextElement();
+          
           if (child instanceof AbstractSBase && ((AbstractSBase) child).getPackageName().equals(sbasePlugin.getPackageName())) 
           {
             success &= ((AbstractSBase) child).setPackageNamespaceAndVersion(sbasePlugin.getPackageName(), packageNamespace, packageVersion);
@@ -1088,12 +1089,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       SBasePlugin sbasePlugin = (SBasePlugin) newValue;
       
       if (doc != null) {
-        String packageNamespace = doc.getEnabledPackageNamespace(sbasePlugin.getPackageName());
-        int packageVersion = PackageUtil.extractPackageVersion(packageNamespace); 
-            
-        ((AbstractSBasePlugin) sbasePlugin).setNamespace(packageNamespace);
-        sbasePlugin.setPackageVersion(packageVersion);
-        
+        checkAndSetPackageNamespaceAndVersion(sbasePlugin, doc);
       }
 
     }
@@ -2050,6 +2046,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
       while (children.hasMoreElements()) {
         TreeNode child = children.nextElement();
+        
         if (child instanceof AbstractSBase && ((AbstractSBase) child).getPackageName().equals(packageLabel)) {
           success &= ((AbstractSBase) child).setPackageNamespaceAndVersion(packageLabel, namespace, packageVersion);
         }

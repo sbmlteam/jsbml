@@ -108,6 +108,8 @@ public class Port extends AbstractNamedSBaseRef {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = CompConstants.shortLabel;
   }
 
   /* (non-Javadoc)
@@ -125,5 +127,19 @@ public class Port extends AbstractNamedSBaseRef {
   public Port clone() {
     return new Port(this);
   }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Port [id=" + getId() + ", name=" + getName()
+      + (isSetPortRef() ? ", portRef=" + getPortRef() : "")
+      + (isSetIdRef() ? ", idRef=" + getIdRef() : "")
+      + (isSetMetaIdRef() ? ", metaIdRef=" + getMetaIdRef() : "")
+      + "]";
+  }
+  
+  
 
 }

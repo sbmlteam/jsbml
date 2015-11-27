@@ -25,6 +25,8 @@ import static org.junit.Assert.assertTrue;
 
 import javax.xml.stream.XMLStreamException;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -436,6 +438,8 @@ public class UnregisterPackageTests {
 
     CompModelPlugin comp = new CompModelPlugin(model);
 
+    Assert.assertFalse(CompConstants.namespaceURI_L3V1V1.equals(comp.getElementNamespace()));
+
     Port port = comp.createPort();
     port.setId("c");
     port.setIdRef("s");
@@ -446,12 +450,17 @@ public class UnregisterPackageTests {
     SBaseRef sbaseRefRecursive = sbaseRef.createSBaseRef();
     sbaseRefRecursive.setMetaId("CMeta2");
 
-    model.addExtension(CompConstants.namespaceURI, comp);
+    model.addExtension(CompConstants.namespaceURI_L3V1V1, comp);
 
     assertTrue(doc.findSBase("CPortMeta1").equals(port));
     assertTrue(doc.findSBase("CMeta2").equals(sbaseRefRecursive));
     assertTrue(doc.findSBase("CMeta1").equals(sbaseRef));
-
+    
+    assertTrue(CompConstants.namespaceURI_L3V1V1.equals(comp.getElementNamespace()));
+    assertTrue(CompConstants.namespaceURI_L3V1V1.equals(port.getNamespace()));
+    assertTrue(CompConstants.namespaceURI_L3V1V1.equals(sbaseRef.getNamespace()));
+    
+    
     String docString = null;
 
     try {
@@ -601,7 +610,7 @@ public class UnregisterPackageTests {
 
 
   /**
-   * Create a SBasePlugin by hand without extenddeSBase set, add it to an element and check that the ids are registered.
+   * Create a SBasePlugin by hand without extendedSBase set, add it to an element and check that the ids are registered.
    * 
    */
   @Test public void testQual() {
@@ -621,12 +630,14 @@ public class UnregisterPackageTests {
     qualModel.createTransition("T1");
     qualModel.createTransition("T2");
 
-    model.addPlugin(QualConstants.shortLabel, qualModel);
+    model.addPlugin(QualConstants.namespaceURI_L3V1V1, qualModel);
 
     assertTrue(model.findUniqueNamedSBase("QS1").equals(qs1));
     assertTrue(model.findUniqueNamedSBase("QS3") != null);
     assertTrue(model.findUniqueNamedSBase("T2") != null);
     assertTrue(doc.findSBase("QS1") != null);
+    assertTrue(qs1.getPackageVersion() == 1);
+    assertTrue(qs1.getNamespace().equals(QualConstants.namespaceURI_L3V1V1));
 
     // cloning the whole document
     SBMLDocument clonedDoc = doc.clone();
@@ -673,11 +684,11 @@ public class UnregisterPackageTests {
     group.createMemberWithIdRef("GM2", "S2");
     Member member3 = group.createMemberWithIdRef("GM3", "S1");
     member3.setMetaId("GM3");
-    group.createMemberConstraint("GMC1");
+    // group.createMemberConstraint("GMC1");
 
     assertTrue(groupsModel.getGroupCount() == 1);
     assertTrue(group.getMemberCount() == 3);
-    assertTrue(group.getMemberConstraintCount() == 1);
+    // assertTrue(group.getMemberConstraintCount() == 1);
 
     try {
       Group g2 = groupsModel.createGroup();
@@ -692,12 +703,12 @@ public class UnregisterPackageTests {
     } catch (IllegalArgumentException e) {
       assertTrue(true);
     }
-    try {
-      groupsModel.createGroup("GMC1");
-      assertTrue("We should not be allowed to have several element with the same id inside the same model", false);
-    } catch (IllegalArgumentException e) {
-      assertTrue(true);
-    }
+//    try {
+//      groupsModel.createGroup("GMC1");
+//      assertTrue("We should not be allowed to have several element with the same id inside the same model", false);
+//    } catch (IllegalArgumentException e) {
+//      assertTrue(true);
+//    }
     //    try {
     //      groupsModel.createGroup("GLMC1");
     //      assertTrue("We should not be allowed to have several element with the same id inside the same model", false);
@@ -728,7 +739,7 @@ public class UnregisterPackageTests {
     assertTrue(clonedDoc.findSBase("GM3") != null);
     assertTrue(clonedModel.findUniqueNamedSBase("GM3") != null);
     assertTrue(clonedModel.findUniqueNamedSBase("G1") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("GMC1") != null);
+//    assertTrue(clonedModel.findUniqueNamedSBase("GMC1") != null);
 
   }
 

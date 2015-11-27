@@ -327,10 +327,10 @@ NamedSBase {
   @Override
   public String toString() {
     if (isSetName() && (getName().length() > 0)) {
-      return name;
+      return getElementName() + ": name= " + name;
     }
     if (isSetId()) {
-      return id;
+      return  getElementName() + ": id= " + id;
     }
     return getElementName();
   }
