@@ -16,7 +16,16 @@ Version 1.1 (03-12-2015)
     CobraFormulaParser class can parse properly the Cobra gene associations
     String into an ASTNode. The CobraUtils class contain a method to parse
     the SBML notes into a java Properties object.
+
     
+ * Bug Fixes:
+    
+  - The compartment 'units' attribute was not written in SBML L1, this is
+    corrected now.
+  
+  - SBML L1 rules were not correctly written, the wrong xml element name
+    was used. Now it uses the right L1 names and attributes.
+  
   
 ===========================================================================
 Version 1.1-beta1 (12-10-2015)
