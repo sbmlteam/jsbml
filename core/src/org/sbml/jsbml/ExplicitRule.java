@@ -560,13 +560,14 @@ SBaseWithUnit {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
+    
     if (isSetVariable()) {
       if (getLevel() > 1) {
         attributes.put("variable", getVariable());
       } else if (getLevel() == 1) {
         if (isSpeciesConcentration()) {
           attributes.put((getVersion() == 1) ? "specie" : "species",
-            getVariable());
+            getVariable());          
         } else if (isCompartmentVolume()) {
           attributes.put("compartment", getVariable());
         } else if (isParameter()) {
@@ -575,8 +576,17 @@ SBaseWithUnit {
         if (isSetUnits()) {
           attributes.put(TreeNodeChangeEvent.units, getUnits());
         }
+        
+        if (this instanceof RateRule) {
+          attributes.put("type", "rate");
+        } 
+        // no need to write type='scalar' as it is the default value
+        //else {
+          //attributes.put("type", "scalar");
+        //}
       }
     }
+        
     return attributes;
   }
 
