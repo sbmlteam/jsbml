@@ -1261,11 +1261,26 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     if (sbmlElementToWrite instanceof SBase) {
       SBase sbase = (SBase) sbmlElementToWrite;
       if (log4jLogger.isDebugEnabled()) {
-        log4jLogger.debug(MessageFormat.format(
-          "writeElement: {0}",
-          sbase.getElementName()));
+        log4jLogger.debug(MessageFormat.format("writeElement: {0}", sbase.getElementName()));
       }
 
+      // dealing with level 1 rules
+      if (sbase.getLevel() == 1 && sbase instanceof ExplicitRule) {
+        ExplicitRule rule = (ExplicitRule) sbase;
+        
+        if (rule.isSpeciesConcentration()) {
+          if (rule.getVersion() == 1) {
+            xmlObject.setName("specieConcentrationRule");            
+          } else {
+            xmlObject.setName("speciesConcentrationRule");
+          }
+        } else if (rule.isCompartmentVolume()) {
+          xmlObject.setName("compartmentVolumeRule");
+        } else if (rule.isParameter()) {
+          xmlObject.setName("parameterRule");
+        }
+      }
+      
       if (!xmlObject.isSetName()) {
         xmlObject.setName(sbase.getElementName());
       }
