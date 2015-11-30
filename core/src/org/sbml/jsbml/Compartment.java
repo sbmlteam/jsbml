@@ -984,6 +984,11 @@ public class Compartment extends Symbol {
     Map<String, String> attributes = super.writeXMLAttributes();
     int level = getLevel();
     Locale en = Locale.ENGLISH;
+
+    if (isSetUnits()) {
+      attributes.put("units", getUnits());
+    }
+
     if (level == 1) {
       if (isSetVolume()) {
         attributes.put("volume", StringTools.toString(en, getVolume()));
@@ -1006,10 +1011,8 @@ public class Compartment extends Symbol {
       if (isSetConstant()) {
         attributes.put("constant", Boolean.toString(getConstant()));
       }
-      if (isSetUnits()) {
-        attributes.put("units", getUnits());
-      }
     }
+    
     if (level == 2) {
       if (isSetCompartmentType()) {
         attributes.put("compartmentType", getCompartmentType());
