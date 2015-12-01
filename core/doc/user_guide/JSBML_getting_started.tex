@@ -255,18 +255,17 @@ ant compile
 
 \subsubsection{JSBML Modules}
 \label{sec:jsbml-modules}
-%% TODO - add few words about the tidy writer module
 
-JSBML currently provides five additional modules.  Each provides features
+JSBML currently provides six additional modules.  Each provides features
 for task-specific purposes. Binary versions of the modules can be found at
 the download site of JSBML~\cite{JSBMLdownload}; here we explain how you
 can obtain the most recent versions of the modules directly from the source
 code repository.  (Note: at the time of this writing, only the
-\code{CellDesigner} and the \code{libSBMLio} module have been extensively
+\code{tidy}, \code{CellDesigner} and the \code{libSBMLio} module have been extensively
 tested.)
 
 First, find a suitable location on your computer where you would like to
-place the JSBML extensions folder.  We suggest creating a folder named
+place the JSBML modules folder.  We suggest creating a folder named
 ``\code{modules}'' placed side-by-side at the same level as your JSBML core
 folder, e.g., next to the folder ``\dirname'' discussed above.
 
@@ -285,9 +284,9 @@ listed in the first column of \tab{tab:jsbml-modules}:
 svn co https://svn.code.sf.net/p/jsbml/code/trunk/modules/|\modulename| |\modulename|
 \end{example}
 
-(In other words, if you would like to obtain both the Android and libSBML
+(In other words, if you would like to obtain both the Android and libSBMLio
 modules, execute the command above twice, once with \code{android} in place
-of \modulename and a second time with \code{libSBMLcompat} in place of
+of \modulename and a second time with \code{libSBMLio} in place of
 \modulename.)  Once they're downloaded, please check inside each module
 directory for information about how to use them.
 
@@ -308,14 +307,18 @@ directory for information about how to use them.
     plugins for CellDesigner~\cite{Funahashi2003}
     \\
     compare
-    & Facilities for drawing comparisons between libSBML and JSBML
+    & Facilities for doing comparisons between libSBML and JSBML
     \\
     libSBMLcompat
     & A module that allows easier switching between libSBML and JSBML by
-    providing wrapper classes replicating much of libSBML's API in JSBML
+    providing wrapper classes replicating much of libSBML's API in JSBML (in development)
     \\
     libSBMLio
     & A libSBML communications layer.
+    \\
+    tidy
+    & A warper around the SBMLWriter class that use the jtidy library~\cite{jtidy} (a Java port of HTML Tidy) to
+    format properly the resulting XML.
     \\
     \bottomrule
   \end{tabular}

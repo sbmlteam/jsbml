@@ -906,10 +906,11 @@ these methods that originate from libSBML as deprecated.
 \chapter{Additional features provided by JSBML}
 \label{chp:additional-jsbml-features}
 
-% TODO : describe previous chapter as well to remind that it describe many API features of JSBML
-
 The JSBML library also provides some features that cannot be found in libSBML.
 This chapter briefly introduces its most important additional capabilities.
+As a side note, the previous chapter while focusing on describing the differences
+between libSBML and JSBML is also describing many API features of JSBML that
+are not described again in this chapter.
 
 \section{Change listeners}
 
@@ -1060,8 +1061,6 @@ deliver the operating system-dependent new line character.
 \section{Logging facilities}
 \index{logging}%
 
-% log4j: \url{http://logging.apache.org/log4j/}
-
 JSBML includes the logger provided by the log4j
 project~\citep{log4j}.  Log4j allows us to use six levels of logging
 (\code{TRACE}, \code{DEBUG}, \code{INFO}, \code{WARN}, \code{ERROR}, and
@@ -1078,8 +1077,6 @@ useful to warn end-users that something has gone wrong.
 
 
 \subsection{Changing the log4j configuration}
-
-% \url{http://logging.apache.org/log4j/1.2/manual.html}
 
 If you want to modify the default log4j behavior, you will need to create a
 custom log4j configuration file. The best way to do this, as described in
@@ -1136,8 +1133,6 @@ to one appender and others to an other appender, using the
   \label{fig:log4j-email-example}
 \end{figure}
 
-% \footnote{\url{http://en.wikipedia.org/wiki/Log4j\#Log_Viewers}}
-
 Finally, be warned that when you enable the debug level \index{logging} on
 some loggers, they may produce copious output.  You may wish to investigate
 some of the freely-available software for log
@@ -1152,9 +1147,10 @@ separate libraries (packaged as JAR files). With the help of the current
 JSBML modules, JSBML can be used, for example, as a communication layer
 \index{JSBML!as communication layer} between your application and
 libSBML~\citep{Bornstein2008} or between your program and the program known
-as CellDesigner~\citep{Funahashi2003}. In addition, JSBML offers a
+as CellDesigner~\citep{Funahashi2003}. In addition, JSBML is planning to offers a
 compatibility module \index{libSBML!compatibility module}%
-that helps provide the same package structure and API as libSBML's Java
+that helps to write code compatible with libSBML by providing the same package 
+structure and API as libSBML's Java
 language interface. In the rest of this section, we provide examples of how
 to use these modules.
 
@@ -1170,7 +1166,7 @@ the platform-dependency of libSBML does not hamper your application, or you
 want to switch slowly from libSBML to JSBML, you may still read and write
 SBML models using libSBML in conjunction with JSBML.
 
-To facilitate this, the module \code{libSBMLio} provides classes
+To facilitate this, the module \code{libSBMLio} provides the classes
 \LibSBMLReader and \LibSBMLWriter.  \fig{lst:LibSBMLio} provides a short
 code example illustrating the use of \LibSBMLReader.  The program displays the
 content of an SBML file in a \JTree, similar to what is shown in
@@ -1181,7 +1177,7 @@ specialized \TreeNodeChangeListener{}s that synchronize any change in the
 JSBML data structure with corresponding libSBML data structures.
 
 \begin{figure}[htb]
-  \exampleFile{src/org/sbml/jsbml/xml/libsbml/libSBMLio_example.java}
+  \lstinputlisting[language=Java, style=Java, firstline=33]{src/org/sbml/jsbml/xml/libsbml/libSBMLio_example.java}
   \caption{A simple example showing how to convert libSBML data structures
     into JSBML data objects.  To run this example, you need libSBML
     installed on your system.  You may need to set environment variables,
@@ -1209,18 +1205,13 @@ data structure in a CellDesigner plugin to the translator in JSBML, and (2)
 creating a plugin for CellDesigner which displays the SBML data structure
 in a tree, like the example in \fig{fig:JSBMLvisualizer-output}.
 
-\begin{figure}[thb]
-  \exampleFile{src/org/sbml/jsbml/celldesigner/cdplugin_example.java}
-  \caption{A simple implementation of CellDesigner's abstract class
-    \code{PluginAction}.}
-  \label{lst:PluginAction}
-\end{figure}
+\exampleFile[firstline=29, caption={A simple implementation of CellDesigner's abstract class \code{PluginAction}.}, label={lst:PluginAction}]{src/org/sbml/jsbml/celldesigner/cdplugin_example.java}
 
-\vrefrange{lst:PluginAction}{lst:Plugin2} only show how to translate a
+Listings \vrefrange{lst:PluginAction}{lst:Plugin1} show how to translate a
 plugin's data structure from CellDesigner into a JSBML data structure. With
 the help of the class \PluginSBMLWriter, it is possible to notify
 CellDesigner about changes in the data structure. Note that the program in
-\fig{lst:Plugin1} is only completed by implementing the methods from the
+listing \fig{lst:Plugin1} is only completed by implementing the methods from the
 superclass, \code{CellDesignerPlugin}; it is sufficient to leave the
 implementation empty.
 
@@ -1228,19 +1219,7 @@ As of JSBML version 1.0, this module also contains a specialized
 implementation of the \TreeNodeChangeListener{} interface for
 synchronization of changes in JSBML's data structures with CellDesigner.
 
-\begin{figure}[thb]
-  \exampleFile[style = java, lastline = 66]{src/org/sbml/jsbml/celldesigner/SimpleCellDesignerPlugin.java}
-  \caption{A simple example for a CellDesigner plugin using JSBML as a
-    communication layer. Continued in next figure.}
-  \label{lst:Plugin1}
-\end{figure}
-
-\begin{figure}[thb]
-  \exampleFile[style = java, firstline = 67]{src/org/sbml/jsbml/celldesigner/SimpleCellDesignerPlugin.java}
-  \caption{(Continued.) A simple example for a CellDesigner plugin using JSBML as a
-    communication layer.}
-  \label{lst:Plugin2}
-\end{figure}
+\exampleFile[language=Java, style = java, firstline=35, label=lst:Plugin1, caption={A simple example for a CellDesigner plugin using JSBML as a communication layer. Continued in next figure.}]{src/org/sbml/jsbml/celldesigner/SimpleCellDesignerPlugin.java}
 
 \clearpage
 
@@ -1252,7 +1231,7 @@ same package structure as libSBML's Java bindings, and provide
 identically-named classes and APIs. Using the module, it will be possible
 to switch an existing application from libSBML to JSBML or the other way
 around without changing any code.  \index{libSBML!compatibility module}%
-
+This module is in early development phase.
 
 \subsection{The \codeNC{android} module: a compatibility module for
   Android systems}
@@ -1262,3 +1241,14 @@ The JSBML \emph{Android} module is intended to provide all those classes
 from the Java standard distribution that are required for JSBML, but might
 be missing on Android systems.
 
+\subsection{The \codeNC{compare} module: facilities for doing comparisons between libSBML and JSBML}
+
+During the early development of JSBML, we developed those set of classes in order to check that what
+JSBML was reading in memory was equivalent of what libSBML was reading in memory. Those classes were
+used (and can still be used) to detect inconsistency between JSBML and libSBML and helped to find bugs
+ in both libraries.
+
+\subsection{The \codeNC{tidy} module: to produce a tidy XML output}
+
+The tidy module was created to allow users to write a pretty XML output. In order to use it, you just need to replace
+in your code the use of the \SBMLWriter{} class by the \TidySBMLWriter{} class.
