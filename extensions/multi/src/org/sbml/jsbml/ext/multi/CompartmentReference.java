@@ -28,6 +28,7 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.CompartmentalizedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * 
@@ -36,7 +37,7 @@ import org.sbml.jsbml.Model;
  * @since 1.0
  * @date 21.09.2015
  */
-public class CompartmentReference extends AbstractNamedSBase implements CompartmentalizedSBase {
+public class CompartmentReference extends AbstractNamedSBase implements CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Generated serial version identifier
