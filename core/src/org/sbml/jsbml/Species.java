@@ -167,6 +167,9 @@ public class Species extends Symbol implements CompartmentalizedSBase {
     if (species.isSetConversionFactor()) {
       setConversionFactor(species.conversionFactorID);
     }
+    if (species.isSetSpeciesType()) {
+      setSpeciesType(species.getSpeciesType());
+    }
   }
 
   /**
