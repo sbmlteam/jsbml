@@ -12,7 +12,7 @@ will find the following:
 
   jsbml-libSBMLio-1.0.zip  -- distribution for the libSBMLio module
 
-  jsbml-tidy-1.0.zip -- distribution for the tidy module
+  jsbml-tidy-1.1.zip -- distribution for the tidy module
 
 For more information about JSBML, please visit the JSBML website at
 
