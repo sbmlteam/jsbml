@@ -8,8 +8,10 @@ Version 1.1 (03-12-2015)
 
   - Finish to implement support for multiple version of a L3 package.
   
-  - Improvement of the maven pom files, change to the maven groud ids and
-    artifact ids, they should be stable now.
+  - Improvement of the maven pom files, change to the maven group ids and
+    artifact ids, they should be stable now. With these changes we can
+    update the maven repository much quicker and easier. Next steps are to
+    be available in maven central.
 
   - Added some utility classes to improve support for SBML files written by
     the cobra toolbox before the fbc package was created. The 
@@ -17,6 +19,10 @@ Version 1.1 (03-12-2015)
     String into an ASTNode. The CobraUtils class contain a method to parse
     the SBML notes into a java Properties object.
 
+  - Group package updated to version 0.7
+  
+  - Multi package updated to version 1.0 release 0.5 (2015)?
+  
     
  * Bug Fixes:
     
@@ -26,7 +32,10 @@ Version 1.1 (03-12-2015)
   - SBML L1 rules were not correctly written, the wrong xml element name
     was used. Now it uses the right L1 names and attributes.
   
-  
+  - The clone constructor of Species was not copying the speciesType
+    attribute, thanks to Olivier Martin who reported the problem.
+   
+   
 ===========================================================================
 Version 1.1-beta1 (12-10-2015)
 ===========================================================================
