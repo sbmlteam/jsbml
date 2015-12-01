@@ -25,9 +25,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
-import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.StringTools;
 
 /**
  * 
@@ -52,11 +50,6 @@ public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNam
    * 
    */
   private String compartmentReference;
-  
-  /**
-   * 
-   */
-  private Integer occur;
   
   
   /**
@@ -133,9 +126,6 @@ public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNam
     }
     if (obj.isSetCompartmentReference()) {
       setCompartmentReference(obj.getCompartmentReference());
-    }
-    if (obj.isSetOccur()) {
-      setOccur(obj.getOccur());
     }
   }
 
@@ -271,58 +261,6 @@ public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNam
   }
   
   
-  /**
-   * Returns the value of {@link #occur}.
-   *
-   * @return the value of {@link #occur}.
-   */
-  public int getOccur() {
-    if (isSetOccur()) {
-      return occur;
-    }
-    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
-    throw new PropertyUndefinedError(MultiConstants.occur, this);
-  }
-
-
-  /**
-   * Returns whether {@link #occur} is set.
-   *
-   * @return whether {@link #occur} is set.
-   */
-  public boolean isSetOccur() {
-    return occur != null;
-  }
-
-
-  /**
-   * Sets the value of occur
-   *
-   * @param occur the value of occur to be set.
-   */
-  public void setOccur(int occur) {
-    Integer oldOccur = this.occur;
-    this.occur = occur;
-    firePropertyChange(MultiConstants.occur, oldOccur, this.occur);
-  }
-
-
-  /**
-   * Unsets the variable occur.
-   *
-   * @return {@code true} if occur was set before, otherwise {@code false}.
-   */
-  public boolean unsetOccur() {
-    if (isSetOccur()) {
-      Integer oldOccur = this.occur;
-      this.occur = null;
-      firePropertyChange(MultiConstants.occur, oldOccur, this.occur);
-      return true;
-    }
-    return false;
-  }
-  
-  
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -342,10 +280,6 @@ public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNam
     if (isSetCompartmentReference()) {
       attributes.put(MultiConstants.shortLabel + ":" + MultiConstants.compartmentReference, getCompartmentReference());
     }
-    if (isSetOccur()) {
-      attributes.put(MultiConstants.shortLabel + ":" + MultiConstants.occur, occur.toString());
-    }
-
     
     return attributes;
   }
@@ -363,9 +297,6 @@ public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNam
       }
       if (attributeName.equals(MultiConstants.compartmentReference)) {
         setCompartmentReference(value);
-      }
-      if (attributeName.equals(MultiConstants.occur)) {
-        setOccur(StringTools.parseSBMLInt(value));
       }
       else {
         isAttributeRead = false;
