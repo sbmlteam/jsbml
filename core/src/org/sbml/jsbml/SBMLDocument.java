@@ -581,7 +581,7 @@ public class SBMLDocument extends AbstractSBase {
 
       // if the shorLabel has been used, getting the last namespace in the list of namespaces // TODO - add a getDefaultNamespace() to PackageParser
       // TODO - add a getPackageShortLabel() to PackageParser, so that a proper name can be used for packages ? Might be confusing getPackageDisplayName() might be better.
-      if (packageURI.equals(packageParser.getPackageName())) { 
+      if (packageURI.equals(packageParser.getPackageName())) {
         packageURI = packageParser.getPackageNamespaces().get(packageParser.getPackageNamespaces().size() - 1);
       }
 
@@ -717,7 +717,7 @@ public class SBMLDocument extends AbstractSBase {
    * Return the package namespace enabled on this SBMLDocument or null if the package
    * is not enabled.
    * 
-   * @param packageNameorUri the name or URI of the package extension.
+   * @param packageURIOrName the name or URI of the package extension.
    * @return the package namespace enabled on this SBMLDocument or null if the package
    * is not enabled.
    */
@@ -726,7 +726,7 @@ public class SBMLDocument extends AbstractSBase {
     if (enabledPackageMap.containsKey(packageURIOrName)) {
       return packageURIOrName;
     }
-    
+
     // Get the package URI is needed
     PackageParser packageParser = ParserManager.getManager().getPackageParser(packageURIOrName);
 
@@ -741,7 +741,7 @@ public class SBMLDocument extends AbstractSBase {
 
     return null;
   }
-  
+
   /**
    * Returns the i<sup>th</sup> error or warning encountered during consistency checking.
    * 
@@ -939,16 +939,23 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
-   * Returns {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}.
+   * Returns {@code true} if the given SBML Level 3 package is enabled within
+   * the {@link SBMLDocument}.
+   * <p>
+   * If the namespace was declared on the sbml element, or if any elements of
+   * this package were found while building the SBMLDocument structure, the
+   * package will be enabled.
+   * <p>
+   * For the parameter '{@code packageNameorUri}', you should use the package
+   * shortLabel or name, for example 'distrib', as given by
+   * {@link org.sbml.jsbml.ext.distrib.DistribConstants#shortLabel}, this way,
+   * you don't mind about the specific package version. If you want to check for
+   * a specific package version, then you can use the namespace instead.
    * 
-   * <p>If the namespace was declared on the sbml element, or if any elements of this package were found while building the SBMLDocument structure,
-   * the package will be enabled.
-   * <p>For the parameter '{@code packageNameorUri}', you should use the package shortLabel or name, for example 'distrib', as given by {@link org.sbml.jsbml.ext.distrib.DistribConstants#shortLabel},
-   * this way, you don't mind about the specific package version.
-   * If you want to check for a specific package version, then you can use the namespace instead.
-   * 
-   * @param packageURIOrName the name or URI of the package extension.
-   * @return {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}, {@code false} otherwise.
+   * @param packageURIOrName
+   *        the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within
+   *         the {@link SBMLDocument}, {@code false} otherwise.
    */
   @Override
   public boolean isPackageEnabled(String packageURIOrName) {
