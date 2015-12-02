@@ -95,8 +95,8 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 
     if (!isAttributeRead) {
       logger.warn(MessageFormat.format(
-        "processAttribute: The attribute ''{0}'' on the element {1} is not part of the SBML specifications.",
-        attributeName, elementName));
+        "processAttribute: The attribute ''{0}'' on the element {1} is not part of the SBML specifications ({2}).",
+        attributeName, elementName, contextObject.getClass().getSimpleName()));
     }
   }
 
