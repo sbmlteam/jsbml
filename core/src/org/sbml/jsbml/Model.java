@@ -4063,7 +4063,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
           }
 
           // in L3 packages we might have different id namespaces
-          logger.error(MessageFormat.format(
+          logger.warn(MessageFormat.format(
             "registerIds: the object {0} is neither a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.",
             newNsb.getClass().getCanonicalName()));
         }
