@@ -21,8 +21,6 @@ Version 1.1 (03-12-2015)
 
   - Group package updated to version 0.7
   
-  - Multi package updated to version 1.0 release 0.5 (2015)?
-  
     
  * Bug Fixes:
     

@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
@@ -157,6 +158,60 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
    */
   public boolean addSpeciesType(SpeciesType speciesType) {
     return getListOfSpeciesTypes().add(speciesType);
+  }
+
+  /**
+   * Creates a new {@link BindingSiteSpeciesType} inside this {@link MultiModelPlugin} and returns it.
+   * <p>
+   * 
+   * @return the {@link BindingSiteSpeciesType} object created
+   *         <p>
+   * @see #addSpeciesType(SpeciesType r)
+   */
+  public BindingSiteSpeciesType createBindingSiteSpeciesType() {
+    return createBindingSiteSpeciesType(null);
+  }
+
+  /**
+   * Creates a new {@link BindingSiteSpeciesType} inside this {@link MultiModelPlugin} and returns it.
+   * 
+   * @param id
+   *        the id of the new element to create
+   * @return the {@link BindingSiteSpeciesType} object created
+   */
+  public BindingSiteSpeciesType createBindingSiteSpeciesType(String id) {
+    BindingSiteSpeciesType speciesType = new BindingSiteSpeciesType();
+    speciesType.setId(id);
+    addSpeciesType(speciesType);
+
+    return speciesType;
+  }
+
+  /**
+   * Creates a new {@link IntraSpeciesReaction} inside this {@link MultiModelPlugin} and returns it.
+   * <p>
+   * 
+   * @return the {@link IntraSpeciesReaction} object created
+   *         <p>
+   * @see #addReaction(Reaction r)
+   */
+  public IntraSpeciesReaction createIntraSpeciesReaction() {
+    return createIntraSpeciesReaction(null);
+  }
+
+  /**
+   * Creates a new {@link IntraSpeciesReaction} inside this {@link MultiModelPlugin} and returns it.
+   * 
+   * @param id
+   *        the id of the new element to create
+   * @return the {@link IntraSpeciesReaction} object created
+   */
+  public IntraSpeciesReaction createIntraSpeciesReaction(String id) {
+    IntraSpeciesReaction reaction = new IntraSpeciesReaction();
+    reaction.setId(id);
+    getModel().addReaction(reaction);
+
+    return reaction;
   }
 
   /**

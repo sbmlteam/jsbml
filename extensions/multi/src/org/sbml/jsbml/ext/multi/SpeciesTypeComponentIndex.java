@@ -355,7 +355,7 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
       if (attributeName.equals(MultiConstants.component)) {
         setComponent(value);
       }
-      if (attributeName.equals(MultiConstants.identifyingParent)) {
+      else if (attributeName.equals(MultiConstants.identifyingParent)) {
         setIndentifyingParent(value);
       }
       else {

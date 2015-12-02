@@ -164,7 +164,7 @@ public class MultiConstants {
   /**
    * 
    */
-  public static final String identifyingParent = "indentifyingParent";
+  public static final String identifyingParent = "identifyingParent";
 
   /**
    * 
@@ -325,13 +325,65 @@ public class MultiConstants {
    */
   public static final String possibleSpeciesFeatureValue = "possibleSpeciesFeatureValue";
 
+  /**
+   * 
+   */
+  public static final String speciesReference = "speciesReference";
 
+  /**
+   * 
+   */
+  public static final String representationType = "representationType";
 
+  /**
+   * 
+   */
+  public static final String listOfCompartmentReferences = "listOfCompartmentReferences";
 
+  /**
+   * 
+   */
+  public static final String listOfSpeciesFeatureTypes = "listOfSpeciesFeatureTypes";
 
+  /**
+   * 
+   */
+  public static final String listOfSpeciesTypeInstances = "listOfSpeciesTypeInstances";
 
+  /**
+   * 
+   */
+  public static final String listOfSpeciesTypeComponentIndexes = "listOfSpeciesTypeComponentIndexes";
 
+  /**
+   * 
+   */
+  public static final String listOfInSpeciesTypeBonds = "listOfInSpeciesTypeBonds";
+
+  /**
+   * 
+   */
+  public static final String listOfOutwardBindingSites = "listOfOutwardBindingSites";
+
+  /**
+   * 
+   */
+  public static final String listOfSpeciesFeatures = "listOfSpeciesFeatures";
+
+  /**
+   * 
+   */
+  public static final String listOfSpeciesFeatureValues = "listOfSpeciesFeatureValues";
+
+  /**
+   * 
+   */
+  public static final String listOfSpeciesTypeComponentMapInProducts = "listOfSpeciesTypeComponentMapInProducts";
   
+  /**
+   * 
+   */
+  public static final String listOfSpeciesFeatureChanges = "listOfSpeciesFeatureChanges";
 
 
 }

@@ -217,6 +217,7 @@ public class CompartmentReference extends AbstractNamedSBase implements Compartm
         isAttributeRead = false;
       }
     }
+    
     return isAttributeRead;
   }
 

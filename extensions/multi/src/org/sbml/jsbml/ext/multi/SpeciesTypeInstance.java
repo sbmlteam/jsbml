@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
-import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * 
@@ -34,7 +33,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @since 1.0
  * @date 16.10.2013
  */
-public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNamedSBase {
+public class SpeciesTypeInstance extends AbstractNamedSBase { //  implements UniqueNamedSBase - local to SpeciesType ??
 
   /**
    * Generated serial version identifier.
@@ -295,7 +294,7 @@ public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNam
       if (attributeName.equals(MultiConstants.speciesType)) {
         setSpeciesType(value);
       }
-      if (attributeName.equals(MultiConstants.compartmentReference)) {
+      else if (attributeName.equals(MultiConstants.compartmentReference)) {
         setCompartmentReference(value);
       }
       else {

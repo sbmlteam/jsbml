@@ -552,7 +552,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
     if (attributeName.equals(MultiConstants.compartmentType)) {
       setCompartmentType(value);
     }
-    if (attributeName.equals(MultiConstants.isType)) {
+    else if (attributeName.equals(MultiConstants.isType)) {
       setIsType(StringTools.parseSBMLBoolean(value));
     }
     else {
