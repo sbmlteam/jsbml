@@ -31,14 +31,13 @@ package org.sbml.jsbml.ext.multi;
  */
 public class BindingSiteSpeciesType extends SpeciesType {
 
-  // TODO - has one additional attribute - bindingStatus ? of type BindingStatus ? May be it does not have additional attribute !!
 
-  // initDefaults() is called in SpeciesType constructors
   /**
    * 
    */
   public BindingSiteSpeciesType() {
     super();
+    initDefaults();
   }
 
 
@@ -48,13 +47,14 @@ public class BindingSiteSpeciesType extends SpeciesType {
    */
   public BindingSiteSpeciesType(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
 
   /**
    * @param obj
    */
-  public BindingSiteSpeciesType(SpeciesType obj) {
+  public BindingSiteSpeciesType(BindingSiteSpeciesType obj) {
     super(obj);
   }
 
@@ -64,6 +64,7 @@ public class BindingSiteSpeciesType extends SpeciesType {
    */
   public BindingSiteSpeciesType(String id) {
     super(id);
+    initDefaults();
   }
 
 
@@ -74,6 +75,7 @@ public class BindingSiteSpeciesType extends SpeciesType {
    */
   public BindingSiteSpeciesType(String id, int level, int version) {
     super(id, level, version);
+    initDefaults();
   }
 
 
@@ -85,8 +87,16 @@ public class BindingSiteSpeciesType extends SpeciesType {
    */
   public BindingSiteSpeciesType(String id, String name, int level, int version) {
     super(id, name, level, version);
+    initDefaults();
   }
   
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    packageName = MultiConstants.shortLabel;
+    setPackageVersion(-1);
+  }
 
   // TODO - equals, hashcode, read/write attributes, toString, clone, ...
   

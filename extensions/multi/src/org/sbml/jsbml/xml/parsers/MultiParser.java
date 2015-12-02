@@ -25,25 +25,30 @@ import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSpeciesTypes;
 import static org.sbml.jsbml.ext.multi.MultiConstants.namespaceURI;
 import static org.sbml.jsbml.ext.multi.MultiConstants.shortLabel;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
+import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.ext.multi.InSpeciesTypeBond;
+import org.sbml.jsbml.ext.multi.MultiCompartmentPlugin;
 import org.sbml.jsbml.ext.multi.MultiConstants;
 import org.sbml.jsbml.ext.multi.MultiModelPlugin;
+import org.sbml.jsbml.ext.multi.MultiSimpleSpeciesReferencePlugin;
 import org.sbml.jsbml.ext.multi.MultiSpeciesPlugin;
+import org.sbml.jsbml.ext.multi.MultiSpeciesReferencePlugin;
+import org.sbml.jsbml.ext.multi.SpeciesFeature;
 import org.sbml.jsbml.ext.multi.SpeciesFeatureType;
 import org.sbml.jsbml.ext.multi.SpeciesType;
+import org.sbml.jsbml.ext.multi.SpeciesTypeComponentMapInProduct;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -95,8 +100,8 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
     List<Object> listOfElementsToWrite = new ArrayList<Object>();
 
     // test if this treeNode is an extended SBase.
-    if (treeNode instanceof SBase && ((SBase) treeNode).getExtension(getNamespaceURI()) != null) {
-      SBasePlugin sbasePlugin = ((Model) treeNode).getExtension(getNamespaceURI());
+    if (treeNode instanceof SBase && ((SBase) treeNode).getExtension(shortLabel) != null) {
+      SBasePlugin sbasePlugin = ((Model) treeNode).getExtension(shortLabel);
 
       if (sbasePlugin != null) {
         listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
@@ -106,7 +111,30 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
       listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
     }
 
+    // TODO - IntraSpeciesReaction child
+    
     return listOfElementsToWrite;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(String
+   *      elementName, String attributeName, String value, String prefix,
+   *      boolean isLastAttribute, Object contextObject)
+   */
+  @Override
+  public void processAttribute(String elementName, String attributeName,
+    String value, String uri, String prefix, boolean isLastAttribute,
+    Object contextObject)
+  {
+    // logger.debug("processAttribute -> " + prefix + ":" + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
+
+    if (contextObject instanceof SBase && ((SBase) contextObject).getPackageName().equals("core")) {
+      if (!(contextObject instanceof SBMLDocument)) {
+        contextObject = ((SBase) contextObject).getPlugin(getShortLabel());
+      }
+    }
+
+    super.processAttribute(elementName, attributeName, value, uri, prefix, isLastAttribute, contextObject);
   }
 
 
@@ -119,54 +147,93 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
   public Object processStartElement(String elementName, String uri, String prefix,
     boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
-    // TODO: make it generic by using reflection on the contextObject
-
+    // Model
     if (contextObject instanceof Model)
     {
       Model model = (Model) contextObject;
-      MultiModelPlugin multiModel = null;
-
-      if (model.getExtension(namespaceURI) != null) {
-        multiModel = (MultiModelPlugin) model.getExtension(namespaceURI);
-      } else {
-        multiModel = new MultiModelPlugin(model);
-        model.addExtension(namespaceURI, multiModel);
-      }
+      MultiModelPlugin multiModel = (MultiModelPlugin) model.getPlugin(shortLabel);
 
       if (elementName.equals(listOfSpeciesTypes))
       {
         return multiModel.getListOfSpeciesTypes();
       }
     } // end Model
+    // Compartment
+    else if (contextObject instanceof Compartment)
+    {
+      Compartment compartment = (Compartment) contextObject;
+      MultiCompartmentPlugin multiCompartment = (MultiCompartmentPlugin) compartment.getPlugin(shortLabel);
+
+      if (elementName.equals(MultiConstants.listOfCompartmentReferences))
+      {
+        return multiCompartment.getListOfCompartmentReferences();
+      }
+    } // end Compartment
+    // SpeciesType
     else if (contextObject instanceof SpeciesType)
     {
       SpeciesType speciesType = (SpeciesType) contextObject;
 
-      // TODO - update to include all the new children
-//      if (elementName.equals(listOfStateFeatures)) {
-//        return speciesType.getListOfStateFeatures();
-//      }
+      if (elementName.equals(MultiConstants.listOfSpeciesFeatureTypes)) {
+        return speciesType.getListOfSpeciesFeatureTypes();
+      } else if (elementName.equals(MultiConstants.listOfSpeciesTypeInstances)) {
+        return speciesType.getListOfSpeciesTypeInstances();
+      } else if (elementName.equals(MultiConstants.listOfSpeciesTypeComponentIndexes)) {
+        return speciesType.getListOfSpeciesTypeComponentIndexes();
+      } else if (elementName.equals(MultiConstants.listOfInSpeciesTypeBonds)) {
+        return speciesType.getListOfInSpeciesTypeBonds();
+      }
     } // end SpeciesType
+    // SpeciesFeatureType
     else if (contextObject instanceof SpeciesFeatureType)
     {
-      SpeciesFeatureType stateFeature = (SpeciesFeatureType) contextObject;
+      SpeciesFeatureType speciesFeatureType = (SpeciesFeatureType) contextObject;
 
       if (elementName.equals(MultiConstants.listOfPossibleSpeciesFeatureValues)) {
-        return stateFeature.getListOfPossibleSpeciesFeatureValues();
+        return speciesFeatureType.getListOfPossibleSpeciesFeatureValues();
       }
     } // end SpeciesFeatureType
-    else if (contextObject instanceof InSpeciesTypeBond)
+    // Species
+    else if (contextObject instanceof Species)
     {
-      InSpeciesTypeBond bond = (InSpeciesTypeBond) contextObject;
+      Species species = (Species) contextObject;
+      MultiSpeciesPlugin multiSpecies = (MultiSpeciesPlugin) species.getPlugin(shortLabel);
 
-      // TODO
-//      if (elementName.equals(bindingSiteReference))
-//      {
-//        String bindingSiteReference = new String();
-//        bond.addBindingSiteReference(bindingSiteReference);
-//        return bindingSiteReference;
-//      }
-    } // end InSpeciesTypeBond
+      if (elementName.equals(MultiConstants.listOfOutwardBindingSites)) {
+        return multiSpecies.getListOfOutwardBindingSites();
+      } else if (elementName.equals(MultiConstants.listOfSpeciesFeatures)) {
+        return multiSpecies.getListOfSpeciesFeatures();
+      }
+    } // end Species
+    // SpeciesFeature
+    else if (contextObject instanceof SpeciesFeature)
+    {
+      SpeciesFeature speciesFeature = (SpeciesFeature) contextObject;
+
+      if (elementName.equals(MultiConstants.listOfSpeciesFeatureValues)) {
+        return speciesFeature.getListOfSpeciesFeatureValues();
+      }
+    } // end SpeciesFeature
+    // SpeciesReference
+    else if (contextObject instanceof SpeciesReference)
+    {
+      SpeciesReference speciesReference = (SpeciesReference) contextObject;
+      MultiSpeciesReferencePlugin multiSpeciesReference = (MultiSpeciesReferencePlugin) speciesReference.getPlugin(shortLabel);
+
+      if (elementName.equals(MultiConstants.listOfSpeciesTypeComponentMapInProducts)) {
+        return multiSpeciesReference.getListOfSpeciesTypeComponentMapInProducts();
+      }
+    } // end SpeciesReference
+    // SpeciesTypeComponentMapInProduct
+    else if (contextObject instanceof SpeciesTypeComponentMapInProduct)
+    {
+      SpeciesTypeComponentMapInProduct speciesTypeComponentMapInProduct = (SpeciesTypeComponentMapInProduct) contextObject;
+
+      if (elementName.equals(MultiConstants.listOfSpeciesFeatureChanges)) {
+        return speciesTypeComponentMapInProduct.getListOfSpeciesFeatureChanges();
+      }
+    } // end SpeciesTypeComponentMapInProduct
+    // Any ListOf
     else if (contextObject instanceof ListOf<?>)
     {
       ListOf<?> listOf = (ListOf<?>) contextObject;
@@ -175,69 +242,12 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
 
       return newElement;
 
-      // TODO: SpeciesTypeInstance, SelectorReference, ....
     }
 
     return contextObject;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#createListOfChild(org.sbml.jsbml.ListOf, java.lang.String)
-   */
-  @Override
-  protected Object createListOfChild(ListOf<?> listOf, String elementName) {
-
-    Object parentSBase = listOf.getParent();
-
-    if (parentSBase == null) {
-      return null;
-    } else if (parentSBase instanceof Model) {
-      parentSBase = ((Model) parentSBase).getExtension(namespaceURI);
-    }
-
-    String createMethodName = "create" + elementName.substring(0, 1).toUpperCase() + elementName.substring(1);
-    Method createMethod = null;
-
-    if (logger.isDebugEnabled()) {
-      logger.debug("Method '" + createMethodName + "' will be used");
-    }
-
-    try {
-      createMethod = parentSBase.getClass().getMethod(createMethodName, (Class<?>[]) null);
-
-      return createMethod.invoke(parentSBase, (Object[]) null);
-
-    } catch (SecurityException e) {
-      if (logger.isDebugEnabled()) {
-        logger.debug("Method '" + createMethodName + "' is not accessible on " + parentSBase.getClass().getSimpleName());
-        e.printStackTrace();
-      }
-    } catch (NoSuchMethodException e) {
-      if (logger.isDebugEnabled()) {
-        logger.debug("Method '" + createMethodName + "' does not exist on " + parentSBase.getClass().getSimpleName());
-      }
-    } catch (IllegalArgumentException e) {
-      if (logger.isDebugEnabled()) {
-        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
-        logger.debug(e.getMessage());
-      }
-    } catch (IllegalAccessException e) {
-      if (logger.isDebugEnabled()) {
-        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
-        logger.debug(e.getMessage());
-      }
-    } catch (InvocationTargetException e) {
-      if (logger.isDebugEnabled()) {
-        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
-        logger.debug(e.getMessage());
-      }
-    }
-
-    // TODO: try to use the default constructor + the addXX method
-
-    return null;
-  }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
    */
@@ -290,10 +300,13 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
         return new MultiModelPlugin((Model) sbase);
       } else if (sbase instanceof Species) {
         return new MultiSpeciesPlugin((Species) sbase);
-      } else if (sbase instanceof Reaction) {
-        // return new MultiReactionPlugin((Reaction) sbase);
-      }
-      // TODO : finish when implementation is updated
+      } else if (sbase instanceof Compartment) {
+        return new MultiCompartmentPlugin((Compartment) sbase);
+      } else if (sbase instanceof SpeciesReference) {
+        return new MultiSpeciesReferencePlugin((SpeciesReference) sbase);
+      } else if (sbase instanceof SimpleSpeciesReference) {
+        return new MultiSimpleSpeciesReferencePlugin((SimpleSpeciesReference) sbase);
+      } 
     }
 
     return null;

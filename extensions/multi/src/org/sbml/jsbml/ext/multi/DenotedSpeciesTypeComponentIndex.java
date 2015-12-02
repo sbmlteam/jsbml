@@ -28,7 +28,8 @@ import org.sbml.jsbml.AbstractSBase;
 
 
 /**
- *
+ * Class removed from the draft specs 1.0 release 0.5 (2015-11-27)
+ * 
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.1
