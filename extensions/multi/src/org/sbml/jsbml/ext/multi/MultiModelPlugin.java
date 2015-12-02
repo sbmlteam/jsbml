@@ -26,7 +26,6 @@ import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
@@ -139,9 +138,9 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
       listOfSpeciesTypes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypes.setPackageName(null);
-      listOfSpeciesTypes.setPackageName(MultiConstants.shortLabel);      
+      listOfSpeciesTypes.setPackageName(MultiConstants.shortLabel);
       listOfSpeciesTypes.setSBaseListType(ListOf.Type.other);
-      
+
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfSpeciesTypes);
       }
@@ -193,7 +192,7 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
    * 
    * @return the {@link IntraSpeciesReaction} object created
    *         <p>
-   * @see #addReaction(Reaction r)
+   * @see #createIntraSpeciesReaction(String)
    */
   public IntraSpeciesReaction createIntraSpeciesReaction() {
     return createIntraSpeciesReaction(null);
@@ -290,7 +289,7 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
       listOfSpeciesTypes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypes.setPackageName(null);
-      listOfSpeciesTypes.setPackageName(MultiConstants.shortLabel);      
+      listOfSpeciesTypes.setPackageName(MultiConstants.shortLabel);
       listOfSpeciesTypes.setSBaseListType(ListOf.Type.other);
     }
     if (extendedSBase != null) {
@@ -298,7 +297,7 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
     }
   }
 
-  
+
   /**
    * Sets the listOfSpeciesTypes to null
    * 
