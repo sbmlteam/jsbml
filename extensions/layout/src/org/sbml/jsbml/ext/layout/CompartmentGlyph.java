@@ -58,6 +58,7 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
    */
   public CompartmentGlyph() {
     super();
+    initDefaults();
   }
 
   /**
@@ -66,6 +67,7 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
    */
   public CompartmentGlyph(CompartmentGlyph compartmentGlyph) {
     super(compartmentGlyph);
+    initDefaults();
   }
 
   /**
@@ -75,6 +77,7 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
    */
   public CompartmentGlyph(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /**
@@ -83,6 +86,7 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
    */
   public CompartmentGlyph(String id) {
     super(id);
+    initDefaults();
   }
 
   /**
@@ -93,6 +97,7 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
    */
   public CompartmentGlyph(String id, int level, int version) {
     super(id, level, version);
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -101,6 +106,14 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
   @Override
   public CompartmentGlyph clone() {
     return new CompartmentGlyph(this);
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = LayoutConstants.shortLabel;
   }
 
   /* (non-Javadoc)

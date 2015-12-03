@@ -60,7 +60,7 @@ public class TextGlyph extends AbstractReferenceGlyph {
    */
   public TextGlyph() {
     super();
-    setNamespace(LayoutConstants.namespaceURI);
+    initDefaults();
   }
 
   /**
@@ -70,7 +70,7 @@ public class TextGlyph extends AbstractReferenceGlyph {
    */
   public TextGlyph(int level, int version) {
     super(level, version);
-    setNamespace(LayoutConstants.namespaceURI);
+    initDefaults();
   }
 
   /**
@@ -79,7 +79,7 @@ public class TextGlyph extends AbstractReferenceGlyph {
    */
   public TextGlyph(String id) {
     super(id);
-    setNamespace(LayoutConstants.namespaceURI);
+    initDefaults();
   }
 
   /**
@@ -90,7 +90,7 @@ public class TextGlyph extends AbstractReferenceGlyph {
    */
   public TextGlyph(String id, int level, int version) {
     super(id, level, version);
-    setNamespace(LayoutConstants.namespaceURI);
+    initDefaults();
   }
 
   /**
@@ -113,6 +113,14 @@ public class TextGlyph extends AbstractReferenceGlyph {
   @Override
   public TextGlyph clone() {
     return new TextGlyph(this);
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = LayoutConstants.shortLabel;
   }
 
   /* (non-Javadoc)

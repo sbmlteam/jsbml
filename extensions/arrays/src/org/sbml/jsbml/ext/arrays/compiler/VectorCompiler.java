@@ -2273,7 +2273,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       throws SBMLException {
     FunctionDefinition func = model.getFunctionDefinition(functionDefinitionName);
     if (func == null) {
-      throw new SBMLException();
+      throw new SBMLException("FunctionDefinition with id ' " + functionDefinitionName + "' cannot be found in the model.");
     }
     function(func, args);
     return dummy;

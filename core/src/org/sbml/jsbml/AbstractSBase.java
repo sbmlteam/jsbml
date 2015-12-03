@@ -793,7 +793,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    *             <i>real</i> check, rather than to indicate potential errors.
    */
   protected boolean checkAndSetPackageNamespaceAndVersion(SBase sbase) {
-    String expectedPackageNamespace = "";
+    String expectedPackageNamespace = null;
     int expectedPackageVersion = -1;
     String packageLabel = sbase.getPackageName();    
     
@@ -2116,7 +2116,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @param namespace the XML namespace to which this {@link SBase} belong.
    */
   public void setNamespace(String namespace) {
-    if ((elementNamespace != null) && (!elementNamespace.equals(namespace))) {
+    if ((elementNamespace != null) && (namespace != null) && (!elementNamespace.equals(namespace))) { // TODO - test if elementNamespace or namespace is empty before throwing the error !
       // if we implement proper conversion some days, we need to unset the namespace before changing it.
       logger.error(MessageFormat.format(
         resourceBundle.getString("AbstractSBase.setNamespaceExc"),

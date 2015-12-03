@@ -71,6 +71,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
    */
   public ReferenceGlyph() {
     super();
+    initDefaults();
   }
 
   /**
@@ -80,6 +81,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
    */
   public ReferenceGlyph(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /**
@@ -105,6 +107,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
    */
   public ReferenceGlyph(String id) {
     super(id);
+    initDefaults();
   }
 
   /**
@@ -115,6 +118,15 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
    */
   public ReferenceGlyph(String id, int level, int version) {
     super(id, level, version);
+    initDefaults();
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = LayoutConstants.shortLabel;
   }
 
   /* (non-Javadoc)
