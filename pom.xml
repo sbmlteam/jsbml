@@ -30,6 +30,8 @@
   <artifactId>jsbml-parent</artifactId>
   <version>1.1</version>
   <packaging>pom</packaging>
+  <name>JSBML</name>
+  <inceptionYear>2009</inceptionYear>
   <description>JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams.</description>
   <url>http://www.sbml.org/Software/JSBML</url>
 
@@ -37,6 +39,10 @@
     <license>
       <name>LGPL License</name>
       <url>http://opensource.org/licenses/LGPL-2.1</url>
+    </license>
+    <license>
+      <name>Licensing and Distribution Terms for JSBML</name>
+      <url>http://sbml.org/Software/JSBML/License</url>
     </license>
   </licenses>
 
@@ -48,6 +54,22 @@
       <organizationUrl>http://www.sbml.org</organizationUrl>
     </developer>
   </developers>
+
+  <issueManagement>
+    <url>http://sourceforge.net/p/jsbml/bugs/</url>
+    <system>Sourceforge Tickets</system>
+  </issueManagement>
+  <mailingLists>
+    <mailingList>
+      <name>JSBML Team</name>
+      <post>jsbml-team@caltech.edu</post>
+    </mailingList>
+    <mailingList>
+      <name>JSBML Development</name>
+      <post>jsbml-development@googlegroups.com</post>
+      <archive>https://groups.google.com/forum/#!forum/jsbml-development</archive>
+    </mailingList>
+  </mailingLists>
   
   <scm>
     <connection>scm:svn:http://svn.code.sf.net/p/jsbml/code/trunk</connection>
@@ -191,27 +213,4 @@
 		</repository>
 -->
   
-  <name>JSBML</name>
-  <inceptionYear>2009</inceptionYear>
-    <issueManagement>
-    <url>http://sourceforge.net/p/jsbml/bugs/</url>
-    <system>Sourceforge Tickets</system>
-  </issueManagement>
-  <mailingLists>
-    <mailingList>
-      <name>JSBML Team</name>
-      <post>jsbml-team@caltech.edu</post>
-    </mailingList>
-    <mailingList>
-      <name>JSBML Development</name>
-      <post>jsbml-development@googlegroups.com</post>
-      <archive>https://groups.google.com/forum/#!forum/jsbml-development</archive>
-    </mailingList>
-  </mailingLists>
-  <licenses>
-    <license>
-      <name>Licensing and Distribution Terms for JSBML</name>
-      <url>http://sbml.org/Software/JSBML/License</url>
-    </license>
-  </licenses>
 </project>
