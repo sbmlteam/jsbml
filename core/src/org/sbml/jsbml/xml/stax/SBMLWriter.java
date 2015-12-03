@@ -1032,7 +1032,7 @@ public class SBMLWriter {
         childParser.writeCharacters(childXmlObject, nextObjectToWrite);
 
         if (!childXmlObject.isSetName()) {
-          logger.error("XML name not set, element ignored!");
+          logger.error("XML name not set, element ignored! (" + nextObjectToWrite.getClass().getName() + ")");
           continue;
         }
 
