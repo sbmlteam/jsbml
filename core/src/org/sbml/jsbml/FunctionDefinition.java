@@ -77,8 +77,9 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
    */
   public FunctionDefinition(FunctionDefinition sb) {
     super(sb);
+    
     if (sb.isSetId()) {
-      setId(id);
+      setId(sb.getId());
     }
     if (sb.isSetName()) {
       setName(sb.getName());
@@ -351,7 +352,7 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
    */
   @Override
   public void setId(String id) {
-    if (getLevel() < 2) {
+    if (getLevel() == 1) {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.id, this);
     }
     String property = TreeNodeChangeEvent.id;
@@ -381,10 +382,6 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
    */
   @Override
   public void setMath(ASTNode math) {
-    if (getLevel() < 2) {
-      // throw new PropertyNotAvailableError(SBaseChangedEvent.id, this);
-      // We can use internally ASTNode even if working on level 1 model !!
-    }
 
     if (!math.isLambda()) {
       throw new IllegalArgumentException(MessageFormat.format(
@@ -398,7 +395,7 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
    */
   @Override
   public void setName(String name) {
-    if (getLevel() < 2) {
+    if (getLevel() == 1) {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.id, this);
     }
     String oldName = this.name;
@@ -411,18 +408,11 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractMathContainer#toString()
+   * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    if (isSetName() && getName().length() > 0) {
-      return name;
-    }
-    if (isSetId()) {
-      return id;
-    }
-    String name = getClass().getName();
-    return name.substring(name.lastIndexOf('.') + 1);
+    return "FunctionDefinition [id=" + id + ", name=" + name + "]";
   }
 
   /* (non-Javadoc)

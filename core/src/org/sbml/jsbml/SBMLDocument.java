@@ -200,6 +200,11 @@ public class SBMLDocument extends AbstractSBase {
       enabledPackageMap = new HashMap<String, Boolean>();
     }
 
+    // cloning the enabledPackageMap
+    for (String namespace : sb.enabledPackageMap.keySet()) {
+      enabledPackageMap.put(new String(namespace), new Boolean(sb.enabledPackageMap.get(namespace)));
+    }
+
     if (sb.isSetModel()) {
       // This will also cause that all metaIds are registered correctly.
       setModel(sb.getModel().clone());
@@ -215,10 +220,6 @@ public class SBMLDocument extends AbstractSBase {
     // setParentSBML(this);
     checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), Boolean.valueOf(false));
 
-    // cloning the enabledPackageMap
-    for (String namespace : sb.enabledPackageMap.keySet()) {
-      enabledPackageMap.put(new String(namespace), new Boolean(sb.enabledPackageMap.get(namespace)));
-    }
   }
 
   /**
