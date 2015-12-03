@@ -1,125 +1,127 @@
 	       JSBML NEWS -- History of user-visible changes
 
+
 ===========================================================================
 Version 1.1 (03-12-2015)
 ===========================================================================
 
  * New Features:
 
-  - Finish to implement support for multiple version of a L3 package.
-  
-  - Improvement of the maven pom files, change to the maven group ids and
-    artifact ids, they should be stable now. With these changes we can
-    update the maven repository much quicker and easier. Next steps are to
-    be available in maven central.
+  - Implemented the ability to support multiple version of SBML Level 3
+    package definitions.
+
+  - Improved the Maven pom files, and changed the Maven group ids and
+    artifact ids. They should be stable now. With these changes in place, we
+    can update the Maven repository much more quickly and easily. Next steps
+    are to make JSBML available in Maven Central.
 
   - Added some utility classes to improve support for SBML files written by
-    the cobra toolbox before the fbc package was created. The 
+    the Cobra toolbox before the SBML Level 3 FBC package was created. The
     CobraFormulaParser class can parse properly the Cobra gene associations
     String into an ASTNode. The CobraUtils class contain a method to parse
-    the SBML notes into a java Properties object.
+    the SBML notes into a Java Properties object.
 
-  - Group package updated to version 0.7
-  
-    
+  - Updated the implementation of the SBML Level 3 Groups package to the
+    Groups version 0.7 specification.
+
  * Bug Fixes:
-    
-  - The compartment 'units' attribute was not written in SBML L1, this is
+
+  - The compartment 'units' attribute was not written in SBML L1. This is
     corrected now.
-  
-  - SBML L1 rules were not correctly written, the wrong xml element name
-    was used. Now it uses the right L1 names and attributes.
-  
-  - The clone constructor of Species was not copying the speciesType
-    attribute, thanks to Olivier Martin who reported the problem.
-   
-   
+
+  - SBML L1 rules were not correctly written: the wrong XML element name
+    was used. Now it uses the correct L1 names and attributes.
+
+  - The clone constructor for the Species class did not copy the speciesType
+    attribute.  Thanks to Olivier Martin who reported the problem.
+
+
 ===========================================================================
 Version 1.1-beta1 (12-10-2015)
 ===========================================================================
 
  * New Features:
 
-  - Changed the default JSBML formula compiler. Warning as it change the
+  - Changed the default JSBML formula compiler. WARNING: this changes the
     default output for comparison operators. The parsing is now very close
     to what the libSBML L3 parser is doing.
- 
-  - Added support for the nested CVTerms introduced in L2V5 and L3V2. We
-    created some new methods in the CVTerm class to be able to manipulate
-    those.
-  
+
+  - Added support for the nested CVTerms introduced in SBML L2V5 and
+    L3V2. We created some new methods in the CVTerm class to be able to
+    manipulate nested terms.
+
   - Merged with the ASTNode2 branch (experimental). This is not used by
-    default but is starting to work well. We were able to pass all tests
-    from the SBML test suite using the ASTNode facade that use ASTNode2
-    underneath. We made it work so that no API change is needed so old
-    code should work without modifications. 
+    default, but it is starting to work well. We were able to pass all tests
+    from the SBML Test Suite using the ASTNode facade that uses the ASTNode2
+    classes underneath. We made this work so that no API change is needed --
+    old code should work without modifications.
 
   - Changed the printing of ASTNode in SimpleTreeNodeChangeListener to
-    avoid many exceptions being printed when reading an xml file and the
-    log4j DEBUG is activated (sf tracker item #88).
- 
+    avoid many exceptions being printed when reading an XML file and the
+    log4j DEBUG is activated (SF.net tracker item #88).
+
   - Improved CellDesigner LayoutConverter.
- 
-  - Added a new class PackageUtil to check and fix the package versions and
+
+  - Added a new class, PackageUtil, to check and fix the package versions and
     namespaces if needed. This method is called after we read a file from
     XML or before we write the model to XML. In the near future, the method
     SBase.registerChild will take care of setting everything properly.
- 
+
   - Added a default load of the parsers for environment not setup properly
     for it (Eclipse, Matlab dynamic path, OSGi, ...).
-  
+
   - Modified the way we initialize the XML factories so that it is explicit
     (to OSGi for example) which classes and packages are used. Then there
     is no more need to define the System properties about the XML factories
     which solve an other reported problem with OSGi bundles. Thanks to all
     users who reported and tested problems related to OSGi.
- 
+
   - Implemented a new interface CompartmentalizedSBase and changed all
     elements that can have a compartment so that they extend it.
-  
+
   - Added a createCurve method to ReactionGlyph.
- 
+
   - Improvements in the arrays flattening code.
 
   - Updated spatial to implement version 0.90 of the draft specifications.
- 
+
   - Implemented FBC version 2.
- 
+
   - Implemented distrib version 1 draft 0.16.
- 
+
   - Modified the SBMLReader so that we are able to parse some UncertML
-    Strings as XMLNode, even when they are on their own, via 
+    Strings as XMLNode, even when they are on their own, via
     org.sbml.jsbml.xml.XMLNode.convertStringToXMLNode(String).
-  
+
   - Added a new class DistribModelBuilder to help users to create distrib
     elements, including uncertML XMLNode.
-   
+
   - Implemented the multi draft rev 459 (Nov 2014).
- 
- 
+
+
  * Bug Fixes:
 
   - Methods that accepted Double/Integer/Boolean values or returned those
     where updated to double/integer/boolean in the spatial and render
     package. Instead of null values PropertyUndefinedExceptions are now
-    thrown when necessary. 
+    thrown when necessary.
 
   - Tracker item #83: the equals method from StringBuilder is
     not implemented so we have to compare the content of the StringBuilder
     or use other utility method to compare properly the StringBuilders.
-  
+
   - Tracker item #84: corrected and improved the XMLNode.toString method.
-  
-  - Tracker item #85: removing spaces with the String.trim() method in 
+
+  - Tracker item #85: removing spaces with the String.trim() method in
     org.sbml.jsbml.Creator.setEmail(String) before checking the validity
     of the email address. Thanks to Camille Laibe who reported this
     problem.
-  
+
   - Tracker item #87: changed HashMap to Map in the SBMLValidator API.
-  
-  - When writing math formula, in some cases, parentheses were not
-    generated properly surrounding relational expressions. Thanks to Miguel
-    de Alba for reporting this problem.
+
+  - When writing math formula, in some cases, parentheses were not generated
+    properly surrounding relational expressions.  This is now fixed. Thanks
+    to Miguel de Alba for reporting this problem.
      
   
 ===========================================================================

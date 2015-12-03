@@ -28,7 +28,7 @@
   
   <groupId>org.sbml.jsbml</groupId>
   <artifactId>jsbml-parent</artifactId>
-  <version>1.1-b1</version>
+  <version>1.1</version>
   <packaging>pom</packaging>
   <description>JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams.</description>
   <url>http://www.sbml.org/Software/JSBML</url>
@@ -191,4 +191,27 @@
 		</repository>
 -->
   
+  <name>JSBML</name>
+  <inceptionYear>2009</inceptionYear>
+    <issueManagement>
+    <url>http://sourceforge.net/p/jsbml/bugs/</url>
+    <system>Sourceforge Tickets</system>
+  </issueManagement>
+  <mailingLists>
+    <mailingList>
+      <name>JSBML Team</name>
+      <post>jsbml-team@caltech.edu</post>
+    </mailingList>
+    <mailingList>
+      <name>JSBML Development</name>
+      <post>jsbml-development@googlegroups.com</post>
+      <archive>https://groups.google.com/forum/#!forum/jsbml-development</archive>
+    </mailingList>
+  </mailingLists>
+  <licenses>
+    <license>
+      <name>Licensing and Distribution Terms for JSBML</name>
+      <url>http://sbml.org/Software/JSBML/License</url>
+    </license>
+  </licenses>
 </project>
