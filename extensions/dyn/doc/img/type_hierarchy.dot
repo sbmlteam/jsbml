@@ -55,7 +55,7 @@ strict digraph G{
     fillcolor="#d2ffd2"
     color="#ffffff"
     label="Dynamic Structures extension";
-    labelloc=t;
+    labelloc=b;
     labeljust=c;
 
     // Objects
