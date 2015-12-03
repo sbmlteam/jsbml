@@ -28,17 +28,17 @@ strict digraph G{
 	   shape=box
 	 ];
 	 
-	 /*
+  /*
    * Abstract data types
    */
   AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">Abstract<br/>SBasePlugin</font>>, style="filled", fillcolor="#F0F8FF"];
-  Model                            		   [label=<<font face="Helvetica-Oblique">Model</font>>, style="filled", fillcolor="#F0F8FF"];
+  Model                            	   [label=<<font face="Helvetica-Oblique">Model</font>>, style="filled", fillcolor="#F0F8FF"];
 
   /*
-  * Interfaces
-  */
+   * Interfaces
+   */
  
   UniqueNamedSBase                         [label="<<interface>>\nUnique\nNamed\nSBase"];
   NamedSBase                         	   [label="<<interface>>\nNamed\nSBase"];
@@ -71,22 +71,22 @@ strict digraph G{
     CompModelPlugin                     [label="Comp\nModel\nPlugin"];
     CompSBasePlugin                     [label="Comp\nSBase\nPlugin"];
     CompSBMLDocumentPlugin              [label="Comp\nSBML Document\nPlugin"];
-    Deletion                    		[label="Deletion"];
-    ExternalModelDefinition     		[label="External\nModel\nDefinition"];
-    ModelDefinition     				[label="Model\nDefinition"];
-    Port                    			[label="Port"];
-    ReplacedBy                    		[label="ReplacedBy"];
+    Deletion                    	[label="Deletion"];
+    ExternalModelDefinition     	[label="External\nModel\nDefinition"];
+    ModelDefinition     		[label="Model\nDefinition"];
+    Port                    		[label="Port"];
+    ReplacedBy                    	[label="ReplacedBy"];
     ReplacedElement                    	[label="ReplacedElement"];
-    Submodel                    		[label="Submodel"];
-    SBaseRef                    		[label="SBaseRef"];
+    Submodel                    	[label="Submodel"];
+    SBaseRef                    	[label="SBaseRef"];
 
      /*
      * Inheritance graph
      */
-     CompSBasePlugin    -> CompModelPlugin       	[dir=back,arrowtail=empty];
-     CompSBasePlugin    -> CompSBMLDocumentPlugin   [dir=back,arrowtail=empty];     
-     AbstractNamedSBaseRef    -> Deletion       	[dir=back,arrowtail=empty];
-     AbstractNamedSBaseRef    -> Port       		[dir=back,arrowtail=empty];     
+     CompSBasePlugin       -> CompModelPlugin        [dir=back,arrowtail=empty];
+     CompSBasePlugin       -> CompSBMLDocumentPlugin [dir=back,arrowtail=empty];     
+     AbstractNamedSBaseRef -> Deletion               [dir=back,arrowtail=empty];
+     AbstractNamedSBaseRef -> Port       	     [dir=back,arrowtail=empty];     
 
    }
    
@@ -94,18 +94,21 @@ strict digraph G{
     * Inheritance graph *
     *********************/
    
-   SBaseRef -> AbstractNamedSBaseRef            	[dir=back,arrowtail=empty];
-   SBaseRef -> ReplacedBy            				[dir=back,arrowtail=empty];
-   SBaseRef -> ReplacedElement            			[dir=back,arrowtail=empty];
-   AbstractSBase -> SBaseRef            			[dir=back,arrowtail=empty];
-   AbstractSBasePlugin      -> CompSBasePlugin    	[dir=back,arrowtail=empty];    
-   AbstractNamedSBase    -> ExternalModelDefinition [dir=back,arrowtail=empty];
-   AbstractNamedSBase    -> Submodel		       	[dir=back,arrowtail=empty];
-   Model    -> ModelDefinition       				[dir=back,arrowtail=empty];
-   NamedSBase -> AbstractNamedSBaseRef            	[dir=back,arrowtail=empty];
-   IdManager -> CompModelPlugin				    	[dir=back,arrowtail=empty];    
-   UniqueNamedSBase -> Deletion				    	[dir=back,arrowtail=empty];    
-   UniqueNamedSBase -> ExternalModelDefinition   	[dir=back,arrowtail=empty];    
-   UniqueNamedSBase -> Submodel					   	[dir=back,arrowtail=empty];    
+   SBaseRef            -> AbstractNamedSBaseRef   [dir=back,arrowtail=empty];
+   SBaseRef            -> ReplacedBy              [dir=back,arrowtail=empty];
+   SBaseRef            -> ReplacedElement         [dir=back,arrowtail=empty];
+   AbstractSBase       -> SBaseRef                [dir=back,arrowtail=empty];
+   AbstractSBasePlugin -> CompSBasePlugin    	  [dir=back,arrowtail=empty];    
+   AbstractNamedSBase  -> ExternalModelDefinition [dir=back,arrowtail=empty];
+   AbstractNamedSBase  -> Model                   [dir=back,arrowtail=empty];
+   AbstractNamedSBase  -> Submodel                [dir=back,arrowtail=empty];
+   Model               -> ModelDefinition         [dir=back,arrowtail=empty];
+   NamedSBase          -> AbstractNamedSBase      [dir=back,style=dashed,arrowtail=empty];
+   NamedSBase          -> AbstractNamedSBaseRef   [dir=back,style=dashed,arrowtail=empty];
+   NamedSBase          -> UniqueNamedSBase        [dir=back,style=dashed,arrowtail=empty];
+   IdManager           -> CompModelPlugin         [dir=back,style=dashed,arrowtail=empty];    
+   UniqueNamedSBase    -> Deletion                [dir=back,style=dashed,arrowtail=empty];    
+   UniqueNamedSBase    -> ExternalModelDefinition [dir=back,style=dashed,arrowtail=empty];    
+   UniqueNamedSBase    -> Submodel                [dir=back,style=dashed,arrowtail=empty];    
    
 }

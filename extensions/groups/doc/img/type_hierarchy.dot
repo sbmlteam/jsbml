@@ -63,25 +63,28 @@ strict digraph G{
     Group                                  [label="Group"];
     GroupsModelPlugin                      [label="Groups\nModel\nPlugin"];
     MemberConstraint                       [label="Member\nConstraint"];
-	Member                       		   [label="Member"];
-	ListOfMemberConstraint        		   [label="List Of\nMember Constraint"];
+    Member                                 [label="Member"];
+    ListOfMemberConstraints                [label="List Of\nMember Constraints"];
 
-	Group -> GroupKind	                   [dir=back,arrowtail=empty];
+    Group -> GroupKind	                   [dir=back,arrowtail=empty];
    }
    
    /*********************
     * Inheritance graph *
     *********************/
-   
-   AbstractNamedSBase -> Group                  [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> MemberConstraint       [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> Member                 [dir=back,arrowtail=empty];
-   AbstractSBasePlugin -> GroupsModelPlugin     [dir=back,arrowtail=empty];
-   UniqueNamedSBase -> Group          	        [dir=back,arrowtail=empty];
-   UniqueNamedSBase -> ListOfMemberConstraint   [dir=back,arrowtail=empty];
-   NamedSBase -> ListOfMemberConstraint	        [dir=back,arrowtail=empty];
-   ListOf -> ListOfMemberConstraint		        [dir=back,arrowtail=empty];
-   UniqueNamedSBase -> Member          	        [dir=back,arrowtail=empty];
-   UniqueNamedSBase -> MemberConstraint	        [dir=back,arrowtail=empty];
+
+   AbstractSBase       -> ListOf                  [dir=back,arrowtail=empty];   
+   AbstractNamedSBase  -> Group                   [dir=back,arrowtail=empty];
+   AbstractNamedSBase  -> MemberConstraint        [dir=back,arrowtail=empty];
+   AbstractNamedSBase  -> Member                  [dir=back,arrowtail=empty];
+   AbstractSBasePlugin -> GroupsModelPlugin       [dir=back,arrowtail=empty];
+   UniqueNamedSBase    -> Group                   [dir=back,style=dashed,arrowtail=empty];
+   UniqueNamedSBase    -> ListOfMemberConstraints [dir=back,style=dashed,arrowtail=empty];
+   NamedSBase          -> AbstractNamedSBase      [dir=back,style=dashed,arrowtail=empty];
+   NamedSBase          -> ListOfMemberConstraints [dir=back,style=dashed,arrowtail=empty];
+   NamedSBase          -> UniqueNamedSBase        [dir=back,style=dashed,arrowtail=empty];
+   ListOf              -> ListOfMemberConstraints [dir=back,arrowtail=empty];
+   UniqueNamedSBase    -> Member                  [dir=back,style=dashed,arrowtail=empty];
+   UniqueNamedSBase    -> MemberConstraint        [dir=back,style=dashed,arrowtail=empty];
 
 }

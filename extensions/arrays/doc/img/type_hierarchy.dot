@@ -15,6 +15,7 @@ strict digraph G{
 
 	 nodesep=0.25;
 	 ranksep=0.5;
+         rankdir=TB;
 
 	 edge [
 	   fontname="Helvetica",
@@ -32,11 +33,11 @@ strict digraph G{
    * Interfaces
    */
 
-  IdManager			                               [label="<<interface>>\nId Manager"];	 
-  CallableSBase		                               [label="<<interface>>\nCallable\nSBase"];	 
-  ASTNodeCompiler	                               [label="<<interface>>\nASTNode\nCompiler"];	 
+  IdManager                                   [label="<<interface>>\nId Manager"];	 
+  CallableSBase                               [label="<<interface>>\nCallable\nSBase"];	 
+  ASTNodeCompiler                             [label="<<interface>>\nASTNode\nCompiler"];	 
   
-	 /*
+  /*
    * Abstract data types
    */
   AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
@@ -48,7 +49,7 @@ strict digraph G{
    *********************/
     
    
-  subgraph clusterLayout {
+  subgraph clusterArrays {
     fontname="Helvetica";
     fontsize=12;
     style="filled";
@@ -64,16 +65,14 @@ strict digraph G{
     
     // Objects
 
-    ArraysSBasePlugin            		[label="Arrays\nSBase\nPlugin"];
-    Dimension                     		[label="Dimension"];
-    Index                     			[label="Index"];
-    ArraysCompiler                     	[label="Arrays\nCompiler"];
-    StaticallyComputableCompiler        [label="Statically Computable\nCompiler"];
-    VectorCompiler        				[label="Vector\nCompiler"];
-    ArraysFlattening        			[label="Arrays\nFlattening"];
-    ArraysMath        					[label="Arrays\nMath"];
-
-
+    ArraysSBasePlugin            [label="Arrays\nSBase\nPlugin"];
+    Dimension                    [label="Dimension"];
+    Index                     	 [label="Index"];
+    ArraysCompiler               [label="Arrays\nCompiler"];
+    StaticallyComputableCompiler [label="Statically Computable\nCompiler"];
+    VectorCompiler        	 [label="Vector\nCompiler"];
+    ArraysFlattening             [label="Arrays\nFlattening"];
+    ArraysMath        	         [label="Arrays\nMath"];
    }
    
    subgraph clusterValidators {
@@ -87,12 +86,12 @@ strict digraph G{
     labeljust=r;
     
     ArraysMathValidator						        [label="Arrays\nMath Validator"];
-    ArraysValidator        							[label="Arrays\nValidator"];    
+    ArraysValidator        					        [label="Arrays\nValidator"];    
     DimensionValidator        						[label="Dimension\nValidator"];
     ExtendedSBaseValidator        					[label="Extended SBase\nValidator"];
-    IndexValidator        							[label="Index\nValidator"];
+    IndexValidator        					        [label="Index\nValidator"];
     ArraysConstraint        						[label="Arrays\nConstraint"];
-    ArraysMathCheck        							[label="Arrays\nMath Check"];
+    ArraysMathCheck        					        [label="Arrays\nMath Check"];
     DimensionArrayDimCheck        					[label="Dimension\nArray\nDim Check"];
     DimensionIDCheck        						[label="Dimension\nID Check"];
     DimensionSizeCheck        						[label="Dimension\nSize Check"];
@@ -100,27 +99,39 @@ strict digraph G{
     IndexAttributesCheck        					[label="Index Attributes\nCheck"];
     SBaseWithDimensionCheck     					[label="SBase With Dimension\nCheck"];
     
-    ArraysConstraint -> ArraysMathCheck            		[dir=back,arrowtail=empty];
+    ArraysConstraint -> ArraysMathCheck                 [dir=back,arrowtail=empty];
     ArraysConstraint -> DimensionArrayDimCheck          [dir=back,arrowtail=empty];
     ArraysConstraint -> DimensionIDCheck            	[dir=back,arrowtail=empty];
     ArraysConstraint -> DimensionSizeCheck            	[dir=back,arrowtail=empty];	
     ArraysConstraint -> IndexArrayDimCheck            	[dir=back,arrowtail=empty];
     ArraysConstraint -> IndexAttributesCheck            [dir=back,arrowtail=empty];
     ArraysConstraint -> SBaseWithDimensionCheck         [dir=back,arrowtail=empty];
-	    	    
 	}
    
    /*********************
     * Inheritance graph *
     *********************/
    
-   AbstractSBasePlugin -> ArraysSBasePlugin            	[dir=back,arrowtail=empty];
-   AbstractNamedSBase -> Dimension            			[dir=back,arrowtail=empty];
-   AbstractMathContainer -> Index            			[dir=back,arrowtail=empty];
-   ASTNodeCompiler -> ArraysCompiler            		[dir=back,arrowtail=empty];
-   ASTNodeCompiler -> StaticallyComputableCompiler      [dir=back,arrowtail=empty];
-   ASTNodeCompiler -> VectorCompiler            		[dir=back,arrowtail=empty];
-   IdManager -> ArraysSBasePlugin            			[dir=back,arrowtail=empty];
-   CallableSBase -> Dimension            				[dir=back,arrowtail=empty];
+   AbstractSBasePlugin -> ArraysSBasePlugin        [dir=back,arrowtail=empty];
+   AbstractNamedSBase -> Dimension            	   [dir=back,arrowtail=empty];
+   AbstractMathContainer -> Index            	   [dir=back,arrowtail=empty];
+   ASTNodeCompiler -> ArraysCompiler               [dir=back,arrowtail=empty];
+   ASTNodeCompiler -> StaticallyComputableCompiler [dir=back,arrowtail=empty];
+   ASTNodeCompiler -> VectorCompiler               [dir=back,arrowtail=empty];
+   IdManager -> ArraysSBasePlugin            	   [dir=back,arrowtail=empty];
+   CallableSBase -> Dimension                      [dir=back,arrowtail=empty];
 
+   edge[style=invis, fontsize=12];
+
+    { //rank=same;
+        01 [style = invis];
+        02 [style=invis];
+        03 [style=invis];
+        01 -> 02 -> 03;
+    }
+
+    01  -> ArraysMath; //[style=invis];
+    03 -> DimensionArrayDimCheck; //[style=invis];
+    ArraysConstraint -> ArraysCompiler [constraint=false];
 }
+
