@@ -75,6 +75,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    */
   public GeneralGlyph() {
     super();
+    initDefaults();
   }
 
   /**
@@ -84,6 +85,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    */
   public GeneralGlyph(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /**
@@ -110,6 +112,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    */
   public GeneralGlyph(String id) {
     super(id);
+    initDefaults();
   }
 
   /**
@@ -120,8 +123,16 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    */
   public GeneralGlyph(String id, int level, int version) {
     super(id, level, version);
+    initDefaults();
   }
 
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = LayoutConstants.shortLabel;
+  }
 
   /**
    * Returns {@code true}, if listOfSubGlyphs contains at least one element.

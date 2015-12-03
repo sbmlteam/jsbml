@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AssignmentRule;
@@ -60,6 +61,7 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class FlatteningTest {
 
+  private static Logger logger = Logger.getLogger(FlatteningTest.class);
   
   @Test
   public void sizeZeroTest() {
@@ -218,11 +220,23 @@ public class FlatteningTest {
       ASTNode ruleMath = ASTNode.parseFormula("selector(X, i)");
 
       rule.setMath(ruleMath);
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+      
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testFlatteningRule, document before convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testFlatteningRule, document after convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+      
       assertTrue(flattened.getModel().getParameterCount() == 21);
       assertTrue(flattened.getModel().getRuleCount() == 10);
     } catch (SBMLException e) {
@@ -284,11 +298,23 @@ public class FlatteningTest {
       Dimension dim = reactPlugin.createDimension("i");
       dim.setSize(n.getId());
       dim.setArrayDimension(0);
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+      
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testReaction, document before convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testReaction, document after convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+
       assertTrue(flattened.getModel().getParameterCount() == 3);
       assertTrue(flattened.getModel().getReactionCount() == 2);
     } catch (SBMLException e) {
@@ -348,12 +374,22 @@ public class FlatteningTest {
       dim.setSize(n.getId());
       dim.setArrayDimension(0);
 
-
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testEvent, document before convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testEvent, document after convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+
       assertTrue(flattened.getModel().getEventCount() == 3);
       assertTrue(flattened.getModel().getEvent(0).getEventAssignmentCount() == 3);
     } catch (SBMLException e) {
@@ -413,11 +449,22 @@ public class FlatteningTest {
 
 
 
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testEventAssignmentWithParentDimension, document before convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testEventAssignmentWithParentDimension, document after convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+      
       assertTrue(flattened.getModel().getEventCount() == 3);
       assertTrue(flattened.getModel().getEvent(0).getEventAssignmentCount() == 1);
     } catch (SBMLException e) {
@@ -439,7 +486,11 @@ public class FlatteningTest {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/BIOMD0000000012.xml"));
       SBMLDocument flattened = ArraysFlattening.convert(doc);
 
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      String docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testBioModelFlattening, document after convert:\n" + docStr);
+      }
 
       assertTrue(doc.getModel().getCompartmentCount() == flattened.getModel().getCompartmentCount());
       assertTrue(doc.getModel().getSpeciesCount() == flattened.getModel().getSpeciesCount());
@@ -505,11 +556,23 @@ public class FlatteningTest {
       Dimension dim = reactPlugin.createDimension("i");
       dim.setSize(n.getId());
       dim.setArrayDimension(0);
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testSpeciesReference, document before convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testSpeciesReference, document after convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+
       assertTrue(flattened.getModel().getSpeciesCount() == 4);
       assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getReactant(0).getSpecies()) != null);
       assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getProduct(0).getSpecies()) != null);
@@ -596,11 +659,21 @@ public class FlatteningTest {
       impb.setArrayDimension(0);
       impb.setMath(ASTNode.parseFormula("j"));
 
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testSpeciesReferenceImplicitDim, document before convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testSpeciesReferenceImplicitDim, document after convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
 
       assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getReactant(0).getSpecies()) != null);
       assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getReactant(1).getSpecies()) != null);
@@ -694,11 +767,22 @@ public class FlatteningTest {
       ASTNode ruleMath = ASTNode.parseFormula("selector(X, i)");
 
       rule.setMath(ruleMath);
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testUniqueID, document before convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testUniqueID, document after convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
 
       assertTrue(flattened.getModel().findNamedSBase("X_0") != null);
       assertTrue(flattened.getModel().findNamedSBase("X__0") != null);
@@ -723,16 +807,36 @@ public class FlatteningTest {
     SBMLDocument doc;
     try {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/SubModel.xml"));
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("SubModel, document before convert:\n" + docStr);
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-      System.out.println("\n-------------------------------------------");
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
+
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("SubModel, document after convert:\n" + docStr);
+        System.out.println("\n-------------------------------------------");
+      }
+      
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/SubSubModel.xml"));
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+
+      docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("SubSubModel, document before convert:\n" + docStr);
+      }
+      
       flattened = ArraysFlattening.convert(doc);
-      System.out.println("\n-------------------------------------------");
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("SubSubModel, document after convert:\n" + docStr);
+      }
 
     } catch (XMLStreamException e) {
       assertTrue(false);
@@ -748,10 +852,20 @@ public class FlatteningTest {
     SBMLDocument doc;
     try {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/VoteModel.xml"));
-      //SBMLWriter.write(doc, System.out, ' ', (short) 2);
-      //SBMLDocument flattened = ArraysFlattening.convert(doc);
-      //SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      ArraysFlattening.convert(doc);
+
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testFBC, document before convert:\n" + docStr);
+      }
+      
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testFBC, document after convert:\n" + docStr);
+      }
 
     } catch (XMLStreamException e) {
       assertTrue(false);
@@ -767,11 +881,21 @@ public class FlatteningTest {
     SBMLDocument doc;
     try {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/NEWFBC.xml"));
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testFBC, document before convert:\n" + docStr);
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-
+      
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testFBC, document after convert:\n" + docStr);
+      }
+      
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
@@ -783,10 +907,20 @@ public class FlatteningTest {
     SBMLDocument doc;
     try {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/layoutTest.xml"));
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testLayout, document before convert:\n" + docStr);
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
 
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testLayout, document after convert:\n" + docStr);
+      }
 
     } catch (XMLStreamException e) {
       assertTrue(false);
@@ -815,10 +949,20 @@ public class FlatteningTest {
     SBMLDocument doc;
     try {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/example04.xml"));
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("getmodel, document before convert:\n" + docStr);
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
 
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("getmodel, document after convert:\n" + docStr);
+      }
 
     } catch (XMLStreamException e) {
       assertTrue(false);
@@ -850,10 +994,20 @@ public class FlatteningTest {
     SBMLDocument doc;
     try {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/and.xml"));
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testTime, document before convert:\n" + docStr);
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
 
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("testTime, document after convert:\n" + docStr);
+      }
 
     } catch (XMLStreamException e) {
       assertTrue(false);
@@ -866,10 +1020,20 @@ public class FlatteningTest {
     SBMLDocument doc;
     try {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/toggleSwitch.xml"));
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+
+      String docStr = new SBMLWriter().writeSBMLToString(doc);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("toggleTime, document before convert:\n" + docStr);
+      }
+      
       SBMLDocument flattened = ArraysFlattening.convert(doc);
 
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      docStr = new SBMLWriter().writeSBMLToString(flattened);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("toggleTime, document after convert:\n" + docStr);
+      }
 
     } catch (XMLStreamException e) {
       assertTrue(false);

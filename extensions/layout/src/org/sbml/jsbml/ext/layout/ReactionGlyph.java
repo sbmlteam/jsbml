@@ -71,6 +71,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    */
   public ReactionGlyph() {
     super();
+    initDefaults();
   }
 
   /**
@@ -80,6 +81,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    */
   public ReactionGlyph(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /**
@@ -103,6 +105,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    */
   public ReactionGlyph(String id) {
     super(id);
+    initDefaults();
   }
 
   /**
@@ -113,6 +116,15 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    */
   public ReactionGlyph(String id, int level, int version) {
     super(id, level, version);
+    initDefaults();
+  }
+  
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = LayoutConstants.shortLabel;
   }
 
   /**

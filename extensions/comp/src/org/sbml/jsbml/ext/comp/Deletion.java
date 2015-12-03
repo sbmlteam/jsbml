@@ -120,6 +120,8 @@ public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase 
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = CompConstants.shortLabel;
   }
 
   /* (non-Javadoc)

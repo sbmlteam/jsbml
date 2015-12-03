@@ -89,6 +89,8 @@ public class ReplacedBy extends SBaseRef {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = CompConstants.shortLabel;
   }
 
 

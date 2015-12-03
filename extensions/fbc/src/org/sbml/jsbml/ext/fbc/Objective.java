@@ -327,8 +327,12 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<FluxObjective> getListOfFluxObjectives() {
     if (!isSetListOfFluxObjectives()) {
       listOfFluxObjectives = new ListOf<FluxObjective>(getLevel(), getVersion());
-      listOfFluxObjectives.setNamespace(FBCConstants.namespaceURI);
+      listOfFluxObjectives.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'fbc'
+      listOfFluxObjectives.setPackageName(null);
+      listOfFluxObjectives.setPackageName(FBCConstants.shortLabel);
       listOfFluxObjectives.setSBaseListType(ListOf.Type.other);
+      
       registerChild(listOfFluxObjectives);
     }
     return listOfFluxObjectives;
@@ -471,7 +475,15 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfFluxObjectives(ListOf<FluxObjective> listOfFluxObjectives) {
     unsetListOfFluxObjectives();
     this.listOfFluxObjectives = listOfFluxObjectives;
-    registerChild(this.listOfFluxObjectives);
+
+    if (listOfFluxObjectives != null) {
+      listOfFluxObjectives.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'fbc'
+      listOfFluxObjectives.setPackageName(null);
+      listOfFluxObjectives.setPackageName(FBCConstants.shortLabel);
+
+      registerChild(this.listOfFluxObjectives);
+    }
   }
 
 

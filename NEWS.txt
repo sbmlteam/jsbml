@@ -11,9 +11,9 @@ Version 1.1 (03-12-2015)
     package definitions.
 
   - Improved the Maven pom files, and changed the Maven group ids and
-    artifact ids. They should be stable now. With these changes in place, we
-    can update the Maven repository much more quickly and easily. Next steps
-    are to make JSBML available in Maven Central.
+    artifact ids. They should be stable now. With these changes in place,
+    we can update the Maven repository much more quickly and easily. Next
+    steps are to make JSBML available in Maven Central.
 
   - Added some utility classes to improve support for SBML files written by
     the Cobra toolbox before the SBML Level 3 FBC package was created. The
@@ -32,9 +32,12 @@ Version 1.1 (03-12-2015)
   - SBML L1 rules were not correctly written: the wrong XML element name
     was used. Now it uses the correct L1 names and attributes.
 
-  - The clone constructor for the Species class did not copy the speciesType
-    attribute.  Thanks to Olivier Martin who reported the problem.
+  - The clone constructor for the Species class did not copy the
+    speciesType attribute.  Thanks to Olivier Martin who reported the
+    problem.
 
+  - The clone constructor for the FunctionDefinition class did not copy the
+    id attribute.
 
 ===========================================================================
 Version 1.1-beta1 (12-10-2015)

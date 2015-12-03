@@ -70,6 +70,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
    */
   public SpeciesReferenceGlyph() {
     super();
+    initDefaults();
   }
 
   /**
@@ -79,6 +80,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
    */
   public SpeciesReferenceGlyph(int level, int version) {
     super(level, version);
+    initDefaults();
   }
 
   /**
@@ -96,6 +98,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
     if (speciesReferenceGlyph.isSetSpeciesGlyph()) {
       setSpeciesGlyph(new String(speciesReferenceGlyph.getSpeciesGlyph()));
     }
+    initDefaults();
   }
 
   /**
@@ -104,6 +107,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
    */
   public SpeciesReferenceGlyph(String id) {
     super(id);
+    initDefaults();
   }
 
   /**
@@ -114,6 +118,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
    */
   public SpeciesReferenceGlyph(String id, int level, int version) {
     super(id, level, version);
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -122,6 +127,14 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
   @Override
   public SpeciesReferenceGlyph clone() {
     return new SpeciesReferenceGlyph(this);
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = LayoutConstants.shortLabel;
   }
 
   /**
