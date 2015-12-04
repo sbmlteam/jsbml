@@ -24,21 +24,118 @@ strict digraph G{
 	  shape=box
 	];
 	
-   /*
-    * Interfaces
-    */
-   CompartmentalizedSBase                 [label="<<interface>>\nCompartmentalized\nSBase", style="filled", fillcolor="#F0F8FF"];
-   NamedSBase                             [label="<<interface>>\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
-   UniqueNamedSBase                       [label="<<interface>>\nUnique\nNamed\nSBase", style="filled", fillcolor="#F0F8FF"];
-	
+  /*
+   * Interfaces
+   */
+  CallableSBase                 [label="<<interface>>\nCallableSBase", style="filled", fillcolor="#F0F8FF"];
+  CompartmentalizedSBase        [label="<<interface>>\nCompartmentalized\nSBase", style="filled", fillcolor="#F0F8FF"];
+  NamedSBase                    [label="<<interface>>\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
+  UniqueNamedSBase              [label="<<interface>>\nUnique\nNamed\nSBase", style="filled", fillcolor="#F0F8FF"];
 
+  /*
+   * Abstract data types
+   */
+  AbstractSBase                 [label=<<font><I>Abstract<br/>SBase</I></font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBasePlugin           [label=<<font><I>Abstract<br/>SBasePlugin</I></font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractNamedSBase            [label=<<font><I>Abstract<br/>NamedSBase</I></font>>, style="filled", fillcolor="#F0F8FF"];
+
+  /*
+   * Objects
+   */
+  SpeciesTypeCore          [label="Species\nType"];
+  Reaction                 [label="Reaction"];
+
+  subgraph clusterMulti {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Multistate, Multicomponent and Multicompartment Species Extension";
+    labelloc=b;
+    labeljust=l;
+
+    // Enums
+    BindingStatus                     [label="<<enumeration>>\nBindingStatus"];
+    Relation                          [label="<<enumeration>>\nRelation"];
+    RepresentationType                [label="<<enumeration>>\nRepresentationType"];
+
+    // Interfaces
+    // Abstract data types
+    // Objects
+    BindingSiteSpeciesType            [label="Binding\nSite\nSpecies\nType"];
+    CompartmentReference              [label="Compartment\nReference"];
+    DenotedSpeciesTypeComponentIndex  [label="Denoted\nSpecies\nType\nComponent\nIndex"];
+    InSpeciesTypeBond                 [label="In\nSpecies\nType\nBond"];
+    IntraSpeciesReaction              [label="Intra\nSpecies\nReaction"];
+    MultiASTNodePlugin                [label="Multi\nASTNode\nPlugin"];
+    MultiCompartmentPlugin            [label="Multi\nCompartment\nPlugin"];
+    MultiModelPlugin                  [label="Multi\nModel\nPlugin"];
+    MultiSimpleSpeciesReferencePlugin [label="Multi\nSimple\nSpecies\nReference\nPlugin"];
+    MultiSpeciesPlugin                [label="Multi\nSpecies\nPlugin"];
+    MultiSpeciesReferencePlugin       [label="Multi\nSpecies\nReference\nPlugin"];
+    OutwardBindingSite                [label="Outward\nBinding\nSite"];
+    PossibleSpeciesFeatureValue       [label="Possible\nSpecies\nFeature\nValue"];
+    SpeciesFeature                    [label="Species\nFeature"];
+    SpeciesFeatureChange              [label="Species\nFeature\nChange"];
+    SpeciesFeatureType                [label="Species\nFeature\nType"];
+    SpeciesFeatureValue               [label="Species\nFeature\nValue"];
+    SpeciesType                       [label="Species\nType"];
+    SpeciesTypeComponentIndex         [label="Species\nType\nComponent\nIndex"];
+    SpeciesTypeComponentMapInProduct  [label="Species\nType\nComponent\nMap\nIn\nProduct"];
+    SpeciesTypeInstance               [label="Species\nType\nInstance"];
+  }
    
    /*********************
     * Inheritance graph *
     *********************/
 
-   NamedSBase             -> AbstractNamedSBase        [dir=back,arrowtail=empty,style=dashed];
-   NamedSBase             -> CompartmentalizedSBase    [dir=back,arrowtail=empty,style=dashed];
-   NamedSBase             -> UniqueNamedSBase          [dir=back,arrowtail=empty,style=dashed];
-   
+   AbstractSBase                     -> AbstractNamedSBase                [dir=back,arrowtail=empty];
+   AbstractSBase                     -> DenotedSpeciesTypeComponentIndex  [dir=back,arrowtail=empty];
+   AbstractSBase                     -> OutwardBindingSite                [dir=back,arrowtail=empty];
+   AbstractSBase                     -> SpeciesTypeComponentMapInProduct  [dir=back,arrowtail=empty];
+   AbstractSBase                     -> SpeciesFeatureValue               [dir=back,arrowtail=empty];
+
+   AbstractSBasePlugin               -> MultiCompartmentPlugin            [dir=back,arrowtail=empty];
+   AbstractSBasePlugin               -> MultiModelPlugin                  [dir=back,arrowtail=empty];
+   AbstractSBasePlugin               -> MultiSpeciesPlugin                [dir=back,arrowtail=empty];
+   AbstractSBasePlugin               -> MultiSimpleSpeciesReferencePlugin [dir=back,arrowtail=empty];
+ 
+   AbstractNamedSBase                -> CompartmentReference              [dir=back,arrowtail=empty]; 
+   AbstractNamedSBase                -> InSpeciesTypeBond                 [dir=back,arrowtail=empty];
+   AbstractNamedSBase                -> PossibleSpeciesFeatureValue       [dir=back,arrowtail=empty];
+   AbstractNamedSBase                -> Reaction                          [dir=back,arrowtail=empty];
+   AbstractNamedSBase                -> SpeciesFeature                    [dir=back,arrowtail=empty];
+   AbstractNamedSBase                -> SpeciesFeatureChange              [dir=back,arrowtail=empty];
+   AbstractNamedSBase                -> SpeciesFeatureType                [dir=back,arrowtail=empty];
+   AbstractNamedSBase                -> SpeciesTypeComponentIndex         [dir=back,arrowtail=empty];
+   AbstractNamedSBase                -> SpeciesTypeCore                   [dir=back,arrowtail=empty];
+   AbstractNamedSBase                -> SpeciesTypeInstance               [dir=back,arrowtail=empty];
+
+   CallableSBase                     -> Reaction                          [dir=back,arrowtail=empty,style=dashed];
+
+   CompartmentalizedSBase            -> CompartmentReference              [dir=back,arrowtail=empty,style=dashed];
+   CompartmentalizedSBase            -> SpeciesType                       [dir=back,arrowtail=empty,style=dashed];
+   CompartmentalizedSBase            -> Reaction                          [dir=back,arrowtail=empty,style=dashed];
+
+   MultiASTNodePlugin                -> RepresentationType                [dir=back,arrowtail=odiamond];
+   MultiSimpleSpeciesReferencePlugin -> MultiSpeciesReferencePlugin       [dir=back,arrowtail=empty];
+
+   NamedSBase                        -> AbstractNamedSBase                [dir=back,arrowtail=empty,style=dashed];
+   NamedSBase                        -> CompartmentalizedSBase            [dir=back,arrowtail=empty,style=dashed];
+   NamedSBase                        -> UniqueNamedSBase                  [dir=back,arrowtail=empty,style=dashed];
+
+   OutwardBindingSite                -> BindingStatus                     [dir=back,arrowtail=odiamond];
+
+   Reaction                          -> IntraSpeciesReaction              [dir=back,arrowtail=empty];
+
+   SpeciesType                       -> BindingSiteSpeciesType            [dir=back,arrowtail=empty];
+   SpeciesTypeCore                   -> SpeciesType                       [dir=back,arrowtail=empty];
+  
+   UniqueNamedSBase                  -> CompartmentReference              [dir=back,arrowtail=empty,style=dashed];
+   UniqueNamedSBase                  -> PossibleSpeciesFeatureValue       [dir=back,arrowtail=empty,style=dashed];
+   UniqueNamedSBase                  -> Reaction                          [dir=back,arrowtail=empty,style=dashed];
+   UniqueNamedSBase                  -> SpeciesFeatureType                [dir=back,arrowtail=empty,style=dashed];
+   UniqueNamedSBase                  -> SpeciesType                       [dir=back,arrowtail=empty,style=dashed]; 
 }
+

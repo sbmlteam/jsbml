@@ -19,23 +19,21 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
-
 /**
- * The RepresentationType enumeration is used in the extension of the ci element. RepresentationType is
- * restricted to be one of the following possibilities: "sum" or "numericValue".
- * 
- * <p>Attributes of type Relation cannot take on any other values. 
- *
+ * The RepresentationType enumeration is used in the extension of the ci element.
+ * RepresentationType is restricted to be one of the following possibilities:
+ * {@link #sum} or {@link #numericValue}.
+ * <p>
+ * Attributes of type {@link RepresentationType} cannot take on any other values.
  *
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.1
  */
 public enum RepresentationType {
-  
+
   /**
    * 
    */

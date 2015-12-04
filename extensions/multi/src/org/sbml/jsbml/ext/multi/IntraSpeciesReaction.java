@@ -33,10 +33,13 @@ import org.sbml.jsbml.Reaction;
  */
 public class IntraSpeciesReaction extends Reaction {
 
-
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 7164677471117306392L;
 
   /**
-   * Creates an IntraSpeciesReaction instance 
+   * Creates an IntraSpeciesReaction instance
    */
   public IntraSpeciesReaction() {
     super();
@@ -104,6 +107,7 @@ public class IntraSpeciesReaction extends Reaction {
   /**
    * clones this class
    */
+  @Override
   public IntraSpeciesReaction clone() {
     return new IntraSpeciesReaction(this);
   }
@@ -112,6 +116,7 @@ public class IntraSpeciesReaction extends Reaction {
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);

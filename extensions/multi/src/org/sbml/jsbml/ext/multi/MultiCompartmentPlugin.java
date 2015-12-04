@@ -40,7 +40,6 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
 
-
   /**
    * Generated serial version identifier.
    */

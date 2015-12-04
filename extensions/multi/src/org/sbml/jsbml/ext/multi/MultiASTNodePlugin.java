@@ -19,16 +19,12 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.sbml.jsbml.SBMLException;
-
-
-
 
 /**
  *
@@ -38,16 +34,23 @@ import org.sbml.jsbml.SBMLException;
  */
 public class MultiASTNodePlugin {
 
+  /**
+   * 
+   */
   private String speciesReference;
-  
+
+  /**
+   * 
+   */
   private RepresentationType representationType;
-  
-  
+
+  /**
+   * 
+   */
   public MultiASTNodePlugin() {
     // TODO
   }
-  
-  
+
   /**
    * Returns the value of {@link #speciesReference}.
    *
@@ -92,16 +95,16 @@ public class MultiASTNodePlugin {
    */
   public boolean unsetSpeciesReference() {
     if (isSetSpeciesReference()) {
-      String oldSpeciesReference = this.speciesReference;
-      this.speciesReference = null;
+      String oldSpeciesReference = speciesReference;
+      speciesReference = null;
       // firePropertyChange(MultiConstants.speciesReference, oldSpeciesReference, this.speciesReference);
       return true;
     }
     return false;
   }
-  
-  
-  
+
+
+
   /**
    * Returns the value of {@link #representationType}.
    *
@@ -115,7 +118,7 @@ public class MultiASTNodePlugin {
     }
     // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
     // throw new PropertyUndefinedError(MultiConstants.representationType, this);
-    
+
     return null;
   }
 
@@ -149,37 +152,37 @@ public class MultiASTNodePlugin {
    */
   public boolean unsetRepresentationType() {
     if (isSetRepresentationType()) {
-      RepresentationType oldRepresentationType = this.representationType;
-      this.representationType = null;
+      RepresentationType oldRepresentationType = representationType;
+      representationType = null;
       // firePropertyChange(MultiConstants.representationType, oldRepresentationType, this.representationType);
       return true;
     }
     return false;
   }
-  
-  
+
+
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = new HashMap<String, String>();
-    
+
     if (isSetSpeciesReference()) {
       attributes.put(MultiConstants.shortLabel + ":" + MultiConstants.speciesReference, getSpeciesReference());
     }
-    
+
     if (isSetRepresentationType()) {
       attributes.put(MultiConstants.shortLabel + ":" + MultiConstants.representationType, getRepresentationType().toString());
     }
-    
+
     return attributes;
   }
 
 
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = false;
-    
+
     if (!isAttributeRead) {
       isAttributeRead = true;
 
-      if (attributeName.equals(MultiConstants.speciesReference)) 
+      if (attributeName.equals(MultiConstants.speciesReference))
       {
         setSpeciesReference(value);
       }
@@ -209,9 +212,9 @@ public class MultiASTNodePlugin {
     final int prime = 31;
     int result = 1;
     result = prime * result
-      + ((representationType == null) ? 0 : representationType.hashCode());
+        + ((representationType == null) ? 0 : representationType.hashCode());
     result = prime * result
-      + ((speciesReference == null) ? 0 : speciesReference.hashCode());
+        + ((speciesReference == null) ? 0 : speciesReference.hashCode());
     return result;
   }
 
@@ -251,8 +254,8 @@ public class MultiASTNodePlugin {
   @Override
   public String toString() {
     return "MultiASTNodePlugin [speciesReference=" + speciesReference
-      + ", representationType=" + representationType + "]";
+        + ", representationType=" + representationType + "]";
   }
-  
-  
+
+
 }

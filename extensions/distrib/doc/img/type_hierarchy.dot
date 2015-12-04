@@ -77,12 +77,11 @@ strict digraph G{
     * Inheritance graph *
     *********************/
    
-   AbstractSBasePlugin      -> DistribFunctionDefinitionPlugin		[dir=back,arrowtail=empty];    
-   AbstractNamedSBase    -> DistribInput      						[dir=back,arrowtail=empty];
-   AbstractNamedSBase    -> Uncertainty       						[dir=back,arrowtail=empty];
-   AbstractSBasePlugin      -> DistribSBasePlugin    				[dir=back,arrowtail=empty];    
-   AbstractSBase    -> DrawFromDistribution       					[dir=back,arrowtail=empty];
-   IdManager    -> DrawFromDistribution       						[dir=back,arrowtail=empty];
-
+   AbstractSBasePlugin -> DistribFunctionDefinitionPlugin [dir=back,arrowtail=empty];    
+   AbstractNamedSBase  -> DistribInput                    [dir=back,arrowtail=empty];
+   AbstractNamedSBase  -> Uncertainty                     [dir=back,arrowtail=empty];
+   AbstractSBasePlugin -> DistribSBasePlugin              [dir=back,arrowtail=empty];    
+   AbstractSBase       -> DrawFromDistribution            [dir=back,arrowtail=empty];
+   IdManager           -> DrawFromDistribution            [dir=back,arrowtail=empty,style=dashed];
 
 }

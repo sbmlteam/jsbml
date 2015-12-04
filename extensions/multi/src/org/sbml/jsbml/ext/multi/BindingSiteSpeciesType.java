@@ -19,9 +19,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
-
 
 /**
  *
@@ -31,6 +29,10 @@ package org.sbml.jsbml.ext.multi;
  */
 public class BindingSiteSpeciesType extends SpeciesType {
 
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 290729813426543362L;
 
   /**
    * 
@@ -89,15 +91,16 @@ public class BindingSiteSpeciesType extends SpeciesType {
     super(id, name, level, version);
     initDefaults();
   }
-  
+
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
 
   // TODO - equals, hashcode, read/write attributes, toString, clone, ...
-  
+
 }
