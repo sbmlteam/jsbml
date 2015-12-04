@@ -35,18 +35,22 @@ import org.sbml.jsbml.AbstractSBase;
  * @since 1.1
  */
 public class DenotedSpeciesTypeComponentIndex extends AbstractSBase {
-  
-  
+
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 798520971474589902L;
+
   /**
    * 
    */
   private String speciesTypeComponentIndex;
-  
+
   // TODO - missing the reference attribute although the whole class might be removed from the specs.
-  
-  
+
+
   /**
-   * Creates an DenotedSpeciesTypeComponentIndex instance 
+   * Creates an DenotedSpeciesTypeComponentIndex instance
    */
   public DenotedSpeciesTypeComponentIndex() {
     super();
@@ -82,6 +86,7 @@ public class DenotedSpeciesTypeComponentIndex extends AbstractSBase {
   /**
    * clones this class
    */
+  @Override
   public DenotedSpeciesTypeComponentIndex clone() {
     return new DenotedSpeciesTypeComponentIndex(this);
   }
@@ -94,8 +99,8 @@ public class DenotedSpeciesTypeComponentIndex extends AbstractSBase {
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -104,9 +109,9 @@ public class DenotedSpeciesTypeComponentIndex extends AbstractSBase {
     final int prime = 5669;
     int result = super.hashCode();
     result = prime
-      * result
-      + ((speciesTypeComponentIndex == null) ? 0
-        : speciesTypeComponentIndex.hashCode());
+        * result
+        + ((speciesTypeComponentIndex == null) ? 0
+          : speciesTypeComponentIndex.hashCode());
     return result;
   }
 
@@ -180,15 +185,15 @@ public class DenotedSpeciesTypeComponentIndex extends AbstractSBase {
    */
   public boolean unsetSpeciesTypeComponentIndex() {
     if (isSetSpeciesTypeComponentIndex()) {
-      String oldSpeciesTypeComponentIndex = this.speciesTypeComponentIndex;
-      this.speciesTypeComponentIndex = null;
-      firePropertyChange(MultiConstants.speciesTypeComponentIndex, oldSpeciesTypeComponentIndex, this.speciesTypeComponentIndex);
+      String oldSpeciesTypeComponentIndex = speciesTypeComponentIndex;
+      speciesTypeComponentIndex = null;
+      firePropertyChange(MultiConstants.speciesTypeComponentIndex, oldSpeciesTypeComponentIndex, speciesTypeComponentIndex);
       return true;
     }
     return false;
   }
-  
-  
+
+
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -216,14 +221,14 @@ public class DenotedSpeciesTypeComponentIndex extends AbstractSBase {
     }
     return isAttributeRead;
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
     return "DenotedSpeciesTypeComponentIndex [speciesTypeComponentIndex="
-      + speciesTypeComponentIndex + "]";
+        + speciesTypeComponentIndex + "]";
   }
-  
+
 }

@@ -19,14 +19,12 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
-
 
 /**
  *
@@ -44,15 +42,15 @@ public class SpeciesFeatureChange extends AbstractNamedSBase {
    * 
    */
   private String reactantSpeciesFeature;
-  
+
   /**
    * 
    */
   private String productSpeciesFeature;
 
-  
+
   /**
-   * Creates an SpeciesFeatureChange instance 
+   * Creates an SpeciesFeatureChange instance
    */
   public SpeciesFeatureChange() {
     super();
@@ -127,6 +125,7 @@ public class SpeciesFeatureChange extends AbstractNamedSBase {
   /**
    * clones this class
    */
+  @Override
   public SpeciesFeatureChange clone() {
     return new SpeciesFeatureChange(this);
   }
@@ -139,8 +138,8 @@ public class SpeciesFeatureChange extends AbstractNamedSBase {
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
-  
-  
+
+
   @Override
   public boolean isIdMandatory() {
     return false;
@@ -155,12 +154,12 @@ public class SpeciesFeatureChange extends AbstractNamedSBase {
     final int prime = 6199;
     int result = super.hashCode();
     result = prime
-      * result
-      + ((productSpeciesFeature == null) ? 0 : productSpeciesFeature.hashCode());
+        * result
+        + ((productSpeciesFeature == null) ? 0 : productSpeciesFeature.hashCode());
     result = prime
-      * result
-      + ((reactantSpeciesFeature == null) ? 0
-        : reactantSpeciesFeature.hashCode());
+        * result
+        + ((reactantSpeciesFeature == null) ? 0
+          : reactantSpeciesFeature.hashCode());
     return result;
   }
 
@@ -204,11 +203,11 @@ public class SpeciesFeatureChange extends AbstractNamedSBase {
   @Override
   public String toString() {
     return "SpeciesFeatureChange [reactantSpeciesFeature = "
-      + reactantSpeciesFeature + ", productSpeciesFeature = "
-      + productSpeciesFeature + ", id = " + getId() + "]";
+        + reactantSpeciesFeature + ", productSpeciesFeature = "
+        + productSpeciesFeature + ", id = " + getId() + "]";
   }
 
-  
+
   /**
    * Returns the value of {@link #reactantSpeciesFeature}.
    *
@@ -252,15 +251,15 @@ public class SpeciesFeatureChange extends AbstractNamedSBase {
    */
   public boolean unsetReactantSpeciesFeature() {
     if (isSetReactantSpeciesFeature()) {
-      String oldReactantSpeciesFeature = this.reactantSpeciesFeature;
-      this.reactantSpeciesFeature = null;
-      firePropertyChange(MultiConstants.reactantSpeciesFeature, oldReactantSpeciesFeature, this.reactantSpeciesFeature);
+      String oldReactantSpeciesFeature = reactantSpeciesFeature;
+      reactantSpeciesFeature = null;
+      firePropertyChange(MultiConstants.reactantSpeciesFeature, oldReactantSpeciesFeature, reactantSpeciesFeature);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #productSpeciesFeature}.
    *
@@ -304,15 +303,15 @@ public class SpeciesFeatureChange extends AbstractNamedSBase {
    */
   public boolean unsetProductSpeciesFeature() {
     if (isSetProductSpeciesFeature()) {
-      String oldProductSpeciesFeature = this.productSpeciesFeature;
-      this.productSpeciesFeature = null;
-      firePropertyChange(MultiConstants.productSpeciesFeature, oldProductSpeciesFeature, this.productSpeciesFeature);
+      String oldProductSpeciesFeature = productSpeciesFeature;
+      productSpeciesFeature = null;
+      firePropertyChange(MultiConstants.productSpeciesFeature, oldProductSpeciesFeature, productSpeciesFeature);
       return true;
     }
     return false;
   }
 
-  
+
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -355,5 +354,5 @@ public class SpeciesFeatureChange extends AbstractNamedSBase {
     }
     return isAttributeRead;
   }
-  
+
 }

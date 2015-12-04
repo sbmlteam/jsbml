@@ -19,7 +19,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
 import java.text.MessageFormat;
@@ -29,7 +28,6 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
-
 
 /**
  *
@@ -47,9 +45,9 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
    * 
    */
   private String compartmentReference;
-  
+
   /**
-   * Creates an MultiSimpleSpeciesReferencePlugin instance 
+   * Creates an MultiSimpleSpeciesReferencePlugin instance
    */
   public MultiSimpleSpeciesReferencePlugin() {
     super();
@@ -73,7 +71,7 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
    */
   public MultiSimpleSpeciesReferencePlugin(MultiSimpleSpeciesReferencePlugin obj) {
     super(obj);
-    
+
     // copy all class attributes
     if (obj.isSetCompartmentReference()) {
       setCompartmentReference(obj.getCompartmentReference());
@@ -84,6 +82,7 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
   /**
    * clones this class
    */
+  @Override
   public MultiSimpleSpeciesReferencePlugin clone() {
     return new MultiSimpleSpeciesReferencePlugin(this);
   }
@@ -94,8 +93,8 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
    */
   public void initDefaults() {
   }
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -104,7 +103,7 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
     final int prime = 6271;
     int result = super.hashCode();
     result = prime * result
-      + ((compartmentReference == null) ? 0 : compartmentReference.hashCode());
+        + ((compartmentReference == null) ? 0 : compartmentReference.hashCode());
     return result;
   }
 
@@ -134,7 +133,7 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
     return true;
   }
 
-  
+
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
@@ -142,7 +141,7 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
   @Override
   public String toString() {
     return "MultiSimpleSpeciesReferencePlugin [compartmentReference="
-      + compartmentReference + "]";
+        + compartmentReference + "]";
   }
 
 
@@ -172,7 +171,7 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
     return getElementNamespace();
   }
 
-  
+
   /**
    * Returns the value of {@link #compartmentReference}.
    *
@@ -182,7 +181,7 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
     if (isSetCompartmentReference()) {
       return compartmentReference;
     }
-    
+
     return null;
   }
 
@@ -216,15 +215,15 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
    */
   public boolean unsetCompartmentReference() {
     if (isSetCompartmentReference()) {
-      String oldCompartmentReference = this.compartmentReference;
-      this.compartmentReference = null;
-      firePropertyChange(MultiConstants.compartmentReference, oldCompartmentReference, this.compartmentReference);
+      String oldCompartmentReference = compartmentReference;
+      compartmentReference = null;
+      firePropertyChange(MultiConstants.compartmentReference, oldCompartmentReference, compartmentReference);
       return true;
     }
     return false;
   }
-  
-  
+
+
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -232,7 +231,7 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
     if (isSetCompartmentReference()) {
       attributes.put(MultiConstants.shortLabel + ":" + MultiConstants.compartmentReference, getCompartmentReference());
     }
-    
+
     return attributes;
   }
 
@@ -240,7 +239,7 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = true;
-    
+
 
     if (attributeName.equals(MultiConstants.compartmentReference)) {
       setCompartmentReference(value);
@@ -251,7 +250,7 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
 
     return isAttributeRead;
   }
-  
+
   @Override
   public boolean getAllowsChildren() {
     return false;

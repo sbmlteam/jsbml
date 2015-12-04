@@ -30,15 +30,15 @@ strict digraph G{
 	 /*
    * Abstract data types
    */
-  AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
-  AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
-  SBase                            		   [label=<<font face="Helvetica-Oblique">SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractNamedSBase        [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBase             [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
 
  /*
   * Interfaces
   */
  
-  UniqueNamedSBase                               [label="<<interface>>\nUnique\nNamed\nSBase"];  
+  UniqueNamedSBase          [label="<<interface>>\nUnique\nNamed\nSBase"];  
+  SBase                     [label="<<interface>>\nSBase", style="filled", fillcolor="#F0F8FF"];
  	
   /*********************
    * Inheritance graph *
@@ -58,53 +58,53 @@ strict digraph G{
     labeljust=r;
 
     // Interfaces
- 	Association                   [label="<<interface>>\nAssociation"];
+    Association                   [label="<<interface>>\nAssociation"];
     
     // Objects
     And                           [label="And"];
     Or                            [label="Or"];
     AbstractFBCSBasePlugin        [label="Abstract\nFBC\nSBase\nPlugin"];
     LogicalOperator               [label="Logical Operator"];
-    Association                   [label="Association"];
     FBCModelPlugin                [label="FBC Model Plugin"];
     FBCReactionPlugin             [label="FBC Reaction Plugin"];
     FBCSpeciesPlugin              [label="FBC Species Plugin"];
     FluxObjective                 [label="Flux\nObjective"];
     GeneProduct                   [label="Gene Product"];
-    GeneProductRef				  [label="Gene\nProduct\nRef"];
-    GeneProteinAssociation		  [label="Gene\nProtein\nAssociation"];
-    Objective					  [label="Objective"];
+    GeneProductRef	          [label="Gene\nProduct\nRef"];
+    GeneProteinAssociation        [label="Gene\nProtein\nAssociation"];
+    Objective	                  [label="Objective"];
     
     /*
      * Inheritance graph
      */
-     LogicalOperator -> And		       				[dir=back,arrowtail=empty];
-     LogicalOperator -> Or      	 				[dir=back,arrowtail=empty];
-     Association -> GeneProductRef 					[dir=back,arrowtail=empty];
-     Association -> LogicalOperator 				[dir=back,arrowtail=empty];
-     AbstractFBCSBasePlugin -> FBCModelPlugin    	[dir=back,arrowtail=empty];
-     AbstractFBCSBasePlugin -> FBCReactionPlugin 	[dir=back,arrowtail=empty];
-     AbstractFBCSBasePlugin -> FBCSpeciesPlugin		[dir=back,arrowtail=empty];
+     LogicalOperator        -> And                [dir=back,arrowtail=empty];
+     LogicalOperator        -> Or                 [dir=back,arrowtail=empty];
+     Association            -> GeneProductRef     [dir=back,arrowtail=empty];
+     Association            -> LogicalOperator    [dir=back,arrowtail=empty];
+     AbstractFBCSBasePlugin -> FBCModelPlugin     [dir=back,arrowtail=empty];
+     AbstractFBCSBasePlugin -> FBCReactionPlugin  [dir=back,arrowtail=empty];
+     AbstractFBCSBasePlugin -> FBCSpeciesPlugin   [dir=back,arrowtail=empty];
    }
    
    /*********************
     * Inheritance graph *
     *********************/
     
-   AbstractNamedSBase -> Objective             		[dir=back,arrowtail=empty];
-   AbstractSBase -> LogicalOperator             	[dir=back,arrowtail=empty];
-   AbstractNamedSBase -> GeneProteinAssociation     [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> GeneProductRef             [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> GeneProduct            	[dir=back,arrowtail=empty];
-   AbstractNamedSBase -> FluxObjective              [dir=back,arrowtail=empty];
-   SBase -> Association 							[dir=back,arrowtail=empty];
-   AbstractSBase -> LogicalOperator			    	[dir=back,arrowtail=empty];    
-   AbstractSBasePlugin -> AbstractFBCSBasePlugin    [dir=back,arrowtail=empty];
-   UniqueNamedSBase -> FluxObjective				[dir=back,arrowtail=empty];
-   UniqueNamedSBase -> GeneProduct					[dir=back,arrowtail=empty];
-   Association -> GeneProductRef					[dir=back,arrowtail=empty];
-   Association -> LogicalOperator					[dir=back,arrowtail=empty];
-   UniqueNamedSBase -> Objective					[dir=back,arrowtail=empty];
-
+   AbstractNamedSBase  -> Objective               [dir=back,arrowtail=empty];
+   AbstractSBase       -> LogicalOperator         [dir=back,arrowtail=empty];
+   AbstractNamedSBase  -> GeneProteinAssociation  [dir=back,arrowtail=empty];
+   AbstractNamedSBase  -> GeneProductRef          [dir=back,arrowtail=empty];
+   AbstractNamedSBase  -> GeneProduct             [dir=back,arrowtail=empty];
+   AbstractNamedSBase  -> FluxObjective           [dir=back,arrowtail=empty];
+   SBase               -> AbstractSBase           [dir=back,arrowtail=empty,style=dashed];
+   SBase               -> Association             [dir=back,arrowtail=empty,style=dashed];
+   AbstractSBase       -> LogicalOperator         [dir=back,arrowtail=empty];
+   AbstractSBasePlugin -> AbstractFBCSBasePlugin  [dir=back,arrowtail=empty];
+   UniqueNamedSBase    -> FluxObjective           [dir=back,arrowtail=empty,style=dashed];
+   UniqueNamedSBase    -> GeneProduct             [dir=back,arrowtail=empty,style=dashed];
+   Association         -> GeneProductRef          [dir=back,arrowtail=empty,style=dashed];
+   Association         -> LogicalOperator         [dir=back,arrowtail=empty,style=dashed];
+   UniqueNamedSBase    -> Objective               [dir=back,arrowtail=empty,style=dashed];
 
 }
+

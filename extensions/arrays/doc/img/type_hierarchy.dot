@@ -115,11 +115,11 @@ strict digraph G{
    AbstractSBasePlugin -> ArraysSBasePlugin        [dir=back,arrowtail=empty];
    AbstractNamedSBase -> Dimension            	   [dir=back,arrowtail=empty];
    AbstractMathContainer -> Index            	   [dir=back,arrowtail=empty];
-   ASTNodeCompiler -> ArraysCompiler               [dir=back,arrowtail=empty];
-   ASTNodeCompiler -> StaticallyComputableCompiler [dir=back,arrowtail=empty];
-   ASTNodeCompiler -> VectorCompiler               [dir=back,arrowtail=empty];
-   IdManager -> ArraysSBasePlugin            	   [dir=back,arrowtail=empty];
-   CallableSBase -> Dimension                      [dir=back,arrowtail=empty];
+   ASTNodeCompiler -> ArraysCompiler               [dir=back,arrowtail=empty,style=dashed];
+   ASTNodeCompiler -> StaticallyComputableCompiler [dir=back,arrowtail=empty,style=dashed];
+   ASTNodeCompiler -> VectorCompiler               [dir=back,arrowtail=empty,style=dashed];
+   IdManager -> ArraysSBasePlugin            	   [dir=back,arrowtail=empty,style=dashed];
+   CallableSBase -> Dimension                      [dir=back,arrowtail=empty,style=dashed];
 
    edge[style=invis, fontsize=12];
 

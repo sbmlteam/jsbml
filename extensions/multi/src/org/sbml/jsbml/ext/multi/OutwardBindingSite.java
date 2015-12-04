@@ -19,7 +19,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
 import java.util.Map;
@@ -28,22 +27,33 @@ import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 
-
+/**
+ * 
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.1
+ * @date 04.12.2015
+ */
 public class OutwardBindingSite extends AbstractSBase {
+
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 2368487517657386175L;
 
   /**
    * 
    */
   private BindingStatus bindingStatus;
-  
+
   /**
    * 
    */
   private String component;
-  
-  
+
+
   /**
-   * Creates an OutwardBindingSite instance 
+   * Creates an OutwardBindingSite instance
    */
   public OutwardBindingSite() {
     super();
@@ -69,7 +79,7 @@ public class OutwardBindingSite extends AbstractSBase {
    */
   public OutwardBindingSite(OutwardBindingSite obj) {
     super(obj);
-    
+
     // copy all class attributes
     if (obj.isSetBindingStatus()) {
       setBindingStatus(obj.getBindingStatus());
@@ -83,6 +93,7 @@ public class OutwardBindingSite extends AbstractSBase {
   /**
    * clones this class
    */
+  @Override
   public OutwardBindingSite clone() {
     return new OutwardBindingSite(this);
   }
@@ -95,9 +106,9 @@ public class OutwardBindingSite extends AbstractSBase {
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
-  
-  
-  
+
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -106,7 +117,7 @@ public class OutwardBindingSite extends AbstractSBase {
     final int prime = 6089;
     int result = super.hashCode();
     result = prime * result
-      + ((bindingStatus == null) ? 0 : bindingStatus.hashCode());
+        + ((bindingStatus == null) ? 0 : bindingStatus.hashCode());
     result = prime * result + ((component == null) ? 0 : component.hashCode());
     return result;
   }
@@ -184,15 +195,15 @@ public class OutwardBindingSite extends AbstractSBase {
    */
   public boolean unsetBindingStatus() {
     if (isSetBindingStatus()) {
-      BindingStatus oldBindingStatus = this.bindingStatus;
-      this.bindingStatus = null;
-      firePropertyChange(MultiConstants.bindingStatus, oldBindingStatus, this.bindingStatus);
+      BindingStatus oldBindingStatus = bindingStatus;
+      bindingStatus = null;
+      firePropertyChange(MultiConstants.bindingStatus, oldBindingStatus, bindingStatus);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #component}.
    *
@@ -236,15 +247,15 @@ public class OutwardBindingSite extends AbstractSBase {
    */
   public boolean unsetComponent() {
     if (isSetComponent()) {
-      String oldComponent = this.component;
-      this.component = null;
-      firePropertyChange(MultiConstants.component, oldComponent, this.component);
+      String oldComponent = component;
+      component = null;
+      firePropertyChange(MultiConstants.component, oldComponent, component);
       return true;
     }
     return false;
   }
-  
-  
+
+
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -254,8 +265,8 @@ public class OutwardBindingSite extends AbstractSBase {
     }
     if (isSetBindingStatus()) {
       attributes.put(MultiConstants.shortLabel + ":" + MultiConstants.bindingStatus, getBindingStatus().toString());
-    }    
-    
+    }
+
     return attributes;
   }
 
@@ -284,14 +295,14 @@ public class OutwardBindingSite extends AbstractSBase {
     }
     return isAttributeRead;
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
     return "OutwardBindingSite [bindingStatus=" + bindingStatus
-      + ", component=" + component + "]";
+        + ", component=" + component + "]";
   }
-  
+
 }

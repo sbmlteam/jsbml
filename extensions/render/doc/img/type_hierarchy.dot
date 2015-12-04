@@ -31,14 +31,14 @@ strict digraph G{
  	/*
  	 * Interfaces
  	 */
- 	UniqueNamedSBase                         [label="<<interface>>\nUniqueNamedSBase"];
+ 	UniqueNamedSBase  [label="<<interface>>\nUniqueNamedSBase"];
  	
   /*
    * Abstract data types
    */
- 	AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase Plugin</font>>, style="filled", fillcolor="#F0F8FF"]; 	
- 	AbstractSBase  		                     [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
- 	AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>Named<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+   AbstractSBasePlugin  [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase Plugin</font>>, style="filled", fillcolor="#F0F8FF"]; 	
+   AbstractSBase        [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+   AbstractNamedSBase   [label=<<font face="Helvetica-Oblique">Abstract<br/>Named<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
   
   /*
    * The render extension
@@ -55,8 +55,8 @@ strict digraph G{
     labeljust=r;
 
     // Interfaces
-    FontRenderStyle                        	  	  [label="<<interface>>\nFont\nRender\nStyle"];
-    Point3D		                        	  	  [label="<<interface>>\nPoint3D"];
+    FontRenderStyle     [label="<<interface>>\nFont\nRender\nStyle"];
+    Point3D             [label="<<interface>>\nPoint3D"];
 
     // Enums
 
@@ -102,7 +102,7 @@ strict digraph G{
      Transformation2D                -> GraphicalPrimitive1D      [dir=back,arrowtail=empty];
      GraphicalPrimitive1D                -> GraphicalPrimitive2D      [dir=back,arrowtail=empty];
      GraphicalPrimitive2D                -> Ellipse      [dir=back,arrowtail=empty];
-     FontRenderStyle                -> FontFamily      [dir=back,arrowtail=empty];
+     FontRenderStyle        -> FontFamily      [dir=back,arrowtail=empty,style=dashed];
      RenderInformationBase                -> GlobalRenderInformation      [dir=back,arrowtail=empty];
      Transformation2D                -> Image      [dir=back,arrowtail=empty];
      GradientBase                -> LinearGradient      [dir=back,arrowtail=empty];
@@ -112,18 +112,18 @@ strict digraph G{
      GraphicalPrimitive2D                -> Polygon      [dir=back,arrowtail=empty];
      GradientBase                -> RadialGradient      [dir=back,arrowtail=empty];
      GraphicalPrimitive2D                -> Rectangle      [dir=back,arrowtail=empty];
-     Point3D                -> Rectangle      [dir=back,arrowtail=empty];
-     Point3D                -> RenderPoint      [dir=back,arrowtail=empty];
+     Point3D                -> Rectangle      [dir=back,arrowtail=empty,style=dashed];
+     Point3D                -> RenderPoint      [dir=back,arrowtail=empty,style=dashed];
      RenderPoint                -> RenderCubicBezier      [dir=back,arrowtail=empty];
      GraphicalPrimitive1D                -> RenderCurve      [dir=back,arrowtail=empty];
      GraphicalPrimitive2D                -> RenderGroup      [dir=back,arrowtail=empty];
      AbstractRenderPlugin                -> RenderLayoutPlugin      [dir=back,arrowtail=empty];
      AbstractRenderPlugin                -> RenderListOfLayoutsPlugin      [dir=back,arrowtail=empty];
      GraphicalPrimitive1D                -> Text      [dir=back,arrowtail=empty];
-     FontRenderStyle                -> Text      [dir=back,arrowtail=empty];
-     Point3D                -> Text      [dir=back,arrowtail=empty];
-     FontRenderStyle                -> TextAnchor      [dir=back,arrowtail=empty];
-     FontRenderStyle                -> VTextAnchor      [dir=back,arrowtail=empty];
+     FontRenderStyle        -> Text      [dir=back,arrowtail=empty,style=dashed];
+     Point3D                -> Text      [dir=back,arrowtail=empty,style=dashed];
+     FontRenderStyle        -> TextAnchor      [dir=back,arrowtail=empty,style=dashed];
+     FontRenderStyle        -> VTextAnchor     [dir=back,arrowtail=empty,style=dashed];
 
 
 
@@ -137,13 +137,13 @@ strict digraph G{
   AbstractNamedSBase         -> ColorDefinition     [dir=back,arrowtail=empty];
   AbstractSBase         -> Transformation     [dir=back,arrowtail=empty];
   AbstractNamedSBase         -> RenderInformationBase     [dir=back,arrowtail=empty];
-  UniqueNamedSBase         -> RenderInformationBase     [dir=back,arrowtail=empty];
+  UniqueNamedSBase      -> RenderInformationBase     [dir=back,arrowtail=empty,style=dashed];
   AbstractNamedSBase         -> GradientBase     [dir=back,arrowtail=empty];
-  UniqueNamedSBase         -> GradientBase     [dir=back,arrowtail=empty];
+  UniqueNamedSBase      -> GradientBase     [dir=back,arrowtail=empty,style=dashed];
   AbstractSBase         -> GradientStop     [dir=back,arrowtail=empty];
-  UniqueNamedSBase         -> Style     [dir=back,arrowtail=empty];
+  UniqueNamedSBase      -> Style     [dir=back,arrowtail=empty,style=dashed];
   AbstractSBase         -> Style     [dir=back,arrowtail=empty];
   AbstractSBase         -> RenderPoint     [dir=back,arrowtail=empty];
-  UniqueNamedSBase         -> RenderGroup     [dir=back,arrowtail=empty];
+  UniqueNamedSBase      -> RenderGroup     [dir=back,arrowtail=empty,style=dashed];
 
 }

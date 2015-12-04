@@ -31,18 +31,17 @@ strict digraph G{
  	/*
  	 * Interfaces
  	 */
- 	
- 	SBase                                    [label="<<interface>>\nSBase"];
- 	SBaseWithUnit                            [label="<<interface>>\nSBaseWithUnit"];
- 	IdManager			                     [label="<<interface>>\nIdManager"];
+{rank="same" 	
+ 	SBaseWithUnit                 [label="<<interface>>\nSBaseWithUnit"];
+ 	IdManager                     [label="<<interface>>\nIdManager"];
    	
   /*
    * Abstract data types
    */
- 	AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase Plugin</font>>, style="filled", fillcolor="#F0F8FF"]; 	
- 	AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
- 	AbstractMathContainer                    [label=<<font face="Helvetica-Oblique">Abstract<br/>MathContainer</font>>, style="filled", fillcolor="#F0F8FF"];
-  
+ 	AbstractSBasePlugin           [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase Plugin</font>>, style="filled", fillcolor="#F0F8FF"]; 	
+        AbstractSBase                 [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+ 	AbstractMathContainer         [label=<<font face="Helvetica-Oblique">Abstract<br/>MathContainer</font>>, style="filled", fillcolor="#F0F8FF"];
+  }
   /*
    * The spatial extension
    */
@@ -55,7 +54,7 @@ strict digraph G{
     color="#ffffff"
     label="Spatial extension";
     labelloc=b;
-    labeljust=r;
+    labeljust=l;
 
     // Interfaces
     SpatialNamedSBase                        	  [label="<<interface>>\nSpatial\nNamed\nSBase"];
@@ -65,23 +64,23 @@ strict digraph G{
     // Abstract data types
     CoordinateKind                          	  [label=<<font face="Helvetica-Oblique">Coordinate<br/>Kind</font>>];
     Coefficient                                   [label=<<font face="Helvetica-Oblique">Coefficent</font>>];
-    DataKind                           			  [label=<<font face="Helvetica-Oblique">Compression<br/>Kind</font>>];
+    DataKind                           	          [label=<<font face="Helvetica-Oblique">Compression<br/>Kind</font>>];
     CompressionKind                           	  [label=<<font face="Helvetica-Oblique">Data<br/>Kind</font>>];
     InterpolationKind                             [label=<<font face="Helvetica-Oblique">Interpolation<br/>Kind</font>>];
-    PolygonKind                           		  [label=<<font face="Helvetica-Oblique">Polygon<br/>Kind</font>>];
-    GeometryKind                           	 	  [label=<<font face="Helvetica-Oblique">Geometry<br/>Kind</font>>];
+    PolygonKind                           	  [label=<<font face="Helvetica-Oblique">Polygon<br/>Kind</font>>];
+    GeometryKind                           	  [label=<<font face="Helvetica-Oblique">Geometry<br/>Kind</font>>];
     DiffusionKind                           	  [label=<<font face="Helvetica-Oblique">Diffusion<br/>Kind</font>>];
-    SetOperation                           		  [label=<<font face="Helvetica-Oblique">Set<br/>Operation</font>>];
+    SetOperation                           	  [label=<<font face="Helvetica-Oblique">Set<br/>Operation</font>>];
     PrimitiveKind                           	  [label=<<font face="Helvetica-Oblique">Primitive<br/>Kind</font>>];
-    BoundaryKind                           		  [label=<<font face="Helvetica-Oblique">Boundary<br/>Kind</font>>];
-    FunctionKind                           		  [label=<<font face="Helvetica-Oblique">Function<br/>Kind</font>>];
+    BoundaryKind                           	  [label=<<font face="Helvetica-Oblique">Boundary<br/>Kind</font>>];
+    FunctionKind                           	  [label=<<font face="Helvetica-Oblique">Function<br/>Kind</font>>];
         
     // Objects
     AbstractSpatialNamedSBase                     [label="Abstract\nSpatial\nNamedSBase"];    
-    AbstractSpatialSBasePlugin					  [label="Abstract Spatial\nSBase Plugin"];
+    AbstractSpatialSBasePlugin			  [label="Abstract Spatial\nSBase Plugin"];
     AdjacentDomains                               [label="Adjacent\nDomains"];  
     AdvectionCoefficient                          [label="Advection\nCoefficient"];
-    ParameterType                          		  [label="Parameter\nType"];
+    ParameterType                          	  [label="Parameter\nType"];
     AnalyticGeometry                              [label="Analytic\nGeometry"];
     GeometryDefinition                            [label="Geometry\nDefinition"];
     AnalyticVolume                                [label="Analytic\nVolume"];
@@ -100,7 +99,7 @@ strict digraph G{
     CSGRotation                                   [label="CSG\nRotation"];
     CSGScale                                      [label="CSG\nScale"];
     CSGSetOperator                                [label="CSG\nSet Operator"];
-	CSGTranslation                                [label="CSG\nTranslation"];
+    CSGTranslation                                [label="CSG\nTranslation"];
     DiffusionCoefficient                          [label="Diffusion\nCoefficient"];
     Domain                                        [label="Domain"];
     DomainType                                    [label="Domain\nType"];
@@ -109,7 +108,7 @@ strict digraph G{
     ImageData                                     [label="Image Data"];
     InteriorPoint                                 [label="Interior\nPoint"];
     MixedGeometry                                 [label="Mixed\nGeometry"];
-    OrdinalMapping	                              [label="Ordinal\nMappings"];
+    OrdinalMapping                                [label="Ordinal\nMappings"];
     ParamaterType                                 [label="Parameter\nType"];
     ParametricGeometry                            [label="Parametric\nGeometry"];
     ParametricObject                              [label="Parametric\nObject"];
@@ -190,19 +189,20 @@ strict digraph G{
    * Inheritance graph *
    *********************/
 
-  AbstractSBase         -> AbstractSpatialNamedSBase     [dir=back,arrowtail=empty];
-  AbstractSBasePlugin         -> AbstractSpatialSBasePlugin     [dir=back,arrowtail=empty];
-  AbstractSBase         -> ParameterType     [dir=back,arrowtail=empty];
-  AbstractMathContainer -> AnalyticVolume            [dir=back,arrowtail=empty];
-  SBaseWithUnit -> CoordinateComponent            [dir=back,arrowtail=empty];
-  AbstractSBase         -> CoordinateReference     [dir=back,arrowtail=empty];
-  AbstractSBase         -> AbstractMathContainer     [dir=back,arrowtail=empty];
+  AbstractSBase         -> AbstractSpatialNamedSBase  [dir=back,arrowtail=empty];
+  AbstractSBasePlugin   -> AbstractSpatialSBasePlugin [dir=back,arrowtail=empty];
+  AbstractSBase         -> ParameterType              [dir=back,arrowtail=empty];
+  AbstractMathContainer -> AnalyticVolume             [dir=back,arrowtail=empty];
+  SBaseWithUnit         -> CoordinateComponent        [dir=back,arrowtail=empty,style=dashed];
+  AbstractSBase         -> CoordinateReference        [dir=back,arrowtail=empty];
+  AbstractSBase         -> AbstractMathContainer      [dir=back,arrowtail=empty];
   AbstractSBase         -> ImageData                  [dir=back,arrowtail=empty];
-  AbstractSBase         -> InteriorPoint                  [dir=back,arrowtail=empty];
-  AbstractSBase         -> OrdinalMapping                  [dir=back,arrowtail=empty];
-  AbstractSBase         -> ParameterType                  [dir=back,arrowtail=empty];
-  AbstractSBase         -> PolygonObject           [dir=back,arrowtail=empty];
-  IdManager				-> SpatialModelPlugin		 [dir=back,arrowtail=empty];
-  AbstractSBase         -> TransformationComponent           [dir=back,arrowtail=empty];
+  AbstractSBase         -> InteriorPoint              [dir=back,arrowtail=empty];
+  AbstractSBase         -> OrdinalMapping             [dir=back,arrowtail=empty];
+  AbstractSBase         -> ParameterType              [dir=back,arrowtail=empty];
+  AbstractSBase         -> PolygonObject              [dir=back,arrowtail=empty];
+  IdManager		-> SpatialModelPlugin         [dir=back,arrowtail=empty,style=dashed];
+  AbstractSBase         -> TransformationComponent    [dir=back,arrowtail=empty];
 
 }
+

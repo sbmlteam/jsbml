@@ -52,7 +52,7 @@ strict digraph G{
     color="#ffffff"
     label="Groups extension";
     labelloc=b;
-    labeljust=r;
+    labeljust=l;
 
     // Interfaces
 
@@ -62,9 +62,9 @@ strict digraph G{
     // Objects
     Group                                  [label="Group"];
     GroupsModelPlugin                      [label="Groups\nModel\nPlugin"];
-    MemberConstraint                       [label="Member\nConstraint"];
+    MemberConstraint                       [label="Member\nConstraint",style=dashed];
     Member                                 [label="Member"];
-    ListOfMemberConstraints                [label="List Of\nMember Constraints"];
+    ListOfMemberConstraints                [label="List Of\nMember Constraints",style=dashed];
 
     Group -> GroupKind	                   [dir=back,arrowtail=empty];
    }

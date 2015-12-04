@@ -19,7 +19,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
 import java.text.MessageFormat;
@@ -32,7 +31,6 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
-
 
 /**
  *
@@ -51,24 +49,24 @@ public class SpeciesFeature extends AbstractNamedSBase {
    * 
    */
   private String speciesFeatureType;
-  
+
   /**
    * 
    */
   private Integer occur;
-  
+
   /**
    * 
    */
   private String component;
-  
+
   /**
    * 
    */
   private ListOf<SpeciesFeatureValue> listOfSpeciesFeatureValues;
-  
+
   /**
-   * Creates an SpeciesFeature instance 
+   * Creates an SpeciesFeature instance
    */
   public SpeciesFeature() {
     super();
@@ -134,7 +132,7 @@ public class SpeciesFeature extends AbstractNamedSBase {
    */
   public SpeciesFeature(SpeciesFeature obj) {
     super(obj);
-    
+
     // copy all class attributes
     if (obj.isSetListOfSpeciesFeatureValues()) {
       setListOfSpeciesFeatureValues(obj.getListOfSpeciesFeatureValues().clone());
@@ -154,6 +152,7 @@ public class SpeciesFeature extends AbstractNamedSBase {
   /**
    * clones this class
    */
+  @Override
   public SpeciesFeature clone() {
     return new SpeciesFeature(this);
   }
@@ -166,10 +165,10 @@ public class SpeciesFeature extends AbstractNamedSBase {
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
-  
-  
-  
-  
+
+
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -179,12 +178,12 @@ public class SpeciesFeature extends AbstractNamedSBase {
     int result = super.hashCode();
     result = prime * result + ((component == null) ? 0 : component.hashCode());
     result = prime
-      * result
-      + ((listOfSpeciesFeatureValues == null) ? 0
-        : listOfSpeciesFeatureValues.hashCode());
+        * result
+        + ((listOfSpeciesFeatureValues == null) ? 0
+          : listOfSpeciesFeatureValues.hashCode());
     result = prime * result + ((occur == null) ? 0 : occur.hashCode());
     result = prime * result
-      + ((speciesFeatureType == null) ? 0 : speciesFeatureType.hashCode());
+        + ((speciesFeatureType == null) ? 0 : speciesFeatureType.hashCode());
     return result;
   }
 
@@ -282,7 +281,7 @@ public class SpeciesFeature extends AbstractNamedSBase {
   public void setListOfSpeciesFeatureValues(ListOf<SpeciesFeatureValue> listOfSpeciesFeatureValues) {
     unsetListOfSpeciesFeatureValues();
     this.listOfSpeciesFeatureValues = listOfSpeciesFeatureValues;
-    
+
     if (listOfSpeciesFeatureValues != null) {
       listOfSpeciesFeatureValues.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
@@ -304,8 +303,8 @@ public class SpeciesFeature extends AbstractNamedSBase {
    */
   public boolean unsetListOfSpeciesFeatureValues() {
     if (isSetListOfSpeciesFeatureValues()) {
-      ListOf<SpeciesFeatureValue> oldSpeciesFeatureValues = this.listOfSpeciesFeatureValues;
-      this.listOfSpeciesFeatureValues = null;
+      ListOf<SpeciesFeatureValue> oldSpeciesFeatureValues = listOfSpeciesFeatureValues;
+      listOfSpeciesFeatureValues = null;
       oldSpeciesFeatureValues.fireNodeRemovedEvent();
       return true;
     }
@@ -410,8 +409,8 @@ public class SpeciesFeature extends AbstractNamedSBase {
     return getSpeciesFeatureValueCount();
   }
 
-  
-  
+
+
   /**
    * Returns the value of {@link #speciesFeatureType}.
    *
@@ -455,15 +454,15 @@ public class SpeciesFeature extends AbstractNamedSBase {
    */
   public boolean unsetSpeciesFeatureType() {
     if (isSetSpeciesFeatureType()) {
-      String oldSpeciesFeatureType = this.speciesFeatureType;
-      this.speciesFeatureType = null;
-      firePropertyChange(MultiConstants.speciesFeatureType, oldSpeciesFeatureType, this.speciesFeatureType);
+      String oldSpeciesFeatureType = speciesFeatureType;
+      speciesFeatureType = null;
+      firePropertyChange(MultiConstants.speciesFeatureType, oldSpeciesFeatureType, speciesFeatureType);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #occur}.
    *
@@ -507,15 +506,15 @@ public class SpeciesFeature extends AbstractNamedSBase {
    */
   public boolean unsetOccur() {
     if (isSetOccur()) {
-      Integer oldOccur = this.occur;
-      this.occur = null;
-      firePropertyChange(MultiConstants.occur, oldOccur, this.occur);
+      Integer oldOccur = occur;
+      occur = null;
+      firePropertyChange(MultiConstants.occur, oldOccur, occur);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #component}.
    *
@@ -559,32 +558,32 @@ public class SpeciesFeature extends AbstractNamedSBase {
    */
   public boolean unsetComponent() {
     if (isSetComponent()) {
-      String oldComponent = this.component;
-      this.component = null;
-      firePropertyChange(MultiConstants.component, oldComponent, this.component);
+      String oldComponent = component;
+      component = null;
+      firePropertyChange(MultiConstants.component, oldComponent, component);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
     return "SpeciesFeature [speciesFeatureType = " + speciesFeatureType
-      + ", occur = " + occur + ", component = " + component
-      + ", listOfSpeciesFeatureValues.size = " + getSpeciesFeatureValueCount()
-      + ", id = " + getId() + "]";
+        + ", occur = " + occur + ", component = " + component
+        + ", listOfSpeciesFeatureValues.size = " + getSpeciesFeatureValueCount()
+        + ", id = " + getId() + "]";
   }
 
   @Override
   public boolean isIdMandatory() {
     return false;
   }
-  
-  
+
+
   @Override
   public boolean getAllowsChildren() {
     return true;
@@ -622,17 +621,17 @@ public class SpeciesFeature extends AbstractNamedSBase {
       }
       pos++;
     }
-    
+
     throw new IndexOutOfBoundsException(
       MessageFormat.format(resourceBundle.getString("IndexExceedsBoundsException"),
         index, Math.min(pos, 0)));
   }
-  
-  
+
+
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    
+
     if (isSetId()) {
       attributes.remove("id");
       attributes.put(MultiConstants.shortLabel+ ":id", getId());

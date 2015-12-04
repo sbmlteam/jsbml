@@ -19,7 +19,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
 import java.text.MessageFormat;
@@ -29,7 +28,6 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
-
 
 /**
  *
@@ -60,10 +58,10 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
    * 
    */
   private ListOf<SpeciesFeatureChange> listOfSpeciesFeatureChanges;
-  
-  
+
+
   /**
-   * Creates an SpeciesTypeComponentMapInProduct instance 
+   * Creates an SpeciesTypeComponentMapInProduct instance
    */
   public SpeciesTypeComponentMapInProduct() {
     super();
@@ -108,6 +106,7 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
   /**
    * clones this class
    */
+  @Override
   public SpeciesTypeComponentMapInProduct clone() {
     return new SpeciesTypeComponentMapInProduct(this);
   }
@@ -120,7 +119,7 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
-  
+
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
@@ -130,14 +129,14 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
     final int prime = 6217;
     int result = super.hashCode();
     result = prime
-      * result
-      + ((listOfSpeciesFeatureChanges == null) ? 0
-        : listOfSpeciesFeatureChanges.hashCode());
+        * result
+        + ((listOfSpeciesFeatureChanges == null) ? 0
+          : listOfSpeciesFeatureChanges.hashCode());
     result = prime * result
-      + ((productComponent == null) ? 0 : productComponent.hashCode());
+        + ((productComponent == null) ? 0 : productComponent.hashCode());
     result = prime * result + ((reactant == null) ? 0 : reactant.hashCode());
     result = prime * result
-      + ((reactantComponent == null) ? 0 : reactantComponent.hashCode());
+        + ((reactantComponent == null) ? 0 : reactantComponent.hashCode());
     return result;
   }
 
@@ -195,12 +194,12 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
   @Override
   public String toString() {
     return "SpeciesTypeComponentMapInProduct [reactant = " + reactant
-      + ", reactantComponent = " + reactantComponent + ", productComponent = "
-      + productComponent + ", listOfSpeciesFeatureChanges.size = "
-      + getSpeciesFeatureChangeCount() + "]";
+        + ", reactantComponent = " + reactantComponent + ", productComponent = "
+        + productComponent + ", listOfSpeciesFeatureChanges.size = "
+        + getSpeciesFeatureChangeCount() + "]";
   }
-  
-  
+
+
   /**
    * Returns {@code true} if {@link #listOfSpeciesFeatureChanges} contains at least
    * one element.
@@ -268,8 +267,8 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
    */
   public boolean unsetListOfSpeciesFeatureChanges() {
     if (isSetListOfSpeciesFeatureChanges()) {
-      ListOf<SpeciesFeatureChange> oldSpeciesFeatureChanges = this.listOfSpeciesFeatureChanges;
-      this.listOfSpeciesFeatureChanges = null;
+      ListOf<SpeciesFeatureChange> oldSpeciesFeatureChanges = listOfSpeciesFeatureChanges;
+      listOfSpeciesFeatureChanges = null;
       oldSpeciesFeatureChanges.fireNodeRemovedEvent();
       return true;
     }
@@ -419,7 +418,7 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
     return getSpeciesFeatureChangeCount();
   }
 
-  
+
   /**
    * Returns the value of {@link #reactant}.
    *
@@ -463,15 +462,15 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
    */
   public boolean unsetReactant() {
     if (isSetReactant()) {
-      String oldReactant = this.reactant;
-      this.reactant = null;
-      firePropertyChange(MultiConstants.reactant, oldReactant, this.reactant);
+      String oldReactant = reactant;
+      reactant = null;
+      firePropertyChange(MultiConstants.reactant, oldReactant, reactant);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #reactantComponent}.
    *
@@ -515,16 +514,16 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
    */
   public boolean unsetReactantComponent() {
     if (isSetReactantComponent()) {
-      String oldReactantComponent = this.reactantComponent;
-      this.reactantComponent = null;
-      firePropertyChange(MultiConstants.reactantComponent, oldReactantComponent, this.reactantComponent);
+      String oldReactantComponent = reactantComponent;
+      reactantComponent = null;
+      firePropertyChange(MultiConstants.reactantComponent, oldReactantComponent, reactantComponent);
       return true;
     }
     return false;
   }
-  
-  
-  
+
+
+
   /**
    * Returns the value of {@link #productComponent}.
    *
@@ -568,15 +567,15 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
    */
   public boolean unsetProductComponent() {
     if (isSetProductComponent()) {
-      String oldProductComponent = this.productComponent;
-      this.productComponent = null;
-      firePropertyChange(MultiConstants.productComponent, oldProductComponent, this.productComponent);
+      String oldProductComponent = productComponent;
+      productComponent = null;
+      firePropertyChange(MultiConstants.productComponent, oldProductComponent, productComponent);
       return true;
     }
     return false;
   }
-  
-  
+
+
   @Override
   public boolean getAllowsChildren() {
     return true;
@@ -613,13 +612,13 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
       }
       pos++;
     }
-    
+
     throw new IndexOutOfBoundsException(
       MessageFormat.format(resourceBundle.getString("IndexExceedsBoundsException"),
         index, Math.min(pos, 0)));
   }
-  
-  
+
+
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
