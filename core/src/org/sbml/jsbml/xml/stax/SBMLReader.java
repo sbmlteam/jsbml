@@ -930,6 +930,7 @@ public class SBMLReader {
 
             if (processedElement != null) {
                // TODO - we won't need this code any more if the list of child is stored directly in the ASTNode facade
+              // TODO - try to remove this code and check if the ASTNode2 can still pass the sbml-test-suite
               if (processedElement instanceof ASTNode) {
                 ASTNode astNode = (ASTNode) processedElement;
                 if (currentNode.getLocalPart().equals("cn") && hasAttributes) {
@@ -990,6 +991,9 @@ public class SBMLReader {
                     }
                   }
                 }
+                
+                // reset the Iterator of attributes so that they can be processed correctly in #processAttributes(...)
+                att = startElement.getAttributes();
               }
 
               sbmlElements.push(processedElement);
