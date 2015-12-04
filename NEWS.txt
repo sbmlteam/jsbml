@@ -2,7 +2,7 @@
 
 
 ===========================================================================
-Version 1.1 (03-12-2015)
+Version 1.1 (09-12-2015)
 ===========================================================================
 
  * New Features:
@@ -38,6 +38,12 @@ Version 1.1 (03-12-2015)
 
   - The clone constructor for the FunctionDefinition class did not copy the
     id attribute.
+  
+  - Since the merge with the astnode2 branch in 1.1-beta1, the attributes
+    on mathML elements where processed before calling the main 
+    processAttributes method and as a consequence, some of them where not
+    processed at all, like 'sbml:units'. Thanks to Matthias König who 
+    reported the problem.
 
 ===========================================================================
 Version 1.1-beta1 (12-10-2015)
