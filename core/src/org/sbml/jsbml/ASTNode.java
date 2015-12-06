@@ -1485,7 +1485,12 @@ public class ASTNode extends AbstractTreeNode {
     variable = null; // the clone is not linked anymore to any model so we cannot have any 'variable' set
     numerator = astNode.numerator;
     unitId = astNode.unitId == null ? null : new String(astNode.unitId);
-
+    definitionURL = astNode.definitionURL;
+    id = astNode.id;
+    className = astNode.className;
+    encoding = astNode.encoding;
+    style = astNode.style;
+    
     if (astNode.getChildCount() > 0) {
       for (ASTNode child : astNode.listOfNodes) {
         ASTNode c = child.clone();
