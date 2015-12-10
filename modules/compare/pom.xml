@@ -27,7 +27,7 @@
 	<parent>
 		<groupId>org.sbml.jsbml.modules</groupId>
 		<artifactId>modules</artifactId>
-		<version>1.1-b1</version>
+		<version>1.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -51,14 +51,6 @@
 			<artifactId>libsbmlj</artifactId>
 			<version>5.0.0</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.sbml.jsbml</groupId>
-			<artifactId>jsbml-.8-rc1-with-dependencies</artifactId>
-			<version>0.8.0</version>
-		</dependency>
-		-->
-
 	</dependencies>
 
 </project>

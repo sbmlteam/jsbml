@@ -28,7 +28,7 @@
     <parent>
         <groupId>org.sbml.jsbml.ext</groupId>
         <artifactId>ext</artifactId>
-        <version>1.1</version>
+        <version>1.2-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
 
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.sbml.jsbml.ext</groupId>
             <artifactId>jsbml-layout</artifactId>
-            <version>1.1-b1</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     
