@@ -22,7 +22,6 @@
 package org.sbml.jsbml.util;
 
 import java.beans.PropertyChangeListener;
-import java.io.Serializable;
 
 import javax.swing.tree.TreeNode;
 
@@ -36,7 +35,7 @@ import org.sbml.jsbml.SBMLDocument;
  * @since 0.8
  * @version $Rev$
  */
-public interface TreeNodeChangeListener extends PropertyChangeListener, Serializable {
+public interface TreeNodeChangeListener extends PropertyChangeListener {
 
   /**
    * The {@link TreeNode} passed to this method has just been added to the
