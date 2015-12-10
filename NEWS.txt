@@ -2,6 +2,21 @@
 
 
 ===========================================================================
+Version 1.2-X (XX-XX-2016)
+===========================================================================
+
+ * New Features:
+
+
+ * Bug Fixes:
+
+  - The whole SBMLDocument was not serializable, few classes were not
+    implementing the Serializable class. This should be fixed now. Thanks
+    to Jens Thargor who reported the problem.
+
+
+
+===========================================================================
 Version 1.1 (09-12-2015)
 ===========================================================================
 

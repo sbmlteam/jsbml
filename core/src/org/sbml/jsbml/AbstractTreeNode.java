@@ -110,7 +110,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   /**
    * {@link List} of listeners for this component
    */
-  protected List<TreeNodeChangeListener> listOfListeners;
+  protected transient List<TreeNodeChangeListener> listOfListeners;
 
   /**
    * The parent element of this {@link Annotation}.
