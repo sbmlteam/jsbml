@@ -126,7 +126,7 @@ public class SBaseRef extends AbstractSBase {
       setMetaIdRef(obj.getMetaIdRef());
     }
     if (obj.isSetSBaseRef()) {
-      setSBaseRef(obj.getSBaseRef());
+      setSBaseRef(obj.getSBaseRef().clone());
     }
   }
 
