@@ -21,6 +21,7 @@
  */
 package org.sbml.jsbml.xml;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -61,7 +62,7 @@ defined in SBML.
  * @since 0.8
  * @version $Rev$
  */
-public class XMLNamespaces {
+public class XMLNamespaces implements Serializable  {
 
   /**
    * HashMap<Prefix, URI>

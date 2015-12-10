@@ -22,6 +22,7 @@
 package org.sbml.jsbml.util;
 
 import java.beans.PropertyChangeEvent;
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 import javax.swing.tree.TreeNode;
@@ -38,12 +39,12 @@ import org.sbml.jsbml.ASTNode;
  * @since 0.8
  * @version $Rev$
  */
-public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
+public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener, Serializable {
 
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger;
+  private static transient Logger logger;
 
   /**
    * Creates an {@link TreeNodeChangeListener} that writes all events to the
