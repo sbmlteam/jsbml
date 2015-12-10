@@ -21,6 +21,7 @@
  */
 package org.sbml.jsbml.xml;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
@@ -61,7 +62,7 @@ import java.text.MessageFormat;
  * @since 0.8
  * @version $Rev$
  */
-public class XMLTriple {
+public class XMLTriple implements Serializable {
 
   /**
    * 

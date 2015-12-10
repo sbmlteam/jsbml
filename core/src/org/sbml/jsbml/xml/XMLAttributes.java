@@ -21,6 +21,7 @@
  */
 package org.sbml.jsbml.xml;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.sbml.jsbml.JSBML;
@@ -39,7 +40,7 @@ import org.sbml.jsbml.JSBML;
  * @since 0.8
  * @version $Rev$
  */
-public class XMLAttributes {
+public class XMLAttributes implements Serializable {
 
   /**
    * 
