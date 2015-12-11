@@ -117,7 +117,7 @@ public class SBMLDocument extends AbstractSBase {
   /**
    * logger used to print messages
    */
-  private transient Logger logger = Logger.getLogger(getClass());
+  private static final transient Logger logger = Logger.getLogger(SBMLDocument.class);
 
   /**
    * Stores all the meta identifiers within this {@link SBMLDocument} to avoid
@@ -489,7 +489,8 @@ public class SBMLDocument extends AbstractSBase {
       }
       metaIds.put(sbase.getMetaId(), sbase);
 
-      if (logger.isDebugEnabled()) {
+      // logger can be null during cloning apparently
+      if (logger != null && logger.isDebugEnabled()) {
         logger.debug("SBMLDocument - #collectMetaIds - node = '" + sbase + "'");
       }
     }
@@ -513,6 +514,11 @@ public class SBMLDocument extends AbstractSBase {
    * @return
    */
   public boolean containsMetaId(String metaId) {
+
+    if (mappingFromMetaId2SBase == null) {
+      mappingFromMetaId2SBase = new HashMap<String, SBase>();
+    }
+
     return mappingFromMetaId2SBase.containsKey(metaId);
   }
 
@@ -1162,6 +1168,11 @@ public class SBMLDocument extends AbstractSBase {
    * 
    */
   boolean registerMetaId(SBase sbase, boolean add) {
+    
+    if (mappingFromMetaId2SBase == null) {
+      mappingFromMetaId2SBase = new HashMap<String, SBase>();
+    }
+
     if (sbase.isSetMetaId()) {
       if (add) {
         // We should call checkMetaid if we want to throw IllegalArgumentException here when metaid already present
