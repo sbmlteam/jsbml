@@ -98,7 +98,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
   /**
    * Log4j logger
    */
-  private static final transient Logger log4jLogger = Logger.getLogger(SBMLCoreParser.class);
+  private static final transient Logger logger = Logger.getLogger(SBMLCoreParser.class);
 
   /**
    * Localization support.
@@ -158,8 +158,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     Object contextObject)
   {
 
-    if (log4jLogger.isDebugEnabled()) {
-      log4jLogger.debug(MessageFormat.format(
+    if (logger.isDebugEnabled()) {
+      logger.debug(MessageFormat.format(
         "processing the attribute: ''{0}'' (value = {1}) on element ''{2}'' ({3}).",
         attributeName, value, elementName, contextObject));
     }
@@ -174,8 +174,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       try {
         isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
       } catch (Throwable exc) {
-        log4jLogger.error(exc.getMessage());
-        log4jLogger.info("Attribute = " + attributeName + ", element = " + elementName);
+        logger.error(exc.getMessage());
+        logger.info("Attribute = " + attributeName + ", element = " + elementName);
       }
     }
     // A SBMLCoreParser can modify a contextObject which is an instance of
@@ -193,16 +193,16 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         isAttributeRead = true;
       } catch (IllegalArgumentException e) {
         // TODO: Write from which element the error is coming from: astNode.getParentSBMLObject();
-        log4jLogger.warn(e.getMessage());
+        logger.warn(e.getMessage());
         // Log the error to the ErrorLog object ??
       }
 
-      log4jLogger.debug("SBMLCoreParser: processAttribute: adding an unit to an ASTNode");
+      logger.debug("SBMLCoreParser: processAttribute: adding an unit to an ASTNode");
     }
 
     if (!isAttributeRead) {
       // TODO: Here we should add a hint which SBML Level/Version combination is used.
-      log4jLogger.warn(MessageFormat.format(
+      logger.warn(MessageFormat.format(
         bundle.getString("SBMLCoreParser.unknownAttributeOnElement"), // Level {2,number,integer} Version {3,number,integer}
         attributeName, elementName));
       //  Log the error to the ErrorLog object ??
@@ -225,8 +225,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     if ((elementName != null) && elementName.equals("notes")) {
 
     } else if ((characters != null) && (characters.trim().length() != 0)) {
-      // log4jLogger.warn("The SBML core XML element should not have any content, everything should be stored as attribute.");
-      // log4jLogger.warn("The Characters are: @" + characters.trim() + "@");
+      // logger.warn("The SBML core XML element should not have any content, everything should be stored as attribute.");
+      // logger.warn("The Characters are: @" + characters.trim() + "@");
     }
   }
 
@@ -236,51 +236,51 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
   @Override
   public void processEndDocument(SBMLDocument sbmlDocument) {
 
-    log4jLogger.debug("SBMLCoreParser: processEndDocument");
+    logger.debug("SBMLCoreParser: processEndDocument");
 
     if (sbmlDocument.isSetModel()) {
       Model model = sbmlDocument.getModel();
 
       if (model.isSetAreaUnits() && !model.isSetAreaUnitsInstance()) {
-        log4jLogger.warn(MessageFormat.format(
+        logger.warn(MessageFormat.format(
           bundle.getString("SBMLCoreParser.unknownReferenceError1"),
           "UnitDefinition", "areaUnitsID", model.getAreaUnits(),
           model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetConversionFactor()
           && !model.isSetConversionFactorInstance()) {
-        log4jLogger.warn(MessageFormat.format(
+        logger.warn(MessageFormat.format(
           bundle.getString("SBMLCoreParser.unknownReferenceError1"),
           "Parameter", "conversionFactorID", model.getConversionFactor(),
           model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetExtentUnits() && !model.isSetExtentUnitsInstance()) {
-        log4jLogger.warn(MessageFormat.format(
+        logger.warn(MessageFormat.format(
           bundle.getString("SBMLCoreParser.unknownReferenceError1"),
           "UnitDefinition", "extentUnitsID", model.getExtentUnits(),
           model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetLengthUnits() && !model.isSetLengthUnitsInstance()) {
-        log4jLogger.warn(MessageFormat.format(
+        logger.warn(MessageFormat.format(
           bundle.getString("SBMLCoreParser.unknownReferenceError1"),
           "UnitDefinition", "lengthUnitsID", model.getLengthUnits(),
           model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetSubstanceUnits()
           && !model.isSetSubstanceUnitsInstance()) {
-        log4jLogger.warn(MessageFormat.format(
+        logger.warn(MessageFormat.format(
           bundle.getString("SBMLCoreParser.unknownReferenceError1"),
           "UnitDefinition", "substanceUnitsID", model.getSubstanceUnits(),
           model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetTimeUnits() && !model.isSetTimeUnitsInstance()) {
-        log4jLogger.warn(MessageFormat.format(
+        logger.warn(MessageFormat.format(
           bundle.getString("SBMLCoreParser.unknownReferenceError1"),
           "UnitDefinition", "timeUnitsID", model.getTimeUnits(),
           model.getElementName(), SBMLtools.getIdOrName(model)));
       }
       if (model.isSetVolumeUnits() && !model.isSetVolumeUnitsInstance()) {
-        log4jLogger.warn(MessageFormat.format(
+        logger.warn(MessageFormat.format(
           bundle.getString("SBMLCoreParser.unknownReferenceError1"),
           "UnitDefinition", "volumeUnitsID", model.getVolumeUnits(),
           model.getElementName(), SBMLtools.getIdOrName(model)));
@@ -290,7 +290,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
         if (model.getLevel() == 1) {
 
-          log4jLogger.debug("Transformed SBMLLevel1Rule: processEndDocument: model is level 1");
+          logger.debug("Transformed SBMLLevel1Rule: processEndDocument: model is level 1");
 
           int i = 0;
           for (Rule rule : model.getListOfRules().clone()) {
@@ -299,22 +299,22 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               if (((SBMLLevel1Rule) rule).isScalar()) {
                 realRule = ((SBMLLevel1Rule) rule).cloneAsAssignmentRule();
-                if (log4jLogger.isDebugEnabled()) {
-                  log4jLogger.debug(MessageFormat.format(
+                if (logger.isDebugEnabled()) {
+                  logger.debug(MessageFormat.format(
                     "Transformed SBMLLevel1Rule: {0} into AssignmentRule.",
                     ((SBMLLevel1Rule) rule).getVariable()));
                 }
               } else {
                 realRule = ((SBMLLevel1Rule) rule).cloneAsRateRule();
-                if (log4jLogger.isDebugEnabled()) {
-                  log4jLogger.debug(MessageFormat.format(
+                if (logger.isDebugEnabled()) {
+                  logger.debug(MessageFormat.format(
                     "Transformed SBMLLevel1Rule: {0} into RateRule.",
                     ((SBMLLevel1Rule) rule).getVariable()));
                 }
               }
 
-              if (log4jLogger.isDebugEnabled()) {
-                log4jLogger.debug(MessageFormat.format(
+              if (logger.isDebugEnabled()) {
+                logger.debug(MessageFormat.format(
                   "Transformed SBMLLevel1Rule: realRule = {0}",
                   realRule));
               }
@@ -332,7 +332,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
             AssignmentRule assignmentRule = (AssignmentRule) rule;
             if (assignmentRule.isSetVariable()
                 && !assignmentRule.isSetVariableInstance()) {
-              log4jLogger.warn(MessageFormat.format(
+              logger.warn(MessageFormat.format(
                 bundle.getString("SBMLCoreParser.unknownReferenceError2"),
                 "Symbol", "variableID", assignmentRule.getVariable(),
                 assignmentRule.getElementName()));
@@ -340,7 +340,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
             if (assignmentRule.isSetUnits()
                 && !assignmentRule.isSetUnitsInstance()
                 && assignmentRule.isParameter()) {
-              log4jLogger.warn(MessageFormat.format(
+              logger.warn(MessageFormat.format(
                 bundle.getString("SBMLCoreParser.unknownReferenceError2"),
                 "UnitDefinition", "unitsID", assignmentRule.getUnits(),
                 assignmentRule.getElementName()));
@@ -349,7 +349,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
             RateRule rateRule = (RateRule) rule;
             if (rateRule.isSetVariable()
                 && !rateRule.isSetVariableInstance()) {
-              log4jLogger.warn(MessageFormat.format(
+              logger.warn(MessageFormat.format(
                 bundle.getString("SBMLCoreParser.unknownReferenceError3"),
                 "Symbol", "variableID", rateRule.getVariable(),
                 rateRule.getElementName()));
@@ -362,20 +362,20 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           Compartment compartment = model.getCompartment(i);
           if (compartment.isSetCompartmentType()
               && !compartment.isSetCompartmentTypeInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError1"),
               "CompartmentType", "compartmentTypeID", compartment.getCompartmentType(),
               compartment.getElementName(), SBMLtools.getIdOrName(compartment)));
           }
           if (compartment.isSetOutside()
               && !compartment.isSetOutsideInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError1"),
               "Compartment", "outsideID", compartment.getOutside(),
               compartment.getElementName(), SBMLtools.getIdOrName(compartment)));
           }
           if (compartment.isSetUnits() && !compartment.isSetUnitsInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError1"),
               "UnitDefinition", "unitsID", compartment.getUnits(),
               compartment.getElementName(), SBMLtools.getIdOrName(compartment)));
@@ -387,7 +387,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           Event event = model.getEvent(i);
 
           if (event.isSetTimeUnits() && !event.isSetTimeUnitsInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError1"),
               "UnitDefinition", "timeUnitsID", event.getTimeUnits(),
               event.getElementName(), SBMLtools.getIdOrName(event)));
@@ -401,7 +401,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               if (eventAssignment.isSetVariable()
                   && !eventAssignment.isSetVariableInstance()) {
-                log4jLogger.warn(MessageFormat.format(
+                logger.warn(MessageFormat.format(
                   bundle.getString("SBMLCoreParser.unknownReferenceError4"),
                   "Symbol", "variableID", eventAssignment.getVariable(),
                   eventAssignment.getElementName(), event.getElementName(),
@@ -418,7 +418,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
           if (initialAssignment.isSetVariable()
               && !initialAssignment.isSetVariableInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError5"),
               "Symbol", "symbolID",
               initialAssignment.getVariable(),
@@ -431,7 +431,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           Reaction reaction = model.getReaction(i);
           if (reaction.isSetCompartment()
               && !reaction.isSetCompartmentInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError1"),
               "Compartment", "compartmentID", reaction.getCompartment(),
               reaction.getElementName(), SBMLtools.getIdOrName(reaction)));
@@ -445,7 +445,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               if (speciesReference.isSetSpecies()
                   && !speciesReference.isSetSpeciesInstance()) {
-                log4jLogger.warn(MessageFormat.format(
+                logger.warn(MessageFormat.format(
                   bundle.getString("SBMLCoreParser.unknownReferenceError1"),
                   "Species", "speciesID", speciesReference.getSpecies(),
                   speciesReference.getElementName(),
@@ -460,7 +460,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               if (speciesReference.isSetSpecies()
                   && !speciesReference.isSetSpeciesInstance()) {
-                log4jLogger.warn(MessageFormat.format(
+                logger.warn(MessageFormat.format(
                   bundle.getString("SBMLCoreParser.unknownReferenceError1"),
                   "Species", "speciesID",
                   speciesReference.getSpecies(), speciesReference.getElementName(),
@@ -469,7 +469,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
             }
           }
           if (neitherReactantsNorProducts) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.reactionWithoutParticipantsError"),
               SBMLtools.getIdOrName(reaction)));
           }
@@ -481,7 +481,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
               if (modifierSpeciesReference.isSetSpecies()
                   && !modifierSpeciesReference
                   .isSetSpeciesInstance()) {
-                log4jLogger.warn(MessageFormat.format(
+                logger.warn(MessageFormat.format(
                   bundle.getString("SBMLCoreParser.unknownReferenceError1"),
                   "Species", "speciesID",
                   modifierSpeciesReference.getSpecies(),
@@ -493,7 +493,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
             KineticLaw kineticLaw = reaction.getKineticLaw();
             if (kineticLaw.isSetTimeUnits()
                 && !kineticLaw.isSetTimeUnitsInstance()) {
-              log4jLogger.warn(MessageFormat.format(
+              logger.warn(MessageFormat.format(
                 bundle.getString("SBMLCoreParser.unknownReferenceError6"),
                 "UnitDefinition", "timeUnitsID", kineticLaw.getTimeUnits(),
                 kineticLaw.getElementName(), reaction.getElementName(),
@@ -501,7 +501,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
             }
             if (kineticLaw.isSetSubstanceUnits()
                 && !kineticLaw.isSetSubstanceUnitsInstance()) {
-              log4jLogger.warn(MessageFormat.format(
+              logger.warn(MessageFormat.format(
                 bundle.getString("SBMLCoreParser.unknownReferenceError6"),
                 "UnitDefinition", "substanceUnitsID",
                 kineticLaw.getSubstanceUnits(), kineticLaw.getElementName(),
@@ -513,7 +513,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
                     .getLocalParameter(j);
                 if (parameter.isSetUnits()
                     && !parameter.isSetUnitsInstance()) {
-                  log4jLogger.warn(MessageFormat.format(
+                  logger.warn(MessageFormat.format(
                     bundle.getString("SBMLCoreParser.unknownReferenceError1"),
                     "UnitDefinition", "unitsID",
                     parameter.getUnits(), parameter.getElementName(),
@@ -530,7 +530,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
           if (species.isSetSubstanceUnits()
               && !species.isSetSubstanceUnitsInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError1"),
               "UnitDefinition", "subtsanceUnitsID",
               species.getSubstanceUnits(), species.getElementName(),
@@ -538,28 +538,28 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           }
           if (species.isSetSpeciesType()
               && !species.isSetSpeciesTypeInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError1"),
               "SpeciesType", "speciesTypeID", species.getSpeciesType(),
               species.getElementName(), SBMLtools.getIdOrName(species)));
           }
           if (species.isSetConversionFactor()
               && !species.isSetConversionFactorInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError1"),
               "Parameter", "conversionFactorID", species.getConversionFactor(),
               species.getElementName(), SBMLtools.getIdOrName(species)));
           }
           if (species.isSetCompartment()
               && !species.isSetCompartmentInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError1"),
               "Compartment", "compartmentID", species.getCompartment(),
               species.getElementName(), SBMLtools.getIdOrName(species)));
           }
           if (species.isSetSpatialSizeUnits()
               && !species.isSetSpatialSizeUnitsInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError1"),
               "UnitDefinition", "spatialSizeUnitsID",
               species.getSpatialSizeUnits(), species.getElementName(),
@@ -572,7 +572,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           Parameter parameter = model.getParameter(i);
           if (parameter.isSetUnits()
               && !parameter.isSetUnitsInstance()) {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownReferenceError1"),
               "UnitDefinition", "unitsID", parameter.getUnits(),
               parameter.getElementName(), SBMLtools.getIdOrName(parameter)));
@@ -581,10 +581,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       }
 
     } else {
-      log4jLogger.error("The Model element has not been created.");
+      logger.error("The Model element has not been created.");
     }
 
-    log4jLogger.debug("Starting to check the package version and namespace for all package elements");
+    logger.debug("Starting to check the package version and namespace for all package elements");
     // checks silently package version and namespace and try to fix any problems encountered.
     PackageUtil.checkPackages(sbmlDocument, true, true);
   }
@@ -615,8 +615,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       } else {
         sbase.addDeclaredNamespace(localName, URI);
       }
-      if (log4jLogger.isDebugEnabled()) {
-        log4jLogger.debug(MessageFormat.format(
+      if (logger.isDebugEnabled()) {
+        logger.debug(MessageFormat.format(
           "processNamespace: {0} = {1}",
           prefix, URI));
       }
@@ -630,15 +630,15 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       } else {
         annotation.addDeclaredNamespace(localName, URI);
       }
-      if (log4jLogger.isDebugEnabled()) {
-        log4jLogger.debug(MessageFormat.format(
+      if (logger.isDebugEnabled()) {
+        logger.debug(MessageFormat.format(
           "processNamespace: {0} = {1}",
           prefix, URI));
       }
     }
     else
     {
-      log4jLogger.warn(MessageFormat.format(
+      logger.warn(MessageFormat.format(
         bundle.getString("SBMLCoreParser.namespaceIgnored"),
         elementName, localName, URI));
       // TODO - store into the XMLNode for unknown things
@@ -763,12 +763,12 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return listOfSpeciesTypes;
             } else {
-              log4jLogger.warn(MessageFormat.format(
+              logger.warn(MessageFormat.format(
                 bundle.getString("SBMLCoreParser.unknownElement"),
                 elementName));
             }
           } else {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownElement"),
               elementName));
           }
@@ -938,7 +938,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return speciesType;
             } else {
-              log4jLogger.warn(MessageFormat.format(
+              logger.warn(MessageFormat.format(
                 bundle.getString("SBMLCoreParser.unknownElement"),
                 elementName));
             }
@@ -955,7 +955,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return unit;
             } else {
-              log4jLogger.warn(MessageFormat.format(
+              logger.warn(MessageFormat.format(
                 bundle.getString("SBMLCoreParser.unknownElement"), elementName));
             }
           } else if (list.getParentSBMLObject() instanceof Reaction) {
@@ -979,7 +979,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
                 return speciesReference;
               } else {
-                log4jLogger.warn(MessageFormat.format(
+                logger.warn(MessageFormat.format(
                   bundle.getString("SBMLCoreParser.unknownElement"), elementName));
               }
             } else if (elementName.equals("specieReference")
@@ -998,7 +998,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
                 return speciesReference;
               } else {
-                log4jLogger.warn(MessageFormat.format(
+                logger.warn(MessageFormat.format(
                   bundle.getString("SBMLCoreParser.unknownElement"), elementName));
               }
             } else if (elementName
@@ -1011,7 +1011,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return modifierSpeciesReference;
             } else {
-              log4jLogger.warn(MessageFormat.format(
+              logger.warn(MessageFormat.format(
                 bundle.getString("SBMLCoreParser.unknownElement"), elementName));
             }
           } else if (list.getParentSBMLObject() instanceof KineticLaw) {
@@ -1038,7 +1038,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return localParameter;
             } else {
-              log4jLogger.warn(MessageFormat.format(
+              logger.warn(MessageFormat.format(
                 bundle.getString("SBMLCoreParser.unknownElement"), elementName));
             }
           } else if (list.getParentSBMLObject() instanceof Event) {
@@ -1053,11 +1053,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return eventAssignment;
             } else {
-              log4jLogger.warn(MessageFormat.format(
+              logger.warn(MessageFormat.format(
                 bundle.getString("SBMLCoreParser.unknownElement"), elementName));
             }
           } else {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else if (contextObject instanceof UnitDefinition) {
@@ -1093,7 +1093,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return priority;
           } else {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else if (contextObject instanceof Reaction) {
@@ -1120,7 +1120,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return kineticLaw;
           } else {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else if (contextObject instanceof SpeciesReference) {
@@ -1132,7 +1132,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return stoichiometryMath;
           } else {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else if (contextObject instanceof KineticLaw) {
@@ -1153,7 +1153,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return listOfLocalParameters;
           } else {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else if (contextObject instanceof Constraint) {
@@ -1167,26 +1167,26 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return constraint;
           } else {
-            log4jLogger.warn(MessageFormat.format(
+            logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           }
         } else {
-          log4jLogger.warn(MessageFormat.format(
+          logger.warn(MessageFormat.format(
             bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         }
       } catch (InstantiationException exc) {
-        log4jLogger.error(MessageFormat.format(
+        logger.error(MessageFormat.format(
           bundle.getString("SBMLCoreParser.instanciationError"), elementName));
-        if (log4jLogger.isDebugEnabled()) {
-          log4jLogger.debug(exc.getMessage());
-          log4jLogger.debug(exc.getStackTrace());
+        if (logger.isDebugEnabled()) {
+          logger.debug(exc.getMessage());
+          logger.debug(exc.getStackTrace());
         }
       } catch (IllegalAccessException exc) {
-        log4jLogger.error(MessageFormat.format(
+        logger.error(MessageFormat.format(
           bundle.getString("SBMLCoreParser.instanciationError"), elementName));
-        if (log4jLogger.isDebugEnabled()) {
-          log4jLogger.debug(exc.getMessage());
-          log4jLogger.debug(exc.getStackTrace());
+        if (logger.isDebugEnabled()) {
+          logger.debug(exc.getMessage());
+          logger.debug(exc.getStackTrace());
         }
       }
     }
@@ -1239,8 +1239,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
     if (sbmlElementToWrite instanceof SBase) {
       SBase sbase = (SBase) sbmlElementToWrite;
-      if (log4jLogger.isDebugEnabled()) {
-        log4jLogger.debug(MessageFormat.format("writeElement: {0}", sbase.getElementName()));
+      if (logger.isDebugEnabled()) {
+        logger.debug(MessageFormat.format("writeElement: {0}", sbase.getElementName()));
       }
 
       // dealing with level 1 rules
