@@ -57,7 +57,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private static final Logger logger = Logger.getLogger(Point.class);
+  private static final transient Logger logger = Logger.getLogger(Point.class);
 
   /**
    * the x coordinate

@@ -23,14 +23,12 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * @author Alex Thomas
@@ -44,7 +42,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(AbstractSpatialNamedSBase.class);
+  private static final transient Logger logger = Logger.getLogger(AbstractSpatialNamedSBase.class);
   
   /**
    * Generated serial version identifier.
@@ -55,11 +53,6 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    * 
    */
   String spatialId;
-
-  /**
-   * 
-   */
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
   /**
    * 

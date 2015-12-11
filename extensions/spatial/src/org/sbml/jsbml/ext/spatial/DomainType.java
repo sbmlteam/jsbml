@@ -42,7 +42,7 @@ public class DomainType extends AbstractSpatialNamedSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(DomainType.class);
+  private static final transient Logger logger = Logger.getLogger(DomainType.class);
   
   /**
    * Generated serial version identifier.

@@ -23,11 +23,9 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * @author Alex Thomas
@@ -41,7 +39,7 @@ public class CSGPseudoPrimitive extends CSGNode{
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(CSGPseudoPrimitive.class);
+  private static final transient Logger logger = Logger.getLogger(CSGPseudoPrimitive.class);
   
   /**
    * 
@@ -52,11 +50,6 @@ public class CSGPseudoPrimitive extends CSGNode{
    * 
    */
   private String csgObjectRef;
-
-  /**
-   * 
-   */
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
   /**

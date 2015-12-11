@@ -40,7 +40,7 @@ import org.sbml.jsbml.xml.XMLNode;
  */
 public class CobraUtil {
   
-  private static Logger logger = Logger.getLogger(CobraUtil.class);
+  private static final transient Logger logger = Logger.getLogger(CobraUtil.class);
   
   /**
    * Parses the notes of the given {@link SBase} element.

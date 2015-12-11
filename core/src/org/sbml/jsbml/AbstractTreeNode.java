@@ -79,7 +79,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   /**
    * A {@link Logger} for this class.
    */
-  private static final Logger logger = Logger.getLogger(AbstractTreeNode.class);
+  private static final transient Logger logger = Logger.getLogger(AbstractTreeNode.class);
 
 
   /**

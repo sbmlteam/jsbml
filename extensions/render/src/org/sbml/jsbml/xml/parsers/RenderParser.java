@@ -64,7 +64,7 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
   /**
    * The logger for this RenderParser
    */
-  private static final Logger logger = Logger.getLogger(RenderParser.class);
+  private static final transient Logger logger = Logger.getLogger(RenderParser.class);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()

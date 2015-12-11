@@ -23,11 +23,9 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -42,7 +40,7 @@ public class Boundary extends AbstractSpatialNamedSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(Boundary.class);
+  private static final transient Logger logger = Logger.getLogger(Boundary.class);
   
   /**
    * Generated serial version identifier.
@@ -53,11 +51,6 @@ public class Boundary extends AbstractSpatialNamedSBase {
    * 
    */
   private Double value;
-
-  /**
-   * 
-   */
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
   /**

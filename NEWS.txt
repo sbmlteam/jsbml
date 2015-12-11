@@ -17,6 +17,16 @@ Version 1.2-X (XX-XX-2016)
   - The clone constructor for SBaseRef was not cloning properly it's child
     SBaseRef.
 
+  - The equals method of ASTNode was failing when one of the double values
+    was set to NaN.
+  
+  - Corrected several potential NullPointerExceptions that could occur
+    during the cloning of an SBMLDocument that contain plugins.
+  
+  - Corrected a potential NullPointerException in the 
+    TreeNodeAdapter(Object, TreeNode) constructor.
+    
+
 ===========================================================================
 Version 1.1 (09-12-2015)
 ===========================================================================

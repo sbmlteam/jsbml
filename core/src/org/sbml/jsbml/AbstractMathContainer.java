@@ -49,7 +49,7 @@ MathContainer {
   /**
    * A logger for user-messages.
    */
-  private static final Logger logger = Logger.getLogger(AbstractMathContainer.class);
+  private static final transient Logger logger = Logger.getLogger(AbstractMathContainer.class);
 
   /**
    * The math formula as an abstract syntax tree.

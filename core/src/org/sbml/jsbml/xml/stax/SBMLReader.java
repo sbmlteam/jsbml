@@ -119,7 +119,7 @@ public class SBMLReader {
   /**
    * A {@link Logger} for this class.
    */
-  private transient Logger logger = Logger.getLogger(SBMLReader.class);
+  private static final transient Logger logger = Logger.getLogger(SBMLReader.class);
 
 
 

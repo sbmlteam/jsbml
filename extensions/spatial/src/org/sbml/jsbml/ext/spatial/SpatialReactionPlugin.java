@@ -44,7 +44,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(SpatialReactionPlugin.class);
+  private static final transient Logger logger = Logger.getLogger(SpatialReactionPlugin.class);
 
   /**
    * Generated serial version identifier.

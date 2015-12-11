@@ -261,7 +261,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
   /**
    * A {@link Logger} for this class.
    */
-  private static final Logger logger = Logger.getLogger(ListOf.class);
+  private static final transient Logger logger = Logger.getLogger(ListOf.class);
 
   /**
    * Helper method to initialize newly created lists.

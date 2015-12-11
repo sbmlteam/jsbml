@@ -260,7 +260,7 @@ public class SBMLWriter {
   /**
    * A {@link Logger} for this class.
    */
-  Logger logger = Logger.getLogger(SBMLWriter.class);
+  private static final transient Logger logger = Logger.getLogger(SBMLWriter.class);
 
 
   /**

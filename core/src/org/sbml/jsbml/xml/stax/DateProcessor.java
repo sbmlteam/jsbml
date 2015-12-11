@@ -48,7 +48,7 @@ public class DateProcessor {
   /**
    * A {@link Logger} for this class.
    */
-  private static final Logger logger = Logger.getLogger(DateProcessor.class);
+  private static final transient Logger logger = Logger.getLogger(DateProcessor.class);
 
   static {
     instance = new DateProcessor();

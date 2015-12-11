@@ -63,7 +63,7 @@ public class UnitDefinition extends AbstractNamedSBase {
   /**
    * The logger for this class.
    */
-  private static final Logger logger = Logger.getLogger(UnitDefinition.class);
+  private static final transient Logger logger = Logger.getLogger(UnitDefinition.class);
   /**
    * Generated serial version identifier.
    */

@@ -60,7 +60,6 @@ import org.sbml.jsbml.ext.spatial.GeometryDefinition;
 import org.sbml.jsbml.ext.spatial.InteriorPoint;
 import org.sbml.jsbml.ext.spatial.ParametricGeometry;
 import org.sbml.jsbml.ext.spatial.ParametricObject;
-import org.sbml.jsbml.ext.spatial.PolygonObject;
 import org.sbml.jsbml.ext.spatial.SampledField;
 import org.sbml.jsbml.ext.spatial.SampledFieldGeometry;
 import org.sbml.jsbml.ext.spatial.SampledVolume;
@@ -89,7 +88,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(SpatialParser.class);
+  private static final transient Logger logger = Logger.getLogger(SpatialParser.class);
 
   /**
    * The name space of required elements.

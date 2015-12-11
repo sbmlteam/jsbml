@@ -46,7 +46,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(SampledField.class);
+  private static final transient Logger logger = Logger.getLogger(SampledField.class);
   
   /**
    * Generated serial version identifier.

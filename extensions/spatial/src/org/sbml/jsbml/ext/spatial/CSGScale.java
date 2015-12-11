@@ -42,7 +42,7 @@ public class CSGScale extends CSGTransformation {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(CSGScale.class);
+  private static final transient Logger logger = Logger.getLogger(CSGScale.class);
   
   /**
    * 

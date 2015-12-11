@@ -23,11 +23,9 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBMLException;
 
 /**
  * @author Alex Thomas
@@ -41,7 +39,7 @@ public class BoundaryCondition extends ParameterType {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(BoundaryCondition.class);
+  private static final transient Logger logger = Logger.getLogger(BoundaryCondition.class);
   
   /**
    * Generated serial version identifier.

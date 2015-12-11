@@ -23,16 +23,11 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Alex Thomas
@@ -47,7 +42,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(AnalyticVolume.class);
+  private static final transient Logger logger = Logger.getLogger(AnalyticVolume.class);
   
   /**
    * 
@@ -70,11 +65,6 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 1757917501241390228L;
-
-  /**
-   * 
-   */
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
   /**

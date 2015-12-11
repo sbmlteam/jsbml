@@ -115,7 +115,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(L3LayoutParser.class);
+  private static final transient Logger logger = Logger.getLogger(L3LayoutParser.class);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)

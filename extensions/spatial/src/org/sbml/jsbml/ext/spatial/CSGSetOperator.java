@@ -46,7 +46,7 @@ public class CSGSetOperator extends CSGNode {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(CSGSetOperator.class);
+  private static final transient Logger logger = Logger.getLogger(CSGSetOperator.class);
   
   /**
    * 

@@ -45,7 +45,7 @@ public class ParameterType extends AbstractSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(ParameterType.class);
+  private static final transient Logger logger = Logger.getLogger(ParameterType.class);
   
   /**
    * Generated serial version identifier.

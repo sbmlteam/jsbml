@@ -52,7 +52,7 @@ public class ReqParser extends AbstractReaderWriter implements PackageParser {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(ReqParser.class);
+  private static final transient Logger logger = Logger.getLogger(ReqParser.class);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()

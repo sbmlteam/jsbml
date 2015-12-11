@@ -39,7 +39,7 @@ public class SpatialSymbolReference extends ParameterType {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(SpatialSymbolReference.class);
+  private static final transient Logger logger = Logger.getLogger(SpatialSymbolReference.class);
   
   /**
    * Generated serial version identifier.

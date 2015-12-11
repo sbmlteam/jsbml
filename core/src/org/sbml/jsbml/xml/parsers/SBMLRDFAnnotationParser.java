@@ -90,7 +90,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
      * Logger to be able to send informative, debug, warning or error messages.
      * 
      */
-    private Logger logger = Logger.getLogger(getClass());
+    private static final transient Logger logger = Logger.getLogger(SBMLRDFAnnotationParser.class);
 
     @Override
     public XMLNode writeAnnotation(SBase contextObject, XMLNode xmlNode)

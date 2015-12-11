@@ -116,7 +116,7 @@ public abstract class CurveSegment extends AbstractSBase {
   /**
    * 
    */
-  private Logger logger = Logger.getLogger(CurveSegment.class);
+  private static final transient Logger logger = Logger.getLogger(CurveSegment.class);
 
   /**
    * 

@@ -60,7 +60,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
   /**
    * A {@link Logger} for this class.
    */
-  private static final Logger logger = Logger.getLogger(GraphicalObject.class);
+  private static final transient Logger logger = Logger.getLogger(GraphicalObject.class);
 
   /**
    * 

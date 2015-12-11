@@ -65,7 +65,7 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
   /**
    * 
    */
-  private Logger logger = Logger.getLogger(QualParser.class);
+  private static final transient Logger logger = Logger.getLogger(QualParser.class);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)

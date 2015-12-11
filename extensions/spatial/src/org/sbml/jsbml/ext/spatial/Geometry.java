@@ -46,7 +46,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(Geometry.class);
+  private static final transient Logger logger = Logger.getLogger(Geometry.class);
   
   /**
    * Generated serial version identifier.

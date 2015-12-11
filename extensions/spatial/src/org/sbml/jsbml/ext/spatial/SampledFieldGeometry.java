@@ -47,7 +47,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(SampledFieldGeometry.class);
+  private static final transient Logger logger = Logger.getLogger(SampledFieldGeometry.class);
   
   /**
    * Generated serial version identifier.

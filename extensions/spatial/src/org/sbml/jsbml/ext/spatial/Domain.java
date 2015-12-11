@@ -46,7 +46,7 @@ public class Domain extends AbstractSpatialNamedSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(Domain.class);
+  private static final transient Logger logger = Logger.getLogger(Domain.class);
   
   /**
    * Generated serial version identifier.

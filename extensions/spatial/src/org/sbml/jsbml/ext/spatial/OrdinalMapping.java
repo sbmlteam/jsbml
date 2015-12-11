@@ -43,7 +43,7 @@ public class OrdinalMapping extends AbstractSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(OrdinalMapping.class);
+  private static final transient Logger logger = Logger.getLogger(OrdinalMapping.class);
   
   /**
    * 

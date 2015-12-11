@@ -41,7 +41,7 @@ public class CSGTranslation extends CSGTransformation {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(CSGTranslation.class);
+  private static final transient Logger logger = Logger.getLogger(CSGTranslation.class);
   
   /**
    * 
