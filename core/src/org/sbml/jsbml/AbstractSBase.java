@@ -84,7 +84,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * A logger for this class.
    */
-  private static final Logger logger = Logger.getLogger(AbstractSBase.class);
+  private static final transient Logger logger = Logger.getLogger(AbstractSBase.class);
 
   /**
    * Generated serial version identifier.
@@ -954,6 +954,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public boolean equals(Object object) {
     boolean equals = super.equals(object);
+    
     if (equals) {
       /*
        * Casting will be no problem because the super class has just
@@ -965,6 +966,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if (equals && sbase.isSetMetaId()) {
         equals &= sbase.getMetaId().equals(getMetaId());
       }
+      
       /*
        * All child nodes are already checked by the recursive method in
        * AbstractTreeNode. We here have to check the following own items
@@ -978,7 +980,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if (equals && sbase.isSetLevelAndVersion()) {
         equals &= sbase.getLevelAndVersion().equals(getLevelAndVersion());
       }
-      equals &= sbase.getNamespace() == getNamespace();
+      
+      equals &= getNamespace() != null ? getNamespace().equals(sbase.getNamespace()) : sbase.getNamespace() == null ;
 
       if (declaredNamespaces == null) {
         if (sbase.getDeclaredNamespaces() != null) {
