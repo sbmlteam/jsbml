@@ -30,7 +30,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
+import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
@@ -39,6 +41,7 @@ import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.multi.IntraSpeciesReaction;
 import org.sbml.jsbml.ext.multi.MultiCompartmentPlugin;
 import org.sbml.jsbml.ext.multi.MultiConstants;
 import org.sbml.jsbml.ext.multi.MultiModelPlugin;
@@ -68,7 +71,7 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(MultiParser.class);
+  private static final transient Logger logger = Logger.getLogger(MultiParser.class);
 
   /**
    * 
@@ -111,7 +114,20 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
       listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
     }
 
-    // TODO - IntraSpeciesReaction child
+    // IntraSpeciesReaction children
+    if (treeNode instanceof IntraSpeciesReaction) {
+      String sbmlNamespace = JSBML.getNamespaceFrom(((IntraSpeciesReaction) treeNode).getLevel(), ((IntraSpeciesReaction) treeNode).getVersion());
+
+      for (Object child : listOfElementsToWrite) {
+        if (child instanceof AbstractSBase && ((AbstractSBase) child).getNamespace() == null) {
+          AbstractSBase sbase = (AbstractSBase) child;
+          logger.debug("Found one suspect Model child: " + sbase.getElementName() + ". Setting the SBML namespace to it.");
+          sbase.setNamespace(sbmlNamespace);
+        }
+      }
+    }
+
+
     
     return listOfElementsToWrite;
   }
@@ -257,6 +273,13 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
   {
     super.writeElement(xmlObject, sbmlElementToWrite);
 
+    // listOfBindingSiteSpeciesTypes if a BindingSpeciesType is the first element of the list of SpeciesTypes.
+    if (xmlObject.isSetName() && xmlObject.getName().equals("listOfBindingSiteSpeciesTypes")) {
+      xmlObject.setName(MultiConstants.listOfSpeciesTypes);
+    }
+    
+    // listOfIntraSpeciesReactions cannot happen as core ListOf don't depend on the first element for their name.
+    
     if (logger.isDebugEnabled()) {
       logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
     }
