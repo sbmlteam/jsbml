@@ -87,9 +87,13 @@ public class TreeNodeAdapter extends AbstractTreeNode {
     super();
     this.userObject = userObject;
     this.parent = parent;
+    
     if (parent instanceof TreeNodeWithChangeSupport) {
-      addAllChangeListeners(((TreeNodeWithChangeSupport) parent)
-        .getListOfTreeNodeChangeListeners());
+      TreeNodeWithChangeSupport parentTreeNode = (TreeNodeWithChangeSupport) parent; 
+    
+      if (parentTreeNode.getListOfTreeNodeChangeListeners() != null) {
+        addAllChangeListeners(parentTreeNode.getListOfTreeNodeChangeListeners());
+      }
     }
   }
 
