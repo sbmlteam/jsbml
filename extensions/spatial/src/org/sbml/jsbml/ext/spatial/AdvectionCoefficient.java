@@ -40,7 +40,7 @@ public class AdvectionCoefficient extends ParameterType {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(AdvectionCoefficient.class);
+  private static final transient Logger logger = Logger.getLogger(AdvectionCoefficient.class);
   
   /**
    * Generated serial version identifier.

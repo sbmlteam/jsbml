@@ -51,7 +51,7 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
   /**
    * 
    */
-  private Logger logger = Logger.getLogger(AbstractSBasePlugin.class);
+  private static final transient Logger logger = Logger.getLogger(AbstractSBasePlugin.class);
   
   /**
    * 

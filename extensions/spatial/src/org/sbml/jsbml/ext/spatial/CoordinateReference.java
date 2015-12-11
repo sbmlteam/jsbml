@@ -44,7 +44,7 @@ public abstract class CoordinateReference extends AbstractSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(CoordinateReference.class);
+  private static final transient Logger logger = Logger.getLogger(CoordinateReference.class);
   
   /**
    * Generated serial version identifier.

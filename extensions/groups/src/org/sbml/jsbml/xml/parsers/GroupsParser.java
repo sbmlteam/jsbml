@@ -53,7 +53,7 @@ public class GroupsParser extends AbstractReaderWriter implements PackageParser 
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(GroupsParser.class);
+  private static final transient Logger logger = Logger.getLogger(GroupsParser.class);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)

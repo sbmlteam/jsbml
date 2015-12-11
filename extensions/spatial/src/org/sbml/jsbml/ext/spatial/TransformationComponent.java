@@ -43,7 +43,7 @@ public class TransformationComponent extends AbstractSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(TransformationComponent.class);
+  private static final transient Logger logger = Logger.getLogger(TransformationComponent.class);
   
   /**
    * 

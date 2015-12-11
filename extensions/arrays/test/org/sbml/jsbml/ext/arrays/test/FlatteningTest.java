@@ -61,7 +61,7 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class FlatteningTest {
 
-  private static Logger logger = Logger.getLogger(FlatteningTest.class);
+  private static final transient Logger logger = Logger.getLogger(FlatteningTest.class);
   
   @Test
   public void sizeZeroTest() {

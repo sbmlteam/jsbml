@@ -80,7 +80,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(LayoutParser.class);
+  private static final transient Logger logger = Logger.getLogger(LayoutParser.class);
 
   /**
    * 

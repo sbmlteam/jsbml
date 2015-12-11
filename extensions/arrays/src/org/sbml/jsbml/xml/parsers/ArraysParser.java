@@ -47,7 +47,7 @@ public class ArraysParser extends AbstractReaderWriter implements PackageParser 
   /**
    * A {@link Logger} for this class.
    */
-  private final Logger logger = Logger.getLogger(ArraysParser.class);
+  private static final transient Logger logger = Logger.getLogger(ArraysParser.class);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()

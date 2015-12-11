@@ -23,11 +23,9 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -43,7 +41,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(SampledVolume.class);
+  private static final transient Logger logger = Logger.getLogger(SampledVolume.class);
   
   /**
    * Generated serial version identifier.
@@ -66,11 +64,6 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
    * 
    */
   private Double maxValue;
-
-  /**
-   * 
-   */
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
   /**

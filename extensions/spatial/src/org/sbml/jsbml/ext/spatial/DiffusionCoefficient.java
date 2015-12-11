@@ -26,7 +26,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.xml.parsers.SpatialParser;
 
 
 /**
@@ -53,7 +52,7 @@ public class DiffusionCoefficient extends ParameterType {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(DiffusionCoefficient.class);
+  private static final transient Logger logger = Logger.getLogger(DiffusionCoefficient.class);
 
 
   /**

@@ -41,7 +41,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(ParametricObject.class);
+  private static final transient Logger logger = Logger.getLogger(ParametricObject.class);
   
   /**
    * 

@@ -61,7 +61,7 @@ public class DynParser extends AbstractReaderWriter implements PackageParser {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(DynParser.class);
+  private static final transient Logger logger = Logger.getLogger(DynParser.class);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()

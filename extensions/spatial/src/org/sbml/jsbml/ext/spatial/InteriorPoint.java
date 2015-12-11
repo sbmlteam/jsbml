@@ -44,7 +44,7 @@ public class InteriorPoint extends AbstractSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(InteriorPoint.class);
+  private static final transient Logger logger = Logger.getLogger(InteriorPoint.class);
   
   /**
    * Generated serial version identifier.

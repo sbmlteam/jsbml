@@ -60,7 +60,7 @@ public class XMLNodeReader implements ReadingParser {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(XMLNodeReader.class);
+  private static final transient Logger logger = Logger.getLogger(XMLNodeReader.class);
 
   /**
    * 

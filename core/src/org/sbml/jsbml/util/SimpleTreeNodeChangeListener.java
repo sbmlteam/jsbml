@@ -44,7 +44,7 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener, Ser
   /**
    * A {@link Logger} for this class.
    */
-  private static transient Logger logger;
+  private static final transient Logger logger = Logger.getLogger(SimpleTreeNodeChangeListener.class);
 
   /**
    * Creates an {@link TreeNodeChangeListener} that writes all events to the
@@ -52,7 +52,6 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener, Ser
    */
   public SimpleTreeNodeChangeListener() {
     super();
-    logger = Logger.getLogger(SimpleTreeNodeChangeListener.class);
   }
 
   /**

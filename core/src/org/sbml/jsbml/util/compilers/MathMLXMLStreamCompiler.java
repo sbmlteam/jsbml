@@ -64,7 +64,7 @@ public class MathMLXMLStreamCompiler {
   /**
    * A {@link Logger} for this class.
    */
-  private final Logger logger = Logger.getLogger(MathMLXMLStreamCompiler.class);
+  private static final transient Logger logger = Logger.getLogger(MathMLXMLStreamCompiler.class);
 
   /**
    * 

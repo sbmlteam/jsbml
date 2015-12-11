@@ -36,7 +36,7 @@ public class XMLLogger {
   /**
    * logger
    */
-  private Logger logger = Logger.getLogger(XMLLogger.class);
+  private static final transient Logger logger = Logger.getLogger(XMLLogger.class);
 
   /**
    * 

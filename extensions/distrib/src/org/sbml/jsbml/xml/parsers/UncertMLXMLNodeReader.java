@@ -53,7 +53,7 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(UncertMLXMLNodeReader.class);
+  private static final transient Logger logger = Logger.getLogger(UncertMLXMLNodeReader.class);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String elementName, String characters, Object contextObject)

@@ -41,7 +41,7 @@ public class CSGRotation extends CSGTransformation {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(CSGRotation.class);
+  private static final transient Logger logger = Logger.getLogger(CSGRotation.class);
   
   /**
    * 

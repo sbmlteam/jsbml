@@ -53,7 +53,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(AbstractReaderWriter.class);
+  private static final transient Logger logger = Logger.getLogger(AbstractReaderWriter.class);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(String

@@ -70,7 +70,7 @@ public class MathMLStaxParser implements ReadingParser {
   /**
    * A {@link Logger} for this class.
    */
-  private transient Logger logger = Logger.getLogger(MathMLStaxParser.class);
+  private static final transient Logger logger = Logger.getLogger(MathMLStaxParser.class);
 
   /**
    *

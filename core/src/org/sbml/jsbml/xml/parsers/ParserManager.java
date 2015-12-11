@@ -66,7 +66,7 @@ public class ParserManager {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(ParserManager.class);
+  private static final transient Logger logger = Logger.getLogger(ParserManager.class);
 
   private String[] parserDefaults = 
     {"org.sbml.jsbml.xml.parsers.UncertMLXMLNodeReader", "org.sbml.jsbml.xml.parsers.SBMLCoreParser", 

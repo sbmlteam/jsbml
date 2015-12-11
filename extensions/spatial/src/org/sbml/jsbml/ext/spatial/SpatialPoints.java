@@ -40,7 +40,7 @@ public class SpatialPoints extends AbstractSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(SpatialPoints.class);
+  private static final transient Logger logger = Logger.getLogger(SpatialPoints.class);
   
   /**
    * 

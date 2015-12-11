@@ -63,7 +63,7 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
   /**
    * A {@link Logger} for this class.
    */
-  private Logger logger = Logger.getLogger(CompParser.class);
+  private static final transient Logger logger = Logger.getLogger(CompParser.class);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
