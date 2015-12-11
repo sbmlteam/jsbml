@@ -71,7 +71,6 @@ import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
-import org.sbml.jsbml.xml.stax.XMLLogger;
 
 /**
  * Parses the SBML core elements of an SBML file. It can read and write SBML
@@ -95,11 +94,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
    * java class.
    */
   private Map<String, Class<? extends Object>> sbmlCoreElements;
-
-  /**
-   * The logger of this parser
-   */
-  private XMLLogger logger;
 
   /**
    * Log4j logger
@@ -145,13 +139,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     }
 
     return listOfElementsToWrite;
-  }
-
-  /**
-   * @return the logger
-   */
-  public XMLLogger getLogger() {
-    return logger;
   }
 
   /**
@@ -1221,14 +1208,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       sb.setLevel(parent.getLevel());
       sb.setVersion(parent.getVersion());
     }
-  }
-
-  /**
-   * @param logger
-   *            the logger to set
-   */
-  public void setLogger(XMLLogger logger) {
-    this.logger = logger;
   }
 
   /* (non-Javadoc)
