@@ -2242,10 +2242,10 @@ public class ASTNode extends AbstractTreeNode {
             && ast.getDenominator() == getDenominator();
       }
       if ((ast.getType() == Type.REAL_E) && (type == Type.REAL_E)) {
-        equal &= ast.getMantissa() == getMantissa()
+        equal &= Double.isNaN(getMantissa()) ? Double.isNaN(ast.getMantissa()) : ast.getMantissa() == getMantissa()
             && ast.getExponent() == getExponent();
       } else if (isReal() && ast.isReal()) {
-        equal &= ast.getReal() == getReal();
+        equal &= Double.isNaN(getReal()) ? Double.isNaN(ast.getReal()) : ast.getReal() == getReal();
       }
 
       equal &= isSetClassName() == ast.isSetClassName();
