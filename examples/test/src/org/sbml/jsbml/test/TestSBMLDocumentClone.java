@@ -22,14 +22,22 @@
 
 package org.sbml.jsbml.test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.io.NotSerializableException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.SBMLDocument;
@@ -37,6 +45,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.filters.Filter;
+
 
 
 /**
@@ -129,6 +138,26 @@ public class TestSBMLDocumentClone {
           
           System.out.println(notEqualSBases);
         }
+
+        
+        String docString = toSerializedString(doc);
+        SBMLDocument serializedDoc = (SBMLDocument) fromSerializedString(docString);
+
+        boolean equalsSerialized = doc.equals(serializedDoc);
+        
+        // System.out.println("Equals serialized = " + equalsSerialized);
+        
+        if (!equalsSerialized) {
+          nbNotEquals++;
+          fileNotEquals.add(file);
+          
+          List<SBase> notEqualSBases = checkEquals(doc, serializedDoc, new ArrayList<SBase>());
+          
+          System.out.println("SBases not equals after serialization: " + notEqualSBases);
+        }
+        
+        // TODO - write to String with SBMLWriter and compare again the result with equals !!
+        
       }
       catch (XMLStreamException e)
       {
@@ -178,6 +207,38 @@ public class TestSBMLDocumentClone {
     }
   }
 
+  /**
+   * @param sbase
+   * @param serializedSBase
+   * @param notEqualsList
+   * @return
+   */
+  private static List<SBase> checkEquals(SBase sbase, SBase serializedSBase, ArrayList<SBase> notEqualsList) 
+  {
+    if (!sbase.equals(serializedSBase)) {
+      notEqualsList.add(sbase);
+    }
+    
+    if (sbase.getChildCount() > 0) {
+
+      for (int i = 0; i < sbase.getChildCount(); i++) {
+        TreeNode child = sbase.getChildAt(i);
+        
+        if (child instanceof SBase) {
+          checkEquals((SBase) child, (SBase) serializedSBase.getChildAt(i), notEqualsList);
+        }
+      }
+    }
+    
+    
+    return notEqualsList;
+  }
+
+  /**
+   * @param argsAsFile
+   * @param filesList
+   * @return
+   */
   private static List<File> findAllXMLFiles(File argsAsFile, List<File> filesList) 
   {
     // System.out.println("Analyzing directory '" + argsAsFile.getAbsolutePath() + "'");
@@ -224,5 +285,29 @@ public class TestSBMLDocumentClone {
     return filesList;
   }
 
-  
+  /** Read the object from Base64 string. */
+ private static Object fromSerializedString(String s) throws IOException , ClassNotFoundException {
+      byte [] data = Base64.getDecoder().decode(s);
+      ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+      Object o  = ois.readObject();
+      ois.close();
+      return o;
+ }
+
+  /** Write the object to a Base64 string. */
+  private static String toSerializedString(Serializable o) throws IOException {
+      
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(baos);
+
+    try {
+      oos.writeObject(o);
+      oos.close();
+      return Base64.getEncoder().encodeToString(baos.toByteArray());
+      
+    } catch (NotSerializableException e) {
+      System.out.println("ERROR !! current content of the serialization : \n" + new String(baos.toByteArray()));
+      throw e;
+    }
+  }
 }
