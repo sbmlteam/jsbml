@@ -48,6 +48,7 @@ import org.sbml.jsbml.util.compilers.LaTeXCompiler;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.compilers.UnitsCompiler;
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
@@ -1391,6 +1392,12 @@ public class ASTNode extends AbstractTreeNode {
   private String encoding;
 
   /**
+   * XMLNode that will hold the content of the 'semantics' mathML element.
+   */
+  private List<XMLNode> semanticsAnnotationList;
+  
+  
+  /**
    * Tells if the type attribute of the cn element was set and we need to
    * write it back or if it is set to the default (REAL).
    * 
@@ -1496,6 +1503,14 @@ public class ASTNode extends AbstractTreeNode {
         ASTNode c = child.clone();
         c.parent = this;
         listOfNodes.add(c);
+      }
+    }
+    
+    if (astNode.semanticsAnnotationList != null) {
+      semanticsAnnotationList = new ArrayList<XMLNode>();
+      
+      for (XMLNode semanticsAnnotation : astNode.semanticsAnnotationList) {
+        semanticsAnnotationList.add(semanticsAnnotation.clone());
       }
     }
   }
@@ -2272,6 +2287,8 @@ public class ASTNode extends AbstractTreeNode {
       if (equal && isSetUnits()) {
         equal &= getUnits().equals(ast.getUnits());
       }
+      
+      // TODO - semanticsAnnotationList not part of equals or hashcode ?
     }
     return equal;
   }
@@ -2355,6 +2372,8 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public TreeNode getChildAt(int i) {
     return getChild(i);
+    
+    // TODO - add semantics XMLNode ??
   }
 
   /* (non-Javadoc)
@@ -2363,6 +2382,8 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public int getChildCount() {
     return listOfNodes == null ? 0 : listOfNodes.size();
+    
+ // TODO - add semantics XMLNode ??
   }
 
   /**
@@ -2803,6 +2824,12 @@ public class ASTNode extends AbstractTreeNode {
     if (isSetClassName()) {
       hashCode += prime * getClassName().hashCode();
     }
+    if (isSetUnits()) {
+      hashCode += prime * getUnits().hashCode();
+    }
+    // TODO - semanticsAnnotationList not part of equals or hashcode ?
+
+    
     return hashCode;
   }
 
@@ -4356,4 +4383,102 @@ public class ASTNode extends AbstractTreeNode {
     return tree;
   }
 
+  /**
+   * Adds the given {@link XMLNode} as a MathML  <code>&lt;semantics&gt;</code> element to this {@link ASTNode}. 
+   * 
+   * <p>
+   * The {@code <semantics>} element is a MathML&nbsp;2.0 construct
+   * that can be used to associate additional information with a MathML
+   * construct.  The construct can be used to decorate a MathML expressions with
+   * a sequence of one or more {@code &lt;annotation&gt;} or
+   * {@code &lt;annotation-xml&gt;} elements.  Each such element contains a
+   * pair of items; the first is a symbol that acts as an attribute or key, and
+   * the second is the value associated with the attribute or key.  Please refer
+   * to the MathML&nbsp;2.0 documentation, particularly the <a target="_blank"
+   * href="http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations">Section
+   * 5.2, Semantic Annotations</a> for more information about these constructs.
+   *
+   * @param semanticsAnnotation the annotation to add.
+   * @return the added {@link XMLNode}.
+   */
+  public XMLNode addSemanticsAnnotation(XMLNode semanticsAnnotation) {
+    if (semanticsAnnotation == null) {
+      return null;
+    }
+    if (semanticsAnnotationList == null) {
+      semanticsAnnotationList = new ArrayList<XMLNode>();
+    }
+    
+    semanticsAnnotationList.add(semanticsAnnotation);
+    
+    return semanticsAnnotation;
+  }
+  
+  /**
+   * Gets the number of <em>semantic annotation</em> elements inside this node.
+   * 
+   * <p>
+   * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
+   * that can be used to associate additional information with a MathML
+   * construct.  The construct can be used to decorate a MathML expressions with
+   * a sequence of one or more <code>&lt;annotation&gt;</code> or
+   * <code>&lt;annotation-xml&gt;</code> elements.  Each such element contains a
+   * pair of items; the first is a symbol that acts as an attribute or key, and
+   * the second is the value associated with the attribute or key.  Please refer
+   * to the MathML&nbsp;2.0 documentation, particularly the <a target="_blank"
+   * href="http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations">Section
+   * 5.2, Semantic Annotations</a> for more information about these constructs.
+   *
+   * @return the number of annotations of this {@link ASTNode}.
+   * @see ASTNode#addSemanticsAnnotation(XMLNode semanticsAnnotation)
+   */ 
+  public int getNumSemanticsAnnotations() {
+    if (semanticsAnnotationList == null) {
+      return 0;
+    }
+
+    return semanticsAnnotationList.size();
+  }
+
+  /**
+   * Gets the nth <code>&lt;semantics&gt;</code> annotation of this node.
+   * 
+   * <p>
+   * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
+   * that can be used to associate additional information with a MathML
+   * construct.  The construct can be used to decorate a MathML expressions with
+   * a sequence of one or more <code>&lt;annotation&gt;</code> or
+   * <code>&lt;annotation-xml&gt;</code> elements.  Each such element contains a
+   * pair of items; the first is a symbol that acts as an attribute or key, and
+   * the second is the value associated with the attribute or key.  Please refer
+   * to the MathML&nbsp;2.0 documentation, particularly the <a target="_blank"
+   * href="http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations">Section
+   * 5.2, Semantic Annotations</a> for more information about these constructs.
+   * 
+   * @return the nth annotation of this {@link ASTNode}, or <code>null</code> if this node has
+   * no nth annotation (<code>n &gt;</code>
+   * {@link ASTNode#getNumSemanticsAnnotations()}
+   * <code>- 1</code> or n < 0).
+   * @see ASTNode#addSemanticsAnnotation(XMLNode sAnnotation)
+   */ 
+  public XMLNode getSemanticsAnnotation(int n) {
+    if (semanticsAnnotationList == null || n < 0 || (n > (getNumSemanticsAnnotations() -1))) {
+      return null;
+    }
+
+    return semanticsAnnotationList.get(n);
+  }
+  
+  /**
+   * Returns the list of semantics annotations of this node.
+   * 
+   * @return the list of semantics annotations of this node or null if no semantics annotation are present.
+   */
+  public List<XMLNode> getListOfSemanticsAnnotations() {
+    return semanticsAnnotationList;
+  }
+  
+  // TODO - removeSemanticsAnnotation
+  // TODO - unsetsemanticsAnnotation
+  
 }
