@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
@@ -35,6 +36,10 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.XMLAttributes;
+import org.sbml.jsbml.xml.XMLNamespaces;
+import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.XMLTriple;
 
 /**
  * A MathMLStaxParser is used to parse the MathML expressions injected into a SBML
@@ -66,7 +71,7 @@ public class MathMLStaxParser implements ReadingParser {
    * otherwise the XML version will appear at the beginning of the output.
    */
   private boolean omitXMLDeclaration;
-
+  
   /**
    * A {@link Logger} for this class.
    */
@@ -117,6 +122,13 @@ public class MathMLStaxParser implements ReadingParser {
     // Process the possible attributes.
     // the sbml:units attribute is handle by the SBMLCoreParser.
 
+    // We are inside a mathML 'semantics' element, everything is read into an XMLNode
+    if (contextObject instanceof XMLNode) {
+      XMLNode xmlNode = (XMLNode) contextObject;
+      xmlNode.addAttr(attributeName, value, uri, prefix);
+      return;
+    }
+    
     if (! (contextObject instanceof ASTNode)) {
       logger.debug("processAttribute : !!!!!!!!! context is not an ASTNode (" +
           contextObject.getClass());
@@ -162,6 +174,15 @@ public class MathMLStaxParser implements ReadingParser {
       logger.debug("processCharactersOf : element name = " + elementName + ", characters = " + characters);
     }
 
+    // We are inside a mathML 'semantics' element, everything is read into an XMLNode
+    if (contextObject instanceof XMLNode) {
+      XMLNode xmlNode = (XMLNode) contextObject;
+      
+      XMLNode textNode = new XMLNode(characters);
+      xmlNode.addChild(textNode);
+      return;
+    }
+    
     // Depending of the type of ASTNode, we need to do different things
     if (! (contextObject instanceof ASTNode)) {
       logger.debug("processCharactersOf : !!!!!!!!! context is not an ASTNode (" +
@@ -243,6 +264,47 @@ public class MathMLStaxParser implements ReadingParser {
       logger.debug("processEndElement : element name = " + elementName);
     }
 
+    // We are inside a mathML 'semantics' element, everything is read into an XMLNode
+    if (contextObject instanceof XMLNode) {
+      XMLNode xmlNode = (XMLNode) contextObject;
+
+      if (xmlNode.getChildCount() == 0) {
+        xmlNode.setEnd();
+      }
+      
+      // if elementName.equals(semantics) add all child elements as semanticsAnnotation to the parent ASTNode !
+      if (elementName.equals("semantics")) 
+      {
+        TreeNode parentNode = xmlNode.getParent();
+        
+        if (parentNode instanceof ASTNode) 
+        {
+          // we are at the end of the top level 'semantics' element.
+          // adding all child elements that are not empty as semanticAnnotation // TODO - keep the top level 'semantics' element if not empty. 
+          
+          for (XMLNode childNode : xmlNode.getChildElements(null, null)) 
+          {
+            if (childNode.isText() && childNode.getCharacters().trim().length() == 0) {
+              continue;
+            }
+            ((ASTNode) parentNode).addSemanticsAnnotation(childNode);
+            
+//            try {
+//              System.out.println("MathMLStaxParser - processEndElement - semantic annotation = \n" + childNode.toXMLString());
+//            } catch (XMLStreamException e) {
+//              e.printStackTrace();
+//            }
+          }
+          
+          // System.out.println("MathMLStaxParser - processEndElement - num semantic annotation = " + ((ASTNode) parentNode).getNumSemanticsAnnotations());
+        }
+        
+      }
+      
+      // always remove the XMLNode from the stack.
+      return true;
+    }
+    
     if (elementName.equals("sep")) {
       return false;
     } else if (contextObject instanceof MathContainer) {
@@ -276,11 +338,28 @@ public class MathMLStaxParser implements ReadingParser {
    * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix, String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject)
    */
   @Override
-  public void processNamespace(String elementName, String URI, String prefix,
+  public void processNamespace(String elementName, String uri, String prefix,
     String localName, boolean hasAttributes, boolean isLastNamespace,
     Object contextObject)
   {
-    // TODO
+    
+    if (contextObject instanceof XMLNode) {
+
+      XMLNode xmlNode = (XMLNode) contextObject;
+      
+      if (!xmlNode.isStart()) {
+        logger.debug(MessageFormat.format(
+          "processNamespace: context Object is not a start node! {0}",
+          contextObject));
+      }
+      if (localName == null || localName.trim().length() == 0) {
+        localName = "xmlns";
+      }
+
+      xmlNode.addNamespace(uri, localName);
+    }
+    
+    // TODO - store namespaces on mathML elements !
 
     logger.debug("processNamespace called");
 
@@ -306,7 +385,7 @@ public class MathMLStaxParser implements ReadingParser {
     {
       if (elementName.equals("apply"))
       {
-        lastElementWasApply = true;
+        lastElementWasApply = true; // TODO - write the booleans inside a user object to make the parser multi-thread safe ?
       }
       else
       {
@@ -340,12 +419,46 @@ public class MathMLStaxParser implements ReadingParser {
         parentASTNode = mathContainer.getMath();
         // System.out.println("MathMLStaxParser: processStartElement parent type: " + parentASTNode.getType());
       }
+      
+      if (elementName.equals("semantics")) 
+      {
+        // Creating a StartElement XMLNode !!
+        XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, uri, prefix), new XMLAttributes(), new XMLNamespaces());
+        xmlNode.setParent(parentASTNode);
+        
+        return xmlNode;
+      }
+
     } else if (contextObject instanceof ASTNode) {
 
       parentASTNode = ((ASTNode) contextObject);
       mathContainer = parentASTNode.getParentSBMLObject();
       // System.out.println("MathMLStaxParser: processStartElement parent type: " + parentASTNode.getType());
-    } else {
+      
+      // if semantics, create a new XMLNode and return it. Set the ASTNode as the parent so that
+      // we can add the semanticsAnnotation element in the #processEndElement method.
+      if (elementName.equals("semantics")) 
+      {
+        // Creating a StartElement XMLNode !!
+        XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, uri, prefix), new XMLAttributes(), new XMLNamespaces());
+        xmlNode.setParent(parentASTNode);
+        
+        return xmlNode;
+      }
+    }
+    // We are inside a mathML 'semantics' element, everything is read into an XMLNode    
+    else if (contextObject instanceof XMLNode) 
+    {
+      // Creating a StartElement XMLNode !!
+      XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, uri, prefix), new XMLAttributes(), new XMLNamespaces());
+      XMLNode parentNode = (XMLNode) contextObject;
+
+      parentNode.addChild(xmlNode);
+      
+      return xmlNode;
+    }
+    else 
+    {
       // Should never happen
       logger.debug("processStartElement: !!!!!!!!!!! Should not have been here !!!!!!!!!!!");
       logger.debug("processStartElement: contextObject.classname = " + contextObject.getClass().getName());
