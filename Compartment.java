@@ -14,29 +14,13 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-
 package de.zbit.sbml.layout;
 
 /**
  * @author Jakob Matthes
  * @version $Rev$
+ * @param <T> @see {@link SBGNNode}.
  */
-public abstract class Compartment<T> implements SBGNNode<T> {
-
-	// final because compartments never have clone markers	
-	private final boolean cloneMarker = false;
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
-	 */
-	public void setCloneMarker() {
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#isSetCloneMarker()
-	 */
-	public boolean isSetCloneMarker() {
-		return cloneMarker;
-	}
-
+public abstract class Compartment<T> extends AbstractSBGNnode<T> {
+  
 }

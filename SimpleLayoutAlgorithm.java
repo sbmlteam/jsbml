@@ -123,7 +123,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
   /**
    * The {@link Logger} for this class.
    */
-  private static Logger logger = Logger.getLogger(SimpleLayoutAlgorithm.class.toString());
+  private static final transient Logger logger = Logger.getLogger(SimpleLayoutAlgorithm.class.toString());
 
   /**
    * The {@link Layout} object of the SBML {@link Model}.

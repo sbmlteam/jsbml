@@ -45,7 +45,7 @@
  * {@link de.zbit.sbml.layout.SimpleChemical}, {@link de.zbit.sbml.layout.SourceSink},
  * {@link de.zbit.sbml.layout.UnspecifiedNode}
  * 
- * <li>Interface {@link de.zbit.sbml.layout.SBGNReactionNode}: SBGN process nodes,
+ * <li>Interface {@link de.zbit.sbml.layout.SBGNProcessNode}: SBGN process nodes,
  * supported: {@link de.zbit.sbml.layout.AssociationNode},
  * {@link de.zbit.sbml.layout.DissociationNode}, {@link de.zbit.sbml.layout.OmittedProcessNode},
  * {@link de.zbit.sbml.layout.ProcessNode}, {@link de.zbit.sbml.layout.UncertainProcessNode}

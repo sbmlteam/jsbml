@@ -17,10 +17,31 @@
 package de.zbit.sbml.layout;
 
 /**
- * @author Jakob Matthes
+ * @author Andreas Dr&auml;ger
  * @version $Rev$
- * @param <T>
+ * @param <T> @see {@link SBGNNode}
  */
-public abstract class PerturbingAgent<T> extends AbstractSBGNNodeWithCloneMarker<T> {
+public abstract class AbstractSBGNnode<T> implements SBGNNode<T> {
+  
+  /**
+   * Line width in px.
+   */
+  private double lineWidth = 1d;
+  
+  /* (non-Javadoc)
+   * @see de.zbit.sbml.layout.SBGNNode#getLineWidth()
+   */
+  @Override
+  public double getLineWidth() {
+    return lineWidth;
+  }
+  
+  /* (non-Javadoc)
+   * @see de.zbit.sbml.layout.SBGNNode#setLineWidth(double)
+   */
+  @Override
+  public void setLineWidth(double lineWidth) {
+    this.lineWidth = lineWidth;
+  }
   
 }

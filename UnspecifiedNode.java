@@ -14,32 +14,16 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-
 package de.zbit.sbml.layout;
 
 /**
- * interface all the different graphical representations for unspecified entity
- * pool nodes have to implement
+ * Abstract class that all the different graphical representations for
+ * unspecified entity pool nodes have to implement
  * 
  * @author Mirjam Gutekunst
  * @version $Rev$
+ * @param <T>
  */
-abstract public class UnspecifiedNode<T> implements SBGNNode<T> {
-	
-	private boolean cloneMarker = false;
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
-	 */
-	public void setCloneMarker() {
-		cloneMarker = true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#isSetCloneMarker()
-	 */
-	public boolean isSetCloneMarker() {
-		return cloneMarker;
-	}
-	
+public abstract class UnspecifiedNode<T> extends AbstractSBGNNodeWithCloneMarker<T> {
+  
 }

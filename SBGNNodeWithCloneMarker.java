@@ -17,10 +17,31 @@
 package de.zbit.sbml.layout;
 
 /**
- * @author Jakob Matthes
+ * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @param <T>
  */
-public abstract class PerturbingAgent<T> extends AbstractSBGNNodeWithCloneMarker<T> {
+public interface SBGNNodeWithCloneMarker<T> extends SBGNNode<T> {
+  
+  /**
+   * Method to set the boolean clone marker value if the clone marker should be
+   * drawn.
+   * 
+   * @param hasCloneMarker
+   *        if {@code true}, the glyph of the species should be drawn with a
+   *        clone marker
+   */
+  public void setCloneMarker(boolean hasCloneMarker);
+  
+  /**
+   * @return boolean value of the clone marker variable
+   */
+  public boolean hasCloneMarker();
+  
+  /**
+   * @return {@code true} if the clone marker property has been defined for this
+   *         node, {@code false} if this variable is not set.
+   */
+  public boolean isSetCloneMarker();
   
 }
