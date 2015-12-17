@@ -14,7 +14,6 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-
 package de.zbit.sbml.layout;
 
 import org.sbml.jsbml.ext.layout.BoundingBox;
@@ -31,34 +30,36 @@ import org.sbml.jsbml.ext.layout.BoundingBox;
  * @author Mirjam Gutekunst
  * @version $Rev$
  * @param <T>
+ *        The concrete product type of this node. This can be, for instance, a
+ *        {@link String} command in some drawing language to actually draw this
+ *        node or some kind of node data structure in a graph drawing library
+ *        etc.
  */
 public interface SBGNNode<T> {
-	
-	/**
-	 * method for drawing an entity pool node with the specified position and
-	 * size of a {@link BoundingBox}
-	 * 
-	 * @param x coordinate of the point of a BoundingBox
-	 * @param y coordinate of the point of a BoundingBox
-	 * @param z coordinate of the point of a BoundingBox
-	 * @param width of a BoundingBox
-	 * @param height of a BoundingBox
-	 * @param depth of a BoundingBox
-	 * @return T as a graphical representation of any form
-	 */
-	public T draw(double x, double y, double z,
-			double width, double height, double depth);
-	
-	/**
-	 * method to set the boolean clone marker value to true if the clone marker
-	 * value is true, the glyph of the species should be drawn with a clone
-	 * marker
-	 */
-	public void setCloneMarker();
-	
-	/**
-	 * @return boolean value of the clone marker variable
-	 */
-	public boolean isSetCloneMarker();
-	
+  
+  /**
+   * Method for drawing an entity pool node with the specified position and
+   * size of a {@link BoundingBox}
+   * 
+   * @param x coordinate of the point of a BoundingBox
+   * @param y coordinate of the point of a BoundingBox
+   * @param z coordinate of the point of a BoundingBox
+   * @param width of a BoundingBox
+   * @param height of a BoundingBox
+   * @param depth of a BoundingBox
+   * @return T as a graphical representation of any form
+   */
+  public T draw(double x, double y, double z,
+    double width, double height, double depth);
+  
+  /**
+   * @return the lineWidth
+   */
+  public double getLineWidth();
+  
+  /**
+   * @param lineWidth the lineWidth to set
+   */
+  public void setLineWidth(double lineWidth);
+  
 }

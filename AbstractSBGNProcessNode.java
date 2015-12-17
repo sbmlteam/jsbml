@@ -17,10 +17,12 @@
 package de.zbit.sbml.layout;
 
 /**
- * @author Jakob Matthes
+ * 
+ * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @param <T>
  */
-public abstract class PerturbingAgent<T> extends AbstractSBGNNodeWithCloneMarker<T> {
+public abstract class AbstractSBGNProcessNode<T> extends AbstractSBGNnode<T> implements
+SBGNProcessNode<T> {
   
 }

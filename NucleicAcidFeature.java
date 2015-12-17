@@ -19,23 +19,8 @@ package de.zbit.sbml.layout;
 /**
  * @author Jakob Matthes
  * @version $Rev$
+ * @param <T>
  */
-public abstract class NucleicAcidFeature<T> implements SBGNNode<T> {
-
-	private boolean cloneMarker = false;
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
-	 */
-	public void setCloneMarker() {
-		cloneMarker = true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#isSetCloneMarker()
-	 */
-	public boolean isSetCloneMarker() {
-		return cloneMarker;
-	}
-
+public abstract class NucleicAcidFeature<T> extends AbstractSBGNNodeWithCloneMarker<T> {
+  
 }

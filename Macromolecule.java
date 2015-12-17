@@ -14,7 +14,6 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-
 package de.zbit.sbml.layout;
 
 /**
@@ -24,23 +23,8 @@ package de.zbit.sbml.layout;
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
+ * @param <T>
  */
-public abstract class Macromolecule<T> implements SBGNNode<T> {
-	
-	private boolean cloneMarker = false;
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
-	 */
-	public void setCloneMarker() {
-		cloneMarker = true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#isSetCloneMarker()
-	 */
-	public boolean isSetCloneMarker() {
-		return cloneMarker;
-	}
-	
+public abstract class Macromolecule<T> extends AbstractSBGNNodeWithCloneMarker<T> {
+  
 }

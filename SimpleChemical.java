@@ -14,32 +14,16 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-
 package de.zbit.sbml.layout;
 
 /**
- * interface all the different graphical representations for simple chemical
- * nodes have to implement
+ * Abstract class that all the different graphical representations for simple
+ * chemical nodes have to extend.
  * 
  * @author Mirjam Gutekunst
  * @version $Rev$
+ * @param <T>
  */
-public abstract class SimpleChemical<T> implements SBGNNode<T> {
-	
-	private boolean cloneMarker = false;
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
-	 */
-	public void setCloneMarker() {
-		cloneMarker = true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#isSetCloneMarker()
-	 */
-	public boolean isSetCloneMarker() {
-		return cloneMarker;
-	}
-	
+public abstract class SimpleChemical<T> extends AbstractSBGNNodeWithCloneMarker<T> {
+  
 }

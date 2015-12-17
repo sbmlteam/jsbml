@@ -14,32 +14,16 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-
 package de.zbit.sbml.layout;
 
 /**
- * interface all the different graphical representations for the empty set sign
- * have to implement
+ * Abstract class that all the different graphical representations for the empty
+ * set sign have to implement
  * 
  * @author Mirjam Gutekunst
  * @version $Rev$
+ * @param <T>
  */
-public abstract class SourceSink<T> implements SBGNNode<T> {
-	
-	//final because source or sink never have clone markers	
-	private final boolean cloneMarker = false;
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
-	 */
-	//does nothing
-	public void setCloneMarker() {}
-	
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.SBGNNode#isSetCloneMarker()
-	 */
-	public boolean isSetCloneMarker() {
-		return cloneMarker;
-	}
-	
+public abstract class SourceSink<T> extends AbstractSBGNnode<T> {
+  
 }

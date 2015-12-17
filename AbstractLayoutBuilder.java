@@ -211,9 +211,9 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
    * reaction.
    * 
    * @param sboTerm of the reaction
-   * @return correct {@link SBGNReactionNode} for the process
+   * @return correct {@link SBGNProcessNode} for the process
    */
-  public SBGNReactionNode<NodeT> getSBGNReactionNode(int sboTerm) {
+  public SBGNProcessNode<NodeT> getSBGNReactionNode(int sboTerm) {
     // reaction is an omitted process
     if (SBO.isChildOf(sboTerm, SBO.getTransitionOmitted())) {
       return createOmittedProcessNode();
