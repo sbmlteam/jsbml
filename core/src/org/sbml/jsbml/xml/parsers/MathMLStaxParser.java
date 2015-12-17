@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.tree.TreeNode;
-import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
@@ -273,28 +272,14 @@ public class MathMLStaxParser implements ReadingParser {
       }
       
       // if elementName.equals(semantics) add all child elements as semanticsAnnotation to the parent ASTNode !
-      if (elementName.equals("semantics")) 
+      if (elementName.equals("annotation") || elementName.equals("annotation-xml")) 
       {
         TreeNode parentNode = xmlNode.getParent();
         
         if (parentNode instanceof ASTNode) 
         {
-          // we are at the end of the top level 'semantics' element.
-          // adding all child elements that are not empty as semanticAnnotation // TODO - keep the top level 'semantics' element if not empty. 
-          
-          for (XMLNode childNode : xmlNode.getChildElements(null, null)) 
-          {
-            if (childNode.isText() && childNode.getCharacters().trim().length() == 0) {
-              continue;
-            }
-            ((ASTNode) parentNode).addSemanticsAnnotation(childNode);
-            
-//            try {
-//              System.out.println("MathMLStaxParser - processEndElement - semantic annotation = \n" + childNode.toXMLString());
-//            } catch (XMLStreamException e) {
-//              e.printStackTrace();
-//            }
-          }
+          // we are at the end of the annotation or annotation-xml elements.
+          ((ASTNode) parentNode).addSemanticsAnnotation(xmlNode);
           
           // System.out.println("MathMLStaxParser - processEndElement - num semantic annotation = " + ((ASTNode) parentNode).getNumSemanticsAnnotations());
         }
@@ -321,7 +306,8 @@ public class MathMLStaxParser implements ReadingParser {
       // add other type of ASTNode in the test ??
       if ((astNode.isFunction() || astNode.isOperator() || astNode.isRelational() ||
           astNode.isLogical()) && !elementName.equals("apply") && !elementName.equals("piecewise")
-          && !elementName.equals("lamdba") && !astNode.getType().equals(ASTNode.Type.LAMBDA))
+          && !elementName.equals("lamdba") && !astNode.getType().equals(ASTNode.Type.LAMBDA)
+          && !elementName.equals("semantics"))
       {
         if (logger.isDebugEnabled()) {
           logger.debug("processEndElement : stack stay the same. ASTNode type = " + astNode.getType());
@@ -381,7 +367,8 @@ public class MathMLStaxParser implements ReadingParser {
 
     if (elementName.equals("math") || elementName.equals("apply") || elementName.equals("sep")
         || elementName.equals("piece") || elementName.equals("otherwise")
-        || elementName.equals("bvar") || elementName.equals("degree") || elementName.equals("logbase"))
+        || elementName.equals("bvar") || elementName.equals("degree") || elementName.equals("logbase")
+        || elementName.equals("semantics"))
     {
       if (elementName.equals("apply"))
       {
@@ -420,7 +407,7 @@ public class MathMLStaxParser implements ReadingParser {
         // System.out.println("MathMLStaxParser: processStartElement parent type: " + parentASTNode.getType());
       }
       
-      if (elementName.equals("semantics")) 
+      if (elementName.equals("annotation") || elementName.equals("annotation-xml")) 
       {
         // Creating a StartElement XMLNode !!
         XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, uri, prefix), new XMLAttributes(), new XMLNamespaces());
@@ -437,7 +424,7 @@ public class MathMLStaxParser implements ReadingParser {
       
       // if semantics, create a new XMLNode and return it. Set the ASTNode as the parent so that
       // we can add the semanticsAnnotation element in the #processEndElement method.
-      if (elementName.equals("semantics")) 
+      if (elementName.equals("annotation") || elementName.equals("annotation-xml")) 
       {
         // Creating a StartElement XMLNode !!
         XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, uri, prefix), new XMLAttributes(), new XMLNamespaces());
