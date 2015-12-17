@@ -374,6 +374,13 @@ public class ASTNode extends AbstractTreeNode {
      */
     TIMES,
     /**
+     * MathML markup can be combined with other markup languages, and these mixing constructions are realized by the semantic
+     * annotation elements. The semantic annotation elements provide an important tool for making associations between 
+     * alternate representations of an expression, and for associating semantic properties and other attributions with 
+     * a MathML expression. 
+     */
+    SEMANTICS,
+    /**
      * 
      */
     UNKNOWN,
@@ -3145,6 +3152,18 @@ public class ASTNode extends AbstractTreeNode {
         || type == Type.RELATIONAL_LT || type == Type.RELATIONAL_NEQ;
   }
 
+  
+  /**
+   * Return true if this node contain some semantics annotations.
+   * 
+   * @return true if this node contain some semantics annotations.
+   * @see #getNumSemanticsAnnotations()
+   */
+  public boolean isSemantics() {
+    return getNumSemanticsAnnotations() > 0;
+  }
+  
+  
   /**
    * @return
    */
