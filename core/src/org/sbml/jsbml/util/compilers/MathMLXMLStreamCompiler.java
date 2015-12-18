@@ -39,6 +39,8 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
 
@@ -161,9 +163,27 @@ public class MathMLXMLStreamCompiler {
       writer.writeCharacters("\n");
 
       writer.setPrefix("math", ASTNode.URI_MATHML_DEFINITION);
-
+      
+      // if an ASTNode.isSemantics we need to write the enclosing 'semantics' element !!
+      if (astNode.isSemantics()) {
+        writer.writeCharacters(compiler.indent);
+        compiler.indent += "  ";
+        writer.writeStartElement("semantics");
+        writer.writeCharacters("\n");
+      }
+      
       compiler.compile(astNode);
 
+      // writing the semantics annotation elements here to write them only for the top level element.
+      if (astNode.isSemantics()) {
+        
+        compiler.compileSemanticAnnotations(astNode);
+        
+        writer.writeCharacters("  ");
+        writer.writeEndElement();
+        writer.writeCharacters("\n");
+      }
+      
       writer.writeEndElement();
       writer.writeEndDocument();
       writer.close();
@@ -357,6 +377,9 @@ public class MathMLXMLStreamCompiler {
       case VECTOR:
         compileVector(astNode);
         break;
+//      case SEMANTICS:
+//        compileSemantics(astNode);
+//        break;
       default: // UNKNOWN:
         logger.warn("!!!!! I don't know what to do with the node of type " + astNode.getType());
         break;
@@ -446,7 +469,7 @@ public class MathMLXMLStreamCompiler {
       writer.writeCharacters(indent);
       writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "exponentiale");
       writer.writeCharacters("\n");
-
+      
     } catch (XMLStreamException e) {
       e.printStackTrace();
     }
@@ -1001,6 +1024,41 @@ public class MathMLXMLStreamCompiler {
       e.printStackTrace();
     }
   }
+
+  
+  /**
+   * @param node
+   */
+  public void compileSemanticAnnotations(ASTNode node) {
+
+    try {
+
+      if (node.getNumSemanticsAnnotations() > 0) 
+      {
+        // TODO - use the current 'indent' value to initialize the XMLNodeWriter
+        XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, 0, 2, ' ');
+        
+        for (int i = 0; i < node.getNumSemanticsAnnotations(); i++)
+        {
+          XMLNode xmlNode = node.getSemanticsAnnotation(i);
+
+          writer.writeCharacters(indent);
+          xmlNodeWriter.write(xmlNode);
+          writer.writeCharacters("\n");          
+        }
+      }
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+  }
+
+//  private void compileSemantics(ASTNode astNode) {
+//    // would be needed for ASTNode2 may be ?
+//  }
+
 
   /**
    * @param args

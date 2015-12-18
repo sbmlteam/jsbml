@@ -886,12 +886,15 @@ public class SBMLReader {
       // All the element should have a namespace.
       if (elementNamespace != null) {
 
+        // TODO - change the way we deal with notes, message and annotation and just use the context object ! If XMLNode, we use the 'anyXML' parser
+        // it will allow us to deal easily with unknowns XML elements.
+        
         parser = initializedParsers.get(elementNamespace);
         // if the current node is a notes or message element
         // and the matching ReadingParser is a XMLNodeReader,
         // we need to set the typeOfNotes variable of the
         // XMLNodeReader instance.
-        if (currentNode.getLocalPart().equals("notes")
+        if (currentNode.getLocalPart().equals("notes") 
             || currentNode.getLocalPart().equals("message")
             || currentNode.getLocalPart().equals("annotation"))
         {

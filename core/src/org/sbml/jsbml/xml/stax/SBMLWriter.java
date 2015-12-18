@@ -786,6 +786,7 @@ public class SBMLWriter {
       // Creating an SMOutputElement to be sure that the previous nested element tag is closed properly.
       SMNamespace mathMLNamespace = element.getNamespace(ASTNode.URI_MATHML_DEFINITION, ASTNode.URI_MATHML_PREFIX);
       SMOutputElement mathElement = element.addElement(mathMLNamespace, "math");
+      
       MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
         writer, createIndentationString(indent + indentCount));
       boolean isSBMLNamespaceNeeded = compiler.isSBMLNamespaceNeeded(m.getMath());
@@ -817,7 +818,26 @@ public class SBMLWriter {
       writer.writeCharacters(whitespaces);
       writer.writeCharacters("\n");
 
+      ASTNode astNode = m.getMath();
+      
+      // if an ASTNode.isSemantics we need to write the enclosing 'semantics' element !!
+      if (astNode.isSemantics()) {
+        writer.writeCharacters(whitespaces);
+        writer.writeStartElement("semantics");
+        writer.writeCharacters("\n");
+      }
+      
       compiler.compile(m.getMath());
+
+      // writing the semantics annotation elements here to write them only for the top level element.
+      if (astNode.isSemantics()) {
+        
+        compiler.compileSemanticAnnotations(astNode);
+        
+        writer.writeCharacters(whitespaces);
+        writer.writeEndElement();
+        writer.writeCharacters("\n");
+      }
 
       writer.writeCharacters(whitespaces);
     }
