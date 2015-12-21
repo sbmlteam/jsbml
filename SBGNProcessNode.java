@@ -16,7 +16,8 @@
  */
 package de.zbit.sbml.layout;
 
-import org.sbml.jsbml.ext.layout.LineSegment;
+import org.sbml.jsbml.ext.layout.Curve;
+import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Point;
 
 /**
@@ -29,9 +30,22 @@ import org.sbml.jsbml.ext.layout.Point;
  * 
  * @author Meike Aichele
  * @version $Rev$
- * @param <T>
+ * @param <T> The concrete data type for a particular implementation of this node.
  */
 public interface SBGNProcessNode<T> extends SBGNNode<T> {
+  
+  /**
+   * Draw a whole curve consisting of multiple curve segments with the given
+   * line width.
+   * 
+   * @param curve
+   *        the {@link Curve} to draw
+   * @param lineWidth the width of the curve on the screen.
+   * @param rotationAngle
+   * @param rotationCenter
+   * @return T graphical representation of the curve
+   */
+  public T draw(Curve curve, double rotationAngle, Point rotationCenter);
   
   /**
    * 
@@ -40,7 +54,7 @@ public interface SBGNProcessNode<T> extends SBGNNode<T> {
    * @param rotationCenter
    * @return
    */
-  public T drawLineSegment(LineSegment segment, double rotationAngle,
+  public T drawCurveSegment(CurveSegment segment, double rotationAngle,
     Point rotationCenter);
   
   /**

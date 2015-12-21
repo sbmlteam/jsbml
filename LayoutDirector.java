@@ -52,8 +52,10 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 import org.sbml.jsbml.util.StringTools;
 
+import de.zbit.graph.sbgn.DrawingOptions;
 import de.zbit.io.csv.CSVReader;
 import de.zbit.sbml.util.SBMLtools;
+import de.zbit.util.prefs.SBPreferences;
 
 /**
  * {@link LayoutDirector} produces a graphical representation of a layout of an
@@ -68,6 +70,11 @@ import de.zbit.sbml.util.SBMLtools;
 public class LayoutDirector<P> implements Runnable {
   
   /**
+   * User preferences.
+   */
+  private static final transient SBPreferences prefs = SBPreferences.getPreferencesFor(DrawingOptions.class);
+  
+  /**
    * 
    */
   public static final String SPECIAL_ROTATION_NEEDED = "SPECIAL_ROTATION_NEEDED";
@@ -80,7 +87,7 @@ public class LayoutDirector<P> implements Runnable {
   /**
    *
    */
-  private static final double DEFAULT_CURVE_WIDTH = 1d;
+  private static final double DEFAULT_CURVE_WIDTH = prefs.getDouble(DrawingOptions.EDGE_LINE_WIDTH);
   
   /**
    * A {@link Logger} for this class
@@ -639,7 +646,7 @@ public class LayoutDirector<P> implements Runnable {
    * {@link LayoutBuilder#buildProcessNode} and
    * {@link LayoutBuilder#buildConnectingArc} of the builder.
    *
-   * @param reactionGlyph
+   * @param reactionGlyph the object to be drawn
    */
   private void handleReactionGlyph(ReactionGlyph reactionGlyph) {
     

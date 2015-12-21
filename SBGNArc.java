@@ -33,37 +33,40 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
  * 
  * @author Mirjam Gutekunst
  * @version $Rev$
+ * @param <T> The concrete datatype for a particular implementation of this arc.
  */
 public interface SBGNArc<T> {
-	
-	/**
-	 * Method for drawing the connecting arc, with appropriate line ending and the
-	 * given line width
-	 * 
-	 * @param curveSegment
-	 *        a {@link CurveSegment} of the {@link Curve} of the
-	 *        {@link SpeciesReferenceGlyph}
-	 * @return T as a graphical representation of any form
-	 */
-	public T draw(CurveSegment curveSegment, double lineWidth);
-	
-	/**
-	 * Draw a whole curve consisting of multiple curve segments with the given
-	 * line width.
-	 * 
-	 * @param curve
-	 *        the {@link Curve} to draw
-	 * @return T graphical representation of the curve
-	 */
-	public T draw(Curve curve, double lineWidth);
-	
-	/**
-	 * Draw a whole curve consisting of multiple curve segments.
-	 * 
-	 * @param curve
-	 *        the {@link Curve} to draw
-	 * @return T graphical representation of the curve
-	 */
-	public T draw(Curve curve);
-
+  
+  /**
+   * Method for drawing the connecting arc, with appropriate line ending and the
+   * given line width
+   * 
+   * @param curveSegment
+   *        a {@link CurveSegment} of the {@link Curve} of the
+   *        {@link SpeciesReferenceGlyph}
+   * @param lineWidth the width of the curve on the screen.
+   * @return T as a graphical representation of any form
+   */
+  public T draw(CurveSegment curveSegment, double lineWidth);
+  
+  /**
+   * Draw a whole curve consisting of multiple curve segments with the given
+   * line width.
+   * 
+   * @param curve
+   *        the {@link Curve} to draw
+   * @param lineWidth the width of the curve on the screen.
+   * @return T graphical representation of the curve
+   */
+  public T draw(Curve curve, double lineWidth);
+  
+  /**
+   * Draw a whole curve consisting of multiple curve segments.
+   * 
+   * @param curve
+   *        the {@link Curve} to draw
+   * @return T graphical representation of the curve
+   */
+  public T draw(Curve curve);
+  
 }

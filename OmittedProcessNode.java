@@ -16,55 +16,11 @@
  */
 package de.zbit.sbml.layout;
 
-import org.sbml.jsbml.ext.layout.Point;
-
 /**
  * @author Meike Aichele
- * @param <T>
- *
+ * @version $Rev$
+ * @param <T> The concrete data type for a particular implementation of this node.
  */
-public abstract class OmittedProcessNode<T> extends AbstractSBGNProcessNode<T> {
-  
-  /**
-   * 
-   */
-  private Point pointOfContactToProduct;
-  
-  /**
-   * 
-   */
-  private Point pointOfContactToSubstrate;
-  
-  /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#setPointOfContactToSubstrate(org.sbml.jsbml.ext.layout.Point)
-   */
-  @Override
-  public void setPointOfContactToSubstrate(Point pointOfContactToSubstrate) {
-    this.pointOfContactToSubstrate = pointOfContactToSubstrate;
-  }
-  
-  /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#getPointOfContactToSubstrate()
-   */
-  @Override
-  public Point getPointOfContactToSubstrate() {
-    return pointOfContactToSubstrate;
-  }
-  
-  /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#setPointOfContactToProduct(org.sbml.jsbml.ext.layout.Point)
-   */
-  @Override
-  public void setPointOfContactToProduct(Point pointOfContactToProduct) {
-    this.pointOfContactToProduct = pointOfContactToProduct;
-  }
-  
-  /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#getPointOfContactToProduct()
-   */
-  @Override
-  public Point getPointOfContactToProduct() {
-    return pointOfContactToProduct;
-  }
+public interface OmittedProcessNode<T> extends SBGNProcessNode<T> {
   
 }
