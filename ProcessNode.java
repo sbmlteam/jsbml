@@ -16,55 +16,11 @@
  */
 package de.zbit.sbml.layout;
 
-import org.sbml.jsbml.ext.layout.Point;
-
 /**
  * @author Jakob Matthes
  * @version $Rev$
- * @param <T>
+ * @param <T> The concrete data type for a particular implementation of this node.
  */
-public abstract class ProcessNode<T> extends AbstractSBGNProcessNode<T> {
-  
-  /**
-   *  Position where the curve of the substrate ends at the process node
-   */
-  private Point pointOfContactToSubstrate;
-  
-  /**
-   * Position where the curve to the product begins at the process node
-   */
-  private Point pointOfContactToProduct;
-  
-  /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#setPointOfContactToSubstrate(org.sbml.jsbml.ext.layout.Point)
-   */
-  @Override
-  public void setPointOfContactToSubstrate(Point pointOfContactToSubstrate) {
-    this.pointOfContactToSubstrate = pointOfContactToSubstrate;
-  }
-  
-  /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#getPointOfContactToSubstrate()
-   */
-  @Override
-  public Point getPointOfContactToSubstrate() {
-    return pointOfContactToSubstrate;
-  }
-  
-  /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#setPointOfContactToProduct(org.sbml.jsbml.ext.layout.Point)
-   */
-  @Override
-  public void setPointOfContactToProduct(Point pointOfContactToProduct) {
-    this.pointOfContactToProduct = pointOfContactToProduct;
-  }
-  
-  /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#getPointOfContactToProduct()
-   */
-  @Override
-  public Point getPointOfContactToProduct() {
-    return pointOfContactToProduct;
-  }
+public interface ProcessNode<T> extends SBGNProcessNode<T> {
   
 }

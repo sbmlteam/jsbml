@@ -16,13 +16,73 @@
  */
 package de.zbit.sbml.layout;
 
+import org.sbml.jsbml.ext.layout.Curve;
+import org.sbml.jsbml.ext.layout.CurveSegment;
+import org.sbml.jsbml.ext.layout.Point;
+
 /**
  * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$
- * @param <T>
+ * @param <T>  The concrete data type for a particular implementation of this node.
  */
 public abstract class AbstractSBGNProcessNode<T> extends AbstractSBGNnode<T> implements
 SBGNProcessNode<T> {
+  
+  /**
+   * Position where the curve to the product begins at the process node
+   */
+  private Point pointOfContactToProduct;
+  
+  /**
+   *  Position where the curve of the substrate ends at the process node
+   */
+  private Point pointOfContactToSubstrate;
+  
+  /* (non-Javadoc)
+   * @see de.zbit.sbml.layout.SBGNProcessNode#draw(org.sbml.jsbml.ext.layout.Curve, double, org.sbml.jsbml.ext.layout.Point)
+   */
+  @Override
+  public T draw(Curve curve, double rotationAngle, Point rotationCenter) {
+    T product = null;
+    if (curve.isSetListOfCurveSegments()) {
+      for (CurveSegment segment : curve.getListOfCurveSegments()) {
+        product = drawCurveSegment(segment, rotationAngle, rotationCenter);
+      }
+    }
+    return product;
+  }
+  
+  /* (non-Javadoc)
+   * @see de.zbit.sbml.layout.SBGNReactionNode#getPointOfContactToProduct()
+   */
+  @Override
+  public Point getPointOfContactToProduct() {
+    return pointOfContactToProduct;
+  }
+  
+  /* (non-Javadoc)
+   * @see de.zbit.sbml.layout.SBGNReactionNode#getPointOfContactToSubstrate()
+   */
+  @Override
+  public Point getPointOfContactToSubstrate() {
+    return pointOfContactToSubstrate;
+  }
+  
+  /* (non-Javadoc)
+   * @see de.zbit.sbml.layout.SBGNReactionNode#setPointOfContactToProduct(org.sbml.jsbml.ext.layout.Point)
+   */
+  @Override
+  public void setPointOfContactToProduct(Point pointOfContactToProduct) {
+    this.pointOfContactToProduct = pointOfContactToProduct;
+  }
+  
+  /* (non-Javadoc)
+   * @see de.zbit.sbml.layout.SBGNReactionNode#setPointOfContactToSubstrate(org.sbml.jsbml.ext.layout.Point)
+   */
+  @Override
+  public void setPointOfContactToSubstrate(Point pointOfContactToSubstrate) {
+    this.pointOfContactToSubstrate = pointOfContactToSubstrate;
+  }
   
 }
