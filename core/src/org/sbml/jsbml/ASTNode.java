@@ -374,10 +374,12 @@ public class ASTNode extends AbstractTreeNode {
      */
     TIMES,
     /**
-     * MathML markup can be combined with other markup languages, and these mixing constructions are realized by the semantic
-     * annotation elements. The semantic annotation elements provide an important tool for making associations between 
-     * alternate representations of an expression, and for associating semantic properties and other attributions with 
-     * a MathML expression. 
+     * MathML markup can be combined with other markup languages, and these
+     * mixing constructions are realized by the semantic annotation elements.
+     * The semantic annotation elements provide an important tool for making 
+     * associations between alternate representations of an expression, and for
+     * associating semantic properties and other attributions with a MathML
+     * expression.
      */
     SEMANTICS,
     /**
@@ -1091,6 +1093,15 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
+   * @param mathML a {@link String} in MathML format.
+   * @return An {@link ASTNode} representation of the given MathML {@link String}.
+   * @see #readMathMLFromString(String)
+   */
+  public static ASTNode parseMathML(String mathML) {
+    return readMathMLFromString(mathML);
+  }
+
+  /**
    * Creates a piecewise {@link ASTNode}.
    * 
    * <p>At least one {@link ASTNode} must be given
@@ -1402,8 +1413,8 @@ public class ASTNode extends AbstractTreeNode {
    * XMLNode that will hold the content of the 'semantics' mathML element.
    */
   private List<XMLNode> semanticsAnnotationList;
-  
-  
+
+
   /**
    * Tells if the type attribute of the cn element was set and we need to
    * write it back or if it is set to the default (REAL).
@@ -1504,7 +1515,7 @@ public class ASTNode extends AbstractTreeNode {
     className = astNode.className;
     encoding = astNode.encoding;
     style = astNode.style;
-    
+
     if (astNode.getChildCount() > 0) {
       for (ASTNode child : astNode.listOfNodes) {
         ASTNode c = child.clone();
@@ -1512,10 +1523,10 @@ public class ASTNode extends AbstractTreeNode {
         listOfNodes.add(c);
       }
     }
-    
+
     if (astNode.semanticsAnnotationList != null) {
       semanticsAnnotationList = new ArrayList<XMLNode>();
-      
+
       for (XMLNode semanticsAnnotation : astNode.semanticsAnnotationList) {
         semanticsAnnotationList.add(semanticsAnnotation.clone());
       }
@@ -2294,7 +2305,7 @@ public class ASTNode extends AbstractTreeNode {
       if (equal && isSetUnits()) {
         equal &= getUnits().equals(ast.getUnits());
       }
-      
+
       // TODO - semanticsAnnotationList not part of equals or hashcode ?
     }
     return equal;
@@ -2379,7 +2390,7 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public TreeNode getChildAt(int i) {
     return getChild(i);
-    
+
     // TODO - add semantics XMLNode ??
   }
 
@@ -2389,8 +2400,8 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public int getChildCount() {
     return listOfNodes == null ? 0 : listOfNodes.size();
-    
- // TODO - add semantics XMLNode ??
+
+    // TODO - add semantics XMLNode ??
   }
 
   /**
@@ -2836,7 +2847,7 @@ public class ASTNode extends AbstractTreeNode {
     }
     // TODO - semanticsAnnotationList not part of equals or hashcode ?
 
-    
+
     return hashCode;
   }
 
@@ -3152,7 +3163,7 @@ public class ASTNode extends AbstractTreeNode {
         || type == Type.RELATIONAL_LT || type == Type.RELATIONAL_NEQ;
   }
 
-  
+
   /**
    * Return true if this node contain some semantics annotations.
    * 
@@ -3162,8 +3173,8 @@ public class ASTNode extends AbstractTreeNode {
   public boolean isSemantics() {
     return getNumSemanticsAnnotations() > 0;
   }
-  
-  
+
+
   /**
    * @return
    */
@@ -4403,7 +4414,8 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
-   * Adds the given {@link XMLNode} as a MathML  <code>&lt;semantics&gt;</code> element to this {@link ASTNode}. 
+   * Adds the given {@link XMLNode} as a MathML  {@code <semantics>}
+   * element to this {@link ASTNode}.
    * 
    * <p>
    * The {@code <semantics>} element is a MathML&nbsp;2.0 construct
@@ -4427,12 +4439,12 @@ public class ASTNode extends AbstractTreeNode {
     if (semanticsAnnotationList == null) {
       semanticsAnnotationList = new ArrayList<XMLNode>();
     }
-    
+
     semanticsAnnotationList.add(semanticsAnnotation);
-    
+
     return semanticsAnnotation;
   }
-  
+
   /**
    * Gets the number of <em>semantic annotation</em> elements inside this node.
    * 
@@ -4450,7 +4462,7 @@ public class ASTNode extends AbstractTreeNode {
    *
    * @return the number of annotations of this {@link ASTNode}.
    * @see ASTNode#addSemanticsAnnotation(XMLNode semanticsAnnotation)
-   */ 
+   */
   public int getNumSemanticsAnnotations() {
     if (semanticsAnnotationList == null) {
       return 0;
@@ -4479,7 +4491,7 @@ public class ASTNode extends AbstractTreeNode {
    * {@link ASTNode#getNumSemanticsAnnotations()}
    * <code>- 1</code> or n < 0).
    * @see ASTNode#addSemanticsAnnotation(XMLNode sAnnotation)
-   */ 
+   */
   public XMLNode getSemanticsAnnotation(int n) {
     if (semanticsAnnotationList == null || n < 0 || (n > (getNumSemanticsAnnotations() -1))) {
       return null;
@@ -4487,7 +4499,7 @@ public class ASTNode extends AbstractTreeNode {
 
     return semanticsAnnotationList.get(n);
   }
-  
+
   /**
    * Returns the list of semantics annotations of this node.
    * 
@@ -4496,8 +4508,8 @@ public class ASTNode extends AbstractTreeNode {
   public List<XMLNode> getListOfSemanticsAnnotations() {
     return semanticsAnnotationList;
   }
-  
+
   // TODO - removeSemanticsAnnotation
   // TODO - unsetsemanticsAnnotation
-  
+
 }

@@ -123,7 +123,21 @@ public class Curve extends AbstractNamedSBase {
   }
 
   /**
-   * Creates a new {@link CubicBezier} instance, adds it to this {@link Curve} and returns it.
+   * 
+   * @param start
+   * @param end
+   * @return
+   */
+  public LineSegment createLineSegment(Point start, Point end) {
+    LineSegment cs = createLineSegment();
+    cs.setStart(start);
+    cs.setEnd(end);
+    return cs;
+  }
+
+  /**
+   * Creates a new {@link CubicBezier} instance, adds it to this {@link Curve}.
+   * and returns it.
    * 
    * @return the new {@link CubicBezier} instance
    */
@@ -133,6 +147,22 @@ public class Curve extends AbstractNamedSBase {
     return cs;
   }
 
+  /**
+   * 
+   * @param start
+   * @param basePoint1
+   * @param basePoint2
+   * @param end
+   * @return
+   */
+  public CubicBezier createCubicBezier(Point start, Point basePoint1, Point basePoint2, Point end) {
+    CubicBezier cs = createCubicBezier();
+    cs.setStart(start);
+    cs.setBasePoint1(basePoint1);
+    cs.setBasePoint2(basePoint2);
+    cs.setEnd(end);
+    return cs;
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
