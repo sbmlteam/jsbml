@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -72,6 +73,8 @@ public class TestInfixReadingWriting {
       files = new File[1];
       files[0] = argsAsFile;
     }
+    
+    Arrays.sort(files);
 
     long init = Calendar.getInstance().getTimeInMillis();
     List<String> differences = new ArrayList<String>();
@@ -83,7 +86,6 @@ public class TestInfixReadingWriting {
     for (File file : files)
     {
       String fileName = file.getAbsolutePath();
-
       // read the mathml, infix math input and expected output.
       
       byte[] encoded = null;
