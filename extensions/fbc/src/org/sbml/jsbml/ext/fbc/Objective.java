@@ -29,6 +29,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.filters.NameFilter;
@@ -230,25 +231,57 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
    * Creates a new {@link FluxObjective} element and adds it to the ListOfFluxObjectives list
    *
    * @param id the id for the new {@link FluxObjective}
-   * @return a new {@link FluxObjective} element
+   * @return the newly created {@link FluxObjective} element or {@code null} if
+   *         the operation failed.
    */
   public FluxObjective createFluxObjective(String id) {
     return createFluxObjective(id, null);
   }
 
   /**
-   * 
    * @param id
    * @param name
-   * @return
+   * @return the newly created {@link FluxObjective} element or {@code null} if
+   *         the operation failed.
    */
   public FluxObjective createFluxObjective(String id, String name) {
-    FluxObjective fluxObjective = new FluxObjective(id, name, getLevel(), getVersion());
-    getListOfFluxObjectives().add(fluxObjective);
-    return fluxObjective;
+    return createFluxObjective(id, name, Double.NaN, (Reaction) null);
+  }
+
+  /**
+   * 
+   * @param id
+   * @param name the name of the flux objective to be created, can be {@code null}.
+   * @param coefficient
+   * @param reaction
+   * @return the newly created {@link FluxObjective} element or {@code null} if
+   *         the operation failed.
+   */
+  public FluxObjective createFluxObjective(String id, String name, double coefficient,
+    Reaction reaction) {
+    return createFluxObjective(id, name, coefficient, reaction != null ? reaction.getId() : null);
   }
 
 
+  /**
+   * @param id
+   * @param name
+   * @param coefficient
+   * @param rId
+   * @return the newly created {@link FluxObjective} element or {@code null} if
+   *         the operation failed.
+   */
+  public FluxObjective createFluxObjective(String id, String name, double coefficient,
+    String rId) {
+    FluxObjective fluxObjective = new FluxObjective(id, name, getLevel(), getVersion());
+    if (!Double.isNaN(coefficient)) {
+      fluxObjective.setCoefficient(coefficient);
+    }
+    if (rId != null) {
+      fluxObjective.setReaction(rId);
+    }
+    return getListOfFluxObjectives().add(fluxObjective) ? fluxObjective : null;
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
@@ -332,7 +365,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfFluxObjectives.setPackageName(null);
       listOfFluxObjectives.setPackageName(FBCConstants.shortLabel);
       listOfFluxObjectives.setSBaseListType(ListOf.Type.other);
-      
+
       registerChild(listOfFluxObjectives);
     }
     return listOfFluxObjectives;
@@ -378,6 +411,9 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
     packageName = FBCConstants.shortLabel;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
   @Override
   public boolean isIdMandatory() {
     return true;
