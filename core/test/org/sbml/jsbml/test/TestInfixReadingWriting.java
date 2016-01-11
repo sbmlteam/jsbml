@@ -25,7 +25,9 @@ package org.sbml.jsbml.test;
 import java.io.File;
 import java.io.FileFilter;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.xml.XMLNode;
@@ -72,7 +74,11 @@ public class TestInfixReadingWriting {
     }
 
     long init = Calendar.getInstance().getTimeInMillis();
+    List<String> differences = new ArrayList<String>();
+    List<String> difference2s = new ArrayList<String>();
     int nbEquals = 0;
+    int nbEqualsIgnoreSpace = 0;
+    int nbTests = 0;
     
     for (File file : files)
     {
@@ -98,6 +104,8 @@ public class TestInfixReadingWriting {
           continue;
         }
         
+        nbTests++;
+        
         for (int i = 0; i < 2; i++) 
         {
           XMLNode xmlNode = astNode.getSemanticsAnnotation(i);
@@ -122,13 +130,28 @@ public class TestInfixReadingWriting {
         
         System.out.println("Infix input = '" + infixInput + "'");
         System.out.println("Infix output = '" + infixOutput + "'");
-        System.out.println("Infix expected output = '" + infixExpectedOutput + "'");
+        System.out.print("Infix expected output = '" + infixExpectedOutput + "'");
        
+        boolean different = true;
+        
         if (infixOutput != null && infixOutput.equals(infixExpectedOutput)) {
           nbEquals++;
-          System.out.println("#########################################################");
+          System.out.print("  ###");
+          different = false;
         }
-        
+        if (infixOutput != null && infixOutput.replace(" ", "").equals(infixExpectedOutput.replace(" ", ""))) {
+          nbEqualsIgnoreSpace++;
+          System.out.println("  @@@");
+          different = false;
+        }
+        System.out.println("\n");
+
+        if (different) {
+          differences.add("input= '" + infixInput + "', output = '" + infixOutput + "' (expected output = '" + infixExpectedOutput + "')");
+        }
+        if (different && (infixInput.indexOf("%") == -1) && (infixExpectedOutput.indexOf("arc") == -1)) {
+          difference2s.add("input= '" + infixInput + "', output = '" + infixOutput + "' (expected output = '" + infixExpectedOutput + "')");
+        }
       }
       catch (Exception e) 
       {
@@ -138,7 +161,9 @@ public class TestInfixReadingWriting {
       
     }
     
-    System.out.println("Nb test where we have the same output = " + nbEquals);
+    System.out.println("Nb tests where we have the same output without considering spaces  = " + nbEqualsIgnoreSpace + " / " + nbTests
+      + " (" + (nbTests - nbEqualsIgnoreSpace) + " failed tests)");
+    System.out.println("Nb tests where we have the same output, including spaces = " + nbEquals + " (nb tests = " + nbTests + ")");
     
     long end = Calendar.getInstance().getTimeInMillis();
     long nbSecondes = (end - init)/1000;
@@ -147,6 +172,19 @@ public class TestInfixReadingWriting {
       System.out.println("It took " + nbSecondes/60 + " minutes.");
     } else {
       System.out.println("It took " + nbSecondes + " secondes.");
+    }
+    
+    if (differences.size() > 0) {
+      System.out.println("\n\n List of differences: \n");
+
+      for (String difference : differences) {
+        System.out.println(difference);
+      }
+    }
+    
+    if (difference2s.size() > 0) {
+      System.out.println("\n\nNb tests where we don't have the same output (excluding modulo and trigonometric operators) = " + difference2s.size()
+        + " (nb tests = " + nbTests + ")");
     }
   }
 }
