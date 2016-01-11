@@ -200,29 +200,77 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     return geneProduct;
   }
 
-
   /**
-   * Creates a new Objective element and adds it to the ListOfObjectives list
-   * @return
+   * Creates a new {@link Objective} element and adds it to the
+   * {@link #listOfObjectives}.
+   * @return the newly created {@link Objective} element or {@code null} if the
+   *         operation fails.
+   * @see #createObjective(String)
    */
   public Objective createObjective() {
     return createObjective(null);
   }
 
-
   /**
-   * Creates a new {@link Objective} element and adds it to the ListOfObjectives
-   * list
+   * Creates a new {@link Objective} element and adds it to the
+   * {@link #listOfObjectives}.
    * 
    * @param id
-   * @return a new {@link Objective} element
+   *        the identifier for the {@link Objective} of type SId, can be
+   *        {@code null}.
+   * @return the newly created {@link Objective} element or {@code null} if the
+   *         operation fails.
+   * @see #createObjective(String, Objective.Type)
    */
   public Objective createObjective(String id) {
-    Objective objective = new Objective(id);
-    addObjective(objective);
-    return objective;
+    return createObjective(id, null);
   }
 
+  /**
+   * Creates a new {@link Objective} element and adds it to the
+   * {@link #listOfObjectives}.
+   * 
+   * @param id
+   *        the identifier for the {@link Objective} of type SId, can be
+   *        {@code null}.
+   * @param type
+   *        the type of the {@link Objective}, i.e., maximize or minimize.
+   * @return the newly created {@link Objective} element or {@code null} if the
+   *         operation fails.
+   * @see #createObjective(String, String, Objective.Type)
+   */
+  public Objective createObjective(String id, Objective.Type type) {
+    return createObjective(id, null, type);
+  }
+
+  /**
+   * Creates a new {@link Objective} element and adds it to the
+   * {@link #listOfObjectives}.
+   * 
+   * @param id
+   *        the identifier for the {@link Objective} of type SId, can be
+   *        {@code null}.
+   * @param name
+   *        the name of the objective that is to be created, can be {@code null}
+   *        .
+   * @param type
+   *        the type of the {@link Objective}, i.e., maximize or minimize.
+   * @return the newly created {@link Objective} element or {@code null} if the
+   *         operation fails.
+   */
+  public Objective createObjective(String id, String name, Objective.Type type) {
+    Objective objective = new Objective(getLevel(), getVersion());
+    if (id != null) {
+      objective.setId(id);
+    }
+    if (name != null) {
+      objective.setName(name);
+    }
+    if (type != null) {
+      objective.setType(type);
+    }
+    return addObjective(objective) ? objective : null;
+  }
 
   /**
    * Gets the {@code activeObjective}.
