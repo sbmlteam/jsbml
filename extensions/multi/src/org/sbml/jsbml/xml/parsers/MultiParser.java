@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.JSBML;
@@ -40,6 +41,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.multi.IntraSpeciesReaction;
 import org.sbml.jsbml.ext.multi.MultiCompartmentPlugin;
@@ -148,8 +150,10 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
       if (!(contextObject instanceof SBMLDocument)) {
         contextObject = ((SBase) contextObject).getPlugin(getShortLabel());
       }
-    }
-
+    } else if (contextObject instanceof ASTNode) {
+      contextObject = ((ASTNode) contextObject).getPlugin(getShortLabel());
+    } // TODO - ASTNode2 ?
+    
     super.processAttribute(elementName, attributeName, value, uri, prefix, isLastAttribute, contextObject);
   }
 
@@ -335,5 +339,14 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
     return null;
   }
 
+  @Override
+  public ASTNodePlugin createPluginFor(ASTNode astNode) {
+
+    if (astNode != null) {
+      return null; // TODO
+    }
+
+    return null;
+  }
 
 }

@@ -23,7 +23,9 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.List;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 
 /**
@@ -45,6 +47,15 @@ public interface PackageParser {
    */
   public SBasePlugin createPluginFor(SBase sbase);
 
+  /**
+   * Creates a new {@link ASTNodePlugin} for the given {@link ASTNode}
+   * and add it to the {@link ASTNodePlugin} map of the {@link ASTNode}.
+   * 
+   * @param sbase - the astNode for which you want to create an {@link ASTNodePlugin}
+   * @return a new {@link ASTNodePlugin} corresponding to the given {@link ASTNode}.
+   */
+  public ASTNodePlugin createPluginFor(ASTNode astNode);
+  
   /**
    * Gets the namespace for this package that correspond to the given SBML level, version
    * and the package version.

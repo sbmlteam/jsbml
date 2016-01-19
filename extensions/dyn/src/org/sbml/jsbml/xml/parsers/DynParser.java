@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Event;
 
@@ -35,6 +36,7 @@ import java.lang.reflect.Method;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.dyn.DynCompartmentPlugin;
 import org.sbml.jsbml.ext.dyn.DynConstants;
@@ -328,6 +330,12 @@ public class DynParser extends AbstractReaderWriter implements PackageParser {
       }
     }
 
+    return null;
+  }
+
+  @Override
+  public ASTNodePlugin createPluginFor(ASTNode astNode) {
+    // This package does not extends ASTNode
     return null;
   }
 
