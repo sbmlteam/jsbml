@@ -32,6 +32,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBMLDocument;
@@ -39,6 +40,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.distrib.DistribConstants;
 import org.sbml.jsbml.ext.distrib.DistribFunctionDefinitionPlugin;
@@ -398,6 +400,12 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
         return new DistribSBasePlugin(sbase);
       }
     }
+    return null;
+  }
+  
+  @Override
+  public ASTNodePlugin createPluginFor(ASTNode astNode) {
+    // This package does not extends ASTNode
     return null;
   }
 

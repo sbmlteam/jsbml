@@ -56,10 +56,12 @@ import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
@@ -524,6 +526,12 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
       }
     }
 
+    return null;
+  }
+
+  @Override
+  public ASTNodePlugin createPluginFor(ASTNode astNode) {
+    // This package does not extends ASTNode
     return null;
   }
 

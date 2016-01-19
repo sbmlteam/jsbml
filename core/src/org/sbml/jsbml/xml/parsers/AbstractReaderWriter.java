@@ -36,6 +36,7 @@ import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.ListOfWithName;
 import org.sbml.jsbml.xml.XMLAttributes;
@@ -91,6 +92,10 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
     else if (contextObject instanceof SBasePlugin)
     {
       isAttributeRead = ((SBasePlugin) contextObject).readAttribute(attributeName, prefix, value);
+    }
+    else if (contextObject instanceof ASTNodePlugin)
+    {
+      isAttributeRead = ((ASTNodePlugin) contextObject).readAttribute(attributeName, prefix, value);
     }
 
     if (!isAttributeRead) {

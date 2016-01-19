@@ -149,7 +149,7 @@ public class TestInfixReadingWriting {
         System.out.println("\n");
 
         if (different) {
-          differences.add("input= '" + infixInput + "', output = '" + infixOutput + "' (expected output = '" + infixExpectedOutput + "')");
+          differences.add("input= '" + infixInput + "', output = '" + infixOutput + "' (expected output = '" + infixExpectedOutput + "') (" + fileName + ")");
         }
         if (different && (infixInput.indexOf("%") == -1) && (infixExpectedOutput.indexOf("arc") == -1)) {
           difference2s.add("input= '" + infixInput + "', output = '" + infixOutput + "' (expected output = '" + infixExpectedOutput + "')");

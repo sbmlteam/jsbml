@@ -33,6 +33,7 @@ import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.JSBML;
@@ -40,6 +41,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
@@ -864,6 +866,12 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
   @Override
   public boolean isRequired() {
     return false;
+  }
+
+  @Override
+  public ASTNodePlugin createPluginFor(ASTNode astNode) {
+    // This package does not extends ASTNode
+    return null;
   }
 
 }

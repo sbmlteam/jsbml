@@ -32,6 +32,7 @@ import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.text.parser.FormulaParser;
@@ -4507,6 +4508,11 @@ public class ASTNode extends AbstractTreeNode {
    */
   public List<XMLNode> getListOfSemanticsAnnotations() {
     return semanticsAnnotationList;
+  }
+
+  public ASTNodePlugin getPlugin(String shortLabel) {
+    // TODO Auto-generated method stub
+    return null;
   }
 
   // TODO - removeSemanticsAnnotation
