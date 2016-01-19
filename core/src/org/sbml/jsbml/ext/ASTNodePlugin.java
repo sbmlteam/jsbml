@@ -1,11 +1,10 @@
 /*
  * $Id$
  * $URL$
- *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2016 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -20,32 +19,38 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
+
 package org.sbml.jsbml.ext;
 
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 
+
 /**
- * Defines the methods necessary for an {@link SBase} Plugin. When an SBML level 3 package is
- * extending one of the core SBML elements with additional attributes or child
- * elements, an {@link SBasePlugin} is created to serve as a place holder for
+ * Defines the methods necessary for an {@link ASTNode} or {@link ASTNode2} Plugin. When a SBML level 3 is
+ * extending one of the mathML elements with additional attributes or child
+ * elements, a {@link ASTNodePlugin} is created to serve as a place holder for
  * these new attributes or elements.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
- * @since 1.0
+ * @since 1.2
  */
-public interface SBasePlugin extends TreeNodeWithChangeSupport {
-
+public interface ASTNodePlugin extends TreeNodeWithChangeSupport {
+  
   /**
-   * Creates a new instance of {@link SBasePlugin} from this {@link SBasePlugin}.
+   * Creates a new instance of {@link ASTNodePlugin} from this {@link ASTNodePlugin}.
    * 
-   * @return a new instance of {@link SBasePlugin} from this {@link SBasePlugin}.
+   * @return a new instance of {@link ASTNodePlugin} from this {@link ASTNodePlugin}.
    */
-  public SBasePlugin clone();
+  public ASTNodePlugin clone();
 
   @Override
   public boolean equals(Object obj);
@@ -59,11 +64,11 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
   public String getElementNamespace();
 
   /**
-   * Returns the SBase object that is extended by this plug-in.
+   * Returns the object that is extended by this plug-in.
    * 
-   * @return the SBase object that is extended by this plug-in.
+   * @return the object that is extended by this plug-in.
    */
-  public SBase getExtendedSBase();
+  public TreeNode getExtendedSBase();
 
   /**
    * Returns the SBML level of this plugin object.
@@ -89,9 +94,9 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
 
 
   /**
-   * Returns the parent {@link SBase} object to which this plugin object connected.
+   * Returns the parent {@link SBase} object to which this plugin object is connected.
    * 
-   * @return the parent {@link SBase} object to which this plugin object connected.
+   * @return the parent {@link SBase} object to which this plugin object is connected.
    */
   public SBase getParentSBMLObject();
 
@@ -111,13 +116,12 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
 
   /**
    * Gets the URI to which this element belongs to.
-   * 
    * For example, all elements that belong to SBML Level 3
    * Version 1 Core must have the URI
    * 'http://www.sbml.org/sbml/level3/version1/core'; all
    * elements that belong to Layout Extension Version 1 for
-   * SBML Level 3 Version 1 Core must have the URI
-   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/'
+   * SBML Level 3 Version 1 Core must would have the URI
+   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/'.
    * 
    * @return the URI for this element
    * @see #getElementNamespace()
@@ -136,9 +140,9 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
   public int hashCode();
 
   /**
-   * Check whether an extended SBase has been set.
+   * Checks whether an extended TreeNode has been set.
    * 
-   * @return true if an extended SBase has been set.
+   * @return true if an extended TreeNode has been set.
    */
   public boolean isSetExtendedSBase();
 
