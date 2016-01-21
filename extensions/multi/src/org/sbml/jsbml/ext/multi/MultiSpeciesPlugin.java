@@ -648,18 +648,13 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
 
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = true;
 
-    if (!isAttributeRead) {
-
-      if (attributeName.equals(MultiConstants.speciesType)) {
-        setSpeciesType(value);
-      }
-      else {
-        isAttributeRead = false;
-      }
+    if (attributeName.equals(MultiConstants.speciesType)) {
+      setSpeciesType(value);
+      return true;
     }
-    return isAttributeRead;
+
+    return false;
   }
 
 }
