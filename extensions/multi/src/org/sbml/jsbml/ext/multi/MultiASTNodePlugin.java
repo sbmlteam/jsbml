@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2014 jointly by the following organizations:
+ * Copyright (C) 2009-2016 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -24,7 +24,11 @@ package org.sbml.jsbml.ext.multi;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.ext.AbstractASTNodePlugin;
 
 /**
  *
@@ -32,7 +36,7 @@ import org.sbml.jsbml.SBMLException;
  * @version $Rev$
  * @since 1.1
  */
-public class MultiASTNodePlugin {
+public class MultiASTNodePlugin extends AbstractASTNodePlugin {
 
   /**
    * 
@@ -48,7 +52,22 @@ public class MultiASTNodePlugin {
    * 
    */
   public MultiASTNodePlugin() {
-    // TODO
+    super();
+  }
+
+  public MultiASTNodePlugin(MultiASTNodePlugin multiASTNodePlugin) {
+    super(multiASTNodePlugin);
+    
+    if (multiASTNodePlugin.isSetRepresentationType()) {
+      setRepresentationType(multiASTNodePlugin.getRepresentationType());
+    }
+    if (multiASTNodePlugin.isSetSpeciesReference()) {
+      setSpeciesReference(multiASTNodePlugin.getSpeciesReference());
+    }
+  }
+
+  public MultiASTNodePlugin(ASTNode astNode) {
+    super(astNode);
   }
 
   /**
@@ -84,7 +103,7 @@ public class MultiASTNodePlugin {
   public void setSpeciesReference(String speciesReference) {
     String oldSpeciesReference = this.speciesReference;
     this.speciesReference = speciesReference;
-    // firePropertyChange(MultiConstants.speciesReference, oldSpeciesReference, this.speciesReference);
+    firePropertyChange(MultiConstants.speciesReference, oldSpeciesReference, this.speciesReference);
   }
 
 
@@ -97,7 +116,7 @@ public class MultiASTNodePlugin {
     if (isSetSpeciesReference()) {
       String oldSpeciesReference = speciesReference;
       speciesReference = null;
-      // firePropertyChange(MultiConstants.speciesReference, oldSpeciesReference, this.speciesReference);
+      firePropertyChange(MultiConstants.speciesReference, oldSpeciesReference, this.speciesReference);
       return true;
     }
     return false;
@@ -111,13 +130,9 @@ public class MultiASTNodePlugin {
    * @return the value of {@link #representationType}.
    */
   public RepresentationType getRepresentationType() {
-    //TODO: if variable is boolean, create an additional "isVar"
-    //TODO: return primitive data type if possible (e.g., int instead of Integer)
     if (isSetRepresentationType()) {
       return representationType;
     }
-    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
-    // throw new PropertyUndefinedError(MultiConstants.representationType, this);
 
     return null;
   }
@@ -141,7 +156,7 @@ public class MultiASTNodePlugin {
   public void setRepresentationType(RepresentationType representationType) {
     RepresentationType oldRepresentationType = this.representationType;
     this.representationType = representationType;
-    // firePropertyChange(MultiConstants.representationType, oldRepresentationType, this.representationType);
+    firePropertyChange(MultiConstants.representationType, oldRepresentationType, this.representationType);
   }
 
 
@@ -154,7 +169,7 @@ public class MultiASTNodePlugin {
     if (isSetRepresentationType()) {
       RepresentationType oldRepresentationType = representationType;
       representationType = null;
-      // firePropertyChange(MultiConstants.representationType, oldRepresentationType, this.representationType);
+      firePropertyChange(MultiConstants.representationType, oldRepresentationType, this.representationType);
       return true;
     }
     return false;
@@ -209,8 +224,8 @@ public class MultiASTNodePlugin {
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
+    final int prime = 857;
+    int result = super.hashCode();
     result = prime * result
         + ((representationType == null) ? 0 : representationType.hashCode());
     result = prime * result
@@ -227,12 +242,11 @@ public class MultiASTNodePlugin {
     if (this == obj) {
       return true;
     }
-    if (obj == null) {
+    
+    if (! super.equals(obj)) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
+
     MultiASTNodePlugin other = (MultiASTNodePlugin) obj;
     if (representationType != other.representationType) {
       return false;
@@ -255,6 +269,41 @@ public class MultiASTNodePlugin {
   public String toString() {
     return "MultiASTNodePlugin [speciesReference=" + speciesReference
         + ", representationType=" + representationType + "]";
+  }
+
+  @Override
+  public String getPackageName() {
+    return MultiConstants.packageName;
+  }
+
+  @Override
+  public String getPrefix() {
+    return MultiConstants.packageName;
+  }
+
+  @Override
+  public String getURI() {
+    return getElementNamespace();
+  }
+
+  @Override
+  public TreeNode getChildAt(int childIndex) {
+    return null;
+  }
+
+  @Override
+  public int getChildCount() {
+    return 0;
+  }
+
+  @Override
+  public boolean getAllowsChildren() {
+    return false;
+  }
+
+  @Override
+  public MultiASTNodePlugin clone() {
+    return new MultiASTNodePlugin(this);
   }
 
 
