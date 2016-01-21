@@ -68,7 +68,7 @@ public interface ASTNodePlugin extends TreeNodeWithChangeSupport {
    * 
    * @return the object that is extended by this plug-in.
    */
-  public TreeNode getExtendedSBase();
+  public TreeNode getExtendedASTNode();
 
   /**
    * Returns the SBML level of this plugin object.
@@ -144,7 +144,7 @@ public interface ASTNodePlugin extends TreeNodeWithChangeSupport {
    * 
    * @return true if an extended TreeNode has been set.
    */
-  public boolean isSetExtendedSBase();
+  public boolean isSetExtendedASTNode();
 
   /**
    * Returns {@code true} if a package version is set, {@code false} otherwise.

@@ -26,7 +26,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
@@ -50,6 +53,8 @@ import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.compilers.UnitsCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.parsers.PackageParser;
+import org.sbml.jsbml.xml.parsers.ParserManager;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
@@ -1476,6 +1481,12 @@ public class ASTNode extends AbstractTreeNode {
    * corresponding model again and again for this variable.
    */
   private CallableSBase variable;
+
+  /**
+   * {@link Map} containing the ASTNode plugin object of additional packages
+   * with the appropriate name of the package.
+   */
+  private SortedMap<String, ASTNodePlugin> plugins;
 
   /**
    * Creates a new {@link ASTNode} of unspecified type and without a pointer
@@ -2910,6 +2921,10 @@ public class ASTNode extends AbstractTreeNode {
     }
     variable = null;
     mantissa = Double.NaN;
+    
+    if (plugins == null) {
+      plugins = new TreeMap<String, ASTNodePlugin>();
+    }
     firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
 
@@ -4510,12 +4525,313 @@ public class ASTNode extends AbstractTreeNode {
     return semanticsAnnotationList;
   }
 
-  public ASTNodePlugin getPlugin(String shortLabel) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
   // TODO - removeSemanticsAnnotation
   // TODO - unsetsemanticsAnnotation
+
+  /**
+   * Creates a new {@link ASTNodePlugin} for the given package name or URI
+   * and adds it to this {@link ASTNode}.
+   * 
+   * <p>If an {@link ASTNodePlugin} was already present in this {@link ASTNode}
+   * it will be replaced.
+   * 
+   * @param nameOrUri the package name or URI
+   * @return a new {@link ASTNodePlugin} for the given package name or URI
+   */
+  public ASTNodePlugin createPlugin(String nameOrUri) {
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+      ASTNodePlugin sbasePlugin = packageParser.createPluginFor(this);
+      addExtension(nameOrUri, sbasePlugin);
+      return sbasePlugin;
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"),
+      nameOrUri));
+  }
+
+  /**
+   * Adds a {@link ASTNodePlugin} object to this {@link ASTNode}.
+   * 
+   * <p>If a previous {@link ASTNodePlugin} associated with the same package
+   * was present before, it will be replaced.
+   * 
+   * @param nameOrUri the name or URI of the package extension.
+   * @param sbasePlugin the {@link ASTNodePlugin} to add.
+   */
+  public void addExtension(String nameOrUri, ASTNodePlugin sbasePlugin) {
+
+    if (!isPackageEnabled(nameOrUri)) {
+      enablePackage(nameOrUri);
+    }
+
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+
+      // unset the previous plugin if needed
+      if (plugins.get(packageParser.getPackageName()) != null) {
+        unsetPlugin(packageParser.getPackageName());
+      }
+
+      plugins.put(packageParser.getPackageName(), sbasePlugin);
+
+      // Making sure that the correct extendedSBase is set in the SBasePlugin
+      // And that all the ids and metaids are registered
+      if ((sbasePlugin.getExtendedASTNode() == null) || (sbasePlugin.getExtendedASTNode() != this)) {
+        // ((ASTNodePlugin) sbasePlugin).setPackageVersion(this); // TODO?
+      }
+
+      // the package namespace and version will be set in firePropertyChange
+      firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbasePlugin);
+    } else {
+      throw new IllegalArgumentException(MessageFormat.format(
+        resourceBundle.getString("AbstractSBase.addExtensionExc"), nameOrUri));
+    }
+  }
+
+  /**
+   * Adds a {@link ASTNodePlugin} object to this {@link ASTNode}.
+   * 
+   * <p>If a previous {@link ASTNodePlugin} associated with the same package
+   * was present before, it will be replaced.
+   * 
+   * @param nameOrUri the name or URI of the package extension.
+   * @param sbasePlugin the {@link ASTNodePlugin} to add.
+   * @see #addExtension(String, ASTNodePlugin)
+   */
+  public void addPlugin(String nameOrUri, ASTNodePlugin sbasePlugin) {
+    addExtension(nameOrUri, sbasePlugin);
+  }
+
+  /**
+   * Disables the given SBML Level 3 package on this {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void disablePackage(String packageURIOrName) {
+    enablePackage(packageURIOrName, false);
+  }
+
+  /**
+   * Enables the given SBML Level 3 package on this {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void enablePackage(String packageURIOrName) {
+    enablePackage(packageURIOrName, true);
+  }
+
+  /**
+   * Enables or disables the given SBML Level 3 package on this
+   * {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName
+   *        a package namespace URI or package name
+   * @param enabled
+   *        a boolean to tell if the package need to be enabled or disabled. It
+   *        {@code true} the package will be enabled, otherwise it will be
+   *        disabled.
+   */
+  public void enablePackage(String packageURIOrName, boolean enabled) {
+    SBMLDocument doc = getParentSBMLObject().getSBMLDocument();
+
+    if (doc != null) {
+      doc.enablePackage(packageURIOrName, enabled);
+    } else if (logger.isDebugEnabled()) {
+      logger.debug(resourceBundle.getString("AbstractSBase.enablePackage"));
+    }
+  }
+
+  /**
+   * Returns the {@link ASTNodePlugin} object which matches this package
+   * name or URI.
+   * 
+   * @param nameOrUri
+   *        the package name or URI
+   * @return the {@link ASTNodePlugin} object which matches this package
+   *         name or URI,
+   *         null is returned if nothing matching the name or URI is found.
+   */
+  public ASTNodePlugin getExtension(String nameOrUri) {
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+      return plugins.get(packageParser.getPackageName());
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
+  }
+
+  /**
+   * Returns the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
+   * 
+   * @return the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
+   */
+  public int getExtensionCount() {
+
+    if (plugins != null) {
+      return plugins.size();
+    }
+
+    return 0;
+  }
+
+//  /**
+//   * Returns the map containing all the {@link SBasePlugin} extension objects
+//   * of this {@link SBase}.
+//   * 
+//   * @return the map containing all the {@link SBasePlugin} extension objects
+//   * of this {@link SBase}.
+//   */
+//  public Map<String, ASTNodePlugin> getExtensionPackages() { // TODO - remove this method to prevent access to the map directly ?? Or provide a copy of the Map
+//    return plugins;
+//  }
+
+  /**
+   * Returns the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
+   * 
+   * @return the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
+   */
+  public int getNumPlugins() {
+    return getExtensionCount();
+  }
+
+  /**
+   * Returns an {@link ASTNodePlugin} for an SBML Level 3 package extension
+   * with the given package name or URI.
+   * <p>
+   * If no {@link ASTNodePlugin} is found for this package, a new
+   * {@link ASTNodePlugin} is created, added to this {@link ASTNode} and returned.
+   * 
+   * @param nameOrUri
+   *        the name or URI of the package
+   * @return an {@link ASTNodePlugin} for an SBML Level 3 package extension
+   *         with the given package name or URI.
+   */
+  public ASTNodePlugin getPlugin(String nameOrUri) {
+
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+      ASTNodePlugin plugin = plugins.get(packageParser.getPackageName());
+      if (plugin != null) {
+        return plugin;
+      } else {
+        return createPlugin(nameOrUri);
+      }
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
+  }
+
+  /**
+   * Returns {@code true} if this object is extended by other packages.
+   * 
+   * @return {@code true} if this object is extended by other packages.
+   */
+  public boolean isExtendedByOtherPackages() {
+    return !plugins.isEmpty();
+  }
+
+  /**
+   * Returns {@code true} if the given SBML Level 3 package is enabled within
+   * the containing {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName
+   *        the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within
+   *         the containing {@link SBMLDocument}, {@code false} otherwise.
+   */
+  public boolean isPackageEnabled(String packageURIOrName) {
+
+    SBMLDocument doc = getParentSBMLObject().getSBMLDocument(); // TODO - need to prevent NullPointerException
+
+    if (doc != null) {
+      return doc.isPackageEnabled(packageURIOrName);
+    }
+
+    return false;
+  }
+
+  /**
+   * Returns {@code true} if the given SBML Level 3 package is enabled within
+   * the containing {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName
+   *        the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within
+   *         the containing {@link SBMLDocument}, {@code false} otherwise.
+   * @libsbml.deprecated
+   * @see #isPackageEnabled(String)
+   */
+  public boolean isPackageURIEnabled(String packageURIOrName) {
+    return isPackageEnabled(packageURIOrName);
+  }
+
+  /**
+   * Returns {@code true} if an {@link ASTNodePlugin} is defined
+   * for the given package.
+   * 
+   * @param nameOrUri the package name or URI
+   * @return {@code true} if an {@link ASTNodePlugin} is defined
+   * for the given package.
+   */
+  public boolean isSetPlugin(String nameOrUri) {
+
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+      return plugins.get(packageParser.getPackageName()) != null;
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
+  }
+
+  /**
+   * Unsets the {@link ASTNodePlugin} extension object which matches this package
+   * name or URI.
+   * 
+   * @param nameOrUri
+   *        the package name or URI
+   */
+  public void unsetExtension(String nameOrUri) {
+
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+
+      ASTNodePlugin sbasePlugin = plugins.remove(packageParser.getPackageName());
+      firePropertyChange(TreeNodeChangeEvent.extension, sbasePlugin, null);
+      return;
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"),
+      nameOrUri));
+  }
+
+  /**
+   * Unsets the {@link ASTNodePlugin} plugin object which matches this package
+   * name or URI.
+   * 
+   * @param nameOrUri
+   *        the package name or URI
+   * @see #unsetExtension(String)       
+   */
+  public void unsetPlugin(String nameOrUri) {
+    unsetExtension(nameOrUri);
+  }
 
 }
