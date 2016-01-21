@@ -44,6 +44,7 @@ import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.multi.IntraSpeciesReaction;
+import org.sbml.jsbml.ext.multi.MultiASTNodePlugin;
 import org.sbml.jsbml.ext.multi.MultiCompartmentPlugin;
 import org.sbml.jsbml.ext.multi.MultiConstants;
 import org.sbml.jsbml.ext.multi.MultiModelPlugin;
@@ -152,7 +153,7 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
       }
     } else if (contextObject instanceof ASTNode) {
       contextObject = ((ASTNode) contextObject).getPlugin(getShortLabel());
-    } // TODO - ASTNode2 ?
+    } // TODO - ASTNode2 when it is used for reading.
     
     super.processAttribute(elementName, attributeName, value, uri, prefix, isLastAttribute, contextObject);
   }
@@ -281,7 +282,9 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
     if (xmlObject.isSetName() && xmlObject.getName().equals("listOfBindingSiteSpeciesTypes")) {
       xmlObject.setName(MultiConstants.listOfSpeciesTypes);
     }
-    
+    else if (xmlObject.isSetName() && xmlObject.getName().equals("listOfSpeciesTypeComponentIndexs")) {
+      xmlObject.setName(MultiConstants.listOfSpeciesTypeComponentIndexes);
+    }    
     // listOfIntraSpeciesReactions cannot happen as core ListOf don't depend on the first element for their name.
     
     if (logger.isDebugEnabled()) {
@@ -343,7 +346,7 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
   public ASTNodePlugin createPluginFor(ASTNode astNode) {
 
     if (astNode != null) {
-      return null; // TODO
+      return new MultiASTNodePlugin(astNode);
     }
 
     return null;
