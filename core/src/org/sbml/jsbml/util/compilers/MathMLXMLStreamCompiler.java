@@ -27,6 +27,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -38,6 +39,7 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
@@ -648,6 +650,12 @@ public class MathMLXMLStreamCompiler {
     try {
       writer.writeCharacters(indent);
       writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "ci");
+      
+      // check if there are any plugins on the ASTNode
+      if (astNode.getExtensionCount() > 0) {
+        writePlugins(astNode);
+      }
+      
       writer.writeCharacters(" ");
       writer.writeCharacters(astNode.getName());
       writer.writeCharacters(" ");
@@ -659,6 +667,32 @@ public class MathMLXMLStreamCompiler {
     }
 
 
+  }
+
+  /**
+   * Writes the attributes of the {@link ASTNodePlugin}s present on the ASTNode.
+   * 
+   * @param astNode
+   */
+  private void writePlugins(ASTNode astNode) {
+    
+    // TODO - for now only writing the attributes, we will need to revisit if
+    // one package add elements to mathML elements.
+    
+    ASTNodePlugin plugin = astNode.getPlugin("multi");
+    Map<String, String> attributes = plugin.writeXMLAttributes();
+          
+    if (attributes.size() > 0) {
+      for (String attributeKey : attributes.keySet()) {
+        String attributeValue = attributes.get(attributeKey);
+        
+        try {
+          writer.writeAttribute(attributeKey, attributeValue);
+        } catch (XMLStreamException e) {
+          e.printStackTrace();
+        }
+      }
+    }
   }
 
   /**
