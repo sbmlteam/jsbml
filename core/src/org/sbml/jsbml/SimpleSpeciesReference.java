@@ -57,7 +57,7 @@ implements UniqueNamedSBase {
   }
 
   /**
-   * Creates a SimpleSpeciesReference instance. 
+   * Creates a SimpleSpeciesReference instance.
    * 
    * @param level the SBML level
    * @param version the SBML version
@@ -89,7 +89,7 @@ implements UniqueNamedSBase {
   }
 
   /**
-   * Creates a SimpleSpeciesReference instance. 
+   * Creates a SimpleSpeciesReference instance.
    * @param id
    */
   public SimpleSpeciesReference(String id) {
@@ -98,7 +98,7 @@ implements UniqueNamedSBase {
 
   /**
    * Creates a SimpleSpeciesReference instance.
-   *  
+   * 
    * @param id
    * @param level the SBML level
    * @param version the SBML version
@@ -108,7 +108,7 @@ implements UniqueNamedSBase {
   }
 
   /**
-   * Creates a SimpleSpeciesReference instance. 
+   * Creates a SimpleSpeciesReference instance.
    * 
    * @param id
    * @param name
@@ -189,8 +189,7 @@ implements UniqueNamedSBase {
    *         {@link SimpleSpeciesReference} as id is not {@code null}.
    */
   public boolean isSetSpeciesInstance() {
-    Model m = getModel();
-    return m != null ? m.getSpecies(speciesID) != null : false;
+    return getSpeciesInstance() != null;
   }
 
   /* (non-Javadoc)

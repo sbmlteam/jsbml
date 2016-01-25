@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.UniqueNamedSBase;
@@ -203,7 +204,26 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
    * @return the value of reaction
    */
   public String getReaction() {
-    return reaction;
+    return isSetReaction() ? reaction : "";
+  }
+
+  /**
+   * @return
+   */
+  public Reaction getReactionInstance() {
+    if (isSetReaction()) {
+      Model m = getModel();
+      return (m != null) ? m.getReaction(getReaction()) : null;
+    }
+    return null;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetReactionInstance() {
+    return getReactionInstance() != null;
   }
 
   /**

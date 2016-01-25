@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.fbc;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
@@ -146,6 +147,26 @@ public class GeneProductRef extends AbstractNamedSBase implements Association, U
       return geneProduct;
     }
     return "";
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public GeneProduct getGeneProductInstance() {
+    if (isSetGeneProduct()) {
+      Model m = getModel();
+      return (m != null) ?(GeneProduct) m.findNamedSBase(getGeneProduct()) : null;
+    }
+    return null;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetGeneProductInstance() {
+    return getGeneProductInstance() != null;
   }
 
   /* (non-Javadoc)
