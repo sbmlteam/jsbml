@@ -277,7 +277,6 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
     firePropertyChange(FBCConstants.coefficient, oldCoefficient, this.coefficient);
   }
 
-
   /**
    * 
    * @param reaction
@@ -287,12 +286,14 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
-   * Sets the reaction that thie {@link FluxObjective} is associated with in the context
+   * Sets the reaction that this {@link FluxObjective} is associated with in the context
    * of the enclosing {@link Objective} class.
    * @param reaction the reaction to set
    */
   public void setReaction(String reaction) {
+    String oldReaction = this.reaction;
     this.reaction = reaction;
+    firePropertyChange(FBCConstants.reaction, oldReaction, reaction);
   }
 
   /**
@@ -327,7 +328,6 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
     }
     return false;
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
