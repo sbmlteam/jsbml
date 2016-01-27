@@ -63,7 +63,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
       return function("eq", ((ASTNode) left.getParent()).getListOfNodes());
     }
     
-    return new ASTNodeValue(relation(left, " == ", right), this);
+    return new ASTNodeValue(relation(left, "==", right), this);
   }
 
   /* (non-Javadoc)
@@ -86,7 +86,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
       return function("geq", ((ASTNode) left.getParent()).getListOfNodes());
     }
     
-    return new ASTNodeValue(relation(left, " >= ", right), this);
+    return new ASTNodeValue(relation(left, ">=", right), this);
   }
 
 
@@ -101,7 +101,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
       return function("gt", ((ASTNode) left.getParent()).getListOfNodes());
     }
     
-    return new ASTNodeValue(relation(left, " > ", right), this);
+    return new ASTNodeValue(relation(left, ">", right), this);
   }
 
 
@@ -116,7 +116,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
       return function("leq", ((ASTNode) left.getParent()).getListOfNodes());
     }
     
-    return new ASTNodeValue(relation(left, " <= ", right), this);
+    return new ASTNodeValue(relation(left, "<=", right), this);
   }
 
 
@@ -131,7 +131,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
       return function("lt", ((ASTNode) left.getParent()).getListOfNodes());
     }
     
-    return new ASTNodeValue(relation(left, " < ", right), this);
+    return new ASTNodeValue(relation(left, "<", right), this);
   }
 
 
@@ -140,7 +140,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
    */
   @Override
   public ASTNodeValue neq(ASTNode left, ASTNode right) throws SBMLException {
-    return new ASTNodeValue(relation(left, " != ", right), this);
+    return new ASTNodeValue(relation(left, "!=", right), this);
   }
 
   /* (non-Javadoc)

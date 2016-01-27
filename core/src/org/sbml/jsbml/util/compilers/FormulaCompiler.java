@@ -70,7 +70,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   /**
    * 
    */
-  public static final String FORMULA_ARGUMENT_SEPARATOR = "";
+  public static final String FORMULA_ARGUMENT_SEPARATOR = " ";
 
   /**
    * Basic method which links several elements with a mathematical operator.
@@ -449,7 +449,9 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   protected String checkBrackets(ASTNode node) throws SBMLException {
     String term = node.compile(this).toString();
 
-    if (node.isSum() || node.isDifference() || node.isUMinus()) {
+    if (node.isSum() || node.isDifference() || node.isUMinus() 
+        || node.isRelational() || node.isLogical()) 
+    {
       term = brackets(term).toString();
     } else if (node.isReal()) {
       if (node.getReal() < 0d) {
@@ -491,11 +493,13 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
     String term = node.compile(this).toString();
 
-    if (node.isRelational() || node.isNumber() || node.isString()
+    if (node.isNumber() || node.isString()
         || node.isFunction()) {
       return term;
     }
 
+    // for node.isRelational() and node.isLogical(), we want to put brackets 
+    
     return term = brackets(term).toString();
   }
 
