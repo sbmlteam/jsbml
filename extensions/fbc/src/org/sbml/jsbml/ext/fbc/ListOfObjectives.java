@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.fbc;
 import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * Unlike other SBML {@link ListOf} classes, {@link ListOfObjectives} adds an additional
@@ -91,7 +92,6 @@ public class ListOfObjectives extends ListOf<Objective> {
     setSBaseListType(ListOf.Type.other);
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ListOf#clone()
    */
@@ -109,6 +109,17 @@ public class ListOfObjectives extends ListOf<Objective> {
     return isSetActiveObjective() ? activeObjective : "";
   }
 
+  /**
+   * Iterates through this list until it finds
+   * @return
+   */
+  public Objective getActiveObjectiveInstance() {
+    return (Objective) filter(new NameFilter(getActiveObjective()));
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ListOf#getElementName()
+   */
   @Override
   public String getElementName() {
     return FBCConstants.listOfObjectives;
@@ -149,10 +160,10 @@ public class ListOfObjectives extends ListOf<Objective> {
   /**
    * This attribute refers to an id of an existing {@link Objective}. This attribute
    * exists so that multiple objectives are defined in a single model, the model will
-   * always be well-defined, i.e. there is a single objective function which defines
+   * always be well-defined, i.e., there is a single objective function which defines
    * a single optimum.
    * 
-   * Sets the value of activeObjective
+   * Sets the value of {@link #activeObjective}
    * @param activeObjective
    */
   public void setActiveObjective(String activeObjective) {
@@ -161,6 +172,14 @@ public class ListOfObjectives extends ListOf<Objective> {
     firePropertyChange(FBCConstants.activeObjective, oldActiveObjective, this.activeObjective);
   }
 
+  /**
+   * Sets the value of {@link #activeObjective} to the id of the given {@link Objective}.
+   * @param activeObjective
+   * @see #setActiveObjective(String)
+   */
+  public void setActiveObjective(Objective activeObjective) {
+    setActiveObjective(activeObjective.getId());
+  }
 
   /**
    * Unsets the variable activeObjective
