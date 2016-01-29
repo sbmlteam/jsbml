@@ -1,6 +1,6 @@
 format-version: 1.2
-date: 14:06:2015 07:00
-data-version: 13:05:2015 13:49
+date: 29:01:2016 07:00
+data-version: 04:12:2015 11:23
 saved-by: SBO community
 auto-generated-by: SBO Browser (http://www.ebi.ac.uk/sbo/)
 default-namespace: sbo
@@ -1317,7 +1317,7 @@ is_obsolete: true
 
 [Term]
 id: SBO:0000204
-name: dna replication
+name: DNA replication
 def: "Process in which a DNA duplex is transformed into two identical DNA duplexes." [src_code:NR]
 comment: See GO:0006260\nAdded on 09 August 2006 by Nicolas Le Novere on the suggestion of Emek Demir.\nModified 04 July 2008 by Nick Juty - changed from replication to dna replication
 is_a: SBO:0000205 ! composite biochemical process
@@ -4244,14 +4244,14 @@ id: SBO:0000627
 name: exchange reaction
 def: "A modeling process to provide matter influx or efflux to a model, for example to replenish a metabolic network with raw materials (eg carbon / energy sources). Such reactions are conceptual, created solely for modeling purposes, and do not have a physical correspondence. Exchange reactions, often represented as 'R_EX_', can operate in the negative (uptake) direction or positive (secretion) direction. By convention, a negative flux through an exchange reaction represents uptake of the corresponding metabolite, and a positive flux represent discharge." [src_code:NR]
 comment: Created in response to \[SF req #110\]
-is_a: SBO:0000375 ! process
+is_a: SBO:0000631 ! pseudoreaction
 
 [Term]
 id: SBO:0000628
 name: demand reaction
 def: "A modeling process analogous to exchange reaction, but which operates upon \"internal\" metabolites. Metabolites that are consumed by these reactions are assumed to be used in intra-cellular processes that are not part of the model. Demand reactions, often represented 'R_DM_', can also deliver metabolites (from intra-cellular processes that are not considered in the model)." [src_code:NR]
 comment: Created in response to \[SF req #110\].
-is_a: SBO:0000375 ! process
+is_a: SBO:0000631 ! pseudoreaction
 
 [Term]
 id: SBO:0000629
@@ -4267,6 +4267,21 @@ def: "A modeling representation of the energetics of an organism that are attrib
 comment: Created in response to \[SF req #110\].
 synonym: "maintenance energy" []
 is_a: SBO:0000395 ! encapsulating process
+
+[Term]
+id: SBO:0000631
+name: pseudoreaction
+def: "A conceptual process used for modeling purposes, often created solely to complete model structure, with respect to providing inflow or outflow of matter or material. Unlike other reactions, pseudoreactions are not usually subjected to mass balance considerations." [src_code:NR]
+comment: Created in response to \[SF req #111\]
+is_a: SBO:0000375 ! process
+
+[Term]
+id: SBO:0000632
+name: sink reaction
+def: "A modeling process to provide matter influx or efflux to a model, for example to replenish a metabolic network with raw materials (eg carbon / energy sources). Such reactions are conceptual, created solely for modeling purposes, and do not have a physical correspondence. Unlike the analogous demand (SBO:....) reactions, which are usually designated as irreversible, sink reactions always represent a reversible uptake/secretion processes, and act as a metabolite source with no cost to the cell. Sink reactions, also referred to as R_SINK_, are generally used for compounds that are metabolized by the cell but are produced by non-metabolic, un-modeled cellular processes." [SBO:team "identifiers.org/pubmed/20057383"]
+comment: Created in response to \[SF req #111\]
+synonym: "source/sink" []
+is_a: SBO:0000631 ! pseudoreaction
 
 [Typedef]
 id: is_a
