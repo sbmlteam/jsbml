@@ -70,7 +70,17 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   /**
    * 
    */
-  public static final String FORMULA_ARGUMENT_SEPARATOR = " ";
+  protected String FORMULA_ARGUMENT_SEPARATOR = " ";
+
+  /**
+   * All inverse trigonometric functions may be defined in the infix either using 'arc' as a prefix or simply 'a'
+   */
+  protected String INVERSE_TRIGONOMETRIC_PREFIX = "a";
+
+  /**
+   * String used to represent the exponentiale constant
+   */
+  protected String EXPONENTIALE = "exponentiale";
 
   /**
    * Basic method which links several elements with a mathematical operator.
@@ -340,7 +350,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arccos(ASTNode node) throws SBMLException {
-    return function("acos", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "cos", node);
   }
 
   /* (non-Javadoc)
@@ -348,7 +358,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arccosh(ASTNode node) throws SBMLException {
-    return function("acosh", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "cosh", node);
   }
 
   /* (non-Javadoc)
@@ -356,7 +366,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arccot(ASTNode node) throws SBMLException {
-    return function("acot", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "cot", node);
   }
 
   /* (non-Javadoc)
@@ -364,7 +374,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arccoth(ASTNode node) throws SBMLException {
-    return function("acoth", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "coth", node);
   }
 
   /* (non-Javadoc)
@@ -372,7 +382,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arccsc(ASTNode node) throws SBMLException {
-    return function("acsc", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "csc", node);
   }
 
   /* (non-Javadoc)
@@ -380,7 +390,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arccsch(ASTNode node) throws SBMLException {
-    return function("acsch", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "csch", node);
   }
 
   /* (non-Javadoc)
@@ -388,7 +398,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arcsec(ASTNode node) throws SBMLException {
-    return function("asec", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "sec", node);
   }
 
   /* (non-Javadoc)
@@ -396,7 +406,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arcsech(ASTNode node) throws SBMLException {
-    return function("asech", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "sech", node);
   }
 
   /* (non-Javadoc)
@@ -404,7 +414,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arcsin(ASTNode node) throws SBMLException {
-    return function("asin", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "sin", node);
   }
 
   /* (non-Javadoc)
@@ -412,7 +422,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arcsinh(ASTNode node) throws SBMLException {
-    return function("asinh", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "sinh", node);
   }
 
   /* (non-Javadoc)
@@ -420,7 +430,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arctan(ASTNode node) throws SBMLException {
-    return function("atan", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "tan", node);
   }
 
   /* (non-Javadoc)
@@ -428,7 +438,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue arctanh(ASTNode node) throws SBMLException {
-    return function("atanh", node);
+    return function(INVERSE_TRIGONOMETRIC_PREFIX  + "tanh", node);
   }
 
   /* (non-Javadoc)
@@ -738,7 +748,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue getConstantE() {
-    return new ASTNodeValue(Character.toString('e'), this);
+    return new ASTNodeValue(EXPONENTIALE, this);
   }
 
   /* (non-Javadoc)
@@ -770,7 +780,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue getNegativeInfinity() {
-    return new ASTNodeValue(Double.NEGATIVE_INFINITY, this);
+    return new ASTNodeValue("-INF", this);
   }
 
   /* (non-Javadoc)
@@ -778,7 +788,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue getPositiveInfinity() {
-    return new ASTNodeValue(Double.POSITIVE_INFINITY, this);
+    return new ASTNodeValue("INF", this);
   }
 
   /* (non-Javadoc)
@@ -861,20 +871,38 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
       throws SBMLException {
     StringBuffer value = new StringBuffer();
     boolean first = true;
-    for (ASTNode node : nodes) {
-      if (!first) {
-        value.append(operator);
-      } else {
-        first = false;
+    
+    if ((nodes != null) && (nodes.size() >= 2)) {
+      for (ASTNode node : nodes) {
+        if (!first) {
+          value.append(operator);
+        } else {
+          first = false;
+        }
+        if (node.getChildCount() > 0) {
+          append(value, Character.valueOf('('), node.compile(this)
+            .toString(), Character.valueOf(')'));
+        } else {
+          value.append(node.compile(this).toString());
+        }
       }
-      if (node.getChildCount() > 0) {
-        append(value, Character.valueOf('('), node.compile(this)
-          .toString(), Character.valueOf(')'));
-      } else {
-        value.append(node.compile(this).toString());
-      }
+    } else {
+      return logicalOperationFunction(operator, nodes);
     }
+    
     return new ASTNodeValue(value.toString(), this);
+  }
+  
+  
+
+  protected ASTNodeValue logicalOperationFunction(String operator, List<ASTNode> nodes) {
+    if (operator.contains("||")) {
+      operator = "or";
+    } else if (operator.contains("&&")) {
+      operator = "and";
+    }
+    
+    return function(operator, nodes);
   }
 
   /* (non-Javadoc)

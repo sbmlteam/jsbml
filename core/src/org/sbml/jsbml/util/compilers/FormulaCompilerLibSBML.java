@@ -42,7 +42,13 @@ import org.sbml.jsbml.SBMLException;
 
 public class FormulaCompilerLibSBML extends FormulaCompiler {
 
-
+  
+  /**
+   * 
+   */
+  public FormulaCompilerLibSBML() {
+    INVERSE_TRIGONOMETRIC_PREFIX = "arc";
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#and(java.util.List)
