@@ -30,6 +30,7 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.xml.parsers.SBMLRDFAnnotationParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
@@ -257,8 +258,13 @@ public class XMLNode extends XMLToken {
         childElements.add(origchildren.clone());
       }
     }
-    // TODO - clone our jsbml user objects for XMLNode
-
+    // clone our jsbml user objects for XMLNode
+    if (orig.getUserObject(SBMLRDFAnnotationParser.CUSTOM_RDF) != null) {
+      putUserObject(SBMLRDFAnnotationParser.CUSTOM_RDF, orig.getUserObject(SBMLRDFAnnotationParser.CUSTOM_RDF));
+    }
+    if (orig.getUserObject(SBMLRDFAnnotationParser.RDF_NODE_COLOR) != null) {
+      putUserObject(SBMLRDFAnnotationParser.RDF_NODE_COLOR, orig.getUserObject(SBMLRDFAnnotationParser.RDF_NODE_COLOR));
+    }
   }
 
   /**
