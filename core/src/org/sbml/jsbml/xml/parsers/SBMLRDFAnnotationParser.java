@@ -495,40 +495,24 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       contextObject.getAnnotation().setAbout(descriptionNode.getAttrValue("about", Annotation.URI_RDF_SYNTAX_NS));
 
       descriptionNode.removeAttr("about", Annotation.URI_RDF_SYNTAX_NS);
-      removeXmlNodeIfEmpty(descriptionNode);
+      boolean removed = removeXmlNodeIfEmpty(descriptionNode);
 
-      // removing the usual namespace declarations
-      rdfNode.removeNamespace("rdf");
-      rdfNode.removeNamespace("dc");
-      rdfNode.removeNamespace("dcterms");
-      rdfNode.removeNamespace("vcard");
-      rdfNode.removeNamespace("vCard");
-      rdfNode.removeNamespace("bqbiol");
-      rdfNode.removeNamespace("bqmodel");
-      // boolean rdfNodeRemoved =
-      removeXmlNodeIfEmpty(rdfNode);
+      if (removed) {
+        int nbChildElements = getNumberOfNonEmptyChildElement(rdfNode);
+        int nbAttributes = rdfNode.getAttributesLength();
 
-      /*
-		if (rdfNodeRemoved)
-		{
-			// removing white space
-			int nbChildElements = annotationXMLNode.getChildCount();
-
-			for (int i = nbChildElements - 1; i >= 0; i--)
-			{
-				XMLNode childElement = annotationXMLNode.getChildAt(i);
-
-				if (childElement.isText() && childElement.getCharacters().trim().length() == 0)
-				{
-					annotationXMLNode.removeChild(i); // - remove it only if the node before was also empty ?
-				}
-			}
-			if (annotationXMLNode.getChildCount() == 0)
-			{
-				annotationXMLNode.removeFromParent();
-			}
-		} // we might need to clean a bit the white space even if the RDF node is not removed
-       */
+        if (nbChildElements > 0 || nbAttributes > 0) {
+          // removing the usual namespace declarations if the node is empty
+          rdfNode.removeNamespace("rdf");
+          rdfNode.removeNamespace("dc");
+          rdfNode.removeNamespace("dcterms");
+          rdfNode.removeNamespace("vcard");
+          rdfNode.removeNamespace("vCard");
+          rdfNode.removeNamespace("bqbiol");
+          rdfNode.removeNamespace("bqmodel");
+          removeXmlNodeIfEmpty(rdfNode);
+        }
+      }
     }
 
     /**
@@ -1056,26 +1040,9 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         return false;
       }
 
-      int nbChildElements = xmlNode.getChildCount();
+      int nbChildElements = getNumberOfNonEmptyChildElement(xmlNode);
       int nbAttributes = xmlNode.getAttributesLength();
       int nbNamespaces = xmlNode.getNamespacesLength();
-
-      if (nbChildElements > 0)
-      {
-        int nbRealChildElements = 0;
-
-        for (int i = 0 ; i < nbChildElements; i++)
-        {
-          XMLNode childElement = xmlNode.getChildAt(i);
-
-          if (childElement.isText() && childElement.getCharacters().trim().length() == 0)
-          {
-            continue;
-          }
-          nbRealChildElements++;
-        }
-        nbChildElements = nbRealChildElements;
-      }
 
       if (nbChildElements > 0 || nbAttributes > 0 || nbNamespaces > 0)
       {
@@ -1106,6 +1073,41 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
     }
 
     /**
+     * Returns the number of child XMLNode, excluding text XMLNode that
+     * contains only spaces.
+     * 
+     * @param xmlNode
+     * @return the number of child XMLNode, excluding text XMLNode that
+     * contains only spaces.
+     */
+    public int getNumberOfNonEmptyChildElement(XMLNode xmlNode) {
+      
+      if (xmlNode == null) {
+        return 0;
+      }
+      
+      int nbChildElements = xmlNode.getChildCount();
+      int nbRealChildElements = 0;
+      
+      if (nbChildElements > 0)
+      {
+
+        for (int i = 0 ; i < nbChildElements; i++)
+        {
+          XMLNode childElement = xmlNode.getChildAt(i);
+
+          if (childElement.isText() && childElement.getCharacters().trim().length() == 0)
+          {
+            continue;
+          }
+          nbRealChildElements++;
+        }
+      }
+      
+      return nbRealChildElements;
+    }
+
+    /**
      * @param contextObject
      * @param annotationXMLNode
      * @return
@@ -1118,14 +1120,14 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       {
         return null;
       }
-      // TODO - make use of the potential XML stores using the CUSTOM_RDF user object for Creator
-
-      // TODO : add a created date or modified date automatically ?? Would need to be done at the level of the writer.
+      
+      // if we want to add a created date or modified date automatically, it would need to be done at the level of the writer, before calling this method.
 
       // gets or creates the RDF and Description XMLNode
       if (annotationXMLNode == null) {
         annotationXMLNode = new XMLNode(new XMLTriple("annotation"), new XMLAttributes());
       }
+      
       XMLNode rdfNode = getOrCreate(annotationXMLNode, "RDF", Annotation.URI_RDF_SYNTAX_NS, "rdf");
       rdfNode.addNamespace(Annotation.URI_RDF_SYNTAX_NS, "rdf");
 
@@ -1401,7 +1403,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
      * @param customRDFXMLNode
      * @return
      */
-    private XMLNode getOrCreateCVTerm(XMLNode parent, int precedingTermIndex,
+    private XMLNode getOrCreateWithCustomRDF(XMLNode parent, int precedingTermIndex,
       String elementName, String cvtermURI,	String cvtermPrefix, Object customRDFXMLNode)
     {
       int index = precedingTermIndex;
@@ -1607,7 +1609,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         for (Creator creator : history.getListOfCreators())
         {
           // rdf:li node
-          XMLNode liNode = getOrCreate(bagNode, i, "li", Annotation.URI_RDF_SYNTAX_NS, "rdf");
+          XMLNode liNode = getOrCreateWithCustomRDF(bagNode, i, "li", Annotation.URI_RDF_SYNTAX_NS, "rdf", creator.getUserObject(CUSTOM_RDF));
           liNode.addAttr("parseType", "Resource", Annotation.URI_RDF_SYNTAX_NS, "rdf");
 
           if (creator.isSetFamilyName() || creator.isSetGivenName())
@@ -1729,7 +1731,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         trueIndex = 0;
       }
 
-      qualifierNode = getOrCreateCVTerm(parentNode, trueIndex, cvterm.getQualifier().getElementNameEquivalent(),
+      qualifierNode = getOrCreateWithCustomRDF(parentNode, trueIndex, cvterm.getQualifier().getElementNameEquivalent(),
           cvtermURI, cvtermPrefix, cvterm.getUserObject(CUSTOM_RDF));
 
       XMLNode bagNode = getOrCreate(qualifierNode, "Bag", Annotation.URI_RDF_SYNTAX_NS, "rdf");
