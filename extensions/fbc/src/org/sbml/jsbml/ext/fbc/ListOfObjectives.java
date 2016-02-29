@@ -114,7 +114,7 @@ public class ListOfObjectives extends ListOf<Objective> {
    * @return
    */
   public Objective getActiveObjectiveInstance() {
-    return (Objective) filter(new NameFilter(getActiveObjective()));
+    return firstHit(new NameFilter(getActiveObjective()));
   }
 
   /* (non-Javadoc)
