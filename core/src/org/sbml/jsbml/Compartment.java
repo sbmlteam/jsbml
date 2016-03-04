@@ -775,13 +775,11 @@ public class Compartment extends Symbol {
       unsetUnits();
       return;
     }
-    double specDim = getSpatialDimensions();
-    if (Double.isNaN(specDim) || (0 < specDim)) {
-      super.setUnits(units);
-    } else {
+    if (0d == getSpatialDimensions()) {
       throw new IllegalArgumentException(MessageFormat.format(
         resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "units", getId()));
     }
+    super.setUnits(units);
   }
 
   /**
@@ -794,12 +792,11 @@ public class Compartment extends Symbol {
    */
   @Override
   public void setUnits(Unit unit) {
-    if (0 < getSpatialDimensions()) {
-      super.setUnits(unit);
-    } else {
+    if (0d == getSpatialDimensions()) {
       throw new IllegalArgumentException(MessageFormat.format(
         resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "unit", getId()));
     }
+    super.setUnits(unit);
   }
 
   /**
@@ -815,12 +812,11 @@ public class Compartment extends Symbol {
    */
   @Override
   public void setUnits(Unit.Kind unitKind) {
-    if (0 < getSpatialDimensions()) {
-      super.setUnits(unitKind);
-    } else {
+    if (0d == getSpatialDimensions()) {
       throw new IllegalArgumentException(MessageFormat.format(
         resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "unit kind", getId()));
     }
+    super.setUnits(unitKind);
   }
 
   /**
@@ -1012,7 +1008,7 @@ public class Compartment extends Symbol {
         attributes.put("constant", Boolean.toString(getConstant()));
       }
     }
-    
+
     if (level == 2) {
       if (isSetCompartmentType()) {
         attributes.put("compartmentType", getCompartmentType());
