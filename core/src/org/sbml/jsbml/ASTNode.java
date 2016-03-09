@@ -1437,7 +1437,8 @@ public class ASTNode extends AbstractTreeNode {
    * A {@link Logger} for this class.
    */
   private static transient final Logger logger = Logger.getLogger(ASTNode.class);
-
+  private static final transient boolean isDebugEnabled = logger.isDebugEnabled();
+  
   /**
    * The part of a number in scientific format (with an E) that is on the left
    * side of the E (the prefix of the number). For instance, in the number
@@ -1751,7 +1752,7 @@ public class ASTNode extends AbstractTreeNode {
    *            the node to add as child.
    */
   public void addChild(ASTNode child) {
-    if (logger.isDebugEnabled()) {
+    if (isDebugEnabled) {
       logger.debug(" adding child current node: \n" + astNodeToTree(this, "", ""));
       logger.debug(" adding child: \n" + astNodeToTree(child, "", ""));
     }
@@ -2635,6 +2636,9 @@ public class ASTNode extends AbstractTreeNode {
       case REAL_E:{
         //  mantissa * Math.pow(10, getExponent())) ==> this formula does not give exact values.
         // for example: mantissa = 3.0, exponent = -17 ==> 2.9999999999999994E-17 instead of 3.0E-17
+        if (Double.isNaN(mantissa) || Double.isInfinite(mantissa)) {
+          return mantissa;
+        }
         return Double.parseDouble(mantissa + "E" + getExponent());
       }
       case RATIONAL:
@@ -2890,7 +2894,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   private void initDefaults() {
     ASTNode old = this;
-    if (logger.isDebugEnabled()) {
+    if (isDebugEnabled) {
       logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.initDefaults"), (type == null ? Type.UNKNOWN : type)));
     }
 
@@ -3903,7 +3907,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public void setType(String typeStr) {
     // System.out.println("ASTNode: setType(String) called.");
-    if (logger.isDebugEnabled()) {
+    if (isDebugEnabled) {
       logger.debug("ASTNode: setType(String) called: " + typeStr);
     }
 
@@ -3940,7 +3944,7 @@ public class ASTNode extends AbstractTreeNode {
 
     String sType = type.toString();
 
-    if (logger.isDebugEnabled()) {
+    if (isDebugEnabled) {
       logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.setType"), this.type, sType));
     }
 
@@ -4286,7 +4290,7 @@ public class ASTNode extends AbstractTreeNode {
       // log the exception
       e.printStackTrace();
 
-      if (logger.isDebugEnabled()) {
+      if (isDebugEnabled) {
         logger.error(MessageFormat.format(resourceBundle.getString("ASTNode.toString"), e.getMessage()), e);
       } else {
         // TODO: Do not print this message if parsing the file !!! Or remove it
@@ -4294,7 +4298,7 @@ public class ASTNode extends AbstractTreeNode {
       }
     } catch (RuntimeException e) {
       // added to prevent a crash when we cannot create the formula
-      if (logger.isDebugEnabled()) {
+      if (isDebugEnabled) {
         logger.error(MessageFormat.format(resourceBundle.getString("ASTNode.toString"), e.getMessage()), e);
       }
     }

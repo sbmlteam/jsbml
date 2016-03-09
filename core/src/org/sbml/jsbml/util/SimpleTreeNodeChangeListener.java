@@ -45,6 +45,7 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener, Ser
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(SimpleTreeNodeChangeListener.class);
+  private static final transient boolean isDebugEnabled = logger.isDebugEnabled();
 
   /**
    * Creates an {@link TreeNodeChangeListener} that writes all events to the
@@ -66,7 +67,7 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener, Ser
    */
   @Override
   public void nodeAdded(TreeNode treeNode) {
-    if (logger.isDebugEnabled()) {
+    if (isDebugEnabled) {
       logger.debug(MessageFormat.format("[ADD]\t{0}", saveToString(treeNode)));
     }
   }
@@ -76,7 +77,7 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener, Ser
    */
   @Override
   public void nodeRemoved(TreeNodeRemovedEvent evt) {
-    if (logger.isDebugEnabled()) {
+    if (isDebugEnabled) {
       String element = "null", prevParent = "null";
       if (evt != null) {
         element = saveToString(evt.getSource());
@@ -91,7 +92,7 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener, Ser
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    if (logger.isDebugEnabled()) {
+    if (isDebugEnabled) {
       logger.debug(MessageFormat.format("[CHG]\t{0}", saveToString(evt)));
     }
   }
@@ -131,7 +132,7 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener, Ser
     } else {
       sb.append("; oldValue=").append(evt.getOldValue());
     }
-    if (evt.getNewValue() != null && evt.getNewValue() instanceof ASTNode) {
+    if ((evt.getNewValue() != null) && (evt.getNewValue() instanceof ASTNode)) {
       sb.append("; newValue=").append(((ASTNode) evt.getNewValue()).toSimpleString());
     } else {
       sb.append("; newValue=").append(evt.getNewValue());
