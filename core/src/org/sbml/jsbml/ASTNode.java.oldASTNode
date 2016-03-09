@@ -26,12 +26,16 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.text.parser.FormulaParser;
@@ -48,6 +52,9 @@ import org.sbml.jsbml.util.compilers.LaTeXCompiler;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.compilers.UnitsCompiler;
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.parsers.PackageParser;
+import org.sbml.jsbml.xml.parsers.ParserManager;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
@@ -373,6 +380,15 @@ public class ASTNode extends AbstractTreeNode {
      */
     TIMES,
     /**
+     * MathML markup can be combined with other markup languages, and these
+     * mixing constructions are realized by the semantic annotation elements.
+     * The semantic annotation elements provide an important tool for making 
+     * associations between alternate representations of an expression, and for
+     * associating semantic properties and other attributions with a MathML
+     * expression.
+     */
+    SEMANTICS,
+    /**
      * 
      */
     UNKNOWN,
@@ -639,8 +655,8 @@ public class ASTNode extends AbstractTreeNode {
    * or {@link #IMPLEMENTATION_ASTNODE2}.
    */
   public static final String IMPLEMENTATION_VERSION = IMPLEMENTATION_HISTORIC;
-  
-  
+
+
   /**
    * Creates and returns an {@link ASTNode} that computes the absolute value
    * of the given double value.
@@ -985,7 +1001,7 @@ public class ASTNode extends AbstractTreeNode {
    * 
    * <p> You can change this behaviour by using the {@link FormulaParserLL3#setCaseSensitive(boolean)}
    * method and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><pre><blockquote>
+<p><blockquote><pre>
    FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
    caseInsensitiveParser.setCaseSensitive(false);
    ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
@@ -993,10 +1009,10 @@ public class ASTNode extends AbstractTreeNode {
    *
    * <p> This method has a different behaviour since JSBML-1.0 compare to JSBML-0.8. There is a different
    * operator precedence, the parsing is now case sensitive for mathML elements and boolean operators are
-   * now differently interpreted: '&&' and '||' are used instead of 'and' and 'or'.<br>
+   * now differently interpreted: '&amp;&amp;' and '||' are used instead of 'and' and 'or'.<br>
    * If you want to use the parser used in JSBML-0.8, you can do that by using the {@link FormulaParser}
    * parser class and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><pre><blockquote>
+<p><blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
 
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
@@ -1039,14 +1055,14 @@ public class ASTNode extends AbstractTreeNode {
    * 
    * <p>For example, you can change the behaviour of the {@link FormulaParserLL3} class by using the
    * {@link FormulaParserLL3#setCaseSensitive(boolean)} method:
-<p><pre><blockquote>
+<p><blockquote><pre>
    FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
    caseInsensitiveParser.setCaseSensitive(false);
    ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
 </pre></blockquote></p>
    *
    * <p> You can as well use the {@link FormulaParser} class to get the same parsing behaviour as in JSBML-0.8:
-<p><pre><blockquote>
+<p><blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
 
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
@@ -1080,6 +1096,15 @@ public class ASTNode extends AbstractTreeNode {
     }
 
     return result;
+  }
+
+  /**
+   * @param mathML a {@link String} in MathML format.
+   * @return An {@link ASTNode} representation of the given MathML {@link String}.
+   * @see #readMathMLFromString(String)
+   */
+  public static ASTNode parseMathML(String mathML) {
+    return readMathMLFromString(mathML);
   }
 
   /**
@@ -1391,6 +1416,12 @@ public class ASTNode extends AbstractTreeNode {
   private String encoding;
 
   /**
+   * XMLNode that will hold the content of the 'semantics' mathML element.
+   */
+  private List<XMLNode> semanticsAnnotationList;
+
+
+  /**
    * Tells if the type attribute of the cn element was set and we need to
    * write it back or if it is set to the default (REAL).
    * 
@@ -1406,7 +1437,8 @@ public class ASTNode extends AbstractTreeNode {
    * A {@link Logger} for this class.
    */
   private static transient final Logger logger = Logger.getLogger(ASTNode.class);
-
+  private static final transient boolean isDebugEnabled = logger.isDebugEnabled();
+  
   /**
    * The part of a number in scientific format (with an E) that is on the left
    * side of the E (the prefix of the number). For instance, in the number
@@ -1452,6 +1484,12 @@ public class ASTNode extends AbstractTreeNode {
   private CallableSBase variable;
 
   /**
+   * {@link Map} containing the ASTNode plugin object of additional packages
+   * with the appropriate name of the package.
+   */
+  private SortedMap<String, ASTNodePlugin> plugins;
+
+  /**
    * Creates a new {@link ASTNode} of unspecified type and without a pointer
    * to its containing {@link MathContainer}.
    */
@@ -1485,12 +1523,25 @@ public class ASTNode extends AbstractTreeNode {
     variable = null; // the clone is not linked anymore to any model so we cannot have any 'variable' set
     numerator = astNode.numerator;
     unitId = astNode.unitId == null ? null : new String(astNode.unitId);
+    definitionURL = astNode.definitionURL;
+    id = astNode.id;
+    className = astNode.className;
+    encoding = astNode.encoding;
+    style = astNode.style;
 
     if (astNode.getChildCount() > 0) {
       for (ASTNode child : astNode.listOfNodes) {
         ASTNode c = child.clone();
         c.parent = this;
         listOfNodes.add(c);
+      }
+    }
+
+    if (astNode.semanticsAnnotationList != null) {
+      semanticsAnnotationList = new ArrayList<XMLNode>();
+
+      for (XMLNode semanticsAnnotation : astNode.semanticsAnnotationList) {
+        semanticsAnnotationList.add(semanticsAnnotation.clone());
       }
     }
   }
@@ -1701,7 +1752,7 @@ public class ASTNode extends AbstractTreeNode {
    *            the node to add as child.
    */
   public void addChild(ASTNode child) {
-    if (logger.isDebugEnabled()) {
+    if (isDebugEnabled) {
       logger.debug(" adding child current node: \n" + astNodeToTree(this, "", ""));
       logger.debug(" adding child: \n" + astNodeToTree(child, "", ""));
     }
@@ -2237,10 +2288,10 @@ public class ASTNode extends AbstractTreeNode {
             && ast.getDenominator() == getDenominator();
       }
       if ((ast.getType() == Type.REAL_E) && (type == Type.REAL_E)) {
-        equal &= ast.getMantissa() == getMantissa()
+        equal &= Double.isNaN(getMantissa()) ? Double.isNaN(ast.getMantissa()) : ast.getMantissa() == getMantissa()
             && ast.getExponent() == getExponent();
       } else if (isReal() && ast.isReal()) {
-        equal &= ast.getReal() == getReal();
+        equal &= Double.isNaN(getReal()) ? Double.isNaN(ast.getReal()) : ast.getReal() == getReal();
       }
 
       equal &= isSetClassName() == ast.isSetClassName();
@@ -2267,6 +2318,8 @@ public class ASTNode extends AbstractTreeNode {
       if (equal && isSetUnits()) {
         equal &= getUnits().equals(ast.getUnits());
       }
+
+      // TODO - semanticsAnnotationList not part of equals or hashcode ?
     }
     return equal;
   }
@@ -2350,6 +2403,8 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public TreeNode getChildAt(int i) {
     return getChild(i);
+
+    // TODO - add semantics XMLNode ??
   }
 
   /* (non-Javadoc)
@@ -2358,6 +2413,8 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public int getChildCount() {
     return listOfNodes == null ? 0 : listOfNodes.size();
+
+    // TODO - add semantics XMLNode ??
   }
 
   /**
@@ -2579,6 +2636,9 @@ public class ASTNode extends AbstractTreeNode {
       case REAL_E:{
         //  mantissa * Math.pow(10, getExponent())) ==> this formula does not give exact values.
         // for example: mantissa = 3.0, exponent = -17 ==> 2.9999999999999994E-17 instead of 3.0E-17
+        if (Double.isNaN(mantissa) || Double.isInfinite(mantissa)) {
+          return mantissa;
+        }
         return Double.parseDouble(mantissa + "E" + getExponent());
       }
       case RATIONAL:
@@ -2798,6 +2858,12 @@ public class ASTNode extends AbstractTreeNode {
     if (isSetClassName()) {
       hashCode += prime * getClassName().hashCode();
     }
+    if (isSetUnits()) {
+      hashCode += prime * getUnits().hashCode();
+    }
+    // TODO - semanticsAnnotationList not part of equals or hashcode ?
+
+
     return hashCode;
   }
 
@@ -2828,7 +2894,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   private void initDefaults() {
     ASTNode old = this;
-    if (logger.isDebugEnabled()) {
+    if (isDebugEnabled) {
       logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.initDefaults"), (type == null ? Type.UNKNOWN : type)));
     }
 
@@ -2859,6 +2925,10 @@ public class ASTNode extends AbstractTreeNode {
     }
     variable = null;
     mantissa = Double.NaN;
+    
+    if (plugins == null) {
+      plugins = new TreeMap<String, ASTNodePlugin>();
+    }
     firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
 
@@ -3112,6 +3182,18 @@ public class ASTNode extends AbstractTreeNode {
         || type == Type.RELATIONAL_GT || type == Type.RELATIONAL_LEQ
         || type == Type.RELATIONAL_LT || type == Type.RELATIONAL_NEQ;
   }
+
+
+  /**
+   * Return true if this node contain some semantics annotations.
+   * 
+   * @return true if this node contain some semantics annotations.
+   * @see #getNumSemanticsAnnotations()
+   */
+  public boolean isSemantics() {
+    return getNumSemanticsAnnotations() > 0;
+  }
+
 
   /**
    * @return
@@ -3797,7 +3879,6 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Sets the Parent of the node to the given value
    * 
-   * @param node the orphan node
    * @param parent the parent
    */
   public void setParentSBMLObject(MathContainer parent) {
@@ -3826,10 +3907,10 @@ public class ASTNode extends AbstractTreeNode {
    */
   public void setType(String typeStr) {
     // System.out.println("ASTNode: setType(String) called.");
-    if (logger.isDebugEnabled()) {
+    if (isDebugEnabled) {
       logger.debug("ASTNode: setType(String) called: " + typeStr);
     }
-    
+
     Type type = Type.getTypeFor(typeStr);
     setType(type);
     if (type != Type.UNKNOWN) {
@@ -3863,7 +3944,7 @@ public class ASTNode extends AbstractTreeNode {
 
     String sType = type.toString();
 
-    if (logger.isDebugEnabled()) {
+    if (isDebugEnabled) {
       logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.setType"), this.type, sType));
     }
 
@@ -4209,7 +4290,7 @@ public class ASTNode extends AbstractTreeNode {
       // log the exception
       e.printStackTrace();
 
-      if (logger.isDebugEnabled()) {
+      if (isDebugEnabled) {
         logger.error(MessageFormat.format(resourceBundle.getString("ASTNode.toString"), e.getMessage()), e);
       } else {
         // TODO: Do not print this message if parsing the file !!! Or remove it
@@ -4217,47 +4298,47 @@ public class ASTNode extends AbstractTreeNode {
       }
     } catch (RuntimeException e) {
       // added to prevent a crash when we cannot create the formula
-      if (logger.isDebugEnabled()) {
+      if (isDebugEnabled) {
         logger.error(MessageFormat.format(resourceBundle.getString("ASTNode.toString"), e.getMessage()), e);
       }
     }
     return formula;
   }
 
-  
-  
+
+
   /**
    * Returns a simple String representing the content of the ASTNode.
    * 
    * @return a simple String representing the content of the ASTNode.
    */
   public String toSimpleString() {
-    StringBuffer buffer = new StringBuffer("ASTNode [type=");    
+    StringBuffer buffer = new StringBuffer("ASTNode [type=");
     buffer.append(type);
-    
-    if (isInteger()) 
+
+    if (isInteger())
     {
       buffer.append(", ").append(getInteger());
     }
-    else if (isReal()) 
+    else if (isReal())
     {
       buffer.append(", ").append(getReal());
-      
-      if (isRational()) 
+
+      if (isRational())
       {
         buffer.append(" (").append(getNumerator()).append(" / ").append(getDenominator());
       }
-      else if (exponent != 0) 
+      else if (exponent != 0)
       {
         buffer.append(" (").append(getMantissa()).append("e").append(getExponent());
       }
     }
-    else if (isName()) 
+    else if (isName())
     {
       buffer.append(", name = ").append(getName());
     }
-    
-    if (definitionURL != null) 
+
+    if (definitionURL != null)
     {
       buffer.append(", definitionURL = ").append(getDefinitionURL());
     }
@@ -4265,19 +4346,19 @@ public class ASTNode extends AbstractTreeNode {
     if (unitId != null) {
       buffer.append(", units = ").append(getUnits());
     }
-    
+
     if (getChildCount() > 0) {
       buffer.append(", nb children = ").append(getChildCount());
     }
-    
+
     if (isSetUserObjects()) {
-      buffer.append(", user object keys = ").append(userObjectKeySet()); 
+      buffer.append(", user object keys = ").append(userObjectKeySet());
     }
-    
+
     if (getParent() == null) {
       buffer.append(", no parent defined");
     }
-    
+
     if (id != null) {
       buffer.append(", id = ").append(getId());
     }
@@ -4290,7 +4371,7 @@ public class ASTNode extends AbstractTreeNode {
     if (className != null) {
       buffer.append(", className = ").append(getClassName());
     }
-    
+
     return buffer.toString();
   }
 
@@ -4342,14 +4423,419 @@ public class ASTNode extends AbstractTreeNode {
    * @return a simple tree view of the ASTNode internal
    */
   public static String astNodeToTree(ASTNode n, String tree, String indent) {
-    tree = tree + indent + n.getType() + " " + 
+    tree = tree + indent + n.getType() + " " +
         (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + "\n";
-    
+
     for (ASTNode child : n.getChildren()) {
       tree = astNodeToTree(child, tree, indent + "  ");
     }
-    
+
     return tree;
+  }
+
+  /**
+   * Adds the given {@link XMLNode} as a MathML  {@code <semantics>}
+   * element to this {@link ASTNode}.
+   * 
+   * <p>
+   * The {@code <semantics>} element is a MathML&nbsp;2.0 construct
+   * that can be used to associate additional information with a MathML
+   * construct.  The construct can be used to decorate a MathML expressions with
+   * a sequence of one or more {@code &lt;annotation&gt;} or
+   * {@code &lt;annotation-xml&gt;} elements.  Each such element contains a
+   * pair of items; the first is a symbol that acts as an attribute or key, and
+   * the second is the value associated with the attribute or key.  Please refer
+   * to the MathML&nbsp;2.0 documentation, particularly the <a target="_blank"
+   * href="http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations">Section
+   * 5.2, Semantic Annotations</a> for more information about these constructs.
+   *
+   * @param semanticsAnnotation the annotation to add.
+   * @return the added {@link XMLNode}.
+   */
+  public XMLNode addSemanticsAnnotation(XMLNode semanticsAnnotation) {
+    if (semanticsAnnotation == null) {
+      return null;
+    }
+    if (semanticsAnnotationList == null) {
+      semanticsAnnotationList = new ArrayList<XMLNode>();
+    }
+
+    semanticsAnnotationList.add(semanticsAnnotation);
+
+    return semanticsAnnotation;
+  }
+
+  /**
+   * Gets the number of <em>semantic annotation</em> elements inside this node.
+   * 
+   * <p>
+   * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
+   * that can be used to associate additional information with a MathML
+   * construct.  The construct can be used to decorate a MathML expressions with
+   * a sequence of one or more <code>&lt;annotation&gt;</code> or
+   * <code>&lt;annotation-xml&gt;</code> elements.  Each such element contains a
+   * pair of items; the first is a symbol that acts as an attribute or key, and
+   * the second is the value associated with the attribute or key.  Please refer
+   * to the MathML&nbsp;2.0 documentation, particularly the <a target="_blank"
+   * href="http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations">Section
+   * 5.2, Semantic Annotations</a> for more information about these constructs.
+   *
+   * @return the number of annotations of this {@link ASTNode}.
+   * @see ASTNode#addSemanticsAnnotation(XMLNode semanticsAnnotation)
+   */
+  public int getNumSemanticsAnnotations() {
+    if (semanticsAnnotationList == null) {
+      return 0;
+    }
+
+    return semanticsAnnotationList.size();
+  }
+
+  /**
+   * Gets the nth <code>&lt;semantics&gt;</code> annotation of this node.
+   * 
+   * <p>
+   * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
+   * that can be used to associate additional information with a MathML
+   * construct.  The construct can be used to decorate a MathML expressions with
+   * a sequence of one or more <code>&lt;annotation&gt;</code> or
+   * <code>&lt;annotation-xml&gt;</code> elements.  Each such element contains a
+   * pair of items; the first is a symbol that acts as an attribute or key, and
+   * the second is the value associated with the attribute or key.  Please refer
+   * to the MathML&nbsp;2.0 documentation, particularly the <a target="_blank"
+   * href="http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations">Section
+   * 5.2, Semantic Annotations</a> for more information about these constructs.
+   * 
+   * @return the nth annotation of this {@link ASTNode}, or <code>null</code> if this node has
+   * no nth annotation (<code>n &gt;</code>
+   * {@link ASTNode#getNumSemanticsAnnotations()}
+   * <code>- 1</code> or n < 0).
+   * @see ASTNode#addSemanticsAnnotation(XMLNode sAnnotation)
+   */
+  public XMLNode getSemanticsAnnotation(int n) {
+    if (semanticsAnnotationList == null || n < 0 || (n > (getNumSemanticsAnnotations() -1))) {
+      return null;
+    }
+
+    return semanticsAnnotationList.get(n);
+  }
+
+  /**
+   * Returns the list of semantics annotations of this node.
+   * 
+   * @return the list of semantics annotations of this node or null if no semantics annotation are present.
+   */
+  public List<XMLNode> getListOfSemanticsAnnotations() {
+    return semanticsAnnotationList;
+  }
+
+  // TODO - removeSemanticsAnnotation
+  // TODO - unsetsemanticsAnnotation
+
+  /**
+   * Creates a new {@link ASTNodePlugin} for the given package name or URI
+   * and adds it to this {@link ASTNode}.
+   * 
+   * <p>If an {@link ASTNodePlugin} was already present in this {@link ASTNode}
+   * it will be replaced.
+   * 
+   * @param nameOrUri the package name or URI
+   * @return a new {@link ASTNodePlugin} for the given package name or URI
+   */
+  public ASTNodePlugin createPlugin(String nameOrUri) {
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+      ASTNodePlugin sbasePlugin = packageParser.createPluginFor(this);
+      addExtension(nameOrUri, sbasePlugin);
+      return sbasePlugin;
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"),
+      nameOrUri));
+  }
+
+  /**
+   * Adds a {@link ASTNodePlugin} object to this {@link ASTNode}.
+   * 
+   * <p>If a previous {@link ASTNodePlugin} associated with the same package
+   * was present before, it will be replaced.
+   * 
+   * @param nameOrUri the name or URI of the package extension.
+   * @param sbasePlugin the {@link ASTNodePlugin} to add.
+   */
+  public void addExtension(String nameOrUri, ASTNodePlugin sbasePlugin) {
+
+    if (!isPackageEnabled(nameOrUri)) {
+      enablePackage(nameOrUri);
+    }
+
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+
+      // unset the previous plugin if needed
+      if (plugins.get(packageParser.getPackageName()) != null) {
+        unsetPlugin(packageParser.getPackageName());
+      }
+
+      plugins.put(packageParser.getPackageName(), sbasePlugin);
+
+      // Making sure that the correct extendedSBase is set in the SBasePlugin
+      // And that all the ids and metaids are registered
+      if ((sbasePlugin.getExtendedASTNode() == null) || (sbasePlugin.getExtendedASTNode() != this)) {
+        // ((ASTNodePlugin) sbasePlugin).setPackageVersion(this); // TODO?
+      }
+
+      // the package namespace and version will be set in firePropertyChange
+      firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbasePlugin);
+    } else {
+      throw new IllegalArgumentException(MessageFormat.format(
+        resourceBundle.getString("AbstractSBase.addExtensionExc"), nameOrUri));
+    }
+  }
+
+  /**
+   * Adds a {@link ASTNodePlugin} object to this {@link ASTNode}.
+   * 
+   * <p>If a previous {@link ASTNodePlugin} associated with the same package
+   * was present before, it will be replaced.
+   * 
+   * @param nameOrUri the name or URI of the package extension.
+   * @param sbasePlugin the {@link ASTNodePlugin} to add.
+   * @see #addExtension(String, ASTNodePlugin)
+   */
+  public void addPlugin(String nameOrUri, ASTNodePlugin sbasePlugin) {
+    addExtension(nameOrUri, sbasePlugin);
+  }
+
+  /**
+   * Disables the given SBML Level 3 package on this {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void disablePackage(String packageURIOrName) {
+    enablePackage(packageURIOrName, false);
+  }
+
+  /**
+   * Enables the given SBML Level 3 package on this {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void enablePackage(String packageURIOrName) {
+    enablePackage(packageURIOrName, true);
+  }
+
+  /**
+   * Enables or disables the given SBML Level 3 package on this
+   * {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName
+   *        a package namespace URI or package name
+   * @param enabled
+   *        a boolean to tell if the package need to be enabled or disabled. It
+   *        {@code true} the package will be enabled, otherwise it will be
+   *        disabled.
+   */
+  public void enablePackage(String packageURIOrName, boolean enabled) {
+    SBMLDocument doc = getParentSBMLObject().getSBMLDocument();
+
+    if (doc != null) {
+      doc.enablePackage(packageURIOrName, enabled);
+    } else if (logger.isDebugEnabled()) {
+      logger.debug(resourceBundle.getString("AbstractSBase.enablePackage"));
+    }
+  }
+
+  /**
+   * Returns the {@link ASTNodePlugin} object which matches this package
+   * name or URI.
+   * 
+   * @param nameOrUri
+   *        the package name or URI
+   * @return the {@link ASTNodePlugin} object which matches this package
+   *         name or URI,
+   *         null is returned if nothing matching the name or URI is found.
+   */
+  public ASTNodePlugin getExtension(String nameOrUri) {
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+      return plugins.get(packageParser.getPackageName());
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
+  }
+
+  /**
+   * Returns the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
+   * 
+   * @return the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
+   */
+  public int getExtensionCount() {
+
+    if (plugins != null) {
+      return plugins.size();
+    }
+
+    return 0;
+  }
+
+//  /**
+//   * Returns the map containing all the {@link SBasePlugin} extension objects
+//   * of this {@link SBase}.
+//   * 
+//   * @return the map containing all the {@link SBasePlugin} extension objects
+//   * of this {@link SBase}.
+//   */
+//  public Map<String, ASTNodePlugin> getExtensionPackages() { // TODO - remove this method to prevent access to the map directly ?? Or provide a copy of the Map
+//    return plugins;
+//  }
+
+  /**
+   * Returns the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
+   * 
+   * @return the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
+   */
+  public int getNumPlugins() {
+    return getExtensionCount();
+  }
+
+  /**
+   * Returns an {@link ASTNodePlugin} for an SBML Level 3 package extension
+   * with the given package name or URI.
+   * <p>
+   * If no {@link ASTNodePlugin} is found for this package, a new
+   * {@link ASTNodePlugin} is created, added to this {@link ASTNode} and returned.
+   * 
+   * @param nameOrUri
+   *        the name or URI of the package
+   * @return an {@link ASTNodePlugin} for an SBML Level 3 package extension
+   *         with the given package name or URI.
+   */
+  public ASTNodePlugin getPlugin(String nameOrUri) {
+
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+      ASTNodePlugin plugin = plugins.get(packageParser.getPackageName());
+      if (plugin != null) {
+        return plugin;
+      } else {
+        return createPlugin(nameOrUri);
+      }
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
+  }
+
+  /**
+   * Returns {@code true} if this object is extended by other packages.
+   * 
+   * @return {@code true} if this object is extended by other packages.
+   */
+  public boolean isExtendedByOtherPackages() {
+    return !plugins.isEmpty();
+  }
+
+  /**
+   * Returns {@code true} if the given SBML Level 3 package is enabled within
+   * the containing {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName
+   *        the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within
+   *         the containing {@link SBMLDocument}, {@code false} otherwise.
+   */
+  public boolean isPackageEnabled(String packageURIOrName) {
+
+    SBMLDocument doc = getParentSBMLObject().getSBMLDocument(); // TODO - need to prevent NullPointerException
+
+    if (doc != null) {
+      return doc.isPackageEnabled(packageURIOrName);
+    }
+
+    return false;
+  }
+
+  /**
+   * Returns {@code true} if the given SBML Level 3 package is enabled within
+   * the containing {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName
+   *        the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within
+   *         the containing {@link SBMLDocument}, {@code false} otherwise.
+   * @libsbml.deprecated
+   * @see #isPackageEnabled(String)
+   */
+  public boolean isPackageURIEnabled(String packageURIOrName) {
+    return isPackageEnabled(packageURIOrName);
+  }
+
+  /**
+   * Returns {@code true} if an {@link ASTNodePlugin} is defined
+   * for the given package.
+   * 
+   * @param nameOrUri the package name or URI
+   * @return {@code true} if an {@link ASTNodePlugin} is defined
+   * for the given package.
+   */
+  public boolean isSetPlugin(String nameOrUri) {
+
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+      return plugins.get(packageParser.getPackageName()) != null;
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
+  }
+
+  /**
+   * Unsets the {@link ASTNodePlugin} extension object which matches this package
+   * name or URI.
+   * 
+   * @param nameOrUri
+   *        the package name or URI
+   */
+  public void unsetExtension(String nameOrUri) {
+
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+
+      ASTNodePlugin sbasePlugin = plugins.remove(packageParser.getPackageName());
+      firePropertyChange(TreeNodeChangeEvent.extension, sbasePlugin, null);
+      return;
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format(
+      resourceBundle.getString("AbstractSBase.createPlugin"),
+      nameOrUri));
+  }
+
+  /**
+   * Unsets the {@link ASTNodePlugin} plugin object which matches this package
+   * name or URI.
+   * 
+   * @param nameOrUri
+   *        the package name or URI
+   * @see #unsetExtension(String)       
+   */
+  public void unsetPlugin(String nameOrUri) {
+    unsetExtension(nameOrUri);
   }
 
 }
