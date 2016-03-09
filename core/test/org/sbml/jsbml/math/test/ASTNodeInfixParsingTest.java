@@ -1147,7 +1147,7 @@ public class ASTNodeInfixParsingTest {
         ASTNode n = e.getChild(1);
         status = n.getType() == ASTNode.Type.CONSTANT_E;
         if (status) {
-          status = n.toFormula().equals("e") && n.getName() == null;
+          status = n.toFormula().equals("exponentiale") && n.getName() == null;
         }
       }
     } catch (Exception e) {
