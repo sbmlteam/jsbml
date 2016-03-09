@@ -459,23 +459,12 @@ public class MathMLStaxParser implements ReadingParser {
     } else {
       astNode.setType(elementName);
     }
-    astNode.setParent((TreeNode) contextObject);
-    astNode.setParentSBMLObject(mathContainer);
     
     if (setMath) {
       mathContainer.setMath(astNode);
     } else {
       parentASTNode.addChild(astNode);
     }
-
-    /*else if (astNode.isNumber() || astNode.isConstant() || astNode.getType().equals(ASTNode.Type.NAME)
-				|| astNode.getType().equals(ASTNode.Type.NAME_TIME) || astNode.isInfinity() || astNode.isNaN()
-				|| astNode.isNegInfinity())
-		{
-			return parentASTNode;
-		} else if () {
-
-     */
 
     return astNode;
   }
