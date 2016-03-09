@@ -646,13 +646,16 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
 
     // make sure that encoding is UTF-8 
     try {
-      OutputStreamWriter out = new OutputStreamWriter(new ByteArrayOutputStream(), "UTF-8");
+      ByteArrayOutputStream outputSbml = new ByteArrayOutputStream();
+      Writer out = new OutputStreamWriter(outputSbml, "UTF-8");
       InputStreamReader in = new InputStreamReader(new ByteArrayInputStream(sbmlDocString.getBytes("UTF-8")), "UTF-8");
 
-      setIndentation(' ', (short) 2);
+      setIndentation(getIndentationChar(), getIndentationCount());
       tidy.parse(in, out); // run tidy, providing an input and output stream
 
-      return out.toString();
+      String outputSBMLString = outputSbml.toString("UTF-8");
+      
+      return outputSBMLString;
     } catch (UnsupportedEncodingException e) {
       throw new SBMLException(e);
     }
