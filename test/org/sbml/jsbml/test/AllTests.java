@@ -44,7 +44,7 @@ import org.sbml.jsbml.xml.test.Tests;
 @RunWith(value=Suite.class)
 @SuiteClasses(value={Tests.class, LibsbmlCompatibilityTests.class, LayoutJUnitTests.class, RenderJUnitTests.class,
   UnregisterPackageTests.class, ArraysJUnitTests.class, DisablePackageTests.class, TestL3Dyn.class,
-  PackageVersionTests.class, CompJUnitTests.class})
+  PackageVersionTests.class, CompJUnitTests.class, UTF8Tests.class})
 public class AllTests {
 
   /**
