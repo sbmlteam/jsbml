@@ -211,7 +211,7 @@
 	<target
 	  name="compile"
 	  description="Compiles the test directory"
-	  depends="prepare-src, package"
+	  depends="prepare-src, package, prepare-tidy"
 	>
 		<javac srcdir="${test.src.dir}"
            destdir="${build.dest}"
@@ -615,6 +615,32 @@
 		</copy>
 		<copy todir="${build.dir}">
 			<fileset dir="${basedir}/extensions/${packagename}/build/" includes="*.jar" />
+		</copy>
+
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Build a single jsbml module                                         -->
+	<!-- =================================================================== -->
+	<target
+	  name="prepare-tidy"
+	  depends="init"
+	  description="Build the tidy jsbml module"
+	>
+
+		<echo>Module jsbml-tidy</echo>
+
+		<ant dir="${tidy.module.base.dir}" inheritAll="false" inheritRefs="false">
+					<target name="clean" />
+					<target name="jar" />
+		</ant>
+
+		<copy todir="${build.src}">
+			<fileset dir="${tidy.module.base.dir}/build/src" />
+		</copy>
+		<copy todir="${build.dir}">
+			<fileset dir="${tidy.module.base.dir}/build/" includes="*.jar" />
+			<fileset dir="${tidy.module.base.dir}/lib/" includes="*.jar" />
 		</copy>
 
 	</target>
