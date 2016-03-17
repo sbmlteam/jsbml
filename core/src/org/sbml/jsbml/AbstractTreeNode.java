@@ -22,6 +22,7 @@
  */
 package org.sbml.jsbml;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.AbstractMap;
@@ -498,11 +499,6 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   @Override
   public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners() {
-    
-    // Might happen after deserialization !
-    if (listOfListeners == null) {
-      listOfListeners = new ArrayList<TreeNodeChangeListener>();
-    }
     return listOfListeners;
   }
 
@@ -807,4 +803,10 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
     return userObjects.keySet();
   }
 
+  private void readObject(java.io.ObjectInputStream in)
+      throws IOException, ClassNotFoundException
+  {
+    in.defaultReadObject();
+    listOfListeners = new ArrayList<TreeNodeChangeListener>();
+  }
 }
