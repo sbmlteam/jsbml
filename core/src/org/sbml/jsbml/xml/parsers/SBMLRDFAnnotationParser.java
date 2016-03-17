@@ -1661,20 +1661,22 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         String precedingElementName = null;
         String precedingElementNamespaceURI = JSBML.URI_PURL_TERMS;
 
-        if (contextObject.getHistory().isSetModifiedDate())
-        {
-          precedingElementName = "modified";
+        if (contextObject.isSetHistory()) {
+          if (contextObject.getHistory().isSetModifiedDate())
+          {
+            precedingElementName = "modified";
+          }
+          else if (contextObject.getHistory().isSetCreatedDate())
+          {
+            precedingElementName = "created";
+          }
+          else if (contextObject.getHistory().getCreatorCount() > 0)
+          {
+            precedingElementName = "creator";
+            precedingElementNamespaceURI = JSBML.URI_PURL_ELEMENTS;
+          }
         }
-        else if (contextObject.getHistory().isSetCreatedDate())
-        {
-          precedingElementName = "created";
-        }
-        else if (contextObject.getHistory().getCreatorCount() > 0)
-        {
-          precedingElementName = "creator";
-          precedingElementNamespaceURI = JSBML.URI_PURL_ELEMENTS;
-        }
-
+        
         int i = contextObject.getAnnotation().getListOfCVTerms().size() - 1;
         for (; i >= 0; i--)
         {
@@ -1717,7 +1719,11 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
     {
       XMLNode qualifierNode = null;
 
-      int trueIndex = getLastIndexOf(parentNode, precedingElementName, precedingElementNamespaceURI);
+      int trueIndex = -1;
+      
+      if (precedingElementName != null) {
+        trueIndex = getLastIndexOf(parentNode, precedingElementName, precedingElementNamespaceURI);
+      }
       String cvtermURI = CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS;
       String cvtermPrefix = "bqbiol";
 
