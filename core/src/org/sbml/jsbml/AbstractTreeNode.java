@@ -498,6 +498,11 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   @Override
   public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners() {
+    
+    // Might happen after deserialization !
+    if (listOfListeners == null) {
+      listOfListeners = new ArrayList<TreeNodeChangeListener>();
+    }
     return listOfListeners;
   }
 
