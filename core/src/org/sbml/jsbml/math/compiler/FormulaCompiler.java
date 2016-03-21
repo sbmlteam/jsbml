@@ -84,10 +84,10 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
    * @param elements
    * @return
    */
-  private static final StringBuffer arith(char operator, Object... elements) {
-    List<Object> vsb = new Vector<Object>();
-    for (Object sb : elements) {
-      if (sb != null && sb.toString().length() > 0) {
+  private static final <T> StringBuffer arith(char operator, T... elements) {
+    List<T> vsb = new Vector<T>();
+    for (T sb : elements) {
+      if ((sb != null) && (sb.toString().length() > 0)) {
         vsb.add(sb);
       }
     }
@@ -278,7 +278,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
    * @param factors
    * @return
    */
-  public static final StringBuffer times(Object... factors) {
+  public static final <T> StringBuffer times(T... factors) {
     return arith('*', factors);
   }
 
@@ -288,10 +288,10 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
    * @param elements
    * @return
    */
-  protected static final StringBuffer vector(Object... elements) {
-    List<Object> vsb = new Vector<Object>();
-    for (Object sb : elements) {
-      if (sb != null && sb.toString().length() > 0) {
+  protected static final <T> StringBuffer vector(T... elements) {
+    List<T> vsb = new Vector<T>();
+    for (T sb : elements) {
+      if ((sb != null) && (sb.toString().length() > 0)) {
         vsb.add(sb);
       }
     }
