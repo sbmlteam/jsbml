@@ -107,7 +107,7 @@ public class MathMLXMLStreamCompiler {
    * @throws XMLStreamException
    */
   public MathMLXMLStreamCompiler(String indent) throws XMLStreamException {
-    // Explicitly creating WstxOutputFactory as it is needed by staxmate and it is then easier for 
+    // Explicitly creating WstxOutputFactory as it is needed by staxmate and it is then easier for
     // OSGi to find the needed dependencies
     WstxOutputFactory outputFactory = new WstxOutputFactory();
     SMOutputFactory smFactory = new SMOutputFactory(outputFactory);
@@ -134,7 +134,7 @@ public class MathMLXMLStreamCompiler {
     String mathML = "";
     StringWriter stream = new StringWriter();
 
-    // Explicitly creating WstxOutputFactory as it is needed by staxmate and it is then easier for 
+    // Explicitly creating WstxOutputFactory as it is needed by staxmate and it is then easier for
     // OSGi to find the needed dependencies
     WstxOutputFactory outputFactory = new WstxOutputFactory();
     SMOutputFactory smFactory = new SMOutputFactory(outputFactory);
@@ -165,7 +165,7 @@ public class MathMLXMLStreamCompiler {
       writer.writeCharacters("\n");
 
       writer.setPrefix("math", ASTNode.URI_MATHML_DEFINITION);
-      
+
       // if an ASTNode.isSemantics we need to write the enclosing 'semantics' element !!
       if (astNode.isSemantics()) {
         writer.writeCharacters(compiler.indent);
@@ -173,19 +173,19 @@ public class MathMLXMLStreamCompiler {
         writer.writeStartElement("semantics");
         writer.writeCharacters("\n");
       }
-      
+
       compiler.compile(astNode);
 
       // writing the semantics annotation elements here to write them only for the top level element.
       if (astNode.isSemantics()) {
-        
+
         compiler.compileSemanticAnnotations(astNode);
-        
+
         writer.writeCharacters("  ");
         writer.writeEndElement();
         writer.writeCharacters("\n");
       }
-      
+
       writer.writeEndElement();
       writer.writeEndDocument();
       writer.close();
@@ -379,9 +379,9 @@ public class MathMLXMLStreamCompiler {
       case VECTOR:
         compileVector(astNode);
         break;
-//      case SEMANTICS:
-//        compileSemantics(astNode);
-//        break;
+        //      case SEMANTICS:
+        //        compileSemantics(astNode);
+        //        break;
       default: // UNKNOWN:
         logger.warn("!!!!! I don't know what to do with the node of type " + astNode.getType());
         break;
@@ -471,7 +471,7 @@ public class MathMLXMLStreamCompiler {
       writer.writeCharacters(indent);
       writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "exponentiale");
       writer.writeCharacters("\n");
-      
+
     } catch (XMLStreamException e) {
       e.printStackTrace();
     }
@@ -527,7 +527,6 @@ public class MathMLXMLStreamCompiler {
       writer.writeCharacters(indent);
       writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
       writer.writeAttribute("type", "integer"); // writer.writeAttribute(ASTNode.URI_MATHML_DEFINITION, "type", "integer");
-
       if (astNode.isSetUnits()) {
         writer.writeAttribute("sbml:units", astNode.getUnits());
       }
@@ -569,7 +568,7 @@ public class MathMLXMLStreamCompiler {
         writer.writeAttribute("type", "real");
       }
       if (astNode.isSetUnits()) {
-        writer.writeAttribute(" sbml:units", astNode.getUnits());
+        writer.writeAttribute("sbml:units", astNode.getUnits());
       }
       writer.writeCharacters(" ");
 
@@ -597,7 +596,6 @@ public class MathMLXMLStreamCompiler {
       writer.writeCharacters(indent);
       writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
       writer.writeAttribute("type", "e-notation");
-      writer.writeCharacters(" ");
       if (astNode.isSetUnits()) {
         writer.writeAttribute("sbml:units", astNode.getUnits());
       }
@@ -650,12 +648,12 @@ public class MathMLXMLStreamCompiler {
     try {
       writer.writeCharacters(indent);
       writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "ci");
-      
+
       // check if there are any plugins on the ASTNode
       if (astNode.getExtensionCount() > 0) {
         writePlugins(astNode);
       }
-      
+
       writer.writeCharacters(" ");
       writer.writeCharacters(astNode.getName());
       writer.writeCharacters(" ");
@@ -675,17 +673,17 @@ public class MathMLXMLStreamCompiler {
    * @param astNode
    */
   private void writePlugins(ASTNode astNode) {
-    
+
     // TODO - for now only writing the attributes, we will need to revisit if
     // one package add elements to mathML elements.
-    
+
     ASTNodePlugin plugin = astNode.getPlugin("multi");
     Map<String, String> attributes = plugin.writeXMLAttributes();
-          
+
     if (attributes.size() > 0) {
       for (String attributeKey : attributes.keySet()) {
         String attributeValue = attributes.get(attributeKey);
-        
+
         try {
           writer.writeAttribute(attributeKey, attributeValue);
         } catch (XMLStreamException e) {
@@ -1059,7 +1057,7 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-  
+
   /**
    * @param node
    */
@@ -1067,18 +1065,18 @@ public class MathMLXMLStreamCompiler {
 
     try {
 
-      if (node.getNumSemanticsAnnotations() > 0) 
+      if (node.getNumSemanticsAnnotations() > 0)
       {
         // TODO - use the current 'indent' value to initialize the XMLNodeWriter
         XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, 0, 2, ' ');
-        
+
         for (int i = 0; i < node.getNumSemanticsAnnotations(); i++)
         {
           XMLNode xmlNode = node.getSemanticsAnnotation(i);
 
           writer.writeCharacters(indent);
           xmlNodeWriter.write(xmlNode);
-          writer.writeCharacters("\n");          
+          writer.writeCharacters("\n");
         }
       }
     } catch (XMLStreamException e) {
@@ -1089,9 +1087,9 @@ public class MathMLXMLStreamCompiler {
 
   }
 
-//  private void compileSemantics(ASTNode astNode) {
-//    // would be needed for ASTNode2 may be ?
-//  }
+  //  private void compileSemantics(ASTNode astNode) {
+  //    // would be needed for ASTNode2 may be ?
+  //  }
 
 
   /**
