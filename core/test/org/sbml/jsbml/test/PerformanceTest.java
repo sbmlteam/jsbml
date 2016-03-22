@@ -96,7 +96,7 @@ public class PerformanceTest {
     double globalInit = Calendar.getInstance().getTimeInMillis();
     double globalEnd = 0;
     double globalReadingMs = 0;
-    
+
     for (File file : files)
     {
 
@@ -107,7 +107,7 @@ public class PerformanceTest {
       String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
 
       System.out.printf("Reading %s and writing %s (size=%dKb)\n",
-        fileName, jsbmlWriteFileName, file.length()/1024);      
+        fileName, jsbmlWriteFileName, file.length()/1024);
 
       SBMLDocument testDocument;
       long afterRead = 0;
@@ -119,7 +119,7 @@ public class PerformanceTest {
 
         System.out.printf("Starting writing\n");
 
-        new SBMLWriter().write(testDocument.clone(), jsbmlWriteFileName);
+        SBMLWriter.write(testDocument.clone(), jsbmlWriteFileName, ' ', (short) 2);
       }
       catch (XMLStreamException e)
       {
@@ -142,7 +142,7 @@ public class PerformanceTest {
       double nbSecondsRead = (afterRead - init)/1000;
       double nbSecondsWrite = (end - afterRead)/1000;
       globalReadingMs += (afterRead - init);
-      
+
       if (nbSeconds > 120) {
         System.out.println("It took " + nbSeconds/60 + " minutes.");
       } else {
@@ -154,7 +154,7 @@ public class PerformanceTest {
       if (nbSeconds > THRESHOLD) {
         modelLongerThanThresholdList.add(fileName);
       }
-      
+
       if (files.length == 1)
       {
         System.out.println((int)nbMilliseconds);
@@ -164,19 +164,19 @@ public class PerformanceTest {
     if (modelLongerThanThresholdList.size() > 0) {
       System.out.println("Models longer than '" + THRESHOLD + "' secondes: " + modelLongerThanThresholdList);
     }
-    
+
     if (files.length > 1)
     {
       double globalNbMilliseconds = globalEnd - globalInit;
       double globalSeconds = globalNbMilliseconds / 1000;
 
-      System.out.println("Reading and writing " + files.length + " models took : " + globalSeconds + 
+      System.out.println("Reading and writing " + files.length + " models took : " + globalSeconds +
         " seconds (" + globalReadingMs + " to read, " + (globalNbMilliseconds - globalReadingMs) + " to write).");
       System.out.println("Mean per model = " + globalSeconds / files.length + " seconds (" + globalNbMilliseconds / files.length + " ms).");
 
       System.out.println((int)globalNbMilliseconds);
     }
-    
+
   }
 
 }

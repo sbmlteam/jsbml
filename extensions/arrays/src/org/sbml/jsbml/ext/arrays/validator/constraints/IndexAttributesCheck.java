@@ -96,7 +96,9 @@ public class IndexAttributesCheck extends ArraysConstraint {
     SBase parent = index.getParentSBMLObject().getParentSBMLObject();
 
     if (refAttribute == null) {
-      String msg = MessageFormat.format("Index objects should have a value for attribute arrays:referencedAttribute. However, the referenced attribute of Index {0} for object {1} doesn't have a value.", index.toString(), parent.toString());
+      String msg = MessageFormat.format(
+        "Index objects should have a value for attribute arrays:referencedAttribute. However, the referenced attribute of Index {0} for object {1} doesn't have a value.",
+        index.toString(), parent.toString());
       logIndexMissingAttribute(msg);
       return;
     }

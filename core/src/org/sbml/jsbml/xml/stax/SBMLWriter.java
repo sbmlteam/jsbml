@@ -91,10 +91,10 @@ public class SBMLWriter {
   // The fact to use directly WstxOutputFactory and WstxInputFactory when creating the parser
   // should prevent the problem that setting those properties was fixing.
   //static {
-    // Making sure that we use the good XML library
-    // System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
-    // System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
-    // System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
+  // Making sure that we use the good XML library
+  // System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
+  // System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
+  // System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
   //}
 
   /**
@@ -190,12 +190,12 @@ public class SBMLWriter {
 
         // testDocument.checkConsistency();
 
-//        System.out.println("Model Notes = " + XMLNode.convertXMLNodeToString(testDocument.getModel().getNotes()));
-//        System.out.println("MathML = " + testDocument.getModel().getReaction(0).getKineticLaw().getMath().toMathML());
-        
+        //        System.out.println("Model Notes = " + XMLNode.convertXMLNodeToString(testDocument.getModel().getNotes()));
+        //        System.out.println("MathML = " + testDocument.getModel().getReaction(0).getKineticLaw().getMath().toMathML());
+
         System.out.println("Going to check package version and namespace for all elements.");
         PackageUtil.checkPackages(testDocument);
-        
+
         System.out.printf("Starting writing\n");
 
         new SBMLWriter().write(testDocument, jsbmlWriteFileName);
@@ -542,7 +542,7 @@ public class SBMLWriter {
   public void write(SBMLDocument sbmlDocument, OutputStream stream,
     String programName, String programVersion)
         throws XMLStreamException, SBMLException {
-    if (sbmlDocument == null || !sbmlDocument.isSetLevel() || !sbmlDocument.isSetVersion()) {
+    if ((sbmlDocument == null) || !sbmlDocument.isSetLevel() || !sbmlDocument.isSetVersion()) {
       throw new IllegalArgumentException(
           "Unable to write SBML output for documents with undefined SBML Level and Version flag.");
     }
@@ -551,10 +551,10 @@ public class SBMLWriter {
 
     // check package version and namespace in general and register packages if needed.
     PackageUtil.checkPackages(sbmlDocument, true, true);
-    
+
     initializePackageParsers();
 
-    // Explicitly creating WstxOutputFactory as it is needed by staxmate and it is then easier for 
+    // Explicitly creating WstxOutputFactory as it is needed by staxmate and it is then easier for
     // OSGi to find the needed dependencies
     WstxOutputFactory factory = new WstxOutputFactory();
     SMOutputFactory smFactory = new SMOutputFactory(factory);
@@ -697,7 +697,7 @@ public class SBMLWriter {
     WstxOutputFactory outputFactory = new WstxOutputFactory();
     SMOutputFactory smFactory = new SMOutputFactory(outputFactory);
     XMLStreamWriter2 writer = smFactory.createStax2Writer(stream);
-    
+
     // Create an xml fragment to avoid having the xml declaration
     SMRootFragment outputDocument = SMOutputFactory.createOutputFragment(writer);
 
@@ -786,7 +786,7 @@ public class SBMLWriter {
       // Creating an SMOutputElement to be sure that the previous nested element tag is closed properly.
       SMNamespace mathMLNamespace = element.getNamespace(ASTNode.URI_MATHML_DEFINITION, ASTNode.URI_MATHML_PREFIX);
       SMOutputElement mathElement = element.addElement(mathMLNamespace, "math");
-      
+
       MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
         writer, createIndentationString(indent + indentCount));
       boolean isSBMLNamespaceNeeded = compiler.isSBMLNamespaceNeeded(m.getMath());
@@ -819,21 +819,21 @@ public class SBMLWriter {
       writer.writeCharacters("\n");
 
       ASTNode astNode = m.getMath();
-      
+
       // if an ASTNode.isSemantics we need to write the enclosing 'semantics' element !!
       if (astNode.isSemantics()) {
         writer.writeCharacters(whitespaces);
         writer.writeStartElement("semantics");
         writer.writeCharacters("\n");
       }
-      
+
       compiler.compile(m.getMath());
 
       // writing the semantics annotation elements here to write them only for the top level element.
       if (astNode.isSemantics()) {
-        
+
         compiler.compileSemanticAnnotations(astNode);
-        
+
         writer.writeCharacters(whitespaces);
         writer.writeEndElement();
         writer.writeCharacters("\n");
@@ -1087,11 +1087,11 @@ public class SBMLWriter {
             indent + indentCount, false);
           elementIsNested = isClosedAnnotation = true;
         }
-        
+
         if (childXmlObject.getCharacters() != null && childXmlObject.getCharacters().trim().length() != 0) {
           newOutPutElement.addCharacters(childXmlObject.getCharacters());
         }
-        
+
         if (s.getChildCount() > 0) {
           // make sure that we'll have line breaks if an element has any sub elements.
           elementIsNested = true;
@@ -1198,7 +1198,7 @@ public class SBMLWriter {
     try {
       return stream.toString("UTF-8");
     } catch (UnsupportedEncodingException e) {
-      return stream.toString(); 
+      return stream.toString();
     }
   }
 

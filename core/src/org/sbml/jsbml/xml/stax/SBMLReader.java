@@ -87,13 +87,13 @@ public class SBMLReader {
   // effect, for example in OSGi where the properties are global
   // The fact to use directly WstxOutputFactory and WstxInputFactory when creating the parser
   // should prevent the problem that setting those properties was fixing.
-//  static {
-//    // Making sure that we use the good XML library
-//    System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
-//    System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
-//    System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
-//  }
-  
+  //  static {
+  //    // Making sure that we use the good XML library
+  //    System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
+  //    System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
+  //    System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
+  //  }
+
   /**
    * Contains all the initialized parsers.
    */
@@ -176,7 +176,9 @@ public class SBMLReader {
 
     Map<String, Class<? extends AnnotationReader>> annotationParserClasses = new HashMap<String, Class<? extends AnnotationReader>>();
 
-    JSBML.loadClasses("org/sbml/jsbml/resources/cfg/annotationParsers.xml", annotationParserClasses);
+    JSBML.loadClasses(
+      "org/sbml/jsbml/resources/cfg/annotationParsers.xml",
+      annotationParserClasses);
 
     for (Class<? extends AnnotationReader> annotationReaderClass : annotationParserClasses.values()) {
       try {
@@ -444,7 +446,7 @@ public class SBMLReader {
   public XMLNode readNotes(String notesXHTML, TreeNodeChangeListener listener)
       throws XMLStreamException {
     Object object = readXMLFromString(notesXHTML, listener);
-    
+
     if ((object != null) && (object instanceof Constraint)) {
       Constraint constraint = ((Constraint) object);
 
@@ -467,15 +469,15 @@ public class SBMLReader {
         return (XMLNode) constraint.getUserObject(org.sbml.jsbml.SBMLReader.UNKNOWN_XML_NODE);
       }
     }
-    else if ((object != null) && (object instanceof XMLNode)) 
+    else if ((object != null) && (object instanceof XMLNode))
     {
       // Should not happen at the moment but could if readXMLFromString returned directly
       // the XMLNode instead of a Constraint object.
       return (XMLNode) object;
     }
-    
+
     logger.warn("Tried to read @" + notesXHTML + "@ as XMLNode without success ! ");
-    
+
     return null;
   }
 
@@ -888,13 +890,13 @@ public class SBMLReader {
 
         // TODO - change the way we deal with notes, message and annotation and just use the context object ! If XMLNode, we use the 'anyXML' parser
         // it will allow us to deal easily with unknowns XML elements.
-        
+
         parser = initializedParsers.get(elementNamespace);
         // if the current node is a notes or message element
         // and the matching ReadingParser is a XMLNodeReader,
         // we need to set the typeOfNotes variable of the
         // XMLNodeReader instance.
-        if (currentNode.getLocalPart().equals("notes") 
+        if (currentNode.getLocalPart().equals("notes")
             || currentNode.getLocalPart().equals("message")
             || currentNode.getLocalPart().equals("annotation"))
         {
@@ -932,38 +934,38 @@ public class SBMLReader {
               hasNamespace, sbmlElements.peek());
 
             if (processedElement != null) {
-               // TODO - we won't need this code any more if the list of child is stored directly in the ASTNode facade
+              // TODO - we won't need this code any more if the list of child is stored directly in the ASTNode facade
               // TODO - try to remove this code and check if the ASTNode2 can still pass the sbml-test-suite
               if (processedElement instanceof ASTNode) {
                 ASTNode astNode = (ASTNode) processedElement;
                 if (currentNode.getLocalPart().equals("cn") && hasAttributes) {
-                   Object object = sbmlElements.peek();
-                   
-                   while (att.hasNext()) {
+                  Object object = sbmlElements.peek();
 
-                     Attribute attribute = att.next();
-                     String attributeName = attribute.getName().getLocalPart();
+                  while (att.hasNext()) {
 
-                     if (attributeName.equals("type")) {
-                       String type = attribute.getValue();
+                    Attribute attribute = att.next();
+                    String attributeName = attribute.getName().getLocalPart();
 
-                       if (type.equalsIgnoreCase("integer")) { 
-                         astNode.setType(Type.INTEGER);
-                       } else if(type.equalsIgnoreCase("e-notation")) {
-                         astNode.setType(Type.REAL_E);
-                       } else if(type.equalsIgnoreCase("rational")) {
-                         astNode.setType(Type.RATIONAL);
-                       }
+                    if (attributeName.equals("type")) {
+                      String type = attribute.getValue();
 
-                       if (object != null && object instanceof ASTNode) {
-                         ASTNode parent = (ASTNode) object;
+                      if (type.equalsIgnoreCase("integer")) {
+                        astNode.setType(Type.INTEGER);
+                      } else if(type.equalsIgnoreCase("e-notation")) {
+                        astNode.setType(Type.REAL_E);
+                      } else if(type.equalsIgnoreCase("rational")) {
+                        astNode.setType(Type.RATIONAL);
+                      }
 
-                         // we need to remove the last child as the hierarchy of children are stored in the ASTNode2 and not directly in the ASTNode
-                         parent.removeChild(parent.getChildCount() - 1);
-                         parent.addChild(astNode);
-                       } // else the parent can be directly a MathContainer - nothing to do in this case.
-                     }
-                   }
+                      if (object != null && object instanceof ASTNode) {
+                        ASTNode parent = (ASTNode) object;
+
+                        // we need to remove the last child as the hierarchy of children are stored in the ASTNode2 and not directly in the ASTNode
+                        parent.removeChild(parent.getChildCount() - 1);
+                        parent.addChild(astNode);
+                      } // else the parent can be directly a MathContainer - nothing to do in this case.
+                    }
+                  }
                 }
                 if (currentNode.getLocalPart().equals("csymbol") && hasAttributes) {
                   Object object = sbmlElements.peek();
@@ -976,7 +978,7 @@ public class SBMLReader {
                     if (attributeName.equals("definitionURL")) {
                       String type = attribute.getValue();
 
-                      if (type.equalsIgnoreCase(ASTNode.URI_TIME_DEFINITION)) { 
+                      if (type.equalsIgnoreCase(ASTNode.URI_TIME_DEFINITION)) {
                         astNode.setType(Type.NAME_TIME);
                       } else if(type.equalsIgnoreCase(ASTNode.URI_DELAY_DEFINITION)) {
                         astNode.setType(Type.FUNCTION_DELAY);
@@ -994,7 +996,7 @@ public class SBMLReader {
                     }
                   }
                 }
-                
+
                 // reset the Iterator of attributes so that they can be processed correctly in #processAttributes(...)
                 att = startElement.getAttributes();
               }

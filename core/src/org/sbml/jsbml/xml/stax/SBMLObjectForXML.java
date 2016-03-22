@@ -21,8 +21,8 @@
  */
 package org.sbml.jsbml.xml.stax;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * An SBMLObjectForXML is an object to store the localName, prefix, namespace
@@ -49,7 +49,7 @@ public class SBMLObjectForXML {
   /**
    * Contains the XML attributes of a SBML component to write.
    */
-  private Map<String, String> attributes = new HashMap<String, String>();
+  private Map<String, String> attributes;
   /**
    * Represents the text of a SBML component to write.
    */
@@ -62,10 +62,7 @@ public class SBMLObjectForXML {
    *            the attributes to set
    */
   public void addAttributes(Map<String, String> attributes) {
-    if (this.attributes == null) {
-      this.attributes = new HashMap<String, String>();
-    }
-    this.attributes.putAll(attributes);
+    getAttributes().putAll(attributes);
   }
 
   /**
@@ -83,6 +80,9 @@ public class SBMLObjectForXML {
    * @return the attributes
    */
   public Map<String, String> getAttributes() {
+    if (attributes == null) {
+      attributes = new TreeMap<String, String>();
+    }
     return attributes;
   }
 

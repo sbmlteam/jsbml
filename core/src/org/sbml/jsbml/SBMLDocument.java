@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import javax.swing.tree.TreeNode;
@@ -344,7 +345,7 @@ public class SBMLDocument extends AbstractSBase {
 
     // System.out.println("SBMLDocument.checkConsistency: tmp file = " + tmpFile.getAbsolutePath());
 
-    HashMap<String, String> consistencyParameters = new HashMap<String, String>();
+    Map<String, String> consistencyParameters = new HashMap<String, String>();
     String offcheck = null;
 
     for (String checkCategory : checkConsistencyParameters.keySet()) {
@@ -862,7 +863,7 @@ public class SBMLDocument extends AbstractSBase {
    */
   public Map<String, String> getSBMLDocumentAttributes() {
     if (SBMLDocumentAttributes == null) {
-      SBMLDocumentAttributes = new HashMap<String, String>();
+      SBMLDocumentAttributes = new TreeMap<String, String>();
     }
     return SBMLDocumentAttributes;
   }
@@ -966,34 +967,8 @@ public class SBMLDocument extends AbstractSBase {
    */
   @Override
   public boolean isPackageEnabled(String packageURIOrName) {
-
-    // Get the package URI is needed
-    PackageParser packageParser = ParserManager.getManager().getPackageParser(packageURIOrName);
-
-    if (packageParser != null) {
-      List<String> packageURIs = null;
-
-      if (packageURIOrName.equals(packageParser.getPackageName())) {
-        packageURIs = packageParser.getPackageNamespaces();
-      } else {
-        packageURIs = new ArrayList<String>();
-        packageURIs.add(packageURIOrName);
-      }
-
-      // This can happen when cloning a SBMLDocument, the AbstractSBase constructor
-      // would add any existing SBasePlugin before we initialize enabledPackageMap
-      if (enabledPackageMap == null) {
-        enabledPackageMap = new HashMap<String, Boolean>();
-      }
-
-      for (String packageURI : packageURIs) {
-        if (enabledPackageMap.containsKey(packageURI)) {
-          return enabledPackageMap.get(packageURI);
-        }
-      }
-    }
-
-    return false;
+    Boolean enabled = isPackageEnabledOrDisabled(packageURIOrName);
+    return (enabled != null) && enabled.booleanValue();
   }
 
   /**
@@ -1168,7 +1143,7 @@ public class SBMLDocument extends AbstractSBase {
    * 
    */
   boolean registerMetaId(SBase sbase, boolean add) {
-    
+
     if (mappingFromMetaId2SBase == null) {
       mappingFromMetaId2SBase = new HashMap<String, SBase>();
     }
