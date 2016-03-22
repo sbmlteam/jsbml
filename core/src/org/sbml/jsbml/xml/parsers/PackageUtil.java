@@ -22,6 +22,7 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -145,7 +146,6 @@ public class PackageUtil {
 
     // recursive test for all children if prefix is not "core"
     checkPackages(sbase, prefixMap, namespaceMap, silent, fix);
-
   }
 
   /**
@@ -164,8 +164,8 @@ public class PackageUtil {
    * @param fix boolean to indicate if encountered problems should be fixed.
    */
   private static void checkPackages(SBase sbase, Map<String, PackageInfo> prefixMap,
-    Map<String, PackageInfo> namespaceMap, boolean silent, boolean fix)
-  {
+    Map<String, PackageInfo> namespaceMap, boolean silent, boolean fix) {
+
     if (sbase == null) {
       return;
     }
@@ -276,8 +276,9 @@ public class PackageUtil {
         // checking package namespace
         if ((elementNamespace == null) || (!elementNamespace.equals(pi.namespace))) {
           if (!silent) {
-            logger.warn("The element '" + sbasePlugin.getClass().getSimpleName() + "' does not seems to have"
-                + " the expected package namespace. Found '" + elementNamespace + "', expected '" + pi.namespace + "'");
+            logger.warn(MessageFormat.format(
+              "The element ''{0}'' does not seem to have the expected package namespace. Found ''{1}'', expected ''{2}''",
+              sbasePlugin.getClass().getSimpleName(), elementNamespace, pi.namespace));
           }
 
           if (sbasePlugin instanceof AbstractSBasePlugin) {

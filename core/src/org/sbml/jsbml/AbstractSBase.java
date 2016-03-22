@@ -24,7 +24,6 @@ package org.sbml.jsbml;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -215,7 +214,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     annotation = null;
     extensions = new TreeMap<String, SBasePlugin>();
     elementNamespace = null;
-    declaredNamespaces = new HashMap<String, String>();
+    declaredNamespaces = new TreeMap<String, String>();
   }
 
   /**
@@ -257,7 +256,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     elementNamespace = null;
     packageName = sb.getPackageName();
     packageVersion = sb.getPackageVersion();
-    declaredNamespaces = new HashMap<String, String>();
+    declaredNamespaces = new TreeMap<String, String>();
 
     if (sb.isSetLevel()) {
       setLevel(sb.getLevel());
@@ -795,12 +794,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   protected boolean checkAndSetPackageNamespaceAndVersion(SBase sbase) {
     String expectedPackageNamespace = null;
     int expectedPackageVersion = -1;
-    String packageLabel = sbase.getPackageName();    
-    
+    String packageLabel = sbase.getPackageName();
+
     if (packageLabel.equals("core")) {
       return true;
     }
-    
+
     if (getPackageName().equals(sbase.getPackageName())) {
       expectedPackageNamespace = getNamespace();
       expectedPackageVersion = getPackageVersion();
@@ -809,7 +808,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       expectedPackageNamespace = parentSBasePlugin.getElementNamespace();
       expectedPackageVersion = parentSBasePlugin.getPackageVersion();
     }
-    
+
     if (expectedPackageVersion == sbase.getPackageVersion() &&
         expectedPackageNamespace != null && expectedPackageNamespace.equals(sbase.getNamespace())) {
       return true;
@@ -836,44 +835,44 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    *             <i>real</i> check, rather than to indicate potential errors.
    */
   protected boolean checkAndSetPackageNamespaceAndVersion(SBasePlugin sbasePlugin, SBMLDocument doc) {
-    
+
     if (doc != null) {
       String packageNamespace = doc.getEnabledPackageNamespace(sbasePlugin.getPackageName());
-      
+
       if (packageNamespace == null) {
         return false;
       }
-      
+
       int packageVersion = PackageUtil.extractPackageVersion(packageNamespace);
-      
+
       if (packageVersion == sbasePlugin.getPackageVersion() &&
-        packageNamespace != null && packageNamespace.equals(sbasePlugin.getElementNamespace()))
+          packageNamespace != null && packageNamespace.equals(sbasePlugin.getElementNamespace()))
       {
         return true;
       } else {
         sbasePlugin.setPackageVersion(packageVersion);
         ((AbstractSBasePlugin) sbasePlugin).setNamespace(packageNamespace);
-        
+
         boolean success = true;
-        Enumeration<TreeNode> children = children();      
+        Enumeration<TreeNode> children = children();
 
         while (children.hasMoreElements()) {
           TreeNode child = children.nextElement();
-          
-          if (child instanceof AbstractSBase && ((AbstractSBase) child).getPackageName().equals(sbasePlugin.getPackageName())) 
+
+          if (child instanceof AbstractSBase && ((AbstractSBase) child).getPackageName().equals(sbasePlugin.getPackageName()))
           {
             success &= ((AbstractSBase) child).setPackageNamespaceAndVersion(sbasePlugin.getPackageName(), packageNamespace, packageVersion);
           }
         }
-        
+
         return success;
       }
     }
-    
+
     return true;
   }
 
- 
+
   /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */
@@ -954,7 +953,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public boolean equals(Object object) {
     boolean equals = super.equals(object);
-    
+
     if (equals) {
       /*
        * Casting will be no problem because the super class has just
@@ -966,7 +965,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if (equals && sbase.isSetMetaId()) {
         equals &= sbase.getMetaId().equals(getMetaId());
       }
-      
+
       /*
        * All child nodes are already checked by the recursive method in
        * AbstractTreeNode. We here have to check the following own items
@@ -980,7 +979,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if (equals && sbase.isSetLevelAndVersion()) {
         equals &= sbase.getLevelAndVersion().equals(getLevelAndVersion());
       }
-      
+
       equals &= getNamespace() != null ? getNamespace().equals(sbase.getNamespace()) : sbase.getNamespace() == null ;
 
       if (declaredNamespaces == null) {
@@ -1090,7 +1089,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       // set the proper package namespace and version
       SBMLDocument doc = getSBMLDocument();
       SBasePlugin sbasePlugin = (SBasePlugin) newValue;
-      
+
       if (doc != null) {
         checkAndSetPackageNamespaceAndVersion(sbasePlugin, doc);
       }
@@ -1705,7 +1704,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public boolean isSetNotes() {
     return notesXMLNode != null;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#isSetPackageVErsion()
    */
@@ -2031,17 +2030,17 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @return
    */
   boolean setPackageNamespaceAndVersion(String packageLabel, String namespace, int packageVersion) {
-    
+
     if (packageLabel.equals(getPackageName())) {
       setNamespace(namespace);
       setPackageVersion(packageVersion);
-      
+
       boolean success = true;
-      Enumeration<TreeNode> children = children();      
+      Enumeration<TreeNode> children = children();
 
       while (children.hasMoreElements()) {
         TreeNode child = children.nextElement();
-        
+
         if (child instanceof AbstractSBase && ((AbstractSBase) child).getPackageName().equals(packageLabel)) {
           success &= ((AbstractSBase) child).setPackageNamespaceAndVersion(packageLabel, namespace, packageVersion);
         }
@@ -2049,10 +2048,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return success;
 
     }
-    
+
     return false;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#setMetaId(java.lang.String)
    */
@@ -2154,17 +2153,17 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     SBase parent = getParent();
     SBasePlugin parentPlugin = null;
-    
+
     if ((parent != null) && (parent != this)) {
       int parentPackageVersion = -1;
-      
+
       if (parent.getPackageName().equals(packageName)) {
         parentPackageVersion = parent.getPackageVersion();
       } else if (parent.isSetPlugin(packageName)) {
         parentPlugin = parent.getPlugin(packageName);
         parentPackageVersion = parentPlugin.getPackageVersion();
       }
-      
+
       if (packageVersion != -1 && parentPackageVersion != -1 && packageVersion != parentPackageVersion) {
         if (parentPlugin != null) {
           throw new LevelVersionError(parentPlugin, this);
@@ -2463,7 +2462,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         if (doc != null) {
           setMetaId(doc.nextMetaId());
           logger.debug(MessageFormat.format(
-            "Some annotations would get lost because there was no metaid defined on {0}. To avoid this, an automatic metaid ''{0}'' as been generated.",
+            "Some annotations would get lost because there was no metaid defined on {0}. To avoid this, an automatic metaid ''{0}'' has been generated.",
             getElementName(), getMetaId()));
           // Setting the new metaid in the RDF about attribute.
           getAnnotation().setAbout('#' + getMetaId());
@@ -2476,7 +2475,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if (isSetMetaId()) {
         attributes.put("metaid", getMetaId());
       }
-      if (((level == 2) && (getVersion() >= 2)) || (level == 3)) {
+      if (((level == 2) && (getVersion() >= 2)) || (level > 2)) { // forward looking for levels beyond 3...
         if (isSetSBOTerm()) {
           attributes.put("sboTerm", getSBOTermID());
         }

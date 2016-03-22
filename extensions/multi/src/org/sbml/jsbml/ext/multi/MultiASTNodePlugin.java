@@ -21,8 +21,8 @@
  */
 package org.sbml.jsbml.ext.multi;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 
@@ -57,7 +57,7 @@ public class MultiASTNodePlugin extends AbstractASTNodePlugin {
 
   public MultiASTNodePlugin(MultiASTNodePlugin multiASTNodePlugin) {
     super(multiASTNodePlugin);
-    
+
     if (multiASTNodePlugin.isSetRepresentationType()) {
       setRepresentationType(multiASTNodePlugin.getRepresentationType());
     }
@@ -116,7 +116,7 @@ public class MultiASTNodePlugin extends AbstractASTNodePlugin {
     if (isSetSpeciesReference()) {
       String oldSpeciesReference = speciesReference;
       speciesReference = null;
-      firePropertyChange(MultiConstants.speciesReference, oldSpeciesReference, this.speciesReference);
+      firePropertyChange(MultiConstants.speciesReference, oldSpeciesReference, speciesReference);
       return true;
     }
     return false;
@@ -169,15 +169,18 @@ public class MultiASTNodePlugin extends AbstractASTNodePlugin {
     if (isSetRepresentationType()) {
       RepresentationType oldRepresentationType = representationType;
       representationType = null;
-      firePropertyChange(MultiConstants.representationType, oldRepresentationType, this.representationType);
+      firePropertyChange(MultiConstants.representationType, oldRepresentationType, representationType);
       return true;
     }
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractASTNodePlugin#writeXMLAttributes()
+   */
+  @Override
   public Map<String, String> writeXMLAttributes() {
-    Map<String, String> attributes = new HashMap<String, String>();
+    Map<String, String> attributes = super.writeXMLAttributes();
 
     if (isSetSpeciesReference()) {
       attributes.put(MultiConstants.shortLabel + ":" + MultiConstants.speciesReference, getSpeciesReference());
@@ -191,6 +194,7 @@ public class MultiASTNodePlugin extends AbstractASTNodePlugin {
   }
 
 
+  @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = false;
 
@@ -242,7 +246,7 @@ public class MultiASTNodePlugin extends AbstractASTNodePlugin {
     if (this == obj) {
       return true;
     }
-    
+
     if (! super.equals(obj)) {
       return false;
     }

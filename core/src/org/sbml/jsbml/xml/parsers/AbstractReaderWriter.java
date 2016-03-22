@@ -263,7 +263,6 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 
       xmlObject.addAttributes(sbase.writeXMLAttributes());
     }
-
   }
 
   /* (non-Javadoc)
@@ -389,26 +388,36 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 
     } catch (SecurityException e) {
       if (logger.isDebugEnabled()) {
-        logger.debug("Method '" + createMethodName + "' is not accessible on " + parentSBase.getClass().getSimpleName());
+        logger.debug(MessageFormat.format(
+          "Method ''{0}'' is not accessible on {1}",
+          createMethodName, parentSBase.getClass().getSimpleName()));
         e.printStackTrace();
       }
     } catch (NoSuchMethodException e) {
       if (logger.isDebugEnabled()) {
-        logger.debug("Method '" + createMethodName + "' does not exist on " + parentSBase.getClass().getSimpleName());
+        logger.debug(MessageFormat.format(
+          "Method ''{0}'' does not exist on {1}",
+          createMethodName, parentSBase.getClass().getSimpleName()));
       }
     } catch (IllegalArgumentException e) {
       if (logger.isDebugEnabled()) {
-        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+        logger.debug(MessageFormat.format(
+          "Problem invoking the method ''{0}'' on {1}",
+          createMethodName, parentSBase.getClass().getSimpleName()));
         logger.debug(e.getMessage());
       }
     } catch (IllegalAccessException e) {
       if (logger.isDebugEnabled()) {
-        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+        logger.debug(MessageFormat.format(
+          "Problem invoking the method ''{0}'' on {1}",
+          createMethodName, parentSBase.getClass().getSimpleName()));
         logger.debug(e.getMessage());
       }
     } catch (InvocationTargetException e) {
       if (logger.isDebugEnabled()) {
-        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+        logger.debug(MessageFormat.format(
+          "Problem invoking the method ''{0}'' on {1}",
+          createMethodName, parentSBase.getClass().getSimpleName()));
         logger.debug(e.getMessage());
       }
     }
