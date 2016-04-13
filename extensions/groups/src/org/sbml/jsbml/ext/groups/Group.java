@@ -82,7 +82,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * 
    */
-  protected ListOf<Member> listOfMembers = null;
+  protected ListOfMembers listOfMembers = null;
 
   /**
    * 
@@ -306,9 +306,9 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    *
    * @return the {@link #listOfMembers}.
    */
-  public ListOf<Member> getListOfMembers() {
+  public ListOfMembers getListOfMembers() {
     if (!isSetListOfMembers()) {
-      listOfMembers = new ListOf<Member>();
+      listOfMembers = new ListOfMembers();
       listOfMembers.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'groups'
       listOfMembers.setPackageName(null);
@@ -339,7 +339,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    *
    * @param listOfMembers
    */
-  public void setListOfMembers(ListOf<Member> listOfMembers) {
+  public void setListOfMembers(ListOfMembers listOfMembers) {
     unsetListOfMembers();
     this.listOfMembers = listOfMembers;
 
@@ -364,7 +364,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public boolean unsetListOfMembers() {
     if (isSetListOfMembers()) {
-      ListOf<Member> oldMembers = listOfMembers;
+      ListOfMembers oldMembers = listOfMembers;
       listOfMembers = null;
       oldMembers.fireNodeRemovedEvent();
       return true;

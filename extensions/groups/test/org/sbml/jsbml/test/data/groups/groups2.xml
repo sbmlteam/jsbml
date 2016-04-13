@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1"
+      xmlns:groups="http://www.sbml.org/sbml/level3/version1/groups/version1" groups:required="false">
+  <model>
+    <listOfSpecies>
+      <species id="ATPc" compartment="cytosol" substanceUnits="mole" constant="false"
+	       hasOnlySubstanceUnits="false" boundaryCondition="true"/>
+      <species id="ATPm" compartment="mitochon" substanceUnits="mole" constant="false"
+	       hasOnlySubstanceUnits="false" boundaryCondition="true"/>
+      <species id="ATPr" compartment="reticulum" substanceUnits="mole" constant="false"
+	       hasOnlySubstanceUnits="false" boundaryCondition="true"/>
+      <species id="ATPn" compartment="nucleus" substanceUnits="mole" constant="false"
+	       hasOnlySubstanceUnits="false" boundaryCondition="true"/>
+      <species id="ATPe" compartment="extracellular" substanceUnits="mole" constant="false"
+	       hasOnlySubstanceUnits="false" boundaryCondition="true"/>
+    </listOfSpecies>
+    <listOfCompartments>
+      <compartment id="cytosol" spatialDimensions="3" size="1" constant="true"/>
+      <compartment id="mitochon" spatialDimensions="3" size="1" constant="true"/>
+      <compartment id="reticulum" spatialDimensions="3" size="1" constant="true"/>
+      <compartment id="nucleus" spatialDimensions="3" size="1" constant="true"/>
+      <compartment id="extracellular" spatialDimensions="3" size="1" constant="true"/>
+    </listOfCompartments>
+    <groups:listOfGroups xmlns="http://www.sbml.org/sbml/level3/version1/groups/version1">
+      <groups:group groups:id="ATP_organelle" groups:kind="classification">
+	<groups:listOfMembers groups:id="ATP_organelle_list" groups:name="ATP organelle list">
+	  <groups:member groups:idRef="ATPm"/>
+	  <groups:member groups:idRef="ATPr"/>
+	  <groups:member groups:idRef="ATPn"/>
+	</groups:listOfMembers>
+      </groups:group>
+      <groups:group groups:id="ATP_all" groups:kind="classification">
+	<groups:listOfMembers groups:id="ATP_all_list" sboTerm="SBO:0000248">
+	  <groups:member groups:idRef="ATP_organelle_list"/>
+	  <groups:member groups:idRef="ATPc"/>
+	  <groups:member groups:idRef="ATPe"/>
+	</groups:listOfMembers>
+      </groups:group>
+    </groups:listOfGroups>
+  </model>
+</sbml>
