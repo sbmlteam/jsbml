@@ -21,8 +21,11 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
+
+import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBMLException;
@@ -285,4 +288,79 @@ public class CSGeometry extends GeometryDefinition {
     return builder.toString();
   }
   
+  
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+    
+     if (isSetListOfCSGObjects()) {
+      count++;
+     }
+     
+    return count;
+  }
+
+
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
+    }
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+
+    if (isSetListOfCSGObjects()) {
+      if (pos == index) {
+        return getListOfCSGObjects();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(
+      MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
+        index, Math.min(pos, 0)));
+  }
+  
+
+  /**
+   * Returns the number of {@link CSGObject}s in this
+   * {@link CSGeometry}.
+   * 
+   * @return the number of {@link CSGObject}s in this
+   *         {@link CSGeometry}.
+   */
+  public int getCSGObjectCount() {
+    return isSetListOfCSGObjects() ? getListOfCSGObjects().size() : 0;
+  }
+
+
+  /**
+   * Returns the number of {@link CSGObject}s in this
+   * {@link CSGeometry}.
+   * 
+   * @return the number of {@link CSGObject}s in this
+   *         {@link CSGeometry}.
+   * @libsbml.deprecated same as {@link #getCSGObjectCount()}
+   */
+  public int getNumCSGObjects() {
+    return getCSGObjectCount();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return SpatialConstants.csGeometry;
+  }
+
 }

@@ -276,6 +276,7 @@ public class CSGObject extends AbstractSpatialNamedSBase {
   public void setCSGNode(CSGNode csgNode) {
     CSGNode oldCSGNode = this.csgNode;
     this.csgNode = csgNode;
+    registerChild(csgNode);
     firePropertyChange(SpatialConstants.csgNode, oldCSGNode, this.csgNode);
   }
 
@@ -417,5 +418,13 @@ public class CSGObject extends AbstractSpatialNamedSBase {
     return builder.toString();
   }
 
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return SpatialConstants.csgObject;
+  }
 
 }

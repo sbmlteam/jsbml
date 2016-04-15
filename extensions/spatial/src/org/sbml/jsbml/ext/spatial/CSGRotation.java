@@ -456,6 +456,14 @@ public class CSGRotation extends CSGTransformation {
     return builder.toString();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return SpatialConstants.csgRotation;
+  }
+
 
 }
 
