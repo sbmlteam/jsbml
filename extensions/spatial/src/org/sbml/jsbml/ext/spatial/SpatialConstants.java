@@ -227,7 +227,7 @@ public class SpatialConstants {
   /**
    * 
    */
-  public static final String primitiveType = "csgObjectRef";
+  public static final String primitiveType = "primitiveType";
   /**
    * 
    */
@@ -410,6 +410,11 @@ public class SpatialConstants {
    * 
    */
   public static final String listOfCSGObjects = "listOfCSGObjects";
+
+  /**
+   * 
+   */
+  public static final String csgObject = "csgObject";
 
   /**
    * 

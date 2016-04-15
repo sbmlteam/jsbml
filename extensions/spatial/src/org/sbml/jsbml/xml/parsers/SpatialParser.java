@@ -36,6 +36,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase;
 import org.sbml.jsbml.ext.spatial.AdjacentDomains;
 import org.sbml.jsbml.ext.spatial.AdvectionCoefficient;
 import org.sbml.jsbml.ext.spatial.AnalyticGeometry;
@@ -50,6 +51,7 @@ import org.sbml.jsbml.ext.spatial.CSGPseudoPrimitive;
 import org.sbml.jsbml.ext.spatial.CSGRotation;
 import org.sbml.jsbml.ext.spatial.CSGScale;
 import org.sbml.jsbml.ext.spatial.CSGSetOperator;
+import org.sbml.jsbml.ext.spatial.CSGTransformation;
 import org.sbml.jsbml.ext.spatial.CSGTranslation;
 import org.sbml.jsbml.ext.spatial.CSGeometry;
 import org.sbml.jsbml.ext.spatial.CompartmentMapping;
@@ -79,6 +81,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 /**
  * @author Andreas Dr&auml;ger
  * @author Piero Dalle Pezze
+ * @author rodrigue
  * @since 1.0
  * @version $Rev$
  */
@@ -167,16 +170,6 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
 
     List<Object> listOfElementsToWrite = new ArrayList<Object>();
 
-    // test if this treeNode is an extended SBase.
-    //    if (treeNode instanceof Model) {
-    //      SpatialModelPlugin modelGE = (SpatialModelPlugin) ((Model) treeNode).getExtension(SpatialConstants.namespaceURI);
-    //
-    //      Enumeration<TreeNode> children = modelGE.children();
-    //
-    //      while (children.hasMoreElements()) {
-    //        listOfElementsToWrite.add(children.nextElement());
-    //      }
-    //    }
     if (treeNode instanceof SBase && (! (treeNode instanceof Model)) && ((SBase) treeNode).getExtension(getNamespaceURI()) != null) {
       SBasePlugin sbasePlugin = ((SBase) treeNode).getExtension(getNamespaceURI());
 
@@ -200,6 +193,16 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
   {
     super.writeElement(xmlObject, sbmlElementToWrite);
 
+    // Put the correct name for the ListOfGeometryDefinitions    
+    // The GeometryDefinition element can be one of AnalyticGeometry, SampledFieldGeometry, CSGeometry, ParametricGeometry.
+    if (xmlObject.getName().equals("listOfCSGeometrys") || xmlObject.getName().equals("listOfAnalyticGeometrys")
+        || xmlObject.getName().equals("listOfSampledFieldGeometrys") || xmlObject.getName().equals("listOfParametricGeometrys")
+        || xmlObject.getName().equals("listOfMixedGeometrys"))
+    {
+      xmlObject.setName(SpatialConstants.listOfGeometryDefinitions);
+    }
+    
+    
     if (logger.isDebugEnabled()) {
       logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
     }
@@ -394,6 +397,15 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         cso.setCSGNode(csgNode);
         return csgNode;
       }
+    } else if (contextObject instanceof CSGScale) {
+      CSGScale csgParent = (CSGScale) contextObject;
+      return setCSGNode(csgParent, elementName);
+    } else if (contextObject instanceof CSGRotation) {
+      CSGRotation csgParent = (CSGRotation) contextObject;
+      return setCSGNode(csgParent, elementName);
+    } else if (contextObject instanceof CSGTranslation) {
+      CSGTranslation csgParent = (CSGTranslation) contextObject;
+      return setCSGNode(csgParent, elementName);
     } else if (contextObject instanceof CSGSetOperator) {
       CSGSetOperator csgso = (CSGSetOperator) contextObject;
       if (elementName.equals(SpatialConstants.listOfCSGNodes)) {
@@ -489,40 +501,38 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         SampledField elem = new SampledField();
         g.addSampledField(elem);
         return elem;        
+      } else if (elementName.equals(SpatialConstants.csgObject)) {
+        CSGObject elem = new CSGObject();
+        CSGeometry g = (CSGeometry) listOf.getParentSBMLObject();
+        g.addCSGObject(elem);
+        return elem;
       } else if (elementName.equals(SpatialConstants.csgPrimitive)) {
-        CSGSetOperator csgso = (CSGSetOperator) listOf.getParentSBMLObject();
         CSGPrimitive elem = new CSGPrimitive();
-        csgso.addCSGNode(elem);
+        addCSGNode((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.csgPseudoPrimitive)) {
-        CSGSetOperator csgso = (CSGSetOperator) listOf.getParentSBMLObject();
         CSGPseudoPrimitive elem = new CSGPseudoPrimitive();
-        csgso.addCSGNode(elem);
+        addCSGNode((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.csgSetOperator)) {
-        CSGSetOperator csgso = (CSGSetOperator) listOf.getParentSBMLObject();
         CSGSetOperator elem = new CSGSetOperator();
-        csgso.addCSGNode(elem);
+        addCSGNode((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.csgTranslation)) {
-        CSGSetOperator csgso = (CSGSetOperator) listOf.getParentSBMLObject();
         CSGTranslation elem = new CSGTranslation();
-        csgso.addCSGNode(elem);
+        addCSGNode((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.csgRotation)) {
-        CSGSetOperator csgso = (CSGSetOperator) listOf.getParentSBMLObject();
         CSGRotation elem = new CSGRotation();
-        csgso.addCSGNode(elem);
+        addCSGNode((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.csgScale)) {
-        CSGSetOperator csgso = (CSGSetOperator) listOf.getParentSBMLObject();
         CSGScale elem = new CSGScale();
-        csgso.addCSGNode(elem);
+        addCSGNode((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.csgHomogeneousTransformation)) {
-        CSGSetOperator csgso = (CSGSetOperator) listOf.getParentSBMLObject();
         CSGHomogeneousTransformation elem = new CSGHomogeneousTransformation();
-        csgso.addCSGNode(elem);
+        addCSGNode((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.spatialPoints)) {
         ParametricGeometry pg = (ParametricGeometry) listOf.getParentSBMLObject();
@@ -538,6 +548,66 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     }
 
     return contextObject;
+  }
+
+  private CSGNode setCSGNode(CSGTransformation csgT, String elementName) {
+
+    if (elementName.equals(SpatialConstants.csgPrimitive)){
+      CSGPrimitive csgNode = new CSGPrimitive();
+      csgT.setCSGNode(csgNode);
+      return csgNode;
+    } else if (elementName.equals(SpatialConstants.csgPseudoPrimitive)){
+      CSGPseudoPrimitive csgNode = new CSGPseudoPrimitive();
+      csgT.setCSGNode(csgNode);
+      return csgNode;
+    } else if (elementName.equals(SpatialConstants.csgSetOperator)){
+      CSGSetOperator csgNode = new CSGSetOperator();
+      csgT.setCSGNode(csgNode);
+      return csgNode;
+    } else if (elementName.equals(SpatialConstants.csgTranslation)){
+      CSGTranslation csgNode = new CSGTranslation();
+      csgT.setCSGNode(csgNode);
+      return csgNode;
+    } else if (elementName.equals(SpatialConstants.csgRotation)){
+      CSGRotation csgNode = new CSGRotation();
+      csgT.setCSGNode(csgNode);
+      return csgNode;
+    } else if (elementName.equals(SpatialConstants.csgScale)){
+      CSGScale csgNode = new CSGScale();
+      csgT.setCSGNode(csgNode);
+      return csgNode;
+    } else if (elementName.equals(SpatialConstants.csgHomogeneousTransformation)){
+      CSGHomogeneousTransformation csgNode = new CSGHomogeneousTransformation();
+      csgT.setCSGNode(csgNode);
+      return csgNode;
+    }
+    
+    // TODO - throw exception and/or print error messages
+    
+    return null;
+  }
+
+  /**
+   * @param parent
+   * @param csgNode
+   */
+  private void addCSGNode(AbstractSpatialNamedSBase parent, CSGNode csgNode) {
+    
+    if (parent.getParentSBMLObject() instanceof CSGTransformation) 
+    {
+      CSGTransformation csgso = (CSGTransformation) parent.getParentSBMLObject();
+      csgso.setCSGNode(csgNode);
+    }
+    else if (parent.getParentSBMLObject() instanceof CSGSetOperator) 
+    {
+      CSGSetOperator csgso = (CSGSetOperator) parent.getParentSBMLObject();
+      csgso.addCSGNode(csgNode);
+    }
+    else if (parent.getParentSBMLObject() instanceof CSGObject) 
+    {
+      CSGObject csgso = (CSGObject) parent.getParentSBMLObject();
+      csgso.setCSGNode(csgNode);
+    }
   }
 
   /* (non-Javadoc)

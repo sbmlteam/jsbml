@@ -132,6 +132,7 @@ public abstract class CSGTransformation extends CSGNode {
   public void setCSGNode(CSGNode csgNode) {
     CSGNode oldCSGNode = this.csgNode;
     this.csgNode = csgNode;
+    registerChild(csgNode);
     firePropertyChange(SpatialConstants.csgNode, oldCSGNode, this.csgNode);
   }
 

@@ -714,5 +714,13 @@ public class CSGSetOperator extends CSGNode {
     builder.append("]");
     return builder.toString();
   }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return SpatialConstants.csgSetOperator;
+  }
 
 }

@@ -185,7 +185,6 @@ public class CSGPrimitive extends CSGNode{
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetPrimitiveType()) {
-      attributes.remove("primitiveType");
       attributes.put(SpatialConstants.shortLabel + ":primitiveType", getPrimitiveType().toString());
     }
     return attributes;
@@ -226,6 +225,13 @@ public class CSGPrimitive extends CSGNode{
     return builder.toString();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return SpatialConstants.csgPrimitive;
+  }
 
 
 }

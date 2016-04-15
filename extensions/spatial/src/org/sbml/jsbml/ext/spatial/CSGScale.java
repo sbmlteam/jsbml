@@ -335,7 +335,7 @@ public class CSGScale extends CSGTransformation {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.scaleX)) {
         try {
-          setScaleX(StringTools.parseSBMLInt(value));
+          setScaleX(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.scaleX, getElementName()));
@@ -343,7 +343,7 @@ public class CSGScale extends CSGTransformation {
       }
       else if (attributeName.equals(SpatialConstants.scaleY)) {
         try {
-          setScaleY(StringTools.parseSBMLInt(value));
+          setScaleY(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.scaleY, getElementName()));
@@ -351,7 +351,7 @@ public class CSGScale extends CSGTransformation {
       }
       else if (attributeName.equals(SpatialConstants.scaleZ)) {
         try {
-          setScaleZ(StringTools.parseSBMLInt(value));
+          setScaleZ(StringTools.parseSBMLDouble(value));
         } catch (Exception e) {
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.scaleZ, getElementName()));
@@ -379,6 +379,14 @@ public class CSGScale extends CSGTransformation {
     builder.append(scaleZ);
     builder.append("]");
     return builder.toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return SpatialConstants.csgScale;
   }
 
 
