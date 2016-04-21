@@ -93,7 +93,7 @@
 		<repository>
 			<id>biojava-maven-repo</id>
 			<name>BioJava repository</name>
-			<url>http://www.biojava.org/download/maven/</url>			
+			<url>https://github.com/biojava/maven-repo/raw/master/</url>			
 		</repository>
 		<repository>
 			<id>ebi-repo</id>
