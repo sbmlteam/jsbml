@@ -37,6 +37,8 @@
   	    <format property="YEAR" pattern="yyyy"/>
 	</tstamp>
 
+		<property file="${basedir}/../../jsbml-build.properties"/>
+
   	<property file="${basedir}/tidy-build.properties"/>  		
   	
     <property name="Name" value="${tidy.Name}"/>
@@ -194,8 +196,8 @@
     	   memoryMaximumSize="512M"
     	   compiler="modern"
     	   nowarn="no"
-           source="1.6"
-           target="1.6"
+      source="${jsbml.build.javac.source}"
+		   target="${jsbml.build.javac.target}"
            classpathref="classpath">
     </javac>      
 

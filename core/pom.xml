@@ -107,10 +107,15 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.8</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.3</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+			<version>2.3</version>
+		</dependency>		
 		<dependency>
 			<groupId>com.fasterxml.woodstox</groupId>
 			<artifactId>woodstox-core</artifactId>
@@ -123,16 +128,9 @@
 		</dependency>
 		<dependency>
 			<groupId>org.biojava</groupId>
-			<artifactId>biojava3-ontology</artifactId>
-			<version>3.1.0</version>
+			<artifactId>biojava-ontology</artifactId>
+			<version>4.0.0</version>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.biojava</groupId>
-			<artifactId>biojava3-core</artifactId>
-			<version>3.0.1</version>
-		</dependency>
-		 -->
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
@@ -153,18 +151,6 @@
 			<scope>test</scope>
 		</dependency>
 
-<!--	Should be included by staxmate and woodstox	
-		<dependency>
-			<groupId>javax.xml.stream</groupId>
-			<artifactId>stax-api</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.woodstox</groupId>
-			<artifactId>stax2-api</artifactId>
-			<version>3.1.4</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.mangosdk.spi</groupId>
 			<artifactId>spi</artifactId>

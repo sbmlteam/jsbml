@@ -27,10 +27,10 @@ import java.io.Serializable;
 
 /**
  * This is a wrapper class for the corresponding BioJava class
- * {@link org.biojava3.ontology.Triple}, to allow for simplified access to
+ * {@link org.biojava.nbio.ontology.Triple}, to allow for simplified access to
  * the properties of a subject-predicate-object triple in this ontology.
  * 
- * @see org.biojava3.ontology.Triple
+ * @see org.biojava.nbio.ontology.Triple
  */
 public class Triple implements Cloneable, Comparable<Triple>, Serializable {
 
@@ -40,9 +40,9 @@ public class Triple implements Cloneable, Comparable<Triple>, Serializable {
   private static final long serialVersionUID = 7289048361260650338L;
 
   /**
-   * The BioJava {@link org.biojava3.ontology.Triple}.
+   * The BioJava {@link org.biojava.nbio.ontology.Triple}.
    */
-  private org.biojava3.ontology.Triple triple;
+  private org.biojava.nbio.ontology.Triple triple;
 
   /**
    * Creates a new {@link Triple} from a given corresponding object from
@@ -50,7 +50,7 @@ public class Triple implements Cloneable, Comparable<Triple>, Serializable {
    * 
    * @param triple
    */
-  public Triple(org.biojava3.ontology.Triple triple) {
+  public Triple(org.biojava.nbio.ontology.Triple triple) {
     if (triple == null) {
       throw new NullPointerException("Triple must not be null.");
     }
@@ -132,12 +132,12 @@ public class Triple implements Cloneable, Comparable<Triple>, Serializable {
 
   /**
    * Grants access to the original BioJava
-   * {@link org.biojava3.ontology.Triple}.
+   * {@link org.biojava.nbio.ontology.Triple}.
    * 
    * @return the original BioJava
-   * {@link org.biojava3.ontology.Triple}.
+   * {@link org.biojava.nbio.ontology.Triple}.
    */
-  public org.biojava3.ontology.Triple getTriple() {
+  public org.biojava.nbio.ontology.Triple getTriple() {
     return triple;
   }
 

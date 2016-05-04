@@ -31,6 +31,8 @@
 			<format property="YEAR" pattern="yyyy"/>
 		</tstamp>
 
+		<property file="${basedir}/../../jsbml-build.properties"/>
+
 		<property name="Name" value="JSBML Required Elements L3 package"/>
 		<property name="name" value="jsbml-req"/>
 		<property name="version" value="0.2-b1"/>
@@ -193,8 +195,8 @@
            debug="${debug}"
            optimize="${optimize}"
            verbose="${verbose}"
-           source="1.6"
-           target="1.6"
+      source="${jsbml.build.javac.source}"
+		   target="${jsbml.build.javac.target}"
            classpathref="classpath">
 		</javac>
 		<manifest file="${build.dest}/META-INF/MANIFEST.MF">
