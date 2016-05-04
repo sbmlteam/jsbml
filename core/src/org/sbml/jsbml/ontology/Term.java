@@ -26,18 +26,18 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.biojava3.ontology.Synonym;
-import org.biojava3.ontology.utils.Annotation;
+import org.biojava.nbio.ontology.Synonym;
+import org.biojava.nbio.ontology.utils.Annotation;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.util.StringTools;
 
 /**
  * This is a convenient wrapper class for the corresponding implementation
- * of {@link org.biojava3.ontology.Term} in BioJava as it provides
+ * of {@link org.biojava.nbio.ontology.Term} in BioJava as it provides
  * specialized methods to obtain the information from the SBO OBO file
  * directly and under the same name as the keys are given in that file.
  * 
- * @see org.biojava3.ontology.Term
+ * @see org.biojava.nbio.ontology.Term
  */
 public class Term implements Cloneable, Comparable<Term>, Serializable {
 
@@ -54,8 +54,8 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
    */
   public static String printTerm(Term term) {
     StringBuilder sb = new StringBuilder();
-    StringTools.append(sb, "[Term]\nid: ", term.getId(), "\nname: ",
-      term.getName(), "\ndef: ", term.getDefinition());
+    StringTools.append(sb, "[Term]\nid: ", term.getId(), "\nname: '",
+      term.getName(), "'\ndef: ", term.getDefinition());
     if (term.isObsolete()) {
       sb.append("\nis_obsolete: true");
     }
@@ -93,16 +93,16 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
   private String def;
 
   /**
-   * The underlying BioJava {@link org.biojava3.ontology.Term}.
+   * The underlying BioJava {@link Term}.
    */
-  private org.biojava3.ontology.Term term;
+  private org.biojava.nbio.ontology.Term term;
 
   /**
    * Creates a new Term instance.
    * 
-   * @param term a {@link org.biojava3.ontology.Term} object
+   * @param term a {@link org.biojava.nbio.ontology.Term} object
    */
-  public Term(org.biojava3.ontology.Term term) {
+  public Term(org.biojava.nbio.ontology.Term term) {
     if (term == null) {
       throw new NullPointerException("Term must not be null.");
     }
@@ -217,7 +217,7 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
 
     Set<Term> parents = new HashSet<Term>();
 
-    for (org.biojava3.ontology.Triple triple : term.getOntology().getTriples(term, null, term.getOntology().getTerm("is_a")))
+    for (org.biojava.nbio.ontology.Triple triple : term.getOntology().getTriples(term, null, term.getOntology().getTerm("is_a")))
     {
       parents.add(new Term(triple.getObject()));
     }
@@ -251,7 +251,7 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
    * @return the underlying BioJava
    * {@link org.biojava3.ontology.Term}.
    */
-  public org.biojava3.ontology.Term getTerm() {
+  public org.biojava.nbio.ontology.Term getTerm() {
     return term;
   }
 

@@ -44,7 +44,9 @@
 			</classpath>
 		</taskdef>
 
-		<property name="Name" value="JSBML" />
+		<property file="${basedir}/jsbml-build.properties"/>
+		
+		<property name="Name" value="${jsbml.Name}" />
 		<property name="name" value="jsbml" />
 		<property name="version" value="1.2-SNAPSHOT" />
 		<property name="api.version" value="1.2" />
@@ -218,8 +220,8 @@
            debug="${debug}"
            optimize="${optimize}"
            verbose="${verbose}"
-           source="1.6"
-           target="1.6"
+           source="${jsbml.build.javac.source}"
+           target="${jsbml.build.javac.target}"
            classpathref="classpath">
 		</javac>
 	</target>

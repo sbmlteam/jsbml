@@ -29,8 +29,8 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.biojava3.ontology.Ontology;
-import org.biojava3.ontology.io.OboParser;
+import org.biojava.nbio.ontology.Ontology;
+import org.biojava.nbio.ontology.io.OboParser;
 import org.sbml.jsbml.ontology.Term;
 import org.sbml.jsbml.ontology.Triple;
 import org.sbml.jsbml.resources.Resource;
@@ -145,16 +145,16 @@ public class CBO {
    * <p>
    * This methods return only Term object and no Triple object that represent
    * the relationship between terms. If you want to access the full set of
-   * {@link org.biojava3.ontology.Term} containing also the
-   * {@link org.biojava3.ontology.Triple}, use {@link CBO#getOntology()} to get
+   * {@link org.biojava.nbio.ontology.Term} containing also the
+   * {@link org.biojava.nbio.ontology.Triple}, use {@link CBO#getOntology()} to get
    * the underlying biojava object.
    * 
    * @return the set of terms of the CBO.
    */
   public static Set<Term> getTerms() {
     if (terms.size() < cbo.getTerms().size()) {
-      for (org.biojava3.ontology.Term term : cbo.getTerms()) {
-        if (term instanceof org.biojava3.ontology.Term) {
+      for (org.biojava.nbio.ontology.Term term : cbo.getTerms()) {
+        if (term instanceof org.biojava.nbio.ontology.Term) {
           terms.add(new Term(term));
         }
       }
@@ -179,13 +179,13 @@ public class CBO {
    * @return a set of Triple which match the supplied subject, predicate and
    *         object.
    * 
-   * @see org.biojava3.ontology.Ontology#getTriples(org.biojava3.ontology.Term,
-   *      org.biojava3.ontology.Term, org.biojava3.ontology.Term)
+   * @see org.biojava.nbio.ontology.Ontology#getTriples(org.biojava.nbio.ontology.Term,
+   *      org.biojava.nbio.ontology.Term, org.biojava.nbio.ontology.Term)
    */
   public static Set<Triple> getTriples(Term subject, Term predicate,
     Term object) {
     Set<Triple> triples = new HashSet<Triple>();
-    for (org.biojava3.ontology.Triple triple : cbo.getTriples(
+    for (org.biojava.nbio.ontology.Triple triple : cbo.getTriples(
       subject != null ? subject.getTerm() : null,
         object != null ? object.getTerm() : null,
           predicate != null ? predicate.getTerm() : null)) {

@@ -41,6 +41,8 @@
 			<format property="YEAR" pattern="yyyy"/>
 		</tstamp>
 
+		<property file="${basedir}/../jsbml-build.properties"/>
+		
 		<property name="Name" value="JSBML"/>
 		<property name="name" value="jsbml"/>
 		<property name="version" value="1.2-SNAPSHOT"/>
@@ -253,8 +255,8 @@
            debug="${debug}"
            optimize="${optimize}"
            verbose="${verbose}"
-           source="1.6"
-           target="1.6"
+		       source="${jsbml.build.javac.source}"
+    		   target="${jsbml.build.javac.target}"
            classpathref="classpath">
 <!--			<compilerarg value="-Xlint:deprecation"/>
 			<compilerarg value="-Xlint:unchecked"/> -->
