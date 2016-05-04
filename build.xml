@@ -25,27 +25,38 @@
   default="usage"
   basedir="."
 >
+
+	<echo message="Determining the revision number of JSBML" />	
+	<exec executable="svn" outputproperty="svninfo.xml">
+		<arg line="info --xml" />
+	</exec>
+	
+	<!-- We consider it is a subversion checkout if the svninfo file contain the closing info tag --> 
+	<condition property="svn.checkout">
+	 	<contains string="${svninfo.xml}" substring="/info>"/>
+  </condition>
+
+	<tstamp>
+		<format property="YEAR" pattern="yyyy" />
+	</tstamp>
+
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="${basedir}/lib/ant-contrib-1.0b3.jar" />
+		</classpath>
+	</taskdef>
+
+	<property file="${basedir}/jsbml-build.properties"/>
+	
 	
 	<!-- =================================================================== -->
 	<!-- Initialization target                                               -->
 	<!-- =================================================================== -->
 
-	<target description="Initialization target" name="init" unless="target.init.done">
+	<target description="Initialization target" name="init" unless="target.init.done" depends="svn.build.number, default.build.number">
 
 		<property name="target.init.done" value="true"/>
 
-		<tstamp>
-			<format property="YEAR" pattern="yyyy" />
-		</tstamp>
-
-		<taskdef resource="net/sf/antcontrib/antcontrib.properties">
-			<classpath>
-				<pathelement location="${basedir}/lib/ant-contrib-1.0b3.jar" />
-			</classpath>
-		</taskdef>
-
-		<property file="${basedir}/jsbml-build.properties"/>
-		
 		<property name="Name" value="${jsbml.Name}" />
 		<property name="name" value="jsbml" />
 		<property name="version" value="1.2-SNAPSHOT" />
@@ -53,21 +64,11 @@
 
 		<property name="year" value="${YEAR}" />
 
-		<echo message="Determining the revision number of JSBML" />
-		<exec executable="svn" outputproperty="svninfo.xml">
-			<arg line="info --xml" />
-		</exec>
-		<xmlproperty collapseAttributes="true">
-			<propertyresource name="svninfo.xml" />
-		</xmlproperty>
-		<property name="jsbml.revision" value="${info.entry.revision}" />
-		<property name="jsbml.url" value="${info.entry.url}" />
-
 		<echo message="-----------   ${Name} ${version} [${year}] ------------" />
 		<echo message="-----------     ${TODAY}   ------------" />
 		<echo message="-----------     ${DSTAMP} ${TSTAMP}  ------------" />
-		<echo message="-----------   svn revision ${jsbml.revision}  ------------" />
-		<echo message="-----------   svn url ${jsbml.url}  ------------" />
+		<echo message="-----------   git revision ${jsbml.revision}  ------------" />
+		<echo message="-----------   git url ${jsbml.url}  ------------" />
 
 		<property environment="env" />
 		<property name="build.compiler" value="modern" />
@@ -165,6 +166,40 @@
 		-->
 
 	</target>
+
+	<target
+	  name="svn.build.number"
+	  description="Finds out the subversion build number"
+		if="svn.checkout"
+	>
+		<!-- <echo message="It seems to be an SVN checkout"/> -->
+		
+		<xmlproperty collapseAttributes="true">
+			<propertyresource name="svninfo.xml" />
+		</xmlproperty>
+		<property name="jsbml.revision" value="${info.entry.revision}" />
+		<property name="jsbml.url" value="${info.entry.url}" />
+  </target>
+
+	<target
+	  name="git.build.number"
+	  description="Finds out the subversion build number"
+		if="git.pull"
+		unless="svn.checkout"
+	>
+		
+  </target>
+
+	<target
+	  name="default.build.number"
+	  description="Finds out the subversion build number"
+		unless="svn.checkout"
+	>
+		<echo message="Could not retrieve automatically the revision number from svn or git !"/>
+		<property name="jsbml.revision" value="build run on ${DSTAMP}" />
+		<property name="jsbml.url" value="no url provided" />
+		
+  </target>
 
 	<!-- =================================================================== -->
 	<!-- Prepares the build directory                                        -->
