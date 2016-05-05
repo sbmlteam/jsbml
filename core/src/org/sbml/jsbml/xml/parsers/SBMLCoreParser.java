@@ -67,6 +67,8 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.SBMLtools;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
@@ -584,6 +586,23 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       logger.error("The Model element has not been created.");
     }
 
+    // Go through the whole document (using a fake filter!) to remove the variable that says that we were in the process of reading an xml stream.
+    sbmlDocument.filter(new Filter() {
+      
+      @Override
+      public boolean accepts(Object o) {
+        if (o instanceof TreeNodeWithChangeSupport) {
+          if (((TreeNodeWithChangeSupport) o).isSetUserObjects()) {
+            ((TreeNodeWithChangeSupport) o).userObjectKeySet().remove(JSBML.READING_IN_PROGRESS);
+          } else {
+            // System.out.println("######### user objects not set !!!!!!!! " + o);
+            // TODO - set the user object property on the RDF objects ? (CVTerms)
+          }
+        }
+        return false;
+      }
+    });
+    
     logger.debug("Starting to check the package version and namespace for all package elements");
     // checks silently package version and namespace and try to fix any problems encountered.
     PackageUtil.checkPackages(sbmlDocument, true, true);

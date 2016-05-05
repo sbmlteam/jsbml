@@ -60,6 +60,7 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.AnnotationReader;
 import org.sbml.jsbml.xml.parsers.MathMLStaxParser;
@@ -595,6 +596,7 @@ public class SBMLReader {
         if (currentNode.getLocalPart().equals("sbml")) {
 
           SBMLDocument sbmlDocument = new SBMLDocument();
+          sbmlDocument.putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
 
           // the output of the change listener is activated or not via log4j.properties
           sbmlDocument.addTreeNodeChangeListener(listener == null
@@ -920,7 +922,7 @@ public class SBMLReader {
           boolean hasAttributes = att.hasNext();
           boolean hasNamespace = nam.hasNext();
 
-          if (isInsideAnnotation)
+          if (isInsideAnnotation) // TODO - add a test to see if the object on the top of the stack is an XMLNode
           {
             parser = initializedParsers.get("anyXML");
           }
@@ -1002,6 +1004,9 @@ public class SBMLReader {
               }
 
               sbmlElements.push(processedElement);
+              if (processedElement instanceof TreeNodeWithChangeSupport) {
+                ((TreeNodeWithChangeSupport) processedElement).putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
+              }
             } else {
               // It is normal to have sometimes null returned as some of the
               // XML elements are ignored or do not produce a new java object (like 'apply' in mathML).

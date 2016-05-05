@@ -131,7 +131,11 @@ public class JSBML {
    */
   public static final transient String URI_XHTML_DEFINITION = "http://www.w3.org/1999/xhtml";
 
-
+  /**
+   * 
+   */
+  public static final transient String READING_IN_PROGRESS = "jsbml.reading.in.progress"; 
+  
   /**
    * Adds the given {@link UnitDefinition} to the given model or returns the
    * identifier of an equivalent {@link UnitDefinition} that is already part
