@@ -513,6 +513,9 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
           removeXmlNodeIfEmpty(rdfNode);
         }
       }
+      if (contextObject.isSetHistory()) {
+        contextObject.getHistory().putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
+      }
     }
 
     /**
@@ -741,6 +744,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
         Creator creator = new Creator();
         contextSBase.getHistory().addCreator(creator);
+        creator.putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
 
         // get name information
         List<XMLNode> nameNodes = liNode.getChildElements("N", Creator.URI_RDF_VCARD_NS);
@@ -950,6 +954,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
         CVTerm.Qualifier qualifier = CVTerm.Qualifier.getModelQualifierFor(bqmodelNode.getName());
         CVTerm cvTerm = new CVTerm(CVTerm.Type.MODEL_QUALIFIER, qualifier, resources.toArray(new String[resources.size()]));
+        cvTerm.putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
         
         if (contextSBase instanceof SBase) {
           ((SBase) contextSBase).addCVTerm(cvTerm);
@@ -1005,7 +1010,8 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
         CVTerm.Qualifier qualifier = CVTerm.Qualifier.getBiologicalQualifierFor(bqbiolNode.getName());
         CVTerm cvTerm = new CVTerm(CVTerm.Type.BIOLOGICAL_QUALIFIER, qualifier, resources.toArray(new String[resources.size()]));
-
+        cvTerm.putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
+        
         if (contextSBase instanceof SBase) {
           ((SBase) contextSBase).addCVTerm(cvTerm);
         } else if (contextSBase instanceof CVTerm) {
