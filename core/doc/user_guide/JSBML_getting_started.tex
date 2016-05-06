@@ -31,8 +31,8 @@ it to your Java build and/or class path in order to use JSBML.
     \toprule
     \textbf{\sffamily Library name} & \textbf{Purpose} & \textbf{Source URL} \\
     \midrule
-    biojava3-ontology-3.1.0.jar
-    & biojava3 ontology-related classes~\citep{Holland2008}.
+    biojava-ontology-4.0.0.jar
+    & biojava ontology-related classes~\citep{Holland2008}.
     \index{Ontology}
     & \href{http://biojava.org}{biojava.org} \\
 
@@ -64,9 +64,11 @@ it to your Java build and/or class path in order to use JSBML.
     Dec. 2010), containing classes for date manipulation. 
     & \href{http://jigsaw.w3.org}{jigsaw.w3.org} \\
 
-    log4j-1.2.17.jar
-    & Library for logging errors and other diagnostics.
-    & \href{http://logging.apache.org/log4j}{logging.apache.org/log4j} \\
+    log4j-1.2-api-2.3.jar 
+    & Libraries for logging errors and other diagnostics.
+    & \href{http://logging.apache.org/log4j}{logging.apache.org/log4j} and \href{http://www.slf4j.org}{slf4j.org} \\
+
+    log4j-api-2.3.jar \\ log4j-core-2.3.jar \\ log4j-slf4j-impl-2.3.jar \\ slf4j-api-1.7.21.jar \\
 
     \bottomrule
   \end{tabular}
@@ -183,7 +185,7 @@ refer to the instructions in \sec{sec:jsbml-source-archive}.
 
 The Subversion repository contains copies of all the third-party libraries
 listed in \tab{tab:dependencies} and needed by JSBML.  They are
-located in the folder ``\dirname\code{/lib}''.
+located in the folder ``\dirname''\code{/core/lib}.
 
 
 \subsection{Setting up Eclipse}
@@ -198,7 +200,9 @@ Next, you need to do an extra step to configure the annotation processor,
 because the different parsers in JSBML are registered automatically using
 Java annotations.  To configure the annotation processor in Eclipse, follow
 the instructions found on the web page
-\url{https://code.google.com/p/spi/wiki/EclipseSettings}. If you checkout 
+\url{https://github.com/niko-rodrigue/spi/blob/wiki/EclipseSettings.md}.
+ The jar file of the annotation processor is located in the jsbml source tree at
+ ``\dirname''\code{/core/lib/spi-full-0.2.4.jar}. If you checkout 
 the full trunk (and not just the core), you can find a folder dev, which 
 contains a README.txt file that has also these instructions and further 
 important information.

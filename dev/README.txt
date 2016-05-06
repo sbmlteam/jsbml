@@ -50,7 +50,8 @@ Definitions for writing JSBML classes:
   Then, you need to do an extra step to configure the annotation processor, as the different parsers 
   in JSBML are registered automatically using java annotation.
 
-  To configure the annotation processor, follow the instructions in the page https://code.google.com/p/spi/wiki/EclipseSettings
+  To configure the annotation processor, follow the instructions in the page https://github.com/niko-rodrigue/spi/blob/wiki/EclipseSettings.md
+  The jar file to use can be found in the jsbml source tree at trunk/core/lib/spi-full-0.2.4.jar.
 
   You can run the ParserManager class to check that the list of parsers are not empty and that they contain the parsers you need.
 
