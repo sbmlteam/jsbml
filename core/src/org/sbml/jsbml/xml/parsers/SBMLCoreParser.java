@@ -67,6 +67,7 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.SBMLtools;
+import org.sbml.jsbml.util.TreeNodeAdapter;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.XMLAttributes;
@@ -594,10 +595,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         if (o instanceof TreeNodeWithChangeSupport) {
           if (((TreeNodeWithChangeSupport) o).isSetUserObjects()) {
             ((TreeNodeWithChangeSupport) o).userObjectKeySet().remove(JSBML.READING_IN_PROGRESS);
-          } else {
-            // System.out.println("######### user objects not set !!!!!!!! " + o);
-            // TODO - set the user object property on the RDF objects ? (CVTerms)
-          }
+          } // else if (! ((o instanceof TreeNodeAdapter) || (o instanceof XMLNode))) {
+//            System.out.println("######### user objects not set !!!!!!!! " + o + " class name = " + o.getClass().getSimpleName());
+//          }
         }
         return false;
       }
