@@ -81,6 +81,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <jsbml.version>${project.version}</jsbml.version>
+    <jsbml.basedir>${basedir}</jsbml.basedir> <!-- will be reset on each sub-pom to be the directory of the pom -->
+    <jsbml.build.javac.source>1.7</jsbml.build.javac.source>
+    <jsbml.build.javac.target>1.7</jsbml.build.javac.target>
   </properties>
   
   <build>
@@ -108,11 +111,15 @@
     
     <plugins>
       
-      <!-- properties file not used at the moment
+     <!-- properties file not used at the moment -->
+     <!-- cannot use the property file at the moment, we would have to put the file in an archive
+     that is deployed to the repository. Then we can use it as a dependency or use the dependency:unpack goal.
+     see http://maven.40175.n5.nabble.com/Relative-path-to-parent-directory-at-multi-module-maven-project-td4611798.html
+     
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>properties-maven-plugin</artifactId>
-        <version>1.0-alpha-2</version>
+        <version>1.0.0</version>
         <executions>
           <execution>
             <id>jsbml</id>          
@@ -122,14 +129,24 @@
             </goals>
             <configuration>
               <files>
-                <file>jsbml-build.properties</file>
+                <file>${jsbml.basedir}/jsbml-build.properties</file>
               </files>
             </configuration>
           </execution>
         </executions>
-      </plugin>
+      </plugin>      
       -->
-    
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
+        <configuration>
+          <source>${jsbml.build.javac.source}</source>
+          <target>${jsbml.build.javac.target}</target>
+        </configuration>
+      </plugin>
+      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
