@@ -33,42 +33,8 @@
     <version>1.2-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
-	<!--
-	<scm>
-        <connection>scm:svn:http://127.0.0.1/dummy</connection>
-        <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
-        <tag>HEAD</tag>
-        <url>http://127.0.0.1/dummy</url>
-    </scm>
-	-->
 
   <build>
-	  
-		<directory>dist</directory>
-		<outputDirectory>dist/classes</outputDirectory>
-		<finalName>${project.artifactId}-${project.version}</finalName>
-		<testOutputDirectory>dist/test-classes</testOutputDirectory>
-		<sourceDirectory>src</sourceDirectory>
-		<scriptSourceDirectory>scripts</scriptSourceDirectory>
-		<testSourceDirectory>test</testSourceDirectory>
-		<resources>
-			<resource>
-				<directory>resources</directory>
-			</resource>
-		</resources>
-		<testResources>
-			<testResource>
-				<directory>test</directory>
-			</testResource>
-		</testResources>
-		
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ssh</artifactId>
-				<version>2.4</version>
-			</extension>
-		</extensions>
 		
 		<plugins>
   		<plugin>
@@ -106,7 +72,7 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-		</repository>
+		</repository>		
   </repositories>
 
 	<dependencies>
@@ -154,7 +120,6 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.mangosdk.spi</groupId>
 			<artifactId>spi</artifactId>
@@ -162,27 +127,4 @@
 		</dependency>
 	</dependencies>
 	
-	<!--
-	<distributionManagement>
-		<repository>
-			<id>jsbmlmavenrepotest.sourceforge.net</id>
-			<name>JSBML Maven2 repository</name>
-			<url>scp://shell.sourceforge.net/home/project-web/jsbmlmavenrepotest/htdocs/releaseRepository</url>
-		</repository>
-		<snapshotRepository>
-			<id>jsbmlmavenrepotest.sourceforge.net</id>
-			<name>JSBML Maven2 SNAPSHOT repository</name>
-			<url>scp://shell.sourceforge.net/home/project-web/jsbmlmavenrepotest/htdocs/snapshotRepository</url>
-		</snapshotRepository>
-	</distributionManagement>
--->
-
-<!--
-To deploy to EBI:
-        <repository>
-            <id>ebi-maven-repo</id>
-            <name>EBI Maven Repository</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo/</url>
-		</repository>
--->
 </project>
