@@ -129,7 +129,8 @@
 			<fileset dir="${simulation.core.dir}/lib/ext-lib/" includes="*.jar"/>
 		</path>
 		
-		<property name="maven.repo.url" value="file:///homes/maven/public_html/m2repo"/>
+		<!-- don't commit the repo url for releases to avoid messing it up as much as possible -->
+		<property name="maven.repo.url" value="scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots"/>
 		<!-- local test instance url file:///homes/maven/public_html/m2repo -->
 		
 	</target>
@@ -767,13 +768,14 @@
       description="Install jsbml localy"
 	  depends="init"
 	>
-		<!-- 	mvn javadoc:jar source:jar install
-		 -->
 		<exec executable="mvn">
 			<arg value="javadoc:jar"/>
 			<arg value="source:jar"/>
 			<arg value="install"/>
 		</exec>
+
+		<!-- 	TODO - add the jsbml artifact as well ?
+		 -->
 
 	</target>
 	
@@ -801,6 +803,7 @@
 			<arg value="-DpomFile=./dev/maven/pom.xml"/>
 			<arg value="-Dfile=./dev/maven/jsbml-pom.jar"/>
 			<arg value="-Durl=${maven.repo.url}"/>
+			<arg value="-DrepositoryId=jsbml-maven-repo-sf"/>
 		</exec>
 		
 		<!-- mvn test jar:test-jar to generate the test jar files to be able to run the tests in a new project -->

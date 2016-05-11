@@ -105,7 +105,7 @@
       <extension>
 		    <groupId>org.apache.maven.wagon</groupId>
 	      <artifactId>wagon-ssh</artifactId>
-	      <version>2.4</version>
+	      <version>2.10</version>
       </extension>
     </extensions>
     
@@ -208,26 +208,85 @@
       <id>local-repo</id>
       <url>http://localhost/repo</url>
     </repository>
+    <repository>
+      <id>sf-repo</id>
+      <url>http://jsbml.sourceforge.net/m2repo</url>
+    </repository>
+    <repository>
+      <id>sf-repo-s</id>
+      <url>http://jsbml.sourceforge.net/m2repo_snapshots</url>
+    </repository>
   </repositories>
   
   <distributionManagement>
+
+    <repository>
+      <id>jsbml-maven-repo-sf</id>
+      <name>JSBML Maven repository</name>
+      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
+  	</repository>
+
+    <snapshotRepository>
+      <id>jsbml-maven-repo-s-sf</id>
+      <name>JSBML Maven SNAPSHOT repository</name>
+      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
+    </snapshotRepository>
+
+<!-- 
+To Deploy locally
+
     <repository>
       <id>local-repo-deploy</id>
-      <name>Test Maven2 repository</name>
+      <name>Test Maven repository</name>
       <url>file:///var/www/html/repo</url>
     </repository>
+
+    if  snapshotRepository is not define, the defined repository
+    will be used for snapshots as well.
+
+-->
+<!--
+To deploy to EBI:
+
+    <repository>
+      <id>ebi-maven-repo</id>
+      <name>EBI Maven Repository</name>
+      <url>file:///homes/maven/public_html/m2repo</url>
+    </repository>
+    
     <snapshotRepository>
-      <id>jsbmlmavenrepotest.sourceforge.net</id>
-      <name>JSBML Maven2 SNAPSHOT repository</name>
-      <url>scp://shell.sourceforge.net/home/project-web/jsbmlmavenrepotest/htdocs/snapshotRepository</url>
+      <id>ebi-maven-repo-s</id>
+      <name>EBI Maven Repository</name>
+      <url>file:///homes/maven/public_html/m2repo_snapshots/</url>
     </snapshotRepository>
-  </distributionManagement>
-  
-  <!-- 		<repository>
-			<id>jsbmlmavenrepotest.sourceforge.net</id>
-			<name>JSBML Maven2 repository</name>
-			<url>scp://shell.sourceforge.net/home/project-web/jsbmlmavenrepotest/htdocs/releaseRepository</url>
+    
+    or (but scp does not seem to work well)
+    
+    <repository>
+      <id>ebi-maven-repo</id>
+      <name>EBI Maven Repository</name>
+      <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo</url>
 		</repository>
 -->
+
+<!--
+To deploy to the jsbml maven repo
+  
+    <repository>
+      <id>jsbml-maven-repo-sf</id>
+      <name>JSBML Maven repository</name>
+      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
+  	</repository>
+
+    <snapshotRepository>
+      <id>jsbml-maven-repo-s-sf</id>
+      <name>JSBML Maven SNAPSHOT repository</name>
+      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
+    </snapshotRepository>
+
+-->
+
+  </distributionManagement>
+    
   
 </project>
