@@ -38,38 +38,19 @@
     </parent>
     
     <build>
-        <sourceDirectory>${basedir}/src/</sourceDirectory>
-        
-        <testSourceDirectory>${basedir}/test/</testSourceDirectory>
-        
-        <resources>
-            <resource>
-                <directory>${basedir}/resources/</directory>
-            </resource>
-        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.19.1</version>
                 <configuration>
                     <skipTests>true</skipTests>
-                    <systemPropertyVariables>
-                        <user.dir>${basedir}/../../</user.dir>
-                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
     </build>
         
-    <repositories>
-		<repository>
-			<id>arbitrary</id>
-			<name>JSBML Maven Repository Test</name>
-			<url>http://jsbmlmavenrepotest.sourceforge.net/repo/</url>
-		</repository>
-	</repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.sbml.jsbml</groupId>
