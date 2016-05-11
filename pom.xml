@@ -251,22 +251,15 @@ To deploy to EBI:
     <repository>
       <id>ebi-maven-repo</id>
       <name>EBI Maven Repository</name>
-      <url>file:///homes/maven/public_html/m2repo</url>
+      <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo</url>
     </repository>
     
     <snapshotRepository>
       <id>ebi-maven-repo-s</id>
       <name>EBI Maven Repository</name>
-      <url>file:///homes/maven/public_html/m2repo_snapshots/</url>
+      <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo_snapshots/</url>
     </snapshotRepository>
     
-    or (but scp does not seem to work well)
-    
-    <repository>
-      <id>ebi-maven-repo</id>
-      <name>EBI Maven Repository</name>
-      <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo</url>
-		</repository>
 -->
 
 <!--
@@ -283,6 +276,8 @@ To deploy to the jsbml maven repo
       <name>JSBML Maven SNAPSHOT repository</name>
       <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
     </snapshotRepository>
+
+jsbml maven repo test: replace jsbml by jsbmlmavenrepotest in the urls
 
 -->
 
