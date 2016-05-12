@@ -1,0 +1,7 @@
+
+To deploy to a maven repository, you can use the following command:
+
+mvn deploy:deploy-file -DpomFile=./pom.xml -Dfile=./jsbml-0.8.jar -Durl=scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo -DrepositoryId=jsbml-maven-repo-sf
+
+You can adapt the url or repositoryId parameters for your needs but the rest should stay the same.
+
