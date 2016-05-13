@@ -1119,7 +1119,7 @@ public class SBMLReader {
       }
 
       if (attributeParser != null) {
-        attributeParser.processAttribute(
+        attributeParser.processAttribute( // TODO - return a boolean here to tell if the attribute was read or not ??
           currentNode.getLocalPart(),
           attributeName.getLocalPart(),
           attribute.getValue(),
