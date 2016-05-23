@@ -25,6 +25,16 @@
   default="usage"
   basedir="."
 >
+
+  <tstamp>
+    <format property="YEAR" pattern="yyyy"/>
+  </tstamp>
+  
+  <property file="${basedir}/../../jsbml-build.properties"/>
+  <property file="${basedir}/tidy-build.properties"/>  		
+  	
+
+
   <!-- =================================================================== -->
   <!-- Initialization target                                               -->
   <!-- =================================================================== -->
@@ -33,30 +43,24 @@
   	name="init"
   	description="Initialization target"
   >
-  	<tstamp>
-  	    <format property="YEAR" pattern="yyyy"/>
-	</tstamp>
-
-		<property file="${basedir}/../../jsbml-build.properties"/>
-
-  	<property file="${basedir}/tidy-build.properties"/>  		
-  	
     <property name="Name" value="${tidy.Name}"/>
     <property name="name" value="${tidy.name}"/>
     <property name="version" value="${tidy.version}"/>
 
     <property name="year" value="${YEAR}"/>
   	
-		<echo message="Determining the revision number of JSBML" />
-		<exec executable="svn" outputproperty="svninfo.xml">
-			<arg line="info --xml" />
-		</exec>
-		<xmlproperty collapseAttributes="true">
-			<propertyresource name="svninfo.xml" />
-		</xmlproperty>
-		<property name="jsbml.revision" value="${info.entry.revision}" />
+    <echo message="Determining the revision number of JSBML" />
+<!--    <exec executable="svn" outputproperty="svninfo.xml">
+      <arg line="info - -xml" /> // TODO - put bacj the two - together
+    </exec>
+    <xmlproperty collapseAttributes="true">
+      <propertyresource name="svninfo.xml" />
+    </xmlproperty>
+    <property name="jsbml.revision" value="${info.entry.revision}" />
+-->
+    <property name="jsbml.revision" value="${TSAMP}" />
 
-  	<echo message="----------- ${Name} ${version} [${year}] ------------"/>
+    <echo message="----------- ${Name} ${version} [${year}] ------------"/>
     <echo message="-----------     ${TODAY}   ------------"/>
     <echo message="-----------     ${DSTAMP} ${TSTAMP}  ------------"/>
   	
