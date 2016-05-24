@@ -70,6 +70,7 @@
         <module>celldesigner</module>
         <module>libSBMLio</module> cellDesigner and libSBML are dependencies that are not on maven -->
         <module>tidy</module>
+        <module>jsbml-offline-validator</module>
     </modules>
     
 </project>

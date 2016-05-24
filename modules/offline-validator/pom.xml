@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>org.sbml.jsbml.modules</groupId>
+		<artifactId>modules</artifactId>
+		<version>1.2-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	
+  <modelVersion>4.0.0</modelVersion>
+
+  	<groupId>org.sbml.jsbml.modules</groupId>
+  	<artifactId>jsbml-offline-validator</artifactId>
+    <packaging>jar</packaging>
+
+
+  <version>1.2-SNAPSHOT</version>
+  <name>${project.artifactId}</name>
+  <url>https://github.com/sbmlteam/jsbml</url>
+  <inceptionYear>2016</inceptionYear>
+  <description>Offline validator for jsbml</description>
+
+
+  <properties>
+    <jdk.version>1.7</jdk.version>
+    <junit.version>4.11</junit.version>
+    <project.license.url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</project.license.url>
+  </properties>
+
+  <organization>
+    <name>SBML Team</name>
+    <url>https://sbml.org</url>
+  </organization>
+
+  <issueManagement>
+    <url>https://github.com/sbmlteam/jsbml/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <licenses>
+    <license>
+      <name>LGPL</name>
+      <url>${project.license.url}</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <email>roman-schulte@gmx.de</email>
+      <name>Roman Schulte</name>
+      <url>https://github.com/anfark</url>
+      <id>anfark</id>
+    </developer>
+  </developers>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-eclipse-plugin</artifactId>
+          <version>2.9</version>
+          <configuration>
+            <downloadSources>true</downloadSources>
+            <downloadJavadocs>false</downloadJavadocs>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.5.1</version>
+          <configuration>
+            <source>${jdk.version}</source>
+            <target>${jdk.version}</target>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>
