@@ -1,4 +1,4 @@
-package org.sbml.jsbml.validator.test;
+package org.sbml.jsbml.validator.demo;
 
 
 import java.awt.BorderLayout;

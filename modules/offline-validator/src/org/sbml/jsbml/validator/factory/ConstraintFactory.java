@@ -102,10 +102,19 @@ public class ConstraintFactory {
    */
   public static ConstraintFactory getInstance(int level, int version) 
   {
+	ConstraintFactory factory = null;
     String key = "L" + level + "V" + version;
-    SoftReference<ConstraintFactory> factoryRef = ConstraintFactory.instances.get(key);
     
-    ConstraintFactory factory = factoryRef.get();
+    if(ConstraintFactory.instances != null)
+    {
+    	SoftReference<ConstraintFactory> factoryRef = ConstraintFactory.instances.get(key);
+        factory = factoryRef.get();
+    }
+    else
+    {
+    	ConstraintFactory.instances = new HashMap<String, SoftReference<ConstraintFactory>>();
+    }
+    
     
     // No factory cached
     if(factory == null)

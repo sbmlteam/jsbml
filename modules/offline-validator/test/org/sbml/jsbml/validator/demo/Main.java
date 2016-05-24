@@ -1,6 +1,5 @@
-package org.sbml.jsbml.validator.test;
+package org.sbml.jsbml.validator.demo;
 
-import org.sbml.jsbml.validator.test.*;
 import org.sbml.jsbml.validator.factory.ConstraintFactory;
 
 /**
