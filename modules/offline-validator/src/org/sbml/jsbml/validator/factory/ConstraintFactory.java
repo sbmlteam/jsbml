@@ -1,7 +1,6 @@
 package org.sbml.jsbml.validator.factory;
 
 import java.lang.ref.SoftReference;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,75 +22,6 @@ public class ConstraintFactory {
   private static HashMap<String, SoftReference<ConstraintFactory>> instances;
 
   private FactoryManager manager;
-
-
-  /**
-   * @param o
-   * @param category
-   * @return
-   */
-  public <T> AnyConstraint<T> getConstraintsForClass(Class<?> c, CheckCategory category) {
-    List<Integer> list = manager.getIdsForClass(c, category);
-    int[] array = new int[list.size()];
-    for (int i = 0; i < array.length; i++) {
-      Integer integer = list.get(i);
-      array[i] = integer.intValue();
-    }
-    return getConstraints(array);
-  }
-
-  
-  
-  /**
-   * Returns the constraint with the ID. The IDs of a constraint
-   * is identically to the error code it will log on failure.
-   * @param id
-   * @return
-   */
-  public AnyConstraint<?> getConstraint(int id) {
-    AnyConstraint<?> c = getConstraintFromCache(id);
-    if (c == null) {
-      c = createConstraint(id);
-      this.addToCache(id, c);
-    }
-    return c;
-  }
-
-
-  /**
-   * Returns a new constraint with the rule of the ID.
-   * 
-   * @param id
-   * @return
-   */
-  public static AnyConstraint<?> createConstraint(int id) {
-    return null;
-  }
-
-
-  /**
-   * Returns one constraint which covers all the rules for the given IDs.
-   * 
-   * @param ids
-   * @return
-   */
-  public <T> AnyConstraint<T> getConstraints(int[] ids) {
-    ConstraintGroup<T> group = null;
-    for (int id : ids) {
-      
-      @SuppressWarnings("unchecked")
-      AnyConstraint<T> c = (AnyConstraint<T>) this.getConstraint(id);
-      if (c != null) {
-        // Init group if necassary
-        if (group == null) {
-          group = new ConstraintGroup<T>();
-        }
-        group.add(c);
-      }
-    }
-    // Returns a group with at least 1 member or null
-    return group;
-  }
 
 
   /**
@@ -140,6 +70,77 @@ public class ConstraintFactory {
   }
 
 
+
+/**
+   * Returns a new constraint with the rule of the ID.
+   * 
+   * @param id
+   * @return
+   */
+  public static AnyConstraint<?> createConstraint(int id) {
+    return null;
+  }
+
+
+
+/**
+   * @param o
+   * @param category
+   * @return
+   */
+  public <T> AnyConstraint<T> getConstraintsForClass(Class<?> c, CheckCategory category) {
+    List<Integer> list = manager.getIdsForClass(c, category);
+    int[] array = new int[list.size()];
+    for (int i = 0; i < array.length; i++) {
+      Integer integer = list.get(i);
+      array[i] = integer.intValue();
+    }
+    return getConstraints(array);
+  }
+
+  
+  
+  /**
+   * Returns the constraint with the ID. The IDs of a constraint
+   * is identically to the error code it will log on failure.
+   * @param id
+   * @return
+   */
+  public AnyConstraint<?> getConstraint(int id) {
+    AnyConstraint<?> c = getConstraintFromCache(id);
+    if (c == null) {
+      c = createConstraint(id);
+      this.addToCache(id, c);
+    }
+    return c;
+  }
+
+
+  /**
+   * Returns one constraint which covers all the rules for the given IDs.
+   * 
+   * @param ids
+   * @return
+   */
+  public <T> AnyConstraint<T> getConstraints(int[] ids) {
+    ConstraintGroup<T> group = null;
+    for (int id : ids) {
+      
+      @SuppressWarnings("unchecked")
+      AnyConstraint<T> c = (AnyConstraint<T>) this.getConstraint(id);
+      if (c != null) {
+        // Init group if necassary
+        if (group == null) {
+          group = new ConstraintGroup<T>();
+        }
+        group.add(c);
+      }
+    }
+    // Returns a group with at least 1 member or null
+    return group;
+  }
+
+
   protected ConstraintFactory(FactoryManager manager) {
     if (ConstraintFactory.cache == null) {
       ConstraintFactory.cache =
@@ -147,10 +148,12 @@ public class ConstraintFactory {
     }
     
     this.manager = manager;
+  
   }
 
 
-  private AnyConstraint<?> getConstraintFromCache(int id) {
+
+private AnyConstraint<?> getConstraintFromCache(int id) {
     Integer key = new Integer(id);
     SoftReference<AnyConstraint<?>> ref = ConstraintFactory.cache.get(key);
     if (ref != null) {
