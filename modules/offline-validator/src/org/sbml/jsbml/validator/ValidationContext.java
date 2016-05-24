@@ -1,6 +1,7 @@
 package org.sbml.jsbml.validator;
 
 import org.sbml.jsbml.SBMLErrorLog;
+import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
 import org.sbml.jsbml.validator.constraint.ConstraintGroup;
@@ -189,6 +190,17 @@ public class ValidationContext {
   }
   
   
+  /**
+   * A SId starts with a letter or '-' and can be followed
+   * by a various amout of idChars.
+   * @param s
+   * @return
+   */
+  public boolean isId(String s)
+  {
+	return SyntaxChecker.isValidId(s, this.level, this.version);
+  }
+  
   
   /**
    * A letter is either a small letter or big letter.
@@ -275,29 +287,9 @@ public class ValidationContext {
    * @param s
    * @return
    */
-  public static boolean isSId(String s)
+  public static boolean isId(String s, int level, int version)
   {
-    if (s == null || s.isEmpty())
-    {
-      return false;
-    }
-    
-    char[] chars = s.toCharArray();
-    
-    if (!(isLetter(chars[0]) || chars[0] == '-'))
-    {
-      return false;
-    }
-    
-    for (int i = 0; i < chars.length; i++)
-    {
-      if(!isIdChar(chars[i]))
-      {
-        return false;
-      }
-    }
-    
-    return true;
+	return SyntaxChecker.isValidId(s, level, version);
   }
   
   
@@ -309,27 +301,7 @@ public class ValidationContext {
    */
   public static boolean isSboTerm(String s)
   {
-    if (s == null || s.length() != 11)
-    {
-      return false;
-    }
-    
-    if(!s.startsWith("SBO:"))
-    {
-      return false;
-    }
-    
-    char[] chars = s.toCharArray();
-    
-    for(int i = 4; i < chars.length; i++)
-    {
-      if(!isDigit(chars[i]))
-      {
-        return false;
-      }
-    }
-    
-    return true;
+    return SBO.checkTerm(s);
   }
   
 
@@ -342,6 +314,6 @@ public class ValidationContext {
    */
   public static boolean isXmlId(String s)
   {
-    return false;
+    return SyntaxChecker.isValidMetaId(s);
   }
 }
