@@ -1,0 +1,205 @@
+
+# /
+/.classpath
+/.project
+/dist
+/build
+/bin
+/jsbml.log
+/.apt_generated
+/.factorypath
+/.settings
+/jsbmlTestResults.txt
+
+# /core/
+/core/build
+/core/jsbml.log
+/core/jsbmlTestResults.txt
+/core/libsbmlCompatibilityTestResults.txt
+/core/.classpath
+/core/.project
+/core/dist
+/core/bin
+/core/.apt_generated
+/core/.factorypath
+/core/.settings
+
+# /core/dist/
+/core/dist/*
+
+# /extensions/arrays/
+/extensions/arrays/.classpath
+/extensions/arrays/.project
+/extensions/arrays/dist
+/extensions/arrays/build
+/extensions/arrays/bin
+/extensions/arrays/jsbml.log
+/extensions/arrays/.apt_generated
+/extensions/arrays/.factorypath
+/extensions/arrays/.settings
+
+# /extensions/comp/
+/extensions/comp/.classpath
+/extensions/comp/.project
+/extensions/comp/dist
+/extensions/comp/build
+/extensions/comp/bin
+/extensions/comp/jsbml.log
+/extensions/comp/.apt_generated
+/extensions/comp/.factorypath
+/extensions/comp/.settings
+
+# /extensions/distrib/
+/extensions/distrib/.classpath
+/extensions/distrib/.project
+/extensions/distrib/dist
+/extensions/distrib/build
+/extensions/distrib/bin
+/extensions/distrib/jsbml.log
+/extensions/distrib/.apt_generated
+/extensions/distrib/.factorypath
+/extensions/distrib/.settings
+
+# /extensions/dyn/
+/extensions/dyn/.classpath
+/extensions/dyn/.project
+/extensions/dyn/dist
+/extensions/dyn/build
+/extensions/dyn/bin
+/extensions/dyn/jsbml.log
+/extensions/dyn/.apt_generated
+/extensions/dyn/.factorypath
+/extensions/dyn/.settings
+
+# /extensions/fbc/
+/extensions/fbc/.classpath
+/extensions/fbc/.project
+/extensions/fbc/dist
+/extensions/fbc/build
+/extensions/fbc/bin
+/extensions/fbc/jsbml.log
+/extensions/fbc/.apt_generated
+/extensions/fbc/.factorypath
+/extensions/fbc/.settings
+
+# /extensions/groups/
+/extensions/groups/.classpath
+/extensions/groups/.project
+/extensions/groups/dist
+/extensions/groups/build
+/extensions/groups/bin
+/extensions/groups/jsbml.log
+/extensions/groups/.apt_generated
+/extensions/groups/.factorypath
+/extensions/groups/.settings
+
+# /extensions/layout/
+/extensions/layout/.classpath
+/extensions/layout/.project
+/extensions/layout/dist
+/extensions/layout/build
+/extensions/layout/bin
+/extensions/layout/jsbml.log
+/extensions/layout/.apt_generated
+/extensions/layout/.factorypath
+/extensions/layout/.settings
+
+# /extensions/multi/
+/extensions/multi/.classpath
+/extensions/multi/.project
+/extensions/multi/dist
+/extensions/multi/build
+/extensions/multi/bin
+/extensions/multi/jsbml.log
+/extensions/multi/.apt_generated
+/extensions/multi/.factorypath
+/extensions/multi/.settings
+
+# /extensions/qual/
+/extensions/qual/.classpath
+/extensions/qual/.project
+/extensions/qual/dist
+/extensions/qual/build
+/extensions/qual/bin
+/extensions/qual/jsbml.log
+/extensions/qual/.apt_generated
+/extensions/qual/.factorypath
+/extensions/qual/.settings
+
+# /extensions/render/
+/extensions/render/.classpath
+/extensions/render/.project
+/extensions/render/dist
+/extensions/render/build
+/extensions/render/bin
+/extensions/render/jsbml.log
+/extensions/render/.apt_generated
+/extensions/render/.factorypath
+/extensions/render/.settings
+
+# /extensions/req/
+/extensions/req/.classpath
+/extensions/req/.project
+/extensions/req/dist
+/extensions/req/build
+/extensions/req/bin
+/extensions/req/jsbml.log
+/extensions/req/.apt_generated
+/extensions/req/.factorypath
+/extensions/req/.settings
+
+# /extensions/spatial/
+/extensions/spatial/.classpath
+/extensions/spatial/.project
+/extensions/spatial/dist
+/extensions/spatial/build
+/extensions/spatial/bin
+/extensions/spatial/jsbml.log
+/extensions/spatial/.apt_generated
+/extensions/spatial/.factorypath
+/extensions/spatial/.settings
+
+# /modules/celldesigner/
+/modules/celldesigner/dist
+/modules/celldesigner/build
+/modules/celldesigner/.classpath
+/modules/celldesigner/.project
+/modules/celldesigner/bin
+/modules/celldesigner/jsbml.log
+/modules/celldesigner/.apt_generated
+/modules/celldesigner/.factorypath
+/modules/celldesigner/.settings
+
+# /modules/celldesigner/doc/
+/modules/celldesigner/doc/api
+
+# /modules/celldesigner/doc/api/
+/modules/celldesigner/doc/api/*
+
+# /modules/libSBMLio/
+/modules/libSBMLio/dist
+/modules/libSBMLio/build
+/modules/libSBMLio/.classpath
+/modules/libSBMLio/.project
+/modules/libSBMLio/bin
+/modules/libSBMLio/jsbml.log
+/modules/libSBMLio/.apt_generated
+/modules/libSBMLio/.factorypath
+/modules/libSBMLio/.settings
+
+# /modules/libSBMLio/doc/api/
+/modules/libSBMLio/doc/api/*
+
+# /modules/tidy/
+/modules/tidy/dist
+/modules/tidy/build
+/modules/tidy/.classpath
+/modules/tidy/.project
+/modules/tidy/bin
+/modules/tidy/jsbml.log
+/modules/tidy/.apt_generated
+/modules/tidy/.factorypath
+/modules/tidy/.settings
+
+# /modules/tidy/doc/
+/modules/tidy/doc/api
