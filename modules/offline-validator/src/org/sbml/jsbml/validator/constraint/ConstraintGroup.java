@@ -2,7 +2,6 @@ package org.sbml.jsbml.validator.constraint;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.sbml.jsbml.validator.ValidationContext;
 
@@ -38,7 +37,8 @@ public class ConstraintGroup<T> implements AnyConstraint<T> {
    */
   public AnyConstraint<T>[] getConstraints()
   {
-    AnyConstraint<T>[] constraints = (AnyConstraint<T>[])(this.constraints.toArray());
+	@SuppressWarnings("unchecked")
+	AnyConstraint<T>[] constraints = this.constraints.toArray(new AnyConstraint[this.constraints.size()]);
     return constraints;
   }
 }

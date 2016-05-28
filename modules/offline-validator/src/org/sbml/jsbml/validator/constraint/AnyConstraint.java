@@ -1,7 +1,5 @@
 package org.sbml.jsbml.validator.constraint;
 
-import java.util.Optional;
-
 import org.sbml.jsbml.validator.ValidationContext;
 
 public interface AnyConstraint<T> 

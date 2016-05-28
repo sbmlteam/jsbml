@@ -52,7 +52,7 @@ public class ConstraintFactory {
       try {
         String pkg = ConstraintFactory.class.getPackage().getName();
         String className = pkg + "." + key + "FactoryManager";
-        Class c = Class.forName(className);
+        Class<?> c = Class.forName(className);
         FactoryManager manager = (FactoryManager) (c.newInstance());
         
         factory = new ConstraintFactory(manager);
@@ -118,9 +118,8 @@ public class ConstraintFactory {
 
   /**
    * Returns one constraint which covers all the rules for the given IDs.
-   * 
    * @param ids
-   * @return
+   * @return A ConstraintGroup 
    */
   public <T> AnyConstraint<T> getConstraints(int[] ids) {
     ConstraintGroup<T> group = null;
@@ -133,6 +132,7 @@ public class ConstraintFactory {
         if (group == null) {
           group = new ConstraintGroup<T>();
         }
+        
         group.add(c);
       }
     }

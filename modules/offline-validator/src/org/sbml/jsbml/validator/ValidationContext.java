@@ -8,32 +8,39 @@ import org.sbml.jsbml.validator.constraint.ConstraintGroup;
 import org.sbml.jsbml.validator.factory.CheckCategory;
 import org.sbml.jsbml.validator.factory.ConstraintFactory;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ValidationContext {
   
   //The root constraint, which could contains more constraints
-  protected AnyConstraint<?> rootConstraint;
+  protected AnyConstraint<Object> rootConstraint;
   
   // Determines which constraints are loaded.
-  protected Set<CheckCategory> categories;
+  protected List<CheckCategory> categories;
   
   private SBMLErrorLog errorLog;
+  private Class<?> constraintType;
  
   // The level and version of the SBML specification
   private int level;
   private int version;
   
   
-  public ValidationContext(int level, int version, AnyConstraint<?> rootConstraint, Set<CheckCategory> categories)
+  public ValidationContext(int level, int version)
+  {
+	  this(level, version, null, new ArrayList<CheckCategory>());
+  }
+  
+  public ValidationContext(int level, int version, AnyConstraint<Object> rootConstraint, List<CheckCategory> categories)
   {
     this.level = level;
     this.version = version;
     this.categories = categories;
     this.rootConstraint = rootConstraint;
     
+    this.categories.add(CheckCategory.GENERAL);
     this.errorLog = new SBMLErrorLog();
-    
   }
 
  
@@ -66,6 +73,7 @@ public class ValidationContext {
   public void setLevel(int level)
   {
     this.rootConstraint = null;
+    this.constraintType = null;
     this.level = level;
   }
   
@@ -77,6 +85,7 @@ public class ValidationContext {
   public void setVersion(int version)
   {
     this.rootConstraint = null;
+    this.constraintType = null;
     this.version = version;
   }
   
@@ -101,7 +110,10 @@ public class ValidationContext {
   public void setCheckCategory(CheckCategory category, boolean enable){
     if (enable)
     {
-      this.categories.add(category);
+    	if(!this.categories.contains(category))
+    	{
+    		this.categories.add(category);
+    	}
     }
     else
     {
@@ -117,7 +129,7 @@ public class ValidationContext {
    */
   public CheckCategory[] getCheckCategories()
   {
-    return (CheckCategory[])(this.categories.toArray());
+    return this.categories.toArray(new CheckCategory[this.categories.size()]);
   }
   
   
@@ -146,6 +158,7 @@ public class ValidationContext {
     this.setLevel(level);
     this.setVersion(version);
     this.loadConstraints(objectClass, level, version, this.getCheckCategories());
+
   }
   
   
@@ -159,6 +172,7 @@ public class ValidationContext {
    */
   public <T> void loadConstraints(Class<?> objectClass, int level, int version, CheckCategory[] categories)
   {
+	  this.constraintType = objectClass;
     ConstraintGroup<T> group = new ConstraintGroup<T>();
     ConstraintFactory factory = ConstraintFactory.getInstance(level, version);
     
@@ -199,6 +213,20 @@ public class ValidationContext {
   public boolean isId(String s)
   {
 	return SyntaxChecker.isValidId(s, this.level, this.version);
+  }
+  
+  
+  
+  public void validate(Object o)
+  {
+	  if(this.constraintType != null &&
+			  this.rootConstraint != null)
+	  {
+		  if (this.constraintType.isInstance(o))
+		  {
+			  this.rootConstraint.check(this, o);
+		  }
+	  }
   }
   
   
