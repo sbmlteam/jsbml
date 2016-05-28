@@ -41,9 +41,4 @@ public class ValidationConstraint<T> implements AnyConstraint<T> {
       context.logBrokenConstraint(this.id);
     }
   }
-  
-  private void logErrorMessage()
-  {
-    
-  }
 }
