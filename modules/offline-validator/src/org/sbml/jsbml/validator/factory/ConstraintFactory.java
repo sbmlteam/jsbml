@@ -4,8 +4,12 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.List;
 
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.validator.ValidationContext;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
 import org.sbml.jsbml.validator.constraint.ConstraintGroup;
+import org.sbml.jsbml.validator.constraint.ValidationConstraint;
+import org.sbml.jsbml.validator.constraint.ValidationFunction;
 
 public class ConstraintFactory {
 
@@ -77,10 +81,88 @@ public class ConstraintFactory {
    * @param id
    * @return
    */
-  public static AnyConstraint<?> createConstraint(int id) {
+  public static AnyConstraint<?> createConstraint(int id) 
+  {
+	
+	if (id > 50_000)
+	{
+		if(id > 75_000)
+		{
+			
+		}
+		else
+		{
+			
+		}
+	}
+	else
+	{
+		if(id > 25_000)
+		{
+			
+		}
+		else
+		{
+			if (id > 20_500)
+			{
+				
+				
+			}
+		}	
+	}
     return null;
   }
 
+
+  public ValidationConstraint createCompartmentConstraint(int id)
+  {
+	  ValidationFunction<Compartment> func;
+	  
+	  if (id == 20_501)
+	  { 
+		func = new ValidationFunction<Compartment>() 
+			{
+				@Override
+				public boolean check(ValidationContext ctx, Compartment t) {
+					
+					if(t.getLevel() > 1)
+					{
+						if(t.getSpatialDimensions() == 0)
+						{
+							return !t.isSetSize();
+						}
+						
+						return false;
+					}
+					
+					return true;
+				}
+			};
+		}
+		else
+		{
+			func = new ValidationFunction<Compartment>() 
+			{
+				@Override
+				public boolean check(ValidationContext ctx, Compartment t) {
+					
+					if(t.getLevel() > 1)
+					{
+						if(t.getSpatialDimensions() == 0)
+						{
+							return !t.isSetUnits();
+						}
+						
+						return false;
+					}
+					
+					return true;
+				}
+			};
+		}
+		
+		return new ValidationConstraint<Compartment>(id, func);
+	}
 
 
 /**
@@ -186,5 +268,18 @@ private AnyConstraint<?> getConstraintFromCache(int id) {
     SoftReference<AnyConstraint<?>> ref =
       new SoftReference<AnyConstraint<?>>(constraint);
     ConstraintFactory.cache.put(new Integer(id), ref);
+  }
+  
+  public static void addRangeToList(List<Integer> list, int from, int to)
+  {
+	  for (int i = from; i <= to; i++)
+	  {
+		  addIntToList(list, i);
+	  }
+  }
+  
+  public static void addIntToList(List<Integer> list, int i)
+  {
+	  list.add(new Integer(i));
   }
 }

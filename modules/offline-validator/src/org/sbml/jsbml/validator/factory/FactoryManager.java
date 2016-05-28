@@ -13,4 +13,5 @@ public interface FactoryManager
    * @return
    */
   abstract public List<Integer> getIdsForClass(Class<?> clazz, CheckCategory category);
+  
 }
