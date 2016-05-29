@@ -397,5 +397,27 @@ public class SBMLError extends XMLException {
   public String getPackage() {
     return packageName;
   }
-
+  
+  public static String convertIdToString(int errorId)
+  {
+      Package p = Package.getPackageForError(errorId);
+      return p.toString() + "-" + String.format("%05d", errorId - p.offset);
+  }
+  
+  public static int convertStringToId(String errorId)
+  {
+      String[] blocks = errorId.split("-");
+      
+      if (blocks.length == 1)
+      {
+	  return Integer.parseInt(blocks[0]);
+      }
+      else
+      {
+	  Package p = Package.getPackageWithName(blocks[0]);
+	  int id = Integer.parseInt(blocks[1]);
+	  
+	  return id + p.offset;
+      }
+  }
 }
