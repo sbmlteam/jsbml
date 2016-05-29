@@ -12,4 +12,6 @@ public interface AnyConstraint<T>
    * @return test passed
    */
   abstract public void check(ValidationContext context, T t);
+  
+  abstract public int getID();
 }
