@@ -3,6 +3,7 @@ package org.sbml.jsbml.validator;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
 import org.sbml.jsbml.validator.factory.CheckCategory;
@@ -13,6 +14,7 @@ public class LoggingValidationContext extends ValidationContext implements Valid
     
     public LoggingValidationContext(int level, int version) {
 	this(level, version, null, new ArrayList<CheckCategory>());
+	this.addValidationListener(this);
 	// TODO Auto-generated constructor stub
     }
     
@@ -34,7 +36,9 @@ public class LoggingValidationContext extends ValidationContext implements Valid
     
     private void logFailure(int id)
     {
-	System.out.println("Constraint " + id + " broken!");
+//	System.out.println("Constraint " + id + " broken!");
+	SBMLError e = SBMLError.loadError(id, this.getLevel(), this.getVersion());
+	this.log.add(e);
     }
     
 
