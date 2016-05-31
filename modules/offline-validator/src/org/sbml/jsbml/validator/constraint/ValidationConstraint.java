@@ -14,7 +14,7 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
     @Override
     public boolean equals(Object obj) {
 	if (obj instanceof ValidationConstraint<?>) {
-	    return ((ValidationConstraint<?>) obj).getID() == this.id;
+	    return ((ValidationConstraint<?>) obj).getId() == this.id;
 	}
 	return false;
     }

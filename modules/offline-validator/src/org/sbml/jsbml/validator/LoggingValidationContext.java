@@ -49,7 +49,7 @@ public class LoggingValidationContext extends ValidationContext implements Valid
     public void didValidate(ValidationContext ctx, AnyConstraint<?> c, Object o, boolean success) {
 	if (!success)
 	{
-	    logFailure(c.getID());
+	    logFailure(c.getId());
 	}
     }
 
