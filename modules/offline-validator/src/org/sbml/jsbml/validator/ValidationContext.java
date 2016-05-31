@@ -210,20 +210,28 @@ public class ValidationContext {
 	}
     }
     
+    public static boolean isDimensionless(String unit){
+	return unit == Kind.DIMENSIONLESS.getName();
+    }
+    
     public static boolean isLength(String unit, UnitDefinition def){
 	return unit == UnitDefinition.LENGTH || 
 		unit == Kind.METRE.getName() || 
 		(def != null && def.isVariantOfLength());
     }
     
-    public static boolean isDimensionless(String unit, UnitDefinition def){
-	return unit == Kind.DIMENSIONLESS.getName();
-    }
-    
     public static boolean isArea(String unit, UnitDefinition def){
 	return unit == UnitDefinition.AREA || (def != null && def.isVariantOfArea());
     }
 
+    public static boolean isVolume(String unit, UnitDefinition def)
+    {
+	return unit == UnitDefinition.VOLUME ||
+		unit == Kind.LITRE.getName() ||
+		(def != null && def.isVariantOfVolume());
+    }
+    
+    
     /**
      * A letter is either a small letter or big letter.
      * 
