@@ -13,5 +13,5 @@ public interface AnyConstraint<T>
    */
   abstract public void check(ValidationContext context, T t);
   
-  abstract public int getID();
+  abstract public int getId();
 }

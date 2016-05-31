@@ -12,7 +12,7 @@ public abstract class AbstractConstraint<T> implements AnyConstraint<T> {
     abstract public void check(ValidationContext context, T t);
 
     @Override
-    public int getID() {
+    public int getId() {
 	// TODO Auto-generated method stub
 	return this.id;
     }

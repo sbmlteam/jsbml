@@ -52,7 +52,7 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
 	for (int i = 0; i < this.constraints.size(); i++)
 	{
 	    AnyConstraint<T> con = this.constraints.get(i);
-	    if(con.getID() == id)
+	    if(con.getId() == id)
 	    {
 		this.constraints.remove(i);
 		return con;
@@ -76,7 +76,7 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
 	
 	for(AnyConstraint<T> con:this.constraints)
 	{
-	    if(con.getID() == id)
+	    if(con.getId() == id)
 	    {
 		return true;
 	    }
