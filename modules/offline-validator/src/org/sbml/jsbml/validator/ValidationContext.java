@@ -2,6 +2,8 @@ package org.sbml.jsbml.validator;
 
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.SBO;
+import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
 import org.sbml.jsbml.validator.constraint.ConstraintGroup;
@@ -206,6 +208,20 @@ public class ValidationContext {
 		this.rootConstraint.check(this, o);
 	    }
 	}
+    }
+    
+    public static boolean isLength(String unit, UnitDefinition def){
+	return unit == UnitDefinition.LENGTH || 
+		unit == Kind.METRE.getName() || 
+		(def != null && def.isVariantOfLength());
+    }
+    
+    public static boolean isDimensionless(String unit, UnitDefinition def){
+	return unit == Kind.DIMENSIONLESS.getName();
+    }
+    
+    public static boolean isArea(String unit, UnitDefinition def){
+	return unit == UnitDefinition.AREA || (def != null && def.isVariantOfArea());
     }
 
     /**

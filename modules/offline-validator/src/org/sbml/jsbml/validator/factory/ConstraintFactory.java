@@ -9,6 +9,9 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.ValidationContext;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
 import org.sbml.jsbml.validator.constraint.ConstraintGroup;
@@ -23,7 +26,6 @@ public class ConstraintFactory {
     public static final int ID_DO_NOT_CACHE = -99999;
     public static final int ID_GROUP = -99998;
 
-    
     /**
      * Caches the constraints with SoftReferences
      */
@@ -83,11 +85,10 @@ public class ConstraintFactory {
      * @return
      */
     public static AnyConstraint<?> createConstraint(int id) {
-	if(id < 0)
-	{
+	if (id < 0) {
 	    return createSpecialConstraint(id);
 	}
-	
+
 	if (id > 50_000) {
 	    if (id > 75_000) {
 
@@ -98,21 +99,23 @@ public class ConstraintFactory {
 	    if (id > 25_000) {
 
 	    } else {
-		if (id > 20_600)
-		{
-		    
-		    return createSpeciesConstraint(id);
-		}
-		else if (id > 20_500) {
-		    return createCompartmentConstraint(id);
+
+		if (id > 12_500) {
+		    if (id > 20_600) {
+
+			return createSpeciesConstraint(id);
+		    } else if (id > 20_500) {
+			return createCompartmentConstraint(id);
+		    }
+		} else {
+
 		}
 	    }
 	}
 	return null;
     }
-    
-    protected static AnyConstraint<?> createSpecialConstraint(int id)
-    {
+
+    protected static AnyConstraint<?> createSpecialConstraint(int id) {
 	switch (id) {
 	case ID_EMPTY_CONSTRAINT:
 	    ValidationFunction<Object> f = new ValidationFunction<Object>() {
@@ -122,7 +125,7 @@ public class ConstraintFactory {
 		    return true;
 		}
 	    };
-	    
+
 	    return new ValidationConstraint<>(id, f);
 	case ID_VALIDATE_DOCUMENT_TREE:
 	    ValidationFunction<SBMLDocument> f2 = new ValidationFunction<SBMLDocument>() {
@@ -132,18 +135,17 @@ public class ConstraintFactory {
 		     * Special constraint to validate the hole document tree
 		     */
 		    System.out.println("validate doc tree");
-		    ConstraintFactory factory = 
-			    ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
-		    
+		    ConstraintFactory factory = ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
+
 		    AnyConstraint<Model> mc = factory.getConstraintsForClass(Model.class, ctx.getCheckCategories());
 		    mc.check(ctx, t.getModel());
-		    
+
 		    return true;
 		}
 	    };
-	    
+
 	    return new ValidationConstraint<SBMLDocument>(id, f2);
-	    
+
 	case ID_VALIDATE_MODEL_TREE:
 	    ValidationFunction<Model> f3 = new ValidationFunction<Model>() {
 		@Override
@@ -151,35 +153,34 @@ public class ConstraintFactory {
 		    /*
 		     * Special constraint to validate the hole model tree
 		     */
-		    
+
 		    System.out.println("model doc tree");
-		    ConstraintFactory factory = 
-			    ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
-		    
+		    ConstraintFactory factory = ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
+
 		    AnyConstraint<Species> sc = factory.getConstraintsForClass(Species.class, ctx.getCheckCategories());
-		    
-		    for (Species s:t.getListOfSpecies())
-		    {
+
+		    for (Species s : t.getListOfSpecies()) {
 			sc.check(ctx, s);
 		    }
-		    
+
 		    return true;
 		}
 	    };
-	    
+
 	    return new ValidationConstraint<Model>(id, f3);
 
 	default:
 	    break;
 	}
-	
+
 	return null;
     }
 
     /**
      * Creates constraints 20501 - 20517
+     * 
      * @param id
-     * @return 
+     * @return
      */
     protected static AnyConstraint<Compartment> createCompartmentConstraint(int id) {
 	ValidationFunction<Compartment> func;
@@ -188,12 +189,13 @@ public class ConstraintFactory {
 	case 20_501:
 	    func = new ValidationFunction<Compartment>() {
 		@Override
-		public boolean check(ValidationContext ctx, Compartment t) {
+		public boolean check(ValidationContext ctx, Compartment c) {
 		    /*
-		     * Invalid use of the 'size' attribute for a zero-dimensional compartment
+		     * Invalid use of the 'size' attribute for a
+		     * zero-dimensional compartment
 		     */
-		    
-		    return t.getSpatialDimensions() == 0 && t.isSetSize();
+
+		    return c.getSpatialDimensions() == 0 && c.isSetSize();
 		}
 	    };
 	    break;
@@ -201,38 +203,125 @@ public class ConstraintFactory {
 	case 20_502:
 	    func = new ValidationFunction<Compartment>() {
 		@Override
-		public boolean check(ValidationContext ctx, Compartment t) {
+		public boolean check(ValidationContext ctx, Compartment c) {
 		    /*
-		     * Invalid use of the 'units' attribute for a zero-dimensional compartment
+		     * Invalid use of the 'units' attribute for a
+		     * zero-dimensional compartment
 		     */
-		    return (t.getSpatialDimensions() == 0) && (!t.isSetUnits());
+		    return (c.getSpatialDimensions() == 0) && (!c.isSetUnits());
 		}
 	    };
 	    break;
-	    
+
 	case 20_503:
 	    func = new ValidationFunction<Compartment>() {
 		@Override
-		public boolean check(ValidationContext ctx, Compartment t) {
-		    return  t.getSpatialDimensions() == 0 && t.isConstant();
+		public boolean check(ValidationContext ctx, Compartment c) {
+		    return c.getSpatialDimensions() == 0 && c.isConstant();
 		}
 	    };
 	    break;
-	    
+
 	case 20_504:
 	    func = new ValidationFunction<Compartment>() {
 		@Override
-		public boolean check(ValidationContext ctx, Compartment t) {
-		    return  t.isSetOutside() && t.getOutside() != null;
+		public boolean check(ValidationContext ctx, Compartment c) {
+		    return c.isSetOutside() && c.getOutside() != null;
 		}
 	    };
 	    break;
-	    
+
 	case 20_505:
 	    func = new ValidationFunction<Compartment>() {
 		@Override
-		public boolean check(ValidationContext ctx, Compartment t) {
-		    // TODO
+		public boolean check(ValidationContext ctx, Compartment c) {
+		    // TODO CompartmentOutsieCycle not done yet
+		    return true;
+		}
+	    };
+	    break;
+
+	case 20_506:
+	    func = new ValidationFunction<Compartment>() {
+		@Override
+		public boolean check(ValidationContext ctx, Compartment c) {
+		    if (c.isSetOutside() && c.getSpatialDimensions() == 0) {
+			Model m = c.getModel();
+
+			if (m != null) {
+			    Compartment outside = m.getCompartment(c.getOutside());
+
+			    if (outside != null) {
+				return outside.getSpatialDimensions() == 0;
+			    }
+
+			}
+		    }
+		    return true;
+		}
+	    };
+	    break;
+
+	case 20_507:
+	    func = new ValidationFunction<Compartment>() {
+		@Override
+		public boolean check(ValidationContext ctx, Compartment c) {
+		    if (c.getSpatialDimensions() == 1 && c.isSetUnits()) {
+			String unit = c.getUnits();
+			UnitDefinition def = c.getModel().getUnitDefinition(unit);
+
+			boolean isLength = ValidationContext.isLength(unit, def);
+
+			if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
+			    return isLength;
+			}
+
+			if (ctx.getLevel() >= 2) {
+			    boolean isDimensionless = ValidationContext.isDimensionless(unit, def);
+
+			    return isDimensionless || isLength;
+			}
+		    }
+		    return true;
+		}
+	    };
+	    break;
+
+	case 20_508:
+	    func = new ValidationFunction<Compartment>() {
+		@Override
+		public boolean check(ValidationContext ctx, Compartment c) {
+		    if (c.getSpatialDimensions() == 2 && c.isSetUnits()) {
+			String unit = c.getUnits();
+			UnitDefinition def = c.getModel().getUnitDefinition(unit);
+
+			boolean isArea = ValidationContext.isArea(unit, def);
+
+			if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
+			    return isArea;
+			}
+
+			if (ctx.getLevel() >= 2) {
+			    boolean isDimensionless = ValidationContext.isDimensionless(unit, def);
+
+			    return isDimensionless || isArea;
+			}
+		    }
+		    return true;
+		}
+	    };
+	    break;
+
+	case 20_510:
+	    func = new ValidationFunction<Compartment>() {
+		@SuppressWarnings("deprecation")
+		@Override
+		public boolean check(ValidationContext ctx, Compartment c) {
+
+		    if (c.isSetCompartmentType()) {
+			return c.getModel().getCompartmentType(c.getCompartmentType()) != null;
+		    }
+
 		    return true;
 		}
 	    };
@@ -244,11 +333,12 @@ public class ConstraintFactory {
 
 	return new ValidationConstraint<Compartment>(id, func);
     }
-    
+
     /**
-     * Creates constraints 20501 - 20517
+     * Creates constraints 20601 - 20617 for Species instances
+     * 
      * @param id
-     * @return 
+     * @return
      */
     protected static ValidationConstraint<Species> createSpeciesConstraint(int id) {
 	ValidationFunction<Species> func;
@@ -257,33 +347,127 @@ public class ConstraintFactory {
 	case 20_601:
 	    func = new ValidationFunction<Species>() {
 		@Override
-		public boolean check(ValidationContext ctx, Species t) {
+		public boolean check(ValidationContext ctx, Species s) {
 		    /*
 		     * Invalid value found for Species 'compartment' attribute
 		     */
-		    if (t.isSetCompartment())
-		    {
-			return t.getModel().getCompartment(t.getCompartment()) != null;
+		    if (s.isSetCompartment()) {
+			return s.getModel().getCompartment(s.getCompartment()) != null;
 		    }
-		    
+
+		    return true;
+		}
+	    };
+	    break;
+
+	case 20_602:
+	    func = new ValidationFunction<Species>() {
+		@SuppressWarnings("deprecation")
+		@Override
+		public boolean check(ValidationContext ctx, Species s) {
+		    /*
+		     * Invalid value found for Species 'compartment' attribute
+		     */
+		    if (s.hasOnlySubstanceUnits()) {
+			return s.isSetSpatialSizeUnits();
+		    }
+
+		    return true;
+		}
+	    };
+	    break;
+
+	case 20_603:
+	    func = new ValidationFunction<Species>() {
+
+		@SuppressWarnings("deprecation")
+		@Override
+		public boolean check(ValidationContext ctx, Species s) {
+
+		    Compartment c = s.getModel().getCompartment(s.getCompartment());
+
+		    if (c != null && c.getSpatialDimensions() == 0) {
+			return !s.isSetSpatialSizeUnits();
+		    }
+
+		    return true;
+		}
+	    };
+	    break;
+
+	case 20_604:
+	    func = new ValidationFunction<Species>() {
+		@Override
+		public boolean check(ValidationContext ctx, Species s) {
+
+		    Compartment c = s.getModel().getCompartment(s.getCompartment());
+
+		    if (c != null && c.getSpatialDimensions() == 0) {
+			return !s.isSetInitialConcentration();
+		    }
+
+		    return true;
+		}
+	    };
+	    break;
+
+	case 20_605:
+	    func = new ValidationFunction<Species>() {
+		@SuppressWarnings("deprecation")
+		@Override
+		public boolean check(ValidationContext ctx, Species s) {
+
+		    Model m = s.getModel();
+		    Compartment c = m.getCompartment(s.getCompartment());
+
+		    if (c != null && c.getSpatialDimensions() == 0 && s.isSetSpatialSizeUnits()) {
+			String unit = s.getUnits();
+			UnitDefinition def = m.getUnitDefinition(unit);
+
+			boolean isLength = ValidationContext.isLength(unit, def);
+
+			if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
+			    return isLength;
+			}
+
+			if (ctx.getLevel() >= 2) {
+			    boolean isDimensionless = ValidationContext.isDimensionless(unit, def);
+
+			    return isDimensionless || isLength;
+			}
+		    }
+
 		    return true;
 		}
 	    };
 	    break;
 	    
-	case 20_602:
+	case 20_606:
 	    func = new ValidationFunction<Species>() {
 		@SuppressWarnings("deprecation")
 		@Override
-		public boolean check(ValidationContext ctx, Species t) {
-		    /*
-		     * Invalid value found for Species 'compartment' attribute
-		     */
-		    if (t.hasOnlySubstanceUnits())
-		    {
-			return t.isSetSpatialSizeUnits();
+		public boolean check(ValidationContext ctx, Species s) {
+
+		    Model m = s.getModel();
+		    Compartment c = m.getCompartment(s.getCompartment());
+
+		    if (c != null && c.getSpatialDimensions() == 0 && s.isSetSpatialSizeUnits()) {
+			String unit = s.getSpatialSizeUnits();
+			UnitDefinition def = m.getUnitDefinition(unit);
+
+			boolean isArea = ValidationContext.isArea(unit, def);
+
+			if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
+			    return isArea;
+			}
+
+			if (ctx.getLevel() >= 2) {
+			    boolean isDimensionless = ValidationContext.isDimensionless(unit, def);
+
+			    return isDimensionless || isArea;
+			}
 		    }
-		    
+
 		    return true;
 		}
 	    };
@@ -303,26 +487,23 @@ public class ConstraintFactory {
      */
     public <T> AnyConstraint<T> getConstraintsForClass(Class<?> clazz, CheckCategory category) {
 	ConstraintGroup<T> group = new ConstraintGroup<T>();
-	
-	if (!clazz.isInterface())
-	{
-	    for (Class<?> ifc:clazz.getInterfaces())
-	    {
+
+	if (!clazz.isInterface()) {
+	    for (Class<?> ifc : clazz.getInterfaces()) {
 		AnyConstraint<T> con = this.getConstraintsForClass(ifc, category);
 		group.add(con);
 	    }
 	}
-	
+
 	Class<?> superclass = clazz.getSuperclass();
-	
-	if (superclass != null && !superclass.equals(Object.class))
-	{
+
+	if (superclass != null && !superclass.equals(Object.class)) {
 	    AnyConstraint<T> con = this.getConstraintsForClass(superclass, category);
 	    group.add(con);
 	}
-	
+
 	List<Integer> list = manager.getIdsForClass(clazz, category);
-	
+
 	int[] array = new int[list.size()];
 	for (int i = 0; i < array.length; i++) {
 	    Integer integer = list.get(i);
@@ -331,25 +512,23 @@ public class ConstraintFactory {
 
 	return getConstraints(array);
     }
-    
-    
+
     /**
      * @param o
      * @param category
      * @return
      */
     public <T> AnyConstraint<T> getConstraintsForClass(Class<?> clazz, CheckCategory[] categories) {
-	
+
 	ConstraintGroup<T> group = new ConstraintGroup<T>();
-	
+
 	for (CheckCategory check : categories) {
 	    AnyConstraint<T> c = this.getConstraintsForClass(clazz, check);
 	    group.add(c);
 	}
-	
+
 	return group;
     }
-
 
     /**
      * Returns the constraint with the ID. The IDs of a constraint is
@@ -406,7 +585,7 @@ public class ConstraintFactory {
 	SoftReference<AnyConstraint<?>> ref = ConstraintFactory.cache.get(key);
 	if (ref != null) {
 	    AnyConstraint<?> c = (ref.get());
-	    
+
 	    // If the constraint was cleared, the reference in the
 	    // HashMap can be removed.
 	    if (c == null) {
@@ -419,11 +598,10 @@ public class ConstraintFactory {
     }
 
     private void addToCache(Integer id, AnyConstraint<?> constraint) {
-	if(constraint == null || id == ID_DO_NOT_CACHE || id == ID_GROUP)
-	{
+	if (constraint == null || id == ID_DO_NOT_CACHE || id == ID_GROUP) {
 	    return;
 	}
-	
+
 	SoftReference<AnyConstraint<?>> ref = new SoftReference<AnyConstraint<?>>(constraint);
 	ConstraintFactory.cache.put(new Integer(id), ref);
     }
