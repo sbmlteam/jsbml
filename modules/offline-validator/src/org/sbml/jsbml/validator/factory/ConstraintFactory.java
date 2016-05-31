@@ -277,7 +277,7 @@ public class ConstraintFactory {
 			}
 
 			if (ctx.getLevel() >= 2) {
-			    boolean isDimensionless = ValidationContext.isDimensionless(unit, def);
+			    boolean isDimensionless = ValidationContext.isDimensionless(unit);
 
 			    return isDimensionless || isLength;
 			}
@@ -302,7 +302,7 @@ public class ConstraintFactory {
 			}
 
 			if (ctx.getLevel() >= 2) {
-			    boolean isDimensionless = ValidationContext.isDimensionless(unit, def);
+			    boolean isDimensionless = ValidationContext.isDimensionless(unit);
 
 			    return isDimensionless || isArea;
 			}
@@ -431,7 +431,7 @@ public class ConstraintFactory {
 			}
 
 			if (ctx.getLevel() >= 2) {
-			    boolean isDimensionless = ValidationContext.isDimensionless(unit, def);
+			    boolean isDimensionless = ValidationContext.isDimensionless(unit);
 
 			    return isDimensionless || isLength;
 			}
@@ -462,12 +462,56 @@ public class ConstraintFactory {
 			}
 
 			if (ctx.getLevel() >= 2) {
-			    boolean isDimensionless = ValidationContext.isDimensionless(unit, def);
+			    boolean isDimensionless = ValidationContext.isDimensionless(unit);
 
 			    return isDimensionless || isArea;
 			}
 		    }
 
+		    return true;
+		}
+	    };
+	    break;
+	    
+	case 20_607:
+	    func = new ValidationFunction<Species>() {
+		@SuppressWarnings("deprecation")
+		@Override
+		public boolean check(ValidationContext ctx, Species s) {
+
+		    Model m = s.getModel();
+		    Compartment c = m.getCompartment(s.getCompartment());
+
+		    if (c != null && c.getSpatialDimensions() == 3 && s.isSetSpatialSizeUnits()) {
+			String unit = s.getSpatialSizeUnits();
+			UnitDefinition def = m.getUnitDefinition(unit);
+
+			boolean isVolume = ValidationContext.isVolume(unit, def);
+
+			if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
+			    return isVolume;
+			}
+
+			if (ctx.getLevel() >= 2) {
+			    boolean isDimensionless = ValidationContext.isDimensionless(unit);
+
+			    return isDimensionless || isVolume;
+			}
+		    }
+
+		    return true;
+		}
+	    };
+	    break;
+	    
+	case 20_609:
+	    func = new ValidationFunction<Species>() {
+		@Override
+		public boolean check(ValidationContext ctx, Species s) {
+		    if (s.isSetInitialAmount())
+		    {
+			return !s.isSetInitialConcentration();
+		    }
 		    return true;
 		}
 	    };
