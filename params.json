@@ -1,0 +1,6 @@
+{
+  "name": "Jsbml",
+  "tagline": "JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. ",
+  "body": "### Welcome to the JSBML GitHub Pages.\r\n\r\n[Go to JSBML official web site](http://sbml.org/Software/JSBML) for more information.",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
