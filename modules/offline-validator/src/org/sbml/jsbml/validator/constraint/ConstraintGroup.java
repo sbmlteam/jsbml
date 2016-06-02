@@ -38,9 +38,10 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
     
     
     /**
-     * Removes the constraint with the id form the group.
-     * Returns the constraint or null if the constraint didn't was in group.
+     * Removes the constraint with the id from the group.
+     * 
      * @param id
+     * @return the constraint or null if the constraint didn't was in group
      */
     public AnyConstraint<T> remove(int id)
     {
@@ -62,6 +63,16 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
 	return null;
     }
     
+    public AnyConstraint<T> removeAt(int i)
+    {
+	if (i < this.constraints.size())
+	{
+	    return this.constraints.remove(i);
+	}
+	
+	return null;
+    }
+    
     /**
      * 
      * @param id
@@ -69,11 +80,6 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
      */
     public boolean contains(int id)
     {
-	if (id == ConstraintFactory.ID_DO_NOT_CACHE || id == ConstraintFactory.ID_GROUP)
-	{
-	    return false;
-	}
-	
 	for(AnyConstraint<T> con:this.constraints)
 	{
 	    if(con.getId() == id)
