@@ -300,7 +300,7 @@ public class ConstraintFactory {
 		public boolean check(ValidationContext ctx, Compartment c) {
 		    if (c.getSpatialDimensions() == 1 && c.isSetUnits()) {
 			String unit = c.getUnits();
-			UnitDefinition def = c.getModel().getUnitDefinition(unit);
+			UnitDefinition def = c.getUnitsInstance();
 
 			boolean isLength = ValidationContext.isLength(unit, def);
 
@@ -325,7 +325,7 @@ public class ConstraintFactory {
 		public boolean check(ValidationContext ctx, Compartment c) {
 		    if (c.getSpatialDimensions() == 2 && c.isSetUnits()) {
 			String unit = c.getUnits();
-			UnitDefinition def = c.getModel().getUnitDefinition(unit);
+			UnitDefinition def = c.getUnitsInstance();
 
 			boolean isArea = ValidationContext.isArea(unit, def);
 
@@ -351,7 +351,7 @@ public class ConstraintFactory {
 		public boolean check(ValidationContext ctx, Compartment c) {
 
 		    if (c.isSetCompartmentType()) {
-			return c.getModel().getCompartmentType(c.getCompartmentType()) != null;
+			return c.getCompartmentTypeInstance() != null;
 		    }
 
 		    return true;
@@ -384,7 +384,7 @@ public class ConstraintFactory {
 		     * Invalid value found for Species 'compartment' attribute
 		     */
 		    if (s.isSetCompartment()) {
-			return s.getModel().getCompartment(s.getCompartment()) != null;
+			return s.getCompartmentInstance() != null;
 		    }
 
 		    return true;
@@ -432,7 +432,7 @@ public class ConstraintFactory {
 		@Override
 		public boolean check(ValidationContext ctx, Species s) {
 
-		    Compartment c = s.getModel().getCompartment(s.getCompartment());
+		    Compartment c = s.getCompartmentInstance();
 
 		    if (c != null && c.getSpatialDimensions() == 0) {
 			return !s.isSetInitialConcentration();
@@ -449,12 +449,11 @@ public class ConstraintFactory {
 		@Override
 		public boolean check(ValidationContext ctx, Species s) {
 
-		    Model m = s.getModel();
-		    Compartment c = m.getCompartment(s.getCompartment());
+		    Compartment c = s.getCompartmentInstance();
 
 		    if (c != null && c.getSpatialDimensions() == 0 && s.isSetSpatialSizeUnits()) {
 			String unit = s.getUnits();
-			UnitDefinition def = m.getUnitDefinition(unit);
+			UnitDefinition def = s.getUnitsInstance();
 
 			boolean isLength = ValidationContext.isLength(unit, def);
 
@@ -479,13 +478,12 @@ public class ConstraintFactory {
 		@SuppressWarnings("deprecation")
 		@Override
 		public boolean check(ValidationContext ctx, Species s) {
-
-		    Model m = s.getModel();
-		    Compartment c = m.getCompartment(s.getCompartment());
+		    
+		    Compartment c = s.getCompartmentInstance();
 
 		    if (c != null && c.getSpatialDimensions() == 0 && s.isSetSpatialSizeUnits()) {
 			String unit = s.getSpatialSizeUnits();
-			UnitDefinition def = m.getUnitDefinition(unit);
+			UnitDefinition def = s.getUnitsInstance();
 
 			boolean isArea = ValidationContext.isArea(unit, def);
 
@@ -511,12 +509,11 @@ public class ConstraintFactory {
 		@Override
 		public boolean check(ValidationContext ctx, Species s) {
 
-		    Model m = s.getModel();
-		    Compartment c = m.getCompartment(s.getCompartment());
+		    Compartment c = s.getCompartmentInstance();
 
 		    if (c != null && c.getSpatialDimensions() == 3 && s.isSetSpatialSizeUnits()) {
 			String unit = s.getSpatialSizeUnits();
-			UnitDefinition def = m.getUnitDefinition(unit);
+			UnitDefinition def = s.getUnitsInstance();
 
 			boolean isVolume = ValidationContext.isVolume(unit, def);
 
