@@ -1,16 +1,21 @@
 package org.sbml.jsbml.validator.factory;
 
 import java.lang.ref.SoftReference;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale.Category;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Package;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.ValidationContext;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
@@ -25,6 +30,11 @@ public class ConstraintFactory {
     public static final int ID_VALIDATE_MODEL_TREE = -2010;
     public static final int ID_DO_NOT_CACHE = -99999;
     public static final int ID_GROUP = -99998;
+
+    /**
+     * Log4j logger
+     */
+    protected static final transient Logger logger = Logger.getLogger(ConstraintFactory.class);
 
     /**
      * Caches the constraints with SoftReferences
@@ -89,6 +99,27 @@ public class ConstraintFactory {
 	    return createSpecialConstraint(id);
 	}
 
+	Package pkg = Package.getPackageForError(id);
+
+	try {
+	    String methodName = "create" + StringTools.firstLetterUpperCase(pkg.toString()) + "Constraint";
+	    Method m = ConstraintFactory.class.getMethod(methodName, int.class);
+	    Object o = m.invoke(null, id);
+
+	    return (o != null) ? (AnyConstraint<?>) o : null;
+
+	} catch (Exception e) {
+	    logger.error(e.getMessage());
+	}
+
+	return null;
+    }
+
+    protected static AnyConstraint<?> createCompConstraint(int id) {
+	return null;
+    }
+
+    protected static AnyConstraint<?> createCoreConstraint(int id) {
 	if (id > 50_000) {
 	    if (id > 75_000) {
 
@@ -112,6 +143,7 @@ public class ConstraintFactory {
 		}
 	    }
 	}
+
 	return null;
     }
 
@@ -441,7 +473,7 @@ public class ConstraintFactory {
 		}
 	    };
 	    break;
-	    
+
 	case 20_606:
 	    func = new ValidationFunction<Species>() {
 		@SuppressWarnings("deprecation")
@@ -472,7 +504,7 @@ public class ConstraintFactory {
 		}
 	    };
 	    break;
-	    
+
 	case 20_607:
 	    func = new ValidationFunction<Species>() {
 		@SuppressWarnings("deprecation")
@@ -503,13 +535,12 @@ public class ConstraintFactory {
 		}
 	    };
 	    break;
-	    
+
 	case 20_609:
 	    func = new ValidationFunction<Species>() {
 		@Override
 		public boolean check(ValidationContext ctx, Species s) {
-		    if (s.isSetInitialAmount())
-		    {
+		    if (s.isSetInitialAmount()) {
 			return !s.isSetInitialConcentration();
 		    }
 		    return true;
@@ -529,21 +560,29 @@ public class ConstraintFactory {
      * @param category
      * @return
      */
-    public <T> AnyConstraint<T> getConstraintsForClass(Class<?> clazz, CheckCategory category) {
+    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory category) {
 	ConstraintGroup<T> group = new ConstraintGroup<T>();
 
+	// Add constraints for interfaces
 	if (!clazz.isInterface()) {
 	    for (Class<?> ifc : clazz.getInterfaces()) {
 		AnyConstraint<T> con = this.getConstraintsForClass(ifc, category);
-		group.add(con);
+
+		if (con != null) {
+		    group.add(con);
+		}
 	    }
 	}
 
+	// constraints for the next superclass (if not java.lang.Object)
 	Class<?> superclass = clazz.getSuperclass();
 
 	if (superclass != null && !superclass.equals(Object.class)) {
 	    AnyConstraint<T> con = this.getConstraintsForClass(superclass, category);
-	    group.add(con);
+
+	    if (con != null) {
+		group.add(con);
+	    }
 	}
 
 	List<Integer> list = manager.getIdsForClass(clazz, category);
@@ -562,7 +601,7 @@ public class ConstraintFactory {
      * @param category
      * @return
      */
-    public <T> AnyConstraint<T> getConstraintsForClass(Class<?> clazz, CheckCategory[] categories) {
+    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory[] categories) {
 
 	ConstraintGroup<T> group = new ConstraintGroup<T>();
 

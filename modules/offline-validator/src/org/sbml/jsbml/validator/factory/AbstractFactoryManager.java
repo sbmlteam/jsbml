@@ -1,13 +1,14 @@
 package org.sbml.jsbml.validator.factory;
 
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.util.StringTools;
+
 
 public abstract class AbstractFactoryManager implements FactoryManager {
     /**
@@ -29,12 +30,16 @@ public abstract class AbstractFactoryManager implements FactoryManager {
 	}
 	
 	try{
-	    // Capitalize category name
-	    char[] chars = category.toString().toLowerCase().toCharArray();
-	    chars[0] = Character.toUpperCase(chars[0]);
-	    String categoryName = new String(chars);
+
+	    String categoryName = 
+		    StringTools.firstLetterUpperCase(category.toString().toLowerCase());
 	    
-	    Method m = this.getClass().getMethod("add" + categoryName + clazz.getSimpleName() + "Ids", List.class);
+	    Method m = 
+		    this.getClass().getMethod("add" + 
+			    		categoryName + 
+			    		clazz.getSimpleName() + 
+			    		"Ids", 
+			    		List.class);
 	    m.invoke(this, list);
 	}
 	catch(Exception e)
