@@ -4,10 +4,17 @@ public enum Package
 {
     CORE(0),
     COMP(1_000_000),
+    REQ(1_100_000),
+    SPATIAL(1_200_000),
+    RENDER(1_300_000),
     FBC(2_000_000),
     QUAL(3_000_000),
-    LAYOUT(6_000_000);
-
+    GROUPS(4_000_000),
+    DISTRIB(5_000_000),
+    LAYOUT(6_000_000),
+    MULTI(7_000_000),
+    ARRAYS(8_000_000),
+    DYN(9_000_000);
     
     public final int offset;
     
