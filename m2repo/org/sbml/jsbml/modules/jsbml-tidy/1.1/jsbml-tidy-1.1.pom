@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    $Id: pom.xml 2438 2015-12-06 18:19:00Z niko-rodrigue $ 
+    $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/tags/jsbml-1.1/modules/tidy/pom.xml $
+
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2015 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+
+    Version: $Rev: 2438 $
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>org.sbml.jsbml.modules</groupId>
+		<artifactId>modules</artifactId>
+		<version>1.1</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+    <groupId>org.sbml.jsbml.modules</groupId>
+    <artifactId>jsbml-tidy</artifactId>
+    <packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.jtidy</groupId>
+			<artifactId>jtidy</artifactId>
+			<version>r938</version>
+		</dependency>
+	</dependencies>
+
+</project>

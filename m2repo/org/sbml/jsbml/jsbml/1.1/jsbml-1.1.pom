@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    $Id: pom.xml 2394 2015-11-09 14:31:49Z niko-rodrigue $ 
+    $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/trunk/pom.xml $
+
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2015 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+
+    Version: $Rev: 2394 $
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.sbml.jsbml</groupId>
+  <artifactId>jsbml</artifactId>
+  <version>1.1</version>
+  <packaging>jar</packaging>
+  <inceptionYear>2009</inceptionYear>
+  <description>JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams.</description>
+  <url>http://www.sbml.org/Software/JSBML</url>
+  
+  <licenses>
+    <license>
+      <name>LGPL License</name>
+      <url>http://opensource.org/licenses/LGPL-2.1</url>
+    </license>
+    <license>
+      <name>Licensing and Distribution Terms for JSBML</name>
+      <url>http://sbml.org/Software/JSBML/License</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>JSBML team</name>
+      <email>jsbml-team@caltech.edu</email>
+      <organization>SBML Team</organization>
+      <organizationUrl>http://www.sbml.org</organizationUrl>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <url>http://sourceforge.net/p/jsbml/bugs/</url>
+    <system>Sourceforge Tickets</system>
+  </issueManagement>
+  <mailingLists>
+    <mailingList>
+      <name>JSBML Team</name>
+      <post>jsbml-team@caltech.edu</post>
+    </mailingList>
+    <mailingList>
+      <name>JSBML Development</name>
+      <post>jsbml-development@googlegroups.com</post>
+      <archive>https://groups.google.com/forum/#!forum/jsbml-development</archive>
+    </mailingList>
+  </mailingLists>
+  
+  <scm>
+    <connection>scm:svn:http://svn.code.sf.net/p/jsbml/code/trunk</connection>
+    <developerConnection>scm:svn:https://username@svn.code.sf.net/p/jsbml/code/trunk</developerConnection>
+    <url>https://sourceforge.net/p/jsbml/code/HEAD/tree/trunk/</url>
+  </scm>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+  
+  <build>
+    <extensions>
+      <extension>
+	<groupId>org.apache.maven.wagon</groupId>
+	<artifactId>wagon-ssh</artifactId>
+	<version>2.10</version>
+      </extension>
+    </extensions>    
+  </build>
+      
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+       	<groupId>org.sbml.jsbml</groupId>
+       	<artifactId>jsbml-core</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-arrays</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-comp</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-distrib</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-dyn</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-fbc</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-groups</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-layout</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-multi</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-qual</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-render</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-req</artifactId>
+       	<version>${project.version}</version>
+     </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-spatial</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.modules</groupId>
+       	<artifactId>jsbml-tidy</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
+     <dependencies>
+      <dependency>
+       	<groupId>org.sbml.jsbml</groupId>
+       	<artifactId>jsbml-core</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-arrays</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-comp</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-distrib</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-dyn</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-fbc</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-groups</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-layout</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-multi</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-qual</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-render</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-req</artifactId>
+       	<version>${project.version}</version>
+     </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.ext</groupId>
+       	<artifactId>jsbml-spatial</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+       	<groupId>org.sbml.jsbml.modules</groupId>
+       	<artifactId>jsbml-tidy</artifactId>
+       	<version>${project.version}</version>
+      </dependency>
+    </dependencies>
+  
+  <distributionManagement>
+     <repository>
+      <id>jsbml-maven-repo-sf</id>
+      <name>JSBML Maven repository</name>
+      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
+  	</repository>
+
+    <snapshotRepository>
+      <id>jsbml-maven-repo-s-sf</id>
+      <name>JSBML Maven SNAPSHOT repository</name>
+      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
+    </snapshotRepository>
+
+  </distributionManagement>
+
+  
+</project>

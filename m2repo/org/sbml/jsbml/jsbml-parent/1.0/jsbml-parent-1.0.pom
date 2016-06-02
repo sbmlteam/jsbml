@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    $Id: pom.xml 1639 2014-02-26 18:18:35Z andreas-draeger $ 
+    $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/tags/jsbml-1.0/pom.xml $
+
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2014  jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+
+    Version: $Rev: 1639 $
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.sbml.jsbml</groupId>
+  <artifactId>jsbml-parent</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+  <name>JSBML</name>
+  <inceptionYear>2009</inceptionYear>
+  <description>JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams.</description>
+  <url>http://www.sbml.org/Software/JSBML</url>
+  
+  <licenses>
+    <license>
+      <name>LGPL License</name>
+      <url>http://opensource.org/licenses/LGPL-2.1</url>
+    </license>
+    <license>
+      <name>Licensing and Distribution Terms for JSBML</name>
+      <url>http://sbml.org/Software/JSBML/License</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>JSBML team</name>
+      <email>jsbml-team@caltech.edu</email>
+      <organization>SBML Team</organization>
+      <organizationUrl>http://www.sbml.org</organizationUrl>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <url>http://sourceforge.net/p/jsbml/bugs/</url>
+    <system>Sourceforge Tickets</system>
+  </issueManagement>
+  <mailingLists>
+    <mailingList>
+      <name>JSBML Team</name>
+      <post>jsbml-team@caltech.edu</post>
+    </mailingList>
+    <mailingList>
+      <name>JSBML Development</name>
+      <post>jsbml-development@googlegroups.com</post>
+      <archive>https://groups.google.com/forum/#!forum/jsbml-development</archive>
+    </mailingList>
+  </mailingLists>
+  
+  <scm>
+    <connection>scm:svn:http://svn.code.sf.net/p/jsbml/code/trunk</connection>
+    <developerConnection>scm:svn:https://username@svn.code.sf.net/p/jsbml/code/trunk</developerConnection>
+    <url>https://sourceforge.net/p/jsbml/code/HEAD/tree/trunk/</url>
+  </scm>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <jsbml.version>${project.version}</jsbml.version>
+    <jsbml.basedir>${basedir}</jsbml.basedir> <!-- will be reset on each sub-pom to be the directory of the pom -->
+    <jsbml.build.javac.source>1.6</jsbml.build.javac.source>
+    <jsbml.build.javac.target>1.6</jsbml.build.javac.target>
+    <jsbml.doc.stylesheet>/home/rodrigue/src/jsbml_all/tags/jsbml-1.0/stylesheetfile.css</jsbml.doc.stylesheet>
+  </properties>
+  
+  <build>
+    
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
+    <resources>
+      <resource>
+	<directory>resources</directory>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+	<directory>test</directory>
+      </testResource>
+    </testResources>
+    
+    <extensions>
+      <extension>
+	<groupId>org.apache.maven.wagon</groupId>
+	<artifactId>wagon-ssh</artifactId>
+	<version>2.10</version>
+      </extension>
+    </extensions>
+    
+    <plugins>
+      
+     <!-- properties file not used at the moment -->
+     <!-- cannot use the property file at the moment, we would have to put the file in an archive
+     that is deployed to the repository. Then we can use it as a dependency or use the dependency:unpack goal.
+     see http://maven.40175.n5.nabble.com/Relative-path-to-parent-directory-at-multi-module-maven-project-td4611798.html
+     
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <id>jsbml</id>          
+            <phase>initialize</phase>
+            <goals>
+              <goal>read-project-properties</goal>
+            </goals>
+            <configuration>
+              <files>
+                <file>${jsbml.basedir}/jsbml-build.properties</file>
+              </files>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>      
+      -->
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
+        <configuration>
+          <source>${jsbml.build.javac.source}</source>
+          <target>${jsbml.build.javac.target}</target>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+        <configuration>
+          <stylesheetfile>${jsbml.doc.stylesheet}</stylesheetfile>
+          <links>
+            <link>http://docs.oracle.com/javase/6/docs/api/</link>
+            <link>http://www.biojava.org/docs/api17</link> <!-- TODO  update -->
+          </links>
+          <tags>
+            <tag>
+              <name>sbml.deprecated</name>
+              <placement>a</placement>
+              <head>Deprecated in SBML since:</head>
+            </tag>
+            <tag>
+              <name>libsbml.deprecated</name>
+              <placement>a</placement>
+              <head>Note: this method is kept here as it exist in libSBML.</head>
+            </tag>
+            <tag>
+              <name>jsbml.note</name>
+              <placement>a</placement>
+              <head>Note:</head>
+            </tag>
+            <tag>
+              <name>jsbml.warning</name>
+              <placement>a</placement>
+              <head>Warning:</head>
+            </tag>
+            <tag>
+              <name>doc.note</name>
+              <placement>a</placement>
+              <head>Documentation note:</head>
+            </tag>
+            <tag>
+              <name>date</name>
+              <placement>a</placement>
+              <head>Last modified:</head>
+            </tag>
+          </tags>
+          <failOnError>false</failOnError>
+        </configuration>
+      </plugin>
+      
+    </plugins>
+  </build>
+
+
+  <modules>
+    <module>core</module>
+    <module>extensions</module>
+    <module>modules</module>
+  </modules>
+  
+  <repositories>
+    <repository>
+      <id>local-repo</id>
+      <url>http://localhost/repo</url>
+    </repository>
+    <repository>
+      <id>sf-repo</id>
+      <url>http://jsbml.sourceforge.net/m2repo</url>
+    </repository>
+    <repository>
+      <id>sf-repo-s</id>
+      <url>http://jsbml.sourceforge.net/m2repo_snapshots</url>
+    </repository>
+  </repositories>
+  
+  <distributionManagement>
+
+    <repository>
+      <id>jsbml-maven-repo-sf</id>
+      <name>JSBML Maven repository</name>
+      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
+  	</repository>
+
+    <snapshotRepository>
+      <id>jsbml-maven-repo-s-sf</id>
+      <name>JSBML Maven SNAPSHOT repository</name>
+      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
+    </snapshotRepository>
+
+<!-- 
+To Deploy locally
+
+    <repository>
+      <id>local-repo-deploy</id>
+      <name>Test Maven repository</name>
+      <url>file:///var/www/html/repo</url>
+    </repository>
+
+    if  snapshotRepository is not define, the defined repository
+    will be used for snapshots as well.
+
+-->
+<!--
+To deploy to EBI:
+
+    <repository>
+      <id>ebi-maven-repo</id>
+      <name>EBI Maven Repository</name>
+      <url>file:///homes/maven/public_html/m2repo</url>
+    </repository>
+    
+    <snapshotRepository>
+      <id>ebi-maven-repo-s</id>
+      <name>EBI Maven Repository</name>
+      <url>file:///homes/maven/public_html/m2repo_snapshots/</url>
+    </snapshotRepository>
+    
+    or (but scp does not seem to work well)
+    
+    <repository>
+      <id>ebi-maven-repo</id>
+      <name>EBI Maven Repository</name>
+      <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo</url>
+		</repository>
+-->
+
+<!--
+To deploy to the jsbml maven repo
+  
+    <repository>
+      <id>jsbml-maven-repo-sf</id>
+      <name>JSBML Maven repository</name>
+      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
+  	</repository>
+
+    <snapshotRepository>
+      <id>jsbml-maven-repo-s-sf</id>
+      <name>JSBML Maven SNAPSHOT repository</name>
+      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
+    </snapshotRepository>
+
+jsbml maven repo test: replace jsbml by jsbmlmavenrepotest in the urls
+
+-->
+
+  </distributionManagement>
+    
+  
+</project>

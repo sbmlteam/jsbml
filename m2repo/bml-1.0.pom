@@ -1,0 +1,9 @@
+total 744
+drwxr-xr-x 2 niko-rodrigue apache   4096 May 12 09:53 ./
+drwxr-xr-x 5 niko-rodrigue apache   4096 May 12 09:53 ../
+-rw-r--r-- 1 niko-rodrigue apache 728412 May 12 09:53 jsbml-0.8.jar
+-rw-r--r-- 1 niko-rodrigue apache     32 May 12 09:53 jsbml-0.8.jar.md5
+-rw-r--r-- 1 niko-rodrigue apache     40 May 12 09:53 jsbml-0.8.jar.sha1
+-rw-r--r-- 1 niko-rodrigue apache   5679 May 12 09:53 jsbml-0.8.pom
+-rw-r--r-- 1 niko-rodrigue apache     32 May 12 09:53 jsbml-0.8.pom.md5
+-rw-r--r-- 1 niko-rodrigue apache     40 May 12 09:53 jsbml-0.8.pom.sha1
