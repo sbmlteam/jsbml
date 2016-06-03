@@ -36,7 +36,7 @@ public class LoggingValidationContext extends ValidationContext implements Valid
     
     private void logFailure(int id)
     {
-//	System.out.println("Constraint " + id + " broken!");
+	System.out.println("Constraint " + id + " broken!");
 	SBMLError e = SBMLError.loadError(id, this.getLevel(), this.getVersion());
 	this.log.add(e);
     }

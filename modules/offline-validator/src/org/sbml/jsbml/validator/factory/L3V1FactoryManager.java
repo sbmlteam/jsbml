@@ -1,12 +1,18 @@
+/*
+ * 
+ */
+
 package org.sbml.jsbml.validator.factory;
 
 import java.util.List;
 
-import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.FunctionDefinition;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Species;
-
+/**
+ * 
+ * @author Roman Schulte
+ * @version $Rev$
+ * @since 1.2
+ * @date Jun 3, 2016
+ */
 public class L3V1FactoryManager extends AbstractFactoryManager {
 
     public void addGeneralModelIds(List<Integer> list) {
