@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    $Id: pom.xml 2504 2016-05-09 12:57:32Z niko-rodrigue $ 
+    $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/trunk/core/pom.xml $
+
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2016 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+    4. The University of California, San Diego, La Jolla, CA, USA
+    5. The Babraham Institute, Cambridge, UK
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+
+    Version: $Rev: 2504 $
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.sbml.jsbml</groupId>
+  <artifactId>jsbml-core</artifactId>
+  <packaging>jar</packaging>
+  
+  <parent>
+    <groupId>org.sbml.jsbml</groupId>
+    <artifactId>jsbml-parent</artifactId>
+    <version>1.2-SNAPSHOT</version>
+    <relativePath>../</relativePath>
+  </parent>
+
+  <build>
+		
+		<plugins>
+  		<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.19.1</version>
+					<configuration>
+						<!-- <groups>deployment,deployment-validation,jar-deployment</groups> -->
+            <!-- <skipTests>true</skipTests> -->
+						<testFailureIgnore>false</testFailureIgnore>
+						<argLine>-Dfile.encoding=UTF-8 -ea</argLine>
+						<includes>
+              <include>Tests.java</include>
+            </includes>
+					</configuration>
+				</plugin>
+		</plugins>
+  </build>
+  
+  <repositories>
+		<repository>
+			<id>maven-central</id>
+			<name>Maven central repository</name>
+			<url>http://repo.maven.apache.org/maven2/</url>
+		</repository>  
+		<repository>
+			<id>biojava-maven-repo</id>
+			<name>BioJava repository</name>
+			<url>https://github.com/biojava/maven-repo/raw/master/</url>			
+		</repository>
+		<repository>
+			<id>ebi-repo</id>
+			<name>The EBI internal repository</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>		
+  </repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+			<version>2.3</version>
+		</dependency>		
+		<dependency>
+			<groupId>com.fasterxml.woodstox</groupId>
+			<artifactId>woodstox-core</artifactId>
+			<version>5.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.w3c.jigsaw</groupId>
+			<artifactId>jigsaw</artifactId>
+			<version>2.2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.biojava</groupId>
+			<artifactId>biojava-ontology</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.3.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.staxmate</groupId>
+			<artifactId>staxmate</artifactId>
+			<version>2.3.0</version>	
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mangosdk.spi</groupId>
+			<artifactId>spi</artifactId>
+			<version>0.2.4</version>
+		</dependency>
+	</dependencies>
+	
+</project>
