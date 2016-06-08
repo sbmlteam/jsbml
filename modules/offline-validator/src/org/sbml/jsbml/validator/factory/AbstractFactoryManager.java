@@ -30,7 +30,7 @@ public abstract class AbstractFactoryManager implements FactoryManager {
 	}
 	
 	try{
-
+//	    System.out.println("IDs for class " + clazz.getSimpleName());
 	    String categoryName = 
 		    StringTools.firstLetterUpperCase(category.toString().toLowerCase());
 	    
@@ -44,7 +44,7 @@ public abstract class AbstractFactoryManager implements FactoryManager {
 	}
 	catch(Exception e)
 	{
-	    logger.debug(e.getMessage());
+	    logger.error(e.getMessage());
 	}
 	
 	

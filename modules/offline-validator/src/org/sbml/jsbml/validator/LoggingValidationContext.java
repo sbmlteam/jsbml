@@ -51,6 +51,7 @@ public class LoggingValidationContext extends ValidationContext implements Valid
    
     @Override
     public void didValidate(ValidationContext ctx, AnyConstraint<?> c, Object o, boolean success) {
+//	System.out.println("Checked " + c.getId());
 	if (!success)
 	{
 	    logFailure(c.getId());
