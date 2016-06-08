@@ -23,6 +23,7 @@ import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
@@ -132,26 +133,77 @@ public class ConstraintFactory {
     }
 
     public static AnyConstraint<?> createCoreConstraint(int id) {
+	// Using bisection to find constraints faster.
+	// using comments to mark the intervalls
+
+	// id -> (50_000, 99_999]
 	if (id > 50_000) {
+	    // id -> (75_000, 99_999]
 	    if (id > 75_000) {
 
-	    } else {
+	    }
+	    // id -> (50_000, 75_000]
+	    else {
 
 	    }
-	} else {
+	}
+	// id -> (0, 50_000]
+	else {
+	    // id -> (25_000, 50_000]
 	    if (id > 25_000) {
 
-	    } else {
+	    }
+	    // id -> (0, 25_000]
+	    else {
 
+		// id -> (12_500, 25_000]
 		if (id > 12_500) {
-		    if (id > 20_600) {
-			System.out.println("Spec " + id);
-			return createSpeciesConstraint(id);
+		    // id -> (18_000, 25_000]
+		    if (id > 18_000) {
+			// id -> (20_000, 25_000]
+			if (id > 20_000) {
+			    // id -> (22_000, 25_000]
+			    if (id > 22_000) {
 
-		    } else if (id > 20_500) {
-			System.out.println("Comp " + id);
-			return createCompartmentConstraint(id);
+			    }
+			    // id -> (20_000, 22_000]
+			    else {
+				// id -> (21_000, 22_000]
+				if (id > 21_000) {
+
+				}
+				// id -> (20_000, 21_000]
+				else {
+				    if (id > 20_700) {
+					return createInitialAssignment(id);
+				    } else if (id > 20_600) {
+					return createSpeciesConstraint(id);
+				    } else if (id > 20_500) {
+					return createCompartmentConstraint(id);
+				    }
+				}
+			    }
+			}
+			// id -> (18_000, 20_000]
+			else {
+			    // id -> (19_000, 20_000]
+			    if (id > 19_000) {
+
+			    }
+			    // id -> (18_000, 19_000]
+			    else {
+
+			    }
+			}
+		    } else {
+
 		    }
+		    if (id > 20_000) {
+
+		    } else {
+
+		    }
+		    // id -> (0, 12_500]
 		} else {
 
 		}
@@ -218,16 +270,18 @@ public class ConstraintFactory {
 			    cc.check(ctx, c);
 			}
 		    }
-		    
+
 		    {
+			@SuppressWarnings("deprecation")
 			AnyConstraint<CompartmentType> cc = factory.getConstraintsForClass(CompartmentType.class,
 				ctx.getCheckCategories());
 
-			for (CompartmentType c : t.getListOfCompartmentTypes()) {
+			for (@SuppressWarnings("deprecation")
+			CompartmentType c : t.getListOfCompartmentTypes()) {
 			    cc.check(ctx, c);
 			}
 		    }
-		    
+
 		    {
 			AnyConstraint<Constraint> cc = factory.getConstraintsForClass(Constraint.class,
 				ctx.getCheckCategories());
@@ -236,16 +290,15 @@ public class ConstraintFactory {
 			    cc.check(ctx, c);
 			}
 		    }
-		    
+
 		    {
-			AnyConstraint<Event> cc = factory.getConstraintsForClass(Event.class,
-				ctx.getCheckCategories());
+			AnyConstraint<Event> cc = factory.getConstraintsForClass(Event.class, ctx.getCheckCategories());
 
 			for (Event c : t.getListOfEvents()) {
 			    cc.check(ctx, c);
 			}
 		    }
-		    
+
 		    {
 			AnyConstraint<FunctionDefinition> cc = factory.getConstraintsForClass(FunctionDefinition.class,
 				ctx.getCheckCategories());
@@ -254,7 +307,7 @@ public class ConstraintFactory {
 			    cc.check(ctx, c);
 			}
 		    }
-		    
+
 		    {
 			AnyConstraint<InitialAssignment> cc = factory.getConstraintsForClass(InitialAssignment.class,
 				ctx.getCheckCategories());
@@ -263,7 +316,7 @@ public class ConstraintFactory {
 			    cc.check(ctx, c);
 			}
 		    }
-		    
+
 		    {
 			AnyConstraint<Parameter> cc = factory.getConstraintsForClass(Parameter.class,
 				ctx.getCheckCategories());
@@ -272,7 +325,7 @@ public class ConstraintFactory {
 			    cc.check(ctx, c);
 			}
 		    }
-		    
+
 		    {
 			AnyConstraint<UnitDefinition> cc = factory.getConstraintsForClass(UnitDefinition.class,
 				ctx.getCheckCategories());
@@ -280,13 +333,12 @@ public class ConstraintFactory {
 			for (UnitDefinition c : t.getListOfPredefinedUnitDefinitions()) {
 			    cc.check(ctx, c);
 			}
-			
-			for (UnitDefinition ud : t.getListOfUnitDefinitions())
-			{
+
+			for (UnitDefinition ud : t.getListOfUnitDefinitions()) {
 			    cc.check(ctx, ud);
 			}
 		    }
-		    
+
 		    {
 			AnyConstraint<Reaction> cc = factory.getConstraintsForClass(Reaction.class,
 				ctx.getCheckCategories());
@@ -295,28 +347,29 @@ public class ConstraintFactory {
 			    cc.check(ctx, c);
 			}
 		    }
-		    
+
 		    {
-			AnyConstraint<Rule> cc = factory.getConstraintsForClass(Rule.class,
-				ctx.getCheckCategories());
+			AnyConstraint<Rule> cc = factory.getConstraintsForClass(Rule.class, ctx.getCheckCategories());
 
 			for (Rule c : t.getListOfRules()) {
 			    cc.check(ctx, c);
 			}
 		    }
-		    
+
 		    {
+			@SuppressWarnings("deprecation")
 			AnyConstraint<SpeciesType> cc = factory.getConstraintsForClass(SpeciesType.class,
 				ctx.getCheckCategories());
 
-			for (SpeciesType c : t.getListOfSpeciesTypes()) {
+			for (@SuppressWarnings("deprecation")
+			SpeciesType c : t.getListOfSpeciesTypes()) {
 			    cc.check(ctx, c);
 			}
 		    }
-		    
+
 		    {
-			AnyConstraint<TreeNodeChangeListener> cc = factory.getConstraintsForClass(TreeNodeChangeListener.class,
-				ctx.getCheckCategories());
+			AnyConstraint<TreeNodeChangeListener> cc = factory
+				.getConstraintsForClass(TreeNodeChangeListener.class, ctx.getCheckCategories());
 
 			for (TreeNodeChangeListener c : t.getListOfTreeNodeChangeListeners()) {
 			    cc.check(ctx, c);
@@ -342,7 +395,7 @@ public class ConstraintFactory {
      * @param id
      * @return
      */
-    protected static AnyConstraint<Compartment> createCompartmentConstraint(int id) {
+    protected static AnyConstraint<?> createCompartmentConstraint(int id) {
 	ValidationFunction<Compartment> func;
 
 	switch (id) {
@@ -500,7 +553,7 @@ public class ConstraintFactory {
      * @param id
      * @return
      */
-    protected static ValidationConstraint<Species> createSpeciesConstraint(int id) {
+    protected static ValidationConstraint<?> createSpeciesConstraint(int id) {
 	ValidationFunction<Species> func;
 
 	switch (id) {
@@ -666,9 +719,70 @@ public class ConstraintFactory {
 		@Override
 		public boolean check(ValidationContext ctx, Species s) {
 		    if (s.isSetInitialAmount()) {
-			System.out.println("Test");
+
 			return !s.isSetInitialConcentration();
 		    }
+		    return true;
+		}
+	    };
+	    break;
+
+	case 20611:
+	    // SPECIAL CASE!!!
+	    return new ValidationConstraint<SpeciesReference>(id, new ValidationFunction<SpeciesReference>() {
+		@Override
+		public boolean check(ValidationContext ctx, SpeciesReference sr) {
+		    Species s = sr.getSpeciesInstance();
+
+		    if (s != null) {
+			return !s.getConstant() || s.getBoundaryCondition();
+		    }
+
+		    return true;
+		}
+	    });
+
+	case 20_612:
+	    func = new ValidationFunction<Species>() {
+		@SuppressWarnings("deprecation")
+		@Override
+		public boolean check(ValidationContext ctx, Species s) {
+		    if (s.isSetSpeciesType()) {
+
+			return s.getSpeciesTypeInstance() != null;
+		    }
+		    return true;
+		}
+	    };
+	    break;
+
+	case 20_614:
+	    func = new ValidationFunction<Species>() {
+		@Override
+		public boolean check(ValidationContext ctx, Species s) {
+		    return s.isSetCompartment();
+		}
+	    };
+	    break;
+
+	case 20_615:
+	    func = new ValidationFunction<Species>() {
+		@SuppressWarnings("deprecation")
+		@Override
+		public boolean check(ValidationContext ctx, Species s) {
+		    return !s.isSetSpatialSizeUnits();
+		}
+	    };
+	    break;
+
+	case 20_617:
+	    func = new ValidationFunction<Species>() {
+		@Override
+		public boolean check(ValidationContext ctx, Species s) {
+		    if (s.isSetConversionFactor()) {
+			return s.getConversionFactorInstance() != null;
+		    }
+
 		    return true;
 		}
 	    };
@@ -679,6 +793,67 @@ public class ConstraintFactory {
 	}
 
 	return new ValidationConstraint<Species>(id, func);
+    }
+
+    protected static ValidationConstraint<?> createInitialAssignment(int id) {
+	ValidationFunction<InitialAssignment> f = null;
+
+	switch (id) {
+	case 20801:
+	    f = new ValidationFunction<InitialAssignment>() {
+		@Override
+		public boolean check(ValidationContext ctx, InitialAssignment ia) {
+		    if (ia.isSetSymbol()) {
+			@SuppressWarnings("deprecation")
+			String symbol = ia.getSymbol();
+			Model m = ia.getModel();
+
+			boolean checkL2 = m.getCompartment(symbol) != null || m.getSpecies(symbol) != null
+				|| m.getParameter(symbol) != null;
+
+			if (ctx.getLevel() == 2) {
+			    return checkL2;
+			} else {
+			    // TODO: m.getSpeciesReference doesn't exists?
+			    return checkL2;
+			}
+		    }
+		    return false;
+		}
+	    };
+	    break;
+	case 20804:
+	    f = new ValidationFunction<InitialAssignment>() {
+		@Override
+		public boolean check(ValidationContext ctx, InitialAssignment ia) {
+		    return ia.isSetMath();
+		}
+	    };
+	    break;
+	case 20806:
+	    f = new ValidationFunction<InitialAssignment>() {
+		@Override
+		public boolean check(ValidationContext ctx, InitialAssignment ia) {
+		    if (ia.isSetSymbol()) {
+			String s = ia.getSymbol();
+			Model m = ia.getModel();
+			Compartment c = m.getCompartment(s);
+
+			if (c != null) {
+			    return c.getSpatialDimensions() != 0;
+			}
+		    }
+
+		    return true;
+		}
+	    };
+	    break;
+
+	default:
+	    break;
+	}
+
+	return new ValidationConstraint<InitialAssignment>(id, f);
     }
 
     /**
