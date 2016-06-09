@@ -1,71 +1,39 @@
 #!/usr/bin/env python
 # =============================================================================
-# @file   writeErrorTable.py
-# @brief  Write documentation for SBML error codes
-# @author Sarah Keating
-# @author Michael Hucka
+# @file   extractErrors.py
+# @brief  Extracts SBML errors from libSBML
+# @author Roman Schulte
 # =============================================================================
 #
-# This Python program interrogates the currently-installed libSBML library to
-# generate documentation about the libSBML diagnostic codes, and generate
-# output used in several contexts.  The output produced by this program is
-# controlled by the first command-line argument given to it:
+# This file is part of the JSBML offline validator project.
 #
-# * Given --doc, it will generate a table suitable for use in the libSBML
-#   API documentation as it appears in the header of SBMLError.h.  The file
-#   it produces is meant to replace src/sbml/common/common-sbmlerror-codes.h.
-#   In other words, do the following:
+# The script will print all the error messages as formated JSON file.
+# All error codes are stored in one large JSON object.
+# The error code will be the key to the error object, which provides
+# the needed informations:
+# - Available (optional): indicates until which version of SBML this error is supported
+# - Category: category of the error
+# - DefaultSeverity: the severity class of this error in the most levels/versions
+# - Message: describes the rule behind this error
+# - Package: determins the package of the error (default is 'core')
+# - SeverityLxVy: If the error has a different severity classes in level x /
+#                 version y, then the differnt severity class is declared here.
 #
-#    writeErrorTable.py --doc ../../../src/sbml/common/common-sbmlerror-codes.h
-#
-# * Given --enum, it will generate the SBMLErrorCode_t enum for SBMLError.h.
-#   (The output needs to be manually copied and pasted into SBMLError.h.)
-#
-# * Given --web, it will generate output used in the table in the web page at
-#   http://sbml.org/Facilities/Documentation/Error_Categories.
-#
-# Here is a typical way of using this program:
-#
-# 1) Make any desired updates to the text of the diagnostic messages in
-#    src/sbml/SBMLErrorTable.h.
-#
-# 2) Rebuild and install libSBML on your computer, with the Python bindings
-#    enabled.  This is necessary because this program (writeErrorTable.py)
-#    uses the libSBML Python bindings to do its work.
-#
-# 3) Configure your PYTHONPATH environment variable to encompass this newly-
-#    installed copy of libSBML.  Double-check that your Python executable
-#    is in fact picking up the copy of libSBML you think it is.
-#
-# 4) Run this program 3 times, as following
-#
-#      ./writeErrorTable.py --doc  doc-fragment.txt
-#      ./writeErrorTable.py --enum enum.txt
-#      ./writeErrorTable.py --web  sbmlerror-table.html
-#
-# 5) Replace sbmlerror-table.html on sbml.org, and edit SBMLError.h to
-#    insert the contents of doc-fragment.txt and enum.txt in the appropriate
-#    places.
-#
-# <!-- - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - -
-# This file is part of libSBML.  Please visit http://sbml.org for more
-# information about SBML, and the latest version of libSBML.
-#
-# Copyright (C) 2013-2016 jointly by the following organizations:
-#     1. California Institute of Technology, Pasadena, CA, USA
-#     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
-#     3. University of Heidelberg, Heidelberg, Germany
-#
-# Copyright (C) 2009-2013 jointly by the following organizations:
-#     1. California Institute of Technology, Pasadena, CA, USA
-#     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
-#
-# Copyright (C) 2006-2008 by the California Institute of Technology,
-#     Pasadena, CA, USA
-#
-# Copyright (C) 2002-2005 jointly by the following organizations:
-#     1. California Institute of Technology, Pasadena, CA, USA
-#     2. Japan Science and Technology Agency, Japan
+# Example syntax:
+# {
+#   ...
+#   "10212": {
+#       "Available": "L2V1",
+#       "Category": "MathML consistency",
+#       "DefaultSeverity": "error",
+#       "Message": "The types of values within <piecewise> operators must all be consistent: the set of expressions that make up the first arguments of the <piece> and <otherwise> operators within the same <piecewise> operator should all return values of the same type.\n",
+#       "Package": "core",
+#       "SeverityL1V1": "na",
+#       "SeverityL1V2": "na",
+#       "SeverityL2V1": "warning"
+#       },
+#   ...
+# }
 #
 # This library is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License as published by
@@ -74,8 +42,7 @@
 # and also available online as http://sbml.org/software/libsbml/license.html
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-import re
-import os
+
 import sys
 import json
 
