@@ -22,7 +22,13 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
     @Override
     public void check(ValidationContext context, T t) {
 	// TODO Auto-generated method stub
-
-	context.didValidate(this, t, this.func.check(context, t));
+	boolean passed = true;
+	
+	if (this.func != null)
+	{
+	    passed = func.check(context, t);
+	}
+	
+	context.didValidate(this, t, passed);
     }
 }
