@@ -92,7 +92,8 @@ public class ConstraintFactory {
 	}
 
 	ConstraintBuilder b = AbstractConstraintBuilder.getInstance(pkgName);
-	return b.createConstraint(id);
+	
+	return (b != null) ? b.createConstraint(id) : null; 
     }
 
     /**

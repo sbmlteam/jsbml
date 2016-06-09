@@ -19,7 +19,7 @@ public abstract class AbstractConstraintBuilder implements ConstraintBuilder {
 	    try {
 		String className = pkgName + "ConstraintBuilder";
 		@SuppressWarnings("unchecked")
-		Class<ConstraintBuilder> c = (Class<ConstraintBuilder>) Class.forName(className);
+		Class<ConstraintBuilder> c = (Class<ConstraintBuilder>) Class.forName(AbstractConstraintBuilder.class.getPackage().getName() + "." + className);
 		
 		builder = c.newInstance();
 		

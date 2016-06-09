@@ -27,15 +27,8 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
     public AnyConstraint<?> createConstraint(int id) {
 	switch (id) {
 	case ConstraintFactory.ID_EMPTY_CONSTRAINT:
-	    ValidationFunction<Object> f = new ValidationFunction<Object>() {
-		@Override
-		public boolean check(ValidationContext ctx, Object t) {
-		    // TODO Auto-generated method stub
-		    return true;
-		}
-	    };
+	    return new ValidationConstraint<>(id, null);
 
-	    return new ValidationConstraint<>(id, f);
 	case ConstraintFactory.ID_VALIDATE_DOCUMENT_TREE:
 	    ValidationFunction<SBMLDocument> f2 = new ValidationFunction<SBMLDocument>() {
 		@Override
