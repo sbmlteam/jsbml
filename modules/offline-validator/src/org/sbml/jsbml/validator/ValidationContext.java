@@ -11,6 +11,7 @@ import org.sbml.jsbml.validator.factory.ConstraintFactory;
 import org.sbml.jsbml.Package;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ValidationContext {
@@ -20,10 +21,12 @@ public class ValidationContext {
      */
     protected static final transient Logger logger = Logger.getLogger(ValidationContext.class);
     // The root constraint, which could contains more constraints
-    protected AnyConstraint<Object> rootConstraint;
+    private AnyConstraint<Object> rootConstraint;
     // Determines which constraints are loaded.
-    protected List<CheckCategory> categories;
+    private List<CheckCategory> categories;
     private List<Package> packages;
+    
+    private HashMap<String, Object> hashMap = new HashMap<String, Object>();
     
     private Class<?> constraintType;
     private List<ValidationListener> listener;
@@ -95,6 +98,19 @@ public class ValidationContext {
      */
     public ValuePair<Integer, Integer> getLevelAndVersion() {
 	return new ValuePair<Integer, Integer>(new Integer(this.level), new Integer(this.version));
+    }
+
+    public AnyConstraint<Object> getRootConstraint() {
+	return rootConstraint;
+    }
+
+    public void setRootConstraint(AnyConstraint<Object> rootConstraint) {
+	this.rootConstraint = rootConstraint;
+    }
+    
+    public HashMap<String, Object> getHashMap()
+    {
+	return this.hashMap;
     }
 
     /**
