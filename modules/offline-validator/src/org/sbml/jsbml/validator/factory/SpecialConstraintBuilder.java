@@ -39,7 +39,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 		    System.out.println("validate doc tree");
 		    ConstraintFactory factory = ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
 
-		    AnyConstraint<Model> mc = factory.getConstraintsForClass(Model.class, ctx.getCheckCategories());
+		    AnyConstraint<Model> mc = factory.getConstraintsForClass(Model.class, ctx.getCheckCategories(), ctx.getPackages());
 		    mc.check(ctx, t.getModel());
 
 		    return true;
@@ -59,7 +59,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 
 		    {
 			AnyConstraint<Species> sc = factory.getConstraintsForClass(Species.class,
-				ctx.getCheckCategories());
+				ctx.getCheckCategories(), ctx.getPackages());
 
 			for (Species s : t.getListOfSpecies()) {
 			    sc.check(ctx, s);
@@ -68,7 +68,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 
 		    {
 			AnyConstraint<Compartment> cc = factory.getConstraintsForClass(Compartment.class,
-				ctx.getCheckCategories());
+				ctx.getCheckCategories(), ctx.getPackages());
 
 			for (Compartment c : t.getListOfCompartments()) {
 			    cc.check(ctx, c);
@@ -78,7 +78,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 		    {
 
 			AnyConstraint<CompartmentType> cc = factory.getConstraintsForClass(CompartmentType.class,
-				ctx.getCheckCategories());
+				ctx.getCheckCategories(), ctx.getPackages());
 
 			for (CompartmentType c : t.getListOfCompartmentTypes()) {
 			    cc.check(ctx, c);
@@ -87,7 +87,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 
 		    {
 			AnyConstraint<Constraint> cc = factory.getConstraintsForClass(Constraint.class,
-				ctx.getCheckCategories());
+				ctx.getCheckCategories(), ctx.getPackages());
 
 			for (Constraint c : t.getListOfConstraints()) {
 			    cc.check(ctx, c);
@@ -95,7 +95,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 		    }
 
 		    {
-			AnyConstraint<Event> cc = factory.getConstraintsForClass(Event.class, ctx.getCheckCategories());
+			AnyConstraint<Event> cc = factory.getConstraintsForClass(Event.class, ctx.getCheckCategories(), ctx.getPackages());
 
 			for (Event c : t.getListOfEvents()) {
 			    cc.check(ctx, c);
@@ -104,7 +104,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 
 		    {
 			AnyConstraint<FunctionDefinition> cc = factory.getConstraintsForClass(FunctionDefinition.class,
-				ctx.getCheckCategories());
+				ctx.getCheckCategories(), ctx.getPackages());
 
 			for (FunctionDefinition c : t.getListOfFunctionDefinitions()) {
 			    cc.check(ctx, c);
@@ -113,7 +113,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 
 		    {
 			AnyConstraint<InitialAssignment> cc = factory.getConstraintsForClass(InitialAssignment.class,
-				ctx.getCheckCategories());
+				ctx.getCheckCategories(), ctx.getPackages());
 
 			for (InitialAssignment c : t.getListOfInitialAssignments()) {
 			    cc.check(ctx, c);
@@ -122,7 +122,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 
 		    {
 			AnyConstraint<Parameter> cc = factory.getConstraintsForClass(Parameter.class,
-				ctx.getCheckCategories());
+				ctx.getCheckCategories(), ctx.getPackages());
 
 			for (Parameter c : t.getListOfParameters()) {
 			    cc.check(ctx, c);
@@ -131,7 +131,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 
 		    {
 			AnyConstraint<UnitDefinition> cc = factory.getConstraintsForClass(UnitDefinition.class,
-				ctx.getCheckCategories());
+				ctx.getCheckCategories(), ctx.getPackages());
 
 			for (UnitDefinition c : t.getListOfPredefinedUnitDefinitions()) {
 			    cc.check(ctx, c);
@@ -144,7 +144,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 
 		    {
 			AnyConstraint<Reaction> cc = factory.getConstraintsForClass(Reaction.class,
-				ctx.getCheckCategories());
+				ctx.getCheckCategories(), ctx.getPackages());
 
 			for (Reaction c : t.getListOfReactions()) {
 			    cc.check(ctx, c);
@@ -152,7 +152,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 		    }
 
 		    {
-			AnyConstraint<Rule> cc = factory.getConstraintsForClass(Rule.class, ctx.getCheckCategories());
+			AnyConstraint<Rule> cc = factory.getConstraintsForClass(Rule.class, ctx.getCheckCategories(), ctx.getPackages());
 
 			for (Rule c : t.getListOfRules()) {
 			    cc.check(ctx, c);
@@ -162,7 +162,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 		    {
 
 			AnyConstraint<SpeciesType> cc = factory.getConstraintsForClass(SpeciesType.class,
-				ctx.getCheckCategories());
+				ctx.getCheckCategories(), ctx.getPackages());
 
 			for (SpeciesType c : t.getListOfSpeciesTypes()) {
 			    cc.check(ctx, c);
@@ -171,7 +171,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 
 		    {
 			AnyConstraint<TreeNodeChangeListener> cc = factory
-				.getConstraintsForClass(TreeNodeChangeListener.class, ctx.getCheckCategories());
+				.getConstraintsForClass(TreeNodeChangeListener.class, ctx.getCheckCategories(), ctx.getPackages());
 
 			for (TreeNodeChangeListener c : t.getListOfTreeNodeChangeListeners()) {
 			    cc.check(ctx, c);

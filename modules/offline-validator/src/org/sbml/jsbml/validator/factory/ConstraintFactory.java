@@ -101,13 +101,13 @@ public class ConstraintFactory {
      * @param category
      * @return
      */
-    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory category) {
+    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory category, Package[] packages) {
 	ConstraintGroup<T> group = new ConstraintGroup<T>();
 
 	// Add constraints for interfaces
 	if (!clazz.isInterface()) {
 	    for (Class<?> ifc : clazz.getInterfaces()) {
-		AnyConstraint<T> con = this.getConstraintsForClass(ifc, category);
+		AnyConstraint<T> con = this.getConstraintsForClass(ifc, category, packages);
 
 		if (con != null) {
 		    group.add(con);
@@ -119,14 +119,14 @@ public class ConstraintFactory {
 	Class<?> superclass = clazz.getSuperclass();
 
 	if (superclass != null && !superclass.equals(Object.class)) {
-	    AnyConstraint<T> con = this.getConstraintsForClass(superclass, category);
+	    AnyConstraint<T> con = this.getConstraintsForClass(superclass, category, packages);
 
 	    if (con != null) {
 		group.add(con);
 	    }
 	}
 
-	List<Integer> list = manager.getIdsForClass(clazz, category);
+	List<Integer> list = manager.getIdsForClass(clazz, category, packages);
 
 	int[] array = new int[list.size()];
 	for (int i = 0; i < array.length; i++) {
@@ -138,16 +138,29 @@ public class ConstraintFactory {
     }
 
     /**
-     * @param o
+     * @param clazz
      * @param category
+     * @param pkgs
      * @return
      */
-    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory[] categories) {
+    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory[] categories, Package[] packages) {
 
 	ConstraintGroup<T> group = new ConstraintGroup<T>();
-
+	
+	// checks if package checking is enabled
+	Package[] pkgs = {Package.CORE};
+	
+	for (CheckCategory cat : categories)
+	{
+	    if (cat == CheckCategory.PACKAGE)
+	    {
+		pkgs = packages;
+		break;
+	    }
+	}
+	
 	for (CheckCategory check : categories) {
-	    AnyConstraint<T> c = this.getConstraintsForClass(clazz, check);
+	    AnyConstraint<T> c = this.getConstraintsForClass(clazz, check, packages);
 	    group.add(c);
 	}
 

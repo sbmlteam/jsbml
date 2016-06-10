@@ -514,14 +514,13 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 			String symbol = ia.getSymbol();
 			Model m = ia.getModel();
 
-			boolean checkL2 = m.getCompartment(symbol) != null || m.getSpecies(symbol) != null
-				|| m.getParameter(symbol) != null;
+			boolean checkL2 = (m.getCompartment(symbol) != null) || (m.getSpecies(symbol) != null)
+				|| (m.getParameter(symbol) != null);
 
 			if (ctx.getLevel() == 2) {
 			    return checkL2;
 			} else {
-			    // TODO: m.getSpeciesReference doesn't exists?
-			    return checkL2;
+			    return checkL2 || (m.findNamedSBase(symbol) instanceof SpeciesReference);
 			}
 		    }
 		    return false;
@@ -540,6 +539,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	    f = new ValidationFunction<InitialAssignment>() {
 		@Override
 		public boolean check(ValidationContext ctx, InitialAssignment ia) {
+
 		    if (ia.isSetSymbol()) {
 			@SuppressWarnings("deprecation")
 			String s = ia.getSymbol();
