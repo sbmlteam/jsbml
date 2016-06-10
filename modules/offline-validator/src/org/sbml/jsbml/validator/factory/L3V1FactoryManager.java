@@ -15,22 +15,22 @@ import java.util.List;
  */
 public class L3V1FactoryManager extends AbstractFactoryManager {
 
-    public void addGeneralModelIds(List<Integer> list) {
+    public void addCoreGeneralModelIds(List<Integer> list) {
 	addRangeToList(list, 20204, 20232);
 	list.add(20705);
     }
 
-    public void addGeneralFunctionDefinitionIds(List<Integer> list) {
+    public void addCoreGeneralFunctionDefinitionIds(List<Integer> list) {
 	list.add(20301);
 	addRangeToList(list, 20303, 20307);
     }
 
-    public void addGeneralCompartmentIds(List<Integer> list) {
+    public void addCoreGeneralCompartmentIds(List<Integer> list) {
 	addRangeToList(list, 20507, 20509);
 	list.add(20517);
     }
 
-    public void addGeneralSpeciesIds(List<Integer> list) {
+    public void addCoreGeneralSpeciesIds(List<Integer> list) {
 	list.add(20601);
 	addRangeToList(list, 20608, 20611);
 	list.add(20614);

@@ -8,6 +8,7 @@ import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
 import org.sbml.jsbml.validator.factory.CheckCategory;
 import org.sbml.jsbml.validator.factory.ConstraintFactory;
+import org.sbml.jsbml.Package;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,8 @@ public class ValidationContext {
     protected AnyConstraint<Object> rootConstraint;
     // Determines which constraints are loaded.
     protected List<CheckCategory> categories;
+    private List<Package> packages;
+    
     private Class<?> constraintType;
     private List<ValidationListener> listener;
     // The level and version of the SBML specification
@@ -40,6 +43,9 @@ public class ValidationContext {
 	this.rootConstraint = rootConstraint;
 	this.categories.add(CheckCategory.GENERAL);
 	this.listener = new ArrayList<ValidationListener>();
+	this.packages = new ArrayList<Package>();
+	
+	this.packages.add(Package.CORE);
     }
 
     /**
@@ -106,6 +112,30 @@ public class ValidationContext {
 	    this.categories.remove(category);
 	}
     }
+    
+    
+    /**
+     * 
+     * @param pkg
+     * @param enable
+     */
+    public void enablePackage(Package pkg, boolean enable)
+    {
+	if (enable)
+	{
+	    if (!this.packages.contains(pkg))
+	    {
+		this.packages.add(pkg);
+	    }
+	}
+	else{
+	    this.packages.remove(pkg);
+	}
+    }
+    
+    public Package[] getPackages(){
+	return this.packages.toArray(new Package[this.packages.size()]);
+    }
 
     /**
      * Returns the list of all enabled check categories.
@@ -149,7 +179,9 @@ public class ValidationContext {
     public <T> void loadConstraints(Class<?> objectClass, int level, int version, CheckCategory[] categories) {
 	this.constraintType = objectClass;
 	ConstraintFactory factory = ConstraintFactory.getInstance(level, version);
-	this.rootConstraint = factory.getConstraintsForClass(objectClass, this.getCheckCategories());
+	this.rootConstraint = factory.getConstraintsForClass(objectClass, 
+		this.getCheckCategories(), 
+		this.getPackages());
     }
 
     public void addValidationListener(ValidationListener listener) {
