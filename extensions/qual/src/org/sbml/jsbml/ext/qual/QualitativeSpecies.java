@@ -538,11 +538,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
    */
   @Override
   public boolean unsetCompartment() {
-    if (isSetCompartment()) {
-      compartment = null;
-      return true;
-    }
-    return false;
+    return setCompartment((String) null);
   }
 
   /**
