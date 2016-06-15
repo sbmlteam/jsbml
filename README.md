@@ -3,6 +3,8 @@ JSBML
 
 <img align="right" src="https://raw.githubusercontent.com/sbmlteam/jsbml/update-readme/.graphics/jsbml_logo_200px.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
 
+[![License](http://img.shields.io/:license-LGPL-blue.svg)](http://doge.LGPL-license.org) [![Stable version](https://img.shields.io/badge/Stable_version-1.1-brightgreen.svg)](http://shields.io)
+
 ----
 *Authors*: [Andreas Dräger](http://sbrg.ucsd.edu/researchers/draeger/), [Nicolas Rodriguez](http://lenoverelab.org/members/Nicolas_Rodriguez/) with contributions from (in alphabetical order): Meike Aichele, [Finja Büchel](http://www.ra.cs.uni-tuebingen.de/mitarb/buechel/), [Alexander Dörr](http://www.cogsys.cs.uni-tuebingen.de/mitarb/doerr/), [Marine Dumousseau](https://sourceforge.net/u/marine3/profile/), Sebastian Froehlich, [Michael Hucka](http://www.cds.caltech.edu/~mhucka), [Florian Mittag](http://www.cogsys.cs.uni-tuebingen.de/mitarb/mittag/), Alexander Peltzer, Simon Schaefer, Sarah Rachel Mueller vom Hagen, and [Clemens Wrzodek](http://www.cogsys.cs.uni-tuebingen.de/mitarb/wrzodek/).
 
