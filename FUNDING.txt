@@ -6,13 +6,13 @@ following organizations:
 * The National Institute of General Medical Sciences, under grant 
   R01 GM070923 to the California Institute of Technology (USA).
 
-* Google, Inc., as part of Google Summer of Code in 2014.
+* Google, Inc., as part of Google Summer of Code in 2014 and 2016.
 
 * The European Commission as part of the 7th Framework Programme for Research
   and Technological Development (Marie-Curie International Outgoing Fellowship
   project "AMBiCon," grant number 332020).
 
-* A grant of the University of Tuebingen for young scientits support (project
+* A grant of the University of Tuebingen for young scientist support (project
   number 18017002).
 
 * The Federal Ministry of Education and Research (BMBF, Germany) via grant
