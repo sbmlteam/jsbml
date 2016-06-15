@@ -4,7 +4,7 @@ JSBML
 <img align="right" src="https://raw.githubusercontent.com/sbmlteam/jsbml/update-readme/.graphics/jsbml_logo_128px.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
 
 ----
-*Authors*: Andreas Dräger, Nicolas Rodriguez with contributions from (in alphabetical order): Meike Aichele, Finja Buechel, Alexander Doerr, Marine Dumousseau, Sebastian Froehlich, [Michael Hucka](http://www.cds.caltech.edu/~mhucka), Florian Mittag, Alexander Peltzer, Simon Schaefer, Sarah Rachel Mueller vom Hagen, and Clemens Wrzodek.
+*Authors*: [Andreas Dräger](http://sbrg.ucsd.edu/researchers/draeger/), [Nicolas Rodriguez](http://lenoverelab.org/members/Nicolas_Rodriguez/) with contributions from (in alphabetical order): Meike Aichele, [Finja Büchel](http://www.ra.cs.uni-tuebingen.de/mitarb/buechel/), [Alexander Dörr](http://www.cogsys.cs.uni-tuebingen.de/mitarb/doerr/), [Marine Dumousseau](https://sourceforge.net/u/marine3/profile/), Sebastian Froehlich, [Michael Hucka](http://www.cds.caltech.edu/~mhucka), [Florian Mittag](http://www.cogsys.cs.uni-tuebingen.de/mitarb/mittag/), Alexander Peltzer, Simon Schaefer, Sarah Rachel Mueller vom Hagen, and [Clemens Wrzodek](http://www.cogsys.cs.uni-tuebingen.de/mitarb/wrzodek/).
 
 *License*: This code is licensed under the LGPL version 2.1.  Please see the section on [licensing and distribution](#-licensing-and-distribution) below for more information about third-party software included in the JSBML code base.
 
@@ -19,16 +19,22 @@ JSBML
 *Pivotal tracker*: [https://www.pivotaltracker.com/n/projects/977060](https://www.pivotaltracker.com/n/projects/977060)
 
 
-♥️ Please cite the papers
-------------------------
+♥️ Please cite the JSBML papers and the version of JSBML you use
+----------------------------------------------------------------
 
 Article citations are crucial to our academic careers.  If you use JSBML and you publish papers about your software, we ask that you please cite the JSBML papers:
 
 _Paper #1_:
-> Nicolas Rodriguez, Alex Thomas, Leandro Watanabe, Ibrahim Y. Vazirabad, Victor Kofia, Harold F. Gómez, Florian Mittag, Jakob Matthes, Jan Rudolph, Finja Wrzodek, Eugen Netz, Alexander Diamantikos, Johannes Eichner, Roland Keller, Clemens Wrzodek, Sebastian Fröhlich, Nathan E. Lewis, Chris J. Myers, Nicolas Le Novère, Bernhard Ø. Palsson, Michael Hucka, and Andreas Dräger. JSBML 1.0: providing a smorgasbord of options to encode systems biology models. _Bioinformatics_ (2015), 31(20):3383&ndash;3386. (Freely available directly from [Bioinformatics](http://bioinformatics.oxfordjournals.org/content/31/20/3383).)
+> Nicolas Rodriguez, Alex Thomas, Leandro Watanabe, Ibrahim Y. Vazirabad, Victor Kofia, Harold F. Gómez, Florian Mittag, Jakob Matthes, Jan Rudolph, Finja Wrzodek, Eugen Netz, Alexander Diamantikos, Johannes Eichner, Roland Keller, Clemens Wrzodek, Sebastian Fröhlich, Nathan E. Lewis, Chris J. Myers, Nicolas Le Novère, Bernhard Ø. Palsson, Michael Hucka, and Andreas Dräger. [JSBML 1.0: providing a smorgasbord of options to encode systems biology models](http://bioinformatics.oxfordjournals.org/content/31/20/3383). _Bioinformatics_ (2015), 31(20):3383&ndash;3386.
 
 _Paper #2_:
-> Andreas Dräger, Nicolas Rodriguez, Marine Dumousseau, Alexander Dörr, Clemens Wrzodek, Nicolas Le Novère, Andreas Zell, and Michael Hucka. JSBML: a flexible Java library for working with SBML. _Bioinformatics_ (2011), 27(15):2167–2168. (Freely available directly from [Bioinformatics](http://bioinformatics.oxfordjournals.org/content/27/15/2167).)
+> Andreas Dräger, Nicolas Rodriguez, Marine Dumousseau, Alexander Dörr, Clemens Wrzodek, Nicolas Le Novère, Andreas Zell, and Michael Hucka. [JSBML: a flexible Java library for working with SBML](http://bioinformatics.oxfordjournals.org/content/27/15/2167). _Bioinformatics_ (2011), 27(15):2167–2168.
+
+Please also indicate the specific version of JSBML you use, to improve other people's ability to reproduce your results.  You can use the Zenodo DOIs we provide for this purpose:
+
+* JSBML release 1.1 &rArr; [10.5281/zenodo.55323](http://dx.doi.org/10.5281/zenodo.55323)
+* JSBML release 1.0 &rArr; [10.5281/zenodo.55635](http://dx.doi.org/10.5281/zenodo.55635)
+* JSBML release 0.8 &rArr; [10.5281/zenodo.55636](http://dx.doi.org/10.5281/zenodo.55636)
 
 
 📰 Recent news and activities
