@@ -31,14 +31,14 @@ _Paper #2_:
 > Andreas Dräger, Nicolas Rodriguez, Marine Dumousseau, Alexander Dörr, Clemens Wrzodek, Nicolas Le Novère, Andreas Zell, and Michael Hucka. JSBML: a flexible Java library for working with SBML. _Bioinformatics_ (2011), 27(15):2167–2168. (Freely available directly from [Bioinformatics](http://bioinformatics.oxfordjournals.org/content/27/15/2167).)
 
 
-⚑ Recent news and activities
+📰 Recent news and activities
 --------------------------
 
 Please see the file NEWS.txt for a log of recent changes in JSBML.
 
 
-► How to get started with JSBML
--------------------------------
+► Getting started with JSBML
+----------------------------
 
 Please see the user manual at http://sbml.org/Software/JSBML/docs.
 
