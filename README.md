@@ -1,12 +1,12 @@
 JSBML
 =====
 
-<img align="right" src=".graphics/jsbml_logo_128.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
+<img align="right" src="https://raw.githubusercontent.com/sbmlteam/jsbml/update-readme/.graphics/jsbml_logo_128px.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
 
 ----
 *Authors*: Andreas Dräger, Nicolas Rodriguez with contributions from (in alphabetical order): Meike Aichele, Finja Buechel, Alexander Doerr, Marine Dumousseau, Sebastian Froehlich, [Michael Hucka](http://www.cds.caltech.edu/~mhucka), Florian Mittag, Alexander Peltzer, Simon Schaefer, Sarah Rachel Mueller vom Hagen, and Clemens Wrzodek.
 
-*License*: This code is licensed under the LGPL version 2.1.  Please see the section on [licensing and distribution](#Licensing_and_distribution) below for more information about third-party software included in the JSBML code base.
+*License*: This code is licensed under the LGPL version 2.1.  Please see the section on [licensing and distribution](#-licensing-and-distribution) below for more information about third-party software included in the JSBML code base.
 
 *Home page*: [http://sbml.org/Software/JSBML](http://sbml.org/Software/JSBML)
 
@@ -19,7 +19,7 @@ JSBML
 *Pivotal tracker*: [https://www.pivotaltracker.com/n/projects/977060](https://www.pivotaltracker.com/n/projects/977060)
 
 
-☀ Please cite the papers
+✺ Please cite the papers
 ------------------------
 
 Article citations are crucial to our academic careers.  If you use JSBML and you publish papers about your software, we ask that you please cite the JSBML papers:
@@ -35,7 +35,7 @@ Article citations are crucial to our academic careers.  If you use JSBML and you
 Please see the file NEWS.txt for a log of recent changes in JSBML.
 
 
-✺ How to get started with JSBML
+► How to get started with JSBML
 -------------------------------
 
 Please see the user manual at http://sbml.org/Software/JSBML/docs.
@@ -43,18 +43,12 @@ Please see the user manual at http://sbml.org/Software/JSBML/docs.
 If you use JSBML, we encourage you to subscribe to or monitor via RSS the [jsbml-development](https://groups.google.com/forum/#!forum/jsbml-development) mailing list/web forum, where people discuss the development and use of JSBML.  Being a member of [jsbml-development](https://groups.google.com/forum/#!forum/jsbml-development) will enable you to keep in touch with the latest developments in JSBML as well as to ask questions and share your experiences with fellow developers and users of JSBML.
 
 
-► Detailed instructions for configuring and installing jsbml
--------------------------------------------------------------
-
-See the user manual or the file dev/README.txt.
-
-
 ⁇ Getting Help
 ------------
 
 JSBML is under active development by a distributed team.  If you find bugs, please report them using the tracker; if you have any questions, please post them on one of the discussion groups or contact the developers directly:
 
-* *Bug reports*: [GitHub issue tracker](https://github.com/sbmlteam/jsbml/issues).
+* *Bug reports*: [GitHub issue tracker](https://github.com/sbmlteam/jsbml/issues)
 
 * *Forum for JSBML*: [jsbml-development](https://groups.google.com/forum/#!forum/jsbml-development)
 
@@ -62,7 +56,7 @@ JSBML is under active development by a distributed team.  If you find bugs, plea
 
 * *Main development team mailing list*: [jsbml-team@caltech.edu](mailto:jsbml-team@caltech.edu)
 
-_What is the difference between [jsbml-development](https://groups.google.com/forum/#!forum/jsbml-development) and [sbml-interoperability](https://groups.google.com/forum/#!forum/sbml-interoperability)?_  The former is specifically for discussions about JSBML, while the latter is appropriate for discussions involving SBML software interoperability in general, including (but not limited to) JSBML and its use in other software.
+What is the difference between [jsbml-development](https://groups.google.com/forum/#!forum/jsbml-development) and [sbml-interoperability](https://groups.google.com/forum/#!forum/sbml-interoperability)?  The former is specifically for discussions about JSBML, while the latter is appropriate for discussions involving SBML software interoperability in general, including (but not limited to) JSBML and its use in other software.
 
 If you use SBML, we also urge you to sign up for [sbml-announce](https://groups.google.com/forum/#!forum/sbml-announce), the SBML announcements mailing list.  It is a low-volume, broadcast-only list.
 
