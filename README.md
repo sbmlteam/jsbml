@@ -19,7 +19,7 @@ JSBML
 *Pivotal tracker*: [https://www.pivotaltracker.com/n/projects/977060](https://www.pivotaltracker.com/n/projects/977060)
 
 
-♥ Please cite the papers
+♥️ Please cite the papers
 ------------------------
 
 Article citations are crucial to our academic careers.  If you use JSBML and you publish papers about your software, we ask that you please cite the JSBML papers:
