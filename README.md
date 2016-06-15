@@ -19,13 +19,15 @@ JSBML
 *Pivotal tracker*: [https://www.pivotaltracker.com/n/projects/977060](https://www.pivotaltracker.com/n/projects/977060)
 
 
-✺ Please cite the papers
+♥ Please cite the papers
 ------------------------
 
 Article citations are crucial to our academic careers.  If you use JSBML and you publish papers about your software, we ask that you please cite the JSBML papers:
 
+_Paper #1_:
 > Nicolas Rodriguez, Alex Thomas, Leandro Watanabe, Ibrahim Y. Vazirabad, Victor Kofia, Harold F. Gómez, Florian Mittag, Jakob Matthes, Jan Rudolph, Finja Wrzodek, Eugen Netz, Alexander Diamantikos, Johannes Eichner, Roland Keller, Clemens Wrzodek, Sebastian Fröhlich, Nathan E. Lewis, Chris J. Myers, Nicolas Le Novère, Bernhard Ø. Palsson, Michael Hucka, and Andreas Dräger. JSBML 1.0: providing a smorgasbord of options to encode systems biology models. _Bioinformatics_ (2015), 31(20):3383&ndash;3386. (Freely available directly from [Bioinformatics](http://bioinformatics.oxfordjournals.org/content/31/20/3383).)
 
+_Paper #2_:
 > Andreas Dräger, Nicolas Rodriguez, Marine Dumousseau, Alexander Dörr, Clemens Wrzodek, Nicolas Le Novère, Andreas Zell, and Michael Hucka. JSBML: a flexible Java library for working with SBML. _Bioinformatics_ (2011), 27(15):2167–2168. (Freely available directly from [Bioinformatics](http://bioinformatics.oxfordjournals.org/content/27/15/2167).)
 
 
