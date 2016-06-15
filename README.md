@@ -24,7 +24,7 @@ JSBML
 ♥️ Please cite the JSBML papers and your version of JSBML
 ---------------------------------------------------------
 
-Article citations are *critical* for us to be able to continue support for JSBML.  If you use JSBML and you publish papers about your software, we ask that you *please cite the JSBML papers*:
+Article citations are **critical** for us to be able to continue support for JSBML.  If you use JSBML and you publish papers about your software, we ask that you **please cite the JSBML papers**:
 
 <dl>
 <dt>Paper #1:</dt>
