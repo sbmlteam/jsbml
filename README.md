@@ -19,16 +19,18 @@ JSBML
 *Pivotal tracker*: [https://www.pivotaltracker.com/n/projects/977060](https://www.pivotaltracker.com/n/projects/977060)
 
 
-♥️ Please cite the JSBML papers and the version of JSBML you use
-----------------------------------------------------------------
+♥️ Please cite the JSBML papers and your version of JSBML
+---------------------------------------------------------
 
 Article citations are crucial to our academic careers.  If you use JSBML and you publish papers about your software, we ask that you please cite the JSBML papers:
 
-_Paper #1_:
-> Nicolas Rodriguez, Alex Thomas, Leandro Watanabe, Ibrahim Y. Vazirabad, Victor Kofia, Harold F. Gómez, Florian Mittag, Jakob Matthes, Jan Rudolph, Finja Wrzodek, Eugen Netz, Alexander Diamantikos, Johannes Eichner, Roland Keller, Clemens Wrzodek, Sebastian Fröhlich, Nathan E. Lewis, Chris J. Myers, Nicolas Le Novère, Bernhard Ø. Palsson, Michael Hucka, and Andreas Dräger. [JSBML 1.0: providing a smorgasbord of options to encode systems biology models](http://bioinformatics.oxfordjournals.org/content/31/20/3383). _Bioinformatics_ (2015), 31(20):3383&ndash;3386.
+<dl>
+<dt>Paper #1:</dt>
+<dd>Nicolas Rodriguez, Alex Thomas, Leandro Watanabe, Ibrahim Y. Vazirabad, Victor Kofia, Harold F. Gómez, Florian Mittag, Jakob Matthes, Jan Rudolph, Finja Wrzodek, Eugen Netz, Alexander Diamantikos, Johannes Eichner, Roland Keller, Clemens Wrzodek, Sebastian Fröhlich, Nathan E. Lewis, Chris J. Myers, Nicolas Le Novère, Bernhard Ø. Palsson, Michael Hucka, and Andreas Dräger. [JSBML 1.0: providing a smorgasbord of options to encode systems biology models](http://bioinformatics.oxfordjournals.org/content/31/20/3383). <i>Bioinformatics</i> (2015), 31(20):3383&ndash;3386.</dd>
 
-_Paper #2_:
-> Andreas Dräger, Nicolas Rodriguez, Marine Dumousseau, Alexander Dörr, Clemens Wrzodek, Nicolas Le Novère, Andreas Zell, and Michael Hucka. [JSBML: a flexible Java library for working with SBML](http://bioinformatics.oxfordjournals.org/content/27/15/2167). _Bioinformatics_ (2011), 27(15):2167–2168.
+<dt>Paper #2:</dt>
+<dd>Andreas Dräger, Nicolas Rodriguez, Marine Dumousseau, Alexander Dörr, Clemens Wrzodek, Nicolas Le Novère, Andreas Zell, and Michael Hucka. [JSBML: a flexible Java library for working with SBML](http://bioinformatics.oxfordjournals.org/content/27/15/2167). <i>Bioinformatics</i> (2011), 27(15):2167–2168.</dd>
+</dl>
 
 Please also indicate the specific version of JSBML you use, to improve other people's ability to reproduce your results.  You can use the Zenodo DOIs we provide for this purpose:
 
