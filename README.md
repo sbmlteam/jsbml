@@ -96,11 +96,14 @@ You should have received a copy of the GNU Lesser General Public License along w
 
 The authors gratefully acknowledge the funding and support of the following agencies who helped make JSBML possible:
 
-* The National Institute of General Medical Sciences (USA) via grant
-  number R01 GM070923, 
+* The EMBL European Bioinformatics Institute (Germany and UK).
 
-* The EMBL European Bioinformatics Institute (Germany and UK), and
+* The NIH National Institute of General Medical Sciences, under grant R01 GM070923 to the California Institute of Technology (USA).
 
-* The Federal Ministry of Education and Research (BMBF, Germany) via
-  grant numbers 0315756 and 0315384C for the Virtual Liver and
-  Spher4Sys projects.
+* Google, Inc., as part of Google Summer of Code in 2014 and 2016.
+
+* The European Commission as part of the 7th Framework Programme for Research and Technological Development (Marie-Curie International Outgoing Fellowship project "AMBiCon," grant number 332020).
+
+* A grant of the University of Tuebingen for young scientist support (project number 18017002).
+
+* The Federal Ministry of Education and Research (BMBF, Germany) via grant numbers 0315756 and 0315384C for the Virtual Liver Network and the MedSys (Medical Systems Biology) project Spher4Sys (Germany).
