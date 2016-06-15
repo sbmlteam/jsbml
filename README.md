@@ -76,9 +76,8 @@ If you use SBML, we also urge you to sign up for [sbml-announce](https://groups.
 
 JSBML uses third-party software libraries; these software libraries have their own copyright statements and distribution terms.  Please see the file LICENSE.txt for more information.
 
-Licensing and Distribution Terms for JSBML:
+JSBML is Copyright (C) 2009-2016 jointly by the following organizations:
 
-Copyright (C) 2009-2016 jointly by the following organizations:
 1. The University of Tuebingen, Germany
 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 3. The California Institute of Technology, Pasadena, CA, USA
