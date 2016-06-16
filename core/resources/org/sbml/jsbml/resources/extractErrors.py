@@ -69,10 +69,19 @@ ignored_error_codes = {9999, 10599, 20905, 21112, 29999, 90000, 90501, 99502,
 
 # Package error code ranges.  The numbers are the low end start values.
 
-package_codes = [['comp',   1000000],
-                 ['fbc',    2000000],
-                 ['qual',   3000000],
-                 ['layout', 6000000]]
+package_codes = [['core',          0],
+                 ['comp',    1000000],
+                 ['req',     1100000],
+                 ['spatial', 1200000],
+                 ['render',  1300000],
+                 ['fbc',     2000000],
+                 ['qual',    3000000],
+                 ['groups',  4000000],
+                 ['distrib', 5000000],
+                 ['layout',  6000000],
+                 ['multi',   7000000],
+                 ['arrays',  8000000],
+                 ['dyn',     9000000]]
 
 # Our approach to finding error codes starts with numbers and then rummages
 # through the list of symbols in the libSBML Python module to find the symbol
@@ -115,13 +124,13 @@ def write_doc(module):
             if e.isValid():
                 data = add_error_as_json(e, data)
 
-    for package in package_codes:
-        pkg_name = package[0]
-        pkg_start = package[1]
-        pkg_end = pkg_start + 1000000
-        for errNum in sorted(get_numeric_constants(module, pkg_start, pkg_end)):
-            e = SBMLError(errNum, 3, 1, '', 0, 0, 0, 0, pkg_name, 1)
-            data = add_error_as_json(e, data)
+    # for package in package_codes:
+    #     pkg_name = package[0]
+    #     pkg_start = package[1]
+    #     pkg_end = pkg_start + 1000000
+    #     for errNum in sorted(get_numeric_constants(module, pkg_start, pkg_end)):
+    #         e = SBMLError(errNum, 3, 1, '', 0, 0, 0, 0, pkg_name, 1)
+    #         data = add_error_as_json(e, data)
     print json.dumps(data, indent=4, sort_keys=True)
 
 
@@ -136,10 +145,12 @@ def add_error_as_json(e, data):
     return data
 
 def error_package(error):
-    pkg = error.getPackage()
-    if pkg == '':
-        return 'core'
-    return pkg
+    code = error.getErrorId()
+    code = int(float(code) / 100000) * 100000
+    for pkg in package_codes:
+        if pkg[1] == code:
+            return pkg[0]
+    return 'PACKAGE_NOT_FOUND'
 
 
 def add_error_severity(error, data):

@@ -535,7 +535,7 @@ public class SBMLError extends XMLException {
     }
 
     public static String convertIdToString(int errorId) {
-	Package p = Package.getPackageForError(errorId);
+	SBMLPackage p = SBMLPackage.getPackageForError(errorId);
 	return p.toString() + "-" + String.format("%05d", errorId - p.offset);
     }
 
@@ -545,7 +545,7 @@ public class SBMLError extends XMLException {
 	if (blocks.length == 1) {
 	    return Integer.parseInt(blocks[0]);
 	} else {
-	    Package p = Package.getPackageWithName(blocks[0]);
+	    SBMLPackage p = SBMLPackage.getPackageWithName(blocks[0]);
 	    int id = Integer.parseInt(blocks[1]);
 
 	    return id + p.offset;
