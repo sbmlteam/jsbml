@@ -8,7 +8,7 @@ import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
 import org.sbml.jsbml.validator.factory.CheckCategory;
 import org.sbml.jsbml.validator.factory.ConstraintFactory;
-import org.sbml.jsbml.Package;
+import org.sbml.jsbml.SBMLPackage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public class ValidationContext {
     private AnyConstraint<Object> rootConstraint;
     // Determines which constraints are loaded.
     private List<CheckCategory> categories;
-    private List<Package> packages;
+    private List<SBMLPackage> packages;
     
     private HashMap<String, Object> hashMap = new HashMap<String, Object>();
     
@@ -46,9 +46,9 @@ public class ValidationContext {
 	this.rootConstraint = rootConstraint;
 	this.categories.add(CheckCategory.GENERAL);
 	this.listener = new ArrayList<ValidationListener>();
-	this.packages = new ArrayList<Package>();
+	this.packages = new ArrayList<SBMLPackage>();
 	
-	this.packages.add(Package.CORE);
+	this.packages.add(SBMLPackage.CORE);
     }
 
     /**
@@ -135,7 +135,7 @@ public class ValidationContext {
      * @param pkg
      * @param enable
      */
-    public void enablePackage(Package pkg, boolean enable)
+    public void enablePackage(SBMLPackage pkg, boolean enable)
     {
 	if (enable)
 	{
@@ -149,8 +149,8 @@ public class ValidationContext {
 	}
     }
     
-    public Package[] getPackages(){
-	return this.packages.toArray(new Package[this.packages.size()]);
+    public SBMLPackage[] getPackages(){
+	return this.packages.toArray(new SBMLPackage[this.packages.size()]);
     }
 
     /**

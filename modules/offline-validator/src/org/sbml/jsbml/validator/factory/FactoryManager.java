@@ -1,7 +1,7 @@
 package org.sbml.jsbml.validator.factory;
 
 import java.util.List;
-import org.sbml.jsbml.Package;
+import org.sbml.jsbml.SBMLPackage;
 
 public interface FactoryManager 
 {
@@ -13,6 +13,6 @@ public interface FactoryManager
    * @param category
    * @return
    */
-  abstract public List<Integer> getIdsForClass(Class<?> clazz, CheckCategory category, Package[] packages);
+  abstract public List<Integer> getIdsForClass(Class<?> clazz, CheckCategory category, SBMLPackage[] packages);
   
 }

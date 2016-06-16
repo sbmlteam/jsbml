@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.Package;
+import org.sbml.jsbml.SBMLPackage;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
 import org.sbml.jsbml.validator.constraint.ConstraintGroup;
@@ -87,7 +87,7 @@ public class ConstraintFactory {
 	if (id < 0) {
 	    pkgName = "Special";
 	} else {
-	    Package pkg = Package.getPackageForError(id);
+	    SBMLPackage pkg = SBMLPackage.getPackageForError(id);
 	    pkgName = StringTools.firstLetterUpperCase(pkg.toString());
 	}
 
@@ -101,7 +101,7 @@ public class ConstraintFactory {
      * @param category
      * @return
      */
-    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory category, Package[] packages) {
+    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory category, SBMLPackage[] packages) {
 	ConstraintGroup<T> group = new ConstraintGroup<T>();
 
 	// Add constraints for interfaces
@@ -143,12 +143,12 @@ public class ConstraintFactory {
      * @param pkgs
      * @return
      */
-    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory[] categories, Package[] packages) {
+    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory[] categories, SBMLPackage[] packages) {
 
 	ConstraintGroup<T> group = new ConstraintGroup<T>();
 	
 	// checks if package checking is enabled
-	Package[] pkgs = {Package.CORE};
+	SBMLPackage[] pkgs = {SBMLPackage.CORE};
 	
 	for (CheckCategory cat : categories)
 	{
