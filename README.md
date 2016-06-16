@@ -1,7 +1,7 @@
 JSBML
 =====
 
-<img align="right" src="https://raw.githubusercontent.com/sbmlteam/jsbml/update-readme/.graphics/jsbml_logo_200px.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
+<img align="right" src=".graphics/jsbml_logo_200px.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
 
 [![License](http://img.shields.io/:license-LGPL-blue.svg)](http://doge.LGPL-license.org) [![Stable version](https://img.shields.io/badge/Stable_version-1.1-brightgreen.svg)](http://shields.io)
 
@@ -101,6 +101,8 @@ The authors gratefully acknowledge the funding and support of the following agen
 * The EMBL European Bioinformatics Institute (Germany and UK).
 
 * The NIH National Institute of General Medical Sciences, under grant R01 GM070923 to the California Institute of Technology (USA).
+
+* The Biotechnology and Biological Sciences Research Council (BBSRC) under the grant BBS/E/B/000C0419 to the Babraham Institute, UK.
 
 * Google, Inc., as part of Google Summer of Code in 2014 and 2016.
 
