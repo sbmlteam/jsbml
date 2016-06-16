@@ -61,12 +61,10 @@ If you use JSBML, we encourage you to subscribe to or monitor via RSS the [jsbml
 JSBML is under active development by a distributed team.  If you find bugs, please report them using the tracker; if you have any questions, please post them on one of the discussion groups or contact the developers directly:
 
 * *Bug reports*: [GitHub issue tracker](https://github.com/sbmlteam/jsbml/issues)
-
 * *Forum for JSBML*: [jsbml-development](https://groups.google.com/forum/#!forum/jsbml-development)
-
 * *Forum for general SBML software interoperability discussions*: [sbml-interoperability](https://groups.google.com/forum/#!forum/sbml-interoperability)
-
 * *Main development team mailing list*: [jsbml-team@caltech.edu](mailto:jsbml-team@caltech.edu)
+* *Pivotal Tracker*: [JSBML](https://www.pivotaltracker.com/n/projects/499447)
 
 What is the difference between [jsbml-development](https://groups.google.com/forum/#!forum/jsbml-development) and [sbml-interoperability](https://groups.google.com/forum/#!forum/sbml-interoperability)?  The former is specifically for discussions about JSBML, while the latter is appropriate for discussions involving SBML software interoperability in general, including (but not limited to) JSBML and its use in other software.
 
