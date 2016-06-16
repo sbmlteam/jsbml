@@ -1,6 +1,6 @@
 package org.sbml.jsbml;
 
-public enum Package 
+public enum SBMLPackage 
 {
     CORE(0),
     COMP(1_000_000),
@@ -18,7 +18,7 @@ public enum Package
     
     public final int offset;
     
-    private Package(int offset)
+    private SBMLPackage(int offset)
     {
 	this.offset = offset;
     }
@@ -30,7 +30,7 @@ public enum Package
     }
     
     
-    public static Package getPackageForError(int errorId)
+    public static SBMLPackage getPackageForError(int errorId)
     {
 	// Clear the last five digits
 	int offset = (int)((double)(errorId) / 100_000.0) * 100_000;
@@ -39,9 +39,9 @@ public enum Package
     }
     
     
-    public static Package getPackageWithOffset(int offset)
+    public static SBMLPackage getPackageWithOffset(int offset)
     {
-	for (Package p: values())
+	for (SBMLPackage p: values())
 	{
 	    if(p.offset == offset)
 	    {
@@ -53,7 +53,7 @@ public enum Package
     }
     
     
-    public static Package getPackageWithName(String name)
+    public static SBMLPackage getPackageWithName(String name)
     {
 	if (name.isEmpty())
 	{
@@ -62,7 +62,7 @@ public enum Package
 	
 	String n = name.toLowerCase();
 	
-	for (Package p: values())
+	for (SBMLPackage p: values())
 	{
 	    if (n.equals(p.toString()))
 	    {
