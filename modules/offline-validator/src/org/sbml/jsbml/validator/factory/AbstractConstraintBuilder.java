@@ -4,7 +4,7 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
 
-public abstract class AbstractConstraintBuilder implements ConstraintBuilder {
+public abstract class AbstractConstraintBuilder implements ConstraintBuilder, SBMLErrorCodes {
     private static HashMap<String, SoftReference<ConstraintBuilder>> instances_ = new HashMap<>();
 
     public static ConstraintBuilder getInstance(String pkgName) {

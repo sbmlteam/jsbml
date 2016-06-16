@@ -6,18 +6,18 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Package;
+import org.sbml.jsbml.SBMLPackage;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.StringTools;
 
-public abstract class AbstractFactoryManager implements FactoryManager {
+public abstract class AbstractFactoryManager implements FactoryManager, SBMLErrorCodes {
     /**
      * Log4j logger
      */
     protected static final transient Logger logger = Logger.getLogger(AbstractFactoryManager.class);
 
     @Override
-    public List<Integer> getIdsForClass(Class<?> clazz, CheckCategory category, Package[] packages) {
+    public List<Integer> getIdsForClass(Class<?> clazz, CheckCategory category, SBMLPackage[] packages) {
 	List<Integer> list = new ArrayList<Integer>();
 	// System.out.println("Get Ids for " + clazz.getName());
 
@@ -30,7 +30,7 @@ public abstract class AbstractFactoryManager implements FactoryManager {
 	// System.out.println("IDs for class " + clazz.getSimpleName());
 	String categoryName = StringTools.firstLetterUpperCase(category.toString().toLowerCase());
 
-	for (Package pkg : packages) {
+	for (SBMLPackage pkg : packages) {
 	    try {
 		String pkgName = StringTools.firstLetterUpperCase(pkg.toString());
 

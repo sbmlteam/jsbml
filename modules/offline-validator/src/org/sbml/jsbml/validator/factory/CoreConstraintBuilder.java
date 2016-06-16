@@ -105,7 +105,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	ValidationFunction<Compartment> func;
 
 	switch (id) {
-	case 20_501:
+	case CORE20501:
 	    func = new ValidationFunction<Compartment>() {
 		@Override
 		public boolean check(ValidationContext ctx, Compartment c) {
@@ -119,7 +119,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	    };
 	    break;
 
-	case 20_502:
+	case CORE20502:
 	    func = new ValidationFunction<Compartment>() {
 		@Override
 		public boolean check(ValidationContext ctx, Compartment c) {
@@ -132,7 +132,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	    };
 	    break;
 
-	case 20_503:
+	case CORE20503:
 	    func = new ValidationFunction<Compartment>() {
 		@Override
 		public boolean check(ValidationContext ctx, Compartment c) {
