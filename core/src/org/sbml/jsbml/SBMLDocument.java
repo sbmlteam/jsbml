@@ -137,7 +137,7 @@ public class SBMLDocument extends AbstractSBase {
    * The status being: enabled if the Boolean is true, disable otherwise
    * 
    */
-  private Map<String, Boolean> enabledPackageMap;
+  private Map<String, Boolean> enabledPackageMap; 
 
   /**
    * Contains all the XML attributes of the sbml XML node.

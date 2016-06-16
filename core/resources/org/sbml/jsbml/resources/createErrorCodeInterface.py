@@ -1,3 +1,20 @@
+#!/usr/bin/env python
+# =============================================================================
+# @file   extractErrors.py
+# @brief  Extracts SBML errors from libSBML
+# @author Roman Schulte
+# =============================================================================
+#
+# This file is part of the JSBML offline validator project.
+#
+# This script expects two input parameters, where the first is the location
+# of the SBMLErrors.json and the second one the outputpath for the newly created
+# Java interface. Example:
+#
+# createErrorCodeInterface.py ./SBMLErrors.json ./test/
+#
+# If needed this script will create new directories.
+
 import sys
 import json
 
@@ -29,12 +46,12 @@ fp = open(file_name)
 contents = fp.read()
 data = json.loads(contents)
 
-file = 'public interface SBMLErrorCodes { \n \n'
+file = 'package org.sbml.jsbml.validator.factory;\n\npublic interface SBMLErrorCodes { \n \n'
 for key in sorted(data, key=int):
     code = int(key)
     pkg = error_package(code)
     short = code - pkg[1]
-    file += '\n\t /**\n\t  * Error code ' + str(code) + ': Message\n\t  */\n \t public static final int ' + pkg[0] + str(short).zfill(5) + " = " + str(code) + "; \n"
+    file += '\n\t /**\n\t  * Error code ' + str(code) + ': Message\n\t  */\n \t public static final int ' + pkg[0] + "_" + str(short).zfill(5) + " = " + str(code) + "; \n"
 
 file += '}'
 
