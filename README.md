@@ -102,7 +102,7 @@ The authors gratefully acknowledge the funding and support of the following agen
 
 * The NIH National Institute of General Medical Sciences, under grant R01 GM070923 to the California Institute of Technology (USA).
 
-* The Babraham Institute, UK.
+* The Biotechnology and Biological Sciences Research Council (BBSRC) under the grant BBS/E/B/000C0419 to the Babraham Institute, UK.
 
 * Google, Inc., as part of Google Summer of Code in 2014 and 2016.
 
