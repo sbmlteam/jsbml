@@ -130,6 +130,14 @@ public class ValidationContext {
     }
     
     
+    public void enablePackages(SBMLPackage[] pkgs, boolean enable)
+    {
+	for (SBMLPackage pkg : pkgs)
+	{
+	    this.enablePackage(pkg, enable);
+	}
+    }
+    
     /**
      * 
      * @param pkg
