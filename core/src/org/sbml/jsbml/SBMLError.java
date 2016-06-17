@@ -533,22 +533,4 @@ public class SBMLError extends XMLException {
     {
 	return String.format(JSON_KEY_UNFORMATED_SEVERITY, level, version);
     }
-
-    public static String convertIdToString(int errorId) {
-	SBMLPackage p = SBMLPackage.getPackageForError(errorId);
-	return p.toString() + "-" + String.format("%05d", errorId - p.offset);
-    }
-
-    public static int convertStringToId(String errorId) {
-	String[] blocks = errorId.split("-");
-
-	if (blocks.length == 1) {
-	    return Integer.parseInt(blocks[0]);
-	} else {
-	    SBMLPackage p = SBMLPackage.getPackageWithName(blocks[0]);
-	    int id = Integer.parseInt(blocks[1]);
-
-	    return id + p.offset;
-	}
-    }
 }

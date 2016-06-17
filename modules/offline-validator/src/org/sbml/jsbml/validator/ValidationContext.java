@@ -8,7 +8,6 @@ import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
 import org.sbml.jsbml.validator.factory.CheckCategory;
 import org.sbml.jsbml.validator.factory.ConstraintFactory;
-import org.sbml.jsbml.SBMLPackage;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,7 +1,8 @@
 package org.sbml.jsbml.validator.factory;
 
 import java.util.List;
-import org.sbml.jsbml.SBMLPackage;
+
+import org.sbml.jsbml.validator.SBMLPackage;
 
 public interface FactoryManager 
 {

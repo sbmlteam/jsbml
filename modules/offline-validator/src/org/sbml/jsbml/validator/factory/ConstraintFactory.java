@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.SBMLPackage;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.validator.SBMLPackage;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
 import org.sbml.jsbml.validator.constraint.ConstraintGroup;
 
