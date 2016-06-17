@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBMLPackage;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.validator.SBMLPackage;
 
 public abstract class AbstractFactoryManager implements FactoryManager, SBMLErrorCodes {
     /**
