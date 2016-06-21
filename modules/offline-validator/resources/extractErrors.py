@@ -120,7 +120,10 @@ def write_doc(module):
     data = {}
     for errNum in sorted(get_numeric_constants(module)):
         if errNum < 9999999:
-            e = SBMLError(errNum, 3, 1)
+            pkg_name = ""
+            if errNum > 99999:
+                pkg_name = error_package_with_code(errNum)
+            e = SBMLError(errNum, 3, 1, '', 0, 0, 0, 0, pkg_name, 1)
             if e.isValid():
                 data = add_error_as_json(e, data)
 
@@ -146,6 +149,9 @@ def add_error_as_json(e, data):
 
 def error_package(error):
     code = error.getErrorId()
+    return error_package_with_code(code)
+
+def error_package_with_code(code):
     code = int(float(code) / 100000) * 100000
     for pkg in package_codes:
         if pkg[1] == code:
@@ -196,7 +202,7 @@ def add_error_severity(error, data):
 
     # adds severities if LV differs form the default
     for lv in sbml_levels_versions:
-        if lv[0] >= sinceLevel and lv[1] >= sinceVersion:
+        if lv[0] > sinceLevel or (lv[0] == sinceLevel and lv[1] >= sinceVersion):
             lvString = "L{}V{}".format(lv[0], lv[1])
             e = errors[lvString]
             severity = get_severity_class(e.getSeverity())
