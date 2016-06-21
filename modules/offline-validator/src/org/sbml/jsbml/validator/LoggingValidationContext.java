@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
-import org.sbml.jsbml.validator.constraint.AnyConstraint;
+import org.sbml.jsbml.validator.constraints.AnyConstraint;
 import org.sbml.jsbml.validator.factory.CheckCategory;
 
 public class LoggingValidationContext extends ValidationContext implements ValidationListener {

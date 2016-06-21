@@ -1,4 +1,4 @@
-package org.sbml.jsbml.validator.constraint;
+package org.sbml.jsbml.validator.constraints;
 
 import java.util.ArrayList;
 import java.util.List;

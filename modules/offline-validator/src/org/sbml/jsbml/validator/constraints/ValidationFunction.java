@@ -1,4 +1,4 @@
-package org.sbml.jsbml.validator.constraint;
+package org.sbml.jsbml.validator.constraints;
 
 import org.sbml.jsbml.validator.ValidationContext;
 
