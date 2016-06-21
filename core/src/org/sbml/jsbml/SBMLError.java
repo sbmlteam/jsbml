@@ -498,6 +498,7 @@ public class SBMLError extends XMLException {
 		
 		e.setPackage((String)errorEntry.get(JSON_KEY_PACKAGE));
 		
+		
 //		System.out.println("Out: " + e + "   " + e.getShortMessage());
 		return e;
 	    }
