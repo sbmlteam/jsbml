@@ -38,5 +38,4 @@ public class L3V1FactoryManager extends AbstractFactoryManager {
 	list.add(CORE_20623);
     }
     
-    public void add
 }
