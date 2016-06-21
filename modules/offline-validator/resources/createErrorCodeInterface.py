@@ -46,21 +46,40 @@ fp = open(file_name)
 contents = fp.read()
 data = json.loads(contents)
 
-file = 'package org.sbml.jsbml.validator.factory;\n\npublic interface SBMLErrorCodes { \n \n'
+file = '''package org.sbml.jsbml.validator.factory;
+\n\npublic interface SBMLErrorCodes { \n \n'''
+
 for key in sorted(data, key=int):
     code = int(key)
     pkg = error_package(code)
     short = code - pkg[1]
-    file += '\n\t /**\n\t  * Error code ' + str(code) + ': Message\n\t  */\n \t public static final int ' + pkg[0] + "_" + str(short).zfill(5) + " = " + str(code) + "; \n"
+    file += '\n\t /**\n\t  * Error code ' + str(code) + ':'
+    message = data[key]["Message"]
+    break_after = 80
+    char_count = break_after
+    for block in message.split():
+        if (char_count + len(block)) > break_after:
+            file += '\n\t  * ' + block + ' '
+            char_count = len(block) + 1
+        else:
+            file += block + ' '
+            char_count += len(block) + 1
 
+    file += '\n\t  */\n \t public static final int ' + pkg[0] + "_" + str(short).zfill(5) + " = " + str(code) + "; \n"
 file += '}'
 
-filename = sys.argv[2]
-dir = os.path.dirname(filename)
 
-if not os.path.exists(dir):
-    os.makedirs(dir)
 
-with open(dir + "/SBMLErrorCodes.java", "w") as text_file:
-    text_file.write(file)
-print 'done'
+if len(sys.argv) > 2:
+    filename = sys.argv[2]
+    dir = os.path.dirname(filename)
+
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+
+    with open(dir + "/SBMLErrorCodes.java", "w") as text_file:
+        text_file.write(file)
+        print 'done'
+else:
+
+    print file
