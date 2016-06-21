@@ -19,7 +19,7 @@ public abstract class AbstractConstraintBuilder implements ConstraintBuilder, SB
 	    try {
 		String className = pkgName + "ConstraintBuilder";
 		@SuppressWarnings("unchecked")
-		Class<ConstraintBuilder> c = (Class<ConstraintBuilder>) Class.forName(AbstractConstraintBuilder.class.getPackage().getName() + "." + className);
+		Class<ConstraintBuilder> c = (Class<ConstraintBuilder>) Class.forName("org.sbml.jsbml.validator.constraints." + className);
 		
 		builder = c.newInstance();
 		
