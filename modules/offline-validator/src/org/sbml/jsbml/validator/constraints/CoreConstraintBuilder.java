@@ -7,9 +7,6 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.ValidationContext;
-import org.sbml.jsbml.validator.constraint.AnyConstraint;
-import org.sbml.jsbml.validator.constraint.ValidationConstraint;
-import org.sbml.jsbml.validator.constraint.ValidationFunction;
 import org.sbml.jsbml.validator.factory.AbstractConstraintBuilder;
 
 public class CoreConstraintBuilder extends AbstractConstraintBuilder {

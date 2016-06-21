@@ -5,7 +5,7 @@ import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.ValuePair;
-import org.sbml.jsbml.validator.constraint.AnyConstraint;
+import org.sbml.jsbml.validator.constraints.AnyConstraint;
 import org.sbml.jsbml.validator.factory.CheckCategory;
 import org.sbml.jsbml.validator.factory.ConstraintFactory;
 

@@ -1,6 +1,6 @@
 package org.sbml.jsbml.validator;
 
-import org.sbml.jsbml.validator.constraint.AnyConstraint;
+import org.sbml.jsbml.validator.constraints.AnyConstraint;
 
 public interface ValidationListener 
 {
