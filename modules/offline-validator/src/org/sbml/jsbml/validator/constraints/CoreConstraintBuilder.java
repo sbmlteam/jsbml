@@ -1,4 +1,4 @@
-package org.sbml.jsbml.validator.factory;
+package org.sbml.jsbml.validator.constraints;
 
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.InitialAssignment;
@@ -10,6 +10,7 @@ import org.sbml.jsbml.validator.ValidationContext;
 import org.sbml.jsbml.validator.constraint.AnyConstraint;
 import org.sbml.jsbml.validator.constraint.ValidationConstraint;
 import org.sbml.jsbml.validator.constraint.ValidationFunction;
+import org.sbml.jsbml.validator.factory.AbstractConstraintBuilder;
 
 public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
