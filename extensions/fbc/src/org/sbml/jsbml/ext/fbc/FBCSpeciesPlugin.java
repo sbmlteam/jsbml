@@ -223,7 +223,7 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
       try {
         setChemicalFormula(value);
       } catch (IllegalArgumentException exc) {
-        logger.error("Skipped invalid chemical formula: " + chemicalFormula);
+        logger.error("Skipped invalid chemical formula: " + value);
       }
       return true;
     }
