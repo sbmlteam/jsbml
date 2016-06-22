@@ -409,7 +409,7 @@ public class SBO {
   /**
    * Interaction between several biochemical entities that results in the formation of a non-covalent complex
    * Also known as non-covalent binding
-   * 
+   *   
    * @return 177
    */
   public static int getComplexAssembly() {
