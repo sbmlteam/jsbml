@@ -344,6 +344,15 @@ public class SBO {
   public static int getCatalysis() {
     return 172;
   }
+  
+  /**
+   * An event involving one or more chemical entities that modifies the electrochemical structure of at least one of the participants.
+   * 
+   * @return 176
+   */
+  public static int getBiochemicalReaction() {
+    return 176;
+  }
 
   /**
    * Substance that accelerates the velocity of a chemical reaction without
@@ -396,6 +405,16 @@ public class SBO {
   public static int getComplex() {
     return convertAlias2SBO("COMPLEX");
   }
+  
+  /**
+   * Interaction between several biochemical entities that results in the formation of a non-covalent complex
+   * Also known as non-covalent binding
+   * 
+   * @return 177
+   */
+  public static int getComplexAssembly() {
+    return 177;
+  }
 
   /**
    * 
@@ -420,6 +439,15 @@ public class SBO {
    */
   public static int getContinuousFramework() {
     return 62;
+  }
+  
+  /**
+   * Biochemical reaction that results in the modification of some covalent bonds.
+   * 
+   * @return 182
+   */
+  public static int getConversion() {
+    return 182;
   }
 
   /**
@@ -446,6 +474,15 @@ public class SBO {
     }
     return possibleEnzymes;
   }
+  
+  /**
+   * Complete disappearance of a physical entity. 
+   * 
+   * @return 179
+   */
+  public static int getDegradation() {
+    return 179;
+  }
 
   /**
    * 
@@ -460,9 +497,18 @@ public class SBO {
    * several independent biochemical entities.
    * 
    * @return 180
-   */
+   */ 
   public static int getDissociation() {
     return 180;
+  }
+  
+  /**
+   * Polymer composed of nucleotides containing deoxyribose and linked by phosphodiester bonds.
+   * 
+   * @return 251
+   */ 
+  public static int getDNA() {
+    return 251;
   }
 
   /**
@@ -928,6 +974,15 @@ public class SBO {
   }
 
   /**
+   * Simple, non-repetitive chemical entity. Also referred to as simple chemical
+   * 
+   * @return 247
+   */ 
+  public static int getSmallMolecule() {
+    return 247;
+  }
+  
+  /**
    * 
    * @return
    */
@@ -968,6 +1023,17 @@ public class SBO {
     return convertAlias2SBO("PHYSICAL_STIMULATION");
   }
 
+  /**
+   * A phenomenon whereby an observed phenotype, qualitative or quantative, is not explainable by the simple additive effects of the individual gene pertubations alone. Genetic interaction between perturbed genes is usually expected to generate a 'defective' phenotype. 
+   * The level of defectiveness is often used to sub-classify this phenomenon.
+   * Also known as Genetic Interaction
+   * 
+   * @return 343
+   */
+  public static int getTemplateReactionRegulation() {
+    return 343;
+  }
+  
   /**
    * Gets the SBO term with the id 'sboTerm'.
    * 
@@ -1090,6 +1156,15 @@ public class SBO {
    */
   public static int getTransport() {
     return convertAlias2SBO("TRANSPORT");
+  }
+  
+  /**
+   * An event involving one or more physical entities that modifies the structure, location or free energy of at least one of the participants.
+   * Also known as biochemical or transport reaction
+   * @return 167
+   */
+  public static int getTransportWithBiochemicalReaction() {
+    return 167;
   }
 
   /**
