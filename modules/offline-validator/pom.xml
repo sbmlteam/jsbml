@@ -10,12 +10,9 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.sbml.jsbml.modules</groupId>
 	<artifactId>jsbml-offline-validator</artifactId>
 	<packaging>jar</packaging>
 
-
-	<version>1.2-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<url>https://github.com/sbmlteam/jsbml</url>
 	<inceptionYear>2016</inceptionYear>
@@ -64,6 +61,13 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- http://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 	</dependencies>
 
 
@@ -73,8 +77,8 @@
 				<directory>resources</directory>
 			</resource>
 		</resources>
-		
-		
+
+
 		<pluginManagement>
 			<plugins>
 				<plugin>

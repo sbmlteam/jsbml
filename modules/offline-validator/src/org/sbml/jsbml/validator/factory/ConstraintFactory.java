@@ -7,7 +7,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.SBMLPackage;
+import org.sbml.jsbml.validator.constraints.AbstractConstraintBuilder;
 import org.sbml.jsbml.validator.constraints.AnyConstraint;
+import org.sbml.jsbml.validator.constraints.ConstraintBuilder;
 import org.sbml.jsbml.validator.constraints.ConstraintGroup;
 
 public class ConstraintFactory {

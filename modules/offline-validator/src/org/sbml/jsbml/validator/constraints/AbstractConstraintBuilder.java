@@ -1,11 +1,19 @@
-package org.sbml.jsbml.validator.factory;
+package org.sbml.jsbml.validator.constraints;
 
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.validator.factory.ConstraintFactory;
+import org.sbml.jsbml.validator.factory.SBMLErrorCodes;
+
 
 public abstract class AbstractConstraintBuilder implements ConstraintBuilder, SBMLErrorCodes {
     private static HashMap<String, SoftReference<ConstraintBuilder>> instances_ = new HashMap<>();
+    /**
+     * Log4j logger
+     */
+    protected static final transient Logger logger = Logger.getLogger(AbstractConstraintBuilder.class);
 
     public static ConstraintBuilder getInstance(String pkgName) {
 	SoftReference<ConstraintBuilder> ref = instances_.get(pkgName);
@@ -25,7 +33,7 @@ public abstract class AbstractConstraintBuilder implements ConstraintBuilder, SB
 		
 		instances_.put(pkgName, new SoftReference<ConstraintBuilder>(builder));
 	    } catch (Exception e) {
-		ConstraintFactory.logger.error(e.getMessage());
+		logger.error(e.getMessage());
 	    }
 	}
 
