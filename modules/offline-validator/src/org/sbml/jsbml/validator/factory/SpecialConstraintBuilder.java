@@ -16,6 +16,7 @@ import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.ValidationContext;
+import org.sbml.jsbml.validator.constraints.AbstractConstraintBuilder;
 import org.sbml.jsbml.validator.constraints.AnyConstraint;
 import org.sbml.jsbml.validator.constraints.ValidationConstraint;
 import org.sbml.jsbml.validator.constraints.ValidationFunction;
