@@ -571,7 +571,7 @@ public class SBO {
 
   /**
    * 
-   * @return
+   * @return 
    */
   public static int getFunctionalEntity() {
     return 241;
