@@ -32,7 +32,7 @@ public class L3V1FactoryManager extends AbstractFactoryManager {
 
     public void addCoreGeneralSpeciesIds(List<Integer> list) {
 	list.add(CORE_20601);
-	addRangeToList(list, CORE_20608, CORE_20611);
+	addRangeToList(list, CORE_20608, CORE_20610);
 	list.add(CORE_20614);
 	list.add(CORE_20617);
 	list.add(CORE_20623);

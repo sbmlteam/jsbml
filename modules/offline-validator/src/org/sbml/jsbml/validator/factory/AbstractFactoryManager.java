@@ -1,5 +1,6 @@
 package org.sbml.jsbml.validator.factory;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,27 @@ public abstract class AbstractFactoryManager implements FactoryManager, SBMLErro
 	// System.out.println("Get Ids for " + clazz.getName());
 
 	if (clazz.equals(SBMLDocument.class)) {
-	    list.add(ConstraintFactory.ID_VALIDATE_DOCUMENT_TREE);
+	    list.add(ID_VALIDATE_DOCUMENT_TREE);
+	    
+	    
 	} else if (clazz.equals(Model.class)) {
-	    list.add(ConstraintFactory.ID_VALIDATE_MODEL_TREE);
+	    list.add(ID_VALIDATE_CORE_MODEL_TREE);
+	    
+	    for (SBMLPackage pkg: packages)
+	    {
+		try {
+		    String varName = "ID_VALIDATE_" + pkg.toString().toUpperCase() + "_MODEL_TREE";
+		    Field f = FactoryManager.class.getField(varName);
+		    
+		    int value = f.getInt(null);
+		    list.add(value);
+		} catch (Exception e) {
+		    // TODO Auto-generated catch block
+		    logger.warn(e.getLocalizedMessage());
+//		    e.printStackTrace();
+		} 
+	    }
+	    
 	}
 
 	// System.out.println("IDs for class " + clazz.getSimpleName());

@@ -430,7 +430,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	    };
 	    break;
 
-	case 20611:
+	case CORE_20611:
 	    // SPECIAL CASE!!!
 	    return new ValidationConstraint<SpeciesReference>(id, new ValidationFunction<SpeciesReference>() {
 		@Override
