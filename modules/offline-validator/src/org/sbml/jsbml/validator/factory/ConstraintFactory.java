@@ -13,11 +13,6 @@ import org.sbml.jsbml.validator.constraints.ConstraintBuilder;
 import org.sbml.jsbml.validator.constraints.ConstraintGroup;
 
 public class ConstraintFactory {
-    public static final int ID_EMPTY_CONSTRAINT = -1;
-    public static final int ID_VALIDATE_DOCUMENT_TREE = -2000;
-    public static final int ID_VALIDATE_MODEL_TREE = -2010;
-    public static final int ID_DO_NOT_CACHE = -99999;
-    public static final int ID_GROUP = -99998;
 
     /**
      * Log4j logger
@@ -237,7 +232,7 @@ public class ConstraintFactory {
     }
 
     private void addToCache(Integer id, AnyConstraint<?> constraint) {
-	if (constraint == null || id == ID_DO_NOT_CACHE || id == ID_GROUP) {
+	if (constraint == null || id == FactoryManager.ID_DO_NOT_CACHE || id == FactoryManager.ID_GROUP) {
 	    return;
 	}
 

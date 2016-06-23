@@ -1,5 +1,7 @@
-package org.sbml.jsbml.validator.factory;
+package org.sbml.jsbml.validator.constraints;
 
+
+import org.hamcrest.core.IsInstanceOf;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.CompartmentType;
 import org.sbml.jsbml.Constraint;
@@ -14,12 +16,16 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.ValidationContext;
-import org.sbml.jsbml.validator.constraints.AbstractConstraintBuilder;
-import org.sbml.jsbml.validator.constraints.AnyConstraint;
-import org.sbml.jsbml.validator.constraints.ValidationConstraint;
-import org.sbml.jsbml.validator.constraints.ValidationFunction;
+import org.sbml.jsbml.validator.factory.ConstraintFactory;
+import org.sbml.jsbml.validator.factory.FactoryManager;
+
+import com.thoughtworks.xstream.core.util.Pool.Factory;
 
 @SuppressWarnings("deprecation")
 public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
@@ -27,10 +33,10 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
     @Override
     public AnyConstraint<?> createConstraint(int id) {
 	switch (id) {
-	case ConstraintFactory.ID_EMPTY_CONSTRAINT:
+	case FactoryManager.ID_EMPTY_CONSTRAINT:
 	    return new ValidationConstraint<>(id, null);
 
-	case ConstraintFactory.ID_VALIDATE_DOCUMENT_TREE:
+	case FactoryManager.ID_VALIDATE_DOCUMENT_TREE:
 	    ValidationFunction<SBMLDocument> f2 = new ValidationFunction<SBMLDocument>() {
 		@Override
 		public boolean check(ValidationContext ctx, SBMLDocument t) {
@@ -49,7 +55,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 
 	    return new ValidationConstraint<SBMLDocument>(id, f2);
 
-	case ConstraintFactory.ID_VALIDATE_MODEL_TREE:
+	case FactoryManager.ID_VALIDATE_CORE_MODEL_TREE:
 	    ValidationFunction<Model> f3 = new ValidationFunction<Model>() {
 		@Override
 		public boolean check(ValidationContext ctx, Model t) {
@@ -68,6 +74,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 		    }
 
 		    {
+			
 			AnyConstraint<Compartment> cc = factory.getConstraintsForClass(Compartment.class,
 				ctx.getCheckCategories(), ctx.getPackages());
 
@@ -184,6 +191,46 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 	    };
 
 	    return new ValidationConstraint<Model>(id, f3);
+	    
+	case FactoryManager.ID_VALIDATE_LAYOUT_MODEL_TREE:
+	    ValidationFunction<Model> f4 = new ValidationFunction<Model>() {
+	        
+	        @Override
+	        public boolean check(ValidationContext ctx, Model m) {
+	    	
+	            SBasePlugin extension = null;
+	            
+	            if (ctx.getLevel() == 3 && ctx.getVersion() == 1)
+	            {
+	        	 extension = m.getExtension(LayoutConstants.namespaceURI_L3V1V1);
+	            }
+	            else
+	            {
+	        	 extension = m.getExtension(LayoutConstants.namespaceURI);
+	            }
+	            
+	            if (extension instanceof LayoutModelPlugin)
+	            {
+	        	LayoutModelPlugin layoutModel = (LayoutModelPlugin) extension;
+	        	ConstraintFactory factory = ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
+	        	
+	        	{
+	        	    AnyConstraint<Layout> c = factory.getConstraintsForClass(Layout.class, ctx.getCheckCategories(), ctx.getPackages());
+	        	    
+	        	    for (Layout l : layoutModel.getListOfLayouts())
+	        	    {
+	        		c.check(ctx, l);
+	        	    }
+	        	}
+	        	
+	            }
+	           
+	            
+	    	return true;
+	        }
+	    };
+	    
+	    return new ValidationConstraint<>(id, f4);
 
 	default:
 	    break;
