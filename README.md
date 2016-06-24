@@ -73,8 +73,8 @@ Please also indicate the specific version of JSBML you use, to improve other peo
 * JSBML release 0.8 &rArr; [10.5281/zenodo.55636](http://dx.doi.org/10.5281/zenodo.55636)
 
 
-📰 Recent news and activities
---------------------------
+📰 Recent news and activities
+-----------------------------
 
 Please see the file NEWS.txt for a log of recent changes in JSBML.
 
