@@ -6,7 +6,38 @@ JSBML
 [![License](http://img.shields.io/:license-LGPL-blue.svg)](http://doge.LGPL-license.org) [![Stable version](https://img.shields.io/badge/Stable_version-1.1-brightgreen.svg)](http://shields.io)
 
 ----
-*Authors*: [Andreas Dräger](http://sbrg.ucsd.edu/researchers/draeger/), [Nicolas Rodriguez](http://lenoverelab.org/members/Nicolas_Rodriguez/) with contributions from (in alphabetical order): Meike Aichele, [Finja Büchel](http://www.ra.cs.uni-tuebingen.de/mitarb/buechel/), [Alexander Dörr](http://www.cogsys.cs.uni-tuebingen.de/mitarb/doerr/), [Marine Dumousseau](https://sourceforge.net/u/marine3/profile/), Sebastian Froehlich, [Michael Hucka](http://www.cds.caltech.edu/~mhucka), [Florian Mittag](http://www.cogsys.cs.uni-tuebingen.de/mitarb/mittag/), Alexander Peltzer, Simon Schaefer, Sarah Rachel Mueller vom Hagen, and [Clemens Wrzodek](http://www.cogsys.cs.uni-tuebingen.de/mitarb/wrzodek/).
+*Authors*: [Andreas Dräger](http://sbrg.ucsd.edu/researchers/draeger/),
+[Nicolas Rodriguez](http://lenoverelab.org/members/Nicolas_Rodriguez/)
+with contributions from (in alphabetical order):
+Meike Aichele,
+Alexander Diamantikos,
+[Alexander Dörr](http://www.cogsys.cs.uni-tuebingen.de/mitarb/doerr/),
+[Marine Dumousseau](https://sourceforge.net/u/marine3/profile/),
+[Johannes Eichner](http://www.ra.cs.uni-tuebingen.de/mitarb/eichner/),
+[Akira Funahashi](http://fun.bio.keio.ac.jp/~funa/),
+Sebastian Fröhlich,
+[Harold Gómez](https://www.bsse.ethz.ch/cobi/people/person-detail.html?persid=211340),
+[Stephanie Hoffmann](http://www.ra.cs.uni-tuebingen.de/mitarb/hoffmann/),
+[Michael Hucka](http://www.cds.caltech.edu/~mhucka),
+[Roland Keller](http://www.ra.cs.uni-tuebingen.de/mitarb/keller/),
+[Victor Kofia](http://kofiav.blogspot.ca),
+Jakob Matthes,
+[Florian Mittag](http://www.cogsys.cs.uni-tuebingen.de/mitarb/mittag/),
+[Sebastian Nagel](http://www.ti.uni-tuebingen.de/Sebastian-Nagel.1843.0.html),
+[Eugen Netz](https://abi.inf.uni-tuebingen.de/People/netz),
+[Piero Dalle Pezze](https://www.linkedin.com/in/pdallepezze),
+[Alexander Peltzer](http://it.inf.uni-tuebingen.de/?page_id=110),
+[Jan D. Rudolph](http://www.biochem.mpg.de/employees/47658/226605),
+Simon Schäfer,
+[Alex Thomas](http://sbrg.ucsd.edu/researchers/thomas/),
+[Ibrahim Y. Vazirabad](http://www.mscs.mu.edu/~ivazirab/),
+Sarah Rachel Mueller vom Hagen,
+[Leandro Watanabe](http://www.async.ece.utah.edu/~leandro/),
+[Clemens Wrzodek](http://www.cogsys.cs.uni-tuebingen.de/mitarb/wrzodek/),
+[Finja Wrzodek](http://www.ra.cs.uni-tuebingen.de/mitarb/buechel/),
+and
+[Thomas J. Zajac](https://github.com/mephenor/).
+
 
 *License*: This code is licensed under the LGPL version 2.1.  Please see the section on [licensing and distribution](#-licensing-and-distribution) below for more information about third-party software included in the JSBML code base.
 
