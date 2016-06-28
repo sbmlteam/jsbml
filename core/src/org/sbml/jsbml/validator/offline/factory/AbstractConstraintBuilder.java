@@ -1,10 +1,9 @@
-package org.sbml.jsbml.validator.offline.constraints;
+package org.sbml.jsbml.validator.offline.factory;
 
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 
 
@@ -27,7 +26,7 @@ public abstract class AbstractConstraintBuilder implements ConstraintBuilder, SB
 	    try {
 		String className = pkgName + "ConstraintBuilder";
 		@SuppressWarnings("unchecked")
-		Class<ConstraintBuilder> c = (Class<ConstraintBuilder>) Class.forName("org.sbml.jsbml.validator.constraints." + className);
+		Class<ConstraintBuilder> c = (Class<ConstraintBuilder>) Class.forName("org.sbml.jsbml.validator.offline.constraints." + className);
 		
 		builder = c.newInstance();
 		
