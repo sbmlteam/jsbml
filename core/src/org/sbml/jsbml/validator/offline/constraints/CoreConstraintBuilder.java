@@ -34,8 +34,8 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
 	int firstThree = id / 100;
 
-	switch (firstThree) {
-
+	switch (firstThree) 
+	{
 	case 207:
 	    return CoreConstraintBuilder.createInitialAssignmentConstraint(id);
 	case 206:
@@ -265,7 +265,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
 	case CORE_20510:
 	    func = new ValidationFunction<Compartment>() {
-//		@SuppressWarnings("deprecation")
+		// @SuppressWarnings("deprecation")
 		@Override
 		public boolean check(ValidationContext ctx, Compartment c) {
 
@@ -747,7 +747,8 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
 		    {
 			AnyConstraint<TreeNodeChangeListener> cc = factory.getConstraintsForClass(
-				TreeNodeChangeListener.class, ctx.getCheckCategories(), ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
+				TreeNodeChangeListener.class, ctx.getCheckCategories(), ctx.getPackages(),
+				ctx.getLevel(), ctx.getVersion());
 
 			for (TreeNodeChangeListener c : t.getListOfTreeNodeChangeListeners()) {
 			    cc.check(ctx, c);

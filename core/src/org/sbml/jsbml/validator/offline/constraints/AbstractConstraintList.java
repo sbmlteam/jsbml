@@ -6,16 +6,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.offline.SBMLPackage;
+import org.sbml.jsbml.validator.offline.factory.AbstractConstraintBuilder;
 import org.sbml.jsbml.validator.offline.factory.CheckCategory;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
-public abstract class AbstractConstraintList {
+public abstract class AbstractConstraintList implements SBMLErrorCodes {
     /**
      * HashMap of created instances. One instance per Level/Version
      */
     private static HashMap<String, SoftReference<Class<?>>> constraintLists = new HashMap<String, SoftReference<Class<?>>>(
 	    24);
+
+    /**
+     * Log4j logger
+     */
+    protected static final transient Logger logger = Logger.getLogger(AbstractConstraintBuilder.class);
 
     public static Class<?> getCacheList(SBMLPackage pkg, int level, int version) {
 	String className = "L" + level + "V" + version + StringTools.firstLetterUpperCase(pkg.toString())
@@ -24,14 +32,14 @@ public abstract class AbstractConstraintList {
 	Class<?> listClass = getFromCache(className);
 
 	if (listClass == null) {
-	    String fullName = "org.sbml.jsbml.validator.offline.constraints" + className;
+	    String fullName = "org.sbml.jsbml.validator.offline.constraints." + className;
 
 	    try {
 		listClass = Class.forName(fullName);
 		constraintLists.put(className, new SoftReference<Class<?>>(listClass));
 	    } catch (ClassNotFoundException e) {
 		// TODO Auto-generated catch block
-		e.printStackTrace();
+		logger.debug("Couldn't find ConstraintList: " + className);
 	    }
 	}
 
@@ -46,7 +54,7 @@ public abstract class AbstractConstraintList {
 	    Class<?> constraintList = getCacheList(pkg, level, version);
 
 	    if (constraintList != null) {
-		String methodName = "add" + StringTools.firstLetterUpperCase(category.toString())
+		String methodName = "add" + StringTools.firstLetterUpperCase(category.toString().toLowerCase())
 			+ clazz.getSimpleName() + "Ids";
 		try {
 		    Method m = constraintList.getMethod(methodName, List.class);
@@ -54,7 +62,7 @@ public abstract class AbstractConstraintList {
 
 		} catch (Exception e) {
 		    // TODO Auto-generated catch block
-		    e.printStackTrace();
+		    logger.debug("Couldn't find Method: " + constraintList.getSimpleName() + "." + methodName);
 		}
 	    }
 	}
