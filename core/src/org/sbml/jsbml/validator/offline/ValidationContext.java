@@ -202,10 +202,12 @@ public class ValidationContext {
      */
     public <T> void loadConstraints(Class<?> objectClass, int level, int version, CheckCategory[] categories) {
 	this.constraintType = objectClass;
-	ConstraintFactory factory = ConstraintFactory.getInstance(level, version);
+	ConstraintFactory factory = ConstraintFactory.getInstance();
 	this.rootConstraint = factory.getConstraintsForClass(objectClass, 
 		this.getCheckCategories(), 
-		this.getPackages());
+		this.getPackages(),
+		this.getLevel(),
+		this.getVersion());
     }
 
     public void addValidationListener(ValidationListener listener) {

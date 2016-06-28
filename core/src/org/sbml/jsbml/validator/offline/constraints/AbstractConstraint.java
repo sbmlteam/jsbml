@@ -1,11 +1,10 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
-import org.sbml.jsbml.validator.offline.factory.FactoryManager;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
 public abstract class AbstractConstraint<T> implements AnyConstraint<T> {
 
-    protected int id = FactoryManager.ID_DO_NOT_CACHE;
+    protected int id = CoreSpecialErrorCodes.ID_DO_NOT_CACHE;
     
     
     @Override

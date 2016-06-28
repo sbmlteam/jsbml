@@ -5,14 +5,13 @@ import java.util.List;
 
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
-import org.sbml.jsbml.validator.offline.factory.FactoryManager;
 
 public class ConstraintGroup<T> extends AbstractConstraint<T> {
 
     private List<AnyConstraint<T>> constraints = new ArrayList<AnyConstraint<T>>();
     
     public ConstraintGroup() {
-	this.id = FactoryManager.ID_GROUP;
+	this.id = CoreSpecialErrorCodes.ID_GROUP;
     }
 
     @Override
@@ -46,7 +45,7 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
      */
     public AnyConstraint<T> remove(int id)
     {
-	if (id == FactoryManager.ID_DO_NOT_CACHE || id == FactoryManager.ID_GROUP)
+	if (id == CoreSpecialErrorCodes.ID_DO_NOT_CACHE || id == CoreSpecialErrorCodes.ID_GROUP)
 	{
 	    return null;
 	}

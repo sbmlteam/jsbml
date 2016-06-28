@@ -9,7 +9,7 @@ import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 
 public abstract class AbstractConstraintBuilder implements ConstraintBuilder, SBMLErrorCodes {
-    private static HashMap<String, SoftReference<ConstraintBuilder>> instances_ = new HashMap<>();
+    private static HashMap<String, SoftReference<ConstraintBuilder>> instances_ = new HashMap<String, SoftReference<ConstraintBuilder>>();
     /**
      * Log4j logger
      */
