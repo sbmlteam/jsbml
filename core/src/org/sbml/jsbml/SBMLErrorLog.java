@@ -70,7 +70,7 @@ public class SBMLErrorLog {
    * @param option
    * @return {@code true} if the option was added successfully.
    */
-  boolean add(Option option) {
+  public boolean add(Option option) {
     return options.add(option);
   }
 
@@ -80,7 +80,7 @@ public class SBMLErrorLog {
    * @param e
    * @return {@code true} if the error was added successfully.
    */
-  boolean add(SBMLError e) {
+  public boolean add(SBMLError e) {
     return validationErrors.add(e);
   }
 
