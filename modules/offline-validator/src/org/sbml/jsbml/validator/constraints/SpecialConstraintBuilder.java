@@ -1,7 +1,5 @@
 package org.sbml.jsbml.validator.constraints;
 
-
-import org.hamcrest.core.IsInstanceOf;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.CompartmentType;
 import org.sbml.jsbml.Constraint;
@@ -17,15 +15,19 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.layout.CompartmentGlyph;
+import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
+import org.sbml.jsbml.ext.layout.ReactionGlyph;
+import org.sbml.jsbml.ext.layout.SpeciesGlyph;
+import org.sbml.jsbml.ext.layout.TextGlyph;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.ValidationContext;
 import org.sbml.jsbml.validator.factory.ConstraintFactory;
 import org.sbml.jsbml.validator.factory.FactoryManager;
 
-import com.thoughtworks.xstream.core.util.Pool.Factory;
 
 @SuppressWarnings("deprecation")
 public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
@@ -46,7 +48,8 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 		    System.out.println("validate doc tree");
 		    ConstraintFactory factory = ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
 
-		    AnyConstraint<Model> mc = factory.getConstraintsForClass(Model.class, ctx.getCheckCategories(), ctx.getPackages());
+		    AnyConstraint<Model> mc = factory.getConstraintsForClass(Model.class, ctx.getCheckCategories(),
+			    ctx.getPackages());
 		    mc.check(ctx, t.getModel());
 
 		    return true;
@@ -74,7 +77,7 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 		    }
 
 		    {
-			
+
 			AnyConstraint<Compartment> cc = factory.getConstraintsForClass(Compartment.class,
 				ctx.getCheckCategories(), ctx.getPackages());
 
@@ -103,7 +106,8 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 		    }
 
 		    {
-			AnyConstraint<Event> cc = factory.getConstraintsForClass(Event.class, ctx.getCheckCategories(), ctx.getPackages());
+			AnyConstraint<Event> cc = factory.getConstraintsForClass(Event.class, ctx.getCheckCategories(),
+				ctx.getPackages());
 
 			for (Event c : t.getListOfEvents()) {
 			    cc.check(ctx, c);
@@ -160,7 +164,8 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 		    }
 
 		    {
-			AnyConstraint<Rule> cc = factory.getConstraintsForClass(Rule.class, ctx.getCheckCategories(), ctx.getPackages());
+			AnyConstraint<Rule> cc = factory.getConstraintsForClass(Rule.class, ctx.getCheckCategories(),
+				ctx.getPackages());
 
 			for (Rule c : t.getListOfRules()) {
 			    cc.check(ctx, c);
@@ -178,8 +183,8 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 		    }
 
 		    {
-			AnyConstraint<TreeNodeChangeListener> cc = factory
-				.getConstraintsForClass(TreeNodeChangeListener.class, ctx.getCheckCategories(), ctx.getPackages());
+			AnyConstraint<TreeNodeChangeListener> cc = factory.getConstraintsForClass(
+				TreeNodeChangeListener.class, ctx.getCheckCategories(), ctx.getPackages());
 
 			for (TreeNodeChangeListener c : t.getListOfTreeNodeChangeListeners()) {
 			    cc.check(ctx, c);
@@ -191,51 +196,9 @@ public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 	    };
 
 	    return new ValidationConstraint<Model>(id, f3);
-	    
-	case FactoryManager.ID_VALIDATE_LAYOUT_MODEL_TREE:
-	    ValidationFunction<Model> f4 = new ValidationFunction<Model>() {
-	        
-	        @Override
-	        public boolean check(ValidationContext ctx, Model m) {
-	    	
-	            SBasePlugin extension = null;
-	            
-	            if (ctx.getLevel() == 3 && ctx.getVersion() == 1)
-	            {
-	        	 extension = m.getExtension(LayoutConstants.namespaceURI_L3V1V1);
-	            }
-	            else
-	            {
-	        	 extension = m.getExtension(LayoutConstants.namespaceURI);
-	            }
-	            
-	            if (extension instanceof LayoutModelPlugin)
-	            {
-	        	LayoutModelPlugin layoutModel = (LayoutModelPlugin) extension;
-	        	ConstraintFactory factory = ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
-	        	
-	        	{
-	        	    AnyConstraint<Layout> c = factory.getConstraintsForClass(Layout.class, ctx.getCheckCategories(), ctx.getPackages());
-	        	    
-	        	    for (Layout l : layoutModel.getListOfLayouts())
-	        	    {
-	        		c.check(ctx, l);
-	        	    }
-	        	}
-	        	
-	            }
-	           
-	            
-	    	return true;
-	        }
-	    };
-	    
-	    return new ValidationConstraint<>(id, f4);
 
-	default:
-	    break;
-	}
-
+	
+	
 	return null;
     }
 

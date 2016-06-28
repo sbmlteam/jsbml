@@ -8,7 +8,8 @@ public interface FactoryManager {
     public static final int ID_EMPTY_CONSTRAINT = -1;
     public static final int ID_VALIDATE_DOCUMENT_TREE = -2000;
     public static final int ID_VALIDATE_CORE_MODEL_TREE = -3000;
-    public static final int ID_VALIDATE_LAYOUT_MODEL_TREE = -3001;
+    public static final int ID_VALIDATE_LAYOUT_MODEL_TREE = -203000;
+    public static final int ID_VALIDATE_LAYOUT_TREE = -203001;
     public static final int ID_DO_NOT_CACHE = -99999;
     public static final int ID_GROUP = -99998;
 

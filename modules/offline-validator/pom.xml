@@ -62,6 +62,18 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.sbml.jsbml.ext</groupId>
+			<artifactId>jsbml-layout</artifactId>
+			<version>1.2-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.sbml.jsbml</groupId>
+			<artifactId>jsbml-core</artifactId>
+			<version>1.2-SNAPSHOT</version>
+		</dependency>
+
 		<!-- http://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
