@@ -291,14 +291,6 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
     constant = null;
   }
 
-
-  /**
-   * @return true
-   */
-  public boolean isBoundaryConditionMandatory() {
-    return false;
-  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.CompartmentalizedSBase#isCompartmentMandatory()
    */
