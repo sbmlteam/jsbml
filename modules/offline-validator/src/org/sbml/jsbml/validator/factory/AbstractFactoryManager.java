@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.SBMLPackage;
 
@@ -43,7 +44,9 @@ public abstract class AbstractFactoryManager implements FactoryManager, SBMLErro
 //		    e.printStackTrace();
 		} 
 	    }
-	    
+	} else if (clazz.equals(Layout.class))
+	{
+	    list.add(FactoryManager.ID_VALIDATE_LAYOUT_TREE);
 	}
 
 	// System.out.println("IDs for class " + clazz.getSimpleName());
@@ -63,9 +66,5 @@ public abstract class AbstractFactoryManager implements FactoryManager, SBMLErro
 	return list;
     }
 
-    protected static void addRangeToList(List<Integer> list, int from, int to) {
-	for (int i = from; i <= to; i++) {
-	    list.add(i);
-	}
-    }
+    
 }

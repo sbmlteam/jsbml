@@ -1,15 +1,11 @@
 package org.sbml.jsbml.validator.factory;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.lang.ref.SoftReference;
-import java.net.URISyntaxException;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.util.Message;
 
@@ -40,24 +36,17 @@ public class SBMLErrorFactory {
 	if (errors == null) {
 
 	    try {
-		String fileName = "/org/sbml/jsbml/resources/SBMLErrors.json";
+		String fileName = "../../../../../SBMLErrors.json";
 
-		File file = new File(SBMLError.class.getResource(fileName).toURI());
+//		JSONParser parser2 = new JSONParser();
+		
+		File file = new File(SBMLErrorFactory.class.getResource(fileName).getFile());
 
 		JSONParser parser = new JSONParser();
 		errors = (JSONObject) (parser.parse(new FileReader(file)));
-	    }catch (URISyntaxException e)
-	    {
-		
 	    }
-	    catch (FileNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    } catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    } catch (ParseException e) {
-		// TODO Auto-generated catch block
+	    catch (Exception e)
+	    {
 		e.printStackTrace();
 	    }
 
