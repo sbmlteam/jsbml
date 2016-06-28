@@ -17,6 +17,19 @@ public abstract class AbstractFactoryManager implements FactoryManager, SBMLErro
      */
     protected static final transient Logger logger = Logger.getLogger(AbstractFactoryManager.class);
 
+    protected int level;
+    protected int version;
+    
+    public int getLevel()
+    {
+	return this.level;
+    }
+    
+    public int getVersion()
+    {
+	return this.version;
+    }
+    
     @Override
     public List<Integer> getIdsForClass(Class<?> clazz, CheckCategory category, SBMLPackage[] packages) {
 	List<Integer> list = new ArrayList<Integer>();

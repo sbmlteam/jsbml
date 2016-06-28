@@ -15,6 +15,12 @@ import java.util.List;
  */
 public class L3V1FactoryManager extends AbstractFactoryManager {
 
+    public L3V1FactoryManager()
+    {
+	this.level = 3;
+	this.version = 1;
+    }
+    
     public void addCoreGeneralModelIds(List<Integer> list) {
 	addRangeToList(list, CORE_20204, CORE_20232);
 	list.add(CORE_20705);
