@@ -1,5 +1,6 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
@@ -26,7 +27,7 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
 	// TODO Auto-generated method stub
 	boolean passed = true;
 	
-	logger.info("Validate constraint " + this.id);
+	logger.debug("Validate constraint " + this.id);
 	
 	if (this.func != null)
 	{

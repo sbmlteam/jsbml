@@ -36,7 +36,7 @@ public class SBMLErrorFactory {
 	if (errors == null) {
 
 	    try {
-		String fileName = "../../../../../SBMLErrors.json";
+		String fileName = "../../../resources/SBMLErrors.json";
 
 //		JSONParser parser2 = new JSONParser();
 		

@@ -23,8 +23,10 @@ public abstract class AbstractConstraintBuilder implements ConstraintBuilder, SB
 	}
 
 	if (builder == null) {
+	    
+	    String className = pkgName + "ConstraintBuilder";
+	    
 	    try {
-		String className = pkgName + "ConstraintBuilder";
 		@SuppressWarnings("unchecked")
 		Class<ConstraintBuilder> c = (Class<ConstraintBuilder>) Class.forName("org.sbml.jsbml.validator.offline.constraints." + className);
 		
@@ -32,7 +34,7 @@ public abstract class AbstractConstraintBuilder implements ConstraintBuilder, SB
 		
 		instances_.put(pkgName, new SoftReference<ConstraintBuilder>(builder));
 	    } catch (Exception e) {
-		logger.error(e.getMessage());
+		logger.warn("Couldn't find ConstraintBuilder: " + className);
 	    }
 	}
 

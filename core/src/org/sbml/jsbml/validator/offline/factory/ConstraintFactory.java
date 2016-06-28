@@ -23,9 +23,8 @@ public class ConstraintFactory {
      * Caches the constraints with SoftReferences
      */
     private static HashMap<Integer, SoftReference<AnyConstraint<?>>> cache;
-    
+
     private static ConstraintFactory instance;
-   
 
     /**
      * Returns a instance.
@@ -33,14 +32,13 @@ public class ConstraintFactory {
      * @return
      */
     public static ConstraintFactory getInstance() {
-	if (ConstraintFactory.instance == null)
-	{
+	if (ConstraintFactory.instance == null) {
 	    ConstraintFactory.instance = new ConstraintFactory();
 	}
-	
+
 	return ConstraintFactory.instance;
     }
-    
+
     protected ConstraintFactory() {
 	if (ConstraintFactory.cache == null) {
 	    ConstraintFactory.cache = new HashMap<Integer, SoftReference<AnyConstraint<?>>>(24);
@@ -56,26 +54,24 @@ public class ConstraintFactory {
     public static AnyConstraint<?> createConstraint(int id) {
 
 	String pkgName;
-
-	if (id < 0) {
-	    pkgName = "Special";
-	} else {
-	    SBMLPackage pkg = SBMLPackage.getPackageForError(id);
-	    pkgName = StringTools.firstLetterUpperCase(pkg.toString());
-	}
+	
+	// The id of special constraint are negative, in order to retrieve
+	// the SBMLPackage, the absolut value is needed.
+	SBMLPackage pkg = SBMLPackage.getPackageForError(Math.abs(id));
+	pkgName = StringTools.firstLetterUpperCase(pkg.toString());
 
 	ConstraintBuilder b = AbstractConstraintBuilder.getInstance(pkgName);
-	
-	return (b != null) ? b.createConstraint(id) : null; 
+
+	return (b != null) ? b.createConstraint(id) : null;
     }
-    
 
     /**
      * @param o
      * @param category
      * @return
      */
-    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory category, SBMLPackage[] packages, int level, int version) {
+    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory category, SBMLPackage[] packages,
+	    int level, int version) {
 	ConstraintGroup<T> group = new ConstraintGroup<T>();
 
 	// Add constraints for interfaces
@@ -101,7 +97,7 @@ public class ConstraintFactory {
 	}
 
 	List<Integer> list = AbstractConstraintList.getIdsForClass(clazz, category, packages, level, version);
-//		manager.getIdsForClass(clazz, category, packages);
+	// manager.getIdsForClass(clazz, category, packages);
 
 	int[] array = new int[list.size()];
 	for (int i = 0; i < array.length; i++) {
@@ -118,22 +114,21 @@ public class ConstraintFactory {
      * @param pkgs
      * @return
      */
-    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory[] categories, SBMLPackage[] packages, int level, int version) {
+    public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, CheckCategory[] categories,
+	    SBMLPackage[] packages, int level, int version) {
 
 	ConstraintGroup<T> group = new ConstraintGroup<T>();
-	
+
 	// checks if package checking is enabled
-	SBMLPackage[] pkgs = {SBMLPackage.CORE};
-	
-	for (CheckCategory cat : categories)
-	{
-	    if (cat == CheckCategory.PACKAGE)
-	    {
+	SBMLPackage[] pkgs = { SBMLPackage.CORE };
+
+	for (CheckCategory cat : categories) {
+	    if (cat == CheckCategory.PACKAGE) {
 		pkgs = packages;
 		break;
 	    }
 	}
-	
+
 	for (CheckCategory check : categories) {
 	    AnyConstraint<T> c = this.getConstraintsForClass(clazz, check, pkgs, level, version);
 	    group.add(c);
@@ -182,8 +177,6 @@ public class ConstraintFactory {
 	// Returns a group with at least 1 member or null
 	return group;
     }
-
-    
 
     private AnyConstraint<?> getConstraintFromCache(int id) {
 	Integer key = new Integer(id);
