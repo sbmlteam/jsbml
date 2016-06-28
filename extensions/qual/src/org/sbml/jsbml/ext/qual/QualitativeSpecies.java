@@ -291,14 +291,6 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
     constant = null;
   }
 
-
-  /**
-   * @return true
-   */
-  public boolean isBoundaryConditionMandatory() {
-    return false;
-  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.CompartmentalizedSBase#isCompartmentMandatory()
    */
@@ -538,11 +530,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
    */
   @Override
   public boolean unsetCompartment() {
-    if (isSetCompartment()) {
-      compartment = null;
-      return true;
-    }
-    return false;
+    return setCompartment((String) null);
   }
 
   /**
