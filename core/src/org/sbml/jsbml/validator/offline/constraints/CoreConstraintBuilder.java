@@ -17,6 +17,7 @@ import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.factory.AbstractConstraintBuilder;
 import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 
 @SuppressWarnings("deprecation")

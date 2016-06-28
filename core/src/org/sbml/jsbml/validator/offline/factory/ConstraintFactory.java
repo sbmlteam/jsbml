@@ -7,10 +7,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.offline.SBMLPackage;
-import org.sbml.jsbml.validator.offline.constraints.AbstractConstraintBuilder;
 import org.sbml.jsbml.validator.offline.constraints.AbstractConstraintList;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
-import org.sbml.jsbml.validator.offline.constraints.ConstraintBuilder;
 import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
 import org.sbml.jsbml.validator.offline.constraints.CoreSpecialErrorCodes;
 
