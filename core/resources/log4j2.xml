@@ -21,12 +21,18 @@
       <AppenderRef ref="console"/>
       <AppenderRef ref="file"/>
     </Logger>
+
 <!--
     <Logger name="org.sbml.jsbml.xml.stax.SBMLWriter" level="info" additivity="false">
       <AppenderRef ref="console"/>
       <AppenderRef ref="file"/>      
     </Logger>
--->     
+    
+    <Logger name="org.sbml.jsbml.xml.stax.SBMLReader" level="debug" additivity="false">
+      <AppenderRef ref="console"/>
+      <AppenderRef ref="file"/>      
+    </Logger>
+-->
 <!--    
 # org.sbml.jsbml.test.SimpleSBaseChangeListener - DEBUG : it will display all add, remove or change event (lot of output when reading an SBML file)
 # org.sbml.jsbml.xml.parsers.SBMLCoreParser - ERROR to DEBUG : anything related to problems when parsing the SBML core elements.
