@@ -383,10 +383,12 @@ public class SBO {
   }
 
   /**
+   * Substance that decreases the probability of a chemical reaction, without itself being consumed or transformed by the reaction, by stericaly hindering the interaction between reactants.
+   * Also known as Inhibition Competitive
    * 
-   * @return
+   * @return 206
    */
-  public static int getCompetetiveInhibitor() {
+  public static int getCompetitiveInhibitor() {
     return 206;
   }
 
@@ -510,6 +512,7 @@ public class SBO {
   public static int getDNA() {
     return 251;
   }
+  
 
   /**
    * 
@@ -742,6 +745,16 @@ public class SBO {
   public static int getModifier() {
     return convertAlias2SBO("MODULATION");
   }
+  
+  /**
+   * A modifier whose activity is not known or has not been specified.
+   * 
+   * @return 596
+   */
+  public static int getModifierUnknownActivity()
+  {
+	  return 596; 
+  }
 
   /**
    * Modification of the execution of an event or a process.
@@ -754,7 +767,7 @@ public class SBO {
   
   /**
    * Relationship between molecular entities, based on contacts, direct or indirect.
-   * Biopax describes this as An interaction in which participants bind physically to each other, directly or indirectly through intermediary molecules. Rationale: There is a large body of interaction data, mostly produced by high throughput systems, that does not satisfy the level of detail required to model them with ComplexAssembly class. Specifically, what is lacking is the stoichiometric information and completeness (closed-world) of participants required to model them as chemical processes. Nevertheless interaction data is extremely useful and can be captured in BioPAX using this class. Usage: This class should be used by default for representing molecular interactions such as those defined by PSI-MI level 2.5. The participants in a molecular interaction should be listed in the PARTICIPANT slot. Note that this is one of the few cases in which the PARTICPANT slot should be directly populated with instances (see comments on the PARTICPANTS property in the interaction class description). If all participants are known with exact stoichiometry, ComplexAssembly class should be used instead. Example: Two proteins observed to interact in a yeast-two-hybrid experiment where there is not enough experimental evidence to suggest that the proteins are forming a complex by themselves without any indirect involvement of other proteins. This is the case for most large-scale yeast two-hybrid screens.
+   * Biopax describes this as an interaction in which participants bind physically to each other, directly or indirectly through intermediary molecules. Rationale: There is a large body of interaction data, mostly produced by high throughput systems, that does not satisfy the level of detail required to model them with ComplexAssembly class. Specifically, what is lacking is the stoichiometric information and completeness (closed-world) of participants required to model them as chemical processes. Nevertheless interaction data is extremely useful and can be captured in BioPAX using this class. Usage: This class should be used by default for representing molecular interactions such as those defined by PSI-MI level 2.5. The participants in a molecular interaction should be listed in the PARTICIPANT slot. Note that this is one of the few cases in which the PARTICPANT slot should be directly populated with instances (see comments on the PARTICPANTS property in the interaction class description). If all participants are known with exact stoichiometry, ComplexAssembly class should be used instead. Example: Two proteins observed to interact in a yeast-two-hybrid experiment where there is not enough experimental evidence to suggest that the proteins are forming a complex by themselves without any indirect involvement of other proteins. This is the case for most large-scale yeast two-hybrid screens.
    * @return 344
    */
   public static int getMolecularInteraction()
@@ -772,14 +785,16 @@ public class SBO {
   }
 
   /**
-   * 
-   * @return
+   * Substance that decreases the probability of a chemical reaction, without itself being consumed or transformed by the reaction, and without sterically hindering the interaction between reactants.
+   * Also known as Inhibition Non-Competitive Inhibitor or Inhibition Uncompetitive 
+   * @return 207
    */
-  public static int getNonCompetetiveInhibitor() {
+  public static int getNonCompetitiveInhibitor() {
     return 207;
   }
 
   /**
+   * Entity composed of several independant components that are not linked by covalent bonds.
    * 
    * @return
    */
@@ -788,8 +803,10 @@ public class SBO {
   }
 
   /**
+   * An activator which is not necessary for an enzymatic reaction, but whose presence will further increase enzymatic activity.
+   * Also known as Activation nonallosteric
    * 
-   * @return
+   * @return 462
    */
   public static int getNonEssentialActivator() {
     return 462;
@@ -884,6 +901,17 @@ public class SBO {
       possibleEnzymes.add(Integer.valueOf(convertAlias2SBO(type)));
     }
     return possibleEnzymes;
+  }
+  
+  /**
+   * Substance that increases the probability of a chemical reaction without itself being consumed or transformed by the reaction. This effect is achieved by increasing the difference of free energy between the reactant(s) and the product(s)
+   * Also known as Activation Allosteric
+   * 
+   * @return
+   */
+  public static int getPotentiator() 
+  {
+	  return 21;
   }
 
   /**
@@ -1042,6 +1070,19 @@ public class SBO {
   public static int getStimulator() {
     return convertAlias2SBO("PHYSICAL_STIMULATION");
   }
+  
+  /**
+   * A composite biochemical process through which a gene sequence is fully converted into 
+   * mature gene products. These gene products may include RNA species as well as proteins, 
+   * and the process encompasses all intermediate steps required to generate the active form 
+   * of the gene product.
+   * 
+   * @return 589
+   */
+  public static int getTemplateReaction() 
+  {
+	    return 589;
+  }
 
   /**
    * A phenomenon whereby an observed phenotype, qualitative or quantative, is not explainable by the simple additive effects of the individual gene pertubations alone. Genetic interaction between perturbed genes is usually expected to generate a 'defective' phenotype. 
@@ -1182,6 +1223,7 @@ public class SBO {
   /**
    * An event involving one or more physical entities that modifies the structure, location or free energy of at least one of the participants.
    * Also known as biochemical or transport reaction
+   * 
    * @return 167
    */
   public static int getTransportWithBiochemicalReaction() {
@@ -1380,7 +1422,7 @@ public class SBO {
    * @return {@code true} if {@code term} is-a SBO <em>'product'</em>, {@code false} otherwise.
    */
   public static boolean isCompetetiveInhibitor(int sboTerm) {
-    return isChildOf(sboTerm, getCompetetiveInhibitor());
+    return isChildOf(sboTerm, getCompetitiveInhibitor());
   }
 
   /**
@@ -1693,7 +1735,7 @@ public class SBO {
    * @return {@code true} if {@code term} is-a SBO <em>'product'</em>, {@code false} otherwise.
    */
   public static boolean isNonCompetetiveInhibitor(int sboTerm) {
-    return isChildOf(sboTerm, getNonCompetetiveInhibitor());
+    return isChildOf(sboTerm, getNonCompetitiveInhibitor());
   }
 
   /**
