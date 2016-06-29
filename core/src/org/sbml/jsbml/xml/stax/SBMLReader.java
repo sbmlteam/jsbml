@@ -529,6 +529,7 @@ public class SBMLReader {
   private Object readXMLFromStream(InputStream stream, TreeNodeChangeListener listener)
       throws XMLStreamException {
     WstxInputFactory inputFactory = new WstxInputFactory();
+    inputFactory.getConfig().setMaxElementDepth(5000);
     XMLEventReader xmlEventReader = inputFactory.createXMLEventReader(stream);
     return readXMLFromXMLEventReader(xmlEventReader, listener);
   }
