@@ -119,13 +119,20 @@ public class ValidationContext {
      * @param catergoy
      * @param enable
      */
-    public void setCheckCategory(CheckCategory category, boolean enable) {
+    public void enableCheckCategory(CheckCategory category, boolean enable) {
 	if (enable) {
 	    if (!this.categories.contains(category)) {
 		this.categories.add(category);
 	    }
 	} else {
 	    this.categories.remove(category);
+	}
+    }
+    
+    public void enableCheckCategories(CheckCategory[] categories, boolean enable){
+	for (CheckCategory c : categories)
+	{
+	    this.enableCheckCategory(c, enable);
 	}
     }
     
