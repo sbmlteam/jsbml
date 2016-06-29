@@ -1040,6 +1040,23 @@ public class FlatteningTest {
     }
 
   }
+  
+  @Test
+  public void complexBioModel() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/BIOMD0000000140.xml"));
+      Model model = doc.getModel();
+
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+      Model flattenedModel = flattened.getModel();
+      assert(model.equals(flattenedModel));
+
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
+
+  }
 
 }
 

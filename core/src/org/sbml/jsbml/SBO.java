@@ -344,6 +344,15 @@ public class SBO {
   public static int getCatalysis() {
     return 172;
   }
+  
+  /**
+   * An event involving one or more chemical entities that modifies the electrochemical structure of at least one of the participants.
+   * 
+   * @return 176
+   */
+  public static int getBiochemicalReaction() {
+    return 176;
+  }
 
   /**
    * Substance that accelerates the velocity of a chemical reaction without
@@ -396,6 +405,16 @@ public class SBO {
   public static int getComplex() {
     return convertAlias2SBO("COMPLEX");
   }
+  
+  /**
+   * Interaction between several biochemical entities that results in the formation of a non-covalent complex
+   * Also known as non-covalent binding
+   *   
+   * @return 177
+   */
+  public static int getComplexAssembly() {
+    return 177;
+  }
 
   /**
    * 
@@ -420,6 +439,15 @@ public class SBO {
    */
   public static int getContinuousFramework() {
     return 62;
+  }
+  
+  /**
+   * Biochemical reaction that results in the modification of some covalent bonds.
+   * 
+   * @return 182
+   */
+  public static int getConversion() {
+    return 182;
   }
 
   /**
@@ -446,6 +474,15 @@ public class SBO {
     }
     return possibleEnzymes;
   }
+  
+  /**
+   * Complete disappearance of a physical entity. 
+   * 
+   * @return 179
+   */
+  public static int getDegradation() {
+    return 179;
+  }
 
   /**
    * 
@@ -460,9 +497,18 @@ public class SBO {
    * several independent biochemical entities.
    * 
    * @return 180
-   */
+   */ 
   public static int getDissociation() {
     return 180;
+  }
+  
+  /**
+   * Polymer composed of nucleotides containing deoxyribose and linked by phosphodiester bonds.
+   * 
+   * @return 251
+   */ 
+  public static int getDNA() {
+    return 251;
   }
 
   /**
@@ -525,7 +571,7 @@ public class SBO {
 
   /**
    * 
-   * @return
+   * @return 
    */
   public static int getFunctionalEntity() {
     return 241;
@@ -544,6 +590,16 @@ public class SBO {
    */
   public static int getGene() {
     return convertAlias2SBO("GENE");
+  }
+  
+  /**
+   * A phenomenon whereby an observed phenotype, qualitative or quantative, is not explainable by the simple additive effects of the individual gene pertubations alone. Genetic interaction between perturbed genes is usually expected to generate a 'defective' phenotype. The level of defectiveness is often used to sub-classify this phenomenon.
+   * Biopax describes this as Genetic interactions between genes occur when two genetic perturbations (e.g. mutations) have a combined phenotypic effect not caused by either perturbation alone. A gene participant in a genetic interaction represents the gene that is perturbed. Genetic interactions are not physical interactions but logical (AND) relationships. Their physical manifestations can be complex and span an arbitarily long duration. Rationale: Currently, BioPAX provides a simple definition that can capture most genetic interactions described in the literature. In the future, if required, the definition can be extended to capture other logical relationships and different, participant specific phenotypes. Example: A synthetic lethal interaction occurs when cell growth is possible without either gene A OR B, but not without both gene A AND B. If you knock out A and B together, the cell will die.
+   * @return 343
+   */
+  public static int getGeneticInteraction()
+  {
+	  return 343;
   }
 
   /**
@@ -694,6 +750,16 @@ public class SBO {
    */
   public static int getModulation() {
     return 168;
+  }
+  
+  /**
+   * Relationship between molecular entities, based on contacts, direct or indirect.
+   * Biopax describes this as An interaction in which participants bind physically to each other, directly or indirectly through intermediary molecules. Rationale: There is a large body of interaction data, mostly produced by high throughput systems, that does not satisfy the level of detail required to model them with ComplexAssembly class. Specifically, what is lacking is the stoichiometric information and completeness (closed-world) of participants required to model them as chemical processes. Nevertheless interaction data is extremely useful and can be captured in BioPAX using this class. Usage: This class should be used by default for representing molecular interactions such as those defined by PSI-MI level 2.5. The participants in a molecular interaction should be listed in the PARTICIPANT slot. Note that this is one of the few cases in which the PARTICPANT slot should be directly populated with instances (see comments on the PARTICPANTS property in the interaction class description). If all participants are known with exact stoichiometry, ComplexAssembly class should be used instead. Example: Two proteins observed to interact in a yeast-two-hybrid experiment where there is not enough experimental evidence to suggest that the proteins are forming a complex by themselves without any indirect involvement of other proteins. This is the case for most large-scale yeast two-hybrid screens.
+   * @return 344
+   */
+  public static int getMolecularInteraction()
+  {
+	  return 344;
   }
 
   /**
@@ -928,6 +994,15 @@ public class SBO {
   }
 
   /**
+   * Simple, non-repetitive chemical entity. Also referred to as simple chemical
+   * 
+   * @return 247
+   */ 
+  public static int getSmallMolecule() {
+    return 247;
+  }
+  
+  /**
    * 
    * @return
    */
@@ -968,6 +1043,18 @@ public class SBO {
     return convertAlias2SBO("PHYSICAL_STIMULATION");
   }
 
+  /**
+   * A phenomenon whereby an observed phenotype, qualitative or quantative, is not explainable by the simple additive effects of the individual gene pertubations alone. Genetic interaction between perturbed genes is usually expected to generate a 'defective' phenotype. 
+   * The level of defectiveness is often used to sub-classify this phenomenon.
+   * Also known as Genetic Interaction
+   * Biopax describes this as  Regulation of an expression reaction by a controlling element such as a transcription factor or microRNA. Usage: To represent the binding of the transcription factor to a regulatory element in the TemplateReaction, create a complex of the transcription factor and the regulatory element and set that as the controller.
+   * 
+   * @return 343
+   */
+  public static int getTemplateReactionRegulation() {
+    return 343;
+  }
+  
   /**
    * Gets the SBO term with the id 'sboTerm'.
    * 
@@ -1090,6 +1177,15 @@ public class SBO {
    */
   public static int getTransport() {
     return convertAlias2SBO("TRANSPORT");
+  }
+  
+  /**
+   * An event involving one or more physical entities that modifies the structure, location or free energy of at least one of the participants.
+   * Also known as biochemical or transport reaction
+   * @return 167
+   */
+  public static int getTransportWithBiochemicalReaction() {
+    return 167;
   }
 
   /**
