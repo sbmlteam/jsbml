@@ -46,6 +46,9 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.LoggingValidationContext;
+import org.sbml.jsbml.validator.offline.SBMLPackage;
+import org.sbml.jsbml.validator.offline.factory.CheckCategory;
 import org.sbml.jsbml.xml.parsers.PackageParser;
 import org.sbml.jsbml.xml.parsers.ParserManager;
 
@@ -265,6 +268,32 @@ public class SBMLDocument extends AbstractSBase {
     getSBMLDocumentAttributes().remove(packageName + ":required");
   }
 
+  /**
+   * Validates the {@link SBMLDocument} using the offline validator.
+   * <p>
+   * Notice that the offline validator is still under development and there
+   * is only a subset of rules which will be tested at the moment.
+   * @return the number of errors
+   */
+  public int checkConsistencyOffline(){
+      LoggingValidationContext ctx = new LoggingValidationContext(this.getLevel(), this.getVersion());
+      
+      for (SBMLPackage pkg : SBMLPackage.values())
+      {
+	  if (this.isPackageEnabled(pkg.toString()))
+	  {
+	      ctx.enablePackage(pkg, true);
+	  }
+      }
+      
+      ctx.enableCheckCategories(CheckCategory.values(), true);
+      
+      ctx.loadConstraints(this.getClass());
+      ctx.validate(this);
+      
+      this.listOfErrors = ctx.getLog();
+      return ctx.getLog().getErrorCount();
+  }
 
 
   /**
