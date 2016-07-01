@@ -67,7 +67,6 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.SBMLtools;
-import org.sbml.jsbml.util.TreeNodeAdapter;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.XMLAttributes;
