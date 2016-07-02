@@ -422,7 +422,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	    };
 	    break;
 
-	case 20_607:
+	case CORE_20607:
 	    func = new ValidationFunction<Species>() {
 		@SuppressWarnings("deprecation")
 		@Override
@@ -452,14 +452,18 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	    };
 	    break;
 
-	case 20_609:
+	case CORE_20609:
 	    func = new ValidationFunction<Species>() {
 		@Override
-		public boolean check(ValidationContext ctx, Species s) {
+		public boolean check(ValidationContext ctx, Species s) 
+		{
+//		  System.out.println("Check 20609: " + s.isSetInitialAmount() + s.isSetInitialConcentration());
 		    if (s.isSetInitialAmount()) {
-
-			return !s.isSetInitialConcentration();
+		      
+//		      System.out.println("Case 20609");
+		      return !s.isSetInitialConcentration();
 		    }
+		    
 		    return true;
 		}
 	    };
@@ -480,7 +484,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 		}
 	    });
 
-	case 20_612:
+	case CORE_20612:
 	    func = new ValidationFunction<Species>() {
 		@SuppressWarnings("deprecation")
 		@Override
@@ -494,7 +498,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	    };
 	    break;
 
-	case 20_614:
+	case CORE_20614:
 	    func = new ValidationFunction<Species>() {
 		@Override
 		public boolean check(ValidationContext ctx, Species s) {
@@ -503,7 +507,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	    };
 	    break;
 
-	case 20_615:
+	case CORE_20615:
 	    func = new ValidationFunction<Species>() {
 		@SuppressWarnings("deprecation")
 		@Override
@@ -513,7 +517,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	    };
 	    break;
 
-	case 20_617:
+	case CORE_20617:
 	    func = new ValidationFunction<Species>() {
 		@Override
 		public boolean check(ValidationContext ctx, Species s) {
@@ -537,7 +541,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	ValidationFunction<InitialAssignment> f = null;
 
 	switch (id) {
-	case 20801:
+	case CORE_20801:
 	    f = new ValidationFunction<InitialAssignment>() {
 		@Override
 		public boolean check(ValidationContext ctx, InitialAssignment ia) {
@@ -593,9 +597,9 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 	}
 
 	return new ValidationConstraint<InitialAssignment>(id, f);
-    }
+ }
 
-    private AnyConstraint<?> createSpecialConstraint(int id) {
+    protected static AnyConstraint<?> createSpecialConstraint(int id) {
 	switch (id) {
 	case CoreSpecialErrorCodes.ID_EMPTY_CONSTRAINT:
 	    return new ValidationConstraint<>(id, null);
@@ -607,7 +611,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 		    /*
 		     * Special constraint to validate the hole document tree
 		     */
-		    System.out.println("validate doc tree");
+//		    System.out.println("validate doc tree");
 		    ConstraintFactory factory = ConstraintFactory.getInstance();
 
 		    AnyConstraint<Model> mc = factory.getConstraintsForClass(Model.class, ctx.getCheckCategories(),

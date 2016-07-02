@@ -61,9 +61,16 @@ public enum SBMLPackage {
   }
 
 
-  public static String convertIdToString(int errorId) {
+  public static String convertIdToString(int errorId, boolean withCorePackage) {
     SBMLPackage p = SBMLPackage.getPackageForError(errorId);
-    return p.toString() + "-" + String.format("%05d", errorId - p.offset);
+    
+    String prefix = "";
+    
+    if (withCorePackage || !p.equals(CORE))
+    {
+      prefix = p.toString() + "-";
+    }
+    return prefix + String.format("%05d", errorId - p.offset);
   }
 
 
