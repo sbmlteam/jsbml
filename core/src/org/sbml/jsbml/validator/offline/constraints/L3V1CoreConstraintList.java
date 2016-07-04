@@ -11,7 +11,6 @@ public final class L3V1CoreConstraintList extends AbstractConstraintList
     list.add(CoreSpecialErrorCodes.ID_VALIDATE_DOCUMENT_TREE);
   }
 
-
   public static void addGeneralModelIds(List<Integer> list) {
     addRangeToList(list, CORE_20204, CORE_20232);
     list.add(CORE_20705);
@@ -38,4 +37,9 @@ public final class L3V1CoreConstraintList extends AbstractConstraintList
     list.add(CORE_20617);
     list.add(CORE_20623);
   }
+  
+  public static void addGeneralSpeciesReferenceIds(List<Integer> list) {
+    list.add(CORE_20611);
+  }
+ 
 }

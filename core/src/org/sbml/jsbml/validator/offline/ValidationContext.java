@@ -1,19 +1,48 @@
+/*
+ * $Id$
+ * $URL$
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ * Copyright (C) 2009-2016 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
+
 package org.sbml.jsbml.validator.offline;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.offline.factory.CheckCategory;
 import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 import org.sbml.jsbml.validator.SyntaxChecker;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @author Roman
+ * @version $Rev$
+ * @since 1.0
+ * @date 04.07.2016
+ */
 public class ValidationContext {
 
   /**
@@ -21,15 +50,18 @@ public class ValidationContext {
    */
   protected static final transient Logger logger  =
     Logger.getLogger(ValidationContext.class);
+
   // The root constraint, which could contains more constraints
   private AnyConstraint<Object>           rootConstraint;
+
   // Determines which constraints are loaded.
   private List<CheckCategory>             categories;
   private List<SBMLPackage>               packages;
-  private HashMap<String, Object>         hashMap =
-    new HashMap<String, Object>();
   private Class<?>                        constraintType;
   private List<ValidationListener>        listener;
+  private HashMap<String, Object>         hashMap =
+    new HashMap<String, Object>();
+
   // The level and version of the SBML specification
   private int                             level;
   private int                             version;
@@ -54,7 +86,7 @@ public class ValidationContext {
 
 
   /**
-   * Returns the context's level of SBML
+   * Returns the used level of SBML
    * 
    * @return
    */
@@ -64,7 +96,7 @@ public class ValidationContext {
 
 
   /**
-   * Returns the contexts version of SBML
+   * Returns the used version of SBML
    * 
    * @return
    */
@@ -74,14 +106,63 @@ public class ValidationContext {
 
 
   /**
+   * This value
+   * determines which constraints will be loaded and in which way
+   * broken constraints will be logged.
+   * 
+   * @return the level and version this validation context used.
+   */
+  public ValuePair<Integer, Integer> getLevelAndVersion() {
+    return new ValuePair<Integer, Integer>(new Integer(this.level),
+      new Integer(this.version));
+  }
+
+
+  /**
+   * @return the root constraint or {@code null} if no constraints were loaded
+   * @see #loadConstraints(Class, int, int, CheckCategory[])
+   */
+  public AnyConstraint<Object> getRootConstraint() {
+    return rootConstraint;
+  }
+
+
+  /**
+   * Constraints can use the {@link HashMap} of a context to store additional
+   * information
+   * 
+   * @return {@link HashMap}
+   */
+  public HashMap<String, Object> getHashMap() {
+    return this.hashMap;
+  }
+
+
+  /**
+   * @return
+   */
+  public SBMLPackage[] getPackages() {
+    return this.packages.toArray(new SBMLPackage[this.packages.size()]);
+  }
+
+
+  /**
+   * Returns the list of all enabled check categories.
+   * 
+   * @return
+   */
+  public CheckCategory[] getCheckCategories() {
+    return this.categories.toArray(new CheckCategory[this.categories.size()]);
+  }
+
+
+  /**
    * Set the level of the context and clears the root constraint.
    * 
    * @param level
    */
   public void setLevel(int level) {
-    this.rootConstraint = null;
-    this.constraintType = null;
-    this.level = level;
+    setLevelAndVersion(level, this.version);
   }
 
 
@@ -91,35 +172,22 @@ public class ValidationContext {
    * @param version
    */
   public void setVersion(int version) {
-    this.rootConstraint = null;
-    this.constraintType = null;
-    this.version = version;
+    setLevelAndVersion(this.level, version);
   }
 
 
-  /**
-   * @return the level and version this validation context used. This value
-   *         determines which constraints will be loaded and in which way
-   *         broken constraints will be logged.
-   */
-  public ValuePair<Integer, Integer> getLevelAndVersion() {
-    return new ValuePair<Integer, Integer>(new Integer(this.level),
-      new Integer(this.version));
-  }
-
-
-  public AnyConstraint<Object> getRootConstraint() {
-    return rootConstraint;
+  public void setLevelAndVersion(int level, int version) {
+    if (level != this.level || version != this.version) {
+      this.rootConstraint = null;
+      this.constraintType = null;
+      this.level = level;
+      this.version = version;
+    }
   }
 
 
   public void setRootConstraint(AnyConstraint<Object> rootConstraint) {
     this.rootConstraint = rootConstraint;
-  }
-
-
-  public HashMap<String, Object> getHashMap() {
-    return this.hashMap;
   }
 
 
@@ -167,21 +235,6 @@ public class ValidationContext {
     } else {
       this.packages.remove(pkg);
     }
-  }
-
-
-  public SBMLPackage[] getPackages() {
-    return this.packages.toArray(new SBMLPackage[this.packages.size()]);
-  }
-
-
-  /**
-   * Returns the list of all enabled check categories.
-   * 
-   * @return
-   */
-  public CheckCategory[] getCheckCategories() {
-    return this.categories.toArray(new CheckCategory[this.categories.size()]);
   }
 
 
@@ -241,18 +294,6 @@ public class ValidationContext {
   }
 
 
-  /**
-   * A SId starts with a letter or '-' and can be followed by a various amout
-   * of idChars.
-   * 
-   * @param s
-   * @return
-   */
-  public boolean isId(String s) {
-    return SyntaxChecker.isValidId(s, this.level, this.version);
-  }
-
-
   public void willValidate(AnyConstraint<?> constraint, Object o) {
     for (ValidationListener l : this.listener) {
       l.willValidate(this, constraint, o);
@@ -268,13 +309,51 @@ public class ValidationContext {
   }
 
 
-  public void validate(Object o) {
+  /**
+   * Validates the object against the loaded constraints.
+   * 
+   * @param o,
+   *        object to be validated
+   * @return true if no constraint was broken
+   */
+  public boolean validate(Object o) {
     if (this.constraintType != null && this.rootConstraint != null) {
       if (this.constraintType.isInstance(o)) {
-        System.out.println("Object " + o);
-        this.rootConstraint.check(this, o);
+        return this.rootConstraint.check(this, o);
+      } else {
+        logger.error(
+          "Tried to validate a object of class " + o.getClass().getName()
+            + ", but the ValidationContext loaded the constraints for class "
+            + this.constraintType.getName() + ".");
       }
+    } else {
+      logger.error(
+        "Tried to validate a object, but the ValidationContext didn't load any constraints.");
     }
+
+    return false;
+  }
+
+
+  public <T> boolean validateAttribute(SBMLPackage pkg,
+    String treeNodeChangeEvent, T object) {
+    ConstraintFactory factory = ConstraintFactory.getInstance();
+    AnyConstraint<T> c = factory.getConstraintsForAttribute(treeNodeChangeEvent,
+      pkg, this.level, this.version);
+
+    return c.check(this, object);
+  }
+
+
+  /**
+   * A SId starts with a letter or '-' and can be followed by a various amout
+   * of idChars.
+   * 
+   * @param s
+   * @return
+   */
+  public boolean isId(String s) {
+    return SyntaxChecker.isValidId(s, this.level, this.version);
   }
 
 

@@ -18,14 +18,19 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
 
 
   @Override
-  public void check(ValidationContext context, T t) {
+  public boolean check(ValidationContext context, T t) {
     context.willValidate(this, t);
+    
+    // return value. Only true if all childs return true
+    boolean success = true;
     for (AnyConstraint<T> c : this.constraints) {
       if (c != null) {
-        c.check(context, t);
+        success = success && c.check(context, t);
       }
     }
-    context.didValidate(this, t, true);
+    context.didValidate(this, t, success);
+    
+    return success;
   }
 
 
