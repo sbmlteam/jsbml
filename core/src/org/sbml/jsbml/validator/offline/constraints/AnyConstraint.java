@@ -12,7 +12,7 @@ public interface AnyConstraint<T> {
    * @param t
    * @return test passed
    */
-  abstract public void check(ValidationContext context, T t);
+  abstract public boolean check(ValidationContext context, T t);
 
 
   abstract public int getId();

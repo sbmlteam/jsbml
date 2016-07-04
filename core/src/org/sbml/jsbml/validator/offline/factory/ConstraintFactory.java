@@ -169,6 +169,24 @@ public class ConstraintFactory {
     // Returns a group with at least 1 member or null
     return group;
   }
+  
+  public <T> AnyConstraint<T> getConstraintsForAttribute(String attributeName, SBMLPackage pkg, int level, int version)
+  {
+    if (pkg == null)
+    {
+      pkg = SBMLPackage.CORE;
+    }
+    
+    List<Integer> list = AbstractConstraintList.getIdsForAttribute(attributeName, pkg, level, version);
+    
+    int[] array = new int[list.size()];
+    for (int i = 0; i < array.length; i++) {
+      Integer integer = list.get(i);
+      array[i] = integer.intValue();
+    }
+    
+    return getConstraints(array);
+  }
 
 
   private AnyConstraint<?> getConstraintFromCache(int id) {
