@@ -144,7 +144,7 @@ public class OfflineValidatorTests {
     
     System.out.println("\n\n Number of files correctly validated: "
         + filesCorrectly + " out of " + totalFileTested);
-    System.out.println("Didn't the following broken constraints:");
+    System.out.println("Didn't detect the following broken constraints:");
     for (Integer i: notDetected)
     {
       System.out.println(i);

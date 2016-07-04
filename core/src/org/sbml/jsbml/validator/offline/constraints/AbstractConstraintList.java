@@ -27,7 +27,7 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
     Logger.getLogger(AbstractConstraintBuilder.class);
 
 
-  public static Class<?> getCacheList(SBMLPackage pkg, int level, int version) {
+  public static Class<?> getCachedList(SBMLPackage pkg, int level, int version) {
     String className = "L" + level + "V" + version
       + StringTools.firstLetterUpperCase(pkg.toString()) + "ConstraintList";
     Class<?> listClass = getFromCache(className);
@@ -50,7 +50,7 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
     CheckCategory category, SBMLPackage[] packages, int level, int version) {
     List<Integer> list = new ArrayList<Integer>();
     for (SBMLPackage pkg : packages) {
-      Class<?> constraintList = getCacheList(pkg, level, version);
+      Class<?> constraintList = getCachedList(pkg, level, version);
       if (constraintList != null) {
         String methodName = "add"
           + StringTools.firstLetterUpperCase(category.toString().toLowerCase())
@@ -65,6 +65,28 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
         }
       }
     }
+    return list;
+  }
+  
+  public static List<Integer> getIdsForAttribute(String attribute, SBMLPackage pkg, int level, int version)
+  {
+    List<Integer> list = new ArrayList<Integer>();
+    Class<?> constraintList = getCachedList(pkg, level, version);
+    
+    if (constraintList != null)
+    {
+      String methodName = "add" + attribute + "Ids";
+      
+      try {
+        Method m = constraintList.getMethod(methodName, List.class);
+        m.invoke(null, list);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        logger.debug("Couldn't find Method: " + constraintList.getSimpleName()
+          + "." + methodName);
+      }
+    }
+    
     return list;
   }
 

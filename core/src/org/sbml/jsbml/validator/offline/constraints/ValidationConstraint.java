@@ -26,7 +26,7 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
 
 
   @Override
-  public void check(ValidationContext context, T t) {
+  public boolean check(ValidationContext context, T t) {
     // TODO Auto-generated method stub
     boolean passed = true;
     logger.debug("Validate constraint " + this.id);
@@ -34,5 +34,7 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
       passed = func.check(context, t);
     }
     context.didValidate(this, t, passed);
+    
+    return passed;
   }
 }

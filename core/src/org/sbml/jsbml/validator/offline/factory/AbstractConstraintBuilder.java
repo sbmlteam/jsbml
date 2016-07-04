@@ -4,6 +4,7 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.validator.offline.constraints.ValidationConstraint;
 
 public abstract class AbstractConstraintBuilder
   implements ConstraintBuilder, SBMLErrorCodes {
