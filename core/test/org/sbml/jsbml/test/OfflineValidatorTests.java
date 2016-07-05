@@ -112,7 +112,7 @@ public class OfflineValidatorTests {
     
     for (int code = startCode; code <= endCode; code++)
     {
-      File dir = new File(testDataDir, SBMLPackage.convertIdToString(code, false));
+      File dir = new File(testDataDir, SBMLPackage.convertErrorCodeToString(code, false));
       
       if (dir.isDirectory())
       {
