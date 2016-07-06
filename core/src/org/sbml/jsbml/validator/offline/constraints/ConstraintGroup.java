@@ -21,15 +21,15 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
   public boolean check(ValidationContext context, T t) {
     context.willValidate(this, t);
     
-    // return value. Only true if all childs return true
+
     boolean success = true;
     for (AnyConstraint<T> c : this.constraints) {
       if (c != null) {
-        success = success && c.check(context, t);
+        success = c.check(context, t) && success;
       }
     }
     context.didValidate(this, t, success);
-    
+
     return success;
   }
 
@@ -40,7 +40,11 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
    * @param c
    */
   public void add(AnyConstraint<T> c) {
-    this.constraints.add(c);
+   
+    if (c != null)
+    {
+      this.constraints.add(c);
+    }
   }
 
 

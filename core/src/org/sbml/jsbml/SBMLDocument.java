@@ -4,14 +4,12 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- *
  * Copyright (C) 2009-2016 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -36,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.Vector;
 
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
@@ -48,6 +47,7 @@ import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.validator.offline.SBMLPackage;
+import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
 import org.sbml.jsbml.validator.offline.factory.CheckCategory;
 import org.sbml.jsbml.xml.parsers.PackageParser;
 import org.sbml.jsbml.xml.parsers.ParserManager;
@@ -65,93 +65,105 @@ public class SBMLDocument extends AbstractSBase {
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = -3927709655186844513L;
+  private static final long             serialVersionUID           =
+      -3927709655186844513L;
 
   /**
    * The namespace URI of SBML Level 1 Version 1 and 2.
    */
-  public static final transient String URI_NAMESPACE_L1 = "http://www.sbml.org/sbml/level1";
+  public static final transient String  URI_NAMESPACE_L1           =
+      "http://www.sbml.org/sbml/level1";
 
   /**
    * The namespace URI of SBML Level 2 Version 1.
    */
-  public static final transient String URI_NAMESPACE_L2V1 = "http://www.sbml.org/sbml/level2";
+  public static final transient String  URI_NAMESPACE_L2V1         =
+      "http://www.sbml.org/sbml/level2";
 
   /**
    * The namespace URI of SBML Level 2 Version 2.
    */
-  public static final String URI_NAMESPACE_L2V2 = "http://www.sbml.org/sbml/level2/version2";
+  public static final String            URI_NAMESPACE_L2V2         =
+      "http://www.sbml.org/sbml/level2/version2";
 
   /**
    * The namespace URI of SBML Level 2 Version 3.
    */
-  public static final transient String URI_NAMESPACE_L2V3 = "http://www.sbml.org/sbml/level2/version3";
+  public static final transient String  URI_NAMESPACE_L2V3         =
+      "http://www.sbml.org/sbml/level2/version3";
 
   /**
    * The namespace URI of SBML Level 2 Version 4.
    */
-  public static final transient String URI_NAMESPACE_L2V4 = "http://www.sbml.org/sbml/level2/version4";
+  public static final transient String  URI_NAMESPACE_L2V4         =
+      "http://www.sbml.org/sbml/level2/version4";
 
   /**
    * The namespace URI of SBML Level 2 Version 5.
    */
-  public static final transient String URI_NAMESPACE_L2V5 = "http://www.sbml.org/sbml/level2/version5";
+  public static final transient String  URI_NAMESPACE_L2V5         =
+      "http://www.sbml.org/sbml/level2/version5";
 
   /**
    * The namespace URI of SBML Level 3 Version 1.
    */
-  public static final transient String URI_NAMESPACE_L3V1Core = "http://www.sbml.org/sbml/level3/version1/core";
+  public static final transient String  URI_NAMESPACE_L3V1Core     =
+      "http://www.sbml.org/sbml/level3/version1/core";
 
   /**
    * The namespace URI of SBML Level 3 Version 2.
    */
-  public static final transient String URI_NAMESPACE_L3V2Core = "http://www.sbml.org/sbml/level3/version2/core";
+  public static final transient String  URI_NAMESPACE_L3V2Core     =
+      "http://www.sbml.org/sbml/level3/version2/core";
 
   /**
    * Contains all the parameter to validate the SBML document
    */
-  private Map<String, Boolean> checkConsistencyParameters = new HashMap<String, Boolean>();
+  private Map<String, Boolean>          checkConsistencyParameters =
+      new HashMap<String, Boolean>();
 
   /**
    * Memorizes all {@link SBMLError} when parsing the file containing this
    * document.
    */
-  private SBMLErrorLog listOfErrors;
+  private SBMLErrorLog                  listOfErrors;
 
   /**
    * logger used to print messages
    */
-  private static final transient Logger logger = Logger.getLogger(SBMLDocument.class);
+  private static final transient Logger logger                     =
+      Logger.getLogger(SBMLDocument.class);
 
   /**
    * Stores all the meta identifiers within this {@link SBMLDocument} to avoid
    * the creation of multiple identical meta identifiers. These identifiers
    * have to be unique within the document.
    */
-  private Map<String, SBase> mappingFromMetaId2SBase;
+  private Map<String, SBase>            mappingFromMetaId2SBase;
 
   /**
    * Represents the 'model' XML subnode of a SBML file.
    */
-  private Model model;
+  private Model                         model;
 
   /**
    * Stores a package namespace associated with it's status.
    * The status being: enabled if the Boolean is true, disable otherwise
-   * 
    */
-  private Map<String, Boolean> enabledPackageMap; 
+  private Map<String, Boolean>          enabledPackageMap;
 
   /**
    * Contains all the XML attributes of the sbml XML node.
    */
-  private Map<String, String> SBMLDocumentAttributes;
+  private Map<String, String>           SBMLDocumentAttributes;
+
 
   /**
-   * Creates a {@link SBMLDocument} instance. By default, the parent SBML object of
-   * this object is itself. The model is {@code null}. The SBMLDocumentAttributes and
+   * Creates a {@link SBMLDocument} instance. By default, the parent SBML object
+   * of
+   * this object is itself. The model is {@code null}. The
+   * SBMLDocumentAttributes and
    * the SBMLDocumentNamespaces are empty.
-   * 
    */
   public SBMLDocument() {
     super();
@@ -160,16 +172,20 @@ public class SBMLDocument extends AbstractSBase {
     SBMLDocumentAttributes = new HashMap<String, String>();
     enabledPackageMap = new HashMap<String, Boolean>();
     // setParentSBML(this);
-    checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), false);
+    checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(),
+      false);
   }
+
 
   /**
    * Creates a SBMLDocument instance from a level and version. By default, the
    * parent SBML object of this object is itself. The model is {@code null}. The
    * SBMLDocumentAttributes and the SBMLDocumentNamespaces are empty.
    * 
-   * @param level the SBML level
-   * @param version the SBML version
+   * @param level
+   *        the SBML level
+   * @param version
+   *        the SBML version
    */
   public SBMLDocument(int level, int version) {
     this();
@@ -181,32 +197,38 @@ public class SBMLDocument extends AbstractSBase {
     initDefaults();
   }
 
+
   /**
-   * Creates a new {@link SBMLDocument} instance from a given {@link SBMLDocument}.
+   * Creates a new {@link SBMLDocument} instance from a given
+   * {@link SBMLDocument}.
    * 
    * @param sb
    */
   public SBMLDocument(SBMLDocument sb) {
     super(sb);
 
-    // the super constructor from AbstractSBase could have added stuff on this map already
+    // the super constructor from AbstractSBase could have added stuff on this
+    // map already
     if (mappingFromMetaId2SBase == null) {
       mappingFromMetaId2SBase = new HashMap<String, SBase>();
     }
 
-    // the super constructor from AbstractSBase could have added stuff on this map already
+    // the super constructor from AbstractSBase could have added stuff on this
+    // map already
     if (SBMLDocumentAttributes == null) {
       SBMLDocumentAttributes = new HashMap<String, String>();
     }
 
-    // the super constructor from AbstractSBase could have added stuff on this map already
+    // the super constructor from AbstractSBase could have added stuff on this
+    // map already
     if (enabledPackageMap == null) {
       enabledPackageMap = new HashMap<String, Boolean>();
     }
 
     // cloning the enabledPackageMap
     for (String namespace : sb.enabledPackageMap.keySet()) {
-      enabledPackageMap.put(new String(namespace), new Boolean(sb.enabledPackageMap.get(namespace)));
+      enabledPackageMap.put(new String(namespace),
+        new Boolean(sb.enabledPackageMap.get(namespace)));
     }
 
     if (sb.isSetModel()) {
@@ -215,16 +237,20 @@ public class SBMLDocument extends AbstractSBase {
     } else {
       model = null;
     }
-    Iterator<Map.Entry<String, String>> entryIterator = sb.SBMLDocumentAttributes.entrySet().iterator();
+    Iterator<Map.Entry<String, String>> entryIterator =
+        sb.SBMLDocumentAttributes.entrySet().iterator();
     Map.Entry<String, String> entry;
     while (entryIterator.hasNext()) {
       entry = entryIterator.next();
-      SBMLDocumentAttributes.put(new String(entry.getKey()), new String(entry.getValue()));
+      SBMLDocumentAttributes.put(new String(entry.getKey()),
+        new String(entry.getValue()));
     }
     // setParentSBML(this);
-    checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), Boolean.valueOf(false));
+    checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(),
+      Boolean.valueOf(false));
 
   }
+
 
   /**
    * Adds a name space to the SBMLNamespaces of this {@link SBMLDocument}.
@@ -243,56 +269,80 @@ public class SBMLDocument extends AbstractSBase {
     }
   }
 
-  /**
-   * Adds the package namespace declaration in this {@link SBMLDocument}, adds as well
-   * the required attribute for this package.
-   * 
-   * @param packageName the name or short label of the package, for example: layout, comp, qual, ...
-   * @param packageURI the package namespace uri
-   * @param required the value of the required attribute
-   */
-  private void addPackageDeclaration(String packageName, String packageURI, boolean required) {
-    addDeclaredNamespace("xmlns:" + packageName, packageURI);
-    getSBMLDocumentAttributes().put(packageName + ":required", Boolean.toString(required));
-  }
 
   /**
-   * Removes the package namespace declaration in this {@link SBMLDocument}, removes as well
+   * Adds the package namespace declaration in this {@link SBMLDocument}, adds
+   * as well
    * the required attribute for this package.
    * 
-   * @param packageName the name or short label of the package, for example: layout, comp, qual, ...
+   * @param packageName
+   *        the name or short label of the package, for example: layout, comp,
+   *        qual, ...
+   * @param packageURI
+   *        the package namespace uri
+   * @param required
+   *        the value of the required attribute
    */
-  private void removePackageDeclaration(String packageName)
-  {
+  private void addPackageDeclaration(String packageName, String packageURI,
+    boolean required) {
+    addDeclaredNamespace("xmlns:" + packageName, packageURI);
+    getSBMLDocumentAttributes().put(packageName + ":required",
+      Boolean.toString(required));
+  }
+
+
+  /**
+   * Removes the package namespace declaration in this {@link SBMLDocument},
+   * removes as well
+   * the required attribute for this package.
+   * 
+   * @param packageName
+   *        the name or short label of the package, for example: layout, comp,
+   *        qual, ...
+   */
+  private void removePackageDeclaration(String packageName) {
     getDeclaredNamespaces().remove("xmlns:" + packageName);
     getSBMLDocumentAttributes().remove(packageName + ":required");
   }
+
+  
+//  @Override
+//  public Enumeration<TreeNode> children() {
+//    Vector<TreeNode> vec = new Vector<>(1);
+//    
+//    if (this.model != null)
+//    {
+//      vec.add(this.model);
+//    }
+//    
+//    return vec.elements();
+//  }
 
   /**
    * Validates the {@link SBMLDocument} using the offline validator.
    * <p>
    * Notice that the offline validator is still under development and there
    * is only a subset of rules which will be tested at the moment.
+   * 
    * @return the number of errors
    */
-  public int checkConsistencyOffline(){
-      LoggingValidationContext ctx = new LoggingValidationContext(this.getLevel(), this.getVersion());
-      
-      for (SBMLPackage pkg : SBMLPackage.values())
-      {
-	  if (this.isPackageEnabled(pkg.toString()))
-	  {
-	      ctx.enablePackage(pkg, true);
-	  }
+  public int checkConsistencyOffline() {
+    LoggingValidationContext ctx =
+        new LoggingValidationContext(this.getLevel(), this.getVersion());
+
+    for (SBMLPackage pkg : SBMLPackage.values()) {
+      if (this.isPackageEnabled(pkg.toString())) {
+        ctx.enablePackage(pkg, true);
       }
-      
-      ctx.enableCheckCategories(CheckCategory.values(), true);
-      
-      ctx.loadConstraints(this.getClass());
-      ctx.validate(this);
-      
-      this.listOfErrors = ctx.getLog();
-      return ctx.getLog().getErrorCount();
+    }
+
+    ctx.enableCheckCategories(CheckCategory.values(), true);
+
+    ctx.loadConstraints(this.getClass());
+    ctx.validate(this);
+
+    this.listOfErrors = ctx.getLog();
+    return ctx.getLog().getErrorCount();
   }
 
 
@@ -310,12 +360,11 @@ public class SBMLDocument extends AbstractSBase {
    * <p>
    * If this method returns a nonzero value (meaning, one or more
    * consistency checks have failed for SBML document), the failures may be
-   * due to warnings @em or errors.  Callers should inspect the severity
+   * due to warnings @em or errors. Callers should inspect the severity
    * flag in the individual SBMLError objects returned by
    * {@link SBMLDocument#getError(int)} to determine the nature of the failures.
    * 
    * @return the number of errors found
-   * 
    * @see #setConsistencyChecks(CHECK_CATEGORY, boolean)
    */
   public int checkConsistency() {
@@ -325,7 +374,8 @@ public class SBMLDocument extends AbstractSBase {
     try {
       tmpFile = File.createTempFile("jsbml-", ".xml");
     } catch (IOException e) {
-      logger.error("There was an error creating a temporary file: " + e.getMessage());
+      logger.error(
+        "There was an error creating a temporary file: " + e.getMessage());
 
       if (logger.isDebugEnabled()) {
         e.printStackTrace();
@@ -343,14 +393,16 @@ public class SBMLDocument extends AbstractSBase {
       }
       return -1;
     } catch (XMLStreamException e) {
-      logger.error("There was an error writing the SBMLDocument to a file: " + e.getMessage());
+      logger.error("There was an error writing the SBMLDocument to a file: "
+          + e.getMessage());
 
       if (logger.isDebugEnabled()) {
         e.printStackTrace();
       }
       return -1;
     } catch (SBMLException e) {
-      logger.error("There was an error creating a temporary file: " + e.getMessage());
+      logger.error(
+        "There was an error creating a temporary file: " + e.getMessage());
 
       if (logger.isDebugEnabled()) {
         e.printStackTrace();
@@ -359,77 +411,91 @@ public class SBMLDocument extends AbstractSBase {
     }
 
     /*
-     * u --> Disable checking the consistency of measurement units associated with quantities (SBML L2V3 rules 105nn)
-     * i --> Disable checking the correctness and consistency of identifiers used for model entities (SBML L2V3 rules 103nn)
-     * m --> Disable checking the syntax of MathML mathematical expressions (SBML L2V3 rules 102nn)
-     * s --> Disable checking the validity of SBO identifiers (if any) used in the model (SBML L2V3 rules 107nn)
+     * u --> Disable checking the consistency of measurement units associated
+     * with quantities (SBML L2V3 rules 105nn)
+     * i --> Disable checking the correctness and consistency of identifiers
+     * used for model entities (SBML L2V3 rules 103nn)
+     * m --> Disable checking the syntax of MathML mathematical expressions
+     * (SBML L2V3 rules 102nn)
+     * s --> Disable checking the validity of SBO identifiers (if any) used in
+     * the model (SBML L2V3 rules 107nn)
      * o --> Disable static analysis of whether the model is overdetermined
      * p --> Disable additional checks for recommended good modeling practices
-     * g --> Disable all other general SBML consistency checks (SBML L2v3 rules 2nnnn)
-     * 
+     * g --> Disable all other general SBML consistency checks (SBML L2v3 rules
+     * 2nnnn)
      */
 
     // checkConsistencyParameters.put("offcheck", "u");
     // checkConsistencyParameters.put("offcheck", "u,p,o");
 
-    // System.out.println("SBMLDocument.checkConsistency: tmp file = " + tmpFile.getAbsolutePath());
+    // System.out.println("SBMLDocument.checkConsistency: tmp file = " +
+    // tmpFile.getAbsolutePath());
 
     Map<String, String> consistencyParameters = new HashMap<String, String>();
     String offcheck = null;
 
     for (String checkCategory : checkConsistencyParameters.keySet()) {
       CHECK_CATEGORY typeOfCheck = CHECK_CATEGORY.valueOf(checkCategory);
-      boolean checkIsOn = checkConsistencyParameters.get(checkCategory).booleanValue();
+      boolean checkIsOn =
+          checkConsistencyParameters.get(checkCategory).booleanValue();
 
       logger.debug(" Type of check = " + typeOfCheck + " is " + checkIsOn);
 
-      switch (typeOfCheck)
+      switch (typeOfCheck) {
+      case IDENTIFIER_CONSISTENCY:
       {
-      case IDENTIFIER_CONSISTENCY: {
         if (!checkIsOn) {
           offcheck = (offcheck == null) ? "i" : offcheck + ",i";
         }
         break;
       }
-      case GENERAL_CONSISTENCY: {
+      case GENERAL_CONSISTENCY:
+      {
         if (!checkIsOn) {
           offcheck = (offcheck == null) ? "g" : offcheck + ",g";
         }
         break;
       }
-      case SBO_CONSISTENCY: {
+      case SBO_CONSISTENCY:
+      {
         if (!checkIsOn) {
           offcheck = (offcheck == null) ? "s" : offcheck + ",s";
         }
         break;
       }
-      case MATHML_CONSISTENCY: {
+      case MATHML_CONSISTENCY:
+      {
         if (!checkIsOn) {
           offcheck = (offcheck == null) ? "m" : offcheck + ",m";
         }
         break;
       }
-      case UNITS_CONSISTENCY: {
+      case UNITS_CONSISTENCY:
+      {
         if (!checkIsOn) {
           offcheck = (offcheck == null) ? "u" : offcheck + ",u";
         }
         break;
       }
-      case OVERDETERMINED_MODEL: {
+      case OVERDETERMINED_MODEL:
+      {
         if (!checkIsOn) {
           offcheck = (offcheck == null) ? "o" : offcheck + ",o";
         }
         break;
       }
-      case MODELING_PRACTICE: {
+      case MODELING_PRACTICE:
+      {
         if (!checkIsOn) {
           offcheck = (offcheck == null) ? "p" : offcheck + ",p";
         }
         break;
       }
-      default: {
+      default:
+      {
         // If it's a category for which we don't have validators, ignore it.
-        // Should not happen as checkConsistencyParameters is only modified through
+        // Should not happen as checkConsistencyParameters is only modified
+        // through
         // setConsistencyChecks(CHECK_CATEGORY, boolean)
         break;
       }
@@ -440,12 +506,14 @@ public class SBMLDocument extends AbstractSBase {
     }
 
     // Doing the actual check consistency
-    listOfErrors = SBMLValidator.checkConsistency(tmpFile.getAbsolutePath(), consistencyParameters);
+    listOfErrors = SBMLValidator.checkConsistency(tmpFile.getAbsolutePath(),
+      consistencyParameters);
 
     try {
       tmpFile.delete();
     } catch (SecurityException e) {
-      logger.error("There was an error removing a temporary file: " + e.getMessage());
+      logger.error(
+        "There was an error removing a temporary file: " + e.getMessage());
 
       if (logger.isDebugEnabled()) {
         e.printStackTrace();
@@ -460,15 +528,17 @@ public class SBMLDocument extends AbstractSBase {
     return listOfErrors.getErrorCount();
   }
 
+
   /**
-   * Checks if the given meta identifier can be added in this {@link SBMLDocument}
+   * Checks if the given meta identifier can be added in this
+   * {@link SBMLDocument}
    * 's {@link #mappingFromMetaId2SBase}.
    * 
    * @param metaId
-   *            the identifier whose value is to be checked.
-   * 
-   * @throws IllegalArgumentException if a metaid to add is already present in the list of
-   * registered metaids.
+   *        the identifier whose value is to be checked.
+   * @throws IllegalArgumentException
+   *         if a metaid to add is already present in the list of
+   *         registered metaids.
    */
   private void checkMetaId(String metaId) {
     if (containsMetaId(metaId)) {
@@ -480,13 +550,16 @@ public class SBMLDocument extends AbstractSBase {
     }
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.element.AbstractSBase#clone()
    */
   @Override
   public SBMLDocument clone() {
     return new SBMLDocument(this);
   }
+
 
   /**
    * Collects all meta identifiers of this {@link AbstractSBase} and all of
@@ -536,6 +609,7 @@ public class SBMLDocument extends AbstractSBase {
     }
   }
 
+
   /**
    * A check to see whether elements have been registered to this
    * {@link SBMLDocument} with the given meta identifier.
@@ -552,10 +626,10 @@ public class SBMLDocument extends AbstractSBase {
     return mappingFromMetaId2SBase.containsKey(metaId);
   }
 
+
   /**
    * Creates a new Model inside this {@link SBMLDocument}, and returns a
    * pointer to it.
-   * 
    * In SBML Level 2, the use of an identifier on a {@link Model} object is
    * optional. This method takes an optional argument, sid, for setting the
    * identifier. If not supplied, the identifier attribute on the Model
@@ -570,6 +644,7 @@ public class SBMLDocument extends AbstractSBase {
     return getModel();
   }
 
+
   /**
    * Creates a new instance of Model from id and the level and version of this
    * SBMLDocument.
@@ -582,48 +657,61 @@ public class SBMLDocument extends AbstractSBase {
     return getModel();
   }
 
+
   /**
    * Disables the given SBML Level 3 package on this {@link SBMLDocument}.
    * 
-   * @param packageURIOrName a package namespace URI or package name
+   * @param packageURIOrName
+   *        a package namespace URI or package name
    */
   @Override
   public void disablePackage(String packageURIOrName) {
     enablePackage(packageURIOrName, false);
   }
 
+
   /**
    * Enables the given SBML Level 3 package on this {@link SBMLDocument}.
    * 
-   * @param packageURIOrName a package namespace URI or package name
+   * @param packageURIOrName
+   *        a package namespace URI or package name
    */
   @Override
   public void enablePackage(String packageURIOrName) {
     enablePackage(packageURIOrName, true);
   }
 
+
   /**
-   * Enables or disables the given SBML Level 3 package on this {@link SBMLDocument}.
+   * Enables or disables the given SBML Level 3 package on this
+   * {@link SBMLDocument}.
    * 
-   * @param packageURIOrName a package namespace URI or package name
+   * @param packageURIOrName
+   *        a package namespace URI or package name
    */
   @Override
   public void enablePackage(String packageURIOrName, boolean enabled) {
 
     // Get the package URI is needed
-    PackageParser packageParser = ParserManager.getManager().getPackageParser(packageURIOrName);
+    PackageParser packageParser =
+        ParserManager.getManager().getPackageParser(packageURIOrName);
 
     if (packageParser != null) {
       String packageURI = packageURIOrName;
 
-      // if the shorLabel has been used, getting the last namespace in the list of namespaces // TODO - add a getDefaultNamespace() to PackageParser
-      // TODO - add a getPackageShortLabel() to PackageParser, so that a proper name can be used for packages ? Might be confusing getPackageDisplayName() might be better.
+      // if the shorLabel has been used, getting the last namespace in the list
+      // of namespaces // TODO - add a getDefaultNamespace() to PackageParser
+      // TODO - add a getPackageShortLabel() to PackageParser, so that a proper
+      // name can be used for packages ? Might be confusing
+      // getPackageDisplayName() might be better.
       if (packageURI.equals(packageParser.getPackageName())) {
-        packageURI = packageParser.getPackageNamespaces().get(packageParser.getPackageNamespaces().size() - 1);
+        packageURI = packageParser.getPackageNamespaces().get(
+          packageParser.getPackageNamespaces().size() - 1);
       }
 
       // check if the package is already present ??
-      // possible libsbml errors  PACKAGE_UNKNOWN, PACKAGE_VERSION_MISMATCH, PACKAGE_CONFLICTED_VERSION
+      // possible libsbml errors PACKAGE_UNKNOWN, PACKAGE_VERSION_MISMATCH,
+      // PACKAGE_CONFLICTED_VERSION
       // just returning for now without reporting errors
       for (String packageNamespaceUri : packageParser.getPackageNamespaces()) {
         if (enabledPackageMap.containsKey(packageNamespaceUri)) {
@@ -637,7 +725,8 @@ public class SBMLDocument extends AbstractSBase {
       enabledPackageMap.put(packageURI, enabled);
 
       if (enabled) {
-        addPackageDeclaration(packageParser.getPackageName(), packageURI, packageParser.isRequired());
+        addPackageDeclaration(packageParser.getPackageName(), packageURI,
+          packageParser.isRequired());
       } else {
         // remove the namespace declaration from the SBMLDocument
         removePackageDeclaration(packageParser.getPackageName());
@@ -645,7 +734,9 @@ public class SBMLDocument extends AbstractSBase {
     }
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
    */
   @Override
@@ -653,13 +744,13 @@ public class SBMLDocument extends AbstractSBase {
     boolean equals = super.equals(o);
     if (equals) {
       SBMLDocument d = (SBMLDocument) o;
-      if (!getSBMLDocumentAttributes().equals(
-        d.getSBMLDocumentAttributes())) {
+      if (!getSBMLDocumentAttributes().equals(d.getSBMLDocumentAttributes())) {
         return false;
       }
     }
     return equals;
   }
+
 
   /**
    * Looks up the {@link SBase} registered in this {@link SBMLDocument} for the
@@ -672,7 +763,9 @@ public class SBMLDocument extends AbstractSBase {
     return mappingFromMetaId2SBase.get(metaId);
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
    */
   @Override
@@ -680,7 +773,9 @@ public class SBMLDocument extends AbstractSBase {
     return true;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
   @Override
@@ -700,17 +795,21 @@ public class SBMLDocument extends AbstractSBase {
         return getModel();
       }
     }
-    throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexExceedsBoundsException"),
-      index, Math.min(pos, 0)));
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      resourceBundle.getString("IndexExceedsBoundsException"), index,
+      Math.min(pos, 0)));
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
   @Override
   public int getChildCount() {
     return super.getChildCount() + (isSetModel() ? 1 : 0);
   }
+
 
   /**
    * Returns the default SBML Level of new SBMLDocument objects.
@@ -721,6 +820,7 @@ public class SBMLDocument extends AbstractSBase {
     return 3;
   }
 
+
   /**
    * Returns the default Version of new SBMLDocument objects.
    * 
@@ -730,7 +830,9 @@ public class SBMLDocument extends AbstractSBase {
     return 1;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
    */
   @Override
@@ -738,11 +840,14 @@ public class SBMLDocument extends AbstractSBase {
     return "sbml";
   }
 
+
   /**
-   * Returns the {@link SBase} with the given metaid in this {@link SBMLDocument} or null
+   * Returns the {@link SBase} with the given metaid in this
+   * {@link SBMLDocument} or null
    * if no such {@link SBase} is found.
    * 
-   * @param metaid - the metaid of {@link SBase} to find
+   * @param metaid
+   *        - the metaid of {@link SBase} to find
    * @return the {@link SBase} with the given metaid or null
    * @see #findSBase(String)
    */
@@ -750,13 +855,17 @@ public class SBMLDocument extends AbstractSBase {
     return findSBase(metaid);
   }
 
+
   /**
-   * Return the package namespace enabled on this SBMLDocument or null if the package
+   * Return the package namespace enabled on this SBMLDocument or null if the
+   * package
    * is not enabled.
    * 
-   * @param packageURIOrName the name or URI of the package extension.
-   * @return the package namespace enabled on this SBMLDocument or null if the package
-   * is not enabled.
+   * @param packageURIOrName
+   *        the name or URI of the package extension.
+   * @return the package namespace enabled on this SBMLDocument or null if the
+   *         package
+   *         is not enabled.
    */
   public String getEnabledPackageNamespace(String packageURIOrName) {
 
@@ -765,7 +874,8 @@ public class SBMLDocument extends AbstractSBase {
     }
 
     // Get the package URI is needed
-    PackageParser packageParser = ParserManager.getManager().getPackageParser(packageURIOrName);
+    PackageParser packageParser =
+        ParserManager.getManager().getPackageParser(packageURIOrName);
 
     if (packageParser != null) {
 
@@ -779,46 +889,60 @@ public class SBMLDocument extends AbstractSBase {
     return null;
   }
 
+
   /**
-   * Returns the i<sup>th</sup> error or warning encountered during consistency checking.
+   * Returns the i<sup>th</sup> error or warning encountered during consistency
+   * checking.
    * 
-   * @param i - the index of the {@link SBMLError} to get
-   * @return the i<sup>th</sup> error or warning encountered during consistency checking.
-   * @throws IndexOutOfBoundsException if the index is wrong
+   * @param i
+   *        - the index of the {@link SBMLError} to get
+   * @return the i<sup>th</sup> error or warning encountered during consistency
+   *         checking.
+   * @throws IndexOutOfBoundsException
+   *         if the index is wrong
    * @see #getNumErrors()
    */
   public SBMLError getError(int i) {
     if (!isSetListOfErrors() || (i < 0) || (i >= getErrorCount())) {
-      throw new IndexOutOfBoundsException("You are trying to access the error number " + i + ", which is invalid.");
+      throw new IndexOutOfBoundsException(
+        "You are trying to access the error number " + i
+        + ", which is invalid.");
     }
 
     return listOfErrors.getError(i);
   }
 
+
   /**
-   * Returns the number of errors or warnings encountered during consistency checking.
+   * Returns the number of errors or warnings encountered during consistency
+   * checking.
    * 
-   * @return the number of errors or warnings encountered during consistency checking.
+   * @return the number of errors or warnings encountered during consistency
+   *         checking.
    */
   public int getErrorCount() {
     return isSetListOfErrors() ? listOfErrors.getErrorCount() : 0;
   }
 
-  /**
-   * Returns a collection of all {@link SBMLError}s reflecting
-   * problems in the overall data structure of this {@link SBMLDocument}.
-   * 
-   * @return a collection of all {@link SBMLError}s encountered during consistency checking.
-   */
-  public SBMLErrorLog getErrorLog() {
-    return getListOfErrors();
-  }
 
   /**
    * Returns a collection of all {@link SBMLError}s reflecting
    * problems in the overall data structure of this {@link SBMLDocument}.
    * 
-   * @return a collection of all {@link SBMLError}s encountered during consistency checking.
+   * @return a collection of all {@link SBMLError}s encountered during
+   *         consistency checking.
+   */
+  public SBMLErrorLog getErrorLog() {
+    return getListOfErrors();
+  }
+
+
+  /**
+   * Returns a collection of all {@link SBMLError}s reflecting
+   * problems in the overall data structure of this {@link SBMLDocument}.
+   * 
+   * @return a collection of all {@link SBMLError}s encountered during
+   *         consistency checking.
    */
   public SBMLErrorLog getListOfErrors() {
     if (listOfErrors == null) {
@@ -827,20 +951,25 @@ public class SBMLDocument extends AbstractSBase {
     return listOfErrors;
   }
 
+
   /**
    * Returns the model of this {@link SBMLDocument}.
    * 
-   * @return the model of this {@link SBMLDocument}. Can be null if it is not set.
+   * @return the model of this {@link SBMLDocument}. Can be null if it is not
+   *         set.
    */
   @Override
   public Model getModel() {
     return model;
   }
 
+
   /**
-   * Returns the number of errors or warnings encountered during consistency checking.
+   * Returns the number of errors or warnings encountered during consistency
+   * checking.
    * 
-   * @return the number of errors or warnings encountered during consistency checking.
+   * @return the number of errors or warnings encountered during consistency
+   *         checking.
    * @libsbml.deprecated
    * @see #getErrorCount()
    */
@@ -848,14 +977,15 @@ public class SBMLDocument extends AbstractSBase {
     return getErrorCount();
   }
 
+
   /**
    * Returns the required attribute of the given package extension.
    * 
    * @param nameOrUri
    *        the name or URI of the package extension.
-   * @return a boolean indicating whether the package is flagged as being required. If the name or uri is
-   * not recognized by this version of JSBML, false is returned.
-   * 
+   * @return a boolean indicating whether the package is flagged as being
+   *         required. If the name or uri is
+   *         not recognized by this version of JSBML, false is returned.
    */
   public boolean getPackageRequired(String nameOrUri) {
 
@@ -868,6 +998,7 @@ public class SBMLDocument extends AbstractSBase {
     // same default behavior as in libSBML 5.9.2
     return false;
   }
+
 
   /**
    * Returns the required attribute of the given package extension.
@@ -885,6 +1016,7 @@ public class SBMLDocument extends AbstractSBase {
     return getPackageRequired(pckage);
   }
 
+
   /**
    * Returns the map of attribute names and values of this SBMLDocument.
    * 
@@ -897,6 +1029,7 @@ public class SBMLDocument extends AbstractSBase {
     return SBMLDocumentAttributes;
   }
 
+
   /**
    * Returns the map of declared namespaces of this SBMLDocument.
    * 
@@ -908,7 +1041,9 @@ public class SBMLDocument extends AbstractSBase {
     return getDeclaredNamespaces();
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -923,16 +1058,21 @@ public class SBMLDocument extends AbstractSBase {
     return hashCode;
   }
 
+
   /**
    * 
    */
-  private void initDefaults() {}
+  private void initDefaults() {
+  }
+
 
   /**
    * Returns {@code true} if the given package extension is one of an ignored
    * packages, otherwise returns {@code false}.
-   * <p>An ignored package is one that is defined to be used in this
-   * {@link SBMLDocument}, but the package is not supported in this copy of JSBML.
+   * <p>
+   * An ignored package is one that is defined to be used in this
+   * {@link SBMLDocument}, but the package is not supported in this copy of
+   * JSBML.
    * 
    * @param nameOrURI
    *        the name or URI of the package extension.
@@ -942,7 +1082,8 @@ public class SBMLDocument extends AbstractSBase {
   public boolean isIgnoredPackage(String nameOrURI) {
 
     // Getting the package URI
-    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrURI);
+    PackageParser packageParser =
+        ParserManager.getManager().getPackageParser(nameOrURI);
 
     if (packageParser != null) {
       String packageURI = nameOrURI;
@@ -958,10 +1099,12 @@ public class SBMLDocument extends AbstractSBase {
     return false;
   }
 
+
   /**
    * Returns true if the given package extension is one of ignored packages,
    * otherwise returns false.
-   * <p>An ignored package is one that is defined to be used in this SBMLDocument,
+   * <p>
+   * An ignored package is one that is defined to be used in this SBMLDocument,
    * but the package is not supported in this copy of JSBML.
    * 
    * @param pkgURI
@@ -974,6 +1117,7 @@ public class SBMLDocument extends AbstractSBase {
   public boolean isIgnoredPkg(String pkgURI) {
     return isIgnoredPackage(pkgURI);
   }
+
 
   /**
    * Returns {@code true} if the given SBML Level 3 package is enabled within
@@ -1000,24 +1144,33 @@ public class SBMLDocument extends AbstractSBase {
     return (enabled != null) && enabled.booleanValue();
   }
 
+
   /**
-   * Returns {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}, {@code false}
-   * if the package was disabled using the method {@link #disablePackage(String)} or {@code null} if this package
+   * Returns {@code true} if the given SBML Level 3 package is enabled within
+   * the {@link SBMLDocument}, {@code false}
+   * if the package was disabled using the method
+   * {@link #disablePackage(String)} or {@code null} if this package
    * was neither enabled or disabled on this {@link SBMLDocument}.
-   * 
-   * <p>This method can be used, for example, by the {@link SBMLWriter} to know if a package was really disabled,
+   * <p>
+   * This method can be used, for example, by the {@link SBMLWriter} to know if
+   * a package was really disabled,
    * in which case the package elements won't be written down,
-   * or if the user forgot to enable it, in which case it will be enabled and the package elements will be written.
+   * or if the user forgot to enable it, in which case it will be enabled and
+   * the package elements will be written.
    * 
-   * @param packageURIOrName the name or URI of the package extension.
-   * @return {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}, {@code false}
-   * if the package was disabled using the method {@link #disablePackage(String)} or {@code null} if this package
-   * was neither enabled or disabled on this {@link SBMLDocument}.
+   * @param packageURIOrName
+   *        the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within
+   *         the {@link SBMLDocument}, {@code false}
+   *         if the package was disabled using the method
+   *         {@link #disablePackage(String)} or {@code null} if this package
+   *         was neither enabled or disabled on this {@link SBMLDocument}.
    */
   public Boolean isPackageEnabledOrDisabled(String packageURIOrName) {
 
     // Get the package URI is needed
-    PackageParser packageParser = ParserManager.getManager().getPackageParser(packageURIOrName);
+    PackageParser packageParser =
+        ParserManager.getManager().getPackageParser(packageURIOrName);
 
     if (packageParser != null) {
       List<String> packageURIs = null;
@@ -1029,8 +1182,10 @@ public class SBMLDocument extends AbstractSBase {
         packageURIs.add(packageURIOrName);
       }
 
-      // This can happen when cloning a SBMLDocument, the AbstractSBase constructor
-      // would add any existing SBasePlugin before we initialize enabledPackageMap
+      // This can happen when cloning a SBMLDocument, the AbstractSBase
+      // constructor
+      // would add any existing SBasePlugin before we initialize
+      // enabledPackageMap
       if (enabledPackageMap == null) {
         enabledPackageMap = new HashMap<String, Boolean>();
       }
@@ -1045,36 +1200,46 @@ public class SBMLDocument extends AbstractSBase {
     return null;
   }
 
+
   /**
-   * Returns {@code true} if the list of errors is defined and contain at least one error.
+   * Returns {@code true} if the list of errors is defined and contain at least
+   * one error.
    * 
-   * @return {@code true} if the list of errors is defined and contain at least one error.
+   * @return {@code true} if the list of errors is defined and contain at least
+   *         one error.
    */
   private boolean isSetListOfErrors() {
     return (listOfErrors != null) && (listOfErrors.getErrorCount() > 0);
   }
 
+
   /**
-   * Returns {@code true} if the {@link Model} of this {@link SBMLDocument} is not {@code null}.
+   * Returns {@code true} if the {@link Model} of this {@link SBMLDocument} is
+   * not {@code null}.
    * 
-   * @return {@code true} if the {@link Model} of this {@link SBMLDocument} is not {@code null}.
+   * @return {@code true} if the {@link Model} of this {@link SBMLDocument} is
+   *         not {@code null}.
    */
   public boolean isSetModel() {
     return model != null;
   }
 
+
   /**
    * Returns {@code true}.
    * 
-   * @param nameOrURI the name or URI of the package extension.
+   * @param nameOrURI
+   *        the name or URI of the package extension.
    * @return {@code true}
-   * @libsbml.deprecated The required package does not need to be set in JSBML, it is done automatically as the value
-   * is fixed for each packages.
+   * @libsbml.deprecated The required package does not need to be set in JSBML,
+   *                     it is done automatically as the value
+   *                     is fixed for each packages.
    */
   public boolean isSetPackageRequired(String nameOrURI) {
     // it is always set as it is done automatically.
     return true;
   }
+
 
   /**
    * Returns {@code true}
@@ -1090,30 +1255,35 @@ public class SBMLDocument extends AbstractSBase {
     return isSetPackageRequired(pckage);
   }
 
+
   /**
    * Randomly creates a new {@link String} that can be used as a metaid, i.e., a
    * String that is a valid metaid and that is not yet used by any other element
    * within this {@link SBMLDocument}.
    * 
    * @return a valid metaid that is not yet used by any other element
-   * within this {@link SBMLDocument}.
+   *         within this {@link SBMLDocument}.
    */
   public String nextMetaId() {
     String currId;
     do {
       currId = UUID.randomUUID().toString();
       if (Character.isDigit(currId.charAt(0))) {
-        // Add an underscore at the beginning of the new metaid only if necessary.
+        // Add an underscore at the beginning of the new metaid only if
+        // necessary.
         currId = '_' + currId;
       }
     } while (containsMetaId(currId));
     return currId;
   }
 
+
   /**
-   * Prints all the errors or warnings encountered trying to check this SBML document.
+   * Prints all the errors or warnings encountered trying to check this SBML
+   * document.
    * 
-   * @param stream the stream where to print the {@link SBMLDocument} errors.
+   * @param stream
+   *        the stream where to print the {@link SBMLDocument} errors.
    */
   public void printErrors(PrintStream stream) {
     int nbErrors = listOfErrors.getErrorCount();
@@ -1123,14 +1293,16 @@ public class SBMLDocument extends AbstractSBase {
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+   * String prefix, String value)
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-      value);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
     if (!isAttributeRead) {
       isAttributeRead = true;
@@ -1149,17 +1321,20 @@ public class SBMLDocument extends AbstractSBase {
     return isAttributeRead;
   }
 
+
   /**
    * Saves or removes the given meta identifier in this {@link SBMLDocument}'s
    * {@link #mappingFromMetaId2SBase}.
    * 
    * @param sbase
-   *        the element whose meta identifier is to be registered (if it is set).
+   *        the element whose meta identifier is to be registered (if it is
+   *        set).
    * @param add
    *        if {@code true} this will add the given meta identifier
    *        to this {@link SBMLDocument}'s {@link #mappingFromMetaId2SBase}.
    *        Otherwise, the given identifier will be removed from this set.
-   * @return <ul>
+   * @return
+   *         <ul>
    *         <li>if add is {@code true}, then this method returns
    *         {@code true} if this set did not already contain the specified
    *         element, {@code false} otherwise.</li>
@@ -1169,7 +1344,6 @@ public class SBMLDocument extends AbstractSBase {
    *         <li>This method also returns {@code false} if the given
    *         {@link SBase} does not have a defined metaId</li>
    *         </ul>
-   * 
    */
   boolean registerMetaId(SBase sbase, boolean add) {
 
@@ -1179,13 +1353,16 @@ public class SBMLDocument extends AbstractSBase {
 
     if (sbase.isSetMetaId()) {
       if (add) {
-        // We should call checkMetaid if we want to throw IllegalArgumentException here when metaid already present
+        // We should call checkMetaid if we want to throw
+        // IllegalArgumentException here when metaid already present
         return mappingFromMetaId2SBase.put(sbase.getMetaId(), sbase) == null;
       } else {
         SBase old = mappingFromMetaId2SBase.get(sbase.getMetaId());
         if ((old != null) && (old == sbase)) {
-          /* This check is needed because the given SBase might originate from a
-           * different Document or could be a clone of some other SBase registered
+          /*
+           * This check is needed because the given SBase might originate from a
+           * different Document or could be a clone of some other SBase
+           * registered
            * here.
            */
           return mappingFromMetaId2SBase.remove(sbase.getMetaId()) != null;
@@ -1195,26 +1372,27 @@ public class SBMLDocument extends AbstractSBase {
     return false;
   }
 
+
   /**
    * Collects all meta identifiers of this {@link AbstractSBase} and all of
    * its sub-elements if recursively is {@code true}. It can also be used
    * to delete meta identifiers from the given {@link Set}.
    * 
    * @param sbase
-   *            The {@link SBase} whose meta identifier is to be registered
-   *            and from which we maybe have to recursively go through all
-   *            of its children.
+   *        The {@link SBase} whose meta identifier is to be registered
+   *        and from which we maybe have to recursively go through all
+   *        of its children.
    * @param recursively
-   *            if {@code true}, this method will also consider all
-   *            sub-elements of this {@link AbstractSBase}.
+   *        if {@code true}, this method will also consider all
+   *        sub-elements of this {@link AbstractSBase}.
    * @param delete
-   *            if {@code true} the purpose of this method will be to
-   *            delete the meta identifier from the given {@link Set}.
-   *            Otherwise, it will try to add it to the set.
+   *        if {@code true} the purpose of this method will be to
+   *        delete the meta identifier from the given {@link Set}.
+   *        Otherwise, it will try to add it to the set.
    * @throws IllegalArgumentException
-   *             However, duplications are not legal and an
-   *             {@link IllegalArgumentException} will be thrown in such
-   *             cases.
+   *         However, duplications are not legal and an
+   *         {@link IllegalArgumentException} will be thrown in such
+   *         cases.
    */
   void registerMetaIds(SBase sbase, boolean recursively, boolean delete) {
 
@@ -1235,6 +1413,7 @@ public class SBMLDocument extends AbstractSBase {
     }
   }
 
+
   /**
    * Provides access to all registered metaIds in this {@link SBMLDocument}. The
    * given collection is unmodifiable. Modifications made to the values has
@@ -1250,83 +1429,109 @@ public class SBMLDocument extends AbstractSBase {
     return Collections.unmodifiableCollection(mappingFromMetaId2SBase.keySet());
   }
 
+
   /**
    * Controls the consistency checks that are performed when
    * {@link SBMLDocument#checkConsistency()} is called.
    * <p>
    * This method works by adding or subtracting consistency checks from the
-   * set of all possible checks that {@link SBMLDocument#checkConsistency()} knows
-   * how to perform.  This method may need to be called multiple times in
-   * order to achieve the desired combination of checks.  The first
+   * set of all possible checks that {@link SBMLDocument#checkConsistency()}
+   * knows
+   * how to perform. This method may need to be called multiple times in
+   * order to achieve the desired combination of checks. The first
    * argument ({@code category}) in a call to this method indicates the category
    * of consistency/error checks that are to be turned on or off, and the
    * second argument ({@code apply}, a boolean) indicates whether to turn it on
    * (value of {@code true}) or off (value of {@code false}).
    * <p>
    * The possible categories (values to the argument {@code category}) are the
-   * set of values from the {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY} enumeration.
+   * set of values from the
+   * {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY} enumeration.
    * The following are the possible choices:
    * <p>
    * <ul>
-   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#GENERAL_CONSISTENCY}:
+   * <li>
+   * {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#GENERAL_CONSISTENCY}
+   * :
    * Correctness and consistency of specific SBML language constructs.
-   * Performing this set of checks is highly recommended.  With respect to
+   * Performing this set of checks is highly recommended. With respect to
    * the SBML specification, these concern failures in applying the
    * validation rules numbered 2xxxx in the Level&nbsp;2 Versions&nbsp;2, 3
    * and&nbsp;4 specifications.
-   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#IDENTIFIER_CONSISTENCY}:
+   * <li>
+   * {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#IDENTIFIER_CONSISTENCY}
+   * :
    * Correctness and consistency of identifiers used for model entities.
    * An example of inconsistency would be using a species identifier in a
-   * reaction rate formula without first having declared the species.  With
+   * reaction rate formula without first having declared the species. With
    * respect to the SBML specification, these concern failures in applying
    * the validation rules numbered 103xx in the Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#UNITS_CONSISTENCY}:
+   * <li>
+   * {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#UNITS_CONSISTENCY}
+   * :
    * Consistency of measurement units associated with quantities in a
-   * model.  With respect to the SBML specification, these concern failures
+   * model. With respect to the SBML specification, these concern failures
    * in applying the validation rules numbered 105xx in the Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#MATHML_CONSISTENCY}:
-   * Syntax of MathML constructs.  With respect to the SBML specification,
+   * <li>
+   * {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#MATHML_CONSISTENCY}
+   * :
+   * Syntax of MathML constructs. With respect to the SBML specification,
    * these concern failures in applying the validation rules numbered 102xx
    * in the Level&nbsp;2 Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#SBO_CONSISTENCY}:
+   * <li>
+   * {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#SBO_CONSISTENCY}
+   * :
    * Consistency and validity of SBO identifiers (if any) used in the
-   * model.  With respect to the SBML specification, these concern failures
+   * model. With respect to the SBML specification, these concern failures
    * in applying the validation rules numbered 107xx in the Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#OVERDETERMINED_MODEL}:
+   * <li>
+   * {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#OVERDETERMINED_MODEL}
+   * :
    * Static analysis of whether the system of equations implied by a model
-   * is mathematically over-determined.  With respect to the SBML
+   * is mathematically over-determined. With respect to the SBML
    * specification, this is validation rule #10601 in the SBML Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#MODELING_PRACTICE}:
+   * <li>
+   * {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#MODELING_PRACTICE}
+   * :
    * Additional checks for recommended good modeling practice. (These are
    * tests performed by libSBML and do not have equivalent SBML validation
    * rules.)
    * </ul>
    * <p>
    * <em>By default, all validation checks are applied</em> to the model in
-   * an {@link SBMLDocument} object <em>unless</em> {@link SBMLDocument#setConsistencyChecks(CHECK_CATEGORY, boolean)}  is called to
-   * indicate that only a subset should be applied.  Further, this default
+   * an {@link SBMLDocument} object <em>unless</em>
+   * {@link SBMLDocument#setConsistencyChecks(CHECK_CATEGORY, boolean)} is
+   * called to
+   * indicate that only a subset should be applied. Further, this default
    * (i.e., performing all checks) applies separately to <em>each new
-   * {@link SBMLDocument} object</em> created.  In other words, each time a model
-   * is read using {@link SBMLReader#readSBML(String)} , {@link SBMLReader#readSBMLFromString(String)}, a new
+   * {@link SBMLDocument} object</em> created. In other words, each time a model
+   * is read using {@link SBMLReader#readSBML(String)} ,
+   * {@link SBMLReader#readSBMLFromString(String)}, a new
    * {@link SBMLDocument} is created and for that document, a call to
-   * {@link SBMLDocument#checkConsistency()} will default to applying all possible checks.
-   * Calling programs must invoke {@link SBMLDocument#setConsistencyChecks(CHECK_CATEGORY, boolean)}  for each such new
+   * {@link SBMLDocument#checkConsistency()} will default to applying all
+   * possible checks.
+   * Calling programs must invoke
+   * {@link SBMLDocument#setConsistencyChecks(CHECK_CATEGORY, boolean)} for each
+   * such new
    * model if they wish to change the consistency checks applied.
    * <p>
-   * @param category a value drawn from JSBML#JSBML.SBML_VALIDATOR_* indicating the
-   * consistency checking/validation to be turned on or off
-   * <p>
-   * @param apply a boolean indicating whether the checks indicated by
-   * {@code category} should be applied or not.
-   * <p>
+   * 
+   * @param category
+   *        a value drawn from JSBML#JSBML.SBML_VALIDATOR_* indicating the
+   *        consistency checking/validation to be turned on or off
+   *        <p>
+   * @param apply
+   *        a boolean indicating whether the checks indicated by
+   *        {@code category} should be applied or not.
+   *        <p>
    * @see SBMLDocument#checkConsistency()
    */
-  public void setConsistencyChecks(SBMLValidator.CHECK_CATEGORY category, boolean apply)
-  {
+  public void setConsistencyChecks(SBMLValidator.CHECK_CATEGORY category,
+    boolean apply) {
     checkConsistencyParameters.put(category.name(), Boolean.valueOf(apply));
   }
 
@@ -1338,9 +1543,9 @@ public class SBMLDocument extends AbstractSBase {
    * </p>
    * 
    * @param level
-   *            the desired SBML Level
+   *        the desired SBML Level
    * @param version
-   *            the desired Version within the SBML Level
+   *        the desired Version within the SBML Level
    * @return {@code true} if 'level' and 'version' are valid.
    * @see #setLevelAndVersion(int, int, boolean)
    */
@@ -1349,18 +1554,21 @@ public class SBMLDocument extends AbstractSBase {
     return super.setLevelAndVersion(level, version, true);
   }
 
+
   /**
    * <p>
    * Sets the SBML Level and Version of this {@link SBMLDocument} instance,
    * attempting to convert the model as needed.
-   * </p><p>
+   * </p>
+   * <p>
    * This method is the principal way in JSBML to convert models between
    * Levels and Versions of SBML. Generally, models can be converted upward
    * without difficulty (e.g., from SBML Level 1 to Level 2, or from an
    * earlier Version of Level 2 to the latest Version of Level 2). Sometimes
    * models can be translated downward as well, if they do not use constructs
    * specific to more advanced Levels of SBML.
-   * </p><p>
+   * </p>
+   * <p>
    * Calling this method will not necessarily lead to a successful conversion.
    * If the conversion fails, it will be logged in the error list associated
    * with this {@link SBMLDocument}. Callers should consult
@@ -1372,13 +1580,13 @@ public class SBMLDocument extends AbstractSBase {
    * </p>
    * 
    * @param level
-   *            the desired SBML Level
+   *        the desired SBML Level
    * @param version
-   *            the desired Version within the SBML Level
+   *        the desired Version within the SBML Level
    * @param strict
-   *            boolean indicating whether to check consistency of both the
-   *            source and target model when performing conversion (defaults
-   *            to {@code true})
+   *        boolean indicating whether to check consistency of both the
+   *        source and target model when performing conversion (defaults
+   *        to {@code true})
    * @return {@code true} if 'level' and 'version' are valid.
    */
   @Override
@@ -1386,8 +1594,10 @@ public class SBMLDocument extends AbstractSBase {
     return super.setLevelAndVersion(level, version, strict);
   }
 
+
   /**
-   * Sets the {@link Model} for this {@link SBMLDocument} to the given {@link Model}.
+   * Sets the {@link Model} for this {@link SBMLDocument} to the given
+   * {@link Model}.
    * 
    * @param model
    */
@@ -1397,8 +1607,10 @@ public class SBMLDocument extends AbstractSBase {
     registerChild(this.model);
   }
 
+
   /**
-   * Sets the required attribute value of the given package extension (does nothing in fact!).
+   * Sets the required attribute value of the given package extension (does
+   * nothing in fact!).
    * 
    * @param nameOrUri
    *        the name or URI of the package extension.
@@ -1406,14 +1618,17 @@ public class SBMLDocument extends AbstractSBase {
    *        boolean value indicating whether the package is required.
    * @return {@code true}
    * @libsbml.deprecated The required package does not need to be set in JSBML,
-   * it is done automatically as the value is fixed for each packages.
+   *                     it is done automatically as the value is fixed for each
+   *                     packages.
    */
   public boolean setPackageRequired(String nameOrUri, boolean flag) {
     return true;
   }
 
+
   /**
-   * Sets the value of the required attribute for the given package (does nothing in fact!).
+   * Sets the value of the required attribute for the given package (does
+   * nothing in fact!).
    * 
    * @param pckage
    *        the name or URI of the package extension.
@@ -1428,6 +1643,7 @@ public class SBMLDocument extends AbstractSBase {
     return setPackageRequired(pckage, flag);
   }
 
+
   /**
    * Sets the {@link #SBMLDocumentAttributes}.
    * 
@@ -1440,13 +1656,16 @@ public class SBMLDocument extends AbstractSBase {
       oldAttributes, SBMLDocumentAttributes);
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#toString()
    */
   @Override
   public String toString() {
     return "SBMLDocument Level " + getLevel() + " Version " + getVersion();
   }
+
 
   /**
    * Sets the {@link Model} of this {@link SBMLDocument} to null and notifies
@@ -1465,7 +1684,9 @@ public class SBMLDocument extends AbstractSBase {
     return false;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
    */
   @Override
@@ -1481,7 +1702,8 @@ public class SBMLDocument extends AbstractSBase {
       attributes.put("version", Integer.toString(getVersion()));
     }
 
-    Iterator<Map.Entry<String, String>> it = getDeclaredNamespaces().entrySet().iterator();
+    Iterator<Map.Entry<String, String>> it =
+        getDeclaredNamespaces().entrySet().iterator();
     while (it.hasNext()) {
       Map.Entry<String, String> entry = it.next();
       if (!entry.getKey().equals("xmlns")) {
