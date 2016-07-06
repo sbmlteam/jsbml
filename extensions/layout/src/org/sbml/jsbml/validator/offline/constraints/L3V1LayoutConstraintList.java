@@ -1,18 +1,12 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.List;
 import java.util.Set;
 
 public final class L3V1LayoutConstraintList extends AbstractConstraintList {
 
-  public static void addGeneralModelIds(Set<Integer> list) {
-    list.add(SpecialLayoutErrorCodes.ID_VALIDATE_LAYOUT_MODEL);
-  }
-
-
   public static void addGeneralLayoutIds(Set<Integer> list) {
     addRangeToList(list, LAYOUT_20301, LAYOUT_20317);
-    list.add(SpecialLayoutErrorCodes.ID_VALIDATE_LAYOUT_TREE);
+//    list.add(SpecialLayoutErrorCodes.ID_VALIDATE_LAYOUT_TREE);
   }
 
 
