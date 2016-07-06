@@ -8,5 +8,7 @@ public interface CoreSpecialErrorCodes {
   public static final int ID_GROUP                  = -3;
   public static final int ID_VALIDATE_DOCUMENT_TREE = -4;
   public static final int ID_VALIDATE_MODEL_TREE    = -5;
+  
+  public static final int ID_VALIDATE_TREE_NODE     = -7;
  
 }
