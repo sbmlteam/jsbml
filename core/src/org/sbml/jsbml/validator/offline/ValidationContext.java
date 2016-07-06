@@ -32,10 +32,14 @@ import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
+import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
+import org.sbml.jsbml.validator.offline.constraints.CoreSpecialErrorCodes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.swing.tree.TreeNode;
 
 /**
  * @author Roman
@@ -65,6 +69,7 @@ public class ValidationContext {
   // The level and version of the SBML specification
   private int                             level;
   private int                             version;
+  private boolean                         recursiv;
 
 
   public ValidationContext(int level, int version) {
@@ -166,16 +171,6 @@ public class ValidationContext {
   }
 
 
-  /**
-   * Set the version of the context and clears the root constraint.
-   * 
-   * @param version
-   */
-  public void setVersion(int version) {
-    setLevelAndVersion(this.level, version);
-  }
-
-
   public void setLevelAndVersion(int level, int version) {
     if (level != this.level || version != this.version) {
       this.rootConstraint = null;
@@ -188,6 +183,29 @@ public class ValidationContext {
 
   public void setRootConstraint(AnyConstraint<Object> rootConstraint) {
     this.rootConstraint = rootConstraint;
+  }
+
+
+  /**
+   * If set to true, the validation context will try to validate also the childs
+   * of a TreeNode interface.
+   * 
+   * @param recursiv
+   */
+  public void setValidateRecursivly(boolean recursiv) {
+
+    this.recursiv = recursiv;
+
+  }
+
+
+  /**
+   * Set the version of the context and clears the root constraint.
+   * 
+   * @param version
+   */
+  public void setVersion(int version) {
+    setLevelAndVersion(this.level, version);
   }
 
 
@@ -216,13 +234,6 @@ public class ValidationContext {
   }
 
 
-  public void enablePackages(SBMLPackage[] pkgs, boolean enable) {
-    for (SBMLPackage pkg : pkgs) {
-      this.enablePackage(pkg, enable);
-    }
-  }
-
-
   /**
    * @param pkg
    * @param enable
@@ -234,6 +245,13 @@ public class ValidationContext {
       }
     } else {
       this.packages.remove(pkg);
+    }
+  }
+
+
+  public void enablePackages(SBMLPackage[] pkgs, boolean enable) {
+    for (SBMLPackage pkg : pkgs) {
+      this.enablePackage(pkg, enable);
     }
   }
 
@@ -272,13 +290,19 @@ public class ValidationContext {
    * @param version
    * @param categories
    */
-  public <T> void loadConstraints(Class<?> objectClass, int level, int version,
+  public void loadConstraints(Class<?> objectClass, int level, int version,
     CheckCategory[] categories) {
     this.constraintType = objectClass;
     ConstraintFactory factory = ConstraintFactory.getInstance();
-    this.rootConstraint =
-      factory.getConstraintsForClass(objectClass, this.getCheckCategories(),
-        this.getPackages(), this.getLevel(), this.getVersion());
+    ConstraintGroup<Object> group = factory.getConstraintsForClass(objectClass, this);
+    
+    if (this.recursiv && TreeNode.class.isAssignableFrom(objectClass))
+    {
+      AnyConstraint<Object> c = (AnyConstraint<Object>)factory.getConstraint(CoreSpecialErrorCodes.ID_VALIDATE_TREE_NODE);
+      group.add(c);
+    }
+    
+    this.rootConstraint = group; 
   }
 
 

@@ -1,36 +1,36 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.List;
+import java.util.Set;
 
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 public final class L3V1CoreConstraintList extends AbstractConstraintList
   implements SBMLErrorCodes {
 
-  public static void addGeneralSBMLDocumentIds(List<Integer> list) {
+  public static void addGeneralSBMLDocumentIds(Set<Integer> list) {
     list.add(CoreSpecialErrorCodes.ID_VALIDATE_DOCUMENT_TREE);
   }
 
-  public static void addGeneralModelIds(List<Integer> list) {
+  public static void addGeneralModelIds(Set<Integer> list) {
     addRangeToList(list, CORE_20204, CORE_20232);
     list.add(CORE_20705);
     list.add(CoreSpecialErrorCodes.ID_VALIDATE_MODEL_TREE);
   }
 
-
-  public static void addGeneralFunctionDefinitionIds(List<Integer> list) {
+  public static void addGeneralFunctionDefinitionIds(Set<Integer> list) {
     list.add(CORE_20301);
     addRangeToList(list, CORE_20303, CORE_20307);
   }
 
 
-  public static void addGeneralCompartmentIds(List<Integer> list) {
+  public static void addGeneralCompartmentIds(Set<Integer> list) {
     addRangeToList(list, CORE_20507, CORE_20509);
     list.add(CORE_20517);
   }
 
 
-  public static void addGeneralSpeciesIds(List<Integer> list) {
+  public static void addGeneralSpeciesIds(Set<Integer> list) {
     list.add(CORE_20601);
     addRangeToList(list, CORE_20608, CORE_20610);
     list.add(CORE_20614);
@@ -38,7 +38,7 @@ public final class L3V1CoreConstraintList extends AbstractConstraintList
     list.add(CORE_20623);
   }
   
-  public static void addGeneralSpeciesReferenceIds(List<Integer> list) {
+  public static void addGeneralSpeciesReferenceIds(Set<Integer> list) {
     list.add(CORE_20611);
   }
  

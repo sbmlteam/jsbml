@@ -26,6 +26,7 @@ public class LayoutConstraintBuilder extends AbstractConstraintBuilder
       return this.createSpecialConstraint(id);
     }
     int firstThree = (id - SBMLPackage.LAYOUT.offset) / 100;
+
     switch (firstThree) {
     case 203:
       return createLayoutConstraint(id);
@@ -43,6 +44,7 @@ public class LayoutConstraintBuilder extends AbstractConstraintBuilder
 
         @Override
         public boolean check(ValidationContext ctx, Layout l) {
+          System.out.println("20315! " + l.isSetDimensions());
           return l.isSetDimensions();
         }
       };
@@ -62,22 +64,27 @@ public class LayoutConstraintBuilder extends AbstractConstraintBuilder
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           SBasePlugin extension = null;
+
           if (ctx.getLevel() == 3 && ctx.getVersion() == 1) {
             extension = m.getExtension(LayoutConstants.namespaceURI_L3V1V1);
           } else {
             extension = m.getExtension(LayoutConstants.namespaceURI);
           }
+
           if (extension instanceof LayoutModelPlugin) {
+
             LayoutModelPlugin layoutModel = (LayoutModelPlugin) extension;
             ConstraintFactory factory = ConstraintFactory.getInstance();
+
             {
-              AnyConstraint<Layout> c = factory.getConstraintsForClass(
-                Layout.class, ctx.getCheckCategories(), ctx.getPackages(),
-                ctx.getLevel(), ctx.getVersion());
+              AnyConstraint<Layout> c =
+                factory.getConstraintsForClass(Layout.class, ctx);
+
               for (Layout l : layoutModel.getListOfLayouts()) {
                 c.check(ctx, l);
               }
             }
+
           }
           return true;
         }
@@ -92,8 +99,7 @@ public class LayoutConstraintBuilder extends AbstractConstraintBuilder
           ConstraintFactory factory = ConstraintFactory.getInstance();
           {
             AnyConstraint<GraphicalObject> c = factory.getConstraintsForClass(
-              GraphicalObject.class, ctx.getCheckCategories(),
-              ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
+              GraphicalObject.class, ctx);
             for (GraphicalObject go : l.getListOfAdditionalGraphicalObjects()) {
               c.check(ctx, go);
             }
@@ -106,14 +112,16 @@ public class LayoutConstraintBuilder extends AbstractConstraintBuilder
               c.check(ctx, cg);
             }
           }
+          
           {
             AnyConstraint<ReactionGlyph> c = factory.getConstraintsForClass(
-              ReactionGlyph.class, ctx.getCheckCategories(), ctx.getPackages(),
-              ctx.getLevel(), ctx.getVersion());
+              ReactionGlyph.class, ctx);
+            
             for (ReactionGlyph rg : l.getListOfReactionGlyphs()) {
               c.check(ctx, rg);
             }
           }
+          
           {
             AnyConstraint<SpeciesGlyph> c = factory.getConstraintsForClass(
               SpeciesGlyph.class, ctx.getCheckCategories(), ctx.getPackages(),
