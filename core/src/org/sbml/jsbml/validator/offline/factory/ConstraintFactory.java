@@ -1,3 +1,23 @@
+/*
+ * $Id$
+ * $URL$
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ * Copyright (C) 2009-2016 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
+
 package org.sbml.jsbml.validator.offline.factory;
 
 import java.lang.ref.SoftReference;
@@ -86,14 +106,12 @@ public class ConstraintFactory {
     for (Class<?> ifc : clazz.getInterfaces()) {
       AnyConstraint<T> con =
           this.getConstraintsForClass(ifc, category, packages, level, version);
-      
-      if (con != null)
-      {
-        if (group == null)
-        {
+
+      if (con != null) {
+        if (group == null) {
           group = new ConstraintGroup<T>();
         }
-        
+
         group.add(con);
       }
 
@@ -104,21 +122,18 @@ public class ConstraintFactory {
     if (superclass != null && !superclass.equals(Object.class)) {
       AnyConstraint<T> con = this.getConstraintsForClass(superclass, category,
         packages, level, version);
-      
-      if (con != null)
-      {
-        if (group == null)
-        {
+
+      if (con != null) {
+        if (group == null) {
           group = new ConstraintGroup<T>();
         }
-        
+
         group.add(con);
       }
     }
 
     return group;
   }
- 
 
 
   public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz,
@@ -206,16 +221,16 @@ public class ConstraintFactory {
       pkg = SBMLPackage.CORE;
     }
 
-    Set<Integer> set = AbstractConstraintList.getIdsForAttribute(
-      attributeName, pkg, level, version);
+    Set<Integer> set = AbstractConstraintList.getIdsForAttribute(attributeName,
+      pkg, level, version);
 
-//    int[] array = new int[list.size()];
-//    for (int i = 0; i < array.length; i++) {
-//      Integer integer = list.get(i);
-//      array[i] = integer.intValue();
-//    }
-//
-//    return getConstraints(array);
+    // int[] array = new int[list.size()];
+    // for (int i = 0; i < array.length; i++) {
+    // Integer integer = list.get(i);
+    // array[i] = integer.intValue();
+    // }
+    //
+    // return getConstraints(array);
     return null;
   }
 

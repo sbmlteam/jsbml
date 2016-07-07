@@ -53,7 +53,9 @@ public enum SBMLPackage {
 
   @Override
   /**
-   * @return the package name in lower case.
+   * Returns the package name
+   * 
+   * @return package name in lower case.
    */
   public String toString() {
     return super.toString().toLowerCase();
@@ -61,7 +63,11 @@ public enum SBMLPackage {
 
 
   /**
-   * @return the {@link SBMLPackage} in which offset the error code was defined.
+   * Returns the {@link SBMLPackage} in which offset the error code was defined,
+   * or
+   * <code> null </code> if the package is unknown.
+   * 
+   * @return <code> {@link SBMLPackage} </code> or <code> null </code>
    */
   public static SBMLPackage getPackageForError(int errorId) {
     // Clear the last five digits
@@ -71,10 +77,12 @@ public enum SBMLPackage {
 
 
   /**
+   * Returns the {@link SBMLPackage} with the given offset or <code>null</code>
+   * if no package matches the offset.
+   * 
    * @param offset,
-   *        should be a multiplied of 100.000
-   * @return the {@link SBMLPackage} with the given offset, or {@code null} if
-   *         no SBMLPackage matches the offset
+   *        must be a multiple of 100.000
+   * @return the {@link SBMLPackage} or {@code null}
    */
   public static SBMLPackage getPackageWithOffset(int offset) {
     for (SBMLPackage p : values()) {
@@ -87,11 +95,13 @@ public enum SBMLPackage {
 
 
   /**
+   * Searches the package with the given name. If the String is empty, this
+   * method will return <code> {@link SBMLPackage#CORE} </code>. If no package
+   * matches the name, <code>null</code> will be returned.
+   * 
    * @param name,
    *        will be casted to lower case.
-   * @return the {@link SBMLPackage} with the given name, or
-   *         {@link SBMLPackage#CORE} if {@code name} is empty or {@code null}
-   *         if there is no package with the given name.
+   * @return the {@link SBMLPackage} or {@code null}
    */
   public static SBMLPackage getPackageWithName(String name) {
     if (name.isEmpty()) {
@@ -149,11 +159,14 @@ public enum SBMLPackage {
 
   }
 
+
   /**
-   * If the errorCode string is leaded by a package name, this package will be parsed
+   * If the errorCode string is leaded by a package name, this package will be
+   * parsed
    * and their offset added
+   * 
    * @param errorString
-   * @return
+   * @return 
    */
   public static int convertStringToErrorCode(String errorString) {
     String[] blocks = errorString.split("-");
