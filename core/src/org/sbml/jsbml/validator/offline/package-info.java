@@ -21,7 +21,7 @@
  */
 
 /**
- * This package provides methods to validate kind of object without a connection to the internet.
+ * This package provides methods to validate any kind of object without a connection to the internet.
  * 
  * @version $Rev$
  * @since 1.2
