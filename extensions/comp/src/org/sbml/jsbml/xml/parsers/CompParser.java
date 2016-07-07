@@ -108,7 +108,7 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
       listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
     }
 
-    if (treeNode instanceof Model) {
+    if (treeNode instanceof Model && listOfElementsToWrite != null) {
       String sbmlNamespace = JSBML.getNamespaceFrom(((Model) treeNode).getLevel(), ((Model) treeNode).getVersion());
 
       for (Object child : listOfElementsToWrite) {
