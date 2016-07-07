@@ -42,9 +42,32 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 /**
+ * A {@link ValidationContext} object is used to perform offline validation.
+ * <p>
+ * To prepare the context for the validation use the
+ * {@link ValidationContext#loadConstraints(Class)} method, which will loads all
+ * the required constraints to validate a object from this class. By default the
+ * context will try to validate recursive by searching for the {@link TreeNode}
+ * interface. This behavior can be changed with
+ * {@link ValidationContext#setValidateRecursivly(boolean)}.
+ * <p>
+ * To start the validation process call
+ * {@link ValidationContext#validate(Object)} with a object which is a instance
+ * of the class for which the constraints were loaded. If not constraints were
+ * loaded or the object doesn't match the class, no validation process is
+ * started.
+ * <p>
+ * To track the validation process in real-time you can add a
+ * {@link ValidationListener} to this context by using the
+ * {@link ValidationContext#addValidationListener(ValidationListener)} method.
+ * <p>
+ * The level and version parameter determine which SBML specifications are used.
+ * For more informations look up <a href="http://www.sbml.org"> sbml.org </a>
+ * <p>
+ * 
  * @author Roman
  * @version $Rev$
- * @since 1.0
+ * @since 1.2
  * @date 04.07.2016
  */
 public class ValidationContext {
@@ -52,7 +75,7 @@ public class ValidationContext {
   /**
    * Log4j logger
    */
-  protected static final transient Logger logger  =
+  protected static final transient Logger logger   =
     Logger.getLogger(ValidationContext.class);
 
   // The root constraint, which could contains more constraints
@@ -63,13 +86,13 @@ public class ValidationContext {
   private List<SBMLPackage>               packages;
   private Class<?>                        constraintType;
   private List<ValidationListener>        listener;
-  private HashMap<String, Object>         hashMap =
+  private HashMap<String, Object>         hashMap  =
     new HashMap<String, Object>();
 
   // The level and version of the SBML specification
   private int                             level;
   private int                             version;
-  private boolean                         recursiv;
+  private boolean                         recursiv = true;
 
 
   public ValidationContext(int level, int version) {
@@ -144,7 +167,11 @@ public class ValidationContext {
 
 
   /**
+   * Returns the {@link SBMLPackage}'s which will be validated during the validation.
    * @return
+   * 
+   * @see ValidationContext#enablePackage(SBMLPackage, boolean)
+   * @see ValidationContext#enablePackages(SBMLPackage[], boolean)
    */
   public SBMLPackage[] getPackages() {
     return this.packages.toArray(new SBMLPackage[this.packages.size()]);
@@ -294,15 +321,17 @@ public class ValidationContext {
     CheckCategory[] categories) {
     this.constraintType = objectClass;
     ConstraintFactory factory = ConstraintFactory.getInstance();
-    ConstraintGroup<Object> group = factory.getConstraintsForClass(objectClass, this);
-    
-    if (this.recursiv && TreeNode.class.isAssignableFrom(objectClass))
-    {
-      AnyConstraint<Object> c = (AnyConstraint<Object>)factory.getConstraint(CoreSpecialErrorCodes.ID_VALIDATE_TREE_NODE);
+    ConstraintGroup<Object> group =
+      factory.getConstraintsForClass(objectClass, this);
+
+    if (this.recursiv && TreeNode.class.isAssignableFrom(objectClass)) {
+      @SuppressWarnings("unchecked")
+      AnyConstraint<Object> c = (AnyConstraint<Object>) factory.getConstraint(
+        CoreSpecialErrorCodes.ID_VALIDATE_TREE_NODE);
       group.add(c);
     }
-    
-    this.rootConstraint = group; 
+
+    this.rootConstraint = group;
   }
 
 

@@ -1,3 +1,23 @@
+/*
+ * $Id$
+ * $URL$
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ * Copyright (C) 2009-2016 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
+
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.lang.ref.SoftReference;
@@ -24,18 +44,18 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
    * HashMap of created instances. One instance per Level/Version
    */
   private static HashMap<String, SoftReference<Class<?>>> constraintLists =
-    new HashMap<String, SoftReference<Class<?>>>(24);
+      new HashMap<String, SoftReference<Class<?>>>(24);
   /**
    * Log4j logger
    */
   protected static final transient Logger                 logger          =
-    Logger.getLogger(AbstractConstraintBuilder.class);
+      Logger.getLogger(AbstractConstraintBuilder.class);
 
 
   private static Class<?> getCachedList(SBMLPackage pkg, int level,
     int version) {
     String className = "L" + level + "V" + version
-      + StringTools.firstLetterUpperCase(pkg.toString()) + "ConstraintList";
+        + StringTools.firstLetterUpperCase(pkg.toString()) + "ConstraintList";
 
     return getCachedList(className);
   }
@@ -52,7 +72,7 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
     Class<?> listClass = getFromCache(className);
     if (listClass == null) {
       String fullName =
-        "org.sbml.jsbml.validator.offline.constraints." + className;
+          "org.sbml.jsbml.validator.offline.constraints." + className;
       try {
         listClass = Class.forName(fullName);
         constraintLists.put(className, new SoftReference<Class<?>>(listClass));
@@ -75,27 +95,27 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
   public static Set<Integer> getIdsForClass(Class<?> clazz,
     CheckCategory category, SBMLPackage[] packages, int level, int version) {
     Set<Integer> set = new HashSet<Integer>();
-    
+
     for (SBMLPackage pkg : packages) {
       Class<?> constraintList = getCachedList(pkg, level, version);
-      
+
       if (constraintList != null) {
         String methodName = "add"
-          + StringTools.firstLetterUpperCase(category.toString().toLowerCase())
-          + clazz.getSimpleName() + "Ids";
-        
+            + StringTools.firstLetterUpperCase(category.toString().toLowerCase())
+            + clazz.getSimpleName() + "Ids";
+
         try {
           Method m = constraintList.getMethod(methodName, Set.class);
           m.invoke(null, set);
         } catch (Exception e) {
           // TODO Auto-generated catch block
           logger.debug("Couldn't find Method: " + constraintList.getSimpleName()
-            + "." + methodName);
+          + "." + methodName);
         }
-        
+
       }
     }
-    
+
     return set;
   }
 
@@ -114,7 +134,7 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
       } catch (Exception e) {
         // TODO Auto-generated catch block
         logger.debug("Couldn't find Method: " + constraintList.getSimpleName()
-          + "." + methodName);
+        + "." + methodName);
       }
     }
 
