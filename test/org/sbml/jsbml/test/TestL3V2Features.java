@@ -26,7 +26,7 @@ import javax.xml.stream.XMLStreamException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.sbml.jsbml.CVTerm;
+import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
@@ -72,6 +72,9 @@ public class TestL3V2Features {
     
     doc = new SBMLDocument(3, 2);
     model = doc.createModel();
+    
+    model.createFunctionDefinition("F1");
+    
   }
 
   /**
@@ -92,7 +95,7 @@ public class TestL3V2Features {
       assertTrue(false);
     }
 
-    System.out.println("Doc without Model: \n" + docString);
+    System.out.println("TestL3V2Features - Doc without Model: \n" + docString);
     SBMLDocument newDoc = null;
     try {
       newDoc = new SBMLReader().readSBMLFromString(docString);
@@ -108,11 +111,13 @@ public class TestL3V2Features {
   }
 
   /**
-   * Writes an {@link SBMLDocument} to a String then reads it back and checks that
-   * the {@link CVTerm}s are the same. Tests as well the {@link CVTerm#removeFromParent()} method.
+   * 
    */
-  @Test public void cvTermTest2() {
+  @Test public void functionDefinitionMathIsOptional() {
 
+    assertTrue(doc.getLevel() == 3 && doc.getVersion() == 2);
+    assertTrue(doc.isSetModel());
+    
     String docString = null;
     try {
       docString = new SBMLWriter().writeSBMLToString(doc);
@@ -121,18 +126,25 @@ public class TestL3V2Features {
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
-
+    
+    System.out.println("TestL3V2Features - Doc with FunctionDefinition with no math: \n" + docString);
+    
+    SBMLDocument newDoc = null;
     try {
-      doc = new SBMLReader().readSBMLFromString(docString);
+      newDoc = new SBMLReader().readSBMLFromString(docString);
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
-    model = doc.getModel();
+    Model model = newDoc.getModel();
 
-    assertTrue(doc.getLevel() == 3 && doc.getVersion() == 2);
+    assertTrue(newDoc.getLevel() == 3 && newDoc.getVersion() == 2);
     assertTrue(model.getLevel() == 3 && model.getVersion() == 2);
 
-
+    FunctionDefinition f = model.getFunctionDefinition("F1");
+    
+    assertTrue(f.getLevel() == 3 && f.getVersion() == 2);
+    assertTrue(f.isSetMath() == false);
+    
   }
 
 
