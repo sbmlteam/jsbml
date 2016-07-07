@@ -17,7 +17,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.xml.test;
+package org.sbml.jsbml.test;
 
 import static org.junit.Assert.assertTrue;
 
