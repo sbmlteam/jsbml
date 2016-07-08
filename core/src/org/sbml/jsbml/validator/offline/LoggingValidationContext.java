@@ -112,7 +112,7 @@ public class LoggingValidationContext extends ValidationContext
     boolean success) {
     // System.out.println("Checked " + c.getId());
     if (!success) {
-      logFailure(c.getId());
+      logFailure(c.getErrorCode());
     }
   }
 }
