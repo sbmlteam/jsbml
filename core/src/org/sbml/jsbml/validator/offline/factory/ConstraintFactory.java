@@ -21,9 +21,7 @@
 package org.sbml.jsbml.validator.offline.factory;
 
 import java.lang.ref.SoftReference;
-import java.security.acl.Group;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -42,6 +40,7 @@ public class ConstraintFactory {
    */
   protected static final transient Logger                          logger =
       Logger.getLogger(ConstraintFactory.class);
+
   /**
    * Caches the constraints with SoftReferences
    */
@@ -73,17 +72,17 @@ public class ConstraintFactory {
   /**
    * Returns a new constraint with the rule of the ID.
    * 
-   * @param id
+   * @param errorCode
    * @return
    */
-  public static AnyConstraint<?> createConstraint(int id) {
+  public static AnyConstraint<?> createConstraint(int errorCode) {
     String pkgName;
     // The id of special constraint are negative, in order to retrieve
     // the SBMLPackage, the absolut value is needed.
-    SBMLPackage pkg = SBMLPackage.getPackageForError(Math.abs(id));
+    SBMLPackage pkg = SBMLPackage.getPackageForError(Math.abs(errorCode));
     pkgName = StringTools.firstLetterUpperCase(pkg.toString());
     ConstraintBuilder b = AbstractConstraintBuilder.getInstance(pkgName);
-    return (b != null) ? b.createConstraint(id) : null;
+    return (b != null) ? b.createConstraint(errorCode) : null;
   }
 
 
@@ -176,14 +175,14 @@ public class ConstraintFactory {
    * Returns the constraint with the ID. The IDs of a constraint is
    * identically to the error code it will log on failure.
    * 
-   * @param id
+   * @param errorCode
    * @return
    */
-  public AnyConstraint<?> getConstraint(int id) {
-    AnyConstraint<?> c = getConstraintFromCache(id);
+  public AnyConstraint<?> getConstraint(int errorCode) {
+    AnyConstraint<?> c = getConstraintFromCache(errorCode);
     if (c == null) {
-      c = createConstraint(id);
-      this.addToCache(id, c);
+      c = createConstraint(errorCode);
+      this.addToCache(errorCode, c);
     }
     return c;
   }
@@ -224,19 +223,12 @@ public class ConstraintFactory {
     Set<Integer> set = AbstractConstraintList.getIdsForAttribute(attributeName,
       pkg, level, version);
 
-    // int[] array = new int[list.size()];
-    // for (int i = 0; i < array.length; i++) {
-    // Integer integer = list.get(i);
-    // array[i] = integer.intValue();
-    // }
-    //
-    // return getConstraints(array);
     return null;
   }
 
 
-  private AnyConstraint<?> getConstraintFromCache(int id) {
-    Integer key = new Integer(id);
+  private AnyConstraint<?> getConstraintFromCache(int errorCode) {
+    Integer key = new Integer(errorCode);
     SoftReference<AnyConstraint<?>> ref = ConstraintFactory.cache.get(key);
     if (ref != null) {
       AnyConstraint<?> c = (ref.get());

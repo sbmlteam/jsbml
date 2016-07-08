@@ -71,10 +71,11 @@ import javax.swing.tree.TreeNode;
  * @date 04.07.2016
  */
 public class ValidationContext {
-  
-  private class ValidationContextState{
-    public AnyConstraint<Object> rootConstraint;
-    public Class<?> constraintType;
+
+  private class ValidationContextState {
+
+    public AnyConstraint<Object>   rootConstraint;
+    public Class<?>                constraintType;
     public HashMap<String, Object> tempHashMap;
   }
 
@@ -119,126 +120,10 @@ public class ValidationContext {
   }
 
 
-  /**
-   * Returns the used level of SBML
-   * 
-   * @return
-   */
-  public int getLevel() {
-    return this.level;
-  }
-
-
-  /**
-   * Returns the used version of SBML
-   * 
-   * @return
-   */
-  public int getVersion() {
-    return this.version;
-  }
-
-
-  /**
-   * This value
-   * determines which constraints will be loaded and in which way
-   * broken constraints will be logged.
-   * 
-   * @return the level and version this validation context used.
-   */
-  public ValuePair<Integer, Integer> getLevelAndVersion() {
-    return new ValuePair<Integer, Integer>(new Integer(this.level),
-      new Integer(this.version));
-  }
-
-
-  /**
-   * @return the root constraint or {@code null} if no constraints were loaded
-   * @see #loadConstraints(Class, int, int, CheckCategory[])
-   */
-  public AnyConstraint<Object> getRootConstraint() {
-    return rootConstraint;
-  }
-
-
-  /**
-   * Constraints can use the {@link HashMap} of a context to store additional
-   * information
-   * 
-   * @return {@link HashMap}
-   */
-  public HashMap<String, Object> getHashMap() {
-    return this.hashMap;
-  }
-
-
-  /**
-   * Returns the {@link SBMLPackage}'s which will be validated during the validation.
-   * @return
-   * 
-   * @see ValidationContext#enablePackage(SBMLPackage, boolean)
-   * @see ValidationContext#enablePackages(SBMLPackage[], boolean)
-   */
-  public SBMLPackage[] getPackages() {
-    return this.packages.toArray(new SBMLPackage[this.packages.size()]);
-  }
-
-
-  /**
-   * Returns the list of all enabled check categories.
-   * 
-   * @return
-   */
-  public CheckCategory[] getCheckCategories() {
-    return this.categories.toArray(new CheckCategory[this.categories.size()]);
-  }
-
-
-  /**
-   * Set the level of the context and clears the root constraint.
-   * 
-   * @param level
-   */
-  public void setLevel(int level) {
-    setLevelAndVersion(level, this.version);
-  }
-
-
-  public void setLevelAndVersion(int level, int version) {
-    if (level != this.level || version != this.version) {
-      this.rootConstraint = null;
-      this.constraintType = null;
-      this.level = level;
-      this.version = version;
+  public void addValidationListener(ValidationListener listener) {
+    if (!this.listener.contains(listener)) {
+      this.listener.add(listener);
     }
-  }
-
-
-  public void setRootConstraint(AnyConstraint<Object> rootConstraint) {
-    this.rootConstraint = rootConstraint;
-  }
-
-
-  /**
-   * If set to true, the validation context will try to validate also the childs
-   * of a TreeNode interface.
-   * 
-   * @param recursiv
-   */
-  public void setValidateRecursivly(boolean recursiv) {
-
-    this.recursiv = recursiv;
-
-  }
-
-
-  /**
-   * Set the version of the context and clears the root constraint.
-   * 
-   * @param version
-   */
-  public void setVersion(int version) {
-    setLevelAndVersion(this.level, version);
   }
 
 
@@ -329,22 +214,160 @@ public class ValidationContext {
     ConstraintFactory factory = ConstraintFactory.getInstance();
     ConstraintGroup<Object> group =
       factory.getConstraintsForClass(objectClass, this);
-
+  
     if (this.recursiv && TreeNode.class.isAssignableFrom(objectClass)) {
       @SuppressWarnings("unchecked")
       AnyConstraint<Object> c = (AnyConstraint<Object>) factory.getConstraint(
         CoreSpecialErrorCodes.ID_VALIDATE_TREE_NODE);
       group.add(c);
     }
-
+  
     this.rootConstraint = group;
   }
 
 
-  public void addValidationListener(ValidationListener listener) {
-    if (!this.listener.contains(listener)) {
-      this.listener.add(listener);
+  /**
+   * Returns the list of all enabled check categories.
+   * 
+   * @return
+   */
+  public CheckCategory[] getCheckCategories() {
+    return this.categories.toArray(new CheckCategory[this.categories.size()]);
+  }
+
+
+  /**
+   * Constraints can use this {@link HashMap} to store additional
+   * information.
+   * <p>
+   * Notice that this method doesn't return a copy, but a reference to the
+   * actual instance.
+   * 
+   * @return Reference of {@link HashMap}
+   */
+  public HashMap<String, Object> getHashMap() {
+    return this.hashMap;
+  }
+
+
+  /**
+   * Returns the used level of SBML
+   * 
+   * @return a positive <code>int</code>
+   * @see #getVersion()
+   * @see #getLevelAndVersion()
+   */
+  public int getLevel() {
+    return this.level;
+  }
+
+
+  /**
+   * This value determines which constraints will be loaded and in which way
+   * broken constraints will be logged.
+   * 
+   * @return the level and version this validation context used.
+   * @see #getLevel()
+   * @see #getVersion()
+   */
+  public ValuePair<Integer, Integer> getLevelAndVersion() {
+    return new ValuePair<Integer, Integer>(new Integer(this.level),
+      new Integer(this.version));
+  }
+
+
+  /**
+   * Returns the {@link SBMLPackage}'s which will be validated during the
+   * validation.
+   * 
+   * @return
+   * @see #enablePackage(SBMLPackage, boolean)
+   * @see #enablePackages(SBMLPackage[], boolean)
+   */
+  public SBMLPackage[] getPackages() {
+    return this.packages.toArray(new SBMLPackage[this.packages.size()]);
+  }
+
+
+  /**
+   * Returns the root constraint from this context. The value may be
+   * <code>null</code> if no constraint was loaded. The
+   * {@link AnyConstraint#check(ValidationContext, Object)} will be called in
+   * {@link #validate(Object)}
+   * 
+   * @return the root constraint or {@code null} if no constraints were loaded
+   * @see #loadConstraints(Class, int, int, CheckCategory[])
+   */
+  public AnyConstraint<Object> getRootConstraint() {
+    return rootConstraint;
+  }
+
+
+  /**
+   * Returns the used version of SBML
+   * 
+   * @return a positive <code>int</code>
+   * @see #getLevel()
+   * @see #getLevelAndVersion()
+   */
+  public int getVersion() {
+    return this.version;
+  }
+
+
+  /**
+   * Calls {@link #setLevelAndVersion(int, int)}
+   * 
+   * @param level
+   * @see #setLevelAndVersion(int, int)
+   */
+  public void setLevel(int level) {
+    setLevelAndVersion(level, this.version);
+  }
+
+
+  /**
+   * Sets the level/version and clears the root constraint if one of these
+   * values differs from the current values.
+   * 
+   * @param level
+   * @param version
+   */
+  public void setLevelAndVersion(int level, int version) {
+    if (level != this.level || version != this.version) {
+      this.rootConstraint = null;
+      this.constraintType = null;
+      this.level = level;
+      this.version = version;
     }
+  }
+
+
+  public void setRootConstraint(AnyConstraint<Object> rootConstraint) {
+    this.rootConstraint = rootConstraint;
+  }
+
+
+  /**
+   * If set to true, the validation context will try to validate also the childs
+   * of a TreeNode interface.
+   * 
+   * @param recursiv
+   */
+  public void setValidateRecursivly(boolean recursiv) {
+
+    this.recursiv = recursiv;
+
+  }
+
+
+  /**
+   * Set the version of the context and clears the root constraint.
+   * 
+   * @param version
+   */
+  public void setVersion(int version) {
+    setLevelAndVersion(this.level, version);
   }
 
 
