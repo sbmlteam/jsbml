@@ -33,7 +33,7 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
 
 
   public ConstraintGroup() {
-    this.id = CoreSpecialErrorCodes.ID_GROUP;
+    super(CoreSpecialErrorCodes.ID_GROUP);
   }
 
 
@@ -79,7 +79,7 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
     }
     for (int i = 0; i < this.constraints.size(); i++) {
       AnyConstraint<T> con = this.constraints.get(i);
-      if (con.getId() == id) {
+      if (con.getErrorCode() == id) {
         this.constraints.remove(i);
         return con;
       }
@@ -102,7 +102,7 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
    */
   public boolean contains(int id) {
     for (AnyConstraint<T> con : this.constraints) {
-      if (con.getId() == id) {
+      if (con.getErrorCode() == id) {
         return true;
       }
     }

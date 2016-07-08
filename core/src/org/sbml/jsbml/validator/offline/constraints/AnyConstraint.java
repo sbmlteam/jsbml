@@ -22,11 +22,23 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
+/**
+ * Basic interface which must be implemented by every kind of constraint.
+ * A class which implements this interface should be able to validate a object
+ * from class T.
+ * 
+ * @author Roman
+ * @since 1.2
+ * @date 08.07.2016
+ * @param <T>
+ */
 public interface AnyConstraint<T> {
 
   /**
-   * Checks if the object conforms to the
-   * specific rule in the given context
+   * Checks if the object conforms to the specific rule in the given context.
+   * <p>
+   * If the rule behaves different for each level/version, the level and version
+   * of the context will be used.
    * 
    * @param context
    * @param t
@@ -35,5 +47,12 @@ public interface AnyConstraint<T> {
   abstract public boolean check(ValidationContext context, T t);
 
 
-  abstract public int getId();
+  /**
+   * Returns the error code from this constraints.
+   * In the default case this should be a error code which is defined in the
+   * SBML specifications.
+   * 
+   * @return
+   */
+  abstract public int getErrorCode();
 }

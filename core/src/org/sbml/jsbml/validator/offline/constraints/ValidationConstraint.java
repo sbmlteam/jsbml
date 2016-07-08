@@ -30,8 +30,8 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
   private ValidationFunction<T>     func;
 
 
-  public ValidationConstraint(int id, ValidationFunction<T> func) {
-    this.id = id;
+  public ValidationConstraint(int errorCode, ValidationFunction<T> func) {
+    super(errorCode);
     this.func = func;
   }
 
@@ -39,7 +39,7 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof ValidationConstraint<?>) {
-      return ((ValidationConstraint<?>) obj).getId() == this.id;
+      return ((ValidationConstraint<?>) obj).getErrorCode() == this.getErrorCode();
     }
     return false;
   }
@@ -49,10 +49,12 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
   public boolean check(ValidationContext context, T t) {
     // TODO Auto-generated method stub
     boolean passed = true;
-    logger.debug("Validate constraint " + this.id);
+    logger.debug("Validate constraint " + this.getErrorCode());
+
     if (this.func != null) {
       passed = func.check(context, t);
     }
+
     context.didValidate(this, t, passed);
 
     return passed;

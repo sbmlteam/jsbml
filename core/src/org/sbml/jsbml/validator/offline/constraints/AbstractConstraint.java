@@ -20,14 +20,32 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+/**
+ * Abstract generic mother class to for all the constraints. It provides a basic
+ * implementation of {@link AnyConstraint#getErrorCode()}.
+ * <p>
+ * Subclasses should set their own id by calling
+ * {@link AbstractConstraint#AbstractConstraint(int)}.
+ * 
+ * @author Roman
+ * @since 1.2
+ * @date 08.07.2016
+ * @param <T>
+ */
 public abstract class AbstractConstraint<T> implements AnyConstraint<T> {
 
-  protected int id = CoreSpecialErrorCodes.ID_DO_NOT_CACHE;
+  private final int errorCode;
+
+
+  protected AbstractConstraint(int errorCode) {
+    // TODO Auto-generated constructor stub
+    this.errorCode = errorCode;
+  }
 
 
   @Override
-  public int getId() {
+  public int getErrorCode() {
     // TODO Auto-generated method stub
-    return this.id;
+    return this.errorCode;
   }
 }
