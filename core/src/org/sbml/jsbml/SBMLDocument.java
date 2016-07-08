@@ -341,8 +341,8 @@ public class SBMLDocument extends AbstractSBase {
     ctx.loadConstraints(this.getClass());
     ctx.validate(this);
 
-    this.listOfErrors = ctx.getLog();
-    return ctx.getLog().getErrorCount();
+    this.listOfErrors = ctx.getErrorLog();
+    return ctx.getErrorLog().getErrorCount();
   }
 
 
