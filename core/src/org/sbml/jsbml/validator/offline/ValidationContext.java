@@ -71,6 +71,12 @@ import javax.swing.tree.TreeNode;
  * @date 04.07.2016
  */
 public class ValidationContext {
+  
+  private class ValidationContextState{
+    public AnyConstraint<Object> rootConstraint;
+    public Class<?> constraintType;
+    public HashMap<String, Object> tempHashMap;
+  }
 
   /**
    * Log4j logger
