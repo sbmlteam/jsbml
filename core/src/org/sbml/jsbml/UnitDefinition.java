@@ -611,17 +611,32 @@ public class UnitDefinition extends AbstractNamedSBase {
   }
 
   /**
+   * Creates a new {@link Unit} instance with the {@link Unit.Kind#INVALID} kind and adds
+   * it to this {@link UnitDefinition}.
    * 
-   * @return
+   * @return a new {@link Unit} instance with the {@link Unit.Kind#INVALID} kind.
+   * @see #createInvalidUnit()
    */
   public Unit createUnit() {
+    return createInvalidUnit();
+  }
+
+  /**
+   * Creates a new {@link Unit} instance with the {@link Unit.Kind#INVALID} kind and adds
+   * it to this {@link UnitDefinition}.
+   * 
+   * @return a new {@link Unit} instance with the {@link Unit.Kind#INVALID} kind.
+   */
+  public Unit createInvalidUnit() {
     return createUnit(Unit.Kind.INVALID);
   }
 
   /**
+   * Creates a new {@link Unit} instance with the given {@link Unit.Kind} and adds
+   * it to this {@link UnitDefinition}.
    * 
-   * @param kind
-   * @return
+   * @param kind the kind to be set in the new Unit.
+   * @return a new {@link Unit} instance with the given {@link Unit.Kind}.
    */
   public Unit createUnit(Unit.Kind kind) {
     Unit unit = new Unit(1d, 0, kind, 1d, getLevel(), getVersion());
