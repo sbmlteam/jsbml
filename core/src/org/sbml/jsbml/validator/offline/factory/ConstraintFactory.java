@@ -94,8 +94,8 @@ public class ConstraintFactory {
   public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz,
     CheckCategory category, SBMLPackage[] packages, int level, int version) {
 
-    Set<Integer> set = AbstractConstraintList.getIdsForClass(clazz, category,
-      packages, level, version);
+    Set<Integer> set = AbstractConstraintList.getErrorCodesForClass(clazz,
+      category, packages, level, version);
 
     Integer[] array = set.toArray(new Integer[set.size()]);
 
@@ -117,10 +117,9 @@ public class ConstraintFactory {
     }
 
     // constraints for the next superclass (if not java.lang.Object)
-    Class<?> superclass = clazz.getSuperclass();
-    if (superclass != null && !superclass.equals(Object.class)) {
-      AnyConstraint<T> con = this.getConstraintsForClass(superclass, category,
-        packages, level, version);
+    if (!clazz.equals(Object.class)) {
+      AnyConstraint<T> con = this.getConstraintsForClass(clazz.getSuperclass(),
+        category, packages, level, version);
 
       if (con != null) {
         if (group == null) {
@@ -189,15 +188,16 @@ public class ConstraintFactory {
 
 
   /**
-   * Returns one constraint which covers all the rules for the given IDs.
+   * Returns a {@link ConstraintGroup} with at least 1 member or <code>null</code> if
+   * no constraints could be created.
    * 
-   * @param ids
-   * @return A ConstraintGroup
+   * @param errorCodes
+   * @return A {@link ConstraintGroup} with all the constraints
    */
-  public <T> ConstraintGroup<T> getConstraints(Integer[] ids) {
+  public <T> ConstraintGroup<T> getConstraints(Integer[] errorCodes) {
     ConstraintGroup<T> group = null;
 
-    for (int id : ids) {
+    for (int id : errorCodes) {
       @SuppressWarnings("unchecked")
       AnyConstraint<T> c = (AnyConstraint<T>) this.getConstraint(id);
       if (c != null) {
@@ -214,16 +214,53 @@ public class ConstraintFactory {
   }
 
 
-  public <T> AnyConstraint<T> getConstraintsForAttribute(String attributeName,
-    SBMLPackage pkg, int level, int version) {
+  /**
+   * @param attributeName
+   * @param clazz
+   * @param pkg
+   * @param level
+   * @param version
+   * @return
+   */
+  public <T> ConstraintGroup<T> getConstraintsForAttribute(String attributeName,
+    Class<?> clazz, SBMLPackage pkg, int level, int version) {
     if (pkg == null) {
       pkg = SBMLPackage.CORE;
     }
 
-    Set<Integer> set = AbstractConstraintList.getIdsForAttribute(attributeName,
-      pkg, level, version);
+    // Error codes for this class
+    Set<Integer> errorCodes = AbstractConstraintList.getErrorCodesForAttribute(
+      attributeName, clazz, pkg, level, version);
 
-    return null;
+    Integer[] array = errorCodes.toArray(new Integer[errorCodes.size()]);
+    ConstraintGroup<T> group = getConstraints(array);
+
+    // Try all interfaces
+    for (Class<?> iface : clazz.getInterfaces()) {
+      ConstraintGroup<T> c =
+          getConstraintsForAttribute(attributeName, iface, pkg, level, version);
+
+      if (group == null) {
+        group = c;
+      } else {
+        group.add(c);
+      }
+    }
+
+    // If there's no rule for any interface of clazz, try his super clazz
+    // clazz (if not Object)
+    if (!clazz.equals(Object.class)) {
+      ConstraintGroup<T> c = getConstraintsForAttribute(attributeName,
+        clazz.getSuperclass(), pkg, level, version);
+
+      if (group == null) {
+        group = c;
+      } else {
+        group.add(c);
+      }
+    }
+
+    return group;
   }
 
 

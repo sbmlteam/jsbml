@@ -23,7 +23,9 @@
 package org.sbml.jsbml.validator.offline;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
@@ -55,14 +57,14 @@ public class LoggingValidationContext extends ValidationContext
 
 
   public LoggingValidationContext(int level, int version) {
-    this(level, version, null, new ArrayList<CheckCategory>());
+    this(level, version, null, new HashSet<CheckCategory>());
     this.addValidationListener(this);
     // TODO Auto-generated constructor stub
   }
 
 
   public LoggingValidationContext(int level, int version,
-    AnyConstraint<Object> rootConstraint, List<CheckCategory> categories) {
+    AnyConstraint<Object> rootConstraint, Set<CheckCategory> categories) {
     super(level, version, rootConstraint, categories);
     log = new SBMLErrorLog();
   }

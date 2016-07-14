@@ -85,14 +85,14 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
   }
 
 
-  public static Set<Integer> getIdsForClass(Class<?> clazz,
+  public static Set<Integer> getErrorCodesForClass(Class<?> clazz,
     CheckCategory category, ValidationContext ctx) {
-    return getIdsForClass(clazz, category, ctx.getPackages(), ctx.getLevel(),
+    return getErrorCodesForClass(clazz, category, ctx.getPackages(), ctx.getLevel(),
       ctx.getVersion());
   }
 
 
-  public static Set<Integer> getIdsForClass(Class<?> clazz,
+  public static Set<Integer> getErrorCodesForClass(Class<?> clazz,
     CheckCategory category, SBMLPackage[] packages, int level, int version) {
     Set<Integer> set = new HashSet<Integer>();
 
@@ -120,13 +120,13 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
   }
 
 
-  public static Set<Integer> getIdsForAttribute(String attribute,
+  public static Set<Integer> getErrorCodesForAttribute(String attribute, Class<?> clazz,
     SBMLPackage pkg, int level, int version) {
     Set<Integer> list = new HashSet<Integer>();
     Class<?> constraintList = getCachedList(pkg, level, version);
 
     if (constraintList != null) {
-      String methodName = "add" + attribute + "Ids";
+      String methodName = "add" + StringTools.firstLetterUpperCase(attribute) + clazz.getSimpleName() + "ErrorCodes";
 
       try {
         Method m = constraintList.getMethod(methodName, List.class);
