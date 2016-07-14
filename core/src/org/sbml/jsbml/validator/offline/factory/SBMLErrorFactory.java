@@ -1,3 +1,23 @@
+/*
+ * $Id$
+ * $URL$
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ * Copyright (C) 2009-2016 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
+
 package org.sbml.jsbml.validator.offline.factory;
 
 import java.io.File;
@@ -15,19 +35,19 @@ public class SBMLErrorFactory {
    * Keys to access the JSON file
    */
   private static final String              JSON_KEY_AVAILABLE           =
-    "Available";
+      "Available";
   private static final String              JSON_KEY_MESSAGE             =
-    "Message";
+      "Message";
   private static final String              JSON_KEY_SHORT_MESSAGE       =
-    "Available";
+      "Available";
   private static final String              JSON_KEY_PACKAGE             =
-    "Package";
+      "Package";
   private static final String              JSON_KEY_CATEGORY            =
-    "Category";
+      "Category";
   private static final String              JSON_KEY_DEFAULT_SEVERITY    =
-    "DefaultSeverity";
+      "DefaultSeverity";
   private static final String              JSON_KEY_UNFORMATED_SEVERITY =
-    "SeverityL%dV%d";
+      "SeverityL%dV%d";
   private static SoftReference<JSONObject> cachedJson;
 
 
@@ -41,7 +61,7 @@ public class SBMLErrorFactory {
         String fileName = "../../../resources/SBMLErrors.json";
         // JSONParser parser2 = new JSONParser();
         File file =
-          new File(SBMLErrorFactory.class.getResource(fileName).getFile());
+            new File(SBMLErrorFactory.class.getResource(fileName).getFile());
         JSONParser parser = new JSONParser();
         errors = (JSONObject) (parser.parse(new FileReader(file)));
       } catch (Exception e) {
@@ -63,7 +83,7 @@ public class SBMLErrorFactory {
         e.setShortMessage(sm);
         e.setPackage((String) errorEntry.get(JSON_KEY_PACKAGE));
         Object sev =
-          errorEntry.get(SBMLErrorFactory.getSeverityKey(level, version));
+            errorEntry.get(SBMLErrorFactory.getSeverityKey(level, version));
         if (sev == null) {
           sev = errorEntry.get(SBMLErrorFactory.JSON_KEY_DEFAULT_SEVERITY);
         }

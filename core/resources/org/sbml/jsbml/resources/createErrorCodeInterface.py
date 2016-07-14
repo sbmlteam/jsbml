@@ -46,7 +46,28 @@ fp = open(file_name)
 contents = fp.read()
 data = json.loads(contents)
 
-file = '''package org.sbml.jsbml.validator.factory;
+file = '''/*\n
+ * $Id$\n
+ * $URL$\n
+ * ----------------------------------------------------------------------------\n
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>\n
+ * for the latest version of JSBML and more information about SBML.\n
+ *\n
+ * Copyright (C) 2009-2016 jointly by the following organizations:\n
+ * 1. The University of Tuebingen, Germany\n
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK\n
+ * 3. The California Institute of Technology, Pasadena, CA, USA\n
+ * 4. The University of California, San Diego, La Jolla, CA, USA\n
+ * 5. The Babraham Institute, Cambridge, UK\n
+ *\n
+ * This library is free software; you can redistribute it and/or modify it\n
+ * under the terms of the GNU Lesser General Public License as published by\n
+ * the Free Software Foundation. A copy of the license agreement is provided\n
+ * in the file named "LICENSE.txt" included with this software distribution\n
+ * and also available online as <http://sbml.org/Software/JSBML/License>.\n
+ * ----------------------------------------------------------------------------\n
+ */\n
+package org.sbml.jsbml.validator.factory;
 \n\npublic interface SBMLErrorCodes { \n \n'''
 
 for key in sorted(data, key=int):
