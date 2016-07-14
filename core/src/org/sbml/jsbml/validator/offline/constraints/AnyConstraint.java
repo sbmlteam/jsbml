@@ -41,10 +41,10 @@ public interface AnyConstraint<T> {
    * of the context will be used.
    * 
    * @param context
-   * @param t
+   * @param object
    * @return test passed
    */
-  abstract public boolean check(ValidationContext context, T t);
+  abstract public boolean check(ValidationContext context, T object);
 
 
   /**

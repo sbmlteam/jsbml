@@ -56,7 +56,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
     // int uid = Math.abs(id);
 
     if (id < 0) {
-      return this.createSpecialConstraint(id);
+      return CoreConstraintBuilder.createSpecialConstraint(id);
     }
 
     int firstThree = id / 100;
@@ -165,6 +165,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
     switch (id) {
     case CORE_20501:
+      
       func = new ValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
@@ -651,6 +652,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
           //          System.out.println("Found Tree " + t.getChildCount() + " " + children.hasMoreElements());
           AnyConstraint<Object> root = ctx.getRootConstraint();
+          Class<?> type = ctx.getConstraintType();
 
           while (children.hasMoreElements())
           {
@@ -664,7 +666,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
           }
 
-          ctx.setRootConstraint(root);
+          ctx.setRootConstraint(root, type);
 
           return success;
         }

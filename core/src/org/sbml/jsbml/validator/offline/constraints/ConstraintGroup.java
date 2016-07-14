@@ -21,15 +21,16 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 
 public class ConstraintGroup<T> extends AbstractConstraint<T> {
 
-  private List<AnyConstraint<T>> constraints =
-      new ArrayList<AnyConstraint<T>>();
+  private Set<AnyConstraint<T>> constraints = new HashSet<AnyConstraint<T>>();
 
 
   public ConstraintGroup() {
@@ -38,23 +39,24 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
 
 
   @Override
-  public boolean check(ValidationContext context, T t) {
-    context.willValidate(this, t);
+  public boolean check(ValidationContext context, T object) {
+    context.willValidate(this, object);
 
     boolean success = true;
     for (AnyConstraint<T> c : this.constraints) {
       if (c != null) {
-        success = c.check(context, t) && success;
+        success = c.check(context, object) && success;
       }
     }
-    context.didValidate(this, t, success);
+    context.didValidate(this, object, success);
 
     return success;
   }
 
 
   /**
-   * Adds a constraint to the group.
+   * Adds a constraint to the group. The constraints are collected in a
+   * {@link Set}, so every constraint can only added onces.
    * 
    * @param c
    */
@@ -67,42 +69,30 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
 
 
   /**
-   * Removes the constraint with the id from the group.
+   * Removes the constraint from the group.
    * 
-   * @param id
-   * @return the constraint or null if the constraint didn't was in group
+   * @param constraint
+   * @return <code>true</code> if constraint was in group
    */
-  public AnyConstraint<T> remove(int id) {
-    if (id == CoreSpecialErrorCodes.ID_DO_NOT_CACHE
-        || id == CoreSpecialErrorCodes.ID_GROUP) {
-      return null;
-    }
-    for (int i = 0; i < this.constraints.size(); i++) {
-      AnyConstraint<T> con = this.constraints.get(i);
-      if (con.getErrorCode() == id) {
-        this.constraints.remove(i);
-        return con;
-      }
-    }
-    return null;
-  }
-
-
-  public AnyConstraint<T> removeAt(int i) {
-    if (i < this.constraints.size()) {
-      return this.constraints.remove(i);
-    }
-    return null;
+  public boolean remove(AnyConstraint<T> constraint) {
+    return this.constraints.remove(constraint);
   }
 
 
   /**
-   * @param id
-   * @return
+   * Checks if the errorCode is in the group.
+   * <p>
+   * Notice that every {@link ConstraintGroup} uses the same error code
+   * {@link CoreSpecialErrorCodes#ID_GROUP}. Use
+   * {@link #contains(AnyConstraint)} instead.
+   * 
+   * @param errorCode
+   * @return <code>true</code> if the error code is in the group
+   * @see #contains(AnyConstraint)
    */
-  public boolean contains(int id) {
+  public boolean contains(int errorCode) {
     for (AnyConstraint<T> con : this.constraints) {
-      if (con.getErrorCode() == id) {
+      if (con.getErrorCode() == errorCode) {
         return true;
       }
     }
@@ -111,7 +101,18 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
 
 
   /**
-   * Returns the member of the group.
+   * Checks if the constraint is in the group.
+   * 
+   * @param c
+   * @return
+   */
+  public boolean contains(AnyConstraint<T> c) {
+    return this.constraints.contains(c);
+  }
+
+
+  /**
+   * Returns the members of the group.
    * 
    * @return
    */
