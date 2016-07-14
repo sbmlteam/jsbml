@@ -27,6 +27,7 @@ import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.CompartmentType;
 import org.sbml.jsbml.Constraint;
@@ -41,6 +42,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.SpeciesType;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -51,121 +53,390 @@ import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
   @Override
-  public AnyConstraint<?> createConstraint(int id) {
+  public AnyConstraint<?> createConstraint(int errorCode) {
 
     // int uid = Math.abs(id);
 
-    if (id < 0) {
-      return CoreConstraintBuilder.createSpecialConstraint(id);
+    if (errorCode < 0) {
+      return CoreConstraintBuilder.createSpecialConstraint(errorCode);
     }
 
-    int firstThree = id / 100;
+    int firstThree = errorCode / 100;
 
     switch (firstThree) 
     {
     case 207:
-      return CoreConstraintBuilder.createInitialAssignmentConstraint(id);
+      return CoreConstraintBuilder.createInitialAssignmentConstraint(errorCode);
     case 206:
-      return CoreConstraintBuilder.createSpeciesConstraint(id);
+      return CoreConstraintBuilder.createSpeciesConstraint(errorCode);
     case 205:
-      return CoreConstraintBuilder.createCompartmentConstraint(id);
+      return CoreConstraintBuilder.createCompartmentConstraint(errorCode);
+    case 202:
+      return CoreConstraintBuilder.createModelConstraint(errorCode);
+    default:
+      return null;
+    }
+
+  }
+
+  /**
+   * Create constraints 20204 and 20216
+   * @param errorCode
+   * @return
+   */
+  protected static AnyConstraint<?> createModelConstraint(int errorCode){
+    ValidationFunction<Model> func = null;
+
+    switch (errorCode) {
+    case CORE_20204:
+      func = new ValidationFunction<Model>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (ctx.getLevel() > 1 && m.getNumSpecies() > 0)
+          {
+            return m.getNumCompartments() > 0;
+          }
+
+          return true;
+        }
+      };
+      break;
+    case CORE_20216:
+      func = new ValidationFunction<Model>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (ctx.getLevel() > 2 && m.isSetConversionFactor())
+          {
+            return m.getConversionFactorInstance() != null;
+          }
+          return true;
+        }
+      };
+    default:
+      return null;
+    }
+
+    return new ValidationConstraint<Model>(errorCode, func);
+  }
+
+  protected static AnyConstraint<?> createFunctionDefinitionConstraint(int errorCode){
+    ValidationFunction<FunctionDefinition> func = null;
+
+    switch (errorCode) {
+    case CORE_20301:
+      func = new ValidationFunction<FunctionDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionDefinition fd) {
+          boolean success = true;
+
+          if (ctx.getLevel() > 1 && fd.isSetMath())
+          {
+            ASTNode math = fd.getMath();
+
+            if (ctx.isLevelAndVersionLessThan(2, 3))
+            {
+              // must be a lambda
+              if (!math.isLambda())
+              {
+                success = false;
+              }
+
+              // TODO isSemantics???
+            }
+            else
+            {
+              // Only applies to lambdas in l2v3 and later.
+              if (math.isLambda())
+              {
+                //TODO isSemantics???
+              }
+            }
+          } 
+
+
+          return success;
+        }
+      };
+      break;
+
 
     default:
       return null;
     }
 
-    // // Using bisection to find constraints faster.
-    // // using comments to mark the intervalls
-    //
-    // // id -> (50_000, 99_999]
-    // if (id > 50_000) {
-    // // id -> (75_000, 99_999]
-    // if (id > 75_000) {
-    //
-    // }
-    // // id -> (50_000, 75_000]
-    // else {
-    //
-    // }
-    // }
-    // // id -> (0, 50_000]
-    // else {
-    // // id -> (25_000, 50_000]
-    // if (id > 25_000) {
-    //
-    // }
-    // // id -> (0, 25_000]
-    // else {
-    //
-    // // id -> (12_500, 25_000]
-    // if (id > 12_500) {
-    // // id -> (18_000, 25_000]
-    // if (id > 18_000) {
-    // // id -> (20_000, 25_000]
-    // if (id > 20_000) {
-    // // id -> (22_000, 25_000]
-    // if (id > 22_000) {
-    //
-    // }
-    // // id -> (20_000, 22_000]
-    // else {
-    // // id -> (21_000, 22_000]
-    // if (id > 21_000) {
-    //
-    // }
-    // // id -> (20_000, 21_000]
-    // else {
-    // if (id > 20_700) {
-    // return createInitialAssignment(id);
-    // } else if (id > 20_600) {
-    // return createSpeciesConstraint(id);
-    // } else if (id > 20_500) {
-    // return createCompartmentConstraint(id);
-    // }
-    // }
-    // }
-    // }
-    // // id -> (18_000, 20_000]
-    // else {
-    // // id -> (19_000, 20_000]
-    // if (id > 19_000) {
-    //
-    // }
-    // // id -> (18_000, 19_000]
-    // else {
-    //
-    // }
-    // }
-    // } else {
-    //
-    // }
-    // if (id > 20_000) {
-    //
-    // } else {
-    //
-    // }
-    // // id -> (0, 12_500]
-    // } else {
-    //
-    // }
-    // }
-    // }
+    return new ValidationConstraint<>(errorCode, func);
+  }
 
-    // return null;
+  protected static AnyConstraint<?> createUnitDefinitionConstraint(int errorCode) {
+    ValidationFunction<UnitDefinition> func = null;
+
+    switch (errorCode) {
+    case CORE_20401:
+      func = new ValidationFunction<UnitDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+
+          return Unit.isUnitKind(ud.getId(), ctx.getLevel(), ctx.getVersion());
+        }
+      };
+      break;
+
+    case CORE_20402:
+      func = new ValidationFunction<UnitDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+
+          if (ud.getId() == "substance"){
+            if (ctx.isLevelAndVersionLesserEqualThan(2, 1))
+            {
+              return ud.isVariantOfSubstance();
+            }
+            else {
+              return ud.isVariantOfSubstance() || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+            }
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20403:
+      func = new ValidationFunction<UnitDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+          // TODO Auto-generated method stub
+
+          if (ud.getId() == "length")
+          {
+            if (ctx.isLevelAndVersionLesserEqualThan(2, 1))
+            {
+              return ud.isVariantOfLength();
+            }
+            else {
+              return ud.isVariantOfLength() || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+            }
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20404:
+      func = new ValidationFunction<UnitDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+          // TODO Auto-generated method stub
+
+          if (ud.getId() == "area")
+          {
+            if (ctx.isLevelAndVersionLesserEqualThan(2, 1))
+            {
+              return ud.isVariantOfArea();
+            }
+            else {
+              return ud.isVariantOfArea() || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+            }
+          }
+
+          return true;
+        }
+      };
+      break;
+    case CORE_20405:
+      func = new ValidationFunction<UnitDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+          // TODO Auto-generated method stub
+
+          if (ud.getId() == "time")
+          {
+            if (ctx.isLevelAndVersionLesserEqualThan(2, 1))
+            {
+              return ud.isVariantOfTime();
+            }
+            else {
+              return ud.isVariantOfTime() || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+            }
+          }
+
+          return true;
+        }
+      };
+      break;
+    case CORE_20406:
+      func = new ValidationFunction<UnitDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+          // TODO Auto-generated method stub
+
+          if (ud.getId() == "volume")
+          {
+            if (ctx.isLevelAndVersionLessThan(2, 4))
+            {
+              if (ud.getUnitCount() == 1)
+              {
+                Unit u = ud.getUnit(0);
+                if (ctx.getLevel() == 1)
+                {
+                  return u.isLitre();
+                }
+                else if (ctx.isLevelAndVersionEqualTo(2, 1))
+                {
+                  return u.isLitre() || u.isMetre();
+                }
+                else
+                {
+                  return u.isLitre() || u.isMetre() || u.isDimensionless();
+                }
+              }
+              else{
+
+                return ud.isVariantOfVolume();
+
+              }
+
+            }
+            else {
+              return ud.isVariantOfVolume() || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+            }
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20407:
+      func = new ValidationFunction<UnitDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+          if (ctx.isLevelAndVersionLessThan(2, 4) && 
+              ud.getId() == "volume" && 
+              ud.getNumUnits() == 1)
+          {
+            Unit u = ud.getUnit(0);
+
+            return u.isLitre() && u.getExponent() == 1;
+          }
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20408:
+      func = new ValidationFunction<UnitDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+
+          if (ctx.isLevelAndVersionLessThan(2, 4) && 
+              ud.getId() == "volume" && 
+              ud.getNumUnits() == 1)
+          {
+            Unit u = ud.getUnit(0);
+
+            return u.isMetre() && u.getExponent() == 3;
+          }
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20409:
+      func = new ValidationFunction<UnitDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+
+          return ud.getListOfUnits().size() > 0;
+        }
+      };
+      break;
+      
+    case CORE_20410:
+      func = new ValidationFunction<UnitDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+          
+          boolean success = true;
+          
+          for (Unit u: ud.getListOfUnits())
+          {
+            if (!u.isCelsius())
+            {
+              success = success && Unit.isUnitKind(u.getKind(), ctx.getLevel(), ctx.getVersion());
+            }
+            
+          }
+          
+          return success;
+        }
+      };
+      break;
+      
+    case CORE_20411:
+      func = new ValidationFunction<UnitDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+          boolean success = true;
+          
+          for (Unit u: ud.getListOfUnits())
+          {
+            success = success && u.getOffset() == 0;
+          }
+            
+          return success;
+        }
+      };
+      break;
+
+    default:
+      break;
+    }
+
+    return new ValidationConstraint<>(errorCode, func);
   }
 
   /**
    * Creates constraints 20501 - 20517
    * 
-   * @param id
+   * @param errorCode
    * @return
    */
-  protected static AnyConstraint<?> createCompartmentConstraint(int id) {
+  protected static AnyConstraint<?> createCompartmentConstraint(int errorCode) {
     ValidationFunction<Compartment> func;
 
-    switch (id) {
+    switch (errorCode) {
     case CORE_20501:
-      
+
       func = new ValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
@@ -310,7 +581,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
       return null;
     }
 
-    return new ValidationConstraint<Compartment>(id, func);
+    return new ValidationConstraint<Compartment>(errorCode, func);
   }
 
   /**
