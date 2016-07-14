@@ -63,5 +63,9 @@ implements SBMLErrorCodes {
   public static void addGeneralSpeciesReferenceIds(Set<Integer> list) {
     list.add(CORE_20611);
   }
+  
+  public static void addSizeCompartmentErrorCodes(Set<Integer> set) {
+    set.add(CORE_20501);
+  }
 
 }
