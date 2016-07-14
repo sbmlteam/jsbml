@@ -17,18 +17,25 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.test;
+
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.validator.offline.SBMLPackage;
+import org.sbml.jsbml.xml.parsers.PackageUtil;
+import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
@@ -36,7 +43,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * @version $Rev$
  * @since 1.2
  */
-public class OfflineValidatorTests {
+public class OfflineValidatorLayoutTests {
 
   /**
    * @param args
@@ -163,9 +170,7 @@ public class OfflineValidatorTests {
       long startRead = Calendar.getInstance().getTimeInMillis();
       SBMLDocument doc = new SBMLReader().readSBML(file);
       readTime += (Calendar.getInstance().getTimeInMillis() - startRead);
-      
       int errors = doc.checkConsistencyOffline();
-      
       if (errors > 0) {
         System.out.println(errors + " constraints broken.");
         if (shouldPass) {

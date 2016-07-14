@@ -28,6 +28,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.validator.offline.SBMLPackage;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 
 /**
  * Represents the compartment in a model, i.e., a variable element with name,
@@ -715,6 +717,13 @@ public class Compartment extends Symbol {
     firePropertyChange(TreeNodeChangeEvent.outside, oldOutside, outsideID);
   }
 
+  
+  private boolean checkAttribute(String attributeName)
+  {
+    ValidationContext ctx = new ValidationContext(this.getLevel(), this.getVersion());
+    return ctx.validateAttribute(SBMLPackage.CORE, attributeName, this);
+  }
+  
   /**
    * Checks if the compartmentType attribute follow the SBML specification constraints.
    */
@@ -801,9 +810,13 @@ public class Compartment extends Symbol {
    *             in case of Level &lt; 2.
    */
   public void setSize(double size) {
-    checkAttribute(TreeNodeChangeEvent.size, size);
-    
     setValue(size);
+    
+    if (!checkAttribute(TreeNodeChangeEvent.size))
+    {
+      throw new PropertyNotAvailableException(TreeNodeChangeEvent.size, this);
+    }
+
   }
 
   /**
