@@ -109,7 +109,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (ctx.getLevel() > 2 && m.isSetConversionFactor())
+          if (m.isSetConversionFactor())
           {
             return m.getConversionFactorInstance() != null;
           }
