@@ -374,6 +374,7 @@ public class Compartment extends Symbol {
   @Override
   public String getUnits() {
     String units = super.getUnits();
+        
     if ((units == null) && (getLevel() > 2)) {
       int dim = (int) getSpatialDimensions();
       if (dim - getSpatialDimensions() == 0d) {
@@ -652,14 +653,36 @@ public class Compartment extends Symbol {
    */
   @Deprecated
   public void setCompartmentType(String compartmentTypeID) {
-    if (getLevel() != 2) {
-      throw new PropertyNotAvailableException(TreeNodeChangeEvent.compartmentType,
-        this);
-    }
+    checkCompartmentType(compartmentTypeID);
+    
     String oldCompartmentTypeID = this.compartmentTypeID;
     this.compartmentTypeID = compartmentTypeID;
     firePropertyChange(TreeNodeChangeEvent.compartmentType,
       oldCompartmentTypeID, this.compartmentTypeID);
+  }
+
+  /**
+   * Checks if the compartmentType attribute follow the SBML specification constraints.
+   * 
+   */
+  private void checkCompartmentType(String compartmentTypeID) 
+  {
+    boolean isReadingInProgress = isReadingInProgress(); // TODO - we could make this method more generic in the case, for example, where we allow users to switch off completely the validation in the setters with an option
+
+    if (isReadingInProgress) {
+      // TODO - just check the attribute value using existing custom ValidationContext or Constraints or custom code or don't do validation in this case
+      // TODO - when an error is found, add the error to the SBMLErrorLog and allow the wrong value to be set
+    }
+    else
+    {
+      // TODO - here we don't need to add the error to the error log but we could use the error message to build
+      // a better exception message to the user.
+      // TODO - when errors are found, throw an Exception
+      if (getLevel() != 2) {
+        throw new PropertyNotAvailableException(TreeNodeChangeEvent.compartmentType,
+          this);
+      }
+    }
   }
 
   /**
@@ -682,9 +705,7 @@ public class Compartment extends Symbol {
    */
   @Deprecated
   public void setOutside(String outside) {
-    if (getLevel() > 2) {
-      throw new PropertyNotAvailableException(TreeNodeChangeEvent.outside, this);
-    }
+    checkAttribute(TreeNodeChangeEvent.outside, outside);
     String oldOutside = outsideID;
     if ((outside != null) && (outside.trim().length() == 0)) {
       outsideID = null;
@@ -695,6 +716,84 @@ public class Compartment extends Symbol {
   }
 
   /**
+   * Checks if the compartmentType attribute follow the SBML specification constraints.
+   */
+  private void checkAttribute(String attributeName, String attributeValue) // The method could be like #checkCompartmentType specific for one attribute or like this one generic (and part of AbstractSBase?)
+  {
+    boolean isReadingInProgress = isReadingInProgress();
+    
+    // TODO - problem to re-use current methods as they assume the value is set already - may be just avoid most validation for reading as libsbml does.
+    
+    
+    if (attributeName.equals(TreeNodeChangeEvent.outside)) 
+    {
+      if (isReadingInProgress) 
+      {
+        // TODO - check or not check, that is the question !!
+      }
+      else
+      {
+        // TODO - same as in the method #checkCompartmentType
+        
+        if (getLevel() > 2) {
+          throw new PropertyNotAvailableException(TreeNodeChangeEvent.outside, this);
+        }
+      }
+    }
+    
+    // TODO - units
+  }
+
+  /**
+   * Checks if the compartmentType attribute follow the SBML specification constraints.
+   */
+  private void checkAttribute(String attributeName, double attributeValue) // The method could be like #checkCompartmentType specific for one attribute or like this one generic (and part of AbstractSBase?)
+  {
+    boolean isReadingInProgress = isReadingInProgress();
+    
+    // TODO - problem to re-use current methods as they assume the value is set already - may be just avoid most validation for reading as libsbml does.
+    
+    
+    if (attributeName.equals(TreeNodeChangeEvent.size))
+    {
+      if (! isReadingInProgress)
+      {
+        if (getLevel() < 2) {
+          throw new PropertyNotAvailableException(TreeNodeChangeEvent.size, this);
+        }
+      }
+    }
+    else if (attributeName.equals(TreeNodeChangeEvent.spatialDimensions))
+    {
+      if (! isReadingInProgress) 
+      {
+        // TODO - check the tests 
+        double spatialDimension = attributeValue;
+        
+        if (getLevel() < 2) {
+          throw new PropertyNotAvailableException(
+            TreeNodeChangeEvent.spatialDimensions, this);
+        }
+        if (((0d <= spatialDimension) && (spatialDimension <= 3d)
+            && (((int) spatialDimension) - spatialDimension == 0d))
+            || (getLevel() > 2))
+        {
+          // valid value. Do nothing
+        }
+        else
+        {
+          throw new IllegalArgumentException(MessageFormat.format(
+            resourceBundle.getString("Compartment.ERROR_MESSAGE_INVALID_DIM"), spatialDimension));
+        }
+     
+      }
+    }
+    
+    // TODO - value, volume
+  }
+
+  
+  /**
    * Sets the size of this compartment to 'size'.
    * 
    * @param size
@@ -702,9 +801,8 @@ public class Compartment extends Symbol {
    *             in case of Level &lt; 2.
    */
   public void setSize(double size) {
-    if (getLevel() < 2) {
-      throw new PropertyNotAvailableException(TreeNodeChangeEvent.size, this);
-    }
+    checkAttribute(TreeNodeChangeEvent.size, size);
+    
     setValue(size);
   }
 
@@ -717,23 +815,13 @@ public class Compartment extends Symbol {
    * @throws PropertyNotAvailableException if Level &lt; 2.
    */
   public void setSpatialDimensions(double spatialDimension) {
-    if (getLevel() < 2) {
-      throw new PropertyNotAvailableException(
-        TreeNodeChangeEvent.spatialDimensions, this);
-    }
-    if (((0d <= spatialDimension) && (spatialDimension <= 3d)
-        && (((int) spatialDimension) - spatialDimension == 0d))
-        || (getLevel() > 2))
-    {
-      isSetSpatialDimensions = true;
-      Double oldSpatialDimensions = spatialDimensions;
-      spatialDimensions = Double.valueOf(spatialDimension);
-      firePropertyChange(TreeNodeChangeEvent.spatialDimensions,
-        oldSpatialDimensions, spatialDimensions);
-    } else {
-      throw new IllegalArgumentException(MessageFormat.format(
-        resourceBundle.getString("Compartment.ERROR_MESSAGE_INVALID_DIM"), spatialDimension));
-    }
+
+    checkAttribute(TreeNodeChangeEvent.spatialDimensions, spatialDimension);
+    
+    isSetSpatialDimensions = true;
+    Double oldSpatialDimensions = spatialDimensions;
+    spatialDimensions = Double.valueOf(spatialDimension);
+    firePropertyChange(TreeNodeChangeEvent.spatialDimensions, oldSpatialDimensions, spatialDimensions);
   }
 
   /**

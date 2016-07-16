@@ -200,7 +200,7 @@ MathContainer {
       }
     } else {
       ud = new UnitDefinition(getLevel(), getVersion());
-      ud.addUnit(ud.createUnit());
+      ud.createInvalidUnit();
     }
     return ud;
   }
