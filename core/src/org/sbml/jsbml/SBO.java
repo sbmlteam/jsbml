@@ -519,7 +519,7 @@ public class SBO {
    */ 
   public static int getDNASegment() {
     return 634;
-  }
+  } 
   
   /**
    * 
