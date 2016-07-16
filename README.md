@@ -1,7 +1,7 @@
 JSBML
 =====
 
-<img align="right" src="core/doc/common/logo/jsbml_logo_200px.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
+<img align="right" src="doc/common/logo/jsbml_logo_200px.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
 
 [![License](http://img.shields.io/:license-LGPL-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) [![Stable version](https://img.shields.io/badge/Stable_version-1.1-brightgreen.svg)](http://shields.io)
 

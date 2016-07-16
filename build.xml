@@ -630,7 +630,7 @@
 		<!-- <copy todir="${dist.dir}" file="${core.base.dir}/performanceTest.sh"/> -->
 
 		<copy todir="${dist.dir}/doc">
-			<fileset dir="${basedir}/core/doc" includes="**/*.pdf **/*.jpg **/*.java" excludes="posters/** publications/** templates/**"/>
+			<fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java" excludes="posters/** publications/** templates/**"/>
 		</copy>
 
 		<!-- create the modules files -->
