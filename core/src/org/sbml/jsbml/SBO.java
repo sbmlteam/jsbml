@@ -513,7 +513,14 @@ public class SBO {
     return 251;
   }
   
-
+  /**
+   * Fragment or region of a DNA macromolecule. 
+   * @return 634
+   */ 
+  public static int getDNASegment() {
+    return 634;
+  }
+  
   /**
    * 
    * @return
@@ -988,6 +995,14 @@ public class SBO {
     return convertAlias2SBO("RNA");
   }
 
+  /**
+   * Fragment or region of an RNA macromolecule.
+   * @return 635
+   */
+  public static int getRNASegment() {
+	    return 635;
+  }
+  
   /**
    * Returns the root element of the SBO Ontology (SBO:0000000).
    * 
