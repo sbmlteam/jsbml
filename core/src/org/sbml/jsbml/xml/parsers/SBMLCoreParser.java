@@ -67,7 +67,6 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.SBMLtools;
-import org.sbml.jsbml.util.TreeNodeAdapter;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.XMLAttributes;
@@ -583,8 +582,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         }
       }
 
-    } else {
-      logger.error("The Model element has not been created.");
+    } else { // no Model element defined
+      // logger.error("The Model element has not been created."); // No need to log this error. And in L3V2, it is allowed to not have a Model element
     }
 
     // Go through the whole document (using a fake filter!) to remove the variable that says that we were in the process of reading an xml stream.

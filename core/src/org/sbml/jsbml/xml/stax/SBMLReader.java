@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -353,8 +354,6 @@ public class SBMLReader {
    */
   public SBMLDocument readSBMLFile(String fileName)
       throws XMLStreamException, IOException {
-    File file = new File(fileName);
-    System.out.println(file.getAbsolutePath());
     return readSBML(new File(fileName));
   }
 
@@ -832,7 +831,7 @@ public class SBMLReader {
    * @throws XMLStreamException
    */
   public SBMLDocument readSBMLFromString(String xml, TreeNodeChangeListener listener) throws XMLStreamException {
-    Object readObject = readXMLFromStream(new ByteArrayInputStream(xml.getBytes()), listener);
+    Object readObject = readXMLFromStream(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), listener);
     if (readObject instanceof SBMLDocument) {
       return (SBMLDocument) readObject;
     }
@@ -859,7 +858,7 @@ public class SBMLReader {
    */
   private Object readXMLFromString(String xml, TreeNodeChangeListener listener)
       throws XMLStreamException {
-    return readXMLFromStream(new ByteArrayInputStream(xml.getBytes()), listener);
+    return readXMLFromStream(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), listener);
   }
 
 
