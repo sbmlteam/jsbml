@@ -548,17 +548,17 @@ public class ValidationContext {
    * already.
    * 
    * @param pkg
-   * @param treeNodeChangeEvent
+   * @param attributeName
    * @param object
    * @return
    */
-  public boolean validateAttribute(SBMLPackage pkg, String treeNodeChangeEvent,
+  public boolean validateAttribute(SBMLPackage pkg, String attributeName,
     Object object) {
     ConstraintFactory factory = ConstraintFactory.getInstance();
 
     AnyConstraint<Object> c =
         (AnyConstraint<Object>) factory.getConstraintsForAttribute(
-          treeNodeChangeEvent, object.getClass(), pkg, this.level, this.version);
+          attributeName, object.getClass(), pkg, this.level, this.version);
 
     return c.check(this, object);
   }
