@@ -91,7 +91,8 @@
   <entry key="or">LOGICAL_OR</entry>
   <entry key="and">LOGICAL_AND</entry>
   <entry key="xor">LOGICAL_XOR</entry>
-  <entry key="not">LOGICAL_NOT</entry>  
+  <entry key="not">LOGICAL_NOT</entry>
+    <entry key="implies">LOGICAL_IMPLIES</entry>
   <entry key="eq">RELATIONAL_EQ</entry>  
   <entry key="neq">RELATIONAL_NEQ</entry>  
   <entry key="leq">RELATIONAL_LEQ</entry>  
@@ -105,4 +106,10 @@
   <entry key="vector">VECTOR</entry>
   <entry key="lambda">LAMBDA</entry>
   <entry key="delay">FUNCTION_DELAY</entry>
+  <entry key="max">FUNCTION_MAX</entry>
+  <entry key="min">FUNCTION_MIN</entry>
+  <entry key="rem">FUNCTION_REM</entry>
+  <entry key="remainder">FUNCTION_REM</entry>
+  <entry key="quotient">FUNCTION_QUOTIENT</entry>
+  <entry key="rateOf">NAME_RATE_OF</entry>
 </properties>
