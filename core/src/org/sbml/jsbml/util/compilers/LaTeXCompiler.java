@@ -146,6 +146,12 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
    * 
    */
   public static final String xor = "\\oplus ";
+  
+  /**
+   * 
+   */
+  public static final String implies = "\\rightarrow ";
+  
 
   /**
    * 
@@ -1603,6 +1609,43 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
   @Override
   public ASTNodeValue vector(List<ASTNode> nodes) throws SBMLException {
     return function("vector", nodes);
+  }
+
+  @Override
+  public ASTNodeValue max(List<ASTNode> values) {
+    return function("max", values);
+  }
+
+  @Override
+  public ASTNodeValue min(List<ASTNode> values) {
+    return function("min", values);
+  }
+
+  @Override
+  public ASTNodeValue quotient(List<ASTNode> values) {
+    return function("quotient", values);
+  }
+
+  @Override
+  public ASTNodeValue rem(List<ASTNode> values) {
+    return function("rem", values);
+  }
+
+  @Override
+  public ASTNodeValue implies(List<ASTNode> values) {
+    return logicalOperation(implies, values);
+  }
+
+  @Override
+  public ASTNodeValue getRateOf(String name) {
+
+    StringBuffer value = new StringBuffer();
+
+    value.append(mathtt("rateOf"));
+
+      value.append(brackets(name));
+
+    return new ASTNodeValue(value.toString(), this);
   }
 
 }

@@ -4953,4 +4953,40 @@ public class VectorCompiler implements ASTNodeCompiler {
       }
     }
   }
+
+  @Override
+  public ASTNodeValue max(List<ASTNode> values) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ASTNodeValue min(List<ASTNode> values) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ASTNodeValue quotient(List<ASTNode> values) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ASTNodeValue rem(List<ASTNode> values) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ASTNodeValue implies(List<ASTNode> values) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ASTNodeValue getRateOf(String name) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

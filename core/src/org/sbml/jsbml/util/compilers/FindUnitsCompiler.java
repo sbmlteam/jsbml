@@ -762,7 +762,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#selector(java.util.List)
    */
   @Override
-  public ASTNodeValue selector(List<ASTNode> value) throws SBMLException {
+  public ASTNodeValue selector(List<ASTNode> values) throws SBMLException {
+    function((String) null, values);
     return dummyValue;
   }
 
@@ -770,7 +771,43 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#vector(java.util.List)
    */
   @Override
-  public ASTNodeValue vector(List<ASTNode> nodes) throws SBMLException {
+  public ASTNodeValue vector(List<ASTNode> values) throws SBMLException {
+    function((String) null, values);
+    return dummyValue;
+  }
+
+  @Override
+  public ASTNodeValue max(List<ASTNode> values) {
+    function((String) null, values);
+    return dummyValue;
+  }
+
+  @Override
+  public ASTNodeValue min(List<ASTNode> values) {
+    function((String) null, values);
+    return dummyValue;
+  }
+
+  @Override
+  public ASTNodeValue quotient(List<ASTNode> values) {
+    function((String) null, values);
+    return dummyValue;
+  }
+
+  @Override
+  public ASTNodeValue rem(List<ASTNode> values) {
+    function((String) null, values);
+    return dummyValue;
+  }
+
+  @Override
+  public ASTNodeValue implies(List<ASTNode> values) {
+    function((String) null, values);
+    return dummyValue;
+  }
+
+  @Override
+  public ASTNodeValue getRateOf(String name) {
     return dummyValue;
   }
 
