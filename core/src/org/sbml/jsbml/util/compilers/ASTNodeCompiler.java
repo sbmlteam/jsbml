@@ -719,4 +719,68 @@ public interface ASTNodeCompiler {
    */
   public ASTNodeValue xor(List<ASTNode> values) throws SBMLException;
 
+  /**
+   * Returns the maximum of the values. 
+   * 
+   * @param values
+   * @return the maximum of the values. 
+   */
+  public ASTNodeValue max(List<ASTNode> values);
+
+  /**
+   * Returns the minimum of the values.
+   * 
+   * @param values
+   * @return the minimum of the values.
+   */
+  public ASTNodeValue min(List<ASTNode> values);
+
+  /**
+   * Returns the quotient of the division of the values.
+   * 
+   * @param values
+   * @return the quotient of the values.
+   * @throws SBMLException if there are not two and only two arguments
+   * and it is a problem for the {@link ASTNodeCompiler}.
+   */
+  public ASTNodeValue quotient(List<ASTNode> values);
+
+  /**
+   * Returns the remainder of the division of the values.
+   * 
+   * @param values
+   * @return the remainder of the division of the values.
+   * @throws SBMLException if there are not two and only two arguments
+   * and it is a problem for the {@link ASTNodeCompiler}.
+   */
+  public ASTNodeValue rem(List<ASTNode> values);
+
+  /**
+   * Returns the logical implies between two {@link ASTNode}. 
+   *  
+   * <p>Truth table:
+   *
+   *<pre>
+   * p   q  p→q
+   *   
+   * T   T   T
+   * T   F   F
+   * F   T   T
+   * F   F   T
+   *</pre>
+   *
+   * 
+   * @param children
+   * @return the logical implies between two {@link ASTNode}.
+   * @throws SBMLException if there are not two and only two arguments
+   * and it is a problem for the {@link ASTNodeCompiler}.
+   */
+  public ASTNodeValue implies(List<ASTNode> values);
+
+  /**
+   * @param name
+   * @return
+   */
+  public ASTNodeValue getRateOf(String name);
+
 }
