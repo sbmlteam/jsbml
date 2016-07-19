@@ -28,14 +28,13 @@ public final class L3V1CoreConstraintList extends AbstractConstraintList
 implements SBMLErrorCodes {
 
   public static void addGeneralSBMLDocumentErrorCodes(Set<Integer> list) {
-    list.add(CoreSpecialErrorCodes.ID_VALIDATE_DOCUMENT_TREE);
+   
   }
 
 
   public static void addGeneralModelErrorCodes(Set<Integer> list) {
     addRangeToList(list, CORE_20204, CORE_20232);
     list.add(CORE_20705);
-    list.add(CoreSpecialErrorCodes.ID_VALIDATE_MODEL_TREE);
   }
 
 
