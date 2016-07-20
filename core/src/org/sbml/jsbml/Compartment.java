@@ -4,14 +4,12 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- *
  * Copyright (C) 2009-2016 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -47,31 +45,34 @@ public class Compartment extends Symbol {
   /**
    * A {@link Logger} for this class.
    */
-  private static final transient Logger logger = Logger.getLogger(Compartment.class);
+  private static final transient Logger logger                 =
+      Logger.getLogger(Compartment.class);
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = -1117854029388326636L;
+  private static final long             serialVersionUID       =
+      -1117854029388326636L;
   /**
    * Represents the compartmentType XML attribute of a compartment element. It
    * matches a compartmentType id in the model.
    */
   @Deprecated
-  private String compartmentTypeID;
+  private String                        compartmentTypeID;
   /**
    * Helper variable to check if spatial dimensions has been set by the user.
    */
-  private boolean isSetSpatialDimensions = false;
+  private boolean                       isSetSpatialDimensions = false;
   /**
    * Represents the outside XML attribute of a compartment element. It matches
    * a compartment id in the model instance.
    */
   @Deprecated
-  private String outsideID;
+  private String                        outsideID;
   /**
    * Represents the spatialDimensions XML attribute of a compartment element.
    */
-  private Double spatialDimensions;
+  private Double                        spatialDimensions;
+
 
   /**
    * Creates a Compartment instance. By default, if the level is set and is
@@ -83,10 +84,12 @@ public class Compartment extends Symbol {
     initDefaults();
   }
 
+
   /**
    * Creates a Compartment instance from a given compartment.
    * 
-   * @param compartment the compartment object to clone.
+   * @param compartment
+   *        the compartment object to clone.
    */
   public Compartment(Compartment compartment) {
     super(compartment);
@@ -94,74 +97,93 @@ public class Compartment extends Symbol {
     if (compartment.isSetCompartmentType()) {
       compartmentTypeID = new String(compartment.getCompartmentType());
     } else {
-      compartmentTypeID = compartment.compartmentTypeID == null ? null : new String(compartment.compartmentTypeID);
+      compartmentTypeID = compartment.compartmentTypeID == null ? null
+        : new String(compartment.compartmentTypeID);
     }
 
     if (compartment.isSetSpatialDimensions()) {
       setSpatialDimensions(Double.valueOf(compartment.getSpatialDimensions()));
     } else {
-      spatialDimensions = compartment.spatialDimensions == null ? null : new Double(compartment.spatialDimensions);
+      spatialDimensions = compartment.spatialDimensions == null ? null
+        : new Double(compartment.spatialDimensions);
     }
 
     if (compartment.isSetOutside()) {
       setOutside(new String(compartment.getOutside()));
     } else {
-      outsideID = compartment.outsideID == null ? null : new String(compartment.outsideID);
+      outsideID = compartment.outsideID == null ? null
+        : new String(compartment.outsideID);
     }
 
     // size is set in the super clone constructor
   }
+
 
   /**
    * Creates a Compartment instance from a level and version. By default, if
    * the level is set and is superior or equal to 3, sets the compartmentType,
    * outsideID and spatialDimension to {@code null}.
    * 
-   * @param level the SBML level
-   * @param version  the SBML level
+   * @param level
+   *        the SBML level
+   * @param version
+   *        the SBML level
    */
   public Compartment(int level, int version) {
     this(null, null, level, version);
   }
 
+
   /**
    * Creates a Compartment instance with the given id.
    * 
-   * @param id the compartment id.
+   * @param id
+   *        the compartment id.
    */
   public Compartment(String id) {
     this();
     setId(id);
   }
 
+
   /**
    * Creates a Compartment instance from an id, level and version. By default,
    * sets the compartmentType, outsideID and spatialDimension to {@code null}.
    * 
-   * @param id  the compartment id.
-   * @param level the SBML level
-   * @param version  the SBML level
+   * @param id
+   *        the compartment id.
+   * @param level
+   *        the SBML level
+   * @param version
+   *        the SBML level
    */
   public Compartment(String id, int level, int version) {
     this(id, null, level, version);
   }
+
 
   /**
    * Creates a Compartment instance from an id, name, level and version. By
    * default, if the level is set and is superior or equal to 3, sets the
    * compartmentType, outsideID and spatialDimension to {@code null}.
    * 
-   * @param id  the compartment id.
-   * @param name the compartment name.
-   * @param level the SBML level
-   * @param version  the SBML level
+   * @param id
+   *        the compartment id.
+   * @param name
+   *        the compartment name.
+   * @param level
+   *        the SBML level
+   * @param version
+   *        the SBML level
    */
   public Compartment(String id, String name, int level, int version) {
     super(id, name, level, version);
     initDefaults();
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.Symbol#clone()
    */
   @Override
@@ -169,7 +191,9 @@ public class Compartment extends Symbol {
     return new Compartment(this);
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#containsUndeclaredUnits()
    */
   @Override
@@ -203,7 +227,9 @@ public class Compartment extends Symbol {
     return undeclared;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.Symbol#equals(java.lang.Object)
    */
   @Override
@@ -229,6 +255,7 @@ public class Compartment extends Symbol {
     return equals;
   }
 
+
   /**
    * Returns the compartmentType id of this compartment. Return an empty
    * String if it is not set.
@@ -242,10 +269,11 @@ public class Compartment extends Symbol {
     return isSetCompartmentType() ? compartmentTypeID : "";
   }
 
+
   /**
    * Returns the compartmentType instance in Model for this compartment
-   *         compartmentTypeID. Return null if there is no compartmentType
-   *         instance which matches this compartmentTypeID.
+   * compartmentTypeID. Return null if there is no compartmentType
+   * instance which matches this compartmentTypeID.
    * 
    * @return the compartmentType instance in Model for this compartment
    *         compartmentTypeID. Return null if there is no compartmentType
@@ -257,7 +285,9 @@ public class Compartment extends Symbol {
     return m != null ? m.getCompartmentType(compartmentTypeID) : null;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getDerivedUnitDefinition()
    */
   @Override
@@ -272,11 +302,14 @@ public class Compartment extends Symbol {
           // Look into the model for inherited units
           switch ((short) dim) {
           case 1:
-            return model.isSetLengthUnitsInstance() ? model.getLengthUnitsInstance() : null;
+            return model.isSetLengthUnitsInstance()
+                ? model.getLengthUnitsInstance() : null;
           case 2:
-            return model.isSetAreaUnitsInstance() ? model.getAreaUnitsInstance() : null;
+            return model.isSetAreaUnitsInstance() ? model.getAreaUnitsInstance()
+              : null;
           case 3:
-            return model.isSetVolumeUnitsInstance() ? model.getVolumeUnitsInstance() : null;
+            return model.isSetVolumeUnitsInstance()
+                ? model.getVolumeUnitsInstance() : null;
           default:
             break;
           }
@@ -285,6 +318,7 @@ public class Compartment extends Symbol {
     }
     return null;
   }
+
 
   /**
    * Returns the outside id of this compartment. Return "" if it is not set.
@@ -295,9 +329,10 @@ public class Compartment extends Symbol {
     return isSetOutside() ? outsideID : "";
   }
 
+
   /**
    * Returns the compartment instance which matches the outside id in Model.
-   *         Return null if no compartment instance matches the outside id.
+   * Return null if no compartment instance matches the outside id.
    * 
    * @return the compartment instance which matches the outside id in Model.
    *         Return null if no compartment instance matches the outside id.
@@ -307,7 +342,9 @@ public class Compartment extends Symbol {
     return m != null ? m.getCompartment(outsideID) : null;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
    */
   @Override
@@ -330,6 +367,7 @@ public class Compartment extends Symbol {
     return null;
   }
 
+
   /**
    * Returns the size of this compartment.
    * 
@@ -338,6 +376,7 @@ public class Compartment extends Symbol {
   public double getSize() {
     return getValue();
   }
+
 
   /**
    * Returns the {@link #spatialDimensions} of this {@link Compartment}. If it
@@ -360,8 +399,8 @@ public class Compartment extends Symbol {
     return Double.NaN;
   }
 
+
   /**
-   * 
    * @return
    * @deprecated use {@link #getSpatialDimensions()}
    */
@@ -370,13 +409,15 @@ public class Compartment extends Symbol {
     return getSpatialDimensions();
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getUnits()
    */
   @Override
   public String getUnits() {
     String units = super.getUnits();
-        
+
     if ((units == null) && (getLevel() > 2)) {
       int dim = (int) getSpatialDimensions();
       if (dim - getSpatialDimensions() == 0d) {
@@ -398,7 +439,9 @@ public class Compartment extends Symbol {
     return units;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getUnitsInstance()
    */
   @Override
@@ -425,9 +468,9 @@ public class Compartment extends Symbol {
     return ud;
   }
 
+
   /**
    * Gets the volume of this Compartment
-   * 
    * This method is identical to getSize(). In SBML Level 1, compartments are
    * always three-dimensional constructs and only have volumes, whereas in
    * SBML Level 2, compartments may be other than three-dimensional and
@@ -444,7 +487,9 @@ public class Compartment extends Symbol {
     return getSize();
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.Symbol#hashCode()
    */
   @Override
@@ -463,15 +508,19 @@ public class Compartment extends Symbol {
     return hashCode;
   }
 
+
   /**
-   * Initializes the default values using the current Level/Version configuration.
+   * Initializes the default values using the current Level/Version
+   * configuration.
    */
   public void initDefaults() {
     initDefaults(getLevel(), getVersion());
   }
 
+
   /**
-   * Initializes the default values using the current Level/Version configuration.
+   * Initializes the default values using the current Level/Version
+   * configuration.
    * 
    * @param level
    * @param version
@@ -484,8 +533,7 @@ public class Compartment extends Symbol {
       spatialDimensions = Double.valueOf(3d);
       if (level >= 2) {
         constant = new Boolean(true);
-      }
-      else {
+      } else {
         constant = null;
       }
     } else {
@@ -498,18 +546,22 @@ public class Compartment extends Symbol {
     }
   }
 
+
   /**
-   * Returns {@code true} if the compartmentID of this compartment is not {@code null}.
+   * Returns {@code true} if the compartmentID of this compartment is not
+   * {@code null}.
    * 
-   * @return {@code true} if the compartmentID of this compartment is not {@code null}.
+   * @return {@code true} if the compartmentID of this compartment is not
+   *         {@code null}.
    */
   public boolean isSetCompartmentType() {
     return compartmentTypeID != null;
   }
 
+
   /**
    * Returns {@code true} if the compartmentType instance which matches the
-   *         compartmentTypeID of this compartment is not {@code null}.
+   * compartmentTypeID of this compartment is not {@code null}.
    * 
    * @return {@code true} if the compartmentType instance which matches the
    *         compartmentTypeID of this compartment is not {@code null}.
@@ -517,24 +569,29 @@ public class Compartment extends Symbol {
   @Deprecated
   public boolean isSetCompartmentTypeInstance() {
     Model m = getModel();
-    return m != null ? m.getCompartmentType(compartmentTypeID) != null
-        : false;
+    return m != null ? m.getCompartmentType(compartmentTypeID) != null : false;
   }
 
+
   /**
-   * Returns {@code true} if the outsideID of this compartment is not {@code null}.
+   * Returns {@code true} if the outsideID of this compartment is not
+   * {@code null}.
    * 
-   * @return {@code true} if the outsideID of this compartment is not {@code null}.
+   * @return {@code true} if the outsideID of this compartment is not
+   *         {@code null}.
    */
   public boolean isSetOutside() {
     return outsideID != null;
   }
 
+
   /**
-   * Returns {@code true} if the compartment instance which matches the outsideID of
-   *         this compartment is not {@code null}.
+   * Returns {@code true} if the compartment instance which matches the
+   * outsideID of
+   * this compartment is not {@code null}.
    * 
-   * @return {@code true} if the compartment instance which matches the outsideID of
+   * @return {@code true} if the compartment instance which matches the
+   *         outsideID of
    *         this compartment is not {@code null}.
    */
   public boolean isSetOutsideInstance() {
@@ -542,27 +599,35 @@ public class Compartment extends Symbol {
     return m != null ? m.getCompartment(outsideID) != null : false;
   }
 
+
   /**
-   * Returns {@code true} if the size of this compartment has been set by a user.
+   * Returns {@code true} if the size of this compartment has been set by a
+   * user.
    * 
-   * @return {@code true} if the size of this compartment has been set by a user.
+   * @return {@code true} if the size of this compartment has been set by a
+   *         user.
    */
   public boolean isSetSize() {
     return isSetValue();
   }
 
+
   /**
-   * Returns {@code true} if the spatialDimensions of this compartment has been set by a user.
+   * Returns {@code true} if the spatialDimensions of this compartment has been
+   * set by a user.
    * 
-   * @return {@code true} if the spatialDimensions of this compartment has been set by a user.
+   * @return {@code true} if the spatialDimensions of this compartment has been
+   *         set by a user.
    */
   public boolean isSetSpatialDimensions() {
     return isSetSpatialDimensions;
   }
 
+
   /**
    * <p>
-   * Returns {@code true} or false depending on whether this Compartment's 'volume'
+   * Returns {@code true} or false depending on whether this Compartment's
+   * 'volume'
    * attribute has been set.
    * </p>
    * <p>
@@ -585,7 +650,8 @@ public class Compartment extends Symbol {
    * account the difference in default values between SBML Levels 1 and 2.
    * </p>
    * 
-   * @return {@code true} if the 'volume' attribute ('size' in L2) of this Compartment
+   * @return {@code true} if the 'volume' attribute ('size' in L2) of this
+   *         Compartment
    *         has been set, {@code false} otherwise.
    * @see #isSetSize()
    * @jsbml.note In SBML Level 1, a compartment's volume has a default value (
@@ -601,14 +667,16 @@ public class Compartment extends Symbol {
     return isSetSize();
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+   * String prefix, String value)
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-      value);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals("spatialDimensions")) {
@@ -633,6 +701,7 @@ public class Compartment extends Symbol {
     return isAttributeRead;
   }
 
+
   /**
    * Sets the compartmentTypeID value of this compartment to the id of
    * 'compartmentType'
@@ -642,50 +711,64 @@ public class Compartment extends Symbol {
    */
   @Deprecated
   public void setCompartmentType(CompartmentType compartmentType) {
-    setCompartmentType(compartmentType != null ? compartmentType
-      .getId() : null);
+    setCompartmentType(
+      compartmentType != null ? compartmentType.getId() : null);
   }
+
 
   /**
    * Sets the compartmentTypeID of this compartment to 'compartmentTypeID'
    * 
    * @param compartmentTypeID
    * @deprecated Only valid in Level 2.
-   * @throws PropertyNotAvailableException if Level is not 2.
+   * @throws PropertyNotAvailableException
+   *         if Level is not 2.
    */
   @Deprecated
   public void setCompartmentType(String compartmentTypeID) {
     checkCompartmentType(compartmentTypeID);
-    
+
     String oldCompartmentTypeID = this.compartmentTypeID;
     this.compartmentTypeID = compartmentTypeID;
     firePropertyChange(TreeNodeChangeEvent.compartmentType,
       oldCompartmentTypeID, this.compartmentTypeID);
   }
 
+
   /**
-   * Checks if the compartmentType attribute follow the SBML specification constraints.
-   * 
+   * Checks if the compartmentType attribute follow the SBML specification
+   * constraints.
    */
-  private void checkCompartmentType(String compartmentTypeID) 
-  {
-    boolean isReadingInProgress = isReadingInProgress(); // TODO - we could make this method more generic in the case, for example, where we allow users to switch off completely the validation in the setters with an option
+  private void checkCompartmentType(String compartmentTypeID) {
+    boolean isReadingInProgress = isReadingInProgress(); // TODO - we could make
+    // this method more
+    // generic in the case,
+    // for example, where
+    // we allow users to
+    // switch off
+    // completely the
+    // validation in the
+    // setters with an
+    // option
 
     if (isReadingInProgress) {
-      // TODO - just check the attribute value using existing custom ValidationContext or Constraints or custom code or don't do validation in this case
-      // TODO - when an error is found, add the error to the SBMLErrorLog and allow the wrong value to be set
-    }
-    else
-    {
-      // TODO - here we don't need to add the error to the error log but we could use the error message to build
+      // TODO - just check the attribute value using existing custom
+      // ValidationContext or Constraints or custom code or don't do validation
+      // in this case
+      // TODO - when an error is found, add the error to the SBMLErrorLog and
+      // allow the wrong value to be set
+    } else {
+      // TODO - here we don't need to add the error to the error log but we
+      // could use the error message to build
       // a better exception message to the user.
       // TODO - when errors are found, throw an Exception
       if (getLevel() != 2) {
-        throw new PropertyNotAvailableException(TreeNodeChangeEvent.compartmentType,
-          this);
+        throw new PropertyNotAvailableException(
+          TreeNodeChangeEvent.compartmentType, this);
       }
     }
   }
+
 
   /**
    * Sets the outsideID of this compartment to the id of 'outside'.
@@ -698,163 +781,186 @@ public class Compartment extends Symbol {
     setOutside(outside != null ? outside.getId() : null);
   }
 
+
   /**
    * Sets the outsideID of this compartment to 'outside'.
    * 
    * @param outside
    * @deprecated since Level 3 Version 1
-   * @throws PropertyNotAvailableException if Level greater than 2.
+   * @throws PropertyNotAvailableException
+   *         if Level greater than 2.
    */
   @Deprecated
   public void setOutside(String outside) {
-    checkAttribute(TreeNodeChangeEvent.outside, outside);
+
     String oldOutside = outsideID;
     if ((outside != null) && (outside.trim().length() == 0)) {
       outsideID = null;
     } else {
       outsideID = outside;
     }
-    firePropertyChange(TreeNodeChangeEvent.outside, oldOutside, outsideID);
+
+    if (checkAttribute(TreeNodeChangeEvent.outside)) {
+      firePropertyChange(TreeNodeChangeEvent.outside, oldOutside, outsideID);
+    } else {
+      this.outsideID = oldOutside;
+    }
+
   }
 
-  
-  private boolean checkAttribute(String attributeName)
-  {
-    ValidationContext ctx = new ValidationContext(this.getLevel(), this.getVersion());
-    return ctx.validateAttribute(SBMLPackage.CORE, attributeName, this);
-  }
-  
-  /**
-   * Checks if the compartmentType attribute follow the SBML specification constraints.
-   */
-  private void checkAttribute(String attributeName, String attributeValue) // The method could be like #checkCompartmentType specific for one attribute or like this one generic (and part of AbstractSBase?)
-  {
-    boolean isReadingInProgress = isReadingInProgress();
-    
-    // TODO - problem to re-use current methods as they assume the value is set already - may be just avoid most validation for reading as libsbml does.
-    
-    
-    if (attributeName.equals(TreeNodeChangeEvent.outside)) 
-    {
-      if (isReadingInProgress) 
-      {
-        // TODO - check or not check, that is the question !!
-      }
-      else
-      {
-        // TODO - same as in the method #checkCompartmentType
-        
-        if (getLevel() > 2) {
-          throw new PropertyNotAvailableException(TreeNodeChangeEvent.outside, this);
-        }
-      }
-    }
-    
-    // TODO - units
-  }
 
-  /**
-   * Checks if the compartmentType attribute follow the SBML specification constraints.
-   */
-  private void checkAttribute(String attributeName, double attributeValue) // The method could be like #checkCompartmentType specific for one attribute or like this one generic (and part of AbstractSBase?)
-  {
-    boolean isReadingInProgress = isReadingInProgress();
-    
-    // TODO - problem to re-use current methods as they assume the value is set already - may be just avoid most validation for reading as libsbml does.
-    
-    
-    if (attributeName.equals(TreeNodeChangeEvent.size))
-    {
-      if (! isReadingInProgress)
-      {
-        if (getLevel() < 2) {
-          throw new PropertyNotAvailableException(TreeNodeChangeEvent.size, this);
-        }
-      }
-    }
-    else if (attributeName.equals(TreeNodeChangeEvent.spatialDimensions))
-    {
-      if (! isReadingInProgress) 
-      {
-        // TODO - check the tests 
-        double spatialDimension = attributeValue;
-        
-        if (getLevel() < 2) {
-          throw new PropertyNotAvailableException(
-            TreeNodeChangeEvent.spatialDimensions, this);
-        }
-        if (((0d <= spatialDimension) && (spatialDimension <= 3d)
-            && (((int) spatialDimension) - spatialDimension == 0d))
-            || (getLevel() > 2))
-        {
-          // valid value. Do nothing
-        }
-        else
-        {
-          throw new IllegalArgumentException(MessageFormat.format(
-            resourceBundle.getString("Compartment.ERROR_MESSAGE_INVALID_DIM"), spatialDimension));
-        }
-     
-      }
-    }
-    
-    // TODO - value, volume
-  }
+  // /**
+  // * Checks if the compartmentType attribute follow the SBML specification
+  // constraints.
+  // */
+  // private void checkAttribute(String attributeName, String attributeValue) //
+  // The method could be like #checkCompartmentType specific for one attribute
+  // or like this one generic (and part of AbstractSBase?)
+  // {
+  // boolean isReadingInProgress = isReadingInProgress();
+  //
+  // // TODO - problem to re-use current methods as they assume the value is set
+  // already - may be just avoid most validation for reading as libsbml does.
+  //
+  //
+  // if (attributeName.equals(TreeNodeChangeEvent.outside))
+  // {
+  // if (isReadingInProgress)
+  // {
+  // // TODO - check or not check, that is the question !!
+  // }
+  // else
+  // {
+  // // TODO - same as in the method #checkCompartmentType
+  //
+  // if (getLevel() > 2) {
+  // throw new PropertyNotAvailableException(TreeNodeChangeEvent.outside, this);
+  // }
+  // }
+  // }
+  //
+  // // TODO - units
+  // }
+  //
+  // /**
+  // * Checks if the compartmentType attribute follow the SBML specification
+  // constraints.
+  // */
+  // private void checkAttribute(String attributeName, double attributeValue) //
+  // The method could be like #checkCompartmentType specific for one attribute
+  // or like this one generic (and part of AbstractSBase?)
+  // {
+  // boolean isReadingInProgress = isReadingInProgress();
+  //
+  // // TODO - problem to re-use current methods as they assume the value is set
+  // already - may be just avoid most validation for reading as libsbml does.
+  //
+  //
+  // if (attributeName.equals(TreeNodeChangeEvent.size))
+  // {
+  // if (! isReadingInProgress)
+  // {
+  // if (getLevel() < 2) {
+  // throw new PropertyNotAvailableException(TreeNodeChangeEvent.size, this);
+  // }
+  // }
+  // }
+  // else if (attributeName.equals(TreeNodeChangeEvent.spatialDimensions))
+  // {
+  // if (! isReadingInProgress)
+  // {
+  // // TODO - check the tests
+  // double spatialDimension = attributeValue;
+  //
+  // if (getLevel() < 2) {
+  // throw new PropertyNotAvailableException(
+  // TreeNodeChangeEvent.spatialDimensions, this);
+  // }
+  // if (((0d <= spatialDimension) && (spatialDimension <= 3d)
+  // && (((int) spatialDimension) - spatialDimension == 0d))
+  // || (getLevel() > 2))
+  // {
+  // // valid value. Do nothing
+  // }
+  // else
+  // {
+  // throw new IllegalArgumentException(MessageFormat.format(
+  // resourceBundle.getString("Compartment.ERROR_MESSAGE_INVALID_DIM"),
+  // spatialDimension));
+  // }
+  //
+  // }
+  // }
+  //
+  // // TODO - value, volume
+  // }
 
-  
   /**
    * Sets the size of this compartment to 'size'.
    * 
    * @param size
    * @throws PropertyNotAvailableException
-   *             in case of Level &lt; 2.
+   *         in case of Level &lt; 2.
    */
   public void setSize(double size) {
-    setValue(size);
-    
-    if (!checkAttribute(TreeNodeChangeEvent.size))
-    {
+
+    this.value = size;
+
+    if (!checkAttribute(TreeNodeChangeEvent.size)) {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.size, this);
+    } else {
+      setValue(size);
     }
 
   }
+
 
   /**
    * Sets the spatialDimensions of this compartment to 'i'.
    * 
    * @param spatialDimension
    * @throws IllegalArgumentException
-   *             if spatialDimension &lt; 0 or if spatialDimension &gt; 3
-   * @throws PropertyNotAvailableException if Level &lt; 2.
+   *         if spatialDimension &lt; 0 or if spatialDimension &gt; 3
+   * @throws PropertyNotAvailableException
+   *         if Level &lt; 2.
    */
   public void setSpatialDimensions(double spatialDimension) {
 
-    checkAttribute(TreeNodeChangeEvent.spatialDimensions, spatialDimension);
-    
+    // checkAttribute(TreeNodeChangeEvent.spatialDimensions, spatialDimension);
+
     isSetSpatialDimensions = true;
     Double oldSpatialDimensions = spatialDimensions;
     spatialDimensions = Double.valueOf(spatialDimension);
-    firePropertyChange(TreeNodeChangeEvent.spatialDimensions, oldSpatialDimensions, spatialDimensions);
+
+    if (checkAttribute(TreeNodeChangeEvent.spatialDimensions)) {
+      firePropertyChange(TreeNodeChangeEvent.spatialDimensions,
+        oldSpatialDimensions, spatialDimensions);
+    } else {
+      spatialDimensions = oldSpatialDimensions;
+    }
+
   }
 
+
   /**
-   * 
    * @param spatialDimensions
    */
   public void setSpatialDimensions(int spatialDimensions) {
     setSpatialDimensions((double) spatialDimensions);
   }
 
+
   /**
    * Sets the spatialDimensions of this compartment to 'spatialDimensiosn'.
    * 
    * @param spatialDimensions
    * @throws IllegalArgumentException
-   *             if spatialDimension &lt; 0 or if spatialDimension &gt; 3
+   *         if spatialDimension &lt; 0 or if spatialDimension &gt; 3
    */
   public void setSpatialDimensions(short spatialDimensions) {
     setSpatialDimensions((int) spatialDimensions);
   }
+
 
   /**
    * Sets the unitsID of this {@link QuantityWithUnit}. Only valid unit
@@ -862,13 +968,12 @@ public class Compartment extends Symbol {
    * allowed arguments of this function.
    * 
    * @param units
-   *            the identifier of an already existing {@link UnitDefinition}
-   *            or an {@link Unit.Kind} identifier for the current
-   *            level/version combination of this unit. Passing a null value
-   *            to this method is equivalent to calling {@link #unsetUnits()}.
-   * 
+   *        the identifier of an already existing {@link UnitDefinition}
+   *        or an {@link Unit.Kind} identifier for the current
+   *        level/version combination of this unit. Passing a null value
+   *        to this method is equivalent to calling {@link #unsetUnits()}.
    * @throws IllegalArgumentException
-   *             if the unit is not valid or if spatialDimensions = 0.
+   *         if the unit is not valid or if spatialDimensions = 0.
    */
   @Override
   public void setUnits(String units) {
@@ -878,56 +983,56 @@ public class Compartment extends Symbol {
     }
     if (0d == getSpatialDimensions()) {
       throw new IllegalArgumentException(MessageFormat.format(
-        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "units", getId()));
+        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "units",
+        getId()));
     }
     super.setUnits(units);
   }
+
 
   /**
    * Sets the {@link Unit} of this {@link Compartment}.
    * 
    * @param unit
-   * 
    * @throws IllegalArgumentException
-   *             if spatialDimensions = 0.
+   *         if spatialDimensions = 0.
    */
   @Override
   public void setUnits(Unit unit) {
     if (0d == getSpatialDimensions()) {
       throw new IllegalArgumentException(MessageFormat.format(
-        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "unit", getId()));
+        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "unit",
+        getId()));
     }
     super.setUnits(unit);
   }
 
+
   /**
    * Sets the unit of this Compartment.
-   * 
    * A new Unit object will be created base on this kind.
    * 
    * @param unitKind
-   * 
    * @throws IllegalArgumentException
-   *             if spatialDimensions = 0.
-   * 
+   *         if spatialDimensions = 0.
    */
   @Override
   public void setUnits(Unit.Kind unitKind) {
     if (0d == getSpatialDimensions()) {
       throw new IllegalArgumentException(MessageFormat.format(
-        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "unit kind", getId()));
+        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"),
+        "unit kind", getId()));
     }
     super.setUnits(unitKind);
   }
+
 
   /**
    * Set the unit attribute of this Compartment to the given unit definition.
    * 
    * @param unitDefinition
-   * 
    * @throws IllegalArgumentException
-   *             if spatialDimensions &lt;= 0.
-   * 
+   *         if spatialDimensions &lt;= 0.
    */
   @Override
   public void setUnits(UnitDefinition unitDefinition) {
@@ -939,7 +1044,9 @@ public class Compartment extends Symbol {
     super.setUnits(unitDefinition);
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.QuantityWithUnit#setValue(double)
    */
   @Override
@@ -949,9 +1056,11 @@ public class Compartment extends Symbol {
       super.setValue(value);
     } else {
       throw new IllegalArgumentException(MessageFormat.format(
-        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "size", getId()));
+        resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "size",
+        getId()));
     }
   }
+
 
   /**
    * <p>
@@ -977,12 +1086,13 @@ public class Compartment extends Symbol {
    * </p>
    * 
    * @param value
-   *            a double representing the volume of this compartment instance
-   *            in whatever units are in effect for the compartment.
+   *        a double representing the volume of this compartment instance
+   *        in whatever units are in effect for the compartment.
    * @deprecated This method is only available for SBML Level 1. You should
    *             either use {@link #setSize(double)} or
    *             {@link #setValue(double)}.
-   * @throws PropertyNotAvailableException if Level is not 1.
+   * @throws PropertyNotAvailableException
+   *         if Level is not 1.
    */
   @Deprecated
   public void setVolume(double value) {
@@ -992,12 +1102,14 @@ public class Compartment extends Symbol {
     setValue(value);
   }
 
+
   /**
    * Sets the compartmentTypeID of this {@link Compartment} to {@code null}.
    */
   public void unsetCompartmentType() {
     setCompartmentType((String) null);
   }
+
 
   /**
    * Sets the outsideID of this compartment to {@code null}.
@@ -1008,6 +1120,7 @@ public class Compartment extends Symbol {
   public void unsetOutside() {
     setOutside((String) null);
   }
+
 
   /**
    * <p>
@@ -1031,6 +1144,7 @@ public class Compartment extends Symbol {
     unsetValue();
   }
 
+
   /**
    * Sets the spatialDimensions of this compartment to {@code null}.
    */
@@ -1041,6 +1155,7 @@ public class Compartment extends Symbol {
     firePropertyChange(TreeNodeChangeEvent.spatialDimensions, oldSpatialDim,
       spatialDimensions);
   }
+
 
   /**
    * <p>
@@ -1073,7 +1188,9 @@ public class Compartment extends Symbol {
     unsetSize();
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
    */
   @Override
@@ -1092,11 +1209,11 @@ public class Compartment extends Symbol {
       }
     } else if (1 < level) {
       if (isSetSpatialDimensions()) {
-        attributes.put("spatialDimensions", level < 3 ? Short
-          .toString((short) getSpatialDimensions()) : StringTools
-          .toString(en, getSpatialDimensions()));
-        if ((level < 3)
-            && (((short) getSpatialDimensions()) - getSpatialDimensions() != 0d)) {
+        attributes.put("spatialDimensions",
+          level < 3 ? Short.toString((short) getSpatialDimensions())
+            : StringTools.toString(en, getSpatialDimensions()));
+        if ((level < 3) && (((short) getSpatialDimensions())
+            - getSpatialDimensions() != 0d)) {
           logger.warn(MessageFormat.format(
             resourceBundle.getString("Compartment.writeXMLAttributes"),
             getSpatialDimensions()));
