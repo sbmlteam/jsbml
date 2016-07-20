@@ -257,6 +257,9 @@ public class MathMLXMLStreamCompiler {
     case NAME_AVOGADRO:
       compileCSymbol((ASTCSymbolNode) node);
       break;
+    case NAME_RATE_OF:
+      // TODO
+      break;
     case REAL_E:
       compileReal_e((ASTCnExponentialNode) node);
       break;
@@ -290,7 +293,11 @@ public class MathMLXMLStreamCompiler {
     case FUNCTION_FACTORIAL:
     case FUNCTION_FLOOR:
     case FUNCTION_LN:
+    case FUNCTION_MAX:
+    case FUNCTION_MIN:
     case FUNCTION_POWER:
+    case FUNCTION_QUOTIENT:
+    case FUNCTION_REM:
     case FUNCTION_SEC:
     case FUNCTION_SECH:
     case FUNCTION_SELECTOR:
@@ -319,6 +326,7 @@ public class MathMLXMLStreamCompiler {
     case LOGICAL_XOR:
     case LOGICAL_OR:
     case LOGICAL_NOT:
+    case LOGICAL_IMPLIES:
       compileLogicalOperator((ASTLogicalOperatorNode) node);
       break;
     case RELATIONAL_EQ:
