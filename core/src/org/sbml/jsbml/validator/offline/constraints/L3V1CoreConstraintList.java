@@ -27,31 +27,30 @@ import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 public final class L3V1CoreConstraintList extends AbstractConstraintList
 implements SBMLErrorCodes {
 
-  public static void addGeneralSBMLDocumentIds(Set<Integer> list) {
-    list.add(CoreSpecialErrorCodes.ID_VALIDATE_DOCUMENT_TREE);
+  public static void addGeneralSBMLDocumentErrorCodes(Set<Integer> list) {
+   
   }
 
 
-  public static void addGeneralModelIds(Set<Integer> list) {
+  public static void addGeneralModelErrorCodes(Set<Integer> list) {
     addRangeToList(list, CORE_20204, CORE_20232);
     list.add(CORE_20705);
-    list.add(CoreSpecialErrorCodes.ID_VALIDATE_MODEL_TREE);
   }
 
 
-  public static void addGeneralFunctionDefinitionIds(Set<Integer> list) {
+  public static void addGeneralFunctionDefinitionErrorCodes(Set<Integer> list) {
     list.add(CORE_20301);
     addRangeToList(list, CORE_20303, CORE_20307);
   }
 
 
-  public static void addGeneralCompartmentIds(Set<Integer> list) {
+  public static void addGeneralCompartmentErrorCodes(Set<Integer> list) {
     addRangeToList(list, CORE_20507, CORE_20509);
     list.add(CORE_20517);
   }
 
 
-  public static void addGeneralSpeciesIds(Set<Integer> list) {
+  public static void addGeneralSpeciesErrorCodes(Set<Integer> list) {
     list.add(CORE_20601);
     addRangeToList(list, CORE_20608, CORE_20610);
     list.add(CORE_20614);
@@ -60,7 +59,7 @@ implements SBMLErrorCodes {
   }
 
 
-  public static void addGeneralSpeciesReferenceIds(Set<Integer> list) {
+  public static void addGeneralSpeciesReferenceErrorCodes(Set<Integer> list) {
     list.add(CORE_20611);
   }
   

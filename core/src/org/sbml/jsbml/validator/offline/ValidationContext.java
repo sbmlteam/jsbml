@@ -21,25 +21,19 @@
 package org.sbml.jsbml.validator.offline;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.SBMLException.Code;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.offline.factory.CheckCategory;
 import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 import org.sbml.jsbml.validator.SyntaxChecker;
-import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
 import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
 import org.sbml.jsbml.validator.offline.constraints.CoreSpecialErrorCodes;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
@@ -379,6 +373,81 @@ public class ValidationContext {
 
 
   /**
+   * Checks if the level and version of this context is less then the given
+   * level and version. A level and version pair is less if either the level
+   * is smaller or the level is equal but the version is smaller.
+   * 
+   * @param level
+   * @param version
+   * @return
+   */
+  public boolean isLevelAndVersionLessThan(int level, int version) {
+    return (this.level < level)
+        || (this.level == level && this.version < version);
+  }
+
+
+  /**
+   * Checks if the level and version of this context is greater than the given
+   * level and version. A level and version pair is greater if either the level
+   * is smaller or the level is equal but the version is smaller.
+   * 
+   * @param level
+   * @param version
+   * @return
+   */
+  public boolean isLevelAndVersionGreaterThan(int level, int version) {
+    return (this.level > level)
+        || (this.level == level && this.version > version);
+  }
+
+
+  /**
+   * Checks if the level and version of this context are both the same as the
+   * given values.
+   * 
+   * @param level
+   * @param version
+   * @return
+   */
+  public boolean isLevelAndVersionEqualTo(int level, int version) {
+    return this.level == level && this.version == version;
+  }
+
+
+  /**
+   * Checks if the level and version of this context is greater or equal to the
+   * given values.
+   * 
+   * @param level
+   * @param version
+   * @return
+   * @see #isLevelAndVersionGreaterThan(int, int)
+   * @see #isLevelAndVersionEqualTo(int, int)
+   */
+  public boolean isLevelAndVersionGreaterEqualThan(int level, int version) {
+    return isLevelAndVersionGreaterThan(level, version)
+        || isLevelAndVersionEqualTo(level, version);
+  }
+
+
+  /**
+   * Checks if the level and version of this context is lesser or equal to the
+   * given values.
+   * 
+   * @param level
+   * @param version
+   * @return
+   * @see #isLevelAndVersionLessThan(int, int)
+   * @see #isLevelAndVersionEqualTo(int, int)
+   */
+  public boolean isLevelAndVersionLesserEqualThan(int level, int version) {
+    return isLevelAndVersionLessThan(level, version)
+        || isLevelAndVersionEqualTo(level, version);
+  }
+
+
+  /**
    * Removes a {@link ValidationListener} from this context.
    * Returns <code>true</code> if the listener was removed.
    * 
@@ -476,21 +545,20 @@ public class ValidationContext {
 
   /**
    * Validates a single attribute. The object must have set the new value
-   * aleady.
+   * already.
    * 
    * @param pkg
-   * @param treeNodeChangeEvent
+   * @param attributeName
    * @param object
    * @return
    */
-  public boolean validateAttribute(SBMLPackage pkg, String treeNodeChangeEvent,
+  public boolean validateAttribute(SBMLPackage pkg, String attributeName,
     Object object) {
     ConstraintFactory factory = ConstraintFactory.getInstance();
-    
-    @SuppressWarnings("unchecked")
+
     AnyConstraint<Object> c =
         (AnyConstraint<Object>) factory.getConstraintsForAttribute(
-          treeNodeChangeEvent, object.getClass(), pkg, this.level, this.version);
+          attributeName, object.getClass(), pkg, this.level, this.version);
 
     return c.check(this, object);
   }

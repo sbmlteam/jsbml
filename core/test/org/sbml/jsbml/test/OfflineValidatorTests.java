@@ -24,6 +24,7 @@ import java.io.FileFilter;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
@@ -50,7 +51,7 @@ public class OfflineValidatorTests {
 
   private static String       filter          = "";
 
-  private static Set<Integer> notDetected     = new HashSet<Integer>();
+  private static Set<Integer> notDetected     = new TreeSet<Integer>();
   private static long         readTime        = 0;
 
 
@@ -131,6 +132,8 @@ public class OfflineValidatorTests {
     for (Integer i : notDetected) {
       System.out.println(i);
     }
+    
+    
   }
 
 
