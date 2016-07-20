@@ -87,8 +87,8 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
 
   public static Set<Integer> getErrorCodesForClass(Class<?> clazz,
     CheckCategory category, ValidationContext ctx) {
-    return getErrorCodesForClass(clazz, category, ctx.getPackages(), ctx.getLevel(),
-      ctx.getVersion());
+    return getErrorCodesForClass(clazz, category, ctx.getPackages(),
+      ctx.getLevel(), ctx.getVersion());
   }
 
 
@@ -102,7 +102,7 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
       if (constraintList != null) {
         String methodName = "add"
             + StringTools.firstLetterUpperCase(category.toString().toLowerCase())
-            + clazz.getSimpleName() + "Ids";
+            + clazz.getSimpleName() + "ErrorCodes";
 
         try {
           Method m = constraintList.getMethod(methodName, Set.class);
@@ -120,13 +120,14 @@ public abstract class AbstractConstraintList implements SBMLErrorCodes {
   }
 
 
-  public static Set<Integer> getErrorCodesForAttribute(String attribute, Class<?> clazz,
-    SBMLPackage pkg, int level, int version) {
+  public static Set<Integer> getErrorCodesForAttribute(String attribute,
+    Class<?> clazz, SBMLPackage pkg, int level, int version) {
     Set<Integer> list = new HashSet<Integer>();
     Class<?> constraintList = getCachedList(pkg, level, version);
 
     if (constraintList != null) {
-      String methodName = "add" + StringTools.firstLetterUpperCase(attribute) + clazz.getSimpleName() + "ErrorCodes";
+      String methodName = "add" + StringTools.firstLetterUpperCase(attribute)
+      + clazz.getSimpleName() + "ErrorCodes";
 
       try {
         Method m = constraintList.getMethod(methodName, List.class);

@@ -117,8 +117,10 @@ public class ConstraintFactory {
     }
 
     // constraints for the next superclass (if not java.lang.Object)
-    if (!clazz.equals(Object.class)) {
-      AnyConstraint<T> con = this.getConstraintsForClass(clazz.getSuperclass(),
+    Class<?> superclass = clazz.getSuperclass();
+    
+    if (!clazz.equals(Object.class) && superclass != null) {
+      AnyConstraint<T> con = this.getConstraintsForClass(superclass,
         category, packages, level, version);
 
       if (con != null) {
@@ -249,9 +251,11 @@ public class ConstraintFactory {
 
     // If there's no rule for any interface of clazz, try his super clazz
     // clazz (if not Object)
-    if (!clazz.equals(Object.class)) {
+    Class<?> superclass = clazz.getSuperclass();
+    
+    if (!clazz.equals(Object.class) && superclass != null) {
       ConstraintGroup<T> c = getConstraintsForAttribute(attributeName,
-        clazz.getSuperclass(), pkg, level, version);
+        superclass, pkg, level, version);
 
       if (group == null) {
         group = c;
