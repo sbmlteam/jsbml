@@ -23,9 +23,11 @@ import static org.junit.Assert.assertTrue;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
@@ -33,6 +35,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
+import org.sbml.jsbml.text.parser.ParseException;
 
 /**
  * Tests the new feature introduced in SBML L3V2.
@@ -147,5 +150,33 @@ public class TestL3V2Features {
     
   }
 
+  
+  /**
+   * 
+   */
+  @Test public void newMathMLOperatorTest() {
+  
+    String max = "max(a, b)";
+    String min = "min(x, y)";
+    
+    try {
+      ASTNode maxAST = ASTNode.parseFormula(max);
+      ASTNode minAST = ASTNode.parseFormula(min);
+      
+      System.out.println(maxAST.toLaTeX());
+      
+      System.out.println(maxAST.toMathML());
+      System.out.println(maxAST.toFormula());
+      System.out.println(minAST.toMathML());
+      System.out.println(minAST.toFormula());
+      
+      ASTNode maxAST2 = ASTNode.parseMathML(maxAST.toMathML());
+      
+      System.out.println(maxAST2.toFormula());
+      
+    } catch (ParseException e) {
+      Assert.fail("Failed to read or write the new mathML operators min,max, quotient, rem and implies");
+    }
 
+  }
 }

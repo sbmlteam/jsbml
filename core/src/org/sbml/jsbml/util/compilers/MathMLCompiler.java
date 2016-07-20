@@ -1121,4 +1121,35 @@ public class MathMLCompiler implements ASTNodeCompiler {
     return function("vector", nodes);
   }
 
+  @Override
+  public ASTNodeValue max(List<ASTNode> values) {
+    return function("max", values);
+  }
+
+  @Override
+  public ASTNodeValue min(List<ASTNode> values) {
+    return function("min", values);
+  }
+
+  @Override
+  public ASTNodeValue quotient(List<ASTNode> values) {
+    return function("quotient", values);
+  }
+
+  @Override
+  public ASTNodeValue rem(List<ASTNode> values) {
+    return function("rem", values);
+  }
+
+  @Override
+  public ASTNodeValue implies(List<ASTNode> values) {
+    return function("implies", values);
+  }
+
+  @Override
+  public ASTNodeValue getRateOf(String name) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

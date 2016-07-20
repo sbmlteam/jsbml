@@ -24,6 +24,7 @@ package org.sbml.jsbml.ontology;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.biojava.nbio.ontology.Synonym;
@@ -168,12 +169,16 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
       Annotation annotation;
       Object definition;
       annotation = term.getAnnotation();
+      try {
       definition = (annotation != null)
           && (annotation.keys().size() > 0) ? annotation
             .getProperty("def") : null;
             def = definition != null ? definition.toString() : "";
             def = def.replace("\\n", "\n").replace("\\t", "\t").replace("\\", "");
             def = def.trim();
+      } catch (NoSuchElementException e) {
+        def = "";
+      }
     }
     return def;
   }
