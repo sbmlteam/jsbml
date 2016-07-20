@@ -294,7 +294,7 @@ public class SBO {
     Object value = alias2sbo.get(alias);
     return value != null ? Integer.parseInt(value.toString()) : -1;
   }
-
+  
   /**
    * Returns an alias corresponding to the given SBO id.
    * 
@@ -323,6 +323,24 @@ public class SBO {
    */
   public static int getAssociation() {
     return 177;
+  }
+  
+  /**
+   * Describes an activator (ligand) which binds at a site other than the active site, resulting in a conformational change, enhancing the activity of the enzyme.
+   * 
+   * @return 636
+   */
+  public static int getAllostericActivator() {
+	return 636;
+  }
+  
+  /**
+   * An inhibitor whose binding to an enzyme results in a conformational change, resulting in a loss of enzymatic activity. This activity can be restored upon removal of the inhibitor.
+   * 
+   * @return 639
+   */
+  public static int getAllostericInhibitor() {
+	return 639;
   }
 
   /**
@@ -513,7 +531,14 @@ public class SBO {
     return 251;
   }
   
-
+  /**
+   * Fragment or region of a DNA macromolecule. 
+   * @return 634
+   */ 
+  public static int getDNASegment() {
+    return 634;
+  } 
+  
   /**
    * 
    * @return
@@ -650,15 +675,24 @@ public class SBO {
 
   /**
    * 
-   * @return
+   * @return 231
    */
   public static int getInteraction() {
     return 231;
   }
+  
+  /**
+   * An inhibitor which binds irreversibly with the enzyme such that it cannot be removed, and abolishes enzymatic function.
+   * 
+   * @return 638
+   */
+  public static int getIrreversibleInhibitor() {
+	return 638;
+  }
 
   /**
    * 
-   * @return
+   * @return 459
    */
   public static int getActivator() {
     return 459;
@@ -784,6 +818,15 @@ public class SBO {
     return 171;
   }
 
+  /**
+   * Describes an activator (ligand) which binds to the enzyme, which does not result in a conformational change, but which enhances the enzyme's activity.
+   * 
+   * @return 637
+   */
+  public static int getNonAllostericActivator() {
+	return 637;
+  }
+  
   /**
    * Substance that decreases the probability of a chemical reaction, without itself being consumed or transformed by the reaction, and without sterically hindering the interaction between reactants.
    * Also known as Inhibition Non-Competitive Inhibitor or Inhibition Uncompetitive 
@@ -988,6 +1031,14 @@ public class SBO {
     return convertAlias2SBO("RNA");
   }
 
+  /**
+   * Fragment or region of an RNA macromolecule.
+   * @return 635
+   */
+  public static int getRNASegment() {
+	    return 635;
+  }
+  
   /**
    * Returns the root element of the SBO Ontology (SBO:0000000).
    * 
@@ -1283,6 +1334,14 @@ public class SBO {
    */
   public static int getTruncated() {
     return convertAlias2SBO("TRUNCATED");
+  }
+  
+  /**
+   * An inhibitor which binds only to the complex formed between the enzyme and substrate (E-S complex).
+   * @return 640
+   */
+  public static int getUncompetitiveInhibitor() {
+	return 640;
   }
 
   /**

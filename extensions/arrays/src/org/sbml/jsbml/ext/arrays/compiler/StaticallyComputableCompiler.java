@@ -819,4 +819,35 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
     }
     return new ASTNodeValue(true, this);
   }
+
+  @Override
+  public ASTNodeValue max(List<ASTNode> values) {
+    return function((String) null, values);
+  }
+
+  @Override
+  public ASTNodeValue min(List<ASTNode> values) {
+    return function((String) null, values);
+  }
+
+  @Override
+  public ASTNodeValue quotient(List<ASTNode> values) {
+    return function((String) null, values);
+  }
+
+  @Override
+  public ASTNodeValue rem(List<ASTNode> values) {
+    return function((String) null, values);
+  }
+
+  @Override
+  public ASTNodeValue implies(List<ASTNode> values) {
+    return function((String) null, values);
+  }
+
+  @Override
+  public ASTNodeValue getRateOf(String name) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

@@ -220,6 +220,14 @@ public class ASTNode extends AbstractTreeNode {
     /**
      * 
      */
+    FUNCTION_MAX,
+    /**
+     * 
+     */
+    FUNCTION_MIN,
+    /**
+     * 
+     */
     FUNCTION_PIECEWISE,
     /**
      * An {@link ASTNode} of this {@link Type} represents a function call of
@@ -229,6 +237,21 @@ public class ASTNode extends AbstractTreeNode {
      * effect.
      */
     FUNCTION_POWER,
+    /**
+     * The quotient element is the operator used for division modulo a particular base. 
+     * When the quotient operator is applied to integer arguments a and b, the result is 
+     * the "quotient of a divided by b". That is, quotient returns the unique integer q 
+     * such that a = q b + r. (In common usage, q is called the quotient and r is the remainder.)
+     */
+    FUNCTION_QUOTIENT,
+    /**
+     * The rem element is the operator that returns the "remainder" of a division modulo 
+     * a particular base. When the rem operator is applied to integer arguments a and b, 
+     * the result is the "remainder of a divided by b". That is, rem returns the unique 
+     * integer, r such that a = q b+ r, where r < q. (In common usage, q is called the 
+     * quotient and r is the remainder.)
+     */
+    FUNCTION_REM,
     /**
      * 
      */
@@ -276,6 +299,31 @@ public class ASTNode extends AbstractTreeNode {
      */
     LOGICAL_AND,
     /**
+     * In classical logic, the compound 'p implies q' (p→q) is logically equivalent to the negative
+     * compound: not both p and not q. Thus the compound p→q is false if and only
+     * if both p is true and q is false. By the same stroke, p→q is true if and only 
+     * if either p is false or q is true (or both). Thus → is a function from pairs 
+     * of truth values of the components p, q to truth values of the compound p→q, 
+     * whose truth value is entirely a function of the truth values of the components. 
+     * Hence, this interpretation is called truth-functional. The compound p→q is 
+     * logically equivalent also to ¬p∨q (either not p, or q (or both)), and 
+     * to ¬q→¬p (if not q then not p). But it is not equivalent to ¬p→¬q, which is 
+     * equivalent to q→p.
+     *  
+     *<p>Truth table:
+     *
+     *<pre>
+     * p   q  p→q
+     *   
+     * T   T   T
+     * T   F   F
+     * F   T   T
+     * F   F   T
+     *</pre>
+     *
+     */
+    LOGICAL_IMPLIES,
+    /**
      * 
      */
     LOGICAL_NOT,
@@ -300,6 +348,10 @@ public class ASTNode extends AbstractTreeNode {
      * A type to express Avogadro's number.
      */
     NAME_AVOGADRO,
+    /**
+     * 
+     */
+    NAME_RATE_OF,
     /**
      * 
      */
@@ -434,6 +486,14 @@ public class ASTNode extends AbstractTreeNode {
         return FUNCTION_CEILING;
       } else if (type.equals("factorial")) {
         return FUNCTION_FACTORIAL;
+      } else if (type.equals("max")) {
+        return FUNCTION_MAX;
+      } else if (type.equals("min")) {
+        return FUNCTION_MIN;
+      } else if (type.equals("quotient")) {
+        return FUNCTION_QUOTIENT;
+      } else if (type.equals("rem")) {
+        return FUNCTION_REM;
       }
 
       // Logical operators
@@ -445,6 +505,8 @@ public class ASTNode extends AbstractTreeNode {
         return LOGICAL_XOR;
       } else if (type.equals("not")) {
         return LOGICAL_NOT;
+      } else if (type.equals("implies")) {
+        return LOGICAL_IMPLIES;
       }
 
       // Trigonometric operators
@@ -540,6 +602,8 @@ public class ASTNode extends AbstractTreeNode {
         return FUNCTION_DELAY;
       } else if (type.equals(URI_AVOGADRO_DEFINITION)) {
         return NAME_AVOGADRO;
+      } else if (type.equals(URI_RATE_OF_DEFINITION)) {
+        return NAME_RATE_OF;
       }
 
       // general: apply, piecewise, piece, otherwise, lambda, bvar
@@ -550,9 +614,9 @@ public class ASTNode extends AbstractTreeNode {
       } else if (type.equals("piecewise")) {
         return FUNCTION_PIECEWISE;
       } else if (type.equals("piece")) {
-        // nothing to do, node ignore when parsing
+        return CONSTRUCTOR_PIECE;
       } else if (type.equals("otherwise")) {
-        // nothing to do, node ignore when parsing
+        return CONSTRUCTOR_OTHERWISE;
       }
 
       // qualifiers: degree, logbase
@@ -622,7 +686,7 @@ public class ASTNode extends AbstractTreeNode {
    * The URI for the definition of the csymbol for delay.
    */
   public static final transient String URI_DELAY_DEFINITION = "http://www.sbml.org/sbml/symbols/delay";
-
+  
   /**
    * URI for the definition of MathML.
    */
@@ -634,6 +698,11 @@ public class ASTNode extends AbstractTreeNode {
    * URI prefix for the definition of MathML, it will be used to write the sbml file
    */
   public static final String URI_MATHML_PREFIX = "";
+
+  /**
+   * The URI for the definition of the csymbol for rateOf.
+   */
+  public static final transient String URI_RATE_OF_DEFINITION = "http://www.sbml.org/sbml/symbols/rateOf";  
 
   /**
    * The URI for the definition of the csymbol for time.
@@ -1950,6 +2019,9 @@ public class ASTNode extends AbstractTreeNode {
     case NAME_AVOGADRO:
       value = compiler.getConstantAvogadro(getName());
       break;
+    case NAME_RATE_OF:
+      value = compiler.getRateOf(getName());
+      break;
     case REAL_E:
       value = compiler.compile(getMantissa(), getExponent(),
         isSetUnits() ? getUnits() : null);
@@ -2036,8 +2108,20 @@ public class ASTNode extends AbstractTreeNode {
     case FUNCTION_LN:
       value = compiler.ln(getLeftChild());
       break;
+    case FUNCTION_MAX:
+      value = compiler.max(getChildren());
+      break;
+    case FUNCTION_MIN:
+      value = compiler.min(getChildren());
+      break;
     case FUNCTION_POWER:
       value = compiler.pow(getLeftChild(), getRightChild());
+      break;
+    case FUNCTION_QUOTIENT:
+      value = compiler.quotient(getChildren());
+      break;
+    case FUNCTION_REM:
+      value = compiler.rem(getChildren());
       break;
     case FUNCTION_ROOT:
       ASTNode left = getLeftChild();
@@ -2133,6 +2217,10 @@ public class ASTNode extends AbstractTreeNode {
       value = compiler.or(getChildren());
       value.setUIFlag(getChildCount() <= 1);
       break;
+    case LOGICAL_IMPLIES:
+      value = compiler.implies(getChildren());
+      value.setUIFlag(getChildCount() <= 1);
+      break;
     case LOGICAL_NOT:
       value = compiler.not(getLeftChild());
       break;
@@ -2201,7 +2289,10 @@ public class ASTNode extends AbstractTreeNode {
         } else if ((type == Type.NAME_AVOGADRO) || (getVariable() != null)
             && (!getVariable().containsUndeclaredUnits())) {
           return false;
-        }
+        } 
+        
+        // TODO - add a block for NAME_RATE_OF ?
+        
         return true;
       }
     } else {
@@ -3066,15 +3157,15 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if this node is a user-defined {@link Variable} name in SBML L1, L2
-   * (MathML), or the special symbols delay or time. The predicate returns
+   * (MathML), or the special symbols time, Avogadro or rateOf. The predicate returns
    * {@code false} otherwise.
    * 
    * @return {@code true} if this {@link ASTNode} is a user-defined variable name in SBML L1,
-   *         L2 (MathML) or the special symbols time or Avogadro.
+   *         L2 (MathML) or the special symbols time, Avogadro or rateOf.
    */
   public boolean isName() {
     return (type == Type.NAME) || (type == Type.NAME_TIME)
-        || (type == Type.NAME_AVOGADRO);
+        || (type == Type.NAME_AVOGADRO) || (type == Type.NAME_RATE_OF);
   }
 
   /**
@@ -3350,7 +3441,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this node represents a {@link Variable}.
    */
   public boolean isVariable() {
-    return type == Type.NAME || type == Type.FUNCTION;
+    return type == Type.NAME || type == Type.FUNCTION; // TODO - add RATE_OF here as well ?
   }
 
   /**
@@ -3967,7 +4058,11 @@ public class ASTNode extends AbstractTreeNode {
       name = "Avogadro's number";
       setValue(Maths.AVOGADRO_L3V1);
       definitionURL = URI_AVOGADRO_DEFINITION;
+    } else if (type == Type.NAME_RATE_OF) {
+      // name = "rateOf";
+      definitionURL = URI_RATE_OF_DEFINITION;
     }
+    
     Type oldValue = this.type;
     this.type = type;
     firePropertyChange(TreeNodeChangeEvent.type, oldValue, type);
