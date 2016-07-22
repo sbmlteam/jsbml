@@ -1385,7 +1385,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
   @Override
   public ASTNodeValue getRateOf(String name) {
-    ASTNodeValue value = dimensionless(); // TODO - check if it is really dimensionless
+    ASTNodeValue value = dimensionless(); // TODO -  should be the units of 'name' divided by the model units of time.
     return value;
   }
 

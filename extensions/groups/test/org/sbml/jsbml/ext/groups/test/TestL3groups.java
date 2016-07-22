@@ -9,8 +9,6 @@
  *
  * This test file was converted from libsbml http://sbml.org/software/libsbml
  *
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -49,7 +47,6 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
 /**
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 public class TestL3groups {
 
