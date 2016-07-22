@@ -759,7 +759,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           AbstractSBase.attributeValidator.setLevelAndVersion(this.getLevel(), this.getVersion());
           
           logger.warn("Invalid value for attribute " + attributeName + " on SBase with id = " + this.metaId +"!");
-          return attributeValidator.validateAttribute(SBMLPackage.CORE, attributeName, this);
+          return attributeValidator.validateAttribute(SBMLPackage.CORE, attributeName, this); // TODO - the package should not be hardcoded here, please make use of SBase.getPackageName()
         }
 
         return true;

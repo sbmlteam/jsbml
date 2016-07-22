@@ -560,6 +560,11 @@ public class ValidationContext {
         (AnyConstraint<Object>) factory.getConstraintsForAttribute(
           attributeName, object.getClass(), pkg, this.level, this.version);
 
+    if (c == null) {
+      // no constraint found to validate this attribute
+      return true;
+    }
+    
     return c.check(this, object);
   }
 
