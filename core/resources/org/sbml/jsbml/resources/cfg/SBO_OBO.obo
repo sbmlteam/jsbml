@@ -1,6 +1,6 @@
 format-version: 1.2
-date: 29:01:2016 07:00
-data-version: 04:12:2015 11:23
+date: 26:07:2016 07:00
+data-version: 19:07:2016 15:41
 saved-by: SBO community
 auto-generated-by: SBO Browser (http://www.ebi.ac.uk/sbo/)
 default-namespace: sbo
@@ -1590,6 +1590,7 @@ id: SBO:0000243
 name: gene
 def: "A locatable region of genomic sequence, corresponding to a unit of inheritance, which is associated with regulatory regions, transcribed regions and/or other functional sequence regions.\n\nSequence Ontology SO:0000704" [src_code:NR]
 comment: Created on November 10 2006 by Nicolas Le Novere.
+is_a: SBO:0000240 ! material entity
 is_a: SBO:0000404 ! unit of genetic information
 
 [Term]
@@ -2257,7 +2258,7 @@ id: SBO:0000335
 name: gene coding region
 def: "Portion of DNA or RNA that is transcribed into another RNA, such as a messenger RNA or a non-coding RNA (for instance a transfert RNA or a ribosomal RNA)." [src_code:NR]
 comment: Created on January 03 2008 by Nicolas Le Novere
-is_a: SBO:0000404 ! unit of genetic information
+is_a: SBO:0000354 ! informational molecule segment
 
 [Term]
 id: SBO:0000336
@@ -2496,7 +2497,7 @@ id: SBO:0000369
 name: gene regulatory region
 def: "Region of a gene that is involved in the modulation of the expression of the gene. " [src_code:NR]
 comment: Created for SBGN purposes.
-is_a: SBO:0000404 ! unit of genetic information
+is_a: SBO:0000354 ! informational molecule segment
 
 [Term]
 id: SBO:0000370
@@ -3985,7 +3986,7 @@ id: SBO:0000590
 name: promoter binding region
 def: "A stretch of DNA upstream of a transcription start site, to which a promoter and other transcription factors may bind to initiate or regulate expression." [src_code:NR]
 comment: created in response to \[SF req #3503791\]
-is_a: SBO:0000354 ! informational molecule segment
+is_a: SBO:0000369 ! gene regulatory region
 
 [Term]
 id: SBO:0000591
@@ -4282,6 +4283,64 @@ def: "A modeling process to provide matter influx or efflux to a model, for exam
 comment: Created in response to \[SF req #111\]
 synonym: "source/sink" []
 is_a: SBO:0000631 ! pseudoreaction
+
+[Term]
+id: SBO:0000633
+name: subsystem
+def: "Term used to indicate the grouping of model components, largely reactions, by some criterion, often processual. This can be used to indicate, for example, the subsystem of a model that is concerned with 'transport'. A designated subsystem includes reactions annotated with the term, as well as reactions participants such as enzymes, modifiers and genes encoding these subsystem components." [src_code:NR]
+comment: created in response to SF req #113
+is_a: SBO:0000473 ! denotement
+
+[Term]
+id: SBO:0000634
+name: DNA segment
+def: "Fragment or region of a DNA macromolecule." [SBO:team "http://identifiers.org/so/SO:0000997"]
+comment: created in response to  \[SF req #115\]
+is_a: SBO:0000354 ! informational molecule segment
+
+[Term]
+id: SBO:0000635
+name: RNA segment
+def: "Fragment or region of an RNA macromolecule." [src_code:NR]
+comment: created in response to  \[SF req #115\]
+is_a: SBO:0000354 ! informational molecule segment
+
+[Term]
+id: SBO:0000636
+name: allosteric activator
+def: "Describes an activator (ligand) which binds at a site other than the active site, resulting in a conformational change, enhancing the activity of the enzyme." [SBO:team "https://en.wikipedia.org/wiki/Allosteric_regulation", SBO:team "http://www.biopax.org/release/biopax-level3-documentation.pdf"]
+comment: created to facilitate format interconversion (SBML<->BioPAX), see also \[SF req #115\]
+synonym: "positive allosteric modulation" []
+is_a: SBO:0000021 ! potentiator
+
+[Term]
+id: SBO:0000637
+name: non-allosteric activator
+def: "Describes an activator (ligand) which binds to the enzyme, which does not result in a conformational change, but which enhances the enzyme's activity." [SBO:team "http://www.biopax.org/release/biopax-level3-documentation.pdf"]
+comment: created to facilitate format interconversion (SBML<->BioPAX), see also \[SF req #115\]
+is_a: SBO:0000021 ! potentiator
+
+[Term]
+id: SBO:0000638
+name: irreversible inhibitor
+def: "An inhibitor which binds irreversibly with the enzyme such that it cannot be removed, and abolishes enzymatic function." [SBO:team "http://www.biopax.org/release/biopax-level3-documentation.pdf"]
+comment: created to facilitate format interconversion (SBML<->BioPAX), see also \[SF req #115\]
+is_a: SBO:0000020 ! inhibitor
+
+[Term]
+id: SBO:0000639
+name: allosteric inhibitor
+def: "An inhibitor whose binding to an enzyme results in a conformational change, resulting in a loss of enzymatic activity. This activity can be restored upon removal of the inhibitor." [SBO:team "http://www.biopax.org/release/biopax-level3-documentation.pdf"]
+comment: created to facilitate format interconversion (SBML<->BioPAX), see also \[SF req #115\]
+is_a: SBO:0000020 ! inhibitor
+
+[Term]
+id: SBO:0000640
+name: uncompetitive inhibitor
+def: "An inhibitor which binds only to the complex formed between the enzyme and substrate (E-S complex)." [SBO:team "https://en.wikipedia.org/wiki/Uncompetitive_inhibitor", SBO:team "http://www.biopax.org/release/biopax-level3-documentation.pdf"]
+comment: created to facilitate format interconversion (SBML<->BioPAX), see also \[SF req #115\]
+synonym: "anti-competitive inhibitor" []
+is_a: SBO:0000020 ! inhibitor
 
 [Typedef]
 id: is_a
