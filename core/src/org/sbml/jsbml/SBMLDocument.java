@@ -31,10 +31,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
-import java.util.Vector;
 
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
@@ -42,12 +40,10 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.validator.offline.SBMLPackage;
-import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
 import org.sbml.jsbml.validator.offline.factory.CheckCategory;
 import org.sbml.jsbml.xml.parsers.PackageParser;
 import org.sbml.jsbml.xml.parsers.ParserManager;
@@ -305,18 +301,18 @@ public class SBMLDocument extends AbstractSBase {
     getSBMLDocumentAttributes().remove(packageName + ":required");
   }
 
-  
-//  @Override
-//  public Enumeration<TreeNode> children() {
-//    Vector<TreeNode> vec = new Vector<>(1);
-//    
-//    if (this.model != null)
-//    {
-//      vec.add(this.model);
-//    }
-//    
-//    return vec.elements();
-//  }
+
+  //  @Override
+  //  public Enumeration<TreeNode> children() {
+  //    Vector<TreeNode> vec = new Vector<>(1);
+  //
+  //    if (this.model != null)
+  //    {
+  //      vec.add(this.model);
+  //    }
+  //
+  //    return vec.elements();
+  //  }
 
   /**
    * Validates the {@link SBMLDocument} using the offline validator.
@@ -328,10 +324,10 @@ public class SBMLDocument extends AbstractSBase {
    */
   public int checkConsistencyOffline() {
     LoggingValidationContext ctx =
-        new LoggingValidationContext(this.getLevel(), this.getVersion());
+        new LoggingValidationContext(getLevel(), getVersion());
 
     for (SBMLPackage pkg : SBMLPackage.values()) {
-      if (this.isPackageEnabled(pkg.toString())) {
+      if (isPackageEnabled(pkg.toString())) {
         ctx.enablePackage(pkg, true);
       }
     }
@@ -341,7 +337,7 @@ public class SBMLDocument extends AbstractSBase {
     ctx.loadConstraints(this.getClass());
     ctx.validate(this);
 
-    this.listOfErrors = ctx.getErrorLog();
+    listOfErrors = ctx.getErrorLog();
     return ctx.getErrorLog().getErrorCount();
   }
 
@@ -1656,17 +1652,6 @@ public class SBMLDocument extends AbstractSBase {
       oldAttributes, SBMLDocumentAttributes);
   }
 
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
-   */
-  @Override
-  public String toString() {
-    return "SBMLDocument Level " + getLevel() + " Version " + getVersion();
-  }
-
-
   /**
    * Sets the {@link Model} of this {@link SBMLDocument} to null and notifies
    * all {@link TreeNodeChangeListener} about changes.
@@ -1683,7 +1668,6 @@ public class SBMLDocument extends AbstractSBase {
     }
     return false;
   }
-
 
   /*
    * (non-Javadoc)
