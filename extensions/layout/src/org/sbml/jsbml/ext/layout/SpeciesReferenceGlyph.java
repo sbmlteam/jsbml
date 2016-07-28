@@ -30,7 +30,6 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SimpleSpeciesReference;
-import org.sbml.jsbml.SpeciesReference;
 
 /**
  * The {@link SpeciesReferenceGlyph} class describes the graphical connection
@@ -132,6 +131,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = LayoutConstants.shortLabel;

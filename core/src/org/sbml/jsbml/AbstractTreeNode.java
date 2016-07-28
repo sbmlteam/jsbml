@@ -24,6 +24,7 @@ package org.sbml.jsbml;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 
@@ -792,7 +795,54 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   @Override
   public String toString() {
-    return StringTools.firstLetterLowerCase(getClass().getSimpleName());
+    Class<?> clazz = getClass();
+
+    StringBuilder sb = new StringBuilder();
+    sb.append(clazz.getSimpleName());
+    sb.append(" [");
+
+    // gather attributes
+    SortedMap<String, String> done = new TreeMap<>();
+    String isSet = "isSet";
+    do {
+      for (Method m : clazz.getDeclaredMethods()) {
+        String mName = m.getName();
+        if (mName.startsWith(isSet)) {
+          String fLUC = mName.substring(isSet.length());
+          String fName = StringTools.firstLetterLowerCase(fLUC);
+          if (!fName.equals("parent") && !done.containsKey(fName)) {
+            try {
+              Method getter = clazz.getMethod("get" + fLUC);
+              Method setter = clazz.getMethod("set" + fLUC, getter.getReturnType());
+              if ((setter != null) && (getter != null)) {
+                Object o = null;
+                if ((boolean) m.invoke(this)) {
+                  o = getter.invoke(this);
+                }
+                done.put(fName, (o != null) ? o.toString() : "");
+              }
+            } catch (NoSuchMethodException | SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException exc) {
+            }
+          }
+        }
+      }
+      clazz = clazz.getSuperclass();
+    } while (!clazz.equals(Object.class));
+
+    // write the attributes
+    boolean first = true;
+    for (Map.Entry<String, String> entry : done.entrySet()) {
+      if (!first) {
+        sb.append(", ");
+      } else {
+        first = false;
+      }
+      sb.append(entry.getKey());
+      sb.append('=');
+      sb.append(entry.getValue());
+    }
+    sb.append(']');
+    return sb.toString();
   }
 
   /* (non-Javadoc)
@@ -803,10 +853,16 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
     return userObjects.keySet();
   }
 
+  /**
+   * 
+   * @param in
+   * @throws IOException
+   * @throws ClassNotFoundException
+   */
   private void readObject(java.io.ObjectInputStream in)
-      throws IOException, ClassNotFoundException
-  {
+      throws IOException, ClassNotFoundException {
     in.defaultReadObject();
     listOfListeners = new ArrayList<TreeNodeChangeListener>();
   }
+
 }
