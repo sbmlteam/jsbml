@@ -93,7 +93,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Shared context to perform attribute validation.
    */
-  protected static ValidationContext attributeValidator = new ValidationContext(1, 1);
+  private static ValidationContext attributeValidator = new ValidationContext(1, 1);
 
       /**
        * Returns {@code true} if the level and version combination is a valid one,
