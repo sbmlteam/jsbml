@@ -33,10 +33,11 @@ import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.Unit;
@@ -543,9 +544,9 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
       func = new ValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
-          
+
           if (c.getSpatialDimensions() == 1 && c.isSetUnits()) {
-            
+
             String unit = c.getUnits();
             UnitDefinition def = c.getUnitsInstance();
 
@@ -561,7 +562,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
               return isDimensionless || isLength;
             }
           }
-          
+
           return true;
         }
       };
@@ -571,12 +572,12 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
       func = new ValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
-          
+
           if (c.getSpatialDimensions() == 2 && c.isSetUnits()) {
             String unit = c.getUnits();
             UnitDefinition def = c.getUnitsInstance();
-            
-         
+
+
             boolean isArea = ValidationContext.isArea(unit, def);
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
@@ -698,7 +699,6 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
     case CORE_20605:
       func = new ValidationFunction<Species>() {
-        @SuppressWarnings("deprecation")
         @Override
         public boolean check(ValidationContext ctx, Species s) {
 
@@ -728,7 +728,6 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
     case CORE_20606:
       func = new ValidationFunction<Species>() {
-        @SuppressWarnings("deprecation")
         @Override
         public boolean check(ValidationContext ctx, Species s) {
 
@@ -844,7 +843,6 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
     case CORE_20615:
       func = new ValidationFunction<Species>() {
-        @SuppressWarnings("deprecation")
         @Override
         public boolean check(ValidationContext ctx, Species s) {
           return !s.isSetSpatialSizeUnits();
@@ -1146,6 +1144,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
           if (r.isSetCompartment())
           {
+
             return r.getCompartmentInstance() != null;
           }
 
@@ -1154,30 +1153,58 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
       };
 
     case CORE_21111:
-      return new ValidationConstraint<SpeciesReference>(errorCode, new ValidationFunction<SpeciesReference>() {
+      return new ValidationConstraint<SimpleSpeciesReference>(errorCode, new ValidationFunction<SimpleSpeciesReference>() {
 
         @Override
-        public boolean check(ValidationContext ctx, SpeciesReference sr) {
-          // TODO Auto-generated method stub
-//          if (sr instanceof ModifierSpeciesReference)
-//          {
-//            
-//          }
+        public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
+
+
           return sr.getSpeciesInstance() != null;
         }
       });
 
-      // SpeciesReference is Modifier?
-      //    case CORE_21113:
-      //      return new ValidationConstraint<SpeciesReference>(errorCode, new ValidationFunction<SpeciesReference>() {
-      //        
-      //        @Override
-      //        public boolean check(ValidationContext ctx, SpeciesReference sr) {
-      //          // TODO Auto-generated method stub
-      //          if (sr.isSetStoichiometryMath())   
-      //          return sr.getSpeciesInstance() != null;
-      //        }
-      //      });
+
+    case CORE_21113:
+      return new ValidationConstraint<SpeciesReference>(errorCode, new ValidationFunction<SpeciesReference>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SpeciesReference sr) {
+          // Can't be a Modifier
+          if (sr.isSetStoichiometryMath())
+          {
+            return !sr.isSetStoichiometry();
+          }
+
+          return true;
+
+        }
+      });
+
+    case CORE_21125:
+      return new ValidationConstraint<KineticLaw>(errorCode, new ValidationFunction<KineticLaw>() {
+        @Override
+        public boolean check(ValidationContext ctx, KineticLaw kl) {
+
+          return !kl.isSetSubstanceUnits();
+        }
+      });
+      
+    case CORE_21126:
+      return new ValidationConstraint<KineticLaw>(errorCode, new ValidationFunction<KineticLaw>() {
+        @Override
+        public boolean check(ValidationContext ctx, KineticLaw kl) {
+
+          return !kl.isSetTimeUnits();
+        }
+      });
+      
+    case CORE_21130:
+      return new ValidationConstraint<KineticLaw>(errorCode, new ValidationFunction<KineticLaw>() {
+        @Override
+        public boolean check(ValidationContext ctx, KineticLaw kl) {
+          return kl.isSetMath();
+        }
+      });
     }
 
     return new ValidationConstraint<Reaction>(errorCode, func);

@@ -66,5 +66,9 @@ implements SBMLErrorCodes {
   public static void addSizeCompartmentErrorCodes(Set<Integer> set) {
     set.add(CORE_20501);
   }
+  
+  public static void addCompartmentSizeCompartmentErrorCodes(Set<Integer> set){
+    
+  }
 
 }
