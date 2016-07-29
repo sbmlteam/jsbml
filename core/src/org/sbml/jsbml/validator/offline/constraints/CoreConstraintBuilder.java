@@ -34,6 +34,7 @@ import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Species;
@@ -1158,7 +1159,10 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
         @Override
         public boolean check(ValidationContext ctx, SpeciesReference sr) {
           // TODO Auto-generated method stub
-
+//          if (sr instanceof ModifierSpeciesReference)
+//          {
+//            
+//          }
           return sr.getSpeciesInstance() != null;
         }
       });
