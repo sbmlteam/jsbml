@@ -1,0 +1,44 @@
+\section[Offline Validation]{The Offline Validator}
+\subsection{How to use offline validation}
+
+The offline validator is a alternative way to check the consistency of your SBMLDocument or any other Object.
+\subsubsection{Setup a ValidationContext}
+In order to validate your object you will need three steps:
+\begin{itemize}
+\item[1.] \textbf{Create a instance of ValidationContext} \\
+The ValidationContext will be the center of the validation. It's designed to be reusable, so you could use a single instance of ValidationContext to perform several validations.
+\item[2.] \textbf{Prepare the context} \\
+Now it's time to tell the context which class you want to validate. The context will travel the hole class hierarchy to load all the constraints whcih are necessary.
+\item[3.] \textbf{Validate} \\
+Now you can start the validation. The method will immendently return a boolean, which is true when no constraint was broken and false otherwise. If you like to get a list of all the errors and broken constraints, use a instance of LoggingValidationContext instead.
+\end{itemize}
+
+\subsubsection{Control the validation}
+There are some ways to control the validation process.
+\begin{itemize}
+\item[a)] \textbf{Enable/disable packages:}\\
+Since Level 3 Verion 1 of SBML there is the possibility to add packages to SBML. By default th validation context will only check the rules which are defined in the core package. After some packages are enabled/disabled you must reload the constraints to take effect.
+\item[b)] \textbf{Enable/disable check categories:}\\
+With check categories, it's possible to control whcih subset of rules will be loaded.
+\item[c)] \textbf{Recursiv validation:}\\
+\item[d)] \textbf{Track the validation:}\\
+Using ValidationListener, LoggingValidationContext provides a error log, Errors are created form .json using SBMLErrorFactory
+\end{itemize}
+
+
+\subsection{Provide validation constraints for a SBML Package}
+- OfflineValidation uses reflection to find methods
+	- Strong naming conventions must be followed
+- Package must be in SBMLPackage enum with offset
+- create Package org.sbml.jsbml.validator.offline.constraints
+- create <PackageName>ConstraintList extends Abstract.. For every supported Level/Version (Example CoreConstraintsList)
+	- add Methods for Class Validation
+	- add Methods for AttributeValidation
+- create <PackageName>ConstraintBuilder extends Abstract..
+- implement your code
+- use negativ Numbers fur custom constraint
+	- Calls builder within offset constraint was defined
+	
+\subsection{Skripte}
+
+\subsection{Examples}
