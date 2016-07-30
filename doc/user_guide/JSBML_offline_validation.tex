@@ -21,6 +21,7 @@ Since Level 3 Verion 1 of SBML there is the possibility to add packages to SBML.
 \item[b)] \textbf{Enable/disable check categories:}\\
 With check categories, it's possible to control whcih subset of rules will be loaded.
 \item[c)] \textbf{Recursiv validation:}\\
+The validation context can perform a recursiv validation and also validate the child objects. This is realized by using the TreeNode Interface. If a class inherites from TreeNode and this option is enabled, the context will also load the constraints for the class of every child returned by the TreeNode's iteration methods. If one of the childs is also a TreeNode, the recursiv validation will go on.
 \item[d)] \textbf{Track the validation:}\\
 Using ValidationListener, LoggingValidationContext provides a error log, Errors are created form .json using SBMLErrorFactory
 \end{itemize}
