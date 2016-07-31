@@ -556,6 +556,20 @@ public class SBO {
   public static int getEmptySet() {
     return convertAlias2SBO("DEGRADED");
   }
+  
+  /**
+   * Change in enthalpy observed in the constituents of a thermodynamic system when undergoing 
+   * a transformation or chemical reaction. This is the preferred way of expressing the energy 
+   * changes to a system at constant pressure, since enthalpy itself cannot be directly measured. 
+   * The enthalpy change is positive in endothermic reactions, negative in exothermic reactions, 
+   * and is defined as the difference between the final and initial enthalpy of the system under 
+   * study: ΔH = Hf - Hi. The standard unit of measure is J. Symbol: ΔH
+   * 
+   * @return 573
+   */
+  public static int getEnthalpyChange() {
+    return 573;
+  }
 
   /**
    * 
@@ -564,6 +578,19 @@ public class SBO {
   public static int getEntity() {
     return 236;
   }
+  
+  /**
+   * The increase or decrease of the entropy of a system. For values greater than zero, there is an 
+   * implied increase in the disorder of a system, for example during a reaction, and decreased 
+   * disorder where the values are less than zero. The entropy change of a process is defined as the 
+   * initial system entropy value minus the final entropy value: DeltaS = Sf - Si. The standard unit 
+   * of measure is J/K. symbol: DeltaS
+   * 
+   * @return 577
+   */
+  public static int getEntropyChange() {
+    return 577;
+  }
 
   /**
    * 
@@ -571,6 +598,17 @@ public class SBO {
    */
   public static int getEnzymaticCatalysis() {
     return 460;
+  }
+  
+  /**
+   * Quantity characterizing a chemical equilibrium in a chemical reaction, which is a useful tool to 
+   * determine the concentration of various reactants or products in a system where chemical equilibrium 
+   * occurs.
+   * 
+   * @return 281
+   */
+  public static int getEquilibriumConstant() {
+    return 281;
   }
 
   /**
@@ -644,6 +682,20 @@ public class SBO {
    */
   public static int getGeneric() {
     return convertAlias2SBO("GENERIC");
+  }
+  
+  /**
+   * The increase or decrease of the Gibbs free energy of a system. During a reaction, this is equal 
+   * to the change in enthalpy of the system minus the change in the product of the temperature times 
+   * the entropy of the system: ΔG = ΔH - T ΔS. A negative value indicates that the reaction will be 
+   * favoured and will release energy. The magnitude of the value indicates how far the reaction is 
+   * from equilibrium, where there will be no free energy change. The standard unit of measure is kJ/mol. 
+   * Symbol: ΔG.
+   * 
+   * @return 581
+   */
+  public static int getGibbsFreeEnergyChange() {
+    return 581;
   }
 
   /**
