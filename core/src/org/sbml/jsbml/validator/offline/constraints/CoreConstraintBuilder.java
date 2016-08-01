@@ -23,7 +23,10 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
@@ -41,6 +44,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Priority;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
@@ -534,13 +538,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
       break;
 
     case CORE_20505:
-      func = new ValidationFunction<Compartment>() {
-        @Override
-        public boolean check(ValidationContext ctx, Compartment c) {
-          // TODO CompartmentOutsieCycle not done yet
-          return true;
-        }
-      };
+      func = new OutsideCycleValidationFunction();
       break;
 
     case CORE_20506:
@@ -612,6 +610,35 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
               return isDimensionless || isArea;
             }
           }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20509:
+      func = new ValidationFunction<Compartment>() {
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+
+          if (c.getSpatialDimensions() == 2 && c.isSetUnits()) {
+            String unit = c.getUnits();
+            UnitDefinition def = c.getUnitsInstance();
+
+
+            boolean isVolume = ValidationContext.isVolume(unit, def);
+
+            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
+              return isVolume;
+            }
+
+            if (ctx.getLevel() >= 2) {
+              boolean isDimensionless = ValidationContext.isDimensionless(unit);
+
+              return isDimensionless || isVolume;
+            }
+          }
+
           return true;
         }
       };
@@ -807,21 +834,66 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
       };
       break;
 
-      // Conststraint 20609 can never be broken in JSBML!
-      //	case CORE_20609:
-      //	    func = new ValidationFunction<Species>() {
-      //		@Override
-      //		public boolean check(ValidationContext ctx, Species s) 
-      //		{
-      //		    if (s.isSetInitialAmount()) {
-      //
-      //		      return !s.isSetInitialConcentration();
-      //		    }
-      //		    
-      //		    return true;
-      //		}
-      //	    };
-      //	    break;
+    case CORE_20610:
+      func = new ValidationFunction<Species>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Species s) {
+          Model m = s.getModel();
+          
+          if (!s.isBoundaryCondition() && 
+              !s.isConstant() && 
+              m != null)
+          {
+            
+            boolean found = false;
+            
+            for (Rule r: m.getListOfRules())
+            {
+              if (r.isAssignment() || r.isRate())
+              {
+                ExplicitRule er = (ExplicitRule) r;
+                if (er.getVariable() == s.getId())
+                {
+                  found = true;
+                  break;
+                }
+              }
+            }
+            
+            // If the Species is not assigned by a rule, there couldn't be a collision
+            if (!found)
+            {
+              return true;
+            }
+            
+            // This species can't be part of a Reaction
+            for (Reaction r:m.getListOfReactions())
+            {
+              for (SpeciesReference sr: r.getListOfProducts())
+              {
+                if (sr.getSpecies().equals(s.getId()))
+                {
+                  return false;
+                }
+              }
+              
+              for (SpeciesReference sr: r.getListOfReactants())
+              {
+                if (sr.getSpecies().equals(s.getId()))
+                {
+                  return false;
+                }
+              }
+            }
+            
+        
+          }
+          
+          return true;
+        }
+      };
+      break;
 
     case CORE_20611:
       // SPECIAL CASE!!!
@@ -1380,7 +1452,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
           return true;
         }
       });
-      
+
     case CORE_21212:
       return new ValidationConstraint<EventAssignment>(errorCode, new ValidationFunction<EventAssignment>() {
         @Override
@@ -1389,34 +1461,32 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
           if(ea.isSetVariable())
           {
             Variable var = ea.getVariableInstance();
-            
+
             return var != null && var.isConstant();
           }
-          
+
           return true;
         }
       });
-      
+
     case CORE_21213:
       return new ValidationConstraint<EventAssignment>(errorCode, new ValidationFunction<EventAssignment>() {
         @Override
         public boolean check(ValidationContext ctx, EventAssignment ea) {
 
-         return ea.isSetMath();
+          return ea.isSetMath();
         }
       });
-      
+
     case CORE_21231:
       return new ValidationConstraint<Priority>(errorCode, new ValidationFunction<Priority>() {
         @Override
         public boolean check(ValidationContext ctx, Priority p) {
 
-         return p.isSetMath();
+          return p.isSetMath();
         }
       });
     }
-
-
 
     return new ValidationConstraint<Event>(errorCode, func);
   }
@@ -1456,170 +1526,6 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
         }
       });
 
-
-      //    case CoreSpecialErrorCodes.ID_VALIDATE_DOCUMENT_TREE:
-      //      ValidationFunction<SBMLDocument> f2 = new ValidationFunction<SBMLDocument>() {
-      //        @Override
-      //        public boolean check(ValidationContext ctx, SBMLDocument t) {
-      //          /*
-      //           * Special constraint to validate the hole document tree
-      //           */
-      //          //		    System.out.println("validate doc tree");
-      //          ConstraintFactory factory = ConstraintFactory.getInstance();
-      //
-      //          AnyConstraint<Model> mc = factory.getConstraintsForClass(Model.class, ctx.getCheckCategories(),
-      //            ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //          mc.check(ctx, t.getModel());
-      //
-      //          return true;
-      //        }
-      //      };
-      //
-      //      return new ValidationConstraint<SBMLDocument>(id, f2);
-      //
-      //    case CoreSpecialErrorCodes.ID_VALIDATE_MODEL_TREE:
-      //      ValidationFunction<Model> f3 = new ValidationFunction<Model>() {
-      //        @SuppressWarnings("deprecation")
-      //        @Override
-      //        public boolean check(ValidationContext ctx, Model t) {
-      //          /*
-      //           * Special constraint to validate the hole model tree
-      //           */
-      //          ConstraintFactory factory = ConstraintFactory.getInstance();
-      //          
-      //          
-      //         
-      //          
-      //          {
-      //            AnyConstraint<Species> sc = factory.getConstraintsForClass(Species.class,
-      //              ctx.getCheckCategories(), ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (Species s : t.getListOfSpecies()) {
-      //              sc.check(ctx, s);
-      //            }
-      //          }
-      //
-      //          {
-      //
-      //            AnyConstraint<Compartment> cc = factory.getConstraintsForClass(Compartment.class,
-      //              ctx.getCheckCategories(), ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (Compartment c : t.getListOfCompartments()) {
-      //              cc.check(ctx, c);
-      //            }
-      //          }
-      //
-      //          {
-      //
-      //            AnyConstraint<CompartmentType> cc = factory.getConstraintsForClass(CompartmentType.class,
-      //              ctx.getCheckCategories(), ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (CompartmentType c : t.getListOfCompartmentTypes()) {
-      //              cc.check(ctx, c);
-      //            }
-      //          }
-      //
-      //          {
-      //            AnyConstraint<Constraint> cc = factory.getConstraintsForClass(Constraint.class,
-      //              ctx.getCheckCategories(), ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (Constraint c : t.getListOfConstraints()) {
-      //              cc.check(ctx, c);
-      //            }
-      //          }
-      //
-      //          {
-      //            AnyConstraint<Event> cc = factory.getConstraintsForClass(Event.class, ctx.getCheckCategories(),
-      //              ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (Event c : t.getListOfEvents()) {
-      //              cc.check(ctx, c);
-      //            }
-      //          }
-      //
-      //          {
-      //            AnyConstraint<FunctionDefinition> cc = factory.getConstraintsForClass(FunctionDefinition.class,
-      //              ctx.getCheckCategories(), ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (FunctionDefinition c : t.getListOfFunctionDefinitions()) {
-      //              cc.check(ctx, c);
-      //            }
-      //          }
-      //
-      //          {
-      //            AnyConstraint<InitialAssignment> cc = factory.getConstraintsForClass(InitialAssignment.class,
-      //              ctx.getCheckCategories(), ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (InitialAssignment c : t.getListOfInitialAssignments()) {
-      //              cc.check(ctx, c);
-      //            }
-      //          }
-      //
-      //          {
-      //            AnyConstraint<Parameter> cc = factory.getConstraintsForClass(Parameter.class,
-      //              ctx.getCheckCategories(), ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (Parameter c : t.getListOfParameters()) {
-      //              cc.check(ctx, c);
-      //            }
-      //          }
-      //
-      //          {
-      //            AnyConstraint<UnitDefinition> cc = factory.getConstraintsForClass(UnitDefinition.class,
-      //              ctx.getCheckCategories(), ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (UnitDefinition c : t.getListOfPredefinedUnitDefinitions()) {
-      //              cc.check(ctx, c);
-      //            }
-      //
-      //            for (UnitDefinition ud : t.getListOfUnitDefinitions()) {
-      //              cc.check(ctx, ud);
-      //            }
-      //          }
-      //
-      //          {
-      //            AnyConstraint<Reaction> cc = factory.getConstraintsForClass(Reaction.class,
-      //              ctx.getCheckCategories(), ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (Reaction c : t.getListOfReactions()) {
-      //              cc.check(ctx, c);
-      //            }
-      //          }
-      //
-      //          {
-      //            AnyConstraint<Rule> cc = factory.getConstraintsForClass(Rule.class, ctx.getCheckCategories(),
-      //              ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (Rule c : t.getListOfRules()) {
-      //              cc.check(ctx, c);
-      //            }
-      //          }
-      //
-      //          {
-      //
-      //            AnyConstraint<SpeciesType> cc = factory.getConstraintsForClass(SpeciesType.class,
-      //              ctx.getCheckCategories(), ctx.getPackages(), ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (SpeciesType c : t.getListOfSpeciesTypes()) {
-      //              cc.check(ctx, c);
-      //            }
-      //          }
-      //
-      //          {
-      //            AnyConstraint<TreeNodeChangeListener> cc = factory.getConstraintsForClass(
-      //              TreeNodeChangeListener.class, ctx.getCheckCategories(), ctx.getPackages(),
-      //              ctx.getLevel(), ctx.getVersion());
-      //
-      //            for (TreeNodeChangeListener c : t.getListOfTreeNodeChangeListeners()) {
-      //              cc.check(ctx, c);
-      //            }
-      //          }
-      //
-      //          return true;
-      //        }
-      //      };
-      //
-      //      return new ValidationConstraint<Model>(id, f3);
     default:
       return null;
     }
