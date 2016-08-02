@@ -26,6 +26,8 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
@@ -95,6 +97,8 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
     default:
       return null;
     }
+    
+ 
 
   }
 
@@ -276,7 +280,46 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
         }
       };
       break;
-
+      
+    case CORE_20302:
+      func = new FunctionReferredToExists();
+    case CORE_20303:
+      func = new ValidationFunction<FunctionDefinition>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, FunctionDefinition fd) {
+          
+          if (fd.getBody() != null)
+          {
+            Queue<ASTNode> queue = new LinkedList<ASTNode>();
+            
+            queue.offer(fd.getBody());
+            
+            while (queue.size() > 0)
+            {
+              ASTNode node = queue.poll();
+              
+              // No node can refer to this function def
+              if (node.isFunction() && node.getName() == fd.getId())
+              {
+                return false;
+              }
+              
+              // Add all children to the queue
+              for (ASTNode n: node.getListOfNodes())
+              {
+                if (n != null)
+                {
+                  queue.offer(n);
+                }
+              }
+            }
+          }
+          
+     
+          return true;
+        }
+      };
 
     default:
       return null;
