@@ -72,10 +72,38 @@ public class ConstraintFactory {
   public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz,
     CHECK_CATEGORY[] categories, int level, int version) {
 
+    ConstraintGroup<T> group = new ConstraintGroup<T>();
+
+    for (Class<?> inf : clazz.getInterfaces()) {
+      ConstraintGroup<T> c =
+        this.getConstraintsForClass(inf, categories, level, version);
+
+      if (c != null) {
+        group.add(c);
+      }
+    }
+
+    Class<?> superclass = clazz.getSuperclass();
+    if (superclass != null) {
+      
+      ConstraintGroup<T> c =
+        this.getConstraintsForClass(superclass, categories, level, version);
+
+      if (c != null) {
+        group.add(c);
+      }
+    }
+
     ConstraintDeclaration declaration =
       AbstractConstraintDeclaration.getInstance(clazz.getSimpleName());
 
-    return declaration.createConstraints(level, version, categories);
+    if (declaration != null) {
+      
+      ConstraintGroup<T> c = declaration.createConstraints(level, version, categories);
+      group.add(c);
+    }
+    
+    return (group.getConstraintsCount() > 0) ? group : null;
   }
 
 

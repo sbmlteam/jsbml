@@ -22,8 +22,10 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -52,6 +54,11 @@ implements ConstraintDeclaration, SBMLErrorCodes {
       new HashMap<Integer, SoftReference<AnyConstraint<?>>>();
 
   /**
+   * Stores class names which didn't have a constraint declaration
+   */
+  private static Set<String> classBlacklist = new HashSet<String>();
+  
+  /**
    * Log4j logger
    */
   protected static final transient Logger                              logger     =
@@ -59,6 +66,12 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
 
   public static ConstraintDeclaration getInstance(String clazz) {
+    
+    if (classBlacklist.contains(clazz))
+    {
+      return null;
+    }
+    
     SoftReference<ConstraintDeclaration> ref = instances_.get(clazz);
     ConstraintDeclaration declaration = null;
 
@@ -81,7 +94,8 @@ implements ConstraintDeclaration, SBMLErrorCodes {
         instances_.put(clazz,
           new SoftReference<ConstraintDeclaration>(declaration));
       } catch (Exception e) {
-        logger.warn("Couldn't find ConstraintsDeclaration: " + className);
+        logger.debug("Couldn't find ConstraintsDeclaration: " + className);
+        classBlacklist.add(clazz);
       }
     }
 
