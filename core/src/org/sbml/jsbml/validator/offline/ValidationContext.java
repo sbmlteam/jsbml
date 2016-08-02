@@ -27,6 +27,7 @@ import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.offline.factory.CheckCategory;
 import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
 import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
@@ -79,8 +80,7 @@ public class ValidationContext {
   private AnyConstraint<Object>           rootConstraint;
 
   // Determines which constraints are loaded.
-  private Set<CheckCategory>              categories;
-  private Set<SBMLPackage>                packages;
+  private Set<CHECK_CATEGORY>              categories;
   private Class<?>                        constraintType;
   private Set<ValidationListener>         listener;
   private HashMap<String, Object>         hashMap  =
@@ -93,20 +93,18 @@ public class ValidationContext {
 
 
   public ValidationContext(int level, int version) {
-    this(level, version, null, new HashSet<CheckCategory>());
+    this(level, version, null, new HashSet<CHECK_CATEGORY>());
   }
 
 
   public ValidationContext(int level, int version,
-    AnyConstraint<Object> rootConstraint, Set<CheckCategory> categories) {
+    AnyConstraint<Object> rootConstraint, Set<CHECK_CATEGORY> categories) {
     this.level = level;
     this.version = version;
     this.categories = categories;
     this.rootConstraint = rootConstraint;
-    this.categories.add(CheckCategory.GENERAL);
+    this.categories.add(CHECK_CATEGORY.GENERAL_CONSISTENCY);
     this.listener = new HashSet<ValidationListener>();
-    this.packages = new HashSet<SBMLPackage>();
-    this.packages.add(SBMLPackage.CORE);
   }
 
 
@@ -151,7 +149,7 @@ public class ValidationContext {
    * @param enable
    * @see #loadConstraints(Class, int, int, CheckCategory[])
    */
-  public void enableCheckCategory(CheckCategory category, boolean enable) {
+  public void enableCheckCategory(CHECK_CATEGORY category, boolean enable) {
     if (enable) {
 
       this.categories.add(category);
@@ -170,46 +168,12 @@ public class ValidationContext {
    * @param enable
    * @see CheckCategory
    */
-  public void enableCheckCategories(CheckCategory[] categories,
+  public void enableCheckCategories(CHECK_CATEGORY[] categories,
     boolean enable) {
-    for (CheckCategory c : categories) {
+    for (CHECK_CATEGORY c : categories) {
       this.enableCheckCategory(c, enable);
     }
   }
-
-
-  /**
-   * Enables a {@link SBMLPackage}. The root constraints should be reloaded
-   * after this function was called to apply the changes to the validation.
-   * 
-   * @param pkg
-   * @param enable
-   */
-  public void enablePackage(SBMLPackage pkg, boolean enable) {
-    if (enable) {
-
-      this.packages.add(pkg);
-
-    } else {
-      this.packages.remove(pkg);
-    }
-  }
-
-
-  /**
-   * Calls {@link #enablePackage(SBMLPackage, boolean)} for every
-   * {@link SBMLPackage} in the array.
-   * 
-   * @param pkgs
-   * @param enable
-   * @see #enablePackage(SBMLPackage, boolean)
-   */
-  public void enablePackages(SBMLPackage[] pkgs, boolean enable) {
-    for (SBMLPackage pkg : pkgs) {
-      this.enablePackage(pkg, enable);
-    }
-  }
-
 
   /**
    * Loads the constraints to validate a Object from the class. Uses the
@@ -222,13 +186,6 @@ public class ValidationContext {
     this.constraintType = clazz;
     ConstraintFactory factory = ConstraintFactory.getInstance();
     ConstraintGroup<Object> group = factory.getConstraintsForClass(clazz, this);
-
-    if (this.recursiv && TreeNode.class.isAssignableFrom(clazz)) {
-      @SuppressWarnings("unchecked")
-      AnyConstraint<Object> c = (AnyConstraint<Object>) factory.getConstraint(
-        CoreSpecialErrorCodes.ID_VALIDATE_TREE_NODE);
-      group.add(c);
-    }
 
     this.rootConstraint = group;
   }
@@ -255,7 +212,7 @@ public class ValidationContext {
    * @param categories
    */
   public void loadConstraints(Class<?> clazz, int level, int version,
-    CheckCategory[] categories) {
+    CHECK_CATEGORY[] categories) {
     this.setLevelAndVersion(level, version);
     this.categories.removeAll(this.categories);
     this.enableCheckCategories(categories, true);
@@ -267,8 +224,8 @@ public class ValidationContext {
    * 
    * @return
    */
-  public CheckCategory[] getCheckCategories() {
-    return this.categories.toArray(new CheckCategory[this.categories.size()]);
+  public CHECK_CATEGORY[] getCheckCategories() {
+    return this.categories.toArray(new CHECK_CATEGORY[this.categories.size()]);
   }
 
 
@@ -319,19 +276,6 @@ public class ValidationContext {
   public ValuePair<Integer, Integer> getLevelAndVersion() {
     return new ValuePair<Integer, Integer>(new Integer(this.level),
         new Integer(this.version));
-  }
-
-
-  /**
-   * Returns the {@link SBMLPackage}'s which will be validated during the
-   * validation.
-   * 
-   * @return
-   * @see #enablePackage(SBMLPackage, boolean)
-   * @see #enablePackages(SBMLPackage[], boolean)
-   */
-  public SBMLPackage[] getPackages() {
-    return this.packages.toArray(new SBMLPackage[this.packages.size()]);
   }
 
 
@@ -552,13 +496,13 @@ public class ValidationContext {
    * @param object
    * @return
    */
-  public boolean validateAttribute(SBMLPackage pkg, String attributeName,
+  public boolean validateAttribute(String attributeName,
     Object object) {
     ConstraintFactory factory = ConstraintFactory.getInstance();
 
     AnyConstraint<Object> c =
         (AnyConstraint<Object>) factory.getConstraintsForAttribute(
-          attributeName, object.getClass(), pkg, this.level, this.version);
+          attributeName, object.getClass(), this.level, this.version);
 
     if (c == null) {
       // no constraint found to validate this attribute

@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
 import org.sbml.jsbml.validator.offline.factory.CheckCategory;
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
@@ -57,14 +58,13 @@ public class LoggingValidationContext extends ValidationContext
 
 
   public LoggingValidationContext(int level, int version) {
-    this(level, version, null, new HashSet<CheckCategory>());
+    this(level, version, null, new HashSet<CHECK_CATEGORY>());
     this.addValidationListener(this);
-    // TODO Auto-generated constructor stub
   }
 
 
   public LoggingValidationContext(int level, int version,
-    AnyConstraint<Object> rootConstraint, Set<CheckCategory> categories) {
+    AnyConstraint<Object> rootConstraint, Set<CHECK_CATEGORY> categories) {
     super(level, version, rootConstraint, categories);
     log = new SBMLErrorLog();
   }

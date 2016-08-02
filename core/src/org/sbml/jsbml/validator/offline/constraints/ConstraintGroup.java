@@ -122,4 +122,13 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
     this.constraints.toArray(new AnyConstraint[this.constraints.size()]);
     return constraints;
   }
+  
+  /**
+   * Returns the number of constraints in this group
+   * @return
+   */
+  public int getConstraintsCount()
+  {
+    return this.constraints.size();
+  }
 }

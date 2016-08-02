@@ -34,7 +34,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
-import java.util.Vector;
 
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
@@ -46,9 +45,6 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
-import org.sbml.jsbml.validator.offline.SBMLPackage;
-import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
-import org.sbml.jsbml.validator.offline.factory.CheckCategory;
 import org.sbml.jsbml.xml.parsers.PackageParser;
 import org.sbml.jsbml.xml.parsers.ParserManager;
 
@@ -330,13 +326,6 @@ public class SBMLDocument extends AbstractSBase {
     LoggingValidationContext ctx =
         new LoggingValidationContext(this.getLevel(), this.getVersion());
 
-    for (SBMLPackage pkg : SBMLPackage.values()) {
-      if (this.isPackageEnabled(pkg.toString())) {
-        ctx.enablePackage(pkg, true);
-      }
-    }
-
-    ctx.enableCheckCategories(CheckCategory.values(), true);
 
     ctx.loadConstraints(this.getClass());
     ctx.validate(this);
