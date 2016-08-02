@@ -31,6 +31,7 @@ import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
+import org.sbml.jsbml.validator.offline.constraints.CoreSpecialErrorCodes;
 import org.sbml.jsbml.validator.offline.factory.CheckCategory;
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
 
@@ -87,6 +88,12 @@ public class LoggingValidationContext extends ValidationContext
 
 
   private void logFailure(int id) {
+    
+    if (id == CoreSpecialErrorCodes.ID_GROUP || id == CoreSpecialErrorCodes.ID_VALIDATE_TREE_NODE)
+    {
+      return;
+    }
+    
     logger.debug("Constraint " + id + " is broken!");
     
     // Try to create the SBMLError from the .json file

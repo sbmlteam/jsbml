@@ -56,12 +56,12 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.factory.AbstractConstraintBuilder;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 @SuppressWarnings("deprecation")
-public class CoreConstraintBuilder extends AbstractConstraintBuilder {
+public class CoreConstraintBuilder implements SBMLErrorCodes{
 
-  @Override
+  
   public AnyConstraint<?> createConstraint(int errorCode) {
 
     // int uid = Math.abs(id);
