@@ -45,6 +45,7 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Priority;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
@@ -106,6 +107,83 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
     ValidationFunction<Model> func = null;
 
     switch (errorCode) {
+    case CORE_20201:
+      return new ValidationConstraint<SBMLDocument>(errorCode, new ValidationFunction<SBMLDocument>() {
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument d) {
+          
+          return d.getModel() != null;
+        }
+      });
+    case CORE_20203:
+      func = new ValidationFunction<Model>() {
+        public boolean check(ValidationContext ctx, Model m) {
+          boolean success = true;
+          
+          if (m.getCompartmentCount() == 0)
+          {
+            success = success && !m.isSetListOfCompartments();
+          }
+          
+          if (m.getCompartmentTypeCount() == 0)
+          {
+            success = success && !m.isSetListOfCompartmentTypes();
+          }
+          
+          if (m.getConstraintCount() == 0)
+          {
+            success = success && !m.isSetListOfConstraints();
+          }
+          
+          if (m.getEventCount() == 0)
+          {
+            success = success && !m.isSetListOfEvents();
+          }
+          
+          if (m.getFunctionDefinitionCount() == 0)
+          {
+            success = success && !m.isSetListOfFunctionDefinitions();
+          }
+          
+          if (m.getInitialAssignmentCount() == 0)
+          {
+            success = success && !m.isSetListOfInitialAssignments();
+          }
+          
+          if (m.getParameterCount() == 0)
+          {
+            success = success && !m.isSetListOfParameters();
+          }
+          
+          if (m.getReactionCount() == 0)
+          {
+            success = success && !m.isSetListOfReactions();
+          }
+          
+          if (m.getRuleCount() == 0)
+          {
+            success = success && !m.isSetListOfRules();
+          }
+          
+          if (m.getSpeciesCount() == 0)
+          {
+            success = success && !m.isSetListOfSpecies();
+          }
+          
+          if (m.getSpeciesTypeCount() == 0)
+          {
+            success = success && !m.isSetListOfSpeciesTypes();
+          }
+          
+          if (m.getUnitDefinitionCount() == 0)
+          {
+            success = success && !m.isSetListOfUnitDefinitions();
+          }
+          
+          return success;
+        };
+      };
+
     case CORE_20204:
       func = new ValidationFunction<Model>() {
 
@@ -120,7 +198,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
         }
       };
       break;
-
+   
     case CORE_20216:
       func = new ValidationFunction<Model>() {
 
@@ -896,10 +974,10 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
       break;
 
     case CORE_20611:
-      // SPECIAL CASE!!!
-      return new ValidationConstraint<SpeciesReference>(id, new ValidationFunction<SpeciesReference>() {
+
+      return new ValidationConstraint<SimpleSpeciesReference>(id, new ValidationFunction<SimpleSpeciesReference>() {
         @Override
-        public boolean check(ValidationContext ctx, SpeciesReference sr) {
+        public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
           Species s = sr.getSpeciesInstance();
 
           System.out.println("Species " + s);
@@ -925,6 +1003,21 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
         }
       };
       break;
+      
+    case CORE_20613:
+
+      return new ValidationConstraint<SpeciesReference>(id, new ValidationFunction<SpeciesReference>() {
+        @Override
+        public boolean check(ValidationContext ctx, SpeciesReference sr) {
+          Species s = sr.getSpeciesInstance();
+
+          if (s != null) {
+            return !(s.isConstant() && s.isBoundaryCondition());
+          }
+
+          return true;
+        }
+      });
 
     case CORE_20614:
       func = new ValidationFunction<Species>() {
