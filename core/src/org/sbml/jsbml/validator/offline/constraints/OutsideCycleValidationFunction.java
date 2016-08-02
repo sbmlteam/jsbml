@@ -11,12 +11,13 @@ public class OutsideCycleValidationFunction implements ValidationFunction<Compar
   @Override
   public boolean check(ValidationContext ctx, Compartment c) {
     // Clears set
-    outsideSet.removeAll(outsideSet);
+    
     
     Compartment com = c;
     
     while(com != null && com.isSetOutside())
     {
+      outsideSet.clear();
       // add returns false if the compartment is already in the set
       if(!outsideSet.add(com))
       {
