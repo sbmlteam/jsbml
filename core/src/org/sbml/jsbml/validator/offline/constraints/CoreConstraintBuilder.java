@@ -797,224 +797,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
     ValidationFunction<Species> func;
 
     switch (id) {
-    case CORE_20601:
-      func = new ValidationFunction<Species>() {
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-          /*
-           * Invalid value found for Species 'compartment' attribute
-           */
-          if (s.isSetCompartment() && s.getModel() != null) {
-            return s.getCompartmentInstance() != null;
-          }
-
-          return true;
-        }
-      };
-      break;
-
-    case CORE_20602:
-      func = new ValidationFunction<Species>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-          /*
-           * Invalid value found for Species 'compartment' attribute
-           */
-          if (s.hasOnlySubstanceUnits()) {
-            return s.isSetSpatialSizeUnits();
-          }
-
-          return true;
-        }
-      };
-      break;
-
-    case CORE_20603:
-      func = new ValidationFunction<Species>() {
-
-
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-
-          if (s.getModel() != null)
-          {
-            Compartment c = s.getCompartmentInstance();
-
-            if (c != null && c.getSpatialDimensions() == 0) {
-              return !s.isSetSpatialSizeUnits();
-            }
-          }
-
-          return true;
-        }
-      };
-      break;
-
-    case CORE_20604:
-      func = new ValidationFunction<Species>() {
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-
-          Compartment c = s.getCompartmentInstance();
-
-          if (c != null && c.getSpatialDimensions() == 0) {
-            return !s.isSetInitialConcentration();
-          }
-
-          return true;
-        }
-      };
-      break;
-
-    case CORE_20605:
-      func = new ValidationFunction<Species>() {
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-
-          Compartment c = s.getCompartmentInstance();
-
-          if (c != null && c.getSpatialDimensions() == 0 && s.isSetSpatialSizeUnits()) {
-            String unit = s.getUnits();
-            UnitDefinition def = s.getUnitsInstance();
-
-            boolean isLength = ValidationContext.isLength(unit, def);
-
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
-              return isLength;
-            }
-
-            if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationContext.isDimensionless(unit);
-
-              return isDimensionless || isLength;
-            }
-          }
-
-          return true;
-        }
-      };
-      break;
-
-    case CORE_20606:
-      func = new ValidationFunction<Species>() {
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-
-          Compartment c = s.getCompartmentInstance();
-
-          if (c != null && c.getSpatialDimensions() == 0 && s.isSetSpatialSizeUnits()) {
-            String unit = s.getSpatialSizeUnits();
-            UnitDefinition def = s.getUnitsInstance();
-
-            boolean isArea = ValidationContext.isArea(unit, def);
-
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
-              return isArea;
-            }
-
-            if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationContext.isDimensionless(unit);
-
-              return isDimensionless || isArea;
-            }
-          }
-
-          return true;
-        }
-      };
-      break;
-
-    case CORE_20607:
-      func = new ValidationFunction<Species>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-
-          Compartment c = s.getCompartmentInstance();
-
-          if (c != null && c.getSpatialDimensions() == 3 && s.isSetSpatialSizeUnits()) {
-            String unit = s.getSpatialSizeUnits();
-            UnitDefinition def = s.getUnitsInstance();
-
-            boolean isVolume = ValidationContext.isVolume(unit, def);
-
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
-              return isVolume;
-            }
-
-            if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationContext.isDimensionless(unit);
-
-              return isDimensionless || isVolume;
-            }
-          }
-
-          return true;
-        }
-      };
-      break;
-
-    case CORE_20610:
-      func = new ValidationFunction<Species>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-          Model m = s.getModel();
-          
-          if (!s.isBoundaryCondition() && 
-              !s.isConstant() && 
-              m != null)
-          {
-            
-            boolean found = false;
-            
-            for (Rule r: m.getListOfRules())
-            {
-              if (r.isAssignment() || r.isRate())
-              {
-                ExplicitRule er = (ExplicitRule) r;
-                if (er.getVariable() == s.getId())
-                {
-                  found = true;
-                  break;
-                }
-              }
-            }
-            
-            // If the Species is not assigned by a rule, there couldn't be a collision
-            if (!found)
-            {
-              return true;
-            }
-            
-            // This species can't be part of a Reaction
-            for (Reaction r:m.getListOfReactions())
-            {
-              for (SpeciesReference sr: r.getListOfProducts())
-              {
-                if (sr.getSpecies().equals(s.getId()))
-                {
-                  return false;
-                }
-              }
-              
-              for (SpeciesReference sr: r.getListOfReactants())
-              {
-                if (sr.getSpecies().equals(s.getId()))
-                {
-                  return false;
-                }
-              }
-            }
-            
-        
-          }
-          
-          return true;
-        }
-      };
-      break;
+    
 
     case CORE_20611:
 
@@ -1033,19 +816,7 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
         }
       });
 
-    case CORE_20612:
-      func = new ValidationFunction<Species>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-          if (s.isSetSpeciesType()) {
-
-            return s.getSpeciesTypeInstance() != null;
-          }
-          return true;
-        }
-      };
-      break;
+    
       
     case CORE_20613:
 
@@ -1062,42 +833,12 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
         }
       });
 
-    case CORE_20614:
-      func = new ValidationFunction<Species>() {
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-          return s.isSetCompartment();
-        }
-      };
-      break;
-
-    case CORE_20615:
-      func = new ValidationFunction<Species>() {
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-          return !s.isSetSpatialSizeUnits();
-        }
-      };
-      break;
-
-    case CORE_20617:
-      func = new ValidationFunction<Species>() {
-        @Override
-        public boolean check(ValidationContext ctx, Species s) {
-          if (s.isSetConversionFactor()) {
-            return s.getConversionFactorInstance() != null;
-          }
-
-          return true;
-        }
-      };
-      break;
+    
 
     default:
       return null;
     }
 
-    return new ValidationConstraint<Species>(id, func);
   }
 
 
@@ -1635,7 +1376,13 @@ public class CoreConstraintBuilder extends AbstractConstraintBuilder {
 
         @Override
         public boolean check(ValidationContext ctx, TreeNode t) {
-
+          
+          // Only applies if recursiv validation is turned on
+          if (!ctx.getValidateRecursivly())
+          {
+            return true;
+          }
+          
           boolean success = true;
           Enumeration<?> children = t.children();
           //          ConstraintFactory factory = ConstraintFactory.getInstance();
