@@ -40,7 +40,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SyntaxChecker;
-import org.sbml.jsbml.validator.offline.SBMLPackage;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
@@ -760,8 +759,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           
           logger.warn("Invalid value for attribute " + attributeName + " on SBase with id = " + this.metaId +"!");
           
-          SBMLPackage pkg = SBMLPackage.getPackageWithName(this.getPackageName());
-          return attributeValidator.validateAttribute(pkg, attributeName, this); 
+          return attributeValidator.validateAttribute( attributeName, this); 
  
         }
 
