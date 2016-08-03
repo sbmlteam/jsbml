@@ -65,14 +65,14 @@ implements ConstraintDeclaration, SBMLErrorCodes {
       Logger.getLogger(AbstractConstraintDeclaration.class);
 
 
-  public static ConstraintDeclaration getInstance(String clazz) {
+  public static ConstraintDeclaration getInstance(String className) {
     
-    if (classBlacklist.contains(clazz))
+    if (classBlacklist.contains(className))
     {
       return null;
     }
     
-    SoftReference<ConstraintDeclaration> ref = instances_.get(clazz);
+    SoftReference<ConstraintDeclaration> ref = instances_.get(className);
     ConstraintDeclaration declaration = null;
 
     // Tries to retrieve declaration from cache
@@ -82,20 +82,20 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
     // Create a new instance via reflection
     if (declaration == null) {
-      String className = clazz + "Constraints";
+      String constraintsClass = className + "Constraints";
 
       try {
         @SuppressWarnings("unchecked")
         Class<ConstraintDeclaration> c =
         (Class<ConstraintDeclaration>) Class.forName(
-          "org.sbml.jsbml.validator.offline.constraints." + className);
+          "org.sbml.jsbml.validator.offline.constraints." + constraintsClass);
 
         declaration = c.newInstance();
-        instances_.put(clazz,
+        instances_.put(className,
           new SoftReference<ConstraintDeclaration>(declaration));
       } catch (Exception e) {
-        logger.debug("Couldn't find ConstraintsDeclaration: " + className);
-        classBlacklist.add(clazz);
+        logger.debug("Couldn't find ConstraintsDeclaration: " + constraintsClass);
+        classBlacklist.add(className);
       }
     }
 
@@ -197,7 +197,7 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
   protected void addToCache(Integer errorCode, AnyConstraint<?> constraint) {
 
-    if (constraint == null || errorCode == CoreSpecialErrorCodes.ID_DO_NOT_CACHE
+    if (constraint == null || errorCode < 0
         || errorCode == CoreSpecialErrorCodes.ID_GROUP) {
       return;
     }

@@ -37,7 +37,25 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-
+      set.add(CORE_21117);
+      set.add(CORE_21121);
+      set.add(CORE_21130);
+      if (level == 2)
+      {
+        set.add(CORE_21124);
+        if (version > 1)
+        {
+          addRangeToSet(set, CORE_21125, CORE_21126);
+        }
+      }
+      else if (level == 3)
+      {
+        addRangeToSet(set, CORE_21127, CORE_21130);
+        set.add(CORE_21132);
+        set.add(CORE_21150);
+        set.add(CORE_21151);
+        set.add(CORE_21172);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;

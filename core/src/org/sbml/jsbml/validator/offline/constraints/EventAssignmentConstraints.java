@@ -43,7 +43,17 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration{
     
     switch (category) {
     case GENERAL_CONSISTENCY:
+      if (level > 1)
+      {
+        set.add(CORE_21211);
+        set.add(CORE_21212);
+      }
       
+      if (level == 3)
+      {
+        set.add(CORE_21213);
+        set.add(CORE_21214);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;

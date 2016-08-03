@@ -46,10 +46,38 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_20601);
-      addRangeToSet(set, CORE_20608, CORE_20610);
+      set.add(CORE_20608);
+      set.add(CORE_20610);
       set.add(CORE_20614);
-      set.add(CORE_20617);
-      set.add(CORE_20623);
+      
+      if (level == 2)
+      {
+        set.add(CORE_20604);
+        set.add(CORE_20609);
+        set.add(CORE_20611);
+        
+        if (version < 3)
+        {
+          addRangeToSet(set, CORE_20602, CORE_20607);
+        }
+        
+        if (version > 1)
+        {
+          set.add(CORE_20612);
+        }
+        
+        if (version > 2)
+        {
+          set.add(CORE_20615);
+        }
+      }
+      else if (level == 3)
+      {
+        set.add(CORE_20609);
+        set.add(CORE_20617);
+        set.add(CORE_20623);
+      }
+      
       break;
 
     default:

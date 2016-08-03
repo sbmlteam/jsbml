@@ -37,7 +37,12 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      addRangeToSet(set, CORE_20203, CORE_20204);
+      set.add(CORE_20204);
+      
+      if (level == 3)
+      {
+        addRangeToSet(set, CORE_20205, CORE_20232);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -135,7 +140,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (ctx.getLevel() > 1 && m.getNumSpecies() > 0) {
+          if (m.getNumSpecies() > 0) {
             return m.getNumCompartments() > 0;
           }
 

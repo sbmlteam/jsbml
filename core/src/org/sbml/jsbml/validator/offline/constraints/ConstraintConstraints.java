@@ -37,7 +37,15 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-
+      if (level == 2 && version > 1)
+      {
+        set.add(CORE_21001);
+      }
+      else if (level == 3)
+      {
+        set.add(CORE_21001);
+        addRangeToSet(set, CORE_21007, CORE_21009);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;

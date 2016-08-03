@@ -37,7 +37,16 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-
+      if (level > 1)
+      {
+        set.add(CORE_21202);
+      }
+      
+      if (level == 3)
+      {
+        set.add(CORE_21209);
+        set.add(CORE_21226);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -94,7 +103,6 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
           return t.isSetMath();
         }
       };
-
     }
 
     return func;

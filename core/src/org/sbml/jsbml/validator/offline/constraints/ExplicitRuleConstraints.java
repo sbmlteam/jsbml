@@ -40,7 +40,24 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-
+       set.add(CORE_20901);
+       set.add(CORE_20902);
+       
+       if (level == 2)
+       {
+         set.add(CORE_20903);
+         set.add(CORE_20904);
+         
+         if (version > 1)
+         {
+           set.add(CORE_20906);
+         }
+       }
+       else if (level == 3)
+       {
+         addRangeToSet(set, CORE_20903, CORE_20910);
+       }
+       
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -80,7 +97,7 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ExplicitRule r) {
 
-          if ((ctx.getLevel() != 1 || r.isScalar()) && r.isSetVariable()) {
+          if (r.isScalar() && r.isSetVariable()) {
             return r.getVariableInstance() != null;
           }
 
@@ -95,7 +112,7 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, ExplicitRule r) {
           // TODO Auto-generated method stub
 
-          if ((ctx.getLevel() != 1 || r.isRate()) && r.isSetVariable()) {
+          if ( r.isRate() && r.isSetVariable()) {
             return r.getVariableInstance() != null;
           }
 
@@ -113,7 +130,7 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
 
           Variable var = r.getVariableInstance();
 
-          if (var != null) {
+          if (r.isAssignment() && var != null) {
             return !var.getConstant();
           }
 
@@ -130,7 +147,7 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
 
           Variable var = r.getVariableInstance();
 
-          if (var != null) {
+          if (r.isRate() && var != null) {
             return r.getVariableInstance() != null;
           }
 

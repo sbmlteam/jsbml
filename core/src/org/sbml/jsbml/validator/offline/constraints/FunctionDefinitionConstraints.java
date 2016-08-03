@@ -44,7 +44,15 @@ extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-
+      if (version == 2)
+      {
+        addRangeToSet(set, CORE_20301, CORE_20305);
+      }
+      else if (version == 3)
+      {
+        set.add(CORE_20301);
+        addRangeToSet(set, CORE_20303, CORE_20307);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;

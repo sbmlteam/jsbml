@@ -30,16 +30,35 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
 public class CompartmentConstraints extends AbstractConstraintDeclaration{
-  
+
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     CHECK_CATEGORY category) {
-    
+
     Set<Integer> set = new HashSet<Integer>();
-    
+
     switch (category) {
     case GENERAL_CONSISTENCY:
-      
+      if (level == 1)
+      {
+        addRangeToSet(set, CORE_20504, CORE_20505);
+        set.add(CORE_20509);
+      }
+      else if (level == 2)
+      {
+        addRangeToSet(set, CORE_20501, CORE_20509);
+
+        if (version > 1)
+        {
+          set.add(CORE_20510);
+        }
+      }
+      else if (level == 3)
+      {
+        addRangeToSet(set, CORE_20507, CORE_20509);
+        set.add(CORE_20517);
+      }
+
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -54,22 +73,22 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     case UNITS_CONSISTENCY:
       break;
     }
-    
+
     return createConstraints(convertToArray(set));
   }
-  
+
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     String attributeName) {
     // TODO Auto-generated method stub
     return null;
   }
-  
+
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<?> func = null;
-    
+    ValidationFunction<Compartment> func = null;
+
     switch (errorCode) {
     case CORE_20501:
 
@@ -140,7 +159,30 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       break;
 
     case CORE_20505:
-      func = new OutsideCycleValidationFunction();
+      func = new ValidationFunction<Compartment>() {
+        HashSet<Compartment> outsideSet =  new HashSet<Compartment>();
+
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+          
+          Compartment com = c;
+
+          while(com != null && com.isSetOutside())
+          {
+            // Clears set
+            outsideSet.clear();
+            // add returns false if the compartment is already in the set
+            if(!outsideSet.add(com))
+            {
+              return false;
+            }
+
+            com = com.getOutsideInstance();
+          }
+
+          return true;
+        }
+      };
       break;
 
     case CORE_20506:
@@ -260,9 +302,9 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     }
-    
+
     return func;
   }
 }
