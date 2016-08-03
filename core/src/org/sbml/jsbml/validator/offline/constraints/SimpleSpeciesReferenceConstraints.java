@@ -106,6 +106,16 @@ extends AbstractConstraintDeclaration {
           return true;
         }
       };
+    case CORE_21111:
+      func = new ValidationFunction<SimpleSpeciesReference>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
+
+
+          return sr.getSpeciesInstance() != null;
+        }
+      };
     }
     
  
