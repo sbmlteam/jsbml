@@ -35,7 +35,7 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
-public class SpeciesConstraintsDeclaration extends AbstractConstraintDeclaration{
+public class SpeciesConstraints extends AbstractConstraintDeclaration{
   
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
