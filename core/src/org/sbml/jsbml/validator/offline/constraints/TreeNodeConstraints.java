@@ -18,98 +18,86 @@
  * ----------------------------------------------------------------------------
  */
 
+
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sbml.jsbml.SimpleSpeciesReference;
+import javax.swing.tree.TreeNode;
+
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.ExplicitRule;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 
-public class SimpleSpeciesReferenceConstraintsDeclaration
-extends AbstractConstraintDeclaration {
-
+public class TreeNodeConstraints extends AbstractConstraintDeclaration implements CoreSpecialErrorCodes{
+  
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     CHECK_CATEGORY category) {
-
-    Set<Integer> set = new HashSet<Integer>();
-
-    switch (category) {
-    case GENERAL_CONSISTENCY:
-
-      break;
-    case IDENTIFIER_CONSISTENCY:
-      break;
-    case MATHML_CONSISTENCY:
-      break;
-    case MODELING_PRACTICE:
-      break;
-    case OVERDETERMINED_MODEL:
-      break;
-    case SBO_CONSISTENCY:
-      break;
-    case UNITS_CONSISTENCY:
-      break;
-    }
-
-    return createConstraints(convertToArray(set));
+    
+    return createConstraint(ID_VALIDATE_TREE_NODE);
   }
-
-
+  
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     String attributeName) {
     // TODO Auto-generated method stub
     return null;
   }
-
-
+  
   @Override
-  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<SimpleSpeciesReference> func = null;
-
+    ValidationFunction<TreeNode> func = null;
+    
     switch (errorCode) {
-    case CORE_20611:
-      func = new ValidationFunction<SimpleSpeciesReference>() {
+    case ID_VALIDATE_TREE_NODE:
+      func = new ValidationFunction<TreeNode>() {
 
         @Override
-        public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
-          Species s = sr.getSpeciesInstance();
+        public boolean check(ValidationContext ctx, TreeNode t) {
+          
+          // Only applies if recursiv validation is turned on
+          if (!ctx.getValidateRecursivly())
+          {
+            return true;
+          }
+          
+          boolean success = true;
+          Enumeration<?> children = t.children();
+          //          ConstraintFactory factory = ConstraintFactory.getInstance();
 
-          System.out.println("Species " + s);
-          if (s != null) {
-            System.out.println(
-              "Test " + s.isConstant() + s.isBoundaryCondition());
-            return !(s.isConstant() && s.isBoundaryCondition());
+          //          System.out.println("Found Tree " + t.getChildCount() + " " + children.hasMoreElements());
+          AnyConstraint<Object> root = ctx.getRootConstraint();
+          Class<?> type = ctx.getConstraintType();
+
+          while (children.hasMoreElements())
+          {
+            Object child = children.nextElement();
+
+            if (child != null)
+            {
+              ctx.loadConstraints(child.getClass());
+              success = ctx.validate(child) && success;
+            }
+
           }
 
-          return true;
-        }
-      };
-    case CORE_20613:
+          ctx.setRootConstraint(root, type);
 
-      func = new ValidationFunction<SimpleSpeciesReference>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
-          Species s = sr.getSpeciesInstance();
-
-          if (s != null) {
-            return !(s.isConstant() && s.isBoundaryCondition());
-          }
-
-          return true;
+          return success;
         }
       };
     }
     
- 
-
     return func;
   }
 }

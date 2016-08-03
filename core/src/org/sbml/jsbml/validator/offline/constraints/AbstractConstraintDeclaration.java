@@ -82,7 +82,7 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
     // Create a new instance via reflection
     if (declaration == null) {
-      String className = clazz + "ConstraintsDeclaration";
+      String className = clazz + "Constraints";
 
       try {
         @SuppressWarnings("unchecked")
