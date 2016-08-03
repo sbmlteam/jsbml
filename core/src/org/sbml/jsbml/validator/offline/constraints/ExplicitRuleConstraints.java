@@ -23,11 +23,14 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
-public class ModelConstraints extends AbstractConstraintDeclaration {
+public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
@@ -37,7 +40,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      addRangeToSet(set, CORE_20203, CORE_20204);
+
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -68,75 +71,32 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<Model> func = null;
+    ValidationFunction<ExplicitRule> func = null;
 
     switch (errorCode) {
-
-    case CORE_20203:
-      func = new ValidationFunction<Model>() {
-
-        public boolean check(ValidationContext ctx, Model m) {
-          boolean success = true;
-
-          if (m.getCompartmentCount() == 0) {
-            success = success && !m.isSetListOfCompartments();
-          }
-
-          if (m.getCompartmentTypeCount() == 0) {
-            success = success && !m.isSetListOfCompartmentTypes();
-          }
-
-          if (m.getConstraintCount() == 0) {
-            success = success && !m.isSetListOfConstraints();
-          }
-
-          if (m.getEventCount() == 0) {
-            success = success && !m.isSetListOfEvents();
-          }
-
-          if (m.getFunctionDefinitionCount() == 0) {
-            success = success && !m.isSetListOfFunctionDefinitions();
-          }
-
-          if (m.getInitialAssignmentCount() == 0) {
-            success = success && !m.isSetListOfInitialAssignments();
-          }
-
-          if (m.getParameterCount() == 0) {
-            success = success && !m.isSetListOfParameters();
-          }
-
-          if (m.getReactionCount() == 0) {
-            success = success && !m.isSetListOfReactions();
-          }
-
-          if (m.getRuleCount() == 0) {
-            success = success && !m.isSetListOfRules();
-          }
-
-          if (m.getSpeciesCount() == 0) {
-            success = success && !m.isSetListOfSpecies();
-          }
-
-          if (m.getSpeciesTypeCount() == 0) {
-            success = success && !m.isSetListOfSpeciesTypes();
-          }
-
-          if (m.getUnitDefinitionCount() == 0) {
-            success = success && !m.isSetListOfUnitDefinitions();
-          }
-
-          return success;
-        };
-      };
-
-    case CORE_20204:
-      func = new ValidationFunction<Model>() {
+    case CORE_20901:
+      func = new ValidationFunction<ExplicitRule>() {
 
         @Override
-        public boolean check(ValidationContext ctx, Model m) {
-          if (ctx.getLevel() > 1 && m.getNumSpecies() > 0) {
-            return m.getNumCompartments() > 0;
+        public boolean check(ValidationContext ctx, ExplicitRule r) {
+
+          if ((ctx.getLevel() != 1 || r.isScalar()) && r.isSetVariable()) {
+            return r.getVariableInstance() != null;
+          }
+
+          return true;
+        }
+      };
+
+    case CORE_20902:
+      func = new ValidationFunction<ExplicitRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ExplicitRule r) {
+          // TODO Auto-generated method stub
+
+          if ((ctx.getLevel() != 1 || r.isRate()) && r.isSetVariable()) {
+            return r.getVariableInstance() != null;
           }
 
           return true;
@@ -144,18 +104,73 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
-    case CORE_20216:
-      func = new ValidationFunction<Model>() {
+    case CORE_20903:
+      func = new ValidationFunction<ExplicitRule>() {
 
         @Override
-        public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetConversionFactor()) {
-            return m.getConversionFactorInstance() != null;
+        public boolean check(ValidationContext ctx, ExplicitRule r) {
+          // TODO Auto-generated method stub
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null) {
+            return !var.getConstant();
           }
+
+          return true;
+        }
+      };
+
+    case CORE_20904:
+      func = new ValidationFunction<ExplicitRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ExplicitRule r) {
+          // TODO Auto-generated method stub
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null) {
+            return r.getVariableInstance() != null;
+          }
+
           return true;
         }
       };
       break;
+
+    case CORE_20907:
+      func = new ValidationFunction<ExplicitRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ExplicitRule r) {
+          // TODO Auto-generated method stub
+
+          return r.isSetMath();
+        }
+      };
+      break;
+
+    case CORE_20911:
+      func = new ValidationFunction<ExplicitRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ExplicitRule r) {
+          // TODO Auto-generated method stub
+          Model m = r.getModel();
+          String var = r.getVariable();
+
+          if (r.isSetVariable() && m != null) {
+            Compartment c = m.getCompartment(var);
+
+            if (c != null) {
+              return c.getSpatialDimensions() != 0;
+            }
+          }
+
+          return true;
+        }
+      };
 
     }
 

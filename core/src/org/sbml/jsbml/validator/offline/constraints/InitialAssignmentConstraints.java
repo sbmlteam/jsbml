@@ -23,11 +23,15 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
-public class ModelConstraints extends AbstractConstraintDeclaration {
+public class InitialAssignmentConstraints
+extends AbstractConstraintDeclaration {
 
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
@@ -37,7 +41,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      addRangeToSet(set, CORE_20203, CORE_20204);
+
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -68,90 +72,65 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<Model> func = null;
+    ValidationFunction<InitialAssignment> func = null;
 
     switch (errorCode) {
-
-    case CORE_20203:
-      func = new ValidationFunction<Model>() {
-
-        public boolean check(ValidationContext ctx, Model m) {
-          boolean success = true;
-
-          if (m.getCompartmentCount() == 0) {
-            success = success && !m.isSetListOfCompartments();
-          }
-
-          if (m.getCompartmentTypeCount() == 0) {
-            success = success && !m.isSetListOfCompartmentTypes();
-          }
-
-          if (m.getConstraintCount() == 0) {
-            success = success && !m.isSetListOfConstraints();
-          }
-
-          if (m.getEventCount() == 0) {
-            success = success && !m.isSetListOfEvents();
-          }
-
-          if (m.getFunctionDefinitionCount() == 0) {
-            success = success && !m.isSetListOfFunctionDefinitions();
-          }
-
-          if (m.getInitialAssignmentCount() == 0) {
-            success = success && !m.isSetListOfInitialAssignments();
-          }
-
-          if (m.getParameterCount() == 0) {
-            success = success && !m.isSetListOfParameters();
-          }
-
-          if (m.getReactionCount() == 0) {
-            success = success && !m.isSetListOfReactions();
-          }
-
-          if (m.getRuleCount() == 0) {
-            success = success && !m.isSetListOfRules();
-          }
-
-          if (m.getSpeciesCount() == 0) {
-            success = success && !m.isSetListOfSpecies();
-          }
-
-          if (m.getSpeciesTypeCount() == 0) {
-            success = success && !m.isSetListOfSpeciesTypes();
-          }
-
-          if (m.getUnitDefinitionCount() == 0) {
-            success = success && !m.isSetListOfUnitDefinitions();
-          }
-
-          return success;
-        };
-      };
-
-    case CORE_20204:
-      func = new ValidationFunction<Model>() {
+    case CORE_20801:
+      func = new ValidationFunction<InitialAssignment>() {
 
         @Override
-        public boolean check(ValidationContext ctx, Model m) {
-          if (ctx.getLevel() > 1 && m.getNumSpecies() > 0) {
-            return m.getNumCompartments() > 0;
+        public boolean check(ValidationContext ctx, InitialAssignment ia) {
+          Model m = ia.getModel();
+
+          if (ia.isSetSymbol() && m != null) {
+
+            String symbol = ia.getSymbol();
+
+            boolean checkL2 = (m.getCompartment(symbol) != null)
+                || (m.getSpecies(symbol) != null)
+                || (m.getParameter(symbol) != null);
+
+            if (ctx.getLevel() == 2) {
+              return checkL2;
+            } else {
+              return checkL2
+                  || (m.findNamedSBase(symbol) instanceof SpeciesReference);
+            }
           }
 
-          return true;
+          return false;
         }
       };
       break;
 
-    case CORE_20216:
-      func = new ValidationFunction<Model>() {
+    case CORE_20804:
+      func = new ValidationFunction<InitialAssignment>() {
 
         @Override
-        public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetConversionFactor()) {
-            return m.getConversionFactorInstance() != null;
+        public boolean check(ValidationContext ctx, InitialAssignment ia) {
+          return ia.isSetMath();
+        }
+      };
+      break;
+
+    case CORE_20806:
+      func = new ValidationFunction<InitialAssignment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, InitialAssignment ia) {
+
+          Model m = ia.getModel();
+
+          if (ia.isSetSymbol() && m != null) {
+            String s = ia.getSymbol();
+
+            Compartment c = m.getCompartment(s);
+
+            if (c != null) {
+              return c.getSpatialDimensions() != 0;
+            }
           }
+
           return true;
         }
       };
