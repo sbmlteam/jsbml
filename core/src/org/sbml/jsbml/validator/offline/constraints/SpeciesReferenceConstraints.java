@@ -18,86 +18,77 @@
  * ----------------------------------------------------------------------------
  */
 
-
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.ExplicitRule;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.Rule;
-import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.ValidationContext;;
 
-public class TreeNodeConstraintsDeclaration extends AbstractConstraintDeclaration implements CoreSpecialErrorCodes{
-  
+public class SpeciesReferenceConstraints
+extends AbstractConstraintDeclaration {
+
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     CHECK_CATEGORY category) {
-    
-    return createConstraint(ID_VALIDATE_TREE_NODE);
+
+    Set<Integer> set = new HashSet<Integer>();
+
+    switch (category) {
+    case GENERAL_CONSISTENCY:
+
+      break;
+    case IDENTIFIER_CONSISTENCY:
+      break;
+    case MATHML_CONSISTENCY:
+      break;
+    case MODELING_PRACTICE:
+      break;
+    case OVERDETERMINED_MODEL:
+      break;
+    case SBO_CONSISTENCY:
+      break;
+    case UNITS_CONSISTENCY:
+      break;
+    }
+
+    return createConstraints(convertToArray(set));
   }
-  
+
+
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     String attributeName) {
     // TODO Auto-generated method stub
     return null;
   }
-  
+
+
   @Override
+  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<TreeNode> func = null;
-    
+    ValidationFunction<SpeciesReference> func = null;
+
     switch (errorCode) {
-    case ID_VALIDATE_TREE_NODE:
-      func = new ValidationFunction<TreeNode>() {
+    case CORE_21113:
+      func = new ValidationFunction<SpeciesReference>() {
 
         @Override
-        public boolean check(ValidationContext ctx, TreeNode t) {
-          
-          // Only applies if recursiv validation is turned on
-          if (!ctx.getValidateRecursivly())
-          {
-            return true;
-          }
-          
-          boolean success = true;
-          Enumeration<?> children = t.children();
-          //          ConstraintFactory factory = ConstraintFactory.getInstance();
-
-          //          System.out.println("Found Tree " + t.getChildCount() + " " + children.hasMoreElements());
-          AnyConstraint<Object> root = ctx.getRootConstraint();
-          Class<?> type = ctx.getConstraintType();
-
-          while (children.hasMoreElements())
-          {
-            Object child = children.nextElement();
-
-            if (child != null)
-            {
-              ctx.loadConstraints(child.getClass());
-              success = ctx.validate(child) && success;
-            }
-
+        public boolean check(ValidationContext ctx, SpeciesReference sr) {
+          // Can't be a Modifier
+          if (sr.isSetStoichiometryMath()) {
+            return !sr.isSetStoichiometry();
           }
 
-          ctx.setRootConstraint(root, type);
+          return true;
 
-          return success;
         }
       };
+
     }
-    
+
     return func;
   }
 }

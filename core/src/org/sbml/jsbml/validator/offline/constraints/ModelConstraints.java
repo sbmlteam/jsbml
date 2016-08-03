@@ -18,27 +18,25 @@
  * ----------------------------------------------------------------------------
  */
 
+
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;;
 
-public class SpeciesReferenceConstraintsDeclaration
-extends AbstractConstraintDeclaration {
-
+public class ModelConstraints extends AbstractConstraintDeclaration{
+  
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     CHECK_CATEGORY category) {
-
+    
     Set<Integer> set = new HashSet<Integer>();
-
+    
     switch (category) {
     case GENERAL_CONSISTENCY:
-
+      
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -53,42 +51,27 @@ extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
-
+    
     return createConstraints(convertToArray(set));
   }
-
-
+  
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     String attributeName) {
     // TODO Auto-generated method stub
     return null;
   }
-
-
+  
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<SpeciesReference> func = null;
-
+    ValidationFunction<?> func = null;
+    
     switch (errorCode) {
-    case CORE_21113:
-      func = new ValidationFunction<SpeciesReference>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, SpeciesReference sr) {
-          // Can't be a Modifier
-          if (sr.isSetStoichiometryMath()) {
-            return !sr.isSetStoichiometry();
-          }
-
-          return true;
-
-        }
-      };
-
+    case 0:
+      
     }
-
+    
     return func;
   }
 }
