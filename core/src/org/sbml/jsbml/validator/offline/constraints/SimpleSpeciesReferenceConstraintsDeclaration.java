@@ -18,25 +18,29 @@
  * ----------------------------------------------------------------------------
  */
 
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;;
+import org.sbml.jsbml.SimpleSpeciesReference;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;;
 
-public class ConstraintsDeclarationTemplate extends AbstractConstraintDeclaration{
-  
+public class SimpleSpeciesReferenceConstraintsDeclaration
+extends AbstractConstraintDeclaration {
+
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     CHECK_CATEGORY category) {
-    
+
     Set<Integer> set = new HashSet<Integer>();
-    
+
     switch (category) {
     case GENERAL_CONSISTENCY:
-      
+
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -51,27 +55,61 @@ public class ConstraintsDeclarationTemplate extends AbstractConstraintDeclaratio
     case UNITS_CONSISTENCY:
       break;
     }
-    
+
     return createConstraints(convertToArray(set));
   }
-  
+
+
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     String attributeName) {
     // TODO Auto-generated method stub
     return null;
   }
-  
+
+
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<?> func = null;
-    
+    ValidationFunction<SimpleSpeciesReference> func = null;
+
     switch (errorCode) {
-    case 0:
-      
+    case CORE_20611:
+      func = new ValidationFunction<SimpleSpeciesReference>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
+          Species s = sr.getSpeciesInstance();
+
+          System.out.println("Species " + s);
+          if (s != null) {
+            System.out.println(
+              "Test " + s.isConstant() + s.isBoundaryCondition());
+            return !(s.isConstant() && s.isBoundaryCondition());
+          }
+
+          return true;
+        }
+      };
+    case CORE_20613:
+
+      func = new ValidationFunction<SimpleSpeciesReference>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
+          Species s = sr.getSpeciesInstance();
+
+          if (s != null) {
+            return !(s.isConstant() && s.isBoundaryCondition());
+          }
+
+          return true;
+        }
+      };
     }
     
+ 
+
     return func;
   }
 }

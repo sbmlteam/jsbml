@@ -67,6 +67,7 @@ public class SpeciesConstraintsDeclaration extends AbstractConstraintDeclaration
   }
   
   @Override
+  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<Species> func = null;
     
@@ -89,6 +90,7 @@ public class SpeciesConstraintsDeclaration extends AbstractConstraintDeclaration
     case CORE_20602:
       func = new ValidationFunction<Species>() {
 
+        
         @Override
         public boolean check(ValidationContext ctx, Species s) {
           /*
