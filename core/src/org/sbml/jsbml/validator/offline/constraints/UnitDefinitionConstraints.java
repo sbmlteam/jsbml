@@ -38,7 +38,38 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-
+      if (version == 1)
+      {
+        addRangeToSet(set, CORE_20401, CORE_20407);
+        set.add(CORE_20410);
+      }
+      else if (version == 2){
+        addRangeToSet(set, CORE_20401, CORE_20406);
+        set.add(CORE_20410);
+        
+        if (level < 4)
+        {
+          set.add(CORE_20407);
+          set.add(CORE_20408);
+        }
+        
+        if (level > 1)
+        {
+          set.add(CORE_20411);
+          set.add(CORE_20412);
+        }
+      }
+      else if (level == 3)
+      {
+        set.add(CORE_20401);
+        set.add(CORE_20410);
+        set.add(CORE_20413);
+        set.add(CORE_20414);
+        set.add(CORE_20415);
+        set.add(CORE_20419);
+        set.add(CORE_20420);
+        set.add(CORE_20421);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;

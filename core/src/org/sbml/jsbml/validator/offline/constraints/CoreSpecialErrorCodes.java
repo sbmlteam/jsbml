@@ -22,9 +22,8 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 public interface CoreSpecialErrorCodes {
 
-  public static final int ID_DO_NOT_CACHE           = -1;
-  public static final int ID_GROUP                  = -2;
+  public static final int ID_GROUP                  = 1;
 
-  public static final int ID_VALIDATE_TREE_NODE     = -3;
+  public static final int ID_VALIDATE_TREE_NODE     = 0;
 
 }

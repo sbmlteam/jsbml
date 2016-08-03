@@ -27,8 +27,7 @@ import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
-public class SpeciesReferenceConstraints
-extends AbstractConstraintDeclaration {
+public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
@@ -38,7 +37,9 @@ extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-
+      if (level == 2) {
+        set.add(CORE_21113);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;

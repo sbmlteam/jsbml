@@ -40,7 +40,23 @@ extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-
+      set.add(CORE_21111);
+      set.add(CORE_21116);
+      
+      if (level == 2)
+      {
+        set.add(CORE_20611);
+        
+        if (version > 1)
+        {
+          set.add(CORE_20613);
+        }
+      }
+      else if (level == 3)
+      {
+        set.add(CORE_20611);
+      }
+      
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
