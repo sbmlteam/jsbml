@@ -24,23 +24,80 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 
 public interface ConstraintDeclaration {
 
+  /**
+   * Creates all the constraints which are needed to validate the categories
+   * in the given level and version of SBML.
+   * 
+   * @param level
+   * @param version
+   * @param categories
+   * @return A {@link ConstraintGroup} with at least 1 member or
+   *         <code>null</code> if no constraint was loaded
+   * @see #createConstraints(int, int, CHECK_CATEGORY)
+   */
   abstract public <T> ConstraintGroup<T> createConstraints(int level,
     int version, CHECK_CATEGORY[] categories);
 
 
+  /**
+   * Creates all the constraints which are needed to validate this category
+   * in the given level and version of SBML.
+   * 
+   * @param level
+   * @param version
+   * @param categories
+   * @return A {@link ConstraintGroup} with at least 1 member or
+   *         <code>null</code> if no constraint was loaded
+   * @see #createConstraints(int, int, CHECK_CATEGORY[])
+   */
   abstract public AnyConstraint<?> createConstraints(int level, int version,
     CHECK_CATEGORY category);
 
 
+  /**
+   * Creates all the constraints which are needed to validate the attribute
+   * in the given level and version of SBML.
+   * 
+   * @param level
+   * @param version
+   * @param categories
+   * @return {@link AnyConstraint} or
+   *         <code>null</code> if no constraint was loaded
+   * @see #createConstraints(int, int, CHECK_CATEGORY[])
+   */
   abstract public AnyConstraint<?> createConstraints(int level, int version,
     String attributeName);
 
 
+  /**
+   * Tries to create the constraints with the given error codes
+   * 
+   * @param errorCodes
+   * @return A {@link ConstraintGroup} with at least 1 member or
+   *         <code>null</code> if no constraint was loaded
+   * @see #createConstraint(int)
+   */
   abstract public <T> ConstraintGroup<T> createConstraints(int[] errorCodes);
 
 
+  /**
+   * Tries to create the constraint with the given error code
+   * 
+   * @param errorCode
+   * @return @link AnyConstraint} or
+   *         <code>null</code> if no constraint was loaded
+   * @see #createConstraint(int)
+   */
   abstract public <T> AnyConstraint<T> createConstraint(int errorCode);
 
 
+  /**
+   * Returns the {@link ValidationFunction} of the error code, if it's defined
+   * in this {@link ConstraintDeclaration}
+   * 
+   * @param errorCode
+   * @return the {@link ValidationFunction} or <code>null</code> if not defined
+   *         in this {@link ConstraintDeclaration}
+   */
   abstract public ValidationFunction<?> getValidationFunction(int errorCode);
 }

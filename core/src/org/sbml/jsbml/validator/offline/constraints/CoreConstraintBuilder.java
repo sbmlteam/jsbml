@@ -62,45 +62,8 @@ import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 public class CoreConstraintBuilder implements SBMLErrorCodes{
 
   
-  public AnyConstraint<?> createConstraint(int errorCode) {
-
-    // int uid = Math.abs(id);
-
-    if (errorCode < 0) {
-      return CoreConstraintBuilder.createSpecialConstraint(errorCode);
-    }
-
-    int firstThree = errorCode / 100;
-
-    switch (firstThree) 
-    {
-    case 211:
-      return CoreConstraintBuilder.createEventConstraint(errorCode);
-    case 210:
-      return CoreConstraintBuilder.createConstraintConstraint(errorCode);
-    case 209:
-      return CoreConstraintBuilder.createExplictRuleConstraint(errorCode);
-    case 208:
-      return CoreConstraintBuilder.createInitialAssignmentConstraint(errorCode);
-    case 207:
-      return CoreConstraintBuilder.createParameterConstraint(errorCode);
-    case 206:
-      return CoreConstraintBuilder.createSpeciesConstraint(errorCode);
-    case 205:
-      return CoreConstraintBuilder.createCompartmentConstraint(errorCode);
-    case 204:
-      return CoreConstraintBuilder.createUnitDefinitionConstraint(errorCode);
-    case 203:
-      return CoreConstraintBuilder.createFunctionDefinitionConstraint(errorCode);
-    case 202:
-      return CoreConstraintBuilder.createModelConstraint(errorCode);
-    default:
-      return null;
-    }
-    
  
-
-  }
+  
 
   /**
    * Create constraints 20204 and 20216
@@ -787,60 +750,6 @@ public class CoreConstraintBuilder implements SBMLErrorCodes{
     return new ValidationConstraint<Compartment>(errorCode, func);
   }
 
-  /**
-   * Creates constraints 20601 - 20617 for Species instances
-   * 
-   * @param id
-   * @return
-   */
-  protected static ValidationConstraint<?> createSpeciesConstraint(int id) {
-    ValidationFunction<Species> func;
-
-    switch (id) {
-    
-
-    case CORE_20611:
-
-      return new ValidationConstraint<SimpleSpeciesReference>(id, new ValidationFunction<SimpleSpeciesReference>() {
-        @Override
-        public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
-          Species s = sr.getSpeciesInstance();
-
-          System.out.println("Species " + s);
-          if (s != null) {
-            System.out.println("Test " + s.isConstant() + s.isBoundaryCondition());
-            return !(s.isConstant() && s.isBoundaryCondition());
-          }
-
-          return true;
-        }
-      });
-
-    
-      
-    case CORE_20613:
-
-      return new ValidationConstraint<SpeciesReference>(id, new ValidationFunction<SpeciesReference>() {
-        @Override
-        public boolean check(ValidationContext ctx, SpeciesReference sr) {
-          Species s = sr.getSpeciesInstance();
-
-          if (s != null) {
-            return !(s.isConstant() && s.isBoundaryCondition());
-          }
-
-          return true;
-        }
-      });
-
-    
-
-    default:
-      return null;
-    }
-
-  }
-
 
   protected static  ValidationConstraint<?> createParameterConstraint(int errorCode)
   {
@@ -1135,21 +1044,7 @@ public class CoreConstraintBuilder implements SBMLErrorCodes{
       });
 
 
-    case CORE_21113:
-      return new ValidationConstraint<SpeciesReference>(errorCode, new ValidationFunction<SpeciesReference>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, SpeciesReference sr) {
-          // Can't be a Modifier
-          if (sr.isSetStoichiometryMath())
-          {
-            return !sr.isSetStoichiometry();
-          }
-
-          return true;
-
-        }
-      });
+   
 
     case CORE_21125:
       return new ValidationConstraint<KineticLaw>(errorCode, new ValidationFunction<KineticLaw>() {
@@ -1368,50 +1263,6 @@ public class CoreConstraintBuilder implements SBMLErrorCodes{
     return new ValidationConstraint<Event>(errorCode, func);
   }
 
-  protected static AnyConstraint<?> createSpecialConstraint(int errorCode) {
-    switch (errorCode) {
 
-    case CoreSpecialErrorCodes.ID_VALIDATE_TREE_NODE:
-      return new ValidationConstraint<TreeNode>(errorCode, new ValidationFunction<TreeNode>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, TreeNode t) {
-          
-          // Only applies if recursiv validation is turned on
-          if (!ctx.getValidateRecursivly())
-          {
-            return true;
-          }
-          
-          boolean success = true;
-          Enumeration<?> children = t.children();
-          //          ConstraintFactory factory = ConstraintFactory.getInstance();
-
-          //          System.out.println("Found Tree " + t.getChildCount() + " " + children.hasMoreElements());
-          AnyConstraint<Object> root = ctx.getRootConstraint();
-          Class<?> type = ctx.getConstraintType();
-
-          while (children.hasMoreElements())
-          {
-            Object child = children.nextElement();
-
-            if (child != null)
-            {
-              ctx.loadConstraints(child.getClass());
-              success = ctx.validate(child) && success;
-            }
-
-          }
-
-          ctx.setRootConstraint(root, type);
-
-          return success;
-        }
-      });
-
-    default:
-      return null;
-    }
-  }
 
 }
