@@ -38,7 +38,13 @@ public class ReactionConstraints extends AbstractConstraintDeclaration{
     
     switch (category) {
     case GENERAL_CONSISTENCY:
-      
+      set.add(CORE_21101);
+      if (level == 3)
+      {
+        set.add(CORE_21106);
+        set.add(CORE_21107);
+        set.add(CORE_21110);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;

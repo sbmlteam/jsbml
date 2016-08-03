@@ -18,34 +18,28 @@
  * ----------------------------------------------------------------------------
  */
 
+
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Parameter;
-import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;;
 
-public class ParameterConstraints extends AbstractConstraintDeclaration {
-
+public class StoichiometryMathConstraints extends AbstractConstraintDeclaration{
+  
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     CHECK_CATEGORY category) {
-
+    
     Set<Integer> set = new HashSet<Integer>();
-
+    
     switch (category) {
     case GENERAL_CONSISTENCY:
-      set.add(CORE_20701);
-      
-      if (level == 3)
+      if (level == 2)
       {
-        set.add(CORE_20705);
-        set.add(CORE_20706);
+        set.add(CORE_21131);
       }
-      
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -60,43 +54,27 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
-
+    
     return createConstraints(convertToArray(set));
   }
-
-
+  
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
     String attributeName) {
     // TODO Auto-generated method stub
     return null;
   }
-
-
+  
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<Parameter> func = null;
-
+    ValidationFunction<?> func = null;
+    
     switch (errorCode) {
-    case CORE_20705:
-      func = new ValidationFunction<Parameter>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, Parameter p) {
-          // TODO Auto-generated method stub
-          Model m = p.getModel();
-
-          if (m != null && p.getId() == m.getConversionFactor()) {
-            return p.isConstant();
-          }
-
-          return true;
-        }
-      };
-
+    case 0:
+      
     }
-
+    
     return func;
   }
 }

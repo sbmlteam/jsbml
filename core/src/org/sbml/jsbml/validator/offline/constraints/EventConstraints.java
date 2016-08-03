@@ -38,7 +38,32 @@ public class EventConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-
+      if (level == 2)
+      {
+        addRangeToSet(set, CORE_21201, CORE_21203);
+        
+        if (version < 3)
+        {
+          set.add(CORE_21204);
+        }
+        else if (version == 4)
+        {
+          set.add(CORE_21206);
+        }
+        
+        if (version > 2)
+        {
+          set.add(CORE_99206);
+        }
+      }
+      else if (level == 3)
+      {
+        addRangeToSet(set, CORE_21201, CORE_21203);
+        set.add(CORE_21221);
+        set.add(CORE_21225);
+        set.add(CORE_21230);
+        set.add(CORE_99206);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -78,7 +103,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Event e) {
-
+          
           return e.isSetTrigger();
         }
       };
@@ -146,6 +171,16 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           }
 
           return true;
+        }
+      };
+    case CORE_99206:
+
+      func = new ValidationFunction<Event>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Event e) {
+
+          return e.getTimeUnits().isEmpty();
         }
       };
 
