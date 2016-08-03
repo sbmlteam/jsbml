@@ -38,7 +38,7 @@ public class LayoutConstraints extends AbstractConstraintDeclaration{
     
     switch (category) {
     case GENERAL_CONSISTENCY:
-      
+      set.add(LAYOUT_20315);
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
