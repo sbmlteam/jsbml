@@ -52,7 +52,6 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration{
       if (level == 3)
       {
         set.add(CORE_21213);
-        set.add(CORE_21214);
       }
       break;
     case IDENTIFIER_CONSISTENCY:

@@ -24,9 +24,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 

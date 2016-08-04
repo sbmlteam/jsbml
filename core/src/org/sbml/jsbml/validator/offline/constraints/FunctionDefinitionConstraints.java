@@ -128,15 +128,12 @@ extends AbstractConstraintDeclaration {
     case CORE_20302:
       func = new ValidationFunction<FunctionDefinition>() {
 
-        private List<String> definedFunctions = new ArrayList<String>();
-
-
         @Override
         public boolean check(ValidationContext ctx, FunctionDefinition fd) {
 
           Model m = fd.getModel();
           if (m != null) {
-            definedFunctions.clear();
+            List<String> definedFunctions = new ArrayList<String>();
 
             for (int i = 0; i < m.getFunctionDefinitionCount(); i++) {
               FunctionDefinition def = m.getFunctionDefinition(i);
