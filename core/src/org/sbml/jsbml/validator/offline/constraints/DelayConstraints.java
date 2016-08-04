@@ -20,13 +20,17 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.Delay;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class DelayConstraints extends AbstractConstraintDeclaration {
 
   @Override

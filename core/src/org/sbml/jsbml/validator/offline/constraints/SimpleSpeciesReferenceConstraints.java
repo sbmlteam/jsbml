@@ -20,17 +20,20 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
-import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class SimpleSpeciesReferenceConstraints
-extends AbstractConstraintDeclaration {
+  extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
@@ -49,14 +52,15 @@ extends AbstractConstraintDeclaration {
       set.add(CORE_21111);
       set.add(CORE_21116);
 
-      if (level == 2) {
+      if (level > 1) {
         set.add(CORE_20611);
+      }
+
+      if (level == 2) {
 
         if (version > 1) {
           set.add(CORE_20613);
         }
-      } else if (level == 3) {
-        set.add(CORE_20611);
       }
 
       break;
@@ -87,6 +91,7 @@ extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
+
           Species s = sr.getSpeciesInstance();
 
           System.out.println("Species " + s);

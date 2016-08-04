@@ -20,13 +20,17 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
 
   @Override
@@ -42,6 +46,7 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
     CHECK_CATEGORY category) {
     switch (category) {
     case GENERAL_CONSISTENCY:
+
       if (level == 2) {
         set.add(CORE_21113);
       }
@@ -68,6 +73,7 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<SpeciesReference> func = null;
 
     switch (errorCode) {
+
     case CORE_21113:
       func = new ValidationFunction<SpeciesReference>() {
 

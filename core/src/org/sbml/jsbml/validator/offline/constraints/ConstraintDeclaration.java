@@ -24,6 +24,18 @@ import java.util.Set;
 
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 
+/**
+ * Basic interface for constraint declarations. If you want to provide
+ * constraints for a custom class, consider to inherit from
+ * {@link AbstractConstraintDeclaration} instead. This abstract class has
+ * already a working implementation of most of the methods and supports caching
+ * 
+ * @see AbstractConstraintDeclaration
+ * 
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public interface ConstraintDeclaration {
 
   /**

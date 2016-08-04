@@ -17,23 +17,20 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 
-public class ConstraintsDeclarationTemplate
-  extends AbstractConstraintDeclaration {
-
-  @Override
-  public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
-    // TODO Auto-generated method stub
-
-  }
-
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
+public class UnitConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
@@ -41,7 +38,13 @@ public class ConstraintsDeclarationTemplate
 
     switch (category) {
     case GENERAL_CONSISTENCY:
+      if (level > 1) {
+        if (level == 2 && version == 1) {
+          break;
+        }
 
+        set.add(CORE_20412);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -56,19 +59,39 @@ public class ConstraintsDeclarationTemplate
     case UNITS_CONSISTENCY:
       break;
     }
+
   }
 
 
   @Override
-  @SuppressWarnings("deprecation")
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<?> func = null;
+    ValidationFunction<Unit> func = null;
 
     switch (errorCode) {
-    case 0:
+    case CORE_20412:
+      func = new ValidationFunction<Unit>() {
 
+        @Override
+        public boolean check(ValidationContext ctx, Unit u) {
+
+          return u.isCelsius();
+        }
+      };
+      break;
+
+    default:
+      break;
     }
 
     return func;
   }
+
 }

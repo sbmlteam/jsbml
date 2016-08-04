@@ -28,6 +28,11 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
   @Override
@@ -114,7 +119,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
               return ud.isVariantOfSubstance();
             } else {
               return ud.isVariantOfSubstance()
-                  || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+                || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
             }
           }
 
@@ -135,7 +140,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
               return ud.isVariantOfLength();
             } else {
               return ud.isVariantOfLength()
-                  || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+                || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
             }
           }
 
@@ -156,7 +161,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
               return ud.isVariantOfArea();
             } else {
               return ud.isVariantOfArea()
-                  || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+                || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
             }
           }
 
@@ -176,7 +181,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
               return ud.isVariantOfTime();
             } else {
               return ud.isVariantOfTime()
-                  || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+                || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
             }
           }
 
@@ -210,7 +215,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
             } else {
               return ud.isVariantOfVolume()
-                  || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+                || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
             }
           }
 
@@ -225,7 +230,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
           if (ctx.isLevelAndVersionLessThan(2, 4) && ud.getId() == "volume"
-              && ud.getNumUnits() == 1) {
+            && ud.getNumUnits() == 1) {
             Unit u = ud.getUnit(0);
 
             return u.isLitre() && u.getExponent() == 1;
@@ -242,7 +247,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
 
           if (ctx.isLevelAndVersionLessThan(2, 4) && ud.getId() == "volume"
-              && ud.getNumUnits() == 1) {
+            && ud.getNumUnits() == 1) {
             Unit u = ud.getUnit(0);
 
             return u.isMetre() && u.getExponent() == 3;
