@@ -18,10 +18,8 @@
  * ----------------------------------------------------------------------------
  */
 
-
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.Compartment;
@@ -33,24 +31,27 @@ import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
-public class EventAssignmentConstraints extends AbstractConstraintDeclaration{
-  
+public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
+
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-    
-    Set<Integer> set = new HashSet<Integer>();
-    
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (level > 1)
-      {
+      if (level > 1) {
         set.add(CORE_21211);
         set.add(CORE_21212);
       }
-      
-      if (level == 3)
-      {
+
+      if (level == 3) {
         set.add(CORE_21213);
       }
       break;
@@ -67,43 +68,33 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration{
     case UNITS_CONSISTENCY:
       break;
     }
-    
-    return createConstraints(convertToArray(set));
   }
-  
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  
+
+
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<?> func = null;
-    
+
     switch (errorCode) {
     case CORE_21211:
       func = new ValidationFunction<EventAssignment>() {
+
         @Override
         public boolean check(ValidationContext ctx, EventAssignment ea) {
 
-          if (ea.isSetVariable())
-          {
+          if (ea.isSetVariable()) {
             Variable var = ea.getVariableInstance();
-            boolean isComSpecOrPar =  (var instanceof Compartment) ||
-                (var instanceof Species) ||
-                (var instanceof Parameter);
+            boolean isComSpecOrPar = (var instanceof Compartment)
+                || (var instanceof Species) || (var instanceof Parameter);
 
-            if (ctx.getLevel() == 2){
+            if (ctx.getLevel() == 2) {
               return isComSpecOrPar;
-            }
-            else{
+            } else {
               return isComSpecOrPar || (var instanceof SpeciesReference);
             }
 
-          } 
+          }
 
           return true;
         }
@@ -111,11 +102,11 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration{
 
     case CORE_21212:
       func = new ValidationFunction<EventAssignment>() {
+
         @Override
         public boolean check(ValidationContext ctx, EventAssignment ea) {
 
-          if(ea.isSetVariable())
-          {
+          if (ea.isSetVariable()) {
             Variable var = ea.getVariableInstance();
 
             return var != null && var.isConstant();
@@ -127,6 +118,7 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration{
 
     case CORE_21213:
       func = new ValidationFunction<EventAssignment>() {
+
         @Override
         public boolean check(ValidationContext ctx, EventAssignment ea) {
 
@@ -134,7 +126,7 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration{
         }
       };
     }
-    
+
     return func;
   }
 }

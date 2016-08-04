@@ -18,7 +18,6 @@
  * ----------------------------------------------------------------------------
  */
 
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Enumeration;
@@ -38,53 +37,54 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
-public class TreeNodeConstraints extends AbstractConstraintDeclaration implements CoreSpecialErrorCodes{
-  
+public class TreeNodeConstraints extends AbstractConstraintDeclaration
+implements CoreSpecialErrorCodes {
+
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    CHECK_CATEGORY category) {
-    
-    return createConstraint(ID_VALIDATE_TREE_NODE);
-  }
-  
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
     // TODO Auto-generated method stub
-    return null;
+
   }
-  
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category) {
+    set.add(ID_VALIDATE_TREE_NODE);
+
+  }
+
+
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<TreeNode> func = null;
-    
+
     switch (errorCode) {
     case ID_VALIDATE_TREE_NODE:
       func = new ValidationFunction<TreeNode>() {
 
         @Override
         public boolean check(ValidationContext ctx, TreeNode t) {
-          
+
           // Only applies if recursiv validation is turned on
-          if (!ctx.getValidateRecursivly())
-          {
+          if (!ctx.getValidateRecursivly()) {
             return true;
           }
-          
+
           boolean success = true;
           Enumeration<?> children = t.children();
-          //          ConstraintFactory factory = ConstraintFactory.getInstance();
+          // ConstraintFactory factory = ConstraintFactory.getInstance();
 
-          //          System.out.println("Found Tree " + t.getChildCount() + " " + children.hasMoreElements());
+          // System.out.println("Found Tree " + t.getChildCount() + " " +
+          // children.hasMoreElements());
           AnyConstraint<Object> root = ctx.getRootConstraint();
           Class<?> type = ctx.getConstraintType();
 
-          while (children.hasMoreElements())
-          {
+          while (children.hasMoreElements()) {
             Object child = children.nextElement();
 
-            if (child != null)
-            {
+            if (child != null) {
               ctx.loadConstraints(child.getClass());
               success = ctx.validate(child) && success;
             }
@@ -97,7 +97,7 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration implement
         }
       };
     }
-    
+
     return func;
   }
 }

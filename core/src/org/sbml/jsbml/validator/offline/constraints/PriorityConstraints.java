@@ -30,11 +30,16 @@ import org.sbml.jsbml.validator.offline.ValidationContext;;
 public class PriorityConstraints extends AbstractConstraintDeclaration {
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-
-    Set<Integer> set = new HashSet<Integer>();
-
     switch (category) {
     case GENERAL_CONSISTENCY:
 
@@ -52,16 +57,6 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
-
-    return createConstraints(convertToArray(set));
-  }
-
-
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 

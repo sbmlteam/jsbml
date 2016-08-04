@@ -18,7 +18,6 @@
  * ----------------------------------------------------------------------------
  */
 
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.HashSet;
@@ -28,19 +27,24 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
-public class ReactionConstraints extends AbstractConstraintDeclaration{
-  
+public class ReactionConstraints extends AbstractConstraintDeclaration {
+
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-    
-    Set<Integer> set = new HashSet<Integer>();
-    
+
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_21101);
-      if (level == 3)
-      {
+      if (level == 3) {
         set.add(CORE_21106);
         set.add(CORE_21107);
         set.add(CORE_21110);
@@ -59,22 +63,14 @@ public class ReactionConstraints extends AbstractConstraintDeclaration{
     case UNITS_CONSISTENCY:
       break;
     }
-    
-    return createConstraints(convertToArray(set));
   }
-  
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  
+
+
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<Reaction> func = null;
-    
+
     switch (errorCode) {
     case CORE_21101:
       func = new ValidationFunction<Reaction>() {
@@ -82,7 +78,6 @@ public class ReactionConstraints extends AbstractConstraintDeclaration{
         @Override
         public boolean check(ValidationContext ctx, Reaction r) {
           // TODO Auto-generated method stub
-
 
           return r.getNumReactants() > 0 || r.getNumProducts() > 0;
         }
@@ -95,8 +90,7 @@ public class ReactionConstraints extends AbstractConstraintDeclaration{
         public boolean check(ValidationContext ctx, Reaction r) {
           // TODO Auto-generated method stub
 
-          if (r.isSetCompartment())
-          {
+          if (r.isSetCompartment()) {
 
             return r.getCompartmentInstance() != null;
           }
@@ -104,9 +98,9 @@ public class ReactionConstraints extends AbstractConstraintDeclaration{
           return true;
         }
       };
-      
+
     }
-    
+
     return func;
   }
 }

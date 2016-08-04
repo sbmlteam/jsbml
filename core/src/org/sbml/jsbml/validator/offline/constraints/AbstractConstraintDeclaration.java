@@ -25,11 +25,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 /**
@@ -44,34 +42,34 @@ import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 public abstract class AbstractConstraintDeclaration
 implements ConstraintDeclaration, SBMLErrorCodes {
 
-  private static HashMap<String, SoftReference<ConstraintDeclaration>> instances_ =
+  private static HashMap<String, SoftReference<ConstraintDeclaration>> instances_     =
       new HashMap<String, SoftReference<ConstraintDeclaration>>();
 
   /**
    * Caches the constraints with SoftReferences
    */
-  private static HashMap<Integer, SoftReference<AnyConstraint<?>>>     cache      =
+  private static HashMap<Integer, SoftReference<AnyConstraint<?>>>     cache          =
       new HashMap<Integer, SoftReference<AnyConstraint<?>>>();
 
   /**
    * Stores class names which didn't have a constraint declaration
    */
-  private static Set<String> classBlacklist = new HashSet<String>();
-  
+  private static Set<String>                                           classBlacklist =
+      new HashSet<String>();
+
   /**
    * Log4j logger
    */
-  protected static final transient Logger                              logger     =
+  protected static final transient Logger                              logger         =
       Logger.getLogger(AbstractConstraintDeclaration.class);
 
 
   public static ConstraintDeclaration getInstance(String className) {
-    
-    if (classBlacklist.contains(className))
-    {
+
+    if (classBlacklist.contains(className)) {
       return null;
     }
-    
+
     SoftReference<ConstraintDeclaration> ref = instances_.get(className);
     ConstraintDeclaration declaration = null;
 
@@ -94,7 +92,8 @@ implements ConstraintDeclaration, SBMLErrorCodes {
         instances_.put(className,
           new SoftReference<ConstraintDeclaration>(declaration));
       } catch (Exception e) {
-        logger.debug("Couldn't find ConstraintsDeclaration: " + constraintsClass);
+        logger.debug(
+          "Couldn't find ConstraintsDeclaration: " + constraintsClass);
         classBlacklist.add(className);
       }
     }
@@ -121,21 +120,41 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
 
   @Override
+  public AnyConstraint<?> createConstraints(int level, int version,
+    CHECK_CATEGORY category) {
+    // TODO Auto-generated method stub
+    CHECK_CATEGORY[] cats = {category};
+    return this.createConstraints(level, version, cats);
+  }
+
+
+  @Override
+  public AnyConstraint<?> createConstraints(int level, int version,
+    String attributeName) {
+
+    Set<Integer> set = new HashSet<Integer>();
+
+    this.addErrorCodesForAttribute(set, level, version, attributeName);
+
+    int[] array = convertToArray(set);
+
+    return this.createConstraints(array);
+  }
+
+
+  @Override
   public <T> ConstraintGroup<T> createConstraints(int level, int version,
     CHECK_CATEGORY[] categories) {
-    ConstraintGroup<T> group = new ConstraintGroup<T>();
+
+    Set<Integer> set = new HashSet<Integer>();
 
     for (CHECK_CATEGORY cat : categories) {
-      @SuppressWarnings("unchecked")
-      AnyConstraint<T> c =
-      (AnyConstraint<T>) this.createConstraints(level, version, cat);
-
-      if (c != null) {
-        group.add(c);
-      }
+      this.addErrorCodesForCheck(set, level, version, cat);
     }
 
-    return (group.getConstraintsCount() > 0) ? group : null;
+    int[] array = convertToArray(set);
+
+    return this.createConstraints(array);
   }
 
 

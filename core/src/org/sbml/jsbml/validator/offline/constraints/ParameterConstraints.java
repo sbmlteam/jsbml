@@ -31,21 +31,26 @@ import org.sbml.jsbml.validator.offline.ValidationContext;;
 public class ParameterConstraints extends AbstractConstraintDeclaration {
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    CHECK_CATEGORY category) {
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
 
-    Set<Integer> set = new HashSet<Integer>();
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_20701);
-      
-      if (level == 3)
-      {
+
+      if (level == 3) {
         set.add(CORE_20705);
         set.add(CORE_20706);
       }
-      
+
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -60,16 +65,6 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
-
-    return createConstraints(convertToArray(set));
-  }
-
-
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 
