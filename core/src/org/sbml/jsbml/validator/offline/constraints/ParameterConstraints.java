@@ -20,14 +20,19 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class ParameterConstraints extends AbstractConstraintDeclaration {
 
   @Override
@@ -46,8 +51,12 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       set.add(CORE_20701);
 
+      if (level > 2 || (level == 2 && version > 1)) {
+        set.add(CORE_20412);
+      }
+
       if (level == 3) {
-        set.add(CORE_20705);
+
         set.add(CORE_20706);
       }
 
@@ -74,16 +83,17 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<Parameter> func = null;
 
     switch (errorCode) {
-    case CORE_20705:
+    case CORE_20412:
       func = new ValidationFunction<Parameter>() {
 
         @Override
         public boolean check(ValidationContext ctx, Parameter p) {
-          // TODO Auto-generated method stub
-          Model m = p.getModel();
 
-          if (m != null && p.getId() == m.getConversionFactor()) {
-            return p.isConstant();
+          UnitDefinition def = p.getUnitsInstance();
+
+          if (def.getUnitCount() == 1) {
+            // Celsius not allowed
+            return def.getUnit(0).getKind() != Unit.Kind.CELSIUS;
           }
 
           return true;

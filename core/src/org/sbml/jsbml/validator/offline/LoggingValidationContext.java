@@ -22,9 +22,7 @@
 
 package org.sbml.jsbml.validator.offline;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.sbml.jsbml.SBMLError;
@@ -32,7 +30,6 @@ import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
 import org.sbml.jsbml.validator.offline.constraints.CoreSpecialErrorCodes;
-import org.sbml.jsbml.validator.offline.factory.CheckCategory;
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
 
 /**

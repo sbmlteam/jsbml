@@ -20,13 +20,18 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class ModelConstraints extends AbstractConstraintDeclaration {
 
   @Override
@@ -43,10 +48,12 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
+      set.add(CORE_20203);
       set.add(CORE_20204);
 
       if (level == 3) {
-        addRangeToSet(set, CORE_20205, CORE_20232);
+        set.add(CORE_20216);
+        set.add(CORE_20705);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -156,6 +163,20 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+
+    case CORE_20705:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+
+          if (m.isSetConversionFactor()) {
+            return m.getConversionFactorInstance().isConstant();
+          }
+
+          return true;
+        }
+      };
 
     }
 

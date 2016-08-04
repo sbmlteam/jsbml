@@ -20,10 +20,19 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+/**
+ * Some ErrorCodes which are not officially part of SBML and only are used for
+ * offline validation. In general, there arn't SBMLError objects for this codes,
+ * because they are only used for special cases.
+ * 
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public interface CoreSpecialErrorCodes {
 
-  public static final int ID_GROUP                  = 1;
+  public static final int ID_GROUP              = 1;
 
-  public static final int ID_VALIDATE_TREE_NODE     = 0;
+  public static final int ID_VALIDATE_TREE_NODE = 0;
 
 }

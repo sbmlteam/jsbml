@@ -25,6 +25,11 @@ import java.util.Set;
 
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;;
 
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class StoichiometryMathConstraints
 extends AbstractConstraintDeclaration {
 

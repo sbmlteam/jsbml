@@ -25,13 +25,11 @@ import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.ValuePair;
-import org.sbml.jsbml.validator.offline.factory.CheckCategory;
 import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
 import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
-import org.sbml.jsbml.validator.offline.constraints.CoreSpecialErrorCodes;
 
 import java.util.HashMap;
 import java.util.HashSet;

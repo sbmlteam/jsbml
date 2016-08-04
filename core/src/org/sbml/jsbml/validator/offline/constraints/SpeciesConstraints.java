@@ -21,7 +21,6 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.Compartment;
@@ -31,10 +30,18 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
+/**
+ * 
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
+@SuppressWarnings("deprecation")
 public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
   @Override
@@ -68,10 +75,12 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         if (version > 1)
         {
           set.add(CORE_20612);
+          set.add(CORE_20613);
         }
 
         if (version > 2)
         {
+          
           set.add(CORE_20615);
         }
       }
@@ -80,6 +89,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         set.add(CORE_20609);
         set.add(CORE_20617);
         set.add(CORE_20623);
+        set.add(CORE_20705);
       }
 
       break;
@@ -254,6 +264,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
+      
 
     case CORE_20610:
       func = new ValidationFunction<Species>() {
@@ -327,11 +338,44 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
+      
+    case CORE_20613:
+      func = new ValidationFunction<Species>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Species s) {
+          
+          Model m = s.getModel();
+          if (s.isSetSpeciesType() && m != null)
+          {
+            SpeciesType st = s.getSpeciesTypeInstance();
+            
+            for (Species spec: m.getListOfSpecies())
+            {
+              // Are species in same compartment but not the same?
+              if (spec.isSetSpeciesType() &&
+                  spec.getCompartment().equals(s.getCompartment()) &&
+                  spec.getId() != s.getId())
+              {
+                // Must have different Types
+                if (spec.getSpeciesType().equals(st))
+                {
+                  return false;
+                }
+              }
+            }
+          }
+          
+          return true;
+        }
+      };
+      break;
 
     case CORE_20614:
       func = new ValidationFunction<Species>() {
         @Override
         public boolean check(ValidationContext ctx, Species s) {
+          
           return s.isSetCompartment();
         }
       };
@@ -354,6 +398,19 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             return s.getConversionFactorInstance() != null;
           }
 
+          return true;
+        }
+      };
+      break;
+    case CORE_20705:
+      func = new ValidationFunction<Species>() {
+        @Override
+        public boolean check(ValidationContext ctx, Species s) {
+          if (s.isSetConversionFactor())
+          {
+            return s.getConversionFactorInstance().isConstant();
+          }
+          
           return true;
         }
       };

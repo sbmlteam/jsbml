@@ -48,8 +48,8 @@ implements ConstraintDeclaration, SBMLErrorCodes {
   /**
    * Caches the constraints with SoftReferences
    */
-  private static HashMap<Integer, SoftReference<AnyConstraint<?>>>     cache          =
-      new HashMap<Integer, SoftReference<AnyConstraint<?>>>();
+  private static HashMap<String, SoftReference<AnyConstraint<?>>>     cache          =
+      new HashMap<String, SoftReference<AnyConstraint<?>>>();
 
   /**
    * Stores class names which didn't have a constraint declaration
@@ -223,7 +223,11 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
     SoftReference<AnyConstraint<?>> ref =
         new SoftReference<AnyConstraint<?>>(constraint);
-
-    AbstractConstraintDeclaration.cache.put(new Integer(errorCode), ref);
+    
+    String thisName = this.getClass().getSimpleName();
+    String removeWord = "Constraints";
+    
+    String className = thisName.substring(0, thisName.length() - removeWord.length());
+    AbstractConstraintDeclaration.cache.put(className + errorCode, ref);
   }
 }

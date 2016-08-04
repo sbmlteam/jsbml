@@ -23,10 +23,16 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;;
 
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class ModifierSpeciesReferenceConstraints
-extends AbstractConstraintDeclaration {
+  extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
@@ -42,6 +48,7 @@ extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
+
       if (level == 3) {
         set.add(CORE_21117);
       }
@@ -65,10 +72,10 @@ extends AbstractConstraintDeclaration {
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<?> func = null;
+    ValidationFunction<ModifierSpeciesReferenceConstraints> func = null;
 
     switch (errorCode) {
-    case 0:
+    case CORE_20611:
 
     }
 

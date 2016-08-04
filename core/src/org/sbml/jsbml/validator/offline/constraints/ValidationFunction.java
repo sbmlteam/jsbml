@@ -22,7 +22,26 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
+/**
+ * Basic functional interface for a {@link ValidationFunction}. A object of this
+ * class could be passed to a {@link ValidationConstraint}.
+ * 
+ * @author Roman
+ * @since 1.2
+ * @date 05.08.2016
+ * @param <T>
+ */
 public interface ValidationFunction<T> {
 
+  /**
+   * Returns <code>true</code> if the constraint is valid and <code>false</code>
+   * if it's broken.
+   * 
+   * @param ctx,
+   *        the context in which the validation is performed
+   * @param t,
+   *        the object to check
+   * @return <code>false</code> if the constraint is broken
+   */
   public boolean check(ValidationContext ctx, T t);
 }
