@@ -31,36 +31,35 @@ import org.sbml.jsbml.validator.offline.ValidationContext;;
 public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-
-    Set<Integer> set = new HashSet<Integer>();
-
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (version == 1)
-      {
+      if (version == 1) {
         addRangeToSet(set, CORE_20401, CORE_20407);
         set.add(CORE_20410);
-      }
-      else if (version == 2){
+      } else if (version == 2) {
         addRangeToSet(set, CORE_20401, CORE_20406);
         set.add(CORE_20410);
-        
-        if (level < 4)
-        {
+
+        if (level < 4) {
           set.add(CORE_20407);
           set.add(CORE_20408);
         }
-        
-        if (level > 1)
-        {
+
+        if (level > 1) {
           set.add(CORE_20411);
           set.add(CORE_20412);
         }
-      }
-      else if (level == 3)
-      {
+      } else if (level == 3) {
         set.add(CORE_20401);
         set.add(CORE_20410);
         set.add(CORE_20413);
@@ -84,16 +83,6 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
-
-    return createConstraints(convertToArray(set));
-  }
-
-
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 

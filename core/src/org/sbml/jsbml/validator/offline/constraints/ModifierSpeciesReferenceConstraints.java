@@ -18,7 +18,6 @@
  * ----------------------------------------------------------------------------
  */
 
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.HashSet;
@@ -26,18 +25,24 @@ import java.util.Set;
 
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;;
 
-public class ModifierSpeciesReferenceConstraints extends AbstractConstraintDeclaration{
-  
+public class ModifierSpeciesReferenceConstraints
+extends AbstractConstraintDeclaration {
+
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-    
-    Set<Integer> set = new HashSet<Integer>();
-    
+
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (level == 3)
-      {
+      if (level == 3) {
         set.add(CORE_21117);
       }
       break;
@@ -54,27 +59,19 @@ public class ModifierSpeciesReferenceConstraints extends AbstractConstraintDecla
     case UNITS_CONSISTENCY:
       break;
     }
-    
-    return createConstraints(convertToArray(set));
   }
-  
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  
+
+
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<?> func = null;
-    
+
     switch (errorCode) {
     case 0:
-      
+
     }
-    
+
     return func;
   }
 }

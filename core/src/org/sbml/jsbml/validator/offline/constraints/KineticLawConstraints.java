@@ -20,7 +20,6 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.KineticLaw;
@@ -30,56 +29,31 @@ import org.sbml.jsbml.validator.offline.ValidationContext;;
 public class KineticLawConstraints extends AbstractConstraintDeclaration {
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    CHECK_CATEGORY category) {
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
 
-    Set<Integer> set = new HashSet<Integer>();
-
-    switch (category) {
-    case GENERAL_CONSISTENCY:
-      set.add(CORE_21117);
-      set.add(CORE_21121);
-      set.add(CORE_21130);
-      if (level == 2)
-      {
-        set.add(CORE_21124);
-        if (version > 1)
-        {
-          addRangeToSet(set, CORE_21125, CORE_21126);
-        }
-      }
-      else if (level == 3)
-      {
-        addRangeToSet(set, CORE_21127, CORE_21130);
-        set.add(CORE_21132);
-        set.add(CORE_21150);
-        set.add(CORE_21151);
-        set.add(CORE_21172);
-      }
-      break;
-    case IDENTIFIER_CONSISTENCY:
-      break;
-    case MATHML_CONSISTENCY:
-      break;
-    case MODELING_PRACTICE:
-      break;
-    case OVERDETERMINED_MODEL:
-      break;
-    case SBO_CONSISTENCY:
-      break;
-    case UNITS_CONSISTENCY:
-      break;
-    }
-
-    return createConstraints(convertToArray(set));
   }
 
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category) {
+
+    set.add(CORE_21121);
+
+    if (level > 1) {
+      set.add(CORE_21130);
+    }
+    if (level == 2) {
+      set.add(CORE_21131);
+      if (version > 1) {
+        set.add(CORE_21125);
+        set.add(CORE_21126);
+      }
+    } else if (level == 3) {
+
+    }
   }
 
 
@@ -89,6 +63,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<KineticLaw> func = null;
 
     switch (errorCode) {
+
     case CORE_21125:
       func = new ValidationFunction<KineticLaw>() {
 

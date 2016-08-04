@@ -33,30 +33,32 @@ public class SimpleSpeciesReferenceConstraints
 extends AbstractConstraintDeclaration {
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    CHECK_CATEGORY category) {
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
 
-    Set<Integer> set = new HashSet<Integer>();
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_21111);
       set.add(CORE_21116);
-      
-      if (level == 2)
-      {
+
+      if (level == 2) {
         set.add(CORE_20611);
-        
-        if (version > 1)
-        {
+
+        if (version > 1) {
           set.add(CORE_20613);
         }
-      }
-      else if (level == 3)
-      {
+      } else if (level == 3) {
         set.add(CORE_20611);
       }
-      
+
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -71,16 +73,6 @@ extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
-
-    return createConstraints(convertToArray(set));
-  }
-
-
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 
@@ -128,13 +120,10 @@ extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
 
-
           return sr.getSpeciesInstance() != null;
         }
       };
     }
-    
- 
 
     return func;
   }

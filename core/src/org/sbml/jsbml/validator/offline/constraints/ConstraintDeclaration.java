@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.Set;
+
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 
 public interface ConstraintDeclaration {
@@ -52,8 +54,8 @@ public interface ConstraintDeclaration {
    */
   abstract public AnyConstraint<?> createConstraints(int level, int version,
     CHECK_CATEGORY category);
-
-
+  
+  
   /**
    * Creates all the constraints which are needed to validate the attribute
    * in the given level and version of SBML.
@@ -61,12 +63,16 @@ public interface ConstraintDeclaration {
    * @param level
    * @param version
    * @param categories
-   * @return {@link AnyConstraint} or
+   * @return A {@link ConstraintGroup} with at least 1 member or
    *         <code>null</code> if no constraint was loaded
    * @see #createConstraints(int, int, CHECK_CATEGORY[])
    */
   abstract public AnyConstraint<?> createConstraints(int level, int version,
     String attributeName);
+  
+  
+  abstract public void addErrorCodesForCheck(Set<Integer> set, int level, int version, CHECK_CATEGORY category);
+  abstract public void addErrorCodesForAttribute(Set<Integer> set, int level, int version, String attributeName);
 
 
   /**
