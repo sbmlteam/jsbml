@@ -54,8 +54,8 @@ public interface ConstraintDeclaration {
    */
   abstract public AnyConstraint<?> createConstraints(int level, int version,
     CHECK_CATEGORY category);
-  
-  
+
+
   /**
    * Creates all the constraints which are needed to validate the attribute
    * in the given level and version of SBML.
@@ -69,10 +69,32 @@ public interface ConstraintDeclaration {
    */
   abstract public AnyConstraint<?> createConstraints(int level, int version,
     String attributeName);
-  
-  
-  abstract public void addErrorCodesForCheck(Set<Integer> set, int level, int version, CHECK_CATEGORY category);
-  abstract public void addErrorCodesForAttribute(Set<Integer> set, int level, int version, String attributeName);
+
+
+  /**
+   * Adds all error codes which are needed for a check in this category to the
+   * set.
+   * 
+   * @param set
+   * @param level
+   * @param version
+   * @param category
+   */
+  abstract public void addErrorCodesForCheck(Set<Integer> set, int level,
+    int version, CHECK_CATEGORY category);
+
+
+  /**
+   * Adds all error codes which are needed for a check the attribute to the
+   * set.
+   * 
+   * @param set
+   * @param level
+   * @param version
+   * @param category
+   */
+  abstract public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName);
 
 
   /**
