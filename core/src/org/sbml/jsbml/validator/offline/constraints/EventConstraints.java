@@ -40,7 +40,8 @@ public class EventConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if (level == 2)
       {
-        addRangeToSet(set, CORE_21201, CORE_21203);
+        set.add(CORE_21201);
+        set.add(CORE_21203);
         
         if (version < 3)
         {
@@ -59,9 +60,6 @@ public class EventConstraints extends AbstractConstraintDeclaration {
       else if (level == 3)
       {
         addRangeToSet(set, CORE_21201, CORE_21203);
-        set.add(CORE_21221);
-        set.add(CORE_21225);
-        set.add(CORE_21230);
         set.add(CORE_99206);
       }
       break;
