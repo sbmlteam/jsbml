@@ -22,10 +22,17 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.Assignment;
+import org.sbml.jsbml.AssignmentRule;
+import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.RateRule;
+import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.unique.UniqueValidation;;
 
 /**
  * @author Roman
@@ -51,6 +58,11 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       set.add(CORE_20203);
       set.add(CORE_20204);
 
+      if (level > 2 || (level == 2 && version > 1))
+      {
+        set.add(CORE_20802);
+        set.add(CORE_20803);
+      }
       if (level == 3) {
         set.add(CORE_20216);
         set.add(CORE_20705);
@@ -175,6 +187,40 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           }
 
           return true;
+        }
+      };
+      
+    case CORE_20803:
+      func = new UniqueValidation<Model, String>() {
+        @Override
+        public int getNumObjects(ValidationContext ctx, Model m) {
+          
+          return m.getNumInitialAssignments() + m.getNumRules();
+        }
+        
+        @Override
+        public String getNextObject(ValidationContext ctx, Model m, int n) {
+          if (n < m.getNumInitialAssignments())
+          {
+            return m.getInitialAssignment(n).getVariable();
+          }
+          else
+          {
+            Rule r = m.getRule(n);
+            
+            if (r.isRate())
+            {
+       
+              return ((RateRule) r).getVariable();
+            }
+            else if (r.isAssignment())
+            {
+              return ((AssignmentRule) r).getVariable();
+            }
+         
+          }
+          
+          return null;
         }
       };
 
