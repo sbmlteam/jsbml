@@ -27,6 +27,11 @@ import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class TriggerConstraints extends AbstractConstraintDeclaration {
 
   @Override

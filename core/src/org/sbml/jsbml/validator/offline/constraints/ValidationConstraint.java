@@ -23,10 +23,20 @@ package org.sbml.jsbml.validator.offline.constraints;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
+/**
+ * The basic constraint which uses a {@link ValidationFunction} object to
+ * perform validation.
+ * Notice that two {@link ValidationConstraint} objects are equal if they have the same error Code
+ * 
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ * @param <T>
+ */
 public class ValidationConstraint<T> extends AbstractConstraint<T> {
 
   protected static transient Logger logger =
-      Logger.getLogger(ValidationConstraint.class);
+    Logger.getLogger(ValidationConstraint.class);
   private ValidationFunction<T>     func;
 
 
@@ -36,6 +46,10 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
   }
 
 
+  /**
+   * Two {@link ValidationConstraint} objects are euqal if they have the same
+   * error code.
+   */
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof ValidationConstraint<?>) {
@@ -44,7 +58,7 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
     return false;
   }
 
-
+ 
   @Override
   public boolean check(ValidationContext context, T t) {
     // TODO Auto-generated method stub

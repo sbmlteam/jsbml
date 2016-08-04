@@ -21,18 +21,25 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
+/**
+ * 
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class FunctionDefinitionConstraints
 extends AbstractConstraintDeclaration {
 
@@ -49,9 +56,16 @@ extends AbstractConstraintDeclaration {
     CHECK_CATEGORY category) {
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (version == 2) {
+
+      if (level > 1) {
+        set.add(CORE_10214);
+        set.add(CORE_99301);
+        set.add(CORE_99302);
+      }
+
+      if (level == 2) {
         addRangeToSet(set, CORE_20301, CORE_20305);
-      } else if (version == 3) {
+      } else if (level == 3) {
         set.add(CORE_20301);
         addRangeToSet(set, CORE_20303, CORE_20307);
       }
@@ -78,6 +92,40 @@ extends AbstractConstraintDeclaration {
     ValidationFunction<FunctionDefinition> func = null;
 
     switch (errorCode) {
+    case CORE_10214:
+      func = new ValidationFunction<FunctionDefinition>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionDefinition fd) {
+
+          Queue<ASTNode> queue = new LinkedList<ASTNode>();
+          Model m = fd.getModel();
+          ASTNode node = fd.getBody();
+
+          if (m == null) {
+            return true;
+          }
+
+          while (node != null) {
+            if (node.isFunction()) {
+              // Checks if the function exists
+              if (m.getFunctionDefinition(node.getName()) == null) {
+                return false;
+              }
+            }
+
+            for (ASTNode n : node.getListOfNodes()) {
+              if (n != null) {
+                queue.offer(n);
+              }
+            }
+
+            node = queue.poll();
+          }
+
+          return true;
+        }
+      };
     case CORE_20301:
       func = new ValidationFunction<FunctionDefinition>() {
 
@@ -197,6 +245,191 @@ extends AbstractConstraintDeclaration {
                 }
               }
             }
+          }
+
+          return true;
+        }
+      };
+
+    case CORE_20304:
+      func = new ValidationFunction<FunctionDefinition>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionDefinition fd) {
+
+          ASTNode body = fd.getBody();
+
+          if (body != null) {
+
+            List<ASTNode> vars = body.getListOfNodes(new Filter() {
+
+              @Override
+              public boolean accepts(Object o) {
+                ASTNode n = (ASTNode) o;
+                return n.isVariable();
+              }
+            });
+
+            for (ASTNode n : vars) {
+              String name = (n.getName() != null) ? n.getName() : "";
+
+              // Variable must refer to a argument
+
+              if (fd.getArgument(name) == null) {
+
+                /* if this is the csymbol time - technically it is allowed 
+                 * in L2v1 and L2v2
+                 */
+                if (n.getType() == Type.NAME_TIME)
+                {
+                  if (ctx.isLevelAndVersionGreaterThan(2, 2))
+                  {
+                    return false;
+                  }
+                }
+                return false;
+              }
+            }
+
+            // In this case the type FUNCTION_DELAY is permitted
+            if (ctx.isLevelAndVersionEqualTo(2, 5) || 
+                ctx.isLevelAndVersionGreaterThan(3, 1))
+            {
+              vars = body.getListOfNodes(new Filter() {
+
+
+                @Override
+                public boolean accepts(Object o) {
+                  ASTNode node = (ASTNode) o;
+
+                  return node.isFunction();
+                }
+              });
+
+              for (ASTNode n:vars)
+              {
+                if (n.getType() == Type.FUNCTION_DELAY)
+                {
+                  return false;
+                }
+              }
+            }
+
+          }
+
+          return true;
+        }
+      };
+
+    case CORE_20305:
+      func = new ValidationFunction<FunctionDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionDefinition fd) {
+
+          /*
+           * need to look at the special case where the body of the lambda function
+           * contains only one of the bvar elements
+           * eg
+           *  <lambda>
+           *    <bvar> <ci> v </ci> </bvar>
+           *    <ci> v </ci>
+           *  </lambda>
+           *
+           * OR
+           * it contains the csymbol time
+           * eg
+           *  <lambda>
+           *    <csymbol encoding="text" 
+           *    definitionURL="http://www.sbml.org/sbml/symbols/time"> 
+           *    time </csymbol>
+           *  </lambda>
+           *
+           */
+
+          boolean specialCase = false;
+
+          ASTNode body = fd.getBody();
+
+          // No body - no service
+          if (body == null)
+          {
+            return true;
+          }
+
+          if (body.getNumChildren() == 0)
+          {
+            for (int i = 0; i < fd.getArgumentCount(); i++)
+            {
+              ASTNode arg = fd.getArgument(i);
+
+              if (arg != null && 
+                  arg.getName() != null && 
+                  body.getName() != null)
+              {
+                if (arg.getName() == fd.getName())
+                {
+                  specialCase = true;
+                  break;
+                }
+              }
+
+            }
+
+            if (fd.getNumArguments() == 0)
+            {
+              if (body.getType() == Type.NAME_TIME)
+              {
+                specialCase = true;
+              }
+            }
+          }
+
+          return specialCase || 
+              body.isBoolean() || 
+              body.isNumber() ||
+              body.isFunction() || 
+              body.isOperator();
+        }
+      };
+
+    case CORE_99301:
+      func = new ValidationFunction<FunctionDefinition>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionDefinition fd) {
+
+          ASTNode body = fd.getBody();
+
+          if (fd.isSetMath() && body != null)
+          {
+            for (ASTNode n : body.getListOfNodes())
+            {
+              // NAME_TIME not allowed
+              if (n.getType() == Type.NAME_TIME)
+              {
+                return false;
+              }
+            }
+          }
+
+          return true;
+        }
+      };
+
+    case CORE_99302:
+      func = new ValidationFunction<FunctionDefinition>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionDefinition fd) {
+
+          ASTNode body = fd.getBody();
+
+          if (fd.isSetMath() && fd.getMath().isLambda())
+          {
+            return body != null;
           }
 
           return true;

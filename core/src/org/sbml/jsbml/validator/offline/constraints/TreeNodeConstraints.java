@@ -37,8 +37,13 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class TreeNodeConstraints extends AbstractConstraintDeclaration
-implements CoreSpecialErrorCodes {
+  implements CoreSpecialErrorCodes {
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,

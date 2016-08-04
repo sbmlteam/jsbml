@@ -29,6 +29,13 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
+/**
+ * ConstraintDeclaration for Compartment class
+ * 
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
 public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
   @Override
