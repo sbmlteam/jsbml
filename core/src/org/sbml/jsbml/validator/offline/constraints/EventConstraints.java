@@ -31,34 +31,32 @@ import org.sbml.jsbml.validator.offline.ValidationContext;;
 public class EventConstraints extends AbstractConstraintDeclaration {
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-
-    Set<Integer> set = new HashSet<Integer>();
-
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (level == 2)
-      {
+      if (level == 2) {
         set.add(CORE_21201);
         set.add(CORE_21203);
-        
-        if (version < 3)
-        {
+
+        if (version < 3) {
           set.add(CORE_21204);
-        }
-        else if (version == 4)
-        {
+        } else if (version == 4) {
           set.add(CORE_21206);
         }
-        
-        if (version > 2)
-        {
+
+        if (version > 2) {
           set.add(CORE_99206);
         }
-      }
-      else if (level == 3)
-      {
+      } else if (level == 3) {
         addRangeToSet(set, CORE_21201, CORE_21203);
         set.add(CORE_99206);
       }
@@ -76,16 +74,6 @@ public class EventConstraints extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
-
-    return createConstraints(convertToArray(set));
-  }
-
-
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 
@@ -101,7 +89,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Event e) {
-          
+
           return e.isSetTrigger();
         }
       };

@@ -20,15 +20,12 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
@@ -36,19 +33,22 @@ public class InitialAssignmentConstraints
 extends AbstractConstraintDeclaration {
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    CHECK_CATEGORY category) {
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
 
-    Set<Integer> set = new HashSet<Integer>();
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (level == 2 && version > 1)
-      {
+      if (level == 2 && version > 1) {
         addRangeToSet(set, CORE_20801, CORE_20803);
-      }
-      else if (level == 3)
-      {
+      } else if (level == 3) {
         addRangeToSet(set, CORE_20801, CORE_20805);
       }
       break;
@@ -65,16 +65,6 @@ extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
-
-    return createConstraints(convertToArray(set));
-  }
-
-
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 

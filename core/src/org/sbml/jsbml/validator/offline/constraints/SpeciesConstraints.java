@@ -36,36 +36,40 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
 public class SpeciesConstraints extends AbstractConstraintDeclaration{
-  
+
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-    
-    Set<Integer> set = new HashSet<Integer>();
-    
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_20601);
       set.add(CORE_20608);
       set.add(CORE_20610);
       set.add(CORE_20614);
-      
+
       if (level == 2)
       {
         set.add(CORE_20604);
         set.add(CORE_20609);
         set.add(CORE_20611);
-        
+
         if (version < 3)
         {
           addRangeToSet(set, CORE_20602, CORE_20607);
         }
-        
+
         if (version > 1)
         {
           set.add(CORE_20612);
         }
-        
+
         if (version > 2)
         {
           set.add(CORE_20615);
@@ -77,28 +81,21 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         set.add(CORE_20617);
         set.add(CORE_20623);
       }
-      
+
       break;
 
     default:
       break;
     }
-    
-    return createConstraints(convertToArray(set));
   }
-  
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  
+
+
+
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<Species> func = null;
-    
+
     switch (errorCode) {
     case CORE_20601:
       func = new ValidationFunction<Species>() {
@@ -118,7 +115,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
     case CORE_20602:
       func = new ValidationFunction<Species>() {
 
-        
+
         @Override
         public boolean check(ValidationContext ctx, Species s) {
           /*
@@ -257,21 +254,21 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_20610:
       func = new ValidationFunction<Species>() {
 
         @Override
         public boolean check(ValidationContext ctx, Species s) {
           Model m = s.getModel();
-          
+
           if (!s.isBoundaryCondition() && 
               !s.isConstant() && 
               m != null)
           {
-            
+
             boolean found = false;
-            
+
             for (Rule r: m.getListOfRules())
             {
               if (r.isAssignment() || r.isRate())
@@ -284,13 +281,13 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
                 }
               }
             }
-            
+
             // If the Species is not assigned by a rule, there couldn't be a collision
             if (!found)
             {
               return true;
             }
-            
+
             // This species can't be part of a Reaction
             for (Reaction r:m.getListOfReactions())
             {
@@ -301,7 +298,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
                   return false;
                 }
               }
-              
+
               for (SpeciesReference sr: r.getListOfReactants())
               {
                 if (sr.getSpecies().equals(s.getId()))
@@ -311,12 +308,12 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
               }
             }
           }
-          
+
           return true;
         }
       };
       break;
-      
+
     case CORE_20612:
       func = new ValidationFunction<Species>() {
 
@@ -330,7 +327,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_20614:
       func = new ValidationFunction<Species>() {
         @Override
@@ -362,7 +359,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       };
       break;
     }
-    
+
     return func;
   }
 }

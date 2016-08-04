@@ -33,31 +33,32 @@ import org.sbml.jsbml.validator.offline.ValidationContext;;
 public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-
-    Set<Integer> set = new HashSet<Integer>();
-
     switch (category) {
     case GENERAL_CONSISTENCY:
-       set.add(CORE_20901);
-       set.add(CORE_20902);
-       
-       if (level == 2)
-       {
-         set.add(CORE_20903);
-         set.add(CORE_20904);
-         
-         if (version > 1)
-         {
-           set.add(CORE_20906);
-         }
-       }
-       else if (level == 3)
-       {
-         addRangeToSet(set, CORE_20903, CORE_20910);
-       }
-       
+      set.add(CORE_20901);
+      set.add(CORE_20902);
+
+      if (level == 2) {
+        set.add(CORE_20903);
+        set.add(CORE_20904);
+
+        if (version > 1) {
+          set.add(CORE_20906);
+        }
+      } else if (level == 3) {
+        addRangeToSet(set, CORE_20903, CORE_20910);
+      }
+
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -72,16 +73,6 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
-
-    return createConstraints(convertToArray(set));
-  }
-
-
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 
@@ -112,7 +103,7 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, ExplicitRule r) {
           // TODO Auto-generated method stub
 
-          if ( r.isRate() && r.isSetVariable()) {
+          if (r.isRate() && r.isSetVariable()) {
             return r.getVariableInstance() != null;
           }
 

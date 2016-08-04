@@ -30,17 +30,22 @@ import org.sbml.jsbml.validator.offline.ValidationContext;;
 public class ModelConstraints extends AbstractConstraintDeclaration {
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    CHECK_CATEGORY category) {
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
 
-    Set<Integer> set = new HashSet<Integer>();
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_20204);
-      
-      if (level == 3)
-      {
+
+      if (level == 3) {
         addRangeToSet(set, CORE_20205, CORE_20232);
       }
       break;
@@ -57,16 +62,6 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
-
-    return createConstraints(convertToArray(set));
-  }
-
-
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 

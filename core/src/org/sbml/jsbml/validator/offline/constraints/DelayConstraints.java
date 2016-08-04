@@ -18,7 +18,6 @@
  * ----------------------------------------------------------------------------
  */
 
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.HashSet;
@@ -28,18 +27,23 @@ import org.sbml.jsbml.Delay;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
-public class DelayConstraints extends AbstractConstraintDeclaration{
-  
+public class DelayConstraints extends AbstractConstraintDeclaration {
+
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-    
-    Set<Integer> set = new HashSet<Integer>();
-    
+
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (level == 3)
-      {
+      if (level == 3) {
         set.add(CORE_21210);
       }
       break;
@@ -56,35 +60,28 @@ public class DelayConstraints extends AbstractConstraintDeclaration{
     case UNITS_CONSISTENCY:
       break;
     }
-    
-    return createConstraints(convertToArray(set));
+
   }
-  
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  
+
+
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<Delay> func = null;
-    
+
     switch (errorCode) {
     case CORE_21210:
-     func = new ValidationFunction<Delay>() {
+      func = new ValidationFunction<Delay>() {
+
         @Override
         public boolean check(ValidationContext ctx, Delay d) {
-
 
           return d.isSetMath();
         }
       };
-      
+
     }
-    
+
     return func;
   }
 }
