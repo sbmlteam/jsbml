@@ -41,7 +41,6 @@ public class DelayConstraints extends AbstractConstraintDeclaration{
       if (level == 3)
       {
         set.add(CORE_21210);
-        set.add(CORE_21227);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
