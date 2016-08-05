@@ -20,19 +20,24 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.AssignmentRule;
+import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.unique.UniqueValidation;;
+import org.sbml.jsbml.validator.offline.constraints.helper.CycleDetectionTreeNode;
+import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;;
 
 /**
  * @author Roman
@@ -58,8 +63,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       set.add(CORE_20203);
       set.add(CORE_20204);
 
-      if (level > 2 || (level == 2 && version > 1))
-      {
+      if (level > 2 || (level == 2 && version > 1)) {
         set.add(CORE_20802);
         set.add(CORE_20803);
       }
@@ -189,38 +193,51 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
-      
-    case CORE_20803:
+
+    case CORE_20802:
       func = new UniqueValidation<Model, String>() {
+
         @Override
         public int getNumObjects(ValidationContext ctx, Model m) {
-          
-          return m.getNumInitialAssignments() + m.getNumRules();
+
+          return m.getNumInitialAssignments();
         }
-        
+
+
         @Override
         public String getNextObject(ValidationContext ctx, Model m, int n) {
-          if (n < m.getNumInitialAssignments())
-          {
-            return m.getInitialAssignment(n).getVariable();
+
+          return m.getInitialAssignment(n).getVariable();
+        }
+      };
+
+    case CORE_20803:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          Set<String> iaIds = new HashSet<String>();
+
+          for (InitialAssignment ia : m.getListOfInitialAssignments()) {
+            iaIds.add(ia.getVariable());
           }
-          else
-          {
-            Rule r = m.getRule(n);
-            
-            if (r.isRate())
-            {
-       
-              return ((RateRule) r).getVariable();
+
+          for (Rule r : m.getListOfRules()) {
+            String id = null;
+
+            if (r.isRate()) {
+              id = ((RateRule) r).getVariable();
+            } else if (r.isAssignment()) {
+              id = ((AssignmentRule) r).getVariable();
             }
-            else if (r.isAssignment())
-            {
-              return ((AssignmentRule) r).getVariable();
+
+            // Is the id already used by a InitialAssignment?
+            if (id != null && iaIds.contains(id)) {
+              return false;
             }
-         
           }
-          
-          return null;
+
+          return true;
         }
       };
 

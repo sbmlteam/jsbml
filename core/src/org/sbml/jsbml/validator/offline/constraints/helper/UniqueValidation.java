@@ -1,4 +1,4 @@
-package org.sbml.jsbml.validator.offline.constraints.unique;
+package org.sbml.jsbml.validator.offline.constraints.helper;
 
 import java.util.HashSet;
 import java.util.Set;
