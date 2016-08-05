@@ -20,12 +20,16 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.Variable;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
@@ -52,12 +56,17 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
       set.add(CORE_20901);
       set.add(CORE_20902);
 
-      if (level == 2) {
+      if (level == 1) {
+        set.add(CORE_99106);
+      } else if (level == 2) {
         set.add(CORE_20903);
         set.add(CORE_20904);
 
         if (version > 1) {
           set.add(CORE_20906);
+        } else // l2v1
+        {
+          set.add(CORE_99106);
         }
       } else if (level == 3) {
         addRangeToSet(set, CORE_20903, CORE_20910);
@@ -183,6 +192,8 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+
+    
 
     }
 

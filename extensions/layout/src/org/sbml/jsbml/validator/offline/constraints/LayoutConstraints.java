@@ -18,24 +18,33 @@
  * ----------------------------------------------------------------------------
  */
 
-
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
-public class LayoutConstraints extends AbstractConstraintDeclaration{
-  
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 05.08.2016
+ */
+public class LayoutConstraints extends AbstractConstraintDeclaration {
+
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-    
-    Set<Integer> set = new HashSet<Integer>();
-    
+
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(LAYOUT_20315);
@@ -53,22 +62,14 @@ public class LayoutConstraints extends AbstractConstraintDeclaration{
     case UNITS_CONSISTENCY:
       break;
     }
-    
-    return createConstraints(convertToArray(set));
   }
-  
-  @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  
+
+
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<Layout> func = null;
-    
+
     switch (errorCode) {
     case LAYOUT_20315:
       func = new ValidationFunction<Layout>() {
@@ -80,9 +81,9 @@ public class LayoutConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     }
-    
+
     return func;
   }
 }

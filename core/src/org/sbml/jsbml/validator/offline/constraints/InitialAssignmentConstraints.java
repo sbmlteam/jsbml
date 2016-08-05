@@ -22,6 +22,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
@@ -106,7 +107,7 @@ extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+      
     case CORE_20804:
       func = new ValidationFunction<InitialAssignment>() {
 
@@ -122,7 +123,7 @@ extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, InitialAssignment ia) {
-
+          
           Model m = ia.getModel();
 
           if (ia.isSetSymbol() && m != null) {

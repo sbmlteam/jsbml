@@ -20,9 +20,9 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
+import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;;
 
 /**
@@ -69,10 +69,10 @@ extends AbstractConstraintDeclaration {
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<?> func = null;
+    ValidationFunction<StoichiometryMath> func = null;
 
     switch (errorCode) {
-    case 0:
+    case CORE_21131:
 
     }
 

@@ -20,11 +20,10 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
+import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
 
 /**
  * @author Roman
@@ -72,7 +71,7 @@ public class ModifierSpeciesReferenceConstraints
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<ModifierSpeciesReferenceConstraints> func = null;
+    ValidationFunction<ModifierSpeciesReference> func = null;
 
     switch (errorCode) {
     case CORE_20611:
