@@ -20,11 +20,13 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+
 import java.util.Set;
 
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * @author Roman
@@ -45,20 +47,52 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
 
-    set.add(CORE_21121);
-
-    if (level > 1) {
-      set.add(CORE_21130);
-    }
-    if (level == 2) {
-      set.add(CORE_21131);
-      if (version > 1) {
-        set.add(CORE_21125);
-        set.add(CORE_21126);
+    switch (category) {
+    case GENERAL_CONSISTENCY:
+      
+      if (level == 1)
+      {
+        set.add(CORE_99129);
       }
-    } else if (level == 3) {
-
+      
+      if (level > 1) {
+        set.add(CORE_21130);
+      }
+      if (level == 2) {
+        set.add(CORE_21131);
+        if (version > 1) {
+          set.add(CORE_21125);
+          set.add(CORE_21126);
+        }
+      }
+      break;
+    case IDENTIFIER_CONSISTENCY:
+      break;
+    case MATHML_CONSISTENCY:
+      break;
+    case MODELING_PRACTICE:
+      break;
+    case OVERDETERMINED_MODEL:
+      break;
+    case SBO_CONSISTENCY:
+      break;
+    case UNITS_CONSISTENCY:
+      if (level == 1)
+      {
+        set.add(99127);
+        set.add(99128);
+      }
+      else if (level == 2)
+      {
+        if (version == 1)
+        {
+          set.add(99127);
+          set.add(99128);
+        }
+      }
+      break;
     }
+    
   }
 
 
@@ -74,7 +108,6 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, KineticLaw kl) {
-
           return !kl.isSetSubstanceUnits();
         }
       };
@@ -97,8 +130,19 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
           return kl.isSetMath();
         }
       };
+    case CORE_99129:
+      func = new ValidationFunction<KineticLaw>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, KineticLaw kl) {
 
+          return ValidationTools.containsMathOnlyPredefinedFunctions(kl.getMath());
+        }
+      };
     }
+    
+    
 
     return func;
   }

@@ -20,11 +20,20 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SimpleSpeciesReference;
+import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.StoichiometryMath;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * @author Roman
@@ -48,6 +57,10 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_21101);
+      set.add(CORE_21121);
+      if (level == 2) {
+        set.add(CORE_21131);
+      }
       if (level == 3) {
         set.add(CORE_21106);
         set.add(CORE_21107);
@@ -81,7 +94,6 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Reaction r) {
-          // TODO Auto-generated method stub
 
           return r.getNumReactants() > 0 || r.getNumProducts() > 0;
         }
@@ -92,7 +104,6 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Reaction r) {
-          // TODO Auto-generated method stub
 
           if (r.isSetCompartment()) {
 
@@ -103,6 +114,91 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
         }
       };
 
+    case CORE_21121:
+      func = new ValidationFunction<Reaction>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Reaction r) {
+
+          Model m = r.getModel();
+
+          if (m != null && r.isSetKineticLaw()
+            && r.getKineticLaw().isSetMath()) {
+            Set<String> definedSpecies = ValidationTools.getDefinedSpecies(r);
+
+            List<ASTNode> names = r.getKineticLaw().getMath().getListOfNodes(
+              ValidationTools.FILTER_IS_NAME);
+            
+            for (ASTNode node : names) {
+              String name = node.getName();
+
+              // Is a Species but not in list of defined species?
+              if (m.getSpecies(name) != null
+                && !definedSpecies.contains(name)) {
+                return false;
+              }
+            }
+          }
+
+          return true;
+        }
+      };
+    case CORE_21131:
+      func = new ValidationFunction<Reaction>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Reaction r) {
+
+          Model m = r.getModel();
+
+          if (m != null && r.isSetKineticLaw()
+            && r.getKineticLaw().isSetMath()) {
+
+            Set<String> definedSpecies = ValidationTools.getDefinedSpecies(r);
+
+            for (SpeciesReference ref : r.getListOfProducts()) {
+              if (!checkStoichiometryMath(m, ref, definedSpecies))
+              {
+                return false;
+              }
+            }
+
+            for (SpeciesReference ref : r.getListOfReactants()) {
+              if (!checkStoichiometryMath(m, ref, definedSpecies))
+              {
+                return false;
+              }
+            }
+
+           
+          }
+
+          return true;
+        }
+        
+        private boolean checkStoichiometryMath(Model m, SpeciesReference ref, Set<String> definedSpecies)
+        {
+         
+          
+          if (ref.isSetStoichiometryMath() && ref.getStoichiometryMath().isSetMath())
+          {
+            ASTNode math = ref.getStoichiometryMath().getMath();
+            
+            List<ASTNode> names = math.getListOfNodes(ValidationTools.FILTER_IS_NAME);
+            
+            for (ASTNode node:names)
+            {
+              String name = (node.getName() != null) ? node.getName() : "";
+              
+              if (m.getSpecies(name) != null && !definedSpecies.contains(name))
+              {
+                return false;
+              }
+            }
+          }
+          return true;
+        }
+      };
     }
 
     return func;
