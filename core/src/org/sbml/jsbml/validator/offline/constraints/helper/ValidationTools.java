@@ -37,6 +37,8 @@ import org.sbml.jsbml.util.filters.Filter;
  * @date 05.08.2016
  */
 public final class ValidationTools {
+  
+  public static final String KEY_META_ID_SET = "metaIds";
 
   public static Filter FILTER_IS_FUNCTION = new Filter() {
 

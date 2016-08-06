@@ -20,11 +20,15 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.Variable;
@@ -61,6 +65,7 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case IDENTIFIER_CONSISTENCY:
+      set.add(CORE_10306);
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -79,9 +84,36 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<?> func = null;
+    ValidationFunction<EventAssignment> func = null;
 
     switch (errorCode) {
+    case CORE_10306:
+      func = new ValidationFunction<EventAssignment>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, EventAssignment ea) {
+          Model m = ea.getModel();
+          
+          if (m != null)
+          {
+            for (Rule r : m.getListOfRules())
+            {
+              if (r.isAssignment())
+              {
+                AssignmentRule ar = (AssignmentRule)r;
+                
+                if (ar.getVariable() == ea.getVariable())
+                {
+                  return false;
+                }
+              }
+            }
+          }
+          
+          return true;
+        }
+      };
     case CORE_21211:
       func = new ValidationFunction<EventAssignment>() {
 
