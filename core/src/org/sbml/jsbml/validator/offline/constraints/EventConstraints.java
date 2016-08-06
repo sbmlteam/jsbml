@@ -25,7 +25,8 @@ import java.util.Set;
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;;
 
 /**
  * @author Roman
@@ -66,6 +67,8 @@ public class EventConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case IDENTIFIER_CONSISTENCY:
+      set.add(CORE_10305);
+      
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -84,9 +87,23 @@ public class EventConstraints extends AbstractConstraintDeclaration {
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<?> func = null;
+    ValidationFunction<Event> func = null;
 
     switch (errorCode) {
+    case CORE_10305:
+      func = new UniqueValidation<Event, String>() {
+       
+        @Override
+        public int getNumObjects(ValidationContext ctx, Event e) {
+          return e.getNumEventAssignments();
+        }
+        @Override
+        public String getNextObject(ValidationContext ctx, Event e, int n) {
+          
+          return e.getEventAssignment(n).getVariable();
+        }
+        
+      };
     case CORE_21201:
 
       func = new ValidationFunction<Event>() {
