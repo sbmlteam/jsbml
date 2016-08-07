@@ -56,9 +56,7 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
       break;
     case MATHML_CONSISTENCY:
       if (level > 1) {
-        addRangeToSet(set, CORE_10208, CORE_10219);
-        set.add(CORE_10221);
-        set.add(CORE_10222);
+        set.add(CORE_10217);
       }
 
       break;

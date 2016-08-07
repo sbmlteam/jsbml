@@ -22,7 +22,9 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -66,6 +68,8 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
     case MATHML_CONSISTENCY:
       break;
     case MODELING_PRACTICE:
+      set.add(CORE_80701);
+      set.add(CORE_80702);
       break;
     case OVERDETERMINED_MODEL:
       break;
@@ -99,7 +103,48 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+    case CORE_80701:
+      func = new ValidationFunction<Parameter>() {
 
+        @Override
+        public boolean check(ValidationContext ctx, Parameter p) {
+
+          return p.isSetUnits();
+        }
+      };
+      break;
+      
+    case CORE_80702:
+      func = new ValidationFunction<Parameter>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Parameter p) {
+
+          Model m = p.getModel();
+          
+          if (m != null && !p.isSetValue())
+          {
+            boolean setByAssignment = false;
+            
+            if (p.isSetId())
+            {
+              setByAssignment = m.getInitialAssignment(p.getId()) != null;
+              
+              if (!setByAssignment)
+              {
+                Rule r =  m.getRule(p.getId());
+                setByAssignment = r != null && r.isAssignment();
+              }
+            }
+            
+            return setByAssignment;
+          }
+
+          return true;
+        }
+      };
+      break;
     }
 
     return func;

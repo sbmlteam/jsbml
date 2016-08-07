@@ -31,8 +31,6 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -65,8 +63,18 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         addRangeToSet(set, CORE_10208, CORE_10216);
 
         set.add(CORE_10218);
-        set.add(CORE_10219);
-        set.add(CORE_10221);
+        
+        if (level == 3 || version == 4)
+        {
+          set.add(CORE_10219);
+          set.add(CORE_10221);
+        }
+        
+        if (level == 2 && version == 4)
+        {
+          set.add(CORE_10219);
+        }
+        
         set.add(CORE_10222);
       }
 
@@ -145,6 +153,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+      
     case CORE_10210:
       func = new ValidationFunction<ASTNode>() {
 
