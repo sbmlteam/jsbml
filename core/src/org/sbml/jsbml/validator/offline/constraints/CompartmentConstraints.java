@@ -25,6 +25,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -70,6 +73,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     case MATHML_CONSISTENCY:
       break;
     case MODELING_PRACTICE:
+      if (level > 1)
+      {
+        set.add(CORE_80501);
+      }
       break;
     case OVERDETERMINED_MODEL:
       break;
@@ -305,7 +312,39 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
+      
+    case CORE_80501:
+      func = new ValidationFunction<Compartment>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+          
+          Model m = c.getModel();
+          
+          if (m != null && c.getSpatialDimensions() != 0 && !c.isSetSize())
+          {
+            boolean sizeByAssignment = false;
+            
+            if (c.isSetId())
+            {
+              sizeByAssignment = m.getInitialAssignment(c.getId()) != null;
+              
+              if (!sizeByAssignment)
+              {
+                Rule r = m.getRule(c.getId());
+                
+                sizeByAssignment = r != null && r.isAssignment();
+              }
+            }
 
+            
+            return sizeByAssignment;
+          }
+          
+          return true;
+        }
+      };
     }
 
     return func;

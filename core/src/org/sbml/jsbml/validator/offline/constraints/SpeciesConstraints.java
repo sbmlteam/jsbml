@@ -95,7 +95,11 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
       break;
 
-    default:
+    case MODELING_PRACTICE:
+      if (level > 1)
+      {
+        set.add(CORE_80601);
+      }
       break;
     }
   }
@@ -410,6 +414,35 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           if (s.isSetConversionFactor())
           {
             return s.getConversionFactorInstance().isConstant();
+          }
+          
+          return true;
+        }
+      };
+      break;
+    case CORE_80601:
+      func = new ValidationFunction<Species>() {
+        @Override
+        public boolean check(ValidationContext ctx, Species s) {
+          
+          Model m = s.getModel();
+          
+          if (m != null && !s.isSetInitialAmount() && !s.isSetInitialConcentration())
+          {
+            boolean setByAssignment = false;
+            
+            if (s.isSetId())
+            {
+              setByAssignment = m.getInitialAssignment(s.getId()) != null;
+              
+              if (!setByAssignment)
+              {
+                Rule r = m.getRule(m.getId());
+                setByAssignment = r != null && r.isAssignment();
+              }
+            }
+            
+            return setByAssignment;
           }
           
           return true;
