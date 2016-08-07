@@ -1,6 +1,6 @@
 /*
- * $IdSBaseConstraints.java 16:06:11 roman $
- * $URLSBaseConstraints.java $
+ * $IdMathContainerConstraints.java 18:59:35 roman $
+ * $URLMathContainerConstraints.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -19,22 +19,25 @@
  */
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Delay;
+import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.InitialAssignment;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.SimpleSpeciesReference;
+import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
-import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
  * @author Roman
  * @since 1.2
- * @date 06.08.2016
+ * @date 07.08.2016
  */
-public class SBaseConstraints extends AbstractConstraintDeclaration {
+public class MathContainerConstraints extends AbstractConstraintDeclaration {
 
   /*
    * (non-Javadoc)
@@ -50,17 +53,14 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       break;
     case IDENTIFIER_CONSISTENCY:
-      if (level > 1) {
-        set.add(CORE_10307);
-
-        if (version > 1) {
-          set.add(CORE_10308);
-        }
-
-      }
-
       break;
     case MATHML_CONSISTENCY:
+      if (level > 1) {
+        addRangeToSet(set, CORE_10208, CORE_10219);
+        set.add(CORE_10221);
+        set.add(CORE_10222);
+      }
+
       break;
     case MODELING_PRACTICE:
       break;
@@ -71,6 +71,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
+
   }
 
 
@@ -82,51 +83,46 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName) {
+    // TODO Auto-generated method stub
 
   }
 
 
   /*
    * (non-Javadoc)
-   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
+   * @see
+   * org.sbml.jsbml.validator.offline.constraints.AbstractConstraintDeclaration#
    * getValidationFunction(int)
    */
   @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<SBase> func = null;
+  protected ValidationFunction<?> getValidationFunction(int errorCode) {
+    ValidationFunction<MathContainer> func = null;
 
     switch (errorCode) {
-    case CORE_10307:
-      func = new ValidationFunction<SBase>() {
+    case CORE_10217:
+      func = new ValidationFunction<MathContainer>() {
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("deprecation")
         @Override
-        public boolean check(ValidationContext ctx, SBase sb) {
+        public boolean check(ValidationContext ctx, MathContainer mc) {
 
-          Object o = ctx.getHashMap().get(ValidationTools.KEY_META_ID_SET);
-          Set<String> metaIds;
-
-          if (o != null && o instanceof Set) {
-            metaIds = (Set<String>) o;
-          } else {
-            metaIds = new HashSet<String>();
-            ctx.getHashMap().put(ValidationTools.KEY_META_ID_SET, metaIds);
+          if (mc.isSetMath()) {
+            // ASTNode must return a number
+            if (mc instanceof KineticLaw || mc instanceof StoichiometryMath
+              || mc instanceof SimpleSpeciesReference
+              || mc instanceof InitialAssignment || mc instanceof Delay
+              || mc instanceof EventAssignment || mc instanceof Rule) {
+              return mc.getMath().isNumber();
+            }
           }
 
-          return metaIds.add(sb.getMetaId());
+          return true;
         }
       };
+      break;
 
-    case CORE_10308:
-      func = new ValidationFunction<SBase>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, SBase sb) {
-          // TODO Auto-generated method stub
-          return ValidationTools.isSboTerm(sb.getSBOTermID());
-        }
-      };
     }
+
     return func;
   }
 

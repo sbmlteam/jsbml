@@ -27,7 +27,8 @@ import java.util.Set;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * ConstraintDeclaration for Compartment class
@@ -216,14 +217,14 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
             String unit = c.getUnits();
             UnitDefinition def = c.getUnitsInstance();
 
-            boolean isLength = ValidationContext.isLength(unit, def);
+            boolean isLength = ValidationTools.isLength(unit, def);
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
               return isLength;
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationContext.isDimensionless(unit);
+              boolean isDimensionless = ValidationTools.isDimensionless(unit);
 
               return isDimensionless || isLength;
             }
@@ -244,14 +245,14 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
             UnitDefinition def = c.getUnitsInstance();
 
 
-            boolean isArea = ValidationContext.isArea(unit, def);
+            boolean isArea = ValidationTools.isArea(unit, def);
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
               return isArea;
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationContext.isDimensionless(unit);
+              boolean isDimensionless = ValidationTools.isDimensionless(unit);
 
               return isDimensionless || isArea;
             }
@@ -272,14 +273,14 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
             UnitDefinition def = c.getUnitsInstance();
 
 
-            boolean isVolume = ValidationContext.isVolume(unit, def);
+            boolean isVolume = ValidationTools.isVolume(unit, def);
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
               return isVolume;
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationContext.isDimensionless(unit);
+              boolean isDimensionless = ValidationTools.isDimensionless(unit);
 
               return isDimensionless || isVolume;
             }
