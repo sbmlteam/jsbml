@@ -37,6 +37,7 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.validator.OverdeterminationValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.CycleDetectionTreeNode;
@@ -77,13 +78,14 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       break;
     case IDENTIFIER_CONSISTENCY:
       addRangeToSet(set, CORE_10301, CORE_10304);
-      
+
       break;
     case MATHML_CONSISTENCY:
       break;
     case MODELING_PRACTICE:
       break;
     case OVERDETERMINED_MODEL:
+      set.add(CORE_10601);
       break;
     case SBO_CONSISTENCY:
       break;
@@ -195,96 +197,106 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         }
 
       };
-      
+
     case CORE_10302:
       func = new UniqueValidation<Model, String>() {
+
         @Override
         public String getNextObject(ValidationContext ctx, Model m, int n) {
-          
+
           return m.getUnitDefinition(n).getId();
         }
+
+
         @Override
         public int getNumObjects(ValidationContext ctx, Model m) {
           return m.getNumUnitDefinitions();
         }
       };
-      
+
     case CORE_10303:
       func = new UniqueValidation<Model, String>() {
+
         @Override
         public int getNumObjects(ValidationContext ctx, Model m) {
           int count = 0;
-          
-          for (Reaction r : m.getListOfReactions())
-          {
+
+          for (Reaction r : m.getListOfReactions()) {
             count += r.getKineticLaw().getNumLocalParameters();
           }
-          
+
           return count;
         }
-        
+
+
         @Override
         public String getNextObject(ValidationContext ctx, Model m, int n) {
           int offset = 0;
-          
-          for (Reaction r : m.getListOfReactions())
-          {
+
+          for (Reaction r : m.getListOfReactions()) {
             int num = r.getKineticLaw().getNumLocalParameters();
-            
-            if (n < offset + num)
-            {
+
+            if (n < offset + num) {
               return r.getKineticLaw().getLocalParameter(n - offset).getId();
             }
-            
+
             offset += num;
           }
-          
+
           return null;
         }
       };
-      
+
     case CORE_10304:
       func = new UniqueValidation<Model, String>() {
+
         @Override
         public int getNumObjects(ValidationContext ctx, Model m) {
           int count = 0;
-          
-          for (Rule r: m.getListOfRules())
-          {
-            if (r instanceof ExplicitRule)
-            {
+
+          for (Rule r : m.getListOfRules()) {
+            if (r instanceof ExplicitRule) {
               count++;
             }
           }
-          
+
           return count;
         }
-        
+
+
         @Override
         public String getNextObject(ValidationContext ctx, Model m, int n) {
-          
+
           int count = 0;
-          
-          for (Rule r: m.getListOfRules())
-          {
-            if (r instanceof ExplicitRule)
-            {
-              if (count == n)
-              {
-                return ((ExplicitRule)r).getVariable();
-              }
-              else
-              {
+
+          for (Rule r : m.getListOfRules()) {
+            if (r instanceof ExplicitRule) {
+              if (count == n) {
+                return ((ExplicitRule) r).getVariable();
+              } else {
                 count++;
               }
             }
           }
-          
+
           return null;
         }
       };
+      break;
+
+    case CORE_10601:
+      func = new ValidationFunction<Model>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          OverdeterminationValidator val = new OverdeterminationValidator(m);
+          
+          return val.isOverdetermined();
+        }
+      };
+      break;
       
-    
     case CORE_20203:
       func = new ValidationFunction<Model>() {
 
