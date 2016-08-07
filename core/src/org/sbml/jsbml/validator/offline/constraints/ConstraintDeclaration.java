@@ -129,15 +129,4 @@ public interface ConstraintDeclaration {
    * @see #createConstraint(int)
    */
   abstract public <T> AnyConstraint<T> createConstraint(int errorCode);
-
-
-  /**
-   * Returns the {@link ValidationFunction} of the error code, if it's defined
-   * in this {@link ConstraintDeclaration}
-   * 
-   * @param errorCode
-   * @return the {@link ValidationFunction} or <code>null</code> if not defined
-   *         in this {@link ConstraintDeclaration}
-   */
-  abstract public ValidationFunction<?> getValidationFunction(int errorCode);
 }
