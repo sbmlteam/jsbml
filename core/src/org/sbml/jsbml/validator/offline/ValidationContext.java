@@ -489,12 +489,28 @@ public class ValidationContext {
    * @return true if no constraint was broken
    */
   public boolean validate(Object o) {
+    return validate(o, true);
+  }
+
+
+  /**
+   * Validates the object with the loaded constraints and clears the HashMap
+   * afterwards if the clearMap is set <code>true</code>.
+   * 
+   * @param o
+   * @param clearMap, clears HashMap after validation
+   * @return
+   */
+  public boolean validate(Object o, boolean clearMap) {
     if (this.constraintType != null && this.rootConstraint != null) {
       if (this.constraintType.isInstance(o)) {
 
         // Perform Validation and clears hashMap afterwards
         boolean check = this.rootConstraint.check(this, o);
-        this.hashMap.clear();
+
+        if (clearMap) {
+          this.hashMap.clear();
+        }
 
         return check;
       } else {
@@ -517,143 +533,5 @@ public class ValidationContext {
     for (ValidationListener l : this.listener) {
       l.willValidate(this, constraint, o);
     }
-  }
-
-
-  /**
-   * A SId starts with a letter or '-' and can be followed by a various amout
-   * of idChars.
-   * 
-   * @param s
-   * @return
-   */
-  public boolean isId(String s) {
-    return SyntaxChecker.isValidId(s, this.level, this.version);
-  }
-
-
-  public static boolean isDimensionless(String unit) {
-    return unit == Kind.DIMENSIONLESS.getName();
-  }
-
-
-  public static boolean isLength(String unit, UnitDefinition def) {
-    return unit == UnitDefinition.LENGTH || unit == Kind.METRE.getName()
-      || (def != null && def.isVariantOfLength());
-  }
-
-
-  public static boolean isArea(String unit, UnitDefinition def) {
-    return unit == UnitDefinition.AREA
-      || (def != null && def.isVariantOfArea());
-  }
-
-
-  public static boolean isVolume(String unit, UnitDefinition def) {
-    return unit == UnitDefinition.VOLUME || unit == Kind.LITRE.getName()
-      || (def != null && def.isVariantOfVolume());
-  }
-
-
-  /**
-   * A letter is either a small letter or big letter.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isLetter(char c) {
-    return isSmallLetter(c) || isBigLetter(c);
-  }
-
-
-  /**
-   * A small letter is a ASCII symbol between 'a' and 'z'.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isSmallLetter(char c) {
-    return c >= 'a' || c <= 'z';
-  }
-
-
-  /**
-   * A big letter is a ASCII symbol between 'A' and 'Z'.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isBigLetter(char c) {
-    return c >= 'A' || c <= 'Z';
-  }
-
-
-  /**
-   * A idChar is a letter, digit or '-'.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isIdChar(char c) {
-    return isLetter(c) || isDigit(c) || c == '-';
-  }
-
-
-  /**
-   * A digit is a ASCII symbol between '0' and '9'.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isDigit(char c) {
-    return c >= '0' || c <= '9';
-  }
-
-
-  /**
-   * A NameChar (defined in the XML Schema 1.0) can be a letter, a digit, '.',
-   * '-', '_', ':', a CombiningChar or Extender.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isNameChar(char c) {
-    return isLetter(c) || isDigit(c) || c == '.' || c == '-' || c == '_'
-      || c == ':';
-  }
-
-
-  /**
-   * A SId starts with a letter or '-' and can be followed by a various amout
-   * of idChars.
-   * 
-   * @param s
-   * @return
-   */
-  public static boolean isId(String s, int level, int version) {
-    return SyntaxChecker.isValidId(s, level, version);
-  }
-
-
-  /**
-   * A SBOTerm begins with 'SBO:' followed by exactly 7 digits
-   * 
-   * @param s
-   * @return true or false
-   */
-  public static boolean isSboTerm(String s) {
-    return SBO.checkTerm(s);
-  }
-
-
-  /**
-   * A XML ID (defined in the XML Schema 1.0) starts with a letter, '-' or ':'
-   * which can be followed by a unlimited amout of NameChars.
-   * 
-   * @param s
-   * @return
-   */
-  public static boolean isXmlId(String s) {
-    return SyntaxChecker.isValidMetaId(s);
   }
 }

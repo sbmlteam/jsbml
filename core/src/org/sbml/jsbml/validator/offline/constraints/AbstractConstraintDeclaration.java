@@ -230,4 +230,14 @@ implements ConstraintDeclaration, SBMLErrorCodes {
     String className = thisName.substring(0, thisName.length() - removeWord.length());
     AbstractConstraintDeclaration.cache.put(className + errorCode, ref);
   }
+  
+  /**
+   * Returns the {@link ValidationFunction} of the error code, if it's defined
+   * in this {@link ConstraintDeclaration}
+   * 
+   * @param errorCode
+   * @return the {@link ValidationFunction} or <code>null</code> if not defined
+   *         in this {@link ConstraintDeclaration}
+   */
+  abstract protected ValidationFunction<?> getValidationFunction(int errorCode);
 }
