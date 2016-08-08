@@ -239,5 +239,5 @@ implements ConstraintDeclaration, SBMLErrorCodes {
    * @return the {@link ValidationFunction} or <code>null</code> if not defined
    *         in this {@link ConstraintDeclaration}
    */
-  abstract protected ValidationFunction<?> getValidationFunction(int errorCode);
+  abstract public ValidationFunction<?> getValidationFunction(int errorCode);
 }

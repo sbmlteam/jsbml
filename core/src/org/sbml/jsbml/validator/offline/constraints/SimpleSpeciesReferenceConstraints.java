@@ -25,7 +25,8 @@ import java.util.Set;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
 
 /**
  * @author Roman
@@ -73,6 +74,10 @@ public class SimpleSpeciesReferenceConstraints
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10708);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -81,11 +86,13 @@ public class SimpleSpeciesReferenceConstraints
 
 
   @Override
-  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<SimpleSpeciesReference> func = null;
 
     switch (errorCode) {
+    case CORE_10708:
+      return SBOValidationConstraints.isParticipantRole;
+      
     case CORE_20611:
       func = new ValidationFunction<SimpleSpeciesReference>() {
 

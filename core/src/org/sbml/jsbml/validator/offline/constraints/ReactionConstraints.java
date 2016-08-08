@@ -33,6 +33,7 @@ import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
@@ -76,6 +77,10 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10707);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -89,6 +94,9 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<Reaction> func = null;
 
     switch (errorCode) {
+    case CORE_10707:
+      return SBOValidationConstraints.isInteraction;
+      
     case CORE_21101:
       func = new ValidationFunction<Reaction>() {
 

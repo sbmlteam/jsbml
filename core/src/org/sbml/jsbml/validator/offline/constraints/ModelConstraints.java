@@ -35,12 +35,14 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.OverdeterminationValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.CycleDetectionTreeNode;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;;
 
 /**
@@ -88,6 +90,11 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       set.add(CORE_10601);
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10701);
+      }
+      
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -297,6 +304,9 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       };
       break;
       
+    case CORE_10701:
+      return SBOValidationConstraints.isInteraction;
+      
     case CORE_20203:
       func = new ValidationFunction<Model>() {
 
@@ -442,7 +452,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
-
+      break;
     }
 
     return func;

@@ -1,6 +1,6 @@
 /*
- * $IdLocalParametersConstraints.java 22:56:03 roman $
- * $URLLocalParametersConstraints.java $
+ * $IdRuleConstraints.java 17:41:51 roman $
+ * $URLRuleConstraints.java $
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -23,18 +23,17 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.LocalParameter;
-import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 
 
 /**
  * @author Roman
  * @since 1.2
- * @date 07.08.2016
+ * @date 08.08.2016
  */
-public class LocalParameterConstraints extends AbstractConstraintDeclaration {
+public class RuleConstraints extends AbstractConstraintDeclaration {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForCheck(java.util.Set, int, int, org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
@@ -42,7 +41,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-    // TODO Auto-generated method stub
+    
     switch (category) {
     case GENERAL_CONSISTENCY:
       break;
@@ -55,6 +54,10 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10705);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -78,34 +81,12 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
    */
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<LocalParameter> func = null;
+    ValidationFunction<Rule> func = null;
     
     switch (errorCode) {
-    case CORE_81121:
-      func = new ValidationFunction<LocalParameter>() {
-        
-        
-        @Override
-        public boolean check(ValidationContext ctx, LocalParameter lp) {
-          
-          Model m = lp.getModel();
-          
-          if (m != null)
-          {
-            String id = lp.getId();
-            
-            // ID should't be used by anything else
-            return m.getFunctionDefinition(id) == null &&
-                m.getCompartment(id) == null &&
-                m.getSpecies(id) == null &&
-                m.getParameter(id) == null &&
-                m.getReaction(id) == null;
-          }
-          
-          return true;
-        }
-      };
-      break;
+    case CORE_10705:
+      return SBOValidationConstraints.isMathematicalExpression;
+
     }
     
     return func;

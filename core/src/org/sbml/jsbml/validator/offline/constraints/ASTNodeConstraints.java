@@ -418,7 +418,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
         private final Set<ASTNode.Type> unaries  = getUnaryTypes();
         private final Set<ASTNode.Type> binaries = getBinaryTypes();
-
+        private final Set<ASTNode.Type> relations = getRelationTypes();
 
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
@@ -440,6 +440,11 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           // Can have one or two children
           else if (type == Type.FUNCTION_ROOT || type == Type.MINUS) {
             return node.getNumChildren() == 1 || node.getNumChildren() == 2;
+          }
+          // In MathML 2 these types must have at least 2 children
+          else if (relations.contains(type))
+          {
+            return node.getNumChildren() > 1;
           }
           // Special case before l2v4
           else if (type == Type.FUNCTION
@@ -471,7 +476,16 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           return set;
         }
 
-
+        private Set<ASTNode.Type> getRelationTypes() {
+          Set<ASTNode.Type> set = new HashSet<ASTNode.Type>();
+          set.add(ASTNode.Type.RELATIONAL_EQ);
+          set.add(ASTNode.Type.RELATIONAL_GEQ);
+          set.add(ASTNode.Type.RELATIONAL_GT);
+          set.add(ASTNode.Type.RELATIONAL_LT);
+          set.add(ASTNode.Type.RELATIONAL_LEQ);
+          
+          return set;
+        }
         private Set<ASTNode.Type> getUnaryTypes() {
           Set<ASTNode.Type> set = new HashSet<ASTNode.Type>();
 

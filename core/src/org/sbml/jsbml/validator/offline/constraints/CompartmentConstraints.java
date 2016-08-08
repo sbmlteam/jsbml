@@ -31,6 +31,7 @@ import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
@@ -81,6 +82,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 2) || level > 2)
+      {
+        set.add(CORE_10712);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -100,6 +105,9 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     ValidationFunction<Compartment> func = null;
 
     switch (errorCode) {
+    case CORE_10712:
+      return SBOValidationConstraints.isMaterialEntity;
+      
     case CORE_20501:
 
       func = new ValidationFunction<Compartment>() {
