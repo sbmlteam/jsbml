@@ -22,15 +22,14 @@
 
 package org.sbml.jsbml.validator.offline;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
-import org.sbml.jsbml.validator.offline.factory.CheckCategory;
+import org.sbml.jsbml.validator.offline.constraints.CoreSpecialErrorCodes;
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
 
 /**
@@ -57,14 +56,13 @@ public class LoggingValidationContext extends ValidationContext
 
 
   public LoggingValidationContext(int level, int version) {
-    this(level, version, null, new HashSet<CheckCategory>());
+    this(level, version, null, new HashSet<CHECK_CATEGORY>());
     this.addValidationListener(this);
-    // TODO Auto-generated constructor stub
   }
 
 
   public LoggingValidationContext(int level, int version,
-    AnyConstraint<Object> rootConstraint, Set<CheckCategory> categories) {
+    AnyConstraint<Object> rootConstraint, Set<CHECK_CATEGORY> categories) {
     super(level, version, rootConstraint, categories);
     log = new SBMLErrorLog();
   }
@@ -87,6 +85,12 @@ public class LoggingValidationContext extends ValidationContext
 
 
   private void logFailure(int id) {
+    
+    if (id == CoreSpecialErrorCodes.ID_GROUP || id == CoreSpecialErrorCodes.ID_VALIDATE_TREE_NODE)
+    {
+      return;
+    }
+    
     logger.debug("Constraint " + id + " is broken!");
     
     // Try to create the SBMLError from the .json file

@@ -22,49 +22,60 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
+import org.sbml.jsbml.StoichiometryMath;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;;
 
-public final class L3V1CoreConstraintList extends AbstractConstraintList
-implements SBMLErrorCodes {
+/**
+ * @author Roman
+ * @since 1.2
+ * @date 04.08.2016
+ */
+public class StoichiometryMathConstraints
+extends AbstractConstraintDeclaration {
 
-  public static void addGeneralSBMLDocumentErrorCodes(Set<Integer> list) {
-   
+  @Override
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
   }
 
 
-  public static void addGeneralModelErrorCodes(Set<Integer> list) {
-    addRangeToList(list, CORE_20204, CORE_20232);
-    list.add(CORE_20705);
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category) {
+    switch (category) {
+    case GENERAL_CONSISTENCY:
+      if (level == 2) {
+        set.add(CORE_21131);
+      }
+      break;
+    case IDENTIFIER_CONSISTENCY:
+      break;
+    case MATHML_CONSISTENCY:
+      break;
+    case MODELING_PRACTICE:
+      break;
+    case OVERDETERMINED_MODEL:
+      break;
+    case SBO_CONSISTENCY:
+      break;
+    case UNITS_CONSISTENCY:
+      break;
+    }
   }
 
 
-  public static void addGeneralFunctionDefinitionErrorCodes(Set<Integer> list) {
-    list.add(CORE_20301);
-    addRangeToList(list, CORE_20303, CORE_20307);
+  @Override
+  @SuppressWarnings("deprecation")
+  public ValidationFunction<?> getValidationFunction(int errorCode) {
+    ValidationFunction<StoichiometryMath> func = null;
+
+    switch (errorCode) {
+    case CORE_21131:
+
+    }
+
+    return func;
   }
-
-
-  public static void addGeneralCompartmentErrorCodes(Set<Integer> list) {
-    addRangeToList(list, CORE_20507, CORE_20509);
-    list.add(CORE_20517);
-  }
-
-
-  public static void addGeneralSpeciesErrorCodes(Set<Integer> list) {
-    list.add(CORE_20601);
-    addRangeToList(list, CORE_20608, CORE_20610);
-    list.add(CORE_20614);
-    list.add(CORE_20617);
-    list.add(CORE_20623);
-  }
-
-
-  public static void addGeneralSpeciesReferenceErrorCodes(Set<Integer> list) {
-    list.add(CORE_20611);
-  }
-  
-  public static void addSizeCompartmentErrorCodes(Set<Integer> set) {
-    set.add(CORE_20501);
-  }
-
 }

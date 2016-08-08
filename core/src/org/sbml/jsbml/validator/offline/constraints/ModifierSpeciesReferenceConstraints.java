@@ -20,19 +20,64 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.Set;
+
+import org.sbml.jsbml.ModifierSpeciesReference;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+
 /**
- * Some ErrorCodes which are not officially part of SBML and only are used for
- * offline validation. In general, there arn't SBMLError objects for this codes,
- * because they are only used for special cases.
- * 
  * @author Roman
  * @since 1.2
  * @date 04.08.2016
  */
-public interface CoreSpecialErrorCodes {
+public class ModifierSpeciesReferenceConstraints
+  extends AbstractConstraintDeclaration {
 
-  public static final int ID_GROUP              = 1;
+  @Override
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
 
-  public static final int ID_VALIDATE_TREE_NODE = 0;
+  }
 
+
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category) {
+
+    switch (category) {
+    case GENERAL_CONSISTENCY:
+
+      if (level == 3) {
+        set.add(CORE_21117);
+      }
+      break;
+    case IDENTIFIER_CONSISTENCY:
+      break;
+    case MATHML_CONSISTENCY:
+      break;
+    case MODELING_PRACTICE:
+      break;
+    case OVERDETERMINED_MODEL:
+      break;
+    case SBO_CONSISTENCY:
+      break;
+    case UNITS_CONSISTENCY:
+      break;
+    }
+  }
+
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public ValidationFunction<?> getValidationFunction(int errorCode) {
+    ValidationFunction<ModifierSpeciesReference> func = null;
+
+    switch (errorCode) {
+    case CORE_20611:
+
+    }
+
+    return func;
+  }
 }
