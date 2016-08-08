@@ -182,11 +182,10 @@ public class ValidationContext {
    * @param clazz
    */
   public void loadConstraints(Class<?> clazz) {
-    this.constraintType = clazz;
     ConstraintFactory factory = ConstraintFactory.getInstance();
     ConstraintGroup<Object> group = factory.getConstraintsForClass(clazz, this);
 
-    this.rootConstraint = group;
+    this.setRootConstraint(group, clazz);
   }
 
 
@@ -232,10 +231,11 @@ public class ValidationContext {
     String attributeName) {
     ConstraintFactory factory = ConstraintFactory.getInstance();
 
-    this.constraintType = clazz;
-    this.rootConstraint =
+    AnyConstraint<Object> c =
       (AnyConstraint<Object>) factory.getConstraintsForAttribute(attributeName,
         clazz, this.level, this.version);
+
+    this.setRootConstraint(c, clazz);
   }
 
 
@@ -453,6 +453,8 @@ public class ValidationContext {
 
   public void setRootConstraint(AnyConstraint<Object> rootConstraint,
     Class<?> constraintType) {
+
+    logger.debug("Set type to " + constraintType.getSimpleName());
     this.rootConstraint = rootConstraint;
     this.constraintType = constraintType;
   }
@@ -498,7 +500,8 @@ public class ValidationContext {
    * afterwards if the clearMap is set <code>true</code>.
    * 
    * @param o
-   * @param clearMap, clears HashMap after validation
+   * @param clearMap,
+   *        clears HashMap after validation
    * @return
    */
   public boolean validate(Object o, boolean clearMap) {

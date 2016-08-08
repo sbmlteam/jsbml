@@ -253,7 +253,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, ASTNode node) {
 
           // If is piecewise...
-          if (node.isPiecewise()) {
+          if (node.isPiecewise() && node.getNumChildren() > 0) {
 
             byte dt = ValidationTools.getDataType(node.getLeftChild());
 
@@ -281,10 +281,16 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, ASTNode node) {
 
           // If is piecewise...
-          if (node.getType() == Type.CONSTRUCTOR_PIECE) {
-            ASTNode condition = node.getRightChild();
-
-            return condition != null && condition.isBoolean();
+          if (node.getType() == Type.FUNCTION_PIECEWISE) {
+            
+            // every second node must be a condition and therefore return a boolean
+            for (int i = 1; i < node.getNumChildren(); i += 2)
+            {
+              if (!node.getChild(i).isBoolean())
+              {
+                return false;
+              }
+            }
           }
 
           return true;
@@ -401,7 +407,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
                 KineticLaw kl = (KineticLaw) parent;
 
-                return kl.getLocalParameter(name) != null;
+                return kl.getLocalParameter(name) == null;
 
               }
             }
@@ -414,6 +420,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_10218:
+      ASTNodeConstraints cd = this;
       func = new ValidationFunction<ASTNode>() {
 
         private final Set<ASTNode.Type> unaries  = getUnaryTypes();
@@ -435,7 +442,32 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           }
           // Can't be empty
           else if (type == Type.FUNCTION_PIECEWISE) {
-            return node.getNumChildren() > 0;
+            if (node.getNumChildren() > 0)
+            {
+              // check if there is always a number followed by a boolean
+              boolean shouldBeNumber = true;
+              
+              for (ASTNode child:node.getListOfNodes())
+              {
+                // Should be number but isn't
+                if (shouldBeNumber == !child.isNumber())
+                {
+                  return false;
+                }
+                // Must be a boolean
+                else if (!child.isBoolean())
+                {
+                  return false;
+                }
+                
+                // Flip boolean
+                shouldBeNumber = !shouldBeNumber;
+              }
+            }
+            else
+            {
+              return false;
+            }
           }
           // Can have one or two children
           else if (type == Type.FUNCTION_ROOT || type == Type.MINUS) {
@@ -471,7 +503,6 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           set.add(ASTNode.Type.FUNCTION_DELAY);
           set.add(ASTNode.Type.FUNCTION_POWER);
           set.add(ASTNode.Type.FUNCTION_LOG);
-          set.add(ASTNode.Type.CONSTRUCTOR_PIECE);
 
           return set;
         }
@@ -489,7 +520,6 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         private Set<ASTNode.Type> getUnaryTypes() {
           Set<ASTNode.Type> set = new HashSet<ASTNode.Type>();
 
-          set.add(ASTNode.Type.CONSTRUCTOR_OTHERWISE);
           set.add(ASTNode.Type.FUNCTION_ABS);
           set.add(ASTNode.Type.FUNCTION_EXP);
           set.add(ASTNode.Type.FUNCTION_LN);
@@ -546,8 +576,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             if (m != null) {
               FunctionDefinition fd = m.getFunctionDefinition(node.getName());
 
-              if (fd != null && fd.isSetMath()) {
-                return node.getNumChildren() == fd.getMath().getNumChildren();
+              if (fd != null) {
+                return node.getNumChildren() == fd.getArgumentCount();
               }
             }
           }
@@ -570,7 +600,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
             String units = node.getUnits();
 
-            if (!units.isEmpty()) {
+            if (units != null && !units.isEmpty()) {
               // Checks if the unit is predefined or defined in the model
               if (!(Unit.isUnitKind(units, ctx.getLevel(), ctx.getVersion()))
                 && node.getUnitsInstance() == null) {
