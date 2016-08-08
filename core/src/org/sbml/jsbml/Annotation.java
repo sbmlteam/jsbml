@@ -24,7 +24,6 @@ package org.sbml.jsbml;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;

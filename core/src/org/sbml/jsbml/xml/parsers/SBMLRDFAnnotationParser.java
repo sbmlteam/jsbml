@@ -955,7 +955,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         CVTerm.Qualifier qualifier = CVTerm.Qualifier.getModelQualifierFor(bqmodelNode.getName());
         CVTerm cvTerm = new CVTerm(CVTerm.Type.MODEL_QUALIFIER, qualifier, resources.toArray(new String[resources.size()]));
         cvTerm.putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
-        
+
         if (contextSBase instanceof SBase) {
           ((SBase) contextSBase).addCVTerm(cvTerm);
         } else if (contextSBase instanceof CVTerm) {
@@ -1011,7 +1011,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         CVTerm.Qualifier qualifier = CVTerm.Qualifier.getBiologicalQualifierFor(bqbiolNode.getName());
         CVTerm cvTerm = new CVTerm(CVTerm.Type.BIOLOGICAL_QUALIFIER, qualifier, resources.toArray(new String[resources.size()]));
         cvTerm.putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
-        
+
         if (contextSBase instanceof SBase) {
           ((SBase) contextSBase).addCVTerm(cvTerm);
         } else if (contextSBase instanceof CVTerm) {
@@ -1087,14 +1087,14 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
      * contains only spaces.
      */
     public int getNumberOfNonEmptyChildElement(XMLNode xmlNode) {
-      
+
       if (xmlNode == null) {
         return 0;
       }
-      
+
       int nbChildElements = xmlNode.getChildCount();
       int nbRealChildElements = 0;
-      
+
       if (nbChildElements > 0)
       {
 
@@ -1109,7 +1109,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
           nbRealChildElements++;
         }
       }
-      
+
       return nbRealChildElements;
     }
 
@@ -1126,14 +1126,14 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       {
         return null;
       }
-      
+
       // if we want to add a created date or modified date automatically, it would need to be done at the level of the writer, before calling this method.
 
       // gets or creates the RDF and Description XMLNode
       if (annotationXMLNode == null) {
         annotationXMLNode = new XMLNode(new XMLTriple("annotation"), new XMLAttributes());
       }
-      
+
       XMLNode rdfNode = getOrCreate(annotationXMLNode, "RDF", Annotation.URI_RDF_SYNTAX_NS, "rdf");
       rdfNode.addNamespace(Annotation.URI_RDF_SYNTAX_NS, "rdf");
 
@@ -1234,7 +1234,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       List<XMLNode> descriptionNodes = rdfNode.getChildElements("Description", Annotation.URI_RDF_SYNTAX_NS);
       XMLNode descriptionNode = null;
 
-      if (descriptionNodes != null && descriptionNodes.size() > 0)
+      if ((descriptionNodes != null) && (descriptionNodes.size() > 0))
       {
         descriptionNode = descriptionNodes.get(0);
 
@@ -1682,12 +1682,12 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
             precedingElementNamespaceURI = JSBML.URI_PURL_ELEMENTS;
           }
         }
-        
+
         int i = contextObject.getAnnotation().getListOfCVTerms().size() - 1;
         for (; i >= 0; i--)
         {
           CVTerm cvterm = contextObject.getCVTerm(i);
-          
+
           writeCVTerm(cvterm, descriptionNode, precedingElementName, precedingElementNamespaceURI);
         }
       }
@@ -1708,7 +1708,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         int i = currentCVTerm.getListOfNestedCVTerms().size() - 1;
         for (; i >= 0; i--)
         {
-          CVTerm cvterm = currentCVTerm.getNestedCVTerm(i);          
+          CVTerm cvterm = currentCVTerm.getNestedCVTerm(i);
           writeCVTerm(cvterm, parentNode, precedingElementName, precedingElementNamespaceURI);
         }
       }
@@ -1720,13 +1720,13 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
      * @param precedingElementName
      * @param precedingElementNamespaceURI
      */
-    private void writeCVTerm(CVTerm cvterm, XMLNode parentNode, 
-        String precedingElementName, String precedingElementNamespaceURI) 
+    private void writeCVTerm(CVTerm cvterm, XMLNode parentNode,
+      String precedingElementName, String precedingElementNamespaceURI)
     {
       XMLNode qualifierNode = null;
 
       int trueIndex = -1;
-      
+
       if (precedingElementName != null) {
         trueIndex = getLastIndexOf(parentNode, precedingElementName, precedingElementNamespaceURI);
       }
@@ -1744,7 +1744,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       }
 
       qualifierNode = getOrCreateWithCustomRDF(parentNode, trueIndex, cvterm.getQualifier().getElementNameEquivalent(),
-          cvtermURI, cvtermPrefix, cvterm.getUserObject(CUSTOM_RDF));
+        cvtermURI, cvtermPrefix, cvterm.getUserObject(CUSTOM_RDF));
 
       XMLNode bagNode = getOrCreate(qualifierNode, "Bag", Annotation.URI_RDF_SYNTAX_NS, "rdf");
 
@@ -1757,9 +1757,9 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
         liIndex++;
       }
-      
+
       // write nested annotations
       writeURIs(cvterm, bagNode);
     }
-    
+
 }
