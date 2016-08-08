@@ -26,8 +26,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.validator.offline.SBMLPackage;
-import org.sbml.jsbml.validator.offline.ValidationContext;
 
 /**
  * Represents the compartment in a model, i.e., a variable element with name,
@@ -730,8 +728,17 @@ public class Compartment extends Symbol {
 
     String oldCompartmentTypeID = this.compartmentTypeID;
     this.compartmentTypeID = compartmentTypeID;
-    firePropertyChange(TreeNodeChangeEvent.compartmentType,
-      oldCompartmentTypeID, this.compartmentTypeID);
+    
+    if (checkAttribute(TreeNodeChangeEvent.compartmentType))
+    {
+      firePropertyChange(TreeNodeChangeEvent.compartmentType,
+        oldCompartmentTypeID, this.compartmentTypeID);
+    }
+    else
+    {
+      this.compartmentTypeID = oldCompartmentTypeID;
+    }
+    
   }
 
 
