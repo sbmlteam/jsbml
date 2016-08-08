@@ -26,6 +26,7 @@ import org.sbml.jsbml.Event;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;;
 
 /**
@@ -77,6 +78,10 @@ public class EventConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10710);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -104,6 +109,11 @@ public class EventConstraints extends AbstractConstraintDeclaration {
         }
         
       };
+      break;
+      
+    case CORE_10710:
+      return SBOValidationConstraints.isInteraction;
+      
     case CORE_21201:
 
       func = new ValidationFunction<Event>() {

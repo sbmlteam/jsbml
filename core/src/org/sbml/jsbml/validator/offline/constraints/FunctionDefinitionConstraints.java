@@ -32,7 +32,8 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
 
 /**
  * 
@@ -79,6 +80,10 @@ extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10702);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -126,6 +131,10 @@ extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      
+    case CORE_10702:
+      return SBOValidationConstraints.isMathematicalExpression;
+      
     case CORE_20301:
       func = new ValidationFunction<FunctionDefinition>() {
 

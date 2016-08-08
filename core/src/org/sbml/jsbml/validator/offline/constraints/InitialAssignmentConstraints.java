@@ -28,7 +28,8 @@ import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
 
 /**
  * @author Roman
@@ -67,6 +68,10 @@ extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if (level > 2 || (level == 2 && version > 1))
+      {
+        set.add(CORE_10704);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -80,6 +85,9 @@ extends AbstractConstraintDeclaration {
     ValidationFunction<InitialAssignment> func = null;
 
     switch (errorCode) {
+    case CORE_10704:
+      return SBOValidationConstraints.isMathematicalExpression;
+      
     case CORE_20801:
       func = new ValidationFunction<InitialAssignment>() {
 

@@ -26,6 +26,7 @@ import java.util.Set;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
@@ -75,6 +76,10 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10709);
+      }
       break;
     case UNITS_CONSISTENCY:
       if (level == 1)
@@ -103,6 +108,9 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
+    case CORE_10709:
+      return SBOValidationConstraints.isRateLaw;
+      
     case CORE_21125:
       func = new ValidationFunction<KineticLaw>() {
 

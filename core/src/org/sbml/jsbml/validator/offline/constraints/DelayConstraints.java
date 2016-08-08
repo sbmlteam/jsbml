@@ -24,7 +24,8 @@ import java.util.Set;
 
 import org.sbml.jsbml.Delay;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
 
 /**
  * @author Roman
@@ -60,6 +61,10 @@ public class DelayConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 2) || level > 2)
+      {
+        set.add(CORE_10717);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -74,6 +79,9 @@ public class DelayConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<Delay> func = null;
 
     switch (errorCode) {
+    case CORE_10717:
+      return SBOValidationConstraints.isMathematicalExpression;
+      
     case CORE_21210:
       func = new ValidationFunction<Delay>() {
 
