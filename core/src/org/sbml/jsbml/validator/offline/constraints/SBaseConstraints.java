@@ -23,7 +23,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ontology.Term;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
@@ -67,6 +69,13 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      
+      if (level > 2 || (level == 2 && version > 1))
+      {
+        set.add(CORE_99701);
+        set.add(CORE_99702);
+      }
+      
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -126,6 +135,40 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
           return ValidationTools.isSboTerm(sb.getSBOTermID());
         }
       };
+      break;
+      
+    case CORE_99701:
+      func = new ValidationFunction<SBase>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SBase sb) {
+          
+          if (sb.isSetSBOTerm())
+          {
+            return ValidationTools.isSboTerm(sb.getSBOTermID());
+          }
+          
+          return false;
+        }
+      };
+      break;
+      
+    case CORE_99702:
+      func = new ValidationFunction<SBase>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SBase sb) {
+          
+          if (sb.isSetSBOTerm())
+          {
+            
+            return SBO.isObsolete(sb.getSBOTerm());
+          }
+          
+          return false;
+        }
+      };
+      break;
     }
     return func;
   }

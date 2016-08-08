@@ -34,6 +34,7 @@ import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
@@ -101,6 +102,12 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         set.add(CORE_80601);
       }
       break;
+    case SBO_CONSISTENCY:
+      if ((level == 2 && version > 2) || level > 2)
+      {
+        set.add(CORE_10713);
+      }
+      break;
     }
   }
 
@@ -112,6 +119,9 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
     ValidationFunction<Species> func = null;
 
     switch (errorCode) {
+    case CORE_10713:
+      return SBOValidationConstraints.isMaterialEntity;
+      
     case CORE_20601:
       func = new ValidationFunction<Species>() {
         @Override

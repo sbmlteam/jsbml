@@ -25,7 +25,8 @@ import java.util.Set;
 
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
 
 /**
  * @author Roman
@@ -65,6 +66,10 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 2) || level > 2)
+      {
+        set.add(CORE_10716);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -78,6 +83,9 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<Trigger> func = null;
 
     switch (errorCode) {
+    case CORE_10716:
+      return SBOValidationConstraints.isMathematicalExpression;
+      
     case CORE_21202:
       func = new ValidationFunction<Trigger>() {
 

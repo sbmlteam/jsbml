@@ -28,7 +28,8 @@ import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
 
 /**
  * @author Roman
@@ -74,6 +75,10 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10703);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -87,6 +92,9 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<Parameter> func = null;
 
     switch (errorCode) {
+    case CORE_10703:
+      return SBOValidationConstraints.isQuantitativeParameter;
+      
     case CORE_20412:
       func = new ValidationFunction<Parameter>() {
 

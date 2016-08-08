@@ -93,7 +93,7 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
    * getValidationFunction(int)
    */
   @Override
-  protected ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<MathContainer> func = null;
 
     switch (errorCode) {
