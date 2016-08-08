@@ -22,13 +22,10 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.ontology.Term;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
@@ -58,9 +55,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
         if (version > 1) {
           set.add(CORE_10308);
         }
-
       }
-
       break;
     case MATHML_CONSISTENCY:
       break;

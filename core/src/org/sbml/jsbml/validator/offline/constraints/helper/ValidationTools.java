@@ -276,6 +276,12 @@ public final class ValidationTools {
    * @return true or false
    */
   public static boolean isSboTerm(String s) {
+    
+    if (s.isEmpty())
+    {
+      return false;
+    }
+    
     return SBO.checkTerm(s);
   }
 

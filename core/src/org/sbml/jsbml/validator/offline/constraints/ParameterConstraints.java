@@ -103,7 +103,7 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
 
           UnitDefinition def = p.getUnitsInstance();
 
-          if (def.getUnitCount() == 1) {
+          if (def != null && def.isSetListOfUnits() && def.getUnitCount() == 1) {
             // Celsius not allowed
             return def.getUnit(0).getKind() != Unit.Kind.CELSIUS;
           }
