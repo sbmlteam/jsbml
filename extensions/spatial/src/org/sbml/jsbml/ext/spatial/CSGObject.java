@@ -39,12 +39,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CSGObject extends AbstractSpatialNamedSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(CSGObject.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -297,7 +297,9 @@ public class CSGObject extends AbstractSpatialNamedSBase {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 1669;
@@ -314,7 +316,9 @@ public class CSGObject extends AbstractSpatialNamedSBase {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -332,7 +336,9 @@ public class CSGObject extends AbstractSpatialNamedSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -363,13 +369,17 @@ public class CSGObject extends AbstractSpatialNamedSBase {
     return isAttributeRead;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -379,7 +389,9 @@ public class CSGObject extends AbstractSpatialNamedSBase {
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
@@ -402,22 +414,6 @@ public class CSGObject extends AbstractSpatialNamedSBase {
       resourceBundle.getString("IndexExceedsBoundsException"), index,
       Math.min(pos, 0)));
   }
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CSGObject [domainType=");
-    builder.append(domainType);
-    builder.append(", ordinal=");
-    builder.append(ordinal);
-    builder.append("]");
-    return builder.toString();
-  }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()

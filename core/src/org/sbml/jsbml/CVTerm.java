@@ -23,7 +23,6 @@ package org.sbml.jsbml;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1067,8 +1066,7 @@ public class CVTerm extends AnnotationElement {
    * @return a {@link String} containing the qualifier and all the resource
    *         URIs of this {@link CVTerm}.
    */
-  @Override
-  public String toString() {
+  public String printCVTerm() {
     String element, relationship;
 
     switch (getQualifierType()) {

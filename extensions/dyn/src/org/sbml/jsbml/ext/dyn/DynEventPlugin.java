@@ -23,8 +23,6 @@
 package org.sbml.jsbml.ext.dyn;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -80,7 +78,7 @@ public class DynEventPlugin extends DynSBasePlugin {
    */
   public DynEventPlugin(DynEventPlugin dynEventPlugin) {
     super(dynEventPlugin);
-    
+
     if (dynEventPlugin.isSetListOfDynElements()) {
       setListOfDynElements(dynEventPlugin.getListOfDynElements().clone());
     }
@@ -89,10 +87,11 @@ public class DynEventPlugin extends DynSBasePlugin {
     }
   }
 
-  /**
-   * Initializes custom Class attributes
-   * */
-  private void initDefaults() {
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#initDefaults()
+   */
+  @Override
+  public void initDefaults() {
     applyToAll = false;
   }
 
@@ -163,9 +162,9 @@ public class DynEventPlugin extends DynSBasePlugin {
       listOfDynElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'dyn'
       listOfDynElements.setPackageName(null);
-      listOfDynElements.setPackageName(DynConstants.shortLabel);      
+      listOfDynElements.setPackageName(DynConstants.shortLabel);
       listOfDynElements.setSBaseListType(ListOf.Type.other);
-      
+
       extendedSBase.registerChild(listOfDynElements);
     }
     return listOfDynElements;
@@ -189,14 +188,14 @@ public class DynEventPlugin extends DynSBasePlugin {
    */
   public void setListOfDynElements(ListOf<DynElement> listOfDynElements) {
     unsetListOfDynElements();
-    
+
     this.listOfDynElements = listOfDynElements;
-    
+
     if (this.listOfDynElements != null) {
       listOfDynElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'dyn'
       listOfDynElements.setPackageName(null);
-      listOfDynElements.setPackageName(DynConstants.shortLabel);      
+      listOfDynElements.setPackageName(DynConstants.shortLabel);
       this.listOfDynElements.setSBaseListType(ListOf.Type.other);
     }
     if (isSetExtendedSBase()) {
@@ -282,11 +281,17 @@ public class DynEventPlugin extends DynSBasePlugin {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int childIndex) {
     if (childIndex < 0 || childIndex >= 1) {
@@ -298,11 +303,17 @@ public class DynEventPlugin extends DynSBasePlugin {
     return listOfDynElements;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#getChildCount()
+   */
   @Override
   public int getChildCount() { // TODO - will not write the ListOf if it is empty
     return isSetListOfDynElements() ? 1 : 0;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -328,6 +339,9 @@ public class DynEventPlugin extends DynSBasePlugin {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 3371;
@@ -342,17 +356,17 @@ public class DynEventPlugin extends DynSBasePlugin {
     return hashCode;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#clone()
+   */
   @Override
   public DynEventPlugin clone() {
     return new DynEventPlugin(this);
   }
 
-  @Override
-  public String toString() { // TODO - recursive display. modify it?
-    return "DynEventPlugin [listOfDynElements=" + listOfDynElements
-        + ", applyToAll=" + applyToAll + "]";
-  }
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -363,6 +377,9 @@ public class DynEventPlugin extends DynSBasePlugin {
     return attributes;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {

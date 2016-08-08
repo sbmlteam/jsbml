@@ -268,14 +268,6 @@ UniqueNamedSBase {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-   */
-  @Override
-  public String toString() {
-    return "DynElement [spatialIndex=" + spatialIndex + " variable=" + variable + "]";
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
   @Override

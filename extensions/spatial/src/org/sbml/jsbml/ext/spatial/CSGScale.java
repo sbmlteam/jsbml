@@ -38,12 +38,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CSGScale extends CSGTransformation {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(CSGScale.class);
-  
+
   /**
    * 
    */
@@ -364,23 +364,6 @@ public class CSGScale extends CSGTransformation {
     return isAttributeRead;
   }
 
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CSGScale [scaleX=");
-    builder.append(scaleX);
-    builder.append(", scaleY=");
-    builder.append(scaleY);
-    builder.append(", scaleZ=");
-    builder.append(scaleZ);
-    builder.append("]");
-    return builder.toString();
-  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
    */
@@ -389,6 +372,4 @@ public class CSGScale extends CSGTransformation {
     return SpatialConstants.csgScale;
   }
 
-
 }
-

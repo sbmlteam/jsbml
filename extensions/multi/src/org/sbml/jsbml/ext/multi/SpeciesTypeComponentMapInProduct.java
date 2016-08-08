@@ -187,19 +187,6 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
     return true;
   }
 
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "SpeciesTypeComponentMapInProduct [reactant = " + reactant
-        + ", reactantComponent = " + reactantComponent + ", productComponent = "
-        + productComponent + ", listOfSpeciesFeatureChanges.size = "
-        + getSpeciesFeatureChangeCount() + "]";
-  }
-
-
   /**
    * Returns {@code true} if {@link #listOfSpeciesFeatureChanges} contains at least
    * one element.

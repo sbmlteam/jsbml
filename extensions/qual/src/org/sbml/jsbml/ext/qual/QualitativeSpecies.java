@@ -183,7 +183,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
   @Override
   public boolean equals(Object object) {
     boolean equals = super.equals(object);
-    
+
     if (equals) {
       QualitativeSpecies qs = (QualitativeSpecies) object;
       equals &= qs.isSetConstant() == isSetConstant();
@@ -513,16 +513,6 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
     Integer oldMaxLevel = this.maxLevel;
     this.maxLevel = maxLevel;
     firePropertyChange(QualConstants.maxLevel, oldMaxLevel, this.maxLevel);
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "QualitativeSpecies [compartment = " + compartment + ", constant = "
-        + constant + ", initialLevel = " + initialLevel + ", maxLevel = " + maxLevel
-        + ", id = " + getId() + ", name = " + getName() + "]";
   }
 
   /* (non-Javadoc)

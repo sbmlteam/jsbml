@@ -118,6 +118,7 @@ public class TextGlyph extends AbstractReferenceGlyph {
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = LayoutConstants.shortLabel;
@@ -331,43 +332,6 @@ public class TextGlyph extends AbstractReferenceGlyph {
     String oldText = this.text;
     this.text = text;
     firePropertyChange(LayoutConstants.text, oldText, this.text);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.layout.AbstractReferenceGlyph#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(getElementName());
-    sb.append(" [");
-    if (isSetId()) {
-      sb.append("id=");
-      sb.append(getId());
-      if (isSetText() || isSetOriginOfText() || isSetName()) {
-        sb.append(", ");
-      }
-    }
-    if (isSetName()) {
-      sb.append("name=");
-      sb.append(getName());
-      if (isSetText() || isSetOriginOfText()) {
-        sb.append(", ");
-      }
-    }
-    if (isSetText()) {
-      sb.append("text=");
-      sb.append(getText());
-    } else if (isSetOriginOfText()) {
-      NamedSBase orig = getOriginOfTextInstance();
-      if (orig == null) {
-        sb.append(getOriginOfText());
-      } else {
-        sb.append(orig.toString());
-      }
-    }
-    sb.append(']');
-    return sb.toString();
   }
 
   /* (non-Javadoc)

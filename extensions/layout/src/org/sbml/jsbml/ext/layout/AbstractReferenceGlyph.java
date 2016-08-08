@@ -190,21 +190,6 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(getElementName());
-    sb.append(" [id=");
-    sb.append(isSetId() ? getId() : "null");
-    sb.append(", reference=");
-    sb.append(isSetReference() ? getReference() : "null");
-    sb.append(']');
-    return sb.toString();
-  }
-
   /**
    * @return {@code true} if this operation caused any change.
    */

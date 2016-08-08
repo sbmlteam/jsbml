@@ -265,28 +265,6 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
     firePropertyChange(FBCConstants.label, oldLabel, this.label);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [label=");
-    builder.append(label);
-    builder.append(", ");
-    builder.append("id=");
-    builder.append(getId());
-    builder.append(", ");
-    builder.append("metaid=");
-    builder.append(getMetaId());
-    builder.append(", ");
-    builder.append("name=");
-    builder.append(getName());
-    builder.append("]");
-    return builder.toString();
-  }
-
   /**
    * Unsets the variable {@link #label}
    *

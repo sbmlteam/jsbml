@@ -26,7 +26,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -38,7 +37,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTNode2;
-import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -238,17 +236,17 @@ public class ASTNode extends AbstractTreeNode {
      */
     FUNCTION_POWER,
     /**
-     * The quotient element is the operator used for division modulo a particular base. 
-     * When the quotient operator is applied to integer arguments a and b, the result is 
-     * the "quotient of a divided by b". That is, quotient returns the unique integer q 
+     * The quotient element is the operator used for division modulo a particular base.
+     * When the quotient operator is applied to integer arguments a and b, the result is
+     * the "quotient of a divided by b". That is, quotient returns the unique integer q
      * such that a = q b + r. (In common usage, q is called the quotient and r is the remainder.)
      */
     FUNCTION_QUOTIENT,
     /**
-     * The rem element is the operator that returns the "remainder" of a division modulo 
-     * a particular base. When the rem operator is applied to integer arguments a and b, 
-     * the result is the "remainder of a divided by b". That is, rem returns the unique 
-     * integer, r such that a = q b+ r, where r < q. (In common usage, q is called the 
+     * The rem element is the operator that returns the "remainder" of a division modulo
+     * a particular base. When the rem operator is applied to integer arguments a and b,
+     * the result is the "remainder of a divided by b". That is, rem returns the unique
+     * integer, r such that a = q b+ r, where r < q. (In common usage, q is called the
      * quotient and r is the remainder.)
      */
     FUNCTION_REM,
@@ -301,20 +299,20 @@ public class ASTNode extends AbstractTreeNode {
     /**
      * In classical logic, the compound 'p implies q' (p→q) is logically equivalent to the negative
      * compound: not both p and not q. Thus the compound p→q is false if and only
-     * if both p is true and q is false. By the same stroke, p→q is true if and only 
-     * if either p is false or q is true (or both). Thus → is a function from pairs 
-     * of truth values of the components p, q to truth values of the compound p→q, 
-     * whose truth value is entirely a function of the truth values of the components. 
-     * Hence, this interpretation is called truth-functional. The compound p→q is 
-     * logically equivalent also to ¬p∨q (either not p, or q (or both)), and 
-     * to ¬q→¬p (if not q then not p). But it is not equivalent to ¬p→¬q, which is 
+     * if both p is true and q is false. By the same stroke, p→q is true if and only
+     * if either p is false or q is true (or both). Thus → is a function from pairs
+     * of truth values of the components p, q to truth values of the compound p→q,
+     * whose truth value is entirely a function of the truth values of the components.
+     * Hence, this interpretation is called truth-functional. The compound p→q is
+     * logically equivalent also to ¬p∨q (either not p, or q (or both)), and
+     * to ¬q→¬p (if not q then not p). But it is not equivalent to ¬p→¬q, which is
      * equivalent to q→p.
-     *  
+     * 
      *<p>Truth table:
      *
      *<pre>
      * p   q  p→q
-     *   
+     * 
      * T   T   T
      * T   F   F
      * F   T   T
@@ -434,7 +432,7 @@ public class ASTNode extends AbstractTreeNode {
     /**
      * MathML markup can be combined with other markup languages, and these
      * mixing constructions are realized by the semantic annotation elements.
-     * The semantic annotation elements provide an important tool for making 
+     * The semantic annotation elements provide an important tool for making
      * associations between alternate representations of an expression, and for
      * associating semantic properties and other attributions with a MathML
      * expression.
@@ -686,7 +684,7 @@ public class ASTNode extends AbstractTreeNode {
    * The URI for the definition of the csymbol for delay.
    */
   public static final transient String URI_DELAY_DEFINITION = "http://www.sbml.org/sbml/symbols/delay";
-  
+
   /**
    * URI for the definition of MathML.
    */
@@ -702,7 +700,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * The URI for the definition of the csymbol for rateOf.
    */
-  public static final transient String URI_RATE_OF_DEFINITION = "http://www.sbml.org/sbml/symbols/rateOf";  
+  public static final transient String URI_RATE_OF_DEFINITION = "http://www.sbml.org/sbml/symbols/rateOf";
 
   /**
    * The URI for the definition of the csymbol for time.
@@ -1507,7 +1505,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   private static transient final Logger logger = Logger.getLogger(ASTNode.class);
   private static final transient boolean isDebugEnabled = logger.isDebugEnabled();
-  
+
   /**
    * The part of a number in scientific format (with an E) that is on the left
    * side of the E (the prefix of the number). For instance, in the number
@@ -2289,10 +2287,10 @@ public class ASTNode extends AbstractTreeNode {
         } else if ((type == Type.NAME_AVOGADRO) || (getVariable() != null)
             && (!getVariable().containsUndeclaredUnits())) {
           return false;
-        } 
-        
+        }
+
         // TODO - add a block for NAME_RATE_OF ?
-        
+
         return true;
       }
     } else {
@@ -3016,7 +3014,7 @@ public class ASTNode extends AbstractTreeNode {
     }
     variable = null;
     mantissa = Double.NaN;
-    
+
     if (plugins == null) {
       plugins = new TreeMap<String, ASTNodePlugin>();
     }
@@ -4062,7 +4060,7 @@ public class ASTNode extends AbstractTreeNode {
       // name = "rateOf";
       definitionURL = URI_RATE_OF_DEFINITION;
     }
-    
+
     Type oldValue = this.type;
     this.type = type;
     firePropertyChange(TreeNodeChangeEvent.type, oldValue, type);
@@ -4372,35 +4370,6 @@ public class ASTNode extends AbstractTreeNode {
     }
     return "";
   }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    String formula = "";
-    try {
-      formula = toFormula();
-    } catch (SBMLException e) {
-      // log the exception
-      e.printStackTrace();
-
-      if (isDebugEnabled) {
-        logger.error(MessageFormat.format(resourceBundle.getString("ASTNode.toString"), e.getMessage()), e);
-      } else {
-        // TODO: Do not print this message if parsing the file !!! Or remove it
-        logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.toString"), e.getMessage()));
-      }
-    } catch (RuntimeException e) {
-      // added to prevent a crash when we cannot create the formula
-      if (isDebugEnabled) {
-        logger.error(MessageFormat.format(resourceBundle.getString("ASTNode.toString"), e.getMessage()), e);
-      }
-    }
-    return formula;
-  }
-
-
 
   /**
    * Returns a simple String representing the content of the ASTNode.
@@ -4782,16 +4751,16 @@ public class ASTNode extends AbstractTreeNode {
     return 0;
   }
 
-//  /**
-//   * Returns the map containing all the {@link SBasePlugin} extension objects
-//   * of this {@link SBase}.
-//   * 
-//   * @return the map containing all the {@link SBasePlugin} extension objects
-//   * of this {@link SBase}.
-//   */
-//  public Map<String, ASTNodePlugin> getExtensionPackages() { // TODO - remove this method to prevent access to the map directly ?? Or provide a copy of the Map
-//    return plugins;
-//  }
+  //  /**
+  //   * Returns the map containing all the {@link SBasePlugin} extension objects
+  //   * of this {@link SBase}.
+  //   *
+  //   * @return the map containing all the {@link SBasePlugin} extension objects
+  //   * of this {@link SBase}.
+  //   */
+  //  public Map<String, ASTNodePlugin> getExtensionPackages() { // TODO - remove this method to prevent access to the map directly ?? Or provide a copy of the Map
+  //    return plugins;
+  //  }
 
   /**
    * Returns the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
@@ -4927,7 +4896,7 @@ public class ASTNode extends AbstractTreeNode {
    * 
    * @param nameOrUri
    *        the package name or URI
-   * @see #unsetExtension(String)       
+   * @see #unsetExtension(String)
    */
   public void unsetPlugin(String nameOrUri) {
     unsetExtension(nameOrUri);

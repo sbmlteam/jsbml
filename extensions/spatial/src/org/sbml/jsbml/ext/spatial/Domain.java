@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -42,12 +40,12 @@ import org.sbml.jsbml.SBMLException;
  */
 public class Domain extends AbstractSpatialNamedSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(Domain.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -207,7 +205,7 @@ public class Domain extends AbstractSpatialNamedSBase {
   public void setListOfInteriorPoints(ListOf<InteriorPoint> listOfInteriorPoints) {
     unsetListOfInteriorPoints();
     this.listOfInteriorPoints = listOfInteriorPoints;
-    
+
     if (listOfInteriorPoints != null) {
       listOfInteriorPoints.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -382,8 +380,7 @@ public class Domain extends AbstractSpatialNamedSBase {
     return attributes;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
@@ -408,18 +405,6 @@ public class Domain extends AbstractSpatialNamedSBase {
   }
 
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("Domain [domainType=");
-    builder.append(domainType);
-    builder.append("]");
-    return builder.toString();
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
    */
   @Override
@@ -438,7 +423,5 @@ public class Domain extends AbstractSpatialNamedSBase {
     }
     return equal;
   }
-
-
 
 }

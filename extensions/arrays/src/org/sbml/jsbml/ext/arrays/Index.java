@@ -119,17 +119,6 @@ public class Index extends AbstractMathContainer {
     arrayDimension = -1;
   }
 
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "Index [referencedAttribute=" + referencedAttribute
-        + ", arrayDimension=" + arrayDimension + "]";
-  }
-
-
   /**
    * Returns the value of referencedAttribute
    *

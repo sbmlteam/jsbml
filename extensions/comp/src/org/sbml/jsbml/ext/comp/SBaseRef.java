@@ -27,7 +27,6 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.UnitDefinition;
 
 /**
  * Contains the machinery for constructing references to specific components
@@ -91,7 +90,7 @@ public class SBaseRef extends AbstractSBase {
    */
   public SBaseRef() {
     super();
-    
+
     initDefaults();
   }
 
@@ -540,20 +539,6 @@ public class SBaseRef extends AbstractSBase {
     }
 
     return isAttributeRead;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "SBaseRef ["
-        + (isSetPortRef() ? ", portRef=" + getPortRef() : "")
-        + (isSetIdRef() ? ", idRef=" + getIdRef() : "")
-        + (isSetMetaIdRef() ? ", metaIdRef=" + getMetaIdRef() : "")        
-        + (isSetUnitRef() ? ", unitIdRef=" + getUnitRef() : "")
-        + (isSetSBaseRef() ? "SBaseRef child is set" : "")
-        + "]";
   }
 
   /* (non-Javadoc)

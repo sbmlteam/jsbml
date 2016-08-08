@@ -43,8 +43,8 @@ import org.sbml.jsbml.UnitDefinition;
  */
 public class CoordinateComponent extends AbstractSpatialNamedSBase implements
 SBaseWithUnit {
-  
-  
+
+
   /**
    * A {@link Logger} for this class.
    */
@@ -457,10 +457,10 @@ SBaseWithUnit {
     }
     if (isSetBoundaryMaximum()) {
       hashCode += prime * getBoundaryMaximum().hashCode();
-    }    
+    }
     if (isSetBoundaryMinimum()) {
       hashCode += prime * getBoundaryMinimum().hashCode();
-    }        
+    }
     return hashCode;
   }
 
@@ -514,8 +514,7 @@ SBaseWithUnit {
     return attributes;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
@@ -523,7 +522,7 @@ SBaseWithUnit {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
-      
+
       if (attributeName.equals(SpatialConstants.type)) {
         try {
           setType(CoordinateKind.valueOf(value));
@@ -548,27 +547,5 @@ SBaseWithUnit {
     }
     return isAttributeRead;
   }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CoordinateComponent [componentType=");
-    builder.append(type);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append(", boundaryMaximum=");
-    builder.append(boundaryMaximum);
-    builder.append(", boundaryMinimum=");
-    builder.append(boundaryMinimum);
-    builder.append(", unit=");
-    builder.append(unit);
-    builder.append("]");
-    return builder.toString();
-  }
-
-
 
 }
