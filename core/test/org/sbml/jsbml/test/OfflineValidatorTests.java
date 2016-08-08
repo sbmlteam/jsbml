@@ -108,6 +108,7 @@ public class OfflineValidatorTests {
       "Start tests (Range from " + startCode + " to " + endCode + ")");
     System.out.println();
     System.out.println();
+    
     long init = Calendar.getInstance().getTimeInMillis();
 
     for (int code = startCode; code <= endCode; code++) {
