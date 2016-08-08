@@ -728,8 +728,17 @@ public class Compartment extends Symbol {
 
     String oldCompartmentTypeID = this.compartmentTypeID;
     this.compartmentTypeID = compartmentTypeID;
-    firePropertyChange(TreeNodeChangeEvent.compartmentType,
-      oldCompartmentTypeID, this.compartmentTypeID);
+    
+    if (checkAttribute(TreeNodeChangeEvent.compartmentType))
+    {
+      firePropertyChange(TreeNodeChangeEvent.compartmentType,
+        oldCompartmentTypeID, this.compartmentTypeID);
+    }
+    else
+    {
+      this.compartmentTypeID = oldCompartmentTypeID;
+    }
+    
   }
 
 

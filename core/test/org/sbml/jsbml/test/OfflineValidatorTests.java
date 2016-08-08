@@ -29,7 +29,6 @@ import java.util.TreeSet;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
-import org.sbml.jsbml.validator.offline.SBMLPackage;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
@@ -83,11 +82,11 @@ public class OfflineValidatorTests {
     final String range = args[1];
     final String[] blocks = range.split(":");
 
-    final int startCode = SBMLPackage.convertStringToErrorCode(blocks[0]);
+    final int startCode = Integer.parseInt(blocks[0]);
     int endCode = startCode;
 
     if (blocks.length > 1) {
-      endCode = SBMLPackage.convertStringToErrorCode(blocks[1]);
+      endCode = Integer.parseInt(blocks[1]);
     }
 
     if (!testDataDir.isDirectory()) {
@@ -95,15 +94,16 @@ public class OfflineValidatorTests {
       System.exit(0);
     }
 
-    System.out.println("Start tests");
+    System.out.println("Start tests (Range from " + startCode + " to " + endCode + ")");
     long init = Calendar.getInstance().getTimeInMillis();
 
     for (int code = startCode; code <= endCode; code++) {
       File dir = new File(testDataDir,
-        SBMLPackage.convertErrorCodeToString(code, false));
+        "" + code);
 
       if (dir.isDirectory()) {
-        // dirsValidated++;
+        // dirsValidated++
+        
         validateDirectory(dir, code);
       } else {
         // dirsMissed++;

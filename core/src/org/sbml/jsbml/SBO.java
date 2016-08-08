@@ -25,6 +25,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
 
@@ -758,6 +759,19 @@ public class SBO {
   }
 
   /**
+   * A combined (weighted) measure of the concentration of all electrolytes present in a
+   * solution. It is calculated as a half of the sum over all the ions in the solution
+   * multiplied by the square of individual ionic valencies. Monovalent electrolytes have
+   * a concentration equal to their ionic strength while multivalent electrolytes have
+   * greater ionic strength, directly proportional to ionic valency. Symbol: I
+   * 
+   * @return 623
+   */
+  public static int getIonicStrength() {
+    return 623;
+  }
+
+  /**
    * 
    * @return
    */
@@ -948,6 +962,21 @@ public class SBO {
    */
   public static int getPertubingAgent() {
     return 405;
+  }
+
+  /**
+   * "A measure of acidity and alkalinity of a solution that is a number on a scale on
+   * which a value of 7 represents neutrality and lower numbers indicate increasing acidity
+   * and higher numbers increasing alkalinity and on which each unit of change represents a
+   * tenfold change in acidity or alkalinity and that is the negative logarithm of the
+   * effective hydrogen-ion concentration or hydrogen-ion activity in gram equivalents per
+   * liter of the solution. (Definition from Merriam-Webster Dictionary)"
+   * 
+   * @return 304
+   */
+  public static int getpH()
+  {
+    return 304;
   }
 
   /**
@@ -1251,6 +1280,22 @@ public class SBO {
   }
 
   /**
+   * Temperature is the physical property of a system which underlies the common notions of
+   * "hot" and "cold"; the material with the higher temperature is said to be hotter.
+   * Temperature is a quantity related to the average kinetic energy of the particles in a
+   * substance. The 10th Conference Generale des Poids et Mesures decided to define the
+   * thermodynamic temperature scale by choosing the triple point of water as the
+   * fundamental fixed point, and assigning to it the temperature 273,16 degrees Kelvin,
+   * exactly (0.01 degree Celsius).
+   * 
+   * @return 147
+   */
+  public static int getThermodynamicTemperature()
+  {
+    return 147;
+  }
+
+  /**
    * Returns the SBO id corresponding to the alias 'TRANSCRIPTION'
    * 
    * @return the SBO id corresponding to the alias 'TRANSCRIPTION'
@@ -1411,6 +1456,42 @@ public class SBO {
    */
   public static int getUnknownTransition() {
     return convertAlias2SBO("UNKNOWN_TRANSITION");
+  }
+
+  /**
+   * This method will test if a term for the given SBO code number exists and
+   * returns {@code true} if this is the case. It is recommended to call this
+   * method before trying to retrieve an actual {@link Term} object, because
+   * this could result in a {@link NoSuchElementException}.
+   * 
+   * @param sboTerm
+   *        the SBO identifier for which a term is to be retrieved.
+   * @return {@code true} if an SBO {@link Term} object can be safely retrieved
+   *         for the given identifier.
+   * @see #hasTerm(String)
+   */
+  public boolean hasTerm(int sboTerm) {
+    return hasTerm(intToString(sboTerm));
+  }
+
+  /**
+   * This method will test if a term for the given SBO code number exists and
+   * returns {@code true} if this is the case. It is recommended to call this
+   * method before trying to retrieve an actual {@link Term} object, because
+   * this could result in a {@link NoSuchElementException}.
+   * 
+   * @param sboTerm
+   *        the SBO identifier for which a term is to be retrieved.
+   * @return {@code true} if an SBO {@link Term} object can be safely retrieved
+   *         for the given identifier.
+   * @see #hasTerm(int)
+   */
+  public boolean hasTerm(String sboTerm) {
+    try {
+      return sbo.getTerm(sboTerm) != null;
+    } catch (NoSuchElementException exc) {
+      return false;
+    }
   }
 
   /**
