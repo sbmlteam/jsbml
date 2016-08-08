@@ -22,9 +22,7 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -569,7 +567,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
       listOfPorts.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfPorts.setPackageName(null);
-      listOfPorts.setPackageName(CompConstants.shortLabel);      
+      listOfPorts.setPackageName(CompConstants.shortLabel);
     }
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfPorts);
@@ -590,9 +588,9 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
       listOfSubmodels.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfSubmodels.setPackageName(null);
-      listOfSubmodels.setPackageName(CompConstants.shortLabel);      
+      listOfSubmodels.setPackageName(CompConstants.shortLabel);
     }
-    
+
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfSubmodels);
     }

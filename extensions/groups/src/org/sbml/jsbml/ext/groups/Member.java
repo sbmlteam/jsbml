@@ -314,26 +314,6 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
   }
 
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("Member [idRef=");
-    builder.append(idRef);
-    builder.append(", metaIdRef=");
-    builder.append(metaIdRef);
-    builder.append(", id=");
-    builder.append(getId());
-    builder.append(", name=");
-    builder.append(getName());
-    builder.append(", sboTerm=");
-    builder.append(getSBOTerm());
-    builder.append("]");
-    return builder.toString();
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
    */
   @Override

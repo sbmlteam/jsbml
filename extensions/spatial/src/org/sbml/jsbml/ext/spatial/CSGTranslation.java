@@ -37,12 +37,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CSGTranslation extends CSGTransformation {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(CSGTranslation.class);
-  
+
   /**
    * 
    */
@@ -324,7 +324,9 @@ public class CSGTranslation extends CSGTransformation {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -360,23 +362,6 @@ public class CSGTranslation extends CSGTransformation {
       }
     }
     return isAttributeRead;
-  }
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CSGTranslation [translateX=");
-    builder.append(translateX);
-    builder.append(", translateY=");
-    builder.append(translateY);
-    builder.append(", translateZ=");
-    builder.append(translateZ);
-    builder.append("]");
-    return builder.toString();
   }
 
   /* (non-Javadoc)

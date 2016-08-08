@@ -36,12 +36,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(GeometryDefinition.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -103,18 +103,6 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
       }
     }
     return equal;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("GeometryDefinition [isActive=");
-    builder.append(isActive);
-    builder.append("]");
-    return builder.toString();
   }
 
   /**

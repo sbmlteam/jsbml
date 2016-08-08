@@ -1276,20 +1276,6 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
     }
   }
 
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "SpeciesType [id = " + getId() + ", name = " + getName() + ", compartment=" + compartment
-        + ", listOfSpeciesFeatureTypes.size = " + getSpeciesFeatureTypeCount()
-        + ", listOfSpeciesTypeInstances.size = " + getSpeciesTypeInstanceCount()
-        + ", listOfSpeciesTypeComponentIndexes.size = "
-        + getSpeciesTypeComponentIndexCount() + ", listOfInSpeciesTypeBonds.size = "
-        + getInSpeciesTypeBondCount() + "]";
-  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.CompartmentalizedSBase#unsetCompartment()
    */

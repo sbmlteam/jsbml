@@ -46,11 +46,11 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
   /**
    * 
    */
-  private ListOf<SpeciesTypeComponentMapInProduct> listOfSpeciesTypeComponentMapInProducts; 
-  
-  
+  private ListOf<SpeciesTypeComponentMapInProduct> listOfSpeciesTypeComponentMapInProducts;
+
+
   /**
-   * Creates an MultiSpeciesReferencePlugin instance 
+   * Creates an MultiSpeciesReferencePlugin instance
    */
   public MultiSpeciesReferencePlugin() {
     super();
@@ -74,7 +74,7 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
    */
   public MultiSpeciesReferencePlugin(MultiSpeciesReferencePlugin obj) {
     super(obj);
-    
+
     // copy all class attributes
     if (obj.isSetListOfSpeciesTypeComponentMapInProducts()) {
       setListOfSpeciesTypeComponentMapInProducts(obj.getListOfSpeciesTypeComponentMapInProducts().clone());
@@ -85,6 +85,7 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
   /**
    * clones this class
    */
+  @Override
   public MultiSpeciesReferencePlugin clone() {
     return new MultiSpeciesReferencePlugin(this);
   }
@@ -93,10 +94,11 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
   }
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -105,9 +107,9 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
     final int prime = 6287;
     int result = super.hashCode();
     result = prime
-      * result
-      + ((listOfSpeciesTypeComponentMapInProducts == null) ? 0
-        : listOfSpeciesTypeComponentMapInProducts.hashCode());
+        * result
+        + ((listOfSpeciesTypeComponentMapInProducts == null) ? 0
+          : listOfSpeciesTypeComponentMapInProducts.hashCode());
     return result;
   }
 
@@ -136,17 +138,6 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
     }
     return true;
   }
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "MultiSpeciesReferencePlugin [listOfSpeciesTypeComponentMapInProducts.size = "
-      + getSpeciesTypeComponentMapInProductCount() + "]";
-  }
-
 
   /**
    * Returns {@code true} if {@link #listOfSpeciesTypeComponentMapInProducts} contains at least
@@ -220,8 +211,8 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
    */
   public boolean unsetListOfSpeciesTypeComponentMapInProducts() {
     if (isSetListOfSpeciesTypeComponentMapInProducts()) {
-      ListOf<SpeciesTypeComponentMapInProduct> oldSpeciesTypeComponentMapInProducts = this.listOfSpeciesTypeComponentMapInProducts;
-      this.listOfSpeciesTypeComponentMapInProducts = null;
+      ListOf<SpeciesTypeComponentMapInProduct> oldSpeciesTypeComponentMapInProducts = listOfSpeciesTypeComponentMapInProducts;
+      listOfSpeciesTypeComponentMapInProducts = null;
       oldSpeciesTypeComponentMapInProducts.fireNodeRemovedEvent();
       return true;
     }
@@ -328,7 +319,7 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
     return getSpeciesTypeComponentMapInProductCount();
   }
 
-  
+
   @Override
   public boolean getAllowsChildren() {
     return true;
@@ -342,7 +333,7 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
     if (isSetListOfSpeciesTypeComponentMapInProducts()) {
       count++;
     }
-    
+
     return count;
   }
 
@@ -359,7 +350,7 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
     } else {
       index -= count;
     }
-    
+
     if (isSetListOfSpeciesTypeComponentMapInProducts()) {
       if (pos == index) {
         return getListOfSpeciesTypeComponentMapInProducts();

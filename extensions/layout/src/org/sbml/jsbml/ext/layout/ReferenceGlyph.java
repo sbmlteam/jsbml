@@ -26,8 +26,6 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.Model;
-
 /**
  * The {@link ReferenceGlyph} element describes the graphical connection between
  * an arbitrary {@link GraphicalObject} (or derived element) and a
@@ -124,6 +122,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = LayoutConstants.shortLabel;

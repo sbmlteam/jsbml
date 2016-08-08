@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -144,7 +142,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
       listOfExternalModelDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfExternalModelDefinitions.setPackageName(null);
-      listOfExternalModelDefinitions.setPackageName(CompConstants.shortLabel);      
+      listOfExternalModelDefinitions.setPackageName(CompConstants.shortLabel);
       listOfExternalModelDefinitions.setSBaseListType(ListOf.Type.other);
 
       if (extendedSBase != null) {
@@ -240,12 +238,12 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public void setListOfExternalModelDefinitions(ListOf<ExternalModelDefinition> listOfExternalModelDefinitions) {
     unsetListOfExternalModelDefinitions();
     this.listOfExternalModelDefinitions = listOfExternalModelDefinitions;
-    
+
     if (listOfExternalModelDefinitions != null) {
       listOfExternalModelDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfExternalModelDefinitions.setPackageName(null);
-      listOfExternalModelDefinitions.setPackageName(CompConstants.shortLabel);      
+      listOfExternalModelDefinitions.setPackageName(CompConstants.shortLabel);
       listOfExternalModelDefinitions.setSBaseListType(ListOf.Type.other);
     }
     if (extendedSBase != null) {
@@ -431,7 +429,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
       listOfModelDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfModelDefinitions.setPackageName(null);
-      listOfModelDefinitions.setPackageName(CompConstants.shortLabel);      
+      listOfModelDefinitions.setPackageName(CompConstants.shortLabel);
       listOfModelDefinitions.setSBaseListType(ListOf.Type.other);
 
       if (extendedSBase != null) {
@@ -453,12 +451,12 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public void setListOfModelDefinitions(ListOf<ModelDefinition> listOfModelDefinitions) {
     unsetListOfModelDefinitions();
     this.listOfModelDefinitions = listOfModelDefinitions;
-    
+
     if (listOfModelDefinitions != null) {
       listOfModelDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfModelDefinitions.setPackageName(null);
-      listOfModelDefinitions.setPackageName(CompConstants.shortLabel);      
+      listOfModelDefinitions.setPackageName(CompConstants.shortLabel);
       listOfModelDefinitions.setSBaseListType(ListOf.Type.other);
     }
     if (extendedSBase != null) {

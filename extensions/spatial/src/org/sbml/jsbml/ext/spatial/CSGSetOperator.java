@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -42,12 +40,12 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class CSGSetOperator extends CSGNode {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(CSGSetOperator.class);
-  
+
   /**
    * 
    */
@@ -358,7 +356,7 @@ public class CSGSetOperator extends CSGNode {
   public void setListOfCSGNodes(ListOf<CSGNode> listOfCSGNodes) {
     unsetListOfCSGNodes();
     this.listOfCSGNodes = listOfCSGNodes;
-    
+
     if (listOfCSGNodes != null) {
       listOfCSGNodes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -697,24 +695,6 @@ public class CSGSetOperator extends CSGNode {
     return isAttributeRead;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CSGSetOperator [operationType=");
-    builder.append(operationType);
-    builder.append(", complementA=");
-    builder.append(complementA);
-    builder.append(", complementB=");
-    builder.append(complementB);
-    builder.append(", listOfCSGNodes=");
-    builder.append(listOfCSGNodes);
-    builder.append("]");
-    return builder.toString();
-  }
-  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
    */

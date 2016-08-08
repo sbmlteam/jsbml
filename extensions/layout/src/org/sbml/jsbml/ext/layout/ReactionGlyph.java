@@ -22,16 +22,13 @@
 package org.sbml.jsbml.ext.layout;
 
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.Species;
 
 /**
  * Analogous to how a {@link Reaction} object has to at least have one reactant
@@ -118,10 +115,11 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     super(id, level, version);
     initDefaults();
   }
-  
+
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = LayoutConstants.shortLabel;
@@ -162,8 +160,8 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     setCurve(newcurve);
     return newcurve;
   }
-  
-  
+
+
   /**
    * Creates and adds a new {@link SpeciesReferenceGlyph}
    * 
@@ -410,7 +408,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   public void setListOfSpeciesReferencesGlyph(ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
     unsetListOfSpeciesReferencesGlyph();
     listOfSpeciesReferencesGlyphs = listOfSpeciesReferencesGlyph;
-    
+
     if (listOfSpeciesReferencesGlyphs != null) {
       listOfSpeciesReferencesGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'

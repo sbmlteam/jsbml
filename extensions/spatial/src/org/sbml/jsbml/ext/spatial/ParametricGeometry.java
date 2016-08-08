@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -265,7 +263,7 @@ public class ParametricGeometry extends GeometryDefinition {
   }
 
 
-  
+
   /**
    * Returns the value of {@link #spatialPoints}.
    *
@@ -286,7 +284,7 @@ public class ParametricGeometry extends GeometryDefinition {
    * @return whether {@link #spatialPoints} is set.
    */
   public boolean isSetSpatialPoints() {
-    return this.spatialPoints != null;
+    return spatialPoints != null;
   }
 
 
@@ -310,9 +308,9 @@ public class ParametricGeometry extends GeometryDefinition {
    */
   public boolean unsetSpatialPoints() {
     if (isSetSpatialPoints()) {
-      SpatialPoints oldSpatialPoints = this.spatialPoints;
-      this.spatialPoints = null;
-      firePropertyChange(SpatialConstants.spatialPoints, oldSpatialPoints, this.spatialPoints);
+      SpatialPoints oldSpatialPoints = spatialPoints;
+      spatialPoints = null;
+      firePropertyChange(SpatialConstants.spatialPoints, oldSpatialPoints, spatialPoints);
       return true;
     }
     return false;

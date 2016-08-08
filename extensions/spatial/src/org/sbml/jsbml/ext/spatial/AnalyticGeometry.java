@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -285,7 +283,7 @@ public class AnalyticGeometry extends GeometryDefinition {
     }
     return equal;
   }
-  
+
   @Override
   public int hashCode() {
     final int prime = 1039;//Change this prime number

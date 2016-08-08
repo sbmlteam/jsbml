@@ -242,6 +242,9 @@ public class DynElement extends AbstractNamedSBase implements UniqueNamedSBase {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 3709;
@@ -252,11 +255,9 @@ public class DynElement extends AbstractNamedSBase implements UniqueNamedSBase {
     return result;
   }
 
-  @Override
-  public String toString() {
-    return "DynElement [idRef=" + idRef + " metaIdRef=" + metaIdRef + "]";
-  }
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -280,6 +281,9 @@ public class DynElement extends AbstractNamedSBase implements UniqueNamedSBase {
     return attributes;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {

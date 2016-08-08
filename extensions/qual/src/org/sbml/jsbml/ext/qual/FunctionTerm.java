@@ -238,15 +238,6 @@ public class FunctionTerm extends AbstractMathContainer {
   }
 
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "FunctionTerm [resultLevel = " + resultLevel + ", isDefaultTerm = "
-      + defaultTerm + ", isSetMath = " + isSetMath() + "]";
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
@@ -281,5 +272,5 @@ public class FunctionTerm extends AbstractMathContainer {
     return attributes;
   }
 
-  
+
 }

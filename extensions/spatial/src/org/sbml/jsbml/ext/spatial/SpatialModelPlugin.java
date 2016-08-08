@@ -53,7 +53,7 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
   /**
    * 
    */
-  private HashMap<String, SpatialNamedSBase> spatialIdMap;
+  private Map<String, SpatialNamedSBase> spatialIdMap;
 
   /**
    * A logger for this class.
@@ -331,9 +331,8 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
 
     return success;
   }
-  
-  /*
-   * (non-Javadoc)
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#hashCode()
    */
   @Override
@@ -345,20 +344,5 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
     }
     return hashCode;
   }
-  
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("SpatialModelPlugin [geometry=");
-    builder.append(geometry);
-    builder.append(", spatialIdMap=");
-    builder.append(spatialIdMap);    
-    builder.append("]");
-    return builder.toString();
-  }  
-  
 
 }

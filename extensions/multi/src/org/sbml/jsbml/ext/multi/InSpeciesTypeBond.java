@@ -48,9 +48,9 @@ public class InSpeciesTypeBond extends AbstractNamedSBase {
    */
   private String bindingSite2;
 
-  
+
   /**
-   * Creates an InSpeciesTypeBond instance 
+   * Creates an InSpeciesTypeBond instance
    */
   public InSpeciesTypeBond() {
     super();
@@ -116,7 +116,7 @@ public class InSpeciesTypeBond extends AbstractNamedSBase {
    */
   public InSpeciesTypeBond(InSpeciesTypeBond obj) {
     super(obj);
-    
+
     // copy all class attributes
     if (obj.isSetBindingSite1()) {
       setBindingSite1(obj.getBindingSite1());
@@ -130,6 +130,7 @@ public class InSpeciesTypeBond extends AbstractNamedSBase {
   /**
    * clones this class
    */
+  @Override
   public InSpeciesTypeBond clone() {
     return new InSpeciesTypeBond(this);
   }
@@ -142,9 +143,9 @@ public class InSpeciesTypeBond extends AbstractNamedSBase {
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
-  
-  
-  
+
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -153,9 +154,9 @@ public class InSpeciesTypeBond extends AbstractNamedSBase {
     final int prime = 5791;
     int result = super.hashCode();
     result = prime * result
-      + ((bindingSite1 == null) ? 0 : bindingSite1.hashCode());
+        + ((bindingSite1 == null) ? 0 : bindingSite1.hashCode());
     result = prime * result
-      + ((bindingSite2 == null) ? 0 : bindingSite2.hashCode());
+        + ((bindingSite2 == null) ? 0 : bindingSite2.hashCode());
     return result;
   }
 
@@ -190,18 +191,6 @@ public class InSpeciesTypeBond extends AbstractNamedSBase {
       return false;
     }
     return true;
-  }
-
-  
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "InSpeciesTypeBond [bindingSite1 = " + bindingSite1
-      + ", bindingSite2 = " + bindingSite2 + ", id = " + getId()
-      + ", name = " + getName() + "]";
   }
 
 
@@ -248,15 +237,15 @@ public class InSpeciesTypeBond extends AbstractNamedSBase {
    */
   public boolean unsetBindingSite1() {
     if (isSetBindingSite1()) {
-      String oldBindingSite1 = this.bindingSite1;
-      this.bindingSite1 = null;
-      firePropertyChange(MultiConstants.bindingSite1, oldBindingSite1, this.bindingSite1);
+      String oldBindingSite1 = bindingSite1;
+      bindingSite1 = null;
+      firePropertyChange(MultiConstants.bindingSite1, oldBindingSite1, bindingSite1);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #bindingSite2}.
    *
@@ -300,15 +289,15 @@ public class InSpeciesTypeBond extends AbstractNamedSBase {
    */
   public boolean unsetBindingSite2() {
     if (isSetBindingSite2()) {
-      String oldBindingSite2 = this.bindingSite2;
-      this.bindingSite2 = null;
-      firePropertyChange(MultiConstants.bindingSite2, oldBindingSite2, this.bindingSite2);
+      String oldBindingSite2 = bindingSite2;
+      bindingSite2 = null;
+      firePropertyChange(MultiConstants.bindingSite2, oldBindingSite2, bindingSite2);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
@@ -349,7 +338,7 @@ public class InSpeciesTypeBond extends AbstractNamedSBase {
       attributes.remove("name");
       attributes.put(MultiConstants.shortLabel+ ":name", getName());
     }
-    
+
     if (isSetBindingSite1()) {
       attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.bindingSite1, getBindingSite1());
     }

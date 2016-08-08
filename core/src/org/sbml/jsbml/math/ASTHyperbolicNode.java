@@ -46,7 +46,7 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
    * 
    */
   private static final long serialVersionUID = -3473804919513699915L;
-  
+
   /**
    * A {@link Logger} for this class.
    */
@@ -58,7 +58,7 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
   public ASTHyperbolicNode() {
     super();
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTHyperbolicNode}.
    * 
@@ -78,7 +78,7 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
     this();
     setType(type);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTUnaryFunctionNode#clone()
    */
@@ -86,7 +86,7 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
   public ASTHyperbolicNode clone() {
     return new ASTHyperbolicNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -160,7 +160,7 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
       default:
         break;
       }
-    }  
+    }
     return false;
   }
 
@@ -191,27 +191,6 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
       logger.error("Unable to create MathML");
       return null;
     }
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(isSetType() ? type : "null");
-    builder.append(", id=");
-    builder.append(isSetId() ? id : "null");
-    builder.append(", style=");
-    builder.append(isSetStyle() ? style : "null");
-    builder.append(", class=");
-    builder.append(isSetMathMLClass() ? mathMLClass : "null");
-    builder.append("]");
-    return builder.toString();
   }
 
 }

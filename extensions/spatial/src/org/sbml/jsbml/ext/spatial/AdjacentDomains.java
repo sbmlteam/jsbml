@@ -35,12 +35,12 @@ import org.sbml.jsbml.PropertyUndefinedError;
  */
 public class AdjacentDomains extends AbstractSpatialNamedSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(AdjacentDomains.class);
-  
+
   /**
    * 
    */
@@ -280,7 +280,7 @@ public class AdjacentDomains extends AbstractSpatialNamedSBase {
           setDomain2(value);
         } catch (Exception e) {
           logger.warn(MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.domain2, getElementName()));          
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.domain2, getElementName()));
         }
       }
       else {
@@ -288,20 +288,6 @@ public class AdjacentDomains extends AbstractSpatialNamedSBase {
       }
     }
     return isAttributeRead;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("AdjacentDomains [domain1=");
-    builder.append(domain1);
-    builder.append(", domain2=");
-    builder.append(domain2);
-    builder.append("]");
-    return builder.toString();
   }
 
 }

@@ -40,12 +40,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class InteriorPoint extends AbstractSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(InteriorPoint.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -81,7 +81,7 @@ public class InteriorPoint extends AbstractSBase {
    */
   public InteriorPoint(InteriorPoint interiorPoint) {
     super(interiorPoint);
-    
+
     if (interiorPoint.isSetCoord1()) {
       setCoord1(interiorPoint.getCoord1());
     }
@@ -319,8 +319,7 @@ public class InteriorPoint extends AbstractSBase {
     return false;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -339,7 +338,9 @@ public class InteriorPoint extends AbstractSBase {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -355,7 +356,9 @@ public class InteriorPoint extends AbstractSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -392,23 +395,5 @@ public class InteriorPoint extends AbstractSBase {
     }
     return isAttributeRead;
   }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("InteriorPoint [coord1=");
-    builder.append(coord1);
-    builder.append(", coord2=");
-    builder.append(coord2);
-    builder.append(", coord3=");
-    builder.append(coord3);
-    builder.append("]");
-    return builder.toString();
-  }
-
-
 
 }

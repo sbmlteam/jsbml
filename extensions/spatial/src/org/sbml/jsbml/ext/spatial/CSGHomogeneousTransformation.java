@@ -94,12 +94,17 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
     super(id, level, version);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#clone()
+   */
   @Override
   public CSGHomogeneousTransformation clone() {
     return new CSGHomogeneousTransformation(this);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 1697;
@@ -112,7 +117,7 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
     }
     return hashCode;
   }
-  
+
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
@@ -236,13 +241,17 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.CSGTransformation#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.CSGTransformation#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -255,7 +264,9 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.CSGTransformation#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
@@ -284,22 +295,5 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
       resourceBundle.getString("IndexExceedsBoundsException"), index,
       Math.min(pos, 0)));
   }
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CSGHomogeneousTransformation [forwardTransformation=");
-    builder.append(forwardTransformation);
-    builder.append(", reverseTransformation=");
-    builder.append(reverseTransformation);
-    builder.append("]");
-    return builder.toString();
-  }
-
-
 
 }

@@ -1657,21 +1657,6 @@ public abstract class XMLToken extends AbstractTreeNode {
     return JSBML.OPERATION_SUCCESS;
   }
 
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "XMLToken [attributes=" + attributes + ", namespaces="
-        + namespaces + ", triple=" + triple + ", characters="
-        + characters + ", column=" + column + ", line=" + line
-        + ", isText=" + isText + ", isEndElement=" + isEndElement
-        + ", isStartElement=" + isStartElement + ", isEOF=" + isEOF
-        + "]";
-  }
-
-
   /**
    * Declares this XML start/end element is no longer an end element.
    * <p>
@@ -1683,7 +1668,6 @@ public abstract class XMLToken extends AbstractTreeNode {
    * </ul>
    */
   public int unsetEnd() {
-
     isEndElement = false;
 
     return JSBML.OPERATION_SUCCESS;
