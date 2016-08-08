@@ -480,8 +480,7 @@ public class Creator extends AnnotationElement {
    *
    * @return the information about the {@link Creator} as a {@link String}.
    */
-  @Override
-  public String toString() {
+  public String printCreator() {
     StringBuilder sb = new StringBuilder();
     if (isSetGivenName()) {
       sb.append(getGivenName());

@@ -1351,11 +1351,11 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 
       if (!registerDone) {
         listOfAdditionalGraphicalObjects = additionalGraphicalObjects;
-        
+
         listOfAdditionalGraphicalObjects.setPackageVersion(-1);
         // changing the ListOf package name from 'core' to 'layout'
         listOfAdditionalGraphicalObjects.setPackageName(null);
-        listOfAdditionalGraphicalObjects.setPackageName(LayoutConstants.shortLabel);      
+        listOfAdditionalGraphicalObjects.setPackageName(LayoutConstants.shortLabel);
         listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
         registerChild(listOfAdditionalGraphicalObjects);
       }
@@ -1377,11 +1377,11 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfCompartmentGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
       listOfCompartmentGlyphs.setPackageName(null);
-      listOfCompartmentGlyphs.setPackageName(LayoutConstants.shortLabel);      
+      listOfCompartmentGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
       registerChild(listOfCompartmentGlyphs);
     }
-    
+
   }
 
   /**
@@ -1398,7 +1398,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfReactionGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
       listOfReactionGlyphs.setPackageName(null);
-      listOfReactionGlyphs.setPackageName(LayoutConstants.shortLabel);      
+      listOfReactionGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
       registerChild(listOfReactionGlyphs);
     }
@@ -1414,12 +1414,12 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfSpeciesGlyphs(ListOf<SpeciesGlyph> speciesGlyphs) {
     unsetListOfSpeciesGlyphs();
     listOfSpeciesGlyphs = speciesGlyphs;
-    
+
     if (listOfSpeciesGlyphs != null) {
       listOfSpeciesGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
       listOfSpeciesGlyphs.setPackageName(null);
-      listOfSpeciesGlyphs.setPackageName(LayoutConstants.shortLabel);      
+      listOfSpeciesGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
       registerChild(listOfSpeciesGlyphs);
     }
@@ -1434,23 +1434,15 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public void setListOfTextGlyphs(ListOf<TextGlyph> textGlyphs) {
     unsetListOfTextGlyphs();
     listOfTextGlyphs = textGlyphs;
-    
+
     if (listOfTextGlyphs != null) {
       listOfTextGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
       listOfTextGlyphs.setPackageName(null);
-      listOfTextGlyphs.setPackageName(LayoutConstants.shortLabel);      
+      listOfTextGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
       registerChild(listOfTextGlyphs);
     }
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-   */
-  @Override
-  public String toString() {
-    return getElementName();
   }
 
   /**

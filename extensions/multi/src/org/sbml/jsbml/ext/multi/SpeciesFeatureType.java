@@ -30,7 +30,6 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
@@ -57,16 +56,16 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
    * 
    */
   private ListOf<PossibleSpeciesFeatureValue> listOfPossibleSpeciesFeatureValues;
-  
+
   /**
    * 
    */
   private Integer occur;
-  
 
-  
+
+
   /**
-   * Creates an SpeciesFeatureType instance 
+   * Creates an SpeciesFeatureType instance
    */
   public SpeciesFeatureType() {
     super();
@@ -132,20 +131,21 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
    */
   public SpeciesFeatureType(SpeciesFeatureType obj) {
     super(obj);
-    
+
     if (obj.isSetListOfPossibleSpeciesFeatureValues()) {
       setListOfPossibleSpeciesFeatureValues(obj.getListOfPossibleSpeciesFeatureValues().clone());
     }
     if (obj.isSetOccur()) {
       setOccur(obj.getOccur());
     }
-    
+
   }
 
 
   /**
    * clones this class
    */
+  @Override
   public SpeciesFeatureType clone() {
     return new SpeciesFeatureType(this);
   }
@@ -158,8 +158,8 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -168,9 +168,9 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
     final int prime = 5623;
     int result = super.hashCode();
     result = prime
-      * result
-      + ((listOfPossibleSpeciesFeatureValues == null) ? 0
-        : listOfPossibleSpeciesFeatureValues.hashCode());
+        * result
+        + ((listOfPossibleSpeciesFeatureValues == null) ? 0
+          : listOfPossibleSpeciesFeatureValues.hashCode());
     result = prime * result + ((occur == null) ? 0 : occur.hashCode());
     return result;
   }
@@ -207,18 +207,6 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
     }
     return true;
   }
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "SpeciesFeatureType [listOfPossibleSpeciesFeatureValues.size = "
-      + getPossibleSpeciesFeatureValueCount() + ", occur = " + occur + ", id = "
-      + getId() + ", name = " + getName() + "]";
-  }
-
 
   /**
    * Returns {@code true} if {@link #listOfPossibleSpeciesFeatureValues} contains at least
@@ -266,7 +254,7 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
   public void setListOfPossibleSpeciesFeatureValues(ListOf<PossibleSpeciesFeatureValue> listOfPossibleSpeciesFeatureValues) {
     unsetListOfPossibleSpeciesFeatureValues();
     this.listOfPossibleSpeciesFeatureValues = listOfPossibleSpeciesFeatureValues;
-    
+
     if (listOfPossibleSpeciesFeatureValues != null) {
       listOfPossibleSpeciesFeatureValues.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
@@ -288,8 +276,8 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
    */
   public boolean unsetListOfPossibleSpeciesFeatureValues() {
     if (isSetListOfPossibleSpeciesFeatureValues()) {
-      ListOf<PossibleSpeciesFeatureValue> oldPossibleSpeciesFeatureValues = this.listOfPossibleSpeciesFeatureValues;
-      this.listOfPossibleSpeciesFeatureValues = null;
+      ListOf<PossibleSpeciesFeatureValue> oldPossibleSpeciesFeatureValues = listOfPossibleSpeciesFeatureValues;
+      listOfPossibleSpeciesFeatureValues = null;
       oldPossibleSpeciesFeatureValues.fireNodeRemovedEvent();
       return true;
     }
@@ -438,7 +426,7 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
     return getPossibleSpeciesFeatureValueCount();
   }
 
-  
+
   /**
    * Returns the value of {@link #occur}.
    *
@@ -482,14 +470,14 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
    */
   public boolean unsetOccur() {
     if (isSetOccur()) {
-      Integer oldOccur = this.occur;
-      this.occur = null;
-      firePropertyChange(MultiConstants.occur, oldOccur, this.occur);
+      Integer oldOccur = occur;
+      occur = null;
+      firePropertyChange(MultiConstants.occur, oldOccur, occur);
       return true;
     }
     return false;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
@@ -560,7 +548,7 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
     if (isSetOccur()) {
       attributes.put(MultiConstants.shortLabel+ ":" + MultiConstants.occur, occur.toString());
     }
-    
+
     return attributes;
   }
 

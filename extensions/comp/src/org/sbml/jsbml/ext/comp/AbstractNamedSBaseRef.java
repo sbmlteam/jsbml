@@ -24,7 +24,6 @@ package org.sbml.jsbml.ext.comp;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.IdentifierException;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.util.IdManager;
@@ -134,6 +133,7 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = CompConstants.shortLabel;
@@ -306,23 +306,6 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
       // else part to avoid calling this method twice.
       firePropertyChange(TreeNodeChangeEvent.name, oldName, this.name);
     }
-  }
-
-  /**
-   * Returns the name of the component, if it is available. Otherwise,
-   * the identifier is returned. If both is not possible, the class name of
-   * this element is returned.
-   */
-  @Override
-  public String toString() {
-    
-    if (isSetName() && (getName().length() > 0)) {
-      return getElementName() + ": name= " + name;
-    }
-    if (isSetId()) {
-      return  getElementName() + ": id= " + id;
-    }
-    return getElementName();
   }
 
   /* (non-Javadoc)

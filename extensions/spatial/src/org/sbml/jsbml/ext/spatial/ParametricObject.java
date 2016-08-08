@@ -42,7 +42,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(ParametricObject.class);
-  
+
   /**
    * 
    */
@@ -58,7 +58,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
   /**
    * 
    */
-  private String pointIndex;  
+  private String pointIndex;
   /**
    * 
    */
@@ -67,8 +67,8 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    * 
    */
   private DataKind dataType;
-  
-  
+
+
   /**
    * Generated serial version identifier.
    */
@@ -97,13 +97,13 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     }
     if (po.isSetPointIndex()) {
       setPointIndex(po.getPointIndex());
-    }    
+    }
     if (po.isSetPointIndexLength()) {
       setPointIndexLength(po.getPointIndexLength());
     }
     if (po.isSetDataType()) {
       setDataType(po.getDataType());
-    }    
+    }
   }
 
 
@@ -162,7 +162,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
       equal &= po.isSetDataType() == isSetDataType();
       if (equal && isSetDataType()) {
         equal &= po.getDataType().equals(getDataType());
-      }      
+      }
     }
     return equal;
   }
@@ -250,7 +250,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     return domainType != null;
   }
 
-  
+
   /**
    * Sets the value of domain
    * @param domain
@@ -278,8 +278,8 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     return false;
   }
 
-  
-  
+
+
   /**
    * Returns the value of compression.
    *
@@ -300,7 +300,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    * @return whether compression is set.
    */
   public boolean isSetCompression() {
-    return this.compression != null;
+    return compression != null;
   }
 
   /**
@@ -309,7 +309,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    */
   public void setCompression(String compression) {
     setCompression(CompressionKind.valueOf(compression));
-  }  
+  }
 
   /**
    * Sets the value of compression
@@ -330,15 +330,15 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    */
   public boolean unsetCompression() {
     if (isSetCompression()) {
-      CompressionKind oldCompression = this.compression;
-      this.compression = null;
-      firePropertyChange(SpatialConstants.compression, oldCompression, this.compression);
+      CompressionKind oldCompression = compression;
+      compression = null;
+      firePropertyChange(SpatialConstants.compression, oldCompression, compression);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #pointIndex}.
    *
@@ -359,7 +359,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    * @return whether {@link #pointIndex} is set.
    */
   public boolean isSetPointIndex() {
-    return this.pointIndex != null;
+    return pointIndex != null;
   }
 
 
@@ -382,15 +382,15 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    */
   public boolean unsetPointIndex() {
     if (isSetPointIndex()) {
-      String oldPointIndex = this.pointIndex;
-      this.pointIndex = null;
-      this.pointIndexLength = null;
-      firePropertyChange(SpatialConstants.pointIndex, oldPointIndex, this.pointIndex);
+      String oldPointIndex = pointIndex;
+      pointIndex = null;
+      pointIndexLength = null;
+      firePropertyChange(SpatialConstants.pointIndex, oldPointIndex, pointIndex);
       return true;
     }
     return false;
   }
-  
+
   /**
    * Appends the variable data to pointIndex.
    * @return {@code true} if data was appended to pointIndex, otherwise {@code false}.
@@ -398,15 +398,15 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
   public boolean append(String data) {
     if (data == null) { return false; }
     if (isSetPointIndex()) {
-      String oldPointIndex = this.pointIndex;
-      this.pointIndex = this.pointIndex + data;
-      firePropertyChange(SpatialConstants.pointIndex, oldPointIndex, this.pointIndex);
+      String oldPointIndex = pointIndex;
+      pointIndex = pointIndex + data;
+      firePropertyChange(SpatialConstants.pointIndex, oldPointIndex, pointIndex);
     } else {
       setPointIndex(data);
     }
     return true;
   }
-  
+
   /**
    * Returns the value of pointIndexLength.
    *
@@ -427,7 +427,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    * @return whether pointIndexLength is set.
    */
   public boolean isSetPointIndexLength() {
-    return this.pointIndexLength != null;
+    return pointIndexLength != null;
   }
 
 
@@ -450,15 +450,15 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    */
   public boolean unsetPointIndexLength() {
     if (isSetPointIndexLength()) {
-      Integer oldPointIndexLength = this.pointIndexLength;
-      this.pointIndexLength = null;
-      firePropertyChange(SpatialConstants.pointIndexLength, oldPointIndexLength, this.pointIndexLength);
+      Integer oldPointIndexLength = pointIndexLength;
+      pointIndexLength = null;
+      firePropertyChange(SpatialConstants.pointIndexLength, oldPointIndexLength, pointIndexLength);
       return true;
     }
     return false;
   }
 
-  
+
   /**
    * Returns the value of dataType.
    *
@@ -479,7 +479,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    * @return whether dataType is set.
    */
   public boolean isSetDataType() {
-    return this.dataType != null;
+    return dataType != null;
   }
 
   /**
@@ -509,14 +509,14 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    */
   public boolean unsetDataType() {
     if (isSetDataType()) {
-      DataKind oldDataType = this.dataType;
-      this.dataType = null;
-      firePropertyChange(SpatialConstants.dataType, oldDataType, this.dataType);
+      DataKind oldDataType = dataType;
+      dataType = null;
+      firePropertyChange(SpatialConstants.dataType, oldDataType, dataType);
       return true;
     }
     return false;
   }
-  
+
 
 
   @Override
@@ -572,7 +572,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
       // see DataKind.java
       attributes.put(SpatialConstants.shortLabel + ":dataType",
         getDataType().toString().toLowerCase());
-    }    
+    }
 
     return attributes;
   }
@@ -624,37 +624,12 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.dataType, getElementName()));
         }
-      }      
+      }
       else {
         isAttributeRead = false;
       }
     }
     return isAttributeRead;
   }
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("ParametricObject [polygonType=");
-    builder.append(polygonType);
-    builder.append(", domain=");
-    builder.append(domainType);
-    builder.append(", compression=");
-    builder.append(compression);
-    builder.append(", pointIndex=");
-    builder.append(pointIndex);
-    builder.append(", pointIndexLength=");
-    builder.append(pointIndexLength);
-    builder.append(", dataType=");
-    builder.append(dataType);    
-    builder.append("]");
-    return builder.toString();
-  }
-
-
 
 }

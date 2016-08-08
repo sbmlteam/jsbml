@@ -25,10 +25,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.SubModel;
 
 /**
  * The {@link ExternalModelDefinition} objects are model definitions - in and of

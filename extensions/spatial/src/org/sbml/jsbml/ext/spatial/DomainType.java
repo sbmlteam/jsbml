@@ -38,12 +38,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class DomainType extends AbstractSpatialNamedSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(DomainType.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -170,7 +170,9 @@ public class DomainType extends AbstractSpatialNamedSBase {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 1489;//Change this prime number
@@ -182,8 +184,7 @@ public class DomainType extends AbstractSpatialNamedSBase {
   }
 
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#writeXMLAttributes()
    */
   @Override
@@ -195,8 +196,7 @@ public class DomainType extends AbstractSpatialNamedSBase {
     return attributes;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
@@ -220,19 +220,5 @@ public class DomainType extends AbstractSpatialNamedSBase {
     }
     return isAttributeRead;
   }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("DomainType [spatialDimension=");
-    builder.append(spatialDimensions);
-    builder.append("]");
-    return builder.toString();
-  }
-
-
 
 }

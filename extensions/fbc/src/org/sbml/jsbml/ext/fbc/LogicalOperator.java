@@ -333,20 +333,4 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
     return element;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [");
-    if (isSetMetaId()) {
-      builder.append("metaid=");
-      builder.append(getMetaId());
-    }
-    builder.append("]");
-    return builder.toString();
-  }
-
 }

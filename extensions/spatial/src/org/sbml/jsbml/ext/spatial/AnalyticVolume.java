@@ -38,12 +38,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class AnalyticVolume extends AbstractMathContainer implements SpatialNamedSBase{
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(AnalyticVolume.class);
-  
+
   /**
    * 
    */
@@ -91,7 +91,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     }
     if (node.isSetDomainType()) {
       setDomainType(node.getDomainType());
-    }    
+    }
   }
 
   /**
@@ -105,7 +105,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     initDefaults();
     spatialId = id;
   }
-  
+
   /**
    * Initializes the default values using the namespace.
    */
@@ -442,24 +442,6 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
       }
     }
     return isAttributeRead;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("AnalyticVolume [spatialId=");
-    builder.append(spatialId);
-    builder.append(", domainType=");
-    builder.append(domainType);
-    builder.append(", functionType=");
-    builder.append(functionType);
-    builder.append(", ordinal=");
-    builder.append(ordinal);
-    builder.append("]");
-    return builder.toString();
   }
 
 }

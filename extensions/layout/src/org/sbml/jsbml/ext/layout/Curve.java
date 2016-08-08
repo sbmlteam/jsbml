@@ -22,13 +22,11 @@
 package org.sbml.jsbml.ext.layout;
 
 import java.text.MessageFormat;
-import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * The {@link Curve} class describes how to connect elements in a diagram defined with

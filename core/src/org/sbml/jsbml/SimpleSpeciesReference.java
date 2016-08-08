@@ -75,7 +75,7 @@ implements UniqueNamedSBase {
   public SimpleSpeciesReference(SimpleSpeciesReference ssr) {
     super(ssr);
     speciesID = ssr.isSetSpecies() ? new String(ssr.getSpecies())
-    : null;
+      : null;
   }
 
   /**
@@ -243,11 +243,12 @@ implements UniqueNamedSBase {
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.element.NamedSBase#toString()
+  /**
+   * Human-readable representation of this reference.
+   * 
+   * @return
    */
-  @Override
-  public String toString() {
+  public String printSpeciesReference() {
 
     /*
      * this block seems to be quite slow !!

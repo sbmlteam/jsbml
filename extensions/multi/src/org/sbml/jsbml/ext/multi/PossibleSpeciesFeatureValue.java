@@ -52,7 +52,7 @@ public class PossibleSpeciesFeatureValue extends AbstractNamedSBase  implements 
   private String numericValue;
 
   /**
-   * Creates an PossibleSpeciesFeatureValue instance 
+   * Creates an PossibleSpeciesFeatureValue instance
    */
   public PossibleSpeciesFeatureValue() {
     super();
@@ -150,17 +150,6 @@ public class PossibleSpeciesFeatureValue extends AbstractNamedSBase  implements 
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
-  
-  
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "PossibleSpeciesFeatureValue [numericValue = " + numericValue
-      + ", id = " + getId() + ", name = " + getName() + "]";
-  }
-
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
@@ -170,10 +159,9 @@ public class PossibleSpeciesFeatureValue extends AbstractNamedSBase  implements 
     final int prime = 4547;
     int result = super.hashCode();
     result = prime * result
-      + ((numericValue == null) ? 0 : numericValue.hashCode());
+        + ((numericValue == null) ? 0 : numericValue.hashCode());
     return result;
   }
-
 
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
@@ -244,9 +232,9 @@ public class PossibleSpeciesFeatureValue extends AbstractNamedSBase  implements 
    */
   public boolean unsetNumericValue() {
     if (isSetNumericValue()) {
-      String oldNumericValue = this.numericValue;
-      this.numericValue = null;
-      firePropertyChange(MultiConstants.numericValue, oldNumericValue, this.numericValue);
+      String oldNumericValue = numericValue;
+      numericValue = null;
+      firePropertyChange(MultiConstants.numericValue, oldNumericValue, numericValue);
       return true;
     }
     return false;
@@ -271,7 +259,7 @@ public class PossibleSpeciesFeatureValue extends AbstractNamedSBase  implements 
     if (isSetNumericValue()) {
       attributes.put(MultiConstants.shortLabel+ ":" + MultiConstants.numericValue, getNumericValue());
     }
-    
+
     return attributes;
   }
 

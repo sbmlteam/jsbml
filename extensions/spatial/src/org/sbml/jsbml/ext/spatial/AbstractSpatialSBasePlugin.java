@@ -68,7 +68,7 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
 
   @Override
   public abstract AbstractSpatialSBasePlugin clone();
-  
+
   /**
    * Initializes the default values using the namespace.
    */
@@ -141,11 +141,6 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
   public Model getModel() {
     SBMLDocument doc = getSBMLDocument();
     return doc != null ? doc.getModel() : null;
-  }
-  
-  @Override
-  public String toString() {
-    return super.toString();
   }
 
 }

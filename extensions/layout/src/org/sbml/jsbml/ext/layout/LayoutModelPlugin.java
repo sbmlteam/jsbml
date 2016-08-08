@@ -29,7 +29,6 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * The {@link Layout} package extends the {@link Model} class with the
@@ -326,7 +325,7 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
   public void setListOfLayouts(ListOf<Layout> listOfLayouts) {
     unsetListOfLayouts();
     this.listOfLayouts = listOfLayouts;
-    
+
     if (listOfLayouts != null) {
       listOfLayouts.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
@@ -338,14 +337,6 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
     if (isSetExtendedSBase()) {
       getExtendedSBase().registerChild(listOfLayouts);
     }
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return getClass().getSimpleName() + " [listOfLayouts=" + listOfLayouts + "]";
   }
 
   /**

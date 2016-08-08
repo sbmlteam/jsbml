@@ -335,14 +335,6 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "GroupModelPlugin [nb Group = " + getGroupCount() + "]";
-  }
-
   /**
    * Removes the {@link #listOfGroups} from this {@link Model} and notifies
    * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.

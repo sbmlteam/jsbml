@@ -1220,17 +1220,6 @@ public class UnitDefinition extends AbstractNamedSBase {
     return this;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-   */
-  @Override
-  public String toString() {
-    if (isSetName()) {
-      return getName();
-    }
-    return isSetListOfUnits() ? printUnits(this, true) : super.toString();
-  }
-
   /**
    * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.

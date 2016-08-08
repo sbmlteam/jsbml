@@ -359,18 +359,16 @@ public class Unit extends AbstractSBase {
      */
     public String getName() {
       if (this == CELSIUS) {
-        return "degree "
-            + StringTools.firstLetterUpperCase(toString()
-              .toLowerCase());
+        return "degree " + StringTools.firstLetterUpperCase(toString().toLowerCase());
       }
       if (this == DIMENSIONLESS || this == GRAM || this == ITEM
-          || this == INVALID || this == KILOGRAM || this == LUX
+          || this == INVALID || this == KILOGRAM || this == LUX || this == LUMEN
+          || this == LITER || this == LITRE
           || this == METER || this == METRE || this == MOLE
           || this == SECOND) {
         return toString().toLowerCase();
       } else {
-        return StringTools.firstLetterUpperCase(toString()
-          .toLowerCase());
+        return StringTools.firstLetterUpperCase(toString().toLowerCase());
       }
     }
 
@@ -1406,7 +1404,7 @@ public class Unit extends AbstractSBase {
     exponent = unit.exponent != null ? Double.valueOf(unit.getExponent())
       : null;
     multiplier = unit.multiplier != null ? new Double(unit.getMultiplier())
-    : null;
+      : null;
     offset = unit.offset != null ? new Double(unit.getOffset()) : null;
     scale = unit.scale != null ? Integer.valueOf(unit.getScale()) : null;
     kind = unit.isSetKind() ? unit.getKind() : Kind.INVALID;
@@ -2349,8 +2347,7 @@ public class Unit extends AbstractSBase {
   /**
    * Produces a text formula representation of this unit.
    */
-  @Override
-  public String toString() {
+  public String printUnit() {
     StringBuffer times = new StringBuffer();
     if (getMultiplier() != 0d) {
       if (getMultiplier() != 1d) {

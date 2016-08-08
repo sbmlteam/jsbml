@@ -38,7 +38,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
@@ -2475,9 +2474,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    */
   public int getMathContainerCount() {
     return getFunctionDefinitionCount() + getInitialAssignmentCount()
-        + getEventAssignmentCount() + getDelayCount() + getConstraintCount()
-        + getRuleCount() + getTriggerCount() + getStoichiometryMathCount()
-        + getKineticLawCount();
+    + getEventAssignmentCount() + getDelayCount() + getConstraintCount()
+    + getRuleCount() + getTriggerCount() + getStoichiometryMathCount()
+    + getKineticLawCount();
   }
 
   /**
@@ -3067,7 +3066,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    */
   public int getSBaseWithDerivedUnitCount() {
     return getNamedSBaseWithDerivedUnitCount() + getMathContainerCount()
-        - getFunctionDefinitionCount();
+    - getFunctionDefinitionCount();
   }
 
   /**

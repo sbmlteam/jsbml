@@ -24,7 +24,6 @@ package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
@@ -170,27 +169,6 @@ public class ASTRelationalOperatorNode extends ASTFunction {
       logger.error("Unable to create MathML");
       return null;
     }
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(isSetType() ? type : "null");
-    builder.append(", id=");
-    builder.append(isSetId() ? id : "null");
-    builder.append(", style=");
-    builder.append(isSetStyle() ? style : "null");
-    builder.append(", class=");
-    builder.append(isSetMathMLClass() ? mathMLClass : "null");
-    builder.append("]");
-    return builder.toString();
   }
 
 }

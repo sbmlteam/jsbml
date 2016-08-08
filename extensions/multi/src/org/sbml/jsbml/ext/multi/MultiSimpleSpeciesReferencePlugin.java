@@ -133,18 +133,6 @@ public class MultiSimpleSpeciesReferencePlugin extends AbstractSBasePlugin {
     return true;
   }
 
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "MultiSimpleSpeciesReferencePlugin [compartmentReference="
-        + compartmentReference + "]";
-  }
-
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
    */

@@ -42,13 +42,13 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class SampledFieldGeometry extends GeometryDefinition {
 
-  
-  
+
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(SampledFieldGeometry.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -220,7 +220,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
   public void setListOfSampledVolumes(ListOf<SampledVolume> listOfSampledVolumes) {
     unsetListOfSampledVolumes();
     this.listOfSampledVolumes = listOfSampledVolumes;
-    
+
     if (listOfSampledVolumes != null) {
       listOfSampledVolumes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -229,7 +229,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
       listOfSampledVolumes.setSBaseListType(ListOf.Type.other);
 
       registerChild(this.listOfSampledVolumes);
-    }  
+    }
 
   }
 
@@ -385,7 +385,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
     }
     if (isSetListOfSampledVolumes()) {
       hashCode += prime * getListOfSampledVolumes().hashCode();
-    }    
+    }
     return hashCode;
   }
 
@@ -423,18 +423,6 @@ public class SampledFieldGeometry extends GeometryDefinition {
       }
     }
     return isAttributeRead;
-  }
-  
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("SampledFieldGeometry [sampledField=");
-    builder.append(sampledField);
-    builder.append("]");
-    return builder.toString();
   }
 
 }

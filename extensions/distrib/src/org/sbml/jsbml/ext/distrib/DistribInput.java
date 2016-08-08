@@ -184,15 +184,6 @@ public class DistribInput extends AbstractNamedSBase {
   }
 
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "DistribInput [index=" + index + ", id=" + getId()
-        + ", name=" + getName() + "]";
-  }
-
-  /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override

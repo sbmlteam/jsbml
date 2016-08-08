@@ -38,6 +38,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @date Jan 21, 2014
  * @deprecated
  */
+@Deprecated
 public class PolygonObject extends AbstractSBase {
 
   /**
@@ -91,7 +92,7 @@ public class PolygonObject extends AbstractSBase {
     packageName = SpatialConstants.shortLabel;
   }
 
-  
+
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
@@ -223,18 +224,6 @@ public class PolygonObject extends AbstractSBase {
       }
     }
     return isAttributeRead;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("PolygonObject [pointIndex=");
-    builder.append(Arrays.toString(pointIndex));
-    builder.append("]");
-    return builder.toString();
   }
 
 }

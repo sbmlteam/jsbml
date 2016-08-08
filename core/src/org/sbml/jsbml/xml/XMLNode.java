@@ -29,7 +29,6 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.xml.parsers.SBMLRDFAnnotationParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
@@ -585,41 +584,6 @@ public class XMLNode extends XMLToken {
       return getCharacters();
     }
     return XMLNodeWriter.toXML(this);
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    // TODO - improve this method, just printing the bare minimum about this XMLNode
-    
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [childElements size=");
-    builder.append(getNumChildren()); // putting just the number of children, to avoid to print them recursively.
-    builder.append(", attributes=");
-    builder.append(attributes);
-    builder.append(", characters=");
-    builder.append(characters);
-    builder.append(", column=");
-    builder.append(column);
-    builder.append(", isEndElement=");
-    builder.append(isEndElement);
-    builder.append(", isEOF=");
-    builder.append(isEOF);
-    builder.append(", isStartElement=");
-    builder.append(isStartElement);
-    builder.append(", isText=");
-    builder.append(isText);
-    builder.append(", line=");
-    builder.append(line);
-    builder.append(", namespaces=");
-    builder.append(namespaces);
-    builder.append(", triple=");
-    builder.append(triple);
-    builder.append("]");
-    return builder.toString();
   }
 
   /**
