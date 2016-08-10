@@ -1,22 +1,9 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 
-import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Assignment;
-import org.sbml.jsbml.ExplicitRule;
-import org.sbml.jsbml.InitialAssignment;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.CycleDetectionTreeNode;
 
 public abstract class AssignmentConstraints
   extends AbstractConstraintDeclaration {

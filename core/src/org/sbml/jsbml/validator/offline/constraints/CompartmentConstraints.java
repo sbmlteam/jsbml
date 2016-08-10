@@ -26,7 +26,6 @@ import java.util.Set;
 
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -51,7 +50,8 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     case GENERAL_CONSISTENCY:
       if (level == 1)
       {
-        addRangeToSet(set, CORE_20504, CORE_20505);
+        set.add(CORE_20504);
+        set.add(CORE_20505);
         set.add(CORE_20509);
       }
       else if (level == 2)
@@ -66,6 +66,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       else if (level == 3)
       {
         addRangeToSet(set, CORE_20507, CORE_20509);
+        set.add(CORE_20517);
       }
 
       break;
@@ -185,10 +186,12 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
           
           Compartment com = c;
 
+          // Clears set
+          outsideSet.clear();
+          
           while(com != null && com.isSetOutside())
           {
-            // Clears set
-            outsideSet.clear();
+            
             // add returns false if the compartment is already in the set
             if(!outsideSet.add(com))
             {
@@ -229,19 +232,18 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
           if (c.getSpatialDimensions() == 1 && c.isSetUnits()) {
 
-            String unit = c.getUnits();
+
             UnitDefinition def = c.getUnitsInstance();
 
-            boolean isLength = ValidationTools.isLength(unit, def);
 
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
-              return isLength;
+            if (ctx.getLevel() == 2 && ctx.getVersion() == 1) {
+              return def.isVariantOfLength();
             }
+            else
+            {
+              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
-            if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(unit);
-
-              return isDimensionless || isLength;
+              return isDimensionless || def.isVariantOfLength();
             }
           }
 
@@ -256,18 +258,17 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         public boolean check(ValidationContext ctx, Compartment c) {
 
           if (c.getSpatialDimensions() == 2 && c.isSetUnits()) {
-            String unit = c.getUnits();
+
             UnitDefinition def = c.getUnitsInstance();
 
 
-            boolean isArea = ValidationTools.isArea(unit, def);
+            boolean isArea = def.isVariantOfArea();
 
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
+            if (ctx.getLevel() == 2 && ctx.getVersion() == 1) {
               return isArea;
             }
-
-            if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(unit);
+            else {
+              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
               return isDimensionless || isArea;
             }
@@ -283,19 +284,17 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
 
-          if (c.getSpatialDimensions() == 2 && c.isSetUnits()) {
-            String unit = c.getUnits();
+          if (c.getSpatialDimensions() == 3 && c.isSetUnits()) { 
             UnitDefinition def = c.getUnitsInstance();
 
 
-            boolean isVolume = ValidationTools.isVolume(unit, def);
+            boolean isVolume = def.isVariantOfVolume();
 
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
+            if (ctx.getLevel() == 2 && ctx.getVersion() == 1) {
               return isVolume;
             }
-
-            if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(unit);
+            else  {
+              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
               return isDimensionless || isVolume;
             }
@@ -320,7 +319,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_80501:
       func = new ValidationFunction<Compartment>() {
         

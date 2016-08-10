@@ -21,19 +21,17 @@
 package org.sbml.jsbml.validator.offline.constraints.helper;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
-
-import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBO;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.filters.Filter;
@@ -77,20 +75,21 @@ public final class ValidationTools {
   };
 
 
+  // TODO this function doesn't work... 
   public static boolean containsMathOnlyPredefinedFunctions(ASTNode math) {
     if (math != null) {
+      
+      Queue<ASTNode> toCheck = new LinkedList<ASTNode>();
+      
+      toCheck.offer(math);
+      
+      while(!toCheck.isEmpty())
+      {
+        ASTNode node = toCheck.poll();
 
-      if (math.isFunction()) {
-        // Can't be user defined
-        return math.getType() != ASTNode.Type.FUNCTION;
-      } else {
-        // Check all children functions
-        for (ASTNode func : math.getListOfNodes(FILTER_IS_FUNCTION)) {
-          if (func.getType() == Type.FUNCTION) {
-            return false;
-          }
-        }
+        toCheck.addAll(node.getListOfNodes());
       }
+      
     }
 
     return true;
@@ -165,29 +164,15 @@ public final class ValidationTools {
     return false;
   }
 
-
-  public static boolean isDimensionless(String unit) {
-    return unit == Kind.DIMENSIONLESS.getName();
-  }
-
-
-  public static boolean isLength(String unit, UnitDefinition def) {
-    return unit == UnitDefinition.LENGTH || unit == Kind.METRE.getName()
-        || (def != null && def.isVariantOfLength());
-  }
-
-
-  public static boolean isArea(String unit, UnitDefinition def) {
-    return unit == UnitDefinition.AREA
-        || (def != null && def.isVariantOfArea());
-  }
-
-
-  public static boolean isVolume(String unit, UnitDefinition def) {
-    return unit == UnitDefinition.VOLUME || unit == Kind.LITRE.getName()
-        || (def != null && def.isVariantOfVolume());
-  }
-
+   public static boolean isDimensionless(UnitDefinition ud)
+   {
+     if (ud.getUnitCount() == 1)
+     {
+       return ud.getUnit(0).isDimensionless();
+     }
+     
+     return false;
+   }
 
   /**
    * A letter is either a small letter or big letter.
