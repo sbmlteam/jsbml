@@ -64,7 +64,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
         set.add(CORE_10218);
         
-        if (level == 3 || version == 4)
+        if (level == 3 || (level == 2 && version > 3))
         {
           set.add(CORE_10219);
           set.add(CORE_10221);
@@ -76,6 +76,11 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         }
         
         set.add(CORE_10222);
+      }
+      
+      if (level == 3)
+      {
+        set.add(CORE_10220);
       }
 
       break;
@@ -420,7 +425,6 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_10218:
-      ASTNodeConstraints cd = this;
       func = new ValidationFunction<ASTNode>() {
 
         private final Set<ASTNode.Type> unaries  = getUnaryTypes();
@@ -588,6 +592,25 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+    case CORE_10220:
+      func = new ValidationFunction<ASTNode>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, ASTNode node) {
+          
+        
+          // Only allowed on numbers
+          if (node.isSetUnits())
+          {
+            
+            return node.isNumber();
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
     case CORE_10221:
       func = new ValidationFunction<ASTNode>() {
 

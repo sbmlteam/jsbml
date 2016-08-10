@@ -138,7 +138,7 @@ public class OfflineValidatorTests {
     System.out.println("Reading: " + nbSecondesRead + " secondes.");
     System.out.println("Validating: " + nbSecondesValidating + " secondes.");
 
-    System.out.println("\n\n Number of files correctly validated: "
+    System.out.println("\n\nNumber of files correctly validated: "
       + filesCorrectly + " out of " + totalFileTested);
     System.out.println("Didn't detect the following broken constraints:");
 

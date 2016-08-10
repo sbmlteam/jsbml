@@ -203,14 +203,14 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             String unit = s.getUnits();
             UnitDefinition def = s.getUnitsInstance();
 
-            boolean isLength = ValidationTools.isLength(unit, def);
+            boolean isLength = def.isVariantOfLength();
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
               return isLength;
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(unit);
+              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
               return isDimensionless || isLength;
             }
@@ -232,14 +232,14 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             String unit = s.getSpatialSizeUnits();
             UnitDefinition def = s.getUnitsInstance();
 
-            boolean isArea = ValidationTools.isArea(unit, def);
+            boolean isArea = def.isVariantOfArea();
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
               return isArea;
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(unit);
+              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
               return isDimensionless || isArea;
             }
@@ -262,14 +262,14 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             String unit = s.getSpatialSizeUnits();
             UnitDefinition def = s.getUnitsInstance();
 
-            boolean isVolume = ValidationTools.isVolume(unit, def);
+            boolean isVolume = def.isVariantOfVolume();
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
               return isVolume;
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(unit);
+              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
               return isDimensionless || isVolume;
             }
