@@ -30,6 +30,7 @@ import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
@@ -46,15 +47,20 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
     CHECK_CATEGORY category) {
     switch (category) {
     case GENERAL_CONSISTENCY:
+      set.add(CORE_20901);
 
       if (level == 1) {
         set.add(CORE_99106);
         set.add(CORE_99129);
       } else if (level == 2) {
-
+        set.add(CORE_20903);
         if (version == 1) {
           set.add(CORE_99106);
         }
+      }
+      else if (level == 3)
+      {
+        set.add(CORE_20903);
       }
 
       break;
@@ -87,6 +93,41 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<AssignmentRule> func = null;
 
     switch (errorCode) {
+    case CORE_20901:
+      func = new ValidationFunction<AssignmentRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, AssignmentRule r) {
+
+          if (r.isSetVariable()) {
+
+            Variable var = r.getVariableInstance();
+            
+            return ValidationTools.isValidVariable(var, ctx.getLevel());
+            
+          }
+
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20903:
+      func = new ValidationFunction<AssignmentRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, AssignmentRule r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null) {
+            return !var.getConstant();
+          }
+
+          return true;
+        }
+      };
+      break;
     case CORE_99106:
       func = new ValidationFunction<AssignmentRule>() {
 
@@ -122,15 +163,13 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
 
             while (!toCheck.isEmpty()) {
               ASTNode node = toCheck.poll();
-              
-              if (node.isName())
-              {
-                if (defienedLater.contains(node.getName()))
-                {
+
+              if (node.isName()) {
+                if (defienedLater.contains(node.getName())) {
                   return false;
                 }
               }
-              
+
               toCheck.addAll(node.getListOfNodes());
             }
           }

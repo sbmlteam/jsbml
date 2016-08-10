@@ -26,11 +26,13 @@ public abstract class UniqueValidation<T, U> implements ValidationFunction<T>{
     {
       U id = getNextObject(ctx, t, i);
       
-      if (id != null && ids.contains(id))
+      // If id not null, but already in set
+      if (id != null && !ids.add(id))
       {
         ids.clear();
         return false;
       }
+
     }
     
     ids.clear();

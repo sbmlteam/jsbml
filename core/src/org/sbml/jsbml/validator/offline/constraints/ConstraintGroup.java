@@ -20,13 +20,10 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 
 public class ConstraintGroup<T> extends AbstractConstraint<T> {
 

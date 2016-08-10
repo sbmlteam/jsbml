@@ -26,14 +26,19 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SimpleSpeciesReference;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SyntaxChecker;
 
@@ -172,6 +177,26 @@ public final class ValidationTools {
      }
      
      return false;
+   }
+   
+   public static boolean isValidVariable(Variable var, int level)
+   {
+
+     if (var == null) {
+       return false;
+     }
+
+     boolean isSpecCompOrParam = (var instanceof Species)
+       || (var instanceof Compartment) || (var instanceof Parameter);
+
+     if (level < 3)
+     {
+       return isSpecCompOrParam;
+     }
+     else
+     {
+       return isSpecCompOrParam || (var instanceof SpeciesReference);
+     }
    }
 
   /**
