@@ -27,7 +27,8 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
-import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * @author Roman
@@ -55,7 +56,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
 
         if (version < 3) {
           set.add(CORE_21204);
-        } else if (version == 4) {
+        } else if (version >= 4) {
           set.add(CORE_21206);
         }
 
@@ -104,7 +105,6 @@ public class EventConstraints extends AbstractConstraintDeclaration {
         }
         @Override
         public String getNextObject(ValidationContext ctx, Event e, int n) {
-          
           return e.getEventAssignment(n).getVariable();
         }
         
@@ -124,7 +124,8 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return e.isSetTrigger();
         }
       };
-
+      break;
+      
     case CORE_21203:
 
       func = new ValidationFunction<Event>() {
@@ -135,6 +136,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return e.getNumEventAssignments() != 0;
         }
       };
+      break;
 
     case CORE_21204:
 
@@ -144,23 +146,22 @@ public class EventConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Event e) {
 
           if (e.isSetTimeUnits()) {
-            String s = e.getTimeUnits();
             UnitDefinition def = e.getTimeUnitsInstance();
 
-            boolean isTime =
-              (s == "time") || (s == "second") || (def.isVariantOfTime());
-
+            boolean isTime = def.isVariantOfTime();
+            
             if (ctx.isLevelAndVersionEqualTo(2, 2)) {
-              return isTime;
+              return isTime || ValidationTools.isDimensionless(def);
             } else {
-              return isTime || (s == "dimensionless");
+              return isTime;
             }
           }
 
-          return e.getNumEventAssignments() != 0;
+          return true;
         }
       };
-
+      break;
+      
     case CORE_21206:
 
       func = new ValidationFunction<Event>() {
@@ -175,7 +176,8 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
-
+      break;
+      
     case CORE_21207:
 
       func = new ValidationFunction<Event>() {
@@ -190,6 +192,8 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+      
     case CORE_99206:
 
       func = new ValidationFunction<Event>() {
@@ -200,7 +204,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return e.getTimeUnits().isEmpty();
         }
       };
-
+      break;
     }
 
     return func;

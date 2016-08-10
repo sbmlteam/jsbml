@@ -90,13 +90,15 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Constraint c) {
 
           if (c.isSetMath()) {
+
             return c.getMath().isBoolean();
           }
 
           return true;
         }
       };
-
+      break;
+      
     case CORE_21007:
       func = new ValidationFunction<Constraint>() {
 
@@ -106,7 +108,7 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
           return c.isSetMath();
         }
       };
-
+      break;
     }
 
     return func;

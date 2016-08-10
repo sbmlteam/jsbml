@@ -31,6 +31,7 @@ import java.util.TreeSet;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
+import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.xml.stax.SBMLReader;
@@ -147,7 +148,7 @@ public class OfflineValidatorTests {
       String out = i + " in " + notDetectedFiles.get(i);
       System.out.println(out);
     }
-
+    
   }
 
 

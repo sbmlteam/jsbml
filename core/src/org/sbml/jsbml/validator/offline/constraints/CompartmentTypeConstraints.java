@@ -82,7 +82,6 @@ public class CompartmentTypeConstraints extends AbstractConstraintDeclaration {
    */
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    @SuppressWarnings("deprecation")
     ValidationFunction<CompartmentType> func = null;
     switch (errorCode) {
     case CORE_10714:

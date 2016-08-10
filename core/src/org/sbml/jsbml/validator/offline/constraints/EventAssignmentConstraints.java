@@ -20,7 +20,6 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.AssignmentRule;
@@ -87,7 +86,6 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
 
 
   @Override
-  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<EventAssignment> func = null;
 
@@ -106,9 +104,9 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
             {
               if (r.isAssignment())
               {
-                AssignmentRule ar = (AssignmentRule)r;
+                AssignmentRule ar = (AssignmentRule) r;
                 
-                if (ar.getVariable() == ea.getVariable())
+                if (ar.getVariable().equals(ea.getVariable()))
                 {
                   return false;
                 }
@@ -129,9 +127,17 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, EventAssignment ea) {
-
+          
           if (ea.isSetVariable()) {
             Variable var = ea.getVariableInstance();
+            
+           
+            
+            if (var == null)
+            {
+              return false;
+            }
+            
             boolean isComSpecOrPar = (var instanceof Compartment)
                 || (var instanceof Species) || (var instanceof Parameter);
 
@@ -146,7 +152,8 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
-
+      break;
+      
     case CORE_21212:
       func = new ValidationFunction<EventAssignment>() {
 
@@ -156,13 +163,14 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
           if (ea.isSetVariable()) {
             Variable var = ea.getVariableInstance();
 
-            return var != null && var.isConstant();
+            return var != null && !var.isConstant();
           }
 
           return true;
         }
       };
-
+      break;
+      
     case CORE_21213:
       func = new ValidationFunction<EventAssignment>() {
 
@@ -172,6 +180,7 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
           return ea.isSetMath();
         }
       };
+      break;
     }
 
     return func;
