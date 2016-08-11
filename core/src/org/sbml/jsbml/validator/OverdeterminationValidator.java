@@ -583,7 +583,7 @@ public class OverdeterminationValidator {
       // Create vertices and edges for products
       for (SpeciesReference sref : r.getListOfProducts()) {
         Species species = sref.getSpeciesInstance();
-        if (!species.isConstant()) {
+        if (species != null && !species.isConstant()) {
           variable = variableHash.get(species);
           if (!species.getBoundaryCondition()) {
 
