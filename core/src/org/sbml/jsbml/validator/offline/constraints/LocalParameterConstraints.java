@@ -51,6 +51,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
     case MATHML_CONSISTENCY:
       break;
     case MODELING_PRACTICE:
+      set.add(CORE_80701);
       set.add(CORE_81121);
       break;
     case OVERDETERMINED_MODEL:
@@ -104,6 +105,18 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
           }
           
           return true;
+        }
+      };
+      break;
+      
+    case CORE_80701:
+      func = new ValidationFunction<LocalParameter>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, LocalParameter p) {
+
+          System.out.println("Unit " + p.getUnits());
+          return p.isSetUnits();
         }
       };
       break;

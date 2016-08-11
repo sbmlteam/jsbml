@@ -20,17 +20,15 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.HashSet;
+import java.util.Queue;
 import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.StoichiometryMath;
-import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
@@ -106,6 +104,7 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
           return r.getNumReactants() > 0 || r.getNumProducts() > 0;
         }
       };
+      break;
 
     case CORE_21107:
       func = new ValidationFunction<Reaction>() {
@@ -121,7 +120,8 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
-
+      break;
+      
     case CORE_21121:
       func = new ValidationFunction<Reaction>() {
 
@@ -151,6 +151,8 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+      
     case CORE_21131:
       func = new ValidationFunction<Reaction>() {
 
@@ -159,12 +161,12 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
 
           Model m = r.getModel();
 
-          if (m != null && r.isSetKineticLaw()
-            && r.getKineticLaw().isSetMath()) {
+          if (m != null) {
 
             Set<String> definedSpecies = ValidationTools.getDefinedSpecies(r);
 
             for (SpeciesReference ref : r.getListOfProducts()) {
+
               if (!checkStoichiometryMath(m, ref, definedSpecies))
               {
                 return false;
@@ -172,6 +174,7 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
             }
 
             for (SpeciesReference ref : r.getListOfReactants()) {
+ 
               if (!checkStoichiometryMath(m, ref, definedSpecies))
               {
                 return false;
@@ -186,27 +189,36 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
         
         private boolean checkStoichiometryMath(Model m, SpeciesReference ref, Set<String> definedSpecies)
         {
-         
-          
           if (ref.isSetStoichiometryMath() && ref.getStoichiometryMath().isSetMath())
           {
-            ASTNode math = ref.getStoichiometryMath().getMath();
+
             
-            List<ASTNode> names = math.getListOfNodes(ValidationTools.FILTER_IS_NAME);
+            Queue<ASTNode> queue = new LinkedList<ASTNode>();
+            queue.offer(ref.getStoichiometryMath().getMath());
             
-            for (ASTNode node:names)
+            while (!queue.isEmpty())
             {
-              String name = (node.getName() != null) ? node.getName() : "";
+              ASTNode node = queue.poll();
               
-              if (m.getSpecies(name) != null && !definedSpecies.contains(name))
+              if (node.isName())
               {
-                return false;
+                String name = (node.getName() != null) ? node.getName() : "";
+                
+                if (m.getSpecies(name) != null && !definedSpecies.contains(name))
+                {
+                  return false;
+                }
               }
+              
+              queue.addAll(node.getListOfNodes());
             }
           }
+          
           return true;
         }
       };
+      break;
+      
     }
 
     return func;

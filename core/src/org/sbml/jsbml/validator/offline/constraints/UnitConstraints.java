@@ -81,8 +81,8 @@ public class UnitConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Unit u) {
-
-          return u.isCelsius();
+          
+          return !u.isCelsius();
         }
       };
       break;
