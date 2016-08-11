@@ -29,8 +29,6 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
-import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;

@@ -30,10 +30,10 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * 
@@ -237,7 +237,7 @@ extends AbstractConstraintDeclaration {
 
           Model m = fd.getModel();
 
-          if (fd.getBody() != null) {
+          if (fd.isSetMath() && fd.getBody() != null) {
             Queue<ASTNode> queue = new LinkedList<ASTNode>();
 
             queue.offer(fd.getBody());
@@ -284,62 +284,52 @@ extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, FunctionDefinition fd) {
-
-          if (fd.getBody() != null)
+          ASTNode body = fd.getBody();
+          
+          if (body != null)
           {
-            Queue<ASTNode> queue = new LinkedList<ASTNode>();
-
-            queue.offer(fd.getBody());
-
-            while (queue.size() > 0) {
-              ASTNode node = queue.poll();
-
-              // No node can refer to this function def
-              if (node.isVariable()) {
-                String name = (node.getName() != null) ? node.getName() : "";
-
-                // Variable must refer to a argument
-
-                if (fd.getArgument(name) == null) {
-
-                  /* if this is the csymbol time - technically it is allowed 
-                   * in L2v1 and L2v2
-                   */
-                  if (node.getType() == Type.NAME_TIME)
-                  {
-                    if (ctx.isLevelAndVersionGreaterThan(2, 2))
-                    {
-                      return false;
-                    }
+            List<ASTNode> vars = body.getListOfNodes(ValidationTools.FILTER_IS_NAME);
+            
+            for (ASTNode var : vars)
+            {
+              String name = var.getName();
+              
+              if (name == null)
+              {
+                name = "";
+              }
+              
+              // If not a argument
+              if (fd.getArgument(name) == null)
+              {
+                if (var.getType() == Type.NAME_TIME)
+                {
+                  // Name time is allowed before
+                  if (ctx.isLevelAndVersionGreaterThan(2, 2)){
+                    return false;
                   }
+                }
+                else
+                {
                   return false;
                 }
-
               }
-              // In this case the type FUNCTION_DELAY is permitted
-              else if (ctx.isLevelAndVersionEqualTo(2, 5) || 
-                    ctx.isLevelAndVersionGreaterThan(3, 1))
+            }
+            
+            // Check for delay symbol
+            if (ctx.isLevelAndVersionEqualTo(2, 5) || ctx.isLevelAndVersionGreaterThan(3, 1))
+            {
+              vars = body.getListOfNodes(ValidationTools.FILTER_IS_FUNCTION);
+              
+              for (ASTNode node:vars)
+              {
+                if (node.getType() == Type.FUNCTION_DELAY)
                 {
-                  
-
-
-                    if (node.getType() == Type.FUNCTION_DELAY)
-                    {
-                      return false;
-                    }
-                  
-                }
-
-
-              // Add all children to the queue
-              for (ASTNode n : node.getListOfNodes()) {
-                if (n != null) {
-                  queue.offer(n);
+                  return false;
                 }
               }
             }
           }
-
           return true;
         }
       };
@@ -371,18 +361,15 @@ extends AbstractConstraintDeclaration {
            *  </lambda>
            *
            */
-
-          boolean specialCase = false;
-
           ASTNode body = fd.getBody();
 
           // No body - no service
-          if (body == null)
+          if (body == null || !fd.isSetMath())
           {
             return true;
           }
 
-          if (body.getNumChildren() == 0)
+          if (body.isName() && body.getNumChildren() == 0)
           {
             for (int i = 0; i < fd.getArgumentCount(); i++)
             {
@@ -392,10 +379,10 @@ extends AbstractConstraintDeclaration {
                   arg.getName() != null && 
                   body.getName() != null)
               {
-                if (arg.getName() == fd.getName())
+               
+                if (arg.getName().equals(body.getName()))
                 {
-                  specialCase = true;
-                  break;
+                  return true;
                 }
               }
 
@@ -405,13 +392,12 @@ extends AbstractConstraintDeclaration {
             {
               if (body.getType() == Type.NAME_TIME)
               {
-                specialCase = true;
+                return true;
               }
             }
           }
 
-          return specialCase || 
-              body.isBoolean() || 
+          return body.isBoolean() || 
               body.isNumber() ||
               body.isFunction() || 
               body.isOperator();
@@ -451,11 +437,12 @@ extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, FunctionDefinition fd) {
 
-          ASTNode body = fd.getBody();
-
-          if (fd.isSetMath() && fd.getMath().isLambda())
+          ASTNode math = fd.getMath();
+          
+          if (math != null && math.isLambda())
           {
-            return body != null;
+            ASTNode body = fd.getBody();  
+            return body != null && !body.isVariable();
           }
 
           return true;
