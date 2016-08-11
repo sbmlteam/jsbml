@@ -23,25 +23,17 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.InitialAssignment;
-import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
-import org.sbml.jsbml.SBO;
-import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.OverdeterminationValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.CycleDetectionTreeNode;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;;
 
@@ -204,7 +196,8 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         }
 
       };
-
+      break;
+      
     case CORE_10302:
       func = new UniqueValidation<Model, String>() {
 
@@ -220,6 +213,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           return m.getNumUnitDefinitions();
         }
       };
+      break;
 
     case CORE_10303:
       func = new UniqueValidation<Model, String>() {
@@ -229,7 +223,11 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           int count = 0;
 
           for (Reaction r : m.getListOfReactions()) {
-            count += r.getKineticLaw().getNumLocalParameters();
+            if (r.isSetKineticLaw())
+            {
+              count += r.getKineticLaw().getNumLocalParameters();
+            }
+            
           }
 
           return count;
@@ -253,6 +251,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           return null;
         }
       };
+      break;
 
     case CORE_10304:
       func = new UniqueValidation<Model, String>() {
@@ -299,7 +298,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Model m) {
           OverdeterminationValidator val = new OverdeterminationValidator(m);
           
-          return val.isOverdetermined();
+          return !val.isOverdetermined();
         }
       };
       break;
@@ -321,66 +320,29 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           }
         }
       };
-      
+      break;
       
     case CORE_20203:
       func = new ValidationFunction<Model>() {
 
         public boolean check(ValidationContext ctx, Model m) {
-          boolean success = true;
-
-          if (m.getCompartmentCount() == 0) {
-            success = success && !m.isSetListOfCompartments();
-          }
-
-          if (m.getCompartmentTypeCount() == 0) {
-            success = success && !m.isSetListOfCompartmentTypes();
-          }
-
-          if (m.getConstraintCount() == 0) {
-            success = success && !m.isSetListOfConstraints();
-          }
-
-          if (m.getEventCount() == 0) {
-            success = success && !m.isSetListOfEvents();
-          }
-
-          if (m.getFunctionDefinitionCount() == 0) {
-            success = success && !m.isSetListOfFunctionDefinitions();
-          }
-
-          if (m.getInitialAssignmentCount() == 0) {
-            success = success && !m.isSetListOfInitialAssignments();
-          }
-
-          if (m.getParameterCount() == 0) {
-            success = success && !m.isSetListOfParameters();
-          }
-
-          if (m.getReactionCount() == 0) {
-            success = success && !m.isSetListOfReactions();
-          }
-
-          if (m.getRuleCount() == 0) {
-            success = success && !m.isSetListOfRules();
-          }
-
-          if (m.getSpeciesCount() == 0) {
-            success = success && !m.isSetListOfSpecies();
-          }
-
-          if (m.getSpeciesTypeCount() == 0) {
-            success = success && !m.isSetListOfSpeciesTypes();
-          }
-
-          if (m.getUnitDefinitionCount() == 0) {
-            success = success && !m.isSetListOfUnitDefinitions();
-          }
-
-          return success;
+          
+          return (m.getCompartmentCount() > 0 || !m.isSetListOfCompartments()) ||
+              (m.getCompartmentTypeCount() > 0 || !m.isSetListOfCompartmentTypes()) ||
+              (m.getConstraintCount() > 0 || !m.isSetListOfConstraints()) ||
+              (m.getEventCount() > 0 || !m.isSetListOfEvents()) ||
+              (m.getFunctionDefinitionCount() > 0 || !m.isSetListOfFunctionDefinitions()) ||
+              (m.getInitialAssignmentCount() > 0 || !m.isSetListOfInitialAssignments()) ||
+              (m.getParameterCount() > 0 || !m.isSetListOfParameters()) ||
+              (m.getReactionCount() > 0 || !m.isSetListOfReactions()) ||
+              (m.getRuleCount() > 0 || !m.isSetListOfRules()) ||
+              (m.getSpeciesCount() > 0 || !m.isSetListOfSpecies()) ||
+              (m.getSpeciesTypeCount() > 0 || !m.isSetListOfSpeciesTypes()) ||
+              (m.getUnitDefinitionCount() > 0 || !m.isSetListOfUnitDefinitions());
         };
       };
-
+      break;
+      
     case CORE_20204:
       func = new ValidationFunction<Model>() {
 
@@ -415,13 +377,16 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Model m) {
 
           if (m.isSetConversionFactor()) {
-            return m.getConversionFactorInstance().isConstant();
+            Parameter fac = m.getConversionFactorInstance();
+            
+            return fac != null && fac.isConstant();
           }
 
           return true;
         }
       };
-
+      break;
+      
     case CORE_20802:
       func = new UniqueValidation<Model, String>() {
 
@@ -438,7 +403,8 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           return m.getInitialAssignment(n).getVariable();
         }
       };
-
+      break;
+      
     case CORE_20803:
       func = new ValidationFunction<Model>() {
 

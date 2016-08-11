@@ -22,7 +22,6 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
@@ -55,6 +54,11 @@ extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if (level == 2 && version > 1) {
         addRangeToSet(set, CORE_20801, CORE_20803);
+        
+        if (version == 5)
+        {
+          set.add(CORE_20806);
+        }
       } else if (level == 3) {
         addRangeToSet(set, CORE_20801, CORE_20805);
       }
