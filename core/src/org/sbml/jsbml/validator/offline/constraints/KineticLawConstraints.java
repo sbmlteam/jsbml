@@ -119,6 +119,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
           return !kl.isSetSubstanceUnits();
         }
       };
+      break;
 
     case CORE_21126:
       func = new ValidationFunction<KineticLaw>() {
@@ -129,7 +130,8 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
           return !kl.isSetTimeUnits();
         }
       };
-
+      break;
+      
     case CORE_21130:
       func = new ValidationFunction<KineticLaw>() {
 
@@ -138,6 +140,9 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
           return kl.isSetMath();
         }
       };
+      break;
+      
+      
     case CORE_99129:
       func = new ValidationFunction<KineticLaw>() {
         
@@ -148,6 +153,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
           return ValidationTools.containsMathOnlyPredefinedFunctions(kl.getMath());
         }
       };
+      break;
     }
     
     

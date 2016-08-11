@@ -37,6 +37,7 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
  * @since 1.2
  * @date 07.08.2016
  */
+@SuppressWarnings("deprecation")
 public class MathContainerConstraints extends AbstractConstraintDeclaration {
 
   /*
@@ -100,7 +101,7 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
     case CORE_10217:
       func = new ValidationFunction<MathContainer>() {
 
-        @SuppressWarnings("deprecation")
+ 
         @Override
         public boolean check(ValidationContext ctx, MathContainer mc) {
 
@@ -110,7 +111,8 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
               || mc instanceof SimpleSpeciesReference
               || mc instanceof InitialAssignment || mc instanceof Delay
               || mc instanceof EventAssignment || mc instanceof Rule) {
-              return mc.getMath().isNumber();
+              
+              return mc.getMath().isNumber() || mc.getMath().isOperator();
             }
           }
 
