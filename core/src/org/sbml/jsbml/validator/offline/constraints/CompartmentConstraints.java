@@ -28,6 +28,9 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
@@ -92,11 +95,50 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       break;
     }
   }
-  
+
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName) {
-    // TODO Auto-generated method stub
+
+    switch (attributeName) {
+    case TreeNodeChangeEvent.sboTerm:
+      if (level == 2 && version == 3)
+      {
+        set.add(CORE_10712);
+      }
+      break;
+      
+    case TreeNodeChangeEvent.spatialDimensions:
+      if (level == 1)
+      {
+        set.add(CORE_20509);
+      }
+      else if (level == 2)
+      {
+        if (version > 1)
+        {
+          set.add(CORE_20506);
+        }
+        
+        addRangeToSet(set, CORE_20501, CORE_20503);
+        addRangeToSet(set, CORE_20507, CORE_20509);
+      }
+      break;
+      
+    case TreeNodeChangeEvent.compartmentType:
+      if (level == 2 && version > 1)
+      {
+        set.add(CORE_20510);
+      }
+      break;
+    case TreeNodeChangeEvent.outside:
+      if (level == 2 && version > 1)
+      {
+        set.add(CORE_20505);
+        set.add(CORE_20506);
+      }
+    }
+    
     
   }
 
@@ -108,7 +150,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     switch (errorCode) {
     case CORE_10712:
       return SBOValidationConstraints.isMaterialEntity;
-      
+
     case CORE_20501:
 
       func = new ValidationFunction<Compartment>() {
@@ -183,15 +225,15 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
-          
+
           Compartment com = c;
 
           // Clears set
           outsideSet.clear();
-          
+
           while(com != null && com.isSetOutside())
           {
-            
+
             // add returns false if the compartment is already in the set
             if(!outsideSet.add(com))
             {
@@ -322,33 +364,33 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
     case CORE_80501:
       func = new ValidationFunction<Compartment>() {
-        
-        
+
+
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
-          
+
           Model m = c.getModel();
-          
+
           if (m != null && c.getSpatialDimensions() != 0 && !c.isSetSize())
           {
             boolean sizeByAssignment = false;
-            
+
             if (c.isSetId())
             {
               sizeByAssignment = m.getInitialAssignment(c.getId()) != null;
-              
+
               if (!sizeByAssignment)
               {
                 Rule r = m.getRule(c.getId());
-                
+
                 sizeByAssignment = r != null && r.isAssignment();
               }
             }
 
-            
+
             return sizeByAssignment;
           }
-          
+
           return true;
         }
       };

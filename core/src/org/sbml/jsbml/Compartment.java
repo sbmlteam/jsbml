@@ -933,8 +933,6 @@ public class Compartment extends Symbol {
    */
   public void setSpatialDimensions(double spatialDimension) {
 
-    // checkAttribute(TreeNodeChangeEvent.spatialDimensions, spatialDimension);
-
     isSetSpatialDimensions = true;
     Double oldSpatialDimensions = spatialDimensions;
     spatialDimensions = Double.valueOf(spatialDimension);

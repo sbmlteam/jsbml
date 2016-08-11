@@ -129,7 +129,7 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public <T> ConstraintGroup<T> createConstraints(int level, int version,
     String attributeName) {
 
     Set<Integer> set = new HashSet<Integer>();
