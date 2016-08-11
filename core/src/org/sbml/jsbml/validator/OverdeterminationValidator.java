@@ -604,7 +604,7 @@ public class OverdeterminationValidator {
       // Create vertices and edges for reactants
       for (SpeciesReference sref : r.getListOfReactants()) {
         Species species = sref.getSpeciesInstance();
-        if (!species.isConstant()) {
+        if (species != null && !species.isConstant()) {
           variable = variableHash.get(species);
           if (!species.getBoundaryCondition()) {
 
