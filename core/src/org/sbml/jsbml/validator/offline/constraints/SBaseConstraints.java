@@ -20,6 +20,7 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.sbml.jsbml.SBO;
@@ -107,27 +108,33 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, SBase sb) {
 
-          Object o = ctx.getHashMap().get(ValidationTools.KEY_META_ID_SET);
-          Set<String> metaIds;
+          if (sb.isSetMetaId())
+          {
+            Object o = ctx.getHashMap().get(ValidationTools.KEY_META_ID_SET);
+            Set<String> metaIds;
 
-          if (o != null && o instanceof Set) {
-            metaIds = (Set<String>) o;
-          } else {
-            metaIds = new HashSet<String>();
-            ctx.getHashMap().put(ValidationTools.KEY_META_ID_SET, metaIds);
+            if (o != null && o instanceof Set) {
+              metaIds = (Set<String>) o;
+            } else {
+              metaIds = new HashSet<String>();
+              ctx.getHashMap().put(ValidationTools.KEY_META_ID_SET, metaIds);
+            }
+
+            return metaIds.add(sb.getMetaId());
           }
-
-          return metaIds.add(sb.getMetaId());
+          
+          return true;
         }
       };
-
+      break;
+      
     case CORE_10308:
       func = new ValidationFunction<SBase>() {
 
         @Override
         public boolean check(ValidationContext ctx, SBase sb) {
-          // TODO Auto-generated method stub
-          return ValidationTools.isSboTerm(sb.getSBOTermID());
+          
+          return !sb.isSetSBOTerm() || ValidationTools.isSboTerm(sb.getSBOTermID());
         }
       };
       break;
@@ -156,8 +163,15 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
           
           if (sb.isSetSBOTerm())
           {
+            try
+            {
+              return SBO.isObsolete(sb.getSBOTerm());
+            }
+            catch (NoSuchElementException exp)
+            {
+              return false;
+            }
             
-            return SBO.isObsolete(sb.getSBOTerm());
           }
           
           return false;

@@ -26,11 +26,11 @@ import java.util.Set;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -108,13 +108,20 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         set.add(CORE_10713);
       }
       break;
+    case IDENTIFIER_CONSISTENCY:
+      break;
+    case MATHML_CONSISTENCY:
+      break;
+    case OVERDETERMINED_MODEL:
+      break;
+    case UNITS_CONSISTENCY:
+      break;
     }
   }
 
 
 
   @Override
-  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<Species> func = null;
 
@@ -147,7 +154,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
            * Invalid value found for Species 'compartment' attribute
            */
           if (s.hasOnlySubstanceUnits()) {
-            return s.isSetSpatialSizeUnits();
+            return !s.isSetSpatialSizeUnits();
           }
 
           return true;
@@ -199,10 +206,10 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
           Compartment c = s.getCompartmentInstance();
 
-          if (c != null && c.getSpatialDimensions() == 0 && s.isSetSpatialSizeUnits()) {
-            String unit = s.getUnits();
-            UnitDefinition def = s.getUnitsInstance();
+          if (c != null && c.getSpatialDimensions() == 1 && s.isSetSpatialSizeUnits()) {
+            UnitDefinition def = s.getSpatialSizeUnitsInstance();
 
+     
             boolean isLength = def.isVariantOfLength();
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
@@ -228,9 +235,9 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
           Compartment c = s.getCompartmentInstance();
 
-          if (c != null && c.getSpatialDimensions() == 0 && s.isSetSpatialSizeUnits()) {
-            String unit = s.getSpatialSizeUnits();
-            UnitDefinition def = s.getUnitsInstance();
+          if (c != null && c.getSpatialDimensions() == 2 && s.isSetSpatialSizeUnits()) {
+    
+            UnitDefinition def = s.getSpatialSizeUnitsInstance();
 
             boolean isArea = def.isVariantOfArea();
 
@@ -259,8 +266,8 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           Compartment c = s.getCompartmentInstance();
 
           if (c != null && c.getSpatialDimensions() == 3 && s.isSetSpatialSizeUnits()) {
-            String unit = s.getSpatialSizeUnits();
-            UnitDefinition def = s.getUnitsInstance();
+        
+            UnitDefinition def = s.getSpatialSizeUnitsInstance();
 
             boolean isVolume = def.isVariantOfVolume();
 
@@ -300,7 +307,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
               if (r.isAssignment() || r.isRate())
               {
                 ExplicitRule er = (ExplicitRule) r;
-                if (er.getVariable() == s.getId())
+                if (er.getVariable().equals(s.getId()))
                 {
                   found = true;
                   break;
@@ -363,14 +370,14 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           Model m = s.getModel();
           if (s.isSetSpeciesType() && m != null)
           {
-            SpeciesType st = s.getSpeciesTypeInstance();
+            String st = s.getSpeciesType();
             
             for (Species spec: m.getListOfSpecies())
             {
               // Are species in same compartment but not the same?
               if (spec.isSetSpeciesType() &&
                   spec.getCompartment().equals(s.getCompartment()) &&
-                  spec.getId() != s.getId())
+                  !spec.getId().equals(s.getId()))
               {
                 // Must have different Types
                 if (spec.getSpeciesType().equals(st))
@@ -417,19 +424,22 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
+      
     case CORE_20705:
       func = new ValidationFunction<Species>() {
         @Override
         public boolean check(ValidationContext ctx, Species s) {
           if (s.isSetConversionFactor())
           {
-            return s.getConversionFactorInstance().isConstant();
+            Parameter fac = s.getConversionFactorInstance();
+            return fac != null && fac.isConstant();
           }
           
           return true;
         }
       };
       break;
+      
     case CORE_80601:
       func = new ValidationFunction<Species>() {
         @Override
