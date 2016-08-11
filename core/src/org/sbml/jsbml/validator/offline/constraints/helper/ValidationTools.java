@@ -26,14 +26,16 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Parameter;
-import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.Parameter; 
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBO;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
@@ -127,16 +129,64 @@ public final class ValidationTools {
       return DT_BOOLEAN;
     }
 
-    if (node.isNumber()) {
+    if (node.isNumber() || node.isOperator()) {
       return DT_NUMBER;
     }
 
-    if (node.isString()) {
-      return DT_STRING;
+    if (node.isName()) {
+      return DT_UNKNOWN;
     }
 
     if (node.isVector()) {
       return DT_VECTOR;
+    }
+    
+   
+    if (node.getType() == Type.FUNCTION_PIECEWISE)
+    {
+      if (node.getNumChildren() > 0)
+      {
+        byte dt = getDataType(node.getChild(0));
+        
+        for (int i = 0; i < node.getNumChildren(); i += 2)
+        {
+          if (getDataType(node.getChild(i)) != dt)
+          {
+            return DT_UNKNOWN;
+          }
+        }
+        
+        return dt;
+      }
+      
+      return DT_UNKNOWN;
+    }
+    
+    if (node.getType() == Type.FUNCTION)
+    {
+      SBase parent = node.getParentSBMLObject();
+      
+      if (parent != null)
+      {
+        Model m = parent.getModel();
+        
+        if (m != null)
+        {
+          FunctionDefinition fd = m.getFunctionDefinition(node.getName());
+          
+          if (fd != null)
+          {
+            return ValidationTools.getDataType(fd.getBody());
+          }
+        }
+      }
+      
+      return DT_UNKNOWN;
+    }
+    
+    if (node.isFunction())
+    {
+      return DT_NUMBER;
     }
 
     return DT_UNKNOWN;

@@ -21,19 +21,10 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.ExplicitRule;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.Rule;
-import org.sbml.jsbml.Species;
-import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
