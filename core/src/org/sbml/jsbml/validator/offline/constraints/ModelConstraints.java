@@ -305,7 +305,23 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       break;
       
     case CORE_10701:
-      return SBOValidationConstraints.isInteraction;
+      func = new ValidationFunction<Model>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          
+          if (ctx.getLevel() == 2 && ctx.getVersion() < 4)
+          {
+            return SBOValidationConstraints.isModellingFramework.check(ctx, m);
+          }
+          else
+          {
+            return SBOValidationConstraints.isInteraction.check(ctx, m);
+          }
+        }
+      };
+      
       
     case CORE_20203:
       func = new ValidationFunction<Model>() {
