@@ -79,6 +79,7 @@ public class UnitConstraints extends AbstractConstraintDeclaration {
     case CORE_20412:
       func = new ValidationFunction<Unit>() {
 
+        @SuppressWarnings("deprecation")
         @Override
         public boolean check(ValidationContext ctx, Unit u) {
           

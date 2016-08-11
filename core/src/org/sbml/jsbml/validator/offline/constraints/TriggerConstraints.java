@@ -20,13 +20,13 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * @author Roman
@@ -78,7 +78,6 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
 
 
   @Override
-  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<Trigger> func = null;
 
@@ -93,13 +92,15 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Trigger t) {
 
           if (t.isSetMath()) {
-            return t.getMath().isBoolean();
+
+            return ValidationTools.getDataType(t.getMath()) == ValidationTools.DT_BOOLEAN;
           }
 
-          return false;
+          return true;
         }
       };
-
+      break;
+      
     case CORE_21209:
       func = new ValidationFunction<Trigger>() {
 
@@ -109,6 +110,8 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
           return t.isSetMath();
         }
       };
+      break;
+      
     }
 
     return func;

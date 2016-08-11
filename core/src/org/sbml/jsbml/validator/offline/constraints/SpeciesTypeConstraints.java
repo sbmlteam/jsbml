@@ -33,6 +33,7 @@ import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstrai
  * @since 1.2
  * @date 08.08.2016
  */
+@SuppressWarnings("deprecation")
 public class SpeciesTypeConstraints extends AbstractConstraintDeclaration {
 
   /* (non-Javadoc)
@@ -84,7 +85,6 @@ public class SpeciesTypeConstraints extends AbstractConstraintDeclaration {
    */
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    @SuppressWarnings("deprecation")
     ValidationFunction<SpeciesType> func = null;
     
     switch (errorCode) {
