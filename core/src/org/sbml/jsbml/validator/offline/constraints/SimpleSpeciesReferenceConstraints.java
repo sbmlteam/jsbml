@@ -51,17 +51,9 @@ public class SimpleSpeciesReferenceConstraints
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_21111);
-      set.add(CORE_21116);
 
       if (level > 1) {
         set.add(CORE_20611);
-      }
-
-      if (level == 2) {
-
-        if (version > 1) {
-          set.add(CORE_20613);
-        }
       }
 
       break;
@@ -101,31 +93,17 @@ public class SimpleSpeciesReferenceConstraints
 
           Species s = sr.getSpeciesInstance();
 
-          System.out.println("Species " + s);
+    
           if (s != null) {
-            System.out.println(
-              "Test " + s.isConstant() + s.isBoundaryCondition());
-            return !(s.isConstant() && s.isBoundaryCondition());
+
+            return !s.isConstant() || s.isBoundaryCondition();
           }
 
           return true;
         }
       };
-    case CORE_20613:
-
-      func = new ValidationFunction<SimpleSpeciesReference>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
-          Species s = sr.getSpeciesInstance();
-
-          if (s != null) {
-            return !(s.isConstant() && s.isBoundaryCondition());
-          }
-
-          return true;
-        }
-      };
+      break;
+      
     case CORE_21111:
       func = new ValidationFunction<SimpleSpeciesReference>() {
 
@@ -135,6 +113,7 @@ public class SimpleSpeciesReferenceConstraints
           return sr.getSpeciesInstance() != null;
         }
       };
+      break;
     }
 
     return func;

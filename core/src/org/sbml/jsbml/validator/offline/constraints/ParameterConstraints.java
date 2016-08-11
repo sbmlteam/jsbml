@@ -25,7 +25,6 @@ import java.util.Set;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Rule;
-import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -52,16 +51,12 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      set.add(CORE_20701);
+  
 
       if (level > 2 || (level == 2 && version > 1)) {
         set.add(CORE_20412);
       }
 
-      if (level == 3) {
-
-        set.add(CORE_20706);
-      }
 
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -105,13 +100,15 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
 
           if (def != null && def.isSetListOfUnits() && def.getUnitCount() == 1) {
             // Celsius not allowed
-            return def.getUnit(0).getKind() != Unit.Kind.CELSIUS;
+            
+            return !def.getUnit(0).isCelsius();
           }
 
           return true;
         }
       };
       break;
+      
     case CORE_80701:
       func = new ValidationFunction<Parameter>() {
 
