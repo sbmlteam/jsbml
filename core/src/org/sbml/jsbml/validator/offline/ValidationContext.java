@@ -232,8 +232,8 @@ public class ValidationContext {
     ConstraintFactory factory = ConstraintFactory.getInstance();
 
     AnyConstraint<Object> c =
-      (AnyConstraint<Object>) factory.getConstraintsForAttribute(attributeName,
-        clazz, this.level, this.version);
+      (AnyConstraint<Object>) factory.getConstraintsForAttribute(clazz, attributeName,
+         this.level, this.version);
 
     this.setRootConstraint(c, clazz);
   }

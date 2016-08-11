@@ -33,6 +33,21 @@ import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
  */
 public final class SBOValidationConstraints {
 
+  public static final ValidationFunction<SBase> isModellingFramework = new ValidationFunction<SBase>()  {
+
+
+    @Override
+    public boolean check(ValidationContext ctx, SBase sb) {
+      
+      if (sb.isSetSBOTerm())
+      {
+        return SBO.isModellingFramework(sb.getSBOTerm());
+      }
+      
+      return true;
+    };
+  };
+  
   public static final ValidationFunction<SBase> isInteraction = new ValidationFunction<SBase>()  {
 
 

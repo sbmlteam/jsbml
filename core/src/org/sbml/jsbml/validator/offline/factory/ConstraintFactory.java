@@ -132,21 +132,71 @@ public class ConstraintFactory {
 
 
   /**
+   * Returns all constraints which 
    * @param attributeName
    * @param clazz
-   * @param pkg
    * @param level
    * @param version
    * @return
    */
-  public AnyConstraint<?> getConstraintsForAttribute(String attributeName,
-    Class<?> clazz, int level, int version) {
+  public <T> ConstraintGroup<T> getConstraintsForAttribute(Class<?> clazz, String attributeName,
+     int level, int version) {
+    
+    Set<Class<?>> set = new HashSet<Class<?>>();
 
-    // TODO also look in class hierarchy?
-    ConstraintDeclaration dec =
+    return getConstraintsForAttribute(clazz, attributeName, level, version, set);
+  }
+  
+  /**
+   * Returns all constraints which 
+   * @param attributeName
+   * @param clazz
+   * @param level
+   * @param version
+   * @return
+   */
+  public <T> ConstraintGroup<T> getConstraintsForAttribute(Class<?> clazz, String attributeName,
+     int level, int version, Set<Class<?>> collectedClasses) {
+    
+    
+    if (collectedClasses.contains(clazz)) {
+      // Already collected
+      return null;
+    } else {
+      collectedClasses.add(clazz);
+    }
+
+    ConstraintGroup<T> group = new ConstraintGroup<T>();
+
+    for (Class<?> inf : clazz.getInterfaces()) {
+      ConstraintGroup<T> c = this.getConstraintsForAttribute(inf, attributeName, level,
+        version, collectedClasses);
+
+      group.add(c);
+
+    }
+
+    Class<?> superclass = clazz.getSuperclass();
+    if (superclass != null) {
+
+      ConstraintGroup<T> c = this.getConstraintsForAttribute(superclass, attributeName,
+        level, version, collectedClasses);
+
+      group.add(c);
+
+    }
+
+    ConstraintDeclaration declaration =
       AbstractConstraintDeclaration.getInstance(clazz.getSimpleName());
 
-    return dec.createConstraints(level, version, attributeName);
+    if (declaration != null) {
+
+      ConstraintGroup<T> c =
+        declaration.createConstraints(level, version, attributeName);
+      group.add(c);
+    }
+
+    return (group.getConstraintsCount() > 0) ? group : null;
   }
 
 }
