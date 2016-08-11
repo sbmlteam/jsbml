@@ -20,13 +20,13 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * @author Roman
@@ -48,19 +48,19 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
     CHECK_CATEGORY category) {
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (version == 1) {
+      if (level == 1) {
         addRangeToSet(set, CORE_20401, CORE_20407);
         set.add(CORE_20410);
-      } else if (version == 2) {
+      } else if (level == 2) {
         addRangeToSet(set, CORE_20401, CORE_20406);
         set.add(CORE_20410);
 
-        if (level < 4) {
+        if (version < 4) {
           set.add(CORE_20407);
           set.add(CORE_20408);
         }
 
-        if (level > 1) {
+        if (version > 1) {
           set.add(CORE_20411);
           set.add(CORE_20412);
         }
@@ -103,7 +103,9 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
 
-          return Unit.isUnitKind(ud.getId(), ctx.getLevel(), ctx.getVersion());
+          return ValidationTools.isId(ud.getId(), ctx.getLevel(),
+            ctx.getVersion()) && !Unit.isPredefined(ud)
+            && !Unit.isUnitKind(ud.getId(), ctx.getLevel(), ctx.getVersion());
         }
       };
       break;
@@ -114,12 +116,12 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
 
-          if (ud.getId() == "substance") {
+          if (ud.getId().equals("substance")) {
             if (ctx.isLevelAndVersionLesserEqualThan(2, 1)) {
               return ud.isVariantOfSubstance();
             } else {
               return ud.isVariantOfSubstance()
-                || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+                || ValidationTools.isDimensionless(ud);
             }
           }
 
@@ -133,14 +135,13 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
-          // TODO Auto-generated method stub
 
-          if (ud.getId() == "length") {
+          if (ud.getId().equals("length")) {
             if (ctx.isLevelAndVersionLesserEqualThan(2, 1)) {
               return ud.isVariantOfLength();
             } else {
               return ud.isVariantOfLength()
-                || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+                || ValidationTools.isDimensionless(ud);
             }
           }
 
@@ -156,12 +157,12 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
           // TODO Auto-generated method stub
 
-          if (ud.getId() == "area") {
+          if (ud.getId().equals("area")) {
             if (ctx.isLevelAndVersionLesserEqualThan(2, 1)) {
               return ud.isVariantOfArea();
             } else {
               return ud.isVariantOfArea()
-                || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+                || ValidationTools.isDimensionless(ud);
             }
           }
 
@@ -169,6 +170,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+
     case CORE_20405:
       func = new ValidationFunction<UnitDefinition>() {
 
@@ -176,12 +178,12 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
           // TODO Auto-generated method stub
 
-          if (ud.getId() == "time") {
+          if (ud.getId().equals("time")) {
             if (ctx.isLevelAndVersionLesserEqualThan(2, 1)) {
               return ud.isVariantOfTime();
             } else {
               return ud.isVariantOfTime()
-                || (ud.getNumUnits() == 1 && ud.getUnit(0).isDimensionless());
+                || ValidationTools.isDimensionless(ud);
             }
           }
 
@@ -189,6 +191,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+
     case CORE_20406:
       func = new ValidationFunction<UnitDefinition>() {
 
@@ -196,16 +199,18 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
           // TODO Auto-generated method stub
 
-          if (ud.getId() == "volume") {
+          if (ud.getId().equals("volume")) {
             if (ctx.isLevelAndVersionLessThan(2, 4)) {
+
               if (ud.getUnitCount() == 1) {
                 Unit u = ud.getUnit(0);
                 if (ctx.getLevel() == 1) {
                   return u.isLitre();
                 } else if (ctx.isLevelAndVersionEqualTo(2, 1)) {
-                  return u.isLitre() || u.isMetre();
+                  return u.isLitre() || (u.isMetre() && u.getExponent() == 3);
                 } else {
-                  return u.isLitre() || u.isMetre() || u.isDimensionless();
+                  return u.isLitre() || (u.isMetre() && u.getExponent() == 3)
+                    || ValidationTools.isDimensionless(ud);
                 }
               } else {
 
@@ -229,11 +234,15 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
-          if (ctx.isLevelAndVersionLessThan(2, 4) && ud.getId() == "volume"
+          if (ctx.isLevelAndVersionLessThan(2, 4) && ud.getId().equals("volume")
             && ud.getNumUnits() == 1) {
             Unit u = ud.getUnit(0);
 
-            return u.isLitre() && u.getExponent() == 1;
+            if (u.isLitre())
+            {
+              return u.getExponent() == 1;
+            }
+            
           }
           return true;
         }
@@ -246,11 +255,15 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
 
-          if (ctx.isLevelAndVersionLessThan(2, 4) && ud.getId() == "volume"
+          if (ctx.isLevelAndVersionLessThan(2, 4) && ud.getId().equals("volume")
             && ud.getNumUnits() == 1) {
             Unit u = ud.getUnit(0);
 
-            return u.isMetre() && u.getExponent() == 3;
+            if (u.isMetre())
+            {
+              return u.getExponent() == 3;
+            }
+
           }
           return true;
         }
