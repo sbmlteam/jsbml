@@ -2781,7 +2781,8 @@ public class ASTNode extends AbstractTreeNode {
    *         {@code getListOfNodes().getLast()}.
    */
   public ASTNode getRightChild() {
-    return listOfNodes.get(listOfNodes.size() - 1);
+    int n = listOfNodes.size() - 1;
+    return (n >= 0) ? listOfNodes.get(n) : null;
   }
 
   /**
