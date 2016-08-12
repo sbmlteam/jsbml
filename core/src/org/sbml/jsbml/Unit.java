@@ -2071,7 +2071,9 @@ public class Unit extends AbstractSBase {
    */
   public boolean isVariantOfLength() {
     Kind kind = getKind();
-    return (kind == Kind.METER) || (kind == Kind.METRE)
+    
+    // Meter only allowed in Level 1 or -1 (level undefined)
+    return (this.getLevel() < 2 && (kind == Kind.METER)) || (kind == Kind.METRE)
         && (getOffset() == 0d) && (getExponent() == 1d);
   }
 

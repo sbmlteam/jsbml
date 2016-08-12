@@ -21,6 +21,8 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
@@ -28,7 +30,7 @@ import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Rule;
-import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
@@ -45,15 +47,20 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
     CHECK_CATEGORY category) {
     switch (category) {
     case GENERAL_CONSISTENCY:
+      set.add(CORE_20901);
 
       if (level == 1) {
         set.add(CORE_99106);
         set.add(CORE_99129);
       } else if (level == 2) {
-
+        set.add(CORE_20903);
         if (version == 1) {
           set.add(CORE_99106);
         }
+      }
+      else if (level == 3)
+      {
+        set.add(CORE_20903);
       }
 
       break;
@@ -86,6 +93,41 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<AssignmentRule> func = null;
 
     switch (errorCode) {
+    case CORE_20901:
+      func = new ValidationFunction<AssignmentRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, AssignmentRule r) {
+
+          if (r.isSetVariable()) {
+
+            Variable var = r.getVariableInstance();
+            
+            return ValidationTools.isValidVariable(var, ctx.getLevel());
+            
+          }
+
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20903:
+      func = new ValidationFunction<AssignmentRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, AssignmentRule r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null) {
+            return !var.getConstant();
+          }
+
+          return true;
+        }
+      };
+      break;
     case CORE_99106:
       func = new ValidationFunction<AssignmentRule>() {
 
@@ -94,10 +136,10 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           // TODO Auto-generated method stub
           Model m = r.getModel();
 
-          if (r.isAssignment() && r.isSetMath() && m != null) {
+          if (r.isSetMath() && m != null) {
 
             boolean later = false;
-            Set<String> laterDefinedRules = new HashSet<String>();
+            Set<String> defienedLater = new HashSet<String>();
 
             // Collect all rules which were defined AFTER this one
             // Adds also the name of this rules, because it'S also permitted to
@@ -111,26 +153,24 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
                 }
 
                 if (later) {
-                  laterDefinedRules.add(eRule.getVariable());
+                  defienedLater.add(eRule.getVariable());
                 }
               }
             }
 
-            Filter isName = new Filter() {
+            Queue<ASTNode> toCheck = new LinkedList<ASTNode>();
+            toCheck.offer(r.getMath());
 
-              @Override
-              public boolean accepts(Object o) {
+            while (!toCheck.isEmpty()) {
+              ASTNode node = toCheck.poll();
 
-                return ((ASTNode) o).isName();
+              if (node.isName()) {
+                if (defienedLater.contains(node.getName())) {
+                  return false;
+                }
               }
-            };
 
-            // Check if one of the later defined rules is referenced in this
-            // rule (or if selfreferencing)
-            for (ASTNode node : r.getMath().getListOfNodes(isName)) {
-              if (laterDefinedRules.contains(node.getName())) {
-                return false;
-              }
+              toCheck.addAll(node.getListOfNodes());
             }
           }
 
@@ -138,6 +178,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
         }
 
       };
+      break;
 
     case CORE_99129:
       func = new ValidationFunction<AssignmentRule>() {
@@ -147,6 +188,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
             ar.getMath());
         }
       };
+      break;
     }
 
     return func;

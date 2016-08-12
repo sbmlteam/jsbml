@@ -129,7 +129,7 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
 
   @Override
-  public AnyConstraint<?> createConstraints(int level, int version,
+  public <T> ConstraintGroup<T> createConstraints(int level, int version,
     String attributeName) {
 
     Set<Integer> set = new HashSet<Integer>();
@@ -230,4 +230,14 @@ implements ConstraintDeclaration, SBMLErrorCodes {
     String className = thisName.substring(0, thisName.length() - removeWord.length());
     AbstractConstraintDeclaration.cache.put(className + errorCode, ref);
   }
+  
+  /**
+   * Returns the {@link ValidationFunction} of the error code, if it's defined
+   * in this {@link ConstraintDeclaration}
+   * 
+   * @param errorCode
+   * @return the {@link ValidationFunction} or <code>null</code> if not defined
+   *         in this {@link ConstraintDeclaration}
+   */
+  abstract public ValidationFunction<?> getValidationFunction(int errorCode);
 }

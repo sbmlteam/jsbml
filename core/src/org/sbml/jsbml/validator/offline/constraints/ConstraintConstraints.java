@@ -24,7 +24,8 @@ import java.util.Set;
 
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
 
 /**
  * @author Roman
@@ -63,6 +64,10 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10706);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -71,11 +76,13 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
 
 
   @Override
-  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<Constraint> func = null;
 
     switch (errorCode) {
+    case CORE_10706:
+      return SBOValidationConstraints.isMathematicalExpression;
+      
     case CORE_21001:
       func = new ValidationFunction<Constraint>() {
 
@@ -83,13 +90,15 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Constraint c) {
 
           if (c.isSetMath()) {
+
             return c.getMath().isBoolean();
           }
 
           return true;
         }
       };
-
+      break;
+      
     case CORE_21007:
       func = new ValidationFunction<Constraint>() {
 
@@ -99,7 +108,7 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
           return c.isSetMath();
         }
       };
-
+      break;
     }
 
     return func;

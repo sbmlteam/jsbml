@@ -25,7 +25,10 @@ import java.util.Set;
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * @author Roman
@@ -53,7 +56,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
 
         if (version < 3) {
           set.add(CORE_21204);
-        } else if (version == 4) {
+        } else if (version >= 4) {
           set.add(CORE_21206);
         }
 
@@ -66,6 +69,8 @@ public class EventConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case IDENTIFIER_CONSISTENCY:
+      set.add(CORE_10305);
+      
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -74,6 +79,10 @@ public class EventConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10710);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -84,9 +93,27 @@ public class EventConstraints extends AbstractConstraintDeclaration {
   @Override
   @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<?> func = null;
+    ValidationFunction<Event> func = null;
 
     switch (errorCode) {
+    case CORE_10305:
+      func = new UniqueValidation<Event, String>() {
+       
+        @Override
+        public int getNumObjects(ValidationContext ctx, Event e) {
+          return e.getNumEventAssignments();
+        }
+        @Override
+        public String getNextObject(ValidationContext ctx, Event e, int n) {
+          return e.getEventAssignment(n).getVariable();
+        }
+        
+      };
+      break;
+      
+    case CORE_10710:
+      return SBOValidationConstraints.isInteraction;
+      
     case CORE_21201:
 
       func = new ValidationFunction<Event>() {
@@ -97,7 +124,8 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return e.isSetTrigger();
         }
       };
-
+      break;
+      
     case CORE_21203:
 
       func = new ValidationFunction<Event>() {
@@ -108,6 +136,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return e.getNumEventAssignments() != 0;
         }
       };
+      break;
 
     case CORE_21204:
 
@@ -117,23 +146,22 @@ public class EventConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Event e) {
 
           if (e.isSetTimeUnits()) {
-            String s = e.getTimeUnits();
             UnitDefinition def = e.getTimeUnitsInstance();
 
-            boolean isTime =
-              (s == "time") || (s == "second") || (def.isVariantOfTime());
-
+            boolean isTime = def.isVariantOfTime();
+            
             if (ctx.isLevelAndVersionEqualTo(2, 2)) {
-              return isTime;
+              return isTime || ValidationTools.isDimensionless(def);
             } else {
-              return isTime || (s == "dimensionless");
+              return isTime;
             }
           }
 
-          return e.getNumEventAssignments() != 0;
+          return true;
         }
       };
-
+      break;
+      
     case CORE_21206:
 
       func = new ValidationFunction<Event>() {
@@ -148,7 +176,8 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
-
+      break;
+      
     case CORE_21207:
 
       func = new ValidationFunction<Event>() {
@@ -163,6 +192,8 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+      
     case CORE_99206:
 
       func = new ValidationFunction<Event>() {
@@ -173,7 +204,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return e.getTimeUnits().isEmpty();
         }
       };
-
+      break;
     }
 
     return func;

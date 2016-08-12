@@ -25,6 +25,9 @@ import java.io.IOException;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.SBMLErrorLog;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
@@ -53,11 +56,32 @@ public final class OfflineValidatorPerformanceTest {
     SBMLDocument doc = new SBMLReader().readSBML(testFile);
     long time =  (System.currentTimeMillis() - startTime);
     
-    long secTime = time / 1_000_000l;
+    long secTime = time / 1_000l;
     
     long min = secTime / 60;
     long sec = secTime % 60;
-    System.out.println("Read time: " + min + ":" + sec);
+    System.out.println("Read time: " + min + ":" + sec + " (" + time + ")");
+    
+    startTime = System.currentTimeMillis();
+    int numErrors = doc.checkConsistencyOffline();
+    time =  (System.currentTimeMillis() - startTime);
+    
+    secTime = time / 1_000l;
+    
+    min = secTime / 60;
+    sec = secTime % 60;
+    System.out.println("Validation time: " + min + ":" + sec + " (" + time + ")");
+    System.out.println("Found " + numErrors + " Errors:");
+    
+    SBMLErrorLog log = doc.getErrorLog();
+    for (int i = 0; i < log.getNumErrors(); i++)
+    {
+      SBMLError e = log.getError(i);
+      System.out.println("--------------------------");
+      System.out.println(e);
+      System.out.println("--------------------------");
+      System.out.println();
+    }
   }
 
 }

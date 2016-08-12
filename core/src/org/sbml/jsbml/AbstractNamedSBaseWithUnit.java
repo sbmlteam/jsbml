@@ -278,10 +278,12 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
     }
     // TODO: Use the method Units.isValidUnit here!
     String oldUnits = unitsID;
+    
     if (units == null) {
       unitsID = null;
     } else {
       units = units.trim();
+      
       boolean illegalArgument = false;
       if (units.length() == 0) {
         illegalArgument = true;
@@ -302,6 +304,7 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
           JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
       }
     }
+    
     if (oldUnits != unitsID) {
       firePropertyChange(TreeNodeChangeEvent.units, oldUnits, unitsID);
     }
