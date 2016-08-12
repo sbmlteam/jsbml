@@ -724,8 +724,7 @@ public class Compartment extends Symbol {
    */
   @Deprecated
   public void setCompartmentType(String compartmentTypeID) {
-    checkCompartmentType(compartmentTypeID);
-
+ 
     String oldCompartmentTypeID = this.compartmentTypeID;
     this.compartmentTypeID = compartmentTypeID;
     
@@ -742,39 +741,39 @@ public class Compartment extends Symbol {
   }
 
 
-  /**
-   * Checks if the compartmentType attribute follow the SBML specification
-   * constraints.
-   */
-  private void checkCompartmentType(String compartmentTypeID) {
-    boolean isReadingInProgress = isReadingInProgress(); // TODO - we could make
-    // this method more
-    // generic in the case,
-    // for example, where
-    // we allow users to
-    // switch off
-    // completely the
-    // validation in the
-    // setters with an
-    // option
-
-    if (isReadingInProgress) {
-      // TODO - just check the attribute value using existing custom
-      // ValidationContext or Constraints or custom code or don't do validation
-      // in this case
-      // TODO - when an error is found, add the error to the SBMLErrorLog and
-      // allow the wrong value to be set
-    } else {
-      // TODO - here we don't need to add the error to the error log but we
-      // could use the error message to build
-      // a better exception message to the user.
-      // TODO - when errors are found, throw an Exception
-      if (getLevel() != 2) {
-        throw new PropertyNotAvailableException(
-          TreeNodeChangeEvent.compartmentType, this);
-      }
-    }
-  }
+//  /**
+//   * Checks if the compartmentType attribute follow the SBML specification
+//   * constraints.
+//   */
+//  private void checkCompartmentType(String compartmentTypeID) {
+//    boolean isReadingInProgress = isReadingInProgress(); // TODO - we could make
+//    // this method more
+//    // generic in the case,
+//    // for example, where
+//    // we allow users to
+//    // switch off
+//    // completely the
+//    // validation in the
+//    // setters with an
+//    // option
+//
+//    if (isReadingInProgress) {
+//      // TODO - just check the attribute value using existing custom
+//      // ValidationContext or Constraints or custom code or don't do validation
+//      // in this case
+//      // TODO - when an error is found, add the error to the SBMLErrorLog and
+//      // allow the wrong value to be set
+//    } else {
+//      // TODO - here we don't need to add the error to the error log but we
+//      // could use the error message to build
+//      // a better exception message to the user.
+//      // TODO - when errors are found, throw an Exception
+//      if (getLevel() != 2) {
+//        throw new PropertyNotAvailableException(
+//          TreeNodeChangeEvent.compartmentType, this);
+//      }
+//    }
+//  }
 
 
   /**
@@ -933,8 +932,6 @@ public class Compartment extends Symbol {
    */
   public void setSpatialDimensions(double spatialDimension) {
 
-    // checkAttribute(TreeNodeChangeEvent.spatialDimensions, spatialDimension);
-
     isSetSpatialDimensions = true;
     Double oldSpatialDimensions = spatialDimensions;
     spatialDimensions = Double.valueOf(spatialDimension);
@@ -993,7 +990,30 @@ public class Compartment extends Symbol {
         resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "units",
         getId()));
     }
-    super.setUnits(units);
+    
+    
+    if (units.equals(this.unitsID))
+    {
+      return;
+    }
+    
+    String oldUnits = this.unitsID;
+    
+    this.unitsID = units;
+    
+    if (checkAttribute(TreeNodeChangeEvent.units))
+    {
+      firePropertyChange(TreeNodeChangeEvent.units, oldUnits, unitsID);
+    }
+    else
+    {
+      // TODO reset old value or throw exception (or both?)
+      this.unitsID = oldUnits;
+//      throw new IllegalArgumentException(MessageFormat.format(
+//        JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
+    }
+    
+//    super.setUnits(units);
   }
 
 
@@ -1062,6 +1082,8 @@ public class Compartment extends Symbol {
     if ((dim > 0d) || Double.isNaN(dim)) {
       super.setValue(value);
     } else {
+      
+      
       throw new IllegalArgumentException(MessageFormat.format(
         resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "size",
         getId()));

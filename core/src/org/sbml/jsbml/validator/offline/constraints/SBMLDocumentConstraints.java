@@ -67,7 +67,6 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
 
   @Override
-  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<SBMLDocument> func = null;
 

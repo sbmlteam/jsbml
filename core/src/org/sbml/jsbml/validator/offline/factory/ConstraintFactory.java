@@ -20,6 +20,9 @@
 
 package org.sbml.jsbml.validator.offline.factory;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -71,57 +74,129 @@ public class ConstraintFactory {
    */
   public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz,
     CHECK_CATEGORY[] categories, int level, int version) {
+    Set<Class<?>> set = new HashSet<Class<?>>();
+
+    return getConstraintsForClass(clazz, categories, level, version, set);
+  }
+
+
+  /**
+   * @param clazz
+   * @param category
+   * @param pkgs
+   * @return
+   */
+  private <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz,
+    CHECK_CATEGORY[] categories, int level, int version,
+    Set<Class<?>> collectedClasses) {
+
+    if (collectedClasses.contains(clazz)) {
+      // Already collected
+      return null;
+    } else {
+      collectedClasses.add(clazz);
+    }
 
     ConstraintGroup<T> group = new ConstraintGroup<T>();
 
     for (Class<?> inf : clazz.getInterfaces()) {
-      ConstraintGroup<T> c =
-        this.getConstraintsForClass(inf, categories, level, version);
+      ConstraintGroup<T> c = this.getConstraintsForClass(inf, categories, level,
+        version, collectedClasses);
 
-      if (c != null) {
-        group.add(c);
-      }
+      group.add(c);
+
     }
 
     Class<?> superclass = clazz.getSuperclass();
     if (superclass != null) {
-      
-      ConstraintGroup<T> c =
-        this.getConstraintsForClass(superclass, categories, level, version);
 
-      if (c != null) {
-        group.add(c);
-      }
+      ConstraintGroup<T> c = this.getConstraintsForClass(superclass, categories,
+        level, version, collectedClasses);
+
+      group.add(c);
+
     }
 
     ConstraintDeclaration declaration =
       AbstractConstraintDeclaration.getInstance(clazz.getSimpleName());
 
     if (declaration != null) {
-      
-      ConstraintGroup<T> c = declaration.createConstraints(level, version, categories);
+
+      ConstraintGroup<T> c =
+        declaration.createConstraints(level, version, categories);
       group.add(c);
     }
-    
+
     return (group.getConstraintsCount() > 0) ? group : null;
   }
 
 
   /**
+   * Returns all constraints which 
    * @param attributeName
    * @param clazz
-   * @param pkg
    * @param level
    * @param version
    * @return
    */
-  public AnyConstraint<?> getConstraintsForAttribute(String attributeName,
-    Class<?> clazz, int level, int version) {
+  public <T> ConstraintGroup<T> getConstraintsForAttribute(Class<?> clazz, String attributeName,
+     int level, int version) {
+    
+    Set<Class<?>> set = new HashSet<Class<?>>();
 
-    ConstraintDeclaration dec =
+    return getConstraintsForAttribute(clazz, attributeName, level, version, set);
+  }
+  
+  /**
+   * Returns all constraints which 
+   * @param attributeName
+   * @param clazz
+   * @param level
+   * @param version
+   * @return
+   */
+  public <T> ConstraintGroup<T> getConstraintsForAttribute(Class<?> clazz, String attributeName,
+     int level, int version, Set<Class<?>> collectedClasses) {
+    
+    
+    if (collectedClasses.contains(clazz)) {
+      // Already collected
+      return null;
+    } else {
+      collectedClasses.add(clazz);
+    }
+
+    ConstraintGroup<T> group = new ConstraintGroup<T>();
+
+    for (Class<?> inf : clazz.getInterfaces()) {
+      ConstraintGroup<T> c = this.getConstraintsForAttribute(inf, attributeName, level,
+        version, collectedClasses);
+
+      group.add(c);
+
+    }
+
+    Class<?> superclass = clazz.getSuperclass();
+    if (superclass != null) {
+
+      ConstraintGroup<T> c = this.getConstraintsForAttribute(superclass, attributeName,
+        level, version, collectedClasses);
+
+      group.add(c);
+
+    }
+
+    ConstraintDeclaration declaration =
       AbstractConstraintDeclaration.getInstance(clazz.getSimpleName());
 
-    return dec.createConstraints(level, version, attributeName);
+    if (declaration != null) {
+
+      ConstraintGroup<T> c =
+        declaration.createConstraints(level, version, attributeName);
+      group.add(c);
+    }
+
+    return (group.getConstraintsCount() > 0) ? group : null;
   }
 
 }

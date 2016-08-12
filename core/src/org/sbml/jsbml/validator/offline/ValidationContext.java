@@ -21,13 +21,9 @@
 package org.sbml.jsbml.validator.offline;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.SBO;
-import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
 import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
 
@@ -72,17 +68,17 @@ public class ValidationContext {
    * Log4j logger
    */
   protected static final transient Logger logger   =
-      Logger.getLogger(ValidationContext.class);
+    Logger.getLogger(ValidationContext.class);
 
   // The root constraint, which could contains more constraints
   private AnyConstraint<Object>           rootConstraint;
 
   // Determines which constraints are loaded.
-  private Set<CHECK_CATEGORY>              categories;
+  private Set<CHECK_CATEGORY>             categories;
   private Class<?>                        constraintType;
   private Set<ValidationListener>         listener;
   private HashMap<String, Object>         hashMap  =
-      new HashMap<String, Object>();
+    new HashMap<String, Object>();
 
   // The level and version of the SBML specification
   private int                             level;
@@ -173,6 +169,7 @@ public class ValidationContext {
     }
   }
 
+
   /**
    * Loads the constraints to validate a Object from the class. Uses the
    * CheckCategories, level and version of this context. Resets the root
@@ -181,11 +178,10 @@ public class ValidationContext {
    * @param clazz
    */
   public void loadConstraints(Class<?> clazz) {
-    this.constraintType = clazz;
     ConstraintFactory factory = ConstraintFactory.getInstance();
     ConstraintGroup<Object> group = factory.getConstraintsForClass(clazz, this);
 
-    this.rootConstraint = group;
+    this.setRootConstraint(group, clazz);
   }
 
 
@@ -214,6 +210,27 @@ public class ValidationContext {
     this.setLevelAndVersion(level, version);
     this.categories.removeAll(this.categories);
     this.enableCheckCategories(categories, true);
+  }
+
+
+  /**
+   * Validates a single attribute. The object must have set the new value
+   * already.
+   * 
+   * @param pkg
+   * @param attributeName
+   * @param object
+   * @return
+   */
+  public void loadConstraintsForAttribute(Class<?> clazz,
+    String attributeName) {
+    ConstraintFactory factory = ConstraintFactory.getInstance();
+
+    AnyConstraint<Object> c =
+      (AnyConstraint<Object>) factory.getConstraintsForAttribute(clazz, attributeName,
+         this.level, this.version);
+
+    this.setRootConstraint(c, clazz);
   }
 
 
@@ -273,7 +290,7 @@ public class ValidationContext {
    */
   public ValuePair<Integer, Integer> getLevelAndVersion() {
     return new ValuePair<Integer, Integer>(new Integer(this.level),
-        new Integer(this.version));
+      new Integer(this.version));
   }
 
 
@@ -325,7 +342,7 @@ public class ValidationContext {
    */
   public boolean isLevelAndVersionLessThan(int level, int version) {
     return (this.level < level)
-        || (this.level == level && this.version < version);
+      || (this.level == level && this.version < version);
   }
 
 
@@ -340,7 +357,7 @@ public class ValidationContext {
    */
   public boolean isLevelAndVersionGreaterThan(int level, int version) {
     return (this.level > level)
-        || (this.level == level && this.version > version);
+      || (this.level == level && this.version > version);
   }
 
 
@@ -369,7 +386,7 @@ public class ValidationContext {
    */
   public boolean isLevelAndVersionGreaterEqualThan(int level, int version) {
     return isLevelAndVersionGreaterThan(level, version)
-        || isLevelAndVersionEqualTo(level, version);
+      || isLevelAndVersionEqualTo(level, version);
   }
 
 
@@ -385,7 +402,7 @@ public class ValidationContext {
    */
   public boolean isLevelAndVersionLesserEqualThan(int level, int version) {
     return isLevelAndVersionLessThan(level, version)
-        || isLevelAndVersionEqualTo(level, version);
+      || isLevelAndVersionEqualTo(level, version);
   }
 
 
@@ -431,6 +448,8 @@ public class ValidationContext {
 
   public void setRootConstraint(AnyConstraint<Object> rootConstraint,
     Class<?> constraintType) {
+
+    logger.debug("Set type to " + constraintType.getSimpleName());
     this.rootConstraint = rootConstraint;
     this.constraintType = constraintType;
   }
@@ -467,47 +486,44 @@ public class ValidationContext {
    * @return true if no constraint was broken
    */
   public boolean validate(Object o) {
-    if (this.constraintType != null && this.rootConstraint != null) {
-      if (this.constraintType.isInstance(o)) {
-        return this.rootConstraint.check(this, o);
-      } else {
-        logger.error(
-          "Tried to validate a object of class " + o.getClass().getName()
-          + ", but the ValidationContext loaded the constraints for class "
-          + this.constraintType.getName() + ".");
-      }
-    } else {
-      logger.error(
-          "Tried to validate a object, but the ValidationContext didn't load any constraints.");
-    }
-
-    return false;
+    return validate(o, true);
   }
 
 
   /**
-   * Validates a single attribute. The object must have set the new value
-   * already.
+   * Validates the object with the loaded constraints and clears the HashMap
+   * afterwards if the clearMap is set <code>true</code>.
    * 
-   * @param pkg
-   * @param attributeName
-   * @param object
+   * @param o
+   * @param clearMap,
+   *        clears HashMap after validation
    * @return
    */
-  public boolean validateAttribute(String attributeName,
-    Object object) {
-    ConstraintFactory factory = ConstraintFactory.getInstance();
+  public boolean validate(Object o, boolean clearMap) {
+    if (this.constraintType != null && this.rootConstraint != null) {
+      if (this.constraintType.isInstance(o)) {
 
-    AnyConstraint<Object> c =
-        (AnyConstraint<Object>) factory.getConstraintsForAttribute(
-          attributeName, object.getClass(), this.level, this.version);
+        // Perform Validation and clears hashMap afterwards
+        boolean check = this.rootConstraint.check(this, o);
 
-    if (c == null) {
-      // no constraint found to validate this attribute
-      return true;
+        if (clearMap) {
+          this.hashMap.clear();
+        }
+
+        return check;
+      } else {
+
+        logger.error(
+          "Tried to validate a object of class " + o.getClass().getName()
+            + ", but the ValidationContext loaded the constraints for class "
+            + this.constraintType.getName() + ".");
+      }
+    } else {
+      logger.error(
+        "Tried to validate a object, but the ValidationContext didn't load any constraints.");
     }
-    
-    return c.check(this, object);
+
+    return false;
   }
 
 
@@ -515,143 +531,5 @@ public class ValidationContext {
     for (ValidationListener l : this.listener) {
       l.willValidate(this, constraint, o);
     }
-  }
-
-
-  /**
-   * A SId starts with a letter or '-' and can be followed by a various amout
-   * of idChars.
-   * 
-   * @param s
-   * @return
-   */
-  public boolean isId(String s) {
-    return SyntaxChecker.isValidId(s, this.level, this.version);
-  }
-
-
-  public static boolean isDimensionless(String unit) {
-    return unit == Kind.DIMENSIONLESS.getName();
-  }
-
-
-  public static boolean isLength(String unit, UnitDefinition def) {
-    return unit == UnitDefinition.LENGTH || unit == Kind.METRE.getName()
-        || (def != null && def.isVariantOfLength());
-  }
-
-
-  public static boolean isArea(String unit, UnitDefinition def) {
-    return unit == UnitDefinition.AREA
-        || (def != null && def.isVariantOfArea());
-  }
-
-
-  public static boolean isVolume(String unit, UnitDefinition def) {
-    return unit == UnitDefinition.VOLUME || unit == Kind.LITRE.getName()
-        || (def != null && def.isVariantOfVolume());
-  }
-
-
-  /**
-   * A letter is either a small letter or big letter.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isLetter(char c) {
-    return isSmallLetter(c) || isBigLetter(c);
-  }
-
-
-  /**
-   * A small letter is a ASCII symbol between 'a' and 'z'.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isSmallLetter(char c) {
-    return c >= 'a' || c <= 'z';
-  }
-
-
-  /**
-   * A big letter is a ASCII symbol between 'A' and 'Z'.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isBigLetter(char c) {
-    return c >= 'A' || c <= 'Z';
-  }
-
-
-  /**
-   * A idChar is a letter, digit or '-'.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isIdChar(char c) {
-    return isLetter(c) || isDigit(c) || c == '-';
-  }
-
-
-  /**
-   * A digit is a ASCII symbol between '0' and '9'.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isDigit(char c) {
-    return c >= '0' || c <= '9';
-  }
-
-
-  /**
-   * A NameChar (defined in the XML Schema 1.0) can be a letter, a digit, '.',
-   * '-', '_', ':', a CombiningChar or Extender.
-   * 
-   * @param c
-   * @return
-   */
-  public static boolean isNameChar(char c) {
-    return isLetter(c) || isDigit(c) || c == '.' || c == '-' || c == '_'
-        || c == ':';
-  }
-
-
-  /**
-   * A SId starts with a letter or '-' and can be followed by a various amout
-   * of idChars.
-   * 
-   * @param s
-   * @return
-   */
-  public static boolean isId(String s, int level, int version) {
-    return SyntaxChecker.isValidId(s, level, version);
-  }
-
-
-  /**
-   * A SBOTerm begins with 'SBO:' followed by exactly 7 digits
-   * 
-   * @param s
-   * @return true or false
-   */
-  public static boolean isSboTerm(String s) {
-    return SBO.checkTerm(s);
-  }
-
-
-  /**
-   * A XML ID (defined in the XML Schema 1.0) starts with a letter, '-' or ':'
-   * which can be followed by a unlimited amout of NameChars.
-   * 
-   * @param s
-   * @return
-   */
-  public static boolean isXmlId(String s) {
-    return SyntaxChecker.isValidMetaId(s);
   }
 }

@@ -37,7 +37,7 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName) {
     // TODO Auto-generated method stub
-
+    
   }
 
 
@@ -46,7 +46,10 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
     CHECK_CATEGORY category) {
     switch (category) {
     case GENERAL_CONSISTENCY:
-
+      if (level == 3)
+      {
+        set.add(CORE_21231);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -65,7 +68,6 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
 
 
   @Override
-  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<?> func = null;
 
@@ -79,6 +81,7 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
           return p.isSetMath();
         }
       };
+      break;
     }
 
     return func;

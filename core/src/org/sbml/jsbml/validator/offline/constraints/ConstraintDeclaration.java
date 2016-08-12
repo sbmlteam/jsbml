@@ -22,6 +22,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.SBMLError.SEVERITY;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 
 /**
@@ -31,7 +32,6 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
  * already a working implementation of most of the methods and supports caching
  * 
  * @see AbstractConstraintDeclaration
- * 
  * @author Roman
  * @since 1.2
  * @date 04.08.2016
@@ -70,7 +70,9 @@ public interface ConstraintDeclaration {
 
   /**
    * Creates all the constraints which are needed to validate the attribute
-   * in the given level and version of SBML.
+   * in the given level and version of SBML. This should only be error codes
+   * which refer to a error with severities {@link SEVERITY#ERROR} or
+   * {@link SEVERITY#FATAL}.
    * 
    * @param level
    * @param version
@@ -79,8 +81,8 @@ public interface ConstraintDeclaration {
    *         <code>null</code> if no constraint was loaded
    * @see #createConstraints(int, int, CHECK_CATEGORY[])
    */
-  abstract public AnyConstraint<?> createConstraints(int level, int version,
-    String attributeName);
+  abstract public <T> ConstraintGroup<T> createConstraints(int level,
+    int version, String attributeName);
 
 
   /**
@@ -129,15 +131,4 @@ public interface ConstraintDeclaration {
    * @see #createConstraint(int)
    */
   abstract public <T> AnyConstraint<T> createConstraint(int errorCode);
-
-
-  /**
-   * Returns the {@link ValidationFunction} of the error code, if it's defined
-   * in this {@link ConstraintDeclaration}
-   * 
-   * @param errorCode
-   * @return the {@link ValidationFunction} or <code>null</code> if not defined
-   *         in this {@link ConstraintDeclaration}
-   */
-  abstract public ValidationFunction<?> getValidationFunction(int errorCode);
 }

@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $IdRateRuleConstraints.java 01:12:47 roman $
+ * $URLRateRuleConstraints.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -17,58 +17,41 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.ExplicitRule;
-import org.sbml.jsbml.Model;
+import org.sbml.jsbml.RateRule;
+import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
+ * @date 11.08.2016
  */
-public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
+public class RateRuleConstraints extends AbstractConstraintDeclaration {
 
-  @Override
-  public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
-    // TODO Auto-generated method stub
-
-  }
-
-
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
+   * addErrorCodesForCheck(java.util.Set, int, int,
+   * org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
+   */
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
+   
     switch (category) {
     case GENERAL_CONSISTENCY:
-
-      if (level == 1) {
-        set.add(CORE_99106);
-      } else if (level == 2) {
-        
-        
-        if (version == 5)
-        {
-          set.add(CORE_20911);
-        }
-        
-        if (version > 1) {
-          set.add(CORE_20906);
-        } else // l2v1
-        {
-          set.add(CORE_99106);
-        }
-      } else if (level == 3) {
-        addRangeToSet(set, CORE_20905, CORE_20910);
+      set.add(CORE_20902);
+      
+      if (level > 1)
+      {
+        set.add(CORE_20904);
       }
-
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -86,38 +69,59 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
   }
 
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
+   * addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
+   */
+  @Override
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * @see
+   * org.sbml.jsbml.validator.offline.constraints.AbstractConstraintDeclaration#
+   * getValidationFunction(int)
+   */
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<ExplicitRule> func = null;
+    ValidationFunction<RateRule> func = null;
 
     switch (errorCode) {
-
-
-    case CORE_20907:
-      func = new ValidationFunction<ExplicitRule>() {
+    case CORE_20902:
+      func = new ValidationFunction<RateRule>() {
 
         @Override
-        public boolean check(ValidationContext ctx, ExplicitRule r) {
-          
-          return r.isSetMath();
+        public boolean check(ValidationContext ctx, RateRule r) {
+          // TODO Auto-generated method stub
+
+          if (r.isRate() && r.isSetVariable()) {
+
+            return ValidationTools.isValidVariable(r.getVariableInstance(),
+              ctx.getLevel());
+          }
+
+          return true;
         }
       };
       break;
-
-    case CORE_20911:
-      func = new ValidationFunction<ExplicitRule>() {
+      
+    case CORE_20904:
+      func = new ValidationFunction<RateRule>() {
 
         @Override
-        public boolean check(ValidationContext ctx, ExplicitRule r) {
-          Model m = r.getModel();
-          String var = r.getVariable();
-          
-          if (r.isSetVariable() && m != null) {
-            Compartment c = m.getCompartment(var);
+        public boolean check(ValidationContext ctx, RateRule r) {
+          // TODO Auto-generated method stub
 
-            if (c != null) {
-              return c.getSpatialDimensions() != 0;
-            }
+          Variable var = r.getVariableInstance();
+
+          if (var != null) {
+            return !var.isConstant();
           }
 
           return true;
@@ -128,4 +132,5 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
 
     return func;
   }
+
 }
