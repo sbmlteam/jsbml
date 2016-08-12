@@ -33,6 +33,20 @@ import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
  */
 public final class SBOValidationConstraints {
 
+  public static final ValidationFunction<SBase> isObsolete = new ValidationFunction<SBase>() {
+
+    @Override
+    public boolean check(ValidationContext ctx, SBase sb) {
+
+      if (sb.isSetSBOTerm()) {
+
+        return SBO.isObsolete(sb.getSBOTerm());
+
+      }
+
+      return false;
+    }
+  };
   public static final ValidationFunction<SBase> isModellingFramework = new ValidationFunction<SBase>()  {
 
 
@@ -41,7 +55,12 @@ public final class SBOValidationConstraints {
       
       if (sb.isSetSBOTerm())
       {
-        return SBO.isModellingFramework(sb.getSBOTerm());
+        try {
+          return SBO.isModellingFramework(sb.getSBOTerm());
+        } catch (Exception e) {
+          return false;
+        }
+        
       }
       
       return true;
@@ -56,7 +75,12 @@ public final class SBOValidationConstraints {
       
       if (sb.isSetSBOTerm())
       {
-        return SBO.isInteraction(sb.getSBOTerm());
+        try {
+          return SBO.isInteraction(sb.getSBOTerm());
+        } catch (Exception e) {
+          return false;
+        }
+        
       }
       
       return true;
@@ -71,7 +95,12 @@ public final class SBOValidationConstraints {
       
       if (sb.isSetSBOTerm())
       {
-        return SBO.isMathematicalExpression(sb.getSBOTerm());
+        try {
+          return SBO.isMathematicalExpression(sb.getSBOTerm());
+        } catch (Exception e) {
+          return false;
+        }
+        
       }
       
       return true;
@@ -86,7 +115,12 @@ public final class SBOValidationConstraints {
       
       if (sb.isSetSBOTerm())
       {
-        return SBO.isMaterialEntity(sb.getSBOTerm());
+        try {
+          return SBO.isMaterialEntity(sb.getSBOTerm());
+        } catch (Exception e) {
+          return false;
+        }
+        
       }
       
       return true;
@@ -101,7 +135,12 @@ public final class SBOValidationConstraints {
       
       if (sb.isSetSBOTerm())
       {
-        return SBO.isQuantitativeParameter(sb.getSBOTerm());
+        try {
+          return SBO.isQuantitativeParameter(sb.getSBOTerm());
+        } catch (Exception e) {
+          return false;
+        }
+        
       }
       
       return true;
@@ -116,7 +155,12 @@ public final class SBOValidationConstraints {
       
       if (sb.isSetSBOTerm())
       {
-        return SBO.isParticipantRole(sb.getSBOTerm());
+        try {
+          return SBO.isParticipantRole(sb.getSBOTerm());
+        } catch (Exception e) {
+          return true;
+        }
+        
       }
       
       return true;
@@ -130,7 +174,12 @@ public final class SBOValidationConstraints {
       
       if (sb.isSetSBOTerm())
       {
-        return SBO.isRateLaw(sb.getSBOTerm());
+        try {
+          return SBO.isRateLaw(sb.getSBOTerm());
+        } catch (Exception e) {
+          return false;
+        }
+        
       }
       
       return true;
