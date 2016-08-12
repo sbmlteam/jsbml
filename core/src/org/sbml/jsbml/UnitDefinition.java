@@ -4,14 +4,12 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- *
  * Copyright (C) 2009-2016 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -49,40 +47,42 @@ public class UnitDefinition extends AbstractNamedSBase {
    * Identifier of the (for SBML Level 2) predefined {@link UnitDefinition}
    * {@code area}.
    */
-  public static final String AREA = "area";
+  public static final String            AREA             = "area";
   /**
    * Identifier of the (for SBML Level 3) {@link UnitDefinition}
    * {@code extent}.
    */
-  public static final String EXTENT = "extent";
+  public static final String            EXTENT           = "extent";
   /**
    * Identifier of the (for SBML Level 2) predefined {@link UnitDefinition}
    * {@code length}.
    */
-  public static final String LENGTH = "length";
+  public static final String            LENGTH           = "length";
   /**
    * The logger for this class.
    */
-  private static final transient Logger logger = Logger.getLogger(UnitDefinition.class);
+  private static final transient Logger logger           =
+    Logger.getLogger(UnitDefinition.class);
   /**
    * Generated serial version identifier.
    */
-  public static final long serialVersionUID = -4705380036260408123L;
+  public static final long              serialVersionUID =
+    -4705380036260408123L;
   /**
    * Identifier of the (for the SBML Levels 1 and 2) predefined
    * {@link UnitDefinition} {@code substance}.
    */
-  public static final String SUBSTANCE = "substance";
+  public static final String            SUBSTANCE        = "substance";
   /**
    * Identifier of the (for the SBML Levels 1 and 2) predefined
    * {@link UnitDefinition} {@code time}.
    */
-  public static final String TIME = "time";
+  public static final String            TIME             = "time";
   /**
    * Identifier of the (for some SBML Levels 1 and 2) predefined
    * {@link UnitDefinition} {@code volume}.
    */
-  public static final String VOLUME = "volume";
+  public static final String            VOLUME           = "volume";
 
   /**
    * The suffix used in {@link UnitDefinition} objects that represent a base
@@ -92,7 +92,8 @@ public class UnitDefinition extends AbstractNamedSBase {
    * to internally store simple units in form of a composite
    * {@link UnitDefinition}.
    */
-  public static final String BASE_UNIT_SUFFIX = "_base";
+  public static final String            BASE_UNIT_SUFFIX = "_base";
+
 
   /**
    * Predefined unit for area.
@@ -104,6 +105,7 @@ public class UnitDefinition extends AbstractNamedSBase {
   public static final UnitDefinition area(int level, int version) {
     return getPredefinedUnit(AREA, level, version);
   }
+
 
   /**
    * <p>
@@ -119,9 +121,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    * {@link Kind#INVALID} as {@link Unit.Kind}
    * 
    * @param ud1
-   *            the first {@link UnitDefinition} object to compare
+   *        the first {@link UnitDefinition} object to compare
    * @param ud2
-   *            the second {@link UnitDefinition} object to compare
+   *        the second {@link UnitDefinition} object to compare
    * @return {@code true} if all the {@link Unit} objects in ud1 are
    *         compatible to the {@link Unit} objects in ud2, {@code false}
    *         otherwise.
@@ -131,6 +133,7 @@ public class UnitDefinition extends AbstractNamedSBase {
   public static boolean areCompatible(UnitDefinition ud1, UnitDefinition ud2) {
     return areEquivalent(ud1, ud2) || ud2.isInvalid() || ud1.isInvalid();
   }
+
 
   /**
    * Checks whether the given {@link UnitDefinition} and the
@@ -148,12 +151,13 @@ public class UnitDefinition extends AbstractNamedSBase {
     if (ud2 != null) {
       return areEquivalent(ud, ud2);
     } else if (ud.isUnitKind()
-        && Unit.isUnitKind(units, ud.getLevel(), ud.getVersion())) {
+      && Unit.isUnitKind(units, ud.getLevel(), ud.getVersion())) {
       return Unit.areEquivalent(ud.getUnit(0), units);
     }
 
     return false;
   }
+
 
   /**
    * <p>
@@ -184,13 +188,14 @@ public class UnitDefinition extends AbstractNamedSBase {
     if (ud1clone.getUnitCount() == ud2clone.getUnitCount()) {
       boolean equivalent = true;
       for (int i = 0; i < ud1clone.getUnitCount(); i++) {
-        equivalent &= Unit.areEquivalent(ud1clone.getUnit(i),
-          ud2clone.getUnit(i));
+        equivalent &=
+          Unit.areEquivalent(ud1clone.getUnit(i), ud2clone.getUnit(i));
       }
       return equivalent;
     }
     return false;
   }
+
 
   /**
    * <p>
@@ -220,12 +225,14 @@ public class UnitDefinition extends AbstractNamedSBase {
     if (ud1clone.getUnitCount() == ud2clone.getUnitCount()) {
       boolean identical = true;
       for (int i = 0; (i < ud1clone.getUnitCount()) && identical; i++) {
-        identical &= Unit.areIdentical(ud1clone.getUnit(i), ud2clone.getUnit(i));
+        identical &=
+          Unit.areIdentical(ud1clone.getUnit(i), ud2clone.getUnit(i));
       }
       return identical;
     }
     return false;
   }
+
 
   /**
    * This method returns the predefined unit with the given identifier for the
@@ -235,19 +242,19 @@ public class UnitDefinition extends AbstractNamedSBase {
    * definitions.
    * 
    * @param id
-   *            one of the values
-   *            <ul>
-   *            <li>substance</li>
-   *            <li>volume</li>
-   *            <li>area</li>
-   *            <li>length</li>
-   *            <li>time</li>
-   *            <li>any of the basic kind</li>
-   *            </ul>
+   *        one of the values
+   *        <ul>
+   *        <li>substance</li>
+   *        <li>volume</li>
+   *        <li>area</li>
+   *        <li>length</li>
+   *        <li>time</li>
+   *        <li>any of the basic kind</li>
+   *        </ul>
    * @param level
-   *            a number greater than zero.
+   *        a number greater than zero.
    * @param version
-   *            a number greater than zero.
+   *        a number greater than zero.
    * @return The predefined unit definition with the given identifier for the
    *         specified level version combination or null if no such predefined
    *         unit exists.
@@ -258,9 +265,11 @@ public class UnitDefinition extends AbstractNamedSBase {
     if (id == null) {
       logger.warn("Cannot create predefined unit object with id = null.");
       return null;
-    } else if (!(isPredefined(id, level) || (Unit.isUnitKind(id, level, version)))) {
+    } else if (!(isPredefined(id, level)
+      || (Unit.isUnitKind(id, level, version)))) {
       logger.warn(MessageFormat.format(
-        "No such predefined unit ''{0}'' in SBML Level {1,number,integer}.", id, level));
+        "No such predefined unit ''{0}'' in SBML Level {1,number,integer}.", id,
+        level));
       return null;
     }
 
@@ -313,6 +322,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     return ud;
   }
 
+
   /**
    * Test if the given unit is a predefined unit.
    * 
@@ -325,8 +335,8 @@ public class UnitDefinition extends AbstractNamedSBase {
     return isPredefined(ud);
   }
 
+
   /**
-   * 
    * @param name
    * @param level
    * @return
@@ -334,6 +344,7 @@ public class UnitDefinition extends AbstractNamedSBase {
   public static boolean isPredefined(String name, int level) {
     return Unit.isPredefined(name, level);
   }
+
 
   /**
    * Test if the given unit is a predefined unit.
@@ -346,18 +357,19 @@ public class UnitDefinition extends AbstractNamedSBase {
       return false;
     }
     if (ud.getUnitCount() == 1) {
-      UnitDefinition predef = getPredefinedUnit(ud.getId(),
-        ud.getLevel(), ud.getVersion());
-      if ((predef != null)
-          && Unit.isPredefined(ud.getId(), ud.getLevel())) {
+      UnitDefinition predef =
+        getPredefinedUnit(ud.getId(), ud.getLevel(), ud.getVersion());
+      if ((predef != null) && Unit.isPredefined(ud.getId(), ud.getLevel())) {
         return ud.equals(predef);
       }
     }
     return false;
   }
 
+
   /**
    * Predefined unit for length.
+   * 
    * @param level
    * @param version
    * @return
@@ -366,27 +378,29 @@ public class UnitDefinition extends AbstractNamedSBase {
     return getPredefinedUnit(LENGTH, level, version);
   }
 
-  /**
-   * Returns a string that expresses the unit definition represented by this
-   * UnitDefinition object.
-   * 
-   * @param ud
-   *            the UnitDefinition object
-   * @return a string expressing the unit definition
-   */
-  public static String printUnits(UnitDefinition ud) {
-    return printUnits(ud, false);
-  }
 
   /**
    * Returns a string that expresses the unit definition represented by this
    * UnitDefinition object.
    * 
    * @param ud
-   *            the UnitDefinition object
+   *        the UnitDefinition object
+   * @return a string expressing the unit definition
+   */
+  public static String printUnits(UnitDefinition ud) {
+    return printUnits(ud, false);
+  }
+
+
+  /**
+   * Returns a string that expresses the unit definition represented by this
+   * UnitDefinition object.
+   * 
+   * @param ud
+   *        the UnitDefinition object
    * @param compact
-   *            boolean indicating whether the compact form should be used
-   *            (defaults to false)
+   *        boolean indicating whether the compact form should be used
+   *        (defaults to false)
    * @return a string expressing the unit definition
    */
   public static String printUnits(UnitDefinition ud, boolean compact) {
@@ -406,13 +420,13 @@ public class UnitDefinition extends AbstractNamedSBase {
           sb.append(MessageFormat.format(
             " (exponent = {0}, multiplier = {1}, scale = {2})",
             StringTools.toString(unit.getExponent()),
-            StringTools.toString(unit.getMultiplier()),
-            unit.getScale()));
+            StringTools.toString(unit.getMultiplier()), unit.getScale()));
         }
       }
     }
     return sb.toString();
   }
+
 
   /**
    * Orders alphabetically the {@link Unit} objects within the
@@ -434,7 +448,7 @@ public class UnitDefinition extends AbstractNamedSBase {
         Unit u = orig.remove(i);
         j = 0;
         while ((j < units.size())
-            && (0 < u.getKind().compareTo(units.get(j).getKind()))) {
+          && (0 < u.getKind().compareTo(units.get(j).getKind()))) {
           j++;
         }
         units.add(j, u);
@@ -442,6 +456,7 @@ public class UnitDefinition extends AbstractNamedSBase {
       ud.setListOfUnits(units);
     }
   }
+
 
   /**
    * @param ud
@@ -453,8 +468,10 @@ public class UnitDefinition extends AbstractNamedSBase {
     return ud.clone().simplify();
   }
 
+
   /**
    * Predefined unit for substance.
+   * 
    * @param level
    * @param version
    * @return
@@ -463,8 +480,10 @@ public class UnitDefinition extends AbstractNamedSBase {
     return getPredefinedUnit(SUBSTANCE, level, version);
   }
 
+
   /**
    * Predefined unit for time.
+   * 
    * @param level
    * @param version
    * @return
@@ -473,8 +492,10 @@ public class UnitDefinition extends AbstractNamedSBase {
     return getPredefinedUnit(TIME, level, version);
   }
 
+
   /**
    * Predefined unit for volume.
+   * 
    * @param level
    * @param version
    * @return
@@ -488,6 +509,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   private ListOf<Unit> listOfUnits;
 
+
   /**
    * Creates an UnitDefinition instance. By default, the listOfUnit is null.
    */
@@ -495,8 +517,8 @@ public class UnitDefinition extends AbstractNamedSBase {
     super();
   }
 
+
   /**
-   * 
    * @param level
    * @param version
    */
@@ -504,13 +526,14 @@ public class UnitDefinition extends AbstractNamedSBase {
     super(level, version);
   }
 
+
   /**
-   * 
    * @param id
    */
   public UnitDefinition(String id) {
     super(id);
   }
+
 
   /**
    * Creates an UnitDefinition instance from an id, level and version. By
@@ -523,6 +546,7 @@ public class UnitDefinition extends AbstractNamedSBase {
   public UnitDefinition(String id, int level, int version) {
     super(id, level, version);
   }
+
 
   /**
    * Creates an UnitDefinition instance from an id, level and version. By
@@ -537,6 +561,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     super(id, name, level, version);
   }
 
+
   /**
    * Creates an UnitDefinition instance from a given UnitDefinition.
    * 
@@ -549,13 +574,14 @@ public class UnitDefinition extends AbstractNamedSBase {
     }
   }
 
+
   /**
-   * 
    * @param unit
    */
   public void addUnit(String unit) {
     addUnit(Unit.Kind.valueOf(unit));
   }
+
 
   /**
    * Adds an {@link Unit} to this {@link UnitDefinition}.
@@ -565,6 +591,7 @@ public class UnitDefinition extends AbstractNamedSBase {
   public void addUnit(Unit u) {
     getListOfUnits().add(u);
   }
+
 
   /**
    * Convenient method to add a new unit object with the given kind that will
@@ -577,6 +604,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     addUnit(new Unit(1d, 0, kind, 1d, getLevel(), getVersion()));
   }
 
+
   /**
    * Removes all {@link Unit} elements from the list of Units in this object.
    */
@@ -584,7 +612,9 @@ public class UnitDefinition extends AbstractNamedSBase {
     getListOfUnits().clear();
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.element.AbstractSBase#clone()
    */
   @Override
@@ -592,13 +622,14 @@ public class UnitDefinition extends AbstractNamedSBase {
     return new UnitDefinition(this);
   }
 
+
   /**
    * This method converts this unit definition to a
    */
   public void convertToSIUnits() {
     UnitDefinition ud[] = new UnitDefinition[getUnitCount()];
-    Set<TreeNodeChangeListener> listeners = new HashSet<TreeNodeChangeListener>(
-        getListOfTreeNodeChangeListeners());
+    Set<TreeNodeChangeListener> listeners =
+      new HashSet<TreeNodeChangeListener>(getListOfTreeNodeChangeListeners());
     removeAllTreeNodeChangeListeners();
     for (int i = ud.length - 1; i >= 0; i--) {
       ud[i] = Unit.convertToSI(removeUnit(i));
@@ -610,32 +641,41 @@ public class UnitDefinition extends AbstractNamedSBase {
     addAllChangeListeners(listeners);
   }
 
+
   /**
-   * Creates a new {@link Unit} instance with the {@link Unit.Kind#INVALID} kind and adds
+   * Creates a new {@link Unit} instance with the {@link Unit.Kind#INVALID} kind
+   * and adds
    * it to this {@link UnitDefinition}.
    * 
-   * @return a new {@link Unit} instance with the {@link Unit.Kind#INVALID} kind.
+   * @return a new {@link Unit} instance with the {@link Unit.Kind#INVALID}
+   *         kind.
    * @see #createInvalidUnit()
    */
   public Unit createUnit() {
     return createInvalidUnit();
   }
 
+
   /**
-   * Creates a new {@link Unit} instance with the {@link Unit.Kind#INVALID} kind and adds
+   * Creates a new {@link Unit} instance with the {@link Unit.Kind#INVALID} kind
+   * and adds
    * it to this {@link UnitDefinition}.
    * 
-   * @return a new {@link Unit} instance with the {@link Unit.Kind#INVALID} kind.
+   * @return a new {@link Unit} instance with the {@link Unit.Kind#INVALID}
+   *         kind.
    */
   public Unit createInvalidUnit() {
     return createUnit(Unit.Kind.INVALID);
   }
 
+
   /**
-   * Creates a new {@link Unit} instance with the given {@link Unit.Kind} and adds
+   * Creates a new {@link Unit} instance with the given {@link Unit.Kind} and
+   * adds
    * it to this {@link UnitDefinition}.
    * 
-   * @param kind the kind to be set in the new Unit.
+   * @param kind
+   *        the kind to be set in the new Unit.
    * @return a new {@link Unit} instance with the given {@link Unit.Kind}.
    */
   public Unit createUnit(Unit.Kind kind) {
@@ -644,6 +684,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
     return unit;
   }
+
 
   /**
    * Divides this unit definition by the second unit definition.
@@ -663,8 +704,8 @@ public class UnitDefinition extends AbstractNamedSBase {
         for (int i = getUnitCount() - 1; (i >= 0) && !contains; i--) {
           Unit u = getUnit(i);
           if (Unit.Kind.areEquivalent(u.getKind(), unit.getKind())
-              || u.isDimensionless() || unit.isDimensionless()
-              || u.isInvalid() || unit.isInvalid()) {
+            || u.isDimensionless() || unit.isDimensionless() || u.isInvalid()
+            || unit.isInvalid()) {
             if (u.isDimensionless()) {
               Unit.merge(unit, removeUnit(i));
               break;
@@ -683,7 +724,9 @@ public class UnitDefinition extends AbstractNamedSBase {
     return this;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
    */
   @Override
@@ -691,7 +734,9 @@ public class UnitDefinition extends AbstractNamedSBase {
     return true;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
   @Override
@@ -714,10 +759,12 @@ public class UnitDefinition extends AbstractNamedSBase {
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       resourceBundle.getString("IndexExceedsBoundsException"), index,
-      + Math.min(pos, 0)));
+      +Math.min(pos, 0)));
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
   @Override
@@ -729,8 +776,8 @@ public class UnitDefinition extends AbstractNamedSBase {
     return children;
   }
 
+
   /**
-   * 
    * @return the listOfUnits of this UnitDefinition. Can be empty.
    */
   public ListOf<Unit> getListOfUnits() {
@@ -741,8 +788,8 @@ public class UnitDefinition extends AbstractNamedSBase {
     return listOfUnits;
   }
 
+
   /**
-   * 
    * @return the number of Unit.
    * @libsbml.deprecated use {@link #getUnitCount()}
    */
@@ -750,15 +797,17 @@ public class UnitDefinition extends AbstractNamedSBase {
     return getUnitCount();
   }
 
+
   /**
-   * 
    * @return the number of Unit.
    */
   public int getUnitCount() {
     return isSetListOfUnits() ? listOfUnits.size() : 0;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getParent()
    */
   @Override
@@ -767,16 +816,18 @@ public class UnitDefinition extends AbstractNamedSBase {
     return (ListOf<UnitDefinition>) super.getParent();
   }
 
+
   /**
    * Returns a specific Unit instance belonging to this UnitDefinition.
    * 
    * @param i
-   *            an integer, the index of the Unit to be returned.
+   *        an integer, the index of the Unit to be returned.
    * @return the ith Unit of this UnitDefinition
    */
   public Unit getUnit(int i) {
     return getListOfUnits().get(i);
   }
+
 
   /**
    * This method tests if this unit definition is a predefined unit.
@@ -789,13 +840,16 @@ public class UnitDefinition extends AbstractNamedSBase {
     return isBuiltIn(this);
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   @Override
   public boolean isIdMandatory() {
     return true;
   }
+
 
   /**
    * This method checks, if this UnitDefinition only contains Invalid as
@@ -814,6 +868,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
   }
 
+
   /**
    * This method tests if this unit definition is a predefined unit.
    * 
@@ -823,13 +878,14 @@ public class UnitDefinition extends AbstractNamedSBase {
     return isPredefined(this);
   }
 
+
   /**
-   * 
    * @return {@code true} if the listOfUnits is not null and not empty.
    */
   public boolean isSetListOfUnits() {
     return (listOfUnits != null) && (listOfUnits.size() > 0);
   }
+
 
   /**
    * Convenient method to test whether this {@link UnitDefinition} contains
@@ -842,76 +898,108 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isUnitKind() {
     if (getUnitCount() == 1) {
-      return Unit.isUnitKind(getUnit(0).getKind(), getLevel(),
-        getVersion());
+      return Unit.isUnitKind(getUnit(0).getKind(), getLevel(), getVersion());
     }
     return false;
   }
 
+
   /**
-   * 
    * @return {@code true} if this UnitDefinition is a variant of Area
    */
   public boolean isVariantOfArea() {
     if (isSetListOfUnits()) {
-      if (listOfUnits.size() == 1) {
-        Unit unit = listOfUnits.get(0);
+      UnitDefinition ud = this.simplify();
+
+      if (ud.getNumChildren() == 1) {
+        Unit unit = ud.getUnit(0);
         return unit.isVariantOfArea();
       }
     }
     return false;
   }
 
+
   /**
    * Convenience function for testing if a given unit definition is a variant
    * of the predefined unit identifier 'length'.
    * 
-   * @return {@code true} if this UnitDefinition is a variant of the predefined unit
+   * @return {@code true} if this UnitDefinition is a variant of the predefined
+   *         unit
+   *         length, meaning metres with only arbitrary variations in scale or
+   *         multiplier values; false otherwise.
+   */
+  public boolean isVariantOfDimensionless() {
+    if (isSetListOfUnits()) {
+      UnitDefinition ud = this.simplify();
+
+      // if after the simplify() call no more units exists, it's dimensionless
+      return ud.getNumChildren() == 0;
+    }
+    // If no listOfUnits is set, it's technically dimensionless
+    return true;
+  }
+
+
+  /**
+   * Convenience function for testing if a given unit definition is a variant
+   * of the predefined unit identifier 'length'.
+   * 
+   * @return {@code true} if this UnitDefinition is a variant of the predefined
+   *         unit
    *         length, meaning metres with only arbitrary variations in scale or
    *         multiplier values; false otherwise.
    */
   public boolean isVariantOfLength() {
     if (isSetListOfUnits()) {
-      if (listOfUnits.size() == 1) {
-        Unit unit = listOfUnits.get(0);
+      UnitDefinition ud = this.simplify();
+
+      if (ud.getNumChildren() == 1) {
+        Unit unit = ud.getUnit(0);
         return unit.isVariantOfLength();
       }
     }
     return false;
   }
 
+
   /**
    * Convenience function for testing if a given unit definition is a variant
    * of the predefined unit identifier 'substance'.
    * 
-   * @return {@code true} if this UnitDefinition is a variant of the predefined unit
+   * @return {@code true} if this UnitDefinition is a variant of the predefined
+   *         unit
    *         substance, meaning moles or items (and grams or kilograms from
    *         SBML Level 2 Version 2 onwards) with only arbitrary variations in
    *         scale or multiplier values; false otherwise.
    */
   public boolean isVariantOfSubstance() {
     if (isSetListOfUnits()) {
-      if (listOfUnits.size() == 1) {
-        Unit unit = listOfUnits.get(0);
+      UnitDefinition ud = this.simplify();
+
+      if (ud.getNumChildren() == 1) {
+        Unit unit = ud.getUnit(0);
         return unit.isVariantOfSubstance();
       }
     }
     return false;
   }
 
+
   /**
-   * 
    * @return
    */
   public boolean isVariantOfSubstancePerArea() {
     if (isSetListOfUnits()) {
-      if (listOfUnits.size() == 2) {
-        if (getUnit(0).isVariantOfSubstance()) {
-          Unit two = getUnit(1).clone();
+      UnitDefinition ud = this.simplify();
+
+      if (ud.getNumChildren() == 2) {
+        if (ud.getUnit(0).isVariantOfSubstance()) {
+          Unit two = ud.getUnit(1).clone();
           two.setExponent(-two.getExponent());
           return two.isVariantOfArea();
-        } else if (getUnit(1).isVariantOfSubstance()) {
-          Unit one = getUnit(0).clone();
+        } else if (ud.getUnit(1).isVariantOfSubstance()) {
+          Unit one = ud.getUnit(0).clone();
           one.setExponent(-one.getExponent());
           return one.isVariantOfArea();
         }
@@ -920,21 +1008,25 @@ public class UnitDefinition extends AbstractNamedSBase {
     return false;
   }
 
+
   /**
-   * 
-   * @return {@code true} if this UnitDefinition is a variant of substance per length.
+   * @return {@code true} if this UnitDefinition is a variant of substance per
+   *         length.
    */
   public boolean isVariantOfSubstancePerLength() {
     if (isSetListOfUnits()) {
-      if (listOfUnits.size() == 2) {
-        Unit unit = listOfUnits.get(0);
-        Unit unit2 = listOfUnits.get(1);
+      UnitDefinition ud = this.simplify();
+
+      if (ud.getNumChildren() == 2) {
+        Unit unit = ud.getUnit(0);
+        Unit unit2 = ud.getUnit(1);
+
         if (unit.isVariantOfSubstance()) {
-          Unit two = listOfUnits.get(1).clone();
+          Unit two = unit2.clone();
           two.setExponent(-two.getExponent());
           return two.isVariantOfLength();
         } else if (unit2.isVariantOfSubstance()) {
-          Unit one = listOfUnits.get(0).clone();
+          Unit one = unit.clone();
           one.setExponent(-one.getExponent());
           return one.isVariantOfLength();
         }
@@ -943,21 +1035,23 @@ public class UnitDefinition extends AbstractNamedSBase {
     return false;
   }
 
+
   /**
-   * 
    * @return
    */
   public boolean isVariantOfSubstancePerTime() {
     if (isSetListOfUnits()) {
-      if (listOfUnits.size() == 2) {
-        Unit unit1 = listOfUnits.get(0);
-        Unit unit2 = listOfUnits.get(1);
+      UnitDefinition ud = this.simplify();
+
+      if (ud.getNumChildren() == 2) {
+        Unit unit1 = ud.getUnit(0);
+        Unit unit2 = ud.getUnit(1);
         if (unit1.isVariantOfSubstance()) {
-          Unit two = listOfUnits.get(1).clone();
+          Unit two = unit2.clone();
           two.setExponent(-two.getExponent());
           return two.isVariantOfTime();
         } else if (unit2.isVariantOfSubstance()) {
-          Unit one = listOfUnits.get(0).clone();
+          Unit one = unit1.clone();
           one.setExponent(-one.getExponent());
           return one.isVariantOfTime();
         }
@@ -966,21 +1060,24 @@ public class UnitDefinition extends AbstractNamedSBase {
     return false;
   }
 
+
   /**
-   * 
-   * @return {@code true} if this UnitDefinition is a variant of substance per volume.
+   * @return {@code true} if this UnitDefinition is a variant of substance per
+   *         volume.
    */
   public boolean isVariantOfSubstancePerVolume() {
     if (isSetListOfUnits()) {
-      if (listOfUnits.size() == 2) {
-        Unit unit = listOfUnits.get(0);
-        Unit unit2 = listOfUnits.get(1);
+      UnitDefinition ud = this.simplify();
+
+      if (ud.getNumChildren() == 2) {
+        Unit unit = ud.getUnit(0);
+        Unit unit2 = ud.getUnit(1);
         if (unit.isVariantOfSubstance()) {
-          Unit two = listOfUnits.get(1).clone();
+          Unit two = unit2.clone();
           two.setExponent(-two.getExponent());
           return two.isVariantOfVolume();
         } else if (unit2.isVariantOfSubstance()) {
-          Unit one = listOfUnits.get(0).clone();
+          Unit one = unit.clone();
           one.setExponent(-one.getExponent());
           return one.isVariantOfVolume();
         }
@@ -988,6 +1085,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     }
     return false;
   }
+
 
   /**
    * Convenience function for testing if a given unit definition is a variant
@@ -1000,13 +1098,16 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfTime() {
     if (isSetListOfUnits()) {
-      if (listOfUnits.size() == 1) {
-        Unit unit = listOfUnits.get(0);
+      UnitDefinition ud = this.simplify();
+
+      if (ud.getNumChildren() == 1) {
+        Unit unit = ud.getUnit(0);
         return unit.isVariantOfTime();
       }
     }
     return false;
   }
+
 
   /**
    * Convenience function for testing if a given unit definition is a variant
@@ -1019,13 +1120,15 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfVolume() {
     if (isSetListOfUnits()) {
-      if (listOfUnits.size() == 1) {
-        Unit unit = listOfUnits.get(0);
+      UnitDefinition ud = this.simplify();
+      if (ud.getNumChildren() == 1) {
+        Unit unit = ud.getUnit(0);
         return unit.isVariantOfVolume();
       }
     }
     return false;
   }
+
 
   /**
    * Multiplies this unit with the given unit definition, i.e., adds a clone
@@ -1043,8 +1146,8 @@ public class UnitDefinition extends AbstractNamedSBase {
         for (int i = getUnitCount() - 1; (i >= 0) && !contains; i--) {
           Unit u = getUnit(i);
           if (Unit.Kind.areEquivalent(u.getKind(), unit.getKind())
-              || u.isDimensionless() || unit.isDimensionless()
-              || u.isInvalid() || unit.isInvalid()) {
+            || u.isDimensionless() || unit.isDimensionless() || u.isInvalid()
+            || unit.isInvalid()) {
             if (u.isDimensionless()) {
               unit = unit.clone();
               Unit.merge(unit, removeUnit(i));
@@ -1064,6 +1167,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     }
     return this;
   }
+
 
   /**
    * Raises this unit definition by the power of the given exponent, i.e., the
@@ -1087,16 +1191,19 @@ public class UnitDefinition extends AbstractNamedSBase {
     return this;
   }
 
+
   /**
-   * Removes the nth {@link Unit} object from this {@link UnitDefinition} object and returns a
+   * Removes the nth {@link Unit} object from this {@link UnitDefinition} object
+   * and returns a
    * pointer to it.
-   * 
    * The caller owns the returned object and is responsible for deleting it.
    * 
    * @param i
-   *            the index of the Unit object to remove
-   * @return the {@link Unit} object removed. As mentioned above, the caller owns the
-   *         returned item. {@code null} is returned if the given index is out of
+   *        the index of the Unit object to remove
+   * @return the {@link Unit} object removed. As mentioned above, the caller
+   *         owns the
+   *         returned item. {@code null} is returned if the given index is out
+   *         of
    *         range.
    */
   public Unit removeUnit(int i) {
@@ -1108,7 +1215,9 @@ public class UnitDefinition extends AbstractNamedSBase {
     return null;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#setId(java.lang.String)
    */
   @Override
@@ -1117,14 +1226,15 @@ public class UnitDefinition extends AbstractNamedSBase {
     // for Units:
     ValuePair<Integer, Integer> lv = getLevelAndVersion();
     if ((0 <= lv.compareTo(Integer.valueOf(2), Integer.valueOf(3)))
-        && Unit.Kind.isValidUnitKindString(id, lv.getL().intValue(), lv
-          .getV().intValue())) {
+      && Unit.Kind.isValidUnitKindString(id, lv.getL().intValue(),
+        lv.getV().intValue())) {
       throw new IllegalArgumentException(MessageFormat.format(
         "Cannot use the name {0} of a unit base kind as an identifier for a UnitDefinition.",
         id));
     }
     super.setId(id);
   }
+
 
   /**
    * Sets the {@link #listOfUnits} of this {@link UnitDefinition}.
@@ -1137,11 +1247,12 @@ public class UnitDefinition extends AbstractNamedSBase {
     unsetListOfUnits();
     this.listOfUnits = listOfUnits;
     if ((this.listOfUnits != null)
-        && (this.listOfUnits.getSBaseListType() != ListOf.Type.listOfUnits)) {
+      && (this.listOfUnits.getSBaseListType() != ListOf.Type.listOfUnits)) {
       this.listOfUnits.setSBaseListType(ListOf.Type.listOfUnits);
     }
     registerChild(this.listOfUnits);
   }
+
 
   /**
    * Simplifies the {@link UnitDefinition} so that any {@link Unit} objects
@@ -1161,8 +1272,8 @@ public class UnitDefinition extends AbstractNamedSBase {
         u = getUnit(i); // current unit
         s = getUnit(i + 1); // successor unit
         if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
-            || u.isDimensionless() || s.isDimensionless()
-            || u.isInvalid() || s.isInvalid()) {
+          || u.isDimensionless() || s.isDimensionless() || u.isInvalid()
+          || s.isInvalid()) {
           if (s.isDimensionless()) {
             Unit.merge(u, removeUnit(i + 1));
           } else {
@@ -1171,33 +1282,38 @@ public class UnitDefinition extends AbstractNamedSBase {
         }
       }
 
-      // Remove units that have become dimensionless by merging with subsequent units
-      while ((getUnitCount() > 1) && (getUnit(0).getKind().equals(Kind.DIMENSIONLESS))) {
+      // Remove units that have become dimensionless by merging with subsequent
+      // units
+      while ((getUnitCount() > 1)
+        && (getUnit(0).getKind().equals(Kind.DIMENSIONLESS))) {
         u = removeUnit(0);
         Unit.merge(getUnit(0), u);
       }
 
-      // TODO: Reorder all units first to have all those with a positive exponent in the front!
+      // TODO: Reorder all units first to have all those with a positive
+      // exponent in the front!
 
       // Shift scales and multipliers to the front if possible:
       for (int i = getUnitCount() - 2; i >= 0; i--) {
         u = getUnit(i); // current unit
         s = getUnit(i + 1); // successor unit
         if (!Unit.Kind.areEquivalent(u.getKind(), s.getKind())
-            && !u.isDimensionless() && !s.isDimensionless()
-            && !u.isInvalid() && !s.isInvalid()) {
-          //          double m1 = u.getMultiplier();
-          //          double m2 = s.getMultiplier();
+          && !u.isDimensionless() && !s.isDimensionless() && !u.isInvalid()
+          && !s.isInvalid()) {
+          // double m1 = u.getMultiplier();
+          // double m2 = s.getMultiplier();
           int s1 = u.getScale();
           int s2 = s.getScale();
           double e1 = u.getExponent();
           double e2 = s.getExponent();
           double p1 = s1 * e1;
           double p2 = s2 * e2;
-          // Try re-scaling by merging the scale of the second unit into the first unit:
+          // Try re-scaling by merging the scale of the second unit into the
+          // first unit:
           if ((Math.signum(p1) != Math.signum(p2)) && (e1 != 0d)) {
             double newScale = s1 + p2 / e1;
-            if (((i > 1) || ((s1 != 0) && (s2 != 0))) && (newScale - ((int) newScale) == 0)) {
+            if (((i > 1) || ((s1 != 0) && (s2 != 0)))
+              && (newScale - ((int) newScale) == 0)) {
               /*
                * Only re-scale if we can obtain an integer and if there is more
                * than two units in the list (otherwise it is not necessary to
@@ -1220,7 +1336,9 @@ public class UnitDefinition extends AbstractNamedSBase {
     return this;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#toString()
    */
   @Override
@@ -1230,6 +1348,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     }
     return isSetListOfUnits() ? printUnits(this, true) : super.toString();
   }
+
 
   /**
    * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
