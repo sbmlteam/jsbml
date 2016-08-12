@@ -25,9 +25,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * ConstraintDeclaration for Compartment class
@@ -46,7 +51,8 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     case GENERAL_CONSISTENCY:
       if (level == 1)
       {
-        addRangeToSet(set, CORE_20504, CORE_20505);
+        set.add(CORE_20504);
+        set.add(CORE_20505);
         set.add(CORE_20509);
       }
       else if (level == 2)
@@ -61,6 +67,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       else if (level == 3)
       {
         addRangeToSet(set, CORE_20507, CORE_20509);
+        set.add(CORE_20517);
       }
 
       break;
@@ -69,20 +76,82 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     case MATHML_CONSISTENCY:
       break;
     case MODELING_PRACTICE:
+      if (level > 1)
+      {
+        set.add(CORE_80501);
+      }
       break;
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 2) || level > 2)
+      {
+        set.add(CORE_10712);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
     }
   }
-  
+
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName) {
-    // TODO Auto-generated method stub
+
+    switch (attributeName) {
+    case TreeNodeChangeEvent.sboTerm:
+      if (level == 2 && version == 3)
+      {
+        set.add(CORE_10712);
+      }
+      break;
+      
+    case TreeNodeChangeEvent.spatialDimensions:
+      if (level == 1)
+      {
+        set.add(CORE_20509);
+      }
+      else if (level == 2)
+      {
+        if (version > 1)
+        {
+          set.add(CORE_20506);
+        }
+        
+        addRangeToSet(set, CORE_20501, CORE_20503);
+        addRangeToSet(set, CORE_20507, CORE_20509);
+      }
+      break;
+      
+    case TreeNodeChangeEvent.compartmentType:
+      if (level == 2 && version > 1)
+      {
+        set.add(CORE_20510);
+      }
+      break;
+      
+    case TreeNodeChangeEvent.outside:
+      if (level == 2 && version > 1)
+      {
+        set.add(CORE_20505);
+        set.add(CORE_20506);
+      }
+      break;
+      
+    case TreeNodeChangeEvent.units:
+      if (level == 1)
+      {
+        set.add(CORE_20509);
+      }
+      else if (level == 2)
+      {
+        set.add(CORE_20502);
+        addRangeToSet(set, CORE_20507, CORE_20509);
+      }
+      break;
+      
+    }
+    
     
   }
 
@@ -92,6 +161,9 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     ValidationFunction<Compartment> func = null;
 
     switch (errorCode) {
+    case CORE_10712:
+      return SBOValidationConstraints.isMaterialEntity;
+
     case CORE_20501:
 
       func = new ValidationFunction<Compartment>() {
@@ -166,13 +238,15 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
-          
+
           Compartment com = c;
+
+          // Clears set
+          outsideSet.clear();
 
           while(com != null && com.isSetOutside())
           {
-            // Clears set
-            outsideSet.clear();
+
             // add returns false if the compartment is already in the set
             if(!outsideSet.add(com))
             {
@@ -213,19 +287,18 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
           if (c.getSpatialDimensions() == 1 && c.isSetUnits()) {
 
-            String unit = c.getUnits();
+
             UnitDefinition def = c.getUnitsInstance();
 
-            boolean isLength = ValidationContext.isLength(unit, def);
 
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
-              return isLength;
+            if (ctx.getLevel() == 2 && ctx.getVersion() == 1) {
+              return def.isVariantOfLength();
             }
+            else
+            {
+              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
-            if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationContext.isDimensionless(unit);
-
-              return isDimensionless || isLength;
+              return isDimensionless || def.isVariantOfLength();
             }
           }
 
@@ -240,18 +313,17 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         public boolean check(ValidationContext ctx, Compartment c) {
 
           if (c.getSpatialDimensions() == 2 && c.isSetUnits()) {
-            String unit = c.getUnits();
+
             UnitDefinition def = c.getUnitsInstance();
 
 
-            boolean isArea = ValidationContext.isArea(unit, def);
+            boolean isArea = def.isVariantOfArea();
 
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
+            if (ctx.getLevel() == 2 && ctx.getVersion() == 1) {
               return isArea;
             }
-
-            if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationContext.isDimensionless(unit);
+            else {
+              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
               return isDimensionless || isArea;
             }
@@ -267,19 +339,17 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
 
-          if (c.getSpatialDimensions() == 2 && c.isSetUnits()) {
-            String unit = c.getUnits();
+          if (c.getSpatialDimensions() == 3 && c.isSetUnits()) { 
             UnitDefinition def = c.getUnitsInstance();
 
 
-            boolean isVolume = ValidationContext.isVolume(unit, def);
+            boolean isVolume = def.isVariantOfVolume();
 
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
+            if (ctx.getLevel() == 2 && ctx.getVersion() == 1) {
               return isVolume;
             }
-
-            if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationContext.isDimensionless(unit);
+            else  {
+              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
               return isDimensionless || isVolume;
             }
@@ -305,6 +375,38 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       };
       break;
 
+    case CORE_80501:
+      func = new ValidationFunction<Compartment>() {
+
+
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+
+          Model m = c.getModel();
+
+          if (m != null && c.getSpatialDimensions() != 0 && !c.isSetSize())
+          {
+            boolean sizeByAssignment = false;
+
+            if (c.isSetId())
+            {
+              sizeByAssignment = m.getInitialAssignment(c.getId()) != null;
+
+              if (!sizeByAssignment)
+              {
+                Rule r = m.getRule(c.getId());
+
+                sizeByAssignment = r != null && r.isAssignment();
+              }
+            }
+
+
+            return sizeByAssignment;
+          }
+
+          return true;
+        }
+      };
     }
 
     return func;

@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $IdMathContainerConstraints.java 18:59:35 roman $
+ * $URLMathContainerConstraints.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -21,34 +21,45 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.Delay;
+import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.InitialAssignment;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.SimpleSpeciesReference;
+import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
 /**
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
+ * @date 07.08.2016
  */
-public class UnitConstraints extends AbstractConstraintDeclaration {
+@SuppressWarnings("deprecation")
+public class MathContainerConstraints extends AbstractConstraintDeclaration {
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
+   * addErrorCodesForCheck(java.util.Set, int, int,
+   * org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
+   */
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (level > 1) {
-        if (level == 2 && version == 1) {
-          break;
-        }
-
-        set.add(CORE_20412);
-      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
     case MATHML_CONSISTENCY:
+      if (level > 1) {
+        set.add(CORE_10217);
+      }
+
       break;
     case MODELING_PRACTICE:
       break;
@@ -63,6 +74,11 @@ public class UnitConstraints extends AbstractConstraintDeclaration {
   }
 
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
+   * addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
+   */
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName) {
@@ -71,25 +87,40 @@ public class UnitConstraints extends AbstractConstraintDeclaration {
   }
 
 
+  /*
+   * (non-Javadoc)
+   * @see
+   * org.sbml.jsbml.validator.offline.constraints.AbstractConstraintDeclaration#
+   * getValidationFunction(int)
+   */
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<Unit> func = null;
+    ValidationFunction<MathContainer> func = null;
 
     switch (errorCode) {
-    case CORE_20412:
-      func = new ValidationFunction<Unit>() {
+    case CORE_10217:
+      func = new ValidationFunction<MathContainer>() {
 
-        @SuppressWarnings("deprecation")
+ 
         @Override
-        public boolean check(ValidationContext ctx, Unit u) {
-          
-          return !u.isCelsius();
+        public boolean check(ValidationContext ctx, MathContainer mc) {
+
+          if (mc.isSetMath()) {
+            // ASTNode must return a number
+            if (mc instanceof KineticLaw || mc instanceof StoichiometryMath
+              || mc instanceof SimpleSpeciesReference
+              || mc instanceof InitialAssignment || mc instanceof Delay
+              || mc instanceof EventAssignment || mc instanceof Rule) {
+              
+              return mc.getMath().isNumber() || mc.getMath().isOperator();
+            }
+          }
+
+          return true;
         }
       };
       break;
 
-    default:
-      break;
     }
 
     return func;

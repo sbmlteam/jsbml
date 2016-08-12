@@ -22,14 +22,18 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
 
 /**
  * @author Roman
@@ -61,6 +65,7 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case IDENTIFIER_CONSISTENCY:
+      set.add(CORE_10306);
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -69,6 +74,10 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10711);
+      }
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -77,19 +86,58 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
 
 
   @Override
-  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<?> func = null;
+    ValidationFunction<EventAssignment> func = null;
 
     switch (errorCode) {
+    case CORE_10306:
+      func = new ValidationFunction<EventAssignment>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, EventAssignment ea) {
+          Model m = ea.getModel();
+          
+          if (m != null)
+          {
+            for (Rule r : m.getListOfRules())
+            {
+              if (r.isAssignment())
+              {
+                AssignmentRule ar = (AssignmentRule) r;
+                
+                if (ar.getVariable().equals(ea.getVariable()))
+                {
+                  return false;
+                }
+              }
+            }
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_10711:
+      return SBOValidationConstraints.isMathematicalExpression;
+      
     case CORE_21211:
       func = new ValidationFunction<EventAssignment>() {
 
         @Override
         public boolean check(ValidationContext ctx, EventAssignment ea) {
-
+          
           if (ea.isSetVariable()) {
             Variable var = ea.getVariableInstance();
+            
+           
+            
+            if (var == null)
+            {
+              return false;
+            }
+            
             boolean isComSpecOrPar = (var instanceof Compartment)
                 || (var instanceof Species) || (var instanceof Parameter);
 
@@ -104,7 +152,8 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
-
+      break;
+      
     case CORE_21212:
       func = new ValidationFunction<EventAssignment>() {
 
@@ -114,13 +163,14 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
           if (ea.isSetVariable()) {
             Variable var = ea.getVariableInstance();
 
-            return var != null && var.isConstant();
+            return var != null && !var.isConstant();
           }
 
           return true;
         }
       };
-
+      break;
+      
     case CORE_21213:
       func = new ValidationFunction<EventAssignment>() {
 
@@ -130,6 +180,7 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
           return ea.isSetMath();
         }
       };
+      break;
     }
 
     return func;

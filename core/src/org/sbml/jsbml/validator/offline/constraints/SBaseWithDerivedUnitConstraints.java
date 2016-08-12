@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $IdSBaseWithDerivedUnitConstraints.java 16:35:00 roman $
+ * $URLSBaseWithDerivedUnitConstraints.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -21,6 +21,8 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBaseWithDerivedUnit;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -28,25 +30,26 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 /**
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
+ * @date 06.08.2016
  */
-public class UnitConstraints extends AbstractConstraintDeclaration {
+public class SBaseWithDerivedUnitConstraints
+  extends AbstractConstraintDeclaration {
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
+   * addErrorCodesForCheck(java.util.Set, int, int,
+   * org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
+   */
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (level > 1) {
-        if (level == 2 && version == 1) {
-          break;
-        }
-
-        set.add(CORE_20412);
-      }
       break;
     case IDENTIFIER_CONSISTENCY:
+      set.add(CORE_10313);
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -59,10 +62,14 @@ public class UnitConstraints extends AbstractConstraintDeclaration {
     case UNITS_CONSISTENCY:
       break;
     }
-
   }
 
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
+   * addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
+   */
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName) {
@@ -71,27 +78,45 @@ public class UnitConstraints extends AbstractConstraintDeclaration {
   }
 
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
+   * getValidationFunction(int)
+   */
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<Unit> func = null;
+    ValidationFunction<SBaseWithDerivedUnit> func = null;
 
     switch (errorCode) {
-    case CORE_20412:
-      func = new ValidationFunction<Unit>() {
+    case CORE_10313:
+      func = new ValidationFunction<SBaseWithDerivedUnit>() {
 
         @SuppressWarnings("deprecation")
         @Override
-        public boolean check(ValidationContext ctx, Unit u) {
+        public boolean check(ValidationContext ctx, SBaseWithDerivedUnit sb) {
+        
+          String unit = sb.getDerivedUnits();
           
-          return !u.isCelsius();
+          if (unit == null || unit.isEmpty())
+          {
+            return true;
+          }
+          
+          Model m = sb.getModel();
+          boolean definedInModel = false;
+
+    
+          if (m != null) {
+            definedInModel = m.getUnitDefinition(unit) != null;
+          }
+
+          return definedInModel
+            || Unit.isUnitKind(unit, ctx.getLevel(), ctx.getVersion())
+            || Unit.isBuiltIn(unit, ctx.getLevel());
         }
       };
       break;
-
-    default:
-      break;
     }
-
     return func;
   }
 

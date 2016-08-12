@@ -583,7 +583,7 @@ public class OverdeterminationValidator {
       // Create vertices and edges for products
       for (SpeciesReference sref : r.getListOfProducts()) {
         Species species = sref.getSpeciesInstance();
-        if (!species.isConstant()) {
+        if (species != null && !species.isConstant()) {
           variable = variableHash.get(species);
           if (!species.getBoundaryCondition()) {
 
@@ -604,7 +604,7 @@ public class OverdeterminationValidator {
       // Create vertices and edges for reactants
       for (SpeciesReference sref : r.getListOfReactants()) {
         Species species = sref.getSpeciesInstance();
-        if (!species.isConstant()) {
+        if (species != null && !species.isConstant()) {
           variable = variableHash.get(species);
           if (!species.getBoundaryCondition()) {
 
@@ -639,8 +639,13 @@ public class OverdeterminationValidator {
         equations.add(equation);
         variable = variableHash.get(((RateRule) r).getVariableInstance());
         // link
-        variable.addNode(equation);
-        equation.addNode(variable);
+        
+        if (variable != null)
+        {
+          variable.addNode(equation);
+          equation.addNode(variable);
+        }
+        
       }
 
       else if (r instanceof AssignmentRule) {
@@ -809,6 +814,12 @@ public class OverdeterminationValidator {
    */
   private void getVariables(ListOf<LocalParameter> param, ASTNode node,
     List<SBase> variables, int level) {
+    
+    if (node  == null)
+    {
+      return;
+    }
+    
     // found node with species
     if ((node.getChildCount() == 0) && (node.isString()) &&
         (node.getType() != Type.NAME_TIME) &&

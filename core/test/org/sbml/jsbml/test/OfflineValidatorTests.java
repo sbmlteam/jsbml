@@ -22,13 +22,18 @@ package org.sbml.jsbml.test;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
+import org.sbml.jsbml.SBO;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
@@ -45,17 +50,23 @@ public class OfflineValidatorTests {
   // private static int dirsValidated = 0;
   // private static int dirsMissed = 0;
 
-  private static int          totalFileTested = 0;
-  private static int          filesCorrectly  = 0;
+  private static int                                   totalFileTested  = 0;
+  private static int                                   filesCorrectly   = 0;
 
-  private static String       filter          = "";
+  private static String                                filter           = "";
 
-  private static Set<Integer> notDetected     = new TreeSet<Integer>();
-  private static long         readTime        = 0;
+  private static Set<Integer>                          notDetected      =
+    new TreeSet<Integer>();
+  private static Map<Integer, String>                  notDetectedFiles =
+    new HashMap<Integer, String>();
+  private static long                                  readTime         = 0;
+
+  private static Map<String, LoggingValidationContext> contextCache     =
+    new HashMap<String, LoggingValidationContext>();
 
 
   public static void main(String[] args) {
-    
+
     if (args.length < 1) {
       System.out.println(
         "Usage: java org.sbml.jsbml.test.OfflineValidatorTests testDataFolder start[:end] [containsString]");
@@ -94,16 +105,19 @@ public class OfflineValidatorTests {
       System.exit(0);
     }
 
-    System.out.println("Start tests (Range from " + startCode + " to " + endCode + ")");
+    System.out.println(
+      "Start tests (Range from " + startCode + " to " + endCode + ")");
+    System.out.println();
+    System.out.println();
+    
     long init = Calendar.getInstance().getTimeInMillis();
 
     for (int code = startCode; code <= endCode; code++) {
-      File dir = new File(testDataDir,
-        "" + code);
+      File dir = new File(testDataDir, "" + code);
 
       if (dir.isDirectory()) {
         // dirsValidated++
-        
+
         validateDirectory(dir, code);
       } else {
         // dirsMissed++;
@@ -125,14 +139,15 @@ public class OfflineValidatorTests {
     System.out.println("Reading: " + nbSecondesRead + " secondes.");
     System.out.println("Validating: " + nbSecondesValidating + " secondes.");
 
-    System.out.println("\n\n Number of files correctly validated: "
+    System.out.println("\n\nNumber of files correctly validated: "
       + filesCorrectly + " out of " + totalFileTested);
     System.out.println("Didn't detect the following broken constraints:");
 
     for (Integer i : notDetected) {
-      System.out.println(i);
+
+      String out = i + " in " + notDetectedFiles.get(i);
+      System.out.println(out);
     }
-    
     
   }
 
@@ -160,49 +175,83 @@ public class OfflineValidatorTests {
 
     boolean shouldPass = name.contains("pass");
 
-    System.out.println(
-      "Start validating " + name + ". Should pass: " + shouldPass);
+    System.out.println("Constraint " + errorCode);
+    printStrongHLine();
+    System.out.println("File: " + name);
+    System.out.println("Should pass: " + shouldPass);
+    
     try {
       long startRead = Calendar.getInstance().getTimeInMillis();
       SBMLDocument doc = new SBMLReader().readSBML(file);
       readTime += (Calendar.getInstance().getTimeInMillis() - startRead);
-      
-      int errors = doc.checkConsistencyOffline();
-      
-      if (errors > 0) {
-        System.out.println(errors + " constraints broken.");
-        if (shouldPass) {
-          System.out.println("Did not pass as expected!");
-        } else {
-          SBMLErrorLog log = doc.getErrorLog();
 
-          for (SBMLError e : log.getValidationErrors()) {
-            if (e.getCode() == errorCode) {
-              filesCorrectly++;
-              System.out.println(
-                "Constraint " + errorCode + " was broken as expected.");
-              return;
-            }
-          }
+      LoggingValidationContext ctx = getContext(doc);
 
-          notDetected.add(errorCode);
-          System.out.println(
-            "Didn't detected broken Constraint " + errorCode + "!");
-        }
+      ctx.validate(doc);
+      SBMLErrorLog log = ctx.getErrorLog();
 
-      } else {
-        if (shouldPass) {
-          filesCorrectly++;
-          System.out.println("Passed as expected");
-        } else {
-          notDetected.add(errorCode);
-          System.out.println(
-            "Didn't detected broken Constraint " + errorCode + "!");
+      int errors = log.getNumErrors();
+
+      boolean constraintBroken = false;
+
+      System.out.println(errors + " constraints broken.");
+      for (SBMLError e : log.getValidationErrors()) {
+        if (e.getCode() == errorCode) {
+
+          System.out.println("Constraint " + errorCode + " was broken.");
+
+          constraintBroken = true;
+          break;
         }
       }
 
+      if (constraintBroken == !shouldPass) {
+        filesCorrectly++;
+        System.out.println("PASSED");
+      } else {
+        didNotDetect(errorCode, file.getName());
+        System.out.println("FAILED!!");
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }
+
+    System.out.println();
+    System.out.println();
+  }
+
+
+  private static void didNotDetect(int errorCode, String fileName) {
+    if (notDetected.add(errorCode)) {
+      notDetectedFiles.put(errorCode, fileName);
+    } else {
+      String files = notDetectedFiles.get(errorCode);
+
+      files += ", " + fileName;
+      notDetectedFiles.put(errorCode, files);
+    }
+  }
+
+
+  private static LoggingValidationContext getContext(SBMLDocument doc) {
+    String key = "l" + doc.getLevel() + "v" + doc.getVersion();
+    LoggingValidationContext ctx = contextCache.get(key);
+
+    if (ctx == null) {
+      ctx = new LoggingValidationContext(doc.getLevel(), doc.getVersion());
+      ctx.enableCheckCategories(CHECK_CATEGORY.values(), true);
+      ctx.loadConstraints(SBMLDocument.class);
+      contextCache.put(key, ctx);
+    } else {
+      ctx.clearErrorLog();
+    }
+
+    return ctx;
+  }
+
+
+  private static void printStrongHLine() {
+
+    System.out.println("==============================");
   }
 }

@@ -23,20 +23,18 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.RateRule;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
-import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.validator.OverdeterminationValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.CycleDetectionTreeNode;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;;
 
 /**
@@ -73,14 +71,22 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case IDENTIFIER_CONSISTENCY:
+      addRangeToSet(set, CORE_10301, CORE_10304);
+
       break;
     case MATHML_CONSISTENCY:
       break;
     case MODELING_PRACTICE:
       break;
     case OVERDETERMINED_MODEL:
+      set.add(CORE_10601);
       break;
     case SBO_CONSISTENCY:
+      if ((level == 2 && version > 1) || level > 2)
+      {
+        set.add(CORE_10701);
+      }
+      
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -94,65 +100,249 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<Model> func = null;
 
     switch (errorCode) {
+    case CORE_10301:
+      func = new UniqueValidation<Model, String>() {
 
+        @Override
+        public int getNumObjects(ValidationContext ctx, Model m) {
+
+          return 1 + m.getNumFunctionDefinitions() + m.getNumCompartmentTypes()
+            + m.getNumCompartments() + m.getNumSpeciesTypes()
+            + m.getNumSpecies() + m.getNumReactions()
+            + m.getNumSpeciesReferences() + m.getNumModifierSpeciesReferences()
+            + m.getNumEvents() + m.getNumParameters();
+        }
+
+
+        @Override
+        public String getNextObject(ValidationContext ctx, Model m, int n) {
+          int offset = 0;
+
+          if (n == 0) {
+            return m.getId();
+          }
+
+          offset++;
+
+          if (n < offset + m.getNumFunctionDefinitions()) {
+            return m.getFunctionDefinition(n - offset).getId();
+          }
+
+          offset += m.getNumFunctionDefinitions();
+
+          if (n < offset + m.getNumCompartmentTypes()) {
+            return m.getCompartmentType(n - offset).getId();
+          }
+
+          offset += m.getNumCompartmentTypes();
+
+          if (n < offset + m.getNumCompartments()) {
+            return m.getCompartment(n - offset).getId();
+          }
+
+          offset += m.getNumCompartments();
+
+          if (n < offset + m.getNumSpeciesTypes()) {
+            return m.getSpeciesType(n - offset).getId();
+          }
+
+          offset += m.getNumSpeciesTypes();
+
+          if (n < offset + m.getNumSpecies()) {
+            return m.getSpecies(n - offset).getId();
+          }
+
+          offset += m.getNumSpecies();
+
+          if (n < offset + m.getNumReactions()) {
+            return m.getReaction(n - offset).getId();
+          }
+
+          offset += m.getNumReactions();
+
+          if (n < offset + m.getNumEvents()) {
+            return m.getEvent(n - offset).getId();
+          }
+
+          offset += m.getNumEvents();
+
+          if (n < offset + m.getNumParameters()) {
+            return m.getParameter(n - offset).getId();
+          }
+
+          offset += m.getNumParameters();
+
+          for (Reaction r : m.getListOfReactions()) {
+            if (n < offset + r.getReactantCount()) {
+              return r.getReactant(n - offset).getId();
+            }
+
+            offset += r.getReactantCount();
+
+            if (n < offset + r.getProductCount()) {
+              return r.getProduct(n - offset).getId();
+            }
+
+            offset += r.getProductCount();
+
+            if (n < offset + r.getModifierCount()) {
+              return r.getModifier(n - offset).getId();
+            }
+
+            offset += r.getModifierCount();
+          }
+
+          return null;
+        }
+
+      };
+      break;
+      
+    case CORE_10302:
+      func = new UniqueValidation<Model, String>() {
+
+        @Override
+        public String getNextObject(ValidationContext ctx, Model m, int n) {
+
+          return m.getUnitDefinition(n).getId();
+        }
+
+
+        @Override
+        public int getNumObjects(ValidationContext ctx, Model m) {
+          return m.getNumUnitDefinitions();
+        }
+      };
+      break;
+
+    case CORE_10303:
+      func = new UniqueValidation<Model, String>() {
+
+        @Override
+        public int getNumObjects(ValidationContext ctx, Model m) {
+          int count = 0;
+
+          for (Reaction r : m.getListOfReactions()) {
+            if (r.isSetKineticLaw())
+            {
+              count += r.getKineticLaw().getNumLocalParameters();
+            }
+            
+          }
+
+          return count;
+        }
+
+
+        @Override
+        public String getNextObject(ValidationContext ctx, Model m, int n) {
+          int offset = 0;
+
+          for (Reaction r : m.getListOfReactions()) {
+            int num = r.getKineticLaw().getNumLocalParameters();
+
+            if (n < offset + num) {
+              return r.getKineticLaw().getLocalParameter(n - offset).getId();
+            }
+
+            offset += num;
+          }
+
+          return null;
+        }
+      };
+      break;
+
+    case CORE_10304:
+      func = new UniqueValidation<Model, String>() {
+
+        @Override
+        public int getNumObjects(ValidationContext ctx, Model m) {
+          int count = 0;
+
+          for (Rule r : m.getListOfRules()) {
+            if (r instanceof ExplicitRule) {
+              count++;
+            }
+          }
+
+          return count;
+        }
+
+
+        @Override
+        public String getNextObject(ValidationContext ctx, Model m, int n) {
+
+          int count = 0;
+
+          for (Rule r : m.getListOfRules()) {
+            if (r instanceof ExplicitRule) {
+              if (count == n) {
+                return ((ExplicitRule) r).getVariable();
+              } else {
+                count++;
+              }
+            }
+          }
+
+          return null;
+        }
+      };
+      break;
+
+    case CORE_10601:
+      func = new ValidationFunction<Model>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          OverdeterminationValidator val = new OverdeterminationValidator(m);
+          
+          return !val.isOverdetermined();
+        }
+      };
+      break;
+      
+    case CORE_10701:
+      func = new ValidationFunction<Model>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          
+          if (ctx.getLevel() == 2 && ctx.getVersion() < 4)
+          {
+            return SBOValidationConstraints.isModellingFramework.check(ctx, m);
+          }
+          else
+          {
+            return SBOValidationConstraints.isInteraction.check(ctx, m);
+          }
+        }
+      };
+      break;
+      
     case CORE_20203:
       func = new ValidationFunction<Model>() {
 
         public boolean check(ValidationContext ctx, Model m) {
-          boolean success = true;
-
-          if (m.getCompartmentCount() == 0) {
-            success = success && !m.isSetListOfCompartments();
-          }
-
-          if (m.getCompartmentTypeCount() == 0) {
-            success = success && !m.isSetListOfCompartmentTypes();
-          }
-
-          if (m.getConstraintCount() == 0) {
-            success = success && !m.isSetListOfConstraints();
-          }
-
-          if (m.getEventCount() == 0) {
-            success = success && !m.isSetListOfEvents();
-          }
-
-          if (m.getFunctionDefinitionCount() == 0) {
-            success = success && !m.isSetListOfFunctionDefinitions();
-          }
-
-          if (m.getInitialAssignmentCount() == 0) {
-            success = success && !m.isSetListOfInitialAssignments();
-          }
-
-          if (m.getParameterCount() == 0) {
-            success = success && !m.isSetListOfParameters();
-          }
-
-          if (m.getReactionCount() == 0) {
-            success = success && !m.isSetListOfReactions();
-          }
-
-          if (m.getRuleCount() == 0) {
-            success = success && !m.isSetListOfRules();
-          }
-
-          if (m.getSpeciesCount() == 0) {
-            success = success && !m.isSetListOfSpecies();
-          }
-
-          if (m.getSpeciesTypeCount() == 0) {
-            success = success && !m.isSetListOfSpeciesTypes();
-          }
-
-          if (m.getUnitDefinitionCount() == 0) {
-            success = success && !m.isSetListOfUnitDefinitions();
-          }
-
-          return success;
+          
+          return (m.getCompartmentCount() > 0 || !m.isSetListOfCompartments()) ||
+              (m.getCompartmentTypeCount() > 0 || !m.isSetListOfCompartmentTypes()) ||
+              (m.getConstraintCount() > 0 || !m.isSetListOfConstraints()) ||
+              (m.getEventCount() > 0 || !m.isSetListOfEvents()) ||
+              (m.getFunctionDefinitionCount() > 0 || !m.isSetListOfFunctionDefinitions()) ||
+              (m.getInitialAssignmentCount() > 0 || !m.isSetListOfInitialAssignments()) ||
+              (m.getParameterCount() > 0 || !m.isSetListOfParameters()) ||
+              (m.getReactionCount() > 0 || !m.isSetListOfReactions()) ||
+              (m.getRuleCount() > 0 || !m.isSetListOfRules()) ||
+              (m.getSpeciesCount() > 0 || !m.isSetListOfSpecies()) ||
+              (m.getSpeciesTypeCount() > 0 || !m.isSetListOfSpeciesTypes()) ||
+              (m.getUnitDefinitionCount() > 0 || !m.isSetListOfUnitDefinitions());
         };
       };
-
+      break;
+      
     case CORE_20204:
       func = new ValidationFunction<Model>() {
 
@@ -187,13 +377,16 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Model m) {
 
           if (m.isSetConversionFactor()) {
-            return m.getConversionFactorInstance().isConstant();
+            Parameter fac = m.getConversionFactorInstance();
+            
+            return fac != null && fac.isConstant();
           }
 
           return true;
         }
       };
-
+      break;
+      
     case CORE_20802:
       func = new UniqueValidation<Model, String>() {
 
@@ -210,7 +403,8 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           return m.getInitialAssignment(n).getVariable();
         }
       };
-
+      break;
+      
     case CORE_20803:
       func = new ValidationFunction<Model>() {
 
@@ -240,7 +434,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
-
+      break;
     }
 
     return func;
