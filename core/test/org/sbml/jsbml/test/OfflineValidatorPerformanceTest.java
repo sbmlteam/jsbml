@@ -56,7 +56,7 @@ public final class OfflineValidatorPerformanceTest {
     SBMLDocument doc = new SBMLReader().readSBML(testFile);
     long time =  (System.currentTimeMillis() - startTime);
     
-    long secTime = time / 1_000_000;
+    long secTime = time / 1_000l;
     
     long min = secTime / 60;
     long sec = secTime % 60;
@@ -66,7 +66,7 @@ public final class OfflineValidatorPerformanceTest {
     int numErrors = doc.checkConsistencyOffline();
     time =  (System.currentTimeMillis() - startTime);
     
-    secTime = time / 1_000_000;
+    secTime = time / 1_000l;
     
     min = secTime / 60;
     sec = secTime % 60;

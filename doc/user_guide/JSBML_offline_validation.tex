@@ -30,15 +30,12 @@ Using ValidationListener, LoggingValidationContext provides a error log, Errors 
 \subsection{Provide validation constraints for a SBML Package}
 - OfflineValidation uses reflection to find methods
 	- Strong naming conventions must be followed
-- Package must be in SBMLPackage enum with offset
+	
 - create Package org.sbml.jsbml.validator.offline.constraints
-- create <PackageName>ConstraintList extends Abstract.. For every supported Level/Version (Example CoreConstraintsList)
-	- add Methods for Class Validation
-	- add Methods for AttributeValidation
-- create <PackageName>ConstraintBuilder extends Abstract..
+- create <ClassName>Constraints extends Abstract.. 
 - implement your code
-- use negativ Numbers fur custom constraint
-	- Calls builder within offset constraint was defined
+- constraints are cached
+- multiple constraints with same ID are allowed
 	
 \subsection{Attribute Validation}
 
