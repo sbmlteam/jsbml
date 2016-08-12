@@ -41,6 +41,8 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Variable;
+import org.sbml.jsbml.ontology.Term;
+import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SyntaxChecker;
 
@@ -176,6 +178,7 @@ public final class ValidationTools {
           
           if (fd != null)
           {
+            
             return ValidationTools.getDataType(fd.getBody());
           }
         }
@@ -337,12 +340,18 @@ public final class ValidationTools {
    */
   public static boolean isSboTerm(String s) {
     
-    if (s.isEmpty())
+    if (s.isEmpty() || !SBO.checkTerm(s))
     {
       return false;
     }
+
+    try {
+      SBO.getTerm(s);
+    } catch (Exception e) {
+      return false;
+    }
     
-    return SBO.checkTerm(s);
+    return true;
   }
 
 
