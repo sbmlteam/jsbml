@@ -304,10 +304,11 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
     case CORE_20411:
       func = new ValidationFunction<UnitDefinition>() {
-
+        
         @Override
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
           boolean success = true;
+
 
           for (Unit u : ud.getListOfUnits()) {
             success = success && u.getOffset() == 0;
@@ -315,6 +316,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
           return success;
         }
+        
       };
       break;
 

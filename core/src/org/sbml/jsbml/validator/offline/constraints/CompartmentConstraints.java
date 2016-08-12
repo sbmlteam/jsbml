@@ -129,12 +129,27 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         set.add(CORE_20510);
       }
       break;
+      
     case TreeNodeChangeEvent.outside:
       if (level == 2 && version > 1)
       {
         set.add(CORE_20505);
         set.add(CORE_20506);
       }
+      break;
+      
+    case TreeNodeChangeEvent.units:
+      if (level == 1)
+      {
+        set.add(CORE_20509);
+      }
+      else if (level == 2)
+      {
+        set.add(CORE_20502);
+        addRangeToSet(set, CORE_20507, CORE_20509);
+      }
+      break;
+      
     }
     
     

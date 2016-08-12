@@ -27,6 +27,7 @@ import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
@@ -65,13 +66,12 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
-      
-      if (level > 2 || (level == 2 && version > 1))
-      {
+
+      if (level > 2 || (level == 2 && version > 1)) {
         set.add(CORE_99701);
         set.add(CORE_99702);
       }
-      
+
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -108,8 +108,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, SBase sb) {
 
-          if (sb.isSetMetaId())
-          {
+          if (sb.isSetMetaId()) {
             Object o = ctx.getHashMap().get(ValidationTools.KEY_META_ID_SET);
             Set<String> metaIds;
 
@@ -122,61 +121,41 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
 
             return metaIds.add(sb.getMetaId());
           }
-          
+
           return true;
         }
       };
       break;
-      
+
     case CORE_10308:
       func = new ValidationFunction<SBase>() {
 
         @Override
         public boolean check(ValidationContext ctx, SBase sb) {
-          
-          return !sb.isSetSBOTerm() || ValidationTools.isSboTerm(sb.getSBOTermID());
+
+          return !sb.isSetSBOTerm()
+            || ValidationTools.isSboTerm(sb.getSBOTermID());
         }
       };
       break;
-      
+
     case CORE_99701:
       func = new ValidationFunction<SBase>() {
-        
+
         @Override
         public boolean check(ValidationContext ctx, SBase sb) {
-          
-          if (sb.isSetSBOTerm())
-          {
+
+          if (sb.isSetSBOTerm()) {
             return ValidationTools.isSboTerm(sb.getSBOTermID());
           }
-          
+
           return false;
         }
       };
       break;
-      
+
     case CORE_99702:
-      func = new ValidationFunction<SBase>() {
-        
-        @Override
-        public boolean check(ValidationContext ctx, SBase sb) {
-          
-          if (sb.isSetSBOTerm())
-          {
-            try
-            {
-              return SBO.isObsolete(sb.getSBOTerm());
-            }
-            catch (NoSuchElementException exp)
-            {
-              return false;
-            }
-            
-          }
-          
-          return false;
-        }
-      };
+      func = SBOValidationConstraints.isObsolete;
       break;
     }
     return func;
