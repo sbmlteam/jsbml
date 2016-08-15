@@ -2177,7 +2177,7 @@ public class Unit extends AbstractSBase {
     Kind kind = getKind();
     if ((kind == Kind.MOLE) || (kind == Kind.ITEM)
       || ((((getLevel() == 2) && (getVersion() > 1)) || (getLevel() > 2))
-        && ((kind == Kind.GRAM) || isKilogram()))) {
+        && ((kind == Kind.GRAM) || isKilogram())) || (getLevel() > 2 && kind == Kind.AVOGADRO)) {
       return (getOffset() == 0d) && (getExponent() == 1d);
     }
     return false;
