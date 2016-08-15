@@ -31,6 +31,7 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.OverdeterminationValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -75,6 +76,10 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
       break;
     case MATHML_CONSISTENCY:
+      if (level > 2)
+      {
+        addRangeToSet(set, CORE_20217, CORE_20221);
+      }
       break;
     case MODELING_PRACTICE:
       break;
@@ -369,7 +374,105 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+      
+    case CORE_20217:
+      func = new ValidationFunction<Model>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetTimeUnits())
+          {
+            UnitDefinition ud = m.getTimeUnitsInstance();
+            
+            return ud.isVariantOfTime() || ud.isVariantOfDimensionless();
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20218:
+      func = new ValidationFunction<Model>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetVolumeUnits())
+          {
+            UnitDefinition ud = m.getVolumeUnitsInstance();
+            
+            return ud.isVariantOfVolume() || ud.isVariantOfDimensionless();
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20219:
+      func = new ValidationFunction<Model>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetAreaUnits())
+          {
+            UnitDefinition ud = m.getAreaUnitsInstance();
+            
+            return ud.isVariantOfArea() || ud.isVariantOfDimensionless();
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20220:
+      func = new ValidationFunction<Model>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetLengthUnits())
+          {
+            UnitDefinition ud = m.getLengthUnitsInstance();
+            
+            return ud.isVariantOfLength() || ud.isVariantOfDimensionless();
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20221:
+      func = new ValidationFunction<Model>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetExtentUnits())
+          {
+            UnitDefinition ud = m.getExtentUnitsInstance().simplify();
+            
+            // Quick check for 'avogadro'
+            if (ud.getNumChildren() == 1)
+            {
+              if (ud.getUnit(0).isAvogadro())
+              {
+                return true;
+              }
+            }
+            
+            return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
+          }
+          
+          return true;
+        }
+      };
+      break;
     case CORE_20705:
       func = new ValidationFunction<Model>() {
 
