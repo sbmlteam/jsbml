@@ -227,8 +227,8 @@ public class ValidationContext {
     ConstraintFactory factory = ConstraintFactory.getInstance();
 
     AnyConstraint<Object> c =
-      (AnyConstraint<Object>) factory.getConstraintsForAttribute(clazz, attributeName,
-         this.level, this.version);
+      (AnyConstraint<Object>) factory.getConstraintsForAttribute(clazz,
+        attributeName, this.level, this.version);
 
     this.setRootConstraint(c, clazz);
   }
@@ -500,7 +500,14 @@ public class ValidationContext {
    * @return
    */
   public boolean validate(Object o, boolean clearMap) {
-    if (this.constraintType != null && this.rootConstraint != null) {
+    if (this.constraintType != null) {
+
+      // If there's a type but no constraints, then no constraints exists for
+      // this type.
+      if (rootConstraint == null) {
+        return true;
+      }
+
       if (this.constraintType.isInstance(o)) {
 
         // Perform Validation and clears hashMap afterwards
