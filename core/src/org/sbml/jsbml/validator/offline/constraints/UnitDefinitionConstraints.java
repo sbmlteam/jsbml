@@ -120,8 +120,9 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
             if (ctx.isLevelAndVersionLesserEqualThan(2, 1)) {
               return ud.isVariantOfSubstance();
             } else {
+              System.out.println("Children " + ud.getNumChildren() + " " + ud.simplify().getUnit(0).getKind());
               return ud.isVariantOfSubstance()
-                || ValidationTools.isDimensionless(ud);
+                || ud.isVariantOfDimensionless();
             }
           }
 
@@ -141,7 +142,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
               return ud.isVariantOfLength();
             } else {
               return ud.isVariantOfLength()
-                || ValidationTools.isDimensionless(ud);
+                || ud.isVariantOfDimensionless();
             }
           }
 
@@ -162,7 +163,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
               return ud.isVariantOfArea();
             } else {
               return ud.isVariantOfArea()
-                || ValidationTools.isDimensionless(ud);
+                || ud.isVariantOfDimensionless();
             }
           }
 
@@ -183,7 +184,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
               return ud.isVariantOfTime();
             } else {
               return ud.isVariantOfTime()
-                || ValidationTools.isDimensionless(ud);
+                || ud.isVariantOfDimensionless();
             }
           }
 
@@ -210,7 +211,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
                   return u.isLitre() || (u.isMetre() && u.getExponent() == 3);
                 } else {
                   return u.isLitre() || (u.isMetre() && u.getExponent() == 3)
-                    || ValidationTools.isDimensionless(ud);
+                    || ud.isVariantOfDimensionless();
                 }
               } else {
 
