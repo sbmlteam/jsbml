@@ -35,7 +35,6 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
-import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
  * 
@@ -217,9 +216,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(def);
-
-              return isDimensionless || isLength;
+              return def.isVariantOfDimensionless() || isLength;
             }
           }
 
@@ -246,9 +243,8 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
-              return isDimensionless || isArea;
+              return def.isVariantOfDimensionless() || isArea;
             }
           }
 
@@ -276,9 +272,8 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
-              return isDimensionless || isVolume;
+              return def.isVariantOfDimensionless() || isVolume;
             }
           }
 
@@ -286,8 +281,33 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+    case CORE_20608:
+      func = new ValidationFunction<Species>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Species s) {
 
+          if (s.isSetSubstanceUnits())
+          {
+            UnitDefinition ud = s.getSubstanceUnitsInstance();
+            
+
+            if (ctx.getLevel() == 2)
+            {
+              return ud.isVariantOfSubstance();
+            }
+            else
+            {
+              return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
+            }
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
     case CORE_20610:
       func = new ValidationFunction<Species>() {
 

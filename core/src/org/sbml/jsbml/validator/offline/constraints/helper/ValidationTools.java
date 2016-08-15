@@ -41,8 +41,6 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Variable;
-import org.sbml.jsbml.ontology.Term;
-import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SyntaxChecker;
 
@@ -221,16 +219,6 @@ public final class ValidationTools {
     
     return false;
   }
-
-   public static boolean isDimensionless(UnitDefinition ud)
-   {
-     if (ud.getUnitCount() == 1)
-     {
-       return ud.getUnit(0).isDimensionless();
-     }
-     
-     return false;
-   }
    
    public static boolean isValidVariable(Variable var, int level)
    {

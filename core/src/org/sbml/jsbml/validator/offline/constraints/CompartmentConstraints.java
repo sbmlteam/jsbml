@@ -32,7 +32,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
-import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * ConstraintDeclaration for Compartment class
@@ -53,11 +52,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       {
         set.add(CORE_20504);
         set.add(CORE_20505);
-        set.add(CORE_20509);
       }
       else if (level == 2)
       {
-        addRangeToSet(set, CORE_20501, CORE_20509);
+        addRangeToSet(set, CORE_20501, CORE_20506);
 
         if (version > 1)
         {
@@ -66,7 +64,6 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       }
       else if (level == 3)
       {
-        addRangeToSet(set, CORE_20507, CORE_20509);
         set.add(CORE_20517);
       }
 
@@ -90,6 +87,14 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       }
       break;
     case UNITS_CONSISTENCY:
+      if (level > 1)
+      {
+        addRangeToSet(set, CORE_20507, CORE_20509);
+      }
+      else
+      {
+        set.add(CORE_20509);
+      }
       break;
     }
   }
@@ -296,7 +301,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
             }
             else
             {
-              boolean isDimensionless = ValidationTools.isDimensionless(def);
+              boolean isDimensionless = def.isVariantOfDimensionless();
 
               return isDimensionless || def.isVariantOfLength();
             }
@@ -323,7 +328,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
               return isArea;
             }
             else {
-              boolean isDimensionless = ValidationTools.isDimensionless(def);
+              boolean isDimensionless = def.isVariantOfDimensionless();
 
               return isDimensionless || isArea;
             }
@@ -349,7 +354,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
               return isVolume;
             }
             else  {
-              boolean isDimensionless = ValidationTools.isDimensionless(def);
+              boolean isDimensionless = def.isVariantOfDimensionless();
 
               return isDimensionless || isVolume;
             }
