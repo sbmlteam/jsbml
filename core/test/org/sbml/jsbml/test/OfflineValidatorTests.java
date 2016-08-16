@@ -208,7 +208,7 @@ public class OfflineValidatorTests {
         System.out.println("PASSED");
       } else {
         didNotDetect(errorCode, file.getName());
-        System.out.println("FAILED!!");
+        System.out.println("FAILED!!!");
       }
     } catch (Exception e) {
       e.printStackTrace();
