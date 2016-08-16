@@ -95,6 +95,11 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       {
         set.add(CORE_20509);
       }
+      
+      if (level == 3)
+      {
+        set.add(CORE_20518);
+      }
       break;
     }
   }
@@ -110,7 +115,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         set.add(CORE_10712);
       }
       break;
-      
+
     case TreeNodeChangeEvent.spatialDimensions:
       if (level == 1)
       {
@@ -122,19 +127,19 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         {
           set.add(CORE_20506);
         }
-        
+
         addRangeToSet(set, CORE_20501, CORE_20503);
         addRangeToSet(set, CORE_20507, CORE_20509);
       }
       break;
-      
+
     case TreeNodeChangeEvent.compartmentType:
       if (level == 2 && version > 1)
       {
         set.add(CORE_20510);
       }
       break;
-      
+
     case TreeNodeChangeEvent.outside:
       if (level == 2 && version > 1)
       {
@@ -142,7 +147,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         set.add(CORE_20506);
       }
       break;
-      
+
     case TreeNodeChangeEvent.units:
       if (level == 1)
       {
@@ -154,10 +159,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         addRangeToSet(set, CORE_20507, CORE_20509);
       }
       break;
-      
+
     }
-    
-    
+
+
   }
 
   @Override
@@ -295,6 +300,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
             UnitDefinition def = c.getUnitsInstance();
 
+            if (def == null)
+            {
+              return false;
+            }
 
             if (ctx.getLevel() == 2 && ctx.getVersion() == 1) {
               return def.isVariantOfLength();
@@ -305,6 +314,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
               return isDimensionless || def.isVariantOfLength();
             }
+
           }
 
           return true;
@@ -321,6 +331,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
             UnitDefinition def = c.getUnitsInstance();
 
+            if (def == null)
+            {
+              return false;
+            }
 
             boolean isArea = def.isVariantOfArea();
 
@@ -347,6 +361,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
           if (c.getSpatialDimensions() == 3 && c.isSetUnits()) { 
             UnitDefinition def = c.getUnitsInstance();
 
+            if (def == null)
+            {
+              return false;
+            }
 
             boolean isVolume = def.isVariantOfVolume();
 
@@ -379,7 +397,19 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
+      
+    case CORE_20518:
+      
+      func = new ValidationFunction<Compartment>() {
 
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+            
+          return c.isSetUnits() || c.isSetSpatialDimensions();
+        }
+      };
+      break;
+      
     case CORE_80501:
       func = new ValidationFunction<Compartment>() {
 

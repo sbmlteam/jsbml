@@ -116,6 +116,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
    * getValidationFunction(int)
    */
   @Override
+  
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<ASTNode> func = null;
 
