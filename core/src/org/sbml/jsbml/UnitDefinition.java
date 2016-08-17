@@ -966,27 +966,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     }
     return false;
   }
-  
-  /**
-   * Convenience function for testing if a given unit definition is a variant
-   * of the predefined unit identifier 'length'.
-   * 
-   * @return {@code true} if this UnitDefinition is a variant of the predefined
-   *         unit
-   *         length, meaning metres with only arbitrary variations in scale or
-   *         multiplier values; false otherwise.
-   */
-  public boolean isVariantOfMass() {
-    if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify();
 
-      if (ud.getNumChildren() == 1) {
-        Unit unit = ud.getUnit(0);
-        return unit.isVariantOfMass();
-      }
-    }
-    return false;
-  }
 
   /**
    * Convenience function for testing if a given unit definition is a variant
