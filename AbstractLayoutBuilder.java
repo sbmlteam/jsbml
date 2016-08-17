@@ -75,7 +75,11 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
       sboTerm = speciesReferenceRole.toSBOterm();
       if (srg.isSetSpeciesReference()) {
         NamedSBase specRef = srg.getSpeciesReferenceInstance();
-        if (specRef.isSetSBOTerm() && SBO.isChildOf(specRef.getSBOTerm(), sboTerm)) {
+        if (specRef == null) {
+          logger.fine(MessageFormat.format(
+            "Encountered undefined identifier ''{0}'' in speciesReferenceGlyph ''{1}''.",
+            srg.getReference(), srg.getId()));
+        } else if (specRef.isSetSBOTerm() && SBO.isChildOf(specRef.getSBOTerm(), sboTerm)) {
           sboTerm = specRef.getSBOTerm();
         }
       }
