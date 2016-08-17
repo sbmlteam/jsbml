@@ -71,7 +71,8 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
         if (version < 3)
         {
-          addRangeToSet(set, CORE_20602, CORE_20607);
+          set.add(CORE_20602);
+          set.add(CORE_20603);
         }
 
         if (version > 1)
@@ -115,6 +116,19 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
     case OVERDETERMINED_MODEL:
       break;
     case UNITS_CONSISTENCY:
+      
+      set.add(CORE_20608);
+      
+      if (level == 2 && version < 3)
+      {
+        addRangeToSet(set, CORE_20605, CORE_20607);
+      }
+      
+      if (level > 2)
+      {
+        set.add(CORE_99508);
+      }
+    
       break;
     }
   }
@@ -209,6 +223,10 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           if (c != null && c.getSpatialDimensions() == 1 && s.isSetSpatialSizeUnits()) {
             UnitDefinition def = s.getSpatialSizeUnitsInstance();
 
+            if (def == null)
+            {
+              return false;
+            }
      
             boolean isLength = def.isVariantOfLength();
 
@@ -217,9 +235,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(def);
-
-              return isDimensionless || isLength;
+              return def.isVariantOfDimensionless() || isLength;
             }
           }
 
@@ -238,7 +254,12 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           if (c != null && c.getSpatialDimensions() == 2 && s.isSetSpatialSizeUnits()) {
     
             UnitDefinition def = s.getSpatialSizeUnitsInstance();
-
+            
+            if (def == null)
+            {
+              return false;
+            }
+            
             boolean isArea = def.isVariantOfArea();
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
@@ -246,9 +267,8 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
-              return isDimensionless || isArea;
+              return def.isVariantOfDimensionless() || isArea;
             }
           }
 
@@ -269,6 +289,11 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         
             UnitDefinition def = s.getSpatialSizeUnitsInstance();
 
+            if (def == null)
+            {
+              return false;
+            }
+            
             boolean isVolume = def.isVariantOfVolume();
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
@@ -276,9 +301,8 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             }
 
             if (ctx.getLevel() >= 2) {
-              boolean isDimensionless = ValidationTools.isDimensionless(def);
 
-              return isDimensionless || isVolume;
+              return def.isVariantOfDimensionless() || isVolume;
             }
           }
 
@@ -286,8 +310,38 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+    case CORE_20608:
+      func = new ValidationFunction<Species>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Species s) {
 
+          if (s.isSetSubstanceUnits())
+          {
+            
+            UnitDefinition ud = s.getSubstanceUnitsInstance();
+            
+            if (ud == null)
+            {
+              return false;
+            }
+
+            if (ctx.getLevel() == 1 || (ctx.getLevel() == 2 && ctx.getVersion() == 1))
+            {
+              return ud.isVariantOfSubstance();
+            }
+            else
+            {
+              return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
+            }
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
     case CORE_20610:
       func = new ValidationFunction<Species>() {
 
@@ -469,6 +523,9 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
+      
+    case CORE_99508:
+      return ValidationTools.checkDerivedUnit;
     }
 
     return func;

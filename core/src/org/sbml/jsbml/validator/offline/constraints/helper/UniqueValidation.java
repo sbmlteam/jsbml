@@ -7,8 +7,7 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
 
 /**
- * Helper class which checks if all IDs of NamedSBase objects are unique in all
- * of the given lists
+ * Helper class which checks if all objects are unique.
  * 
  * @author Roman
  * @since 1.2
@@ -39,6 +38,24 @@ public abstract class UniqueValidation<T, U> implements ValidationFunction<T>{
     return true;
   }
   
+  /**
+   * Returns the total number of objects which should be tested.
+   * This function is only called once in the beginning of the check.
+   * 
+   * @param ctx
+   * @param t
+   * @return the number of objects to compare.
+   */
   abstract public int getNumObjects(ValidationContext ctx, T t);
+  
+  
+  /**
+   * Returns the n-th object that should be tested.
+   * 
+   * @param ctx
+   * @param t
+   * @param n
+   * @return the n-th object
+   */
   abstract public U getNextObject(ValidationContext ctx, T t, int n);
 }
