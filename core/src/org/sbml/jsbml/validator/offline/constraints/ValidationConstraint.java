@@ -22,6 +22,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 /**
  * The basic constraint which uses a {@link ValidationFunction} object to
@@ -67,6 +68,7 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
 
     if (this.func != null) {
       passed = func.check(context, t);
+
     }
 
     context.didValidate(this, t, passed);

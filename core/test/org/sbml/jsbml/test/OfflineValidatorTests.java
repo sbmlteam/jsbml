@@ -31,7 +31,6 @@ import java.util.TreeSet;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
-import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.xml.stax.SBMLReader;
@@ -55,6 +54,8 @@ public class OfflineValidatorTests {
 
   private static String                                filter           = "";
 
+  private static Set<String>                           skipped          =
+    new HashSet<String>();
   private static Set<Integer>                          notDetected      =
     new TreeSet<Integer>();
   private static Map<Integer, String>                  notDetectedFiles =
@@ -109,7 +110,7 @@ public class OfflineValidatorTests {
       "Start tests (Range from " + startCode + " to " + endCode + ")");
     System.out.println();
     System.out.println();
-    
+
     long init = Calendar.getInstance().getTimeInMillis();
 
     for (int code = startCode; code <= endCode; code++) {
@@ -148,7 +149,7 @@ public class OfflineValidatorTests {
       String out = i + " in " + notDetectedFiles.get(i);
       System.out.println(out);
     }
-    
+
   }
 
 
@@ -179,7 +180,7 @@ public class OfflineValidatorTests {
     printStrongHLine();
     System.out.println("File: " + name);
     System.out.println("Should pass: " + shouldPass);
-    
+
     try {
       long startRead = Calendar.getInstance().getTimeInMillis();
       SBMLDocument doc = new SBMLReader().readSBML(file);
@@ -210,7 +211,7 @@ public class OfflineValidatorTests {
         System.out.println("PASSED");
       } else {
         didNotDetect(errorCode, file.getName());
-        System.out.println("FAILED!!");
+        System.out.println("FAILED!!!");
       }
     } catch (Exception e) {
       e.printStackTrace();

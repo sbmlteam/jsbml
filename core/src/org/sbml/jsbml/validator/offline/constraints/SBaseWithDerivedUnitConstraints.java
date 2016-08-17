@@ -49,7 +49,8 @@ public class SBaseWithDerivedUnitConstraints
     case GENERAL_CONSISTENCY:
       break;
     case IDENTIFIER_CONSISTENCY:
-      set.add(CORE_10313);
+      // Somethings wrong with this thing
+//      set.add(CORE_10313);
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -95,6 +96,7 @@ public class SBaseWithDerivedUnitConstraints
         @Override
         public boolean check(ValidationContext ctx, SBaseWithDerivedUnit sb) {
         
+      
           String unit = sb.getDerivedUnits();
           
           if (unit == null || unit.isEmpty())
@@ -104,7 +106,6 @@ public class SBaseWithDerivedUnitConstraints
           
           Model m = sb.getModel();
           boolean definedInModel = false;
-
     
           if (m != null) {
             definedInModel = m.getUnitDefinition(unit) != null;

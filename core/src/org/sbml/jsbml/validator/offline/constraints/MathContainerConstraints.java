@@ -19,13 +19,20 @@
  */
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Delay;
 import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.StoichiometryMath;
@@ -68,6 +75,7 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
     case SBO_CONSISTENCY:
       break;
     case UNITS_CONSISTENCY:
+      set.add(CORE_99505);
       break;
     }
 
@@ -104,7 +112,7 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
  
         @Override
         public boolean check(ValidationContext ctx, MathContainer mc) {
-
+  
           if (mc.isSetMath()) {
             // ASTNode must return a number
             if (mc instanceof KineticLaw || mc instanceof StoichiometryMath
@@ -120,7 +128,73 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+      
+    case CORE_99505:
+      func = new ValidationFunction<MathContainer>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, MathContainer mc) {
+          
+          if (mc.isSetMath())
+          {
+            Model m = mc.getModel();
+            Queue<ASTNode> toCheck = new LinkedList<ASTNode>();
+            
+            toCheck.offer(mc.getMath());
+            
+            while(!toCheck.isEmpty())
+            {
+              ASTNode node = toCheck.poll();
+              if (node.isLiteral())
+              {
+                if (!node.isSetUnits())
+                {
+                  return false;
+                }
+              }
+              else if (node.isName())
+              {
+                Parameter p = m.getParameter(node.getName());
+                
+                if (p == null || !p.isSetUnits())
+                {
+                  // Could be a arg of a FunctionDefinition
+                  if (mc instanceof FunctionDefinition)
+                  {
+                    FunctionDefinition fd = (FunctionDefinition) mc;
+                    
+                    if (fd.getArgument(node.getName()) == null)
+                    {
+                      return false;
+                    }
+                  }
+                  // Or a local parameter
+                  else if (mc instanceof KineticLaw)
+                  {
+                    KineticLaw kl = (KineticLaw) mc;
+                    LocalParameter lp = kl.getLocalParameter(node.getName());
+                    if (lp == null || !lp.isSetUnits())
+                    {
+                      return false;
+                    }
+                  }
+                  else 
+                  { 
+                    return false;
+                  }
+                }
+              }
+              
+              toCheck.addAll(node.getListOfNodes());
+            }
+          }
+          
+ 
+          return true;
+        }
+      };
+      break;
     }
 
     return func;

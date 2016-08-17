@@ -151,7 +151,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
             boolean isTime = def.isVariantOfTime();
             
             if (ctx.isLevelAndVersionEqualTo(2, 2)) {
-              return isTime || ValidationTools.isDimensionless(def);
+              return isTime || def.isVariantOfDimensionless();
             } else {
               return isTime;
             }

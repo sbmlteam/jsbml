@@ -1,4 +1,4 @@
-\section[Offline Validation]{The Offline Validator}
+\section[Offline validation]{The offline validator}
 \subsection{How to use offline validation}
 
 The offline validator is a alternative way to check the consistency of your SBMLDocument or any other Object.
@@ -23,8 +23,8 @@ Now it's time to tell the context which class you want to validate. Use the meth
 	// Load constraints to validate a single attribute
 	ctx.loadConstraintsForAttribute(myObject.getClass(), "name");
 	
-	// NOTICE: the loadConstraints methods clears the root constraint,
-	// so after the third command, the context will only contain the 
+	// NOTICE: the loadConstraints methods clears the root constraint.
+	// After the third command, the context will only contain the 
 	// constraints to check the "name" attribute.
 \end{example}
 \item[3.] \textbf{Validate} \\
