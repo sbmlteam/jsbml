@@ -2078,14 +2078,13 @@ public class Unit extends AbstractSBase {
   }
 
   /**
-   * 
    * @return {@code true} if this Unit is a variant of substance.
    */
   public boolean isVariantOfSubstance() {
     Kind kind = getKind();
-    if ((kind == Kind.MOLE)
-        || (kind == Kind.ITEM)
-        || ((((getLevel() == 2) && (getVersion() > 1)) || (getLevel() > 2)) && ((kind == Kind.GRAM) || isKilogram()))) {
+    if ((kind == Kind.MOLE) || (kind == Kind.ITEM)
+      || ((((getLevel() == 2) && (getVersion() > 1)) || (getLevel() > 2))
+        && ((kind == Kind.GRAM) || isKilogram())) || (getLevel() > 2 && kind == Kind.AVOGADRO)) {
       return (getOffset() == 0d) && (getExponent() == 1d);
     }
     return false;
