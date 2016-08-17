@@ -3115,6 +3115,16 @@ public class ASTNode extends AbstractTreeNode {
   public boolean isLambda() {
     return type == Type.LAMBDA;
   }
+  
+  /**
+   * Returns {@code true} if this node is constant or of type INTEGER, REAL or RATIONAL, {@code false} otherwise.
+   * 
+   * @return {@code true} if this ASTNode is constant or of type INTEGER, REAL or RATIONAL, {@code false} otherwise.
+   */
+  public boolean isLiteral() {
+    return isConstant() || type == Type.INTEGER || type == Type.RATIONAL || type == Type.REAL;
+  }
+
 
   /**
    * Returns {@code true} if this node represents a log10() function, {@code false} otherwise.

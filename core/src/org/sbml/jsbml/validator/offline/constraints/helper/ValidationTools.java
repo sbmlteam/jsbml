@@ -32,19 +32,20 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Parameter; 
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.SBaseWithDerivedUnit;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Variable;
-import org.sbml.jsbml.ontology.Term;
-import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SyntaxChecker;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
 
 /**
  * Collection of helpful functions and variables for validation.
@@ -55,15 +56,19 @@ import org.sbml.jsbml.validator.SyntaxChecker;
  */
 public final class ValidationTools {
 
-  public static final byte   DT_UNKNOWN         = -1;
-  public static final byte   DT_NUMBER          = 0;
-  public static final byte   DT_BOOLEAN         = 1;
-  public static final byte   DT_STRING          = 2;
-  public static final byte   DT_VECTOR          = 3;
+  public static final byte                               DT_UNKNOWN         =
+      -1;
+  public static final byte                               DT_NUMBER          = 0;
+  public static final byte                               DT_BOOLEAN         = 1;
+  public static final byte                               DT_STRING          = 2;
+  public static final byte                               DT_VECTOR          = 3;
 
-  public static final String KEY_META_ID_SET    = "metaIds";
+  public static final String                             KEY_META_ID_SET    =
+      "metaIds";
 
-  public static Filter       FILTER_IS_FUNCTION = new Filter() {
+  public static Filter                                   FILTER_IS_FUNCTION =
+      new Filter()
+  {
 
     @Override
     public boolean accepts(
@@ -73,7 +78,9 @@ public final class ValidationTools {
 
   };
 
-  public static Filter       FILTER_IS_NAME     = new Filter() {
+  public static Filter                                   FILTER_IS_NAME     =
+      new Filter()
+  {
 
     @Override
     public boolean accepts(
@@ -83,22 +90,41 @@ public final class ValidationTools {
 
   };
 
+  public static ValidationFunction<SBaseWithDerivedUnit> checkDerivedUnit   =
+      new ValidationFunction<SBaseWithDerivedUnit>()
+  {
 
-  // TODO this function doesn't work... 
+    @Override
+    public boolean check(
+      ValidationContext ctx,
+      SBaseWithDerivedUnit sb) {
+
+      UnitDefinition ud =
+          sb.getDerivedUnitDefinition();
+
+      return ud != null
+          && ud.getNumChildren() > 0
+          && !ud.getUnit(
+            0).isInvalid();
+
+    }
+  };
+
+
+  // TODO this function doesn't work...
   public static boolean containsMathOnlyPredefinedFunctions(ASTNode math) {
     if (math != null) {
-      
+
       Queue<ASTNode> toCheck = new LinkedList<ASTNode>();
-      
+
       toCheck.offer(math);
-      
-      while(!toCheck.isEmpty())
-      {
+
+      while (!toCheck.isEmpty()) {
         ASTNode node = toCheck.poll();
 
         toCheck.addAll(node.getListOfNodes());
       }
-      
+
     }
 
     return true;
@@ -142,53 +168,43 @@ public final class ValidationTools {
     if (node.isVector()) {
       return DT_VECTOR;
     }
-    
-   
-    if (node.getType() == Type.FUNCTION_PIECEWISE)
-    {
-      if (node.getNumChildren() > 0)
-      {
+
+    if (node.getType() == Type.FUNCTION_PIECEWISE) {
+      if (node.getNumChildren() > 0) {
         byte dt = getDataType(node.getChild(0));
-        
-        for (int i = 0; i < node.getNumChildren(); i += 2)
-        {
-          if (getDataType(node.getChild(i)) != dt)
-          {
+
+        for (int i = 0; i < node.getNumChildren(); i += 2) {
+          if (getDataType(node.getChild(i)) != dt) {
             return DT_UNKNOWN;
           }
         }
-        
+
         return dt;
       }
-      
+
       return DT_UNKNOWN;
     }
-    
-    if (node.getType() == Type.FUNCTION)
-    {
+
+    if (node.getType() == Type.FUNCTION) {
       SBase parent = node.getParentSBMLObject();
-      
-      if (parent != null)
-      {
+
+      if (parent != null) {
         Model m = parent.getModel();
-        
-        if (m != null)
-        {
+
+        if (m != null) {
           FunctionDefinition fd = m.getFunctionDefinition(node.getName());
-          
-          if (fd != null)
-          {
-            
+
+          if (fd != null) {
+
             return ValidationTools.getDataType(fd.getBody());
           }
         }
       }
-      
+
       return DT_UNKNOWN;
     }
-    
-    if (node.isFunction())
-    {
+
+    if (node.isFunction()) {
       return DT_NUMBER;
     }
 
@@ -206,51 +222,36 @@ public final class ValidationTools {
 
     return false;
   }
-  
-  public static boolean isSpeciesReference(Model m, String name)
-  {
-    for (Reaction r:m.getListOfReactions())
-    {
-      if (r.getReactant(name) != null ||
-          r.getProduct(name) != null ||
-          r.getModifier(name) != null)
-      {
+
+
+  public static boolean isSpeciesReference(Model m, String name) {
+    for (Reaction r : m.getListOfReactions()) {
+      if (r.getReactant(name) != null || r.getProduct(name) != null
+          || r.getModifier(name) != null) {
         return true;
       }
     }
-    
+
     return false;
   }
 
-   public static boolean isDimensionless(UnitDefinition ud)
-   {
-     if (ud.getUnitCount() == 1)
-     {
-       return ud.getUnit(0).isDimensionless();
-     }
-     
-     return false;
-   }
-   
-   public static boolean isValidVariable(Variable var, int level)
-   {
 
-     if (var == null) {
-       return false;
-     }
+  public static boolean isValidVariable(Variable var, int level) {
 
-     boolean isSpecCompOrParam = (var instanceof Species)
-       || (var instanceof Compartment) || (var instanceof Parameter);
+    if (var == null) {
+      return false;
+    }
 
-     if (level < 3)
-     {
-       return isSpecCompOrParam;
-     }
-     else
-     {
-       return isSpecCompOrParam || (var instanceof SpeciesReference);
-     }
-   }
+    boolean isSpecCompOrParam = (var instanceof Species)
+        || (var instanceof Compartment) || (var instanceof Parameter);
+
+    if (level < 3) {
+      return isSpecCompOrParam;
+    } else {
+      return isSpecCompOrParam || (var instanceof SpeciesReference);
+    }
+  }
+
 
   /**
    * A letter is either a small letter or big letter.
@@ -339,9 +340,8 @@ public final class ValidationTools {
    * @return true or false
    */
   public static boolean isSboTerm(String s) {
-    
-    if (s.isEmpty() || !SBO.checkTerm(s))
-    {
+
+    if (s.isEmpty() || !SBO.checkTerm(s)) {
       return false;
     }
 
@@ -350,7 +350,7 @@ public final class ValidationTools {
     } catch (Exception e) {
       return false;
     }
-    
+
     return true;
   }
 

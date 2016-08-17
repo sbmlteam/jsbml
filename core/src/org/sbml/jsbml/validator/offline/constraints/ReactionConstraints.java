@@ -31,6 +31,7 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
@@ -59,8 +60,15 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
       set.add(CORE_21121);
       if (level == 2) {
         set.add(CORE_21131);
+        
+        if (version > 1)
+        {
+          set.add(CORE_20906);
+        }
       }
       if (level == 3) {
+        set.add(CORE_20906);
+        
         set.add(CORE_21106);
         set.add(CORE_21107);
         set.add(CORE_21110);
@@ -94,6 +102,9 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
     switch (errorCode) {
     case CORE_10707:
       return SBOValidationConstraints.isInteraction;
+      
+    case CORE_20906:
+      return new AssignmentCycleValidation();
       
     case CORE_21101:
       func = new ValidationFunction<Reaction>() {
