@@ -28,9 +28,9 @@ TAGS
 **/.apt_generated
 **/.factorypath
 **/.settings
-**/jsbmlTestResults.txt
+jsbmlTestResults.txt
 **/target
-**/libsbmlCompatibilityTestResults.txt
+libsbmlCompatibilityTestResults.txt
 *.log
 **/.wtpmodules
 **/.fatjar
