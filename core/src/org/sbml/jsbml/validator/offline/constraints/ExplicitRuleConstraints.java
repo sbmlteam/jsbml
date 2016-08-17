@@ -26,7 +26,8 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;;
 
 /**
  * @author Roman
@@ -66,6 +67,7 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
           set.add(CORE_99106);
         }
       } else if (level == 3) {
+        
         addRangeToSet(set, CORE_20905, CORE_20910);
       }
 
@@ -92,7 +94,9 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
-
+    case CORE_20906:
+      return new AssignmentCycleValidation();
+      
     case CORE_20907:
       func = new ValidationFunction<ExplicitRule>() {
 
