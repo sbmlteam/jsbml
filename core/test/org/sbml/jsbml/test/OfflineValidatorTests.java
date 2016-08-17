@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -53,6 +54,8 @@ public class OfflineValidatorTests {
 
   private static String                                filter           = "";
 
+  private static Set<String>                           skipped          =
+    new HashSet<String>();
   private static Set<Integer>                          notDetected      =
     new TreeSet<Integer>();
   private static Map<Integer, String>                  notDetectedFiles =
@@ -107,7 +110,7 @@ public class OfflineValidatorTests {
       "Start tests (Range from " + startCode + " to " + endCode + ")");
     System.out.println();
     System.out.println();
-    
+
     long init = Calendar.getInstance().getTimeInMillis();
 
     for (int code = startCode; code <= endCode; code++) {
@@ -146,7 +149,7 @@ public class OfflineValidatorTests {
       String out = i + " in " + notDetectedFiles.get(i);
       System.out.println(out);
     }
-    
+
   }
 
 
@@ -177,7 +180,7 @@ public class OfflineValidatorTests {
     printStrongHLine();
     System.out.println("File: " + name);
     System.out.println("Should pass: " + shouldPass);
-    
+
     try {
       long startRead = Calendar.getInstance().getTimeInMillis();
       SBMLDocument doc = new SBMLReader().readSBML(file);
