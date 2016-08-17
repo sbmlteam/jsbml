@@ -35,6 +35,7 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
  * 
@@ -121,6 +122,11 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       if (level == 2 && version < 3)
       {
         addRangeToSet(set, CORE_20605, CORE_20607);
+      }
+      
+      if (level > 2)
+      {
+        set.add(CORE_99508);
       }
     
       break;
@@ -517,6 +523,9 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
+      
+    case CORE_99508:
+      return ValidationTools.checkDerivedUnit;
     }
 
     return func;

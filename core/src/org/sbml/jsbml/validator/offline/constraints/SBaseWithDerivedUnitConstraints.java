@@ -104,7 +104,6 @@ public class SBaseWithDerivedUnitConstraints
           
           Model m = sb.getModel();
           boolean definedInModel = false;
-
     
           if (m != null) {
             definedInModel = m.getUnitDefinition(unit) != null;
