@@ -28,6 +28,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
 
 /**
@@ -54,6 +55,7 @@ extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if (level == 2 && version > 1) {
         addRangeToSet(set, CORE_20801, CORE_20803);
+        set.add(CORE_20906);
         
         if (version == 5)
         {
@@ -61,6 +63,7 @@ extends AbstractConstraintDeclaration {
         }
       } else if (level == 3) {
         addRangeToSet(set, CORE_20801, CORE_20805);
+        set.add(CORE_20906);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -152,7 +155,8 @@ extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+    case CORE_20906:
+      return new AssignmentCycleValidation();
     }
 
     return func;
