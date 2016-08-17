@@ -76,8 +76,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
       break;
     case MATHML_CONSISTENCY:
-      if (level > 2)
-      {
+      if (level > 2) {
         addRangeToSet(set, CORE_20217, CORE_20221);
       }
       break;
@@ -87,13 +86,17 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       set.add(CORE_10601);
       break;
     case SBO_CONSISTENCY:
-      if ((level == 2 && version > 1) || level > 2)
-      {
+      if ((level == 2 && version > 1) || level > 2) {
         set.add(CORE_10701);
       }
-      
+
       break;
     case UNITS_CONSISTENCY:
+      if (level > 2) {
+        set.add(CORE_99130);
+        set.add(CORE_99506);
+        set.add(CORE_99507);
+      }
       break;
     }
   }
@@ -202,7 +205,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
       };
       break;
-      
+
     case CORE_10302:
       func = new UniqueValidation<Model, String>() {
 
@@ -228,11 +231,10 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           int count = 0;
 
           for (Reaction r : m.getListOfReactions()) {
-            if (r.isSetKineticLaw())
-            {
+            if (r.isSetKineticLaw()) {
               count += r.getKineticLaw().getNumLocalParameters();
             }
-            
+
           }
 
           return count;
@@ -297,57 +299,56 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
     case CORE_10601:
       func = new ValidationFunction<Model>() {
-        
-        
+
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           OverdeterminationValidator val = new OverdeterminationValidator(m);
-          
+
           return !val.isOverdetermined();
         }
       };
       break;
-      
+
     case CORE_10701:
       func = new ValidationFunction<Model>() {
-        
-        
+
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          
-          if (ctx.getLevel() == 2 && ctx.getVersion() < 4)
-          {
+
+          if (ctx.getLevel() == 2 && ctx.getVersion() < 4) {
             return SBOValidationConstraints.isModellingFramework.check(ctx, m);
-          }
-          else
-          {
+          } else {
             return SBOValidationConstraints.isInteraction.check(ctx, m);
           }
         }
       };
       break;
-      
+
     case CORE_20203:
       func = new ValidationFunction<Model>() {
 
         public boolean check(ValidationContext ctx, Model m) {
-          
-          return (m.getCompartmentCount() > 0 || !m.isSetListOfCompartments()) ||
-              (m.getCompartmentTypeCount() > 0 || !m.isSetListOfCompartmentTypes()) ||
-              (m.getConstraintCount() > 0 || !m.isSetListOfConstraints()) ||
-              (m.getEventCount() > 0 || !m.isSetListOfEvents()) ||
-              (m.getFunctionDefinitionCount() > 0 || !m.isSetListOfFunctionDefinitions()) ||
-              (m.getInitialAssignmentCount() > 0 || !m.isSetListOfInitialAssignments()) ||
-              (m.getParameterCount() > 0 || !m.isSetListOfParameters()) ||
-              (m.getReactionCount() > 0 || !m.isSetListOfReactions()) ||
-              (m.getRuleCount() > 0 || !m.isSetListOfRules()) ||
-              (m.getSpeciesCount() > 0 || !m.isSetListOfSpecies()) ||
-              (m.getSpeciesTypeCount() > 0 || !m.isSetListOfSpeciesTypes()) ||
-              (m.getUnitDefinitionCount() > 0 || !m.isSetListOfUnitDefinitions());
+
+          return (m.getCompartmentCount() > 0 || !m.isSetListOfCompartments())
+            || (m.getCompartmentTypeCount() > 0
+              || !m.isSetListOfCompartmentTypes())
+            || (m.getConstraintCount() > 0 || !m.isSetListOfConstraints())
+            || (m.getEventCount() > 0 || !m.isSetListOfEvents())
+            || (m.getFunctionDefinitionCount() > 0
+              || !m.isSetListOfFunctionDefinitions())
+            || (m.getInitialAssignmentCount() > 0
+              || !m.isSetListOfInitialAssignments())
+            || (m.getParameterCount() > 0 || !m.isSetListOfParameters())
+            || (m.getReactionCount() > 0 || !m.isSetListOfReactions())
+            || (m.getRuleCount() > 0 || !m.isSetListOfRules())
+            || (m.getSpeciesCount() > 0 || !m.isSetListOfSpecies())
+            || (m.getSpeciesTypeCount() > 0 || !m.isSetListOfSpeciesTypes())
+            || (m.getUnitDefinitionCount() > 0
+              || !m.isSetListOfUnitDefinitions());
         };
       };
       break;
-      
+
     case CORE_20204:
       func = new ValidationFunction<Model>() {
 
@@ -374,101 +375,89 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-      
+
     case CORE_20217:
       func = new ValidationFunction<Model>() {
-        
-        
+
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetTimeUnits())
-          {
+          if (m.isSetTimeUnits()) {
             UnitDefinition ud = m.getTimeUnitsInstance();
-            
+
             return ud.isVariantOfTime() || ud.isVariantOfDimensionless();
           }
-          
+
           return true;
         }
       };
       break;
-      
+
     case CORE_20218:
       func = new ValidationFunction<Model>() {
-        
-        
+
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetVolumeUnits())
-          {
+          if (m.isSetVolumeUnits()) {
             UnitDefinition ud = m.getVolumeUnitsInstance();
-            
+
             return ud.isVariantOfVolume() || ud.isVariantOfDimensionless();
           }
-          
+
           return true;
         }
       };
       break;
-      
+
     case CORE_20219:
       func = new ValidationFunction<Model>() {
-        
-        
+
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetAreaUnits())
-          {
+          if (m.isSetAreaUnits()) {
             UnitDefinition ud = m.getAreaUnitsInstance();
-            
+
             return ud.isVariantOfArea() || ud.isVariantOfDimensionless();
           }
-          
+
           return true;
         }
       };
       break;
-      
+
     case CORE_20220:
       func = new ValidationFunction<Model>() {
-        
-        
+
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetLengthUnits())
-          {
+          if (m.isSetLengthUnits()) {
             UnitDefinition ud = m.getLengthUnitsInstance();
-            
+
             return ud.isVariantOfLength() || ud.isVariantOfDimensionless();
           }
-          
+
           return true;
         }
       };
       break;
-      
+
     case CORE_20221:
       func = new ValidationFunction<Model>() {
-        
-        
+
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetExtentUnits())
-          {
+          if (m.isSetExtentUnits()) {
             UnitDefinition ud = m.getExtentUnitsInstance().simplify();
-            
+
             // Quick check for 'avogadro'
-            if (ud.getNumChildren() == 1)
-            {
-              if (ud.getUnit(0).isAvogadro())
-              {
+            if (ud.getNumChildren() == 1) {
+              if (ud.getUnit(0).isAvogadro()) {
                 return true;
               }
             }
-            
+
             return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
           }
-          
+
           return true;
         }
       };
@@ -481,7 +470,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
           if (m.isSetConversionFactor()) {
             Parameter fac = m.getConversionFactorInstance();
-            
+
             return fac != null && fac.isConstant();
           }
 
@@ -489,7 +478,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-      
+
     case CORE_20802:
       func = new UniqueValidation<Model, String>() {
 
@@ -507,7 +496,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-      
+
     case CORE_20803:
       func = new ValidationFunction<Model>() {
 
@@ -538,6 +527,60 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+
+    case CORE_99130:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          UnitDefinition def = m.getSubstanceUnitsInstance();
+
+          return def != null
+            && (def.isVariantOfSubstance() || def.isVariantOfDimensionless());
+        }
+      };
+      break;
+    case CORE_99506:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          boolean timeUsed = m.getNumRules() > 0 || m.getNumConstraints() > 0
+            || m.getNumEvents() > 0;
+            
+          for (int n = 0; !timeUsed && n < m.getNumReactions(); n++)
+          {
+            if (m.getReaction(n).isSetKineticLaw()){
+              timeUsed = true;
+            }
+              
+          }
+          
+
+          return !timeUsed || m.isSetTimeUnits();
+        }
+      };
+      break;
+      
+    case CORE_99507:
+      func = new ValidationFunction<Model>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          boolean extendUsed = false;
+          
+          for (int n = 0; !extendUsed && n < m.getNumReactions(); n++)
+          {
+            if (m.getReaction(n).isSetKineticLaw()){
+              extendUsed = true;
+            }
+              
+          }
+          
+          return !extendUsed || m.isSetExtentUnits();
+        }
+      };
     }
 
     return func;

@@ -25,6 +25,7 @@ package org.sbml.jsbml.validator.offline;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Level;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;

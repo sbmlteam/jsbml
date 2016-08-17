@@ -32,6 +32,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
  * ConstraintDeclaration for Compartment class
@@ -96,9 +97,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         set.add(CORE_20509);
       }
       
-      if (level == 3)
+      if (level > 2)
       {
         set.add(CORE_20518);
+        set.add(CORE_99508);
       }
       break;
     }
@@ -442,6 +444,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
           return true;
         }
       };
+      break;
+      
+    case CORE_99508:
+      return ValidationTools.checkDerivedUnit;
     }
 
     return func;
