@@ -29,7 +29,8 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * @author Roman
@@ -75,6 +76,9 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
       break;
     case UNITS_CONSISTENCY:
       set.add(CORE_20701);
+      if (level > 2){
+        set.add(CORE_99508);
+      }
       break;
     }
   }
@@ -164,6 +168,8 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+    case CORE_99508:
+      return ValidationTools.checkDerivedUnit;
     }
 
     return func;

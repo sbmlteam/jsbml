@@ -32,6 +32,7 @@ import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
@@ -63,23 +64,20 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         addRangeToSet(set, CORE_10208, CORE_10216);
 
         set.add(CORE_10218);
-        
-        if (level == 3 || (level == 2 && version > 3))
-        {
+
+        if (level == 3 || (level == 2 && version > 3)) {
           set.add(CORE_10219);
           set.add(CORE_10221);
         }
-        
-        if (level == 2 && version == 4)
-        {
+
+        if (level == 2 && version == 4) {
           set.add(CORE_10219);
         }
-        
+
         set.add(CORE_10222);
       }
-      
-      if (level == 3)
-      {
+
+      if (level == 3) {
         set.add(CORE_10220);
       }
 
@@ -91,6 +89,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
     case SBO_CONSISTENCY:
       break;
     case UNITS_CONSISTENCY:
+      set.add(CORE_10501);
       break;
     }
 
@@ -116,7 +115,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
    * getValidationFunction(int)
    */
   @Override
-  
+
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<ASTNode> func = null;
 
@@ -159,7 +158,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-      
+
     case CORE_10210:
       func = new ValidationFunction<ASTNode>() {
 
@@ -288,12 +287,11 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
           // If is piecewise...
           if (node.getType() == Type.FUNCTION_PIECEWISE) {
-            
-            // every second node must be a condition and therefore return a boolean
-            for (int i = 1; i < node.getNumChildren(); i += 2)
-            {
-              if (!node.getChild(i).isBoolean())
-              {
+
+            // every second node must be a condition and therefore return a
+            // boolean
+            for (int i = 1; i < node.getNumChildren(); i += 2) {
+              if (!node.getChild(i).isBoolean()) {
                 return false;
               }
             }
@@ -428,9 +426,10 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
     case CORE_10218:
       func = new ValidationFunction<ASTNode>() {
 
-        private final Set<ASTNode.Type> unaries  = getUnaryTypes();
-        private final Set<ASTNode.Type> binaries = getBinaryTypes();
+        private final Set<ASTNode.Type> unaries   = getUnaryTypes();
+        private final Set<ASTNode.Type> binaries  = getBinaryTypes();
         private final Set<ASTNode.Type> relations = getRelationTypes();
+
 
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
@@ -447,30 +446,24 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           }
           // Can't be empty
           else if (type == Type.FUNCTION_PIECEWISE) {
-            if (node.getNumChildren() > 0)
-            {
+            if (node.getNumChildren() > 0) {
               // check if there is always a number followed by a boolean
               boolean shouldBeNumber = true;
-              
-              for (ASTNode child:node.getListOfNodes())
-              {
+
+              for (ASTNode child : node.getListOfNodes()) {
                 // Should be number but isn't
-                if (shouldBeNumber == !child.isNumber())
-                {
+                if (shouldBeNumber == !child.isNumber()) {
                   return false;
                 }
                 // Must be a boolean
-                else if (!child.isBoolean())
-                {
+                else if (!child.isBoolean()) {
                   return false;
                 }
-                
+
                 // Flip boolean
                 shouldBeNumber = !shouldBeNumber;
               }
-            }
-            else
-            {
+            } else {
               return false;
             }
           }
@@ -479,8 +472,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             return node.getNumChildren() == 1 || node.getNumChildren() == 2;
           }
           // In MathML 2 these types must have at least 2 children
-          else if (relations.contains(type))
-          {
+          else if (relations.contains(type)) {
             return node.getNumChildren() > 1;
           }
           // Special case before l2v4
@@ -512,6 +504,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           return set;
         }
 
+
         private Set<ASTNode.Type> getRelationTypes() {
           Set<ASTNode.Type> set = new HashSet<ASTNode.Type>();
           set.add(ASTNode.Type.RELATIONAL_EQ);
@@ -519,9 +512,11 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           set.add(ASTNode.Type.RELATIONAL_GT);
           set.add(ASTNode.Type.RELATIONAL_LT);
           set.add(ASTNode.Type.RELATIONAL_LEQ);
-          
+
           return set;
         }
+
+
         private Set<ASTNode.Type> getUnaryTypes() {
           Set<ASTNode.Type> set = new HashSet<ASTNode.Type>();
 
@@ -595,23 +590,21 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
     case CORE_10220:
       func = new ValidationFunction<ASTNode>() {
-        
+
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
-          
-        
+
           // Only allowed on numbers
-          if (node.isSetUnits())
-          {
-            
+          if (node.isSetUnits()) {
+
             return node.isNumber();
           }
-          
+
           return true;
         }
       };
       break;
-      
+
     case CORE_10221:
       func = new ValidationFunction<ASTNode>() {
 
@@ -639,7 +632,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
       };
       break;
-      
+
     case CORE_10222:
       func = new ValidationFunction<ASTNode>() {
 
@@ -648,12 +641,10 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
           Model m = node.getParentSBMLObject().getModel();
 
-          if (m != null && node.isName())
-          {
+          if (m != null && node.isName()) {
             Compartment c = m.getCompartment(node.getName());
-            
-            if (c != null && c.getSpatialDimensions() == 0)
-            {
+
+            if (c != null && c.getSpatialDimensions() == 0) {
               return false;
             }
           }
@@ -663,6 +654,88 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
       };
       break;
+
+    case CORE_10501:
+      func = new ValidationFunction<ASTNode>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ASTNode node) {
+
+          Type t = node.getType();
+          if (t == Type.PLUS || t == Type.MINUS || t == Type.FUNCTION_ABS
+            || t == Type.FUNCTION_CEILING || t == Type.FUNCTION_FLOOR
+            || t == Type.RELATIONAL_EQ || t == Type.RELATIONAL_GEQ
+            || t == Type.RELATIONAL_GT || t == Type.RELATIONAL_LEQ
+            || t == Type.RELATIONAL_LT || t == Type.RELATIONAL_NEQ) {
+            if (node.getNumChildren() > 0) {
+              UnitDefinition ud = node.getChild(0).getUnitsInstance();
+
+              // Shouldn't be null or invalid
+              if (ud == null || ud.getNumChildren() == 0
+                || ud.getUnit(0).isInvalid()) {
+                return false;
+              }
+
+              for (int n = 1; n < node.getNumChildren(); n++) {
+                UnitDefinition ud2 = node.getChild(n).getUnitsInstance();
+
+                // one of the children doesn't have a unit or the unit is not
+                // the same as the rest
+                if (ud2 == null || !UnitDefinition.areEquivalent(ud, ud2)) {
+                  return false;
+                }
+              }
+            }
+          }
+          else if (t == Type.FUNCTION_DELAY)
+          {
+            if (node.getNumChildren() == 2)
+            {
+              ASTNode right = node.getRightChild();
+              
+              UnitDefinition ud = right.getUnitsInstance();
+              if (ud == null || !ud.isVariantOfTime())
+              {
+                return false;
+              }
+            }
+          }
+          else if (t == Type.FUNCTION_PIECEWISE)
+          {
+            if (node.getNumChildren() == 0)
+            {
+              return true;
+            }
+            
+            UnitDefinition ud = node.getChild(0).getUnitsInstance();
+            
+            for (int n = 1; n < node.getNumChildren(); n++)
+            {
+              ASTNode child = node.getChild(n);
+              UnitDefinition def = child.getUnitsInstance();
+              
+              // Even children must be same unit as first child
+              if (n % 2 == 0)
+              {
+                if ((ud == null && def != null) || (ud != null && def == null) || UnitDefinition.areEquivalent(ud, def))
+                {
+                  return false;
+                }
+              }
+              // Odd children must be dimensionless;
+              else
+              {
+                if (def == null || !def.isVariantOfDimensionless())
+                {
+                  return false;
+                }
+              }
+            }
+          }
+
+          return true;
+        }
+      };
     }
 
     return func;
