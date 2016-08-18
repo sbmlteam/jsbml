@@ -35,19 +35,19 @@ public class SBMLErrorFactory {
    * Keys to access the JSON file
    */
   private static final String              JSON_KEY_AVAILABLE           =
-      "Available";
+    "Available";
   private static final String              JSON_KEY_MESSAGE             =
-      "Message";
+    "Message";
   private static final String              JSON_KEY_SHORT_MESSAGE       =
-      "Available";
+    "Available";
   private static final String              JSON_KEY_PACKAGE             =
-      "Package";
+    "Package";
   private static final String              JSON_KEY_CATEGORY            =
-      "Category";
+    "Category";
   private static final String              JSON_KEY_DEFAULT_SEVERITY    =
-      "DefaultSeverity";
+    "DefaultSeverity";
   private static final String              JSON_KEY_UNFORMATED_SEVERITY =
-      "SeverityL%dV%d";
+    "SeverityL%dV%d";
   private static SoftReference<JSONObject> cachedJson;
 
 
@@ -61,7 +61,7 @@ public class SBMLErrorFactory {
         String fileName = "../../../resources/SBMLErrors.json";
         // JSONParser parser2 = new JSONParser();
         File file =
-            new File(SBMLErrorFactory.class.getResource(fileName).getFile());
+          new File(SBMLErrorFactory.class.getResource(fileName).getFile());
         JSONParser parser = new JSONParser();
         errors = (JSONObject) (parser.parse(new FileReader(file)));
       } catch (Exception e) {
@@ -83,7 +83,7 @@ public class SBMLErrorFactory {
         e.setShortMessage(sm);
         e.setPackage((String) errorEntry.get(JSON_KEY_PACKAGE));
         Object sev =
-            errorEntry.get(SBMLErrorFactory.getSeverityKey(level, version));
+          errorEntry.get(SBMLErrorFactory.getSeverityKey(level, version));
         if (sev == null) {
           sev = errorEntry.get(SBMLErrorFactory.JSON_KEY_DEFAULT_SEVERITY);
         }
@@ -92,6 +92,7 @@ public class SBMLErrorFactory {
         return e;
       }
     }
+    
     return null;
   }
 
@@ -99,13 +100,20 @@ public class SBMLErrorFactory {
   private static boolean isAvailable(JSONObject error, int level, int version) {
     String minLv = (String) (error.get(JSON_KEY_AVAILABLE));
     if (minLv != null) {
+
+      // Kicks out the first Character (because it will always be a 'L')
+      // Split the String at the 'V' character
+      // The remaining Strings should be the level and version value as String
       String[] blocks = minLv.substring(1).split("V");
+      
+      // Check if there are really just 2 Strings left
       if (blocks.length == 2) {
         int l = Integer.parseInt(blocks[0]);
         int v = Integer.parseInt(blocks[1]);
+        
         // Return true if level is greater as the minimal level
         // Or if the level is equal, but the version greater equal as the min
-        // verison.
+        // version.
         return (level > l) || (level == l && version >= v);
       }
     }
