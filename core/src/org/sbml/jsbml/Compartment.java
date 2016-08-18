@@ -992,7 +992,7 @@ public class Compartment extends Symbol {
     }
     
     
-    if (units.equals(this.unitsID))
+    if (units != null && units.equals(this.unitsID))
     {
       return;
     }
