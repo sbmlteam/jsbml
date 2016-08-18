@@ -978,7 +978,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
       return new ASTNodeValue("", this);
     }
 
-    plus.append(nodes.get(0));
+    plus.append(nodes.get(0).toFormula(this));
 
     for (int i = 1; i < nodes.size(); i++) {
       plus.append('+');
