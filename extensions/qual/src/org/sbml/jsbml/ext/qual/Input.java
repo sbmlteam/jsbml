@@ -170,7 +170,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public AbstractSBase clone() {
+  public Input clone() {
     return new Input(this);
   }
 
