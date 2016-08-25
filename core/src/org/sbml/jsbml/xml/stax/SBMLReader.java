@@ -50,6 +50,7 @@ import javax.xml.stream.events.XMLEvent;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.JSBML;
@@ -62,6 +63,7 @@ import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.AnnotationReader;
 import org.sbml.jsbml.xml.parsers.MathMLStaxParser;
@@ -395,6 +397,7 @@ public class SBMLReader {
     if (object != null && object instanceof Constraint) {
       ASTNode math = ((Constraint) object).getMath();
       if (math != null) {
+        cleanTreeNode(math);
         return math;
       }
     }
@@ -402,6 +405,31 @@ public class SBMLReader {
   }
 
   /**
+   * Cleans the given node by removing user object(s) set during reading/parsing.
+   *  
+   * @param treeNode the node to be cleaned
+   */
+  private void cleanTreeNode(AbstractTreeNode treeNode) 
+  {
+	  // Go through the whole treeNode (using a fake filter!) to remove the variable that says that we were in the process of reading an xml stream.
+	  treeNode.filter(new Filter() {
+
+		  @Override
+		  public boolean accepts(Object o) {
+			  if (o instanceof TreeNodeWithChangeSupport) {
+				  if (((TreeNodeWithChangeSupport) o).isSetUserObjects()) {
+					  ((TreeNodeWithChangeSupport) o).userObjectKeySet().remove(JSBML.READING_IN_PROGRESS);
+				  } // else if (! ((o instanceof TreeNodeAdapter) || (o instanceof XMLNode))) {
+				  //	            System.out.println("######### user objects not set !!!!!!!! " + o + " class name = " + o.getClass().getSimpleName());
+				  //	          }
+			  }
+			  return false;
+		  }
+	  });
+
+  }
+
+/**
    * Reads a mathML {@link String} into an {@link ASTNode}.
    *
    * @param mathML
@@ -419,6 +447,7 @@ public class SBMLReader {
     if (object != null && object instanceof Constraint) {
       ASTNode math = ((Constraint) object).getMath();
       if (math != null) {
+        cleanTreeNode(math);
         return math;
       }
     }
@@ -449,7 +478,8 @@ public class SBMLReader {
 
     if ((object != null) && (object instanceof Constraint)) {
       Constraint constraint = ((Constraint) object);
-
+      cleanTreeNode(constraint);
+      	
       if (constraint.isSetNotes()) {
         XMLNode notes = constraint.getNotes();
         if (notes != null) {
