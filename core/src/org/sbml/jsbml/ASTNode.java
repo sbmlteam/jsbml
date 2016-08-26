@@ -245,6 +245,10 @@ public class ASTNode extends AbstractTreeNode {
      */
     FUNCTION_QUOTIENT,
     /**
+     * 
+     */
+    FUNCTION_RATE_OF,
+    /**
      * The rem element is the operator that returns the "remainder" of a division modulo
      * a particular base. When the rem operator is applied to integer arguments a and b,
      * the result is the "remainder of a divided by b". That is, rem returns the unique
@@ -348,10 +352,6 @@ public class ASTNode extends AbstractTreeNode {
      * A type to express Avogadro's number.
      */
     NAME_AVOGADRO,
-    /**
-     * 
-     */
-    NAME_RATE_OF,
     /**
      * 
      */
@@ -603,7 +603,7 @@ public class ASTNode extends AbstractTreeNode {
       } else if (type.equals(URI_AVOGADRO_DEFINITION)) {
         return NAME_AVOGADRO;
       } else if (type.equals(URI_RATE_OF_DEFINITION)) {
-        return NAME_RATE_OF;
+        return FUNCTION_RATE_OF;
       }
 
       // general: apply, piecewise, piece, otherwise, lambda, bvar
@@ -2019,8 +2019,8 @@ public class ASTNode extends AbstractTreeNode {
     case NAME_AVOGADRO:
       value = compiler.getConstantAvogadro(getName());
       break;
-    case NAME_RATE_OF:
-      value = compiler.getRateOf(getName());
+    case FUNCTION_RATE_OF:
+      value = compiler.getRateOf(getLeftChild().getName());
       break;
     case REAL_E:
       value = compiler.compile(getMantissa(), getExponent(),
@@ -2291,7 +2291,7 @@ public class ASTNode extends AbstractTreeNode {
           return false;
         }
 
-        // TODO - add a block for NAME_RATE_OF ?
+        // TODO - add a block for FUNCTION_RATE_OF ?
 
         return true;
       }
@@ -3176,7 +3176,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public boolean isName() {
     return (type == Type.NAME) || (type == Type.NAME_TIME)
-        || (type == Type.NAME_AVOGADRO) || (type == Type.NAME_RATE_OF);
+        || (type == Type.NAME_AVOGADRO);
   }
 
   /**
@@ -4008,7 +4008,6 @@ public class ASTNode extends AbstractTreeNode {
    *            the type as a String.
    */
   public void setType(String typeStr) {
-    // System.out.println("ASTNode: setType(String) called.");
     if (isDebugEnabled) {
       logger.debug("ASTNode: setType(String) called: " + typeStr);
     }
@@ -4069,8 +4068,9 @@ public class ASTNode extends AbstractTreeNode {
       name = "Avogadro's number";
       setValue(Maths.AVOGADRO_L3V1);
       definitionURL = URI_AVOGADRO_DEFINITION;
-    } else if (type == Type.NAME_RATE_OF) {
-      // name = "rateOf";
+    } else if (type == Type.FUNCTION_RATE_OF) {
+      initDefaults();
+      name = "rateOf";
       definitionURL = URI_RATE_OF_DEFINITION;
     }
 
@@ -4487,6 +4487,7 @@ public class ASTNode extends AbstractTreeNode {
     if (className != null) {
       buffer.append(", className = ").append(getClassName());
     }
+    buffer.append("] ");
 
     return buffer.toString();
   }
@@ -4539,9 +4540,10 @@ public class ASTNode extends AbstractTreeNode {
    * @return a simple tree view of the ASTNode internal
    */
   public static String astNodeToTree(ASTNode n, String tree, String indent) {
-    tree = tree + indent + n.getType() + " " +
-        (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + "\n";
-
+    //tree = tree + indent + n.getType() + " " +
+    //    (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + "\n";
+    tree = tree + indent + n.toSimpleString() + "\n";
+    
     for (ASTNode child : n.getChildren()) {
       tree = astNodeToTree(child, tree, indent + "  ");
     }

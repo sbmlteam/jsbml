@@ -392,7 +392,12 @@ public class SBMLReader {
    * @throws XMLStreamException
    */
   public ASTNode readMathML(String mathML, TreeNodeChangeListener listener)
-      throws XMLStreamException	{
+      throws XMLStreamException	
+  {
+    if (logger.isDebugEnabled()) {
+      logger.debug("SBMLReader.readMathML called");
+    }
+    
     Object object = readXMLFromString(mathML, listener);
     if (object != null && object instanceof Constraint) {
       ASTNode math = ((Constraint) object).getMath();
@@ -443,6 +448,10 @@ public class SBMLReader {
   {
     astNodeParent = parent;
 
+    if (logger.isDebugEnabled()) {
+      logger.debug("SBMLReader.readMathML with parent called");
+    }
+    
     Object object = readXMLFromString(mathML, listener);
     if (object != null && object instanceof Constraint) {
       ASTNode math = ((Constraint) object).getMath();
@@ -1016,6 +1025,8 @@ public class SBMLReader {
                         astNode.setType(Type.FUNCTION_DELAY);
                       } else if(type.equalsIgnoreCase(ASTNode.URI_AVOGADRO_DEFINITION)) {
                         astNode.setType(Type.NAME_AVOGADRO);
+                      } else if(type.equalsIgnoreCase(ASTNode.URI_RATE_OF_DEFINITION)) {
+                        astNode.setType(Type.FUNCTION_RATE_OF);
                       }
 
                       if (object != null && object instanceof ASTNode) {
