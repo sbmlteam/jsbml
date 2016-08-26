@@ -111,5 +111,6 @@
   <entry key="rem">FUNCTION_REM</entry>
   <entry key="remainder">FUNCTION_REM</entry>
   <entry key="quotient">FUNCTION_QUOTIENT</entry>
-  <entry key="rateOf">NAME_RATE_OF</entry>
+  <entry key="rateOf">FUNCTION_RATE_OF</entry>
+  <entry key="rateof">FUNCTION_RATE_OF</entry>
 </properties>
