@@ -173,7 +173,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
             // all children must be numbers
             for (ASTNode n : node.getChildren()) {
-              if (!n.isNumber()) {
+              if (ValidationTools.getDataType(n) != ValidationTools.DT_NUMBER) {
+
                 return false;
               }
             }
@@ -291,7 +292,12 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             // every second node must be a condition and therefore return a
             // boolean
             for (int i = 1; i < node.getNumChildren(); i += 2) {
-              if (!node.getChild(i).isBoolean()) {
+              ASTNode child = node.getChild(i);
+
+              if (ValidationTools.getDataType(
+                child) != ValidationTools.DT_BOOLEAN) {
+                // System.out.println("Node " + child.getType() + " was " +
+                // ValidationTools.getDataType(child));
                 return false;
               }
             }
@@ -411,7 +417,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
                 KineticLaw kl = (KineticLaw) parent;
 
-                return kl.getLocalParameter(name) == null;
+                System.out.println("Was nothing " + name);
+                return kl.getLocalParameter(name) != null;
 
               }
             }
@@ -452,12 +459,19 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
               for (ASTNode child : node.getListOfNodes()) {
                 // Should be number but isn't
-                if (shouldBeNumber == !child.isNumber()) {
-                  return false;
-                }
-                // Must be a boolean
-                else if (!child.isBoolean()) {
-                  return false;
+
+                if (shouldBeNumber) {
+                  if (ValidationTools.getDataType(
+                    child) != ValidationTools.DT_NUMBER) {
+                    return false;
+                  }
+
+                } else {
+                  // Must be a boolean
+                  if (ValidationTools.getDataType(
+                    child) != ValidationTools.DT_BOOLEAN) {
+                    return false;
+                  }
                 }
 
                 // Flip boolean
@@ -686,47 +700,36 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 }
               }
             }
-          }
-          else if (t == Type.FUNCTION_DELAY)
-          {
-            if (node.getNumChildren() == 2)
-            {
+          } else if (t == Type.FUNCTION_DELAY) {
+            if (node.getNumChildren() == 2) {
               ASTNode right = node.getRightChild();
-              
+
               UnitDefinition ud = right.getUnitsInstance();
-              if (ud == null || !ud.isVariantOfTime())
-              {
+              if (ud == null || !ud.isVariantOfTime()) {
                 return false;
               }
             }
-          }
-          else if (t == Type.FUNCTION_PIECEWISE)
-          {
-            if (node.getNumChildren() == 0)
-            {
+          } else if (t == Type.FUNCTION_PIECEWISE) {
+            if (node.getNumChildren() == 0) {
               return true;
             }
-            
+
             UnitDefinition ud = node.getChild(0).getUnitsInstance();
-            
-            for (int n = 1; n < node.getNumChildren(); n++)
-            {
+
+            for (int n = 1; n < node.getNumChildren(); n++) {
               ASTNode child = node.getChild(n);
               UnitDefinition def = child.getUnitsInstance();
-              
+
               // Even children must be same unit as first child
-              if (n % 2 == 0)
-              {
-                if ((ud == null && def != null) || (ud != null && def == null) || UnitDefinition.areEquivalent(ud, def))
-                {
+              if (n % 2 == 0) {
+                if ((ud == null && def != null) || (ud != null && def == null)
+                  || UnitDefinition.areEquivalent(ud, def)) {
                   return false;
                 }
               }
               // Odd children must be dimensionless;
-              else
-              {
-                if (def == null || !def.isVariantOfDimensionless())
-                {
+              else {
+                if (def == null || !def.isVariantOfDimensionless()) {
                   return false;
                 }
               }

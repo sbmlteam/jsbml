@@ -329,22 +329,14 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         public boolean check(ValidationContext ctx, Model m) {
 
-          return (m.getCompartmentCount() > 0 || !m.isSetListOfCompartments())
-            || (m.getCompartmentTypeCount() > 0
-              || !m.isSetListOfCompartmentTypes())
-            || (m.getConstraintCount() > 0 || !m.isSetListOfConstraints())
-            || (m.getEventCount() > 0 || !m.isSetListOfEvents())
-            || (m.getFunctionDefinitionCount() > 0
-              || !m.isSetListOfFunctionDefinitions())
-            || (m.getInitialAssignmentCount() > 0
-              || !m.isSetListOfInitialAssignments())
-            || (m.getParameterCount() > 0 || !m.isSetListOfParameters())
-            || (m.getReactionCount() > 0 || !m.isSetListOfReactions())
-            || (m.getRuleCount() > 0 || !m.isSetListOfRules())
-            || (m.getSpeciesCount() > 0 || !m.isSetListOfSpecies())
-            || (m.getSpeciesTypeCount() > 0 || !m.isSetListOfSpeciesTypes())
-            || (m.getUnitDefinitionCount() > 0
-              || !m.isSetListOfUnitDefinitions());
+          return !(m.isListOfCompartmentsEmpty()
+            || m.isListOfCompartmentTypesEmpty() || m.isListOfConstraintsEmpty()
+            || m.isListOfEventsEmpty() || m.isListOfFunctionDefinitionsEmpty()
+            || m.isListOfInitialAssignmentsEmpty()
+            || m.isListOfParametersEmpty() || m.isListOfReactionsEmpty()
+            || m.isListOfRulesEmpty() || m.isListOfSpeciesEmpty()
+            || m.isListOfSpeciesTypesEmpty()
+            || m.isListOfUnitDefinitionEmpty());
         };
       };
       break;
@@ -547,37 +539,33 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Model m) {
           boolean timeUsed = m.getNumRules() > 0 || m.getNumConstraints() > 0
             || m.getNumEvents() > 0;
-            
-          for (int n = 0; !timeUsed && n < m.getNumReactions(); n++)
-          {
-            if (m.getReaction(n).isSetKineticLaw()){
+
+          for (int n = 0; !timeUsed && n < m.getNumReactions(); n++) {
+            if (m.getReaction(n).isSetKineticLaw()) {
               timeUsed = true;
             }
-              
+
           }
-          
 
           return !timeUsed || m.isSetTimeUnits();
         }
       };
       break;
-      
+
     case CORE_99507:
       func = new ValidationFunction<Model>() {
-        
-        
+
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           boolean extendUsed = false;
-          
-          for (int n = 0; !extendUsed && n < m.getNumReactions(); n++)
-          {
-            if (m.getReaction(n).isSetKineticLaw()){
+
+          for (int n = 0; !extendUsed && n < m.getNumReactions(); n++) {
+            if (m.getReaction(n).isSetKineticLaw()) {
               extendUsed = true;
             }
-              
+
           }
-          
+
           return !extendUsed || m.isSetExtentUnits();
         }
       };

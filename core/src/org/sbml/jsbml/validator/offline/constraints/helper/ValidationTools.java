@@ -162,6 +162,16 @@ public final class ValidationTools {
     }
 
     if (node.isName()) {
+      SBase parent = node.getParentSBMLObject();
+      
+      if (parent != null)
+      {
+        Model m = parent.getModel();
+        if (m != null)
+        {
+          return (m.getParameter(node.getName()) != null) ? DT_NUMBER : DT_UNKNOWN;
+        }
+      }
       return DT_UNKNOWN;
     }
 
