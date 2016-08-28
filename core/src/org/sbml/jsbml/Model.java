@@ -3828,7 +3828,7 @@ public class Model extends AbstractNamedSBase
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
-  public boolean isListOfCompartmentTypessEmpty() {
+  public boolean isListOfCompartmentTypesEmpty() {
     return listOfCompartmentTypes != null && listOfCompartmentTypes.size() == 0;
   }
 
