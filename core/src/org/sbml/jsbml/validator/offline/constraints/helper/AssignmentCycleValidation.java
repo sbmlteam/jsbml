@@ -34,11 +34,11 @@ public class AssignmentCycleValidation
     {
       visited.clear();
       String currentId = getId(sb);
-      System.out.println("Testing " + currentId);
+//      System.out.println("Testing " + currentId);
       
       if (currentId != null && !currentId.isEmpty())
       {
-        System.out.println("Children");
+//        System.out.println("Children");
         // Collect the children
         checkChildren(m, sb);
         
@@ -52,7 +52,7 @@ public class AssignmentCycleValidation
           // If this child wasn't visited yet
           if (childId != null && visited.add(childId)){
             
-            System.out.println("Check " + childId);
+//            System.out.println("Check " + childId);
             // Check if we are back at the first SBase
             if (childId.equals(currentId))
             {
@@ -137,7 +137,7 @@ public class AssignmentCycleValidation
   
   private void checkChildren(Model m, ASTNode math)
   {
-    System.out.println("Looking for children");
+//    System.out.println("Looking for children");
     Queue<ASTNode> children = new LinkedList<ASTNode>();
     
     children.add(math);
@@ -149,7 +149,7 @@ public class AssignmentCycleValidation
       
       if (node.isName())
       {
-        System.out.println("Node is a name " + node.getName());
+//        System.out.println("Node is a name " + node.getName());
         // If one of the nodes refer to Reaction, InitalAssignment or Rule
         String name = (node.getName() != null) ? node.getName() : "";
         
@@ -184,7 +184,7 @@ public class AssignmentCycleValidation
         
         if (child != null)
         {
-          System.out.println("Found Child");
+//          System.out.println("Found Child");
           toCheck.add(child);
         }
       }
