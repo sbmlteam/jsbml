@@ -137,6 +137,11 @@ public class JSBML {
   public static final transient String READING_IN_PROGRESS = "jsbml.reading.in.progress"; 
   
   /**
+   * String used to know the real parent element for each  child of a {@link ASTNode.Type#FUNCTION_PIECEWISE} ASTNode.
+   */
+  public static final transient String PIECEWISE_ID = "jsbml.piecewise.id"; 
+  
+  /**
    * Adds the given {@link UnitDefinition} to the given model or returns the
    * identifier of an equivalent {@link UnitDefinition} that is already part
    * of the model. In case that the given model is null, the return value of

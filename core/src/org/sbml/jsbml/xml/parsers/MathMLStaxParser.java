@@ -32,6 +32,7 @@ import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.StringTools;
@@ -85,7 +86,22 @@ public class MathMLStaxParser implements ReadingParser {
    *
    */
   private boolean isFunctionDefinition;
+  
+  /**
+   * integer used to count the number of piecewise elements open
+   */
+  private int piecewiseCount;
+  
+  /**
+   * integer used to count the number of piece elements open
+   */
+  private int pieceCount;
 
+  /**
+   * integer used to count the number of otherwise elements open
+   */
+  private int otherwiseCount;
+  
   /**
    *
    * @return
@@ -290,6 +306,17 @@ public class MathMLStaxParser implements ReadingParser {
       return true;
     }
     
+    // we don't change pieceCount here as the id might not be different.
+    if (elementName.equals("otherwise")){
+      otherwiseCount--;
+    }
+    if (elementName.equals("piecewise")){
+      piecewiseCount--;
+      if (piecewiseCount == 0) {
+        pieceCount = 0;
+      }
+    }
+
     if (elementName.equals("sep")) {
       return false;
     } else if (contextObject instanceof MathContainer) {
@@ -379,10 +406,23 @@ public class MathMLStaxParser implements ReadingParser {
         lastElementWasApply = false;
       }
 
+      // trying to count the piecewise, piece and otherwise open elements to annotate the ASTNode with the counter,
+      //  then later we can check that each piece block has 2 and only 2 child.      
+      if (elementName.equals("piece")){
+        pieceCount++;
+      }
+      if (elementName.equals("otherwise")){
+        otherwiseCount++;
+      }
+
       // we do nothing
       return null;
     }
 
+    if (elementName.equals("piecewise")){
+      piecewiseCount++;
+    }
+    
     if (lastElementWasApply && elementName.equals("ci"))
     {
       isFunctionDefinition = true;
@@ -432,7 +472,7 @@ public class MathMLStaxParser implements ReadingParser {
         
         return xmlNode;
       }
-    }
+    }    
     // We are inside a mathML 'semantics' element, everything is read into an XMLNode    
     else if (contextObject instanceof XMLNode) 
     {
@@ -458,6 +498,15 @@ public class MathMLStaxParser implements ReadingParser {
       astNode.setType(Type.FUNCTION);
     } else {
       astNode.setType(elementName);
+    }
+    
+    if (piecewiseCount > 0) {
+      // add piecewiseCount.pieceCount or/and piecewiseCount.otherwiseCount to the ASTNode
+      if (otherwiseCount >= piecewiseCount) {
+        astNode.putUserObject(JSBML.PIECEWISE_ID, "otherwise." + piecewiseCount + "." + otherwiseCount);
+      } else {
+        astNode.putUserObject(JSBML.PIECEWISE_ID, "piece." + piecewiseCount + "." + pieceCount);
+      }
     }
     
     if (setMath) {
