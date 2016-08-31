@@ -31,6 +31,8 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -386,7 +388,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           // If it's a name
           if (node.isName()) {
 
-            String name = node.getName();
+            String id = node.getName();
             MathContainer parent = node.getParentSBMLObject();
 
             if (parent == null) {
@@ -395,31 +397,17 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
             Model m = parent.getModel();
 
-            if (m != null && parent instanceof KineticLaw) {
-              boolean allowReaction = true;
-              boolean allowSpeciesRef = false;
+            // We have to go through all the ASTNode defined in the document and find places where
+            // an invalid id is used, then if the id is one of any local parameter, we should fire the constraint.
+            // So we need to test all ASTNode where the parent is NOT a KineticLaw. And make use of the Model find methods.
+            
+            if (m != null && (! (parent instanceof KineticLaw))) {
 
-              if (ctx.isLevelAndVersionEqualTo(2, 1)) {
-                allowReaction = false;
-              }
-
-              if (ctx.getLevel() > 2) {
-                allowSpeciesRef = true;
-              }
-
-              // If the name doesn't match anything so it must be a local
-              // parameter
-              if (m.getCompartment(name) == null && m.getSpecies(name) == null
-                && m.getParameter(name) == null
-                && (!allowReaction || m.getReaction(name) == null)
-                && (!allowSpeciesRef
-                  || !ValidationTools.isSpeciesReference(m, name))) {
-
-                KineticLaw kl = (KineticLaw) parent;
-
-                System.out.println("Was nothing " + name);
-                return kl.getLocalParameter(name) != null;
-
+              NamedSBase sbase = m.findUniqueNamedSBase(id);
+              
+              // If the id doesn't match anything, it can be a localParameter
+              if (sbase == null && (m.findLocalParameters(id).size() > 0)) {
+                return false;
               }
             }
           }
