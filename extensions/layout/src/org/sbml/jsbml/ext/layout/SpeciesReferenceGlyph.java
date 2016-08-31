@@ -258,7 +258,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
    * @return
    */
   public SpeciesReferenceRole getSpeciesReferenceRole() {
-    return role;
+    return getRole();
   }
 
   /* (non-Javadoc)
@@ -374,12 +374,29 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
    * attribute on the {@link SpeciesReference}. If both role and sboTerm are specified and
    * they conflict, it is the role that takes precedence.
    * 
-   * @param valueOf
+   * @param role
    */
-  public void setRole(SpeciesReferenceRole valueOf) {
-    SpeciesReferenceRole oldRole = role;
-    role = valueOf;
+  public void setRole(SpeciesReferenceRole role) {
+    SpeciesReferenceRole oldRole = this.role;
+    this.role = role;
     firePropertyChange(LayoutConstants.role, oldRole, role);
+  }
+
+  /**
+   * 
+   * @param role
+   * @see #setRole(SpeciesReferenceRole)
+   */
+  public void setSpeciesReferenceRole(SpeciesReferenceRole role) {
+    setRole(role);
+  }
+
+  /**
+   * @return
+   * @see #getSpeciesReferenceRole()
+   */
+  public SpeciesReferenceRole getRole() {
+    return role;
   }
 
   /**
