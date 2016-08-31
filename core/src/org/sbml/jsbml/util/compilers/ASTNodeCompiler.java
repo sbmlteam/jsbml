@@ -28,10 +28,6 @@ import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.Species;
-import org.sbml.jsbml.Unit;
-import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.UnitDefinition;
 
 /**
  * A compiler for abstract syntax trees. This compiler evaluates the values
@@ -720,10 +716,10 @@ public interface ASTNodeCompiler {
   public ASTNodeValue xor(List<ASTNode> values) throws SBMLException;
 
   /**
-   * Returns the maximum of the values. 
+   * Returns the maximum of the values.
    * 
    * @param values
-   * @return the maximum of the values. 
+   * @return the maximum of the values.
    */
   public ASTNodeValue max(List<ASTNode> values);
 
@@ -756,13 +752,13 @@ public interface ASTNodeCompiler {
   public ASTNodeValue rem(List<ASTNode> values);
 
   /**
-   * Returns the logical implies between two {@link ASTNode}. 
-   *  
+   * Returns the logical implies between two {@link ASTNode}.
+   * 
    * <p>Truth table:
    *
    *<pre>
    * p   q  p→q
-   *   
+   * 
    * T   T   T
    * T   F   F
    * F   T   T

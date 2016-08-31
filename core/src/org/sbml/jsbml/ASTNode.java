@@ -26,7 +26,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -38,7 +37,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTNode2;
-import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -1933,8 +1931,8 @@ public class ASTNode extends AbstractTreeNode {
     case REAL:
       double real = getReal();
       if (Double.isInfinite(real)) {
-        value = (real > 0d) ? compiler.getPositiveInfinity() : compiler
-          .getNegativeInfinity();
+        value = (real > 0d) ? compiler.getPositiveInfinity() :
+          compiler.getNegativeInfinity();
       } else {
         value = compiler.compile(real, getUnits());
       }
@@ -3057,8 +3055,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is a MathML constant, {@code false} otherwise.
    */
   public boolean isConstant() {
-    return type.toString().startsWith("CONSTANT")
-        || type == Type.NAME_AVOGADRO;
+    return type.toString().startsWith("CONSTANT") || type == Type.NAME_AVOGADRO;
   }
 
   /**
@@ -3117,7 +3114,7 @@ public class ASTNode extends AbstractTreeNode {
   public boolean isLambda() {
     return type == Type.LAMBDA;
   }
-  
+
   /**
    * Returns {@code true} if this node is constant or of type INTEGER, REAL or RATIONAL, {@code false} otherwise.
    * 
@@ -4392,7 +4389,7 @@ public class ASTNode extends AbstractTreeNode {
   public String toString() {  // TODO - potentially remove the method if the users agree and once we correct all the formula compilers (and other code) to never use toString() when the expect the formula !
     return printASTNode(); // users need to have warning for some time for this change which is complicated to track if the toString() method is not called implicitly
   }
-  
+
   /**
    * Returns the infix formula representing this ASTNode or an empty String if there was
    * a problem to construct the formula.
@@ -4421,8 +4418,8 @@ public class ASTNode extends AbstractTreeNode {
     }
     return formula;
   }
-  
-  
+
+
   /**
    * Returns a simple String representing the content of the ASTNode.
    * 
@@ -4543,7 +4540,7 @@ public class ASTNode extends AbstractTreeNode {
     //tree = tree + indent + n.getType() + " " +
     //    (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + "\n";
     tree = tree + indent + n.toSimpleString() + "\n";
-    
+
     for (ASTNode child : n.getChildren()) {
       tree = astNodeToTree(child, tree, indent + "  ");
     }
