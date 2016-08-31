@@ -135,10 +135,21 @@ public class Parameter extends Symbol {
    * @param version
    */
   public void initDefaults(int level, int version) {
+    initDefaults(level, version, false);
+  }
+
+  /**
+   * 
+   * @param level
+   * @param version
+   * @param explicit
+   */
+  public void initDefaults(int level, int version, boolean explicit) {
     value = Double.NaN;
 
     if (level > 1) {
       constant = true;
+      isSetConstant = explicit;
     }
   }
 
