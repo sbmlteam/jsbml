@@ -19,7 +19,9 @@
  */
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
@@ -28,11 +30,11 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -442,30 +444,39 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           // Can't be empty
           else if (type == Type.FUNCTION_PIECEWISE) {
             if (node.getNumChildren() > 0) {
-              // check if there is always a number followed by a boolean
-              boolean shouldBeNumber = true;
+              // piece element should have two child, otherwise element one.
+              Map<String, Integer> piecewiseIdMap = new HashMap<String, Integer>(); 
 
+              // counting number of child
               for (ASTNode child : node.getListOfNodes()) {
-                // Should be number but isn't
-
-                if (shouldBeNumber) {
-                  if (ValidationTools.getDataType(
-                    child) != ValidationTools.DT_NUMBER) {
-                    return false;
-                  }
-
-                } else {
-                  // Must be a boolean
-                  if (ValidationTools.getDataType(
-                    child) != ValidationTools.DT_BOOLEAN) {
-                    return false;
-                  }
+                String elementPiecewiseId = (String) child.getUserObject(JSBML.PIECEWISE_ID);
+                Integer nbChild = piecewiseIdMap.get(elementPiecewiseId);
+                
+                if (elementPiecewiseId == null) {
+                  // we don't have enough information to validate this node
+                  return true;
                 }
-
-                // Flip boolean
-                shouldBeNumber = !shouldBeNumber;
+                
+                if (nbChild == null) {
+                  nbChild = 0;
+                }
+                nbChild++;
+                piecewiseIdMap.put(elementPiecewiseId, nbChild);
               }
+
+              // validating the number of child found
+              for (String piecewiseId : piecewiseIdMap.keySet()) {
+                Integer nbChild = piecewiseIdMap.get(piecewiseId);
+                
+                if (piecewiseId.contains("piece") && nbChild != 2) {
+                  return false;
+                } else if (piecewiseId.contains("other") && nbChild != 1) {
+                  return false;
+                }
+              }
+
             } else {
+              // zero child are allowed for piecewise in MATHML 2 but not in SBML/libSBML ?
               return false;
             }
           }
@@ -475,7 +486,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           }
           // In MathML 2 these types must have at least 2 children
           else if (relations.contains(type)) {
-            return node.getNumChildren() > 1;
+            return node.getNumChildren() > 1; // TODO - check again but I think some relational operators can have zero or more child
           }
           // Special case before l2v4
           else if (type == Type.FUNCTION
