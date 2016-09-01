@@ -326,7 +326,8 @@ public class SBMLDocument extends AbstractSBase {
     LoggingValidationContext ctx =
         new LoggingValidationContext(this.getLevel(), this.getVersion());
 
-
+    // TODO - enable only the categories selected by the user (and if checkConsistencyParameters is empty, disable the unit check by default)
+    ctx.enableCheckCategories(CHECK_CATEGORY.values(), true);
     ctx.loadConstraints(this.getClass());
     ctx.validate(this);
 
