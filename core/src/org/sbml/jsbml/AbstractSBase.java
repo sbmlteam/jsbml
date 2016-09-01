@@ -92,6 +92,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     8781459818293592636L;
 
   /**
+   * 
+   */
+  public static final transient String JSBML_WRONG_SBO_TERM = "jsbml.wrong.sbo.term";
+
+  /**
    * Shared context to perform attribute validation.
    */
   private static ValidationContext      attributeValidator =
@@ -2375,7 +2380,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       } else if (getLevel() == 1) {
         throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId,
           this);
-      } else if (!SyntaxChecker.isValidMetaId(metaId)) {
+      } else if (!SyntaxChecker.isValidMetaId(metaId) && !isReadingInProgress()) {
         throw new IllegalArgumentException(MessageFormat.format(
           resourceBundle.getString("AbstractSBase.setMetaId"), metaId,
           getElementName()));
@@ -2391,7 +2396,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       // Now we can register the new metaId if necessary.
       if (metaId != null) {
         this.metaId = metaId;
-        if (!doc.registerMetaId(this, true)) {
+        if (!doc.registerMetaId(this, true) && !isReadingInProgress()) {
           // register failed. Revert the change and throw an exception:
           this.metaId = oldMetaId;
           throw new IdentifierException(this, metaId);
@@ -2552,12 +2557,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void setSBOTerm(int term) {
-    if (getLevelAndVersion().compareTo(Integer.valueOf(2),
-      Integer.valueOf(2)) < 0) {
+    if ((getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0)
+        && (!isReadingInProgress()))
+    {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.sboTerm,
         this);
     }
-    if (!SBO.checkTerm(term)) {
+    if (!SBO.checkTerm(term) && !isReadingInProgress()) {
       throw new IllegalArgumentException(MessageFormat.format(
         resourceBundle.getString("AbstractSBase.setSBOTerm"), term));
     }
@@ -2573,7 +2579,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void setSBOTerm(String sboid) {
-    setSBOTerm(SBO.stringToInt(sboid));
+    int sboTermInt = SBO.stringToInt(sboid);
+    
+    // if there is a problem, store the value in a user object
+    if (sboTermInt == -1) {
+      putUserObject(JSBML_WRONG_SBO_TERM, sboid); // TODO - we could make use of the generic way of storing unknown attributes ?
+    }
+    setSBOTerm(sboTermInt);
   }
 
 
