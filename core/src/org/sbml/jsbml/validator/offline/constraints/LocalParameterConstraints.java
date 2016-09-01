@@ -115,7 +115,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, LocalParameter p) {
 
-          System.out.println("Unit " + p.getUnits());
+          // System.out.println("Unit " + p.getUnits());
           return p.isSetUnits();
         }
       };
