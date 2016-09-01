@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -54,7 +55,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
       if (level > 1) {
         set.add(CORE_10307);
 
-        if (version > 1) {
+        if (version >= 1) {
           set.add(CORE_10308);
         }
       }
@@ -133,9 +134,34 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, SBase sb) {
 
-          return !sb.isSetSBOTerm()
-            || ValidationTools.isSboTerm(sb.getSBOTermID());
+          if (sb.isSetSBOTerm()) {
+            return ValidationTools.isSboTerm(sb.getSBOTermID()); 
+          }
+          String wrongSboTerm = getWrongSBOTerm(sb);
+          
+          if (wrongSboTerm != null) {
+            return false;
+          }
+          
+          return true;
         }
+        
+        /**
+         * Returns a String corresponding to a wrong SBO term that
+         * could not be set to the SBase.
+         * 
+         * @param sb an SBase
+         * @return a String corresponding to a wrong SBO term
+         */
+        private String getWrongSBOTerm(SBase sb) {
+        
+          if (sb.isSetUserObjects() && (sb.getUserObject(AbstractSBase.JSBML_WRONG_SBO_TERM) != null)) {
+            return (String) sb.getUserObject(AbstractSBase.JSBML_WRONG_SBO_TERM);
+          }
+          
+          return null;
+        }
+        
       };
       break;
 
