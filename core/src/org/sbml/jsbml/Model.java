@@ -4359,7 +4359,14 @@ public class Model extends AbstractNamedSBase
    */
   @Override
   public boolean register(SBase sbase) {
-    return registerIds(sbase.getParentSBMLObject(), sbase, true, false, null);
+    boolean success = registerIds(sbase.getParentSBMLObject(), sbase, true, false, null);
+    
+    if (isReadingInProgress()) {
+      // returning true when reading so that the validation can detect duplicated ids
+      return true;
+    }
+    
+    return success; 
   }
 
 

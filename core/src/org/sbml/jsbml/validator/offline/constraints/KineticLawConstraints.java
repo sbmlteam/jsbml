@@ -27,6 +27,7 @@ import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
@@ -68,6 +69,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case IDENTIFIER_CONSISTENCY:
+      set.add(CORE_10303);
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -107,6 +109,29 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<KineticLaw> func = null;
 
     switch (errorCode) {
+
+      case CORE_10303:
+        func = new UniqueValidation<KineticLaw, String>() {
+
+          @Override
+          public int getNumObjects(ValidationContext ctx, KineticLaw kl) {
+            return kl.getLocalParameterCount();
+          }
+
+
+          @Override
+          public String getNextObject(ValidationContext ctx, KineticLaw m, int n) {
+
+            int num = m.getLocalParameterCount();
+
+            if (n < num) {
+              return m.getLocalParameter(n).getId();
+            }
+
+            return null;
+          }
+        };
+        break;
 
     case CORE_10709:
       return SBOValidationConstraints.isRateLaw;
