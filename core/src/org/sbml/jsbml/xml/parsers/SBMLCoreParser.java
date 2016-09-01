@@ -190,6 +190,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     } else if (contextObject instanceof ASTNode) {
       ASTNode astNode = (ASTNode) contextObject;
 
+      // TODO - make sure that the attributeName is 'units' !! If not put the attribute into the unknown attributes.
+      
+      // TODO - test if the elementName is one of the ignored mathML elements. If yes, where to store the attribute !?
+      
       try {
         astNode.setUnits(value);
         isAttributeRead = true;

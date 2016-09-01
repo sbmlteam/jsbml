@@ -174,6 +174,7 @@ public class MathMLStaxParser implements ReadingParser {
       astNode.setEncoding(value);
     }
 
+    // TODO - need to process all attributes even if we don't know them !!
 
   }
 
