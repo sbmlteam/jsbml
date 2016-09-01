@@ -624,16 +624,13 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
 
-          ASTNode.Type type = node.getType();
-
-          if (type == Type.FUNCTION) {
-
+          if (node.isSetUnits()) {
             String units = node.getUnits();
 
             if (units != null && !units.isEmpty()) {
               // Checks if the unit is predefined or defined in the model
               if (!(Unit.isUnitKind(units, ctx.getLevel(), ctx.getVersion()))
-                && node.getUnitsInstance() == null) {
+                  && node.getUnitsInstance() == null) {
                 return false;
               }
             }

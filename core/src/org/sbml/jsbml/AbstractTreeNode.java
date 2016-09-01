@@ -594,6 +594,25 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   public boolean isLeaf() {
     return getChildCount() == 0;
   }
+  
+  /**
+   * Returns true if JSBML is in the process of reading a model through the
+   * {@link SBMLReader}
+   * methods.
+   * 
+   * @return true if JSBML is in the process of reading a model
+   */
+  protected boolean isReadingInProgress() {
+    if (isSetUserObjects()
+      && userObjectKeySet().contains(JSBML.READING_IN_PROGRESS)) {
+      return true;
+    }
+
+    return false;
+  }
+
+
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isRoot()

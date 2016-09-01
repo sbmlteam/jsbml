@@ -4089,21 +4089,34 @@ public class ASTNode extends AbstractTreeNode {
    *             of a unit definition.
    */
   public void setUnits(String unitId) {
+    
     if (!isNumber()) {
-      throw new IllegalArgumentException(MessageFormat.format(
-        resourceBundle.getString("ASTNode.setUnits1"),
-        unitId));
+      if (!isReadingInProgress()) {
+        throw new IllegalArgumentException(MessageFormat.format(
+            resourceBundle.getString("ASTNode.setUnits1"),
+            unitId));
+      } else {
+        logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits1"), unitId));
+      }
     }
     if (parentSBMLObject != null) {
       if (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId)) {
-        throw new IllegalArgumentException(MessageFormat.format(
-          resourceBundle.getString("ASTNode.setUnits2"),
-          unitId));
+        if (!isReadingInProgress()) {
+          throw new IllegalArgumentException(MessageFormat.format(
+              resourceBundle.getString("ASTNode.setUnits2"),
+              unitId));
+        } else {
+          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits2"), unitId));          
+        }
       }
       if (parentSBMLObject.isSetLevel() && (parentSBMLObject.getLevel() < 3)) {
+        if (!isReadingInProgress()) {        
         throw new IllegalArgumentException(MessageFormat.format(
           resourceBundle.getString("ASTNode.setUnits3"),
           unitId));
+        } else {
+          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits3"), unitId));          
+        }        
       }
     }
     String oldValue = this.unitId;
