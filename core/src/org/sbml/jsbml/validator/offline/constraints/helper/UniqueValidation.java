@@ -29,7 +29,7 @@ public abstract class UniqueValidation<T, U> implements ValidationFunction<T>{
       if (id != null && !ids.add(id))
       {
         ids.clear();
-        return false;
+        return false; // TODO - how do we provides the id and the elements that had the duplicated id ?
       }
 
     }

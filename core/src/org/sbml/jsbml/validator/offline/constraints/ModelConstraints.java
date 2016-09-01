@@ -47,9 +47,9 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
-    // TODO Auto-generated method stub
-
+    int version, String attributeName) 
+  {
+    // TODO - there are probably some constraints to apply for the new L3 units attributes.
   }
 
 
@@ -72,7 +72,9 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case IDENTIFIER_CONSISTENCY:
-      addRangeToSet(set, CORE_10301, CORE_10304);
+      set.add(CORE_10301);
+      set.add(CORE_10302);
+      set.add(CORE_10304);
 
       break;
     case MATHML_CONSISTENCY:
@@ -108,7 +110,11 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<Model> func = null;
 
     switch (errorCode) {
-    case CORE_10301:
+    case CORE_10301: 
+      
+      // TODO - it would be good to be able to keep the created Hashset of ids so that we can use it
+      // for other constraints, like when we will need to validate L3 package ids that are in the SId id space.
+      
       func = new UniqueValidation<Model, String>() {
 
         @Override
@@ -219,43 +225,6 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public int getNumObjects(ValidationContext ctx, Model m) {
           return m.getNumUnitDefinitions();
-        }
-      };
-      break;
-
-    case CORE_10303:
-      func = new UniqueValidation<Model, String>() {
-
-        @Override
-        public int getNumObjects(ValidationContext ctx, Model m) {
-          int count = 0;
-
-          for (Reaction r : m.getListOfReactions()) {
-            if (r.isSetKineticLaw()) {
-              count += r.getKineticLaw().getNumLocalParameters();
-            }
-
-          }
-
-          return count;
-        }
-
-
-        @Override
-        public String getNextObject(ValidationContext ctx, Model m, int n) {
-          int offset = 0;
-
-          for (Reaction r : m.getListOfReactions()) {
-            int num = r.getKineticLaw().getNumLocalParameters();
-
-            if (n < offset + num) {
-              return r.getKineticLaw().getLocalParameter(n - offset).getId();
-            }
-
-            offset += num;
-          }
-
-          return null;
         }
       };
       break;
