@@ -384,8 +384,10 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
   public void setMath(ASTNode math) {
 
     if (!math.isLambda()) {
-      throw new IllegalArgumentException(MessageFormat.format(
-        ILLEGAL_ASTNODE_TYPE_MSG, ASTNode.Type.LAMBDA, math.getType()));
+      if (!isReadingInProgress()) {
+        throw new IllegalArgumentException(MessageFormat.format(
+            ILLEGAL_ASTNODE_TYPE_MSG, ASTNode.Type.LAMBDA, math.getType()));
+      }
     }
     super.setMath(math);
   }
