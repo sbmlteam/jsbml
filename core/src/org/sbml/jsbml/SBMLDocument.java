@@ -1302,7 +1302,7 @@ public class SBMLDocument extends AbstractSBase {
       } else if (attributeName.equals("version")) {
         setVersion(StringTools.parseSBMLInt(value));
       }
-      if (prefix != null && prefix.trim().length() > 0) {
+      else if (prefix != null && prefix.trim().length() > 0) {
         getSBMLDocumentAttributes().put(prefix + ':' + attributeName, value);
       } else {
         getSBMLDocumentAttributes().put(attributeName, value);

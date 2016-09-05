@@ -36,7 +36,8 @@ import org.sbml.jsbml.validator.OverdeterminationValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
-import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
  * @author Roman
@@ -62,6 +63,8 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       set.add(CORE_20203);
       set.add(CORE_20204);
 
+      set.add(CORE_20222);
+      
       if (level > 2 || (level == 2 && version > 1)) {
         set.add(CORE_20802);
         set.add(CORE_20803);
@@ -293,6 +296,10 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+    case CORE_20222:
+      func = new UnknownAttributeValidationFunction<Model>();
+      break;
+      
     case CORE_20203:
       func = new ValidationFunction<Model>() {
 

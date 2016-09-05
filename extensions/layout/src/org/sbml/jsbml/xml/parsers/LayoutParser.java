@@ -319,7 +319,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
    */
   @Override
-  public void processAttribute(String elementName, String attributeName,
+  public boolean processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject) {
     log4jLogger.debug("processAttribute\n");
@@ -353,6 +353,8 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
           + attributeName + " on the element " + elementName
           + " is not part of the SBML specifications");
     }
+    
+    return isAttributeRead;
   }
 
   /* (non-Javadoc)
