@@ -35,12 +35,12 @@ import org.sbml.jsbml.PropertyUndefinedError;
  */
 public class CSGPseudoPrimitive extends CSGNode{
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(CSGPseudoPrimitive.class);
-  
+
   /**
    * 
    */
@@ -205,19 +205,6 @@ public class CSGPseudoPrimitive extends CSGNode{
     return isAttributeRead;
   }
 
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CSGPseudoPrimitive [csgObjectRef=");
-    builder.append(csgObjectRef);
-    builder.append("]");
-    return builder.toString();
-  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
    */
@@ -225,6 +212,5 @@ public class CSGPseudoPrimitive extends CSGNode{
   public String getElementName() {
     return SpatialConstants.csgPseudoPrimitive;
   }
-
 
 }

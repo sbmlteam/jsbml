@@ -294,7 +294,7 @@ public class SBO {
     Object value = alias2sbo.get(alias);
     return value != null ? Integer.parseInt(value.toString()) : -1;
   }
-  
+
   /**
    * Returns an alias corresponding to the given SBO id.
    * 
@@ -324,23 +324,23 @@ public class SBO {
   public static int getAssociation() {
     return 177;
   }
-  
+
   /**
    * Describes an activator (ligand) which binds at a site other than the active site, resulting in a conformational change, enhancing the activity of the enzyme.
    * 
    * @return 636
    */
   public static int getAllostericActivator() {
-	return 636;
+    return 636;
   }
-  
+
   /**
    * An inhibitor whose binding to an enzyme results in a conformational change, resulting in a loss of enzymatic activity. This activity can be restored upon removal of the inhibitor.
    * 
    * @return 639
    */
   public static int getAllostericInhibitor() {
-	return 639;
+    return 639;
   }
 
   /**
@@ -362,7 +362,7 @@ public class SBO {
   public static int getCatalysis() {
     return 172;
   }
-  
+
   /**
    * An event involving one or more chemical entities that modifies the electrochemical structure of at least one of the participants.
    * 
@@ -425,11 +425,11 @@ public class SBO {
   public static int getComplex() {
     return convertAlias2SBO("COMPLEX");
   }
-  
+
   /**
    * Interaction between several biochemical entities that results in the formation of a non-covalent complex
    * Also known as non-covalent binding
-   *   
+   * 
    * @return 177
    */
   public static int getComplexAssembly() {
@@ -460,7 +460,7 @@ public class SBO {
   public static int getContinuousFramework() {
     return 62;
   }
-  
+
   /**
    * Biochemical reaction that results in the modification of some covalent bonds.
    * 
@@ -494,9 +494,9 @@ public class SBO {
     }
     return possibleEnzymes;
   }
-  
+
   /**
-   * Complete disappearance of a physical entity. 
+   * Complete disappearance of a physical entity.
    * 
    * @return 179
    */
@@ -517,28 +517,28 @@ public class SBO {
    * several independent biochemical entities.
    * 
    * @return 180
-   */ 
+   */
   public static int getDissociation() {
     return 180;
   }
-  
+
   /**
    * Polymer composed of nucleotides containing deoxyribose and linked by phosphodiester bonds.
    * 
    * @return 251
-   */ 
+   */
   public static int getDNA() {
     return 251;
   }
-  
+
   /**
-   * Fragment or region of a DNA macromolecule. 
+   * Fragment or region of a DNA macromolecule.
    * @return 634
-   */ 
+   */
   public static int getDNASegment() {
     return 634;
-  } 
-  
+  }
+
   /**
    * 
    * @return
@@ -558,6 +558,20 @@ public class SBO {
   }
 
   /**
+   * Change in enthalpy observed in the constituents of a thermodynamic system when undergoing
+   * a transformation or chemical reaction. This is the preferred way of expressing the energy
+   * changes to a system at constant pressure, since enthalpy itself cannot be directly measured.
+   * The enthalpy change is positive in endothermic reactions, negative in exothermic reactions,
+   * and is defined as the difference between the final and initial enthalpy of the system under
+   * study: ΔH = Hf - Hi. The standard unit of measure is J. Symbol: ΔH
+   * 
+   * @return 573
+   */
+  public static int getEnthalpyChange() {
+    return 573;
+  }
+
+  /**
    * 
    * @return
    */
@@ -566,11 +580,35 @@ public class SBO {
   }
 
   /**
+   * The increase or decrease of the entropy of a system. For values greater than zero, there is an
+   * implied increase in the disorder of a system, for example during a reaction, and decreased
+   * disorder where the values are less than zero. The entropy change of a process is defined as the
+   * initial system entropy value minus the final entropy value: DeltaS = Sf - Si. The standard unit
+   * of measure is J/K. symbol: DeltaS
+   * 
+   * @return 577
+   */
+  public static int getEntropyChange() {
+    return 577;
+  }
+
+  /**
    * 
    * @return
    */
   public static int getEnzymaticCatalysis() {
     return 460;
+  }
+
+  /**
+   * Quantity characterizing a chemical equilibrium in a chemical reaction, which is a useful tool to
+   * determine the concentration of various reactants or products in a system where chemical equilibrium
+   * occurs.
+   * 
+   * @return 281
+   */
+  public static int getEquilibriumConstant() {
+    return 281;
   }
 
   /**
@@ -599,7 +637,7 @@ public class SBO {
 
   /**
    * 
-   * @return 
+   * @return
    */
   public static int getFunctionalEntity() {
     return 241;
@@ -619,7 +657,7 @@ public class SBO {
   public static int getGene() {
     return convertAlias2SBO("GENE");
   }
-  
+
   /**
    * A phenomenon whereby an observed phenotype, qualitative or quantative, is not explainable by the simple additive effects of the individual gene pertubations alone. Genetic interaction between perturbed genes is usually expected to generate a 'defective' phenotype. The level of defectiveness is often used to sub-classify this phenomenon.
    * Biopax describes this as Genetic interactions between genes occur when two genetic perturbations (e.g. mutations) have a combined phenotypic effect not caused by either perturbation alone. A gene participant in a genetic interaction represents the gene that is perturbed. Genetic interactions are not physical interactions but logical (AND) relationships. Their physical manifestations can be complex and span an arbitarily long duration. Rationale: Currently, BioPAX provides a simple definition that can capture most genetic interactions described in the literature. In the future, if required, the definition can be extended to capture other logical relationships and different, participant specific phenotypes. Example: A synthetic lethal interaction occurs when cell growth is possible without either gene A OR B, but not without both gene A AND B. If you knock out A and B together, the cell will die.
@@ -627,7 +665,7 @@ public class SBO {
    */
   public static int getGeneticInteraction()
   {
-	  return 343;
+    return 343;
   }
 
   /**
@@ -644,6 +682,20 @@ public class SBO {
    */
   public static int getGeneric() {
     return convertAlias2SBO("GENERIC");
+  }
+
+  /**
+   * The increase or decrease of the Gibbs free energy of a system. During a reaction, this is equal
+   * to the change in enthalpy of the system minus the change in the product of the temperature times
+   * the entropy of the system: ΔG = ΔH - T ΔS. A negative value indicates that the reaction will be
+   * favoured and will release energy. The magnitude of the value indicates how far the reaction is
+   * from equilibrium, where there will be no free energy change. The standard unit of measure is kJ/mol.
+   * Symbol: ΔG.
+   * 
+   * @return 581
+   */
+  public static int getGibbsFreeEnergyChange() {
+    return 581;
   }
 
   /**
@@ -680,14 +732,14 @@ public class SBO {
   public static int getInteraction() {
     return 231;
   }
-  
+
   /**
    * An inhibitor which binds irreversibly with the enzyme such that it cannot be removed, and abolishes enzymatic function.
    * 
    * @return 638
    */
   public static int getIrreversibleInhibitor() {
-	return 638;
+    return 638;
   }
 
   /**
@@ -704,6 +756,19 @@ public class SBO {
    */
   public static int getIon() {
     return convertAlias2SBO("ION");
+  }
+
+  /**
+   * A combined (weighted) measure of the concentration of all electrolytes present in a
+   * solution. It is calculated as a half of the sum over all the ions in the solution
+   * multiplied by the square of individual ionic valencies. Monovalent electrolytes have
+   * a concentration equal to their ionic strength while multivalent electrolytes have
+   * greater ionic strength, directly proportional to ionic valency. Symbol: I
+   * 
+   * @return 623
+   */
+  public static int getIonicStrength() {
+    return 623;
   }
 
   /**
@@ -779,7 +844,7 @@ public class SBO {
   public static int getModifier() {
     return convertAlias2SBO("MODULATION");
   }
-  
+
   /**
    * A modifier whose activity is not known or has not been specified.
    * 
@@ -787,7 +852,7 @@ public class SBO {
    */
   public static int getModifierUnknownActivity()
   {
-	  return 596; 
+    return 596;
   }
 
   /**
@@ -798,7 +863,7 @@ public class SBO {
   public static int getModulation() {
     return 168;
   }
-  
+
   /**
    * Relationship between molecular entities, based on contacts, direct or indirect.
    * Biopax describes this as an interaction in which participants bind physically to each other, directly or indirectly through intermediary molecules. Rationale: There is a large body of interaction data, mostly produced by high throughput systems, that does not satisfy the level of detail required to model them with ComplexAssembly class. Specifically, what is lacking is the stoichiometric information and completeness (closed-world) of participants required to model them as chemical processes. Nevertheless interaction data is extremely useful and can be captured in BioPAX using this class. Usage: This class should be used by default for representing molecular interactions such as those defined by PSI-MI level 2.5. The participants in a molecular interaction should be listed in the PARTICIPANT slot. Note that this is one of the few cases in which the PARTICPANT slot should be directly populated with instances (see comments on the PARTICPANTS property in the interaction class description). If all participants are known with exact stoichiometry, ComplexAssembly class should be used instead. Example: Two proteins observed to interact in a yeast-two-hybrid experiment where there is not enough experimental evidence to suggest that the proteins are forming a complex by themselves without any indirect involvement of other proteins. This is the case for most large-scale yeast two-hybrid screens.
@@ -806,7 +871,7 @@ public class SBO {
    */
   public static int getMolecularInteraction()
   {
-	  return 344;
+    return 344;
   }
 
   /**
@@ -824,12 +889,12 @@ public class SBO {
    * @return 637
    */
   public static int getNonAllostericActivator() {
-	return 637;
+    return 637;
   }
-  
+
   /**
    * Substance that decreases the probability of a chemical reaction, without itself being consumed or transformed by the reaction, and without sterically hindering the interaction between reactants.
-   * Also known as Inhibition Non-Competitive Inhibitor or Inhibition Uncompetitive 
+   * Also known as Inhibition Non-Competitive Inhibitor or Inhibition Uncompetitive
    * @return 207
    */
   public static int getNonCompetitiveInhibitor() {
@@ -900,6 +965,21 @@ public class SBO {
   }
 
   /**
+   * "A measure of acidity and alkalinity of a solution that is a number on a scale on
+   * which a value of 7 represents neutrality and lower numbers indicate increasing acidity
+   * and higher numbers increasing alkalinity and on which each unit of change represents a
+   * tenfold change in acidity or alkalinity and that is the negative logarithm of the
+   * effective hydrogen-ion concentration or hydrogen-ion activity in gram equivalents per
+   * liter of the solution. (Definition from Merriam-Webster Dictionary)"
+   * 
+   * @return 304
+   */
+  public static int getpH()
+  {
+    return 304;
+  }
+
+  /**
    * 
    * @return
    */
@@ -945,16 +1025,16 @@ public class SBO {
     }
     return possibleEnzymes;
   }
-  
+
   /**
    * Substance that increases the probability of a chemical reaction without itself being consumed or transformed by the reaction. This effect is achieved by increasing the difference of free energy between the reactant(s) and the product(s)
    * Also known as Activation Allosteric
    * 
    * @return
    */
-  public static int getPotentiator() 
+  public static int getPotentiator()
   {
-	  return 21;
+    return 21;
   }
 
   /**
@@ -1036,9 +1116,9 @@ public class SBO {
    * @return 635
    */
   public static int getRNASegment() {
-	    return 635;
+    return 635;
   }
-  
+
   /**
    * Returns the root element of the SBO Ontology (SBO:0000000).
    * 
@@ -1050,18 +1130,18 @@ public class SBO {
 
   /**
    * Returns the side product SBO term
-   * @return the SBO term 604
+   * @return the SBO term 603
    */
   public static int getSideProduct() {
-    return 604;
+    return 603;
   }
 
   /**
    * Returns the side substrate SBO term
-   * @return the SBO term 603
+   * @return the SBO term 604
    */
   public static int getSideSubstrate() {
-    return 603;
+    return 604;
   }
 
   /**
@@ -1076,11 +1156,11 @@ public class SBO {
    * Simple, non-repetitive chemical entity. Also referred to as simple chemical
    * 
    * @return 247
-   */ 
+   */
   public static int getSmallMolecule() {
     return 247;
   }
-  
+
   /**
    * 
    * @return
@@ -1121,22 +1201,22 @@ public class SBO {
   public static int getStimulator() {
     return convertAlias2SBO("PHYSICAL_STIMULATION");
   }
-  
+
   /**
-   * A composite biochemical process through which a gene sequence is fully converted into 
-   * mature gene products. These gene products may include RNA species as well as proteins, 
-   * and the process encompasses all intermediate steps required to generate the active form 
+   * A composite biochemical process through which a gene sequence is fully converted into
+   * mature gene products. These gene products may include RNA species as well as proteins,
+   * and the process encompasses all intermediate steps required to generate the active form
    * of the gene product.
    * 
    * @return 589
    */
-  public static int getTemplateReaction() 
+  public static int getTemplateReaction()
   {
-	    return 589;
+    return 589;
   }
 
   /**
-   * A phenomenon whereby an observed phenotype, qualitative or quantative, is not explainable by the simple additive effects of the individual gene pertubations alone. Genetic interaction between perturbed genes is usually expected to generate a 'defective' phenotype. 
+   * A phenomenon whereby an observed phenotype, qualitative or quantative, is not explainable by the simple additive effects of the individual gene pertubations alone. Genetic interaction between perturbed genes is usually expected to generate a 'defective' phenotype.
    * The level of defectiveness is often used to sub-classify this phenomenon.
    * Also known as Genetic Interaction
    * Biopax describes this as  Regulation of an expression reaction by a controlling element such as a transcription factor or microRNA. Usage: To represent the binding of the transcription factor to a regulatory element in the TemplateReaction, create a complex of the transcription factor and the regulatory element and set that as the controller.
@@ -1146,7 +1226,7 @@ public class SBO {
   public static int getTemplateReactionRegulation() {
     return 343;
   }
-  
+
   /**
    * Gets the SBO term with the id 'sboTerm'.
    * 
@@ -1197,6 +1277,22 @@ public class SBO {
       }
     }
     return terms;
+  }
+
+  /**
+   * Temperature is the physical property of a system which underlies the common notions of
+   * "hot" and "cold"; the material with the higher temperature is said to be hotter.
+   * Temperature is a quantity related to the average kinetic energy of the particles in a
+   * substance. The 10th Conference Generale des Poids et Mesures decided to define the
+   * thermodynamic temperature scale by choosing the triple point of water as the
+   * fundamental fixed point, and assigning to it the temperature 273,16 degrees Kelvin,
+   * exactly (0.01 degree Celsius).
+   * 
+   * @return 147
+   */
+  public static int getThermodynamicTemperature()
+  {
+    return 147;
   }
 
   /**
@@ -1270,7 +1366,7 @@ public class SBO {
   public static int getTransport() {
     return convertAlias2SBO("TRANSPORT");
   }
-  
+
   /**
    * An event involving one or more physical entities that modifies the structure, location or free energy of at least one of the participants.
    * Also known as biochemical or transport reaction
@@ -1335,13 +1431,13 @@ public class SBO {
   public static int getTruncated() {
     return convertAlias2SBO("TRUNCATED");
   }
-  
+
   /**
    * An inhibitor which binds only to the complex formed between the enzyme and substrate (E-S complex).
    * @return 640
    */
   public static int getUncompetitiveInhibitor() {
-	return 640;
+    return 640;
   }
 
   /**
@@ -1360,6 +1456,42 @@ public class SBO {
    */
   public static int getUnknownTransition() {
     return convertAlias2SBO("UNKNOWN_TRANSITION");
+  }
+
+  /**
+   * This method will test if a term for the given SBO code number exists and
+   * returns {@code true} if this is the case. It is recommended to call this
+   * method before trying to retrieve an actual {@link Term} object, because
+   * this could result in a {@link NoSuchElementException}.
+   * 
+   * @param sboTerm
+   *        the SBO identifier for which a term is to be retrieved.
+   * @return {@code true} if an SBO {@link Term} object can be safely retrieved
+   *         for the given identifier.
+   * @see #hasTerm(String)
+   */
+  public boolean hasTerm(int sboTerm) {
+    return hasTerm(intToString(sboTerm));
+  }
+
+  /**
+   * This method will test if a term for the given SBO code number exists and
+   * returns {@code true} if this is the case. It is recommended to call this
+   * method before trying to retrieve an actual {@link Term} object, because
+   * this could result in a {@link NoSuchElementException}.
+   * 
+   * @param sboTerm
+   *        the SBO identifier for which a term is to be retrieved.
+   * @return {@code true} if an SBO {@link Term} object can be safely retrieved
+   *         for the given identifier.
+   * @see #hasTerm(int)
+   */
+  public boolean hasTerm(String sboTerm) {
+    try {
+      return sbo.getTerm(sboTerm) != null;
+    } catch (NoSuchElementException exc) {
+      return false;
+    }
   }
 
   /**
@@ -2186,7 +2318,7 @@ public class SBO {
       }
     }
     System.out.println("\nThere is " + i + " terms in the SBO ontology.");
-    
+
     System.out.println("\nGet term by id = " + Term.printTerm(getTerm("SBO:0000620")));
   }
 }

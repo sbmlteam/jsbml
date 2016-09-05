@@ -199,17 +199,8 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
 
 
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
-  @Override
-  public String toString() {
-    return "SpeciesTypeComponentIndex [id = " + getId()
-        + ", component = " + component
-        + ", identifyingParent = " + identifyingParent
-        + "]";
-  }
-
-
   @Override
   public boolean isIdMandatory() {
     return true;

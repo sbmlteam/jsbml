@@ -57,26 +57,6 @@ public class CubicBezier extends LineSegment {
    */
   private Point basePoint2;
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [");
-    builder.append("start=");
-    builder.append(start);
-    builder.append(", basePoint1=");
-    builder.append(basePoint1);
-    builder.append(", basePoint2=");
-    builder.append(basePoint2);
-    builder.append(", end=");
-    builder.append(end);
-    builder.append("]");
-    return builder.toString();
-  }
-
   /**
    * 
    */

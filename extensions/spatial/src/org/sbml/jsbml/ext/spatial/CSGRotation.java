@@ -37,12 +37,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CSGRotation extends CSGTransformation {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(CSGRotation.class);
-  
+
   /**
    * 
    */
@@ -88,7 +88,7 @@ public class CSGRotation extends CSGTransformation {
     }
     if (csgt.isSetRotateAngleInRadians()) {
       setRotateAngleInRadians(csgt.getRotateAngleInRadians());
-    }    
+    }
   }
 
   /**
@@ -437,25 +437,6 @@ public class CSGRotation extends CSGTransformation {
     return isAttributeRead;
   }
 
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CSGRotation [rotateAxisX=");
-    builder.append(rotateAxisX);
-    builder.append(", rotateAxisY=");
-    builder.append(rotateAxisY);
-    builder.append(", rotateAxisZ=");
-    builder.append(rotateAxisZ);
-    builder.append(", rotateAngleInRadians=");
-    builder.append(rotateAngleInRadians);
-    builder.append("]");
-    return builder.toString();
-  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
    */
@@ -464,6 +445,4 @@ public class CSGRotation extends CSGTransformation {
     return SpatialConstants.csgRotation;
   }
 
-
 }
-

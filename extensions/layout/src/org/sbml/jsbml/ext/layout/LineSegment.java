@@ -317,18 +317,4 @@ public class LineSegment extends CurveSegment {
     registerChild(this.start);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [end=");
-    builder.append(end);
-    builder.append(", start=");
-    builder.append(start);
-    builder.append("]");
-    return builder.toString();
-  }
 }

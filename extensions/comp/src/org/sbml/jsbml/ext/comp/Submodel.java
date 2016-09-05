@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -31,8 +29,6 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.filters.NameFilter;
@@ -454,7 +450,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfDeletions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfDeletions.setPackageName(null);
-      listOfDeletions.setPackageName(CompConstants.shortLabel);      
+      listOfDeletions.setPackageName(CompConstants.shortLabel);
       listOfDeletions.setSBaseListType(ListOf.Type.other);
       registerChild(listOfDeletions);
     }
@@ -480,7 +476,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfDeletions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfDeletions.setPackageName(null);
-      listOfDeletions.setPackageName(CompConstants.shortLabel);      
+      listOfDeletions.setPackageName(CompConstants.shortLabel);
     }
 
     registerChild(this.listOfDeletions);

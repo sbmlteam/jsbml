@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -42,12 +40,12 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class Geometry extends AbstractSpatialNamedSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(Geometry.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -105,10 +103,10 @@ public class Geometry extends AbstractSpatialNamedSBase {
     }
     if (sb.isSetListOfDomainTypes()) {
       setListOfDomainTypes(sb.getListOfDomainTypes().clone());
-    }        
+    }
     if (sb.isSetListOfDomains()) {
       setListOfDomains(sb.getListOfDomains().clone());
-    }    
+    }
     if (sb.isSetListOfAdjacentDomains()) {
       setListOfAdjacentDomains(sb.getListOfAdjacentDomains().clone());
     }
@@ -120,7 +118,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
     }
     if (sb.isSetCoordinateSystem()) {
       setCoordinateSystem(sb.getCoordinateSystem());
-    }    
+    }
   }
 
   /**
@@ -286,7 +284,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public void setListOfSampledFields(ListOf<SampledField> listOfSampledFields) {
     unsetListOfSampledFields();
     this.listOfSampledFields = listOfSampledFields;
-    
+
     if (listOfSampledFields != null) {
       listOfSampledFields.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -429,7 +427,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public void setListOfGeometryDefinitions(ListOf<GeometryDefinition> listOfGeometryDefinitions) {
     unsetListOfGeometryDefinitions();
     this.listOfGeometryDefinitions = listOfGeometryDefinitions;
-    
+
     if (listOfGeometryDefinitions != null) {
       listOfGeometryDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -640,7 +638,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public void setListOfAdjacentDomains(ListOf<AdjacentDomains> listOfAdjacentDomains) {
     unsetListOfAdjacentDomains();
     this.listOfAdjacentDomains = listOfAdjacentDomains;
-    
+
     if (listOfAdjacentDomains != null) {
       listOfAdjacentDomains.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -783,7 +781,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public void setListOfDomainTypes(ListOf<DomainType> listOfDomainTypes) {
     unsetListOfDomainTypes();
     this.listOfDomainTypes = listOfDomainTypes;
-    
+
     if (listOfDomainTypes != null) {
       listOfDomainTypes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -925,7 +923,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public void setListOfDomains(ListOf<Domain> listOfDomains) {
     unsetListOfDomains();
     this.listOfDomains = listOfDomains;
-    
+
     if (listOfDomains != null) {
       listOfDomains.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -1067,7 +1065,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public void setListOfCoordinateComponents(ListOf<CoordinateComponent> listOfCoordinateComponents) {
     unsetListOfCoordinateComponents();
     this.listOfCoordinateComponents = listOfCoordinateComponents;
-    
+
     if (listOfCoordinateComponents != null) {
       listOfCoordinateComponents.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -1167,17 +1165,8 @@ public class Geometry extends AbstractSpatialNamedSBase {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("Geometry [coordinateSystem=");
-    builder.append(coordinateSystem);
-    builder.append("]");
-    return builder.toString();
-  }
-
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
@@ -1226,16 +1215,16 @@ public class Geometry extends AbstractSpatialNamedSBase {
     }
     if (isSetListOfCoordinateComponents()) {
       hashCode += prime * listOfCoordinateComponents.hashCode();
-    }    
+    }
     if (isSetListOfDomains()) {
       hashCode += prime * listOfDomains.hashCode();
-    }    
+    }
     if (isSetListOfDomainTypes()) {
       hashCode += prime * listOfDomainTypes.hashCode();
-    }    
+    }
     if (isSetListOfGeometryDefinitions()) {
       hashCode += prime * listOfGeometryDefinitions.hashCode();
-    }    
+    }
     if (isSetListOfSampledFields()) {
       hashCode += prime * listOfSampledFields.hashCode();
     }

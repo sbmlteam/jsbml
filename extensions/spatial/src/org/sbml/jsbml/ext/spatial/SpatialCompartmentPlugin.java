@@ -203,7 +203,10 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
     throw new IndexOutOfBoundsException(MessageFormat.format(
       resourceBundle.getString("IndexExceedsBoundsException"), index,pos));
   }
-  
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 1259;
@@ -212,18 +215,6 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
       hashCode += prime * getCompartmentMapping().hashCode();
     }
     return hashCode;
-  }
-  
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("SpatialCompartmentPlugin [compartmentMapping=");
-    builder.append(compartmentMapping);
-    builder.append("]");
-    return builder.toString();
   }
 
 }

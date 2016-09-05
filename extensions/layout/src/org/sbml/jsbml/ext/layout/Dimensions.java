@@ -355,12 +355,4 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
     return attributes;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return super.toString() + " [width=" + width + ", height=" + height + ", depth=" + depth + ']';
-  }
-
 }

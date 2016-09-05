@@ -245,17 +245,6 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
   }
 
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "Style [group=" + group + ", roleList=" + Arrays.toString(roleList)
-        + ", typeList=" + Arrays.toString(typeList) + "]";
-  }
-
-
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */

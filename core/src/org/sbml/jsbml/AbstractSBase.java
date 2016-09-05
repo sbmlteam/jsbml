@@ -65,31 +65,31 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @author Nicolas Rodrigues
    */
   private static enum NOTES_TYPE {
-                                  /**
-                                   * 
-                                   */
-                                  NotesAny,
-                                  /**
-                                   * 
-                                   */
-                                  NotesBody,
-                                  /**
-                                   * 
-                                   */
-                                  NotesHTML
+    /**
+     * 
+     */
+    NotesAny,
+    /**
+     * 
+     */
+    NotesBody,
+    /**
+     * 
+     */
+    NotesHTML
   }
 
   /**
    * A logger for this class.
    */
   private static final transient Logger logger             =
-    Logger.getLogger(AbstractSBase.class);
+      Logger.getLogger(AbstractSBase.class);
 
   /**
    * Generated serial version identifier.
    */
   private static final long             serialVersionUID   =
-    8781459818293592636L;
+      8781459818293592636L;
 
   /**
    * 
@@ -100,7 +100,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * Shared context to perform attribute validation.
    */
   private static ValidationContext      attributeValidator =
-    new ValidationContext(1, 1);
+      new ValidationContext(1, 1);
 
 
   /**
@@ -374,7 +374,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     // use always the package name in the map
     PackageParser packageParser =
-      ParserManager.getManager().getPackageParser(nameOrUri);
+        ParserManager.getManager().getPackageParser(nameOrUri);
 
     if (packageParser != null) {
 
@@ -388,7 +388,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       // Making sure that the correct extendedSBase is set in the SBasePlugin
       // And that all the ids and metaids are registered
       if ((sbasePlugin.getExtendedSBase() == null)
-        || (sbasePlugin.getExtendedSBase() != this)) {
+          || (sbasePlugin.getExtendedSBase() != this)) {
         ((AbstractSBasePlugin) sbasePlugin).setExtendedSBase(this);
       }
 
@@ -466,7 +466,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public void appendNotes(String notes) throws XMLStreamException {
     XMLNode addedNotes =
-      XMLNode.convertStringToXMLNode(StringTools.toXMLNotesString(notes));
+        XMLNode.convertStringToXMLNode(StringTools.toXMLNotesString(notes));
     if (isSetNotes()) {
       XMLNode oldNotes = notesXMLNode.clone();
       appendNotes(addedNotes);
@@ -512,7 +512,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     NOTES_TYPE addedNotesType = NOTES_TYPE.NotesAny;
     XMLNode addedNotes =
-      new XMLNode(new XMLTriple("notes", "", ""), new XMLAttributes());
+        new XMLNode(new XMLTriple("notes", "", ""), new XMLAttributes());
 
     // ------------------------------------------------------------
     //
@@ -690,7 +690,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           }
           // we could add the content of the 'head' tag as well ?
         } else if ((addedNotesType == NOTES_TYPE.NotesBody)
-          || (addedNotesType == NOTES_TYPE.NotesAny)) {
+            || (addedNotesType == NOTES_TYPE.NotesAny)) {
           // adds the given body or other tag (permitted in the body) to the
           // current
           // html tag
@@ -718,7 +718,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           notesXMLNode.removeChild(firstElementIndex);
           notesXMLNode.insertChild(firstElementIndex, addedNotes);
         } else if ((addedNotesType == NOTES_TYPE.NotesBody)
-          || (addedNotesType == NOTES_TYPE.NotesAny)) {
+            || (addedNotesType == NOTES_TYPE.NotesAny)) {
           // adds the given body or other tag (permitted in the body) to the
           // current
           // body tag
@@ -791,17 +791,18 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   protected boolean checkAttribute(String attributeName) {
 
     if (!isReadingInProgress()) {
-      AbstractSBase.attributeValidator.setLevelAndVersion(this.getLevel(),
-        this.getVersion());
+      AbstractSBase.attributeValidator.setLevelAndVersion(getLevel(),
+        getVersion());
 
       Class<?> clazz = this.getClass();
       attributeValidator.loadConstraintsForAttribute(clazz, attributeName);
 
       boolean valid = attributeValidator.validate(this);
 
-      if (!valid) {
-        logger.error("Invalid value for attribute " + attributeName + " on "
-          + clazz.getSimpleName() + " with id = " + this.metaId + "!");
+      if (!valid)
+      {
+        logger.error("Invalid value for attribute " + attributeName
+          + " on " + clazz.getSimpleName() + " with id = " + metaId + "!");
       }
 
       return valid;
@@ -833,9 +834,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return true;
     }
     if (isSetLevelAndVersion()
-      && (!sbase.isSetLevelAndVersion() || (sbase.isSetLevel()
-        && (sbase.getLevel() == getLevel()) && !sbase.isSetVersion()))
-      && (sbase instanceof AbstractSBase)) {
+        && (!sbase.isSetLevelAndVersion() || (sbase.isSetLevel()
+            && (sbase.getLevel() == getLevel()) && !sbase.isSetVersion()))
+        && (sbase instanceof AbstractSBase)) {
       ((AbstractSBase) sbase).setLevelAndVersion(getLevel(), getVersion(),
         true);
       return true;
@@ -881,8 +882,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
 
     if (expectedPackageVersion == sbase.getPackageVersion()
-      && expectedPackageNamespace != null
-      && expectedPackageNamespace.equals(sbase.getNamespace())) {
+        && expectedPackageNamespace != null
+        && expectedPackageNamespace.equals(sbase.getNamespace())) {
       return true;
     } else {
       return ((AbstractSBase) sbase).setPackageNamespaceAndVersion(packageLabel,
@@ -915,7 +916,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     if (doc != null) {
       String packageNamespace =
-        doc.getEnabledPackageNamespace(sbasePlugin.getPackageName());
+          doc.getEnabledPackageNamespace(sbasePlugin.getPackageName());
 
       if (packageNamespace == null) {
         return false;
@@ -924,8 +925,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       int packageVersion = PackageUtil.extractPackageVersion(packageNamespace);
 
       if (packageVersion == sbasePlugin.getPackageVersion()
-        && packageNamespace != null
-        && packageNamespace.equals(sbasePlugin.getElementNamespace())) {
+          && packageNamespace != null
+          && packageNamespace.equals(sbasePlugin.getElementNamespace())) {
         return true;
       } else {
         sbasePlugin.setPackageVersion(packageVersion);
@@ -938,8 +939,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           TreeNode child = children.nextElement();
 
           if (child instanceof AbstractSBase
-            && ((AbstractSBase) child).getPackageName()
-                                      .equals(sbasePlugin.getPackageName())) {
+              && ((AbstractSBase) child).getPackageName()
+              .equals(sbasePlugin.getPackageName())) {
             success &= ((AbstractSBase) child).setPackageNamespaceAndVersion(
               sbasePlugin.getPackageName(), packageNamespace, packageVersion);
           }
@@ -983,7 +984,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public SBasePlugin createPlugin(String nameOrUri) {
     // use always the package name in the map
     PackageParser packageParser =
-      ParserManager.getManager().getPackageParser(nameOrUri);
+        ParserManager.getManager().getPackageParser(nameOrUri);
 
     if (packageParser != null) {
       SBasePlugin sbasePlugin = packageParser.createPluginFor(this);
@@ -1074,25 +1075,25 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
 
       equals &=
-        getNamespace() != null ? getNamespace().equals(sbase.getNamespace())
-          : sbase.getNamespace() == null;
+          getNamespace() != null ? getNamespace().equals(sbase.getNamespace())
+            : sbase.getNamespace() == null;
 
-      if (declaredNamespaces == null) {
-        if (sbase.getDeclaredNamespaces() != null) {
-          return false;
-        }
-      } else if (!declaredNamespaces.equals(sbase.getDeclaredNamespaces())) {
-        return false;
-      }
+          if (declaredNamespaces == null) {
+            if (sbase.getDeclaredNamespaces() != null) {
+              return false;
+            }
+          } else if (!declaredNamespaces.equals(sbase.getDeclaredNamespaces())) {
+            return false;
+          }
 
-      /*
-       * Note: Listeners, ignoredExtensions and ignoredXMLElements are not
-       * included in the equals check.
-       */
+          /*
+           * Note: Listeners, ignoredExtensions and ignoredXMLElements are not
+           * included in the equals check.
+           */
 
-      // Notes, Annotation and extension SBasePlugins are tested in
-      // AbstractTreeNode.equals()
-      // as they are part of the children returned by #getChildAt(int i)
+          // Notes, Annotation and extension SBasePlugins are tested in
+          // AbstractTreeNode.equals()
+          // as they are part of the children returned by #getChildAt(int i)
     }
 
     return equals;
@@ -1214,7 +1215,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
 
     if ((oldValue != null && oldValue instanceof SBase)
-      && !propertyName.equals(TreeNodeChangeEvent.parentSBMLObject)) {
+        && !propertyName.equals(TreeNodeChangeEvent.parentSBMLObject)) {
       unregisterChild((SBase) oldValue);
     }
 
@@ -1317,9 +1318,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       ? MessageFormat.format(
         resourceBundle.getString("IndexExceedsBoundsException2"),
         getElementName())
-      : MessageFormat.format(
-        resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
-        Math.min(pos, 0)));
+        : MessageFormat.format(
+          resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
+          Math.min(pos, 0)));
   }
 
 
@@ -1410,7 +1411,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public SBasePlugin getExtension(String nameOrUri) {
     // use always the package name in the map
     PackageParser packageParser =
-      ParserManager.getManager().getPackageParser(nameOrUri);
+        ParserManager.getManager().getPackageParser(nameOrUri);
 
     if (packageParser != null) {
       return extensions.get(packageParser.getPackageName());
@@ -1501,7 +1502,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         // System.out.println("DEBUG - getIdManager plugins found");
 
         if ((plugin instanceof IdManager)
-          && (((IdManager) plugin).accept(sbase))) {
+            && (((IdManager) plugin).accept(sbase))) {
           return (IdManager) plugin;
         }
       }
@@ -1511,7 +1512,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return (IdManager) this;
     }
     return getParentSBMLObject() != null
-      ? ((AbstractSBase) getParentSBMLObject()).getIdManager(sbase) : null;
+        ? ((AbstractSBase) getParentSBMLObject()).getIdManager(sbase) : null;
   }
 
 
@@ -1689,7 +1690,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     // use always the package name in the map
     PackageParser packageParser =
-      ParserManager.getManager().getPackageParser(nameOrUri);
+        ParserManager.getManager().getPackageParser(nameOrUri);
 
     if (packageParser != null) {
       SBasePlugin plugin = extensions.get(packageParser.getPackageName());
@@ -1818,7 +1819,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         }
       }
       if (getAnnotation().isSetNonRDFannotation()
-        && !getAnnotation().isSetRDFannotation()) {
+          && !getAnnotation().isSetRDFannotation()) {
         return true;
       }
       return false;
@@ -1988,7 +1989,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     // use always the package name in the map
     PackageParser packageParser =
-      ParserManager.getManager().getPackageParser(nameOrUri);
+        ParserManager.getManager().getPackageParser(nameOrUri);
 
     if (packageParser != null) {
       return extensions.get(packageParser.getPackageName()) != null;
@@ -2041,7 +2042,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
          * Do the same for all identifiers under the old value.
          */
         IdManager idManager =
-          ((AbstractSBase) oldChild).getIdManager((NamedSBase) oldChild);
+            ((AbstractSBase) oldChild).getIdManager((NamedSBase) oldChild);
         if (idManager != null) {
           idManager.unregister((NamedSBase) oldChild);
           NamedSBase newNsb = (NamedSBase) newChild;
@@ -2093,7 +2094,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
 
     if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)
-      && checkAndSetPackageNamespaceAndVersion(sbase)) {
+        && checkAndSetPackageNamespaceAndVersion(sbase)) {
       SBMLDocument doc = getSBMLDocument();
       if (doc != null) {
         /*
@@ -2115,7 +2116,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
        * subtree.
        */
       List<TreeNodeChangeListener> listeners =
-        sbase.getListOfTreeNodeChangeListeners();
+          sbase.getListOfTreeNodeChangeListeners();
       sbase.removeAllTreeNodeChangeListeners();
 
       /*
@@ -2316,7 +2317,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         child = children.nextElement();
         if (child instanceof AbstractSBase) {
           success &=
-            ((AbstractSBase) child).setLevelAndVersion(level, version, strict);
+              ((AbstractSBase) child).setLevelAndVersion(level, version, strict);
         }
       }
       return success;
@@ -2350,7 +2351,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         TreeNode child = children.nextElement();
 
         if (child instanceof AbstractSBase
-          && ((AbstractSBase) child).getPackageName().equals(packageLabel)) {
+            && ((AbstractSBase) child).getPackageName().equals(packageLabel)) {
           success &= ((AbstractSBase) child).setPackageNamespaceAndVersion(
             packageLabel, namespace, packageVersion);
         }
@@ -2431,7 +2432,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   public void setNamespace(String namespace) {
     if ((elementNamespace != null) && (namespace != null)
-      && (!elementNamespace.equals(namespace))) { // TODO - test if
+        && (!elementNamespace.equals(namespace))) { // TODO - test if
       // elementNamespace or
       // namespace is empty before
       // throwing the error !
@@ -2499,7 +2500,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
 
       if (packageVersion != -1 && parentPackageVersion != -1
-        && packageVersion != parentPackageVersion) {
+          && packageVersion != parentPackageVersion) {
         if (parentPlugin != null) {
           throw new LevelVersionError(parentPlugin, this);
         } else {
@@ -2617,17 +2618,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     firePropertyChange(TreeNodeChangeEvent.version, oldVersion, version);
   }
 
-
-  /*
-   * (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public abstract String toString();
-
-
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#unregisterChild(org.sbml.jsbml.SBase)
    */
   @Override
@@ -2730,12 +2721,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     // use always the package name in the map
     PackageParser packageParser =
-      ParserManager.getManager().getPackageParser(nameOrUri);
+        ParserManager.getManager().getPackageParser(nameOrUri);
 
     if (packageParser != null) {
 
       SBasePlugin sbasePlugin =
-        extensions.remove(packageParser.getPackageName());
+          extensions.remove(packageParser.getPackageName());
       firePropertyChange(TreeNodeChangeEvent.extension, sbasePlugin, null);
       return;
     }
@@ -2832,7 +2823,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
        * there is an annotation present.
        */
       if (isSetAnnotation() && getAnnotation().isSetRDFannotation()
-        && !isSetMetaId()) {
+          && !isSetMetaId()) {
         SBMLDocument doc = getSBMLDocument();
         if (doc != null) {
           setMetaId(doc.nextMetaId());

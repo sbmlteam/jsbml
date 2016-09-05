@@ -43,17 +43,17 @@ import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
  * @date May 30, 2014
  */
 public class ASTPiecewiseFunctionNode extends ASTFunction {
-  
+
   /**
    * 
    */
   private static final long serialVersionUID = -8915335867694118907L;
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(ASTPiecewiseFunctionNode.class);
-  
+
   /**
    * Creates a new {@link ASTPiecewiseFunctionNode}.
    */
@@ -61,7 +61,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     super();
     setType(Type.FUNCTION_PIECEWISE);
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTPiecewiseFunctionNode}.
    * 
@@ -71,7 +71,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   public ASTPiecewiseFunctionNode(ASTPiecewiseFunctionNode node) {
     super(node);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -80,7 +80,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   public ASTPiecewiseFunctionNode clone() {
     return new ASTPiecewiseFunctionNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -91,7 +91,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     value.setUIFlag(getChildCount() <= 1);
     return processValue(value);
   }
-  
+
   /**
    * Get the number of piece elements in this {@link ASTPiecewiseFunctionNode}
    * 
@@ -107,7 +107,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     }
     return i;
   }
-  
+
   /**
    * Returns True iff piecewise element contains an otherwise element
    * 
@@ -126,7 +126,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     }
     return false;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */
@@ -134,7 +134,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   public boolean isAllowableType(Type type) {
     return type == Type.FUNCTION_PIECEWISE;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
    */
@@ -142,7 +142,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   public String toFormula() throws SBMLException {
     return compile(new FormulaCompiler()).toString();
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#toLaTeX()
    */
@@ -150,7 +150,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   public String toLaTeX() throws SBMLException {
     return compile(new LaTeXCompiler()).toString();
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#toMathML()
    */
@@ -163,26 +163,5 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
       return null;
     }
   }
-  
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(isSetType() ? type : "null");
-    builder.append(", id=");
-    builder.append(isSetId() ? id : "null");
-    builder.append(", style=");
-    builder.append(isSetStyle() ? style : "null");
-    builder.append(", class=");
-    builder.append(isSetMathMLClass() ? mathMLClass : "null");
-    builder.append("]");
-    return builder.toString();
-  }
-  
+
 }

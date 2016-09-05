@@ -64,7 +64,7 @@ public class GradientStop extends AbstractSBase {
   public GradientStop(Double offset, String stopColor) {
     super();
     initDefaults();
-    
+
     this.offset = offset;
     this.stopColor = stopColor;
   }
@@ -282,16 +282,6 @@ public class GradientStop extends AbstractSBase {
     }
     return false;
   }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
-   */
-  @Override
-  public String toString() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()

@@ -35,12 +35,12 @@ import org.sbml.jsbml.PropertyUndefinedError;
  */
 public class CSGPrimitive extends CSGNode{
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(CSGPrimitive.class);
-  
+
   /**
    * 
    */
@@ -180,7 +180,9 @@ public class CSGPrimitive extends CSGNode{
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -190,7 +192,9 @@ public class CSGPrimitive extends CSGNode{
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -212,19 +216,6 @@ public class CSGPrimitive extends CSGNode{
     return isAttributeRead;
   }
 
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CSGPrimitive [primitiveType=");
-    builder.append(primitiveType);
-    builder.append("]");
-    return builder.toString();
-  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
    */
@@ -233,6 +224,4 @@ public class CSGPrimitive extends CSGNode{
     return SpatialConstants.csgPrimitive;
   }
 
-
 }
-

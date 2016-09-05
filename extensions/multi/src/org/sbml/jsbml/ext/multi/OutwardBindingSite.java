@@ -255,7 +255,9 @@ public class OutwardBindingSite extends AbstractSBase {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -270,7 +272,9 @@ public class OutwardBindingSite extends AbstractSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
@@ -294,15 +298,6 @@ public class OutwardBindingSite extends AbstractSBase {
       }
     }
     return isAttributeRead;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "OutwardBindingSite [bindingStatus=" + bindingStatus
-        + ", component=" + component + "]";
   }
 
 }

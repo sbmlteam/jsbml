@@ -42,12 +42,12 @@ import org.sbml.jsbml.xml.XMLNode;
  */
 public class SampledField extends AbstractSpatialNamedSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(SampledField.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -84,7 +84,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
   /**
    * 
    */
-  private DataKind dataType;  
+  private DataKind dataType;
   /**
    * 
    */
@@ -119,10 +119,10 @@ public class SampledField extends AbstractSpatialNamedSBase {
     }
     if (sf.isSetSamples()) {
       setSamples(sf.getSamples());
-    }        
+    }
     if (sf.isSetSamplesLength()) {
       setSamplesLength(sf.getSamplesLength());
-    }    
+    }
     if (sf.isSetInterpolation()) {
       setInterpolation(sf.getInterpolation());
     }
@@ -183,7 +183,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
       equal &= sf.isSetSamplesLength() == isSetSamplesLength();
       if (equal && isSetSamplesLength()) {
         equal &= sf.getSamplesLength() == getSamplesLength();
-      }      
+      }
       equal &= sf.isSetSamples() == isSetSamples();
       if (equal && isSetSamples()) {
         equal &= sf.getSamples() == getSamples();
@@ -507,7 +507,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
     return false;
   }
 
-  
+
   /**
    * Returns the value of {@link #samples}.
    *
@@ -528,7 +528,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @return whether {@link #samples} is set.
    */
   public boolean isSetSamples() {
-    return this.samples != null;
+    return samples != null;
   }
 
 
@@ -551,10 +551,10 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetSamples() {
     if (isSetSamples()) {
-      String oldSamples = this.samples;
-      this.samples = null;
-      this.samplesLength = null;
-      firePropertyChange(SpatialConstants.samples, oldSamples, this.samples);
+      String oldSamples = samples;
+      samples = null;
+      samplesLength = null;
+      firePropertyChange(SpatialConstants.samples, oldSamples, samples);
       return true;
     }
     return false;
@@ -567,76 +567,76 @@ public class SampledField extends AbstractSpatialNamedSBase {
   public boolean append(String data) {
     if (data == null) { return false; }
     if (isSetSamples()) {
-      String oldSamples = this.samples;
-      this.samples = this.samples + data;
-      firePropertyChange(SpatialConstants.samples, oldSamples, this.samples);
+      String oldSamples = samples;
+      samples = samples + data;
+      firePropertyChange(SpatialConstants.samples, oldSamples, samples);
     } else {
       setSamples(data);
     }
     return true;
   }
-  
-/**
- * Returns the value of {@link #samplesLength}.
- *
- * @return the value of {@link #samplesLength}.
- */
-public int getSamplesLength() {
-  if (isSetSamplesLength()) {
-    return samplesLength;
+
+  /**
+   * Returns the value of {@link #samplesLength}.
+   *
+   * @return the value of {@link #samplesLength}.
+   */
+  public int getSamplesLength() {
+    if (isSetSamplesLength()) {
+      return samplesLength;
+    }
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(SpatialConstants.samplesLength, this);
   }
-  // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
-  throw new PropertyUndefinedError(SpatialConstants.samplesLength, this);
-}
 
 
-/**
- * Returns whether {@link #samplesLength} is set.
- *
- * @return whether {@link #samplesLength} is set.
- */
-public boolean isSetSamplesLength() {
-  return this.samplesLength != null;
-}
+  /**
+   * Returns whether {@link #samplesLength} is set.
+   *
+   * @return whether {@link #samplesLength} is set.
+   */
+  public boolean isSetSamplesLength() {
+    return samplesLength != null;
+  }
 
-/**
- * Sets the value of samplesLength
- *
- * @param samplesLength the value of samplesLength to be set.
- */
-public void setSamplesLength(String samplesLength) {
-  Integer oldSamplesLength = this.samplesLength;
-  this.samplesLength = StringTools.parseSBMLInt(samplesLength);
-  firePropertyChange(SpatialConstants.samplesLength, oldSamplesLength, this.samplesLength);
-}
-
-/**
- * Sets the value of samplesLength
- *
- * @param samplesLength the value of samplesLength to be set.
- */
-public void setSamplesLength(int samplesLength) {
-  Integer oldSamplesLength = this.samplesLength;
-  this.samplesLength = samplesLength;
-  firePropertyChange(SpatialConstants.samplesLength, oldSamplesLength, this.samplesLength);
-}
-
-
-/**
- * Unsets the variable samplesLength.
- *
- * @return {@code true} if samplesLength was set before, otherwise {@code false}.
- */
-public boolean unsetSamplesLength() {
-  if (isSetSamplesLength()) {
+  /**
+   * Sets the value of samplesLength
+   *
+   * @param samplesLength the value of samplesLength to be set.
+   */
+  public void setSamplesLength(String samplesLength) {
     Integer oldSamplesLength = this.samplesLength;
-    this.samplesLength = null;
+    this.samplesLength = StringTools.parseSBMLInt(samplesLength);
     firePropertyChange(SpatialConstants.samplesLength, oldSamplesLength, this.samplesLength);
-    return true;
   }
-  return false;
-}
-  
+
+  /**
+   * Sets the value of samplesLength
+   *
+   * @param samplesLength the value of samplesLength to be set.
+   */
+  public void setSamplesLength(int samplesLength) {
+    Integer oldSamplesLength = this.samplesLength;
+    this.samplesLength = samplesLength;
+    firePropertyChange(SpatialConstants.samplesLength, oldSamplesLength, this.samplesLength);
+  }
+
+
+  /**
+   * Unsets the variable samplesLength.
+   *
+   * @return {@code true} if samplesLength was set before, otherwise {@code false}.
+   */
+  public boolean unsetSamplesLength() {
+    if (isSetSamplesLength()) {
+      Integer oldSamplesLength = samplesLength;
+      samplesLength = null;
+      firePropertyChange(SpatialConstants.samplesLength, oldSamplesLength, samplesLength);
+      return true;
+    }
+    return false;
+  }
+
   /**
    * Returns the value of data
    *
@@ -773,11 +773,11 @@ public boolean unsetSamplesLength() {
     if (isSetCompression()) {
       hashCode += prime * getCompression().hashCode();
     }
-    
+
     if (isSetSamples()) {
       hashCode += prime * getSamples().hashCode();
     }
-    
+
     if (isSetSamplesLength()) {
       hashCode += prime * getSamplesLength();
     }
@@ -819,7 +819,7 @@ public boolean unsetSamplesLength() {
     if (isSetSamplesLength()) {
       attributes.put(SpatialConstants.shortLabel + ":samplesLength",
         String.valueOf(getSamplesLength()));
-    }    
+    }
     return attributes;
   }
 
@@ -850,7 +850,7 @@ public boolean unsetSamplesLength() {
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.numSamples3, getElementName()));
         }
       }
-      // TODO: update the following IF, after Lucian has decided whether it is called interpolation or interpolationType 
+      // TODO: update the following IF, after Lucian has decided whether it is called interpolation or interpolationType
       else if (attributeName.equals(SpatialConstants.interpolation) || attributeName.equals("interpolationType")) {
         try {
           setInterpolation(InterpolationKind.valueOf(value));
@@ -886,36 +886,5 @@ public boolean unsetSamplesLength() {
     }
     return isAttributeRead;
   }
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("SampledField [dataType=");
-    builder.append(dataType);
-    builder.append(", numSamples1=");
-    builder.append(numSamples1);
-    builder.append(", numSamples2=");
-    builder.append(numSamples2);
-    builder.append(", numSamples3=");
-    builder.append(numSamples3);
-    builder.append(", interpolation=");
-    builder.append(interpolation);
-    builder.append(", compression=");
-    builder.append(compression);
-    builder.append(", samplesLength=");
-    builder.append(samplesLength);    
-    builder.append(", samples=");
-    builder.append(samples);        
-    builder.append(", data=");
-    builder.append(data);
-    builder.append("]");
-    return builder.toString();
-  }
-
-
 
 }

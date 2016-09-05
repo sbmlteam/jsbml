@@ -340,40 +340,6 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuffer builder = new StringBuffer();
-    builder.append("BoundingBox [");
-    if (isSetId()) {
-      builder.append("id=");
-      builder.append(getId());
-    }
-    if (isSetName()) {
-      if (isSetId()) {
-        builder.append(", ");
-      }
-      builder.append("name=");
-      builder.append(getName());
-      if (isSetPosition() || isSetDimensions()) {
-        builder.append(", ");
-      }
-    }
-    if (isSetPosition()) {
-      builder.append(position);
-      if (isSetDimensions()) {
-        builder.append(", ");
-      }
-    }
-    if (isSetDimensions()) {
-      builder.append(dimensions);
-    }
-    builder.append("]");
-    return builder.toString();
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
   @Override

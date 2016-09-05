@@ -58,7 +58,7 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
     super();
     setType(Type.TIMES);
   }
-  
+
   /**
    * Creates a new {@link ASTTimesNode} with two children
    * 
@@ -81,7 +81,7 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
   public ASTTimesNode(ASTTimesNode node) {
     super(node);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -90,7 +90,7 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
   public ASTTimesNode clone() {
     return new ASTTimesNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -137,27 +137,6 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
       logger.error("Unable to create MathML");
       return null;
     }
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(isSetType() ? type : "null");
-    builder.append(", id=");
-    builder.append(isSetId() ? id : "null");
-    builder.append(", style=");
-    builder.append(isSetStyle() ? style : "null");
-    builder.append(", class=");
-    builder.append(isSetMathMLClass() ? mathMLClass : "null");
-    builder.append("]");
-    return builder.toString();
   }
 
 }
