@@ -131,7 +131,7 @@ public class MathMLStaxParser implements ReadingParser {
    * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String ElementName, String AttributeName, String value, String prefix, boolean isLastAttribute, Object contextObject)
    */
   @Override
-  public void processAttribute(String elementName, String attributeName,
+  public boolean processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject) {
     // Process the possible attributes.
@@ -141,13 +141,13 @@ public class MathMLStaxParser implements ReadingParser {
     if (contextObject instanceof XMLNode) {
       XMLNode xmlNode = (XMLNode) contextObject;
       xmlNode.addAttr(attributeName, value, uri, prefix);
-      return;
+      return true;
     }
     
     if (! (contextObject instanceof ASTNode)) {
       logger.debug("processAttribute : !!!!!!!!! context is not an ASTNode (" +
           contextObject.getClass());
-      return;
+      return false;
     }
 
     ASTNode astNode = (ASTNode) contextObject;
@@ -175,7 +175,9 @@ public class MathMLStaxParser implements ReadingParser {
     }
 
     // TODO - need to process all attributes even if we don't know them !!
+    // TODO - or we just return false and the SBMLReader will take care of it ?
 
+    return true;
   }
 
   /* (non-Javadoc)

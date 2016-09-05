@@ -74,7 +74,7 @@ public class XMLNodeReader implements ReadingParser {
    * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String elementName, String attributeName, String value, String prefix, boolean isLastAttribute, Object contextObject)
    */
   @Override
-  public void processAttribute(String elementName, String attributeName,
+  public boolean processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject)
   {
@@ -93,8 +93,10 @@ public class XMLNodeReader implements ReadingParser {
       logger.debug(MessageFormat.format(
         "processAttribute: context Object is not an XMLNode! {0}",
         contextObject));
+      return false;
     }
 
+    return true;
   }
 
   /* (non-Javadoc)

@@ -63,6 +63,7 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 import org.sbml.jsbml.xml.parsers.AnnotationReader;
 import org.sbml.jsbml.xml.parsers.MathMLStaxParser;
 import org.sbml.jsbml.xml.parsers.ParserManager;
@@ -122,8 +123,6 @@ public class SBMLReader {
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(SBMLReader.class);
-
-
 
   /**
    * Creates the ReadingParser instances and stores them in a
@@ -1119,16 +1118,22 @@ public class SBMLReader {
       }
 
       if (attributeParser != null) {
-        attributeParser.processAttribute( // TODO - return a boolean here to tell if the attribute was read or not ??
+        boolean isAttributeRead = attributeParser.processAttribute(
           currentNode.getLocalPart(),
           attributeName.getLocalPart(),
           attribute.getValue(),
           attributeName.getNamespaceURI(),
           attributeName.getPrefix(),
           isLastAttribute, sbmlElements.peek());
+
+        if (!isAttributeRead) {
+          // store the unknownAttribute
+          AbstractReaderWriter.processUnknownAttribute(attributeName.getLocalPart(), attributeName.getNamespaceURI(), 
+              attribute.getValue(), attributeName.getPrefix(), sbmlElements.peek());
+        }
+        
       } else {
         logger.warn("Cannot find a parser for the " + attribute.getName().getNamespaceURI() + " namespace");
-        // TODO : store the unknownAttribute -> do a generic utility method on TreeNode element
       }
     }
   }

@@ -155,7 +155,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
    * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String elementName, String attributeName, String value, String prefix, boolean isLastAttribute, Object contextObject)
    */
   @Override
-  public void processAttribute(String elementName, String attributeName,
+  public boolean processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject)
   {
@@ -214,8 +214,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       //  Log the error to the ErrorLog object ??
 
       // TODO : store the unknownAttribute -> do a generic utility method on TreeNode element
-      AbstractReaderWriter.processUnknownAttribute(attributeName, value, prefix, contextObject); // namespace ?
+      // Done in SBMLReader !! AbstractReaderWriter.processUnknownAttribute(attributeName, value, prefix, contextObject); // namespace ?
     }
+    
+    return isAttributeRead;
   }
 
   /* (non-Javadoc)

@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.sbml.jsbml.SBMLDocument;
@@ -49,6 +50,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_20201);
+      set.add(CORE_20108);
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -77,7 +79,30 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument d) {
 
-          return d.getModel() != null;
+          return d.getModel() != null; // TODO - relaxed for SBML L3V2
+        }
+      };
+      break;
+    case CORE_20108:
+      func = new ValidationFunction<SBMLDocument>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument d) {
+
+          // go through the getSBMLDocumentAttributes() map
+          Map<String, String> attributeMap = d.getSBMLDocumentAttributes();
+          
+          for (String attributeNameWithPrefix : attributeMap.keySet()) {
+            
+            if (attributeNameWithPrefix.contains("xmlns") || attributeNameWithPrefix.endsWith("required")) {
+              continue;
+            }
+            
+            // If we arrive here, we have an unknown attribute !
+            return false;
+          }
+          
+          return true;
         }
       };
 
