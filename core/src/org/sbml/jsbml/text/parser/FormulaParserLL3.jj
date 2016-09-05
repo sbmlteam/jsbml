@@ -1082,8 +1082,9 @@ private ASTNode termLevel8() throws NumberFormatException :
     }
     if (stringToType.containsKey(s))
     {
-      type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
+      type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase()); // TODO - can we get rid of the '.toLowerCase()' and .toUpperCase() here !
       node.setType(type);
+      
       node.addChild(child);
     }
     else if (s.equals("modulo") || s.equals("mod"))

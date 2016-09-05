@@ -566,30 +566,26 @@ public class SpeciesFeature extends AbstractNamedSBase {
     return false;
   }
 
-
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
-  @Override
-  public String toString() {
-    return "SpeciesFeature [speciesFeatureType = " + speciesFeatureType
-        + ", occur = " + occur + ", component = " + component
-        + ", listOfSpeciesFeatureValues.size = " + getSpeciesFeatureValueCount()
-        + ", id = " + getId() + "]";
-  }
-
   @Override
   public boolean isIdMandatory() {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -601,7 +597,9 @@ public class SpeciesFeature extends AbstractNamedSBase {
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {

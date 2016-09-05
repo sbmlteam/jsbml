@@ -23,9 +23,6 @@ package org.sbml.jsbml.ext.comp;
 
 import java.util.Map;
 
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Parameter;
-
 /**
  * 
  * A {@link ReplacedElement} object is essentially  a pointer to a  submodel
@@ -108,6 +105,7 @@ public class ReplacedElement extends SBaseRef {
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = CompConstants.shortLabel;
@@ -167,15 +165,6 @@ public class ReplacedElement extends SBaseRef {
       return false;
     }
     return true;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "ReplacedElement [submodelRef=" + submodelRef + ", deletion="
-        + deletion + ", conversionFactor=" + conversionFactor + "]";
   }
 
   /**

@@ -31,8 +31,8 @@ TAGS
 **/.settings
 jsbmlTestResults.txt
 **/target
-**/libsbmlCompatibilityTestResults.txt
-**/*.log
+libsbmlCompatibilityTestResults.txt
+*.log
 **/.wtpmodules
 **/.fatjar
 **/*.texlipse
@@ -57,3 +57,5 @@ layoutTestResults.txt
 /modules/celldesigner/doc/api
 /modules/tidy/doc/api
 /.DS_Store
+
+

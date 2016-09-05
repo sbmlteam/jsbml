@@ -1024,27 +1024,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
     return listOf.toArray(a);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
-   */
-  @Override
-  public String toString() {
-
-    // TODO: replace the code below by log4j debug message ?
-
-    if (DEBUG_MODE) {
-      return listOf.toString();
-    }
-
-    if (listType == null) {
-      // Can happen in the clone constructor when using the SimpleSBaseChangeListener
-      // The super constructor is called before listType is initialized and
-      // it is using the toString() method
-      return Type.none.toString();
-    }
-    return getElementName();
-  }
-
   /**
    * Sets the SBaseListType of this ListOf to SBaseListType.none.
    */

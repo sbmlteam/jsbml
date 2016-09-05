@@ -22,7 +22,6 @@
 package org.sbml.jsbml.ext.multi;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 
@@ -37,6 +36,11 @@ import org.sbml.jsbml.ext.AbstractASTNodePlugin;
  * @since 1.1
  */
 public class MultiASTNodePlugin extends AbstractASTNodePlugin {
+
+  /**
+   * Generated serialization identifier.
+   */
+  private static final long serialVersionUID = 8845551108713975200L;
 
   /**
    * 
@@ -263,16 +267,6 @@ public class MultiASTNodePlugin extends AbstractASTNodePlugin {
       return false;
     }
     return true;
-  }
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "MultiASTNodePlugin [speciesReference=" + speciesReference
-        + ", representationType=" + representationType + "]";
   }
 
   @Override

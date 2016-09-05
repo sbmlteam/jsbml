@@ -21,8 +21,6 @@
 package org.sbml.jsbml.ext.req;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -191,7 +189,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   public void setListOfChangedMaths(ListOf<ChangedMath> listOfChangedMaths) {
     unsetListOfChangedMaths();
     this.listOfChangedMaths = listOfChangedMaths;
-    
+
     if (listOfChangedMaths != null) {
       listOfChangedMaths.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'req'

@@ -233,11 +233,12 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.MathContainer#toString()
+  /**
+   * Creates a formula {@link String} representation of this assignment.
+   * 
+   * @return
    */
-  @Override
-  public String toString() {
+  public String toFormula() {
     if (getMath() != null && getVariable() != null) {
       return getVariable() + " = " + getMath().toString();
     } else if (isSetMath()) {

@@ -809,7 +809,7 @@ public class Compartment extends Symbol {
     if (checkAttribute(TreeNodeChangeEvent.outside)) {
       firePropertyChange(TreeNodeChangeEvent.outside, oldOutside, outsideID);
     } else {
-      this.outsideID = oldOutside;
+      outsideID = oldOutside;
     }
 
   }
@@ -910,7 +910,7 @@ public class Compartment extends Symbol {
    */
   public void setSize(double size) {
 
-    this.value = size;
+    value = size;
 
     if (!checkAttribute(TreeNodeChangeEvent.size)) {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.size, this);
@@ -992,7 +992,7 @@ public class Compartment extends Symbol {
     }
     
     
-    if (units.equals(this.unitsID))
+    if (units != null && units.equals(this.unitsID))
     {
       return;
     }

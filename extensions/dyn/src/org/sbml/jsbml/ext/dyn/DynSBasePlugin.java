@@ -63,7 +63,7 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
    */
   public DynSBasePlugin(DynSBasePlugin plugin) {
     super(plugin);
-    
+
     if (plugin.isSetCBOTerm()) {
       setCBOTerm(plugin.getCBOTerm());
     }
@@ -81,7 +81,7 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
   /**
    * Initializes custom Class attributes
    * */
-  private void initDefaults() {
+  public void initDefaults() {
     setPackageVersion(-1);
   }
 
@@ -132,6 +132,9 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+   */
   @Override
   public SBase getParent() {
     if (isSetExtendedSBase()) {
@@ -141,26 +144,41 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
+   */
   @Override
   public SBase getParentSBMLObject() {
     return getParent();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   */
   @Override
   public String getPackageName() {
     return DynConstants.shortLabel;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+   */
   @Override
   public String getPrefix() {
     return DynConstants.shortLabel;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+   */
   @Override
   public String getURI() {
     return getElementNamespace();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object object) {
     if (this == object) {
@@ -179,6 +197,9 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 4289;
@@ -189,6 +210,9 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
     return hashCode;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
@@ -212,16 +236,17 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
     return isAttributeRead;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
+   */
   @Override
   public DynSBasePlugin clone() {
     return new DynSBasePlugin(this);
   }
 
-  @Override
-  public String toString() {
-    return "DynSBasePlugin [cboTerm=" + cboTerm + "]";
-  }
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -233,16 +258,25 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
     return attributes;
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int arg0) {
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
   @Override
   public int getChildCount() {
     return 0;

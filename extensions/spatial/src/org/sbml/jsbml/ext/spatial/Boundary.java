@@ -36,12 +36,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class Boundary extends AbstractSpatialNamedSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(Boundary.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -71,8 +71,7 @@ public class Boundary extends AbstractSpatialNamedSBase {
     }
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#clone()
    */
   @Override
@@ -161,17 +160,7 @@ public class Boundary extends AbstractSpatialNamedSBase {
     return hashCode;
   }
 
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("Boundary [value=");
-    builder.append(value);
-    builder.append("]");
-    return builder.toString();
-  }
-
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
    */
   @Override
@@ -185,8 +174,7 @@ public class Boundary extends AbstractSpatialNamedSBase {
   }
 
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
@@ -208,6 +196,5 @@ public class Boundary extends AbstractSpatialNamedSBase {
     }
     return isAttributeRead;
   }
-
 
 }

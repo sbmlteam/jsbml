@@ -31,7 +31,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * Represents the kineticLaw XML element of a SBML file.
@@ -1002,7 +1001,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
         Model model = getModel();
         if (((model == null) || Kind.isValidUnitKindString(units,
           getLevel(), getVersion()))
-          || (((model != null) && (model.getUnitDefinition(units) != null)))) {
+            || (((model != null) && (model.getUnitDefinition(units) != null)))) {
           unitsID = units;
         } else {
           illegalArgument = true;
@@ -1082,24 +1081,6 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
     } else {
       unsetUnits();
     }
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.MathContainer#toString()
-   */
-  @Override
-  public String toString() {
-
-    String parentId = "";
-
-    if (getParent() != null) {
-      // Can happen in the clone constructor when using the SimpleSBaseChangeListener
-      // The super constructor is called before parent is initialized and
-      // it is using the toString() method
-      parentId = getParent().getId();
-    }
-
-    return MessageFormat.format("{0}({1})", getElementName(), parentId);
   }
 
   /* (non-Javadoc)

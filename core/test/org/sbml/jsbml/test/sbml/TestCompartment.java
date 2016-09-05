@@ -34,6 +34,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.SBMLtools;
 
 
@@ -51,11 +53,21 @@ public class TestCompartment {
   private Compartment C;
 
   /**
+   * Model needed otherwise some validation rules prevent the setting of some attributes in the method we want to test
+   */
+  private Model m;
+  
+  /**
    * @throws Exception
    */
   @Before public void setUp() throws Exception
   {
+    SBMLDocument doc = new SBMLDocument(2, 4);
+    m = doc.createModel();    
+    
     C = new  Compartment(2,4);
+    m.addCompartment(C);
+    
     if (C == null) {
       ;
     }
@@ -151,6 +163,8 @@ public class TestCompartment {
   @SuppressWarnings("deprecation")
   @Test public void test_Compartment_getsetType()
   {
+    m.createCompartmentType("cell"); // Creating a 'cell' compartmentType to be able to pass the validation in setCompartmentType
+    
     C.setCompartmentType("cell");
     assertTrue(C.getCompartmentType().equals("cell"));
     assertEquals(true, C.isSetCompartmentType());

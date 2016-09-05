@@ -197,17 +197,6 @@ public class SpeciesFeatureChange extends AbstractNamedSBase {
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "SpeciesFeatureChange [reactantSpeciesFeature = "
-        + reactantSpeciesFeature + ", productSpeciesFeature = "
-        + productSpeciesFeature + ", id = " + getId() + "]";
-  }
-
-
   /**
    * Returns the value of {@link #reactantSpeciesFeature}.
    *

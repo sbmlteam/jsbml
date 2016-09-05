@@ -44,7 +44,7 @@ public class SpeciesFeatureValue extends AbstractSBase {
 
 
   /**
-   * Creates an SpeciesFeatureValue instance 
+   * Creates an SpeciesFeatureValue instance
    */
   public SpeciesFeatureValue() {
     super();
@@ -80,6 +80,7 @@ public class SpeciesFeatureValue extends AbstractSBase {
   /**
    * clones this class
    */
+  @Override
   public SpeciesFeatureValue clone() {
     return new SpeciesFeatureValue(this);
   }
@@ -92,9 +93,9 @@ public class SpeciesFeatureValue extends AbstractSBase {
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
-  
-  
-  
+
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -176,21 +177,12 @@ public class SpeciesFeatureValue extends AbstractSBase {
    */
   public boolean unsetValue() {
     if (isSetValue()) {
-      String oldValue = this.value;
-      this.value = null;
-      firePropertyChange(MultiConstants.value, oldValue, this.value);
+      String oldValue = value;
+      value = null;
+      firePropertyChange(MultiConstants.value, oldValue, value);
       return true;
     }
     return false;
-  }
-  
-  
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "SpeciesFeatureValue [value=" + value + "]";
   }
 
   /* (non-Javadoc)
@@ -211,7 +203,6 @@ public class SpeciesFeatureValue extends AbstractSBase {
     }
 
     return isAttributeRead;
-
   }
 
   /* (non-Javadoc)
@@ -227,5 +218,5 @@ public class SpeciesFeatureValue extends AbstractSBase {
 
     return attributes;
   }
-  
+
 }

@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -132,8 +130,8 @@ public class MixedGeometry extends GeometryDefinition {
       hashCode += prime * getListOfOrdinalMappings().hashCode();
     }
     return hashCode;
-  } 
-  
+  }
+
   /**
    * Returns {@code true}, if listOfGeometryDefinitions contains at least one element.
    *
@@ -177,7 +175,7 @@ public class MixedGeometry extends GeometryDefinition {
   public void setListOfGeometryDefinitions(ListOf<GeometryDefinition> listOfGeometryDefinitions) {
     unsetListOfGeometryDefinitions();
     this.listOfGeometryDefinitions = listOfGeometryDefinitions;
-    
+
     if (listOfGeometryDefinitions != null) {
       listOfGeometryDefinitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -186,7 +184,7 @@ public class MixedGeometry extends GeometryDefinition {
       listOfGeometryDefinitions.setSBaseListType(ListOf.Type.other);
 
       registerChild(this.listOfGeometryDefinitions);
-    }  
+    }
   }
 
 
@@ -385,7 +383,7 @@ public class MixedGeometry extends GeometryDefinition {
   public void setListOfOrdinalMappings(ListOf<OrdinalMapping> listOfOrdinalMappings) {
     unsetListOfOrdinalMappings();
     this.listOfOrdinalMappings = listOfOrdinalMappings;
-    
+
     if (listOfOrdinalMappings != null) {
       listOfOrdinalMappings.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -394,7 +392,7 @@ public class MixedGeometry extends GeometryDefinition {
       listOfOrdinalMappings.setSBaseListType(ListOf.Type.other);
 
       registerChild(this.listOfOrdinalMappings);
-    }  
+    }
   }
 
 

@@ -21,9 +21,7 @@
 package org.sbml.jsbml.ext.distrib;
 
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -480,23 +478,17 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
       Math.min(pos, 0)));
   }
 
-
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
+   * @see org.sbml.jsbml.util.IdManager#accept(org.sbml.jsbml.SBase)
    */
-  @Override
-  public String toString() {
-    return "DrawFromDistribution [listOfDistribInputs=" + listOfDistribInputs
-        + ", uncertML=" + uncertML + "]";
-  }
-
-
   @Override
   public boolean accept(SBase sbase) {
     return sbase instanceof DistribInput;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#register(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean register(SBase sbase) {
 
@@ -537,6 +529,9 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
     return success;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#unregister(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean unregister(SBase sbase) {
 

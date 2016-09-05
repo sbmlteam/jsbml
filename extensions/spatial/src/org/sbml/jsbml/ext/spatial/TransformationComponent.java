@@ -39,12 +39,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class TransformationComponent extends AbstractSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(TransformationComponent.class);
-  
+
   /**
    * 
    */
@@ -104,7 +104,7 @@ public class TransformationComponent extends AbstractSBase {
     packageName = SpatialConstants.shortLabel;
   }
 
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
    */
@@ -119,7 +119,7 @@ public class TransformationComponent extends AbstractSBase {
       }
       if (equal && isSetComponentsLength()) {
         equal &= tc.getComponentsLength() == getComponentsLength();
-      }      
+      }
     }
     return equal;
   }
@@ -214,7 +214,7 @@ public class TransformationComponent extends AbstractSBase {
     }
     if (isSetComponentsLength()) {
       hashCode += prime * getComponentsLength();
-    }    
+    }
     return hashCode;
   }
 
@@ -256,7 +256,7 @@ public class TransformationComponent extends AbstractSBase {
           } catch (Exception e) {
             logger.warn(MessageFormat.format(
               SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.components, getElementName()));
-          } 
+          }
           i++;
         }
         if (componentsTemp.length > 0) {
@@ -269,20 +269,6 @@ public class TransformationComponent extends AbstractSBase {
       }
     }
     return isAttributeRead;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("TransformationComponent [components=");
-    builder.append(Arrays.toString(components));
-    builder.append(", componentsLength=");
-    builder.append(componentsLength);
-    builder.append("]");
-    return builder.toString();
   }
 
 }

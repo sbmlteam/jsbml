@@ -23,8 +23,6 @@
 package org.sbml.jsbml.ext.dyn;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -73,7 +71,7 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
    */
   public DynCompartmentPlugin(DynCompartmentPlugin dynCompartmentPlugin) {
     super(dynCompartmentPlugin);
-    
+
     if (dynCompartmentPlugin.isSetListOfSpatialComponents()) {
       setListOfSpatialComponents(dynCompartmentPlugin.getListOfSpatialComponents().clone());
     }
@@ -82,7 +80,8 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
   /**
    * Initializes custom Class attributes
    * */
-  private void initDefaults() {
+  @Override
+  public void initDefaults() {
     setPackageVersion(-1);
   }
 
@@ -97,7 +96,7 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
       listOfSpatialComponents.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'dyn'
       listOfSpatialComponents.setPackageName(null);
-      listOfSpatialComponents.setPackageName(DynConstants.shortLabel);      
+      listOfSpatialComponents.setPackageName(DynConstants.shortLabel);
       listOfSpatialComponents.setSBaseListType(ListOf.Type.other);
 
       if (isSetExtendedSBase()) {
@@ -126,17 +125,17 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
    */
   public void setListOfSpatialComponents(ListOf<SpatialComponent> listOfSpatialComponents) {
     unsetListOfSpatialComponents();
-    
+
     this.listOfSpatialComponents = listOfSpatialComponents;
-    
+
     if ((this.listOfSpatialComponents != null)) {
       listOfSpatialComponents.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'dyn'
       listOfSpatialComponents.setPackageName(null);
-      listOfSpatialComponents.setPackageName(DynConstants.shortLabel);      
+      listOfSpatialComponents.setPackageName(DynConstants.shortLabel);
       listOfSpatialComponents.setSBaseListType(ListOf.Type.other);
     }
-    
+
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(listOfSpatialComponents);
     }
@@ -221,6 +220,9 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -245,22 +247,29 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 2141;
     int hashCode = super.hashCode();
-    hashCode = prime
-        * hashCode
-        + ((listOfSpatialComponents == null) ? 0
-          : listOfSpatialComponents.hashCode());
+    hashCode = prime * hashCode + ((listOfSpatialComponents == null) ?
+      0 : listOfSpatialComponents.hashCode());
     return hashCode;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int childIndex) {
     if (childIndex < 0 || childIndex >= 1) {
@@ -272,20 +281,20 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
     return listOfSpatialComponents;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#getChildCount()
+   */
   @Override
   public int getChildCount() {
     return isSetListOfSpatialComponents() ? 1 : 0;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.dyn.DynSBasePlugin#clone()
+   */
   @Override
   public DynCompartmentPlugin clone() {
     return new DynCompartmentPlugin(this);
-  }
-
-  @Override
-  public String toString() { // TODO - recursive display. modify it?
-    return "DynCompartmentPlugin [listOfSpatialComponents="
-        + listOfSpatialComponents + "]";
   }
 
 }

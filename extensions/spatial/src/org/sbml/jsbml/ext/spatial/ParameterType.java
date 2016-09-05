@@ -41,12 +41,12 @@ import org.sbml.jsbml.Species;
  */
 public class ParameterType extends AbstractSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(ParameterType.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -67,7 +67,7 @@ public class ParameterType extends AbstractSBase {
   /**
    * Refers to species object that the parameter is associated with
    */
-  private String speciesRef; // TODO Check whether this is the correct name. 
+  private String speciesRef; // TODO Check whether this is the correct name.
 
   /**
    * 
@@ -100,7 +100,7 @@ public class ParameterType extends AbstractSBase {
       setSpeciesReference(ref.getSpeciesReference());
     }
   }
-  
+
   /**
    * Initializes the default values using the namespace.
    */
@@ -265,20 +265,6 @@ public class ParameterType extends AbstractSBase {
       }
     }
     return equal;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("ParameterType [spId=");
-    builder.append(spId);
-    builder.append(", speciesRef=");
-    builder.append(speciesRef);
-    builder.append("]");
-    return builder.toString();
   }
 
   /* (non-Javadoc)

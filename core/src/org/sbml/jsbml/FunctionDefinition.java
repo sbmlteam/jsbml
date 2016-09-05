@@ -77,7 +77,7 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
    */
   public FunctionDefinition(FunctionDefinition sb) {
     super(sb);
-    
+
     if (sb.isSetId()) {
       setId(sb.getId());
     }
@@ -407,14 +407,6 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
       this.name = name;
     }
     firePropertyChange(TreeNodeChangeEvent.name, oldName, name);
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "FunctionDefinition [id=" + id + ", name=" + name + "]";
   }
 
   /* (non-Javadoc)

@@ -388,23 +388,6 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
     firePropertyChange(FBCConstants.upperFluxBound, oldUpperFluxBound, this.upperFluxBound);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [geneProductAssociation=");
-    builder.append(geneProductAssociation);
-    builder.append(", lowerFluxBound=");
-    builder.append(lowerFluxBound);
-    builder.append(", upperFluxBound=");
-    builder.append(upperFluxBound);
-    builder.append("]");
-    return builder.toString();
-  }
-
   /**
    * Unsets the variable {@link #geneProductAssociation}.
    *

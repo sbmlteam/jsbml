@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -347,7 +345,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
       listOfReplacedElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfReplacedElements.setPackageName(null);
-      listOfReplacedElements.setPackageName(CompConstants.shortLabel);      
+      listOfReplacedElements.setPackageName(CompConstants.shortLabel);
       listOfReplacedElements.setSBaseListType(ListOf.Type.other);
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfReplacedElements);
@@ -381,7 +379,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
       listOfReplacedElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfReplacedElements.setPackageName(null);
-      listOfReplacedElements.setPackageName(CompConstants.shortLabel);      
+      listOfReplacedElements.setPackageName(CompConstants.shortLabel);
       listOfReplacedElements.setSBaseListType(ListOf.Type.other);
     }
     if (extendedSBase != null) {
@@ -457,17 +455,9 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
     return replacedElement;
   }
 
-
-
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
+   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
-  @Override
-  public String toString() {
-    return "CompSBasePlugin [listOfReplacedElements="
-        + listOfReplacedElements + ", replacedBy=" + replacedBy + "]";
-  }
-
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value)

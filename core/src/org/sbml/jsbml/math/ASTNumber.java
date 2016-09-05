@@ -22,8 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-import org.sbml.jsbml.MathContainer;
-
 /**
  * An Abstract Syntax Tree (AST) node representing a number
  * in a mathematical expression.
@@ -34,7 +32,7 @@ import org.sbml.jsbml.MathContainer;
  * @date May 30, 2014
  */
 public abstract class ASTNumber extends AbstractASTNode {
-  
+
   /**
    * 
    */
@@ -72,7 +70,7 @@ public abstract class ASTNumber extends AbstractASTNode {
   public boolean getAllowsChildren() {
     return false;
   }
-  
+
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
@@ -80,34 +78,13 @@ public abstract class ASTNumber extends AbstractASTNode {
   public ASTNumber getChildAt(int childIndex) {
     throw new IndexOutOfBoundsException();
   }
-  
+
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildCount()
    */
   @Override
   public int getChildCount() {
     return 0;
-  }
-  
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(isSetType() ? type : "null");
-    builder.append(", id=");
-    builder.append(isSetId() ? id : "null");
-    builder.append(", style=");
-    builder.append(isSetStyle() ? style : "null");
-    builder.append(", class=");
-    builder.append(isSetMathMLClass() ? mathMLClass : "null");
-    builder.append("]");
-    return builder.toString();
   }
 
 }

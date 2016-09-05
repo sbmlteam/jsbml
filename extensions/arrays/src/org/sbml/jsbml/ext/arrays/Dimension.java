@@ -29,7 +29,6 @@ import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 
@@ -369,16 +368,6 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
       return false;
     }
     return true;
-  }
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "Dimension [size=" + size + ", arrayDimension=" + arrayDimension
-        + "]";
   }
 
   /* (non-Javadoc)
