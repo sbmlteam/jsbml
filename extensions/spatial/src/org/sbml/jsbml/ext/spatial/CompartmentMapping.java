@@ -38,12 +38,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CompartmentMapping extends AbstractSpatialNamedSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(CompartmentMapping.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -243,7 +243,9 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     return null;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 1319;//Changed, it was 983
@@ -257,7 +259,9 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -274,7 +278,9 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
@@ -301,21 +307,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
       }
     }
     return isAttributeRead;
-  }
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CompartmentMapping [domainType=");
-    builder.append(domainType);
-    builder.append(", unitSize=");
-    builder.append(unitSize);
-    builder.append("]");
-    return builder.toString();
   }
 
 }

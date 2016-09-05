@@ -320,15 +320,6 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
-   */
-  @Override
-  public String toString() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#unsetAbsoluteX()
    */
   @Override

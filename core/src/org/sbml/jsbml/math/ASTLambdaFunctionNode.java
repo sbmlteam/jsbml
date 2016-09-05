@@ -49,7 +49,7 @@ public class ASTLambdaFunctionNode extends ASTFunction {
    * 
    */
   private static final long serialVersionUID = 3189146748998908918L;
-  
+
   /**
    * A {@link Logger} for this class.
    */
@@ -72,7 +72,7 @@ public class ASTLambdaFunctionNode extends ASTFunction {
   public ASTLambdaFunctionNode(ASTLambdaFunctionNode node) {
     super(node);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -81,7 +81,7 @@ public class ASTLambdaFunctionNode extends ASTFunction {
   public ASTLambdaFunctionNode clone() {
     return new ASTLambdaFunctionNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -120,7 +120,7 @@ public class ASTLambdaFunctionNode extends ASTFunction {
   /**
    * Replaces occurrences of a name within this {@link ASTLambdaFunctionNode} with the
    * name/value/formula represented by the second argument {@link ASTNode2}, e.g., if
-   * the formula in this {@link ASTLambdaFunctionNode} is x + y; bvar is x and arg is an 
+   * the formula in this {@link ASTLambdaFunctionNode} is x + y; bvar is x and arg is an
    * {@link ASTLambdaFunctionNode} representing the real value 3 ReplaceArgument substitutes
    * 3 for x within this {@link ASTLambdaFunctionNode}.
    * 
@@ -128,7 +128,7 @@ public class ASTLambdaFunctionNode extends ASTFunction {
    *            a string representing the variable name to be substituted
    * @param arg
    *            an {@link ASTNode2} representing the name/value/formula to substitute
-   *        
+   * 
    */
   public void replaceArgument(String bvar, ASTNode2 arg) {
     if (! isSetList()) {
@@ -175,27 +175,6 @@ public class ASTLambdaFunctionNode extends ASTFunction {
       logger.error("Unable to create MathML");
       return null;
     }
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(isSetType() ? type : "null");
-    builder.append(", id=");
-    builder.append(isSetId() ? id : "null");
-    builder.append(", style=");
-    builder.append(isSetStyle() ? style : "null");
-    builder.append(", class=");
-    builder.append(isSetMathMLClass() ? mathMLClass : "null");
-    builder.append("]");
-    return builder.toString();
   }
 
 }

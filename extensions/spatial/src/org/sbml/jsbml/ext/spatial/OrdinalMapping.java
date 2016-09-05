@@ -39,12 +39,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class OrdinalMapping extends AbstractSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(OrdinalMapping.class);
-  
+
   /**
    * 
    */
@@ -98,7 +98,7 @@ public class OrdinalMapping extends AbstractSBase {
   public OrdinalMapping clone() {
     return new OrdinalMapping(this);
   }
-  
+
   /**
    * Initializes the default values using the namespace.
    */
@@ -315,20 +315,6 @@ public class OrdinalMapping extends AbstractSBase {
   @Override
   public boolean getAllowsChildren() {
     return false;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("OrdinalMapping [geometryDefinition=");
-    builder.append(geometryDefinition);
-    builder.append(", ordinal=");
-    builder.append(ordinal);
-    builder.append("]");
-    return builder.toString();
   }
 
 }

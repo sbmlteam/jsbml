@@ -293,31 +293,4 @@ ASTCSymbolNode {
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(isSetType() ? type : "null");
-    builder.append(", name=");
-    builder.append(isSetName() ? name : "null");
-    builder.append(", definitionURL=");
-    builder.append(isSetDefinitionURL() ? definitionURL : "null");
-    builder.append(", encoding=");
-    builder.append(isSetEncoding() ? encoding : "null");
-    builder.append(", id=");
-    builder.append(isSetId() ? id : "null");
-    builder.append(", style=");
-    builder.append(isSetStyle() ? style : "null");
-    builder.append(", class=");
-    builder.append(isSetMathMLClass() ? mathMLClass : "null");
-    builder.append("]");
-    return builder.toString();
-  }
-
 }

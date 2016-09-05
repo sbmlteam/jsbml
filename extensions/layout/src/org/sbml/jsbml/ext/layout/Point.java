@@ -191,7 +191,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = LayoutConstants.shortLabel;
-    
+
     x = y = z = Double.NaN;
   }
 
@@ -395,22 +395,6 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
     Double oldZ = this.z;
     this.z = z;
     firePropertyChange(LayoutConstants.z, oldZ, this.z);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("Point [x=");
-    sb.append(x);
-    sb.append(", y=");
-    sb.append(y);
-    sb.append(", z=");
-    sb.append(z);
-    sb.append(']');
-    return sb.toString();
   }
 
   /* (non-Javadoc)

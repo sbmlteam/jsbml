@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.layout;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -129,6 +127,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = LayoutConstants.shortLabel;
@@ -191,10 +190,10 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
         // changing the ListOf package name from 'core' to 'layout'
         listOfSubGlyphs.setPackageName(null);
         listOfSubGlyphs.setPackageName(LayoutConstants.shortLabel);
-        listOfSubGlyphs.setSBaseListType(ListOf.Type.other);        
+        listOfSubGlyphs.setSBaseListType(ListOf.Type.other);
       } else {
         this.listOfSubGlyphs = getListOfSubGlyphs(); // initializing a new ListOfWithName with the proper settings
-        this.listOfSubGlyphs.addAll(listOfSubGlyphs);        
+        this.listOfSubGlyphs.addAll(listOfSubGlyphs);
       }
       registerChild(this.listOfSubGlyphs);
     }

@@ -590,7 +590,7 @@ Variable {
    * @see org.sbml.jsbml.SimpleSpeciesReference#toString()
    */
   @Override
-  public String toString() {
+  public String printSpeciesReference() {
     StringBuilder sb = new StringBuilder();
     if (isSetStoichiometry() && (getStoichiometry() != 1d)) {
       sb.append(StringTools.toString(getStoichiometry()));
@@ -599,7 +599,7 @@ Variable {
       sb.append(getStoichiometryMath().getMath().toFormula());
       sb.append(' ');
     }
-    sb.append(super.toString());
+    sb.append(super.printSpeciesReference());
     return sb.toString();
   }
 

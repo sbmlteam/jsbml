@@ -43,7 +43,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(AbstractSpatialNamedSBase.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -105,7 +105,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
 
   @Override
   public abstract AbstractSpatialNamedSBase clone();
-  
+
   /**
    * Initializes the default values using the namespace.
    */
@@ -114,7 +114,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
     packageName = SpatialConstants.shortLabel;
   }
 
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
    */
@@ -211,22 +211,9 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
     return attributes;
   }
 
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [spatialId=");
-    builder.append(getSpatialId());
-    builder.append("]");
-    return builder.toString();
-  }
-
-
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
@@ -247,8 +234,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
     return isAttributeRead;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
    */
   @Override
@@ -256,8 +242,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
     return false;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
   @Override
@@ -265,8 +250,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
     return 0;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
   @Override

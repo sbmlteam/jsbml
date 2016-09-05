@@ -313,22 +313,6 @@ NamedSBase {
     }
   }
 
-  /**
-   * Returns the name of the component, if it is available. Otherwise,
-   * the identifier is returned. If both is not possible, the class name of
-   * this element is returned.
-   */
-  @Override
-  public String toString() {
-    if (isSetName() && (getName().length() > 0)) {
-      return getElementName() + ": name= " + name;
-    }
-    if (isSetId()) {
-      return  getElementName() + ": id= " + id;
-    }
-    return getElementName();
-  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#unsetId()
    */

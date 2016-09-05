@@ -257,7 +257,7 @@ public class MathMLXMLStreamCompiler {
     case NAME_AVOGADRO:
       compileCSymbol((ASTCSymbolNode) node);
       break;
-    case NAME_RATE_OF:
+    case FUNCTION_RATE_OF:
       // TODO
       break;
     case REAL_E:

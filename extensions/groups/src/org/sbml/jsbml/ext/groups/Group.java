@@ -721,16 +721,6 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "Group [id=" + getId() + ", name=" + getName()
-        + (isSetKind()?", kind=" + getKind():"")
-        + ", memberCount=" + getMemberCount() + "]";
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
    */
   @Override

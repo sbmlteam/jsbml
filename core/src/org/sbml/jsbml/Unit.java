@@ -4,12 +4,14 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
+ *
  * Copyright (C) 2009-2016 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
+ * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -57,167 +59,162 @@ public class Unit extends AbstractSBase {
    * @date 2009-08-31
    */
   public static enum Kind {
-                           /**
-                            * The ampere unit.
-                            */
-                           AMPERE,
-                           /**
-                            * This unit is DIMENSIONLESS multiplied with
-                            * Avogadro's number.
-                            */
-                           AVOGADRO,
-                           /**
-                            * The becquerel unit.
-                            */
-                           BECQUEREL,
-                           /**
-                            * The candela unit.
-                            */
-                           CANDELA,
-                           /**
-                            * The Celsius unit.
-                            * 
-                            * @deprecated use {@link #KELVIN} instead (1 Celsius
-                            *             = 1 K + 271.15)
-                            */
-                           @Deprecated CELSIUS,
-                           /**
-                            * The coulomb unit.
-                            */
-                           COULOMB,
-                           /**
-                            * A pseudo-unit indicating a dimensionless quantity.
-                            * (This is in fact
-                            * defined in the SBML specification.)
-                            */
-                           DIMENSIONLESS,
-                           /**
-                            * The farad unit.
-                            */
-                           FARAD,
-                           /**
-                            * The gram unit.
-                            */
-                           GRAM,
-                           /**
-                            * The gray unit.
-                            */
-                           GRAY,
-                           /**
-                            * The henry unit.
-                            */
-                           HENRY,
-                           /**
-                            * The hertz unit.
-                            */
-                           HERTZ,
-                           /**
-                            * Marker used to indicate an invalid or not yet set
-                            * unit.
-                            */
-                           INVALID,
-                           /**
-                            * A pseudo-unit representing a single 'thing'. (This
-                            * is in fact defined
-                            * in the SBML specification.)
-                            */
-                           ITEM,
-                           /**
-                            * The joule unit.
-                            */
-                           JOULE,
-                           /**
-                            * The katal unit.
-                            */
-                           KATAL,
-                           /**
-                            * The kelvin unit.
-                            */
-                           KELVIN,
-                           /**
-                            * The kilogram unit.
-                            */
-                           KILOGRAM,
-                           /**
-                            * Alternate spelling of litre.
-                            * 
-                            * @deprecated use {@link #LITRE} instead.
-                            */
-                           @Deprecated LITER,
-                           /**
-                            * The litre unit.
-                            */
-                           LITRE,
-                           /**
-                            * The lumen unit.
-                            */
-                           LUMEN,
-                           /**
-                            * The lux unit.
-                            */
-                           LUX,
-                           /**
-                            * Alternate spelling of metre.
-                            * 
-                            * @deprecated use {@link #METRE} instead.
-                            */
-                           @Deprecated METER,
-                           /**
-                            * The metre unit.
-                            */
-                           METRE,
-                           /**
-                            * The mole unit.
-                            */
-                           MOLE,
-                           /**
-                            * The newton unit.
-                            */
-                           NEWTON,
-                           /**
-                            * The ohm unit.
-                            */
-                           OHM,
-                           /**
-                            * The pascal unit.
-                            */
-                           PASCAL,
-                           /**
-                            * The radian unit.
-                            */
-                           RADIAN,
-                           /**
-                            * The second unit.
-                            */
-                           SECOND,
-                           /**
-                            * The siemens unit.
-                            */
-                           SIEMENS,
-                           /**
-                            * The sievert unit.
-                            */
-                           SIEVERT,
-                           /**
-                            * The steradian unit.
-                            */
-                           STERADIAN,
-                           /**
-                            * The tesla unit.
-                            */
-                           TESLA,
-                           /**
-                            * The volt unit.
-                            */
-                           VOLT,
-                           /**
-                            * The watt unit.
-                            */
-                           WATT,
-                           /**
-                            * The weber unit.
-                            */
-                           WEBER;
+    /**
+     * The ampere unit.
+     */
+    AMPERE,
+    /**
+     * This unit is DIMENSIONLESS multiplied with Avogadro's number.
+     */
+    AVOGADRO,
+    /**
+     * The becquerel unit.
+     */
+    BECQUEREL,
+    /**
+     * The candela unit.
+     */
+    CANDELA,
+    /**
+     * The Celsius unit.
+     * @deprecated use {@link #KELVIN} instead (1 Celsius = 1 K + 271.15)
+     */
+    @Deprecated
+    CELSIUS,
+    /**
+     * The coulomb unit.
+     */
+    COULOMB,
+    /**
+     * A pseudo-unit indicating a dimensionless quantity. (This is in fact
+     * defined in the SBML specification.)
+     */
+    DIMENSIONLESS,
+    /**
+     * The farad unit.
+     */
+    FARAD,
+    /**
+     * The gram unit.
+     */
+    GRAM,
+    /**
+     * The gray unit.
+     */
+    GRAY,
+    /**
+     * The henry unit.
+     */
+    HENRY,
+    /**
+     * The hertz unit.
+     */
+    HERTZ,
+    /**
+     * Marker used to indicate an invalid or not yet set unit.
+     */
+    INVALID,
+    /**
+     * A pseudo-unit representing a single 'thing'. (This is in fact defined
+     * in the SBML specification.)
+     */
+    ITEM,
+    /**
+     * The joule unit.
+     */
+    JOULE,
+    /**
+     * The katal unit.
+     */
+    KATAL,
+    /**
+     * The kelvin unit.
+     */
+    KELVIN,
+    /**
+     * The kilogram unit.
+     */
+    KILOGRAM,
+    /**
+     * Alternate spelling of litre.
+     * @deprecated use {@link #LITRE} instead.
+     */
+    @Deprecated
+    LITER,
+    /**
+     * The litre unit.
+     */
+    LITRE,
+    /**
+     * The lumen unit.
+     */
+    LUMEN,
+    /**
+     * The lux unit.
+     */
+    LUX,
+    /**
+     * Alternate spelling of metre.
+     * @deprecated use {@link #METRE} instead.
+     */
+    @Deprecated
+    METER,
+    /**
+     * The metre unit.
+     */
+    METRE,
+    /**
+     * The mole unit.
+     */
+    MOLE,
+    /**
+     * The newton unit.
+     */
+    NEWTON,
+    /**
+     * The ohm unit.
+     */
+    OHM,
+    /**
+     * The pascal unit.
+     */
+    PASCAL,
+    /**
+     * The radian unit.
+     */
+    RADIAN,
+    /**
+     * The second unit.
+     */
+    SECOND,
+    /**
+     * The siemens unit.
+     */
+    SIEMENS,
+    /**
+     * The sievert unit.
+     */
+    SIEVERT,
+    /**
+     * The steradian unit.
+     */
+    STERADIAN,
+    /**
+     * The tesla unit.
+     */
+    TESLA,
+    /**
+     * The volt unit.
+     */
+    VOLT,
+    /**
+     * The watt unit.
+     */
+    WATT,
+    /**
+     * The weber unit.
+     */
+    WEBER;
 
     /**
      * Tests whether the both given unit kinds are equivalent, i.e., it also
@@ -229,11 +226,10 @@ public class Unit extends AbstractSBase {
      */
     public static boolean areEquivalent(Kind kind1, Kind kind2) {
       return kind1 == kind2 || (kind1 == METER && kind2 == METRE)
-        || (kind2 == METER && kind1 == METRE)
-        || (kind1 == LITER && kind2 == LITRE)
-        || (kind2 == LITER && kind1 == LITRE);
+          || (kind2 == METER && kind1 == METRE)
+          || (kind1 == LITER && kind2 == LITRE)
+          || (kind2 == LITER && kind1 == LITRE);
     }
-
 
     /**
      * Returns a set of {@link Kind} objects for the given level/version
@@ -251,11 +247,12 @@ public class Unit extends AbstractSBase {
         switch (version) {
         case 1:
         case 2:
-          kinds = new Kind[] {AMPERE, BECQUEREL, CANDELA, CELSIUS, COULOMB,
-            DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY, HERTZ, ITEM, JOULE, KATAL,
-            KELVIN, KILOGRAM, LITER, LITRE, LUMEN, LUX, METER, METRE, MOLE,
-            NEWTON, OHM, PASCAL, RADIAN, SECOND, SIEMENS, SIEVERT, STERADIAN,
-            TESLA, VOLT, WATT, WEBER};
+          kinds = new Kind[] { AMPERE, BECQUEREL, CANDELA, CELSIUS,
+            COULOMB, DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY,
+            HERTZ, ITEM, JOULE, KATAL, KELVIN, KILOGRAM, LITER,
+            LITRE, LUMEN, LUX, METER, METRE, MOLE, NEWTON, OHM,
+            PASCAL, RADIAN, SECOND, SIEMENS, SIEVERT,
+            STERADIAN, TESLA, VOLT, WATT, WEBER };
           break;
         default:
           break;
@@ -265,22 +262,24 @@ public class Unit extends AbstractSBase {
         switch (version) {
         case 1:
           // Like Level 1 Version 2 without LITER and METER
-          kinds = new Kind[] {AMPERE, BECQUEREL, CANDELA, CELSIUS, COULOMB,
-            DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY, HERTZ, ITEM, JOULE, KATAL,
-            KELVIN, KILOGRAM, LITRE, LUMEN, LUX, METRE, MOLE, NEWTON, OHM,
-            PASCAL, RADIAN, SECOND, SIEMENS, SIEVERT, STERADIAN, TESLA, VOLT,
-            WATT, WEBER};
+          kinds = new Kind[] { AMPERE, BECQUEREL, CANDELA, CELSIUS,
+            COULOMB, DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY,
+            HERTZ, ITEM, JOULE, KATAL, KELVIN, KILOGRAM, LITRE,
+            LUMEN, LUX, METRE, MOLE, NEWTON, OHM, PASCAL,
+            RADIAN, SECOND, SIEMENS, SIEVERT, STERADIAN, TESLA,
+            VOLT, WATT, WEBER };
           break;
         case 2:
         case 3:
         case 4:
         case 5:
           // Like Level 2 Version 1 without CELSIUS
-          kinds = new Kind[] {AMPERE, BECQUEREL, CANDELA, COULOMB,
-            DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY, HERTZ, ITEM, JOULE, KATAL,
-            KELVIN, KILOGRAM, LITRE, LUMEN, LUX, METRE, MOLE, NEWTON, OHM,
-            PASCAL, RADIAN, SECOND, SIEMENS, SIEVERT, STERADIAN, TESLA, VOLT,
-            WATT, WEBER};
+          kinds = new Kind[] { AMPERE, BECQUEREL, CANDELA, COULOMB,
+            DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY, HERTZ,
+            ITEM, JOULE, KATAL, KELVIN, KILOGRAM, LITRE, LUMEN,
+            LUX, METRE, MOLE, NEWTON, OHM, PASCAL, RADIAN,
+            SECOND, SIEMENS, SIEVERT, STERADIAN, TESLA, VOLT,
+            WATT, WEBER };
           break;
         default:
           break;
@@ -291,11 +290,12 @@ public class Unit extends AbstractSBase {
         case 1:
         case 2:
           // like Level 2 Version 4 with additional AVOGADRO
-          kinds = new Kind[] {AMPERE, AVOGADRO, BECQUEREL, CANDELA, COULOMB,
-            DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY, HERTZ, ITEM, JOULE, KATAL,
-            KELVIN, KILOGRAM, LITRE, LUMEN, LUX, METRE, MOLE, NEWTON, OHM,
-            PASCAL, RADIAN, SECOND, SIEMENS, SIEVERT, STERADIAN, TESLA, VOLT,
-            WATT, WEBER};
+          kinds = new Kind[] { AMPERE, AVOGADRO, BECQUEREL, CANDELA,
+            COULOMB, DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY,
+            HERTZ, ITEM, JOULE, KATAL, KELVIN, KILOGRAM, LITRE,
+            LUMEN, LUX, METRE, MOLE, NEWTON, OHM, PASCAL,
+            RADIAN, SECOND, SIEMENS, SIEVERT, STERADIAN, TESLA,
+            VOLT, WATT, WEBER };
           break;
         default:
           break;
@@ -311,53 +311,46 @@ public class Unit extends AbstractSBase {
       return set;
     }
 
-
     /**
      * This method is equivalent to converting the {@link String} to a
      * {@link Kind} and then calling its {@link #isDefinedIn} method. Only
      * entirely upper or entirely lower case {@link String}s are valid
      * attributes here.
+     * 
      * This method tests whether a given string corresponds to a predefined
      * {@link Unit.Kind} enumeration value.
+     * 
      * To check whether a given {@link String} represents some predefined
      * {@link UnitDefinition}, please use the method
      * {@link Unit#isPredefined(String, int)}.
      * 
      * @param unitKind
-     *        the unit string.
+     *            the unit string.
      * @param level
-     *        the SBML level.
+     *            the SBML level.
      * @param version
-     *        the SBML version.
+     *            the SBML version.
      * @return {@code true} if the given string is valid for the
      *         particular SBML level and version, {@code false} otherwise.
      * @see Unit#isPredefined(String, int)
      */
-    public static boolean isValidUnitKindString(String unitKind, int level,
-      int version) {
+    public static boolean isValidUnitKindString(String unitKind, int level, int version) {
       if ((unitKind != null) && (unitKind.length() > 0)) {
         try {
           // We need to do that as our enum is upper case and sbml
           // kind are lower case in the SBML XML representation.
-          Kind uk = Kind.valueOf(unitKind.toUpperCase()); // TODO - check how
-                                                          // efficient this call
-                                                          // is. Having a
-                                                          // HashMap might be
-                                                          // better
+          Kind uk = Kind.valueOf(unitKind.toUpperCase()); // TODO - check how efficient this call is. Having a HashMap might be better
           return uk.isDefinedIn(level, version);
         } catch (IllegalArgumentException exc) {
-          // logger.info("Unit.isValidUnitKindString - KindString = '" +
-          // unitKind + "'");
+          // logger.info("Unit.isValidUnitKindString - KindString = '" + unitKind + "'");
           if (logger.isDebugEnabled()) {
-            logger.debug(
-              "isValidUnitKindString exception : " + exc.getMessage());
+            logger.debug("isValidUnitKindString exception : " + exc.getMessage());
           }
         }
       }
 
       return false;
     }
-
 
     /**
      * Returns the name of this unit kind.
@@ -366,20 +359,21 @@ public class Unit extends AbstractSBase {
      */
     public String getName() {
       if (this == CELSIUS) {
-        return "degree "
-          + StringTools.firstLetterUpperCase(toString().toLowerCase());
+        return "degree " + StringTools.firstLetterUpperCase(toString().toLowerCase());
       }
       if (this == DIMENSIONLESS || this == GRAM || this == ITEM
-        || this == INVALID || this == KILOGRAM || this == LUX || this == METER
-        || this == METRE || this == MOLE || this == SECOND) {
+          || this == INVALID || this == KILOGRAM || this == LUX || this == LUMEN
+          || this == LITER || this == LITRE
+          || this == METER || this == METRE || this == MOLE
+          || this == SECOND) {
         return toString().toLowerCase();
       } else {
         return StringTools.firstLetterUpperCase(toString().toLowerCase());
       }
     }
 
-
     /**
+     * 
      * @return the formula symbol of this unit kind in uni-code notation.
      */
     public String getSymbol() {
@@ -428,7 +422,7 @@ public class Unit extends AbstractSBase {
         return "mol";
       case NEWTON:
         return "N";
-      case OHM: // upper case Omega character
+      case OHM:  // upper case Omega character
         return "\u03A9";
       case PASCAL:
         return "Pa";
@@ -455,17 +449,15 @@ public class Unit extends AbstractSBase {
       }
     }
 
-
     /**
      * Creates a unit ontology identifier for this {@link Kind} if possible
-     * and returns it. See <a href=
-     * "http://obo.cvs.sourceforge.net/viewvc/obo/obo/ontology/phenotype/unit.obo">
-     * the Unit Ontology</a>
+     * and returns it. See <a href="http://obo.cvs.sourceforge.net/viewvc/obo/obo/ontology/phenotype/unit.obo">the Unit Ontology</a>
      * for more information.
      * 
      * @return the unit ontology identifier for this {@link Kind} or null if
      *         this {@link Kind} has no corresponding type in the unit
      *         ontology.
+     * 
      * @see #getUnitOntologyNumber()
      */
     public String getUnitOntologyIdentifier() {
@@ -482,16 +474,11 @@ public class Unit extends AbstractSBase {
       return null;
     }
 
-
     /**
      * Looks for the corresponding unit ontology resource for this
-     * {@link Kind}. Please visit <a href=
-     * "http://bioportal.bioontology.org/visualize/44519/?conceptid=UO%3A0000003">
-     * http://bioportal.bioontology.org/visualize/44519/?conceptid=UO%3A0000003
-     * </a>
-     * and
-     * <a href="http://www.ebi.ac.uk/miriam/main/datatypes/MIR:00000136">http://
-     * www.ebi.ac.uk/miriam/main/datatypes/MIR:00000136</a>
+     * {@link Kind}. Please visit <a href="http://bioportal.bioontology.org/visualize/44519/?conceptid=UO%3A0000003">
+     * http://bioportal.bioontology.org/visualize/44519/?conceptid=UO%3A0000003</a>
+     * and <a href="http://www.ebi.ac.uk/miriam/main/datatypes/MIR:00000136">http://www.ebi.ac.uk/miriam/main/datatypes/MIR:00000136</a>
      * for more details.
      * 
      * @return the unit ontology number of this {@link Kind} or -1 if no
@@ -501,8 +488,8 @@ public class Unit extends AbstractSBase {
       switch (this) {
       case AMPERE:
         return 11;
-      // case AVOGADRO:
-      // return "";
+        // case AVOGADRO:
+        // return "";
       case BECQUEREL:
         return 132;
       case CANDELA:
@@ -513,20 +500,20 @@ public class Unit extends AbstractSBase {
         return 220;
       case DIMENSIONLESS:
         return 186;
-      // case FARAD:
-      // return "";
+        // case FARAD:
+        // return "";
       case GRAM:
         return 21;
       case GRAY:
         return 134;
-      // case HENRY:
-      // return "";
+        // case HENRY:
+        // return "";
       case HERTZ:
         return 106;
-      // case INVALID:
-      // return "";
-      // case ITEM:
-      // return "";
+        // case INVALID:
+        // return "";
+        // case ITEM:
+        // return "";
       case JOULE:
         return 112;
       case KATAL:
@@ -549,8 +536,8 @@ public class Unit extends AbstractSBase {
         return 13;
       case NEWTON:
         return 108;
-      // case OHM:
-      // return "";
+        // case OHM:
+        // return "";
       case PASCAL:
         return 110;
       case RADIAN:
@@ -576,7 +563,6 @@ public class Unit extends AbstractSBase {
       }
     }
 
-
     /**
      * Creates a MIRIAM resource pointing to the entry in the unit ontology
      * corresponding to this {@link Kind}. If such an entry exists, this
@@ -591,11 +577,10 @@ public class Unit extends AbstractSBase {
       String uo = getUnitOntologyIdentifier();
       if (uo != null) {
         return "http://identifiers.org/unit/" + uo;
-        // return "urn:miriam:unit:" + uo.replace(":", "%3A");
+        //return "urn:miriam:unit:" + uo.replace(":", "%3A");
       }
       return null;
     }
-
 
     /**
      * Tests whether this kind of unit is defined in the given level and
@@ -613,15 +598,12 @@ public class Unit extends AbstractSBase {
   /**
    * A {@link Logger} for this class.
    */
-  private static final transient Logger logger           =
-    Logger.getLogger(Unit.class);
+  private static final transient Logger logger = Logger.getLogger(Unit.class);
 
   /**
    * Generated serial version identifier.
    */
-  private static final long             serialVersionUID =
-    -6335465287728562136L;
-
+  private static final long serialVersionUID = -6335465287728562136L;
 
   /**
    * Checks whether the given {@link Unit} and the {@link Unit} represented by
@@ -633,10 +615,8 @@ public class Unit extends AbstractSBase {
    * @see #areEquivalent(Unit, Unit)
    */
   public static boolean areEquivalent(Unit unit, String units) {
-    return areEquivalent(unit, new Unit(1d, 0, Unit.Kind.valueOf(units), 1d,
-      unit.getLevel(), unit.getVersion()));
+    return areEquivalent(unit, new Unit(1d, 0, Unit.Kind.valueOf(units), 1d, unit.getLevel(), unit.getVersion()));
   }
-
 
   /**
    * <p>
@@ -651,17 +631,16 @@ public class Unit extends AbstractSBase {
    * </p>
    * 
    * @param unit1
-   *        the first Unit object to compare
+   *            the first Unit object to compare
    * @param unit2
-   *        the second Unit object to compare
+   *            the second Unit object to compare
    * @return if the 'kind' and 'exponent' attributes of unit1 are identical to
    *         the kind and exponent attributes of unit2, {@code false} otherwise.
    */
   public static boolean areEquivalent(Unit unit1, Unit unit2) {
     return Kind.areEquivalent(unit1.getKind(), unit2.getKind())
-      && unit1.getExponent() == unit2.getExponent();
+        && unit1.getExponent() == unit2.getExponent();
   }
-
 
   /**
    * <p>
@@ -676,9 +655,9 @@ public class Unit extends AbstractSBase {
    * </p>
    * 
    * @param unit1
-   *        the first Unit object to compare
+   *            the first Unit object to compare
    * @param unit2
-   *        the second Unit object to compare
+   *            the second Unit object to compare
    * @return {@code true} if all the attributes of unit1 are identical to the
    *         attributes of unit2, {@code false} otherwise.
    * @see #areEquivalent
@@ -690,13 +669,12 @@ public class Unit extends AbstractSBase {
     return identical && unit1.getScale() == unit2.getScale();
   }
 
-
   /**
    * Returns a UnitDefinition object which contains the argument Unit
    * converted to the appropriate SI unit.
    * 
    * @param unit
-   *        the Unit object to convert to SI
+   *            the Unit object to convert to SI
    * @return a UnitDefinition object containing the SI unit.
    */
   public static UnitDefinition convertToSI(Unit unit) {
@@ -717,7 +695,8 @@ public class Unit extends AbstractSBase {
     case HERTZ:
       /* 1 Becquerel = 1 sec^-1 */
       /* 1 Hertz = 1 sec^-1 */
-      ud.addUnit(new Unit(Math.pow(mult, -1d), scale, Kind.SECOND, -exp, l, v));
+      ud.addUnit(new Unit(Math.pow(mult, -1d), scale, Kind.SECOND, -exp,
+        l, v));
       break;
 
     case CANDELA:
@@ -748,7 +727,8 @@ public class Unit extends AbstractSBase {
 
     case FARAD:
       /* 1 Farad = 1 m^-2 kg^-1 s^4 A^2 */
-      ud.addUnit(new Unit(Math.sqrt(mult), scale, Kind.AMPERE, 2d * exp, l, v));
+      ud.addUnit(new Unit(Math.sqrt(mult), scale, Kind.AMPERE, 2d * exp,
+        l, v));
       ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, -exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.METRE, -2d * exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.SECOND, 4d * exp, l, v));
@@ -769,8 +749,8 @@ public class Unit extends AbstractSBase {
 
     case HENRY:
       /* 1 Henry = 1 m^2 kg s^-2 A^-2 */
-      ud.addUnit(
-        new Unit(1d / Math.sqrt(mult), scale, Kind.AMPERE, (-2d) * exp, l, v));
+      ud.addUnit(new Unit(1d / Math.sqrt(mult), scale, Kind.AMPERE, (-2d)
+        * exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.METRE, 2d * exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2d) * exp, l, v));
@@ -802,8 +782,8 @@ public class Unit extends AbstractSBase {
     case LITER:
     case LITRE:
       /* 1 litre = 0.001 m^3 = (0.1 m)^3 */
-      ud.addUnit(new Unit(Math.pow(0.001d * mult, 1d / 3d), scale, Kind.METRE,
-        3d * exp, l, v));
+      ud.addUnit(new Unit(Math.pow(0.001d * mult, 1d / 3d), scale,
+        Kind.METRE, 3d * exp, l, v));
       break;
 
     case LUMEN:
@@ -837,8 +817,7 @@ public class Unit extends AbstractSBase {
 
     case OHM:
       /* 1 ohm = 1 m^2 kg s^-3 A^-2 */
-      ud.addUnit(
-        new Unit(1d / Math.sqrt(mult), scale, Kind.AMPERE, (-2d) * exp, l, v));
+      ud.addUnit(new Unit(1d / Math.sqrt(mult), scale, Kind.AMPERE, (-2d) * exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.METRE, 2d * exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-3d) * exp, l, v));
@@ -858,7 +837,8 @@ public class Unit extends AbstractSBase {
 
     case SIEMENS:
       /* 1 Siemens = 1 m^-2 * kg^-1 * s^3 * A^2 */
-      ud.addUnit(new Unit(Math.sqrt(mult), scale, Kind.AMPERE, 2 * exp, l, v));
+      ud.addUnit(new Unit(Math.sqrt(mult), scale, Kind.AMPERE, 2 * exp,
+        l, v));
       ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, -exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.METRE, (-2d) * exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.SECOND, 3d * exp, l, v));
@@ -902,18 +882,17 @@ public class Unit extends AbstractSBase {
     return ud.simplify();
   }
 
-
   /**
    * Predicate to test whether a given string is the name of a predefined SBML
    * unit.
    * 
    * @param name
-   *        a {@link String} to be tested against the predefined unit
-   *        names
+   *            a {@link String} to be tested against the predefined unit
+   *            names
    * @param level
-   *        the Level of SBML for which the determination should be made.
-   *        This is necessary because there are a few small differences in
-   *        allowed units between SBML Level 1 and Level 2.
+   *            the Level of SBML for which the determination should be made.
+   *            This is necessary because there are a few small differences in
+   *            allowed units between SBML Level 1 and Level 2.
    * @return {@code true}, if name is one of the five SBML predefined
    *         unit identifiers ('substance', 'volume', 'area', 'length' or
    *         'time'), {@code false} otherwise. The predefined unit
@@ -925,18 +904,17 @@ public class Unit extends AbstractSBase {
     return isPredefined(name, level);
   }
 
-
   /**
    * Predicate to test whether a given string is the name of a predefined SBML
    * unit.
    * 
    * @param name
-   *        a {@link String} to be tested against the predefined unit
-   *        names
+   *            a {@link String} to be tested against the predefined unit
+   *            names
    * @param level
-   *        the Level of SBML for which the determination should be made.
-   *        This is necessary because there are a few small differences in
-   *        allowed units between SBML Level 1 and Level 2.
+   *            the Level of SBML for which the determination should be made.
+   *            This is necessary because there are a few small differences in
+   *            allowed units between SBML Level 1 and Level 2.
    * @return {@code true}, if name is one of the five SBML predefined
    *         unit identifiers ('substance', 'volume', 'area', 'length' or
    *         'time'), {@code false} otherwise. The predefined unit
@@ -944,19 +922,19 @@ public class Unit extends AbstractSBase {
    */
   public static boolean isPredefined(String name, int level) {
     if (level < 3) {
-      if ((level == 2) && (name.equals(UnitDefinition.AREA)
-        || name.equals(UnitDefinition.LENGTH))) {
+      if ((level == 2)
+          && (name.equals(UnitDefinition.AREA) ||
+              name.equals(UnitDefinition.LENGTH))) {
         return true;
       }
       if (name.equals(UnitDefinition.SUBSTANCE)
-        || name.equals(UnitDefinition.VOLUME)
-        || name.equals(UnitDefinition.TIME)) {
+          || name.equals(UnitDefinition.VOLUME)
+          || name.equals(UnitDefinition.TIME)) {
         return true;
       }
     }
     return false;
   }
-
 
   /**
    * Tests whether the given {@link UnitDefinition} belongs to the predefined
@@ -974,8 +952,8 @@ public class Unit extends AbstractSBase {
     return isPredefined(ud.getId(), ud.getLevel());
   }
 
-
   /**
+   * 
    * @param kind
    * @param level
    * @param version
@@ -988,7 +966,6 @@ public class Unit extends AbstractSBase {
       return false;
     }
   }
-
 
   /**
    * <p>
@@ -1006,15 +983,14 @@ public class Unit extends AbstractSBase {
    * </p>
    * 
    * @param name
-   *        a string to be tested
+   *            a string to be tested
    * @param level
-   *        an integer representing the SBML specification Level
+   *            an integer representing the SBML specification Level
    * @param version
-   *        an integer representing the SBML specification Version
+   *            an integer representing the SBML specification Version
    * @return {@code true} if name is a valid UnitKind, {@code false} otherwise
-   * @jsbml.note The allowed unit names differ between SBML Levels 1 and 2 and
-   *             again
-   *             slightly between Level 2 Versions 1 and 2.
+   * @jsbml.note The allowed unit names differ between SBML Levels 1 and 2 and again
+   *       slightly between Level 2 Versions 1 and 2.
    */
   public static boolean isUnitKind(String name, int level, int version) {
     if ((name == null) || UnitDefinition.isPredefined(name, level)) {
@@ -1031,20 +1007,20 @@ public class Unit extends AbstractSBase {
 
   }
 
-
   /**
    * Returns {@code true} if the {@code unit} is a valid unit kind name or an
    * identifier of an existing {@link UnitDefinition}.
+   * 
    * If either the unit or model are null, it will return false.
    * 
    * @param unit
-   *        the identifier of a {@link UnitDefinition} or a valid
-   *        {@link Unit.Kind} identifier for the current level/version
-   *        combination of the model.
+   *            the identifier of a {@link UnitDefinition} or a valid
+   *            {@link Unit.Kind} identifier for the current level/version
+   *            combination of the model.
    * @param model
-   *        the model where to look for the {@code unit}.
-   * @return {@code true} if the unit is a valid unit kind name or an identifier
-   *         of an
+   *            the model where to look for the {@code unit}.
+   * 
+   * @return {@code true} if the unit is a valid unit kind name or an identifier of an
    *         existing {@link UnitDefinition}.
    */
   public static boolean isValidUnit(Model model, String unit) {
@@ -1053,8 +1029,8 @@ public class Unit extends AbstractSBase {
     if ((unit != null) && (model != null)) {
       unit = unit.trim();
       if (unit.length() > 0) {
-        if (Kind.isValidUnitKindString(unit, model.getLevel(),
-          model.getVersion())) {
+        if (Kind.isValidUnitKindString(unit, model.getLevel(), model
+          .getVersion())) {
           isValidUnit = true;
         } else if (model.getUnitDefinition(unit) != null) {
           isValidUnit = true;
@@ -1067,17 +1043,15 @@ public class Unit extends AbstractSBase {
     return isValidUnit;
   }
 
-
   /**
    * Merges two {@link Unit} objects with the same 'kind' attribute value into a
    * single {@link Unit}.
    * 
    * @param unit1
-   *        the first {@link Unit} object; the result of the operation is left
-   *        as
-   *        a new version of this {@link Unit}, modified in-place.
+   *            the first {@link Unit} object; the result of the operation is left as
+   *            a new version of this {@link Unit}, modified in-place.
    * @param unit2
-   *        the second {@link Unit} object to merge with the first
+   *            the second {@link Unit} object to merge with the first
    */
   public static void merge(Unit unit1, Unit unit2) {
     Kind k1 = unit1.getKind();
@@ -1087,22 +1061,29 @@ public class Unit extends AbstractSBase {
       int s1 = unit1.getScale(), s2 = unit2.getScale();
       /*
        * Let's get rid of this offset if there is any...
+       * 
        * We remove the offset by expressing it within a new multiplier,
        * m-prime.
+       * 
        * m-prime = offset / 10^scale + multiplier
+       * 
        * When inserting this again into the unit formula, the offset
        * vanishes:
+       * 
        * ((offset + multiplier * 10^scale) * unit)^exponent
+       * 
        * then becomes
+       * 
        * (m-prime * 10^scale * unit)^exponent
+       * 
        * This is possible because offset and multiplier are real double numbers.
        */
       double m1 = unit1.getOffset() / Math.pow(10, s1) + unit1.getMultiplier();
       double m2 = unit2.getOffset() / Math.pow(10, s2) + unit2.getMultiplier();
-      double e1 = k1 == Kind.DIMENSIONLESS && unit1.getExponent() != 0d ? 0d
-        : unit1.getExponent();
-      double e2 = k2 == Kind.DIMENSIONLESS && unit2.getExponent() != 0d ? 0d
-        : unit2.getExponent();
+      double e1 = k1 == Kind.DIMENSIONLESS
+          && unit1.getExponent() != 0d ? 0d : unit1.getExponent();
+      double e2 = k2 == Kind.DIMENSIONLESS
+          && unit2.getExponent() != 0d ? 0d : unit2.getExponent();
       if (unit1.getOffset() != 0d) {
         unit1.setOffset(0d);
       }
@@ -1114,17 +1095,22 @@ public class Unit extends AbstractSBase {
       /*
        * Note how we combine units:
        * ==========================
+       * 
        * We have (m_1 * 10^{s_1} * u)^e_1 and (m_2 * 10^{s_2} * u)^e_2
+       * 
        * m, s, e denoting multiplier, scale and exponent for each unit.
        * u is either of identical kind or dimensionless or invalid.
+       * 
        * The merged unit is:
-       * (m_1^{e_1/(e_1 + e_2)} * m_2^{e_2/(e_1 + e_2)} * 10^{(s_1 * e_1 + s_2 *
-       * e_2)/(e_1 + e_2)} * u)^{e_1 + e_2}
+       * 
+       * (m_1^{e_1/(e_1 + e_2)} * m_2^{e_2/(e_1 + e_2)} * 10^{(s_1 * e_1 + s_2 * e_2)/(e_1 + e_2)} * u)^{e_1 + e_2}
+       * 
        * Special cases occur if s_1 or s_2 equal 0.
-       * It is important to know that the scale must be an integer. Hence, if
-       * the
+       * 
+       * It is important to know that the scale must be an integer. Hence, if the
        * fraction (s_1 * e_1 + s_2 * e_2)/(e_1 + e_2) is not exactly an integer,
        * we have to merge the scale with the multiplier and set the scale to 0.
+       * 
        * Also note that the exponent of a dimensionless unit must be one,
        * even if it is the result of a cancelation of two other units, i.e.,
        * it should actually be 0.
@@ -1145,8 +1131,7 @@ public class Unit extends AbstractSBase {
         }
 
         if (m1 != m2) {
-          newMultiplier =
-            Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1d / newExponent);
+          newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1d / newExponent);
         }
 
         if (s1 != s2) {
@@ -1169,6 +1154,8 @@ public class Unit extends AbstractSBase {
             /*
              * If rounding fails, we have to remove the scale and shift it to
              * the multiplier. Otherwise, it would be too inaccurate.
+             *
+             *
              * This is a bit ugly, but there's no other choice,
              * because the scale can only be an integer number. This
              * is the method from libSBML:
@@ -1184,8 +1171,7 @@ public class Unit extends AbstractSBase {
               m2 = unit2.getMultiplier();
               e1 = unit1.getExponent();
               e2 = unit2.getExponent();
-              newMultiplier =
-                Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1d / newExponent);
+              newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1d / newExponent);
             }
           }
         }
@@ -1228,21 +1214,20 @@ public class Unit extends AbstractSBase {
         "Cannot merge units with different kind properties {0} and {1}. Units can only be merged if both have the same kind attribute or if one of them is dimensionless.",
         k1, k2));
     }
-    // Try to shift multipliers into the scale for easier mathematical treatment
-    // of the units:
+    // Try to shift multipliers into the scale for easier mathematical treatment of the units:
     unit1.removeMultiplier();
   }
-
 
   /**
    * Manipulates the attributes of the Unit to express the unit with the value
    * of the scale attribute reduced to zero.
+   * 
    * For example, 1 millimetre can be expressed as a Unit with kind= 'metre'
    * multiplier='1' scale='-3' exponent='1'. It can also be expressed as a
    * Unit with kind='metre' multiplier='0.001' scale='0' exponent='1'.
    * 
    * @param unit
-   *        the Unit object to manipulate.
+   *            the Unit object to manipulate.
    */
   public static void removeScale(Unit unit) {
     unit.removeScale();
@@ -1251,7 +1236,7 @@ public class Unit extends AbstractSBase {
   /**
    * Represents the 'exponent' XML attribute of an unit element.
    */
-  private Double  exponent;
+  private Double exponent;
 
   /**
    * 
@@ -1274,26 +1259,24 @@ public class Unit extends AbstractSBase {
   /**
    * Represents the 'kind' XML attribute of an unit element.
    */
-  private Kind    kind;
+  private Kind kind;
 
   /**
    * Represents the 'multiplier' XML attribute of an unit element.
    */
-  private Double  multiplier;
+  private Double multiplier;
 
   /**
    * Represents the 'offset' XML attribute of an unit element.
-   * 
    * @deprecated the offset attribute should no longer be used.
    */
   @Deprecated
-  private Double  offset;
+  private Double offset;
 
   /**
    * Represents the 'scale' XML attribute of an unit element.
    */
   private Integer scale;
-
 
   /**
    * Creates a Unit instance. If the level is set and is superior or equal to
@@ -1304,10 +1287,8 @@ public class Unit extends AbstractSBase {
     initDefaults();
   }
 
-
   /**
-   * Creates a {@link Unit} instance from a multiplier, scale, kind and
-   * exponent. The
+   * Creates a {@link Unit} instance from a multiplier, scale, kind and exponent. The
    * offset is {@code null}.
    * 
    * @param multiplier
@@ -1329,10 +1310,8 @@ public class Unit extends AbstractSBase {
     offset = null;
   }
 
-
   /**
-   * Creates a {@link Unit} instance from a level and version. If the level is
-   * set and
+   * Creates a {@link Unit} instance from a level and version. If the level is set and
    * is superior or equal to 3 the multiplier, scale, kind, offset and
    * exponent are {@code null}.
    * 
@@ -1343,7 +1322,6 @@ public class Unit extends AbstractSBase {
     super(level, version);
     initDefaults();
   }
-
 
   /**
    * Creates a Unit instance from a scale, kind, exponent, level and version.
@@ -1359,7 +1337,6 @@ public class Unit extends AbstractSBase {
     isSetMultiplier = false;
   }
 
-
   /**
    * Creates a Unit instance from a scale, kind, level and version.
    * 
@@ -1372,7 +1349,6 @@ public class Unit extends AbstractSBase {
     this(scale, kind, 1d, level, version);
     isSetExponent = false;
   }
-
 
   /**
    * Creates a Unit instance from a kind, exponent, level and version.
@@ -1387,7 +1363,6 @@ public class Unit extends AbstractSBase {
     isSetScale = false;
   }
 
-
   /**
    * Creates a Unit instance from a kind, level and version. If the level is
    * set and is superior or equal to 3 the multiplier, scale, offset and
@@ -1399,8 +1374,7 @@ public class Unit extends AbstractSBase {
    */
   public Unit(Kind kind, int level, int version) {
     super(level, version);
-    if ((kind == null)
-      || !isUnitKind(kind, level, version) && (kind != Kind.INVALID)) {
+    if ((kind == null) || !isUnitKind(kind, level, version) && (kind != Kind.INVALID)) {
       throw new IllegalArgumentException(MessageFormat.format(
         "Unit kind {0} is undefined for SBML Level {1,number,integer} Version {2,number,integer}.",
         kind != null ? kind.toString() : "null", level, version));
@@ -1409,8 +1383,8 @@ public class Unit extends AbstractSBase {
     setKind(kind);
   }
 
-
   /**
+   * 
    * @param units
    * @param level
    * @param version
@@ -1418,7 +1392,6 @@ public class Unit extends AbstractSBase {
   public Unit(String units, int level, int version) {
     this(Unit.Kind.valueOf(units), level, version);
   }
-
 
   /**
    * Creates a Unit instance from a given Unit.
@@ -1428,10 +1401,10 @@ public class Unit extends AbstractSBase {
   public Unit(Unit unit) {
     super(unit);
 
-    exponent =
-      unit.exponent != null ? Double.valueOf(unit.getExponent()) : null;
-    multiplier =
-      unit.multiplier != null ? new Double(unit.getMultiplier()) : null;
+    exponent = unit.exponent != null ? Double.valueOf(unit.getExponent())
+      : null;
+    multiplier = unit.multiplier != null ? new Double(unit.getMultiplier())
+      : null;
     offset = unit.offset != null ? new Double(unit.getOffset()) : null;
     scale = unit.scale != null ? Integer.valueOf(unit.getScale()) : null;
     kind = unit.isSetKind() ? unit.getKind() : Kind.INVALID;
@@ -1441,9 +1414,7 @@ public class Unit extends AbstractSBase {
     isSetScale = unit.isSetScale;
   }
 
-
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
@@ -1451,9 +1422,7 @@ public class Unit extends AbstractSBase {
     return new Unit(this);
   }
 
-
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
    */
   @Override
@@ -1470,14 +1439,13 @@ public class Unit extends AbstractSBase {
     return equals;
   }
 
-
   /**
+   * 
    * @return the exponent of this {@link Unit} if it is set, 1 otherwise.
    */
   public double getExponent() {
     return isSetExponent() ? exponent : 1d;
   }
-
 
   /**
    * Returns the exponent of this {@link Unit}. This method is provided for
@@ -1491,24 +1459,25 @@ public class Unit extends AbstractSBase {
     return getExponent();
   }
 
-
   /**
+   * 
    * @return the kind of this Unit if it is set, null otherwise.
+   * 
    */
   public Kind getKind() {
     return isSetKind() ? kind : Kind.INVALID;
   }
 
-
   /**
+   * 
    * @return the multiplier of this {@link Unit} if it is set, 1 otherwise.
    */
   public double getMultiplier() {
     return isSetMultiplier() ? multiplier : 1d;
   }
 
-
   /**
+   * 
    * @return the offset of this {@link Unit} if it is set, 0 otherwise.
    * @deprecated
    */
@@ -1517,9 +1486,7 @@ public class Unit extends AbstractSBase {
     return isSetOffset() ? offset : 0d;
   }
 
-
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getParent()
    */
   @SuppressWarnings("unchecked")
@@ -1528,15 +1495,13 @@ public class Unit extends AbstractSBase {
     return (ListOf<Unit>) super.getParent();
   }
 
-
   /**
    * @return This method returns the abbreviated prefix of this {@link Unit},
    *         for instance, "m" for milli, i.e., if the scale is -3. In case
    *         that the {@link #scale} equals zero, an empty {@link String} is
-   *         returned. If no defined prefix exists for the current
-   *         {@link #scale},
+   *         returned. If no defined prefix exists for the current {@link #scale},
    *         the {@link String} {@code 10^(%d)} is returned, where
-   *         {@code %d} denotes the {@link #scale}.
+   *         {@code %d}  denotes the {@link #scale}.
    * @see #getPrefixAsWord()
    */
   public String getPrefix() {
@@ -1591,16 +1556,12 @@ public class Unit extends AbstractSBase {
     return String.format("%d^(%d)", 10, getScale());
   }
 
-
   /**
-   * @return the prefix of this {@link Unit}, for instance, "milli" if the
-   *         {@link #scale} is -3.
-   *         In case that the {@link #scale} equals zero, an empty
-   *         {@link String} is
-   *         returned. If no defined prefix exists for the current
-   *         {@link #scale},
+   * @return the prefix of this {@link Unit}, for instance, "milli" if the {@link #scale} is -3.
+   *         In case that the {@link #scale} equals zero, an empty {@link String} is
+   *         returned. If no defined prefix exists for the current {@link #scale},
    *         the {@link String} {@code 10^(%d)} is returned, where
-   *         {@code %d} denotes the {@link #scale}.
+   *         {@code %d}  denotes the {@link #scale}.
    * @see #getPrefix()
    */
   public String getPrefixAsWord() {
@@ -1655,17 +1616,15 @@ public class Unit extends AbstractSBase {
     return String.format("%d^(%d)", 10, getScale());
   }
 
-
   /**
+   * 
    * @return the scale of this Unit if it is set, 0 otherwise.
    */
   public int getScale() {
     return isSetScale() ? scale : 0;
   }
 
-
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -1682,7 +1641,6 @@ public class Unit extends AbstractSBase {
     return hashCode;
   }
 
-
   /**
    * Predicate returning true or false depending on whether all the required
    * attributes for this Unit object have been set.
@@ -1694,19 +1652,17 @@ public class Unit extends AbstractSBase {
     return isSetKind();
   }
 
-
   /**
-   * Initializes the default values using the current Level/Version
-   * configuration.
+   * Initializes the default values using the current Level/Version configuration.
    */
   public void initDefaults() {
     initDefaults(getLevel(), getVersion());
   }
 
-
   /**
    * Initializes the attributes of this Unit (except for 'kind') to their
    * defaults values.
+   * 
    * The default values are as follows:
    * <ul>
    * <li>exponent = 1</li>
@@ -1721,7 +1677,6 @@ public class Unit extends AbstractSBase {
   public void initDefaults(int level, int version) {
     initDefaults(level, version, false);
   }
-
 
   /**
    * @param level
@@ -1770,17 +1725,14 @@ public class Unit extends AbstractSBase {
     return kind == Kind.AMPERE;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind avogadro.
    * 
-   * @return {@code true} if the kind of this Unit is avogadro, {@code false}
-   *         otherwise.
+   * @return {@code true} if the kind of this Unit is avogadro, {@code false} otherwise.
    */
   public boolean isAvogadro() {
     return kind == Kind.AVOGADRO;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind becquerel.
@@ -1791,7 +1743,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.BECQUEREL;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind candela
    * 
@@ -1800,7 +1751,6 @@ public class Unit extends AbstractSBase {
   public boolean isCandela() {
     return kind == Kind.CANDELA;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind Celsius
@@ -1813,7 +1763,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.CELSIUS;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind coulomb.
    * 
@@ -1822,7 +1771,6 @@ public class Unit extends AbstractSBase {
   public boolean isCoulomb() {
     return kind == Kind.COULOMB;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the {@link Kind}
@@ -1835,9 +1783,8 @@ public class Unit extends AbstractSBase {
    */
   public boolean isDimensionless() {
     return (kind == Kind.DIMENSIONLESS)
-      || ((getOffset() == 0d) && (getExponent() == 0d));
+        || ((getOffset() == 0d) && (getExponent() == 0d));
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind farad
@@ -1848,7 +1795,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.FARAD;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind gram
    * 
@@ -1857,7 +1803,6 @@ public class Unit extends AbstractSBase {
   public boolean isGram() {
     return kind == Kind.GRAM;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind gray
@@ -1868,7 +1813,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.GRAY;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind henry
    * 
@@ -1877,7 +1821,6 @@ public class Unit extends AbstractSBase {
   public boolean isHenry() {
     return kind == Kind.HENRY;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind hertz
@@ -1888,7 +1831,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.HERTZ;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind invalid.
    * 
@@ -1897,7 +1839,6 @@ public class Unit extends AbstractSBase {
   public boolean isInvalid() {
     return kind == Kind.INVALID;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind item
@@ -1908,7 +1849,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.ITEM;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind Joule
    * 
@@ -1917,7 +1857,6 @@ public class Unit extends AbstractSBase {
   public boolean isJoule() {
     return kind == Kind.JOULE;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind katal
@@ -1928,7 +1867,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.KATAL;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind kelvin
    * 
@@ -1937,7 +1875,6 @@ public class Unit extends AbstractSBase {
   public boolean isKelvin() {
     return kind == Kind.KELVIN;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind kilogram
@@ -1948,18 +1885,15 @@ public class Unit extends AbstractSBase {
     return kind == Kind.KILOGRAM;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind litre.
    * 
-   * @return {@code true} if the kind of this Unit is litre or 'liter',
-   *         {@code false}
+   * @return {@code true} if the kind of this Unit is litre or 'liter', {@code false}
    *         otherwise.
    */
   public boolean isLitre() {
     return (kind == Kind.LITRE) || (kind == Kind.LITER);
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind lumen
@@ -1970,7 +1904,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.LUMEN;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind lux
    * 
@@ -1979,7 +1912,6 @@ public class Unit extends AbstractSBase {
   public boolean isLux() {
     return kind == Kind.LUX;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind metre
@@ -1990,17 +1922,14 @@ public class Unit extends AbstractSBase {
     return (kind == Kind.METRE) || (kind == Kind.METER);
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind mole.
    * 
-   * @return {@code true} if the kind of this Unit is mole, {@code false}
-   *         otherwise.
+   * @return {@code true} if the kind of this Unit is mole, {@code false} otherwise.
    */
   public boolean isMole() {
     return kind == Kind.MOLE;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind newton
@@ -2011,7 +1940,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.NEWTON;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind ohm
    * 
@@ -2020,7 +1948,6 @@ public class Unit extends AbstractSBase {
   public boolean isOhm() {
     return kind == Kind.OHM;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind pascal
@@ -2031,7 +1958,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.PASCAL;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind radian
    * 
@@ -2040,7 +1966,6 @@ public class Unit extends AbstractSBase {
   public boolean isRadian() {
     return kind == Kind.RADIAN;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind second
@@ -2051,18 +1976,16 @@ public class Unit extends AbstractSBase {
     return kind == Kind.SECOND;
   }
 
-
   /**
+   * 
    * @return {@code true} if the exponent of this Unit is not {@code null}.
    */
   public boolean isSetExponent() {
     return isSetExponent && (exponent != null);
   }
 
-
   /**
-   * Predicate to test whether the 'kind' attribute of this {@link Unit} has
-   * been set.
+   * Predicate to test whether the 'kind' attribute of this {@link Unit} has been set.
    * 
    * @return
    */
@@ -2070,16 +1993,16 @@ public class Unit extends AbstractSBase {
     return (kind != null) && (kind != Kind.INVALID);
   }
 
-
   /**
+   * 
    * @return {@code true} if the multiplier of this Unit is not {@code null}.
    */
   public boolean isSetMultiplier() {
     return isSetMultiplier && (multiplier != null);
   }
 
-
   /**
+   * 
    * @return
    * @deprecated the offset attribute should no longer be used.
    */
@@ -2088,14 +2011,13 @@ public class Unit extends AbstractSBase {
     return isSetOffset && (offset != null);
   }
 
-
   /**
+   * 
    * @return {@code true} if the scale of this Unit is not {@code null}.
    */
   public boolean isSetScale() {
     return isSetScale && (scale != null);
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind siemens
@@ -2106,7 +2028,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.SIEMENS;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind sievert
    * 
@@ -2115,7 +2036,6 @@ public class Unit extends AbstractSBase {
   public boolean isSievert() {
     return kind == Kind.SIEVERT;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind steradian
@@ -2126,7 +2046,6 @@ public class Unit extends AbstractSBase {
     return kind == Kind.STERADIAN;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind tesla
    * 
@@ -2136,39 +2055,27 @@ public class Unit extends AbstractSBase {
     return kind == Kind.TESLA;
   }
 
-
   /**
+   * 
    * @return {@code true} if this Unit is a variant of area.
    */
   public boolean isVariantOfArea() {
     Kind kind = getKind();
-    return (kind == Kind.METER)
-      || (kind == Kind.METRE) && (getOffset() == 0d) && (getExponent() == 2d);
+    return (kind == Kind.METER) || (kind == Kind.METRE)
+        && (getOffset() == 0d) && (getExponent() == 2d);
   }
 
-
   /**
+   * 
    * @return {@code true} if this Unit is a variant of length.
    */
   public boolean isVariantOfLength() {
     Kind kind = getKind();
-
+    
     // Meter only allowed in Level 1 or -1 (level undefined)
-    return (this.getLevel() < 2 && (kind == Kind.METER))
-      || (kind == Kind.METRE) && (getOffset() == 0d) && (getExponent() == 1d);
+    return (this.getLevel() < 2 && (kind == Kind.METER)) || (kind == Kind.METRE)
+        && (getOffset() == 0d) && (getExponent() == 1d);
   }
-
-
-  /**
-   * @return {@code true} if this Unit is a variant of mass.
-   */
-  public boolean isVariantOfMass() {
-    Kind kind = getKind();
-
-    return (kind == Kind.GRAM || kind == Kind.KILOGRAM) && this.getOffset() == 0
-      && this.getExponent() == 1;
-  }
-
 
   /**
    * @return {@code true} if this Unit is a variant of substance.
@@ -2183,17 +2090,17 @@ public class Unit extends AbstractSBase {
     return false;
   }
 
-
   /**
+   * 
    * @return
    */
   public boolean isVariantOfTime() {
     return (getKind() == Kind.SECOND) && (getOffset() == 0d)
-      && (getExponent() == 1d);
+        && (getExponent() == 1d);
   }
 
-
   /**
+   * 
    * @return {@code true} if this Unit is a variant of volume.
    */
   public boolean isVariantOfVolume() {
@@ -2207,7 +2114,6 @@ public class Unit extends AbstractSBase {
     return false;
   }
 
-
   /**
    * Predicate for testing whether this Unit is of the kind volt
    * 
@@ -2217,16 +2123,14 @@ public class Unit extends AbstractSBase {
     return kind == Kind.VOLT;
   }
 
-
   /**
-   * Predicate for testing whether this Unit is of the kind watt
+   *Predicate for testing whether this Unit is of the kind watt
    * 
    * @return
    */
   public boolean isWatt() {
     return kind == Kind.WATT;
   }
-
 
   /**
    * Predicate for testing whether this Unit is of the kind weber
@@ -2237,16 +2141,14 @@ public class Unit extends AbstractSBase {
     return kind == Kind.WEBER;
   }
 
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-   * String prefix, String value)
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+      value);
 
     if (!isAttributeRead) {
       isAttributeRead = true;
@@ -2274,7 +2176,6 @@ public class Unit extends AbstractSBase {
     return isAttributeRead;
   }
 
-
   /**
    * This method tries to remove the {@link #multiplier} of this unit.
    * Nothing will happen in the case that there is no {@link #multiplier}.
@@ -2301,8 +2202,7 @@ public class Unit extends AbstractSBase {
         } else {
           long round = Math.round(exp);
           if (Math.abs(round - exp) < 1E-15) {
-            // 1E-15 is an acceptable noise range due to the limitation of
-            // doubles to 17 decimal positions.
+            // 1E-15 is an acceptable noise range due to the limitation of doubles to 17 decimal positions.
             setScale(getScale() + ((int) round));
             setMultiplier(1d);
           }
@@ -2311,7 +2211,6 @@ public class Unit extends AbstractSBase {
     }
     return this;
   }
-
 
   /**
    * We remove the offset by expressing it within a new {@link #multiplier},
@@ -2326,8 +2225,7 @@ public class Unit extends AbstractSBase {
    * <p>
    * then becomes
    * <p>
-   * (0 + ({@link #offset} / 10^{@link #scale} + {@link #multiplier}) * 10^
-   * {@link #scale} * {@link #kind})^{@link #exponent} =
+   * (0 + ({@link #offset} / 10^{@link #scale} + {@link #multiplier}) * 10^{@link #scale} * {@link #kind})^{@link #exponent} =
    * <p>
    * (m' * 10^{@link #scale} * {@link #kind})^{@link #exponent}
    * <p>
@@ -2345,10 +2243,10 @@ public class Unit extends AbstractSBase {
     return this;
   }
 
-
   /**
    * Manipulates the attributes of the Unit to express the unit with the value
    * of the scale attribute reduced to zero.
+   * 
    * For example, 1 millimetre can be expressed as a Unit with kind= 'metre'
    * multiplier='1' scale='-3' exponent='1'. It can also be expressed as a
    * Unit with kind='metre' multiplier='0.001' scale='0' exponent='1'.
@@ -2363,7 +2261,6 @@ public class Unit extends AbstractSBase {
     return this;
   }
 
-
   /**
    * Sets the exponent of this {@link Unit}
    * 
@@ -2373,10 +2270,8 @@ public class Unit extends AbstractSBase {
     Double oldExponent = this.exponent;
     isSetExponent = true;
     this.exponent = Double.valueOf(exponent);
-    firePropertyChange(TreeNodeChangeEvent.exponent, oldExponent,
-      this.exponent);
+    firePropertyChange(TreeNodeChangeEvent.exponent, oldExponent, this.exponent);
   }
-
 
   /**
    * Sets the exponent of this {@link Unit}
@@ -2389,7 +2284,6 @@ public class Unit extends AbstractSBase {
     setExponent((double) exponent);
   }
 
-
   /**
    * Sets the {@link Kind} of this {@link Unit}
    * 
@@ -2401,28 +2295,23 @@ public class Unit extends AbstractSBase {
     firePropertyChange(TreeNodeChangeEvent.kind, oldKind, this.kind);
   }
 
-
   /**
    * Sets the multiplier of this {@link Unit}
    * 
    * @param multiplier
    * @throws PropertyNotAvailableException
-   *         if Level &lt; 2 and the given {@code multiplier != 1}.
+   *             if Level &lt; 2 and the given {@code multiplier != 1}.
    */
   public void setMultiplier(double multiplier) {
     if ((getLevel() < 2) && (multiplier != 1d)) {
-      // added the multiplier test != 1 to prevent error being reported when it
-      // is not necessary
-      throw new PropertyNotAvailableException(TreeNodeChangeEvent.multiplier,
-        this);
+      // added the multiplier test != 1 to prevent error being reported when it is not necessary
+      throw new PropertyNotAvailableException(TreeNodeChangeEvent.multiplier, this);
     }
     Double oldMultiplyer = this.multiplier;
     isSetMultiplier = true;
     this.multiplier = multiplier;
-    firePropertyChange(TreeNodeChangeEvent.multiplier, oldMultiplyer,
-      this.multiplier);
+    firePropertyChange(TreeNodeChangeEvent.multiplier, oldMultiplyer, this.multiplier);
   }
-
 
   /**
    * Sets the offset of this {@link Unit}
@@ -2430,7 +2319,7 @@ public class Unit extends AbstractSBase {
    * @param offset
    * @deprecated Only defined for SBML Level 2 Version 1.
    * @throws PropertyNotAvailableException
-   *         if Level/Version combination is not 2.1.
+   *             if Level/Version combination is not 2.1.
    */
   @Deprecated
   public void setOffset(double offset) {
@@ -2444,7 +2333,6 @@ public class Unit extends AbstractSBase {
     }
   }
 
-
   /**
    * Sets the scale of this Unit
    * 
@@ -2457,12 +2345,10 @@ public class Unit extends AbstractSBase {
     firePropertyChange(TreeNodeChangeEvent.scale, oldScale, scale);
   }
 
-
   /**
    * Produces a text formula representation of this unit.
    */
-  @Override
-  public String toString() {
+  public String printUnit() {
     StringBuffer times = new StringBuffer();
     if (getMultiplier() != 0d) {
       if (getMultiplier() != 1d) {
@@ -2474,19 +2360,17 @@ public class Unit extends AbstractSBase {
       if ((prefix.length() > 0) && !prefix.startsWith("10")) {
         pow.insert(0, prefix);
       } else if (getScale() != 0) {
-        pow = FormulaCompiler.times(
-          FormulaCompiler.pow(Integer.valueOf(10), getScale()), pow);
+        pow = FormulaCompiler.times(FormulaCompiler.pow(Integer.valueOf(10),
+          getScale()), pow);
       }
       times = FormulaCompiler.times(times, pow);
     }
     if ((offset != null) && (offset.doubleValue() != 0d)) {
-      times =
-        FormulaCompiler.sum(StringTools.toString(offset.doubleValue()), times);
+      times = FormulaCompiler.sum(StringTools.toString(offset.doubleValue()),
+        times);
     }
-    return FormulaCompiler.pow(times, StringTools.toString(getExponent()))
-                          .toString();
+    return FormulaCompiler.pow(times, StringTools.toString(getExponent())).toString();
   }
-
 
   /**
    * 
@@ -2498,7 +2382,6 @@ public class Unit extends AbstractSBase {
     firePropertyChange(TreeNodeChangeEvent.exponent, oldExponent, exponent);
   }
 
-
   /**
    * 
    */
@@ -2507,7 +2390,6 @@ public class Unit extends AbstractSBase {
     kind = Kind.INVALID;
     firePropertyChange(TreeNodeChangeEvent.kind, oldKind, kind);
   }
-
 
   /**
    * 
@@ -2520,7 +2402,6 @@ public class Unit extends AbstractSBase {
       multiplier);
   }
 
-
   /**
    * @deprecated the offset attribute should no longer be used.
    */
@@ -2532,7 +2413,6 @@ public class Unit extends AbstractSBase {
     firePropertyChange(TreeNodeChangeEvent.offset, oldOffset, offset);
   }
 
-
   /**
    * 
    */
@@ -2543,11 +2423,8 @@ public class Unit extends AbstractSBase {
     firePropertyChange(TreeNodeChangeEvent.scale, oldScale, scale);
   }
 
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-   * String prefix, String value)
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
@@ -2579,8 +2456,7 @@ public class Unit extends AbstractSBase {
         attributes.put("exponent", Integer.toString((int) getExponent()));
         if (exponent - getExponent() != 0d) {
           logger.warn(MessageFormat.format(
-            ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages")
-                           .getString("LOSS_OF_INFORMATION_DUE_TO_ROUNDING"),
+            ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("LOSS_OF_INFORMATION_DUE_TO_ROUNDING"),
             getExponent(), exponent));
         }
       }

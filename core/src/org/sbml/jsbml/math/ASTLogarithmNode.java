@@ -48,7 +48,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    * 
    */
   private static final long serialVersionUID = 5350043898749220594L;
-  
+
   /**
    * A {@link Logger} for this class.
    */
@@ -61,7 +61,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     super();
     setType(Type.FUNCTION_LOG);
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTLogarithmNode}.
    * 
@@ -71,7 +71,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   public ASTLogarithmNode(ASTLogarithmNode node) {
     super(node);
   }
-  
+
   /**
    * Creates a new {@link ASTLogarithmNode} with base 10
    * and value {@link ASTNode2}
@@ -101,7 +101,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     }
     addChild(value);
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#addChild(org.sbml.jsbml.math.ASTNode2)
@@ -110,13 +110,13 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   public void addChild(ASTNode2 child) {
     if (! isSetList())  {
       listOfNodes = new ArrayList<ASTNode2>();
-    } 
+    }
     if (isStrict() && getChildCount() == 2) {
       throw new IndexOutOfBoundsException("max child limit exceeded");
     }
     if (getChildCount() >= 2) {
       logger.debug("Max child limit exceeded. To add more children " +
-                   "to ASTBinaryFunctionNode set strictness to false.");
+          "to ASTBinaryFunctionNode set strictness to false.");
     }
     listOfNodes.add(child);
     ASTFactory.setParentSBMLObject(child, parentSBMLObject);
@@ -126,7 +126,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
       setType(Type.FUNCTION_LN);
     }
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -153,7 +153,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     }
     return processValue(value);
   }
-  
+
   /**
    * Return the base of this {@link ASTLogarithmNode}
    * 
@@ -165,7 +165,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     }
     return getType() == Type.FUNCTION_LOG ? new ASTCnIntegerNode(10) : getLeftChild();
   }
-  
+
   /**
    * Return the value of this {@link ASTLogarithmNode}
    * 
@@ -174,7 +174,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   public ASTNode2 getValue() {
     return getRightChild();
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#insertChild(int, org.sbml.jsbml.math.ASTNode2)
@@ -194,7 +194,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
       setType(Type.FUNCTION_LN);
     }
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */
@@ -235,7 +235,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   @Override
   public void setLeftChild(ASTNode2 child) {
     super.setLeftChild(child);
-    setType(child.getType() == Type.CONSTANT_E ? Type.FUNCTION_LN : Type.FUNCTION_LOG);      
+    setType(child.getType() == Type.CONSTANT_E ? Type.FUNCTION_LN : Type.FUNCTION_LOG);
   }
 
   /* (non-Javadoc)
@@ -265,27 +265,6 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
       logger.error("Unable to create MathML");
       return null;
     }
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(getClass().getSimpleName());
-    builder.append(" [strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(isSetType() ? type : "null");
-    builder.append(", id=");
-    builder.append(isSetId() ? id : "null");
-    builder.append(", style=");
-    builder.append(isSetStyle() ? style : "null");
-    builder.append(", class=");
-    builder.append(isSetMathMLClass() ? mathMLClass : "null");
-    builder.append("]");
-    return builder.toString();
   }
 
 }

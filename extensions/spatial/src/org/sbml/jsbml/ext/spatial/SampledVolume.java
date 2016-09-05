@@ -37,12 +37,12 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class SampledVolume extends AbstractSpatialNamedSBase {
 
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(SampledVolume.class);
-  
+
   /**
    * Generated serial version identifier.
    */
@@ -380,7 +380,9 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -425,25 +427,5 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
     }
     return isAttributeRead;
   }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("SampledVolume [domainType=");
-    builder.append(domainType);
-    builder.append(", sampledValue=");
-    builder.append(sampledValue);
-    builder.append(", minValue=");
-    builder.append(minValue);
-    builder.append(", maxValue=");
-    builder.append(maxValue);
-    builder.append("]");
-    return builder.toString();
-  }
-
-
 
 }

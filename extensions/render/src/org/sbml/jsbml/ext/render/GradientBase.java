@@ -277,15 +277,6 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
-   */
-  @Override
-  public String toString() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
   /**
    * @return {@code true}, if listOfGradientStops contains at least one element,
    *         otherwise {@code false}
@@ -319,7 +310,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   public void setListOfGradientStops(ListOf<GradientStop> listOfGradientStops) {
     unsetListOfGradientStops();
     this.listOfGradientStops = listOfGradientStops;
-    
+
     if (listOfGradientStops != null) {
       listOfGradientStops.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'

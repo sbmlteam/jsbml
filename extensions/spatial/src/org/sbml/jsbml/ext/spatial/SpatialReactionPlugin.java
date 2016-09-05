@@ -39,8 +39,8 @@ import org.sbml.jsbml.util.StringTools;
  * @version $Rev$
  */
 public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
-  
-  
+
+
   /**
    * A {@link Logger} for this class.
    */
@@ -84,12 +84,18 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
   }
 
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialSBasePlugin#clone()
+   */
   @Override
   public SpatialReactionPlugin clone() {
     return new SpatialReactionPlugin(this);
   }
 
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
@@ -105,6 +111,9 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
     return equal;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getExtendedSBase()
+   */
   @Override
   public Reaction getExtendedSBase() {
     if (isSetExtendedSBase()) {
@@ -172,8 +181,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
     return false;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
   @Override
@@ -190,8 +198,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
     return 0;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
   @Override
@@ -199,8 +206,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
     return null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#hashCode()
    */
   @Override
@@ -213,8 +219,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
     return hashCode;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.AbstractSpatialSBasePlugin#writeXMLAttributes()
    */
   @Override
@@ -227,9 +232,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
     return attributes;
   }
 
-
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.AbstractSpatialSBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
@@ -252,19 +255,5 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
     }
     return isAttributeRead;
   }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("SpatialReactionPlugin [isLocal=");
-    builder.append(isLocal);
-    builder.append("]");
-    return builder.toString();
-  }
-
-
 
 }

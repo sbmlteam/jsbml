@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -162,7 +160,7 @@ public class CSGeometry extends GeometryDefinition {
   public void setListOfCSGObjects(ListOf<CSGObject> listOfCSGObjects) {
     unsetListOfCSGObjects();
     this.listOfCSGObjects = listOfCSGObjects;
-    
+
     if (listOfCSGObjects != null) {
       listOfCSGObjects.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'spatial'
@@ -171,7 +169,7 @@ public class CSGeometry extends GeometryDefinition {
       listOfCSGObjects.setSBaseListType(ListOf.Type.other);
 
       registerChild(this.listOfCSGObjects);
-    }  
+    }
   }
 
 
@@ -271,42 +269,35 @@ public class CSGeometry extends GeometryDefinition {
     final int prime = 1301;
     int result = super.hashCode();
     result = prime * result
-      + ((listOfCSGObjects == null) ? 0 : listOfCSGObjects.hashCode());
+        + ((listOfCSGObjects == null) ? 0 : listOfCSGObjects.hashCode());
     return result;
   }
 
-
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getAllowsChildren()
    */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CS [spatialId=");
-    builder.append(spatialId);
-    builder.append("]");
-    return builder.toString();
-  }
-  
-  
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
-    
-     if (isSetListOfCSGObjects()) {
+
+    if (isSetListOfCSGObjects()) {
       count++;
-     }
-     
+    }
+
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
@@ -329,7 +320,7 @@ public class CSGeometry extends GeometryDefinition {
       MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
         index, Math.min(pos, 0)));
   }
-  
+
 
   /**
    * Returns the number of {@link CSGObject}s in this

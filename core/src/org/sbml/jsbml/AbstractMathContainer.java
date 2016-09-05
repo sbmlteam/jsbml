@@ -28,7 +28,6 @@ import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -222,7 +221,7 @@ MathContainer {
       Unit u = ud.getUnit(0);
       if ((u.getOffset() == 0) && (u.getMultiplier() == 1)
           && (u.getScale() == 0) && (u.getExponent() == 1)) {
-        return u.getKind().toString();
+        return u.getKind().toString().toLowerCase();
       }
     }
     return null;
@@ -314,17 +313,6 @@ MathContainer {
       ASTNode.setParentSBMLObject(math, this);
       firePropertyChange(TreeNodeChangeEvent.math, oldMath, this.math);
     }
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
-   */
-  @Override
-  public String toString() {
-    if (isSetMath()) {
-      return math.toString();
-    }
-    return StringTools.firstLetterLowerCase(getElementName());
   }
 
   /* (non-Javadoc)

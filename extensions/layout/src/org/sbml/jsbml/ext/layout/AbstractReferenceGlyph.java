@@ -23,7 +23,6 @@ package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Abstract super class for all kinds of glyphs that graphically represent an
@@ -189,21 +188,6 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
       return true;
     }
     return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(getElementName());
-    sb.append(" [id=");
-    sb.append(isSetId() ? getId() : "null");
-    sb.append(", reference=");
-    sb.append(isSetReference() ? getReference() : "null");
-    sb.append(']');
-    return sb.toString();
   }
 
   /**

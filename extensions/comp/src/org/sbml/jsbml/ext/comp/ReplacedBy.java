@@ -23,7 +23,6 @@ package org.sbml.jsbml.ext.comp;
 
 import java.util.Map;
 
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 
 /**
@@ -88,6 +87,7 @@ public class ReplacedBy extends SBaseRef {
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = CompConstants.shortLabel;
@@ -187,14 +187,6 @@ public class ReplacedBy extends SBaseRef {
       return true;
     }
     return false;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "ReplacedBy [submodelRef=" + submodelRef + "]";
   }
 
   /* (non-Javadoc)

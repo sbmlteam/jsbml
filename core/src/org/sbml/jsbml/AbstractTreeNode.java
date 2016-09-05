@@ -25,9 +25,11 @@ package org.sbml.jsbml;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -36,12 +38,13 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.ResourceManager;
-import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeRemovedEvent;
@@ -603,8 +606,6 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   }
 
 
-
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isRoot()
    */
@@ -802,7 +803,93 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   @Override
   public String toString() {
-    return StringTools.firstLetterLowerCase(getClass().getSimpleName());
+    Class<?> clazz = getClass();
+
+    StringBuilder sb = new StringBuilder();
+    sb.append(clazz.getSimpleName());
+
+    // gather attributes
+    SortedMap<String, String> done = new TreeMap<>();
+    String isSet = "isSet";
+    do {
+      // Let's analyze all get, set, and isSet methods and see what could be useful
+      // information for the toString representation of this object.
+      for (Method m : clazz.getDeclaredMethods()) {
+        String mName = m.getName();
+        if (mName.startsWith(isSet)) {
+          String fLUC = mName.substring(isSet.length());
+          String fName = fLUC;
+          char c = fLUC.charAt(0);
+          // The following is needed to avoid strange names such as sBOTerm etc.
+          // We try to match the getter/setter names to actually declared fields
+          StringBuilder nameBuilder = new StringBuilder();
+          nameBuilder.append(Character.toLowerCase(fLUC.charAt(0)));
+          for (int i = 1; i < fLUC.length(); i++) {
+            c = fLUC.charAt(i);
+            if (Character.isUpperCase(c) && Character.isUpperCase(fLUC.charAt(i - 1))) {
+              if ((i < fLUC.length() - 1) && (Character.isLowerCase(fLUC.charAt(i + 1)))) {
+                nameBuilder.append(c);
+              } else {
+                nameBuilder.append(Character.toLowerCase(c));
+              }
+            } else {
+              nameBuilder.append(c);
+            }
+          }
+          fName = nameBuilder.toString();
+
+          try {
+            if ((clazz.getDeclaredField(fName) != null) && !fName.equals("parent") && !done.containsKey(fName)) {
+              Method getter = clazz.getMethod("get" + fLUC);
+              Method setter = clazz.getMethod("set" + fLUC, getter.getReturnType());
+              if ((setter != null) && (getter != null)) {
+                Object o = null;
+                if ((boolean) m.invoke(this)) {
+                  o = getter.invoke(this);
+                }
+                String value = null;
+                if (o != null) {
+                  if (o == parent) {
+                    // Make sure we never create a recursive dependency!
+                    continue;
+                  }
+                  // We need to have a look at the type of object we got and
+                  // provide a few special cases.
+                  if (o instanceof String) {
+                    // Let actual String values be wrapped in double quotes.
+                    value = "\"" + o + "\"";
+                  } else if (o.getClass().isArray()) {
+                    value = Arrays.toString((Object[]) o);
+                  } else {
+                    value = o.toString();
+                  }
+                }
+                done.put(fName, (value != null) ? value : "");
+              }
+            }
+          } catch (NoSuchMethodException | SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchFieldException exc) {
+            // No matter what goes wrong, we are not interested in the error.
+          }
+        }
+      }
+      clazz = clazz.getSuperclass();
+    } while (!clazz.equals(Object.class));
+
+    // write the attributes
+    boolean first = true;
+    sb.append(" [");
+    for (Map.Entry<String, String> entry : done.entrySet()) {
+      if (!first) {
+        sb.append(", ");
+      } else {
+        first = false;
+      }
+      sb.append(entry.getKey());
+      sb.append('=');
+      sb.append(entry.getValue());
+    }
+    sb.append(']');
+    return sb.toString();
   }
 
   /* (non-Javadoc)
@@ -822,9 +909,9 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * @see Serializable
    */
   private void readObject(java.io.ObjectInputStream in)
-      throws IOException, ClassNotFoundException
-  {
+      throws IOException, ClassNotFoundException {
     in.defaultReadObject();
     listOfListeners = new ArrayList<TreeNodeChangeListener>();
   }
+
 }

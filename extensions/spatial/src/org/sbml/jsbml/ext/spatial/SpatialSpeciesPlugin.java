@@ -41,8 +41,8 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
 
-  
-  
+
+
   /**
    * Generated serial version identifier.
    */
@@ -126,21 +126,6 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
     }
     return hashCode;
   }
-
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("SpatialSpeciesPlugin [isSpatial=");
-    builder.append(spatial);
-    builder.append("]");
-    return builder.toString();
-  }
-
 
   /**
    * @return
