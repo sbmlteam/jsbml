@@ -28,6 +28,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * Represents the species XML element of a SBML file.
@@ -1002,7 +1003,11 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    * @param initialAmount
    */
   public void setInitialAmount(double initialAmount) {
-    if (!amount) { // TODO - store initialConcentration in user define object if it is set ?
+    // store initialConcentration in user define object to allow validation of incorrect SBML files
+    if (isReadingInProgress() && isSetInitialConcentration()) {
+      AbstractReaderWriter.processUnknownAttribute("initialConcentration", "", getInitialConcentration() + "", "", this);
+    }
+    if (!amount) {
       amount = true;
       firePropertyChange(TreeNodeChangeEvent.initialAmount, Boolean.FALSE,
         Boolean.TRUE);
@@ -1016,7 +1021,11 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    * @param initialConcentration
    */
   public void setInitialConcentration(double initialConcentration) {
-    if (amount) {  // TODO - store initialAmount in user define object if it is set ?
+    // store initialAmount in user define object to allow validation of incorrect SBML files
+    if (isReadingInProgress() && isSetInitialAmount()) {
+      AbstractReaderWriter.processUnknownAttribute("initialAmount", "", getInitialAmount() + "", "", this);
+    }
+    if (amount) {
       amount = false;
       firePropertyChange(TreeNodeChangeEvent.initialAmount, Boolean.TRUE,
         Boolean.FALSE);
