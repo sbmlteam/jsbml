@@ -922,7 +922,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
       compartment = null;
       // If we pass the empty String or null, the value is reset.
     }
-    // TODO: Check for dimensions of the compartment with respect to spatialDimensions units in this class!
+    // TODO - do a call to the offline validator once all the species attribute checks are in place.
     if ((compartment == null) || checkIdentifier(compartment)) {
       String oldCompartment = compartmentID;
       if ((compartment != null) && (compartment.trim().length() == 0)) {
@@ -978,11 +978,11 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    * @throws PropertyNotAvailableException if Level &lt; 2.
    */
   public void setHasOnlySubstanceUnits(boolean hasOnlySubstanceUnits) {
-    if (getLevel() < 2) {
+    if (!isReadingInProgress() && getLevel() < 2) {
       throw new PropertyNotAvailableException(
         TreeNodeChangeEvent.hasOnlySubstanceUnits, this);
     }
-    if (hasOnlySubstanceUnits && isSetSpatialSizeUnits()) {
+    if (!isReadingInProgress() && hasOnlySubstanceUnits && isSetSpatialSizeUnits()) {
       String ud = isSetUnitsInstance() ? UnitDefinition.printUnits(
         getSpatialSizeUnitsInstance(), true) : getSpatialSizeUnits();
         throw new SBMLException(MessageFormat.format(
@@ -1002,7 +1002,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    * @param initialAmount
    */
   public void setInitialAmount(double initialAmount) {
-    if (!amount) {
+    if (!amount) { // TODO - store initialConcentration in user define object if it is set ?
       amount = true;
       firePropertyChange(TreeNodeChangeEvent.initialAmount, Boolean.FALSE,
         Boolean.TRUE);
@@ -1016,7 +1016,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    * @param initialConcentration
    */
   public void setInitialConcentration(double initialConcentration) {
-    if (amount) {
+    if (amount) {  // TODO - store initialAmount in user define object if it is set ?
       amount = false;
       firePropertyChange(TreeNodeChangeEvent.initialAmount, Boolean.TRUE,
         Boolean.FALSE);
@@ -1041,7 +1041,9 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   @Deprecated
   public void setSpatialSizeUnits(String spatialSizeUnits)
       throws PropertyNotAvailableException, SBMLException {
-    if ((getLevel() != 2) && ((1 != getVersion()) || (2 != getVersion()))) {
+    // TODO - replace all the checks by a call to the offline validator once all the species attribute checks are in place.
+    
+    if (!isReadingInProgress() && (getLevel() != 2) && ((1 != getVersion()) || (2 != getVersion()))) { 
       throw new PropertyNotAvailableException(
         TreeNodeChangeEvent.spatialSizeUnits, this);
     }
@@ -1050,13 +1052,13 @@ public class Species extends Symbol implements CompartmentalizedSBase {
      * SBML Level 2 Version 1, page 20, and
      * SBML Level 2 Version 2, page 45, line 5
      */
-    if (hasOnlySubstanceUnits()) {
+    if (!isReadingInProgress() && hasOnlySubstanceUnits()) {
       throw new SBMLException(MessageFormat.format(
         "Cannot set spatial size units on species {0} because it has only substance units.",
         toString()));
     }
     Compartment c = getCompartmentInstance();
-    if ((c != null) && (c.getSpatialDimensions() == 0d)) {
+    if (!isReadingInProgress() && (c != null) && (c.getSpatialDimensions() == 0d)) {
       // Note that it is still possible to change the dimensions of the
       // compartment later on or to change the entire compartment.
       throw new SBMLException(MessageFormat.format(
