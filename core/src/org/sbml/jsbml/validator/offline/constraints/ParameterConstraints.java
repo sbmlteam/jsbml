@@ -30,6 +30,7 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
@@ -56,6 +57,7 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
 
       if (level > 2 || (level == 2 && version > 1)) {
         set.add(CORE_20412);
+        set.add(CORE_20706);
       }
 
       break;
@@ -78,6 +80,7 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
       set.add(CORE_20701);
       if (level > 2){
         set.add(CORE_99508);
+        set.add(CORE_20702);
       }
       break;
     }
@@ -130,6 +133,30 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+    case CORE_20702:
+      func = new ValidationFunction<Parameter>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Parameter p) {
+          return p.isSetUnits();
+        }
+      };
+      break;
+
+    case CORE_20706:
+      func = new UnknownAttributeValidationFunction<Parameter>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Parameter c) {
+          // id and constant are mandatory attributes
+          if (!c.isSetId() || !c.isSetConstant()) {
+            return false;
+          }
+          return super.check(ctx, c);
+        }
+      };
+      break;
+      
     case CORE_80701:
       func = new ValidationFunction<Parameter>() {
 
