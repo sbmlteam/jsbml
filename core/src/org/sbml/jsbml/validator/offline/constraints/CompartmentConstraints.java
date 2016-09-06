@@ -51,8 +51,6 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     switch (category) {
     case GENERAL_CONSISTENCY:
 
-      set.add(CORE_20517);
-
       if (level == 1)
       {
         set.add(CORE_20504);
@@ -69,6 +67,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       }
       else if (level == 3)
       {
+        set.add(CORE_20517);
         addRangeToSet(set, CORE_20511, CORE_20513);
       }
 
