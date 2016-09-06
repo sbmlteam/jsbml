@@ -35,6 +35,7 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLAttributes;
@@ -545,7 +546,7 @@ public class MathMLStaxParser implements ReadingParser {
       mathContainer = ((ASTNode) contextObject).getParentSBMLObject();
     }
     
-    if (mathContainer != null && mathContainer instanceof InitialAssignment) {
+    if (mathContainer != null && (mathContainer instanceof InitialAssignment || mathContainer instanceof Rule)) {
       int nbMath = (int) ((mathContainer.isSetUserObjects() && mathContainer.getUserObject(JSBML_MATH_COUNT) != null) ? mathContainer.getUserObject(JSBML_MATH_COUNT) : 0);
       nbMath++;
       

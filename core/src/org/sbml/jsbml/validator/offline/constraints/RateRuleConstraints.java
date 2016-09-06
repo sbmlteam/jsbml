@@ -25,6 +25,7 @@ import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
@@ -51,6 +52,10 @@ public class RateRuleConstraints extends AbstractConstraintDeclaration {
       if (level > 1)
       {
         set.add(CORE_20904);
+      }
+      if (level > 2) 
+      {
+        set.add(CORE_20909);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -128,6 +133,21 @@ public class RateRuleConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+
+    case CORE_20909:
+      func = new UnknownAttributeValidationFunction<RateRule>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, RateRule rule) {
+          // variable is a mandatory attribute
+          if (!rule.isSetVariable()) {
+            return false;
+          }
+          return super.check(ctx, rule);
+        }
+      };
+      break;
+      
     }
 
     return func;
