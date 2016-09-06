@@ -32,6 +32,7 @@ import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
@@ -76,6 +77,11 @@ public class MathMLStaxParser implements ReadingParser {
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(MathMLStaxParser.class);
+
+  /**
+   * 
+   */
+  public static final String JSBML_MATH_COUNT = "jsbml.math.element.count";
 
   /**
    *
@@ -408,6 +414,10 @@ public class MathMLStaxParser implements ReadingParser {
       {
         lastElementWasApply = false;
       }
+      
+      if (elementName.equals("math")) {
+        processMathElement(contextObject);
+      }
 
       // trying to count the piecewise, piece and otherwise open elements to annotate the ASTNode with the counter,
       //  then later we can check that each piece block has 2 and only 2 child.      
@@ -519,6 +529,28 @@ public class MathMLStaxParser implements ReadingParser {
     }
 
     return astNode;
+  }
+
+  /**
+   * @param contextObject
+   */
+  private void processMathElement(Object contextObject) {
+    
+    MathContainer mathContainer = null;
+
+    if (contextObject instanceof MathContainer) {
+      mathContainer = (MathContainer) contextObject;
+    } else if (contextObject instanceof ASTNode) {
+
+      mathContainer = ((ASTNode) contextObject).getParentSBMLObject();
+    }
+    
+    if (mathContainer != null && mathContainer instanceof InitialAssignment) {
+      int nbMath = (int) ((mathContainer.isSetUserObjects() && mathContainer.getUserObject(JSBML_MATH_COUNT) != null) ? mathContainer.getUserObject(JSBML_MATH_COUNT) : 0);
+      nbMath++;
+      
+      mathContainer.putUserObject(JSBML_MATH_COUNT, nbMath);      
+    }
   }
 
   /**
