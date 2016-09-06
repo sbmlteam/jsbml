@@ -66,6 +66,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       else if (level == 3)
       {
         set.add(CORE_20517);
+        addRangeToSet(set, CORE_20511, CORE_20513);
       }
 
       break;
@@ -393,6 +394,51 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
           if (c.isSetCompartmentType()) {
             return c.getCompartmentTypeInstance() != null;
+          }
+
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20511:
+      func = new ValidationFunction<Compartment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+
+          if (c.isSetSpatialDimensions() && c.getSpatialDimensions() == 1) {
+            return c.isSetUnits() || c.getModel().isSetLengthUnits();
+          }
+
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20512:
+      func = new ValidationFunction<Compartment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+
+          if (c.isSetSpatialDimensions() && c.getSpatialDimensions() == 2) {
+            return c.isSetUnits() || c.getModel().isSetAreaUnits();
+          }
+
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20513:
+      func = new ValidationFunction<Compartment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+
+          if (c.isSetSpatialDimensions() && c.getSpatialDimensions() == 3) {
+            return c.isSetUnits() || c.getModel().isSetVolumeUnits();
           }
 
           return true;
