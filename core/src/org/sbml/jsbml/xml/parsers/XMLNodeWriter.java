@@ -138,7 +138,7 @@ public class XMLNodeWriter {
       logger.debug("node name : isRoot, isTopElement = " + xmlNode.getName() + " : " + isRoot + ", " + isTopElement);
     }
 
-    if (xmlNode.isElement() && !xmlNode.getName().equals("message")) {
+    if (xmlNode.isElement()) {
       logger.debug("write(XMLNode, int) - begin - node name, isRoot, isTopElement = " + xmlNode.getName() + ", " + isRoot + ", " + isTopElement);
 
       if (!(isRoot || isTopElement)) {
@@ -217,7 +217,7 @@ public class XMLNodeWriter {
       logger.debug("element is nested = " + isNested + " (nb children = " + xmlNode.getChildCount() + ")");
     }
 
-    if (xmlNode.isElement() && !xmlNode.getName().equals("message"))
+    if (xmlNode.isElement())
     {
       if ((isRoot || isTopElement) && (xmlNode.getChildCount() > 0)
           && (! xmlNode.getChildAt(xmlNode.getChildCount() - 1).isText()))
