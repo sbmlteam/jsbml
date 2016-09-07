@@ -22,15 +22,15 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import javax.xml.stream.XMLStreamException;
-
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
-import org.sbml.jsbml.xml.XMLNode;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.parsers.MathMLStaxParser;;
 
 /**
  * @author Roman
@@ -181,18 +181,26 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
         }
 
         /**
-         * @param sbase
-         * @param prefix
-         * @return
+         * Checks recursively the parent tree of the given SBase to search if
+         * one declared namespace with the given prefix correspond to the XHTML
+         * namespace.
+         * 
+         * @param sbase the sbase to search
+         * @param prefix the prefix to search
+         * @return true if we find the given prefix and it  correspond to the XHTML
+         * namespace, false otherwise.
          */
         private boolean recursiveNamespaceCheck(SBase sbase, String prefix) 
         {
           if (sbase != null) {
             String uri1 = sbase.getDeclaredNamespaces().get(prefix);
-            String uri2 = sbase.getDeclaredNamespaces().get("xmlns:" + prefix); // TODO - check if we always store one of this form in the map
+            String uri2 = sbase.getDeclaredNamespaces().get("xmlns:" + prefix); // TODO - check if we always store one of these two form in the map
                         
             if (JSBML.URI_XHTML_DEFINITION.equals(uri1) || JSBML.URI_XHTML_DEFINITION.equals(uri2)) {
               return true;
+            } else if (uri1 != null || uri2 != null) {
+              // the prefix is found but it is not the right namespace
+              return false;
             } else {
               return recursiveNamespaceCheck((SBase) sbase.getParent(), prefix);
             }
@@ -207,14 +215,30 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<Constraint>() {
 
         @Override
-        public boolean check(ValidationContext ctx, Constraint c) {
-
-          return c.isSetMath(); // TODO
+        public boolean check(ValidationContext ctx, Constraint ia) {
+          
+          if (ia.isSetMath()) {
+            if (ia.isSetUserObjects() && ia.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT) != null) {
+              int nbMath = (int) ia.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT);
+          
+              return nbMath == 1;                  
+            }
+          } else if (ia.getLevelAndVersion().compareTo(3, 2) < 0) {
+            // math is mandatory before SBML L3V2
+            return false;
+          }
+          
+          return true;
         }
       };
       break;
-    }
 
+    case CORE_21009:
+      func = new UnknownAttributeValidationFunction<Constraint>();
+      break;
+      
+    }
+    
     return func;
   }
 }
