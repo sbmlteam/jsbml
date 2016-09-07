@@ -22,10 +22,15 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.xml.XMLNode;;
 
 /**
  * @author Roman
@@ -48,11 +53,16 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (level == 2 && version > 1) {
-        set.add(CORE_21001);
-      } else if (level == 3) {
-        set.add(CORE_21001);
+      if (level == 3) {
         set.add(CORE_21007);
+        set.add(CORE_21008);
+        set.add(CORE_21009);
+      }
+      if (level >= 2) {
+        set.add(CORE_21001);
+        set.add(CORE_21002);
+        set.add(CORE_21003);
+        set.add(CORE_21006);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -99,13 +109,107 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
       };
       break;
       
+    case CORE_21002:
+      func = new ValidationFunction<Constraint>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Constraint c) {
+
+          // TODO
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_21003:
+      func = new ValidationFunction<Constraint>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Constraint c) {
+
+          if (c.isSetMessage()) {
+
+            // check XMLNode structure
+            XMLNode message = c.getMessage();
+            boolean xhtmlNamespaceDeclared = true;
+            
+            if (message.getChildCount() > 0)
+            {
+              for (int i = 0; i < message.getChildCount(); i++)
+              {
+                // Doing the test on each top level element.
+                XMLNode child = message.getChild(i);
+                
+                if (!child.isElement()) {
+                  continue;
+                }
+                
+                String namespace = child.getNamespaceURI();
+                String prefix = child.getPrefix();
+
+                if (namespace != null && namespace.equals(JSBML.URI_XHTML_DEFINITION)) {
+                  continue;
+                }
+                if (prefix != null && prefix.trim().length() > 0) {
+                  namespace = child.getNamespaceURI(prefix);
+
+                  if (JSBML.URI_XHTML_DEFINITION.equals(namespace)) {
+                    continue;
+                  }
+                  
+                  namespace = message.getNamespaceURI(prefix);
+                  if (JSBML.URI_XHTML_DEFINITION.equals(namespace)) {
+                    continue;
+                  }
+                  
+                  xhtmlNamespaceDeclared = recursiveNamespaceCheck((SBase) message.getParent(), prefix);
+                } else {
+                  // There is not the correct namespace URI or any prefix so it is in the sbml namespace.
+                  return false;
+                }
+                
+                if (!xhtmlNamespaceDeclared) {
+                  break;
+                }
+              }
+            }
+            
+            return xhtmlNamespaceDeclared;
+          }
+
+          return true;
+        }
+
+        /**
+         * @param sbase
+         * @param prefix
+         * @return
+         */
+        private boolean recursiveNamespaceCheck(SBase sbase, String prefix) 
+        {
+          if (sbase != null) {
+            String uri1 = sbase.getDeclaredNamespaces().get(prefix);
+            String uri2 = sbase.getDeclaredNamespaces().get("xmlns:" + prefix); // TODO - check if we always store one of this form in the map
+                        
+            if (JSBML.URI_XHTML_DEFINITION.equals(uri1) || JSBML.URI_XHTML_DEFINITION.equals(uri2)) {
+              return true;
+            } else {
+              return recursiveNamespaceCheck((SBase) sbase.getParent(), prefix);
+            }
+          }
+          
+          return false;
+        }
+      };
+      break;
+      
     case CORE_21007:
       func = new ValidationFunction<Constraint>() {
 
         @Override
         public boolean check(ValidationContext ctx, Constraint c) {
 
-          return c.isSetMath();
+          return c.isSetMath(); // TODO
         }
       };
       break;

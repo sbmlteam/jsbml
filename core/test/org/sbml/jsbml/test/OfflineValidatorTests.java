@@ -122,7 +122,7 @@ public class OfflineValidatorTests {
         validateDirectory(dir, code);
       } else {
         // dirsMissed++;
-        System.out.println("No directory found for error code " + code);
+        // System.out.println("No directory found for error code " + code);
       }
     }
 
