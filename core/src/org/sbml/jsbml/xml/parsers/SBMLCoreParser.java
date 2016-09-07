@@ -1189,7 +1189,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           {
             constraint.setMessage(new XMLNode(new XMLTriple("message", null, null), new XMLAttributes()));
 
-            return constraint;
+            return constraint.getMessage();
           } else {
             logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownElement"), elementName));

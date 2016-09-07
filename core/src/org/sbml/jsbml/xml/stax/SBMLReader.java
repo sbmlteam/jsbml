@@ -960,7 +960,8 @@ public class SBMLReader {
           boolean hasAttributes = att.hasNext();
           boolean hasNamespace = nam.hasNext();
 
-          if (isInsideAnnotation) // TODO - add a test to see if the object on the top of the stack is an XMLNode
+          // if the object on the top of the stack is an XMLNode, we always use the XMLNodeReader
+          if (isInsideAnnotation || (sbmlElements.peek() instanceof XMLNode))
           {
             parser = initializedParsers.get("anyXML");
           }
