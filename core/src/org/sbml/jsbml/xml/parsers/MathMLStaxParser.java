@@ -31,6 +31,7 @@ import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.JSBML;
@@ -546,7 +547,9 @@ public class MathMLStaxParser implements ReadingParser {
       mathContainer = ((ASTNode) contextObject).getParentSBMLObject();
     }
     
-    if (mathContainer != null && (mathContainer instanceof InitialAssignment || mathContainer instanceof Rule)) {
+    if (mathContainer != null 
+        && (mathContainer instanceof InitialAssignment || mathContainer instanceof Rule || mathContainer instanceof Constraint)) 
+    {
       int nbMath = (int) ((mathContainer.isSetUserObjects() && mathContainer.getUserObject(JSBML_MATH_COUNT) != null) ? mathContainer.getUserObject(JSBML_MATH_COUNT) : 0);
       nbMath++;
       
