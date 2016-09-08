@@ -25,6 +25,7 @@ import java.util.Set;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
@@ -102,15 +103,9 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
       break;
       
     case CORE_21209:
-      func = new ValidationFunction<Trigger>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, Trigger t) {
-
-          return t.isSetMath();
-        }
-      };
+      func = new DuplicatedMathValidationFunction<Trigger>();
       break;
+
       
     }
 
