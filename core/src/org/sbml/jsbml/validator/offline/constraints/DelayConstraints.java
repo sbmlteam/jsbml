@@ -24,7 +24,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.Delay;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
 
 /**
@@ -82,14 +82,9 @@ public class DelayConstraints extends AbstractConstraintDeclaration {
       return SBOValidationConstraints.isMathematicalExpression;
       
     case CORE_21210:
-      func = new ValidationFunction<Delay>() {
+      func = new DuplicatedMathValidationFunction<Delay>();
+      break;
 
-        @Override
-        public boolean check(ValidationContext ctx, Delay d) {
-
-          return d.isSetMath();
-        }
-      };
 
     }
 
