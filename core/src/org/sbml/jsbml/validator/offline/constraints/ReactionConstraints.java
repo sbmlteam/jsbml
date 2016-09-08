@@ -33,6 +33,7 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
@@ -129,6 +130,20 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
           }
 
           return true;
+        }
+      };
+      break;
+      
+    case CORE_21110:
+      func = new UnknownAttributeValidationFunction<Reaction>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Reaction r) {
+          // id, reversible and fast are mandatory attributes
+          if (!r.isSetId() || !r.isSetReversible() || !r.isSetFast()) {
+            return false;
+          }
+          return super.check(ctx, r);
         }
       };
       break;
