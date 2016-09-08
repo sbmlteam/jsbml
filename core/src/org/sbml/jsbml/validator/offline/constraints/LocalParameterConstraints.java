@@ -28,6 +28,7 @@ import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.xml.XMLNode;
 
 
@@ -49,6 +50,9 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       set.add(CORE_21124);
       
+      if (level > 2) {
+        set.add(CORE_21172);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -110,6 +114,20 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
           }
           
           return true;
+        }
+      };
+      break;
+      
+    case CORE_21172:
+      func = new UnknownAttributeValidationFunction<LocalParameter>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, LocalParameter c) {
+          // id is a mandatory attribute
+          if (!c.isSetId()) {
+            return false;
+          }
+          return super.check(ctx, c);
         }
       };
       break;
