@@ -26,7 +26,9 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -73,6 +75,8 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
         set.add(CORE_21106);
         set.add(CORE_21107);
         set.add(CORE_21110);
+        set.add(CORE_21150);
+        set.add(CORE_21151);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -238,6 +242,45 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
               
               queue.addAll(node.getListOfNodes());
             }
+          }
+          
+          return true;
+        }
+      };
+      break;
+
+    case CORE_21150:
+      func = new ValidationFunction<Reaction>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Reaction kl) {
+          
+          boolean isValid = true;
+          
+          if (kl.isSetListOfReactants()) {
+            UnknownAttributeValidationFunction<ListOf<SpeciesReference>> unknownFunc = new UnknownAttributeValidationFunction<ListOf<SpeciesReference>>();
+            isValid = unknownFunc.check(ctx, kl.getListOfReactants());
+          }
+          if (kl.isSetListOfProducts()) {
+            UnknownAttributeValidationFunction<ListOf<SpeciesReference>> unknownFunc = new UnknownAttributeValidationFunction<ListOf<SpeciesReference>>();
+            isValid = isValid && unknownFunc.check(ctx, kl.getListOfProducts());
+          }
+          
+          return isValid;
+        }
+      };
+      break;
+      
+    case CORE_21151:
+      func = new ValidationFunction<Reaction>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Reaction kl) {
+          
+          if (kl.isSetListOfModifiers()) {
+            UnknownAttributeValidationFunction<ListOf<ModifierSpeciesReference>> unknownFunc = 
+                new UnknownAttributeValidationFunction<ListOf<ModifierSpeciesReference>>();
+            return unknownFunc.check(ctx, kl.getListOfModifiers());
           }
           
           return true;
