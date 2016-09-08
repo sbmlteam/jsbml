@@ -604,12 +604,23 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    * @param version
    */
   public void initDefaults(int level, int version) {
+    initDefaults(level, version, false);
+  }
+
+  /**
+   * 
+   * @param level
+   * @param version
+   * @param explicit
+   */
+  public void initDefaults(int level, int version, boolean explicit) {
     amount = true;
     unitsID = null;
     if (level < 3) {
       hasOnlySubstanceUnits = new Boolean(false);
       boundaryCondition = new Boolean(false);
       constant = new Boolean(false);
+      isSetHasOnlySubstanceUnits = isSetBoundaryCondition = isSetConstant = explicit;
     } else {
       hasOnlySubstanceUnits = null;
       boundaryCondition = null;
