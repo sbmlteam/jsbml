@@ -23,12 +23,14 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.Event;
+import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
-import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
  * @author Roman
@@ -65,6 +67,8 @@ public class EventConstraints extends AbstractConstraintDeclaration {
         }
       } else if (level == 3) {
         addRangeToSet(set, CORE_21201, CORE_21203);
+        set.add(CORE_21224);
+        set.add(CORE_21225);
         set.add(CORE_99206);
       }
       break;
@@ -190,6 +194,37 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           }
 
           return true;
+        }
+      };
+      break;
+      
+    case CORE_21224:
+      func = new ValidationFunction<Event>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Event kl) {
+          
+          if (kl.isSetListOfEventAssignments()) {
+            UnknownAttributeValidationFunction<ListOf<EventAssignment>> unknownFunc = 
+                new UnknownAttributeValidationFunction<ListOf<EventAssignment>>();
+            return unknownFunc.check(ctx, kl.getListOfEventAssignments());
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_21225:
+      func = new UnknownAttributeValidationFunction<Event>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Event c) {
+          // useValuesFromTriggerTime is a mandatory attribute
+          if (!c.isSetUseValuesFromTriggerTime()) {
+            return false;
+          }
+          return super.check(ctx, c);
         }
       };
       break;
