@@ -35,6 +35,7 @@ import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
@@ -548,7 +549,8 @@ public class MathMLStaxParser implements ReadingParser {
     }
     
     if (mathContainer != null 
-        && (mathContainer instanceof InitialAssignment || mathContainer instanceof Rule || mathContainer instanceof Constraint)) 
+        && (mathContainer instanceof InitialAssignment || mathContainer instanceof Rule 
+            || mathContainer instanceof Constraint || mathContainer instanceof KineticLaw)) 
     {
       int nbMath = (int) ((mathContainer.isSetUserObjects() && mathContainer.getUserObject(JSBML_MATH_COUNT) != null) ? mathContainer.getUserObject(JSBML_MATH_COUNT) : 0);
       nbMath++;
