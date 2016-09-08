@@ -24,7 +24,8 @@ import java.util.Set;
 
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
  * @author Roman
@@ -49,6 +50,9 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
 
       if (level == 2) {
         set.add(CORE_21113);
+      }
+      if (level > 2) {
+        set.add(CORE_21116);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -88,7 +92,22 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
 
         }
       };
+      break;
 
+    case CORE_21116:
+      func = new UnknownAttributeValidationFunction<SpeciesReference>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SpeciesReference c) {
+          // constant and species are mandatory attributes
+          if (!c.isSetSpecies() || !c.isSetConstant()) {
+            return false;
+          }
+          return super.check(ctx, c);
+        }
+      };
+      break;
+      
     }
 
     return func;
