@@ -894,10 +894,21 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * @param version
    */
   public void initDefaults(int level, int version) {
+    initDefaults(level, version, false);
+  }
+
+  /**
+   * 
+   * @param level
+   * @param version
+   * @param explicit
+   */
+  public void initDefaults(int level, int version, boolean explicit) {
     if ((0 < level) && (0 < version)) {
       if (level < 3) {
         reversible = new Boolean(true);
         fast = new Boolean(false);
+        isSetReversible = isSetFast = explicit;
       } else {
         reversible = fast = null;
       }
