@@ -54,8 +54,8 @@ public class OfflineValidatorTests {
 
   private static String                                filter           = "";
 
-  private static Set<String>                           skipped          =
-    new HashSet<String>();
+  private static Map<String, Exception>                exceptions       =
+    new HashMap<String, Exception>();
   private static Set<Integer>                          notDetected      =
     new TreeSet<Integer>();
   private static Map<Integer, String>                  notDetectedFiles =
@@ -149,6 +149,21 @@ public class OfflineValidatorTests {
       String out = i + " in " + notDetectedFiles.get(i);
       System.out.println(out);
     }
+    
+    if (exceptions.size() > 0) {
+      System.out.println();
+      printStrongHLine();
+      System.out.println("EXCEPTIONS");
+      printStrongHLine();
+      for (String key : exceptions.keySet()){
+        System.out.println("There was a exception in " + key + ":");
+        Exception e = exceptions.get(key);
+        e.printStackTrace(System.out);
+        System.out.println();
+        System.out.println();
+      }
+      
+    }
 
   }
 
@@ -214,7 +229,8 @@ public class OfflineValidatorTests {
         System.out.println("FAILED!!!");
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      exceptions.put(name, e);
+//      e.printStackTrace();
     }
 
     System.out.println();
@@ -238,15 +254,22 @@ public class OfflineValidatorTests {
     String key = "l" + doc.getLevel() + "v" + doc.getVersion();
     LoggingValidationContext ctx = contextCache.get(key);
 
+    // If no context was in cache create new one
     if (ctx == null) {
       ctx = new LoggingValidationContext(doc.getLevel(), doc.getVersion());
       ctx.enableCheckCategories(CHECK_CATEGORY.values(), true);
       ctx.loadConstraints(SBMLDocument.class);
       contextCache.put(key, ctx);
     } else {
+      
+      // Reset context if necessary
       ctx.clearErrorLog();
+      
+      if (ctx.getConstraintType() != SBMLDocument.class) {
+        ctx.loadConstraints(SBMLDocument.class);
+      }
     }
-
+   
     return ctx;
   }
 
