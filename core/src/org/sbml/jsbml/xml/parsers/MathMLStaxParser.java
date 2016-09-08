@@ -39,6 +39,7 @@ import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Priority;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Trigger;
@@ -555,7 +556,7 @@ public class MathMLStaxParser implements ReadingParser {
         && (mathContainer instanceof InitialAssignment || mathContainer instanceof Rule 
             || mathContainer instanceof Constraint || mathContainer instanceof KineticLaw
             || mathContainer instanceof Trigger || mathContainer instanceof Delay
-            || mathContainer instanceof EventAssignment)) 
+            || mathContainer instanceof EventAssignment || mathContainer instanceof Priority)) 
     {
       int nbMath = (int) ((mathContainer.isSetUserObjects() && mathContainer.getUserObject(JSBML_MATH_COUNT) != null) ? mathContainer.getUserObject(JSBML_MATH_COUNT) : 0);
       nbMath++;
