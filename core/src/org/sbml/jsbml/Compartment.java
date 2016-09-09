@@ -524,13 +524,25 @@ public class Compartment extends Symbol {
    * @param version
    */
   public void initDefaults(int level, int version) {
+    initDefaults(level, version, false);
+  }
+
+  /**
+   * 
+   * @param level
+   * @param version
+   * @param explicit
+   */
+  public void initDefaults(int level, int version, boolean explicit) {
     compartmentTypeID = null;
     outsideID = null;
     unitsID = null;
     if (level < 3) {
       spatialDimensions = Double.valueOf(3d);
+      isSetSpatialDimensions = explicit;
       if (level >= 2) {
         constant = new Boolean(true);
+        isSetConstant = explicit;
       } else {
         constant = null;
       }
@@ -540,7 +552,11 @@ public class Compartment extends Symbol {
     }
 
     if (level == 1) {
-      value = Double.valueOf(1d);
+      if (explicit) {
+        setValue(1d);
+      } else {
+        value = Double.valueOf(1d);
+      }
     }
   }
 
@@ -724,10 +740,10 @@ public class Compartment extends Symbol {
    */
   @Deprecated
   public void setCompartmentType(String compartmentTypeID) {
- 
+
     String oldCompartmentTypeID = this.compartmentTypeID;
     this.compartmentTypeID = compartmentTypeID;
-    
+
     if (checkAttribute(TreeNodeChangeEvent.compartmentType))
     {
       firePropertyChange(TreeNodeChangeEvent.compartmentType,
@@ -737,43 +753,43 @@ public class Compartment extends Symbol {
     {
       this.compartmentTypeID = oldCompartmentTypeID;
     }
-    
+
   }
 
 
-//  /**
-//   * Checks if the compartmentType attribute follow the SBML specification
-//   * constraints.
-//   */
-//  private void checkCompartmentType(String compartmentTypeID) {
-//    boolean isReadingInProgress = isReadingInProgress(); // TODO - we could make
-//    // this method more
-//    // generic in the case,
-//    // for example, where
-//    // we allow users to
-//    // switch off
-//    // completely the
-//    // validation in the
-//    // setters with an
-//    // option
-//
-//    if (isReadingInProgress) {
-//      // TODO - just check the attribute value using existing custom
-//      // ValidationContext or Constraints or custom code or don't do validation
-//      // in this case
-//      // TODO - when an error is found, add the error to the SBMLErrorLog and
-//      // allow the wrong value to be set
-//    } else {
-//      // TODO - here we don't need to add the error to the error log but we
-//      // could use the error message to build
-//      // a better exception message to the user.
-//      // TODO - when errors are found, throw an Exception
-//      if (getLevel() != 2) {
-//        throw new PropertyNotAvailableException(
-//          TreeNodeChangeEvent.compartmentType, this);
-//      }
-//    }
-//  }
+  //  /**
+  //   * Checks if the compartmentType attribute follow the SBML specification
+  //   * constraints.
+  //   */
+  //  private void checkCompartmentType(String compartmentTypeID) {
+  //    boolean isReadingInProgress = isReadingInProgress(); // TODO - we could make
+  //    // this method more
+  //    // generic in the case,
+  //    // for example, where
+  //    // we allow users to
+  //    // switch off
+  //    // completely the
+  //    // validation in the
+  //    // setters with an
+  //    // option
+  //
+  //    if (isReadingInProgress) {
+  //      // TODO - just check the attribute value using existing custom
+  //      // ValidationContext or Constraints or custom code or don't do validation
+  //      // in this case
+  //      // TODO - when an error is found, add the error to the SBMLErrorLog and
+  //      // allow the wrong value to be set
+  //    } else {
+  //      // TODO - here we don't need to add the error to the error log but we
+  //      // could use the error message to build
+  //      // a better exception message to the user.
+  //      // TODO - when errors are found, throw an Exception
+  //      if (getLevel() != 2) {
+  //        throw new PropertyNotAvailableException(
+  //          TreeNodeChangeEvent.compartmentType, this);
+  //      }
+  //    }
+  //  }
 
 
   /**
@@ -994,15 +1010,15 @@ public class Compartment extends Symbol {
         resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "units",
         getId()));
     }
-    
-    
-    if (units != null && units.equals(this.unitsID))
+
+
+    if (units != null && units.equals(unitsID))
     {
       return;
     }
         
     String oldUnits = this.unitsID;    
-    this.unitsID = units;
+    unitsID = units;
     
     if (checkAttribute(TreeNodeChangeEvent.units))
     {
@@ -1011,7 +1027,7 @@ public class Compartment extends Symbol {
     else
     {
       // reset old value
-      this.unitsID = oldUnits;
+      unitsID = oldUnits;
       
       if (!isReadingInProgress()) {
         throw new IllegalArgumentException(MessageFormat.format(

@@ -1693,7 +1693,7 @@ public class Unit extends AbstractSBase {
    *        will not be affected by the explicit parameter because this value
    *        is optional or not even defined in certain levels of SBML and can
    *        therefore always be omitted. It has been recognized that the offset
-   *        field produces more problems if it is beeing explicitly defined, so
+   *        field produces more problems if it is being explicitly defined, so
    *        here it is set to zero if the level surpasses 3, but it won't be
    *        written to SBML, unless it is modified later on by the user.
    */
@@ -2071,9 +2071,9 @@ public class Unit extends AbstractSBase {
    */
   public boolean isVariantOfLength() {
     Kind kind = getKind();
-    
+
     // Meter only allowed in Level 1 or -1 (level undefined)
-    return (this.getLevel() < 2 && (kind == Kind.METER)) || (kind == Kind.METRE)
+    return (getLevel() < 2 && (kind == Kind.METER)) || (kind == Kind.METRE)
         && (getOffset() == 0d) && (getExponent() == 1d);
   }
 
@@ -2083,8 +2083,8 @@ public class Unit extends AbstractSBase {
   public boolean isVariantOfSubstance() {
     Kind kind = getKind();
     if ((kind == Kind.MOLE) || (kind == Kind.ITEM)
-      || ((((getLevel() == 2) && (getVersion() > 1)) || (getLevel() > 2))
-        && ((kind == Kind.GRAM) || isKilogram())) || (getLevel() > 2 && kind == Kind.AVOGADRO)) {
+        || ((((getLevel() == 2) && (getVersion() > 1)) || (getLevel() > 2))
+            && ((kind == Kind.GRAM) || isKilogram())) || (getLevel() > 2 && kind == Kind.AVOGADRO)) {
       return (getOffset() == 0d) && (getExponent() == 1d);
     }
     return false;
