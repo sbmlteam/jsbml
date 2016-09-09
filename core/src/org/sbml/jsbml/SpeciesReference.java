@@ -410,12 +410,24 @@ Variable {
    * @param version
    */
   public void initDefaults(int level, int version) {
+    initDefaults(level, version, false);
+  }
+
+  /**
+   * 
+   * @param level
+   * @param version
+   * @param explicit
+   * @see Unit#initDefaults(int, int, boolean)
+   */
+  public void initDefaults(int level, int version, boolean explicit) {
     // See
     // http://sbml.org/Community/Wiki/SBML_Level_3_Core/Reaction_changes/Changes_to_stoichiometry
     if (level <= 2) {
       constant = true;
       stoichiometry = 1d;
       denominator = 1;
+      isSetConstant = isSetStoichiometry = isSetDenominator = explicit;
     } else {
       isSetConstant = false;
       isSetDenominator = false;

@@ -23,7 +23,6 @@ package org.sbml.jsbml;
 
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -790,14 +789,14 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public boolean isSetNotes();
 
-  
+
   /**
    * Returns {@code true} if the package version is not equals to '-1'.
    * 
    * @return {@code true} if the package version is not equals to '-1'.
    */
   public boolean isSetPackageVErsion();
-  
+
   /**
    * Check whether this {@link SBase} has been linked to a parent within the
    * hierarchical SBML data structure.

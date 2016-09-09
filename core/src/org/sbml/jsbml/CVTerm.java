@@ -515,12 +515,11 @@ public class CVTerm extends AnnotationElement {
    * @return {@code true} as specified in {@link Collection#add(Object)}
    */
   public boolean addResource(String urn) {
-    boolean contains = resourceURIs.contains(urn);
-    boolean success = resourceURIs.add(urn);
-    if (success && !contains) {
-      (new TreeNodeAdapter(urn, this)).fireNodeAddedEvent();
+    try {
+      return addResource(getResourceCount(), urn);
+    } catch (Throwable t) {
+      return false;
     }
-    return success;
   }
 
   /**
@@ -552,6 +551,29 @@ public class CVTerm extends AnnotationElement {
    */
   public boolean addResourceURI(String uri) {
     return addResource(uri);
+  }
+
+  /**
+   * 
+   * @param index
+   * @param uri
+   * @throws UnsupportedOperationException
+   * @throws ClassCastException
+   * @throws NullPointerException
+   * @throws IllegalArgumentException
+   * @throws IndexOutOfBoundsException
+   * @see {@link List#add(int, Object)}
+   */
+  public boolean addResource(int index, String uri)
+      throws UnsupportedOperationException, ClassCastException,
+      NullPointerException, IllegalArgumentException, IndexOutOfBoundsException {
+    boolean contains = resourceURIs.contains(uri);
+    if (!contains) {
+      resourceURIs.add(index, uri);
+      (new TreeNodeAdapter(uri, this)).fireNodeAddedEvent();
+      return true;
+    }
+    return false;
   }
 
   /* (non-Javadoc)
@@ -744,13 +766,23 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
+   * 
+   * @param i
+   * @return
+   */
+  public String getResource(int i) {
+    return resourceURIs.get(i);
+  }
+
+  /**
    * Returns the value of the nth resource for this CVTerm.
    * 
    * @param i  index of the resourceURI in the list of the resourceURI.
    * @return the value of the nth resource for this CVTerm.
+   * @see #getResource(int)
    */
   public String getResourceURI(int i) {
-    return resourceURIs.get(i);
+    return getResource(i);
   }
 
   /* (non-Javadoc)
@@ -901,6 +933,16 @@ public class CVTerm extends AnnotationElement {
    */
   public String removeResource(int index) {
     return resourceURIs.remove(index);
+  }
+
+  /**
+   * 
+   * @param index
+   * @return
+   * @see #removeResource(int)
+   */
+  public String removeResourceURI(int index) {
+    return removeResource(index);
   }
 
   /**
