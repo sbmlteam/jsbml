@@ -31,9 +31,18 @@ import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.Delay;
+import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.InitialAssignment;
+import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Priority;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNamespaces;
@@ -77,6 +86,11 @@ public class MathMLStaxParser implements ReadingParser {
   private static final transient Logger logger = Logger.getLogger(MathMLStaxParser.class);
 
   /**
+   * 
+   */
+  public static final String JSBML_MATH_COUNT = "jsbml.math.element.count";
+
+  /**
    *
    */
   private boolean lastElementWasApply;
@@ -85,7 +99,22 @@ public class MathMLStaxParser implements ReadingParser {
    *
    */
   private boolean isFunctionDefinition;
+  
+  /**
+   * integer used to count the number of piecewise elements open
+   */
+  private int piecewiseCount;
+  
+  /**
+   * integer used to count the number of piece elements open
+   */
+  private int pieceCount;
 
+  /**
+   * integer used to count the number of otherwise elements open
+   */
+  private int otherwiseCount;
+  
   /**
    *
    * @return
@@ -115,7 +144,7 @@ public class MathMLStaxParser implements ReadingParser {
    * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String ElementName, String AttributeName, String value, String prefix, boolean isLastAttribute, Object contextObject)
    */
   @Override
-  public void processAttribute(String elementName, String attributeName,
+  public boolean processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject) {
     // Process the possible attributes.
@@ -125,13 +154,13 @@ public class MathMLStaxParser implements ReadingParser {
     if (contextObject instanceof XMLNode) {
       XMLNode xmlNode = (XMLNode) contextObject;
       xmlNode.addAttr(attributeName, value, uri, prefix);
-      return;
+      return true;
     }
     
     if (! (contextObject instanceof ASTNode)) {
       logger.debug("processAttribute : !!!!!!!!! context is not an ASTNode (" +
           contextObject.getClass());
-      return;
+      return false;
     }
 
     ASTNode astNode = (ASTNode) contextObject;
@@ -158,7 +187,10 @@ public class MathMLStaxParser implements ReadingParser {
       astNode.setEncoding(value);
     }
 
+    // TODO - need to process all attributes even if we don't know them !!
+    // TODO - or we just return false and the SBMLReader will take care of it ?
 
+    return true;
   }
 
   /* (non-Javadoc)
@@ -290,6 +322,17 @@ public class MathMLStaxParser implements ReadingParser {
       return true;
     }
     
+    // we don't change pieceCount here as the id might not be different.
+    if (elementName.equals("otherwise")){
+      otherwiseCount--;
+    }
+    if (elementName.equals("piecewise")){
+      piecewiseCount--;
+      if (piecewiseCount == 0) {
+        pieceCount = 0;
+      }
+    }
+
     if (elementName.equals("sep")) {
       return false;
     } else if (contextObject instanceof MathContainer) {
@@ -378,11 +421,28 @@ public class MathMLStaxParser implements ReadingParser {
       {
         lastElementWasApply = false;
       }
+      
+      if (elementName.equals("math")) {
+        processMathElement(contextObject);
+      }
+
+      // trying to count the piecewise, piece and otherwise open elements to annotate the ASTNode with the counter,
+      //  then later we can check that each piece block has 2 and only 2 child.      
+      if (elementName.equals("piece")){
+        pieceCount++;
+      }
+      if (elementName.equals("otherwise")){
+        otherwiseCount++;
+      }
 
       // we do nothing
       return null;
     }
 
+    if (elementName.equals("piecewise")){
+      piecewiseCount++;
+    }
+    
     if (lastElementWasApply && elementName.equals("ci"))
     {
       isFunctionDefinition = true;
@@ -432,7 +492,7 @@ public class MathMLStaxParser implements ReadingParser {
         
         return xmlNode;
       }
-    }
+    }    
     // We are inside a mathML 'semantics' element, everything is read into an XMLNode    
     else if (contextObject instanceof XMLNode) 
     {
@@ -460,6 +520,15 @@ public class MathMLStaxParser implements ReadingParser {
       astNode.setType(elementName);
     }
     
+    if (piecewiseCount > 0) {
+      // add piecewiseCount.pieceCount or/and piecewiseCount.otherwiseCount to the ASTNode
+      if (otherwiseCount >= piecewiseCount) {
+        astNode.putUserObject(JSBML.PIECEWISE_ID, "otherwise." + piecewiseCount + "." + otherwiseCount);
+      } else {
+        astNode.putUserObject(JSBML.PIECEWISE_ID, "piece." + piecewiseCount + "." + pieceCount);
+      }
+    }
+    
     if (setMath) {
       mathContainer.setMath(astNode);
     } else {
@@ -467,6 +536,33 @@ public class MathMLStaxParser implements ReadingParser {
     }
 
     return astNode;
+  }
+
+  /**
+   * @param contextObject
+   */
+  private void processMathElement(Object contextObject) {
+    
+    MathContainer mathContainer = null;
+
+    if (contextObject instanceof MathContainer) {
+      mathContainer = (MathContainer) contextObject;
+    } else if (contextObject instanceof ASTNode) {
+
+      mathContainer = ((ASTNode) contextObject).getParentSBMLObject();
+    }
+    
+    if (mathContainer != null 
+        && (mathContainer instanceof InitialAssignment || mathContainer instanceof Rule 
+            || mathContainer instanceof Constraint || mathContainer instanceof KineticLaw
+            || mathContainer instanceof Trigger || mathContainer instanceof Delay
+            || mathContainer instanceof EventAssignment || mathContainer instanceof Priority)) 
+    {
+      int nbMath = (int) ((mathContainer.isSetUserObjects() && mathContainer.getUserObject(JSBML_MATH_COUNT) != null) ? mathContainer.getUserObject(JSBML_MATH_COUNT) : 0);
+      nbMath++;
+      
+      mathContainer.putUserObject(JSBML_MATH_COUNT, nbMath);      
+    }
   }
 
   /**

@@ -212,7 +212,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
    */
   @Override
-  public void processAttribute(String elementName, String attributeName,
+  public boolean processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject) {
     if (contextObject instanceof Species) {
@@ -237,7 +237,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       contextObject = spatialReaction;
     }
 
-    super.processAttribute(elementName, attributeName, value, uri, prefix,
+    return super.processAttribute(elementName, attributeName, value, uri, prefix,
       isLastAttribute, contextObject);
   }
 

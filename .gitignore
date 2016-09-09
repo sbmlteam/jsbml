@@ -25,6 +25,7 @@ TAGS
 **/dist
 **/build
 **/bin
+*.log
 **/.apt_generated
 **/.factorypath
 **/.settings
@@ -52,7 +53,7 @@ libsbmlCompatibilityTestResults.txt
 *.bbl
 
 *.class
-**/layoutTestResults.txt
+layoutTestResults.txt
 /modules/celldesigner/doc/api
 /modules/tidy/doc/api
 /.DS_Store

@@ -926,14 +926,18 @@ public class Compartment extends Symbol {
    */
   public void setSize(double size) {
 
+    // We need to set the new value before doing the checks
+    Double oldSize = value;
     value = size;
 
-    if (!checkAttribute(TreeNodeChangeEvent.size)) {
+    if (!isReadingInProgress() && !checkAttribute(TreeNodeChangeEvent.size)) {
+      value = oldSize;
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.size, this);
     } else {
+      // reseting the old size so that we get the proper change event.
+      value = oldSize;
       setValue(size);
     }
-
   }
 
 
@@ -1001,7 +1005,7 @@ public class Compartment extends Symbol {
       unsetUnits();
       return;
     }
-    if (0d == getSpatialDimensions()) {
+    if (0d == getSpatialDimensions() && !isReadingInProgress()) {
       throw new IllegalArgumentException(MessageFormat.format(
         resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "units",
         getId()));
@@ -1012,24 +1016,24 @@ public class Compartment extends Symbol {
     {
       return;
     }
-
-    String oldUnits = unitsID;
-
+        
+    String oldUnits = this.unitsID;    
     unitsID = units;
-
+    
     if (checkAttribute(TreeNodeChangeEvent.units))
     {
       firePropertyChange(TreeNodeChangeEvent.units, oldUnits, unitsID);
     }
     else
     {
-      // TODO reset old value or throw exception (or both?)
+      // reset old value
       unitsID = oldUnits;
-      //      throw new IllegalArgumentException(MessageFormat.format(
-      //        JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
+      
+      if (!isReadingInProgress()) {
+        throw new IllegalArgumentException(MessageFormat.format(
+            JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));        
+      }
     }
-
-    //    super.setUnits(units);
   }
 
 
@@ -1042,7 +1046,7 @@ public class Compartment extends Symbol {
    */
   @Override
   public void setUnits(Unit unit) {
-    if (0d == getSpatialDimensions()) {
+    if (0d == getSpatialDimensions() && !isReadingInProgress()) {
       throw new IllegalArgumentException(MessageFormat.format(
         resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "unit",
         getId()));
@@ -1061,7 +1065,7 @@ public class Compartment extends Symbol {
    */
   @Override
   public void setUnits(Unit.Kind unitKind) {
-    if (0d == getSpatialDimensions()) {
+    if (0d == getSpatialDimensions() && !isReadingInProgress()) {
       throw new IllegalArgumentException(MessageFormat.format(
         resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"),
         "unit kind", getId()));
@@ -1095,11 +1099,9 @@ public class Compartment extends Symbol {
   @Override
   public void setValue(double value) {
     double dim = getSpatialDimensions();
-    if ((dim > 0d) || Double.isNaN(dim)) {
+    if (isReadingInProgress() || (dim > 0d) || Double.isNaN(dim)) {
       super.setValue(value);
     } else {
-
-
       throw new IllegalArgumentException(MessageFormat.format(
         resourceBundle.getString("Compartment.ERROR_MESSAGE_ZERO_DIM"), "size",
         getId()));

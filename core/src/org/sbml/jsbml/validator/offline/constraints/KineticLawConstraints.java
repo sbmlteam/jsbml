@@ -24,9 +24,14 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
@@ -57,7 +62,9 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
       }
       
       if (level > 1) {
+        set.add(CORE_21129);        
         set.add(CORE_21130);
+        set.add(CORE_21132);        
       }
       if (level == 2) {
         set.add(CORE_21131);
@@ -68,6 +75,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case IDENTIFIER_CONSISTENCY:
+      set.add(CORE_10303);
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -108,6 +116,29 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
+      case CORE_10303:
+        func = new UniqueValidation<KineticLaw, String>() {
+
+          @Override
+          public int getNumObjects(ValidationContext ctx, KineticLaw kl) {
+            return kl.getLocalParameterCount();
+          }
+
+
+          @Override
+          public String getNextObject(ValidationContext ctx, KineticLaw m, int n) {
+
+            int num = m.getLocalParameterCount();
+
+            if (n < num) {
+              return m.getLocalParameter(n).getId();
+            }
+
+            return null;
+          }
+        };
+        break;
+
     case CORE_10709:
       return SBOValidationConstraints.isRateLaw;
       
@@ -132,16 +163,29 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
       };
       break;
       
-    case CORE_21130:
-      func = new ValidationFunction<KineticLaw>() {
-
+    case CORE_21129:
+      func = new UnknownAttributeValidationFunction<KineticLaw>() {
+        
         @Override
         public boolean check(ValidationContext ctx, KineticLaw kl) {
-          return kl.isSetMath();
+          
+          if (kl.isSetListOfLocalParameters()) {
+            UnknownAttributeValidationFunction<ListOf<LocalParameter>> unknownFunc = new UnknownAttributeValidationFunction<ListOf<LocalParameter>>();
+            return unknownFunc.check(ctx, kl.getListOfLocalParameters());
+          }
+          
+          return true;
         }
       };
       break;
       
+    case CORE_21130:
+      func = new DuplicatedMathValidationFunction<KineticLaw>();
+      break;
+
+    case CORE_21132:
+      func = new UnknownAttributeValidationFunction<KineticLaw>();
+      break;
       
     case CORE_99129:
       func = new ValidationFunction<KineticLaw>() {

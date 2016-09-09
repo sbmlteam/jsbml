@@ -326,7 +326,8 @@ public class SBMLDocument extends AbstractSBase {
     LoggingValidationContext ctx =
         new LoggingValidationContext(this.getLevel(), this.getVersion());
 
-
+    // TODO - enable only the categories selected by the user (and if checkConsistencyParameters is empty, disable the unit check by default)
+    ctx.enableCheckCategories(CHECK_CATEGORY.values(), true);
     ctx.loadConstraints(this.getClass());
     ctx.validate(this);
 
@@ -1301,7 +1302,7 @@ public class SBMLDocument extends AbstractSBase {
       } else if (attributeName.equals("version")) {
         setVersion(StringTools.parseSBMLInt(value));
       }
-      if (prefix != null && prefix.trim().length() > 0) {
+      else if (prefix != null && prefix.trim().length() > 0) {
         getSBMLDocumentAttributes().put(prefix + ':' + attributeName, value);
       } else {
         getSBMLDocumentAttributes().put(attributeName, value);

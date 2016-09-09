@@ -68,6 +68,12 @@ public class LoggingValidationContext extends ValidationContext
     log = new SBMLErrorLog();
   }
 
+  @Override
+  public void clear() {
+    // TODO Auto-generated method stub
+    super.clear();
+    this.clearErrorLog();
+  }
 
   /**
    * Clears the error log.

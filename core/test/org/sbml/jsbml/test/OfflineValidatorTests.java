@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,7 +22,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -36,17 +34,15 @@ import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
+ * Utility class that is used to test the jsbml offline validator over the libsbml validator test suite files.
+ * 
  * @author Nicolas Rodriguez and Roman Schulte
- * @version $Rev$
  * @since 1.2
  */
 public class OfflineValidatorTests {
 
-  /**
-   * @param args
-   */
 
-  // private static int dirsValidated = 0;
+  private static int nbDirValidated = 0;
   // private static int dirsMissed = 0;
 
   private static int                                   totalFileTested  = 0;
@@ -54,8 +50,8 @@ public class OfflineValidatorTests {
 
   private static String                                filter           = "";
 
-  private static Set<String>                           skipped          =
-    new HashSet<String>();
+  private static Map<String, Exception>                exceptions       =
+    new HashMap<String, Exception>();
   private static Set<Integer>                          notDetected      =
     new TreeSet<Integer>();
   private static Map<Integer, String>                  notDetectedFiles =
@@ -66,6 +62,9 @@ public class OfflineValidatorTests {
     new HashMap<String, LoggingValidationContext>();
 
 
+  /**
+   * @param args
+   */
   public static void main(String[] args) {
 
     if (args.length < 1) {
@@ -117,15 +116,30 @@ public class OfflineValidatorTests {
       File dir = new File(testDataDir, "" + code);
 
       if (dir.isDirectory()) {
-        // dirsValidated++
+        nbDirValidated++;
 
         validateDirectory(dir, code);
       } else {
         // dirsMissed++;
-        System.out.println("No directory found for error code " + code);
+        // System.out.println("No directory found for error code " + code);
       }
     }
 
+    if (exceptions.size() > 0) {
+      System.out.println();
+      printStrongHLine();
+      System.out.println("Unexpected EXCEPTIONS that happened during validation or reading of an SBML file:");
+      printStrongHLine();
+      for (String key : exceptions.keySet()){
+        System.out.println("There was a exception in " + key + ":");
+        Exception e = exceptions.get(key);
+        e.printStackTrace(System.out);
+        System.out.println();
+        System.out.println();
+      }
+      
+    }
+    
     long end = Calendar.getInstance().getTimeInMillis();
     double nbSecondes = (end - init) / 1000.0;
     double nbSecondesRead = readTime / 1000.0;
@@ -140,6 +154,29 @@ public class OfflineValidatorTests {
     System.out.println("Reading: " + nbSecondesRead + " secondes.");
     System.out.println("Validating: " + nbSecondesValidating + " secondes.");
 
+    System.out.println("\n\nNumber of constraints correctly validated: "
+        + (nbDirValidated - notDetected.size()) + " out of " + nbDirValidated);
+    System.out.println("\nIncorrect constraints list: ");
+    
+    Integer previous = 0;
+    Integer[] notDetectedA = notDetected.toArray(new Integer[notDetected.size()]);
+    
+    for (int i = 0; i < notDetectedA.length; i++) {
+      Integer errorCode = notDetectedA[i];
+      
+      if (i == 0) {
+        previous = errorCode;
+      }
+
+      Integer errorBase = previous - (previous % 100);
+      
+      if ((errorCode - errorBase) > 100) {
+        System.out.println();
+      }
+      System.out.print(errorCode + ", ");
+      previous = errorCode;
+    }
+    
     System.out.println("\n\nNumber of files correctly validated: "
       + filesCorrectly + " out of " + totalFileTested);
     System.out.println("Didn't detect the following broken constraints:");
@@ -149,7 +186,7 @@ public class OfflineValidatorTests {
       String out = i + " in " + notDetectedFiles.get(i);
       System.out.println(out);
     }
-
+    
   }
 
 
@@ -214,7 +251,8 @@ public class OfflineValidatorTests {
         System.out.println("FAILED!!!");
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      exceptions.put(name, e);
+//      e.printStackTrace(); 
     }
 
     System.out.println();
@@ -238,15 +276,22 @@ public class OfflineValidatorTests {
     String key = "l" + doc.getLevel() + "v" + doc.getVersion();
     LoggingValidationContext ctx = contextCache.get(key);
 
+    // If no context was in cache create new one
     if (ctx == null) {
       ctx = new LoggingValidationContext(doc.getLevel(), doc.getVersion());
       ctx.enableCheckCategories(CHECK_CATEGORY.values(), true);
       ctx.loadConstraints(SBMLDocument.class);
       contextCache.put(key, ctx);
     } else {
+      
+      // Reset context if necessary
       ctx.clearErrorLog();
+      
+      if (ctx.getConstraintType() != SBMLDocument.class) {
+        ctx.loadConstraints(SBMLDocument.class);
+      }
     }
-
+   
     return ctx;
   }
 

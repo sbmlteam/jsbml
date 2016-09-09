@@ -23,10 +23,13 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.xml.XMLNode;
 
 
 /**
@@ -45,6 +48,11 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
     // TODO Auto-generated method stub
     switch (category) {
     case GENERAL_CONSISTENCY:
+      set.add(CORE_21124);
+      
+      if (level > 2) {
+        set.add(CORE_21172);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -83,6 +91,47 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<LocalParameter> func = null;
     
     switch (errorCode) {
+      
+    case CORE_21124:
+      func = new ValidationFunction<LocalParameter>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, LocalParameter lp) 
+        {
+          if (lp.isSetUserObjects() && lp.getUserObject(JSBML.UNKNOWN_XML) != null)
+          {
+            XMLNode unknownNode = (XMLNode) lp.getUserObject(JSBML.UNKNOWN_XML);
+
+            // System.out.println("UnknownAttributeValidationFunction - attributes.length = " + unknownNode.getAttributesLength());
+
+            if (unknownNode.getAttributesLength() > 0 && unknownNode.getAttrIndex("constant") != -1) {
+              String constant = unknownNode.getAttrValue("constant");
+              
+              if (! "true".equals(constant)) {
+                return false;
+              }
+            }
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_21172:
+      func = new UnknownAttributeValidationFunction<LocalParameter>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, LocalParameter c) {
+          // id is a mandatory attribute
+          if (!c.isSetId()) {
+            return false;
+          }
+          return super.check(ctx, c);
+        }
+      };
+      break;
+      
     case CORE_81121:
       func = new ValidationFunction<LocalParameter>() {
         
@@ -115,7 +164,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, LocalParameter p) {
 
-          System.out.println("Unit " + p.getUnits());
+          // System.out.println("Unit " + p.getUnits());
           return p.isSetUnits();
         }
       };

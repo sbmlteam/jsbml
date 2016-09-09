@@ -1,6 +1,5 @@
 /*
- * $IdRateRuleConstraints.java 01:12:47 roman $
- * $URLRateRuleConstraints.java $
+ *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -21,19 +20,23 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.RateRule;
-import org.sbml.jsbml.Variable;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.LocalParameter;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.SBaseWithUnit;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
- * @author Roman
+ * @author rodrigue
  * @since 1.2
- * @date 11.08.2016
+ * 
  */
-public class RateRuleConstraints extends AbstractConstraintDeclaration {
+public class SBaseWithUnitConstraints
+  extends AbstractConstraintDeclaration {
 
   /*
    * (non-Javadoc)
@@ -44,21 +47,12 @@ public class RateRuleConstraints extends AbstractConstraintDeclaration {
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {
-   
+
     switch (category) {
     case GENERAL_CONSISTENCY:
-      set.add(CORE_20902);
-      
-      if (level > 1)
-      {
-        set.add(CORE_20904);
-      }
-      if (level > 2) 
-      {
-        set.add(CORE_20909);
-      }
       break;
     case IDENTIFIER_CONSISTENCY:
+      set.add(CORE_10313);
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -89,67 +83,44 @@ public class RateRuleConstraints extends AbstractConstraintDeclaration {
 
   /*
    * (non-Javadoc)
-   * @see
-   * org.sbml.jsbml.validator.offline.constraints.AbstractConstraintDeclaration#
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
    * getValidationFunction(int)
    */
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<RateRule> func = null;
+    ValidationFunction<SBaseWithUnit> func = null;
 
     switch (errorCode) {
-    case CORE_20902:
-      func = new ValidationFunction<RateRule>() {
+      // 
+      case CORE_10313:
+        func = new ValidationFunction<SBaseWithUnit>() {
 
-        @Override
-        public boolean check(ValidationContext ctx, RateRule r) {
-          // TODO Auto-generated method stub
-
-          if (r.isRate() && r.isSetVariable()) {
-
-            return ValidationTools.isValidVariable(r.getVariableInstance(),
-              ctx.getLevel());
-          }
-
-          return true;
-        }
-      };
-      break;
-      
-    case CORE_20904:
-      func = new ValidationFunction<RateRule>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, RateRule r) {
-          // TODO Auto-generated method stub
-
-          Variable var = r.getVariableInstance();
-
-          if (var != null) {
-            return !var.isConstant();
-          }
-
-          return true;
-        }
-      };
-      break;
-
-    case CORE_20909:
-      func = new UnknownAttributeValidationFunction<RateRule>() {
+          @Override
+          public boolean check(ValidationContext ctx, SBaseWithUnit sb) {
+                  
+            if (sb.isSetUnits() && (sb instanceof Compartment || sb instanceof Species 
+                || sb instanceof Parameter || sb instanceof LocalParameter))
+            {
+              String unit = sb.getUnits();
+            
+              Model m = sb.getModel();
+              boolean definedInModel = false;
         
-        @Override
-        public boolean check(ValidationContext ctx, RateRule rule) {
-          // variable is a mandatory attribute
-          if (!rule.isSetVariable()) {
-            return false;
-          }
-          return super.check(ctx, rule);
-        }
-      };
-      break;
-      
-    }
+              if (m != null) {
+                definedInModel = m.getUnitDefinition(unit) != null;
+              }
 
+              return definedInModel
+                || Unit.isUnitKind(unit, ctx.getLevel(), ctx.getVersion())
+                || Unit.isPredefined(unit, ctx.getLevel());
+            }
+            
+            return true;
+          }
+        };
+        break;
+
+    }
     return func;
   }
 

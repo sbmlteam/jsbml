@@ -301,11 +301,12 @@ public class MathMLParser implements ReadingParser, WritingParser {
    * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String ElementName, String AttributeName, String value, String prefix, boolean isLastAttribute, Object contextObject)
    */
   @Override
-  public void processAttribute(String ElementName, String AttributeName,
+  public boolean processAttribute(String ElementName, String AttributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject) {
     // TODO Auto-generated method stub
 
+    return true;
   }
 
   /* (non-Javadoc)

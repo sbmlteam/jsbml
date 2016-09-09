@@ -33,6 +33,7 @@ import javax.swing.tree.TreeNode;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.Annotation;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
@@ -40,6 +41,9 @@ import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.ListOfWithName;
 import org.sbml.jsbml.xml.XMLAttributes;
+import org.sbml.jsbml.xml.XMLNamespaces;
+import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.XMLTriple;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -62,7 +66,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
    *      boolean isLastAttribute, Object contextObject)
    */
   @Override
-  public void processAttribute(String elementName, String attributeName,
+  public boolean processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject)
   {
@@ -103,6 +107,8 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
         "processAttribute: The attribute ''{0}'' on the element {1} is not part of the SBML specifications ({2}).",
         attributeName, elementName, contextObject.getClass().getSimpleName()));
     }
+    
+    return isAttributeRead;
   }
 
   /* (non-Javadoc)
@@ -214,44 +220,83 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
   }
 
   /**
+   * Process an unknown XML attribute. Stores it into an {@link XMLNode}. This XMLNode is
+   * put into the user object map of the contextObject, using the key {@link JSBML#UNKNOWN_XML}.
    * 
-   * @param attributeName
-   * @param value
-   * @param prefix
-   * @param contextObject
+   * @param attributeName the attribute name.
+   * @param namespace the attribute namespace URI.
+   * @param value the attribute value.
+   * @param prefix the attribute namespace prefix.
+   * @param contextObject the context Object.
    */
-  public static void processUnknownAttribute(String attributeName,
+  public static void processUnknownAttribute(String attributeName, String namespace,
     String value, String prefix, Object contextObject)
   {
     if (contextObject instanceof AbstractTreeNode)
     {
-      XMLAttributes unknownAttributes = null;
-      Object unknownAttributesObj = ((AbstractTreeNode) contextObject).getUserObject(AbstractTreeNode.UNKNOWN_ATTRIBUTES);
+      AbstractTreeNode treeNode = (AbstractTreeNode) contextObject;
+      XMLNode unknownNode = (XMLNode) treeNode.getUserObject(JSBML.UNKNOWN_XML);
 
-      if (unknownAttributesObj == null)
-      {
-        unknownAttributes = new XMLAttributes();
-        ((AbstractTreeNode) contextObject).putUserObject(AbstractTreeNode.UNKNOWN_ATTRIBUTES, unknownAttributes);
-      }
-      else if (unknownAttributesObj instanceof XMLAttributes)
-      {
-        unknownAttributes = (XMLAttributes) unknownAttributesObj;
-      }
-      else
-      {
-        // TODO : exception/log ?? Problem !!!!
-        return;
+      if (unknownNode == null) {
+        unknownNode = new XMLNode(new XMLTriple("unknown", "", ""), new XMLAttributes(), new XMLNamespaces());
+        treeNode.putUserObject(JSBML.UNKNOWN_XML, unknownNode);
       }
 
-      unknownAttributes.add(attributeName, value, null, prefix);
+      if (logger.isDebugEnabled()) {
+        logger.debug("processUnknownAttribute - storing the attribute = '" + attributeName + "', with value = '" + value + "'.");
+      }
+
+      unknownNode.addAttr(new XMLTriple(attributeName, namespace, prefix), value);
     }
     else
     {
-      // TODO : exception/log/other
+      if (logger.isDebugEnabled()) {
+        logger.warn("processUnknownAttribute - the contextObject is not an AbstractTreeNode ! object = " + contextObject.getClass().getSimpleName());
+      }
     }
-
   }
 
+  /**
+   * Process an unknown XML element. Stores it into an {@link XMLNode}. This XMLNode is
+   * put into the user object map of the contextObject, using the key {@link JSBML#UNKNOWN_XML}.
+   * 
+   * @param elementName the element name.
+   * @param namespace the element namespace URI.
+   * @param prefix the element namespace prefix.
+   * @param contextObject the context Object.
+   */
+  public static XMLNode processUnknownElement(String elementName, String namespace,
+    String prefix, Object contextObject)
+  {
+    if (contextObject instanceof AbstractTreeNode)
+    {
+      AbstractTreeNode treeNode = (AbstractTreeNode) contextObject;
+      XMLNode unknownNode = (XMLNode) treeNode.getUserObject(JSBML.UNKNOWN_XML);
+
+      if (unknownNode == null) {
+        unknownNode = new XMLNode(new XMLTriple("unknown", "", ""), null, null);
+        treeNode.putUserObject(JSBML.UNKNOWN_XML, unknownNode);
+      }
+
+      if (logger.isDebugEnabled()) {
+        logger.debug("processUnknownElement - storing the element = '" + elementName + "'.");
+      }
+
+      XMLNode unknownChild = new XMLNode(new XMLTriple(elementName, namespace, prefix), null, null);
+      unknownNode.addChild(unknownChild);
+      return unknownChild;
+    }
+    else
+    {
+      if (logger.isDebugEnabled()) {
+        logger.warn("processUnknownElement - the contextObject is not an AbstractTreeNode ! object = " + contextObject.getClass().getSimpleName());
+      }
+    }
+    
+    return null;
+  }
+
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
    */
