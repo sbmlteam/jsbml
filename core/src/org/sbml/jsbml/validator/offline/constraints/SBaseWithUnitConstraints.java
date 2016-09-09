@@ -20,15 +20,22 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.SBaseWithDerivedUnit;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.LocalParameter;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.SBaseWithUnit;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 
 /**
- * @author Roman
+ * @author rodrigue
  * @since 1.2
- * @date 06.08.2016
+ * 
  */
-public class SBaseWithDerivedUnitConstraints
+public class SBaseWithUnitConstraints
   extends AbstractConstraintDeclaration {
 
   /*
@@ -45,6 +52,7 @@ public class SBaseWithDerivedUnitConstraints
     case GENERAL_CONSISTENCY:
       break;
     case IDENTIFIER_CONSISTENCY:
+      set.add(CORE_10313);
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -80,10 +88,37 @@ public class SBaseWithDerivedUnitConstraints
    */
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<SBaseWithDerivedUnit> func = null;
+    ValidationFunction<SBaseWithUnit> func = null;
 
     switch (errorCode) {
-      // TODO
+      // 
+      case CORE_10313:
+        func = new ValidationFunction<SBaseWithUnit>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, SBaseWithUnit sb) {
+                  
+            if (sb.isSetUnits() && (sb instanceof Compartment || sb instanceof Species 
+                || sb instanceof Parameter || sb instanceof LocalParameter))
+            {
+              String unit = sb.getUnits();
+            
+              Model m = sb.getModel();
+              boolean definedInModel = false;
+        
+              if (m != null) {
+                definedInModel = m.getUnitDefinition(unit) != null;
+              }
+
+              return definedInModel
+                || Unit.isUnitKind(unit, ctx.getLevel(), ctx.getVersion())
+                || Unit.isPredefined(unit, ctx.getLevel());
+            }
+            
+            return true;
+          }
+        };
+        break;
 
     }
     return func;

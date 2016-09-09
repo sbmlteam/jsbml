@@ -177,7 +177,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
       } catch (Throwable exc) {
         logger.error(exc.getMessage());
-        logger.info("Attribute = " + attributeName + ", element = " + elementName);
+        logger.info("Attribute = " + attributeName + ", value '" + value + "' , element name = " + elementName);
       }
     }
     // A SBMLCoreParser can modify a contextObject which is an instance of
