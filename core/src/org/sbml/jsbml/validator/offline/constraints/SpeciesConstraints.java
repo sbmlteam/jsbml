@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ExplicitRule;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
@@ -35,7 +36,9 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
+import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * 
@@ -90,6 +93,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       else if (level == 3)
       {
         set.add(CORE_20609);
+        set.add(CORE_20616);
         set.add(CORE_20617);
         set.add(CORE_20623);
         set.add(CORE_20705);
@@ -342,6 +346,27 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       };
       break;
       
+    case CORE_20609:
+      func = new ValidationFunction<Species>() {
+        
+        
+        @Override
+        public boolean check(ValidationContext ctx, Species s) {
+
+          if (s.isSetUserObjects() && s.getUserObject(JSBML.UNKNOWN_XML) != null)
+          {
+            XMLNode unknownNode = (XMLNode) s.getUserObject(JSBML.UNKNOWN_XML);
+
+            if (unknownNode.getAttributesLength() > 0) {
+              return (unknownNode.getAttrIndex("initialConcentration") == -1) && (unknownNode.getAttrIndex("initialAmount") == -1);  
+            }
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
     case CORE_20610:
       func = new ValidationFunction<Species>() {
 
@@ -466,6 +491,15 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       };
       break;
 
+    case CORE_20616:
+      func = new ValidationFunction<Species>() {
+        @Override
+        public boolean check(ValidationContext ctx, Species s) {
+          return s.isSetSubstanceUnits() || s.getModel().isSetSubstanceUnits();
+        }
+      };
+      break;
+      
     case CORE_20617:
       func = new ValidationFunction<Species>() {
         @Override
@@ -475,6 +509,22 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           }
 
           return true;
+        }
+      };
+      break;
+      
+    case CORE_20623:
+      func = new UnknownAttributeValidationFunction<Species>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Species c) {
+          // id 'compartment', 'hasOnlySubstanceUnits', 'boundaryCondition'and constant are mandatory attributes
+          if (!c.isSetId() || !c.isSetConstant() || !c.isSetHasOnlySubstanceUnits()
+              || !c.isSetBoundaryCondition() || !c.isSetCompartment())
+          {
+            return false;
+          }
+          return super.check(ctx, c);
         }
       };
       break;

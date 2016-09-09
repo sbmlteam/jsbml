@@ -24,7 +24,8 @@ import java.util.Set;
 
 import org.sbml.jsbml.Priority;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
  * @author Roman
@@ -49,6 +50,7 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
       if (level == 3)
       {
         set.add(CORE_21231);
+        set.add(CORE_21232);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -69,19 +71,18 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<?> func = null;
+    ValidationFunction<Priority> func = null;
 
     switch (errorCode) {
+
     case CORE_21231:
-      func = new ValidationFunction<Priority>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, Priority p) {
-
-          return p.isSetMath();
-        }
-      };
+      func = new DuplicatedMathValidationFunction<Priority>();
       break;
+
+    case CORE_21232:
+      func = new UnknownAttributeValidationFunction<Priority>();
+      break;
+
     }
 
     return func;

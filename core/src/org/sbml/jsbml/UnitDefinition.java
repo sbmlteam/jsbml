@@ -980,7 +980,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstance() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify();
+      UnitDefinition ud = this.simplify(); // TODO - will potentially modify the structure of the current UnitDefinition - Should we call simplify on a clone UD ?
 
       if (ud.getNumChildren() == 1) {
         Unit unit = ud.getUnit(0);

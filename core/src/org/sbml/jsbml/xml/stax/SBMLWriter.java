@@ -188,7 +188,10 @@ public class SBMLWriter {
         System.out.println(Calendar.getInstance().getTime());
         afterRead = Calendar.getInstance().getTimeInMillis();
 
-        // testDocument.checkConsistency();
+        int nbProblem = testDocument.checkConsistencyOffline();
+        
+        System.out.println("Found " + nbProblem + " constraint errors.");
+        testDocument.printErrors(System.out);
 
         //        System.out.println("Model Notes = " + XMLNode.convertXMLNodeToString(testDocument.getModel().getNotes()));
         //        System.out.println("MathML = " + testDocument.getModel().getReaction(0).getKineticLaw().getMath().toMathML());

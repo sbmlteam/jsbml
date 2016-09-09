@@ -719,6 +719,11 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
       }
     }
 
+    if (isReadingInProgress()) {
+      // returning true when reading so that the validation can detect duplicated ids
+      return true;
+    }
+
     return success;
   }
 
@@ -753,8 +758,11 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
           logger.error(MessageFormat.format(
             "A local parameter with the id ''{0}'' is already present in the {1}. The new element will not be added to the list.",
             id, getListOfLocalParameters().getElementName()));
-          throw new IllegalArgumentException(MessageFormat.format(
-            "Cannot set duplicate identifier ''{0}''.", id));
+          
+          if (!isReadingInProgress()) {
+            throw new IllegalArgumentException(MessageFormat.format(
+                "Cannot set duplicate identifier ''{0}''.", id));
+          }
         }
         mapOfLocalParameters.put(id, parameter);
         success = true;

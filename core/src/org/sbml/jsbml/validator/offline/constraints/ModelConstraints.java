@@ -36,7 +36,8 @@ import org.sbml.jsbml.validator.OverdeterminationValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
-import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
  * @author Roman
@@ -47,9 +48,9 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
-    // TODO Auto-generated method stub
-
+    int version, String attributeName) 
+  {
+    // TODO - there are probably some constraints to apply for the new L3 units attributes.
   }
 
 
@@ -62,6 +63,8 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       set.add(CORE_20203);
       set.add(CORE_20204);
 
+      set.add(CORE_20222);
+      
       if (level > 2 || (level == 2 && version > 1)) {
         set.add(CORE_20802);
         set.add(CORE_20803);
@@ -72,7 +75,9 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case IDENTIFIER_CONSISTENCY:
-      addRangeToSet(set, CORE_10301, CORE_10304);
+      set.add(CORE_10301);
+      set.add(CORE_10302);
+      set.add(CORE_10304);
 
       break;
     case MATHML_CONSISTENCY:
@@ -108,7 +113,11 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<Model> func = null;
 
     switch (errorCode) {
-    case CORE_10301:
+    case CORE_10301: 
+      
+      // TODO - it would be good to be able to keep the created Hashset of ids so that we can use it
+      // for other constraints, like when we will need to validate L3 package ids that are in the SId id space.
+      
       func = new UniqueValidation<Model, String>() {
 
         @Override
@@ -223,43 +232,6 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
-    case CORE_10303:
-      func = new UniqueValidation<Model, String>() {
-
-        @Override
-        public int getNumObjects(ValidationContext ctx, Model m) {
-          int count = 0;
-
-          for (Reaction r : m.getListOfReactions()) {
-            if (r.isSetKineticLaw()) {
-              count += r.getKineticLaw().getNumLocalParameters();
-            }
-
-          }
-
-          return count;
-        }
-
-
-        @Override
-        public String getNextObject(ValidationContext ctx, Model m, int n) {
-          int offset = 0;
-
-          for (Reaction r : m.getListOfReactions()) {
-            int num = r.getKineticLaw().getNumLocalParameters();
-
-            if (n < offset + num) {
-              return r.getKineticLaw().getLocalParameter(n - offset).getId();
-            }
-
-            offset += num;
-          }
-
-          return null;
-        }
-      };
-      break;
-
     case CORE_10304:
       func = new UniqueValidation<Model, String>() {
 
@@ -324,27 +296,23 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+    case CORE_20222:
+      func = new UnknownAttributeValidationFunction<Model>();
+      break;
+      
     case CORE_20203:
       func = new ValidationFunction<Model>() {
 
         public boolean check(ValidationContext ctx, Model m) {
 
-          return (m.getCompartmentCount() > 0 || !m.isSetListOfCompartments())
-            || (m.getCompartmentTypeCount() > 0
-              || !m.isSetListOfCompartmentTypes())
-            || (m.getConstraintCount() > 0 || !m.isSetListOfConstraints())
-            || (m.getEventCount() > 0 || !m.isSetListOfEvents())
-            || (m.getFunctionDefinitionCount() > 0
-              || !m.isSetListOfFunctionDefinitions())
-            || (m.getInitialAssignmentCount() > 0
-              || !m.isSetListOfInitialAssignments())
-            || (m.getParameterCount() > 0 || !m.isSetListOfParameters())
-            || (m.getReactionCount() > 0 || !m.isSetListOfReactions())
-            || (m.getRuleCount() > 0 || !m.isSetListOfRules())
-            || (m.getSpeciesCount() > 0 || !m.isSetListOfSpecies())
-            || (m.getSpeciesTypeCount() > 0 || !m.isSetListOfSpeciesTypes())
-            || (m.getUnitDefinitionCount() > 0
-              || !m.isSetListOfUnitDefinitions());
+          return !(m.isListOfCompartmentsEmpty()
+            || m.isListOfCompartmentTypesEmpty() || m.isListOfConstraintsEmpty()
+            || m.isListOfEventsEmpty() || m.isListOfFunctionDefinitionsEmpty()
+            || m.isListOfInitialAssignmentsEmpty()
+            || m.isListOfParametersEmpty() || m.isListOfReactionsEmpty()
+            || m.isListOfRulesEmpty() || m.isListOfSpeciesEmpty()
+            || m.isListOfSpeciesTypesEmpty()
+            || m.isListOfUnitDefinitionEmpty());
         };
       };
       break;
@@ -547,37 +515,33 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Model m) {
           boolean timeUsed = m.getNumRules() > 0 || m.getNumConstraints() > 0
             || m.getNumEvents() > 0;
-            
-          for (int n = 0; !timeUsed && n < m.getNumReactions(); n++)
-          {
-            if (m.getReaction(n).isSetKineticLaw()){
+
+          for (int n = 0; !timeUsed && n < m.getNumReactions(); n++) {
+            if (m.getReaction(n).isSetKineticLaw()) {
               timeUsed = true;
             }
-              
+
           }
-          
 
           return !timeUsed || m.isSetTimeUnits();
         }
       };
       break;
-      
+
     case CORE_99507:
       func = new ValidationFunction<Model>() {
-        
-        
+
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           boolean extendUsed = false;
-          
-          for (int n = 0; !extendUsed && n < m.getNumReactions(); n++)
-          {
-            if (m.getReaction(n).isSetKineticLaw()){
+
+          for (int n = 0; !extendUsed && n < m.getNumReactions(); n++) {
+            if (m.getReaction(n).isSetKineticLaw()) {
               extendUsed = true;
             }
-              
+
           }
-          
+
           return !extendUsed || m.isSetExtentUnits();
         }
       };

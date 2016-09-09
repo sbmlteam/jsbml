@@ -32,6 +32,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
@@ -49,6 +50,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
     switch (category) {
     case GENERAL_CONSISTENCY:
+
       if (level == 1)
       {
         set.add(CORE_20504);
@@ -66,6 +68,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       else if (level == 3)
       {
         set.add(CORE_20517);
+        addRangeToSet(set, CORE_20511, CORE_20513);
       }
 
       break;
@@ -396,6 +399,65 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
           }
 
           return true;
+        }
+      };
+      break;
+      
+    case CORE_20511:
+      func = new ValidationFunction<Compartment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+
+          if (c.isSetSpatialDimensions() && c.getSpatialDimensions() == 1) {
+            return c.isSetUnits() || c.getModel().isSetLengthUnits();
+          }
+
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20512:
+      func = new ValidationFunction<Compartment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+
+          if (c.isSetSpatialDimensions() && c.getSpatialDimensions() == 2) {
+            return c.isSetUnits() || c.getModel().isSetAreaUnits();
+          }
+
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20513:
+      func = new ValidationFunction<Compartment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+
+          if (c.isSetSpatialDimensions() && c.getSpatialDimensions() == 3) {
+            return c.isSetUnits() || c.getModel().isSetVolumeUnits();
+          }
+
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_20517:
+      func = new UnknownAttributeValidationFunction<Compartment>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Compartment c) {
+          // id and constant are mandatory attributes
+          if (!c.isSetId() || !c.isSetConstant()) {
+            return false;
+          }
+          return super.check(ctx, c);
         }
       };
       break;

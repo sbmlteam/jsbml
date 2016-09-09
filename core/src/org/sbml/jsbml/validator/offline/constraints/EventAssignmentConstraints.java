@@ -33,7 +33,9 @@ import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
  * @author Roman
@@ -62,6 +64,7 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
 
       if (level == 3) {
         set.add(CORE_21213);
+        set.add(CORE_21214);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -172,15 +175,24 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
       break;
       
     case CORE_21213:
-      func = new ValidationFunction<EventAssignment>() {
+      func = new DuplicatedMathValidationFunction<EventAssignment>();
+      break;
 
+    case CORE_21214:
+      func = new UnknownAttributeValidationFunction<EventAssignment>() {
+        
         @Override
-        public boolean check(ValidationContext ctx, EventAssignment ea) {
-
-          return ea.isSetMath();
+        public boolean check(ValidationContext ctx, EventAssignment c) {
+          // variable is a mandatory attribute
+          if (!c.isSetVariable()) {
+            return false;
+          }
+          return super.check(ctx, c);
         }
       };
       break;
+      
+      
     }
 
     return func;

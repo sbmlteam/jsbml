@@ -115,6 +115,14 @@ public class ValidationContext {
     }
   }
 
+  
+  /**
+   * Clears the loaded constraints
+   */
+  public void clear() {
+    this.rootConstraint = null;
+    this.constraintType = null;
+  }
 
   /**
    * Will be called every time before a constraints starts his tests.

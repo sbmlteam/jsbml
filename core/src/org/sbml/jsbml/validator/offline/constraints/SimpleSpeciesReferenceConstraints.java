@@ -26,7 +26,8 @@ import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
  * @author Roman
@@ -51,7 +52,8 @@ public class SimpleSpeciesReferenceConstraints
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_21111);
-
+      set.add(CORE_21117);
+      
       if (level > 1) {
         set.add(CORE_20611);
       }
@@ -114,6 +116,21 @@ public class SimpleSpeciesReferenceConstraints
         }
       };
       break;
+      
+    case CORE_21117:
+      func = new UnknownAttributeValidationFunction<SimpleSpeciesReference>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SimpleSpeciesReference c) {
+          // species is a mandatory attribute
+          if (!c.isSetSpecies()) { // TODO - may be moved it to ModifierSpeciesReferenceConstraints ?
+            return false;
+          }
+          return super.check(ctx, c);
+        }
+      };
+      break;
+
     }
 
     return func;

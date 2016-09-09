@@ -24,8 +24,9 @@ import java.util.Set;
 
 import org.sbml.jsbml.Delay;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
  * @author Roman
@@ -50,6 +51,7 @@ public class DelayConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if (level == 3) {
         set.add(CORE_21210);
+        set.add(CORE_21227);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -82,14 +84,12 @@ public class DelayConstraints extends AbstractConstraintDeclaration {
       return SBOValidationConstraints.isMathematicalExpression;
       
     case CORE_21210:
-      func = new ValidationFunction<Delay>() {
+      func = new DuplicatedMathValidationFunction<Delay>();
+      break;
 
-        @Override
-        public boolean check(ValidationContext ctx, Delay d) {
-
-          return d.isSetMath();
-        }
-      };
+    case CORE_21227:
+      func = new UnknownAttributeValidationFunction<Delay>();
+      break;
 
     }
 
