@@ -6,7 +6,7 @@ The offline validator is a alternative way to check the consistency of your SBML
 In order to validate your object you will need three steps:
 \begin{itemize}
 \item[1.] \textbf{Create a instance of ValidationContext} \\
-The context will be the center of the validation. The contrutcor needs two arguments for the level and version of SBML you want to use. These values could be changed later, but this will clear the loaded constraints. The \code{ValidationContext} is designed to be reusable, so you could use a single instance of ValidationContext to perform several validations. In this case just repeat Step 2 and 3.
+The context will be the center of the validation. The constructor needs two arguments for the level and version of SBML you want to use. These values could be changed later, but this will clear the loaded constraints. The \code{ValidationContext} is designed to be reusable, so you could use a single instance of ValidationContext to perform several validations. In this case just repeat Step 2 and 3.
 \begin{example}[style=java, title={Setup a ValidationContext}]
 	// Create a new instance
 	ValidationContext ctx = new ValidationContext(3, 1);
@@ -28,7 +28,7 @@ Now it's time to tell the context which class you want to validate. Use the meth
 	// constraints to check the "name" attribute.
 \end{example}
 \item[3.] \textbf{Validate} \\
-Now you can start the validation. The method \code{validate(Object o)} will immendently return a boolean, which is \code{true} when no constraint was broken and \code{false} otherwise. If you try to call this method if a object which is not assignable to the class for which the constraints were loaded, this method also will just return \code{false} and print a log message. If you like to get a list of all the errors and broken constraints, use a instance of LoggingValidationContext instead.
+Now you can start the validation. The method \code{validate(Object o)} will immediately return a boolean, which is \code{true} when no constraint was broken and \code{false} otherwise. If you try to call this method if a object which is not assignable to the class for which the constraints were loaded, this method also will just return \code{false} and print a log message. If you like to get a list of all the errors and broken constraints, use a instance of LoggingValidationContext instead.
 \begin{example}[style=java, title={Validate}]
 	// Perform the validation
 	boolean isValid = ctx.validate(myObject);
@@ -40,8 +40,8 @@ There are some ways to control the validation process.
 \begin{itemize}
 \item[a)] \textbf{Enable/disable check categories:}\\
 With check categories, it's possible to control which subset of rules will be loaded. By default only the 
-\item[b)] \textbf{Recursiv validation:}\\
-The validation context can perform a recursiv validation and also validate the child objects. This is realized by using the \TreeNode Interface. If a class inherites from \TreeNode (which is the case by \SBase) and this option is enabled, the context will also load the constraints for the class of every child returned by the \TreeNode iteration methods. If one of the children is also a \TreeNode, the recursiv validation will go on. This option is enable by default.
+\item[b)] \textbf{Recursive validation:}\\
+The validation context can perform a recursive validation and also validate the child objects. This is realized by using the \TreeNode Interface. If a class inherits from \TreeNode (which is the case by \SBase) and this option is enabled, the context will also load the constraints for the class of every child returned by the \TreeNode iteration methods. If one of the children is also a \TreeNode, the recursive validation will go on. This option is enable by default.
 \item[c)] \textbf{Track the validation:}\\
 If you want to follow the validation process in real time, you could use the ValidationListener interface, which provides two methods:
 \begin{itemize}
@@ -50,7 +50,7 @@ which will be called every time before a constraint will perform a check
 \item \code{didValidate(ValidationContext ctx, AnyConstraint<?> c, Object o, boolean success)} \\
 which will be called after the check. The \code{boolean success} will be the result of the check from this constraint.
 \end{itemize}
-If you want to get more information about the constraint, you could retrieve his error code. If the constraint is just a ConstraintGroup and therefore just a collection of constraints, the error code should be equals to \code{CoreSpecialErrorCodes.ID-GROUP}. In any othe case you could use this error code to create the \code{SBMLError} object assoscieted with it by using the \code{SBMLErrorFactory}.
+If you want to get more information about the constraint, you could retrieve his error code. If the constraint is just a ConstraintGroup and therefore just a collection of constraints, the error code should be equals to \code{CoreSpecialErrorCodes.ID-GROUP}. In any other case you could use this error code to create the \code{SBMLError} object assoscieted with it by using the \code{SBMLErrorFactory}.
 \end{itemize}
 
 

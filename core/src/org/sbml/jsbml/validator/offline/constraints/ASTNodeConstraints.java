@@ -19,7 +19,9 @@
  */
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
@@ -28,9 +30,11 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -173,7 +177,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
             // all children must be numbers
             for (ASTNode n : node.getChildren()) {
-              if (!n.isNumber()) {
+              if (ValidationTools.getDataType(n) != ValidationTools.DT_NUMBER) {
+
                 return false;
               }
             }
@@ -291,7 +296,12 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             // every second node must be a condition and therefore return a
             // boolean
             for (int i = 1; i < node.getNumChildren(); i += 2) {
-              if (!node.getChild(i).isBoolean()) {
+              ASTNode child = node.getChild(i);
+
+              if (ValidationTools.getDataType(
+                child) != ValidationTools.DT_BOOLEAN) {
+                // System.out.println("Node " + child.getType() + " was " +
+                // ValidationTools.getDataType(child));
                 return false;
               }
             }
@@ -380,7 +390,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           // If it's a name
           if (node.isName()) {
 
-            String name = node.getName();
+            String id = node.getName();
             MathContainer parent = node.getParentSBMLObject();
 
             if (parent == null) {
@@ -389,30 +399,17 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
             Model m = parent.getModel();
 
-            if (m != null && parent instanceof KineticLaw) {
-              boolean allowReaction = true;
-              boolean allowSpeciesRef = false;
+            // We have to go through all the ASTNode defined in the document and find places where
+            // an invalid id is used, then if the id is one of any local parameter, we should fire the constraint.
+            // So we need to test all ASTNode where the parent is NOT a KineticLaw. And make use of the Model find methods.
+            
+            if (m != null && (! (parent instanceof KineticLaw))) {
 
-              if (ctx.isLevelAndVersionEqualTo(2, 1)) {
-                allowReaction = false;
-              }
-
-              if (ctx.getLevel() > 2) {
-                allowSpeciesRef = true;
-              }
-
-              // If the name doesn't match anything so it must be a local
-              // parameter
-              if (m.getCompartment(name) == null && m.getSpecies(name) == null
-                && m.getParameter(name) == null
-                && (!allowReaction || m.getReaction(name) == null)
-                && (!allowSpeciesRef
-                  || !ValidationTools.isSpeciesReference(m, name))) {
-
-                KineticLaw kl = (KineticLaw) parent;
-
-                return kl.getLocalParameter(name) == null;
-
+              NamedSBase sbase = m.findUniqueNamedSBase(id);
+              
+              // If the id doesn't match anything, it can be a localParameter
+              if (sbase == null && (m.findLocalParameters(id).size() > 0)) {
+                return false;
               }
             }
           }
@@ -447,23 +444,39 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           // Can't be empty
           else if (type == Type.FUNCTION_PIECEWISE) {
             if (node.getNumChildren() > 0) {
-              // check if there is always a number followed by a boolean
-              boolean shouldBeNumber = true;
+              // piece element should have two child, otherwise element one.
+              Map<String, Integer> piecewiseIdMap = new HashMap<String, Integer>(); 
 
+              // counting number of child
               for (ASTNode child : node.getListOfNodes()) {
-                // Should be number but isn't
-                if (shouldBeNumber == !child.isNumber()) {
-                  return false;
+                String elementPiecewiseId = (String) child.getUserObject(JSBML.PIECEWISE_ID);
+                Integer nbChild = piecewiseIdMap.get(elementPiecewiseId);
+                
+                if (elementPiecewiseId == null) {
+                  // we don't have enough information to validate this node
+                  return true;
                 }
-                // Must be a boolean
-                else if (!child.isBoolean()) {
-                  return false;
+                
+                if (nbChild == null) {
+                  nbChild = 0;
                 }
-
-                // Flip boolean
-                shouldBeNumber = !shouldBeNumber;
+                nbChild++;
+                piecewiseIdMap.put(elementPiecewiseId, nbChild);
               }
+
+              // validating the number of child found
+              for (String piecewiseId : piecewiseIdMap.keySet()) {
+                Integer nbChild = piecewiseIdMap.get(piecewiseId);
+                
+                if (piecewiseId.contains("piece") && nbChild != 2) {
+                  return false;
+                } else if (piecewiseId.contains("other") && nbChild != 1) {
+                  return false;
+                }
+              }
+
             } else {
+              // zero child are allowed for piecewise in MATHML 2 but not in SBML/libSBML ?
               return false;
             }
           }
@@ -473,7 +486,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           }
           // In MathML 2 these types must have at least 2 children
           else if (relations.contains(type)) {
-            return node.getNumChildren() > 1;
+            return node.getNumChildren() > 1; // TODO - check again but I think some relational operators can have zero or more child
           }
           // Special case before l2v4
           else if (type == Type.FUNCTION
@@ -611,16 +624,13 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
 
-          ASTNode.Type type = node.getType();
-
-          if (type == Type.FUNCTION) {
-
+          if (node.isSetUnits()) {
             String units = node.getUnits();
 
             if (units != null && !units.isEmpty()) {
               // Checks if the unit is predefined or defined in the model
               if (!(Unit.isUnitKind(units, ctx.getLevel(), ctx.getVersion()))
-                && node.getUnitsInstance() == null) {
+                  && node.getUnitsInstance() == null) {
                 return false;
               }
             }
@@ -686,47 +696,36 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 }
               }
             }
-          }
-          else if (t == Type.FUNCTION_DELAY)
-          {
-            if (node.getNumChildren() == 2)
-            {
+          } else if (t == Type.FUNCTION_DELAY) {
+            if (node.getNumChildren() == 2) {
               ASTNode right = node.getRightChild();
-              
+
               UnitDefinition ud = right.getUnitsInstance();
-              if (ud == null || !ud.isVariantOfTime())
-              {
+              if (ud == null || !ud.isVariantOfTime()) {
                 return false;
               }
             }
-          }
-          else if (t == Type.FUNCTION_PIECEWISE)
-          {
-            if (node.getNumChildren() == 0)
-            {
+          } else if (t == Type.FUNCTION_PIECEWISE) {
+            if (node.getNumChildren() == 0) {
               return true;
             }
-            
+
             UnitDefinition ud = node.getChild(0).getUnitsInstance();
-            
-            for (int n = 1; n < node.getNumChildren(); n++)
-            {
+
+            for (int n = 1; n < node.getNumChildren(); n++) {
               ASTNode child = node.getChild(n);
               UnitDefinition def = child.getUnitsInstance();
-              
+
               // Even children must be same unit as first child
-              if (n % 2 == 0)
-              {
-                if ((ud == null && def != null) || (ud != null && def == null) || UnitDefinition.areEquivalent(ud, def))
-                {
+              if (n % 2 == 0) {
+                if ((ud == null && def != null) || (ud != null && def == null)
+                  || UnitDefinition.areEquivalent(ud, def)) {
                   return false;
                 }
               }
               // Odd children must be dimensionless;
-              else
-              {
-                if (def == null || !def.isVariantOfDimensionless())
-                {
+              else {
+                if (def == null || !def.isVariantOfDimensionless()) {
                   return false;
                 }
               }

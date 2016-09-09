@@ -155,7 +155,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
    * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String elementName, String attributeName, String value, String prefix, boolean isLastAttribute, Object contextObject)
    */
   @Override
-  public void processAttribute(String elementName, String attributeName,
+  public boolean processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject)
   {
@@ -177,7 +177,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
       } catch (Throwable exc) {
         logger.error(exc.getMessage());
-        logger.info("Attribute = " + attributeName + ", element = " + elementName);
+        logger.info("Attribute = " + attributeName + ", value '" + value + "' , element name = " + elementName);
       }
     }
     // A SBMLCoreParser can modify a contextObject which is an instance of
@@ -190,6 +190,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     } else if (contextObject instanceof ASTNode) {
       ASTNode astNode = (ASTNode) contextObject;
 
+      // TODO - make sure that the attributeName is 'units' !! If not put the attribute into the unknown attributes.
+      
+      // TODO - test if the elementName is one of the ignored mathML elements. If yes, where to store the attribute !?
+      
       try {
         astNode.setUnits(value);
         isAttributeRead = true;
@@ -210,8 +214,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       //  Log the error to the ErrorLog object ??
 
       // TODO : store the unknownAttribute -> do a generic utility method on TreeNode element
-      AbstractReaderWriter.processUnknownAttribute(attributeName, value, prefix, contextObject); // namespace ?
+      // Done in SBMLReader !! AbstractReaderWriter.processUnknownAttribute(attributeName, value, prefix, contextObject); // namespace ?
     }
+    
+    return isAttributeRead;
   }
 
   /* (non-Javadoc)
@@ -1183,7 +1189,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           {
             constraint.setMessage(new XMLNode(new XMLTriple("message", null, null), new XMLAttributes()));
 
-            return constraint;
+            return constraint.getMessage();
           } else {
             logger.warn(MessageFormat.format(
               bundle.getString("SBMLCoreParser.unknownElement"), elementName));

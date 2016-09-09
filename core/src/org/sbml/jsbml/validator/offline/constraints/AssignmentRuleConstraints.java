@@ -33,6 +33,7 @@ import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
@@ -61,6 +62,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
       else if (level == 3)
       {
         set.add(CORE_20903);
+        set.add(CORE_20908);
       }
 
       break;
@@ -128,12 +130,27 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+
+    case CORE_20908:
+      func = new UnknownAttributeValidationFunction<AssignmentRule>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, AssignmentRule rule) {
+          // variable is a mandatory attribute
+          if (!rule.isSetVariable()) {
+            return false;
+          }
+          return super.check(ctx, rule);
+        }
+      };
+      break;
+      
     case CORE_99106:
       func = new ValidationFunction<AssignmentRule>() {
 
         @Override
         public boolean check(ValidationContext ctx, AssignmentRule r) {
-          // TODO Auto-generated method stub
+
           Model m = r.getModel();
 
           if (r.isSetMath() && m != null) {

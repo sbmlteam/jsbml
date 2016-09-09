@@ -141,7 +141,7 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
    *      boolean isLastAttribute, Object contextObject)
    */
   @Override
-  public void processAttribute(String elementName, String attributeName,
+  public boolean processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
     Object contextObject)
   {
@@ -155,7 +155,7 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
       contextObject = ((ASTNode) contextObject).getPlugin(getShortLabel());
     } // TODO - ASTNode2 when it is used for reading.
     
-    super.processAttribute(elementName, attributeName, value, uri, prefix, isLastAttribute, contextObject);
+    return super.processAttribute(elementName, attributeName, value, uri, prefix, isLastAttribute, contextObject);
   }
 
 

@@ -23,6 +23,7 @@
 package org.sbml.jsbml;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -71,16 +72,6 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   protected static final transient ResourceBundle resourceBundle = ResourceManager.getBundle("org.sbml.jsbml.resources.Messages");
 
   /**
-   * 
-   */
-  public static final String UNKNOWN_ATTRIBUTES = "unknown.attributes"; //$NON-NLS-1$
-  /**
-   * 
-   */
-  public static final String UNKNOWN_ELEMENTS = "unknown.elements"; //$NON-NLS-1$
-
-
-  /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(AbstractTreeNode.class);
@@ -89,8 +80,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   /**
    * Searches the given child in the list of sub-nodes of the parent element.
    * 
-   * @param parent
-   * @param child
+   * @param parent the parent
+   * @param child the child to search for
    * @return the index of the child in the parent's list of children or -1 if no
    *         such child can be found.
    */
@@ -597,6 +588,23 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   public boolean isLeaf() {
     return getChildCount() == 0;
   }
+  
+  /**
+   * Returns true if JSBML is in the process of reading a model through the
+   * {@link SBMLReader}
+   * methods.
+   * 
+   * @return true if JSBML is in the process of reading a model
+   */
+  protected boolean isReadingInProgress() {
+    if (isSetUserObjects()
+      && userObjectKeySet().contains(JSBML.READING_IN_PROGRESS)) {
+      return true;
+    }
+
+    return false;
+  }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isRoot()
@@ -893,10 +901,12 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   }
 
   /**
+   * Initializes the state of the object during deserialization.
    * 
-   * @param in
-   * @throws IOException
-   * @throws ClassNotFoundException
+   * @param in the object input stream
+   * @throws IOException - If any of the usual Input/Output related exceptions occur.
+   * @throws ClassNotFoundException - If the class of a serialized object cannot be found. 
+   * @see Serializable
    */
   private void readObject(java.io.ObjectInputStream in)
       throws IOException, ClassNotFoundException {
