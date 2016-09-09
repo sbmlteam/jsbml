@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,6 +22,7 @@ package org.sbml.jsbml;
 
 import java.text.MessageFormat;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -47,6 +47,11 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
    * 
    */
   private static final long serialVersionUID = 3611229078069091891L;
+
+  /**
+   * Log4j logger
+   */
+  private static final transient Logger logger = Logger.getLogger(AbstractNamedSBaseWithUnit.class);
 
   /**
    * The unit attribute of this variable.
@@ -276,7 +281,7 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
     if ((units != null) && (units.trim().length() == 0)) {
       units = null; // If we pass the empty String or null, the value is reset.
     }
-    // TODO: Use the method Units.isValidUnit here!
+
     String oldUnits = unitsID;
     
     if (units == null) {
@@ -285,24 +290,19 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
       units = units.trim();
       
       boolean illegalArgument = false;
-      if (units.length() == 0) {
-        illegalArgument = true;
-      } else {
-        Model model = getModel();
-        if ((model == null)
-            || (Kind.isValidUnitKindString(units, getLevel(), getVersion()))) {
-          unitsID = units;
-        } else if ((model != null)
-            && (model.getUnitDefinition(units) != null)) {
-          unitsID = units;
-        } else {
-          illegalArgument = true;
-        }
+      
+      if (!Unit.isValidUnit(getModel(), units)) {
+        illegalArgument = true; // TODO - make use of the offline validation once attributes validation is in place.
       }
       if (illegalArgument) {
+        if (!isReadingInProgress()) {
         throw new IllegalArgumentException(MessageFormat.format(
           JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
+        } else {
+          logger.info(MessageFormat.format(JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
+        }
       }
+      unitsID = units;
     }
     
     if (oldUnits != unitsID) {
