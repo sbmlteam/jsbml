@@ -23,7 +23,8 @@ package de.zbit.sbml.layout;
  * 
  * @author Mirjam Gutekunst
  * @version $Rev$
+ * @param <T>
  */
 public interface Catalysis<T> extends SBGNArc<T> {
-
+  
 }

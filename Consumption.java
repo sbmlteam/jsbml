@@ -14,7 +14,6 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-
 package de.zbit.sbml.layout;
 
 /**
@@ -23,7 +22,8 @@ package de.zbit.sbml.layout;
  * 
  * @author Mirjam Gutekunst
  * @version $Rev$
+ * @param <T>
  */
 public interface Consumption<T> extends SBGNArc<T> {
-
+  
 }

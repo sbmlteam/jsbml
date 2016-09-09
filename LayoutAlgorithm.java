@@ -148,7 +148,7 @@ public interface LayoutAlgorithm {
    * method to calculate the rotation angle of the lines from the reaction box,
    * in degrees
    * 
-   * @param reactionGlyp for which the rotation angle shall be callculated
+   * @param reactionGlyph for which the rotation angle shall be calculated
    * @return the rotation angle in degrees
    */
   public double calculateReactionGlyphRotationAngle(ReactionGlyph reactionGlyph);
