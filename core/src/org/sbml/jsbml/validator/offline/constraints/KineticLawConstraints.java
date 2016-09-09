@@ -28,11 +28,11 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
-import org.sbml.jsbml.xml.parsers.MathMLStaxParser;;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * @author Roman
@@ -180,25 +180,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
       break;
       
     case CORE_21130:
-      func = new ValidationFunction<KineticLaw>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, KineticLaw kl) {
-          
-          if (kl.isSetMath()) {
-            if (kl.isSetUserObjects() && kl.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT) != null) {
-              int nbMath = (int) kl.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT);
-          
-              return nbMath == 1;                  
-            }
-          } else if (kl.getLevelAndVersion().compareTo(3, 2) < 0) {
-            // math is mandatory before SBML L3V2
-            return false;
-          }
-          
-          return true;
-        }
-      };
+      func = new DuplicatedMathValidationFunction<KineticLaw>();
       break;
 
     case CORE_21132:

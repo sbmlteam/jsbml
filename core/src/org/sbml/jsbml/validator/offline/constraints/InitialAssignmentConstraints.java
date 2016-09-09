@@ -29,9 +29,9 @@ import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
-import org.sbml.jsbml.xml.parsers.MathMLStaxParser;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
  * @author Roman
@@ -126,25 +126,7 @@ extends AbstractConstraintDeclaration {
       break;
       
     case CORE_20804:
-      func = new ValidationFunction<InitialAssignment>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, InitialAssignment ia) {
-          
-          if (ia.isSetMath()) {
-            if (ia.isSetUserObjects() && ia.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT) != null) {
-              int nbMath = (int) ia.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT);
-          
-              return nbMath == 1;                  
-            }
-          } else if (ia.getLevelAndVersion().compareTo(3, 2) < 0) {
-            // math is mandatory before SBML L3V2
-            return false;
-          }
-          
-          return true;
-        }
-      };
+      func =  new DuplicatedMathValidationFunction<InitialAssignment>();
       break;
 
     case CORE_20805:
