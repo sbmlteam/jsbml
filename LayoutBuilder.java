@@ -17,6 +17,7 @@
 
 package de.zbit.sbml.layout;
 
+import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.Layout;
@@ -92,6 +93,7 @@ public interface LayoutBuilder<P> {
    * 
    * @param rotationAngle by which the lines from the reaction box are rotated
    * @param reactionGlyph the glyph for the process node to be drawn
+   * @param curveWidth
    */
   public void buildProcessNode(ReactionGlyph reactionGlyph, double rotationAngle, double curveWidth);
   

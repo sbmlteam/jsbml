@@ -14,7 +14,6 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-
 package de.zbit.sbml.layout;
 
 import java.text.MessageFormat;

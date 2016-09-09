@@ -525,8 +525,8 @@ public class LayoutDirector<P> implements Runnable {
     if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
       return speciesReferenceGlyph.getSpeciesReferenceRole().equals(
         SpeciesReferenceRole.SUBSTRATE)
-        || speciesReferenceGlyph.getSpeciesReferenceRole().equals(
-          SpeciesReferenceRole.SIDESUBSTRATE);
+          || speciesReferenceGlyph.getSpeciesReferenceRole().equals(
+            SpeciesReferenceRole.SIDESUBSTRATE);
     } else if (speciesReferenceGlyph.isSetSBOTerm()) {
       return SBO.isChildOf(speciesReferenceGlyph.getSBOTerm(), 394);
     }
@@ -544,8 +544,8 @@ public class LayoutDirector<P> implements Runnable {
     if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
       return speciesReferenceGlyph.getSpeciesReferenceRole().equals(
         SpeciesReferenceRole.PRODUCT)
-        || speciesReferenceGlyph.getSpeciesReferenceRole().equals(
-          SpeciesReferenceRole.SIDEPRODUCT);
+          || speciesReferenceGlyph.getSpeciesReferenceRole().equals(
+            SpeciesReferenceRole.SIDEPRODUCT);
     } else if (speciesReferenceGlyph.isSetSBOTerm()) {
       return SBO.isChildOf(speciesReferenceGlyph.getSBOTerm(), 393);
     }
