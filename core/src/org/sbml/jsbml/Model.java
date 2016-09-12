@@ -1920,73 +1920,73 @@ public class Model extends AbstractNamedSBase
     } else {
       index -= count;
     }
-    if (isSetListOfFunctionDefinitions()) {
+    if (listOfFunctionDefinitions != null) {
       if (pos == index) {
         return getListOfFunctionDefinitions();
       }
       pos++;
     }
-    if (isSetListOfUnitDefinitions()) {
+    if (listOfUnitDefinitions != null) {
       if (pos == index) {
         return getListOfUnitDefinitions();
       }
       pos++;
     }
-    if (isSetListOfCompartmentTypes()) {
+    if (listOfCompartmentTypes != null) {
       if (pos == index) {
         return getListOfCompartmentTypes();
       }
       pos++;
     }
-    if (isSetListOfSpeciesTypes()) {
+    if (listOfSpeciesTypes != null) {
       if (pos == index) {
         return getListOfSpeciesTypes();
       }
       pos++;
     }
-    if (isSetListOfCompartments()) {
+    if (listOfCompartments != null) {
       if (pos == index) {
         return getListOfCompartments();
       }
       pos++;
     }
-    if (isSetListOfSpecies()) {
+    if (listOfSpecies != null) {
       if (pos == index) {
         return getListOfSpecies();
       }
       pos++;
     }
-    if (isSetListOfParameters()) {
+    if (listOfParameters != null) {
       if (pos == index) {
         return getListOfParameters();
       }
       pos++;
     }
-    if (isSetListOfInitialAssignments()) {
+    if (listOfInitialAssignments != null) {
       if (pos == index) {
         return getListOfInitialAssignments();
       }
       pos++;
     }
-    if (isSetListOfRules()) {
+    if (listOfRules != null) {
       if (pos == index) {
         return getListOfRules();
       }
       pos++;
     }
-    if (isSetListOfConstraints()) {
+    if (listOfConstraints != null) {
       if (pos == index) {
         return getListOfConstraints();
       }
       pos++;
     }
-    if (isSetListOfReactions()) {
+    if (listOfReactions != null) {
       if (pos == index) {
         return getListOfReactions();
       }
       pos++;
     }
-    if (isSetListOfEvents()) {
+    if (listOfEvents != null) {
       if (pos == index) {
         return getListOfEvents();
       }
@@ -2446,40 +2446,40 @@ public class Model extends AbstractNamedSBase
    */
   public int getListOfCount() {
     int children = 0;
-    if (isSetListOfFunctionDefinitions()) {
+    if (listOfFunctionDefinitions != null) {
       children++;
     }
-    if (isSetListOfUnitDefinitions()) {
+    if (listOfUnitDefinitions != null) {
       children++;
     }
-    if (isSetListOfCompartmentTypes()) {
+    if (listOfCompartmentTypes != null) {
       children++;
     }
-    if (isSetListOfSpeciesTypes()) {
+    if (listOfSpeciesTypes != null) {
       children++;
     }
-    if (isSetListOfCompartments()) {
+    if (listOfCompartments != null) {
       children++;
     }
-    if (isSetListOfSpecies()) {
+    if (listOfSpecies != null) {
       children++;
     }
-    if (isSetListOfParameters()) {
+    if (listOfParameters != null) {
       children++;
     }
-    if (isSetListOfInitialAssignments()) {
+    if (listOfInitialAssignments != null) {
       children++;
     }
-    if (isSetListOfRules()) {
+    if (listOfRules != null) {
       children++;
     }
-    if (isSetListOfConstraints()) {
+    if (listOfConstraints != null) {
       children++;
     }
-    if (isSetListOfReactions()) {
+    if (listOfReactions != null) {
       children++;
     }
-    if (isSetListOfEvents()) {
+    if (listOfEvents != null) {
       children++;
     }
     return children;
