@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.Event;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
@@ -77,6 +78,7 @@ public class TestL3V2Features {
     model = doc.createModel();
     
     model.createFunctionDefinition("F1");
+    model.createEvent("E1");
     
   }
 
@@ -214,4 +216,39 @@ public class TestL3V2Features {
     }
 
   }
+  
+  /**
+   * 
+   */
+  @Test public void triggerIsOptional() {
+
+    Event e = model.getEvent(0);
+    
+    assertTrue(e.getLevel() == 3 && e.getVersion() == 2);
+    assertTrue(e.getId().equals("E1"));
+    
+    String docString = null;
+    try {
+      docString = new SBMLWriter().writeSBMLToString(doc);
+    } catch (SBMLException ex) {
+      assertTrue(false);
+    } catch (XMLStreamException ex) {
+      assertTrue(false);
+    }
+
+    System.out.println("TestL3V2Features - Event without Trigger: \n" + docString);
+    SBMLDocument newDoc = null;
+    try {
+      newDoc = new SBMLReader().readSBMLFromString(docString);
+    } catch (XMLStreamException ex) {
+      assertTrue(false);
+    }
+    
+    assertTrue(newDoc.getLevel() == 3 && newDoc.getVersion() == 2);
+
+    assertTrue(newDoc.getModel().getEvent(0).isSetTrigger() == false);
+    
+    
+  }
+
 }
