@@ -7421,5 +7421,15 @@ public interface SBMLErrorCodes {
 	  * &lt;dimensions&gt; element must be of the data type 'double'. Reference: L3V1 Layout 
 	  * V1 Section 3.4.2 
 	  */
- 	 public static final int LAYOUT_21704 = 6021704; 
+ 	 public static final int LAYOUT_21704 = 6021704;
+ 	 
+ 	 /**
+ 	  * A Dimension object may have the optional SBML Level 3 Core attributes metaid and sboTerm.
+ 	  * No other attributes from the SBML Level 3 Core namespace are permitted on a Dimension
+ 	  * object. (Reference: SBML Level 3 Version 1 Core, Section 3.2.)
+ 	  *
+ 	  */
+ 	public static final int ARRAYS_20201 = 7020201; // TODO - Not sure about the numbers for arrays. We need to check if it exist a json file that include the arrays validation errors
+ 	// TODO - probably yes as I think Sarah worked on the arrays validation.
+ 	  
 }
