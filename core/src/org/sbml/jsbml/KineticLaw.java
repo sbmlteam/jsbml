@@ -282,7 +282,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
       index -= count;
     }
     // since L3V2, empty ListOf are valid to be written to XML. The check to write them or not is done in the SBMLWriter
-    if (isListOfLocalParametersEmpty()) {
+    if (listOfLocalParameters != null) {
       if (pos == index) {
         return getListOfLocalParameters();
       }
@@ -301,7 +301,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
     int children = super.getChildCount();
 
     // since L3V2, empty ListOf are valid to be written to XML. The check to write them or not is done in the SBMLWriter
-    if (isListOfLocalParametersEmpty()) {
+    if (listOfLocalParameters != null) {
       children++;
     }
 

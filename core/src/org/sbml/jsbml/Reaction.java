@@ -486,19 +486,19 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
     } else {
       index -= count;
     }
-    if (isSetListOfReactants()) {
+    if (listOfReactants != null) {
       if (pos == index) {
         return getListOfReactants();
       }
       pos++;
     }
-    if (isSetListOfProducts()) {
+    if (listOfProducts != null) {
       if (pos == index) {
         return getListOfProducts();
       }
       pos++;
     }
-    if (isSetListOfModifiers()) {
+    if (listOfModifiers != null) {
       if (pos == index) {
         return getListOfModifiers();
       }
@@ -521,13 +521,13 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   @Override
   public int getChildCount() {
     int children = super.getChildCount();
-    if (isSetListOfReactants()) {
+    if (listOfReactants != null) {
       children++;
     }
-    if (isSetListOfProducts()) {
+    if (listOfProducts != null) {
       children++;
     }
-    if (isSetListOfModifiers()) {
+    if (listOfModifiers != null) {
       children++;
     }
     if (isSetKineticLaw()) {
@@ -949,6 +949,34 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   public boolean isIdMandatory() {
     return true;
   }
+
+  /**
+   * Returns {@code true} if the listOfModifiers of this Reaction is empty.
+   * 
+   * @return {@code true} if the listOfModifiers of this Reaction is empty.
+   */
+  public boolean isListOfModifiersEmpty() {
+    return (listOfModifiers != null) && (listOfModifiers.size() == 0);
+  }
+
+  /**
+   * Returns {@code true} if the listOfProducts of this reaction is empty.
+   * 
+   * @return {@code true} if the listOfProducts of this reaction is empty.
+   */
+  public boolean isListOfProductsEmpty() {
+    return (listOfProducts != null) && (listOfProducts.size() == 0);
+  }
+
+  /**
+   * Returns {@code true} if the listOfReactants of this Reaction is empty.
+   * 
+   * @return {@code true} if the listOfReactants of this Reaction is empty.
+   */
+  public boolean isListOfReactantsEmpty() {
+    return (listOfReactants != null) && (listOfReactants.size() == 0);
+  }
+
 
   /**
    * 

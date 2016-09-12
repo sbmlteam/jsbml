@@ -31,6 +31,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
@@ -78,6 +79,12 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
         set.add(CORE_21150);
         set.add(CORE_21151);
       }
+      
+      // For level and version before L3V2
+      if (ValuePair.of(level, version).compareTo(3, 2) < 0) {
+        set.add(CORE_21103);        
+      }
+
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -118,6 +125,19 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Reaction r) {
 
           return r.getNumReactants() > 0 || r.getNumProducts() > 0;
+        }
+      };
+      break;
+
+    case CORE_21103:
+      func = new ValidationFunction<Reaction>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Reaction r) {
+
+          // if any of the ListOf or kineticLaw are empty, we return false
+          return ! (r.isListOfModifiersEmpty() || r.isListOfProductsEmpty() || r.isListOfReactantsEmpty() 
+              || (r.isSetKineticLaw() && r.getKineticLaw().getChildCount() == 0));
         }
       };
       break;
