@@ -751,7 +751,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     } else {
       index -= count;
     }
-    if (isSetListOfUnits()) {
+    if (listOfUnits != null) {
       if (index == pos) {
         return getListOfUnits();
       }
@@ -770,7 +770,7 @@ public class UnitDefinition extends AbstractNamedSBase {
   @Override
   public int getChildCount() {
     int children = super.getChildCount();
-    if (isSetListOfUnits()) {
+    if (listOfUnits != null) {
       children++;
     }
     return children;
@@ -868,6 +868,14 @@ public class UnitDefinition extends AbstractNamedSBase {
 
   }
 
+  /**
+   * Returna {@code true} if the listOfUnits is empty.
+   * 
+   * @return {@code true} if the listOfUnits is empty.
+   */
+  public boolean isListOfUnitsEmpty() {
+    return (listOfUnits != null) && (listOfUnits.size() == 0);
+  }
 
   /**
    * This method tests if this unit definition is a predefined unit.
