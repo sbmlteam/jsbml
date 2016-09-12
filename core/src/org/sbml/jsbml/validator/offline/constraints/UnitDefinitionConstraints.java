@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -75,6 +76,12 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         set.add(CORE_20420);
         set.add(CORE_20421);
       }
+      
+      // For level and version before L3V2
+      if (ValuePair.of(level, version).compareTo(3, 2) < 0) {
+        set.add(CORE_20409);        
+      }
+
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -293,7 +300,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
 
-          return ud.getListOfUnits().size() > 0;
+          return ! ud.isListOfUnitsEmpty();
         }
       };
       break;
