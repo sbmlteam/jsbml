@@ -22,6 +22,7 @@
 package org.sbml.jsbml;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -29,6 +30,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * Represents the event XML element of a SBML file. Since {@link Event}s were
@@ -396,11 +398,21 @@ UniqueNamedSBase {
       }
       pos++;
     }
-    if (isSetListOfEventAssignments()) {
-      if (pos == index) {
-        return getListOfEventAssignments();
+    if (getLevelAndVersion().compareTo(3, 2) >= 0) {
+      // since L3V2, empty ListOf are valid to be written to XML
+      if (isListOfEventAssignmentEmpty()) {
+        if (pos == index) {
+          return getListOfEventAssignments();
+        }
+        pos++;
       }
-      pos++;
+    } else {
+      if (isSetListOfEventAssignments()) {
+        if (pos == index) {
+          return getListOfEventAssignments();
+        }
+        pos++;
+      }
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       resourceBundle.getString("IndexExceedsBoundsException"),
@@ -422,8 +434,15 @@ UniqueNamedSBase {
     if (isSetDelay()) {
       children++;
     }
-    if (isSetListOfEventAssignments()) {
-      children++;
+    if (getLevelAndVersion().compareTo(3, 2) >= 0) {
+      // since L3V2, empty ListOf are valid to be written to XML
+      if (isListOfEventAssignmentEmpty()) {
+        children++;
+      }
+    } else {
+      if (isSetListOfEventAssignments()) {
+        children++;
+      }
     }
     return children;
   }
@@ -657,6 +676,15 @@ UniqueNamedSBase {
   @Override
   public boolean isIdMandatory() {
     return false;
+  }
+
+  /**
+   * Returns {@code true}, if listOfEventAssignments is not null.
+   *
+   * @return {@code true} if the listOfEventAssignments is not {@code null}.
+   */
+  public boolean isListOfEventAssignmentEmpty() {
+    return listOfEventAssignments != null;
   }
 
   /**

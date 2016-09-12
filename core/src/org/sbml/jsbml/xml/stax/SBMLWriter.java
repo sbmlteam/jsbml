@@ -1151,13 +1151,12 @@ public class SBMLWriter {
    */
   private boolean isEmptyListOf(Object object)
   {
-    // TODO - relax this rule for L3V2 when it is out
-
     if (object instanceof ListOf<?>)
     {
       ListOf<?> list = (ListOf<?>) object;
 
-      if (list.isEmpty())
+      // from L3V2 empty ListOf are allowed
+      if ((list.getLevelAndVersion().compareTo(3, 2) < 0) && list.isEmpty())
       {
         return true;
       }
