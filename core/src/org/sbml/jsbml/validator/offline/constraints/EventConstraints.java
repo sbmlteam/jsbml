@@ -66,7 +66,11 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           set.add(CORE_99206);
         }
       } else if (level == 3) {
-        addRangeToSet(set, CORE_21201, CORE_21203);
+        addRangeToSet(set, CORE_21201, CORE_21202);
+        
+        if (version == 1) {
+          set.add(CORE_21203);
+        }
         set.add(CORE_21224);
         set.add(CORE_21225);
         set.add(CORE_99206);
