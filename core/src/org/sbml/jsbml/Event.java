@@ -398,21 +398,12 @@ UniqueNamedSBase {
       }
       pos++;
     }
-    if (getLevelAndVersion().compareTo(3, 2) >= 0) {
-      // since L3V2, empty ListOf are valid to be written to XML
-      if (isListOfEventAssignmentEmpty()) {
-        if (pos == index) {
-          return getListOfEventAssignments();
-        }
-        pos++;
+    // since L3V2, empty ListOf are valid to be written to XML
+    if (isListOfEventAssignmentEmpty()) {
+      if (pos == index) {
+        return getListOfEventAssignments();
       }
-    } else {
-      if (isSetListOfEventAssignments()) {
-        if (pos == index) {
-          return getListOfEventAssignments();
-        }
-        pos++;
-      }
+      pos++;
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       resourceBundle.getString("IndexExceedsBoundsException"),
@@ -434,16 +425,11 @@ UniqueNamedSBase {
     if (isSetDelay()) {
       children++;
     }
-    if (getLevelAndVersion().compareTo(3, 2) >= 0) {
-      // since L3V2, empty ListOf are valid to be written to XML
-      if (isListOfEventAssignmentEmpty()) {
-        children++;
-      }
-    } else {
-      if (isSetListOfEventAssignments()) {
-        children++;
-      }
+    // since L3V2, empty ListOf are valid to be written to XML
+    if (isListOfEventAssignmentEmpty()) {
+      children++;
     }
+
     return children;
   }
 
@@ -684,7 +670,7 @@ UniqueNamedSBase {
    * @return {@code true} if the listOfEventAssignments is not {@code null}.
    */
   public boolean isListOfEventAssignmentEmpty() {
-    return listOfEventAssignments != null;
+    return listOfEventAssignments != null && listOfEventAssignments.isEmpty();
   }
 
   /**
