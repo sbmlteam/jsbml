@@ -7429,7 +7429,7 @@ public interface SBMLErrorCodes {
  	  * object. (Reference: SBML Level 3 Version 1 Core, Section 3.2.)
  	  *
  	  */
- 	public static final int ARRAYS_20201 = 7020201; // TODO - Not sure about the numbers for arrays. We need to check if it exist a json file that include the arrays validation errors
+ 	public static final int ARRAYS_20201 = 8020201; // TODO - We need to check if it exist (or create it) a json file that include the arrays validation errors
  	// TODO - probably yes as I think Sarah worked on the arrays validation.
  	  
 }
