@@ -26,6 +26,7 @@ import java.util.Set;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.LocalParameter;
+import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
@@ -73,6 +74,12 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
           set.add(CORE_21126);
         }
       }
+      
+      // For level and version before L3V2
+      if (ValuePair.of(level, version).compareTo(3, 2) < 0) {
+        set.add(CORE_21123);        
+      }
+      
       break;
     case IDENTIFIER_CONSISTENCY:
       set.add(CORE_10303);
@@ -141,6 +148,21 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
 
     case CORE_10709:
       return SBOValidationConstraints.isRateLaw;
+      
+    case CORE_21123:
+      func = new ValidationFunction<KineticLaw>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, KineticLaw kl) {
+          
+          if (kl.isListOfLocalParametersEmpty()) {
+            return false;
+          }
+          
+          return true;
+        }
+      };
+      break;
       
     case CORE_21125:
       func = new ValidationFunction<KineticLaw>() {
