@@ -399,7 +399,7 @@ UniqueNamedSBase {
       pos++;
     }
     // since L3V2, empty ListOf are valid to be written to XML
-    if (isListOfEventAssignmentEmpty()) {
+    if (listOfEventAssignments != null) {
       if (pos == index) {
         return getListOfEventAssignments();
       }
@@ -426,7 +426,7 @@ UniqueNamedSBase {
       children++;
     }
     // since L3V2, empty ListOf are valid to be written to XML
-    if (isListOfEventAssignmentEmpty()) {
+    if (listOfEventAssignments != null) {
       children++;
     }
 
