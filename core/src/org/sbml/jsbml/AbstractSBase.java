@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -57,7 +56,7 @@ import org.sbml.jsbml.xml.parsers.ParserManager;
  * @author Nicolas Rodriguez
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
+ * 
  */
 public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
@@ -135,7 +134,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * Checks if the given identifier candidate satisfies the requirements for a
    * valid meta identifier (see SBML L2V4 p. 12 for details).
    * 
-   * @param idCandidate
+   * @param idCandidate the id to check
    * @return {@code true} if the given argument is a valid meta identifier
    *         {@link String}, {@code false} otherwise.
    * @deprecated use {@link SyntaxChecker#isValidMetaId(String)}
@@ -215,6 +214,17 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   private int                                  sboTerm;
 
+  /**
+   * id of the SBML component (can be optional depending on the level and
+   * version). Matches the id attribute of an element in a SBML file.
+   */
+  private String id;
+
+  /**
+   * name of the SBML component (can be optional depending on the level and
+   * version). Matches the name attribute of an element in a SBML file.
+   */
+  private String name;
 
   /**
    * Creates an AbstractSBase instance.
@@ -229,6 +239,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     super();
     sboTerm = -1;
     metaId = null;
+    id = null;
+    name = null;
     notesXMLNode = null;
     lv = getLevelAndVersion();
     annotation = null;
@@ -288,6 +300,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (sb.isSetVersion()) {
       setVersion(sb.getVersion());
     }
+    id = sb.isSetId() ? new String(sb.getId()) : null;
+    name = sb.isSetName() ? new String(sb.getName()) : null;
+
     if (sb.isSetSBOTerm()) {
       sboTerm = sb.getSBOTerm();
     } else {
@@ -325,6 +340,46 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   }
 
+  /**
+   * Creates an {@link AbstractSBase} with the given identifier.
+   * 
+   *  <p>Note
+   * that with this constructor the level and version of the element are not
+   * specified. But when adding the SBase inside a Model, it will inherit
+   * the level and version from his parent.
+   * </p>
+   * 
+   * @param id the id of this {@code AbstractSBase}
+   */
+  public AbstractSBase(String id) {
+    this();
+    setId(id);
+  }
+
+  /**
+   * Creates an {@link AbstractSBase} from an id, level and version.
+   * 
+   * @param id the id of this {@code AbstractSBase}
+   * @param level the SBML level
+   * @param version the SBML version
+   */
+  public AbstractSBase(String id, int level, int version) {
+    this(id, null, level, version);
+  }
+
+  /**
+   * Creates an {@link AbstractSBase} from an id, name, level and version.
+   * 
+   * @param id the id of this {@code AbstractSBase}
+   * @param name the name of this {@code AbstractSBase}
+   * @param level the SBML level
+   * @param version the SBML version
+   */
+  public AbstractSBase(String id, String name, int level, int version) {
+    this(level, version);
+    setId(id);
+    setName(name);
+  }
 
   /*
    * (non-Javadoc)
@@ -1059,6 +1114,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if (equals && sbase.isSetMetaId()) {
         equals &= sbase.getMetaId().equals(getMetaId());
       }
+      if (equals) {
+        equals &= sbase.isSetId() == isSetId();
+        if (equals && isSetId()) {
+          equals &= sbase.getId().equals(getId());
+        }
+        equals &= sbase.isSetName() == isSetName();
+        if (equals && sbase.isSetName()) {
+          equals &= sbase.getName().equals(getName());
+        }
+      }
 
       /*
        * All child nodes are already checked by the recursive method in
@@ -1759,7 +1824,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return isSetVersion() ? lv.getV().intValue() : -1;
   }
 
-
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
@@ -1770,6 +1834,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     int hashCode = super.hashCode();
     if (isSetMetaId()) {
       hashCode += prime * getMetaId().hashCode();
+    }
+    if (isSetId()) {
+      hashCode += prime * getId().hashCode();
+    }
+    if (isSetName()) {
+      hashCode += prime * getName().hashCode();
     }
     if (isSetSBOTerm()) {
       hashCode += prime * getSBOTerm();
@@ -1788,7 +1858,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return hashCode + prime * getLevelAndVersion().hashCode();
   }
 
-
+  // TODO - remove/re-implements this method as now all the invalid/unknown attribute are stored inside one unique XMLNode
   public boolean hasInvalidAttribute(String attributeName) {
     String key = generateKeyForInvalidAttribute(attributeName);
     return containsUserObjectKey(key);
@@ -1845,6 +1915,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public boolean isExtendedByOtherPackages() {
     return !extensions.isEmpty();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#isIdMandatory()
+   */
+  @Override
+  public boolean isIdMandatory() {
+    // default value
+    return false;
   }
 
 
@@ -2054,7 +2134,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
   }
 
-
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.SBase#readAttribute(java.lang.String, java.lang.String,
@@ -2069,7 +2148,17 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     } else if (attributeName.equals("metaid")) {
       setMetaId(value);
       return true;
+    } else if (attributeName.equals("id") && (getLevel() > 1)) {
+      setId(value);
+      return true;
+    } else if (attributeName.equals("name")) {
+      setName(value);
+      if (isSetLevel() && (getLevel() == 1)) {
+        setId(value);
+      }
+      return true;
     }
+      
     return false;
   }
 
@@ -2807,7 +2896,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
   }
 
-
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.SBase#writeXMLAttributes()
@@ -2841,15 +2929,24 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if (isSetMetaId()) {
         attributes.put("metaid", getMetaId());
       }
-      if (((level == 2) && (getVersion() >= 2)) || (level > 2)) { // forward
-        // looking for
-        // levels
-        // beyond 3...
+      if (((level == 2) && (getVersion() >= 2)) || (level > 2)) {
         if (isSetSBOTerm()) {
           attributes.put("sboTerm", getSBOTermID());
         }
       }
     }
+
+    if (isSetId()) {
+      if (getLevel() != 1) {
+        attributes.put("id", getId());
+      } else {
+        attributes.put("name", getId());
+      }
+    }
+    if (isSetName()) {
+      attributes.put("name", getName());
+    }
+
 
     // Add all additional attributes from extension packages if there are any:
     if ((extensions != null) && (extensions.size() > 0)) {
@@ -2868,6 +2965,128 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
 
     return attributes;
+  }
+  
+  /**
+   * Checks if the sID is a valid identifier.
+   * 
+   * @param sID
+   *            the identifier to be checked. If null or an invalid
+   *            identifier, an exception will be thrown.
+   * @return {@code true} only if the sID is a valid identifier.
+   *         Otherwise this method throws an {@link IllegalArgumentException}.
+   *         This is an intended behavior.
+   * @throws IllegalArgumentException
+   *             if the given id is not valid in this model.
+   */
+  boolean checkIdentifier(String sID) {
+    if ((sID == null) || !SyntaxChecker.isValidId(sID, getLevel(), getVersion())) {
+      throw new IllegalArgumentException(MessageFormat.format(
+        resourceBundle.getString("AbstractNamedSBase.checkIdentifier"),
+        sID, getElementName()));
+    }
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#getId()
+   */
+  @Override
+  public String getId() {
+    return isSetId() ? id : "";
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#getName()
+   */
+  @Override
+  public String getName() {
+    return isSetName() ? name : "";
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#isSetId()
+   */
+  @Override
+  public boolean isSetId() {
+    return id != null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#isSetName()
+   */
+  @Override
+  public boolean isSetName() {
+    return name != null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#setId(java.lang.String)
+   */
+  @Override
+  public void setId(String id) {
+    String property = getLevel() == 1 ? TreeNodeChangeEvent.name : TreeNodeChangeEvent.id;
+    String oldId = this.id;
+
+    IdManager idManager = getIdManager(this);
+    if (idManager != null) { // (oldId != null) // As the register and unregister are recursive, we need to call the unregister all the time until we have a non recursive method
+      // Delete previous identifier only if defined.
+      idManager.unregister(this); // TODO - do we need non recursive method on the IdManager interface ??
+    }
+    if ((id == null) || (id.trim().length() == 0)) {
+      this.id = null;
+    } else if (checkIdentifier(id)) {
+      this.id = id;
+    }
+    if ((idManager != null) && !idManager.register(this)) {
+      IdentifierException exc = new IdentifierException(this, this.id);
+      this.id = oldId; // restore the previous setting!
+      throw new IllegalArgumentException(exc);
+    }
+    firePropertyChange(property, oldId, this.id);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#setName(java.lang.String)
+   */
+  @Override
+  public void setName(String name) {
+    // removed the call to the trim() function as a name with only space
+    // should be considered valid.
+    String oldName = this.name;
+    if ((name == null) || (name.length() == 0)) {
+      this.name = null;
+    } else {
+      this.name = name;
+    }
+    if (!isSetId() && (getLevel() == 1)) {
+      /*
+       * Note: In Level 1 there is no id attribute but the name is actually the
+       * id. Since Level 2 the name attribute has been intended to be a human-readable
+       * name, not a unique identifier (this was the meaning in Level 1). JSBML therefore
+       * has to set the id (and not the name) when calling this method in Level 1 models.
+       */
+      setId(name);
+    } else {
+      // else part to avoid calling this method twice.
+      firePropertyChange(TreeNodeChangeEvent.name, oldName, this.name);
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#unsetId()
+   */
+  @Override
+  public void unsetId() {
+    setId(null);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#unsetName()
+   */
+  @Override
+  public void unsetName() {
+    setName(null);
   }
 
 }

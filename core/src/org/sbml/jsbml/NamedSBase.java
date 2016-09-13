@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,29 +22,34 @@ package org.sbml.jsbml;
 
 /**
  * Base class for all the SBML components with an id and a name (optional or
- * not).
+ * not) in SBML Level 3 Version 1 or lower. Since SBML Level 3 Version 2, every
+ * {@link SBase} have an id an a name. This interface is kept as it is to be able to know
+ * which elements could have an id or name before SBML L3V2, not every {@link SBase} will
+ * be {@link NamedSBase} in jsbml. If you support L3V2 and want to manipulate id and name, prefer
+ * to use the {@link SBase} interface instead of {@link NamedSBase}. 
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
  * @since 0.8
- * @version $Rev$
  */
 public interface NamedSBase extends SBase {
 
   /**
+   * Returns the id of the element if it is set, an empty string otherwise.
    * 
    * @return the id of the element if it is set, an empty string otherwise.
    */
   public String getId();
 
   /**
+   * Returns the name of the element if it is set, an empty string otherwise.
    * 
    * @return the name of the element if it is set, an empty string otherwise.
    */
   public String getName();
 
   /**
-   * This method can be used to query if the identifier of this
+   * Returns {@code true}  if the identifier of this
    * {@link NamedSBase} is required to be defined (i.e., not {@code null})
    * in the definition of SBML.
    * 
@@ -57,39 +61,41 @@ public interface NamedSBase extends SBase {
   public boolean isIdMandatory();
 
   /**
+   * Returns {@code true} if the id is not {@code null}.
    * 
    * @return {@code true} if the id is not {@code null}.
    */
   public boolean isSetId();
 
   /**
+   * Returns {@code true} if the name is not {@code null}.
    * 
    * @return {@code true} if the name is not {@code null}.
    */
   public boolean isSetName();
 
   /**
-   * sets the id value with 'id'
+   * Sets the id value with 'id'
    * 
-   * @param id
+   * @param id the id to set
    */
   public void setId(String id);
 
   /**
-   * sets the name value with 'name'. If level is 1, sets automatically the id
-   * to 'name'
+   * Sets the name value with 'name'. If level is 1, sets automatically the id
+   * to 'name' as well.
    * 
-   * @param name
+   * @param name the name to set
    */
   public void setName(String name);
 
   /**
-   * sets the id value to {@code null}.
+   * Sets the id value to {@code null}.
    */
   public void unsetId();
 
   /**
-   * sets the name value to {@code null}.
+   * Sets the name value to {@code null}.
    */
   public void unsetName();
 
