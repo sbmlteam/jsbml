@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
@@ -86,7 +85,7 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
     switch (errorCode) {
     case CORE_10716:
       return SBOValidationConstraints.isMathematicalExpression;
-      
+
     case CORE_21202:
       func = new ValidationFunction<Trigger>() {
 
@@ -102,14 +101,14 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-      
+
     case CORE_21209:
       func = new DuplicatedMathValidationFunction<Trigger>();
       break;
 
     case CORE_21226:
       func = new UnknownAttributeValidationFunction<Trigger>() {
-        
+
         @Override
         public boolean check(ValidationContext ctx, Trigger c) {
           // 'persistent' and 'initialValue'are mandatory attributes
@@ -120,8 +119,8 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-      
-      
+
+
     }
 
     return func;
