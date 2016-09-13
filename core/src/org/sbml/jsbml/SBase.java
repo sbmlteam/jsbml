@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,6 +22,7 @@ package org.sbml.jsbml;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -106,11 +106,18 @@ import org.sbml.jsbml.xml.XMLNode;
  * specification for more information about the use of {@link SBO} and the
  * 'sboTerm' attribute.
  * 
+ * <p>
+ * Beginning with SBML Level 3 Version 2, {@link SBase} also has two optional
+ * attributes named 'id' and 'name'. So {@link SBase} kind of replace the interface 
+ * {@link NamedSBase} but NamedSBase is kept so that we can easily know which elements
+ * had an id and a name before SBML L3V2.
+ * 
+ * 
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
+ * 
  */
 public interface SBase extends TreeNodeWithChangeSupport {
 
@@ -914,15 +921,17 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public void setAnnotation(Annotation annotation);
 
   /**
+   * Sets the non RDF part of the annotation.
    * 
-   * @param nonRDFAnnotation
+   * @param nonRDFAnnotation an XMLNode
    */
   public void setAnnotation(XMLNode nonRDFAnnotation);
 
   /**
+   * Sets the non RDF part of the annotation.
    * 
-   * @param nonRDFAnnotation
-   * @throws XMLStreamException
+   * @param nonRDFAnnotation a String representing a piece of XML.
+   * @throws XMLStreamException - if any problem occurs while reading the XML.
    */
   public void setAnnotation(String nonRDFAnnotation) throws XMLStreamException;
 
@@ -1046,7 +1055,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @param sbase
    *        the child {@link SBase}
-   * @throws LevelVersionError
+   * @throws LevelVersionError - if the parent and the child have a different level and version.
    * @deprecated use {@link #registerChild(SBase)}
    */
   @Deprecated
@@ -1120,5 +1129,70 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * @return a {@link Map} containing the XML attributes of this object.
    */
   public Map<String, String> writeXMLAttributes();
+
+  /**
+   * Returns the id of the element if it is set, an empty string otherwise.
+   * 
+   * @return the id of the element if it is set, an empty string otherwise.
+   */
+  public String getId();
+
+  /**
+   * Returns the name of the element if it is set, an empty string otherwise.
+   * 
+   * @return the name of the element if it is set, an empty string otherwise.
+   */
+  public String getName();
+
+  /**
+   * Returns {@code true}  if the identifier of this
+   * {@link SBase} is required to be defined (i.e., not {@code null})
+   * in the definition of SBML.
+   * 
+   * @return {@code true} if the identifier of this element must be set in
+   *         order to create a valid SBML representation. {@code false}
+   *         otherwise, i.e., if the identifier can be understood as an optional
+   *         attribute.
+   */
+  public boolean isIdMandatory();
+
+  /**
+   * Returns {@code true} if the id is not {@code null}.
+   * 
+   * @return {@code true} if the id is not {@code null}.
+   */
+  public boolean isSetId();
+
+  /**
+   * Returns {@code true} if the name is not {@code null}.
+   * 
+   * @return {@code true} if the name is not {@code null}.
+   */
+  public boolean isSetName();
+
+  /**
+   * Sets the id value with 'id'
+   * 
+   * @param id the id to set
+   */
+  public void setId(String id);
+
+  /**
+   * Sets the name value with 'name'. If level is 1, sets automatically the id
+   * to 'name' as well.
+   * 
+   * @param name the name to set
+   */
+  public void setName(String name);
+
+  /**
+   * Sets the id value to {@code null}.
+   */
+  public void unsetId();
+
+  /**
+   * Sets the name value to {@code null}.
+   */
+  public void unsetName();
 
 }
