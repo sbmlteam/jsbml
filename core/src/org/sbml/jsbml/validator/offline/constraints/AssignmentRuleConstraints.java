@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.HashSet;
@@ -104,16 +103,16 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           if (r.isSetVariable()) {
 
             Variable var = r.getVariableInstance();
-            
+
             return ValidationTools.isValidVariable(var, ctx.getLevel());
-            
+
           }
 
           return true;
         }
       };
       break;
-      
+
     case CORE_20903:
       func = new ValidationFunction<AssignmentRule>() {
 
@@ -133,7 +132,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
 
     case CORE_20908:
       func = new UnknownAttributeValidationFunction<AssignmentRule>() {
-        
+
         @Override
         public boolean check(ValidationContext ctx, AssignmentRule rule) {
           // variable is a mandatory attribute
@@ -144,7 +143,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-      
+
     case CORE_99106:
       func = new ValidationFunction<AssignmentRule>() {
 
@@ -200,6 +199,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
     case CORE_99129:
       func = new ValidationFunction<AssignmentRule>() {
 
+        @Override
         public boolean check(ValidationContext ctx, AssignmentRule ar) {
           return ValidationTools.containsMathOnlyPredefinedFunctions(
             ar.getMath());
