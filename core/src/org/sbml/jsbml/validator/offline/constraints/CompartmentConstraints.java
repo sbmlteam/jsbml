@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -489,11 +488,11 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
             if (c.isSetId())
             {
-              sizeByAssignment = m.getInitialAssignment(c.getId()) != null;
+              sizeByAssignment = m.getInitialAssignmentBySymbol(c.getId()) != null;
 
               if (!sizeByAssignment)
               {
-                Rule r = m.getRule(c.getId());
+                Rule r = m.getRuleByVariable(c.getId());
 
                 sizeByAssignment = r != null && r.isAssignment();
               }

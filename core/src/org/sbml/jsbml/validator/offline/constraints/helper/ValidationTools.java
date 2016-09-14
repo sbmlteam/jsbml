@@ -134,16 +134,22 @@ public final class ValidationTools {
   public static Set<String> getDefinedSpecies(Reaction r) {
     Set<String> definedSpecies = new HashSet<String>();
 
-    for (SimpleSpeciesReference ref : r.getListOfProducts()) {
-      definedSpecies.add(ref.getSpecies());
+    if (r.getProductCount() > 0) {
+      for (SimpleSpeciesReference ref : r.getListOfProducts()) {
+        definedSpecies.add(ref.getSpecies());
+      }
     }
 
-    for (SimpleSpeciesReference ref : r.getListOfReactants()) {
-      definedSpecies.add(ref.getSpecies());
+    if (r.getReactantCount() > 0) {
+      for (SimpleSpeciesReference ref : r.getListOfReactants()) {
+        definedSpecies.add(ref.getSpecies());
+      }
     }
 
-    for (SimpleSpeciesReference ref : r.getListOfModifiers()) {
-      definedSpecies.add(ref.getSpecies());
+    if (r.getModifierCount() > 0) {
+      for (SimpleSpeciesReference ref : r.getListOfModifiers()) {
+        definedSpecies.add(ref.getSpecies());
+      }
     }
 
     return definedSpecies;
@@ -169,7 +175,10 @@ public final class ValidationTools {
         Model m = parent.getModel();
         if (m != null)
         {
-          return (m.getParameter(node.getName()) != null) ? DT_NUMBER : DT_UNKNOWN;
+          // TODO - the call the m.getParameter looks wrong. Should probably be better to use Model.findCallableSBase
+          if (m.isSetListOfParameters()) {
+            return (m.getParameter(node.getName()) != null) ? DT_NUMBER : DT_UNKNOWN;
+          }
         }
       }
       return DT_UNKNOWN;
@@ -227,7 +236,10 @@ public final class ValidationTools {
 
     if (parent instanceof KineticLaw) {
       KineticLaw kl = (KineticLaw) parent;
-      return kl.getLocalParameter(name) != null;
+      
+      if (kl.isSetListOfLocalParameters()) {
+        return kl.getLocalParameter(name) != null;
+      }
     }
 
     return false;
@@ -235,10 +247,12 @@ public final class ValidationTools {
 
 
   public static boolean isSpeciesReference(Model m, String name) {
-    for (Reaction r : m.getListOfReactions()) {
-      if (r.getReactant(name) != null || r.getProduct(name) != null
-          || r.getModifier(name) != null) {
-        return true;
+    if (m.isSetListOfReactions()) {
+      for (Reaction r : m.getListOfReactions()) {
+        if (r.getReactant(name) != null || r.getProduct(name) != null
+            || r.getModifier(name) != null) {
+          return true;
+        }
       }
     }
 

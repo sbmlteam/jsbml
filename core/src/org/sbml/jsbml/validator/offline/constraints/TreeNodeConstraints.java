@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,10 +24,14 @@ import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
 /**
+ * Class used to always add a {@link ValidationFunction} that is used to recursively validate the jsbml tree structure.
+ * 
  * @author Roman
  * @since 1.2
  * @date 04.08.2016
@@ -36,19 +39,23 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 public class TreeNodeConstraints extends AbstractConstraintDeclaration
   implements CoreSpecialErrorCodes {
 
-  @Override
-  public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
-    // TODO Auto-generated method stub
+  /**
+   * Log4j logger
+   */
+  protected static final transient Logger logger = Logger.getLogger(TreeNodeConstraints.class);
 
+  @Override
+  public void addErrorCodesForAttribute(Set<Integer> set, int level, int version, String attributeName) {
+    // no constraint for attributes
   }
 
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category) 
+  {
+    // always adding a ValidationFunction that is used to recursively validate the jsbml tree structure
     set.add(ID_VALIDATE_TREE_NODE);
-
   }
 
 
@@ -72,13 +79,20 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
           Enumeration<?> children = t.children();
           // ConstraintFactory factory = ConstraintFactory.getInstance();
 
-          // System.out.println("Found Tree " + t.getChildCount() + " " +
-          // children.hasMoreElements());
+          if (logger.isDebugEnabled()) {
+            logger.debug("Found Tree " + t.getChildCount() + " " + children.hasMoreElements());
+          }
+          
           AnyConstraint<Object> root = ctx.getRootConstraint();
           Class<?> type = ctx.getConstraintType();
 
           while (children.hasMoreElements()) {
             Object child = children.nextElement();
+
+            if (logger.isDebugEnabled()) {
+              logger.debug("Child '" + (child instanceof SBase ? ((SBase) child).getElementName() : child.getClass().getSimpleName()) + "'");
+              logger.debug("Child = '" + child + "'");
+            }
 
             if (child != null) {
               ctx.loadConstraints(child.getClass());
