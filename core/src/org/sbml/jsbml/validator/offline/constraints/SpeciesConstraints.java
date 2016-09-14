@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -381,15 +380,17 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
             boolean found = false;
 
-            for (Rule r: m.getListOfRules())
-            {
-              if (r.isAssignment() || r.isRate())
+            if (m.isSetListOfRules()) {
+              for (Rule r: m.getListOfRules())
               {
-                ExplicitRule er = (ExplicitRule) r;
-                if (er.getVariable().equals(s.getId()))
+                if (r.isAssignment() || r.isRate())
                 {
-                  found = true;
-                  break;
+                  ExplicitRule er = (ExplicitRule) r;
+                  if (er.getVariable().equals(s.getId()))
+                  {
+                    found = true;
+                    break;
+                  }
                 }
               }
             }
@@ -401,21 +402,27 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             }
 
             // This species can't be part of a Reaction
-            for (Reaction r:m.getListOfReactions())
-            {
-              for (SpeciesReference sr: r.getListOfProducts())
+            if (m.isSetListOfReactions()) {
+              for (Reaction r: m.getListOfReactions())
               {
-                if (sr.getSpecies().equals(s.getId()))
-                {
-                  return false;
+                if (r.getProductCount() > 0) {
+                  for (SpeciesReference sr: r.getListOfProducts())
+                  {
+                    if (sr.getSpecies().equals(s.getId()))
+                    {
+                      return false;
+                    }
+                  }
                 }
-              }
 
-              for (SpeciesReference sr: r.getListOfReactants())
-              {
-                if (sr.getSpecies().equals(s.getId()))
-                {
-                  return false;
+                if (r.getReactantCount() > 0) {
+                  for (SpeciesReference sr: r.getListOfReactants())
+                  {
+                    if (sr.getSpecies().equals(s.getId()))
+                    {
+                      return false;
+                    }
+                  }
                 }
               }
             }
@@ -557,11 +564,11 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             
             if (s.isSetId())
             {
-              setByAssignment = m.getInitialAssignment(s.getId()) != null;
+              setByAssignment = m.getInitialAssignmentBySymbol(s.getId()) != null;
               
               if (!setByAssignment)
               {
-                Rule r = m.getRule(m.getId());
+                Rule r = m.getRuleByVariable(m.getId());
                 setByAssignment = r != null && r.isAssignment();
               }
             }
