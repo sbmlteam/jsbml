@@ -250,5 +250,8 @@ public class TestL3V2Features {
     
     
   }
+  
+  // Add plenty of tests for empty ListOf, non empty ListOf. L3V1 vs L3V2
 
+  // TODO - remove the get/setId methods in classes that could not extends AbstractNamedSBase
 }
