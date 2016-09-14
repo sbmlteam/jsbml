@@ -102,6 +102,22 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 
   /**
    * 
+   * @return
+   */
+  public ReactionGlyph getReactionGlyph() {
+    TreeNode parent = getParent();
+    do {
+      if ((parent != null) && (parent instanceof ReactionGlyph)) {
+        return (ReactionGlyph) parent;
+      }
+      parent = parent.getParent();
+    } while (parent != null);
+
+    return null;
+  }
+
+  /**
+   * 
    * @param id
    */
   public SpeciesReferenceGlyph(String id) {
