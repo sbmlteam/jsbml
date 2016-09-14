@@ -16,8 +16,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
@@ -85,7 +83,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
         if (version > 2)
         {
-          
+
           set.add(CORE_20615);
         }
       }
@@ -119,19 +117,19 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
     case OVERDETERMINED_MODEL:
       break;
     case UNITS_CONSISTENCY:
-      
+
       set.add(CORE_20608);
-      
+
       if (level == 2 && version < 3)
       {
         addRangeToSet(set, CORE_20605, CORE_20607);
       }
-      
+
       if (level > 2)
       {
         set.add(CORE_99508);
       }
-    
+
       break;
     }
   }
@@ -145,7 +143,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
     switch (errorCode) {
     case CORE_10713:
       return SBOValidationConstraints.isMaterialEntity;
-      
+
     case CORE_20601:
       func = new ValidationFunction<Species>() {
         @Override
@@ -230,7 +228,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             {
               return false;
             }
-     
+
             boolean isLength = def.isVariantOfLength();
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
@@ -255,14 +253,14 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           Compartment c = s.getCompartmentInstance();
 
           if (c != null && c.getSpatialDimensions() == 2 && s.isSetSpatialSizeUnits()) {
-    
+
             UnitDefinition def = s.getSpatialSizeUnitsInstance();
-            
+
             if (def == null)
             {
               return false;
             }
-            
+
             boolean isArea = def.isVariantOfArea();
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
@@ -289,14 +287,14 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           Compartment c = s.getCompartmentInstance();
 
           if (c != null && c.getSpatialDimensions() == 3 && s.isSetSpatialSizeUnits()) {
-        
+
             UnitDefinition def = s.getSpatialSizeUnitsInstance();
 
             if (def == null)
             {
               return false;
             }
-            
+
             boolean isVolume = def.isVariantOfVolume();
 
             if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
@@ -315,16 +313,16 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       break;
     case CORE_20608:
       func = new ValidationFunction<Species>() {
-        
-        
+
+
         @Override
         public boolean check(ValidationContext ctx, Species s) {
 
           if (s.isSetSubstanceUnits())
           {
-            
+
             UnitDefinition ud = s.getSubstanceUnitsInstance();
-            
+
             if (ud == null)
             {
               return false;
@@ -339,16 +337,16 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
               return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
             }
           }
-          
+
           return true;
         }
       };
       break;
-      
+
     case CORE_20609:
       func = new ValidationFunction<Species>() {
-        
-        
+
+
         @Override
         public boolean check(ValidationContext ctx, Species s) {
 
@@ -357,15 +355,15 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             XMLNode unknownNode = (XMLNode) s.getUserObject(JSBML.UNKNOWN_XML);
 
             if (unknownNode.getAttributesLength() > 0) {
-              return (unknownNode.getAttrIndex("initialConcentration") == -1) && (unknownNode.getAttrIndex("initialAmount") == -1);  
+              return (unknownNode.getAttrIndex("initialConcentration") == -1) && (unknownNode.getAttrIndex("initialAmount") == -1);
             }
           }
-          
+
           return true;
         }
       };
       break;
-      
+
     case CORE_20610:
       func = new ValidationFunction<Species>() {
 
@@ -373,8 +371,8 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         public boolean check(ValidationContext ctx, Species s) {
           Model m = s.getModel();
 
-          if (!s.isBoundaryCondition() && 
-              !s.isConstant() && 
+          if (!s.isBoundaryCondition() &&
+              !s.isConstant() &&
               m != null)
           {
 
@@ -446,18 +444,18 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_20613:
       func = new ValidationFunction<Species>() {
 
         @Override
         public boolean check(ValidationContext ctx, Species s) {
-          
+
           Model m = s.getModel();
           if (s.isSetSpeciesType() && m != null)
           {
             String st = s.getSpeciesType();
-            
+
             for (Species spec: m.getListOfSpecies())
             {
               // Are species in same compartment but not the same?
@@ -473,7 +471,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
               }
             }
           }
-          
+
           return true;
         }
       };
@@ -483,7 +481,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       func = new ValidationFunction<Species>() {
         @Override
         public boolean check(ValidationContext ctx, Species s) {
-          
+
           return s.isSetCompartment();
         }
       };
@@ -506,7 +504,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_20617:
       func = new ValidationFunction<Species>() {
         @Override
@@ -519,10 +517,10 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_20623:
       func = new UnknownAttributeValidationFunction<Species>() {
-        
+
         @Override
         public boolean check(ValidationContext ctx, Species c) {
           // id 'compartment', 'hasOnlySubstanceUnits', 'boundaryCondition'and constant are mandatory attributes
@@ -535,7 +533,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_20705:
       func = new ValidationFunction<Species>() {
         @Override
@@ -545,42 +543,42 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             Parameter fac = s.getConversionFactorInstance();
             return fac != null && fac.isConstant();
           }
-          
+
           return true;
         }
       };
       break;
-      
+
     case CORE_80601:
       func = new ValidationFunction<Species>() {
         @Override
         public boolean check(ValidationContext ctx, Species s) {
-          
+
           Model m = s.getModel();
-          
+
           if (m != null && !s.isSetInitialAmount() && !s.isSetInitialConcentration())
           {
             boolean setByAssignment = false;
-            
+
             if (s.isSetId())
             {
               setByAssignment = m.getInitialAssignmentBySymbol(s.getId()) != null;
-              
+
               if (!setByAssignment)
               {
                 Rule r = m.getRuleByVariable(m.getId());
                 setByAssignment = r != null && r.isAssignment();
               }
             }
-            
+
             return setByAssignment;
           }
-          
+
           return true;
         }
       };
       break;
-      
+
     case CORE_99508:
       return ValidationTools.checkDerivedUnit;
     }

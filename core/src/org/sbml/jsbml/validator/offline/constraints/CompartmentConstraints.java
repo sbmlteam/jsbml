@@ -16,8 +16,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.HashSet;
@@ -98,7 +96,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       {
         set.add(CORE_20509);
       }
-      
+
       if (level > 2)
       {
         set.add(CORE_20518);
@@ -362,7 +360,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
 
-          if (c.getSpatialDimensions() == 3 && c.isSetUnits()) { 
+          if (c.getSpatialDimensions() == 3 && c.isSetUnits()) {
             UnitDefinition def = c.getUnitsInstance();
 
             if (def == null)
@@ -401,7 +399,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_20511:
       func = new ValidationFunction<Compartment>() {
 
@@ -416,7 +414,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_20512:
       func = new ValidationFunction<Compartment>() {
 
@@ -431,7 +429,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_20513:
       func = new ValidationFunction<Compartment>() {
 
@@ -446,10 +444,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_20517:
       func = new UnknownAttributeValidationFunction<Compartment>() {
-        
+
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
           // id and constant are mandatory attributes
@@ -460,19 +458,19 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_20518:
-      
+
       func = new ValidationFunction<Compartment>() {
 
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
-            
+
           return c.isSetUnits() || c.isSetSpatialDimensions();
         }
       };
       break;
-      
+
     case CORE_80501:
       func = new ValidationFunction<Compartment>() {
 
@@ -506,7 +504,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
         }
       };
       break;
-      
+
     case CORE_99508:
       return ValidationTools.checkDerivedUnit;
     }
