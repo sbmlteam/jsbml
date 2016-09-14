@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -27,17 +26,19 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.AbstractConstraintDeclaration;
-import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
 import org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration;
 import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
 
+/**
+ * @author Roman
+ *
+ */
 public class ConstraintFactory {
 
   /**
    * Log4j logger
    */
-  protected static final transient Logger logger =
-    Logger.getLogger(ConstraintFactory.class);
+  protected static final transient Logger logger = Logger.getLogger(ConstraintFactory.class);
 
   /**
    * Shared singleton instance
@@ -46,9 +47,9 @@ public class ConstraintFactory {
 
 
   /**
-   * Returns a instance.
+   * Returns the {@link ConstraintFactory} singleton instance.
    * 
-   * @return
+   * @return the {@link ConstraintFactory} singleton instance.
    */
   public static ConstraintFactory getInstance() {
     if (ConstraintFactory.instance == null) {
@@ -103,8 +104,9 @@ public class ConstraintFactory {
       ConstraintGroup<T> c = this.getConstraintsForClass(inf, categories, level,
         version, collectedClasses);
 
-      group.add(c);
-
+      if (c != null) {
+        group.add(c);
+      } 
     }
 
     Class<?> superclass = clazz.getSuperclass();
@@ -113,13 +115,18 @@ public class ConstraintFactory {
       ConstraintGroup<T> c = this.getConstraintsForClass(superclass, categories,
         level, version, collectedClasses);
 
-      group.add(c);
-
+      if (c != null) {
+        group.add(c);
+      } 
     }
 
     ConstraintDeclaration declaration =
       AbstractConstraintDeclaration.getInstance(clazz.getSimpleName());
 
+    if (logger.isDebugEnabled()) {
+      logger.debug("ConstraintFactory - trying to get the constraints for class '" + clazz.getSimpleName() + "'");
+    }
+    
     if (declaration != null) {
 
       ConstraintGroup<T> c =

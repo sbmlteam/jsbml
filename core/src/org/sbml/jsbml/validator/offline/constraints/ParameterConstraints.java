@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -180,10 +179,10 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
             boolean setByAssignment = false;
 
             if (p.isSetId()) {
-              setByAssignment = m.getInitialAssignment(p.getId()) != null;
+              setByAssignment = m.getInitialAssignmentBySymbol(p.getId()) != null;
 
               if (!setByAssignment) {
-                Rule r = m.getRule(p.getId());
+                Rule r = m.getRuleByVariable(p.getId());
                 setByAssignment = r != null && r.isAssignment();
               }
             }

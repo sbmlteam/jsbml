@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
@@ -2306,6 +2307,47 @@ public class Model extends AbstractNamedSBase
   /**
    * Returns the {@link InitialAssignment} of the
    * {@link #listOfInitialAssignments} whose {@code symbol} attribute,
+   * i.e., whose {@link Variable} has the given {@code symbol} as
+   * identifier.
+   * 
+   * @param symbol
+   *        The identifier of a {@link Variable}, for which a corresponding
+   *        {@link InitialAssignment} is requested.
+   * @return the first {@link InitialAssignment} of the
+   *         {@link #listOfInitialAssignments}, whose {@link Variable} has the
+   *         {@code symbol} as identifier (or name depending on the level
+   *         and version). {@code null} if it doesn't exist.
+   * @deprecated Since L3V2, every {@link SBase} can have an id. Use either {@link #getInitialAssignmentById(String)}
+   * or {@link #getInitialAssignmentBySymbol(String)}       
+   */
+  public InitialAssignment getInitialAssignment(String symbol) {
+    return getInitialAssignmentBySymbol(symbol);
+  }
+
+  /**
+   * Returns the {@link InitialAssignment} of the
+   * {@link #listOfInitialAssignments} whose {@code id} attribute,
+   * has the given {@code id} as identifier.
+   * 
+   * @param id the id of the requested {@link InitialAssignment}
+   * @return the first {@link InitialAssignment} of the
+   *         {@link #listOfInitialAssignments}, whose {@code id} has the
+   *         given value, {@code null} if it doesn't exist.
+   *         
+   */
+  public InitialAssignment getInitialAssignmentById(String id) {
+
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof InitialAssignment)) {
+      return (InitialAssignment) found;
+    }
+    
+    return null;
+  }
+
+  /**
+   * Returns the {@link InitialAssignment} of the
+   * {@link #listOfInitialAssignments} whose {@code symbol} attribute,
    * i.e., whose {@link Variable} has the given {@code variable} as
    * identifier.
    * 
@@ -2316,12 +2358,16 @@ public class Model extends AbstractNamedSBase
    *         {@link #listOfInitialAssignments}, whose {@link Variable} has the
    *         {@code variable} as identifier (or name depending on the level
    *         and version). {@code null} if it doesn't exist.
+   *         
    */
-  public InitialAssignment getInitialAssignment(String variable) {
+  public InitialAssignment getInitialAssignmentBySymbol(String variable) {
+    if (isSetListOfInitialAssignments()) {
     return getListOfInitialAssignments().firstHit(
       new AssignmentVariableFilter(variable));
+    }
+    
+    return null;
   }
-
 
   /**
    * Returns the number of {@link InitialAssignment}s of this {@link Model}.
@@ -3272,20 +3318,52 @@ public class Model extends AbstractNamedSBase
     return getListOfRules().get(n);
   }
 
+  /**
+   * Searches for the first instance of {@link ExplicitRule} within this
+   * {@link Model}'s {@link #listOfRules}, whose variable attribute is set to
+   * the value passed to this method.
+   * 
+   * @param variable the variable to search for.
+   * @return {@code null} if no element with the required property exists.
+   * @deprecated Since L3V2 every {@link SBase} can have an id. Use either {@link #getRuleById(String)} or {@link #getRuleByVariable(String)}.
+   */
+  public ExplicitRule getRule(String variable) {
+    return getRuleByVariable(variable);
+  }
+
+  /**
+   * Searches for the first instance of {@link Rule} within this
+   * {@link Model}'s {@link #listOfRules}, whose id attribute is set to
+   * the value passed to this method.
+   * 
+   * @param id the id of a rule.
+   * @return {@code null} if no element with the required property exists.
+   */
+  public Rule getRuleById(String id) {
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof Rule)) {
+      return (Rule) found;
+    }
+    return null;
+  }
 
   /**
    * Searches for the first instance of {@link ExplicitRule} within this
    * {@link Model}'s {@link #listOfRules}, whose variable attribute is set to
    * the value passed to this method.
    * 
-   * @param variable
+   * @param variable the variable to search for.
    * @return {@code null} if no element with the required property exists.
    */
-  public ExplicitRule getRule(String variable) {
-    Rule rule =
-      getListOfRules().firstHit(new AssignmentVariableFilter(variable));
-    return (rule != null) && (rule instanceof ExplicitRule)
-      ? (ExplicitRule) rule : null;
+  public ExplicitRule getRuleByVariable(String variable) {
+    if (isSetListOfRules()) {
+      Rule rule =
+          getListOfRules().firstHit(new AssignmentVariableFilter(variable));
+      return (rule != null) && (rule instanceof ExplicitRule)
+          ? (ExplicitRule) rule : null;
+    }
+
+    return null;
   }
 
 

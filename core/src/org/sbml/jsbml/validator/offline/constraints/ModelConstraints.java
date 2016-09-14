@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -189,24 +188,26 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
           offset += m.getNumParameters();
 
-          for (Reaction r : m.getListOfReactions()) {
-            if (n < offset + r.getReactantCount()) {
-              return r.getReactant(n - offset).getId();
+          if (m.isSetListOfReactions()) {
+            for (Reaction r : m.getListOfReactions()) {
+              if (n < offset + r.getReactantCount()) {
+                return r.getReactant(n - offset).getId();
+              }
+
+              offset += r.getReactantCount();
+
+              if (n < offset + r.getProductCount()) {
+                return r.getProduct(n - offset).getId();
+              }
+
+              offset += r.getProductCount();
+
+              if (n < offset + r.getModifierCount()) {
+                return r.getModifier(n - offset).getId();
+              }
+
+              offset += r.getModifierCount();
             }
-
-            offset += r.getReactantCount();
-
-            if (n < offset + r.getProductCount()) {
-              return r.getProduct(n - offset).getId();
-            }
-
-            offset += r.getProductCount();
-
-            if (n < offset + r.getModifierCount()) {
-              return r.getModifier(n - offset).getId();
-            }
-
-            offset += r.getModifierCount();
           }
 
           return null;
@@ -239,9 +240,11 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         public int getNumObjects(ValidationContext ctx, Model m) {
           int count = 0;
 
-          for (Rule r : m.getListOfRules()) {
-            if (r instanceof ExplicitRule) {
-              count++;
+          if (m.isSetListOfRules()) {
+            for (Rule r : m.getListOfRules()) {
+              if (r instanceof ExplicitRule) {
+                count++;
+              }
             }
           }
 
@@ -254,12 +257,14 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
           int count = 0;
 
-          for (Rule r : m.getListOfRules()) {
-            if (r instanceof ExplicitRule) {
-              if (count == n) {
-                return ((ExplicitRule) r).getVariable();
-              } else {
-                count++;
+          if (m.isSetListOfRules()) {
+            for (Rule r : m.getListOfRules()) {
+              if (r instanceof ExplicitRule) {
+                if (count == n) {
+                  return ((ExplicitRule) r).getVariable();
+                } else {
+                  count++;
+                }
               }
             }
           }
@@ -472,22 +477,26 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Model m) {
           Set<String> iaIds = new HashSet<String>();
 
-          for (InitialAssignment ia : m.getListOfInitialAssignments()) {
-            iaIds.add(ia.getVariable());
+          if (m.isSetListOfInitialAssignments()) {
+            for (InitialAssignment ia : m.getListOfInitialAssignments()) {
+              iaIds.add(ia.getVariable());
+            }
           }
 
-          for (Rule r : m.getListOfRules()) {
-            String id = null;
+          if (m.isSetListOfRules()) {
+            for (Rule r : m.getListOfRules()) {
+              String id = null;
 
-            if (r.isRate()) {
-              id = ((RateRule) r).getVariable();
-            } else if (r.isAssignment()) {
-              id = ((AssignmentRule) r).getVariable();
-            }
+              if (r.isRate()) {
+                id = ((RateRule) r).getVariable();
+              } else if (r.isAssignment()) {
+                id = ((AssignmentRule) r).getVariable();
+              }
 
-            // Is the id already used by a InitialAssignment?
-            if (id != null && iaIds.contains(id)) {
-              return false;
+              // Is the id already used by a InitialAssignment?
+              if (id != null && iaIds.contains(id)) {
+                return false;
+              }
             }
           }
 

@@ -659,7 +659,11 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    *         on the level and version). Can be null if it doesn't exist.
    */
   public ModifierSpeciesReference getModifier(String id) {
-    return getListOfModifiers().firstHit(new NameFilter(id));
+    if (isSetListOfModifiers()) {
+      return getListOfModifiers().firstHit(new NameFilter(id));
+    }
+
+    return null;
   }
 
   /**
@@ -684,9 +688,13 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    *         doesn't exist.
    */
   public ModifierSpeciesReference getModifierForSpecies(String id) {
-    SpeciesReferenceFilter srf = new SpeciesReferenceFilter(id);
-    srf.setFilterForSpecies(true);
-    return getListOfModifiers().firstHit(srf);
+    if (isSetListOfModifiers()) {
+      SpeciesReferenceFilter srf = new SpeciesReferenceFilter(id);
+      srf.setFilterForSpecies(true);
+      return getListOfModifiers().firstHit(srf);
+    }
+
+    return null;
   }
 
   /**
@@ -747,7 +755,11 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    *         doesn't exist.
    */
   public SpeciesReference getProduct(String id) {
-    return getListOfProducts().firstHit(new NameFilter(id));
+    if (isSetListOfProducts()) {
+      return getListOfProducts().firstHit(new NameFilter(id));
+    }
+    
+    return null;
   }
 
   /**
@@ -770,9 +782,13 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    *         version). Can be null if it doesn't exist.
    */
   public SpeciesReference getProductForSpecies(String id) {
-    SpeciesReferenceFilter srf = new SpeciesReferenceFilter(id);
-    srf.setFilterForSpecies(true);
-    return getListOfProducts().firstHit(srf);
+    if (isSetListOfProducts()) {
+      SpeciesReferenceFilter srf = new SpeciesReferenceFilter(id);
+      srf.setFilterForSpecies(true);
+      return getListOfProducts().firstHit(srf);
+    }
+    
+    return null;
   }
 
   /**
@@ -797,7 +813,11 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    *         null if it doesn't exist.
    */
   public SpeciesReference getReactant(String id) {
-    return getListOfReactants().firstHit(new NameFilter(id));
+    if (isSetListOfReactants()) {
+      return getListOfReactants().firstHit(new NameFilter(id));
+    }
+    
+    return null;
   }
 
   /**
@@ -820,9 +840,13 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    *         level and version). Can be null if it doesn't exist.
    */
   public SpeciesReference getReactantForSpecies(String id) {
-    SpeciesReferenceFilter srf = new SpeciesReferenceFilter(id);
-    srf.setFilterForSpecies(true);
-    return getListOfReactants().firstHit(srf);
+    if (isSetListOfReactants()) {
+      SpeciesReferenceFilter srf = new SpeciesReferenceFilter(id);
+      srf.setFilterForSpecies(true);
+      return getListOfReactants().firstHit(srf);
+    }
+    
+    return null;
   }
 
   /**
