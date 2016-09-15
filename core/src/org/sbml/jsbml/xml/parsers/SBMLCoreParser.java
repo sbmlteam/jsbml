@@ -692,16 +692,25 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         }
 
         if (elementName.equals("notes")
-            && (contextObject instanceof SBase)) {
+            && (contextObject instanceof SBase)) 
+        {
           SBase sbase = (SBase) contextObject;
           sbase.setNotes(new XMLNode(new XMLTriple("notes", null, null), new XMLAttributes()));
-        } else if (elementName.equals("annotation")
-            && (contextObject instanceof SBase)) {
+          
+          // keep order of elements for later validation
+          AbstractReaderWriter.storeElementsOrder(elementName, contextObject);          
+        }
+        else if (elementName.equals("annotation")
+            && (contextObject instanceof SBase)) 
+        {
           SBase sbase = (SBase) contextObject;
           Annotation annotation = (Annotation) newContextObject;
           annotation.setNonRDFAnnotation(new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes()));
           sbase.setAnnotation(annotation);
-
+          
+          // keep order of elements for later validation
+          AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+          
           return annotation;
         } else if (contextObject instanceof SBMLDocument) {
           SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
