@@ -20,6 +20,8 @@
  */
 package org.sbml.jsbml.validator.offline.constraints.helper;
 
+import java.util.List;
+
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -28,11 +30,11 @@ import org.sbml.jsbml.xml.XMLNode;
 
 
 /**
- * Class used to check if any unknown XML attributes where found.
+ * Class used to check if any unknown XML elements where found.
  * 
  * @author rodrigue
  */
-public class UnknownAttributeValidationFunction<T extends TreeNodeWithChangeSupport> implements ValidationFunction<T> {
+public class UnknownElementValidationFunction<T extends TreeNodeWithChangeSupport> implements ValidationFunction<T> {
 
     @Override
     public boolean check(ValidationContext ctx, T t) {
@@ -41,9 +43,10 @@ public class UnknownAttributeValidationFunction<T extends TreeNodeWithChangeSupp
         {
           XMLNode unknownNode = (XMLNode) t.getUserObject(JSBML.UNKNOWN_XML);
 
-          // System.out.println("UnknownAttributeValidationFunction - attributes.length = " + unknownNode.getAttributesLength());
+          List<XMLNode> childElements = unknownNode.getChildElements(null, null);
+          // System.out.println("UnknownElementValidationFunction - childElements.length = " + childElements.size());
 
-          if (unknownNode.getAttributesLength() > 0) {
+          if (childElements.size() > 0) {
             return false;
           }
       }
