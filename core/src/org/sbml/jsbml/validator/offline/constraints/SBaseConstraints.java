@@ -20,14 +20,13 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.HashSet;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
@@ -50,6 +49,12 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
+      
+      if (level > 2) {
+        set.add(CORE_10404);
+        set.add(CORE_10805);
+      }
+      
       break;
     case IDENTIFIER_CONSISTENCY:
       if (level > 1) {
@@ -165,6 +170,14 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+    case CORE_10404:
+      func = new DuplicatedElementValidationFunction<SBase>("annotation");
+      break;
+      
+    case CORE_10805:
+      func = new DuplicatedElementValidationFunction<SBase>("notes");
+      break;
+      
     case CORE_99701:
       func = new ValidationFunction<SBase>() {
 
