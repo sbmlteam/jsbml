@@ -289,14 +289,48 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
     else
     {
       if (logger.isDebugEnabled()) {
-        logger.warn("processUnknownElement - the contextObject is not an AbstractTreeNode ! object = " + contextObject.getClass().getSimpleName());
+        logger.warn("processUnknownElement - the contextObject is not an AbstractTreeNode ! - object = " + contextObject.getClass().getSimpleName());
       }
     }
     
     return null;
   }
 
-  
+  /**
+   * Stores a list of elements as they are given. This {@link List} is
+   * put into the user object map of the contextObject, using the key {@link JSBML#CHILD_ELEMENT_NAMES}.
+   * 
+   * @param elementName the child element name
+   * @param contextObject the context object
+   */
+  public static void storeElementsOrder(String elementName, Object contextObject) 
+  {   
+    // keep a list of element names.
+    if (contextObject instanceof AbstractTreeNode)
+    {
+      AbstractTreeNode treeNode = (AbstractTreeNode) contextObject;
+      @SuppressWarnings("unchecked")
+      List<String> unknownNode = (List<String>) treeNode.getUserObject(JSBML.CHILD_ELEMENT_NAMES);
+
+      if (unknownNode == null) {
+        unknownNode = new ArrayList<String>();
+        treeNode.putUserObject(JSBML.CHILD_ELEMENT_NAMES, unknownNode);
+      }
+
+      if (logger.isDebugEnabled()) {
+        logger.debug("storeElementsOrder - storing the element = '" + elementName + "'.");
+      }
+
+      unknownNode.add(elementName);
+    }
+    else
+    {
+      if (logger.isDebugEnabled()) {
+        logger.warn("storeElementsOrder - the contextObject is not an AbstractTreeNode ! - object = " + contextObject.getClass().getSimpleName());
+      }
+    }
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
    */
@@ -400,10 +434,12 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
   }
 
   /**
+   * Creates a new object instance using reflection on the {@code listOf} parent.
    * 
-   * @param listOf
-   * @param elementName
-   * @return
+   * @param listOf the {@link ListOf} that will contain the new instance
+   * @param elementName the element name.
+   * @return a new object instance using reflection on the {@code listOf} parent or null
+   * if an error occurs when trying to instantiate the new object.
    */
   protected Object createListOfChild(ListOf<?> listOf, String elementName) {
 

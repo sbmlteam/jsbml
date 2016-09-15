@@ -147,6 +147,12 @@ public class JSBML {
   public static final transient String UNKNOWN_XML = "jsbml.unknown.xml";
 
   /**
+   * Key used to store the list of the xml child element names of an SBase. It later allows
+   * us to validate the order or check if any elements are duplicated.
+   */
+  public static final transient String CHILD_ELEMENT_NAMES = "jsbml.child.elements.names";
+  
+  /**
    * Adds the given {@link UnitDefinition} to the given model or returns the
    * identifier of an equivalent {@link UnitDefinition} that is already part
    * of the model. In case that the given model is null, the return value of
