@@ -917,9 +917,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfArea() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify();
+      UnitDefinition ud = this.clone().simplify();
 
-      if (ud.getNumChildren() == 1) {
+      if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
         return unit.isVariantOfArea();
       }
@@ -938,12 +938,12 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfDimensionless() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify();
+      UnitDefinition ud = this.clone().simplify();
 
       // if after the simplify() call no more units exists, it's dimensionless
-      if (ud.getNumChildren() == 0) {
+      if (ud.getUnitCount() == 0) {
         return true;
-      } else if (ud.getNumChildren() == 1) {
+      } else if (ud.getUnitCount() == 1) {
         return ud.getUnit(0).isDimensionless();
       }
 
@@ -965,9 +965,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfLength() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify();
+      UnitDefinition ud = this.clone().simplify();
 
-      if (ud.getNumChildren() == 1) {
+      if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
         return unit.isVariantOfLength();
       }
@@ -988,9 +988,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstance() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify(); // TODO - will potentially modify the structure of the current UnitDefinition - Should we call simplify on a clone UD ?
+      UnitDefinition ud = this.clone().simplify();
 
-      if (ud.getNumChildren() == 1) {
+      if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
         return unit.isVariantOfSubstance();
       }
@@ -1004,9 +1004,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerArea() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify();
+      UnitDefinition ud = this.clone().simplify();
 
-      if (ud.getNumChildren() == 2) {
+      if (ud.getUnitCount() == 2) {
         if (ud.getUnit(0).isVariantOfSubstance()) {
           Unit two = ud.getUnit(1).clone();
           two.setExponent(-two.getExponent());
@@ -1028,9 +1028,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerLength() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify();
+      UnitDefinition ud = this.clone().simplify();
 
-      if (ud.getNumChildren() == 2) {
+      if (ud.getUnitCount() == 2) {
         Unit unit = ud.getUnit(0);
         Unit unit2 = ud.getUnit(1);
 
@@ -1054,9 +1054,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerTime() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify();
+      UnitDefinition ud = this.clone().simplify();
 
-      if (ud.getNumChildren() == 2) {
+      if (ud.getUnitCount() == 2) {
         Unit unit1 = ud.getUnit(0);
         Unit unit2 = ud.getUnit(1);
         if (unit1.isVariantOfSubstance()) {
@@ -1080,9 +1080,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerVolume() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify();
+      UnitDefinition ud = this.clone().simplify();
 
-      if (ud.getNumChildren() == 2) {
+      if (ud.getUnitCount() == 2) {
         Unit unit = ud.getUnit(0);
         Unit unit2 = ud.getUnit(1);
         if (unit.isVariantOfSubstance()) {
@@ -1111,9 +1111,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfTime() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify();
+      UnitDefinition ud = this.clone().simplify();
 
-      if (ud.getNumChildren() == 1) {
+      if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
         return unit.isVariantOfTime();
       }
@@ -1133,8 +1133,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfVolume() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.simplify();
-      if (ud.getNumChildren() == 1) {
+      UnitDefinition ud = this.clone().simplify();
+      
+      if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
         return unit.isVariantOfVolume();
       }
