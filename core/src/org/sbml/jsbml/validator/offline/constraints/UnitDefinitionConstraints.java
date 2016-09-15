@@ -128,8 +128,6 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
             if (ctx.isLevelAndVersionLesserEqualThan(2, 1)) {
               return ud.isVariantOfSubstance();
             } else {
-              System.out.println("Children " + ud.getNumChildren() + " "
-                + ud.simplify().getUnit(0).getKind());
               return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
             }
           }
@@ -163,11 +161,9 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
-          // TODO Auto-generated method stub
 
           if (ud.getId().equals("area")) {
             if (ctx.isLevelAndVersionLesserEqualThan(2, 1)) {
-
               return isVariantOfArea(ctx, ud);
             } else {
               return isVariantOfArea(ctx, ud) || ud.isVariantOfDimensionless();
@@ -180,12 +176,15 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
         private boolean isVariantOfArea(ValidationContext ctx,
           UnitDefinition ud) {
+          // TODO - to really use the level and version of the context, we need to clone the UnitDefinition 
+          // and change the level and version of the UnitDefinition and Unit instances so that all the methods
+          // on UnitDefinition or Unit use this level and version as well.
           if (ctx.getLevel() == 1) {
             return ud.isVariantOfArea();
           }
-          ud = ud.simplify();
+          ud = ud.clone().simplify(); 
           
-          if (ud.getNumChildren() == 1) {
+          if (ud.getUnitCount() == 1) {
             Unit u = ud.getUnit(0);
             return u.getKind() == Kind.METRE && u.getExponent() == 2;
           }

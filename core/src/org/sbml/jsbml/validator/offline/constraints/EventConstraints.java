@@ -156,12 +156,17 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           if (e.isSetTimeUnits()) {
             UnitDefinition def = e.getTimeUnitsInstance();
 
-            boolean isTime = def.isVariantOfTime();
-            
-            if (ctx.isLevelAndVersionEqualTo(2, 2)) {
-              return isTime || def.isVariantOfDimensionless();
+            if (def != null) {
+              boolean isTime = def.isVariantOfTime();
+
+              if (ctx.isLevelAndVersionEqualTo(2, 2)) {
+                return isTime || def.isVariantOfDimensionless();
+              } else {
+                return isTime;
+              }
             } else {
-              return isTime;
+              // the units id is invalid
+              return false;
             }
           }
 
