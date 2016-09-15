@@ -705,6 +705,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           return annotation;
         } else if (contextObject instanceof SBMLDocument) {
           SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
+
           if (elementName.equals("model")) {
             Model model = (Model) newContextObject;
             model.setLevel(sbmlDocument.getLevel());
@@ -713,10 +714,17 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
             sbmlDocument.setModel(model);
 
             return model;
+          } else {
+            logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
           }
         } else if (contextObject instanceof Model) {
 
           Model model = (Model) contextObject;
+          
+          // keep order of elements for later validation
+          AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+          
           if (newContextObject instanceof ListOf<?>) {
             if (elementName.equals("listOfFunctionDefinitions")
                 && model.getLevel() > 1) {
@@ -787,21 +795,22 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return listOfSpeciesTypes;
             } else {
-              logger.warn(MessageFormat.format(
-                bundle.getString("SBMLCoreParser.unknownElement"),
-                elementName));
+              logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+              return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
             }
           } else {
-            logger.warn(MessageFormat.format(
-              bundle.getString("SBMLCoreParser.unknownElement"),
-              elementName));
+            logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
           }
         } else if (contextObject instanceof ListOf<?>) {
+          
           ListOf<?> list = (ListOf<?>) contextObject;
+
           if (list.getParentSBMLObject() instanceof Model) {
 
             Model model = (Model) list.getParentSBMLObject();
-            if (elementName.equals("functionDefinition")
+            
+            if (elementName.equals("functionDefinition") 
                 && list.getSBaseListType().equals(
                   ListOf.Type.listOfFunctionDefinitions)
                   && model.getLevel() > 1) {
@@ -962,13 +971,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return speciesType;
             } else {
-              logger.warn(MessageFormat.format(
-                bundle.getString("SBMLCoreParser.unknownElement"),
-                elementName));
+              logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+              return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
             }
           } else if (list.getParentSBMLObject() instanceof UnitDefinition) {
-            UnitDefinition unitDefinition = (UnitDefinition) list
-                .getParentSBMLObject();
+            UnitDefinition unitDefinition = (UnitDefinition) list.getParentSBMLObject();
 
             if (elementName.equals("unit")
                 && list.getSBaseListType().equals(
@@ -979,12 +986,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return unit;
             } else {
-              logger.warn(MessageFormat.format(
-                bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+              logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+              return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
             }
           } else if (list.getParentSBMLObject() instanceof Reaction) {
-            Reaction reaction = (Reaction) list
-                .getParentSBMLObject();
+            Reaction reaction = (Reaction) list.getParentSBMLObject();
 
             if (elementName.equals("speciesReference")
                 && (reaction.getLevel() > 1 ||
@@ -1003,8 +1009,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
                 return speciesReference;
               } else {
-                logger.warn(MessageFormat.format(
-                  bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+                logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+                return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
               }
             } else if (elementName.equals("specieReference")
                 && reaction.getLevel() == 1) {
@@ -1022,8 +1028,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
                 return speciesReference;
               } else {
-                logger.warn(MessageFormat.format(
-                  bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+                logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+                return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
               }
             } else if (elementName
                 .equals("modifierSpeciesReference")
@@ -1035,8 +1041,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return modifierSpeciesReference;
             } else {
-              logger.warn(MessageFormat.format(
-                bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+              logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+              return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
             }
           } else if (list.getParentSBMLObject() instanceof KineticLaw) {
             KineticLaw kineticLaw = (KineticLaw) list
@@ -1062,8 +1068,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return localParameter;
             } else {
-              logger.warn(MessageFormat.format(
-                bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+              logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+              return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
             }
           } else if (list.getParentSBMLObject() instanceof Event) {
             Event event = (Event) list.getParentSBMLObject();
@@ -1077,12 +1083,12 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               return eventAssignment;
             } else {
-              logger.warn(MessageFormat.format(
-                bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+              logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+              return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
             }
           } else {
-            logger.warn(MessageFormat.format(
-              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
           }
         } else if (contextObject instanceof UnitDefinition) {
           UnitDefinition unitDefinition = (UnitDefinition) contextObject;
@@ -1092,9 +1098,15 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
             unitDefinition.setListOfUnits(listOfUnits);
 
             return listOfUnits;
+          } else {
+            logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
           }
         } else if (contextObject instanceof Event) {
           Event event = (Event) contextObject;
+
+          // keep order of elements for later validation
+          AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
 
           if (elementName.equals("listOfEventAssignments")) {
             ListOf<EventAssignment> listOfEventAssignments = (ListOf<EventAssignment>) newContextObject;
@@ -1117,11 +1129,15 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return priority;
           } else {
-            logger.warn(MessageFormat.format(
-              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
           }
         } else if (contextObject instanceof Reaction) {
-          Reaction reaction = (Reaction) contextObject;
+          Reaction reaction = (Reaction) contextObject; 
+          
+          // keep order of elements for later validation
+          AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+          
           if (elementName.equals("listOfReactants")) {
             ListOf<SpeciesReference> listOfReactants = (ListOf<SpeciesReference>) newContextObject;
             reaction.setListOfReactants(listOfReactants);
@@ -1144,8 +1160,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return kineticLaw;
           } else {
-            logger.warn(MessageFormat.format(
-              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
           }
         } else if (contextObject instanceof SpeciesReference) {
           SpeciesReference speciesReference = (SpeciesReference) contextObject;
@@ -1156,8 +1172,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return stoichiometryMath;
           } else {
-            logger.warn(MessageFormat.format(
-              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
           }
         } else if (contextObject instanceof KineticLaw) {
           KineticLaw kineticLaw = (KineticLaw) contextObject;
@@ -1177,8 +1193,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return listOfLocalParameters;
           } else {
-            logger.warn(MessageFormat.format(
-              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
           }
         } else if (contextObject instanceof Constraint) {
           Constraint constraint = (Constraint) contextObject;
@@ -1191,12 +1207,12 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
             return constraint.getMessage();
           } else {
-            logger.warn(MessageFormat.format(
-              bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+            return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
           }
         } else {
-          logger.warn(MessageFormat.format(
-            bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+          return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
         }
       } catch (InstantiationException exc) {
         logger.error(MessageFormat.format(
@@ -1213,7 +1229,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
           logger.debug(exc.getStackTrace());
         }
       }
+    } else {
+      logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+      return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
     }
+    
     return contextObject;
   }
 

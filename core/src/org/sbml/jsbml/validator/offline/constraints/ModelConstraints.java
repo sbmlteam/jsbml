@@ -36,7 +36,8 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;;
 
 /**
  * @author Roman
@@ -61,7 +62,8 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       set.add(CORE_20203);
       set.add(CORE_20204);
-
+      addRangeToSet(set, CORE_20206, CORE_20215);
+      
       set.add(CORE_20222);
       
       if (level > 2 || (level == 2 && version > 1)) {
@@ -329,6 +331,146 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Model m) {
           if (m.getNumSpecies() > 0) {
             return m.getNumCompartments() > 0;
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20206:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfFunctionDefinitions()) {
+            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfFunctionDefinitions());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20207:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfUnitDefinitions()) {
+            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfUnitDefinitions());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20208:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfCompartments()) {
+            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfCompartments());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20209:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfSpecies()) {
+            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfSpecies());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20210:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfParameters()) {
+            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfParameters());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20211:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfInitialAssignments()) {
+            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfInitialAssignments());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20212:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfRules()) {
+            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfRules());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20213:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfConstraints()) {
+            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfConstraints());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20214:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfReactions()) {
+            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfReactions());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20215:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfEvents()) {
+            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfEvents());
           }
 
           return true;
