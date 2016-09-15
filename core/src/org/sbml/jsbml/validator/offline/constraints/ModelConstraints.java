@@ -31,9 +31,11 @@ import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.OverdeterminationValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.ElementOrderValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
@@ -46,6 +48,17 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidat
  */
 public class ModelConstraints extends AbstractConstraintDeclaration {
 
+  /**
+   * 
+   *
+   */
+  public static String[] MODEL_ELEMENTS_ORDER = 
+    {"notes", "annotation", "listOfFunctionDefinitions", "listOfUnitDefinitions", "listOfCompartmentTypes",
+    "listOfSpeciesTypes", "listOfCompartments", "listOfSpecies", "listOfParameters",
+    "listOfInitialAssignments", "listOfRules", "listOfConstraints",
+    "listOfReactions", "listOfEvents"};
+  
+  
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName) 
@@ -60,7 +73,12 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      set.add(CORE_20203);
+
+      if ((ValuePair.of(3, 2).compareTo(level, version)) > 0) {
+        set.add(CORE_20202);
+        set.add(CORE_20203);
+      }
+      
       set.add(CORE_20204);
       addRangeToSet(set, CORE_20206, CORE_20215);
       
@@ -303,8 +321,8 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
-    case CORE_20222:
-      func = new UnknownAttributeValidationFunction<Model>();
+    case CORE_20202:
+      func = new ElementOrderValidationFunction<Model>(MODEL_ELEMENTS_ORDER);
       break;
       
     case CORE_20203:
@@ -577,6 +595,11 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+
+    case CORE_20222:
+      func = new UnknownAttributeValidationFunction<Model>();
+      break;
+      
     case CORE_20705:
       func = new ValidationFunction<Model>() {
 
