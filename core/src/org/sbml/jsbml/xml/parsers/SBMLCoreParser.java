@@ -1209,6 +1209,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         } else if (contextObject instanceof Constraint) {
           Constraint constraint = (Constraint) contextObject;
 
+          // keep order of elements for later validation
+          AbstractReaderWriter.storeElementsOrder(elementName, contextObject);          
+          
           if (elementName.equals("message")
               && ((constraint.getLevel() == 2 && constraint
               .getVersion() > 1) || constraint.getLevel() >= 3))

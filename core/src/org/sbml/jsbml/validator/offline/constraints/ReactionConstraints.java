@@ -37,6 +37,7 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
@@ -61,6 +62,8 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_21101);
+      set.add(CORE_21104);
+      set.add(CORE_21105);
       set.add(CORE_21121);
       if (level == 2) {
         set.add(CORE_21131);
@@ -138,6 +141,43 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
           // if any of the ListOf or kineticLaw are empty, we return false
           return ! (r.isListOfModifiersEmpty() || r.isListOfProductsEmpty() || r.isListOfReactantsEmpty() 
               || (r.isSetKineticLaw() && r.getKineticLaw().getChildCount() == 0));
+        }
+      };
+      break;
+
+    case CORE_21104:
+      func = new ValidationFunction<Reaction>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Reaction r) {
+
+          boolean check = true;
+          
+          if (r.isSetListOfReactants() || r.isListOfReactantsEmpty()) {
+            check &= new UnknownElementValidationFunction<>().check(ctx, r.getListOfReactants());
+          }
+          if (r.isSetListOfProducts() || r.isListOfProductsEmpty()) {
+            check &= new UnknownElementValidationFunction<>().check(ctx, r.getListOfProducts());
+          }
+
+          return check;
+        }
+      };
+      break;
+
+    case CORE_21105:
+      func = new ValidationFunction<Reaction>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Reaction r) {
+
+          boolean check = true;
+          
+          if (r.isSetListOfModifiers() || r.isListOfModifiersEmpty()) {
+            check &= new UnknownElementValidationFunction<>().check(ctx, r.getListOfModifiers());
+          }
+
+          return check;
         }
       };
       break;
