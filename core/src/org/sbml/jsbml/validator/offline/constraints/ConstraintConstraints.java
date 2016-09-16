@@ -27,6 +27,7 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.xml.XMLNode;
@@ -53,7 +54,7 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      if (level == 3) {
+      if (level >= 3) {
         set.add(CORE_21007);
         set.add(CORE_21008);
         set.add(CORE_21009);
@@ -233,6 +234,10 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+    case CORE_21008:
+      func = new DuplicatedElementValidationFunction<Constraint>("message");
+      break;
+      
     case CORE_21009:
       func = new UnknownAttributeValidationFunction<Constraint>();
       break;
