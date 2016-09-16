@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,6 +29,7 @@ import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.ElementOrderValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
@@ -43,6 +43,14 @@ import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
  */
 public class KineticLawConstraints extends AbstractConstraintDeclaration {
 
+  /**
+   * 
+   *
+   */
+  public static String[] KINETIC_LAW_ELEMENTS_ORDER = 
+    {"notes", "annotation", "math", "listOfParameters"}; // validation apply only for L2 so no need for listOfLocalParameters
+
+  
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName) {
@@ -69,6 +77,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
         set.add(CORE_21132);        
       }
       if (level == 2) {
+        set.add(CORE_21122);
         set.add(CORE_21131);
         if (version > 1) {
           set.add(CORE_21125);
@@ -152,6 +161,10 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
 
     case CORE_10709:
       return SBOValidationConstraints.isRateLaw;
+
+    case CORE_21122:
+      func = new ElementOrderValidationFunction<KineticLaw>(KINETIC_LAW_ELEMENTS_ORDER);
+      break;
       
     case CORE_21123:
       func = new ValidationFunction<KineticLaw>() {
