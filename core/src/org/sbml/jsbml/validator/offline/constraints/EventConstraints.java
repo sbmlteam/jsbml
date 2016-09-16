@@ -73,6 +73,8 @@ public class EventConstraints extends AbstractConstraintDeclaration {
         if (version == 1) {
           set.add(CORE_21203);
         }
+        set.add(CORE_21221);
+        set.add(CORE_21222);
         set.add(CORE_21223);
         set.add(CORE_21224);
         set.add(CORE_21225);
@@ -208,6 +210,14 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+      
+    case CORE_21221:
+      func = new DuplicatedElementValidationFunction<>("delay");
+      break;
+      
+    case CORE_21222:
+      func = new DuplicatedElementValidationFunction<>("listOfEventAssignments");
       break;
       
     case CORE_21223:
