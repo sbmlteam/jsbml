@@ -49,8 +49,10 @@ import static org.sbml.jsbml.ext.layout.LayoutConstants.speciesReferenceGlyph;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.start;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.textGlyph;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
@@ -81,6 +83,7 @@ import org.sbml.jsbml.ext.layout.ReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
@@ -97,6 +100,11 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  */
 @ProviderFor(ReadingParser.class)
 public class L3LayoutParser extends AbstractReaderWriter implements PackageParser {
+
+  /**
+   * Localization support.
+   */
+  private static final transient ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages");
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
@@ -162,6 +170,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
         model.addExtension(getNamespaceURI(), layoutModel);
 
         return layoutModel.getListOfLayouts();
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     }
     else if (contextObject instanceof Layout) {
@@ -193,6 +204,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
         layout.setDimensions(dimension);
 
         newElement = dimension;
+      }  else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
 
       if (newElement != null) {
@@ -223,8 +237,10 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
         {
           ListOf<SpeciesReferenceGlyph> list = reactionGlyph.getListOfSpeciesReferenceGlyphs();
           return list;
+        } else {
+          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+          return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
         }
-
       }
       else if (graphicalObject instanceof SpeciesReferenceGlyph)
       {
@@ -235,8 +251,10 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
           speciesRefGlyph.setCurve(curve);
 
           return curve;
+        } else {
+          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+          return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
         }
-
       }
       else if (graphicalObject instanceof GeneralGlyph)
       {
@@ -257,8 +275,10 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
         {
           ListOf<ReferenceGlyph> list = generalGlyph.getListOfReferenceGlyphs();
           return list;
+        } else {
+          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+          return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
         }
-
       }
       else if (graphicalObject instanceof ReferenceGlyph)
       {
@@ -269,9 +289,14 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
           refGlyph.setCurve(curve);
 
           return curve;
+        } else {
+          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+          return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
         }
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
-
     }
     else if (contextObject instanceof BoundingBox)
     {
@@ -288,6 +313,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
         bbox.setDimensions(dimension);
 
         return dimension;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     }
     else if (contextObject instanceof Curve) {
@@ -297,6 +325,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
       if (elementName.equals(listOfCurveSegments)) {
 
         newElement = curve.getListOfCurveSegments();
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
 
       if (newElement != null) {
@@ -329,8 +360,10 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
         curveSegment.setBasePoint2(point);
 
         return point;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
-
     }
     else if (contextObject instanceof ListOf<?>) {
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
@@ -368,9 +401,24 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
       else if (elementName.equals(LayoutConstants.graphicalObject)) {
         newElement = new GraphicalObject();
       }
+      else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
+      }
 
       if (newElement != null) {
-        listOf.add(newElement);
+        try {
+          listOf.add(newElement); 
+        } catch(ClassCastException e) {
+          // as we do not test that we are using the right ListOf, we need to catch the exception here !
+          if (logger.isDebugEnabled()) {
+            logger.debug("Exception catched: " + e.getMessage());
+          }
+          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+          return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
+        } catch(RuntimeException e) {
+          logger.warn("RuntimeException catched: " + e.getMessage());
+        }
       }
 
       return newElement;
