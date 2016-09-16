@@ -35,6 +35,7 @@ import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.OverdeterminationValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ElementOrderValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
@@ -80,7 +81,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       }
       
       set.add(CORE_20204);
-      addRangeToSet(set, CORE_20206, CORE_20215);
+      addRangeToSet(set, CORE_20205, CORE_20215);
       
       set.add(CORE_20222);
       
@@ -356,6 +357,26 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+    case CORE_20205:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          
+          return new DuplicatedElementValidationFunction<Model>("listOfFunctionDefinitions").check(ctx, m) 
+              && new DuplicatedElementValidationFunction<Model>("listOfUnitDefinitions").check(ctx, m) 
+              && new DuplicatedElementValidationFunction<Model>("listOfCompartments").check(ctx, m) 
+              && new DuplicatedElementValidationFunction<Model>("listOfSpecies").check(ctx, m) 
+              && new DuplicatedElementValidationFunction<Model>("listOfParameters").check(ctx, m) 
+              && new DuplicatedElementValidationFunction<Model>("listOfInitialAssignments").check(ctx, m) 
+              && new DuplicatedElementValidationFunction<Model>("listOfRules").check(ctx, m) 
+              && new DuplicatedElementValidationFunction<Model>("listOfConstraints").check(ctx, m) 
+              && new DuplicatedElementValidationFunction<Model>("listOfReactions").check(ctx, m) 
+              && new DuplicatedElementValidationFunction<Model>("listOfEvents").check(ctx, m); 
+        }
+      };
+      break;
+      
     case CORE_20206:
       func = new ValidationFunction<Model>() {
 
