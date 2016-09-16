@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,6 +28,7 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.ElementOrderValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
@@ -41,6 +41,13 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidat
  */
 public class EventConstraints extends AbstractConstraintDeclaration {
 
+  /**
+   * 
+   *
+   */
+  public static String[] EVENT_ELEMENTS_ORDER = 
+    {"notes", "annotation", "trigger", "delay", "listOfEventAssignments"};
+  
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName) {
@@ -57,6 +64,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
       if (level == 2) {
         set.add(CORE_21201);
         set.add(CORE_21203);
+        set.add(CORE_21205);
 
         if (version < 3) {
           set.add(CORE_21204);
@@ -179,6 +187,10 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+      
+    case CORE_21205:
+      func = new ElementOrderValidationFunction<Event>(EVENT_ELEMENTS_ORDER);
       break;
       
     case CORE_21206:
