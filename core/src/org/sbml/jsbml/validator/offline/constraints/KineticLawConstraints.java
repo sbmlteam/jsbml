@@ -28,6 +28,7 @@ import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ElementOrderValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
@@ -85,6 +86,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
         }
       }
       if (level > 2) {
+        set.add(CORE_21127);
         set.add(CORE_21128);
       }
       
@@ -202,6 +204,10 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+    case CORE_21127:
+      func = new DuplicatedElementValidationFunction<KineticLaw>("listOfLocalParameters");
+      break;
+      
     case CORE_21128:
       func = new ValidationFunction<KineticLaw>() {
         
