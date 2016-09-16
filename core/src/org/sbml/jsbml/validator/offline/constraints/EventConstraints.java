@@ -30,7 +30,8 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;;
 
 /**
  * @author Roman
@@ -71,6 +72,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
         if (version == 1) {
           set.add(CORE_21203);
         }
+        set.add(CORE_21223);
         set.add(CORE_21224);
         set.add(CORE_21225);
         set.add(CORE_99206);
@@ -202,6 +204,22 @@ public class EventConstraints extends AbstractConstraintDeclaration {
             return e.isSetUseValuesFromTriggerTime();
           }
 
+          return true;
+        }
+      };
+      break;
+      
+    case CORE_21223:
+      func = new ValidationFunction<Event>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Event event) {
+          
+          if (event.isSetListOfEventAssignments() || event.isListOfEventAssignmentEmpty()) {
+            UnknownElementValidationFunction<ListOf<EventAssignment>> unknownFunc = new UnknownElementValidationFunction<ListOf<EventAssignment>>();
+            return unknownFunc.check(ctx, event.getListOfEventAssignments());
+          }
+          
           return true;
         }
       };

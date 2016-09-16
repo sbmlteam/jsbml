@@ -100,6 +100,8 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
             }
 
           }
+          
+          // TODO - go through the SBasePlugins
 
           ctx.setRootConstraint(root, type);
 
