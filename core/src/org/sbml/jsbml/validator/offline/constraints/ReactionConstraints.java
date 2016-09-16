@@ -35,6 +35,7 @@ import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
+import org.sbml.jsbml.validator.offline.constraints.helper.ElementOrderValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
@@ -47,6 +48,13 @@ import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
  */
 public class ReactionConstraints extends AbstractConstraintDeclaration {
 
+  /**
+   * 
+   *
+   */
+  public static String[] REACTION_ELEMENTS_ORDER = 
+    {"notes", "annotation", "listOfReactants", "listOfProducts", "listOfModifiers", "kineticLaw"};
+  
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName) {
@@ -62,6 +70,7 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_21101);
+      set.add(CORE_21102);
       set.add(CORE_21104);
       set.add(CORE_21105);
       set.add(CORE_21121);
@@ -132,6 +141,10 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+    case CORE_21102:
+      func = new ElementOrderValidationFunction<Reaction>(REACTION_ELEMENTS_ORDER);
+      break;
+      
     case CORE_21103:
       func = new ValidationFunction<Reaction>() {
 
