@@ -1175,7 +1175,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         } else if (contextObject instanceof SpeciesReference) {
           SpeciesReference speciesReference = (SpeciesReference) contextObject;
 
-          if (elementName.equals("stoichiometryMath")) {
+          // if level = 1 or level >= 3 - stoichiometryMath is an unknown/invalid element
+          if (elementName.equals("stoichiometryMath") && speciesReference.getLevel() == 2) {
             StoichiometryMath stoichiometryMath = (StoichiometryMath) newContextObject;
             speciesReference.setStoichiometryMath(stoichiometryMath);
 
