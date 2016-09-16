@@ -382,7 +382,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetListOfFunctionDefinitions()) {
+          if (m.isSetListOfFunctionDefinitions() || m.isListOfFunctionDefinitionsEmpty()) {
             return new UnknownElementValidationFunction<>().check(ctx, m.getListOfFunctionDefinitions());
           }
 
@@ -396,7 +396,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetListOfUnitDefinitions()) {
+          if (m.isSetListOfUnitDefinitions() || m.isListOfUnitDefinitionEmpty()) {
             return new UnknownElementValidationFunction<>().check(ctx, m.getListOfUnitDefinitions());
           }
 
@@ -410,7 +410,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetListOfCompartments()) {
+          if (m.isSetListOfCompartments() || m.isListOfCompartmentsEmpty()) {
             return new UnknownElementValidationFunction<>().check(ctx, m.getListOfCompartments());
           }
 
@@ -424,7 +424,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetListOfSpecies()) {
+          if (m.isSetListOfSpecies() || m.isListOfSpeciesEmpty()) {
             return new UnknownElementValidationFunction<>().check(ctx, m.getListOfSpecies());
           }
 
@@ -438,7 +438,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetListOfParameters()) {
+          if (m.isSetListOfParameters() || m.isListOfParametersEmpty()) {
             return new UnknownElementValidationFunction<>().check(ctx, m.getListOfParameters());
           }
 
@@ -452,7 +452,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetListOfInitialAssignments()) {
+          if (m.isSetListOfInitialAssignments() || m.isListOfInitialAssignmentsEmpty()) {
             return new UnknownElementValidationFunction<>().check(ctx, m.getListOfInitialAssignments());
           }
 
@@ -466,7 +466,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetListOfRules()) {
+          if (m.isSetListOfRules() || m.isListOfRulesEmpty()) {
             return new UnknownElementValidationFunction<>().check(ctx, m.getListOfRules());
           }
 
@@ -480,7 +480,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetListOfConstraints()) {
+          if (m.isSetListOfConstraints() || m.isListOfConstraintsEmpty()) {
             return new UnknownElementValidationFunction<>().check(ctx, m.getListOfConstraints());
           }
 
@@ -494,7 +494,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetListOfReactions()) {
+          if (m.isSetListOfReactions() || m.isListOfReactionsEmpty()) {
             return new UnknownElementValidationFunction<>().check(ctx, m.getListOfReactions());
           }
 
@@ -508,7 +508,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          if (m.isSetListOfEvents()) {
+          if (m.isSetListOfEvents() || m.isListOfEventsEmpty()) {
             return new UnknownElementValidationFunction<>().check(ctx, m.getListOfEvents());
           }
 
