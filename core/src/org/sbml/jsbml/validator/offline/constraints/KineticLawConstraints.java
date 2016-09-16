@@ -33,6 +33,7 @@ import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidat
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
@@ -73,6 +74,9 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
           set.add(CORE_21125);
           set.add(CORE_21126);
         }
+      }
+      if (level > 2) {
+        set.add(CORE_21128);
       }
       
       // For level and version before L3V2
@@ -184,14 +188,31 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-      
-    case CORE_21129:
-      func = new UnknownAttributeValidationFunction<KineticLaw>() {
+
+    case CORE_21128:
+      func = new ValidationFunction<KineticLaw>() {
         
         @Override
         public boolean check(ValidationContext ctx, KineticLaw kl) {
           
-          if (kl.isSetListOfLocalParameters()) {
+          if (kl.isSetListOfLocalParameters() || kl.isListOfLocalParametersEmpty()) {
+            UnknownElementValidationFunction<ListOf<LocalParameter>> unknownFunc = new UnknownElementValidationFunction<ListOf<LocalParameter>>();
+            return unknownFunc.check(ctx, kl.getListOfLocalParameters());
+          }
+          
+          return true;
+        }
+      };
+      break;
+      
+
+    case CORE_21129:
+      func = new ValidationFunction<KineticLaw>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, KineticLaw kl) {
+          
+          if (kl.isSetListOfLocalParameters() || kl.isListOfLocalParametersEmpty()) {
             UnknownAttributeValidationFunction<ListOf<LocalParameter>> unknownFunc = new UnknownAttributeValidationFunction<ListOf<LocalParameter>>();
             return unknownFunc.check(ctx, kl.getListOfLocalParameters());
           }
