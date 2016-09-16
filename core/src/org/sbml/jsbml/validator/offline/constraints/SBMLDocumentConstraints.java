@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -20,10 +19,16 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
@@ -49,8 +54,11 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
+      set.add(CORE_10102);
+      
       set.add(CORE_20201);
-      set.add(CORE_20108);
+      set.add(CORE_20108);      
+      
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -73,6 +81,72 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<SBMLDocument> func = null;
 
     switch (errorCode) {
+
+    case CORE_10102:
+      func = new ValidationFunction<SBMLDocument>() {
+
+        /**
+         * List of SBase that contain any unknown attributes or elements.
+         * This list can be used later on to build proper error messages
+         * to tell the user which elements have problems.
+         */
+        private List<SBase> sbaseWithUnknownXML = new ArrayList<SBase>();
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument d) {
+
+          // loop through the whole document to search for any unknown attributes or elements.            
+          sbaseWithUnknownXML = (List<SBase>) d.filter(new Filter() {
+
+            @Override
+            public boolean accepts(Object o) {
+
+              if (o instanceof SBase) {
+                SBase sbase = (SBase) o;
+
+                // System.out.println(sbase.getElementName() + " - " + sbase); // TODO - for 10102-fail-01-25-sev2-l3v1.xml, we go over 4 ListOf which should not be defined !
+
+                if (sbase.isSetUserObjects() && sbase.getUserObject(JSBML.UNKNOWN_XML) != null)
+                {
+                  // if the user object is set, we know they are some unknown XML
+                  // we return true to add it to the list of sbaseWithUnknownXML
+                  return true;
+                }
+              }
+
+              return false;
+            }
+          });
+
+          System.out.println(d.getModel());
+
+          // if we found at least one element with unknown XML, fail the constraint
+          if (sbaseWithUnknownXML.size() > 0) {
+            return false;
+          }
+
+          return true;
+        }
+
+        /**
+         * Returns a list of error messages to be used when creating the {@link SBMLError} instances.
+         * 
+         * @return a list of error messages to be used in the {@link SBMLError}
+         */
+        public List<String> buildErrorMessages() {
+
+          // TODO - we need first to modify the ValidationFunction interface to be able to get custom error messages.
+          for(SBase sbase : sbaseWithUnknownXML) {
+            System.out.println(sbase);
+          }
+
+          return null;
+        }
+
+      };
+      break;
+
     case CORE_20201:
       func = new ValidationFunction<SBMLDocument>() {
 
@@ -83,6 +157,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+
     case CORE_20108:
       func = new ValidationFunction<SBMLDocument>() {
 

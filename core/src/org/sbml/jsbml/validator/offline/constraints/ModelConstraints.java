@@ -517,7 +517,9 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetTimeUnits()) {
             UnitDefinition ud = m.getTimeUnitsInstance();
 
-            return ud.isVariantOfTime() || ud.isVariantOfDimensionless();
+            if (ud != null) {
+              return ud.isVariantOfTime() || ud.isVariantOfDimensionless();
+            }
           }
 
           return true;
@@ -533,7 +535,9 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetVolumeUnits()) {
             UnitDefinition ud = m.getVolumeUnitsInstance();
 
-            return ud.isVariantOfVolume() || ud.isVariantOfDimensionless();
+            if (ud != null) {
+              return ud.isVariantOfVolume() || ud.isVariantOfDimensionless();
+            }
           }
 
           return true;
@@ -549,7 +553,9 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetAreaUnits()) {
             UnitDefinition ud = m.getAreaUnitsInstance();
 
-            return ud.isVariantOfArea() || ud.isVariantOfDimensionless();
+            if (ud != null) {
+              return ud.isVariantOfArea() || ud.isVariantOfDimensionless();
+            }
           }
 
           return true;
@@ -565,7 +571,9 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetLengthUnits()) {
             UnitDefinition ud = m.getLengthUnitsInstance();
 
-            return ud.isVariantOfLength() || ud.isVariantOfDimensionless();
+            if (ud != null) {
+              return ud.isVariantOfLength() || ud.isVariantOfDimensionless();
+            }
           }
 
           return true;
@@ -581,10 +589,12 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetExtentUnits()) {
             UnitDefinition ud = m.getExtentUnitsInstance().simplify();
 
-            // Quick check for 'avogadro'
-            if (ud.getNumChildren() == 1) {
-              if (ud.getUnit(0).isAvogadro()) {
-                return true;
+            if (ud != null) {
+              // Quick check for 'avogadro'
+              if (ud.getNumChildren() == 1) {
+                if (ud.getUnit(0).isAvogadro()) {
+                  return true;
+                }
               }
             }
 
