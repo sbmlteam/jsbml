@@ -35,6 +35,7 @@ import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ElementOrderValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
@@ -191,6 +192,20 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
           }
 
           return check;
+        }
+      };
+      break;
+
+    case CORE_21106:
+      func = new ValidationFunction<Reaction>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Reaction r) {
+
+          return new DuplicatedElementValidationFunction<Reaction>("listOfReactants").check(ctx, r) 
+              && new DuplicatedElementValidationFunction<Reaction>("listOfProducts").check(ctx, r) 
+              && new DuplicatedElementValidationFunction<Reaction>("listOfModifiers").check(ctx, r) 
+              && new DuplicatedElementValidationFunction<Reaction>("kineticLaw").check(ctx, r); 
         }
       };
       break;
