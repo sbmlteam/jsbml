@@ -203,8 +203,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
-      break;
-      
+      break;      
 
     case CORE_21129:
       func = new ValidationFunction<KineticLaw>() {

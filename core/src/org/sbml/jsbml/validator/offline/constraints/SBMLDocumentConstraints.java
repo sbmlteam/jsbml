@@ -119,7 +119,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
             }
           });
 
-          System.out.println(d.getModel());
+          // System.out.println(d.getModel());
 
           // if we found at least one element with unknown XML, fail the constraint
           if (sbaseWithUnknownXML.size() > 0) {
