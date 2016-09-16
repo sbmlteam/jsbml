@@ -44,7 +44,7 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
    * 
    *
    */
-  public static String[] CONSTRAINTS_ELEMENTS_ORDER = 
+  public static String[] CONSTRAINT_ELEMENTS_ORDER = 
     {"notes", "annotation", "math", "message"};
 
   @Override
@@ -122,7 +122,7 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
       break;
       
     case CORE_21002:
-      func = new ElementOrderValidationFunction<Constraint>(CONSTRAINTS_ELEMENTS_ORDER);
+      func = new ElementOrderValidationFunction<Constraint>(CONSTRAINT_ELEMENTS_ORDER);
       break;
       
     case CORE_21003:
