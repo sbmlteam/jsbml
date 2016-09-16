@@ -36,21 +36,21 @@ import org.sbml.jsbml.xml.XMLNode;
  */
 public class UnknownElementValidationFunction<T extends TreeNodeWithChangeSupport> implements ValidationFunction<T> {
 
-    @Override
-    public boolean check(ValidationContext ctx, T t) {
-      
-        if (t.isSetUserObjects() && t.getUserObject(JSBML.UNKNOWN_XML) != null)
-        {
-          XMLNode unknownNode = (XMLNode) t.getUserObject(JSBML.UNKNOWN_XML);
+  @Override
+  public boolean check(ValidationContext ctx, T t) {
 
-          List<XMLNode> childElements = unknownNode.getChildElements(null, null);
-          // System.out.println("UnknownElementValidationFunction - childElements.length = " + childElements.size());
+    if (t.isSetUserObjects() && t.getUserObject(JSBML.UNKNOWN_XML) != null)
+    {
+      XMLNode unknownNode = (XMLNode) t.getUserObject(JSBML.UNKNOWN_XML);
 
-          if (childElements.size() > 0) {
-            return false;
-          }
+      List<XMLNode> childElements = unknownNode.getChildElements(null, null);
+      // System.out.println("UnknownElementValidationFunction - childElements.length = " + childElements.size());
+
+      if (childElements.size() > 0) {
+        return false;
       }
-
-      return true;
     }
+
+    return true;
+  }
 }
