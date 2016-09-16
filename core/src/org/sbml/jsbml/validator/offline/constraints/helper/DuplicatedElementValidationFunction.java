@@ -46,7 +46,7 @@ public class DuplicatedElementValidationFunction<T extends SBase> implements Val
    * an (XML) element name that should not be present more than once
    */
   private String elementName;
-  
+
   /**
    * 
    */
@@ -60,7 +60,7 @@ public class DuplicatedElementValidationFunction<T extends SBase> implements Val
     if (elementName == null) {
       return true;
     }
-    
+
     if (t.isSetUserObjects() && t.getUserObject(JSBML.CHILD_ELEMENT_NAMES) != null)
     {
       @SuppressWarnings("unchecked")
@@ -69,22 +69,22 @@ public class DuplicatedElementValidationFunction<T extends SBase> implements Val
       if (childElementNames == null || childElementNames.size() == 0) {
         return true;
       }
-     
+
       int elementCount = 0;
-      
+
       for (String currentElementName : childElementNames) {
-        
+
         if (currentElementName.equals(elementName)) {
-            elementCount++;
+          elementCount++;
         }
       }
-        
+
       if (elementCount > 1) {
         logger.warn("DuplicatedElementValidationFunction - '" + elementName + "' was encountered " + elementCount + " times.");
         return false;
       }
     }
-    
+
     return true;
   }
 }
