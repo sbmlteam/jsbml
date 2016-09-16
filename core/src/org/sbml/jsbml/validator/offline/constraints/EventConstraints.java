@@ -28,6 +28,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
@@ -131,7 +132,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Event e) {
 
-          return e.isSetTrigger();
+          return e.isSetTrigger() && new DuplicatedElementValidationFunction<>("trigger").check(ctx, e);
         }
       };
       break;
