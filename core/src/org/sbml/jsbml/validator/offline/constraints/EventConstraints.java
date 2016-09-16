@@ -78,6 +78,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
         set.add(CORE_21223);
         set.add(CORE_21224);
         set.add(CORE_21225);
+        set.add(CORE_21230);
         set.add(CORE_99206);
       }
       break;
@@ -265,6 +266,10 @@ public class EventConstraints extends AbstractConstraintDeclaration {
           return super.check(ctx, c);
         }
       };
+      break;
+      
+    case CORE_21230:
+      func = new DuplicatedElementValidationFunction<>("priority");
       break;
       
     case CORE_99206:
