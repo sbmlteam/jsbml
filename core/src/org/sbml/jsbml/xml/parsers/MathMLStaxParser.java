@@ -563,7 +563,7 @@ public class MathMLStaxParser implements ReadingParser {
       
       mathContainer.putUserObject(JSBML_MATH_COUNT, nbMath);
       
-      if (mathContainer instanceof Constraint) {
+      if (mathContainer instanceof Constraint || mathContainer instanceof KineticLaw) {
         AbstractReaderWriter.storeElementsOrder("math", mathContainer);
       }
     }

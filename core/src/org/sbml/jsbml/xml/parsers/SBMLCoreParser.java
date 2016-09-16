@@ -1188,6 +1188,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         } else if (contextObject instanceof KineticLaw) {
           KineticLaw kineticLaw = (KineticLaw) contextObject;
 
+          // keep order of elements for later validation
+          AbstractReaderWriter.storeElementsOrder(elementName, contextObject);          
+
           if (elementName.equals("listOfLocalParameters")
               && kineticLaw.getLevel() >= 3) {
             ListOf<LocalParameter> listOfLocalParameters = (ListOf<LocalParameter>) newContextObject;
