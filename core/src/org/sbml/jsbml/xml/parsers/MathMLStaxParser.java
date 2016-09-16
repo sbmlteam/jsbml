@@ -561,7 +561,11 @@ public class MathMLStaxParser implements ReadingParser {
       int nbMath = (int) ((mathContainer.isSetUserObjects() && mathContainer.getUserObject(JSBML_MATH_COUNT) != null) ? mathContainer.getUserObject(JSBML_MATH_COUNT) : 0);
       nbMath++;
       
-      mathContainer.putUserObject(JSBML_MATH_COUNT, nbMath);      
+      mathContainer.putUserObject(JSBML_MATH_COUNT, nbMath);
+      
+      if (mathContainer instanceof Constraint) {
+        AbstractReaderWriter.storeElementsOrder("math", mathContainer);
+      }
     }
   }
 

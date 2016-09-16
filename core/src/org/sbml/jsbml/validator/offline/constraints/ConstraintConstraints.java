@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,6 +27,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.ElementOrderValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.xml.XMLNode;
@@ -39,6 +39,13 @@ import org.sbml.jsbml.xml.parsers.MathMLStaxParser;;
  * @date 04.08.2016
  */
 public class ConstraintConstraints extends AbstractConstraintDeclaration {
+
+  /**
+   * 
+   *
+   */
+  public static String[] CONSTRAINTS_ELEMENTS_ORDER = 
+    {"notes", "annotation", "math", "message"};
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
@@ -61,10 +68,14 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
       }
       if (level >= 2) {
         set.add(CORE_21001);
-        set.add(CORE_21002);
         set.add(CORE_21003);
         set.add(CORE_21006);
       }
+      
+      if (level == 2) {
+        set.add(CORE_21002);        
+      }
+      
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -111,15 +122,7 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
       break;
       
     case CORE_21002:
-      func = new ValidationFunction<Constraint>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, Constraint c) {
-
-          // TODO
-          return true;
-        }
-      };
+      func = new ElementOrderValidationFunction<Constraint>(CONSTRAINTS_ELEMENTS_ORDER);
       break;
       
     case CORE_21003:
