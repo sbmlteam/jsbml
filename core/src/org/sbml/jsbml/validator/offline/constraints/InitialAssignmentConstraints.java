@@ -25,13 +25,17 @@ import java.util.Set;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * @author Roman
@@ -83,6 +87,7 @@ extends AbstractConstraintDeclaration {
       }
       break;
     case UNITS_CONSISTENCY:
+      addRangeToSet(set, CORE_10521, CORE_10524);
       break;
     }
   }
@@ -94,9 +99,86 @@ extends AbstractConstraintDeclaration {
     ValidationFunction<InitialAssignment> func = null;
 
     switch (errorCode) {
+
+    case CORE_10521:
+      func = new ValidationFunction<InitialAssignment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, InitialAssignment r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof Compartment) {
+
+            // check that unit from rule are equivalent to the compartment unit
+            return ValidationTools.haveEquivalentUnits(r, var);
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_10522:
+      func = new ValidationFunction<InitialAssignment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, InitialAssignment r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof Species) {
+
+            // check that unit from rule are equivalent to the species unit
+            return ValidationTools.haveEquivalentUnits(r, var);
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_10523:
+      func = new ValidationFunction<InitialAssignment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, InitialAssignment r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof Parameter) {
+
+            // check that unit from rule are equivalent to the parameter unit
+            return ValidationTools.haveEquivalentUnits(r, var);
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_10524:
+      func = new ValidationFunction<InitialAssignment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, InitialAssignment r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof SpeciesReference) {
+
+            // check that unit from rule are equivalent to the stoichiometry unit: dimensionless
+            return ValidationTools.haveEquivalentUnits(r, var);
+          }
+
+          return true;
+        }
+      };
+      break;
+
     case CORE_10704:
       return SBOValidationConstraints.isMathematicalExpression;
-      
+
     case CORE_20801:
       func = new ValidationFunction<InitialAssignment>() {
 
