@@ -32,7 +32,9 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
@@ -375,7 +377,7 @@ extends AbstractConstraintDeclaration {
             {
               ASTNode arg = fd.getArgument(i);
 
-              if (arg != null && 
+              if (arg != null && arg.isString() &&
                   arg.getName() != null && 
                   body.getName() != null)
               {
@@ -401,6 +403,24 @@ extends AbstractConstraintDeclaration {
               body.isNumber() ||
               body.isFunction() || 
               body.isOperator();
+        }
+      };
+      break;
+
+    case CORE_20306:
+      func = new DuplicatedMathValidationFunction<FunctionDefinition>();
+      break;
+
+    case CORE_20307:
+      func = new UnknownAttributeValidationFunction<FunctionDefinition>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, FunctionDefinition fd) {
+          // id is a mandatory attribute
+          if (!fd.isSetId()) {
+            return false;
+          }
+          return super.check(ctx, fd);
         }
       };
       break;
