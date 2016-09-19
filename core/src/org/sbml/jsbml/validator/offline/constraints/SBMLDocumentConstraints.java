@@ -28,6 +28,7 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
@@ -56,7 +57,15 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       set.add(CORE_10102);
       
-      set.add(CORE_20201);
+      set.add(CORE_20101);
+      set.add(CORE_20102);
+      set.add(CORE_20103);
+      
+      // For level and version before L3V2
+      if (ValuePair.of(level, version).compareTo(3, 2) < 0) {
+        set.add(CORE_20201);
+      }
+      
       set.add(CORE_20108);      
       
       break;
@@ -147,17 +156,73 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
-    case CORE_20201:
+    case CORE_20101:
       func = new ValidationFunction<SBMLDocument>() {
 
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument d) {
 
-          return d.getModel() != null; // TODO - relaxed for SBML L3V2
+          // go through the getSBMLDocumentAttributes() map
+          // Map<String, String> attributeMap = d.getSBMLDocumentAttributes();
+
+          Map<String, String> namespaceMap = d.getDeclaredNamespaces();
+          String sbmlNamespace = null;
+          
+          System.out.println("CORE_20101 - " + namespaceMap.size());
+          
+          if (namespaceMap.size() == 0) {
+            // Something is wrong with the namespace and we found no parser for the file
+            return false;
+          }
+          
+          for (String attributeNameWithPrefix : namespaceMap.keySet()) {
+            
+            if (attributeNameWithPrefix.equals("xmlns")) {
+              sbmlNamespace = attributeNameWithPrefix;
+              break;
+            }
+          }
+
+          int level = d.getLevel();
+          int version = d.getVersion();
+          
+          String levelAndVersionNamespace = JSBML.getNamespaceFrom(level, version);
+          
+          if (sbmlNamespace == null || levelAndVersionNamespace == null) {
+            return false;
+          }
+          
+          return sbmlNamespace.equals(levelAndVersionNamespace);
         }
       };
       break;
 
+    case CORE_20102:
+      func = new ValidationFunction<SBMLDocument>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument d) {
+          // TODO - The sbml container element must declare the SBML Level using the attribute 
+          // 'level', and this declaration must be consistent with the XML Namespace declared 
+          // for the sbml element.
+          return d.isSetLevel();
+        }
+      };
+      break;
+      
+    case CORE_20103:
+      func = new ValidationFunction<SBMLDocument>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument d) {
+          // TODO - The sbml container element must declare the SBML Version using the attribute 
+          // 'version', and this declaration must be consistent with the XML Namespace declared 
+          // for the sbml element.
+          return d.isSetVersion();
+        }
+      };
+      break;
+      
     case CORE_20108:
       func = new ValidationFunction<SBMLDocument>() {
 
@@ -180,6 +245,18 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+      
+    case CORE_20201:
+      func = new ValidationFunction<SBMLDocument>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument d) {
+
+          return d.getModel() != null;
+        }
+      };
+      break;
 
     }
 

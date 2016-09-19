@@ -272,7 +272,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     lv.setV(version);
 
     if (!hasValidLevelVersionNamespaceCombination()) {
-      throw new LevelVersionError(this);
+      
+      if (!isReadingInProgress()) {
+        throw new LevelVersionError(this);
+      } else {
+        logger.error(MessageFormat.format(LevelVersionError.UNDEFINED_LEVEL_VERSION_COMBINATION_MSG, level, version));
+      }
     }
   }
 
