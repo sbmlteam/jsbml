@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
@@ -388,5 +389,27 @@ public final class ValidationTools {
    */
   public static boolean isXmlId(String s) {
     return SyntaxChecker.isValidMetaId(s);
+  }
+  
+  /**
+   * Returns true if the given {@link Assignment} and {@link Variable} have equivalent derived units.
+   * 
+   * @param assignment the assignment to check
+   * @param var the variable to check
+   * @return true if the given {@link Assignment} and {@link Variable} have equivalent derived units.
+   */
+  public static boolean haveEquivalentUnits(Assignment assignment, Variable var) {
+    // check that the units from assignment are equivalent to the units of the variable
+    UnitDefinition assignmentDerivedUnit = assignment.getDerivedUnitDefinition();
+    UnitDefinition varDerivedUnit = var.getDerivedUnitDefinition();
+
+//  System.out.println("haveEquivalentUnits - " + assignment.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(ruleDerivedUnit));
+//  System.out.println("haveEquivalentUnits - " + var.getClass().getSimpleName() + " unit = " + UnitDefinition.printUnits(sbaseDerivedUnit));
+  
+    if (assignmentDerivedUnit != null && varDerivedUnit != null) {
+      return UnitDefinition.areEquivalent(assignmentDerivedUnit, varDerivedUnit);
+    }
+
+    return true; // TODO - do we return true or false if one of the unit cannot be calculated ?
   }
 }

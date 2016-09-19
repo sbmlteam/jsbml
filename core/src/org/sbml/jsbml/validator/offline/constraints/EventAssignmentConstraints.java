@@ -35,7 +35,8 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * @author Roman
@@ -83,6 +84,7 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case UNITS_CONSISTENCY:
+      addRangeToSet(set, CORE_10561, CORE_10564);
       break;
     }
   }
@@ -122,6 +124,82 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
       };
       break;
       
+    case CORE_10561:
+      func = new ValidationFunction<EventAssignment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, EventAssignment r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof Compartment) {
+
+            // check that unit from rule are equivalent to the compartment unit
+            return ValidationTools.haveEquivalentUnits(r, var);
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_10562:
+      func = new ValidationFunction<EventAssignment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, EventAssignment r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof Species) {
+
+            // check that unit from rule are equivalent to the species unit
+            return ValidationTools.haveEquivalentUnits(r, var);
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_10563:
+      func = new ValidationFunction<EventAssignment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, EventAssignment r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof Parameter) {
+
+            // check that unit from rule are equivalent to the parameter unit
+            return ValidationTools.haveEquivalentUnits(r, var);
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_10564:
+      func = new ValidationFunction<EventAssignment>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, EventAssignment r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof SpeciesReference) {
+
+            // check that unit from rule are equivalent to the stoichiometry unit: dimensionless
+            return ValidationTools.haveEquivalentUnits(r, var);
+          }
+
+          return true;
+        }
+      };
+      break;
+
     case CORE_10711:
       return SBOValidationConstraints.isMathematicalExpression;
       

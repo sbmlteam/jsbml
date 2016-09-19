@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -33,7 +32,6 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -115,12 +113,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           if (var != null && var instanceof Compartment) {
 
             // check that unit from rule are equivalent to the compartment unit
-            UnitDefinition ruleDerivedUnit = r.getDerivedUnitDefinition();
-            UnitDefinition sbaseDerivedUnit = var.getDerivedUnitDefinition();
-
-            if (ruleDerivedUnit != null && sbaseDerivedUnit != null) {
-              return UnitDefinition.areEquivalent(ruleDerivedUnit, sbaseDerivedUnit);
-            }
+            return ValidationTools.haveEquivalentUnits(r, var);
           }
 
           return true;
@@ -139,15 +132,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           if (var != null && var instanceof Species) {
 
             // check that unit from rule are equivalent to the species unit
-            UnitDefinition ruleDerivedUnit = r.getDerivedUnitDefinition();
-            UnitDefinition sbaseDerivedUnit = var.getDerivedUnitDefinition();
-
-//            System.out.println("CORE_10512 - rule    unit = " + UnitDefinition.printUnits(ruleDerivedUnit));
-//            System.out.println("CORE_10512 - species unit = " + UnitDefinition.printUnits(sbaseDerivedUnit));
-            
-            if (ruleDerivedUnit != null && sbaseDerivedUnit != null) {
-              return UnitDefinition.areEquivalent(ruleDerivedUnit, sbaseDerivedUnit);
-            }
+            return ValidationTools.haveEquivalentUnits(r, var);
           }
 
           return true;
@@ -166,15 +151,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           if (var != null && var instanceof Parameter) {
 
             // check that unit from rule are equivalent to the parameter unit
-            UnitDefinition ruleDerivedUnit = r.getDerivedUnitDefinition();
-            UnitDefinition sbaseDerivedUnit = var.getDerivedUnitDefinition();
-
-//            System.out.println("CORE_10513 - rule unit = " + UnitDefinition.printUnits(ruleDerivedUnit));
-//            System.out.println("CORE_10513 - par  unit = " + UnitDefinition.printUnits(sbaseDerivedUnit));
-            
-            if (ruleDerivedUnit != null && sbaseDerivedUnit != null) {
-              return UnitDefinition.areEquivalent(ruleDerivedUnit, sbaseDerivedUnit);
-            }
+            return ValidationTools.haveEquivalentUnits(r, var);
           }
 
           return true;
@@ -193,12 +170,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           if (var != null && var instanceof SpeciesReference) {
 
             // check that unit from rule are equivalent to the stoichiometry unit: dimensionless
-            UnitDefinition ruleDerivedUnit = r.getDerivedUnitDefinition();
-            UnitDefinition sbaseDerivedUnit = var.getDerivedUnitDefinition();
-
-            if (ruleDerivedUnit != null && sbaseDerivedUnit != null) {
-              return UnitDefinition.areEquivalent(ruleDerivedUnit, sbaseDerivedUnit);
-            }
+            return ValidationTools.haveEquivalentUnits(r, var);
           }
 
           return true;
