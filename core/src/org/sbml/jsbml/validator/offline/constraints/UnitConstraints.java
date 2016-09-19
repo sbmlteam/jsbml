@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -24,6 +23,7 @@ import java.util.Set;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 
 /**
  * @author Roman
@@ -38,12 +38,17 @@ public class UnitConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
+      
+      if (level > 2) {
+        set.add(CORE_20421);
+      }
+      
       if (level > 1) {
         if (level == 2 && version == 1) {
           break;
         }
 
-        set.add(CORE_20412);
+        set.add(CORE_20412);        
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -88,6 +93,22 @@ public class UnitConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+    case CORE_20421:
+      func = new UnknownAttributeValidationFunction<Unit>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Unit unit) {
+          // 'kind', 'exponent', 'scale' and 'multiplier' are mandatory attributes
+          if (!unit.isSetKind() || !unit.isSetExponent()
+              || !unit.isSetScale() || !unit.isSetMultiplier())
+          {
+            return false;
+          }
+          return super.check(ctx, unit);
+        }
+      };
+      break;
+      
     default:
       break;
     }
