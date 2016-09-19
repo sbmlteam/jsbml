@@ -26,9 +26,14 @@ import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AssignmentRule;
+import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -76,6 +81,10 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
     case SBO_CONSISTENCY:
       break;
     case UNITS_CONSISTENCY:
+      set.add(CORE_10511);
+      set.add(CORE_10512);
+      set.add(CORE_10513);
+      set.add(CORE_10514);
       break;
     }
   }
@@ -94,6 +103,109 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<AssignmentRule> func = null;
 
     switch (errorCode) {
+      
+    case CORE_10511:
+      func = new ValidationFunction<AssignmentRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, AssignmentRule r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof Compartment) {
+
+            // check that unit from rule are equivalent to the compartment unit
+            UnitDefinition ruleDerivedUnit = r.getDerivedUnitDefinition();
+            UnitDefinition sbaseDerivedUnit = var.getDerivedUnitDefinition();
+
+            if (ruleDerivedUnit != null && sbaseDerivedUnit != null) {
+              return UnitDefinition.areEquivalent(ruleDerivedUnit, sbaseDerivedUnit);
+            }
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_10512:
+      func = new ValidationFunction<AssignmentRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, AssignmentRule r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof Species) {
+
+            // check that unit from rule are equivalent to the species unit
+            UnitDefinition ruleDerivedUnit = r.getDerivedUnitDefinition();
+            UnitDefinition sbaseDerivedUnit = var.getDerivedUnitDefinition();
+
+//            System.out.println("CORE_10512 - rule    unit = " + UnitDefinition.printUnits(ruleDerivedUnit));
+//            System.out.println("CORE_10512 - species unit = " + UnitDefinition.printUnits(sbaseDerivedUnit));
+            
+            if (ruleDerivedUnit != null && sbaseDerivedUnit != null) {
+              return UnitDefinition.areEquivalent(ruleDerivedUnit, sbaseDerivedUnit);
+            }
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_10513:
+      func = new ValidationFunction<AssignmentRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, AssignmentRule r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof Parameter) {
+
+            // check that unit from rule are equivalent to the parameter unit
+            UnitDefinition ruleDerivedUnit = r.getDerivedUnitDefinition();
+            UnitDefinition sbaseDerivedUnit = var.getDerivedUnitDefinition();
+
+//            System.out.println("CORE_10513 - rule unit = " + UnitDefinition.printUnits(ruleDerivedUnit));
+//            System.out.println("CORE_10513 - par  unit = " + UnitDefinition.printUnits(sbaseDerivedUnit));
+            
+            if (ruleDerivedUnit != null && sbaseDerivedUnit != null) {
+              return UnitDefinition.areEquivalent(ruleDerivedUnit, sbaseDerivedUnit);
+            }
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_10514:
+      func = new ValidationFunction<AssignmentRule>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, AssignmentRule r) {
+
+          Variable var = r.getVariableInstance();
+
+          if (var != null && var instanceof SpeciesReference) {
+
+            // check that unit from rule are equivalent to the stoichiometry unit: dimensionless
+            UnitDefinition ruleDerivedUnit = r.getDerivedUnitDefinition();
+            UnitDefinition sbaseDerivedUnit = var.getDerivedUnitDefinition();
+
+            if (ruleDerivedUnit != null && sbaseDerivedUnit != null) {
+              return UnitDefinition.areEquivalent(ruleDerivedUnit, sbaseDerivedUnit);
+            }
+          }
+
+          return true;
+        }
+      };
+      break;
+
     case CORE_20901:
       func = new ValidationFunction<AssignmentRule>() {
 
