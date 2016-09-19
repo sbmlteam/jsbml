@@ -54,6 +54,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Represents the 'fast' XML attribute of a reaction element.
    */
+  @Deprecated
   private Boolean fast;
   /**
    * Checks whether the {@link #fast} attribute has been set by using a default or
@@ -578,12 +579,22 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
+   * Returns the fast Boolean of this Reaction.
+   * 
+   * <p>In SBML Level 3 Version 2, the fast attribute has been removed: every Reaction in a Level 3 Version 2 Core
+   * model is equivalent to an SBML Level 3 Version 1 Reaction with a fast value of 'false'. This means that
+   * for Level 3 Version 2 Core, the speed of every Reaction will always be determined by its KineticLaw. To
+   * achieve the same or similar effects as setting the fast attribute to 'true' in a previous version of SBML,
+   * the {@link KineticLaw} should be constructed to produce a value in the desired time scale, or the reaction can be
+   * replaced with an {@link AssignmentRule} or {@link AlgebraicRule} object as in the example of Section 7.5 on p. 122
+   * of the SBML Level 3 Version 2 specification.
    * 
    * @return the fast Boolean of this Reaction.
    */
-  // Not using the isSetFast here to allow the value set in initDefaults() to
-  // be returned.
+  @Deprecated
   public boolean getFast() {
+    // Not using the isSetFast here to allow the value set in initDefaults() to
+    // be returned.
     return fast != null ? fast : false;
   }
 
@@ -962,6 +973,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * 
    * @return the boolean value of fast if it is set, {@code false} otherwise.
    */
+  @Deprecated
   public boolean isFast() {
     return getFast();
   }
@@ -1289,7 +1301,9 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Sets the fast Boolean of this {@link Reaction}.
    * 
    * @param fast
+   * @see #getFast()
    */
+  @Deprecated
   public void setFast(boolean fast) {
     Boolean oldFast = this.fast;
     this.fast = Boolean.valueOf(fast);
@@ -1380,6 +1394,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Sets the fast Boolean of this Reaction to {@code null}.
    */
+  @Deprecated
   public void unsetFast() {
     Boolean oldFast = fast;
     isSetFast = false;
