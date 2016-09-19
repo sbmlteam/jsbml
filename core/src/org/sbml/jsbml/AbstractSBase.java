@@ -2149,9 +2149,20 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       setMetaId(value);
       return true;
     } else if (attributeName.equals("id") && (getLevel() > 1)) {
-      setId(value);
+      // Testing if id is allowed for L3V1 and below
+      if ((! (this instanceof NamedSBase)) && (getLevelAndVersion().compareTo(3, 1) <= 0)) {
+        return false;
+      }
+      
+      setId(value);      
       return true;
+
     } else if (attributeName.equals("name")) {
+      // Testing if name is allowed for L3V1 and below
+      if ((! (this instanceof NamedSBase)) && (getLevelAndVersion().compareTo(3, 1) <= 0)) {
+        return false;
+      }
+      
       setName(value);
       if (isSetLevel() && (getLevel() == 1)) {
         setId(value);
