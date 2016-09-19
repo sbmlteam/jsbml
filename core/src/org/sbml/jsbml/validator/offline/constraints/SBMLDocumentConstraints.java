@@ -168,8 +168,6 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
           Map<String, String> namespaceMap = d.getDeclaredNamespaces();
           String sbmlNamespace = null;
           
-          System.out.println("CORE_20101 - " + namespaceMap.size());
-          
           if (namespaceMap.size() == 0) {
             // Something is wrong with the namespace and we found no parser for the file
             return false;
