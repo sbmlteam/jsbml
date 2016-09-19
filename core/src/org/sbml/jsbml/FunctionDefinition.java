@@ -220,7 +220,7 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
     ASTNode arg = null;
     for (int i = 0; i < getArgumentCount(); i++) {
       arg = getArgument(i);
-      if (arg.getName().equals(name)) {
+      if (arg.isString() && arg.getName().equals(name)) {
         return arg;
       }
     }
