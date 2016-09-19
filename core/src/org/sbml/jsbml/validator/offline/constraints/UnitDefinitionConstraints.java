@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -24,10 +23,13 @@ import java.util.Set;
 
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
@@ -69,12 +71,15 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
       } else if (level == 3) {
         set.add(CORE_20401);
         set.add(CORE_20410);
-        set.add(CORE_20413);
+        
+        if (version == 1) {
+          set.add(CORE_20413);
+        }
+        
         set.add(CORE_20414);
         set.add(CORE_20415);
         set.add(CORE_20419);
         set.add(CORE_20420);
-        set.add(CORE_20421);
       }
       
       // For level and version before L3V2
@@ -198,8 +203,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
     case CORE_20405:
       func = new ValidationFunction<UnitDefinition>() {
 
-
-  @Override
+        @Override
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
 
           if (ud.getId().equals("time")) {
@@ -312,12 +316,13 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
           boolean success = true;
 
-          for (Unit u : ud.getListOfUnits()) {
-            if (!u.isCelsius()) {
-              success = success && Unit.isUnitKind(u.getKind(), ctx.getLevel(),
-                ctx.getVersion());
+          if (ud.isSetListOfUnits()) {
+            for (Unit u : ud.getListOfUnits()) {
+              if (!u.isCelsius()) {
+                success = success && Unit.isUnitKind(u.getKind(), ctx.getLevel(),
+                    ctx.getVersion());
+              }
             }
-
           }
 
           return success;
@@ -332,13 +337,76 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
           boolean success = true;
 
-          for (Unit u : ud.getListOfUnits()) {
-            success = success && u.getOffset() == 0;
+          if (ud.isSetListOfUnits()) {
+            for (Unit u : ud.getListOfUnits()) {
+              success = success && u.getOffset() == 0;
+            }
           }
 
           return success;
         }
 
+      };
+      break;
+
+    case CORE_20413:
+      func = new ValidationFunction<UnitDefinition>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+          return !ud.isListOfUnitsEmpty();
+        }
+
+      };
+      break;
+
+    case CORE_20414:
+      func = new DuplicatedElementValidationFunction<UnitDefinition>("listOfUnits");
+      break;
+
+    case CORE_20415:
+      func = new ValidationFunction<UnitDefinition>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+          
+          if (ud.isSetListOfUnits() || ud.isListOfUnitsEmpty()) {
+            return new UnknownElementValidationFunction<>().check(ctx, ud.getListOfUnits());
+          }
+          
+          return true;
+        }
+
+      };
+      break;
+
+    case CORE_20419:
+      func = new UnknownAttributeValidationFunction<UnitDefinition>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+          // 'id' is a mandatory attribute
+          if (!ud.isSetId())
+          {
+            return false;
+          }
+          return super.check(ctx, ud);
+        }
+      };
+      break;
+      
+    case CORE_20420:
+      func = new ValidationFunction<UnitDefinition>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, UnitDefinition ud) {
+
+          if (ud.isSetListOfUnits() || ud.isListOfUnitsEmpty()) {
+            return new UnknownAttributeValidationFunction<>().check(ctx, ud.getListOfUnits());
+          }
+
+          return true;
+        }
       };
       break;
 

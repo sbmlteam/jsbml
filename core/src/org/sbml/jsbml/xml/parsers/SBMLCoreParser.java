@@ -1102,6 +1102,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         } else if (contextObject instanceof UnitDefinition) {
           UnitDefinition unitDefinition = (UnitDefinition) contextObject;
 
+          // keep order of elements for later validation
+          AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+
           if (elementName.equals("listOfUnits")) {
             ListOf<Unit> listOfUnits = (ListOf<Unit>) newContextObject;
             unitDefinition.setListOfUnits(listOfUnits);
