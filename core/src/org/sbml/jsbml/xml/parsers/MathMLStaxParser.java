@@ -556,7 +556,8 @@ public class MathMLStaxParser implements ReadingParser {
         && (mathContainer instanceof InitialAssignment || mathContainer instanceof Rule 
             || mathContainer instanceof Constraint || mathContainer instanceof KineticLaw
             || mathContainer instanceof Trigger || mathContainer instanceof Delay
-            || mathContainer instanceof EventAssignment || mathContainer instanceof Priority)) 
+            || mathContainer instanceof EventAssignment || mathContainer instanceof Priority
+            || mathContainer instanceof FunctionDefinition)) 
     {
       int nbMath = (int) ((mathContainer.isSetUserObjects() && mathContainer.getUserObject(JSBML_MATH_COUNT) != null) ? mathContainer.getUserObject(JSBML_MATH_COUNT) : 0);
       nbMath++;
