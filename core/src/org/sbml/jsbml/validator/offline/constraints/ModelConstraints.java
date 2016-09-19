@@ -92,6 +92,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       if (level == 3) {
         set.add(CORE_20216);
         set.add(CORE_20705);
+        addRangeToSet(set, CORE_20223, CORE_20232);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -631,6 +632,146 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       func = new UnknownAttributeValidationFunction<Model>();
       break;
       
+    case CORE_20223:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfFunctionDefinitions() || m.isListOfFunctionDefinitionsEmpty()) {
+            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfFunctionDefinitions());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20224:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfUnitDefinitions() || m.isListOfUnitDefinitionEmpty()) {
+            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfUnitDefinitions());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20225:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfCompartments() || m.isListOfCompartmentsEmpty()) {
+            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfCompartments());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20226:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfSpecies() || m.isListOfSpeciesEmpty()) {
+            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfSpecies());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20227:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfParameters() || m.isListOfParametersEmpty()) {
+            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfParameters());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20228:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfInitialAssignments() || m.isListOfInitialAssignmentsEmpty()) {
+            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfInitialAssignments());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20229:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfRules() || m.isListOfRulesEmpty()) {
+            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfRules());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20230:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfConstraints() || m.isListOfConstraintsEmpty()) {
+            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfConstraints());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20231:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfReactions() || m.isListOfReactionsEmpty()) {
+            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfReactions());
+          }
+
+          return true;
+        }
+      };
+      break;
+
+    case CORE_20232:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          if (m.isSetListOfEvents() || m.isListOfEventsEmpty()) {
+            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfEvents());
+          }
+
+          return true;
+        }
+      };
+      break;
+
     case CORE_20705:
       func = new ValidationFunction<Model>() {
 
