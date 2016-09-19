@@ -318,7 +318,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     }
     UnitDefinition ud = new UnitDefinition(id, level, version);
     ud.setName(name);
-    ud.addUnit(u);
+    ud.addUnit(u);  // TODO - set the JSBML.READING_IN_PROGRESS user object if defined in 'this'. (to help with validation)
     return ud;
   }
 
