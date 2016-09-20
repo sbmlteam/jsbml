@@ -1844,6 +1844,21 @@ public class Model extends AbstractNamedSBase
    *         this 'id' can be found.
    */
   public UnitDefinition findUnitDefinition(String id) {
+    return getUnitDefinitionById(id);
+  }
+
+  /**
+   * Returns a {@link UnitDefinition} element that has the given 'id' within
+   * this {@link Model} or {@code null} if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating an {@link UnitDefinition} element of the
+   *        {@link Model}.
+   * @return a {@link UniqueNamedSBase} element of the {@link Model} that has
+   *         the given 'id' as id or {@code null} if no such element with
+   *         this 'id' can be found.
+   */
+  public UnitDefinition getUnitDefinitionById(String id) {
     return mapOfUnitDefinitions == null ? null : mapOfUnitDefinitions.get(id);
   }
 
@@ -1874,6 +1889,23 @@ public class Model extends AbstractNamedSBase
     return true;
   }
 
+  /**
+   * Searches for the first instance of {@link AssignmentRule} within this
+   * {@link Model}'s {@link #listOfRules}, whose variable attribute is set to
+   * the value passed to this method.
+   * 
+   * @param variable the variable to search for.
+   * @return {@code null} if no {@link AssignmentRule} with the required property exists.
+   */
+  public AssignmentRule getAssignmentRuleByVariable(String variable) {
+    ExplicitRule rule = getRuleByVariable(variable);
+    
+    if (rule != null && rule instanceof AssignmentRule) {
+      return (AssignmentRule) rule;
+    }
+    
+    return null;
+  }
 
   /**
    * Returns the area units ID of this {@link Model}.
@@ -3259,6 +3291,24 @@ public class Model extends AbstractNamedSBase
     return getSymbolCount() + getLocalParameterCount();
   }
 
+  /**
+   * Searches for the first instance of {@link RateRule} within this
+   * {@link Model}'s {@link #listOfRules}, whose variable attribute is set to
+   * the value passed to this method.
+   * 
+   * @param variable the variable to search for.
+   * @return {@code null} if no {@link RateRule} with the required property exists.
+   */
+  public RateRule getRateRuleByVariable(String variable) {
+    ExplicitRule rule = getRuleByVariable(variable);
+    
+    if (rule != null && rule instanceof RateRule) {
+      return (RateRule) rule;
+    }
+    
+    return null;
+  }
+
 
   /**
    * Gets the n-th {@link Reaction} object in this Model.
@@ -3370,6 +3420,25 @@ public class Model extends AbstractNamedSBase
    */
   public int getRuleCount() {
     return isSetListOfRules() ? listOfRules.size() : 0;
+  }
+
+
+  /**
+   * Returns an {@link SBase} element of the model that has the given 'id'
+   * as id or {@code null} if no element is found.
+   * 
+   * @param id
+   *        an id indicating an element of the model.
+   * @return a {@link SBase} element of the model that has the given 'id'
+   *         as id or {@code null} if no element is found.
+   */
+  public SBase getSBaseById(String id) {
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    
+    if (found != null) {
+      return found;
+    }
+    return null;
   }
 
 
