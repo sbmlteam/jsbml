@@ -40,7 +40,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 0.8
  * @version $Rev$
  */
-public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, IdManager {
+public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, IdManager, UniqueNamedSBase {
 
   /**
    * Exception to be displayed in case that an illegal variant of unit is to

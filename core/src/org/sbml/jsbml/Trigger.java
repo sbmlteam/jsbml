@@ -33,7 +33,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 0.8
  * @version $Rev$
  */
-public class Trigger extends AbstractMathContainer {
+public class Trigger extends AbstractMathContainer implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.

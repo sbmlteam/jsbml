@@ -39,7 +39,7 @@ import org.sbml.jsbml.xml.XMLNode;
  * @since 0.8
  * @version $Rev$
  */
-public class Constraint extends AbstractMathContainer {
+public class Constraint extends AbstractMathContainer implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.

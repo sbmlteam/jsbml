@@ -29,7 +29,7 @@ package org.sbml.jsbml;
  * @since 0.8
  * @version $Rev$
  */
-public class Priority extends AbstractMathContainer {
+public class Priority extends AbstractMathContainer implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.

@@ -28,7 +28,7 @@ package org.sbml.jsbml;
  * @since 0.8
  * @version $Rev$
  */
-public class Delay extends AbstractMathContainer {
+public class Delay extends AbstractMathContainer implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.
