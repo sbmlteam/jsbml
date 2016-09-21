@@ -40,6 +40,8 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.util.filters.MetaIdFilter;
+import org.sbml.jsbml.util.filters.SIdFilter;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.xml.XMLAttributes;
@@ -61,7 +63,7 @@ import org.sbml.jsbml.xml.parsers.ParserManager;
 public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
-   * @author Nicolas Rodrigues
+   * @author Nicolas Rodriguez
    */
   private static enum NOTES_TYPE {
     /**
@@ -1462,6 +1464,38 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return declaredNamespaces;
   }
 
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jlibsbml.SBase#getElementBySId() 
+   */
+  @Override
+  public SBase getElementBySId(String id) {
+    @SuppressWarnings("unchecked")
+    List<SBase> foundSBases = (List<SBase>) this.filter(new SIdFilter(id), false, true);
+    
+    if (foundSBases != null && foundSBases.size() == 1) {
+      return foundSBases.get(0);
+    }
+    
+    return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jlibsbml.SBase#getElementByMetaId() 
+   */
+  @Override
+  public SBase getElementByMetaId(String id) {
+    @SuppressWarnings("unchecked")
+    List<SBase> foundSBases = (List<SBase>) this.filter(new MetaIdFilter(id), false, true);
+    
+    if (foundSBases != null && foundSBases.size() == 1) {
+      return foundSBases.get(0);
+    }
+    
+    return null;
+  }
 
   /*
    * (non-Javadoc)
