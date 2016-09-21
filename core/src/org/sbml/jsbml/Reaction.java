@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +37,6 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
  * @author Nicolas Rodriguez
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
  */
 public class Reaction extends AbstractNamedSBase
 implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
@@ -590,9 +588,15 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * of the SBML Level 3 Version 2 specification.
    * 
    * @return the fast Boolean of this Reaction.
+   * @throws PropertyNotAvailableException if used for SBML L3V2 or above.
    */
   @Deprecated
   public boolean getFast() {
+    
+    if (!isReadingInProgress() && getLevelAndVersion().compareTo(3, 2) >= 0) {
+      throw new PropertyNotAvailableException("fast", this);
+    }
+    
     // Not using the isSetFast here to allow the value set in initDefaults() to
     // be returned.
     return fast != null ? fast : false;
@@ -970,8 +974,19 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
+   *  Returns the boolean value of fast if it is set, {@code false} otherwise.
+   *  
+   * <p>In SBML Level 3 Version 2, the fast attribute has been removed: every Reaction in a Level 3 Version 2 Core
+   * model is equivalent to an SBML Level 3 Version 1 Reaction with a fast value of 'false'. This means that
+   * for Level 3 Version 2 Core, the speed of every Reaction will always be determined by its KineticLaw. To
+   * achieve the same or similar effects as setting the fast attribute to 'true' in a previous version of SBML,
+   * the {@link KineticLaw} should be constructed to produce a value in the desired time scale, or the reaction can be
+   * replaced with an {@link AssignmentRule} or {@link AlgebraicRule} object as in the example of Section 7.5 on p. 122
+   * of the SBML Level 3 Version 2 specification.
    * 
    * @return the boolean value of fast if it is set, {@code false} otherwise.
+   * @see #getFast()
+   * @throws PropertyNotAvailableException if used for SBML L3V2 or above.
    */
   @Deprecated
   public boolean isFast() {
@@ -1300,11 +1315,24 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Sets the fast Boolean of this {@link Reaction}.
    * 
-   * @param fast
-   * @see #getFast()
+   * <p>In SBML Level 3 Version 2, the fast attribute has been removed: every Reaction in a Level 3 Version 2 Core
+   * model is equivalent to an SBML Level 3 Version 1 Reaction with a fast value of 'false'. This means that
+   * for Level 3 Version 2 Core, the speed of every Reaction will always be determined by its KineticLaw. To
+   * achieve the same or similar effects as setting the fast attribute to 'true' in a previous version of SBML,
+   * the {@link KineticLaw} should be constructed to produce a value in the desired time scale, or the reaction can be
+   * replaced with an {@link AssignmentRule} or {@link AlgebraicRule} object as in the example of Section 7.5 on p. 122
+   * of the SBML Level 3 Version 2 specification.
+   * 
+   * @param fast - the value to set for the fast attribute
+   * @throws PropertyNotAvailableException if used for SBML L3V2 or above.
    */
   @Deprecated
   public void setFast(boolean fast) {
+    
+    if (!isReadingInProgress() && getLevelAndVersion().compareTo(3, 2) >= 0) {
+      throw new PropertyNotAvailableException("fast", this);
+    }
+    
     Boolean oldFast = this.fast;
     this.fast = Boolean.valueOf(fast);
     isSetFast = true;
