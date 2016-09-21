@@ -20,50 +20,36 @@
  */
 package org.sbml.jsbml.util.filters;
 
-import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.SBase;
 
 /**
- * This filter only accepts instances of {@link NamedSBase} with the name as
+ * This filter only accepts instances of {@link SBase} with the metaid as
  * given in the constructor of this object.
  * 
- * @author Andreas Dr&auml;ger
- * @date 2010-05-19
- * @since 0.8
+ * @author rodrigue
+ * @since 1.2
  */
-public class NameFilter implements Filter {
+public class MetaIdFilter implements Filter {
 
   /**
-   * The desired identifier for NamedSBases to be acceptable.
+   * The desired identifier for SBases to be acceptable.
    */
-  String id;
-  /**
-   * The desired name for NamedSBases to be acceptable.
-   */
-  String name;
+  String metaid;
 
   /**
-   * 
+   * Creates a new instance of {@link MetaIdFilter}.
    */
-  public NameFilter() {
-    this(null, null);
+  public MetaIdFilter() {
+    this(null);
   }
 
   /**
+   * Creates a new instance of {@link MetaIdFilter}.
    * 
-   * @param id
+   * @param metaid the metaid to search for
    */
-  public NameFilter(String id) {
-    this(id, null);
-  }
-
-  /**
-   * 
-   * @param id
-   * @param name
-   */
-  public NameFilter(String id, String name) {
-    this.id = id;
-    this.name = name;
+  public MetaIdFilter(String metaid) {
+    this.metaid = metaid;
   }
 
   /* (non-Javadoc)
@@ -71,12 +57,9 @@ public class NameFilter implements Filter {
    */
   @Override
   public boolean accepts(Object o) {
-    if (o instanceof NamedSBase) {
-      NamedSBase nsb = (NamedSBase) o;
-      if (nsb.isSetId() && (id != null) && nsb.getId().equals(id)) {
-        return true;
-      }
-      if (nsb.isSetName() && (name != null) && nsb.getName().equals(name)) {
+    if (o instanceof SBase) {
+      SBase sbase = (SBase) o;
+      if (sbase.isSetMetaId() && (metaid != null) && sbase.getMetaId().equals(metaid)) {
         return true;
       }
     }
@@ -84,31 +67,21 @@ public class NameFilter implements Filter {
   }
 
   /**
-   * @return the id
+   * Returns the metaid that will be searched for by the filter.
+   * 
+   * @return the metaid that will be searched for by the filter.
    */
-  public String getId() {
-    return id;
+  public String getMetaId() {
+    return metaid;
   }
 
   /**
-   * @return the name
+   * Sets the metaid that will be searched for by the filter.
+   * 
+   * @param metaid the metaid to set
    */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * @param id the id to set
-   */
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  /**
-   * @param name the name to set
-   */
-  public void setName(String name) {
-    this.name = name;
+  public void setMetaId(String metaid) {
+    this.metaid = metaid;
   }
 
 }

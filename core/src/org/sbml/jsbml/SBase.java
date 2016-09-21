@@ -429,6 +429,33 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public Map<String, String> getDeclaredNamespaces();
 
   /**
+   * Returns the first child element found that has the given id.
+   * 
+   * <p>This operation searches the model-wide SId identifier type namespace.
+   * So it will not find for example {@link LocalParameter} or {@link UnitDefinition}.<p/>
+   * 
+   * <p>This method is here for compatibility with libSBML, it is less efficient than
+   * the methods that are located in the {@link Model} and {@link SBMLDocument} classes.</p>
+   * 
+   * @param id string representing the id of the {@link SBase} to find.
+   * @return the first child element found that has the given id.
+   * @see Model#getSBaseById(String)
+   */
+  public SBase getElementBySId(String id);
+
+  /**
+   * Returns the first child element found that has the given metaid.
+   * 
+   * <p>This method is here for compatibility with libSBML, it is less efficient than
+   * the methods that are located in the {@link Model} and {@link SBMLDocument} classes.</p>
+   * 
+   * @param metaid string representing the metaid of the {@link SBase} to find.
+   * @return the first child element found that has the given metaid.
+   * @see SBMLDocument#findSBase(String)
+   */
+  public SBase getElementByMetaId(String metaid);
+
+  /**
    * Returns the XML element name of this object.
    * 
    * @return the XML element name of this object.
@@ -1194,5 +1221,6 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Sets the name value to {@code null}.
    */
   public void unsetName();
+
 
 }

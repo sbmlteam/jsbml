@@ -836,6 +836,9 @@ public class SBMLDocument extends AbstractSBase {
    * {@link SBMLDocument} or null
    * if no such {@link SBase} is found.
    * 
+   * <p>This method make use of {@link HashMap} so it is more efficient
+   * to search for metaid than anywhere else down in the SBML hierarchy.</p>
+   * 
    * @param metaid
    *        - the metaid of {@link SBase} to find
    * @return the {@link SBase} with the given metaid or null
