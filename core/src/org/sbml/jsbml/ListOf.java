@@ -48,7 +48,7 @@ import org.sbml.jsbml.util.filters.Filter;
  * @version $Rev$
  * @param <T>
  */
-public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
+public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, UniqueNamedSBase {
 
   /**
    * This enum lists all the possible names of the listXXX components. If the

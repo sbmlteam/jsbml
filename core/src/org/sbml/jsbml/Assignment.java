@@ -30,7 +30,7 @@ package org.sbml.jsbml;
  * @since 0.8
  * @version $Rev$
  */
-public interface Assignment extends MathContainer {
+public interface Assignment extends MathContainer, UniqueNamedSBase {
 
   /**
    * Returns the variableID of this {@link Assignment}. Returns an empty

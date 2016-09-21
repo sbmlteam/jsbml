@@ -29,7 +29,7 @@ package org.sbml.jsbml;
  * @since 0.8
  * @version $Rev$
  */
-public abstract class Rule extends AbstractMathContainer {
+public abstract class Rule extends AbstractMathContainer implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.
