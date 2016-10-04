@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,11 +24,10 @@ package org.sbml.jsbml;
  * This class represents the priority element in SBML.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-10-21
  * @since 0.8
- * @version $Rev$
+ * 
  */
-public class Priority extends AbstractMathContainer implements UniqueNamedSBase {
+public class Priority extends AbstractMathContainer implements UniqueSId {
 
   /**
    * Generated serial version identifier.

@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,9 +36,8 @@ import org.sbml.jsbml.util.compilers.FormulaCompiler;
  * Represents the unit XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2009-08-31
  * @since 0.8
- * @version $Rev$
+ * 
  */
 public class Unit extends AbstractSBase implements UniqueNamedSBase {
 
@@ -56,7 +53,6 @@ public class Unit extends AbstractSBase implements UniqueNamedSBase {
    * formula symbol of the {@link Kind} ({@link #getSymbol()}).
    * 
    * @author Andreas Dr&auml;ger
-   * @date 2009-08-31
    */
   public static enum Kind {
     /**

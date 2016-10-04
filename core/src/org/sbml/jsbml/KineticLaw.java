@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,9 +37,9 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
+ * 
  */
-public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, IdManager, UniqueNamedSBase {
+public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, IdManager, UniqueSId {
 
   /**
    * Exception to be displayed in case that an illegal variant of unit is to

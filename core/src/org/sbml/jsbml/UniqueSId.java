@@ -22,19 +22,11 @@ package org.sbml.jsbml;
 
 /**
  * This interface is used to tag all those elements
- * whose identifier must be unique within an SBML {@link Model} before SBML Level 3 Version 2. Since Level 2
- * Version 1 {@link UnitDefinition}s are allowed to have their own id-name
- * space. Therefore, {@link UnitDefinition}s should not implement this interface
- * introducing an additional check for Level 1 models.
+ * whose identifier must be unique within an SBML {@link Model}.
  * 
- * <p>To identified elements whose identifier must be unique for SBML Level 3 Version 2
- * or above, we created the interface {@link UniqueSId}.
- * 
- * @author Andreas Dr&auml;ger
- * @since 0.8
- * @date 19.09.2011
- * @see UniqueSId
+ * @author rodrigue
+ * @since 1.2
  */
-public interface UniqueNamedSBase extends NamedSBase, UniqueSId {
+public interface UniqueSId {
 
 }
