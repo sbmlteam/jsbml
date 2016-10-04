@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -45,10 +44,9 @@ import org.sbml.jsbml.util.filters.Filter;
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
- * @param <T>
+ * 
  */
-public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, UniqueNamedSBase {
+public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, UniqueSId {
 
   /**
    * This enum lists all the possible names of the listXXX components. If the

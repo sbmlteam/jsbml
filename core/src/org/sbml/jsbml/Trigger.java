@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,9 +30,9 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
+ * 
  */
-public class Trigger extends AbstractMathContainer implements UniqueNamedSBase {
+public class Trigger extends AbstractMathContainer implements UniqueSId {
 
   /**
    * Generated serial version identifier.
