@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -90,7 +89,6 @@ import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
  * Tests the registration and un-registration of global or local id using
  * package elements.
  * 
- * @version $Rev$
  * @since 1.0
  */
 @SuppressWarnings("deprecation")
@@ -257,9 +255,9 @@ public class UnregisterPackageTests {
     compModelDef2.createSubmodel("subM1");
     compModelDef2.createSubmodel("subM2");
 
-    assertTrue(modelDef2.findUniqueNamedSBase("subM1") != null);
-    assertTrue(model.findUniqueNamedSBase("subM1") == null);
-    assertTrue(modelDef.findUniqueNamedSBase("subM1") == null);
+    assertTrue(modelDef2.findUniqueSBase("subM1") != null);
+    assertTrue(model.findUniqueSBase("subM1") == null);
+    assertTrue(modelDef.findUniqueSBase("subM1") == null);
 
     SBMLDocument clonedDoc = doc.clone();
     Model clonedModel = clonedDoc.getModel();
@@ -271,12 +269,12 @@ public class UnregisterPackageTests {
 
     assertTrue(compMainModelPluginCloned.getPortCount() == 2);
     assertTrue(clonedModel.getSpeciesCount() == 3);
-    assertTrue(clonedModel.findUniqueNamedSBase("S2") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("S3") != null);
+    assertTrue(clonedModel.findUniqueSBase("S2") != null);
+    assertTrue(clonedModel.findUniqueSBase("S3") != null);
     assertTrue(compMainModelPluginCloned.getPort(0).getId().equals("S3"));
     assertTrue(compMainModelPluginCloned.getPort("S3") != null);
 
-    assertTrue(clonedModelDef2.findUniqueNamedSBase("subM1") != null);
+    assertTrue(clonedModelDef2.findUniqueSBase("subM1") != null);
     assertTrue(clonedModelDef2Plugin.getPortCount() == 3);
     assertTrue(clonedModelDef2Plugin.getPort("test1") != null);
 
@@ -295,11 +293,11 @@ public class UnregisterPackageTests {
     // Testing un-registration of SubModel
 
     compModelDef2.removeSubmodel("subM1");
-    assertTrue(modelDef2.findUniqueNamedSBase("subM1") == null);
+    assertTrue(modelDef2.findUniqueSBase("subM1") == null);
 
     compModelDef2.unsetListOfSubmodels();
     compModelDef2.unsetListOfPorts();
-    assertTrue(modelDef2.findUniqueNamedSBase("subM2") == null);
+    assertTrue(modelDef2.findUniqueSBase("subM2") == null);
     assertTrue(compModelDef2.getPortCount() == 0);
     assertTrue(compModelDef2.getPort("test1") == null);
 
@@ -371,7 +369,7 @@ public class UnregisterPackageTests {
    */
   @Test public void testCompCloning() {
 
-    assertTrue(model.findUniqueNamedSBase("layout1") != null);
+    assertTrue(model.findUniqueSBase("layout1") != null);
 
     ListOf<Submodel> listOfSubmodels = compMainModel.getListOfSubmodels();
     listOfSubmodels.setMetaId("metaid_listOfSubmodels");
@@ -386,19 +384,19 @@ public class UnregisterPackageTests {
 
     clonedDoc.getModel().unsetPlugin("layout");
 
-    assertTrue(clonedDoc.getModel().findUniqueNamedSBase("layout1") == null);
+    assertTrue(clonedDoc.getModel().findUniqueSBase("layout1") == null);
     assertTrue(clonedDoc.findSBase("layout_metaid1") == null);
 
     clonedDoc.getModel().addPlugin("layout", clonedLayout);
 
     assertTrue(clonedDoc.findSBase("layout_metaid1") != null);
-    assertTrue(clonedDoc.getModel().findUniqueNamedSBase("layout1") != null);
+    assertTrue(clonedDoc.getModel().findUniqueSBase("layout1") != null);
 
     // the SBasePlugin present is unset automatically in this case
     clonedDoc.getModel().addPlugin("layout", clonedLayout.clone());
 
     assertTrue(clonedDoc.findSBase("layout_metaid1") != null);
-    assertTrue(clonedDoc.getModel().findUniqueNamedSBase("layout1") != null);
+    assertTrue(clonedDoc.getModel().findUniqueSBase("layout1") != null);
 
     // the package will be enabled automatically before writing
     assertTrue(!clonedDoc.isPackageEnabled("comp"));
@@ -515,8 +513,8 @@ public class UnregisterPackageTests {
     assertTrue(fbcModel.getListOfFluxBounds().getLevel() == 3);
     assertTrue(fbcModel.getListOfFluxBounds().getVersion() == 1);
 
-    assertTrue(model.findUniqueNamedSBase("FB2") != null);
-    assertTrue(model.findUniqueNamedSBase("O1") != null);
+    assertTrue(model.findUniqueSBase("FB2") != null);
+    assertTrue(model.findUniqueSBase("O1") != null);
 
     assertTrue(doc.findSBase("FB1").equals(fluxBound1));
 
@@ -565,8 +563,8 @@ public class UnregisterPackageTests {
 
     model.unsetPlugin("fbc");
 
-    assertTrue(model.findUniqueNamedSBase("FB2") == null);
-    assertTrue(model.findUniqueNamedSBase("O1") == null);
+    assertTrue(model.findUniqueSBase("FB2") == null);
+    assertTrue(model.findUniqueSBase("O1") == null);
     assertTrue(doc.findSBase("FB1") == null);
 
     Model clonedModel = model.clone();
@@ -583,8 +581,8 @@ public class UnregisterPackageTests {
     assertTrue(clonedFbcModel.getListOfFluxBounds().getLevel() == 3);
     assertTrue(clonedFbcModel.getListOfFluxBounds().getVersion() == 1);
 
-    assertTrue(clonedModel.findUniqueNamedSBase("FB2") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("O1") != null);
+    assertTrue(clonedModel.findUniqueSBase("FB2") != null);
+    assertTrue(clonedModel.findUniqueSBase("O1") != null);
 
     assertTrue(newDoc.findSBase("FB1").equals(fluxBound1));
 
@@ -632,9 +630,9 @@ public class UnregisterPackageTests {
 
     model.addPlugin(QualConstants.namespaceURI_L3V1V1, qualModel);
 
-    assertTrue(model.findUniqueNamedSBase("QS1").equals(qs1));
-    assertTrue(model.findUniqueNamedSBase("QS3") != null);
-    assertTrue(model.findUniqueNamedSBase("T2") != null);
+    assertTrue(model.findUniqueSBase("QS1").equals(qs1));
+    assertTrue(model.findUniqueSBase("QS3") != null);
+    assertTrue(model.findUniqueSBase("T2") != null);
     assertTrue(doc.findSBase("QS1") != null);
     assertTrue(qs1.getPackageVersion() == 1);
     assertTrue(qs1.getNamespace().equals(QualConstants.namespaceURI_L3V1V1));
@@ -654,9 +652,9 @@ public class UnregisterPackageTests {
     assertTrue(clonedDoc.isPackageEnabled(CompConstants.shortLabel) == true);
 
     assertTrue(clonedQualModel.getQualitativeSpeciesCount() == 4);
-    assertTrue(clonedModel.findUniqueNamedSBase("QS1").equals(qs1));
-    assertTrue(clonedModel.findUniqueNamedSBase("QS3") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("T2") != null);
+    assertTrue(clonedModel.findUniqueSBase("QS1").equals(qs1));
+    assertTrue(clonedModel.findUniqueSBase("QS3") != null);
+    assertTrue(clonedModel.findUniqueSBase("T2") != null);
     assertTrue(clonedDoc.findSBase("QS1") != null);
 
     // test qualitativeSpecies clone method
@@ -737,9 +735,9 @@ public class UnregisterPackageTests {
 
     assertTrue(clonedGroupModelPlugin.getGroupCount() == 2);
     assertTrue(clonedDoc.findSBase("GM3") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("GM3") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("G1") != null);
-//    assertTrue(clonedModel.findUniqueNamedSBase("GMC1") != null);
+    assertTrue(clonedModel.findUniqueSBase("GM3") != null);
+    assertTrue(clonedModel.findUniqueSBase("G1") != null);
+//    assertTrue(clonedModel.findUniqueSBase("GMC1") != null);
 
   }
 
@@ -758,36 +756,36 @@ public class UnregisterPackageTests {
     layout.createTextGlyph("LTG1");
 
     assertTrue(layoutModel.getLayoutCount() == 2);
-    assertTrue(model.findUniqueNamedSBase("L1") != null);
-    assertTrue(model.findUniqueNamedSBase("LCG1") != null);
-    assertTrue(model.findUniqueNamedSBase("LGG1") != null);
-    assertTrue(model.findUniqueNamedSBase("LRG1") != null);
-    assertTrue(model.findUniqueNamedSBase("LSG1") != null);
-    assertTrue(model.findUniqueNamedSBase("LTG1") != null);
+    assertTrue(model.findUniqueSBase("L1") != null);
+    assertTrue(model.findUniqueSBase("LCG1") != null);
+    assertTrue(model.findUniqueSBase("LGG1") != null);
+    assertTrue(model.findUniqueSBase("LRG1") != null);
+    assertTrue(model.findUniqueSBase("LSG1") != null);
+    assertTrue(model.findUniqueSBase("LTG1") != null);
 
     SBMLDocument clonedDoc = doc.clone();
     Model clonedModel = clonedDoc.getModel();
 
-    assertTrue(clonedModel.findUniqueNamedSBase("LRG1") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("L1") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("submodel1") != null);
+    assertTrue(clonedModel.findUniqueSBase("LRG1") != null);
+    assertTrue(clonedModel.findUniqueSBase("L1") != null);
+    assertTrue(clonedModel.findUniqueSBase("submodel1") != null);
 
 
     layout.removeReactionGlyph(0);
     layout.removeSpeciesGlyph("LSG1");
     layout.removeTextGlyph(layout.getTextGlyph(0));
 
-    assertTrue(model.findUniqueNamedSBase("LCG1") != null);
-    assertTrue(model.findUniqueNamedSBase("LGG1") != null);
-    assertTrue(model.findUniqueNamedSBase("LRG1") == null);
-    assertTrue(model.findUniqueNamedSBase("LSG1") == null);
-    assertTrue(model.findUniqueNamedSBase("LTG1") == null);
+    assertTrue(model.findUniqueSBase("LCG1") != null);
+    assertTrue(model.findUniqueSBase("LGG1") != null);
+    assertTrue(model.findUniqueSBase("LRG1") == null);
+    assertTrue(model.findUniqueSBase("LSG1") == null);
+    assertTrue(model.findUniqueSBase("LTG1") == null);
 
-    assertTrue(clonedModel.findUniqueNamedSBase("LCG1") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("LGG1") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("LRG1") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("LSG1") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("LTG1") != null);
+    assertTrue(clonedModel.findUniqueSBase("LCG1") != null);
+    assertTrue(clonedModel.findUniqueSBase("LGG1") != null);
+    assertTrue(clonedModel.findUniqueSBase("LRG1") != null);
+    assertTrue(clonedModel.findUniqueSBase("LSG1") != null);
+    assertTrue(clonedModel.findUniqueSBase("LTG1") != null);
 
   }
 
@@ -835,21 +833,21 @@ public class UnregisterPackageTests {
     //    }
     //
 
-    assertTrue(model.findUniqueNamedSBase("L1") != null);
-    assertTrue(model.findUniqueNamedSBase("RGRI1") != null);
-    assertTrue(model.findUniqueNamedSBase("RLRI1") != null);
-    assertTrue(model.findUniqueNamedSBase("RLS1") != null);
-    assertTrue(model.findUniqueNamedSBase("RGr1") != null);
+    assertTrue(model.findUniqueSBase("L1") != null);
+    assertTrue(model.findUniqueSBase("RGRI1") != null);
+    assertTrue(model.findUniqueSBase("RLRI1") != null);
+    assertTrue(model.findUniqueSBase("RLS1") != null);
+    assertTrue(model.findUniqueSBase("RGr1") != null);
     assertTrue(doc.findSBase("RI1") != null);
 
     SBMLDocument clonedDoc = doc.clone();
     Model clonedModel = clonedDoc.getModel();
 
-    assertTrue(clonedModel.findUniqueNamedSBase("L1") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("RLRI1") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("RGRI1") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("RLS1") != null);
-    assertTrue(clonedModel.findUniqueNamedSBase("RGr1") != null);
+    assertTrue(clonedModel.findUniqueSBase("L1") != null);
+    assertTrue(clonedModel.findUniqueSBase("RLRI1") != null);
+    assertTrue(clonedModel.findUniqueSBase("RGRI1") != null);
+    assertTrue(clonedModel.findUniqueSBase("RLS1") != null);
+    assertTrue(clonedModel.findUniqueSBase("RGr1") != null);
 
 
   }

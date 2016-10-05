@@ -34,7 +34,7 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -405,7 +405,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             
             if (m != null && (! (parent instanceof KineticLaw))) {
 
-              NamedSBase sbase = m.findUniqueNamedSBase(id);
+              SBase sbase = m.findUniqueSBase(id);
               
               // If the id doesn't match anything, it can be a localParameter
               if (sbase == null && (m.findLocalParameters(id).size() > 0)) {

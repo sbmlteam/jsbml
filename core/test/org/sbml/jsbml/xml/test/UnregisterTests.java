@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,6 +30,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.Event;
 import org.sbml.jsbml.IdentifierException;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
@@ -42,8 +42,9 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 
 /**
+ * Tests the registration and un-registration of global or local id using
+ * core elements.
  * 
- * @version $Rev$
  * @since 1.0
  */
 public class UnregisterTests {
@@ -71,6 +72,8 @@ public class UnregisterTests {
     Compartment comp = model.createCompartment("cell");
     comp.setMetaId("cell");
 
+    model.getListOfSpecies().setId("LOS");
+    model.getListOfSpecies().setMetaId("LOS");
     Species s1 = model.createSpecies("S1", comp);
     s1.setMetaId("S1");
 
@@ -79,6 +82,8 @@ public class UnregisterTests {
 
     Reaction r1 = model.createReaction("R1");
     r1.setMetaId("R1");
+    r1.getKineticLaw().setId("KL1");
+    r1.getKineticLaw().setMetaId("KL1");
 
     SpeciesReference reactant = model.createReactant("SP1");
     reactant.setMetaId("SP1");
@@ -93,6 +98,10 @@ public class UnregisterTests {
 
     Constraint c1 = model.createConstraint();
     c1.setMetaId("c0");
+    
+    Event e1 = model.createEvent("E1");
+    
+    // TODO delay, trigger, eventAssignemnt
   }
 
   /**
