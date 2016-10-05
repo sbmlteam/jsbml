@@ -994,6 +994,15 @@ public class SBO {
   public static int getPhysicalCompartment() {
     return 290;
   }
+  
+  /**
+   * An enumeration of the concentration of magnesium (Mg) in solution (pMg = -log10[Mg2+]).
+   * 
+   * @return 641
+   */
+  public static int getPMg() {
+    return 641;
+  }
 
   /**
    * 
