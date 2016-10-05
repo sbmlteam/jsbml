@@ -29,7 +29,7 @@ import org.sbml.jsbml.SBase;
  * @author rodrigue
  * @since 1.2
  */
-public class SIdFilter implements Filter {
+public class IdFilter implements Filter {
 
   /**
    * The desired identifier for SBases to be acceptable.
@@ -37,18 +37,18 @@ public class SIdFilter implements Filter {
   String id;
 
   /**
-   * Creates a new instance of {@link SIdFilter}.
+   * Creates a new instance of {@link IdFilter}.
    */
-  public SIdFilter() {
+  public IdFilter() {
     this(null);
   }
 
   /**
-   * Creates a new instance of {@link SIdFilter}.
+   * Creates a new instance of {@link IdFilter}.
    * 
    * @param id the id to search for
    */
-  public SIdFilter(String id) {
+  public IdFilter(String id) {
     this.id = id;
   }
 
