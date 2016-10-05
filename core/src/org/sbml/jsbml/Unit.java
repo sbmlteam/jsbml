@@ -39,7 +39,7 @@ import org.sbml.jsbml.util.compilers.FormulaCompiler;
  * @since 0.8
  * 
  */
-public class Unit extends AbstractSBase implements UniqueNamedSBase {
+public class Unit extends AbstractSBase implements UniqueSId {
 
   /**
    * This enumeration contains an exhaustive list of all available unit kinds

@@ -21,7 +21,6 @@
 package org.sbml.jsbml.util.filters;
 
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * This filter only accepts instances of {@link SBase} with the id as
@@ -58,7 +57,7 @@ public class SIdFilter implements Filter {
    */
   @Override
   public boolean accepts(Object o) {
-    if (o instanceof UniqueNamedSBase) {
+    if (o instanceof SBase) {
       SBase sbase = (SBase) o;
       if (sbase.isSetId() && (id != null) && sbase.getId().equals(id)) {
         return true;

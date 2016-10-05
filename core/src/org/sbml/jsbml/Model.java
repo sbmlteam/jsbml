@@ -1,7 +1,5 @@
 /*
- * $Id$ $URL:
- * https://jsbml
- * .svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/Model.java $
+ *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -54,7 +52,7 @@ import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
+ *
  */
 public class Model extends AbstractNamedSBase
   implements UniqueNamedSBase, IdManager {
@@ -169,9 +167,9 @@ public class Model extends AbstractNamedSBase
 
   /**
    * For internal computation: a mapping between their identifiers and
-   * the {@link UniqueNamedSBase}s in {@link Model}s themselves:
+   * the {@link UniqueSId}s in {@link Model}s themselves:
    */
-  private Map<String, UniqueNamedSBase> mapOfUniqueNamedSBases;
+  private Map<String, UniqueSId> mapOfUniqueNamedSBases;
 
   /**
    * A mapping between their identifiers and associated {@link UnitDefinition}
@@ -653,7 +651,7 @@ public class Model extends AbstractNamedSBase
    * {@link Compartment}
    * with the given identifier.
    * 
-   * @param id
+   * @param id the id to search for
    * @return {@code true} if this model contains a reference to a
    *         {@link Compartment}
    *         with the given identifier.
@@ -667,7 +665,7 @@ public class Model extends AbstractNamedSBase
    * Returns {@code true} if this model contains a reference to a
    * {@link FunctionDefinition} with the given identifier.
    * 
-   * @param id
+   * @param id the id to search for
    * @return {@code true} if this model contains a reference to a
    *         {@link FunctionDefinition} with the given identifier.
    */
@@ -681,7 +679,7 @@ public class Model extends AbstractNamedSBase
    * {@link Parameter} with
    * the given identifier.
    * 
-   * @param id
+   * @param id the id to search for
    * @return {@code true} if this model contains a reference to a
    *         {@link Parameter} with
    *         the given identifier.
@@ -729,7 +727,7 @@ public class Model extends AbstractNamedSBase
    * given
    * {@link Species}.
    * 
-   * @param id
+   * @param id the id to search for
    * @return {@code true} if this {@link Model} contains a reference to the
    *         given
    *         {@link Species}.
@@ -744,7 +742,7 @@ public class Model extends AbstractNamedSBase
    * given
    * {@link UniqueNamedSBase}.
    * 
-   * @param id
+   * @param id the id to search for
    * @return {@code true} if this {@link Model} contains a reference to the
    *         given
    *         {@link UniqueNamedSBase}.
@@ -1182,8 +1180,8 @@ public class Model extends AbstractNamedSBase
    * Creates an instance of {@link SpeciesReference} and adds it to the last
    * {@link Reaction} element that has been added to this {@link Model}.
    * 
-   * @param id
-   * @return
+   * @param id the product id
+   * @return the new instance of {@link SpeciesReference}
    */
   public SpeciesReference createProduct(String id) {
     Reaction lastReaction = getLastElementOf(listOfReactions);
@@ -1533,7 +1531,7 @@ public class Model extends AbstractNamedSBase
    *         given 'id' as id or {@code null} if no element is found.
    */
   public CallableSBase findCallableSBase(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof CallableSBase)) {
       return (CallableSBase) found;
     }
@@ -1549,7 +1547,7 @@ public class Model extends AbstractNamedSBase
    * {@link UnitDefinition#areIdentical(UnitDefinition, UnitDefinition)},
    * {@code null} will be returned.
    * 
-   * @param unitDefinition
+   * @param unitDefinition a {@link UnitDefinition}
    * @return A {@link UnitDefinition} object that is already part of this
    *         {@link Model}'s {@link #listOfUnitDefinitions} and satisfies the
    *         condition of
@@ -1567,7 +1565,7 @@ public class Model extends AbstractNamedSBase
    * Finds all instances of {@link LocalParameter} in this {@link Model} and
    * adds them to a {@link List}.
    * 
-   * @param id
+   * @param id an id indicating a {@link LocalParameter} element of the {@link Model}.
    * @return A {@link List} of all {@link LocalParameter} instances with the
    *         given name or identifier. This {@link List} can be empty, but never
    *         {@code null}.
@@ -1623,7 +1621,8 @@ public class Model extends AbstractNamedSBase
 
   /**
    * Returns a {@link NamedSBase} element of the model that has the given 'id'
-   * as id or {@code null} if no element is found.
+   * as id or {@code null} if no element is found. This method will return
+   * only elements that had an id before SBML L3V2. 
    * 
    * @param id
    *        an id indicating an element of the model.
@@ -1631,9 +1630,9 @@ public class Model extends AbstractNamedSBase
    *         as id or {@code null} if no element is found.
    */
   public NamedSBase findNamedSBase(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof NamedSBase)) {
-      return found;
+      return (NamedSBase) found;
     }
     return null;
   }
@@ -1655,7 +1654,7 @@ public class Model extends AbstractNamedSBase
    * @see #findCallableSBase(String)
    */
   public NamedSBaseWithDerivedUnit findNamedSBaseWithDerivedUnit(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof NamedSBaseWithDerivedUnit)) {
       return (NamedSBaseWithDerivedUnit) found;
     }
@@ -1665,14 +1664,14 @@ public class Model extends AbstractNamedSBase
 
   /**
    * Searches for an instance of {@link Quantity} within all of this
-   * {@link Model}'s components that has the given identifier or name attribute
+   * {@link Model}'s components that has the given identifier (or name attribute for SBML level 1)
    * and returns it. There might be multiple instances of {@link LocalParameter}
    * with the same identifier or name, each located in different
    * {@link Reaction}s. In this case, the first match will be returned. Note
    * that also global {@link Parameter} instances have a higher priority and are
    * returned first.
    * 
-   * @param id
+   * @param id an id indicating an {@link Quantity} element of the {@link Model}.
    * @return the {@link Compartment}, {@link Species}, {@link SpeciesReference}
    *         or {@link Parameter}, or the first {@link LocalParameter} which has
    *         'id' as id.
@@ -1692,21 +1691,22 @@ public class Model extends AbstractNamedSBase
 
   /**
    * Searches for an instance of {@link QuantityWithUnit} within all of this
-   * {@link Model}'s components that has the given identifier or name attribute
+   * {@link Model}'s components that has the given identifier (or name attribute for SBML level 1)
    * and returns it. There might be multiple instances of {@link LocalParameter}
    * with the same identifier or name, each located in different
    * {@link Reaction}s. In this case, the first match will be returned. Note
    * that also global {@link Parameter} instances have a higher priority and are
    * returned first.
    * 
-   * @param idOrName
-   * @return
+   * @param id an id indicating a {@link QuantityWithUnit} element of the
+   *        {@link Model}.
+   * @return a {@link QuantityWithUnit} with the given id
    * @see #findLocalParameters(String)
    */
-  public QuantityWithUnit findQuantityWithUnit(String idOrName) {
-    QuantityWithUnit q = findSymbol(idOrName);
+  public QuantityWithUnit findQuantityWithUnit(String id) {
+    QuantityWithUnit q = findSymbol(id);
     if (q == null) {
-      List<LocalParameter> list = findLocalParameters(idOrName);
+      List<LocalParameter> list = findLocalParameters(id);
       if (!list.isEmpty()) {
         return list.get(0);
       }
@@ -1768,7 +1768,7 @@ public class Model extends AbstractNamedSBase
    *         {@code null} if it doesn't exist.
    */
   public SimpleSpeciesReference findSimpleSpeciesReference(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof SimpleSpeciesReference)) {
       return (SimpleSpeciesReference) found;
     }
@@ -1801,13 +1801,13 @@ public class Model extends AbstractNamedSBase
    * Searches in the list of {@link Compartment}s, {@link Species}, and
    * {@link Parameter}s for the element with the given identifier.
    * 
-   * @param id
+   * @param id an id indicating an {@link Symbol} element of the {@link Model}.
    * @return a {@link Symbol} element with the given identifier or {@code null}
    *         if there
    *         is no such element.
    */
   public Symbol findSymbol(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof Symbol)) {
       return (Symbol) found;
     }
@@ -1816,19 +1816,39 @@ public class Model extends AbstractNamedSBase
 
 
   /**
-   * Returns a {@link UniqueNamedSBase} element that has the given 'id' within
+   * Returns a {@link SBase} element that has the given 'id' within
    * this {@link Model} or {@code null} if no such element can be found.
    * 
    * @param id
-   *        an id indicating an {@link UniqueNamedSBase} element of the
+   *        an id indicating an {@link SBase} element of the
    *        {@link Model}.
-   * @return a {@link UniqueNamedSBase} element of the {@link Model} that has
+   * @return a {@link SBase} element of the {@link Model} that has
    *         the given 'id' as id or {@code null} if no element with this
    *         'id' can be found.
    */
-  public UniqueNamedSBase findUniqueNamedSBase(String id) {
-    return mapOfUniqueNamedSBases == null ? null
-      : mapOfUniqueNamedSBases.get(id);
+  public SBase findUniqueNamedSBase(String id) {
+    return findUniqueSBase(id);
+  }
+
+  /**
+   * Returns a {@link SBase} element that has the given 'id' within
+   * this {@link Model} or {@code null} if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating an {@link SBase} element of the
+   *        {@link Model}.
+   * @return a {@link SBase} element of the {@link Model} that has
+   *         the given 'id' as id or {@code null} if no element with this
+   *         'id' can be found.
+   */
+  public SBase findUniqueSBase(String id) {
+    UniqueSId found = mapOfUniqueNamedSBases == null ? null : mapOfUniqueNamedSBases.get(id);
+    
+    if (found != null) {
+      return (SBase) found;
+    }
+
+    return null;
   }
 
 
@@ -1872,7 +1892,7 @@ public class Model extends AbstractNamedSBase
    *         or {@link Parameter}, which has 'variable' as id.
    */
   public Variable findVariable(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof Variable)) {
       return (Variable) found;
     }
@@ -2045,7 +2065,7 @@ public class Model extends AbstractNamedSBase
    * Gets the n<sup>th</sup> {@link Compartment} instance of the
    * listOfCompartments.
    * 
-   * @param n
+   * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link Compartment} instance of the
    *         listOfCompartments.
    *         {@code null} if the listOfCompartments is not set.
@@ -2059,14 +2079,14 @@ public class Model extends AbstractNamedSBase
    * Gets the {@link Compartment} of the listOfCompartments which has 'id' as
    * id.
    * 
-   * @param id
+   * @param id the id of the element to return
    * @return the {@link Compartment} of the listOfCompartments which has 'id' as
    *         id (or name depending on the version and level). {@code null} if
    *         the
    *         listOfCompartments is not set.
    */
   public Compartment getCompartment(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof Compartment)) {
       return (Compartment) found;
     }
@@ -2087,8 +2107,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Gets the n<sup>th</sup> CompartmentType object in this Model.
    * 
-   * @param n
-   *        index
+   * @param n the index of the element to return
    * @return the n<sup>th</sup> CompartmentType of this Model. Returns
    *         {@code null} if there are no
    *         compartmentType defined or if the index n is too big or lower than
@@ -2104,7 +2123,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Gets the {@link CompartmentType} with the given {@code id}.
    * 
-   * @param id
+   * @param id the id of the element to return
    * @return the CompartmentType of the {@link #listOfCompartmentTypes} which
    *         has 'id' as
    *         id (or name depending on the level and version). {@code null} if
@@ -2114,7 +2133,7 @@ public class Model extends AbstractNamedSBase
    */
   @Deprecated
   public CompartmentType getCompartmentType(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof CompartmentType)) {
       return (CompartmentType) found;
     }
@@ -2139,7 +2158,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Gets the n<sup>th</sup> Constraint object in this Model.
    * 
-   * @param n
+   * @param n the index of the element to return
    * @return the n<sup>th</sup> Constraint of this Model. Returns {@code null}
    *         if there are no
    *         constraint defined or if the index n is too big or lower than zero.
@@ -2201,7 +2220,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Gets the n<sup>th</sup> Event object in this Model.
    * 
-   * @param n
+   * @param n the index of the element to return
    * @return the n<sup>th</sup> Event of this Model. Returns {@code null} if
    *         there are no event
    *         defined or if the index n is too big or lower than zero.
@@ -2214,13 +2233,13 @@ public class Model extends AbstractNamedSBase
   /**
    * Gets the {@link Event} which as the given {@code id} as id.
    * 
-   * @param id
+   * @param id the id of the element to return
    * @return the {@link Event} of the {@link #listOfEvents} which has 'id' as id
    *         (or name depending on the level and version). {@code null} if the
    *         {@link #listOfEvents} is not set.
    */
   public Event getEvent(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof Event)) {
       return (Event) found;
     }
@@ -2278,9 +2297,9 @@ public class Model extends AbstractNamedSBase
 
   /**
    * Gets the n<sup>th</sup> {@link FunctionDefinition} instance of the
-   * listOfFunstionDefinitions.
+   * listOfFunctionDefinitions.
    * 
-   * @param n
+   * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link FunctionDefinition} instance of the
    *         listOfFunstionDefinitions. {@code null} if the
    *         listOfFunctionDefinitions
@@ -2296,14 +2315,14 @@ public class Model extends AbstractNamedSBase
    * {@link #listOfFunctionDefinitions}
    * which has 'id' as id.
    * 
-   * @param id
+   * @param id the id of the element to return
    * @return the {@link FunctionDefinition} of the
    *         {@link #listOfFunctionDefinitions}
    *         which has 'id' as id (or name depending on the level and version).
    *         {@code null} if the {@link #listOfFunctionDefinitions} is not set.
    */
   public FunctionDefinition getFunctionDefinition(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof FunctionDefinition)) {
       return (FunctionDefinition) found;
     }
@@ -2326,7 +2345,7 @@ public class Model extends AbstractNamedSBase
    * Gets the n<sup>th</sup> {@link InitialAssignment} object in this
    * {@link Model}.
    * 
-   * @param n
+   * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link InitialAssignment} of this {@link Model}.
    *         {@code null} if
    *         the listOfInitialAssignments is not set.
@@ -2369,7 +2388,7 @@ public class Model extends AbstractNamedSBase
    */
   public InitialAssignment getInitialAssignmentById(String id) {
 
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof InitialAssignment)) {
       return (InitialAssignment) found;
     }
@@ -2431,7 +2450,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Returns the last element added in the given list.
    * 
-   * @param listOf
+   * @param listOf a {@link ListOf}
    * @return the last element added in the model, corresponding to the last
    *         element of the list of these elements, or {@code null} is no
    *         element exist
@@ -2623,7 +2642,9 @@ public class Model extends AbstractNamedSBase
 
 
   /**
-   * @return
+   * Returns the list of predefined {@link UnitDefinition}.
+   * 
+   * @return the list of predefined {@link UnitDefinition}.
    */
   public List<UnitDefinition> getListOfPredefinedUnitDefinitions() {
     return (listOfPredefinedUnitDefinitions != null)
@@ -2789,7 +2810,7 @@ public class Model extends AbstractNamedSBase
 
   /**
    * Returns the number of {@link NamedSBase}s in the {@link Model}, so elements
-   * that can have a name.
+   * that can have a name in SBML L3V1 or below.
    * 
    * @return the number of {@link NamedSBase}s in the {@link Model}, so elements
    *         that can have a name.
@@ -2803,7 +2824,10 @@ public class Model extends AbstractNamedSBase
 
 
   /**
-   * @return
+   * Returns the number of {@link NamedSBaseWithDerivedUnit}s in the {@link Model}, so elements
+   * that can have a name and a derived unit in SBML L3V1 or below.
+   * 
+   * @return the number of {@link NamedSBaseWithDerivedUnit}s in the {@link Model}.
    */
   public int getNamedSBaseWithDerivedUnitCount() {
     return getQuantityCount() + getFunctionDefinitionCount()
@@ -3187,8 +3211,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Gets the n<sup>th</sup> {@link Parameter} object in this {@link Model}.
    * 
-   * @param n
-   *        index
+   * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link Parameter} of this {@link Model}.
    */
   public Parameter getParameter(int n) {
@@ -3200,7 +3223,7 @@ public class Model extends AbstractNamedSBase
    * Returns the {@link Parameter} of the {@link #listOfParameters} which has
    * 'id' as id
    * 
-   * @param id
+   * @param id the id of the element to return
    * @return the {@link Parameter} of the {@link #listOfParameters} which has
    *         'id' as id
    *         (or name depending on the level and version). {@code null} if it
@@ -3208,7 +3231,7 @@ public class Model extends AbstractNamedSBase
    *         exist.
    */
   public Parameter getParameter(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof Parameter)) {
       return (Parameter) found;
     }
@@ -3326,7 +3349,7 @@ public class Model extends AbstractNamedSBase
    * Returns the {@link Reaction} of the {@link #listOfReactions} which has 'id'
    * as id.
    * 
-   * @param id
+   * @param id the id of the element to return
    * @return the {@link Reaction} of the {@link #listOfReactions} which has 'id'
    *         as id
    *         (or name depending on the level and version). {@code null} if it
@@ -3334,7 +3357,7 @@ public class Model extends AbstractNamedSBase
    *         exist.
    */
   public Reaction getReaction(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof Reaction)) {
       return (Reaction) found;
     }
@@ -3355,8 +3378,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Gets the n<sup>th</sup> {@link Rule} of the listOfRules.
    * 
-   * @param n
-   *        an index
+   * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link Rule} of the listOfRules. {@code null} if
    *         it doesn't exist.
    */
@@ -3386,7 +3408,7 @@ public class Model extends AbstractNamedSBase
    * @return {@code null} if no element with the required property exists.
    */
   public Rule getRuleById(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof Rule)) {
       return (Rule) found;
     }
@@ -3427,18 +3449,20 @@ public class Model extends AbstractNamedSBase
    * Returns an {@link SBase} element of the model that has the given 'id'
    * as id or {@code null} if no element is found.
    * 
+   * <p>The element has to have a unique 
+   * id (SId) in the model to be returned by this method, meaning
+   * that it need to implement the interface {@link UniqueSId}.
+   * 
+   * <p>If you want to get an {@link SBase} that is not in the SId namespace,
+   * you can use the method {@link #getElementBySId(String)}. 
+   * 
    * @param id
    *        an id indicating an element of the model.
    * @return a {@link SBase} element of the model that has the given 'id'
    *         as id or {@code null} if no element is found.
    */
   public SBase getSBaseById(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
-    
-    if (found != null) {
-      return found;
-    }
-    return null;
+    return findUniqueSBase(id);
   }
 
 
@@ -3471,8 +3495,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Gets the n-th {@link Species} object in this Model.
    * 
-   * @param n
-   *        an index
+   * @param n the index of the element to return
    * @return the {@link Species} with the given index if it exists,
    *         {@code null} otherwise.
    */
@@ -3485,13 +3508,13 @@ public class Model extends AbstractNamedSBase
    * Gets the {@link Species} of the {@link #listOfSpecies} which has 'id' as
    * id.
    * 
-   * @param id
+   * @param id the id of the element to return
    * @return the {@link Species} of the listOfSpecies which has 'id' as id (or
    *         name depending on the level and version). {@code null} if
    *         it doesn't exist.
    */
   public Species getSpecies(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof Species)) {
       return (Species) found;
     }
@@ -3526,8 +3549,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Gets the n<sup>th</sup> {@link SpeciesType} object in this Model.
    * 
-   * @param n
-   *        index
+   * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link SpeciesType} of this Model. Returns
    *         {@code null} if there
    *         are no speciesType defined or if the index n is too big or lower
@@ -3545,7 +3567,7 @@ public class Model extends AbstractNamedSBase
    * has 'id' as
    * id.
    * 
-   * @param id
+   * @param id the id of the element to return
    * @return the {@link SpeciesType} of the {@link #listOfSpeciesTypes} which
    *         has 'id' as
    *         id (or name depending on the level and version). {@code null} if it
@@ -3555,7 +3577,7 @@ public class Model extends AbstractNamedSBase
    */
   @Deprecated
   public SpeciesType getSpeciesType(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    SBase found = findUniqueSBase(id);
     if ((found != null) && (found instanceof SpeciesType)) {
       return (SpeciesType) found;
     }
@@ -3720,7 +3742,7 @@ public class Model extends AbstractNamedSBase
    * Gets the n<sup>th</sup> {@link UnitDefinition} object in this {@link Model}
    * .
    * 
-   * @param n
+   * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link UnitDefinition} of this {@link Model}.
    *         Returns
    *         {@code null} if there are no {@link UnitDefinition}s defined
@@ -3738,7 +3760,7 @@ public class Model extends AbstractNamedSBase
    * {@link #listOfPredefinedUnitDefinitions}. If we still did not find a
    * {@link UnitDefinition}, {@code null} is returned.
    * 
-   * @param id
+   * @param id the id of the element to return
    * @return the {@link UnitDefinition} of the {@link #listOfUnitDefinitions}s
    *         which has 'id' as id (or name depending on the level and version).
    *         {@code null} if it doesn't exist.
@@ -3839,14 +3861,12 @@ public class Model extends AbstractNamedSBase
 
 
   /**
-   * Returns {@code true} if this model has a reference to the unit with the
-   * given
-   * identifier.
+   * Returns {@code true} if this model has a reference to the {@link UnitDefinition} with the
+   * given identifier.
    * 
-   * @param id
-   * @return {@code true} if this model has a reference to the unit with the
-   *         given
-   *         identifier, {@code false} otherwise.
+   * @param id the id of the {@link UnitDefinition} to search for
+   * @return {@code true} if this model has a reference to the {@link UnitDefinition} with the
+   *         given identifier, {@code false} otherwise.
    */
   public boolean hasUnit(String id) {
     return getUnitDefinition(id) != null;
@@ -3865,8 +3885,8 @@ public class Model extends AbstractNamedSBase
   /**
    * Initializes the default values of the attributes of the {@link Model}
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public void initDefaults(int level, int version) {
     listOfCompartments = null;
@@ -4588,11 +4608,13 @@ public class Model extends AbstractNamedSBase
 
 
   /**
-   * @param unsb
+   * 
+   * @param unsid
    * @param delete
    * @return
    */
-  private boolean registerId(UniqueNamedSBase unsb, boolean delete) {
+  private boolean registerId(UniqueSId unsid, boolean delete) {
+    SBase unsb = (SBase) unsid;
     String id = unsb.getId();
     if (delete && (mapOfUniqueNamedSBases != null)) {
 
@@ -4603,7 +4625,7 @@ public class Model extends AbstractNamedSBase
       }
     } else if (unsb.isSetId()) {
       if (mapOfUniqueNamedSBases == null) {
-        mapOfUniqueNamedSBases = new HashMap<String, UniqueNamedSBase>();
+        mapOfUniqueNamedSBases = new HashMap<String, UniqueSId>();
       }
       /*
        * Two reasons for non acceptance:
@@ -4615,8 +4637,9 @@ public class Model extends AbstractNamedSBase
       if ((mapOfUniqueNamedSBases.containsKey(id)
         && (mapOfUniqueNamedSBases.get(id) != unsb))
         || ((unsb.getLevel() == 1) && (mapOfUnitDefinitions != null)
-          && (mapOfUnitDefinitions.containsKey(id)))) {
-        NamedSBase elem = mapOfUniqueNamedSBases.get(id);
+          && (mapOfUnitDefinitions.containsKey(id)))) 
+      {
+        SBase elem = (SBase) mapOfUniqueNamedSBases.get(id);
         if (elem == null) {
           elem = mapOfUnitDefinitions.get(id);
         }
@@ -4627,7 +4650,7 @@ public class Model extends AbstractNamedSBase
           unsb.getElementName()));
         return false;
       }
-      mapOfUniqueNamedSBases.put(id, unsb);
+      mapOfUniqueNamedSBases.put(id, unsid);
 
       if (logger.isDebugEnabled()) {
         logger.debug(MessageFormat.format("registered id={0} in model {1}", id,
@@ -4867,8 +4890,8 @@ public class Model extends AbstractNamedSBase
    *         could be found or the action was not successful.
    */
   @SuppressWarnings("unchecked")
-  private <T extends UniqueNamedSBase> T remove(Class<T> clazz, String id) {
-    UniqueNamedSBase sb = findUniqueNamedSBase(id);
+  private <T extends SBase> T remove(Class<T> clazz, String id) {
+    SBase sb = findUniqueSBase(id);
     if ((sb != null)
       && ((clazz == null) || sb.getClass().isAssignableFrom(clazz))) {
       if (sb.removeFromParent()) {
@@ -4886,7 +4909,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Removes any {@link UniqueNamedSBase} with the given identifier from this
    * {@link Model} and returns the removed element if the operation was
-   * successfull. Note that this method cannot be used to remove
+   * successful. Note that this method cannot be used to remove
    * {@link UnitDefinition}s from this {@link Model} because
    * {@link UnitDefinition}s exist in a separate namespace that might have
    * overlapping identifiers. It would therefore not be clear, which element
@@ -4897,7 +4920,7 @@ public class Model extends AbstractNamedSBase
    * @return the removed element or {@code null} if the operation was not
    *         successful.
    */
-  public <T extends UniqueNamedSBase> T remove(String id) {
+  public <T extends SBase> T remove(String id) {
     return remove(null, id);
   }
 
