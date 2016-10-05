@@ -4714,59 +4714,57 @@ public class Model extends AbstractNamedSBase
         + " (recursive = " + recursively + ", delete = " + delete + ")");
     }
 
-    if (newElem instanceof NamedSBase) {
-      NamedSBase newNsb = (NamedSBase) newElem;
+    SBase newNsb = newElem;
 
-      if (newNsb.isSetId()) {
-        if (newNsb instanceof UniqueNamedSBase) {
-          success &= registerId((UniqueNamedSBase) newNsb, delete);
-        } else if ((newNsb instanceof LocalParameter)
+    if (newNsb.isSetId()) {
+      if (newNsb instanceof UniqueSId) {
+        success &= registerId((UniqueSId) newNsb, delete);
+      } else if ((newNsb instanceof LocalParameter)
           && (parent.getParent() != null)) {
-          // check if the LocalParameter is already registered in the KL
-          KineticLaw kl = (KineticLaw) parent.getParent();
-          boolean alreadyRegistered = true;
-          LocalParameter localParam = (LocalParameter) newNsb;
-          String localParameterId =
+        // check if the LocalParameter is already registered in the KL
+        KineticLaw kl = (KineticLaw) parent.getParent();
+        boolean alreadyRegistered = true;
+        LocalParameter localParam = (LocalParameter) newNsb;
+        String localParameterId =
             localParam.isSetId() ? localParam.getId() : null;
 
-          if (localParameterId != null
-            && kl.getLocalParameter(localParameterId) == null) {
-            alreadyRegistered = false;
-          }
-
-          if (logger.isDebugEnabled()) {
-            logger.debug("registerIds (main): LP id = " + localParameterId
-              + " (registered = " + alreadyRegistered + ")");
-          }
-
-          success &= registerId(kl, localParam, delete, alreadyRegistered);
-        } else if (newNsb instanceof UnitDefinition) {
-          success &= registerId((UnitDefinition) newNsb, !delete);
-        } else {
-          // Trying to find an IdManager for this element.
-          IdManager idManager = ((AbstractSBase) newElem).getIdManager(newElem);
-
-          if (logger.isDebugEnabled()) {
-            logger.debug(
-              "idManager found for '" + newElem + "' = " + idManager);
-          }
-
-          if ((idManager != null) && (idManager != this)) {
-            if (delete) {
-              return success && idManager.unregister(newElem);
-            } else {
-              return success && idManager.register(newElem);
+            if (localParameterId != null
+                && kl.getLocalParameter(localParameterId) == null) {
+              alreadyRegistered = false;
             }
-          }
 
-          // in L3 packages we might have different id namespaces
-          logger.warn(MessageFormat.format(
+            if (logger.isDebugEnabled()) {
+              logger.debug("registerIds (main): LP id = " + localParameterId
+                  + " (registered = " + alreadyRegistered + ")");
+            }
+
+            success &= registerId(kl, localParam, delete, alreadyRegistered);
+      } else if (newNsb instanceof UnitDefinition) {
+        success &= registerId((UnitDefinition) newNsb, !delete);
+      } else {
+        // Trying to find an IdManager for this element.
+        IdManager idManager = ((AbstractSBase) newElem).getIdManager(newElem);
+
+        if (logger.isDebugEnabled()) {
+          logger.debug(
+              "idManager found for '" + newElem + "' = " + idManager);
+        }
+
+        if ((idManager != null) && (idManager != this)) {
+          if (delete) {
+            return success && idManager.unregister(newElem);
+          } else {
+            return success && idManager.register(newElem);
+          }
+        }
+
+        // in L3 packages we might have different id namespaces
+        logger.warn(MessageFormat.format(
             "registerIds: the object {0} is neither a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.",
             newNsb.getClass().getCanonicalName()));
-        }
-      } else if (!newNsb.isIdMandatory()) {
-        // do nothing
       }
+    } else if (!newNsb.isIdMandatory()) {
+      // do nothing
     }
 
     // in the case of deletion, we keep a List of IdManager to avoid having to

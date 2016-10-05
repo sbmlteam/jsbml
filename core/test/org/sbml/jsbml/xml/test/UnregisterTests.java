@@ -82,7 +82,7 @@ public class UnregisterTests {
 
     Reaction r1 = model.createReaction("R1");
     r1.setMetaId("R1");
-    r1.getKineticLaw().setId("KL1");
+    r1.createKineticLaw().setId("KL1");
     r1.getKineticLaw().setMetaId("KL1");
 
     SpeciesReference reactant = model.createReactant("SP1");
@@ -93,15 +93,16 @@ public class UnregisterTests {
     product.setMetaId("SP2");
     product.setSpecies(s2);
 
-    LocalParameter lp1 = r1.createKineticLaw().createLocalParameter("LP1");
+    LocalParameter lp1 = r1.getKineticLaw().createLocalParameter("LP1");
     lp1.setMetaId("LP1");
 
     Constraint c1 = model.createConstraint();
     c1.setMetaId("c0");
     
     Event e1 = model.createEvent("E1");
-    
-    // TODO delay, trigger, eventAssignemnt
+    e1.createTrigger().setId("ET1");
+    e1.createDelay().setId("ED1");
+    e1.createEventAssignment().setId("EEV1");
   }
 
   /**
@@ -119,6 +120,35 @@ public class UnregisterTests {
 
     try {
       model.createSpecies("R1");
+      fail("We should not be able to register twice the same id.");
+    } catch (IllegalArgumentException e) {
+      assertTrue(true);
+      // success
+    }
+
+    assertTrue(model.getSBaseById("ET1") != null);
+    assertTrue(model.getSBaseById("LOS") != null);
+    assertTrue(model.getSBaseById("KL1") != null);
+    assertTrue(model.getSBaseById("ED1") != null);
+    assertTrue(model.getSBaseById("EEV1") != null);
+    try {
+      model.createSpecies("ET1");
+      fail("We should not be able to register twice the same id.");
+    } catch (IllegalArgumentException e) {
+      assertTrue(true);
+      // success
+    }
+
+    try {
+      model.createSpecies("LOS");
+      fail("We should not be able to register twice the same id.");
+    } catch (IllegalArgumentException e) {
+      assertTrue(true);
+      // success
+    }
+
+    try {
+      model.createSpecies("KL1");
       fail("We should not be able to register twice the same id.");
     } catch (IllegalArgumentException e) {
       assertTrue(true);
