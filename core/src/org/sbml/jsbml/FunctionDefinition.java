@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -22,11 +21,6 @@
 package org.sbml.jsbml;
 
 import java.text.MessageFormat;
-import java.util.Map;
-
-import org.sbml.jsbml.util.IdManager;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.validator.SyntaxChecker;
 
 /**
  * Represents the functionDefinition XML element of a SBML file. Since
@@ -36,12 +30,10 @@ import org.sbml.jsbml.validator.SyntaxChecker;
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
+ * 
  */
 public class FunctionDefinition extends AbstractMathContainer implements
 CallableSBase, UniqueNamedSBase, NamedSBase {
-
-  // TODO - for L3V2, we probably will need to have AbstractMathContainer extending AbstractNamedSBase ??
 
   /**
    * Error message to indicate that an incorrect {@link ASTNode.Type} has been passed
@@ -52,28 +44,18 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 5103621145642898899L;
-  /**
-   * Represents the "id" attribute of a functionDefinition element.
-   */
-  private String id;
-  /**
-   * Represents the "name" attribute of a functionDefinition element.
-   */
-  private String name;
 
   /**
    * Creates a FunctionDefinition instance. By default, id and name are {@code null}.
    */
   public FunctionDefinition() {
     super();
-    id = null;
-    name = null;
   }
 
   /**
    * Creates a FunctionDefinition instance from a given FunctionDefinition.
    * 
-   * @param sb
+   * @param sb the {@link FunctionDefinition} to clone
    */
   public FunctionDefinition(FunctionDefinition sb) {
     super(sb);
@@ -90,8 +72,8 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
    * Creates a FunctionDefinition instance from a level and version. By
    * default, name is {@code null}.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public FunctionDefinition(int level, int version) {
     super(level, version);
@@ -107,10 +89,10 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
    * version. By default, name is {@code null}. If the ASTNode is not of type lambda,
    * an IllegalArgumentException is thrown.
    * 
-   * @param id
-   * @param lambda
-   * @param level
-   * @param version
+   * @param id the function definition id
+   * @param lambda the ASTNode representing the function math
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public FunctionDefinition(String id, ASTNode lambda, int level, int version) {
     super(lambda, level, version);
@@ -122,43 +104,20 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
     if (id != null) {
       setId(id);
     }
-    name = null;
   }
 
   /**
    * Creates a FunctionDefinition instance from an id, level and version.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the function definition id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public FunctionDefinition(String id, int level, int version) {
     super(level, version);
     if (id != null) {
       setId(id);
     }
-    name = null;
-  }
-
-  /**
-   * Checks if the sID is a valid identifier.
-   * 
-   * @param sID
-   *            the identifier to be checked. If null or an invalid
-   *            identifier, an exception will be thrown.
-   * @return {@code true} only if the sID is a valid identifier.
-   *         Otherwise this method throws an {@link IllegalArgumentException}.
-   *         This is an intended behavior.
-   * @throws IllegalArgumentException
-   *             if the given id is not valid in this model.
-   */
-  boolean checkIdentifier(String sID) {
-    if ((sID == null)
-        || !SyntaxChecker.isValidId(sID, getLevel(), getVersion())) {
-      throw new IllegalArgumentException(MessageFormat.format(
-        "\"{0}\" is not a valid identifier.", sID));
-    }
-    return true;
   }
 
   /* (non-Javadoc)
@@ -167,26 +126,6 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
   @Override
   public FunctionDefinition clone() {
     return new FunctionDefinition(this);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(Object object) {
-    boolean equals = super.equals(object);
-    if (equals) {
-      FunctionDefinition fd = (FunctionDefinition) object;
-      equals &= fd.isSetId() == isSetId();
-      if (equals && isSetId()) {
-        equals &= fd.getId().equals(getId());
-      }
-      equals &= fd.isSetName() == isSetName();
-      if (equals && isSetName()) {
-        equals &= fd.getName().equals(getName());
-      }
-    }
-    return equals;
   }
 
   /**
@@ -238,22 +177,6 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
     return isSetMath() ? getMath().getRightChild() : null;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#getId()
-   */
-  @Override
-  public String getId() {
-    return isSetId() ? id : "";
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#getName()
-   */
-  @Override
-  public String getName() {
-    return isSetName() ? name : "";
-  }
-
   /**
    * Get the number of arguments (bound variables) taken by this
    * {@link FunctionDefinition}.
@@ -288,94 +211,12 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 877;
-    int hashCode = super.hashCode();
-    if (isSetId()) {
-      hashCode += prime * getId().hashCode();
-    }
-    if (isSetName()) {
-      hashCode += prime * getName().hashCode();
-    }
-    return hashCode;
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   @Override
   public boolean isIdMandatory() {
     return true;
   }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isSetId()
-   */
-  @Override
-  public boolean isSetId() {
-    return id != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isSetName()
-   */
-  @Override
-  public boolean isSetName() {
-    return name != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix,
-    String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-      value);
-    if (!isAttributeRead) {
-      if (attributeName.equals("id")) {
-        setId(value);
-        return true;
-      } else if (attributeName.equals("name")) {
-        setName(value);
-        return true;
-      }
-    }
-    return isAttributeRead;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#setId(java.lang.String)
-   */
-  @Override
-  public void setId(String id) {
-    if (getLevel() == 1) {
-      throw new PropertyNotAvailableException(TreeNodeChangeEvent.id, this);
-    }
-    String property = TreeNodeChangeEvent.id;
-    String oldId = this.id;
-
-    IdManager idManager = getIdManager(this);
-    if (idManager != null) { // (oldId != null) // As the register and unregister are recursive, we need to call the unregister all the time until we have a non recursive method
-      // Delete previous identifier only if defined.
-      idManager.unregister(this); // TODO - do we need non recursive method on the IdManager interface ??
-    }
-    if ((id == null) || (id.trim().length() == 0)) {
-      this.id = null;
-    } else if (checkIdentifier(id)) {
-      this.id = id;
-    }
-    if ((idManager != null) && !idManager.register(this)) {
-      IdentifierException exc = new IdentifierException(this, this.id);
-      this.id = oldId; // restore the previous setting!
-      throw new IllegalArgumentException(exc);
-    }
-    firePropertyChange(property, oldId, this.id);
-  }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractMathContainer#setMath(org.sbml.jsbml.ASTNode)
@@ -390,56 +231,6 @@ CallableSBase, UniqueNamedSBase, NamedSBase {
       }
     }
     super.setMath(math);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#setName(java.lang.String)
-   */
-  @Override
-  public void setName(String name) {
-    if (getLevel() == 1) {
-      throw new PropertyNotAvailableException(TreeNodeChangeEvent.id, this);
-    }
-    String oldName = this.name;
-    if ((name == null) || (name.length() == 0)) {
-      this.name = null;
-    } else {
-      this.name = name;
-    }
-    firePropertyChange(TreeNodeChangeEvent.name, oldName, name);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#unsetId()
-   */
-  @Override
-  public void unsetId() {
-    setId(null);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#unsetName()
-   */
-  @Override
-  public void unsetName() {
-    setName(null);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractMathContainer#writeXMLAttributes()
-   */
-  @Override
-  public Map<String, String> writeXMLAttributes() {
-    Map<String, String> attributes = super.writeXMLAttributes();
-
-    if (isSetId() && (getLevel() > 1)) {
-      attributes.put("id", getId());
-    }
-    if (isSetName() && (getLevel() > 1)) {
-      attributes.put("name", getName());
-    }
-
-    return attributes;
   }
 
 }

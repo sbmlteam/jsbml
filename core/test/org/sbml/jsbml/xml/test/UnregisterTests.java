@@ -242,6 +242,16 @@ public class UnregisterTests {
       // success
     }
 
+    Model clonedModel = model.clone();
+    
+    assertTrue(clonedModel.getSBaseById("ET1") != null);
+    assertTrue(clonedModel.getSBaseById("LOS") != null);
+    assertTrue(clonedModel.getSBaseById("KL1") != null);
+    assertTrue(clonedModel.getSBaseById("ED1") != null);
+    assertTrue(clonedModel.getSBaseById("EEV1") != null);
+    assertTrue(clonedModel.getSBaseById("LP1") == null);
+    
+
   }
 
   /**
@@ -464,32 +474,6 @@ public class UnregisterTests {
 
   }
 
-
-  /**
-   * 
-
-	@Test public void testRegister5_1() {
-
-		Species s3 = new Species();
-		s3.setId("S3");
-
-		MultiSpeciesPlugin mS3 = new MultiSpeciesPlugin(s3);
-
-		s3.addExtension("any", mS3);
-
-		// Setting the same id as an existing Species
-		mS3.createSpeciesTypeInstance("S1");
-
-		try {
-			model.addSpecies(s3);
-
-			fail("We should not be able to register twice the same id.");
-		} catch (IllegalArgumentException e) {
-			assertTrue(true);
-			// success
-		}
-	}
-   */
 
   /**
    * 
