@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -39,7 +38,7 @@ import org.sbml.jsbml.util.ValuePair;
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
+ * 
  */
 public class UnitDefinition extends AbstractNamedSBase {
 
@@ -96,11 +95,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Predefined unit for area.
+   * Returns the predefined unit for area.
    * 
-   * @param level
-   * @param version
-   * @return
+   * @param level the SBML level
+   * @param version the SBML version
+   * @return the predefined unit for area.
    */
   public static final UnitDefinition area(int level, int version) {
     return getPredefinedUnit(AREA, level, version);
@@ -109,7 +108,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
   /**
    * <p>
-   * Predicate returning {@code true} or {@code false} depending on
+   * Returns {@code true} or {@code false} depending on
    * whether two UnitDefinition objects are compatible.
    * </p>
    * <p>
@@ -140,9 +139,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    * {@link UnitDefinition} or {@link Unit} represented by the given
    * {@link String} are equivalent.
    * 
-   * @param ud
-   * @param units
-   * @return
+   * @param ud a {@link UnitDefinition}
+   * @param units a String representing either a {@link UnitDefinition} id or a unit {@link Kind}.
+   * @return {@code true} if both units are equivalent
    * @see #areEquivalent(UnitDefinition, UnitDefinition)
    * @see Unit#areEquivalent(Unit, Unit)
    */
@@ -161,7 +160,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
   /**
    * <p>
-   * Predicate returning true or false depending on whether two
+   * Returns true or false depending on whether two
    * {@link UnitDefinition} objects are equivalent.
    * </p>
    * <p>
@@ -199,7 +198,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
   /**
    * <p>
-   * Predicate returning {@code true} or {@code false} depending on
+   * Returns {@code true} or {@code false} depending on
    * whether two {@link UnitDefinition} objects are identical.
    * </p>
    * <p>
@@ -235,7 +234,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * This method returns the predefined unit with the given identifier for the
+   * Returns the predefined unit with the given identifier for the
    * specified level and version combination or null if either for the given
    * combination of level and version there is no such predefined unit or the
    * identifier is not one of those belonging to the group of predefined unit
@@ -324,10 +323,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Test if the given unit is a predefined unit.
+   * Tests if the given unit is a predefined unit, meaning it is one of the five SBML predefined
+   * unit identifiers ('substance', 'volume', 'area', 'length' or 'time').
    * 
-   * @param ud
-   * @return
+   * @param ud a unit definition
+   * @return {@code true} if the given unit is a predefined unit.
    * @deprecated use {@link #isPredefined()}
    */
   @Deprecated
@@ -337,9 +337,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * @param name
-   * @param level
-   * @return
+   * Tests if the given String is a predefined unit, meaning it is one of the five SBML predefined
+   * unit identifiers ('substance', 'volume', 'area', 'length' or 'time').
+   * 
+   * @param name a unit String
+   * @param level the SBML level
+   * @return {@code true} if the given unit is a predefined unit.
+   * @see Unit#isPredefined(String, int)
    */
   public static boolean isPredefined(String name, int level) {
     return Unit.isPredefined(name, level);
@@ -347,10 +351,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Test if the given unit is a predefined unit.
+   * Tests if the given unit is a predefined unit, meaning it is one of the five SBML predefined
+   * unit identifiers ('substance', 'volume', 'area', 'length' or 'time').
    * 
-   * @param ud
-   * @return
+   * @param ud a unit definition
+   * @return {@code true} if the given unit is a predefined unit.
    */
   public static boolean isPredefined(UnitDefinition ud) {
     if (ud.getLevel() > 2) {
@@ -368,11 +373,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Predefined unit for length.
+   * Returns the predefined unit for length.
    * 
-   * @param level
-   * @param version
-   * @return
+   * @param level the SBML level
+   * @param version the SBML version
+   * @return the predefined unit for length.
    */
   public static final UnitDefinition length(int level, int version) {
     return getPredefinedUnit(LENGTH, level, version);
@@ -459,7 +464,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * @param ud
+   * Returns a simplified version of the given {@link UnitDefinition}.
+   * 
+   * @param ud a unit definition
    * @return a simplified version of the given {@link UnitDefinition}. In order
    *         to make sure that the original {@link UnitDefinition} is not
    *         changed, it is cloned before the simplification.
@@ -470,11 +477,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Predefined unit for substance.
+   * Returns the predefined unit for substance.
    * 
-   * @param level
-   * @param version
-   * @return
+   * @param level the SBML level
+   * @param version the SBML version
+   * @return the predefined unit for substance.
    */
   public static final UnitDefinition substance(int level, int version) {
     return getPredefinedUnit(SUBSTANCE, level, version);
@@ -482,11 +489,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Predefined unit for time.
+   * Returns the predefined unit for time.
    * 
-   * @param level
-   * @param version
-   * @return
+   * @param level the SBML level
+   * @param version the SBML version
+   * @return the predefined unit for time.
    */
   public static final UnitDefinition time(int level, int version) {
     return getPredefinedUnit(TIME, level, version);
@@ -494,11 +501,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Predefined unit for volume.
+   * Returns the predefined unit for volume.
    * 
-   * @param level
-   * @param version
-   * @return
+   * @param level the SBML level
+   * @param version the SBML version
+   * @return the predefined unit for volume.
    */
   public static final UnitDefinition volume(int level, int version) {
     return getPredefinedUnit(VOLUME, level, version);
@@ -519,8 +526,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link UnitDefinition} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public UnitDefinition(int level, int version) {
     super(level, version);
@@ -528,7 +537,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * @param id
+   * Creates a new {@link UnitDefinition} instance.
+   * 
+   * @param id the unit definition id.
    */
   public UnitDefinition(String id) {
     super(id);
@@ -536,12 +547,12 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Creates an UnitDefinition instance from an id, level and version. By
+   * Creates an {@link UnitDefinition} instance from an id, level and version. By
    * default, the listOfUnit is null.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the unit definition id.
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public UnitDefinition(String id, int level, int version) {
     super(id, level, version);
@@ -549,13 +560,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Creates an UnitDefinition instance from an id, level and version. By
+   * Creates an {@link UnitDefinition} instance from an id, level and version. By
    * default, the listOfUnit is null.
    * 
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * @param id the unit definition id.
+   * @param name the unit definition name.
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public UnitDefinition(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -563,9 +574,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Creates an UnitDefinition instance from a given UnitDefinition.
+   * Creates an {@link UnitDefinition} instance from a given UnitDefinition.
    * 
-   * @param unitDefinition
+   * @param unitDefinition the {@link UnitDefinition} to clone.
    */
   public UnitDefinition(UnitDefinition unitDefinition) {
     super(unitDefinition);
@@ -576,7 +587,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * @param unit
+   * Adds a new {@link Unit} instance, created from the given unit {@link Kind}, to this
+   * {@link UnitDefinition}.
+   * 
+   * @param unit the unit kind.
    */
   public void addUnit(String unit) {
     addUnit(Unit.Kind.valueOf(unit));
@@ -584,9 +598,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Adds an {@link Unit} to this {@link UnitDefinition}.
+   * Adds a {@link Unit} to this {@link UnitDefinition}.
    * 
-   * @param u
+   * @param u the unit to add.
    */
   public void addUnit(Unit u) {
     getListOfUnits().add(u);
@@ -594,11 +608,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Convenient method to add a new unit object with the given kind that will
-   * have the same level/version combination than this {@link UnitDefinition}
-   * object.
+   * Adds a new {@link Unit} instance, with the given kind, to this {@link UnitDefinition}.
    * 
-   * @param kind
+   * @param kind the unit kind.
    */
   public void addUnit(Unit.Kind kind) {
     addUnit(new Unit(1d, 0, kind, 1d, getLevel(), getVersion()));
@@ -689,8 +701,10 @@ public class UnitDefinition extends AbstractNamedSBase {
   /**
    * Divides this unit definition by the second unit definition.
    * 
-   * @param definition
-   * @return
+   * <p> The current {@link UnitDefinition} will be modified in the process.
+   * 
+   * @param definition a unit definition
+   * @return the modified {@link UnitDefinition} instance for convenience
    */
   public UnitDefinition divideBy(UnitDefinition definition) {
     // Avoid creation of not needed empty list:
@@ -830,9 +844,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * This method tests if this unit definition is a predefined unit.
+   * Tests if this unit definition is a predefined unit.
    * 
-   * @return
+   * @return {@code true} if this unit definition is a predefined unit.
    * @deprecated use {@link #isPredefined()}
    */
   @Deprecated
@@ -852,10 +866,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * This method checks, if this UnitDefinition only contains Invalid as
-   * {@link Unit.Kind}.
+   * Checks if this UnitDefinition is invalid.
    * 
-   * @return
+   * @return {@code true} if this UnitDefinition is invalid.
    */
   public boolean isInvalid() {
     UnitDefinition ud = clone().simplify();
@@ -869,7 +882,7 @@ public class UnitDefinition extends AbstractNamedSBase {
   }
 
   /**
-   * Returna {@code true} if the listOfUnits is empty.
+   * Returns {@code true} if the listOfUnits is empty.
    * 
    * @return {@code true} if the listOfUnits is empty.
    */
@@ -878,9 +891,9 @@ public class UnitDefinition extends AbstractNamedSBase {
   }
 
   /**
-   * This method tests if this unit definition is a predefined unit.
+   * Tests if this unit definition is a predefined unit.
    * 
-   * @return
+   * @return {@code true} if this unit definition is a predefined unit.
    */
   public boolean isPredefined() {
     return isPredefined(this);
@@ -888,6 +901,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
+   * Returns {@code true} if the listOfUnits is not null and not empty.
+   * 
    * @return {@code true} if the listOfUnits is not null and not empty.
    */
   public boolean isSetListOfUnits() {
@@ -896,13 +911,14 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Convenient method to test whether this {@link UnitDefinition} contains
+   * Tests whether this {@link UnitDefinition} contains
    * exactly one {@link Unit} that itself represents a {@link Kind}, i.e.,
    * multiplier = 1, exponent = 1, scale = 1. Note that this method requires
    * the level and version attributes of this {@link UnitDefinition} to be
    * set.
    * 
-   * @return
+   * @return {@code true} if this {@link UnitDefinition} contains
+   * exactly one {@link Unit} that itself represents a simple {@link Kind}.
    */
   public boolean isUnitKind() {
     if (getUnitCount() == 1) {
@@ -913,6 +929,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
+   * Returns {@code true} if this UnitDefinition is a variant of Area
+   * 
    * @return {@code true} if this UnitDefinition is a variant of Area
    */
   public boolean isVariantOfArea() {
@@ -929,7 +947,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Convenience function for testing if a given unit definition is a variant
+   * Tests if a given unit definition is a variant
    * of the predefined unit identifier 'dimensionless'.
    * 
    * @return {@code true} if this UnitDefinition is a variant of the predefined
@@ -955,7 +973,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Convenience function for testing if a given unit definition is a variant
+   * Tests if a given unit definition is a variant
    * of the predefined unit identifier 'length'.
    * 
    * @return {@code true} if this UnitDefinition is a variant of the predefined
@@ -977,7 +995,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Convenience function for testing if a given unit definition is a variant
+   * Tests if a given unit definition is a variant
    * of the predefined unit identifier 'substance'.
    * 
    * @return {@code true} if this UnitDefinition is a variant of the predefined
@@ -1000,7 +1018,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * @return
+   * Tests if a given unit definition is a variant
+   * of the predefined unit identifier 'substance per area'.
+   * 
+   * @return {@code true} if this UnitDefinition is a variant of the predefined
+   *         unit 'substance per area'.
    */
   public boolean isVariantOfSubstancePerArea() {
     if (isSetListOfUnits()) {
@@ -1023,6 +1045,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
+   * Tests if this UnitDefinition is a variant of substance per
+   *         length.
+   * 
    * @return {@code true} if this UnitDefinition is a variant of substance per
    *         length.
    */
@@ -1050,7 +1075,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * @return
+   * Tests if this UnitDefinition is a variant of substance per
+   * time.
+   * 
+   * @return {@code true} if this UnitDefinition is a variant of substance per time.
    */
   public boolean isVariantOfSubstancePerTime() {
     if (isSetListOfUnits()) {
@@ -1075,6 +1103,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
+   * Tests if this UnitDefinition is a variant of substance per volume.
+   * 
    * @return {@code true} if this UnitDefinition is a variant of substance per
    *         volume.
    */
@@ -1101,7 +1131,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Convenience function for testing if a given unit definition is a variant
+   * Tests if a given unit definition is a variant
    * of the predefined unit identifier 'time'.
    * 
    * @return {@code true} if this {@link UnitDefinition} is a variant of
@@ -1123,7 +1153,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Convenience function for testing if a given unit definition is a variant
+   * Tests if a given unit definition is a variant
    * of the predefined unit identifier 'volume'.
    * 
    * @return {@code true} if this {@link UnitDefinition} is a variant of
@@ -1149,8 +1179,8 @@ public class UnitDefinition extends AbstractNamedSBase {
    * of each unit object in the list of units of the given definition to the
    * list of this unit.
    * 
-   * @param definition
-   * @return
+   * @param definition a unit definition
+   * @return the current (modified) {@link UnitDefinition} for convenience.
    */
   public UnitDefinition multiplyWith(UnitDefinition definition) {
     // Avoid creation of not needed empty list:
@@ -1188,7 +1218,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    * exponents of every unit contained by this unit definition are multiplied
    * with the given exponent.
    * 
-   * @param exponent
+   * @param exponent the exponent
    * @return a pointer to this {@link UnitDefinition}.
    */
   public UnitDefinition raiseByThePowerOf(double exponent) {
@@ -1238,13 +1268,16 @@ public class UnitDefinition extends AbstractNamedSBase {
   public void setId(String id) {
     // This test should be performed in order to ensure valid identifiers
     // for Units:
-    ValuePair<Integer, Integer> lv = getLevelAndVersion();
-    if ((0 <= lv.compareTo(Integer.valueOf(2), Integer.valueOf(3)))
-        && Unit.Kind.isValidUnitKindString(id, lv.getL().intValue(),
-          lv.getV().intValue())) {
-      throw new IllegalArgumentException(MessageFormat.format(
-        "Cannot use the name {0} of a unit base kind as an identifier for a UnitDefinition.",
-        id));
+    if (!isReadingInProgress()) {
+      ValuePair<Integer, Integer> lv = getLevelAndVersion();
+      if ((0 <= lv.compareTo(Integer.valueOf(2), Integer.valueOf(3)))
+          && Unit.Kind.isValidUnitKindString(id, lv.getL().intValue(),
+              lv.getV().intValue())) 
+      {
+        throw new IllegalArgumentException(MessageFormat.format(
+            "Cannot use the name {0} of a unit base kind as an identifier for a UnitDefinition.",
+            id));
+      }
     }
     super.setId(id);
   }
@@ -1252,10 +1285,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 
   /**
    * Sets the {@link #listOfUnits} of this {@link UnitDefinition}.
-   * Automatically sets the parent SBML object of the list to this
+   * 
+   * <p>Automatically sets the parent SBML object of the list to this
    * {@link UnitDefinition} instance.
    * 
-   * @param listOfUnits
+   * @param listOfUnits the new list of {@link Unit}s.
    */
   public void setListOfUnits(ListOf<Unit> listOfUnits) {
     unsetListOfUnits();
