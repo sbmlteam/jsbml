@@ -20,46 +20,47 @@
  */
 package org.sbml.jsbml.util.filters;
 
-import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.SBase;
 
 /**
- * This filter only accepts instances of {@link NamedSBase} with the name as
+ * This filter only accepts instances of {@link SBase} with the id or name as
  * given in the constructor of this object.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-05-19
  * @since 0.8
  */
 public class NameFilter implements Filter {
 
   /**
-   * The desired identifier for NamedSBases to be acceptable.
+   * The desired identifier.
    */
   String id;
   /**
-   * The desired name for NamedSBases to be acceptable.
+   * The desired name.
    */
   String name;
 
   /**
-   * 
+   * Creates a new {@link NameFilter} instance
    */
   public NameFilter() {
     this(null, null);
   }
 
   /**
+   * Creates a new {@link NameFilter} instance with the given id to search for.
    * 
-   * @param id
+   * @param id the id to search for
    */
   public NameFilter(String id) {
     this(id, null);
   }
 
   /**
+   * Creates a new {@link NameFilter} instance with the given id and/or name to search for.
    * 
-   * @param id
-   * @param name
+   * @param id the id to search for (can be null, then we search only for name).
+   * @param name the name to search for (can be null, then we search only for id)
    */
   public NameFilter(String id, String name) {
     this.id = id;
@@ -71,12 +72,13 @@ public class NameFilter implements Filter {
    */
   @Override
   public boolean accepts(Object o) {
-    if (o instanceof NamedSBase) {
-      NamedSBase nsb = (NamedSBase) o;
-      if (nsb.isSetId() && (id != null) && nsb.getId().equals(id)) {
+    if (o instanceof SBase) {
+      SBase sbase = (SBase) o;
+      
+      if (sbase.isSetId() && (id != null) && sbase.getId().equals(id)) {
         return true;
       }
-      if (nsb.isSetName() && (name != null) && nsb.getName().equals(name)) {
+      if (sbase.isSetName() && (name != null) && sbase.getName().equals(name)) {
         return true;
       }
     }
@@ -84,6 +86,8 @@ public class NameFilter implements Filter {
   }
 
   /**
+   * Returns the id.
+   * 
    * @return the id
    */
   public String getId() {
@@ -91,6 +95,8 @@ public class NameFilter implements Filter {
   }
 
   /**
+   * Returns the name.
+   * 
    * @return the name
    */
   public String getName() {
@@ -98,6 +104,8 @@ public class NameFilter implements Filter {
   }
 
   /**
+   * Sets the id to search for.
+   * 
    * @param id the id to set
    */
   public void setId(String id) {
@@ -105,6 +113,8 @@ public class NameFilter implements Filter {
   }
 
   /**
+   * Sets the name to search for.
+   * 
    * @param name the name to set
    */
   public void setName(String name) {
