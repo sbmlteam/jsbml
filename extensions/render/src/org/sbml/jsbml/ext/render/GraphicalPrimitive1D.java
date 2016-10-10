@@ -126,7 +126,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
    * @param obj
    */
   public GraphicalPrimitive1D(GraphicalPrimitive1D obj) {
-    super();
+    super(obj);
     stroke = obj.stroke;
     strokeWidth = obj.strokeWidth;
 
