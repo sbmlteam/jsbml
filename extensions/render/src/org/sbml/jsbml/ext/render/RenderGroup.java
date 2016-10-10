@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,13 +27,9 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.IdentifierException;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.IdManager;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * The {@link RenderGroup} class from the SBML render extension is used to group graphical primitives together
@@ -53,19 +48,13 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Jakob Matthes
  * @author Jan Rudolph
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date $Date$
  */
 public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBase {
   /**
    * Generated serial version identifier
    */
   private static final long serialVersionUID = 2302368129571619877L;
-  /**
-   * 
-   */
-  private String id;
   /**
    * 
    */
@@ -119,7 +108,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    */
   public RenderGroup(String id) {
     super();
-    this.id = id;
+    setId(id);
     initDefaults();
   }
 
@@ -154,9 +143,8 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    */
   public RenderGroup(String id, String name, int level, int version) {
     super(level, version);
-    this.id = id;
-    // TODO - what about name?
-
+    setId(id);
+    setName(name);
     initDefaults();
   }
 
@@ -167,9 +155,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public RenderGroup(RenderGroup obj) {
     super(obj);
 
-    if (obj.isSetId()) {
-      setId(obj.getId());
-    }
     if (obj.isSetFontFamily()) {
       setFontFamily(obj.getFontFamily());
     }
@@ -228,7 +213,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         + ((fontStyleItalic == null) ? 0 : fontStyleItalic.hashCode());
     result = prime * result
         + ((fontWeightBold == null) ? 0 : fontWeightBold.hashCode());
-    result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((startHead == null) ? 0 : startHead.hashCode());
     result = prime * result
         + ((textAnchor == null) ? 0 : textAnchor.hashCode());
@@ -286,13 +270,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     } else if (!fontWeightBold.equals(other.fontWeightBold)) {
       return false;
     }
-    if (id == null) {
-      if (other.id != null) {
-        return false;
-      }
-    } else if (!id.equals(other.id)) {
-      return false;
-    }
     if (startHead == null) {
       if (other.startHead != null) {
         return false;
@@ -323,7 +300,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    */
   @Override
   public String toString() {
-    return "Group [id=" + id + ", fontFamily=" + fontFamily + ", fontSize="
+    return "Group [fontFamily=" + fontFamily + ", fontSize="
         + fontSize + ", fontWeightBold=" + fontWeightBold + ", fontStyleItalic="
         + fontStyleItalic + ", textAnchor=" + textAnchor + ", vTextAnchor="
         + vTextAnchor + ", startHead=" + startHead + ", endHead=" + endHead + ", listOfElements=" + listOfElements + "]";
@@ -389,66 +366,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   @Override
   public String getElementName() {
     return "g";
-  }
-
-  /**
-   * @return the value of id
-   */
-  @Override
-  public String getId() {
-    if (isSetId()) {
-      return id;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.id, this); // TODO - do the same behavior as for the AbstractNamedSBase.getId method
-  }
-
-  /**
-   * @return whether id is set
-   */
-  @Override
-  public boolean isSetId() {
-    return id != null;
-  }
-
-
-  @Override
-  public void setId(String id) {
-    String property = getLevel() == 1 ? TreeNodeChangeEvent.name : TreeNodeChangeEvent.id;
-    String oldId = this.id;
-
-    IdManager idManager = getIdManager(this);
-    if (idManager != null) { // (oldId != null) // As the register and unregister are recursive, we need to call the unregister all the time until we have a non recursive method
-      // Delete previous identifier only if defined.
-      idManager.unregister(this); // TODO - do we need non recursive method on the IdManager interface ??
-    }
-
-    if ((id == null) || (id.trim().length() == 0)) {
-      this.id = null;
-    } else { // if (checkIdentifier(id)) {
-      this.id = id;
-    }
-
-    if ((idManager != null) && !idManager.register(this)) {
-      IdentifierException exc = new IdentifierException(this, this.id);
-      this.id = oldId; // restore the previous setting!
-      throw new IllegalArgumentException(exc);
-    }
-
-    firePropertyChange(property, oldId, this.id);
-  }
-
-
-  /**
-   * Unsets the variable id
-   */
-  @Override
-  public void unsetId() {
-    if (isSetId()) {
-      String oldId = id;
-      id = null;
-      firePropertyChange(RenderConstants.id, oldId, id); // TODO - need to unregister the id
-    }
   }
 
   /**
@@ -1101,11 +1018,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetId()) {
-      attributes.remove(RenderConstants.id);
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.id,
-        getId());
-    }
+
     if (isSetFontFamily()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontFamily,
         getFontFamily().toString().toLowerCase());
@@ -1151,10 +1064,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     if (!isAttributeRead) {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
-      if (attributeName.equals(RenderConstants.id)) {
-        setId(value);
-      }
-      else if (attributeName.equals(RenderConstants.fontFamily)) {
+      if (attributeName.equals(RenderConstants.fontFamily)) {
         setFontFamily(FontFamily.valueOf(value.toUpperCase()));
       }
       else if (attributeName.equals(RenderConstants.fontSize)) {
@@ -1184,33 +1094,4 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     }
     return isAttributeRead;
   }
-
-  // TODO - May be the UniqueNamedSBase interface should not extends NamedSBase ???
-
-  @Override
-  public String getName() {
-    // does nothing, the RenderGroup class has no attribute 'name'
-    return null;
-  }
-
-  @Override
-  public boolean isIdMandatory() {
-    return false;
-  }
-
-  @Override
-  public boolean isSetName() {
-    return false;
-  }
-
-  @Override
-  public void setName(String name) {
-    throw new SBMLException("The RenderGroup class has no attribute 'name', so you cannot use this method on this class, sorry.");
-  }
-
-  @Override
-  public void unsetName() {
-    // does nothing, the RenderGroup class has no attribute 'name'
-  }
-
 }
