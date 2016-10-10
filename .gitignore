@@ -58,4 +58,4 @@ layoutTestResults.txt
 /modules/tidy/doc/api
 /.DS_Store
 
-
+MyTest*

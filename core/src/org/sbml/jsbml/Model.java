@@ -1816,8 +1816,9 @@ public class Model extends AbstractNamedSBase
 
 
   /**
-   * Returns a {@link SBase} element that has the given 'id' within
-   * this {@link Model} or {@code null} if no such element can be found.
+   * Returns a {@link UniqueNamedSBase} element that has the given 'id' within
+   * this {@link Model} or {@code null} if no such element can be found. This method will return
+   * only elements that had an id before SBML L3V2. 
    * 
    * @param id
    *        an id indicating an {@link SBase} element of the
@@ -1826,8 +1827,12 @@ public class Model extends AbstractNamedSBase
    *         the given 'id' as id or {@code null} if no element with this
    *         'id' can be found.
    */
-  public SBase findUniqueNamedSBase(String id) {
-    return findUniqueSBase(id);
+  public UniqueNamedSBase findUniqueNamedSBase(String id) {
+    SBase found = findUniqueSBase(id);
+    if ((found != null) && (found instanceof UniqueNamedSBase)) {
+      return (UniqueNamedSBase) found;
+    }
+    return null;
   }
 
   /**
