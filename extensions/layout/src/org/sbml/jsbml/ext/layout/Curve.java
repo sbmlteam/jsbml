@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +37,6 @@ import org.sbml.jsbml.ListOf;
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public class Curve extends AbstractNamedSBase {
 
@@ -50,7 +48,7 @@ public class Curve extends AbstractNamedSBase {
   /**
    * 
    */
-  ListOf<CurveSegment> listOfCurveSegments = new ListOf<CurveSegment>();
+  ListOf<CurveSegment> listOfCurveSegments;
 
   /**
    * 
@@ -237,6 +235,17 @@ public class Curve extends AbstractNamedSBase {
    * @return
    */
   public ListOf<CurveSegment> getListOfCurveSegments() {
+    if (listOfCurveSegments == null) {
+      listOfCurveSegments = new ListOf<CurveSegment>(getLevel(), getVersion());
+      listOfCurveSegments.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfCurveSegments.setPackageName(null);
+      listOfCurveSegments.setPackageName(LayoutConstants.shortLabel);
+      listOfCurveSegments.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfCurveSegments);
+    }
+    
     return listOfCurveSegments;
   }
 
@@ -259,11 +268,6 @@ public class Curve extends AbstractNamedSBase {
   private void initDefaults() {
     setPackageVersion(-1);
     packageName = LayoutConstants.shortLabel;
-    // changing the ListOf package name from 'core' to 'layout'
-    listOfCurveSegments.setPackageName(null);
-    listOfCurveSegments.setPackageName(LayoutConstants.shortLabel);
-    listOfCurveSegments.setSBaseListType(ListOf.Type.other);
-    registerChild(listOfCurveSegments);
   }
 
   /* (non-Javadoc)
