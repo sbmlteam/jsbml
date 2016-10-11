@@ -4792,7 +4792,15 @@ public class VectorCompiler implements ASTNodeCompiler {
       } else if (useId) {
         value.replaceChild(i, ASTNode.uMinus(child));
       }  else if (child.isNumber()) {
-        value.getChild(i).setValue(-child.getReal());
+        if (child.isInteger()) {
+          value.getChild(i).setValue(-child.getInteger());
+        } else if (child.isRational()) {
+          value.getChild(i).setValue(-child.getNumerator(), child.getDenominator());
+        } else if (child.getType().equals(Type.REAL_E)) {
+          value.getChild(i).setValue(-child.getMantissa(), child.getExponent());
+        } else {
+          value.getChild(i).setValue(-child.getReal());
+        }
       } else {
         throw new SBMLException();
       }
