@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -24,9 +23,13 @@ package org.sbml.jsbml.ext.arrays.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
+
+import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AssignmentRule;
@@ -42,6 +45,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.Trigger;
@@ -51,18 +55,26 @@ import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.ext.arrays.flattening.ArraysFlattening;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 
 
 /**
+ * Tests the arrays flattening algorithm.
+ * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jul 17, 2014
  */
 public class FlatteningTest {
 
+  /**
+   * 
+   */
   private static final transient Logger logger = Logger.getLogger(FlatteningTest.class);
 
+  /**
+   * Flattens a model that contain a species array of size 0.
+   * 
+   */
   @Test
   public void sizeZeroTest() {
     try {
@@ -99,6 +111,7 @@ public class FlatteningTest {
   }
 
   /**
+   * Flattens a model that contain a 2D species array of size 2x2.
    * 
    */
   @Test
@@ -146,6 +159,7 @@ public class FlatteningTest {
   }
 
   /**
+   * Flattens a model that contain a 1D parameter array with related {@link InitialAssignment} and {@link AssignmentRule} array.
    * 
    */
   @Test
@@ -162,6 +176,15 @@ public class FlatteningTest {
       Parameter X = new Parameter("X");
       X.setValue(1);
       model.addParameter(X);
+      ArraysSBasePlugin arraysSBasePluginX = new ArraysSBasePlugin(X);
+      X.addExtension(ArraysConstants.shortLabel, arraysSBasePluginX);
+
+      Dimension dimX = new Dimension("i");
+      dimX.setSize(n.getId());
+      dimX.setArrayDimension(0);
+      arraysSBasePluginX.addDimension(dimX);
+      
+      // arrayed initial assignment
       InitialAssignment ia = model.createInitialAssignment();
       ia.setVariable("X");
       ia.setMath(ASTNode.parseFormula("selector({1,2,3,4,5,6,7,8,9,10},i)"));
@@ -176,15 +199,6 @@ public class FlatteningTest {
       indX.setMath(new ASTNode("i"));
 
       Parameter Y = new Parameter("Y");
-      ArraysSBasePlugin arraysSBasePluginX = new ArraysSBasePlugin(X);
-      X.addExtension(ArraysConstants.shortLabel, arraysSBasePluginX);
-
-      Dimension dimX = new Dimension("i");
-      dimX.setSize(n.getId());
-      dimX.setArrayDimension(0);
-      arraysSBasePluginX.addDimension(dimX);
-
-
       model.addParameter(Y);
       Y.setValue(2);
       ArraysSBasePlugin arraysSBasePluginY = new ArraysSBasePlugin(Y);
@@ -206,7 +220,6 @@ public class FlatteningTest {
       dimRule.setSize(n.getId());
       dimRule.setArrayDimension(0);
       arraysSBasePluginRule.addDimension(dimRule);
-
 
       Index indexRule = arraysSBasePluginRule.createIndex();
       indexRule.setArrayDimension(0);
@@ -902,6 +915,9 @@ public class FlatteningTest {
 
   }
 
+  /**
+   * 
+   */
   @Test
   public void testLayout() {
     SBMLDocument doc;
@@ -944,6 +960,9 @@ public class FlatteningTest {
   //
   //  }
 
+  /**
+   * 
+   */
   @Test
   public void getmodel() {
     SBMLDocument doc;
@@ -989,6 +1008,9 @@ public class FlatteningTest {
   //    assertTrue(c.getMath().getType() == doc.getModel().getConstraint(0).getMath().getType());
   //  }
 
+  /**
+   * 
+   */
   @Test
   public void testTime() {
     SBMLDocument doc;
@@ -1015,6 +1037,9 @@ public class FlatteningTest {
 
   }
 
+  /**
+   * 
+   */
   @Test
   public void toggleTime() {
     SBMLDocument doc;
@@ -1041,6 +1066,9 @@ public class FlatteningTest {
 
   }
   
+  /**
+   * 
+   */
   @Test
   public void complexBioModel() {
     SBMLDocument doc;
@@ -1050,6 +1078,7 @@ public class FlatteningTest {
 
       SBMLDocument flattened = ArraysFlattening.convert(doc);
       Model flattenedModel = flattened.getModel();
+
       assert(model.equals(flattenedModel));
 
     } catch (XMLStreamException e) {
