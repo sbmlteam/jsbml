@@ -115,7 +115,7 @@ NamedSBase {
    * @param version the SBML version
    */
   public AbstractNamedSBase(String id, String name, int level, int version) {
-    this(level, version);
+    super(level, version);
     setId(id);
     setName(name);
   }
