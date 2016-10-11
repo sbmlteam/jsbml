@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
@@ -3162,7 +3163,7 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
     for (int i = 1; i < values.size(); i++) {
       values.get(i).compile(this);
-      uMinus(getNode());
+      uMinus(getNode()); // TODO - check with Leandro - we should not use UMinus here, I think.
       negValues.add(getNode());
     }
 
@@ -3180,13 +3181,28 @@ public class VectorCompiler implements ASTNodeCompiler {
         for(int i = 1; i < plus.getChildCount(); i++)
         {
           ASTNode child = plus.getChild(i);
-          if(child.getType() == ASTNode.Type.MINUS && child.getChildCount() == 1)
+          if(child.getType() == ASTNode.Type.MINUS && child.getChildCount() == 1) // TODO - then those special cases might not be needed any more ?!
           {
             minus.addChild(child.getChild(0));
           }
           else if(child.getType() == ASTNode.Type.REAL && child.getMantissa() < 0)
           {
             child.setValue(-child.getMantissa());
+            minus.addChild(child);
+          }
+          else if(child.getType() == ASTNode.Type.REAL_E && child.getMantissa() < 0)
+          {
+            child.setValue(-child.getMantissa(), child.getExponent());
+            minus.addChild(child);
+          }
+          else if(child.getType() == ASTNode.Type.INTEGER && child.getInteger() < 0)
+          {
+            child.setValue(-child.getInteger());
+            minus.addChild(child);
+          }
+          else if(child.getType() == ASTNode.Type.RATIONAL && child.getNumerator() < 0)
+          {
+            child.setValue(-child.getNumerator(), child.getDenominator());
             minus.addChild(child);
           }
           else
@@ -4736,7 +4752,15 @@ public class VectorCompiler implements ASTNodeCompiler {
       return dummy;
     }
     else if (compiled.isNumber()) {
-      compiled.setValue(-value.getReal());
+      if (compiled.isInteger()) {
+        compiled.setValue(-value.getInteger());
+      } else if (compiled.isRational()) {
+        compiled.setValue(-value.getNumerator(), value.getDenominator());
+      } else if (compiled.getType().equals(Type.REAL_E)) {
+        compiled.setValue(-value.getMantissa(), value.getExponent());
+      } else {
+        compiled.setValue(-value.getReal());
+      }
     }
     else if (useId) {
       if (compiled.toString().equals("unknown")) {
