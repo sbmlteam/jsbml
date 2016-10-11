@@ -95,7 +95,9 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     if (fbcPlugin.isSetListOfGeneProducts()) {
       setListOfGeneProducts(fbcPlugin.getListOfGeneProducts().clone());
     }
-
+    if (fbcPlugin.isSetStrict()) {
+      setStrict(fbcPlugin.getStrict());
+    }
   }
 
 
