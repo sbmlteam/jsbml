@@ -26,6 +26,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -37,6 +38,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTNode2;
+import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -2359,6 +2361,7 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
+    
     if (equal) {
       ASTNode ast = (ASTNode) object;
       equal &= ast.getType() == type;
@@ -4056,19 +4059,22 @@ public class ASTNode extends AbstractTreeNode {
     if (type == Type.NAME_TIME) {
       name = "time";
       definitionURL = URI_TIME_DEFINITION;
+      encoding = "text";
     } else if (type == Type.FUNCTION_DELAY) {
       initDefaults();
       name = "delay";
       definitionURL = URI_DELAY_DEFINITION;
+      encoding = "text";
     } else if (type == Type.NAME_AVOGADRO) {
-      initDefaults();
       name = "Avogadro's number";
       setValue(Maths.AVOGADRO_L3V1);
       definitionURL = URI_AVOGADRO_DEFINITION;
+      encoding = "text";
     } else if (type == Type.FUNCTION_RATE_OF) {
       initDefaults();
       name = "rateOf";
       definitionURL = URI_RATE_OF_DEFINITION;
+      encoding = "text";
     }
 
     Type oldValue = this.type;
