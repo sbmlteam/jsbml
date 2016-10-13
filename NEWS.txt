@@ -1,19 +1,42 @@
 	       JSBML NEWS -- History of user-visible changes
 
 
+----
+release anouncement:
+-jdk 1.7 compatible now. May be next year 1.8 compatible to be able to use 
+ the latest libraries.
+- improvements to the infix formula reading/writing ? (Miguel de Alba and 
+libsbml team)
+- beta offline validator
+- updated Groups, multi specs. fbc, spatial improvements  
+----
 ===========================================================================
-Version 1.2-X (XX-XX-2016)
+Version 1.2-beta1 (XX-10-2016)
 ===========================================================================
 
  * New Features:
 
+  - Added support for mathML semantics annotations.
 
+  - Added the ASTNodePlugin interface so that ASTNode can have plugins.
+    
+  - Added a static function parseMathML in ASTNode to make the function
+    easier to find. Thanks to Jason Zwolak who suggested it.
+  
+  
  * Bug Fixes:
 
   - The whole SBMLDocument was not serializable, few classes were not
     implementing the Serializable class. This should be fixed now. Thanks
     to Jens Einloft who reported the problem.
 
+  - Corrected an encoding problem in the tidy SBML writer that happened
+    when the default JVM encoding was not UTF-8.
+  
+  - When writing sbml:units attributes in 'cn' elements in MathML for real
+    numbers with e-notation the xml tag was closed before the attribute was
+    written. Thanks to Matthias König who reported this problem.  
+  
   - The clone constructor for SBaseRef was not cloning properly it's child
     SBaseRef.
 
@@ -25,7 +48,9 @@ Version 1.2-X (XX-XX-2016)
   
   - Corrected a potential NullPointerException in the 
     TreeNodeAdapter(Object, TreeNode) constructor.
-    
+  
+  - Corrected the number returned by ASTNode.getReal() in the case of 
+    REAL_E, when the mantissa is NaN or infinity.  
 
 ===========================================================================
 Version 1.1 (09-12-2016)
