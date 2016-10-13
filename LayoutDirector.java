@@ -657,6 +657,8 @@ public class LayoutDirector<P> implements Runnable {
       curveWidth = (Double) userObject;
     }
     
+    // The responsible classes for rotation are LayoutBuilder and the ProcessNodeRealizier.
+    // The first one only calculates the rotation angle, while the second one performs drawing.
     double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(reactionGlyph);
     builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);
     

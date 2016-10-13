@@ -833,6 +833,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
     if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
       ListOf<SpeciesReferenceGlyph> speciesRefGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
       
+      // TODO: This needs to be extended to also take multiple reactants and products into account!
       // get the substrate and the product of this reaction
       SpeciesGlyph substrate = findSpeciesGlyphByRole(speciesRefGlyphList, SpeciesReferenceRole.SUBSTRATE);
       SpeciesGlyph product = findSpeciesGlyphByRole(speciesRefGlyphList, SpeciesReferenceRole.PRODUCT);
