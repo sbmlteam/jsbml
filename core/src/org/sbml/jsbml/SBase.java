@@ -31,6 +31,8 @@ import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.util.filters.IdFilter;
 import org.sbml.jsbml.xml.XMLNode;
 
 /**
@@ -436,7 +438,12 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * <p>This method is here for compatibility with libSBML, it is less efficient than
    * the methods that are located in the {@link Model} and {@link SBMLDocument} classes.</p>
+   *
+   * <p>If you want to get an {@link SBase} that is not in the SId namespace,
+   * you can use the filter methods (for example: {@link #filter(Filter)}) 
+   * using the {@link IdFilter} filter. 
    * 
+
    * @param id string representing the id of the {@link SBase} to find.
    * @return the first child element found that has the given id.
    * @see Model#getSBaseById(String)

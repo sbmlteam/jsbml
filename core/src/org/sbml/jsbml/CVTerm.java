@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,6 +22,7 @@ package org.sbml.jsbml;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,7 +44,6 @@ import org.sbml.jsbml.xml.XMLNode;
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class CVTerm extends AnnotationElement {
 
@@ -554,19 +553,15 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
+   * Adds a resource to the {@link CVTerm} at the specified index.
    * 
-   * @param index
-   * @param uri
-   * @throws UnsupportedOperationException
-   * @throws ClassCastException
-   * @throws NullPointerException
-   * @throws IllegalArgumentException
-   * @throws IndexOutOfBoundsException
-   * @see {@link List#add(int, Object)}
+   * @param index - index at which the specified element is to be inserted
+   * @param uri - element to be inserted
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index > size())
+   * @see List#add(int, Object)
    */
   public boolean addResource(int index, String uri)
-      throws UnsupportedOperationException, ClassCastException,
-      NullPointerException, IllegalArgumentException, IndexOutOfBoundsException {
+      throws IndexOutOfBoundsException {
     boolean contains = resourceURIs.contains(uri);
     if (!contains) {
       resourceURIs.add(index, uri);

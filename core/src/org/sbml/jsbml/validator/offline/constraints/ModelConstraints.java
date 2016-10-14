@@ -135,11 +135,12 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
     case CORE_10301: 
+      // TODO - re-write this validation rule to recursively take all UniqueSId/UniqueNamedSBase objects ?
       
       // TODO - it would be good to be able to keep the created Hashset of ids so that we can use it
       // for other constraints, like when we will need to validate L3 package ids that are in the SId id space.
       
-      func = new UniqueValidation<Model, String>() {
+      func = new UniqueValidation<Model, String>() { 
 
         @Override
         public int getNumObjects(ValidationContext ctx, Model m) {

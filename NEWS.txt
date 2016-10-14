@@ -1,18 +1,28 @@
 	       JSBML NEWS -- History of user-visible changes
 
 
+===========================================================================
+Version 1.2-beta1 (XX-10-2016)
+===========================================================================
 ----
 release anouncement:
 -jdk 1.7 compatible now. May be next year 1.8 compatible to be able to use 
  the latest libraries.
+- move to github
 - improvements to the infix formula reading/writing ? (Miguel de Alba and 
 libsbml team)
+- initDefaults methods with additional boolean flag `explicit`
+- keeping unknown XML elements
 - beta offline validator
-- updated Groups, multi specs. fbc, spatial improvements  
+- updated Groups, multi specs. fbc, spatial, arrays, layout improvements.
+
+- SBML L3V2 support (apart for VCard4 for now)
+- NamedSBase/UniqueNamedSBase changes (SBase with id and name). New mathml operators.
+- toString() changes
+- Model: deprecated the getInitialAssignment and getRule methods. Replaced 
+them by four new methods where the name make it explicit what is used to 
+get the element. Added some new methods
 ----
-===========================================================================
-Version 1.2-beta1 (XX-10-2016)
-===========================================================================
 
  * New Features:
 
@@ -23,6 +33,9 @@ Version 1.2-beta1 (XX-10-2016)
   - Added a static function parseMathML in ASTNode to make the function
     easier to find. Thanks to Jason Zwolak who suggested it.
   
+  - Added two methods, hasTerm(int) and hasTerm(String), in SBO to allow
+    users to safely check if a term can be retrieved for a given SBO
+    identifier without having to catch a NoSuchElementException.
   
  * Bug Fixes:
 
@@ -30,6 +43,10 @@ Version 1.2-beta1 (XX-10-2016)
     implementing the Serializable class. This should be fixed now. Thanks
     to Jens Einloft who reported the problem.
 
+  - Fixed the SBMLReader class to make sure the UTF-8 encoding was used
+    when reading an SBML model from a String. Thanks to Matthias König who
+    reported this problem.
+    
   - Corrected an encoding problem in the tidy SBML writer that happened
     when the default JVM encoding was not UTF-8.
   
@@ -43,6 +60,11 @@ Version 1.2-beta1 (XX-10-2016)
   - The equals method of ASTNode was failing when one of the double values
     was set to NaN.
   
+  - Corrected the metaid pattern that did not include the colon character.
+  
+  - Corrected the FBCModelPlugin clone constructor so that it clone 
+    properly the strict attribute.
+
   - Corrected several potential NullPointerExceptions that could occur
     during the cloning of an SBMLDocument that contain plugins.
   
