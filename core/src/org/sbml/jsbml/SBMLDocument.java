@@ -315,10 +315,17 @@ public class SBMLDocument extends AbstractSBase {
 //  }
 
   /**
-   * Validates the {@link SBMLDocument} using the offline validator.
+   * Validates the {@link SBMLDocument} using the BETA version of the 
+   * offline validator (<span style="color:red;">do not use for production</span>).
+   * 
    * <p>
-   * Notice that the offline validator is still under development and there
-   * is only a subset of rules which will be tested at the moment.
+   * <span style="color:red;">WARNING</span>: the offline validator is still under development and there
+   * is only a subset of rules which will be tested at the moment and you might
+   * have errors reported that should not be. As well, the error messages are not very
+   * informative, at the moment it is only a generic string not customized to provide
+   * any context to help to know which SBML element generated the error.</p>
+   * 
+   * <p>For testing only, do not use for production.</p>
    * 
    * @return the number of errors
    */

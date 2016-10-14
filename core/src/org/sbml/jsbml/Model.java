@@ -37,6 +37,8 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
+import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.util.filters.IdFilter;
 import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
 
 /**
@@ -1836,7 +1838,7 @@ public class Model extends AbstractNamedSBase
   }
 
   /**
-   * Returns a {@link SBase} element that has the given 'id' within
+   * Returns a {@link SBase} element that has the given unique 'id' within
    * this {@link Model} or {@code null} if no such element can be found.
    * 
    * @param id
@@ -2219,6 +2221,30 @@ public class Model extends AbstractNamedSBase
       }
     }
     return count;
+  }
+
+
+  
+  /**
+   * Returns an {@link SBase} element of the model that has the given 'id'
+   * as id or {@code null} if no element is found.
+   * 
+   * <p>The element has to have a unique 
+   * id (SId) in the model to be returned by this method, meaning
+   * that it need to implement the interface {@link UniqueSId}.
+   * 
+   * <p>If you want to get an {@link SBase} that is not in the SId namespace,
+   * you can use the filter methods ( for example: {@link #filter(Filter)}) 
+   * using the {@link IdFilter} filter. 
+   * 
+   * @param id
+   *        an id indicating an element of the model.
+   * @return a {@link SBase} element of the model that has the given 'id'
+   *         as id or {@code null} if no element is found.
+   */
+  @Override
+  public SBase getElementBySId(String id) {
+    return findUniqueSBase(id);
   }
 
 
@@ -3459,7 +3485,8 @@ public class Model extends AbstractNamedSBase
    * that it need to implement the interface {@link UniqueSId}.
    * 
    * <p>If you want to get an {@link SBase} that is not in the SId namespace,
-   * you can use the method {@link #getElementBySId(String)}. 
+   * you can use the filter methods (for example: {@link #filter(Filter)}) 
+   * using the {@link IdFilter} filter. 
    * 
    * @param id
    *        an id indicating an element of the model.
