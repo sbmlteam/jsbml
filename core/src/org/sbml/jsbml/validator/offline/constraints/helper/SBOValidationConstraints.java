@@ -1,6 +1,5 @@
 /*
- * $IdSBOValidationConstraints.java 14:13:33 roman $
- * $URLSBOValidationConstraints.java $
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,12 +24,11 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
 
 /**
- * provides constants for the different SBO checks. Every constant is a
+ * Provides constants for the different SBO checks. Every constant is a
  * {@link ValidationFunction} typed for SBase objects.
  * 
  * @author Roman
  * @since 1.2
- * @date 08.08.2016
  */
 public final class SBOValidationConstraints {
 
@@ -42,46 +40,39 @@ public final class SBOValidationConstraints {
   {
 
     @Override
-    public boolean check(
-      ValidationContext ctx,
-      SBase sb) {
+    public boolean check(ValidationContext ctx, SBase sb) {
 
       if (sb.isSetSBOTerm()) {
 
-        return SBO.isObsolete(
-          sb.getSBOTerm());
+        return !SBO.isObsolete(sb.getSBOTerm()); // We need to return false in order for the error to be detected
+      }
+
+      return true;
+    }
+  };
+
+  /**
+   * Checks if the SBO of the SBase is part of the branch 'Modelling Framework'.
+   */                                                                  
+  public static final ValidationFunction<SBase> isModellingFramework     =
+      new ValidationFunction<SBase>()
+  {
+
+    @Override
+    public boolean check(ValidationContext ctx, SBase sb) {
+
+      if (sb.isSetSBOTerm()) {
+        try {
+          return SBO.isModellingFramework(sb.getSBOTerm());
+        } catch (Exception e) {
+          return false;
+        }
 
       }
 
-      return false;
-    }
-
-
-    /**
-     * Checks if the SBO of the SBase is part of the branch 'Modelling Framework'.
-     */                                                                  };
-     public static final ValidationFunction<SBase> isModellingFramework     =
-         new ValidationFunction<SBase>()
-     {
-
-       @Override
-       public boolean check(
-         ValidationContext ctx,
-         SBase sb) {
-
-         if (sb.isSetSBOTerm()) {
-           try {
-             return SBO.isModellingFramework(
-               sb.getSBOTerm());
-           } catch (Exception e) {
-             return false;
-           }
-
-         }
-
-         return true;
-       };
-     };
+      return true;
+    };
+  };
 
 
      /**
@@ -98,8 +89,7 @@ public final class SBOValidationConstraints {
 
          if (sb.isSetSBOTerm()) {
            try {
-             return SBO.isInteraction(
-               sb.getSBOTerm());
+             return SBO.isInteraction(sb.getSBOTerm());
            } catch (Exception e) {
              return false;
            }
@@ -209,7 +199,7 @@ public final class SBOValidationConstraints {
              return SBO.isParticipantRole(
                sb.getSBOTerm());
            } catch (Exception e) {
-             return true;
+             return false;
            }
 
          }
