@@ -2827,7 +2827,7 @@ public class ASTNode extends AbstractTreeNode {
     int level = parent != null ? parent.getLevel() : -1;
     int version = parent != null ? parent.getVersion() : -1;
     if (!isSetUnits() || (getParentSBMLObject() == null)) {
-      if (isName()) {
+      if (isVariable()) {
         CallableSBase variable = getVariable();
         if (variable != null) {
           return variable.getDerivedUnitDefinition();
@@ -3452,7 +3452,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this node represents a {@link Variable}.
    */
   public boolean isVariable() {
-    return type == Type.NAME || type == Type.FUNCTION; // TODO - add RATE_OF here as well ?
+    return type == Type.NAME || type == Type.FUNCTION;
   }
 
   /**
