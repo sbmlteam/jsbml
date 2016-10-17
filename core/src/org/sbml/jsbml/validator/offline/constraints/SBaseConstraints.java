@@ -1,6 +1,5 @@
 /*
- * $IdSBaseConstraints.java 16:06:11 roman $
- * $URLSBaseConstraints.java $
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -33,7 +32,6 @@ import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 /**
  * @author Roman
  * @since 1.2
- * @date 06.08.2016
  */
 public class SBaseConstraints extends AbstractConstraintDeclaration {
 
@@ -179,6 +177,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
       break;
       
     case CORE_99701:
+    {
       func = new ValidationFunction<SBase>() {
 
         @Override
@@ -188,15 +187,19 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
             return ValidationTools.isSboTerm(sb.getSBOTermID());
           }
 
-          return false;
+          return true;
         }
       };
       break;
-
+    }
+    
     case CORE_99702:
+    {
       func = SBOValidationConstraints.isObsolete;
       break;
     }
+    }
+    
     return func;
   }
 
