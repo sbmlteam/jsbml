@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.sbml.jsbml.SBMLDocument;
@@ -98,9 +99,8 @@ public class OfflineValidatorVersusLibsbmlTests {
 
   private static Map<String, Exception> exceptions = new HashMap<String, Exception>();
   private static Set<Integer> notDetected = new TreeSet<Integer>();
-  private static Map<Integer, String>                  notDetectedFiles =
-      new HashMap<Integer, String>();
-  private static long                                  readTime         = 0;
+  private static Map<String, String> notDetectedFiles = new TreeMap<String, String>();
+  private static long readTime = 0;
 
   private static Map<String, LoggingValidationContext> contextCache     =
       new HashMap<String, LoggingValidationContext>();
@@ -179,9 +179,7 @@ public class OfflineValidatorVersusLibsbmlTests {
     System.out.println("Reading: " + nbSecondesRead + " secondes.");
     System.out.println("Validating: " + nbSecondesValidating + " secondes.");
 
-    System.out.println("\n\nNumber of files correctly validated: "
-        + (nbFileValidated - notDetected.size()) + " out of " + nbFileValidated);
-    System.out.println("\nIncorrect constraints list: ");
+    System.out.println("\nIncorrect constraints list (errors followed by a '!' are errors that we know are not implemented): ");
     
     Integer previous = 0;
     Integer[] notDetectedA = notDetected.toArray(new Integer[notDetected.size()]);
@@ -198,20 +196,28 @@ public class OfflineValidatorVersusLibsbmlTests {
       if ((errorCode - errorBase) > 100) {
         System.out.println();
       }
-      System.out.print(errorCode + ", ");
+      
+      if (!notImplementedConstraints.contains(errorCode)) {
+        System.out.print(errorCode + ", ");
+      } else {
+        System.out.print("" + errorCode + "!, ");
+      }
+      
       previous = errorCode;
     }
     
     System.out.println("\n\nNumber of files correctly validated: "
       + filesCorrectly + " out of " + totalFileTested);
-    System.out.println("Didn't detect the following broken constraints:");
 
-    for (Integer i : notDetected) {
+    if (notDetectedFiles.size() > 0) {
+      System.out.println("\nList of incorrectly detected constraints in the following files :\n");
 
-      String out = i + " in " + notDetectedFiles.get(i);
-      System.out.println(out);
+      for (String fileName : notDetectedFiles.keySet()) {
+
+        String out = fileName + ": " + notDetectedFiles.get(fileName);
+        System.out.println(out);
+      }
     }
-    
   }
 
 
@@ -266,32 +272,80 @@ public class OfflineValidatorVersusLibsbmlTests {
       int errors = log.getNumErrors();
 
       boolean constraintBroken = false;
-
+      Map<Integer, Integer> jsbmlErrorCount = new TreeMap<Integer, Integer>();
+      Map<Integer, Integer> libsbmlErrorCount = new TreeMap<Integer, Integer>();
+      HashSet<Integer> wronglyValidatedConstraintSet = new HashSet<Integer>();
+      
       System.out.println(errors + " constraints broken with the JSBML offline validator.");
       for (SBMLError e : log.getValidationErrors()) {
         int errorCode = e.getCode();
+                
+        // System.out.println("JSBML - error " + errorCode);
         
-        // TODO - count each errorCode
+        // count each errorCode
+        if (jsbmlErrorCount.get(errorCode) == null) {
+          jsbmlErrorCount.put(errorCode, 1);
+        } else {
+          jsbmlErrorCount.put(errorCode, jsbmlErrorCount.get(errorCode) + 1);
+        }
       }
 
-      // TODO - do the validation with libsbml and count each errorCode
+      // do the validation with libsbml and count each errorCode
       org.sbml.libsbml.SBMLDocument ldoc = new org.sbml.libsbml.SBMLReader().readSBML(file.getAbsolutePath());
       ldoc.setConsistencyChecks(libsbmlConstants.LIBSBML_CAT_UNITS_CONSISTENCY, true);
       long lerrors = ldoc.checkConsistency();
 
-      System.out.println(lerrors + " constraints broken with the libSBML validator.");
+      System.out.println(lerrors + " constraints broken with the libSBML validator.\n");
 
-      // TODO - compare both results and report error code where the numbers differ between jsbml and libsbml
+      for (int i = 0; i < lerrors; i++) {
+        org.sbml.libsbml.SBMLError error = ldoc.getError(i);
+        int errorCode = (int) error.getErrorId();
+        
+        // System.out.println("libSBML - error " + errorCode);
+        
+        // count each errorCode
+        if (libsbmlErrorCount.get(errorCode) == null) {
+          libsbmlErrorCount.put(errorCode, 1);
+        } else {
+          libsbmlErrorCount.put(errorCode, libsbmlErrorCount.get(errorCode) + 1);
+        }
+         
+      }
       
-      // TODO - reomve for now the error code in the 
+      // compare both results and report error code where the numbers differ between jsbml and libsbml
+      for (Integer errorCode : jsbmlErrorCount.keySet())
+      {
+        int jsbmlErrorNb = jsbmlErrorCount.get(errorCode);
+        int libsbmlErrorNb = libsbmlErrorCount.get(errorCode) == null ? 0 : libsbmlErrorCount.get(errorCode);
+        
+        System.out.println("For validation '" + errorCode + "' libsbml = " + libsbmlErrorNb + ", jsbml = " + jsbmlErrorNb);
+        
+        if (libsbmlErrorNb == 0) 
+        {
+          System.out.println("ERROR: libSBML didn't detect at all constraint '" + errorCode + "'");
+          constraintBroken = true;
+          wronglyValidatedConstraintSet.add(errorCode);
+        }
+        else if (jsbmlErrorNb != libsbmlErrorNb)  
+        {
+          System.out.println("ERROR: libSBML didn't detect the same number of SBMLError for constraint '" + errorCode); //  + "' libsbml = " + libsbmlErrorNb + ", jsbml = " + jsbmlErrorNb
+          constraintBroken = true;
+          wronglyValidatedConstraintSet.add(errorCode);
+        }
+        else 
+        {
+          System.out.println("error '" + errorCode + "' is properly detected by jsbml");
+        }
+        System.out.println();
+      }
       
       if (!constraintBroken) {
         filesCorrectly++;
         System.out.println("PASSED");
       } else {
-        // TODO - go through the list of problematic error code notImplementedConstraints set or above 22000.
-        int errorCode = -1;
-        didNotDetect(errorCode, file.getName());
+        for (Integer errorCode : wronglyValidatedConstraintSet) {
+          didNotDetect(errorCode, file.getName());
+        }
         System.out.println("FAILED!!!");
       }
     } catch (Exception e) {
@@ -311,14 +365,18 @@ public class OfflineValidatorVersusLibsbmlTests {
    * @param fileName
    */
   private static void didNotDetect(int errorCode, String fileName) {
-    if (notDetected.add(errorCode)) {
-      notDetectedFiles.put(errorCode, fileName);
-    } else {
-      String files = notDetectedFiles.get(errorCode);
+    
+    notDetected.add(errorCode);
 
-      files += ", " + fileName;
-      notDetectedFiles.put(errorCode, files);
+    String constraints = notDetectedFiles.get(fileName);
+
+    if (constraints == null) {
+      constraints = "" + errorCode;
+    } else {
+      constraints += ", " + errorCode;
     }
+    
+    notDetectedFiles.put(fileName, constraints);
   }
 
 
