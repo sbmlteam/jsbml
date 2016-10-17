@@ -313,9 +313,13 @@ public class OfflineValidatorVersusLibsbmlTests {
       }
       
       // compare both results and report error code where the numbers differ between jsbml and libsbml
-      for (Integer errorCode : jsbmlErrorCount.keySet())
+      Set<Integer> wrongConstraintCodes = new HashSet<Integer>(); 
+      wrongConstraintCodes.addAll(jsbmlErrorCount.keySet());
+      wrongConstraintCodes.addAll(libsbmlErrorCount.keySet());
+      
+      for (Integer errorCode : wrongConstraintCodes)
       {
-        int jsbmlErrorNb = jsbmlErrorCount.get(errorCode);
+        int jsbmlErrorNb = jsbmlErrorCount.get(errorCode) == null ? 0 : jsbmlErrorCount.get(errorCode);
         int libsbmlErrorNb = libsbmlErrorCount.get(errorCode) == null ? 0 : libsbmlErrorCount.get(errorCode);
         
         System.out.println("For validation '" + errorCode + "' libsbml = " + libsbmlErrorNb + ", jsbml = " + jsbmlErrorNb);
@@ -338,6 +342,7 @@ public class OfflineValidatorVersusLibsbmlTests {
         }
         System.out.println();
       }
+      
       
       if (!constraintBroken) {
         filesCorrectly++;
