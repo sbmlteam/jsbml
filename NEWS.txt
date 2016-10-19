@@ -4,38 +4,59 @@
 ===========================================================================
 Version 1.2-beta1 (XX-10-2016)
 ===========================================================================
-----
-release anouncement:
--jdk 1.7 compatible now. May be next year 1.8 compatible to be able to use 
- the latest libraries.
-- move to github
-- improvements to the infix formula reading/writing ? (Miguel de Alba and 
-libsbml team)
-- initDefaults methods with additional boolean flag `explicit`
-- keeping unknown XML elements
-- beta offline validator
-- updated Groups, multi specs. fbc, spatial, arrays, layout improvements.
-
-- SBML L3V2 support (apart for VCard4 for now)
-- NamedSBase/UniqueNamedSBase changes (SBase with id and name). New mathml operators.
-- toString() changes
-- Model: deprecated the getInitialAssignment and getRule methods. Replaced 
-them by four new methods where the name make it explicit what is used to 
-get the element. Added some new methods
-----
 
  * New Features:
 
+  - The minimum JDK requirement is now 1.7.
+
+  - Added SBML L3V2 support (apart for VCard4).
+  
   - Added support for mathML semantics annotations.
 
   - Added the ASTNodePlugin interface so that ASTNode can have plugins.
-    
+  
+  - Added new initDefaults method in most SBase based classes with an
+    additional boolean flag 'explicit' as parameter. This allow for example
+    to set the SBML Level 2 default in an SBML Level 3 class. If the 
+    explicit boolean is set to true, the default values will be written to
+    XML.
+
+  - We are now trying to keep any unknown XML elements encountered while
+    reading an XML source. Like this we can write them back and users can
+    access them through a user object XMLNode.
+  
   - Added a static function parseMathML in ASTNode to make the function
     easier to find. Thanks to Jason Zwolak who suggested it.
   
   - Added two methods, hasTerm(int) and hasTerm(String), in SBO to allow
     users to safely check if a term can be retrieved for a given SBO
     identifier without having to catch a NoSuchElementException.
+  
+  - Updated the implementation of the SBML Level 3 Groups package to the
+    version 1, release 1 specification.
+
+  - Integrated a beta version of an SBML offline validator that was started
+    during GSOC 2016. This is for testing purpose only and should not be
+    used in production.
+    
+  - The toString() method off most classes has been replaced by a generic 
+    method so you might find some changes. Don't hesitate to provide us
+    some feedback about that. 
+  
+  - We deprecated the Model.getInitialAssignment and Model.getRule methods
+    has they were made ambiguous by the introduction of an id in every 
+    SBase in SBML L3V2. The javadoc with point you to the replacement
+    methods. The new method names make it explicit what is used to retrieve
+    the element, for example 'Model.getRuleByVariable'.
+  
+  - We introduced a new class UniqueSId to help recognize any class that
+    must have a unique SId in the whole Model. This class replaced
+    UniqueNamedSBase which was not change and can help recognize any class
+    that must have a unique SId in the whole Model before SBML L3V2. Same
+    apply to SBase and NamedSBase, every SBase have now an id and a name
+    and NamedSBase only apply to element that had an id and a name before 
+    SBML L3V2.
+  
   
  * Bug Fixes:
 
@@ -50,6 +71,10 @@ get the element. Added some new methods
   - Corrected an encoding problem in the tidy SBML writer that happened
     when the default JVM encoding was not UTF-8.
   
+  - Several improvements were made to the infix formula reading/writing.
+    Thanks to Miguel de Alba who reported some problem and the libsbml team
+    who provided a large set of test cases.
+
   - When writing sbml:units attributes in 'cn' elements in MathML for real
     numbers with e-notation the xml tag was closed before the attribute was
     written. Thanks to Matthias König who reported this problem.  
@@ -64,6 +89,9 @@ get the element. Added some new methods
   
   - Corrected the FBCModelPlugin clone constructor so that it clone 
     properly the strict attribute.
+
+  - Corrected the Boundary and SampledFieldGeometry clone constructor.
+    Thanks to Kaito Ii who reported the problem.
 
   - Corrected several potential NullPointerExceptions that could occur
     during the cloning of an SBMLDocument that contain plugins.
