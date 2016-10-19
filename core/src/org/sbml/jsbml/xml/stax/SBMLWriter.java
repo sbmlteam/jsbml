@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -82,7 +80,6 @@ import com.ctc.wstx.stax.WstxOutputFactory;
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class SBMLWriter {
 
@@ -191,8 +188,8 @@ public class SBMLWriter {
         int nbProblem = testDocument.checkConsistencyOffline();
         
         System.out.println("Found " + nbProblem + " constraint errors.");
-        testDocument.printErrors(System.out);
-
+         testDocument.printErrors(System.out);
+        
         //        System.out.println("Model Notes = " + XMLNode.convertXMLNodeToString(testDocument.getModel().getNotes()));
         //        System.out.println("MathML = " + testDocument.getModel().getReaction(0).getKineticLaw().getMath().toMathML());
 
