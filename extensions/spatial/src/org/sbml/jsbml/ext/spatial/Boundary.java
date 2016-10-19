@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -32,7 +31,6 @@ import org.sbml.jsbml.util.StringTools;
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public class Boundary extends AbstractSpatialNamedSBase {
 
@@ -54,20 +52,21 @@ public class Boundary extends AbstractSpatialNamedSBase {
 
 
   /**
-   * 
+   * Creates a new {@link Boundary} instance.
    */
   public Boundary() {
     super();
   }
 
   /**
+   * Creates a new {@link Boundary} instance cloned from the given boundary.
    * 
-   * @param boundary
+   * @param boundary the {@link Boundary} to clone.
    */
   public Boundary(Boundary boundary) {
     super(boundary);
     if (boundary.isSetValue()) {
-      value = Double.valueOf(value);
+      value = Double.valueOf(boundary.getValue());
     }
   }
 
@@ -122,7 +121,8 @@ public class Boundary extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of value
-   * @param value
+   * 
+   * @param value the value
    */
   public void setValue(double value) {
     Double oldValue = this.value;
