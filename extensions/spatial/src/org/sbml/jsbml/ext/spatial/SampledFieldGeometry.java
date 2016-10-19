@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,7 +37,6 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public class SampledFieldGeometry extends GeometryDefinition {
 
@@ -64,15 +62,16 @@ public class SampledFieldGeometry extends GeometryDefinition {
   private String sampledField;
 
   /**
-   * 
+   * Creates a new {@link SampledFieldGeometry} instance.
    */
   public SampledFieldGeometry() {
     super();
   }
 
   /**
+   * Creates a new {@link SampledFieldGeometry} instance cloned from the given sampledFieldGeometry.
    * 
-   * @param sampledFieldGeometry
+   * @param sampledFieldGeometry the {@link SampledFieldGeometry} to clone.
    */
   public SampledFieldGeometry(SampledFieldGeometry sampledFieldGeometry) {
     super(sampledFieldGeometry);
@@ -81,15 +80,17 @@ public class SampledFieldGeometry extends GeometryDefinition {
       setSampledField(sampledFieldGeometry.getSampledField());
     }
 
-    if (isSetListOfSampledVolumes()) {
+    if (sampledFieldGeometry.isSetListOfSampledVolumes()) {
       setListOfSampledVolumes(sampledFieldGeometry.getListOfSampledVolumes().clone());
     }
   }
 
   /**
-   * @param id
-   * @param level
-   * @param version
+   * Creates a new {@link SampledFieldGeometry} instance.
+   * 
+   * @param id the element id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public SampledFieldGeometry(String id, int level, int version) {
     super(id,level,version);
@@ -151,7 +152,8 @@ public class SampledFieldGeometry extends GeometryDefinition {
 
   /**
    * Sets the value of sampledField
-   * @param sampledField
+   * 
+   * @param sampledField the sampledField value to set
    */
   public void setSampledField(String sampledField) {
     String oldSampledField = this.sampledField;
@@ -215,7 +217,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
    * Sets the given {@code ListOf<SampledVolume>}. If listOfSampledVolumes
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfSampledVolumes
+   * @param listOfSampledVolumes the list of {@link SampledVolume} to set.
    */
   public void setListOfSampledVolumes(ListOf<SampledVolume> listOfSampledVolumes) {
     unsetListOfSampledVolumes();
@@ -301,25 +303,29 @@ public class SampledFieldGeometry extends GeometryDefinition {
   }
 
   /**
-   * @param id
+   * Removes an element from the listOfSampledVolumes with the given id.
+   * 
+   * @param id the id of the element to remove.
    */
   public void removeSampledVolume(String id) {
     getListOfSampledVolumes().removeFirst(new NameFilter(id));
   }
 
   /**
-   * Creates a new SampledVolume element and adds it to the ListOfSampledVolumes list
-   * @return
+   * Creates a new {@link SampledVolume} instance and adds it to the ListOfSampledVolumes list
+   * 
+   * @return a new {@link SampledVolume} instance
    */
   public SampledVolume createSampledVolume() {
     return createSampledVolume(null);
   }
 
   /**
-   * Creates a new {@link SampledVolume} element and adds it to the ListOfSampledVolumes list
-   * @param id
+   * Creates a new {@link SampledVolume} instance and adds it to the ListOfSampledVolumes list
+   * 
+   * @param id the id to set in the new SampledVolume instance
    *
-   * @return a new {@link SampledVolume} element
+   * @return a new {@link SampledVolume} instance
    */
   public SampledVolume createSampledVolume(String id) {
     SampledVolume sampledVolume = new SampledVolume(id, getLevel(), getVersion());
