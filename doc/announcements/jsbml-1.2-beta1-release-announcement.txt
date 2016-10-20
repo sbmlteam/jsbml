@@ -3,7 +3,7 @@ JSBML-1.2-beta1
 -------------------------
 
 We are pleased to announce the release of JSBML-1.2-beta1, which is now
-available for downloading from
+available for download from
 
 https://sourceforge.net/projects/jsbml/files/jsbml/1.2-beta1
 
@@ -16,12 +16,44 @@ For more details, please visit
 
 http://sbml.org/Software/JSBML
 
--jdk 1.7 compatible now. May be next year 1.8 compatible to be able to use 
- the latest libraries.
-- move to github
-- updated Groups, multi specs. fbc, spatial, arrays, layout improvements.
+The main new feature in this release is the support for SBML Level 3 
+Version 2 (RC1). This involved a bit of changes in the class hierarchy of
+JSBML as now every SBase can have an id and a name. For compatibility
+reason, we did not change the NamedSBase interface, so not every SBase is
+a NamedSBase. Only SBML elements that had an id and a name before SBML L3V2
+will extend NamedSBase. So when implementing support for SBML L3V2 you
+should try when possible to stop using NamedSBase and just use SBase
+instead. Same hold for UniqueNamedSBase and UniqueSId, if you were using
+the UniqueNamedSBase class, you should try to use UniqueSId instead.
+As part of the upgrade to support SBML L3V2, users should consider checking
+the way they access InitialAssignment, Rule and EventAssignment as often
+the methods are making use of the 'variable' or 'symbol' attribute instead
+of the id attribute.
 
-- toString() changes
+We have upgraded the minimum JDK requirement to 1.7 for this release, to be
+able to use the latest versions of the third party libraries we are using.
+And as the number of third party libraries having JDK 1.8 as minimum
+requirement increase, we might increase the minimum JDK requirement of
+JSBML to 1.8 for next year releases. Please let us know in advance if you
+think it will be a problem for you.
+
+The toString() method off most classes has been replaced by a generic 
+method so you might find some changes in the output produced by the JSBML
+classes. One method we did not change for now is ASTNode.toString() as it
+could have a lot of side effects. As part of the upgrade to SBML L3V2 and
+JSBML 1.2, we advice users to make sure they are using ASTNode.toFormula()
+when they want to show/store the infix formula representation of an ASTNode
+and do not rely on the toString() method for that. Don't hesitate to
+provide us with some feedback about this changes. We tried to keep any
+significantly different toString method under a different name, starting 
+with 'print' and followed by the class name, for example Unit.printUnit()
+will produce the same ouput as the Unit.toString() method in jsbml-1.1.
+ 
+Since last release, we have moved the source code repository off JSBML to
+github.com. Although we do provide the main download files in github, we 
+are still using for this release the files section of sourceforge to
+provides all of the download files until we work on a replacement either
+on github or on sbml.org.
 
 At the end of this message, you can find a detailed list of the
 user-visible new features and bug fixes since 1.1.
