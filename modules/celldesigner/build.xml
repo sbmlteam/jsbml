@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <!--
-    $Id$ 
-    $URL$
 
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
@@ -19,12 +17,52 @@
     in the file named "LICENSE.txt" included with this software distribution
     and also available online as http://sbml.org/Software/JSBML/License.
 
-    Version: $Rev$
 -->
 <project
   default="usage"
   basedir="."
 >
+	
+  <echo message="Determining the revision number of JSBML" />	
+  <exec executable="svn" outputproperty="svninfo.xml"  resultproperty="svn.return.status" failifexecutionfails="false">
+    <arg line="info --xml" />
+  </exec>
+  
+  <!-- We consider it is a subversion checkout if the svninfo file contain the closing info tag --> 
+  <condition property="svn.checkout">
+		<and>
+	    <contains string="${svninfo.xml}" substring="/info>"/>
+			<isset property="svn.return.status"/>
+		</and>
+  </condition>
+  
+  <exec executable="git" outputproperty="git.commit.hash" resultproperty="git.return.status" failifexecutionfails="false">
+    <arg line="log -1 --pretty=format:%H" />
+  </exec>
+
+  <!-- We consider it is a git clone if the property does not contain some error keywords and a return code is given (meaning the executable was found) --> 
+  <condition property="git.clone">
+		<and>
+  		<not>
+    		<contains string="${git.commit.hash}" substring="fatal"/>
+  		</not>
+			<isset property="git.return.status"/>
+		</and>
+  </condition>
+	
+	<!-- last property to check if neither svn or git were used and the sources were just downloaded as .zip or .tar.gz -->	
+	<condition property="vcs.used">
+		<or>
+			<equals arg1="${git.clone}" arg2="true"/>
+			<equals arg1="${svn.checkout}" arg2="true"/>
+		</or>
+	</condition>
+	
+  <tstamp>
+    <format property="YEAR" pattern="yyyy" />
+  </tstamp>
+  
+
   <!-- =================================================================== -->
   <!-- Initialization target                                               -->
   <!-- =================================================================== -->
@@ -32,11 +70,8 @@
   <target
   	name="init"
   	description="Initialization target"
+  	depends="svn.build.number, git.build.number, default.build.number"
   >
-  	<tstamp>
-  	    <format property="YEAR" pattern="yyyy"/>
-	</tstamp>
-
   	<property file="${basedir}/celldesigner-build.properties"/>  		
   	
     <property name="Name" value="${celldesigner.Name}"/>
@@ -45,15 +80,6 @@
 
     <property name="year" value="${YEAR}"/>
   	
-		<echo message="Determining the revision number of JSBML" />
-		<exec executable="svn" outputproperty="svninfo.xml">
-			<arg line="info --xml" />
-		</exec>
-		<xmlproperty collapseAttributes="true">
-			<propertyresource name="svninfo.xml" />
-		</xmlproperty>
-		<property name="jsbml.revision" value="${info.entry.revision}" />
-
   	<echo message="----------- ${Name} ${version} [${year}] ------------"/>
     <echo message="-----------     ${TODAY}   ------------"/>
     <echo message="-----------     ${DSTAMP} ${TSTAMP}  ------------"/>
@@ -68,7 +94,7 @@
     <property name="verbose" value="false"/>
     
     <property name="build.number" value="${DSTAMP}-${TSTAMP}"/>
-    <property name="build.name" value="${version} (build ${build.number})"/>
+    <property name="build.name" value="${version} (build ${jsbml.revision}-${build.number})"/>
 
     <property name="src.dir" value="${basedir}/src"/>
   	<property name="test.src.dir" value="${basedir}/test"/>
@@ -131,6 +157,58 @@
     <echo message=""/>
   </target>
   
+	<!-- =================================================================== -->
+	<!-- Creating the jsbml revision and url if it is an svn checkout        -->
+	<!-- =================================================================== -->
+	<target
+	   name="svn.build.number"
+	   description="Finds out the subversion build number"
+	   if="svn.checkout" >
+
+		<!-- <echo message="It seems to be an SVN checkout"/> -->
+	  
+	  <xmlproperty collapseAttributes="true">
+	    <propertyresource name="svninfo.xml" />
+	  </xmlproperty>
+	  <property name="jsbml.revision" value="${info.entry.revision}" />
+	  <property name="jsbml.url" value="${info.entry.url}" />
+	</target>
+	
+	<!-- =================================================================== -->
+	<!-- Creating the jsbml revision and url if it is a git clone            -->
+	<!-- =================================================================== -->
+	<target
+	   name="git.build.number"
+	   description="Finds out the git build number"
+	   if="git.clone"
+	   unless="svn.checkout"
+	   >
+		<!-- <echo message="It seems to be a git clone"/> -->
+		
+	  <exec executable="git" outputproperty="git.origin.url" failifexecutionfails="false">
+	    <arg line="config --get remote.origin.url" />
+	  </exec>
+
+		<property name="jsbml.revision" value="${git.commit.hash}" />
+		<property name="jsbml.url" value="${git.origin.url}" />
+		
+	</target>
+	
+	<!-- =================================================================== -->
+	<!-- Creating the jsbml revision and url if it just an archive unpacked  -->
+	<!-- =================================================================== -->
+	<target
+	   name="default.build.number"
+	   description="Finds out the default build number"
+	   unless="vcs.used">
+
+		<!-- <echo message="Could not retrieve automatically the revision number from svn or git !"/> -->
+		
+	  <property name="jsbml.revision" value="build run on ${DSTAMP}" />
+	  <property name="jsbml.url" value="no url provided" />
+	  
+	</target>
+	
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
