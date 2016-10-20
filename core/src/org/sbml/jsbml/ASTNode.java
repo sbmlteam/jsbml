@@ -3703,7 +3703,7 @@ public class ASTNode extends AbstractTreeNode {
         break;
       case MINUS:
         // TODO
-        if (logger.isDebugEnabled()) {
+        if (isDebugEnabled) {
           logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.reduceToBinary1"), getChildCount()));
         }
         break;
@@ -3720,7 +3720,7 @@ public class ASTNode extends AbstractTreeNode {
         break;
       case DIVIDE:
         // TODO
-        if (logger.isDebugEnabled()) {
+        if (isDebugEnabled) {
           logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.reduceToBinary2"), getChildCount()));
         }
         break;
@@ -3740,19 +3740,19 @@ public class ASTNode extends AbstractTreeNode {
         break;
       case LOGICAL_NOT:
         // TODO
-        if (logger.isDebugEnabled()) {
+        if (isDebugEnabled) {
           logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.reduceToBinary3"), getChildCount()));
         }
         break;
       case LOGICAL_XOR:
         // TODO
-        if (logger.isDebugEnabled()) {
+        if (isDebugEnabled) {
           logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.reduceToBinary4"), getChildCount()));
         }
         break;
       default:
         // TODO
-        if (logger.isDebugEnabled()) {
+        if (isDebugEnabled) {
           logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.reduceToBinary5"), getType(), getChildCount()));
         }
         break;
@@ -4780,7 +4780,7 @@ public class ASTNode extends AbstractTreeNode {
 
     if (doc != null) {
       doc.enablePackage(packageURIOrName, enabled);
-    } else if (logger.isDebugEnabled()) {
+    } else if (isDebugEnabled) {
       logger.debug(resourceBundle.getString("AbstractSBase.enablePackage"));
     }
   }
