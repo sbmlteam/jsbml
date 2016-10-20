@@ -47,7 +47,7 @@ and do not rely on the toString() method for that. Don't hesitate to
 provide us with some feedback about this changes. We tried to keep any
 significantly different toString method under a different name, starting 
 with 'print' and followed by the class name, for example Unit.printUnit()
-will produce the same ouput as the Unit.toString() method in jsbml-1.1.
+will produce the same output as the Unit.toString() method in jsbml-1.1.
  
 Since last release, we have moved the source code repository off JSBML to
 github.com. Although we do provide the main download files in github, we 
