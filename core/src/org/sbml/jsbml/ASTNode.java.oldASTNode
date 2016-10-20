@@ -220,6 +220,14 @@ public class ASTNode extends AbstractTreeNode {
     /**
      * 
      */
+    FUNCTION_MAX,
+    /**
+     * 
+     */
+    FUNCTION_MIN,
+    /**
+     * 
+     */
     FUNCTION_PIECEWISE,
     /**
      * An {@link ASTNode} of this {@link Type} represents a function call of
@@ -229,6 +237,25 @@ public class ASTNode extends AbstractTreeNode {
      * effect.
      */
     FUNCTION_POWER,
+    /**
+     * The quotient element is the operator used for division modulo a particular base.
+     * When the quotient operator is applied to integer arguments a and b, the result is
+     * the "quotient of a divided by b". That is, quotient returns the unique integer q
+     * such that a = q b + r. (In common usage, q is called the quotient and r is the remainder.)
+     */
+    FUNCTION_QUOTIENT,
+    /**
+     * 
+     */
+    FUNCTION_RATE_OF,
+    /**
+     * The rem element is the operator that returns the "remainder" of a division modulo
+     * a particular base. When the rem operator is applied to integer arguments a and b,
+     * the result is the "remainder of a divided by b". That is, rem returns the unique
+     * integer, r such that a = q b+ r, where r < q. (In common usage, q is called the
+     * quotient and r is the remainder.)
+     */
+    FUNCTION_REM,
     /**
      * 
      */
@@ -275,6 +302,31 @@ public class ASTNode extends AbstractTreeNode {
      * 
      */
     LOGICAL_AND,
+    /**
+     * In classical logic, the compound 'p implies q' (p→q) is logically equivalent to the negative
+     * compound: not both p and not q. Thus the compound p→q is false if and only
+     * if both p is true and q is false. By the same stroke, p→q is true if and only
+     * if either p is false or q is true (or both). Thus → is a function from pairs
+     * of truth values of the components p, q to truth values of the compound p→q,
+     * whose truth value is entirely a function of the truth values of the components.
+     * Hence, this interpretation is called truth-functional. The compound p→q is
+     * logically equivalent also to ¬p∨q (either not p, or q (or both)), and
+     * to ¬q→¬p (if not q then not p). But it is not equivalent to ¬p→¬q, which is
+     * equivalent to q→p.
+     * 
+     *<p>Truth table:
+     *
+     *<pre>
+     * p   q  p→q
+     * 
+     * T   T   T
+     * T   F   F
+     * F   T   T
+     * F   F   T
+     *</pre>
+     *
+     */
+    LOGICAL_IMPLIES,
     /**
      * 
      */
@@ -382,7 +434,7 @@ public class ASTNode extends AbstractTreeNode {
     /**
      * MathML markup can be combined with other markup languages, and these
      * mixing constructions are realized by the semantic annotation elements.
-     * The semantic annotation elements provide an important tool for making 
+     * The semantic annotation elements provide an important tool for making
      * associations between alternate representations of an expression, and for
      * associating semantic properties and other attributions with a MathML
      * expression.
@@ -434,6 +486,14 @@ public class ASTNode extends AbstractTreeNode {
         return FUNCTION_CEILING;
       } else if (type.equals("factorial")) {
         return FUNCTION_FACTORIAL;
+      } else if (type.equals("max")) {
+        return FUNCTION_MAX;
+      } else if (type.equals("min")) {
+        return FUNCTION_MIN;
+      } else if (type.equals("quotient")) {
+        return FUNCTION_QUOTIENT;
+      } else if (type.equals("rem")) {
+        return FUNCTION_REM;
       }
 
       // Logical operators
@@ -445,6 +505,8 @@ public class ASTNode extends AbstractTreeNode {
         return LOGICAL_XOR;
       } else if (type.equals("not")) {
         return LOGICAL_NOT;
+      } else if (type.equals("implies")) {
+        return LOGICAL_IMPLIES;
       }
 
       // Trigonometric operators
@@ -540,6 +602,8 @@ public class ASTNode extends AbstractTreeNode {
         return FUNCTION_DELAY;
       } else if (type.equals(URI_AVOGADRO_DEFINITION)) {
         return NAME_AVOGADRO;
+      } else if (type.equals(URI_RATE_OF_DEFINITION)) {
+        return FUNCTION_RATE_OF;
       }
 
       // general: apply, piecewise, piece, otherwise, lambda, bvar
@@ -550,9 +614,9 @@ public class ASTNode extends AbstractTreeNode {
       } else if (type.equals("piecewise")) {
         return FUNCTION_PIECEWISE;
       } else if (type.equals("piece")) {
-        // nothing to do, node ignore when parsing
+        return CONSTRUCTOR_PIECE;
       } else if (type.equals("otherwise")) {
-        // nothing to do, node ignore when parsing
+        return CONSTRUCTOR_OTHERWISE;
       }
 
       // qualifiers: degree, logbase
@@ -634,6 +698,11 @@ public class ASTNode extends AbstractTreeNode {
    * URI prefix for the definition of MathML, it will be used to write the sbml file
    */
   public static final String URI_MATHML_PREFIX = "";
+
+  /**
+   * The URI for the definition of the csymbol for rateOf.
+   */
+  public static final transient String URI_RATE_OF_DEFINITION = "http://www.sbml.org/sbml/symbols/rateOf";
 
   /**
    * The URI for the definition of the csymbol for time.
@@ -1438,7 +1507,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   private static transient final Logger logger = Logger.getLogger(ASTNode.class);
   private static final transient boolean isDebugEnabled = logger.isDebugEnabled();
-  
+
   /**
    * The part of a number in scientific format (with an E) that is on the left
    * side of the E (the prefix of the number). For instance, in the number
@@ -1864,8 +1933,8 @@ public class ASTNode extends AbstractTreeNode {
     case REAL:
       double real = getReal();
       if (Double.isInfinite(real)) {
-        value = (real > 0d) ? compiler.getPositiveInfinity() : compiler
-          .getNegativeInfinity();
+        value = (real > 0d) ? compiler.getPositiveInfinity() :
+          compiler.getNegativeInfinity();
       } else {
         value = compiler.compile(real, getUnits());
       }
@@ -1949,6 +2018,9 @@ public class ASTNode extends AbstractTreeNode {
       break;
     case NAME_AVOGADRO:
       value = compiler.getConstantAvogadro(getName());
+      break;
+    case FUNCTION_RATE_OF:
+      value = compiler.getRateOf(getLeftChild().getName());
       break;
     case REAL_E:
       value = compiler.compile(getMantissa(), getExponent(),
@@ -2036,8 +2108,20 @@ public class ASTNode extends AbstractTreeNode {
     case FUNCTION_LN:
       value = compiler.ln(getLeftChild());
       break;
+    case FUNCTION_MAX:
+      value = compiler.max(getChildren());
+      break;
+    case FUNCTION_MIN:
+      value = compiler.min(getChildren());
+      break;
     case FUNCTION_POWER:
       value = compiler.pow(getLeftChild(), getRightChild());
+      break;
+    case FUNCTION_QUOTIENT:
+      value = compiler.quotient(getChildren());
+      break;
+    case FUNCTION_REM:
+      value = compiler.rem(getChildren());
       break;
     case FUNCTION_ROOT:
       ASTNode left = getLeftChild();
@@ -2133,6 +2217,10 @@ public class ASTNode extends AbstractTreeNode {
       value = compiler.or(getChildren());
       value.setUIFlag(getChildCount() <= 1);
       break;
+    case LOGICAL_IMPLIES:
+      value = compiler.implies(getChildren());
+      value.setUIFlag(getChildCount() <= 1);
+      break;
     case LOGICAL_NOT:
       value = compiler.not(getLeftChild());
       break;
@@ -2202,6 +2290,9 @@ public class ASTNode extends AbstractTreeNode {
             && (!getVariable().containsUndeclaredUnits())) {
           return false;
         }
+
+        // TODO - add a block for FUNCTION_RATE_OF ?
+
         return true;
       }
     } else {
@@ -2270,6 +2361,7 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
+    
     if (equal) {
       ASTNode ast = (ASTNode) object;
       equal &= ast.getType() == type;
@@ -2690,7 +2782,8 @@ public class ASTNode extends AbstractTreeNode {
    *         {@code getListOfNodes().getLast()}.
    */
   public ASTNode getRightChild() {
-    return listOfNodes.get(listOfNodes.size() - 1);
+    int n = listOfNodes.size() - 1;
+    return (n >= 0) ? listOfNodes.get(n) : null;
   }
 
   /**
@@ -2734,7 +2827,7 @@ public class ASTNode extends AbstractTreeNode {
     int level = parent != null ? parent.getLevel() : -1;
     int version = parent != null ? parent.getVersion() : -1;
     if (!isSetUnits() || (getParentSBMLObject() == null)) {
-      if (isName()) {
+      if (isVariable()) {
         CallableSBase variable = getVariable();
         if (variable != null) {
           return variable.getDerivedUnitDefinition();
@@ -2925,7 +3018,7 @@ public class ASTNode extends AbstractTreeNode {
     }
     variable = null;
     mantissa = Double.NaN;
-    
+
     if (plugins == null) {
       plugins = new TreeMap<String, ASTNodePlugin>();
     }
@@ -2965,8 +3058,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is a MathML constant, {@code false} otherwise.
    */
   public boolean isConstant() {
-    return type.toString().startsWith("CONSTANT")
-        || type == Type.NAME_AVOGADRO;
+    return type.toString().startsWith("CONSTANT") || type == Type.NAME_AVOGADRO;
   }
 
   /**
@@ -3027,6 +3119,16 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
+   * Returns {@code true} if this node is constant or of type INTEGER, REAL or RATIONAL, {@code false} otherwise.
+   * 
+   * @return {@code true} if this ASTNode is constant or of type INTEGER, REAL or RATIONAL, {@code false} otherwise.
+   */
+  public boolean isLiteral() {
+    return isConstant() || type == Type.INTEGER || type == Type.RATIONAL || type == Type.REAL;
+  }
+
+
+  /**
    * Returns {@code true} if this node represents a log10() function, {@code false} otherwise.
    * More precisely, this predicate returns {@code true} if the node type is
    * FUNCTION_LOG with two children, the first of which is an INTEGER equal to
@@ -3066,11 +3168,11 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if this node is a user-defined {@link Variable} name in SBML L1, L2
-   * (MathML), or the special symbols delay or time. The predicate returns
+   * (MathML), or the special symbols time, Avogadro or rateOf. The predicate returns
    * {@code false} otherwise.
    * 
    * @return {@code true} if this {@link ASTNode} is a user-defined variable name in SBML L1,
-   *         L2 (MathML) or the special symbols time or Avogadro.
+   *         L2 (MathML) or the special symbols time, Avogadro or rateOf.
    */
   public boolean isName() {
     return (type == Type.NAME) || (type == Type.NAME_TIME)
@@ -3601,7 +3703,7 @@ public class ASTNode extends AbstractTreeNode {
         break;
       case MINUS:
         // TODO
-        if (logger.isDebugEnabled()) {
+        if (isDebugEnabled) {
           logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.reduceToBinary1"), getChildCount()));
         }
         break;
@@ -3618,7 +3720,7 @@ public class ASTNode extends AbstractTreeNode {
         break;
       case DIVIDE:
         // TODO
-        if (logger.isDebugEnabled()) {
+        if (isDebugEnabled) {
           logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.reduceToBinary2"), getChildCount()));
         }
         break;
@@ -3638,19 +3740,19 @@ public class ASTNode extends AbstractTreeNode {
         break;
       case LOGICAL_NOT:
         // TODO
-        if (logger.isDebugEnabled()) {
+        if (isDebugEnabled) {
           logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.reduceToBinary3"), getChildCount()));
         }
         break;
       case LOGICAL_XOR:
         // TODO
-        if (logger.isDebugEnabled()) {
+        if (isDebugEnabled) {
           logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.reduceToBinary4"), getChildCount()));
         }
         break;
       default:
         // TODO
-        if (logger.isDebugEnabled()) {
+        if (isDebugEnabled) {
           logger.debug(MessageFormat.format(resourceBundle.getString("ASTNode.reduceToBinary5"), getType(), getChildCount()));
         }
         break;
@@ -3906,7 +4008,6 @@ public class ASTNode extends AbstractTreeNode {
    *            the type as a String.
    */
   public void setType(String typeStr) {
-    // System.out.println("ASTNode: setType(String) called.");
     if (isDebugEnabled) {
       logger.debug("ASTNode: setType(String) called: " + typeStr);
     }
@@ -3958,16 +4059,24 @@ public class ASTNode extends AbstractTreeNode {
     if (type == Type.NAME_TIME) {
       name = "time";
       definitionURL = URI_TIME_DEFINITION;
+      encoding = "text";
     } else if (type == Type.FUNCTION_DELAY) {
       initDefaults();
       name = "delay";
       definitionURL = URI_DELAY_DEFINITION;
+      encoding = "text";
     } else if (type == Type.NAME_AVOGADRO) {
-      initDefaults();
       name = "Avogadro's number";
       setValue(Maths.AVOGADRO_L3V1);
       definitionURL = URI_AVOGADRO_DEFINITION;
+      encoding = "text";
+    } else if (type == Type.FUNCTION_RATE_OF) {
+      initDefaults();
+      name = "rateOf";
+      definitionURL = URI_RATE_OF_DEFINITION;
+      encoding = "text";
     }
+
     Type oldValue = this.type;
     this.type = type;
     firePropertyChange(TreeNodeChangeEvent.type, oldValue, type);
@@ -3983,21 +4092,34 @@ public class ASTNode extends AbstractTreeNode {
    *             of a unit definition.
    */
   public void setUnits(String unitId) {
+    
     if (!isNumber()) {
-      throw new IllegalArgumentException(MessageFormat.format(
-        resourceBundle.getString("ASTNode.setUnits1"),
-        unitId));
+      if (!isReadingInProgress()) {
+        throw new IllegalArgumentException(MessageFormat.format(
+            resourceBundle.getString("ASTNode.setUnits1"),
+            unitId));
+      } else {
+        logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits1"), unitId));
+      }
     }
     if (parentSBMLObject != null) {
       if (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId)) {
-        throw new IllegalArgumentException(MessageFormat.format(
-          resourceBundle.getString("ASTNode.setUnits2"),
-          unitId));
+        if (!isReadingInProgress()) {
+          throw new IllegalArgumentException(MessageFormat.format(
+              resourceBundle.getString("ASTNode.setUnits2"),
+              unitId));
+        } else {
+          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits2"), unitId));          
+        }
       }
       if (parentSBMLObject.isSetLevel() && (parentSBMLObject.getLevel() < 3)) {
+        if (!isReadingInProgress()) {        
         throw new IllegalArgumentException(MessageFormat.format(
           resourceBundle.getString("ASTNode.setUnits3"),
           unitId));
+        } else {
+          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits3"), unitId));          
+        }        
       }
     }
     String oldValue = this.unitId;
@@ -4227,7 +4349,8 @@ public class ASTNode extends AbstractTreeNode {
    *             if there is a problem in the ASTNode tree.
    */
   public String toFormula() throws SBMLException {
-    return compile(new FormulaCompilerLibSBML()).toString();
+    ASTNodeValue a = compile(new FormulaCompilerLibSBML());
+    return a.toString();
   }
 
   /**
@@ -4282,7 +4405,17 @@ public class ASTNode extends AbstractTreeNode {
    * @see java.lang.Object#toString()
    */
   @Override
-  public String toString() {
+  public String toString() {  // TODO - potentially remove the method if the users agree and once we correct all the formula compilers (and other code) to never use toString() when the expect the formula !
+    return printASTNode(); // users need to have warning for some time for this change which is complicated to track if the toString() method is not called implicitly
+  }
+
+  /**
+   * Returns the infix formula representing this ASTNode or an empty String if there was
+   * a problem to construct the formula.
+   * 
+   * @return the infix formula representing this ASTNode
+   */
+  public String printASTNode() {
     String formula = "";
     try {
       formula = toFormula();
@@ -4304,7 +4437,6 @@ public class ASTNode extends AbstractTreeNode {
     }
     return formula;
   }
-
 
 
   /**
@@ -4371,6 +4503,7 @@ public class ASTNode extends AbstractTreeNode {
     if (className != null) {
       buffer.append(", className = ").append(getClassName());
     }
+    buffer.append("] ");
 
     return buffer.toString();
   }
@@ -4423,8 +4556,9 @@ public class ASTNode extends AbstractTreeNode {
    * @return a simple tree view of the ASTNode internal
    */
   public static String astNodeToTree(ASTNode n, String tree, String indent) {
-    tree = tree + indent + n.getType() + " " +
-        (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + "\n";
+    //tree = tree + indent + n.getType() + " " +
+    //    (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + "\n";
+    tree = tree + indent + n.toSimpleString() + "\n";
 
     for (ASTNode child : n.getChildren()) {
       tree = astNodeToTree(child, tree, indent + "  ");
@@ -4646,7 +4780,7 @@ public class ASTNode extends AbstractTreeNode {
 
     if (doc != null) {
       doc.enablePackage(packageURIOrName, enabled);
-    } else if (logger.isDebugEnabled()) {
+    } else if (isDebugEnabled) {
       logger.debug(resourceBundle.getString("AbstractSBase.enablePackage"));
     }
   }
@@ -4687,16 +4821,16 @@ public class ASTNode extends AbstractTreeNode {
     return 0;
   }
 
-//  /**
-//   * Returns the map containing all the {@link SBasePlugin} extension objects
-//   * of this {@link SBase}.
-//   * 
-//   * @return the map containing all the {@link SBasePlugin} extension objects
-//   * of this {@link SBase}.
-//   */
-//  public Map<String, ASTNodePlugin> getExtensionPackages() { // TODO - remove this method to prevent access to the map directly ?? Or provide a copy of the Map
-//    return plugins;
-//  }
+  //  /**
+  //   * Returns the map containing all the {@link SBasePlugin} extension objects
+  //   * of this {@link SBase}.
+  //   *
+  //   * @return the map containing all the {@link SBasePlugin} extension objects
+  //   * of this {@link SBase}.
+  //   */
+  //  public Map<String, ASTNodePlugin> getExtensionPackages() { // TODO - remove this method to prevent access to the map directly ?? Or provide a copy of the Map
+  //    return plugins;
+  //  }
 
   /**
    * Returns the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
@@ -4832,7 +4966,7 @@ public class ASTNode extends AbstractTreeNode {
    * 
    * @param nameOrUri
    *        the package name or URI
-   * @see #unsetExtension(String)       
+   * @see #unsetExtension(String)
    */
   public void unsetPlugin(String nameOrUri) {
     unsetExtension(nameOrUri);
