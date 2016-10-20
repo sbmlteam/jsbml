@@ -1925,7 +1925,7 @@ public class ASTNode extends AbstractTreeNode {
    *
    */
   public ASTNodeValue compile(ASTNodeCompiler compiler) throws SBMLException {
-    ASTNodeValue value;
+    ASTNodeValue value = null;
     switch (getType()) {
     /*
      * Numbers
@@ -2251,6 +2251,9 @@ public class ASTNode extends AbstractTreeNode {
       }
       value = compiler.unknownValue();
       break;
+    }
+    if (value == null) {
+      value = compiler.unknownValue();
     }
     value.setType(getType());
     MathContainer parent = getParentSBMLObject();
@@ -3312,7 +3315,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is constant or of type INTEGER, REAL or RATIONAL, {@code false} otherwise.
    */
   public boolean isLiteral() {
-    return isConstant() || type == Type.INTEGER || type == Type.RATIONAL || type == Type.REAL;
+    return isConstant() || getType() == Type.INTEGER || getType() == Type.RATIONAL || getType() == Type.REAL;
   }
 
   /**
