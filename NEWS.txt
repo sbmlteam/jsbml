@@ -35,9 +35,9 @@ Version 1.2-beta1 (XX-10-2016)
   - Updated the implementation of the SBML Level 3 Groups package to the
     version 1, release 1 specification.
 
-  - Integrated a beta version of an SBML offline validator that was started
-    during GSOC 2016. This is for testing purpose only and should not be
-    used in production.
+  - Integrated a draft version of an SBML offline validator that was
+    started during GSOC 2016. This is for testing purpose only and should
+    not be used in production.
     
   - The toString() method off most classes has been replaced by a generic 
     method so you might find some changes. Don't hesitate to provide us
@@ -45,7 +45,7 @@ Version 1.2-beta1 (XX-10-2016)
   
   - We deprecated the Model.getInitialAssignment and Model.getRule methods
     has they were made ambiguous by the introduction of an id in every 
-    SBase in SBML L3V2. The javadoc with point you to the replacement
+    SBase in SBML L3V2. The javadoc will point you to the replacement
     methods. The new method names make it explicit what is used to retrieve
     the element, for example 'Model.getRuleByVariable'.
   
