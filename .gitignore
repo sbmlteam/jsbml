@@ -56,6 +56,7 @@ libsbmlCompatibilityTestResults.txt
 *.class
 layoutTestResults.txt
 /modules/celldesigner/doc/api
+modules/libSBMLio/doc/api
 /modules/tidy/doc/api
 /.DS_Store
 

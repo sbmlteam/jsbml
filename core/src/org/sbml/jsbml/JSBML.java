@@ -80,7 +80,7 @@ public class JSBML {
   /**
    * The current version number of JSBML.
    */
-  private static final String jsbmlVersion = "1.1"; // TODO: replace automatically this version number with [BUILD.NUMBER]
+  private static final String jsbmlVersion = "1.2-SNAPSHOT"; // TODO: replace automatically this version number with [BUILD.NUMBER]
   /**
    * 
    */
