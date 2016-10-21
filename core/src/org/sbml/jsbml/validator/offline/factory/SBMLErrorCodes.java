@@ -670,6 +670,9 @@ public interface SBMLErrorCodes {
 
 	 /**
 	  * Error code 10501:
+	  * The units of the expressions used as arguments to a function call must match the units expected for
+      * the arguments of that function. (References: L2V2 Section 3.5; L2V3 Section 3.4.)
+      *
 	  */
  	 public static final int CORE_10501 = 10501; 
 
