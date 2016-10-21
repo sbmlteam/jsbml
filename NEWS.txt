@@ -37,25 +37,25 @@ Version 1.2-beta1 (XX-10-2016)
 
   - Integrated a draft version of an SBML offline validator that was
     started during GSOC 2016. This is for testing purpose only and should
-    not be used in production.
+    not yet be used in production.
     
-  - The toString() method off most classes has been replaced by a generic 
+  - The toString() methods of most classes have been replaced by a generic 
     method so you might find some changes. Don't hesitate to provide us
     some feedback about that. 
   
   - We deprecated the Model.getInitialAssignment and Model.getRule methods
     has they were made ambiguous by the introduction of an id in every 
-    SBase in SBML L3V2. The javadoc will point you to the replacement
+    SBase in SBML L3V2. The JavaDoc will point you to the replacement
     methods. The new method names make it explicit what is used to retrieve
     the element, for example 'Model.getRuleByVariable'.
   
   - We introduced a new class UniqueSId to help recognize any class that
     must have a unique SId in the whole Model. This class replaced
     UniqueNamedSBase which was not change and can help recognize any class
-    that must have a unique SId in the whole Model before SBML L3V2. Same
-    apply to SBase and NamedSBase, every SBase have now an id and a name
-    and NamedSBase only apply to element that had an id and a name before 
-    SBML L3V2.
+    that must have a unique SId in the whole Model before SBML L3V2. The
+    same applies to SBase and NamedSBase, every SBase have now an id and a
+    name and the NamedSBase class only apply to elements that had an id and
+    a name before SBML L3V2.
   
   
  * Bug Fixes:
@@ -72,14 +72,14 @@ Version 1.2-beta1 (XX-10-2016)
     when the default JVM encoding was not UTF-8.
   
   - Several improvements were made to the infix formula reading/writing.
-    Thanks to Miguel de Alba who reported some problem and the libsbml team
+    Thanks to Miguel de Alba who reported some problem and the libSBML team
     who provided a large set of test cases.
 
   - When writing sbml:units attributes in 'cn' elements in MathML for real
     numbers with e-notation the xml tag was closed before the attribute was
     written. Thanks to Matthias König who reported this problem.  
   
-  - The clone constructor for SBaseRef was not cloning properly it's child
+  - The clone constructor for SBaseRef was not cloning properly its child
     SBaseRef.
 
   - The equals method of ASTNode was failing when one of the double values
