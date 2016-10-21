@@ -38,6 +38,7 @@ import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
  * @author Roman
@@ -120,7 +121,7 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
               || mc instanceof InitialAssignment || mc instanceof Delay
               || mc instanceof EventAssignment || mc instanceof Rule) {
               
-              return mc.getMath().isNumber() || mc.getMath().isOperator();
+              return ValidationTools.getDataType(mc.getMath()) == ValidationTools.DT_NUMBER;
             }
           }
 
