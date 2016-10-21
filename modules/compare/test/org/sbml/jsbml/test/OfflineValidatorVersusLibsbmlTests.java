@@ -179,6 +179,19 @@ public class OfflineValidatorVersusLibsbmlTests {
     System.out.println("Reading: " + nbSecondesRead + " secondes.");
     System.out.println("Validating: " + nbSecondesValidating + " secondes.");
 
+    if (notDetectedFiles.size() > 0) {
+      System.out.println("\nList of incorrectly detected constraints in the following files :\n");
+
+      for (String fileName : notDetectedFiles.keySet()) {
+
+        String out = fileName + ": " + notDetectedFiles.get(fileName);
+        System.out.println(out);
+      }
+    }
+
+    System.out.println("\n\nNumber of files correctly validated: "
+        + filesCorrectly + " out of " + totalFileTested);
+
     System.out.println("\nIncorrect constraints list (errors followed by a '!' are errors that we know are not implemented): ");
     
     Integer previous = 0;
@@ -206,18 +219,6 @@ public class OfflineValidatorVersusLibsbmlTests {
       previous = errorCode;
     }
     
-    System.out.println("\n\nNumber of files correctly validated: "
-      + filesCorrectly + " out of " + totalFileTested);
-
-    if (notDetectedFiles.size() > 0) {
-      System.out.println("\nList of incorrectly detected constraints in the following files :\n");
-
-      for (String fileName : notDetectedFiles.keySet()) {
-
-        String out = fileName + ": " + notDetectedFiles.get(fileName);
-        System.out.println(out);
-      }
-    }
   }
 
 

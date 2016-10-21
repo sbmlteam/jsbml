@@ -1,6 +1,5 @@
 /*
- * $IdASTNodeConstraints.java 17:11:18 roman $
- * $URLASTNodeConstraints.java $
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -42,9 +41,10 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
 /**
+ * Validation constraints related to {@link ASTNode}.
+ * 
  * @author Roman
  * @since 1.2
- * @date 06.08.2016
  */
 public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
@@ -191,6 +191,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         private Set<ASTNode.Type> createSet() {
           Set<ASTNode.Type> set = new HashSet<ASTNode.Type>();
 
+          // plus, minus, times, divide and power are included in the test ASTNode.isOperator()
+          
           set.add(ASTNode.Type.FUNCTION_ROOT);
           set.add(ASTNode.Type.FUNCTION_ABS);
           set.add(ASTNode.Type.FUNCTION_EXP);
@@ -226,7 +228,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           set.add(ASTNode.Type.FUNCTION_ARCTANH);
           set.add(ASTNode.Type.FUNCTION_ARCSECH);
           set.add(ASTNode.Type.FUNCTION_ARCCSCH);
-          set.add(ASTNode.Type.FUNCTION_ARCCOTH);
+          set.add(ASTNode.Type.FUNCTION_ARCCOTH); // TODO - check L3V2 specs to see if there are any of the new operators here.
 
           return set;
         }
@@ -317,7 +319,9 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
 
-          // If is piecewise...
+          // TODO - this constraint need to test the first ci element after an apply !
+          
+          // If is a function
           if (node.getType() == Type.FUNCTION) {
 
             Model m = node.getParentSBMLObject().getModel();
@@ -346,7 +350,9 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             MathContainer parent = node.getParentSBMLObject();
 
             if (parent == null
-              || ValidationTools.isLocalParameter(node, name)) {
+              || ValidationTools.isLocalParameter(node, name)
+              || parent instanceof FunctionDefinition)
+            {
               return true;
             }
 
@@ -370,7 +376,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 && (!allowReaction || m.getReaction(name) == null)
                 && (!allowSpeciesRef
                   || !ValidationTools.isSpeciesReference(m, name))) 
-              {
+              {                
+                // System.out.println("CORE_10215 - id checked = " + name + " " + node.getVariable());
                 return false;
               }
             }
@@ -389,12 +396,12 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, ASTNode node) {
 
           // If it's a name
-          if (node.isName()) {
+          if (node.getType() == Type.NAME) {
 
             String id = node.getName();
             MathContainer parent = node.getParentSBMLObject();
 
-            if (parent == null) {
+            if (parent == null || parent instanceof FunctionDefinition) {
               return true;
             }
 

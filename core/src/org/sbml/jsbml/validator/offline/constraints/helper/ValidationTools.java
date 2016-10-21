@@ -157,7 +157,15 @@ public final class ValidationTools {
   }
 
 
-  // Returns the data type of a ASTNode.
+  /**
+   * Returns the data type of an {@link ASTNode}.
+   * 
+   * <p>It can be {@link #DT_NUMBER}, {@link #DT_BOOLEAN}, {@link #DT_STRING},
+   * {@link #DT_VECTOR} or {@link #DT_UNKNOWN}.</p>
+   * 
+   * @param node an {@link ASTNode}
+   * @return the data type of a ASTNode.
+   */
   public static byte getDataType(ASTNode node) {
 
     if (node.isBoolean()) {
@@ -169,20 +177,8 @@ public final class ValidationTools {
     }
 
     if (node.isName()) {
-      SBase parent = node.getParentSBMLObject();
-      
-      if (parent != null)
-      {
-        Model m = parent.getModel();
-        if (m != null)
-        {
-          // TODO - the call the m.getParameter looks wrong. Should probably be better to use Model.findCallableSBase
-          if (m.isSetListOfParameters()) {
-            return (m.getParameter(node.getName()) != null) ? DT_NUMBER : DT_UNKNOWN;
-          }
-        }
-      }
-      return DT_UNKNOWN;
+      // TODO? - we could call node.getVariable() and check it is not null as well ?
+      return DT_NUMBER; // we consider any ci and csymbol to be of type number.
     }
 
     if (node.isVector()) {
