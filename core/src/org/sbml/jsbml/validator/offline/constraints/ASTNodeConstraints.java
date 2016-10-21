@@ -340,7 +340,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, ASTNode node) {
 
           // If it's a name
-          if (node.isName()) {
+          if (node.getType() == Type.NAME) {
 
             String name = node.getName();
             MathContainer parent = node.getParentSBMLObject();
@@ -356,7 +356,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               boolean allowReaction = true;
               boolean allowSpeciesRef = false;
 
-              if (ctx.isLevelAndVersionEqualTo(2, 1)) {
+              if (ctx.isLevelAndVersionLesserEqualThan(2, 1)) {
                 allowReaction = false;
               }
 
@@ -369,7 +369,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 && m.getParameter(name) == null
                 && (!allowReaction || m.getReaction(name) == null)
                 && (!allowSpeciesRef
-                  || !ValidationTools.isSpeciesReference(m, name))) {
+                  || !ValidationTools.isSpeciesReference(m, name))) 
+              {
                 return false;
               }
             }
