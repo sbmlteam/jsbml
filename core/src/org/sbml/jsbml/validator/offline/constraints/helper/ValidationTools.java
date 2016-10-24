@@ -172,7 +172,7 @@ public final class ValidationTools {
       return DT_BOOLEAN;
     }
 
-    if (node.isNumber() || node.isOperator()) {
+    if (node.isNumber() || node.isOperator() || node.isConstant()) {
       return DT_NUMBER;
     }
 
