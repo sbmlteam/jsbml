@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -57,7 +56,6 @@ import org.sbml.jsbml.xml.XMLTriple;
  *
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class MathMLStaxParser implements ReadingParser {
@@ -106,26 +104,30 @@ public class MathMLStaxParser implements ReadingParser {
   private int piecewiseCount;
   
   /**
-   * integer used to count the number of piece elements open
+   * list used to count the number of piece elements open related to a piecewise element.
+   * <p>The size of the list should be equals to piecewiseCount.
    */
-  private int pieceCount;
-
-  /**
-   * integer used to count the number of otherwise elements open
-   */
-  private int otherwiseCount;
+  private ArrayList<Integer> piecewisePieceCount = new ArrayList<Integer>();
   
   /**
-   *
-   * @return
+   * list used to count the number of otherwise elements open related to a piecewise element.
+   * <p>The size of the list should be equals to piecewiseCount.
+   */
+  private ArrayList<Integer> piecewiseOtherwiseCount = new ArrayList<Integer>();
+  
+  /**
+   * Returns the indent
+   * 
+   * @return the indent
    */
   public int getIndent() {
     return indent;
   }
 
   /**
-   *
-   * @return
+   * Returns true if indenting
+   * 
+   * @return true if indenting
    */
   public boolean getIndenting() {
     return indenting;
@@ -133,8 +135,9 @@ public class MathMLStaxParser implements ReadingParser {
 
 
   /**
-   *
-   * @return
+   * Returns true if we need to omit the XML declaration.
+   * 
+   * @return true if we need to omit the XML declaration.
    */
   public boolean getOmitXMLDeclaration() {
     return omitXMLDeclaration;
@@ -322,14 +325,14 @@ public class MathMLStaxParser implements ReadingParser {
       return true;
     }
     
-    // we don't change pieceCount here as the id might not be different.
-    if (elementName.equals("otherwise")){
-      otherwiseCount--;
-    }
+    // we don't change pieceCount or otherwiseCount here as the id might not be different.
     if (elementName.equals("piecewise")){
       piecewiseCount--;
-      if (piecewiseCount == 0) {
-        pieceCount = 0;
+      if (piecewisePieceCount.size() > piecewiseCount) {
+        piecewisePieceCount.remove(piecewiseCount);
+      }
+      if (piecewiseOtherwiseCount.size() > piecewiseCount) {
+        piecewiseOtherwiseCount.remove(piecewiseCount);
       }
     }
 
@@ -428,19 +431,25 @@ public class MathMLStaxParser implements ReadingParser {
 
       // trying to count the piecewise, piece and otherwise open elements to annotate the ASTNode with the counter,
       //  then later we can check that each piece block has 2 and only 2 child.      
-      if (elementName.equals("piece")){
+      if (elementName.equals("piece")) {
+        int pieceCount = piecewisePieceCount.get(piecewiseCount - 1);
         pieceCount++;
+        piecewisePieceCount.set(piecewiseCount - 1, pieceCount);
       }
-      if (elementName.equals("otherwise")){
+      if (elementName.equals("otherwise")) {
+        int otherwiseCount = piecewiseOtherwiseCount.get(piecewiseCount - 1);
         otherwiseCount++;
+        piecewiseOtherwiseCount.set(piecewiseCount - 1, otherwiseCount);
       }
 
       // we do nothing
       return null;
     }
 
-    if (elementName.equals("piecewise")){
+    if (elementName.equals("piecewise")) {
       piecewiseCount++;
+      piecewisePieceCount.add(0);
+      piecewiseOtherwiseCount.add(0);
     }
     
     if (lastElementWasApply && elementName.equals("ci"))
@@ -522,10 +531,23 @@ public class MathMLStaxParser implements ReadingParser {
     
     if (piecewiseCount > 0) {
       // add piecewiseCount.pieceCount or/and piecewiseCount.otherwiseCount to the ASTNode
-      if (otherwiseCount >= piecewiseCount) {
-        astNode.putUserObject(JSBML.PIECEWISE_ID, "otherwise." + piecewiseCount + "." + otherwiseCount);
+      int otherwiseCount = piecewiseOtherwiseCount.get(piecewiseCount - 1);
+      int pieceCount = piecewisePieceCount.get(piecewiseCount - 1);
+      int localPiecewiseCount = piecewiseCount;
+      
+      if (elementName.equals("piecewise") && piecewiseCount > 1) {
+        // This is to take into account the special case where piecewise is a direct child of piece or otherwise
+        // in this case, piecewiseCount and the list have been increase already but we want to tag the piecewise 
+        // element with the previous values
+        otherwiseCount = piecewiseOtherwiseCount.get(piecewiseCount - 2);
+        pieceCount = piecewisePieceCount.get(piecewiseCount - 2);
+        localPiecewiseCount--;
+      }
+      
+      if (otherwiseCount > 0) {
+        astNode.putUserObject(JSBML.PIECEWISE_ID, "otherwise." + localPiecewiseCount + "." + otherwiseCount);
       } else {
-        astNode.putUserObject(JSBML.PIECEWISE_ID, "piece." + piecewiseCount + "." + pieceCount);
+        astNode.putUserObject(JSBML.PIECEWISE_ID, "piece." + localPiecewiseCount + "." + pieceCount);
       }
     }
     
@@ -539,7 +561,9 @@ public class MathMLStaxParser implements ReadingParser {
   }
 
   /**
-   * @param contextObject
+   * Process a {@link MathContainer} to add one to the number of math element encountered.
+   * 
+   * @param contextObject a {@link MathContainer} instance
    */
   private void processMathElement(Object contextObject) {
     
