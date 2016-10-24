@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -41,7 +40,6 @@ import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
  * 
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 public class FunctionDefinitionConstraints
 extends AbstractConstraintDeclaration {
@@ -61,7 +59,6 @@ extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
 
       if (level > 1) {
-        set.add(CORE_10214);
         set.add(CORE_99301);
         set.add(CORE_99302);
       }
@@ -98,40 +95,6 @@ extends AbstractConstraintDeclaration {
     ValidationFunction<FunctionDefinition> func = null;
 
     switch (errorCode) {
-    case CORE_10214:
-      func = new ValidationFunction<FunctionDefinition>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, FunctionDefinition fd) {
-
-          Queue<ASTNode> queue = new LinkedList<ASTNode>();
-          Model m = fd.getModel();
-          ASTNode node = fd.getBody();
-
-          if (m == null) {
-            return true;
-          }
-
-          while (node != null) {
-            if (node.isFunction()) {
-              // Checks if the function exists
-              if (m.getFunctionDefinition(node.getName()) == null) {
-                return false;
-              }
-            }
-
-            for (ASTNode n : node.getListOfNodes()) {
-              if (n != null) {
-                queue.offer(n);
-              }
-            }
-
-            node = queue.poll();
-          }
-
-          return true;
-        }
-      };
 
     case CORE_10702:
       return SBOValidationConstraints.isMathematicalExpression;
