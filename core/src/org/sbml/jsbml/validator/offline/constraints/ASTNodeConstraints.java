@@ -178,7 +178,6 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             // all children must be numbers
             for (ASTNode n : node.getChildren()) {
               if (ValidationTools.getDataType(n) != ValidationTools.DT_NUMBER) {
-
                 return false;
               }
             }
@@ -351,7 +350,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
             if (parent == null
               || ValidationTools.isLocalParameter(node, name)
-              || parent instanceof FunctionDefinition)
+              || parent instanceof FunctionDefinition
+              || !parent.getPackageName().equals("core"))
             {
               return true;
             }
@@ -377,7 +377,6 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 && (!allowSpeciesRef
                   || !ValidationTools.isSpeciesReference(m, name))) 
               {                
-                // System.out.println("CORE_10215 - id checked = " + name + " " + node.getVariable());
                 return false;
               }
             }
