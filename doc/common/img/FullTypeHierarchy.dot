@@ -79,6 +79,7 @@ strict digraph G{
   TreeNodeChangeListener                   [label="<<interface>>\nTreeNode\nChangeListener", style="filled", fillcolor="#F0F8FF"];
   TreeNodeWithChangeSupport                [label="<<interface>>\nTreeNode\nWithChangeSupport", style="filled", fillcolor="#F0F8FF"];
   UniqueNamedSBase                         [label="<<interface>>\nUnique\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
+  UniqueSId                                [label="<<interface>>\nUnique\nSId", style="filled", fillcolor="#F0F8FF"];
   Variable                                 [label="<<interface>>\nVariable", style="filled", fillcolor="#F0F8FF"];
 
   /*
@@ -242,6 +243,16 @@ strict digraph G{
   UniqueNamedSBase           -> SimpleSpeciesReference       [dir=back,arrowtail=empty,style=dashed];
   UniqueNamedSBase           -> SpeciesType                  [dir=back,arrowtail=empty,style=dashed];
   UniqueNamedSBase           -> Variable                     [dir=back,arrowtail=empty,style=dashed];
+  UniqueSId                  -> Assignment                   [dir=back,arrowtail=empty,style=dashed];
+  UniqueSId                  -> Constraint                   [dir=back,arrowtail=empty,style=dashed];
+  UniqueSId                  -> Delay                        [dir=back,arrowtail=empty,style=dashed];
+  UniqueSId                  -> KineticLaw                   [dir=back,arrowtail=empty,style=dashed];
+  UniqueSId                  -> ListOf                       [dir=back,arrowtail=empty,style=dashed];
+  UniqueSId                  -> Priority                     [dir=back,arrowtail=empty,style=dashed];
+  UniqueSId                  -> Rule                         [dir=back,arrowtail=empty,style=dashed];
+  UniqueSId                  -> Trigger                      [dir=back,arrowtail=empty,style=dashed];
+  UniqueSId                  -> Unit                         [dir=back,arrowtail=empty,style=dashed];
+  UniqueSId                  -> UniqueNamedSBase             [dir=back,arrowtail=empty,style=dashed];
   Variable                   -> SpeciesReference             [dir=back,arrowtail=empty,style=dashed];
   Variable                   -> Symbol                       [dir=back,arrowtail=empty,style=dashed];
   XMLToken                   -> XMLNode                      [dir=back,arrowtail=empty];
