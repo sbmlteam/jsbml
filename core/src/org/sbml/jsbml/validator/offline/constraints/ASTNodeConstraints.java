@@ -318,8 +318,6 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
 
-          // TODO - this constraint need to test the first ci element after an apply !
-          
           // If is a function
           if (node.getType() == Type.FUNCTION) {
 
