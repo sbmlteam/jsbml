@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,7 +35,6 @@ import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
  */
 public class Species extends Symbol implements CompartmentalizedSBase {
 
@@ -366,7 +364,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
            * rather than returning some newly created UnitDefinition:
            */
           if (model != null) {
-            UnitDefinition ud = model.findIdentical(derivedUD);
+            UnitDefinition ud = model.isSetListOfUnitDefinitions() ? model.findIdentical(derivedUD) : null;
             if (ud != null) {
               return ud;
             }

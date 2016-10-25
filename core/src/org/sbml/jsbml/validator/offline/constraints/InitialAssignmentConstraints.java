@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -26,6 +25,7 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.Variable;
@@ -40,7 +40,6 @@ import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 /**
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 public class InitialAssignmentConstraints
 extends AbstractConstraintDeclaration {
@@ -190,15 +189,15 @@ extends AbstractConstraintDeclaration {
 
             String symbol = ia.getSymbol();
 
-            boolean checkL2 = (m.getCompartment(symbol) != null)
-                || (m.getSpecies(symbol) != null)
-                || (m.getParameter(symbol) != null);
+            boolean checkL2 = (m.isSetListOfCompartments() && m.getCompartment(symbol) != null)
+                || (m.isSetListOfSpecies() && m.getSpecies(symbol) != null)
+                || (m.isSetListOfParameters() && m.getParameter(symbol) != null);
 
-            if (ctx.getLevel() == 2) {
+            if (ctx.getLevel() == 2 || checkL2) {
               return checkL2;
             } else {
-              return checkL2
-                  || (m.findNamedSBase(symbol) instanceof SpeciesReference);
+              SBase s = m.findUniqueSBase(symbol);
+              return s != null && (s instanceof SpeciesReference);
             }
           }
 
@@ -236,7 +235,7 @@ extends AbstractConstraintDeclaration {
           if (ia.isSetSymbol() && m != null) {
             String s = ia.getSymbol();
 
-            Compartment c = m.getCompartment(s);
+            Compartment c = m.isSetListOfCompartments() ? m.getCompartment(s) : null;
 
             if (c != null) {
               return c.getSpatialDimensions() != 0;
