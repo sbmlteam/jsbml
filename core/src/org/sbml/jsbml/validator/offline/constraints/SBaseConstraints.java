@@ -57,11 +57,9 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
     case IDENTIFIER_CONSISTENCY:
       if (level > 1) {
         set.add(CORE_10307);
-
-        if (version >= 1) {
-          set.add(CORE_10308);
-        }
+        set.add(CORE_10308);
       }
+      
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -105,6 +103,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<SBase> func = null;
 
     switch (errorCode) {
+      
     case CORE_10307:
       func = new ValidationFunction<SBase>() {
 
@@ -123,7 +122,9 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
               ctx.getHashMap().put(ValidationTools.KEY_META_ID_SET, metaIds);
             }
 
-            return metaIds.add(sb.getMetaId());
+            boolean added = metaIds.add(sb.getMetaId());  
+            
+            return added;
           }
 
           return true;

@@ -34,7 +34,6 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
  * 
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 public class TreeNodeConstraints extends AbstractConstraintDeclaration
   implements CoreSpecialErrorCodes {
@@ -43,7 +42,8 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
    * Log4j logger
    */
   protected static final transient Logger logger = Logger.getLogger(TreeNodeConstraints.class);
-
+  protected static final boolean isDebugEnabled = logger.isDebugEnabled();
+  
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level, int version, String attributeName) {
     // no constraint for attributes
@@ -70,7 +70,7 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
         @Override
         public boolean check(ValidationContext ctx, TreeNode t) {
 
-          // Only applies if recursiv validation is turned on
+          // Only applies if recursive validation is turned on
           if (!ctx.getValidateRecursivly()) {
             return true;
           }
@@ -79,7 +79,7 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
           Enumeration<?> children = t.children();
           // ConstraintFactory factory = ConstraintFactory.getInstance();
 
-          if (logger.isDebugEnabled()) {
+          if (isDebugEnabled) {
             logger.debug("Found Tree " + t.getChildCount() + " " + children.hasMoreElements());
           }
           
@@ -89,7 +89,7 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
           while (children.hasMoreElements()) {
             Object child = children.nextElement();
 
-            if (logger.isDebugEnabled()) {
+            if (isDebugEnabled) {
               logger.debug("Child '" + (child instanceof SBase ? ((SBase) child).getElementName() : child.getClass().getSimpleName()) + "'");
               logger.debug("Child = '" + child + "'");
             }

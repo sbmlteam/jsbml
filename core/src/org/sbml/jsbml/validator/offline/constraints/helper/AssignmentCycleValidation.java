@@ -1,8 +1,28 @@
+/*
+ * 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2016 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
+
 package org.sbml.jsbml.validator.offline.constraints.helper;
 
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
@@ -20,10 +40,20 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
 
 
+/**
+ * 
+ * @author Roman
+ */
 public class AssignmentCycleValidation
   implements ValidationFunction<SBase> {
   
+  /**
+   * 
+   */
   private Set<String> visited = new HashSet<String>();
+  /**
+   * 
+   */
   private Queue<SBase> toCheck = new LinkedList<SBase>();
   
   @Override
@@ -33,7 +63,7 @@ public class AssignmentCycleValidation
     if (m != null)
     {
       visited.clear();
-      String currentId = getId(sb);
+      String currentId = getRelatedId(sb);
 //      System.out.println("Testing " + currentId);
       
       if (currentId != null && !currentId.isEmpty())
@@ -47,7 +77,7 @@ public class AssignmentCycleValidation
           SBase child = toCheck.poll();
           
           // Referred to this id?
-          String childId = getId(child);
+          String childId = getRelatedId(child);
           
           // If this child wasn't visited yet
           if (childId != null && visited.add(childId)){
@@ -70,7 +100,15 @@ public class AssignmentCycleValidation
     return true;
   }
   
-  private String getId(SBase sb)
+  /**
+   * Returns an id depending of the type of SBase given. If it is a {@link Reaction}, returns reaction.id, 
+   * if it is an {@link Assignment}, returns assignment.variable (symbol or variable attribute), if it is 
+   * a {@link Species}, returns species.compartment. For any other type of {@link SBase}, returns null. 
+   * 
+   * @param sb an {@link SBase}
+   * @return an id depending of the type of SBase given. 
+   */
+  private String getRelatedId(SBase sb)
   {
     if (sb instanceof Reaction)
     {
@@ -88,6 +126,11 @@ public class AssignmentCycleValidation
     return null;
   }
   
+  /**
+   * 
+   * @param m
+   * @param sb
+   */
   private void checkChildren(Model m, SBase sb)
   {
     if (sb instanceof ExplicitRule)
@@ -104,6 +147,11 @@ public class AssignmentCycleValidation
     }
   }
   
+  /**
+   * 
+   * @param m
+   * @param r
+   */
   private void checkChildren(Model m, ExplicitRule r)
   {
     if (r.isSetMath())
@@ -113,6 +161,11 @@ public class AssignmentCycleValidation
   }
   
   // Adds all children of ia to the queue which could refer to the root
+  /**
+   * 
+   * @param m
+   * @param ia
+   */
   private void checkChildren(Model m, InitialAssignment ia)
   {
     if (ia.isSetMath())
@@ -122,6 +175,11 @@ public class AssignmentCycleValidation
    
   }
   
+  /**
+   * 
+   * @param m
+   * @param r
+   */
   private void checkChildren(Model m, Reaction r)
   {
     if (r.isSetKineticLaw())
@@ -135,6 +193,11 @@ public class AssignmentCycleValidation
     }
   }
   
+  /**
+   * 
+   * @param m
+   * @param math
+   */
   private void checkChildren(Model m, ASTNode math)
   {
 //    System.out.println("Looking for children");
@@ -153,24 +216,24 @@ public class AssignmentCycleValidation
         // If one of the nodes refer to Reaction, InitalAssignment or Rule
         String name = (node.getName() != null) ? node.getName() : "";
         
-        SBase child = m.getReaction(name);
+        SBase child = m.isSetListOfReactions() ? m.getReaction(name) : null;
         
         // Not a Reaction?
         if (child == null)
         {
-          child = m.getInitialAssignment(name);
+          child = m.isSetListOfInitialAssignments() ? m.getInitialAssignmentBySymbol(name) : null;
           
           // Not InitialAssignment?
           if (child == null)
           {
-            Rule r = m.getRule(name);
+            Rule r = m.isSetListOfRules() ? m.getRuleByVariable(name) : null;
             if (r != null && r.isAssignment())
             {
               child = r;
             }
             else
             {
-              Species s = m.getSpecies(name);
+              Species s = m.isSetListOfSpecies() ? m.getSpecies(name) : null;
               
               if (s != null && !s.hasOnlySubstanceUnits())
               {
