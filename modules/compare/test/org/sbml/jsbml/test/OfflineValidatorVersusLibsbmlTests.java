@@ -100,6 +100,7 @@ public class OfflineValidatorVersusLibsbmlTests {
   private static Map<String, Exception> exceptions = new HashMap<String, Exception>();
   private static Set<Integer> notDetected = new TreeSet<Integer>();
   private static Map<String, String> notDetectedFiles = new TreeMap<String, String>();
+  private static Map<Integer, Integer> differencesMap = new TreeMap<Integer, Integer>();
   private static long readTime = 0;
 
   private static Map<String, LoggingValidationContext> contextCache     =
@@ -211,9 +212,9 @@ public class OfflineValidatorVersusLibsbmlTests {
       }
       
       if (!notImplementedConstraints.contains(errorCode)) {
-        System.out.print(errorCode + ", ");
+        System.out.print(errorCode + " (" + differencesMap.get(errorCode) + "), ");
       } else {
-        System.out.print("" + errorCode + "!, ");
+        System.out.print("" + errorCode + " (" + differencesMap.get(errorCode) + ")!, ");
       }
       
       previous = errorCode;
@@ -325,17 +326,23 @@ public class OfflineValidatorVersusLibsbmlTests {
         
         System.out.println("For validation '" + errorCode + "' libsbml = " + libsbmlErrorNb + ", jsbml = " + jsbmlErrorNb);
         
+        if (differencesMap.get(errorCode) == null) {
+          differencesMap.put(errorCode, 0);
+        }
+        
         if (libsbmlErrorNb == 0) 
         {
           System.out.println("ERROR: libSBML didn't detect at all constraint '" + errorCode + "'");
           constraintBroken = true;
           wronglyValidatedConstraintSet.add(errorCode);
+          differencesMap.put(errorCode, differencesMap.get(errorCode) + jsbmlErrorNb);
         }
         else if (jsbmlErrorNb != libsbmlErrorNb)  
         {
           System.out.println("ERROR: libSBML didn't detect the same number of SBMLError for constraint '" + errorCode); //  + "' libsbml = " + libsbmlErrorNb + ", jsbml = " + jsbmlErrorNb
           constraintBroken = true;
           wronglyValidatedConstraintSet.add(errorCode);
+          differencesMap.put(errorCode, differencesMap.get(errorCode) + Math.abs(jsbmlErrorNb - libsbmlErrorNb));
         }
         else 
         {
