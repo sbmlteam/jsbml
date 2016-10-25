@@ -153,7 +153,9 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Reaction r) {
 
           // if any of the ListOf or kineticLaw are empty, we return false
-          return ! (r.isListOfModifiersEmpty() || r.isListOfProductsEmpty() || r.isListOfReactantsEmpty() 
+          return ! ((r.isSetListOfModifiers() && r.isListOfModifiersEmpty()) 
+              || (r.isSetListOfProducts() && r.isListOfProductsEmpty()) 
+              || (r.isSetListOfReactants() && r.isListOfReactantsEmpty()) 
               || (r.isSetKineticLaw() && r.getKineticLaw().getChildCount() == 0));
         }
       };
