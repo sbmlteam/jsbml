@@ -35,7 +35,6 @@ import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 /**
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 public class ParameterConstraints extends AbstractConstraintDeclaration {
 
@@ -56,6 +55,9 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
 
       if (level > 2 || (level == 2 && version > 1)) {
         set.add(CORE_20412);
+      }
+
+      if (level > 2) {
         set.add(CORE_20706);
       }
 
@@ -121,13 +123,17 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Parameter p) {
 
-          String units = p.getUnits();
-          Model m = p.getModel();
+          if (p.isSetUnits()) {
 
-          return Unit.isUnitKind(units, ctx.getLevel(), ctx.getVersion())
-            || Unit.isBuiltIn(units, ctx.getLevel())
-            || (m != null && m.getUnitDefinition(units) != null);
+            String units = p.getUnits();
+            Model m = p.getModel();
 
+            return Unit.isUnitKind(units, ctx.getLevel(), ctx.getVersion())
+                || Unit.isPredefined(units, ctx.getLevel())
+                || (m != null && m.getUnitDefinition(units) != null);
+          }
+
+          return true;
         }
       };
       break;
