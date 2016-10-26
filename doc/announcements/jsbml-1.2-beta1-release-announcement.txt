@@ -34,7 +34,7 @@ Rule and EventAssignment objects, as often the methods make use of the
 
 We have upgraded the minimum JDK requirement to 1.7 for this release, to be
 able to use the latest versions of the third-party libraries needed by JSBML.
-If the number of third-party libraries requiring JDK 1.8 as a minimum
+As the number of third-party libraries requiring JDK 1.8 as a minimum
 requirement increases, we may need to increase the minimum JDK requirement
 to 1.8 for next year's JSBML releases. (Please let us know in advance if you
 think requiring JDK 1.8 will be a problem for you.)
