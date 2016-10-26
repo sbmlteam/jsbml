@@ -116,9 +116,10 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
 
-          return ValidationTools.isId(ud.getId(), ctx.getLevel(),
-            ctx.getVersion()) && !Unit.isPredefined(ud)
-            && !Unit.isUnitKind(ud.getId(), ctx.getLevel(), ctx.getVersion());
+          // it is allowed to have substance, area, time, ... as id for UnitDefinition - && !Unit.isPredefined(ud)
+
+          return ValidationTools.isId(ud.getId(), ctx.getLevel(), ctx.getVersion()) 
+              && !Unit.isUnitKind(ud.getId(), ctx.getLevel(), ctx.getVersion());
         }
       };
       break;
