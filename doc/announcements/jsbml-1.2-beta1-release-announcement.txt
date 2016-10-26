@@ -5,6 +5,8 @@ JSBML-1.2-beta1
 We are pleased to announce the release of JSBML-1.2-beta1, which is now
 available for download from
 
+https://github.com/sbmlteam/jsbml/releases/tag/jsbml-1.2-beta1
+and
 https://sourceforge.net/projects/jsbml/files/jsbml/1.2-beta1
 
 JSBML is a community-driven project to create a free, open-source, pure

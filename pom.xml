@@ -67,9 +67,7 @@
   </mailingLists>
   
   <scm>
-    <connection>scm:git:git://github.com/sbmlteam/jsbml</connection>
-    <developerConnection>scm:git:git://github.com/sbmlteam/jsbml</developerConnection>
-    <url>scm:git:git://github.com/sbmlteam/jsbml</url>
+    <url>scm:git:git://git@github.com:sbmlteam/jsbml.git</url>
   </scm>
   
   <properties>
