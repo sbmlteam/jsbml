@@ -24,3 +24,6 @@ Thank you for your interest and support of JSBML and SBML in general.
 
 ## The JSBML team. 
 <a name="downloads"/>
+
+## Downloads
+Added the above section to avoid an error in eclipse - the two last lines need to be deleted when adding the text to github.
