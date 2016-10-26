@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    $Id$ 
-    $URL$
 
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
@@ -19,16 +17,13 @@
     in the file named "LICENSE.txt" included with this software distribution
     and also available online as http://sbml.org/Software/JSBML/License.
 
-    Version: $Rev$
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>org.sbml.jsbml</groupId>
   <artifactId>jsbml-parent</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2-beta1</version>
   <packaging>pom</packaging>
   <name>JSBML</name>
   <inceptionYear>2009</inceptionYear>
@@ -56,8 +51,8 @@
   </developers>
 
   <issueManagement>
-    <url>http://sourceforge.net/p/jsbml/bugs/</url>
-    <system>Sourceforge Tickets</system>
+    <url>https://github.com/sbmlteam/jsbml/issues</url>
+    <system>GitHub Issues</system>
   </issueManagement>
   <mailingLists>
     <mailingList>
@@ -72,9 +67,9 @@
   </mailingLists>
   
   <scm>
-    <connection>scm:svn:http://svn.code.sf.net/p/jsbml/code/trunk</connection>
-    <developerConnection>scm:svn:https://username@svn.code.sf.net/p/jsbml/code/trunk</developerConnection>
-    <url>https://sourceforge.net/p/jsbml/code/HEAD/tree/trunk/</url>
+    <connection>scm:git:git://github.com/sbmlteam/jsbml</connection>
+    <developerConnection>scm:git:git://github.com/sbmlteam/jsbml</developerConnection>
+    <url>scm:git:git://github.com/sbmlteam/jsbml</url>
   </scm>
   
   <properties>
