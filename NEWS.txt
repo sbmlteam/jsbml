@@ -76,9 +76,10 @@ Version 1.2-beta1 (XX-10-2016)
     Thanks to Miguel de Alba who reported some problem and the libSBML team
     who provided a large set of test cases.
 
-  - When writing a 'sbml:units' attributes on MathML <cn> elements for real
-    numbers with e-notation, the <xml> tag was closed before the attribute was
-    written. Thanks to Matthias König who reported this problem.  
+  - When writing a 'sbml:units' attribute on MathML <cn> elements for real
+    numbers with e-notation, the XML tag <cn> was closed before the
+    attribute was written. Thanks to Matthias König who reported this
+    problem.  
   
   - The clone constructor for SBaseRef was not cloning properly its child
     SBaseRef.
