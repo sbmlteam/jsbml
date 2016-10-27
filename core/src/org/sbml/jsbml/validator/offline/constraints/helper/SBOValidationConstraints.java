@@ -18,6 +18,8 @@
  */
 package org.sbml.jsbml.validator.offline.constraints.helper;
 
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -141,11 +143,18 @@ public final class SBOValidationConstraints {
          SBase sb) {
 
          if (sb.isSetSBOTerm()) {
-           try {
-             return SBO.isMaterialEntity(
-               sb.getSBOTerm());
-           } catch (Exception e) {
-             return false;
+           if (ctx.isLevelAndVersionGreaterEqualThan(2, 4)) {
+             try {
+               return SBO.isMaterialEntity(sb.getSBOTerm());
+             } catch (Exception e) {
+               return false;
+             }
+           } else {
+             try {
+               return SBO.isPhysicalParticipant(sb.getSBOTerm());
+             } catch (Exception e) {
+               return false;
+             }
            }
 
          }
@@ -196,12 +205,25 @@ public final class SBOValidationConstraints {
 
          if (sb.isSetSBOTerm()) {
            try {
-             return SBO.isParticipantRole(
-               sb.getSBOTerm());
+             if (sb instanceof ModifierSpeciesReference) 
+             {
+               return SBO.isModifier(sb.getSBOTerm());
+             } 
+             else if (((ListOf<?>) sb.getParent()).getSBaseListType().equals(ListOf.Type.listOfReactants)) 
+             {
+               return SBO.isReactant(sb.getSBOTerm());
+             }
+             else if (((ListOf<?>) sb.getParent()).getSBaseListType().equals(ListOf.Type.listOfProducts)) 
+             {
+               return SBO.isProduct(sb.getSBOTerm());
+             }
+             else 
+             {
+               return SBO.isParticipantRole(sb.getSBOTerm());
+             }
            } catch (Exception e) {
              return false;
            }
-
          }
 
          return true;
