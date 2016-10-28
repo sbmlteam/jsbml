@@ -24,14 +24,20 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.swing.tree.TreeNode;
+
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.xml.stax.SBMLReader;
@@ -292,6 +298,27 @@ public class OfflineValidatorVersusLibsbmlTests {
         }
       }
 
+      // check if there are any empty ListOf in the SBMLDocument and report them as a new Error
+      List<? extends TreeNode> emptyListOfs = doc.filter(new Filter() {
+        
+        @Override
+        public boolean accepts(Object o) {
+
+          if (o instanceof ListOf<?>) {
+            return ((ListOf<?>) o).size() == 0;
+          }
+          
+          return false;
+        }
+      });
+      if (emptyListOfs.size() > 0) {
+        jsbmlErrorCount.put(26000, emptyListOfs.size());
+        
+        for (TreeNode emptyListOf : emptyListOfs) {
+          System.out.println("Empty ListOf found - " + ((ListOf) emptyListOf).getSBaseListType() + ", element name = " + ((ListOf) emptyListOf).getElementName());
+        }
+      }
+      
       // do the validation with libsbml and count each errorCode
       org.sbml.libsbml.SBMLDocument ldoc = new org.sbml.libsbml.SBMLReader().readSBML(file.getAbsolutePath());
       ldoc.setConsistencyChecks(libsbmlConstants.LIBSBML_CAT_UNITS_CONSISTENCY, true);
