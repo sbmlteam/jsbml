@@ -2469,9 +2469,11 @@ public class Model extends AbstractNamedSBase
    */
   public int getKineticLawCount() {
     int count = 0;
-    for (Reaction r : getListOfReactions()) {
-      if (r.isSetKineticLaw()) {
-        count++;
+    if (isSetListOfReactions()) {
+      for (Reaction r : getListOfReactions()) {
+        if (r.isSetKineticLaw()) {
+          count++;
+        }
       }
     }
     return count;
@@ -2811,8 +2813,10 @@ public class Model extends AbstractNamedSBase
    */
   public int getModifierSpeciesReferenceCount() {
     int count = 0;
-    for (Reaction r : getListOfReactions()) {
-      count += r.getModifierCount();
+    if (isSetListOfReactions()) {
+      for (Reaction r : getListOfReactions()) {
+        count += r.getModifierCount();
+      }
     }
     return count;
   }
@@ -3571,8 +3575,10 @@ public class Model extends AbstractNamedSBase
    */
   public int getSpeciesReferenceCount() {
     int count = 0;
-    for (Reaction r : getListOfReactions()) {
-      count += r.getReactantCount() + r.getProductCount();
+    if (isSetListOfReactions()) {
+      for (Reaction r : getListOfReactions()) {
+        count += r.getReactantCount() + r.getProductCount();
+      }
     }
     return count;
   }
@@ -3639,7 +3645,7 @@ public class Model extends AbstractNamedSBase
    *         {@code true}.
    */
   public int getSpeciesWithBoundaryConditionCount() {
-    return getListOfSpecies().filterList(new BoundaryConditionFilter()).size();
+    return isSetListOfSpecies() ? getListOfSpecies().filterList(new BoundaryConditionFilter()).size() : 0;
   }
 
 
@@ -3652,15 +3658,17 @@ public class Model extends AbstractNamedSBase
   @Deprecated
   public int getStoichiometryMathCount() {
     int count = 0;
-    for (Reaction r : getListOfReactions()) {
-      for (SpeciesReference sr : r.getListOfReactants()) {
-        if (sr.isSetStoichiometryMath()) {
-          count++;
+    if (isSetListOfReactions()) {
+      for (Reaction r : getListOfReactions()) {
+        for (SpeciesReference sr : r.getListOfReactants()) {
+          if (sr.isSetStoichiometryMath()) {
+            count++;
+          }
         }
-      }
-      for (SpeciesReference sr : r.getListOfProducts()) {
-        if (sr.isSetStoichiometryMath()) {
-          count++;
+        for (SpeciesReference sr : r.getListOfProducts()) {
+          if (sr.isSetStoichiometryMath()) {
+            count++;
+          }
         }
       }
     }
@@ -3747,9 +3755,11 @@ public class Model extends AbstractNamedSBase
    */
   public int getTriggerCount() {
     int count = 0;
-    for (Event e : getListOfEvents()) {
-      if (e.isSetTrigger()) {
-        count++;
+    if (isSetListOfEvents()) {
+      for (Event e : getListOfEvents()) {
+        if (e.isSetTrigger()) {
+          count++;
+        }
       }
     }
     return count;
@@ -3763,8 +3773,10 @@ public class Model extends AbstractNamedSBase
    */
   public int getUnitCount() {
     int count = 0;
-    for (UnitDefinition ud : getListOfUnitDefinitions()) {
-      count += ud.getUnitCount();
+    if (isSetListOfUnitDefinitions()) {
+      for (UnitDefinition ud : getListOfUnitDefinitions()) {
+        count += ud.getUnitCount();
+      }
     }
     return count;
   }

@@ -285,22 +285,25 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
 
             Set<String> definedSpecies = ValidationTools.getDefinedSpecies(r);
 
-            for (SpeciesReference ref : r.getListOfProducts()) {
+            if (r.isSetListOfProducts()) {
+              for (SpeciesReference ref : r.getListOfProducts()) {
 
-              if (!checkStoichiometryMath(m, ref, definedSpecies))
-              {
-                return false;
+                if (!checkStoichiometryMath(m, ref, definedSpecies))
+                {
+                  return false;
+                }
               }
             }
 
-            for (SpeciesReference ref : r.getListOfReactants()) {
- 
-              if (!checkStoichiometryMath(m, ref, definedSpecies))
-              {
-                return false;
+            if (r.isSetListOfReactants()) {
+              for (SpeciesReference ref : r.getListOfReactants()) {
+
+                if (!checkStoichiometryMath(m, ref, definedSpecies))
+                {
+                  return false;
+                }
               }
             }
-
            
           }
 
@@ -343,17 +346,17 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<Reaction>() {
         
         @Override
-        public boolean check(ValidationContext ctx, Reaction kl) {
+        public boolean check(ValidationContext ctx, Reaction r) {
           
           boolean isValid = true;
           
-          if (kl.isSetListOfReactants()) {
+          if (r.isSetListOfReactants()) {
             UnknownAttributeValidationFunction<ListOf<SpeciesReference>> unknownFunc = new UnknownAttributeValidationFunction<ListOf<SpeciesReference>>();
-            isValid = unknownFunc.check(ctx, kl.getListOfReactants());
+            isValid = unknownFunc.check(ctx, r.getListOfReactants());
           }
-          if (kl.isSetListOfProducts()) {
+          if (r.isSetListOfProducts()) {
             UnknownAttributeValidationFunction<ListOf<SpeciesReference>> unknownFunc = new UnknownAttributeValidationFunction<ListOf<SpeciesReference>>();
-            isValid = isValid && unknownFunc.check(ctx, kl.getListOfProducts());
+            isValid = isValid && unknownFunc.check(ctx, r.getListOfProducts());
           }
           
           return isValid;
@@ -365,12 +368,12 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<Reaction>() {
         
         @Override
-        public boolean check(ValidationContext ctx, Reaction kl) {
+        public boolean check(ValidationContext ctx, Reaction r) {
           
-          if (kl.isSetListOfModifiers()) {
+          if (r.isSetListOfModifiers()) {
             UnknownAttributeValidationFunction<ListOf<ModifierSpeciesReference>> unknownFunc = 
                 new UnknownAttributeValidationFunction<ListOf<ModifierSpeciesReference>>();
-            return unknownFunc.check(ctx, kl.getListOfModifiers());
+            return unknownFunc.check(ctx, r.getListOfModifiers());
           }
           
           return true;

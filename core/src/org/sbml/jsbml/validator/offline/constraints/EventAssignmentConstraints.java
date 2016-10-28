@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -41,7 +39,6 @@ import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 /**
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
 
@@ -105,15 +102,17 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
           
           if (m != null)
           {
-            for (Rule r : m.getListOfRules())
-            {
-              if (r.isAssignment())
+            if (m.getRuleCount() > 0) {
+              for (Rule r : m.getListOfRules())
               {
-                AssignmentRule ar = (AssignmentRule) r;
-                
-                if (ar.getVariable().equals(ea.getVariable()))
+                if (r.isAssignment())
                 {
-                  return false;
+                  AssignmentRule ar = (AssignmentRule) r;
+
+                  if (ar.getVariable().equals(ea.getVariable()))
+                  {
+                    return false;
+                  }
                 }
               }
             }
