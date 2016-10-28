@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -53,9 +52,7 @@ import org.sbml.jsbml.SpeciesReference;
  * the algorithm by Hopcroft and Karp (1973).
  * 
  * @author Alexander D&ouml;rr
- * @date 2010-06-17
  * @since 0.8
- * @version $Rev$
  */
 public class OverdeterminationValidator {
 
@@ -545,35 +542,43 @@ public class OverdeterminationValidator {
     int i;
 
     // Build vertices for compartments and hash them
-    for (Compartment c : model.getListOfCompartments()) {
-      if ((model.getLevel()==1) || !(c.isConstant())) {
-        variable = new InnerNode<SBase>(c);
-        variables.add(variable);
-        variableHash.put(variable.getValue(), variable);
+    if (model.isSetListOfCompartments()) {
+      for (Compartment c : model.getListOfCompartments()) {
+        if ((model.getLevel()==1) || !(c.isConstant())) {
+          variable = new InnerNode<SBase>(c);
+          variables.add(variable);
+          variableHash.put(variable.getValue(), variable);
+        }
       }
     }
     // Build vertices for species and hash them
-    for (Species s : model.getListOfSpecies()) {
-      if (!s.isConstant()) {
-        variable = new InnerNode<SBase>(s);
-        variables.add(variable);
-        variableHash.put(variable.getValue(), variable);
+    if (model.isSetListOfSpecies()) {
+      for (Species s : model.getListOfSpecies()) {
+        if (!s.isConstant()) {
+          variable = new InnerNode<SBase>(s);
+          variables.add(variable);
+          variableHash.put(variable.getValue(), variable);
+        }
       }
     }
     // Build vertices for parameter and hash them
-    for (Parameter p : model.getListOfParameters()) {
-      if (!p.isConstant()) {
-        variable = new InnerNode<SBase>(p);
+    if (model.isSetListOfParameters()) {
+      for (Parameter p : model.getListOfParameters()) {
+        if (!p.isConstant()) {
+          variable = new InnerNode<SBase>(p);
+          variables.add(variable);
+          variableHash.put(variable.getValue(), variable);
+        }
+      }
+    }
+    
+    // Build vertices for reaction and hash them
+    if (model.isSetListOfReactions()) {
+      for (Reaction r : model.getListOfReactions()) {
+        variable = new InnerNode<SBase>(r);
         variables.add(variable);
         variableHash.put(variable.getValue(), variable);
       }
-    }
-
-    // Build vertices for reaction and hash them
-    for (Reaction r : model.getListOfReactions()) {
-      variable = new InnerNode<SBase>(r);
-      variables.add(variable);
-      variableHash.put(variable.getValue(), variable);
     }
 
     // Create edges with reactions
@@ -581,46 +586,51 @@ public class OverdeterminationValidator {
       Reaction r = model.getReaction(i);
 
       // Create vertices and edges for products
-      for (SpeciesReference sref : r.getListOfProducts()) {
-        Species species = sref.getSpeciesInstance();
-        if (species != null && !species.isConstant()) {
-          variable = variableHash.get(species);
-          if (!species.getBoundaryCondition()) {
+      if (r.isSetListOfProducts()) {
+        for (SpeciesReference sref : r.getListOfProducts()) {
+          Species species = sref.getSpeciesInstance();
+          if (species != null && !species.isConstant()) {
+            variable = variableHash.get(species);
+            if (!species.getBoundaryCondition()) {
 
-            equation = equationHash.get(species);
-            if (equation == null) {
-              equation = new InnerNode<SBase>(species);
-              equations.add(equation);
-              equationHash.put(species, equation);
-              // link
-              variable.addNode(equation);
-              equation.addNode(variable);
-              variableHash.put(variable.getValue(), variable);
+              equation = equationHash.get(species);
+              if (equation == null) {
+                equation = new InnerNode<SBase>(species);
+                equations.add(equation);
+                equationHash.put(species, equation);
+                // link
+                variable.addNode(equation);
+                equation.addNode(variable);
+                variableHash.put(variable.getValue(), variable);
+              }
             }
           }
         }
       }
 
       // Create vertices and edges for reactants
-      for (SpeciesReference sref : r.getListOfReactants()) {
-        Species species = sref.getSpeciesInstance();
-        if (species != null && !species.isConstant()) {
-          variable = variableHash.get(species);
-          if (!species.getBoundaryCondition()) {
+      if (r.isSetListOfReactants()) {
+        for (SpeciesReference sref : r.getListOfReactants()) {
+          Species species = sref.getSpeciesInstance();
+          if (species != null && !species.isConstant()) {
+            variable = variableHash.get(species);
+            if (!species.getBoundaryCondition()) {
 
-            equation = equationHash.get(species);
-            if (equation == null) {
-              equation = new InnerNode<SBase>(species);
-              equations.add(equation);
-              equationHash.put(species, equation);
-              // link
-              variable.addNode(equation);
-              equation.addNode(variable);
-              variableHash.put(variable.getValue(), variable);
+              equation = equationHash.get(species);
+              if (equation == null) {
+                equation = new InnerNode<SBase>(species);
+                equations.add(equation);
+                equationHash.put(species, equation);
+                // link
+                variable.addNode(equation);
+                equation.addNode(variable);
+                variableHash.put(variable.getValue(), variable);
+              }
             }
           }
         }
       }
+      
       // link reaction with its kinetic law
       equation = new InnerNode<SBase>(r);
       equations.add(equation);
@@ -880,14 +890,17 @@ public class OverdeterminationValidator {
 
     for (int i = 0; i < model.getReactionCount(); i++) {
 
-      for (SpeciesReference sref : model.getReaction(i).getListOfProducts()) {
-        reactants.add(sref.getSpecies());
+      if (model.getReaction(i).isSetListOfProducts()) {
+        for (SpeciesReference sref : model.getReaction(i).getListOfProducts()) {
+          reactants.add(sref.getSpecies());
+        }
       }
 
-      for (SpeciesReference sref : model.getReaction(i).getListOfReactants()) {
-        reactants.add(sref.getSpecies());
+      if (model.getReaction(i).isSetListOfReactants()) {
+        for (SpeciesReference sref : model.getReaction(i).getListOfReactants()) {
+          reactants.add(sref.getSpecies());
+        }
       }
-
     }
 
     // Build the graph the matching and try to improve the matching
