@@ -27,7 +27,6 @@ import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
-import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UnitDefinition;
@@ -45,7 +44,6 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidat
 /**
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 public class ModelConstraints extends AbstractConstraintDeclaration {
 
@@ -825,14 +823,12 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             for (Rule r : m.getListOfRules()) {
               String id = null;
 
-              if (r.isRate()) {
-                id = ((RateRule) r).getVariable();
-              } else if (r.isAssignment()) {
+              if (r instanceof AssignmentRule) {
                 id = ((AssignmentRule) r).getVariable();
               }
-
-              // Is the id already used by a InitialAssignment?
-              if (id != null && iaIds.contains(id)) {
+              
+              // Is the id already used by an InitialAssignment?
+              if (id != null && id.trim().length() > 0 && iaIds.contains(id)) {
                 return false;
               }
             }
