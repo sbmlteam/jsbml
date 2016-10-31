@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -53,7 +52,6 @@ import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
  * 
  * @author Roman
  * @since 1.2
- * @date 05.08.2016
  */
 public final class ValidationTools {
 
