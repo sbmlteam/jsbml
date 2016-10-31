@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -32,7 +31,6 @@ import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValida
 /**
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
 

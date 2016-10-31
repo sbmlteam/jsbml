@@ -43,6 +43,7 @@ import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
 /**
  * 
  * @author Roman
+ * @since 1.2
  */
 public class AssignmentCycleValidation
   implements ValidationFunction<SBase> {
