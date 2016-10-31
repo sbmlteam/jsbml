@@ -22,6 +22,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -54,6 +55,10 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
       if (level > 2) {
         set.add(CORE_21116);
       }
+      if (level > 1) {
+        set.add(CORE_20611);
+      }
+
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -78,6 +83,27 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
+      case CORE_20611:
+        func = new ValidationFunction<SpeciesReference>() {
+
+          // TODO - maintain a set of species ids to not report the error twice for the same species ?
+          
+          @Override
+          public boolean check(ValidationContext ctx, SpeciesReference sr) {
+
+            Species s = sr.getSpeciesInstance();
+
+      
+            if (s != null && !s.isBoundaryCondition()) {
+
+              return !s.isConstant(); // if the species is constant and 'boundaryCondition = false', it cannot be a reactant or product
+            }
+
+            return true;
+          }
+        };
+        break;
+        
     case CORE_21113:
       func = new ValidationFunction<SpeciesReference>() {
 

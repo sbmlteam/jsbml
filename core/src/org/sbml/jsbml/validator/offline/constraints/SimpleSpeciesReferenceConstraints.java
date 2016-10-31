@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,7 +22,6 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.SimpleSpeciesReference;
-import org.sbml.jsbml.Species;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
@@ -32,7 +30,6 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValid
 /**
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 public class SimpleSpeciesReferenceConstraints
   extends AbstractConstraintDeclaration {
@@ -54,10 +51,6 @@ public class SimpleSpeciesReferenceConstraints
       set.add(CORE_21111);
       set.add(CORE_21117);
       
-      if (level > 1) {
-        set.add(CORE_20611);
-      }
-
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -86,25 +79,6 @@ public class SimpleSpeciesReferenceConstraints
     switch (errorCode) {
     case CORE_10708:
       return SBOValidationConstraints.isParticipantRole;
-      
-    case CORE_20611:
-      func = new ValidationFunction<SimpleSpeciesReference>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
-
-          Species s = sr.getSpeciesInstance();
-
-    
-          if (s != null) {
-
-            return !s.isConstant() || s.isBoundaryCondition();
-          }
-
-          return true;
-        }
-      };
-      break;
       
     case CORE_21111:
       func = new ValidationFunction<SimpleSpeciesReference>() {

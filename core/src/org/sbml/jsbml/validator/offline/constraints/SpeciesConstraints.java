@@ -41,7 +41,6 @@ import org.sbml.jsbml.xml.XMLNode;
  * 
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 @SuppressWarnings("deprecation")
 public class SpeciesConstraints extends AbstractConstraintDeclaration{
@@ -67,7 +66,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       {
         set.add(CORE_20604);
         set.add(CORE_20609);
-        set.add(CORE_20611);
+        // set.add(CORE_20611); // implemented in SpeciesReferenceConstraint
 
         if (version < 3)
         {
