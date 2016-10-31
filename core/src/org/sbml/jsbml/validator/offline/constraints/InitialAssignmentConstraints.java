@@ -59,15 +59,17 @@ extends AbstractConstraintDeclaration {
     switch (category) {
     case GENERAL_CONSISTENCY:
       if (level == 2 && version > 1) {
-        addRangeToSet(set, CORE_20801, CORE_20803);
+        set.add(CORE_20801);
         set.add(CORE_20906);
         
-        if (version == 5)
+        if (version >= 5)
         {
           set.add(CORE_20806);
         }
       } else if (level == 3) {
-        addRangeToSet(set, CORE_20801, CORE_20805);
+        set.add(CORE_20801);
+        set.add(CORE_20804);
+        set.add(CORE_20805);        
         set.add(CORE_20906);
       }
       break;
