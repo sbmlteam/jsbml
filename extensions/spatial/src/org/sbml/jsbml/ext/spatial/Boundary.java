@@ -52,6 +52,11 @@ public class Boundary extends AbstractSpatialNamedSBase {
 
 
   /**
+   * the element name
+   */
+  private String elementName;
+  
+  /**
    * Creates a new {@link Boundary} instance.
    */
   public Boundary() {
@@ -147,6 +152,56 @@ public class Boundary extends AbstractSpatialNamedSBase {
     return false;
   }
 
+  
+  /**
+   * Returns the value of the XML element name.
+   *
+   * @return the value of the XML element name.
+   */
+  public String getElementName() {
+    if (isSetElementName()) {
+      return elementName;
+    }
+    return super.getElementName();
+  }
+
+  /**
+   * Returns whether {@link #elementName} is set.
+   *
+   * @return whether {@link #elementName} is set.
+   */
+  public boolean isSetElementName() {
+    return elementName != null;
+  }
+
+  /**
+   * Sets the value of the XML element name.
+   * 
+   * <p>Use with caution, it should only be used internally by JSBML.
+   *
+   * @param elementName the value of elementName to be set.
+   */
+  public void setElementName(String elementName) {
+    String oldElementName = this.elementName;
+    this.elementName = elementName;
+    firePropertyChange("elementName", oldElementName, this.elementName);
+  }
+
+  /**
+   * Unsets the variable elementName.
+   *
+   * @return {@code true} if elementName was set before, otherwise {@code false}.
+   */
+  public boolean unsetElementName() {
+    if (isSetElementName()) {
+      String oldElementName = this.elementName;
+      this.elementName = null;
+      firePropertyChange("elementName", oldElementName, this.elementName);
+      return true;
+    }
+    return false;
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.NamedSpatialElement#hashCode()
    */
