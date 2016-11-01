@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -83,7 +82,6 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @author Piero Dalle Pezze
  * @author rodrigue
  * @since 1.0
- * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class SpatialParser extends AbstractReaderWriter implements PackageParser {
@@ -199,7 +197,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         || xmlObject.getName().equals("listOfSampledFieldGeometrys") || xmlObject.getName().equals("listOfParametricGeometrys")
         || xmlObject.getName().equals("listOfMixedGeometrys"))
     {
-      xmlObject.setName(SpatialConstants.listOfGeometryDefinitions);
+      xmlObject.setName(SpatialConstants.listOfGeometryDefinitions); // TODO - case where listOfGeometryDefinitions is empty ? Or any other ListOf from packages in fact !!
     }
     
     
