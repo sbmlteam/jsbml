@@ -162,9 +162,6 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument d) {
 
-          // go through the getSBMLDocumentAttributes() map
-          // Map<String, String> attributeMap = d.getSBMLDocumentAttributes();
-
           Map<String, String> namespaceMap = d.getDeclaredNamespaces();
           String sbmlNamespace = null;
           
@@ -176,7 +173,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
           for (String attributeNameWithPrefix : namespaceMap.keySet()) {
             
             if (attributeNameWithPrefix.equals("xmlns")) {
-              sbmlNamespace = attributeNameWithPrefix;
+              sbmlNamespace = namespaceMap.get(attributeNameWithPrefix);
               break;
             }
           }
@@ -189,7 +186,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
           if (sbmlNamespace == null || levelAndVersionNamespace == null) {
             return false;
           }
-          
+        
           return sbmlNamespace.equals(levelAndVersionNamespace);
         }
       };
