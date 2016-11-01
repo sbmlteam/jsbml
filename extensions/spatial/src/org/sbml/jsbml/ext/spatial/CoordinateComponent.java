@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -39,7 +38,6 @@ import org.sbml.jsbml.UnitDefinition;
  * @author Andreas Dr&auml;ger
  * @author Piero Dalle Pezze
  * @since 1.0
- * @version $Rev$
  */
 public class CoordinateComponent extends AbstractSpatialNamedSBase implements
 SBaseWithUnit {
@@ -77,14 +75,16 @@ SBaseWithUnit {
   private String unit;
 
   /**
-   * 
+   * Creates a new {@link CoordinateComponent} instance.
    */
   public CoordinateComponent() {
     super();
   }
 
   /**
-   * @param coordComp
+   * Creates a new {@link CoordinateComponent} instance copied from the given {@link CoordinateComponent}.
+   * 
+   * @param coordComp the {@link CoordinateComponent} to clone or copy
    */
   public CoordinateComponent(CoordinateComponent coordComp) {
     super(coordComp);
@@ -103,18 +103,21 @@ SBaseWithUnit {
   }
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link CoordinateComponent} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public CoordinateComponent(int level, int version) {
     super(level, version);
   }
 
   /**
+   * Creates a new {@link CoordinateComponent} instance.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the element id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public CoordinateComponent(String id,int level, int version) {
     super(id,level,version);
@@ -154,11 +157,13 @@ SBaseWithUnit {
 
   /**
    * Sets the value of boundaryMinimum
-   * @param boundaryMinimum
+   * 
+   * @param boundaryMinimum the minimum boundary
    */
   public void setBoundaryMinimum(Boundary boundaryMinimum) {
     Boundary oldMinimum = this.boundaryMinimum;
     this.boundaryMinimum = boundaryMinimum;
+    this.boundaryMinimum.setElementName(SpatialConstants.boundaryMinimum);
     registerChild(boundaryMinimum);
     firePropertyChange(SpatialConstants.boundaryMinimum, oldMinimum, this.boundaryMinimum);
   }
@@ -206,11 +211,13 @@ SBaseWithUnit {
 
   /**
    * Sets the value of boundaryMaximum
-   * @param boundaryMaximum
+   * 
+   * @param boundaryMaximum the maximum boundary
    */
   public void setBoundaryMaximum(Boundary boundaryMaximum) {
     Boundary oldMaximum = boundaryMaximum;
     this.boundaryMaximum = boundaryMaximum;
+    this.boundaryMaximum.setElementName(SpatialConstants.boundaryMaximum);
     registerChild(boundaryMaximum);
     firePropertyChange(SpatialConstants.boundaryMaximum, oldMaximum, boundaryMaximum);
   }
@@ -260,7 +267,8 @@ SBaseWithUnit {
 
   /**
    * Sets the value of type
-   * @param type
+   * 
+   * @param type the type
    */
   public void setType(CoordinateKind type) {
     CoordinateKind oldType = this.type;
