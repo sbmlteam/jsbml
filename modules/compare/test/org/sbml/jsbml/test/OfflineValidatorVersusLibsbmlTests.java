@@ -100,6 +100,7 @@ public class OfflineValidatorVersusLibsbmlTests {
 
   private static int totalFileTested  = 0;
   private static int filesCorrectly   = 0;
+  private static int nbFilesCorrectForImplementedConstraints   = 0;
 
   private static String filter = null;
 
@@ -150,7 +151,7 @@ public class OfflineValidatorVersusLibsbmlTests {
 
     notImplementedConstraints.addAll(Arrays.asList(10201, 10202, 10203, 10204, 10205, 10206, 10207,
       10309, 10310, 10311, 10401, 10402, 10403, 10801, 10804, 21006, 
-      10501, 10503, 10512, 10513, 10522, 10523, 10531, 10532, 10533, 10534, 10541, 10542, 10551, 10562, 10565,
+      10501, 10503, 10511, 10512, 10513, 10521, 10522, 10523, 10531, 10532, 10533, 10534, 10541, 10542, 10551, 10562, 10563, 10565,
       10101, 10102, 10103, 20101, 20102, 20103, 20301));
     
     long init = Calendar.getInstance().getTimeInMillis();
@@ -198,6 +199,8 @@ public class OfflineValidatorVersusLibsbmlTests {
 
     System.out.println("\n\nNumber of files correctly validated: "
         + filesCorrectly + " out of " + totalFileTested);
+    System.out.println("\nNumber of files correctly validating the implemented constraints: "
+        + nbFilesCorrectForImplementedConstraints + " out of " + totalFileTested);
 
     System.out.println("\nIncorrect constraints list (errors followed by a '!' are errors that we know are not implemented): ");
     
@@ -345,6 +348,7 @@ public class OfflineValidatorVersusLibsbmlTests {
       Set<Integer> wrongConstraintCodes = new HashSet<Integer>(); 
       wrongConstraintCodes.addAll(jsbmlErrorCount.keySet());
       wrongConstraintCodes.addAll(libsbmlErrorCount.keySet());
+      boolean fileCorrectForNow = true;
       
       for (Integer errorCode : wrongConstraintCodes)
       {
@@ -363,6 +367,10 @@ public class OfflineValidatorVersusLibsbmlTests {
           constraintBroken = true;
           wronglyValidatedConstraintSet.add(errorCode);
           differencesMap.put(errorCode, differencesMap.get(errorCode) + jsbmlErrorNb);
+          
+          if (!(notImplementedConstraints.contains(errorCode) || errorCode > 80000)) {
+            fileCorrectForNow = false;
+          }
         }
         else if (jsbmlErrorNb != libsbmlErrorNb)  
         {
@@ -370,6 +378,10 @@ public class OfflineValidatorVersusLibsbmlTests {
           constraintBroken = true;
           wronglyValidatedConstraintSet.add(errorCode);
           differencesMap.put(errorCode, differencesMap.get(errorCode) + Math.abs(jsbmlErrorNb - libsbmlErrorNb));
+          
+          if (!(notImplementedConstraints.contains(errorCode) || errorCode > 80000)) {
+            fileCorrectForNow = false;
+          }
         }
         else 
         {
@@ -383,6 +395,9 @@ public class OfflineValidatorVersusLibsbmlTests {
         filesCorrectly++;
         System.out.println("PASSED");
       } else {
+        if (fileCorrectForNow) {
+          nbFilesCorrectForImplementedConstraints++;
+        }
         for (Integer errorCode : wronglyValidatedConstraintSet) {
           didNotDetect(errorCode, file.getName());
         }
