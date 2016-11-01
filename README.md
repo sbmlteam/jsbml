@@ -44,7 +44,7 @@ and
 
 *Home page*: [http://sbml.org/Software/JSBML](http://sbml.org/Software/JSBML)
 
-*Developers' email address*: [jsbml-team@caltech.edu](mailto:jsbml-team@caltech.edu)
+*Developers' email address*: [jsbml-team@googlegroups.com](mailto:jsbml-team@googlegroups.com)
 
 *JSBML discussion group*: [https://groups.google.com/forum/#!forum/jsbml-development](https://groups.google.com/forum/#!forum/jsbml-development)
 
@@ -95,7 +95,7 @@ JSBML is under active development by a distributed team.  If you find bugs, plea
 * *Bug reports*: [GitHub issue tracker](https://github.com/sbmlteam/jsbml/issues)
 * *Forum for JSBML*: [jsbml-development](https://groups.google.com/forum/#!forum/jsbml-development)
 * *Forum for general SBML software interoperability discussions*: [sbml-interoperability](https://groups.google.com/forum/#!forum/sbml-interoperability)
-* *Main development team mailing list*: [jsbml-team@caltech.edu](mailto:jsbml-team@caltech.edu)
+* *Main development team mailing list*: [jsbml-team@googlegroups.com](mailto:jsbml-team@googlegroups.com)
 * *Pivotal Tracker*: [JSBML](https://www.pivotaltracker.com/n/projects/499447)
 
 What is the difference between [jsbml-development](https://groups.google.com/forum/#!forum/jsbml-development) and [sbml-interoperability](https://groups.google.com/forum/#!forum/sbml-interoperability)?  The former is specifically for discussions about JSBML, while the latter is appropriate for discussions involving SBML software interoperability in general, including (but not limited to) JSBML and its use in other software.
