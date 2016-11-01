@@ -26,12 +26,16 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBase;
@@ -57,19 +61,36 @@ public class AssignmentCycleValidation
    */
   private Queue<SBase> toCheck = new LinkedList<SBase>();
   
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static transient final Logger logger = Logger.getLogger(AssignmentCycleValidation.class);
+  /**
+   * A static boolean to avoid many unnecessary calls to {@link Logger#isDebugEnabled()}.
+   */
+  private static transient final boolean isDebugEnabled = logger.isDebugEnabled();
+
   @Override
   public boolean check(ValidationContext ctx, SBase sb) {
+    
+    if (sb instanceof RateRule) {
+      // We do not need to test RateRule
+      return true;
+    }
+    
     Model m = sb.getModel();
     
     if (m != null)
     {
       visited.clear();
       String currentId = getRelatedId(sb);
-//      System.out.println("Testing " + currentId);
+      
+      if (isDebugEnabled) {
+        logger.debug("Testing " + currentId);
+      }
       
       if (currentId != null && !currentId.isEmpty())
       {
-//        System.out.println("Children");
         // Collect the children
         checkChildren(m, sb);
         
@@ -83,10 +104,16 @@ public class AssignmentCycleValidation
           // If this child wasn't visited yet
           if (childId != null && visited.add(childId)){
             
-//            System.out.println("Check " + childId);
+            if (isDebugEnabled) {
+              logger.debug("Checking " + childId);
+            }
+            
             // Check if we are back at the first SBase
             if (childId.equals(currentId))
             {
+              if (isDebugEnabled) {
+                logger.debug("Found an assignment cycle with '" + childId + "'");
+              }
               return false;
             }
             
@@ -96,7 +123,6 @@ public class AssignmentCycleValidation
         }
       }
     }
-    
     
     return true;
   }
@@ -134,18 +160,14 @@ public class AssignmentCycleValidation
    */
   private void checkChildren(Model m, SBase sb)
   {
-    if (sb instanceof ExplicitRule)
+    if (sb instanceof ExplicitRule || sb instanceof InitialAssignment)
     {
-      checkChildren(m, (ExplicitRule) sb);
+      checkChildren(m, (MathContainer) sb);
     }
     else if (sb instanceof Reaction)
     {
       checkChildren(m, (Reaction) sb);
-    }
-    else if (sb instanceof InitialAssignment)
-    {
-      checkChildren(m, (InitialAssignment) sb);
-    }
+    }    
   }
   
   /**
@@ -153,27 +175,12 @@ public class AssignmentCycleValidation
    * @param m
    * @param r
    */
-  private void checkChildren(Model m, ExplicitRule r)
+  private void checkChildren(Model m, MathContainer r)
   {
     if (r.isSetMath())
     {
       checkChildren(m, r.getMath());
     }
-  }
-  
-  // Adds all children of ia to the queue which could refer to the root
-  /**
-   * 
-   * @param m
-   * @param ia
-   */
-  private void checkChildren(Model m, InitialAssignment ia)
-  {
-    if (ia.isSetMath())
-    {
-      checkChildren(m, ia.getMath());
-    }
-   
   }
   
   /**
@@ -201,54 +208,58 @@ public class AssignmentCycleValidation
    */
   private void checkChildren(Model m, ASTNode math)
   {
-//    System.out.println("Looking for children");
+    if (isDebugEnabled) {
+      logger.debug("Looking for ASTNode NAME");
+    }
     Queue<ASTNode> children = new LinkedList<ASTNode>();
     
     children.add(math);
-    
     
     while (!children.isEmpty())
     {
       ASTNode node = children.poll();
       
-      if (node.isName())
+      if (node.getType() == Type.NAME)
       {
-//        System.out.println("Node is a name " + node.getName());
-        // If one of the nodes refer to Reaction, InitalAssignment or Rule
-        String name = (node.getName() != null) ? node.getName() : "";
+        if (isDebugEnabled) {
+          logger.debug("Node is a name " + node.getName());
+        }
         
-        SBase child = m.isSetListOfReactions() ? m.getReaction(name) : null;
+        // If one of the nodes refer to Reaction, InitalAssignment or Rule
+        String id = (node.getName() != null) ? node.getName() : "";
+        
+        SBase child = m.isSetListOfReactions() ? m.getReaction(id) : null;
         
         // Not a Reaction?
         if (child == null)
         {
-          child = m.isSetListOfInitialAssignments() ? m.getInitialAssignmentBySymbol(name) : null;
+          child = m.isSetListOfInitialAssignments() ? m.getInitialAssignmentBySymbol(id) : null;
           
           // Not InitialAssignment?
           if (child == null)
           {
-            Rule r = m.isSetListOfRules() ? m.getRuleByVariable(name) : null;
+            Rule r = m.isSetListOfRules() ? m.getRuleByVariable(id) : null;
             if (r != null && r.isAssignment())
             {
               child = r;
             }
             else
             {
-              Species s = m.isSetListOfSpecies() ? m.getSpecies(name) : null;
+              Species s = m.isSetListOfSpecies() ? m.getSpecies(id) : null;
               
               if (s != null && !s.hasOnlySubstanceUnits())
               {
                 child = s;
               }
             }
-
           }
         }
         
-        
         if (child != null)
         {
-//          System.out.println("Found Child");
+          if (isDebugEnabled) {
+            logger.debug("Found Child");
+          }
           toCheck.add(child);
         }
       }

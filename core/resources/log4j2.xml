@@ -23,7 +23,7 @@
     </Logger>
 
 <!--
-    <Logger name="org.sbml.jsbml.xml.stax.SBMLWriter" level="info" additivity="false">
+    <Logger name="org.sbml.jsbml.xml.stax.SBMLWriter" level="debug" additivity="false">
       <AppenderRef ref="console"/>
       <AppenderRef ref="file"/>      
     </Logger>
