@@ -15,9 +15,9 @@
 # - Category: category of the error
 # - DefaultSeverity: the severity class of this error in the most levels/versions
 # - Message: describes the rule behind this error
-# - Package: determins the package of the error (default is 'core')
+# - Package: determines the package of the error (default is 'core')
 # - SeverityLxVy: If the error has a different severity classes in level x /
-#                 version y, then the differnt severity class is declared here.
+#                 version y, then the different severity class is declared here.
 #
 # Example syntax:
 # {
@@ -59,8 +59,8 @@ from libsbml import *
 # The currently-known SBML Levels and Versions.
 
 sbml_levels_versions = [[1, 1], [1, 2],
-                        [2, 1], [2, 2], [2, 3], [2, 4],
-                        [3, 1]]
+                        [2, 1], [2, 2], [2, 3], [2, 4], [2, 5],
+                        [3, 1], [3, 2]]
 
 # Set of error codes that we ignore for purposes of documentation.
 
@@ -240,7 +240,8 @@ def add_error_severity(error, data):
 
 def get_module():
     m = find_module("libsbml")
-    return load_module('_libsbml', None, m[1], m[2])
+    return load_module('_libsbml', m[0], m[1], m[2]) # python 2.7 syntax for load_module
+    #return load_module('_libsbml', None, m[1], m[2])
 
 
 def get_numeric_constants(module, low=0, high=90000000):
