@@ -73,7 +73,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     case MATHML_CONSISTENCY:
       break;
     case MODELING_PRACTICE:
-      if (level > 1)
+      if (level == 2 && version >= 4)
       {
         set.add(CORE_80501);
       }
