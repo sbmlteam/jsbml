@@ -565,11 +565,15 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
               if (!setByAssignment)
               {
-                Rule r = m.getRuleByVariable(m.getId());
+                Rule r = m.getRuleByVariable(s.getId());
                 setByAssignment = r != null && r.isAssignment();
               }
             }
 
+            if (!setByAssignment) {
+              // TODO - build a nice error message
+            }
+            
             return setByAssignment;
           }
 
