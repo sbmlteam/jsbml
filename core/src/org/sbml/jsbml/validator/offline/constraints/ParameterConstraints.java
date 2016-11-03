@@ -67,8 +67,11 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
     case MATHML_CONSISTENCY:
       break;
     case MODELING_PRACTICE:
-      set.add(CORE_80701);
-      set.add(CORE_80702);
+      if (level == 2) {
+        set.add(CORE_80701);
+      } else if (level > 2) {
+        set.add(CORE_80702);
+      }
       break;
     case OVERDETERMINED_MODEL:
       break;
