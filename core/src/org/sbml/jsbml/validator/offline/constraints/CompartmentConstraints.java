@@ -37,7 +37,6 @@ import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
  * 
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
@@ -474,7 +473,6 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     case CORE_80501:
       func = new ValidationFunction<Compartment>() {
 
-
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
 
@@ -495,7 +493,6 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
                 sizeByAssignment = r != null && r.isAssignment();
               }
             }
-
 
             return sizeByAssignment;
           }
