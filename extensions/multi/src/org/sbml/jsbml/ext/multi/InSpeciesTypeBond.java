@@ -27,8 +27,8 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Species;
 
 /**
- * Defines a bond existing within a {@link SpeciesType}. The bond therefore exists in every
- * {@link Species} that references the {@link SpeciesType}.
+ * Defines a bond existing within a {@link MultiSpeciesType}. The bond therefore exists in every
+ * {@link Species} that references the {@link MultiSpeciesType}.
  *
  * @author Nicolas Rodriguez
  * @since 1.1
