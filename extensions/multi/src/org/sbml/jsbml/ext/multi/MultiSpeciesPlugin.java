@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,11 +29,16 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
- * 
+ * A species in the Multi package is extended from a pool to a
+ * template or pattern which multiple pools may map to. An extended species can reference a speciesType that provides
+ * the backbone for the species such as components (including binding sites) and speciesFeatureTypes.
+ * When referencing a speciesType, a species can be further defined with regard to the binding statuses of its
+ * outwardBindingSites and the speciesFeatures. With the options to have variable values selected, such as
+ * “either” for the bindingStatus attribute and multiple possibleSpeciesFeatureValues for a speciesFeature,
+ * an extended species can work as a template or pattern how species participate in reactions.
+ *
  * @author Nicolas Rodriguez
- * @author Marine Dumousseau
  * @since 1.0
- * @version $Rev$
  */
 public class MultiSpeciesPlugin extends AbstractSBasePlugin { 
 
@@ -86,11 +90,19 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
   /**
    * 
    */
+  private ListOf<SubListOfSpeciesFeature> listOfSubListOfSpeciesFeatures;
+  
+  
+  /**
+   * 
+   */
   private String speciesType;
 
   /**
+   * Creates a new {@link MultiSpeciesPlugin} instance, connected to the given 'core'
+   * {@link Species}.
    * 
-   * @param species
+   * @param species the core species that is extended
    */
   public MultiSpeciesPlugin(Species species) {
     super(species);
@@ -98,7 +110,9 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
 
 
   /**
-   * @param multiSpecies
+   * Creates a new {@link MultiSpeciesPlugin} instance copied from the given {@link MultiSpeciesPlugin}.
+   * 
+   * @param multiSpecies the element to copy/clone.
    */
   public MultiSpeciesPlugin(MultiSpeciesPlugin multiSpecies) {
     super(multiSpecies);
@@ -166,7 +180,7 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
    * If {@link #listOfOutwardBindingSites} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfOutwardBindingSites
+   * @param listOfOutwardBindingSites the list of {@link OutwardBindingSite} to set.
    */
   public void setListOfOutwardBindingSites(ListOf<OutwardBindingSite> listOfOutwardBindingSites) {
     unsetListOfOutwardBindingSites();
@@ -348,7 +362,7 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
    * If {@link #listOfSpeciesFeatures} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfSpeciesFeatures
+   * @param listOfSpeciesFeatures the list of {@link SpeciesFeature} to set.
    */
   public void setListOfSpeciesFeatures(ListOf<SpeciesFeature> listOfSpeciesFeatures) {
     unsetListOfSpeciesFeatures();
@@ -529,6 +543,7 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
     return getSpeciesFeatureCount();
   }
 
+  // TODO - methods for SubListOfSpeciesFeatures
   
   /**
    * Returns the value of {@link #speciesType}.
@@ -606,7 +621,7 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
       }
       pos++;
     }
-    if (isSetListOfSpeciesFeatures()) {
+    if (isSetListOfSpeciesFeatures()) { // TODO - merge listOfSpeciesFeature and listOfSubListOfSpeciesFeatures into one combined ListOf<ListOfSpeciesFeatureContent>
       if (pos == childIndex) {
         return getListOfSpeciesFeatures();
       }
@@ -625,7 +640,7 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
     if (isSetListOfOutwardBindingSites()) {
       count++;
     }
-    if (isSetListOfSpeciesFeatures()) {
+    if (isSetListOfSpeciesFeatures()) { // TODO - merge listOfSpeciesFeature and listOfSubListOfSpeciesFeatures into one combined ListOf<ListOfSpeciesFeatureContent>
       count++;
     }
     

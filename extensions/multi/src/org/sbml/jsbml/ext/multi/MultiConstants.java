@@ -301,6 +301,11 @@ public class MultiConstants {
   /**
    * 
    */
+  public static String relation = "relation";
+
+  /**
+   * 
+   */
   public static final String listOfSelectors = "listOfSelectors";
   /**
    * 

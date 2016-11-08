@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,15 +29,17 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.ext.multi.util.ListOfSpeciesFeatureContent;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * Defines the state of a component in a species by selecting values from
+ * the listOfPossibleSpeciesFeatureValues of the referenced {@link SpeciesFeatureType}.
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
-public class SpeciesFeature extends AbstractNamedSBase {
+public class SpeciesFeature extends AbstractNamedSBase implements ListOfSpeciesFeatureContent {
 
   /**
    * Serial version identifier.
