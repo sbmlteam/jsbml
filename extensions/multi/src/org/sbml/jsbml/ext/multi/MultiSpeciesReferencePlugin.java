@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,9 +30,7 @@ import org.sbml.jsbml.SpeciesReference;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 16.10.2013
  */
 public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlugin {
 
@@ -46,7 +43,7 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
   /**
    * 
    */
-  private ListOf<SpeciesTypeComponentMapInProduct> listOfSpeciesTypeComponentMapInProducts;
+  private ListOf<SpeciesTypeComponentMapInProduct> listOfSpeciesTypeComponentMapInProducts; // TODO - need to be named listOfSpeciesTypeComponentMapsInProduct ?
 
 
   /**

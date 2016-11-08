@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -21,18 +20,18 @@
  */
 package org.sbml.jsbml.ext.multi;
 
-import java.text.MessageFormat;
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.ListOf;
 
 /**
+ * A speciesTypeComponentMapInProduct defines the mapping between a component in a reactant and a component
+ * in a product. The identifications of a component and the speciesReference should be sufficient to identify
+ * the component in the context of a reaction. The attributes reactant and reactantComponent can identify the
+ * component in a reactant, and the productComponent attribute and the product storing the mapping information
+ * can identify the component in a product.
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
@@ -53,11 +52,6 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
    * 
    */
   private String productComponent;
-
-  /**
-   * 
-   */
-  private ListOf<SpeciesFeatureChange> listOfSpeciesFeatureChanges;
 
 
   /**
@@ -88,9 +82,6 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
     super(obj);
 
     // copy all class attributes
-    if (obj.isSetListOfSpeciesFeatureChanges()) {
-      setListOfSpeciesFeatureChanges(obj.getListOfSpeciesFeatureChanges());
-    }
     if (obj.isSetReactant()) {
       setReactant(obj.getReactant());
     }
@@ -128,10 +119,6 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
   public int hashCode() {
     final int prime = 6217;
     int result = super.hashCode();
-    result = prime
-        * result
-        + ((listOfSpeciesFeatureChanges == null) ? 0
-          : listOfSpeciesFeatureChanges.hashCode());
     result = prime * result
         + ((productComponent == null) ? 0 : productComponent.hashCode());
     result = prime * result + ((reactant == null) ? 0 : reactant.hashCode());
@@ -156,13 +143,7 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
       return false;
     }
     SpeciesTypeComponentMapInProduct other = (SpeciesTypeComponentMapInProduct) obj;
-    if (listOfSpeciesFeatureChanges == null) {
-      if (other.listOfSpeciesFeatureChanges != null) {
-        return false;
-      }
-    } else if (!listOfSpeciesFeatureChanges.equals(other.listOfSpeciesFeatureChanges)) {
-      return false;
-    }
+
     if (productComponent == null) {
       if (other.productComponent != null) {
         return false;
@@ -185,224 +166,6 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
       return false;
     }
     return true;
-  }
-
-  /**
-   * Returns {@code true} if {@link #listOfSpeciesFeatureChanges} contains at least
-   * one element.
-   *
-   * @return {@code true} if {@link #listOfSpeciesFeatureChanges} contains at least
-   *         one element, otherwise {@code false}.
-   */
-  public boolean isSetListOfSpeciesFeatureChanges() {
-    if (listOfSpeciesFeatureChanges == null) {
-      return false;
-    }
-    return true;
-  }
-
-
-  /**
-   * Returns the {@link #listOfSpeciesFeatureChanges}.
-   * Creates it if it does not already exist.
-   *
-   * @return the {@link #listOfSpeciesFeatureChanges}.
-   */
-  public ListOf<SpeciesFeatureChange> getListOfSpeciesFeatureChanges() {
-    if (listOfSpeciesFeatureChanges == null) {
-      listOfSpeciesFeatureChanges = new ListOf<SpeciesFeatureChange>();
-      listOfSpeciesFeatureChanges.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'multi'
-      listOfSpeciesFeatureChanges.setPackageName(null);
-      listOfSpeciesFeatureChanges.setPackageName(MultiConstants.shortLabel);
-      listOfSpeciesFeatureChanges.setSBaseListType(ListOf.Type.other);
-
-      registerChild(listOfSpeciesFeatureChanges);
-    }
-    return listOfSpeciesFeatureChanges;
-  }
-
-
-  /**
-   * Sets the given {@code ListOf<SpeciesFeatureChange>}.
-   * If {@link #listOfSpeciesFeatureChanges} was defined before and contains some
-   * elements, they are all unset.
-   *
-   * @param listOfSpeciesFeatureChanges
-   */
-  public void setListOfSpeciesFeatureChanges(ListOf<SpeciesFeatureChange> listOfSpeciesFeatureChanges) {
-    unsetListOfSpeciesFeatureChanges();
-    this.listOfSpeciesFeatureChanges = listOfSpeciesFeatureChanges;
-    if (listOfSpeciesFeatureChanges != null) {
-      listOfSpeciesFeatureChanges.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'multi'
-      listOfSpeciesFeatureChanges.setPackageName(null);
-      listOfSpeciesFeatureChanges.setPackageName(MultiConstants.shortLabel);
-      this.listOfSpeciesFeatureChanges.setSBaseListType(ListOf.Type.other);
-
-      registerChild(listOfSpeciesFeatureChanges);
-    }
-  }
-
-
-  /**
-   * Returns {@code true} if {@link #listOfSpeciesFeatureChanges} contains at least
-   * one element, otherwise {@code false}.
-   *
-   * @return {@code true} if {@link #listOfSpeciesFeatureChanges} contains at least
-   *         one element, otherwise {@code false}.
-   */
-  public boolean unsetListOfSpeciesFeatureChanges() {
-    if (isSetListOfSpeciesFeatureChanges()) {
-      ListOf<SpeciesFeatureChange> oldSpeciesFeatureChanges = listOfSpeciesFeatureChanges;
-      listOfSpeciesFeatureChanges = null;
-      oldSpeciesFeatureChanges.fireNodeRemovedEvent();
-      return true;
-    }
-    return false;
-  }
-
-
-  /**
-   * Adds a new {@link SpeciesFeatureChange} to the {@link #listOfSpeciesFeatureChanges}.
-   * <p>The listOfSpeciesFeatureChanges is initialized if necessary.
-   *
-   * @param speciesFeatureChange the element to add to the list
-   * @return {@code true} (as specified by {@link java.util.Collection#add})
-   * @see java.util.Collection#add(Object)
-   */
-  public boolean addSpeciesFeatureChange(SpeciesFeatureChange speciesFeatureChange) {
-    return getListOfSpeciesFeatureChanges().add(speciesFeatureChange);
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesFeatureChanges}.
-   *
-   * @param speciesFeatureChange the element to be removed from the list.
-   * @return {@code true} if the list contained the specified element and it was
-   *         removed.
-   * @see java.util.List#remove(Object)
-   */
-  public boolean removeSpeciesFeatureChange(SpeciesFeatureChange speciesFeatureChange) {
-    if (isSetListOfSpeciesFeatureChanges()) {
-      return getListOfSpeciesFeatureChanges().remove(speciesFeatureChange);
-    }
-    return false;
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesFeatureChanges}.
-   *
-   * @param speciesFeatureChangeId the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or
-   *         {@code null}.
-   */
-  public SpeciesFeatureChange removeSpeciesFeatureChange(String speciesFeatureChangeId) {
-    if (isSetListOfSpeciesFeatureChanges()) {
-      return getListOfSpeciesFeatureChanges().remove(speciesFeatureChangeId);
-    }
-    return null;
-  }
-
-
-  /**
-   * Removes an element from the {@link #listOfSpeciesFeatureChanges} at the given index.
-   *
-   * @param i the index where to remove the {@link SpeciesFeatureChange}.
-   * @return the specified element if it was successfully found and removed.
-   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
-   *         out of bound ({@code (i < 0) || (i > listOfSpeciesFeatureChanges)}).
-   */
-  public SpeciesFeatureChange removeSpeciesFeatureChange(int i) {
-    if (!isSetListOfSpeciesFeatureChanges()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfSpeciesFeatureChanges().remove(i);
-  }
-
-
-  /**
-   * Creates a new SpeciesFeatureChange element and adds it to the
-   * {@link #listOfSpeciesFeatureChanges} list.
-   *
-   * @return the newly created element, i.e., the last item in the
-   *         {@link #listOfSpeciesFeatureChanges}
-   */
-  public SpeciesFeatureChange createSpeciesFeatureChange() {
-    return createSpeciesFeatureChange(null);
-  }
-
-
-  /**
-   * Creates a new {@link SpeciesFeatureChange} element and adds it to the
-   * {@link #listOfSpeciesFeatureChanges} list.
-   *
-   * @param id the identifier that is to be applied to the new element.
-   * @return the newly created {@link SpeciesFeatureChange} element, which is the last
-   *         element in the {@link #listOfSpeciesFeatureChanges}.
-   */
-  public SpeciesFeatureChange createSpeciesFeatureChange(String id) {
-    SpeciesFeatureChange speciesFeatureChange = new SpeciesFeatureChange(id);
-    addSpeciesFeatureChange(speciesFeatureChange);
-    return speciesFeatureChange;
-  }
-
-
-  /**
-   * Gets an element from the {@link #listOfSpeciesFeatureChanges} at the given index.
-   *
-   * @param i the index of the {@link SpeciesFeatureChange} element to get.
-   * @return an element from the listOfSpeciesFeatureChanges at the given index.
-   * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
-   */
-  public SpeciesFeatureChange getSpeciesFeatureChange(int i) {
-    if (!isSetListOfSpeciesFeatureChanges()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfSpeciesFeatureChanges().get(i);
-  }
-
-
-  /**
-   * Gets an element from the listOfSpeciesFeatureChanges, with the given id.
-   *
-   * @param speciesFeatureChangeId the id of the {@link SpeciesFeatureChange} element to get.
-   * @return an element from the listOfSpeciesFeatureChanges with the given id
-   *         or {@code null}.
-   */
-  public SpeciesFeatureChange getSpeciesFeatureChange(String speciesFeatureChangeId) {
-    if (isSetListOfSpeciesFeatureChanges()) {
-      return getListOfSpeciesFeatureChanges().get(speciesFeatureChangeId);
-    }
-    return null;
-  }
-
-
-  /**
-   * Returns the number of {@link SpeciesFeatureChange}s in this
-   * {@link SpeciesTypeComponentMapInProduct}.
-   * 
-   * @return the number of {@link SpeciesFeatureChange}s in this
-   *         {@link SpeciesTypeComponentMapInProduct}.
-   */
-  public int getSpeciesFeatureChangeCount() {
-    return isSetListOfSpeciesFeatureChanges() ? getListOfSpeciesFeatureChanges().size() : 0;
-  }
-
-
-  /**
-   * Returns the number of {@link SpeciesFeatureChange}s in this
-   * {@link SpeciesTypeComponentMapInProduct}.
-   * 
-   * @return the number of {@link SpeciesFeatureChange}s in this
-   *         {@link SpeciesTypeComponentMapInProduct}.
-   * @libsbml.deprecated same as {@link #getSpeciesFeatureChangeCount()}
-   */
-  public int getNumSpeciesFeatureChanges() {
-    return getSpeciesFeatureChangeCount();
   }
 
 
@@ -560,49 +323,6 @@ public class SpeciesTypeComponentMapInProduct extends AbstractSBase {
       return true;
     }
     return false;
-  }
-
-
-  @Override
-  public boolean getAllowsChildren() {
-    return true;
-  }
-
-
-  @Override
-  public int getChildCount() {
-    int count = super.getChildCount();
-
-    if (isSetListOfSpeciesFeatureChanges()) {
-      count++;
-    }
-    return count;
-  }
-
-
-  @Override
-  public TreeNode getChildAt(int index) {
-    if (index < 0) {
-      throw new IndexOutOfBoundsException(MessageFormat.format(
-        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
-    }
-    int count = super.getChildCount(), pos = 0;
-    if (index < count) {
-      return super.getChildAt(index);
-    } else {
-      index -= count;
-    }
-
-    if (isSetListOfSpeciesFeatureChanges()) {
-      if (pos == index) {
-        return getListOfSpeciesFeatureChanges();
-      }
-      pos++;
-    }
-
-    throw new IndexOutOfBoundsException(
-      MessageFormat.format(resourceBundle.getString("IndexExceedsBoundsException"),
-        index, Math.min(pos, 0)));
   }
 
 

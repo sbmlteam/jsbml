@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -33,7 +31,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.UniqueNamedSBase;
 
-/**
+ /**
  * 
  * <p>The element SpeciesType, which is part of SBML Level 2 Version 4 specification, is not part
  * of SBML Level 3 Version 1 Core any more. Instead, it will be defined in the multi package. The

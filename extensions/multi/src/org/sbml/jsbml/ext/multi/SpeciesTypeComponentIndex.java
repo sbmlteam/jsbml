@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -27,9 +26,9 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 
 /**
+ * Provides a way to identify or index a component within a {@link SpeciesType}.
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
@@ -115,7 +114,8 @@ public class SpeciesTypeComponentIndex extends AbstractNamedSBase {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the {@link SpeciesTypeComponentIndex} instance to clone
    */
   public SpeciesTypeComponentIndex(SpeciesTypeComponentIndex obj) {
     super(obj);

@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,13 +24,19 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Species;
 
 /**
+ * Provides a way to construct {@link SpeciesType}s and {@link Species} with multiple components.
+ * 
+ * <p> A speciesType can contain a list of instances of other speciesTypes which can also have their own
+ * speciesTypeInstances, so the complete structure of a speciesType can be like a tree. A speciesType can not
+ * contain an instance of any other speciesType that already contains the instance of it. In other words, circular references 
+ * are not allowed when constructing speciesTypes. For example, if a speciesType “A” contains the instance of
+ * another speciesType “B”, “B” must not contain the instance of “A” anywhere in the complete structure of “B”.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 16.10.2013
  */
 public class SpeciesTypeInstance extends AbstractNamedSBase { //  implements UniqueNamedSBase - local to SpeciesType ??
 

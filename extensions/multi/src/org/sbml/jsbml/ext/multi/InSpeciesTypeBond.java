@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,10 +24,13 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Species;
 
 /**
+ * Defines a bond existing within a {@link SpeciesType}. The bond therefore exists in every
+ * {@link Species} that references the {@link SpeciesType}.
+ *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 public class InSpeciesTypeBond extends AbstractNamedSBase {
