@@ -363,7 +363,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   }
 
   /**
-   * creates a ListOf instance from a given ListOf.
+   * Creates a ListOf instance from a given ListOf.
    * 
    * @param listOf
    */
@@ -377,6 +377,39 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
         add((T) base.clone());
       }
     }
+  }
+
+  /**
+   * Creates a new {@link ListOf} instance with the given id. 
+   * 
+   * @param id the ListOf id.
+   */
+  public ListOf(String id) {
+    super(id);
+  }
+
+  /**
+   * Creates a new {@link ListOf} instance.
+   * 
+   * @param id the ListOf id.
+   * @param level the SBML level.
+   * @param version the SBML version.
+   */
+  public ListOf(String id, int level, int version) {
+    super(id, level, version);
+  }
+
+
+  /**
+   * Creates a new {@link ListOf} instance.
+   * 
+   * @param id the ListOf id.
+   * @param name the ListOf name.
+   * @param level the SBML level.
+   * @param version the SBML version.
+   */
+  public ListOf(String id, String name, int level, int version) {
+    super(id, name, level, version);
   }
 
   /* (non-Javadoc)
