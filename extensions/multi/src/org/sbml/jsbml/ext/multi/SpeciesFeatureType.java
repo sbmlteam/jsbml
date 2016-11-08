@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,6 +29,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
@@ -43,7 +43,6 @@ import org.sbml.jsbml.util.StringTools;
  * {@link SpeciesFeatureType} is linked to a list of possible values.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueNamedSBase {

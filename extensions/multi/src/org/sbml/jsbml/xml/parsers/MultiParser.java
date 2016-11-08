@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -54,7 +53,6 @@ import org.sbml.jsbml.ext.multi.MultiSpeciesReferencePlugin;
 import org.sbml.jsbml.ext.multi.SpeciesFeature;
 import org.sbml.jsbml.ext.multi.SpeciesFeatureType;
 import org.sbml.jsbml.ext.multi.SpeciesType;
-import org.sbml.jsbml.ext.multi.SpeciesTypeComponentMapInProduct;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -66,7 +64,6 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class MultiParser extends AbstractReaderWriter implements PackageParser {
@@ -245,15 +242,15 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
         return multiSpeciesReference.getListOfSpeciesTypeComponentMapInProducts();
       }
     } // end SpeciesReference
-    // SpeciesTypeComponentMapInProduct
-    else if (contextObject instanceof SpeciesTypeComponentMapInProduct)
-    {
-      SpeciesTypeComponentMapInProduct speciesTypeComponentMapInProduct = (SpeciesTypeComponentMapInProduct) contextObject;
-
-      if (elementName.equals(MultiConstants.listOfSpeciesFeatureChanges)) {
-        return speciesTypeComponentMapInProduct.getListOfSpeciesFeatureChanges();
-      }
-    } // end SpeciesTypeComponentMapInProduct
+//    // SpeciesTypeComponentMapInProduct
+//    else if (contextObject instanceof SpeciesTypeComponentMapInProduct)
+//    {
+//      SpeciesTypeComponentMapInProduct speciesTypeComponentMapInProduct = (SpeciesTypeComponentMapInProduct) contextObject;
+//
+//      if (elementName.equals(MultiConstants.listOfSpeciesFeatureChanges)) {
+//        return speciesTypeComponentMapInProduct.getListOfSpeciesFeatureChanges();
+//      }
+//    } // end SpeciesTypeComponentMapInProduct
     // Any ListOf
     else if (contextObject instanceof ListOf<?>)
     {
@@ -286,6 +283,7 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
       xmlObject.setName(MultiConstants.listOfSpeciesTypeComponentIndexes);
     }    
     // listOfIntraSpeciesReactions cannot happen as core ListOf don't depend on the first element for their name.
+ // TODO - need to named listOfSpeciesTypeComponentMapInProducts: 'listOfSpeciesTypeComponentMapsInProduct'
     
     if (logger.isDebugEnabled()) {
       logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());

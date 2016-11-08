@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,7 +28,6 @@ package org.sbml.jsbml.ext.multi;
  * Attributes of type Relation cannot take on any other values.
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 public enum Relation {

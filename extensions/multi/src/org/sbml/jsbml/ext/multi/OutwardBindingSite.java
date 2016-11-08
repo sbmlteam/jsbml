@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -26,13 +25,14 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Species;
 
 /**
- * 
+ * A binding site not involved in any {@link InSpeciesTypeBond} object in the {@link SpeciesType} referenced by a {@link Species} is
+ * an outwardBindingSite.
+ *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
- * @date 04.12.2015
  */
 public class OutwardBindingSite extends AbstractSBase {
 
