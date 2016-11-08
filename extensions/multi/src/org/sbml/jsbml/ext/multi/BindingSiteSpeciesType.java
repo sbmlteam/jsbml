@@ -27,7 +27,7 @@ package org.sbml.jsbml.ext.multi;
  * @version $Rev$
  * @since 1.0
  */
-public class BindingSiteSpeciesType extends SpeciesType {
+public class BindingSiteSpeciesType extends MultiSpeciesType {
 
   /**
    * Generated serial version identifier.

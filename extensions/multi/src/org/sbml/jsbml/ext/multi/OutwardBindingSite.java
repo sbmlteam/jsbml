@@ -28,7 +28,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 
 /**
- * A binding site not involved in any {@link InSpeciesTypeBond} object in the {@link SpeciesType} referenced by a {@link Species} is
+ * A binding site not involved in any {@link InSpeciesTypeBond} object in the {@link MultiSpeciesType} referenced by a {@link Species} is
  * an outwardBindingSite.
  *
  * @author Nicolas Rodriguez

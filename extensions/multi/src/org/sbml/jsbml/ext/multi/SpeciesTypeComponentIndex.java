@@ -26,7 +26,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 
 /**
- * Provides a way to identify or index a component within a {@link SpeciesType}.
+ * Provides a way to identify or index a component within a {@link MultiSpeciesType}.
  *
  * @author Nicolas Rodriguez
  * @since 1.1

@@ -32,7 +32,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * In order to encode the structures needed to define and use multistate and multi-component
- * complexes, the element model is extended to be linked to a list of {@link SpeciesType}s.
+ * complexes, the element model is extended to be linked to a list of {@link MultiSpeciesType}s.
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
@@ -85,7 +85,7 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
   /**
    * 
    */
-  ListOf<SpeciesType> listOfSpeciesTypes;
+  ListOf<MultiSpeciesType> listOfSpeciesTypes;
 
   /**
    * 
@@ -130,9 +130,9 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
    * 
    * @return the listOfSpeciesTypes
    */
-  public ListOf<SpeciesType> getListOfSpeciesTypes() {
+  public ListOf<MultiSpeciesType> getListOfSpeciesTypes() {
     if (listOfSpeciesTypes == null) {
-      listOfSpeciesTypes = new ListOf<SpeciesType>();
+      listOfSpeciesTypes = new ListOf<MultiSpeciesType>();
       listOfSpeciesTypes.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypes.setPackageName(null);
@@ -148,12 +148,12 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Adds a {@link SpeciesType}.
+   * Adds a {@link MultiSpeciesType}.
    * 
    * @param speciesType the speciesType to add
    * @return
    */
-  public boolean addSpeciesType(SpeciesType speciesType) {
+  public boolean addSpeciesType(MultiSpeciesType speciesType) {
     return getListOfSpeciesTypes().add(speciesType);
   }
 
@@ -163,7 +163,7 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
    * 
    * @return the {@link BindingSiteSpeciesType} object created
    *         <p>
-   * @see #addSpeciesType(SpeciesType r)
+   * @see #addSpeciesType(MultiSpeciesType r)
    */
   public BindingSiteSpeciesType createBindingSiteSpeciesType() {
     return createBindingSiteSpeciesType(null);
@@ -212,26 +212,26 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Creates a new {@link SpeciesType} inside this {@link MultiModelPlugin} and returns it.
+   * Creates a new {@link MultiSpeciesType} inside this {@link MultiModelPlugin} and returns it.
    * <p>
    * 
-   * @return the {@link SpeciesType} object created
+   * @return the {@link MultiSpeciesType} object created
    *         <p>
-   * @see #addSpeciesType(SpeciesType r)
+   * @see #addSpeciesType(MultiSpeciesType r)
    */
-  public SpeciesType createSpeciesType() {
+  public MultiSpeciesType createSpeciesType() {
     return createSpeciesType(null);
   }
 
   /**
-   * Creates a new {@link SpeciesType} inside this {@link MultiModelPlugin} and returns it.
+   * Creates a new {@link MultiSpeciesType} inside this {@link MultiModelPlugin} and returns it.
    * 
    * @param id
    *        the id of the new element to create
-   * @return the {@link SpeciesType} object created
+   * @return the {@link MultiSpeciesType} object created
    */
-  public SpeciesType createSpeciesType(String id) {
-    SpeciesType speciesType = new SpeciesType();
+  public MultiSpeciesType createSpeciesType(String id) {
+    MultiSpeciesType speciesType = new MultiSpeciesType();
     speciesType.setId(id);
     addSpeciesType(speciesType);
 
@@ -239,25 +239,25 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Gets the ith {@link SpeciesType}.
+   * Gets the ith {@link MultiSpeciesType}.
    * 
    * @param i
    * 
-   * @return the ith {@link SpeciesType}
+   * @return the ith {@link MultiSpeciesType}
    * @throws IndexOutOfBoundsException if the index is invalid.
    */
-  public SpeciesType getSpeciesType(int i) {
+  public MultiSpeciesType getSpeciesType(int i) {
     return getListOfSpeciesTypes().get(i);
   }
 
   /**
-   * Gets the {@link SpeciesType} that has the given id.
+   * Gets the {@link MultiSpeciesType} that has the given id.
    * 
    * @param id
-   * @return the {@link SpeciesType} that has the given id or null if
-   * no {@link SpeciesType} are found that match {@code id}.
+   * @return the {@link MultiSpeciesType} that has the given id or null if
+   * no {@link MultiSpeciesType} are found that match {@code id}.
    */
-  public SpeciesType getSpeciesType(String id) {
+  public MultiSpeciesType getSpeciesType(String id) {
     if (isSetListOfSpeciesTypes()) {
       return listOfSpeciesTypes.firstHit(new NameFilter(id));
     }
@@ -279,7 +279,7 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
    *
    * @param listOfSpeciesTypes
    */
-  public void setListOfSpeciesTypes(ListOf<SpeciesType> listOfSpeciesTypes) {
+  public void setListOfSpeciesTypes(ListOf<MultiSpeciesType> listOfSpeciesTypes) {
     unsetListOfSpeciesTypes();
     this.listOfSpeciesTypes = listOfSpeciesTypes;
 
@@ -303,7 +303,7 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
    */
   public boolean unsetListOfSpeciesTypes() {
     if (isSetListOfSpeciesTypes()) {
-      ListOf<SpeciesType> oldSpeciesTypeElements = listOfSpeciesTypes;
+      ListOf<MultiSpeciesType> oldSpeciesTypeElements = listOfSpeciesTypes;
       listOfSpeciesTypes = null;
       oldSpeciesTypeElements.fireNodeRemovedEvent();
       return true;

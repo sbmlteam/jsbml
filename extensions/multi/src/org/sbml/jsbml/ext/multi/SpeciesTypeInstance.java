@@ -27,7 +27,7 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Species;
 
 /**
- * Provides a way to construct {@link SpeciesType}s and {@link Species} with multiple components.
+ * Provides a way to construct {@link MultiSpeciesType}s and {@link Species} with multiple components.
  * 
  * <p> A speciesType can contain a list of instances of other speciesTypes which can also have their own
  * speciesTypeInstances, so the complete structure of a speciesType can be like a tree. A speciesType can not
@@ -38,7 +38,7 @@ import org.sbml.jsbml.Species;
  * @author Nicolas Rodriguez
  * @since 1.0
  */
-public class SpeciesTypeInstance extends AbstractNamedSBase { //  implements UniqueNamedSBase - local to SpeciesType ??
+public class SpeciesTypeInstance extends AbstractNamedSBase { //  implements UniqueNamedSBase - local to MultiSpeciesType ??
 
   /**
    * Generated serial version identifier.
