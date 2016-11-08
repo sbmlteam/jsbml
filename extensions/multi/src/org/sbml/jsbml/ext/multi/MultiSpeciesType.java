@@ -33,9 +33,9 @@ import org.sbml.jsbml.UniqueNamedSBase;
 
  /**
  * 
- * <p>The element SpeciesType, which is part of SBML Level 2 Version 4 specification, is not part
+ * <p>The element MultiSpeciesType, which is part of SBML Level 2 Version 4 specification, is not part
  * of SBML Level 3 Version 1 Core any more. Instead, it will be defined in the multi package. The
- * SpeciesType element carries not only the basic attributes which it had in SBML Level 2 Version 4
+ * MultiSpeciesType element carries not only the basic attributes which it had in SBML Level 2 Version 4
  * (metaid, id, name), but is also extended for the needs of describing multi-component entities
  * with the attribute bindingSite and for the needs of multistate entities by linking it to a list of
  * StateFeatures</p>
@@ -74,7 +74,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  *
  */
 @SuppressWarnings("deprecation")
-public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements CompartmentalizedSBase, UniqueNamedSBase {
+public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.
@@ -109,21 +109,21 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
   private ListOf<SpeciesTypeInstance> listOfSpeciesTypeInstances;
 
   /**
-   * Creates an SpeciesType instance
+   * Creates an MultiSpeciesType instance
    */
-  public SpeciesType() {
+  public MultiSpeciesType() {
     super();
     initDefaults();
   }
 
 
   /**
-   * Creates a SpeciesType instance with a level and version.
+   * Creates a MultiSpeciesType instance with a level and version.
    * 
    * @param level SBML Level
    * @param version SBML Version
    */
-  public SpeciesType(int level, int version) {
+  public MultiSpeciesType(int level, int version) {
     this(null, null, level, version);
   }
 
@@ -132,7 +132,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
    * Clone constructor
    * @param obj
    */
-  public SpeciesType(SpeciesType obj) {
+  public MultiSpeciesType(MultiSpeciesType obj) {
     super(obj);
 
     // copy all class attributes
@@ -156,37 +156,37 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
 
 
   /**
-   * Creates a SpeciesType instance with an id.
+   * Creates a MultiSpeciesType instance with an id.
    * 
    * @param id the identifier for the new element.
    */
-  public SpeciesType(String id) {
+  public MultiSpeciesType(String id) {
     super(id);
     initDefaults();
   }
 
 
   /**
-   * Creates a SpeciesType instance with an id, level, and version.
+   * Creates a MultiSpeciesType instance with an id, level, and version.
    * 
    * @param id the identifier for this element.
    * @param level the SBML Level
    * @param version the SBML Version
    */
-  public SpeciesType(String id, int level, int version) {
+  public MultiSpeciesType(String id, int level, int version) {
     this(id, null, level, version);
   }
 
 
   /**
-   * Creates a SpeciesType instance with an id, name, level, and version.
+   * Creates a MultiSpeciesType instance with an id, name, level, and version.
    * 
    * @param id the identifier for this element.
    * @param name a human-readable name for this element that can be used for display purposes.
    * @param level the SBML Level
    * @param version the SBML Version
    */
-  public SpeciesType(String id, String name, int level, int version) {
+  public MultiSpeciesType(String id, String name, int level, int version) {
     super(id, name, level, version);
     if (getLevelAndVersion().compareTo(
       Integer.valueOf(MultiConstants.MIN_SBML_LEVEL),
@@ -253,8 +253,8 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
    * clones this class
    */
   @Override
-  public SpeciesType clone() {
-    return new SpeciesType(this);
+  public MultiSpeciesType clone() {
+    return new MultiSpeciesType(this);
   }
 
 
@@ -380,7 +380,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
     if (getClass() != obj.getClass()) {
       return false;
     }
-    SpeciesType other = (SpeciesType) obj;
+    MultiSpeciesType other = (MultiSpeciesType) obj;
     if (compartment == null) {
       if (other.compartment != null) {
         return false;
@@ -547,10 +547,10 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
 
   /**
    * Returns the number of {@link InSpeciesTypeBond}s in this
-   * {@link SpeciesType}.
+   * {@link MultiSpeciesType}.
    * 
    * @return the number of {@link InSpeciesTypeBond}s in this
-   *         {@link SpeciesType}.
+   *         {@link MultiSpeciesType}.
    */
   public int getInSpeciesTypeBondCount() {
     return isSetListOfInSpeciesTypeBonds() ? getListOfInSpeciesTypeBonds().size() : 0;
@@ -643,10 +643,10 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
 
   /**
    * Returns the number of {@link InSpeciesTypeBond}s in this
-   * {@link SpeciesType}.
+   * {@link MultiSpeciesType}.
    * 
    * @return the number of {@link InSpeciesTypeBond}s in this
-   *         {@link SpeciesType}.
+   *         {@link MultiSpeciesType}.
    * @libsbml.deprecated same as {@link #getInSpeciesTypeBondCount()}
    */
   public int getNumInSpeciesTypeBonds() {
@@ -656,10 +656,10 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
 
   /**
    * Returns the number of {@link SpeciesFeatureType}s in this
-   * {@link SpeciesType}.
+   * {@link MultiSpeciesType}.
    * 
    * @return the number of {@link SpeciesFeatureType}s in this
-   *         {@link SpeciesType}.
+   *         {@link MultiSpeciesType}.
    * @libsbml.deprecated same as {@link #getSpeciesFeatureTypeCount()}
    */
   public int getNumSpeciesFeatureTypes() {
@@ -669,10 +669,10 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
 
   /**
    * Returns the number of {@link SpeciesTypeComponentIndex}s in this
-   * {@link SpeciesType}.
+   * {@link MultiSpeciesType}.
    * 
    * @return the number of {@link SpeciesTypeComponentIndex}s in this
-   *         {@link SpeciesType}.
+   *         {@link MultiSpeciesType}.
    * @libsbml.deprecated same as {@link #getSpeciesTypeComponentIndexCount()}
    */
   public int getNumSpeciesTypeComponentIndexes() {
@@ -682,10 +682,10 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
 
   /**
    * Returns the number of {@link SpeciesTypeInstance}s in this
-   * {@link SpeciesType}.
+   * {@link MultiSpeciesType}.
    * 
    * @return the number of {@link SpeciesTypeInstance}s in this
-   *         {@link SpeciesType}.
+   *         {@link MultiSpeciesType}.
    * @libsbml.deprecated same as {@link #getSpeciesTypeInstanceCount()}
    */
   public int getNumSpeciesTypeInstances() {
@@ -726,10 +726,10 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
 
   /**
    * Returns the number of {@link SpeciesFeatureType}s in this
-   * {@link SpeciesType}.
+   * {@link MultiSpeciesType}.
    * 
    * @return the number of {@link SpeciesFeatureType}s in this
-   *         {@link SpeciesType}.
+   *         {@link MultiSpeciesType}.
    */
   public int getSpeciesFeatureTypeCount() {
     return isSetListOfSpeciesFeatureTypes() ? getListOfSpeciesFeatureTypes().size() : 0;
@@ -769,10 +769,10 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
 
   /**
    * Returns the number of {@link SpeciesTypeComponentIndex}s in this
-   * {@link SpeciesType}.
+   * {@link MultiSpeciesType}.
    * 
    * @return the number of {@link SpeciesTypeComponentIndex}s in this
-   *         {@link SpeciesType}.
+   *         {@link MultiSpeciesType}.
    */
   public int getSpeciesTypeComponentIndexCount() {
     return isSetListOfSpeciesTypeComponentIndexes() ? getListOfSpeciesTypeComponentIndexes().size() : 0;
@@ -812,10 +812,10 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements Compartm
 
   /**
    * Returns the number of {@link SpeciesTypeInstance}s in this
-   * {@link SpeciesType}.
+   * {@link MultiSpeciesType}.
    * 
    * @return the number of {@link SpeciesTypeInstance}s in this
-   *         {@link SpeciesType}.
+   *         {@link MultiSpeciesType}.
    */
   public int getSpeciesTypeInstanceCount() {
     return isSetListOfSpeciesTypeInstances() ? getListOfSpeciesTypeInstances().size() : 0;

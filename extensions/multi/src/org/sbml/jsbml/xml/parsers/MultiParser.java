@@ -52,7 +52,7 @@ import org.sbml.jsbml.ext.multi.MultiSpeciesPlugin;
 import org.sbml.jsbml.ext.multi.MultiSpeciesReferencePlugin;
 import org.sbml.jsbml.ext.multi.SpeciesFeature;
 import org.sbml.jsbml.ext.multi.SpeciesFeatureType;
-import org.sbml.jsbml.ext.multi.SpeciesType;
+import org.sbml.jsbml.ext.multi.MultiSpeciesType;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -187,10 +187,10 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
         return multiCompartment.getListOfCompartmentReferences();
       }
     } // end Compartment
-    // SpeciesType
-    else if (contextObject instanceof SpeciesType)
+    // MultiSpeciesType
+    else if (contextObject instanceof MultiSpeciesType)
     {
-      SpeciesType speciesType = (SpeciesType) contextObject;
+      MultiSpeciesType speciesType = (MultiSpeciesType) contextObject;
 
       if (elementName.equals(MultiConstants.listOfSpeciesFeatureTypes)) {
         return speciesType.getListOfSpeciesFeatureTypes();
@@ -201,7 +201,7 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
       } else if (elementName.equals(MultiConstants.listOfInSpeciesTypeBonds)) {
         return speciesType.getListOfInSpeciesTypeBonds();
       }
-    } // end SpeciesType
+    } // end MultiSpeciesType
     // SpeciesFeatureType
     else if (contextObject instanceof SpeciesFeatureType)
     {

@@ -34,7 +34,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * A species type ({@link SpeciesType}) can carry any number of features
+ * A species type ({@link MultiSpeciesType}) can carry any number of features
  * ({@link SpeciesFeatureType}), which are characteristic properties specific
  * for this type of species ({@link Species}). The element {@link SpeciesFeatureType}
  * of SBML Level 3 Version 1 multi Version 1
