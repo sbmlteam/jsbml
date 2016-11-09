@@ -39,7 +39,6 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.util.ListOfWithName;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNamespaces;
 import org.sbml.jsbml.xml.XMLNode;
@@ -380,25 +379,12 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
         return;
       }
 
-      if (sbase instanceof ListOfWithName<?>) {
+      if (sbase instanceof ListOf<?>) {
         xmlObject.setName(sbase.getElementName());
       }
 
       if (!xmlObject.isSetName()) {
-        if (sbase instanceof ListOf<?>) {
-          ListOf<?> listOf = (ListOf<?>) sbase;
-
-          if (listOf.size() > 0) {
-            String listOfName = "listOf" + listOf.get(0).getClass().getSimpleName();
-            if (!listOfName.endsWith("s") && !listOfName.toLowerCase().endsWith("information")) {
-              listOfName += 's';
-            }
-            xmlObject.setName(listOfName);
-          }
-
-        } else {
-          xmlObject.setName(sbase.getElementName());
-        }
+        xmlObject.setName(sbase.getElementName());
       }
       if (!xmlObject.isSetPrefix()) {
         xmlObject.setPrefix(getShortLabel());
@@ -443,6 +429,8 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
    */
   protected Object createListOfChild(ListOf<?> listOf, String elementName) {
 
+    System.out.println("createListOfChild - listOf = " + listOf.getElementName());
+    
     Object parentSBase = listOf.getParent();
     SBasePlugin parentPlugin = null;
 
@@ -450,6 +438,8 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
       return null;
     }
     parentPlugin = ((SBase) parentSBase).getExtension(getNamespaceURI());
+
+    System.out.println("createListOfChild - parentSBase = " + parentSBase + ", plugin = " + parentPlugin);
 
     if (parentPlugin != null) {
       parentSBase = parentPlugin;
