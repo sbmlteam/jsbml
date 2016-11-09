@@ -4,7 +4,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2014 jointly by the following organizations:
+ * Copyright (C) 2009-2016 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -47,7 +47,7 @@ public class CompartmentReference extends AbstractNamedSBase implements Compartm
   private String compartment;
 
   /**
-   * Creates an CompartmentReference instance
+   * Creates a new {@link CompartmentReference} instance.
    */
   public CompartmentReference() {
     super();
@@ -56,8 +56,9 @@ public class CompartmentReference extends AbstractNamedSBase implements Compartm
 
 
   /**
-   * Clone constructor
-   * @param obj
+   * Creates a new {@link CompartmentReference} instance, cloned from the given object.
+   * 
+   * @param obj the {@link CompartmentReference} to clone
    */
   public CompartmentReference(CompartmentReference obj) {
     super(obj);
@@ -270,4 +271,44 @@ public class CompartmentReference extends AbstractNamedSBase implements Compartm
     return attributes;
   }
 
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 6197;
+    int result = super.hashCode();
+    result = prime * result
+        + ((compartment == null) ? 0 : compartment.hashCode());
+    return result;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    CompartmentReference other = (CompartmentReference) obj;
+    if (compartment == null) {
+      if (other.compartment != null) {
+        return false;
+      }
+    } else if (!compartment.equals(other.compartment)) {
+      return false;
+    }
+    return true;
+  }
+
+  
 }

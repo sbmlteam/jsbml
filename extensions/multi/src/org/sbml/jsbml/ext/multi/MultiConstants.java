@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,9 +27,7 @@ import java.util.List;
  * Contains some constants related to the multi package.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 16.10.2013
  */
 public class MultiConstants {
 
@@ -224,9 +221,11 @@ public class MultiConstants {
   
   
   /**
-   * @param level
-   * @param version
-   * @return
+   * Returns a namespace corresponding to the given SBML level and version or null.
+   *  
+   * @param level the SBML level
+   * @param version the SBML version
+   * @return a namespace corresponding to the given SBML level and version or null.
    */
   public static String getNamespaceURI(int level, int version) {
     return namespaceURI;
@@ -383,12 +382,22 @@ public class MultiConstants {
   /**
    * 
    */
-  public static final String listOfSpeciesTypeComponentMapInProducts = "listOfSpeciesTypeComponentMapInProducts";
+  public static final String listOfSpeciesTypeComponentMapInProducts = "listOfSpeciesTypeComponentMapsInProduct";
   
   /**
    * 
    */
   public static final String listOfSpeciesFeatureChanges = "listOfSpeciesFeatureChanges";
+
+  /**
+   * 
+   */
+  public static final String listOfSubListOfSpeciesFeatures = "listOfSubListOfSpeciesFeatures";
+
+  /**
+   * 
+   */
+  public static final String subListOfSpeciesFeatures = "subListOfSpeciesFeatures";
 
 
 }

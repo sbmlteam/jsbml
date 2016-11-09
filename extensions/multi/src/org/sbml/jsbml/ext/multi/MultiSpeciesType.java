@@ -129,8 +129,9 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
 
 
   /**
-   * Clone constructor
-   * @param obj
+   * Creates a new {@link MultiSpeciesType} instance cloned from the given {@link MultiSpeciesType}.
+   * 
+   * @param obj the {@link MultiSpeciesType} to clone
    */
   public MultiSpeciesType(MultiSpeciesType obj) {
     super(obj);
@@ -571,7 +572,8 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
       listOfInSpeciesTypeBonds.setPackageName(null);
       listOfInSpeciesTypeBonds.setPackageName(MultiConstants.shortLabel);
       listOfInSpeciesTypeBonds.setSBaseListType(ListOf.Type.other);
-
+      listOfInSpeciesTypeBonds.setOtherListName(MultiConstants.listOfInSpeciesTypeBonds);
+      
       registerChild(listOfInSpeciesTypeBonds);
     }
     return listOfInSpeciesTypeBonds;
@@ -592,7 +594,8 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
       listOfSpeciesFeatureTypes.setPackageName(null);
       listOfSpeciesFeatureTypes.setPackageName(MultiConstants.shortLabel);
       listOfSpeciesFeatureTypes.setSBaseListType(ListOf.Type.other);
-
+      listOfSpeciesFeatureTypes.setOtherListName(MultiConstants.listOfSpeciesFeatureTypes);
+      
       registerChild(listOfSpeciesFeatureTypes);
     }
     return listOfSpeciesFeatureTypes;
@@ -613,7 +616,8 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
       listOfSpeciesTypeComponentIndexes.setPackageName(null);
       listOfSpeciesTypeComponentIndexes.setPackageName(MultiConstants.shortLabel);
       listOfSpeciesTypeComponentIndexes.setSBaseListType(ListOf.Type.other);
-
+      listOfSpeciesTypeComponentIndexes.setOtherListName(MultiConstants.listOfSpeciesTypeComponentIndexes);
+      
       registerChild(listOfSpeciesTypeComponentIndexes);
     }
     return listOfSpeciesTypeComponentIndexes;
@@ -634,7 +638,8 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
       listOfSpeciesTypeInstances.setPackageName(null);
       listOfSpeciesTypeInstances.setPackageName(MultiConstants.shortLabel);
       listOfSpeciesTypeInstances.setSBaseListType(ListOf.Type.other);
-
+      listOfSpeciesTypeInstances.setOtherListName(MultiConstants.listOfSpeciesTypeInstances);
+      
       registerChild(listOfSpeciesTypeInstances);
     }
     return listOfSpeciesTypeInstances;
@@ -1191,18 +1196,20 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
    * If {@link #listOfInSpeciesTypeBonds} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfInSpeciesTypeBonds
+   * @param listOfInSpeciesTypeBonds the list of {@link InSpeciesTypeBond}
    */
   public void setListOfInSpeciesTypeBonds(ListOf<InSpeciesTypeBond> listOfInSpeciesTypeBonds) {
     unsetListOfInSpeciesTypeBonds();
     this.listOfInSpeciesTypeBonds = listOfInSpeciesTypeBonds;
+
     if (listOfInSpeciesTypeBonds != null) {
       listOfInSpeciesTypeBonds.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'multi'
       listOfInSpeciesTypeBonds.setPackageName(null);
       listOfInSpeciesTypeBonds.setPackageName(MultiConstants.shortLabel);
-      this.listOfInSpeciesTypeBonds.setSBaseListType(ListOf.Type.other);
-
+      listOfInSpeciesTypeBonds.setSBaseListType(ListOf.Type.other);
+      listOfInSpeciesTypeBonds.setOtherListName(MultiConstants.listOfInSpeciesTypeBonds);
+      
       registerChild(listOfInSpeciesTypeBonds);
     }
   }
@@ -1213,7 +1220,7 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
    * If {@link #listOfSpeciesFeatureTypes} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfSpeciesFeatureTypes
+   * @param listOfSpeciesFeatureTypes the list of {@link SpeciesFeatureType}
    */
   public void setListOfSpeciesFeatureTypes(ListOf<SpeciesFeatureType> listOfSpeciesFeatureTypes) {
     unsetListOfSpeciesFeatureTypes();
@@ -1223,8 +1230,9 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesFeatureTypes.setPackageName(null);
       listOfSpeciesFeatureTypes.setPackageName(MultiConstants.shortLabel);
-      this.listOfSpeciesFeatureTypes.setSBaseListType(ListOf.Type.other);
-
+      listOfSpeciesFeatureTypes.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesFeatureTypes.setOtherListName(MultiConstants.listOfSpeciesFeatureTypes);
+      
       registerChild(this.listOfSpeciesFeatureTypes);
     }
   }
@@ -1235,7 +1243,7 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
    * If {@link #listOfSpeciesTypeComponentIndexes} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfSpeciesTypeComponentIndexes
+   * @param listOfSpeciesTypeComponentIndexes the list of {@link SpeciesTypeComponentIndex}
    */
   public void setListOfSpeciesTypeComponentIndexes(ListOf<SpeciesTypeComponentIndex> listOfSpeciesTypeComponentIndexes) {
     unsetListOfSpeciesTypeComponentIndexes();
@@ -1246,8 +1254,9 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypeComponentIndexes.setPackageName(null);
       listOfSpeciesTypeComponentIndexes.setPackageName(MultiConstants.shortLabel);
-      this.listOfSpeciesTypeComponentIndexes.setSBaseListType(ListOf.Type.other);
-
+      listOfSpeciesTypeComponentIndexes.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesTypeComponentIndexes.setOtherListName(MultiConstants.listOfSpeciesTypeComponentIndexes);
+      
       registerChild(listOfSpeciesTypeComponentIndexes);
     }
   }
@@ -1258,7 +1267,7 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
    * If {@link #listOfSpeciesTypeInstances} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfSpeciesTypeInstances
+   * @param listOfSpeciesTypeInstances the list of {@link SpeciesTypeInstance}
    */
   public void setListOfSpeciesTypeInstances(ListOf<SpeciesTypeInstance> listOfSpeciesTypeInstances) {
     unsetListOfSpeciesTypeInstances();
@@ -1268,8 +1277,9 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypeInstances.setPackageName(null);
       listOfSpeciesTypeInstances.setPackageName(MultiConstants.shortLabel);
-      this.listOfSpeciesTypeInstances.setSBaseListType(ListOf.Type.other);
-
+      listOfSpeciesTypeInstances.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesTypeInstances.setOtherListName(MultiConstants.listOfSpeciesTypeInstances);
+      
       registerChild(this.listOfSpeciesTypeInstances);
     }
   }

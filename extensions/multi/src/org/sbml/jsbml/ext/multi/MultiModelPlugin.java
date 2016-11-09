@@ -208,7 +208,7 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
     reaction.setId(id);
     getModel().addReaction(reaction);
 
-    return reaction;
+    return reaction; // TODO - put the IntraSpeciesReaction into a separate ListOf, either on the ModelPlugin or a new ListOf plugin ?
   }
 
   /**
