@@ -514,6 +514,16 @@ public class MultiSpeciesType extends org.sbml.jsbml.SpeciesType  implements Com
     return null;
   }
 
+  
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return MultiConstants.speciesType;
+  }
+
 
   /**
    * Gets an element from the {@link #listOfInSpeciesTypeBonds} at the given index.
