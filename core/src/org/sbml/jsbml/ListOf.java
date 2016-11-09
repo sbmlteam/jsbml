@@ -149,8 +149,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
      * in this case this method will return the type {@link #other}, which
      * is to be clearly distinguished from {@link #none}.
      * 
-     * @param type
-     * @return
+     * @param type the type
+     * @return the corresponding {@link Type} for the given {@link Class}
+     * object.
      */
     @SuppressWarnings("deprecation")
     public static Type valueOf(Class<? extends SBase> type) {
@@ -192,10 +193,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
 
     /**
      * Gives the corresponding {@link Class} object for this {@link Type}.
-     * However, in case of {@link #listOfReactants} and
-     * {@link #listOfProducts} the same {@link Class} object is returned.
+     * <p>However, in case of {@link #listOfReactants} and
+     * {@link #listOfProducts} the same {@link Class} object is returned.</p>
      * 
-     * @return
+     * @return the corresponding {@link Class} object for this {@link Type}.
      */
     @SuppressWarnings("deprecation")
     public Class<? extends SBase> toClass() {
@@ -262,13 +263,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   private static final transient Logger logger = Logger.getLogger(ListOf.class);
 
   /**
-   * Helper method to initialize newly created lists.
+   * Initializes newly created lists.
    * 
-   * @param parent
-   * @param list
-   * @param type
+   * @param parent the list parent, used to set the SBML level and version
+   * @param list the list to initialize
+   * @param type the type of the list
    * 
-   * @return
+   * @return the initialized list for convenience
    */
   public static <T extends SBase> ListOf<T> initListOf(SBase parent,
     ListOf<T> list, ListOf.Type type) {
@@ -300,14 +301,15 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   }
 
   /**
-   * Helper method to initialize a new {@link ListOf} object for the given
+   * Initializes a new {@link ListOf} object for the given
    * parent SBML object and with the given {@link Class} as the type of the
    * list.
    * 
-   * @param <T>
-   * @param parent
-   * @param clazz
-   * @return
+   * @param parent the ListOf parent
+   * @param clazz the class of objects the new ListOf will contain
+   * @return a new {@link ListOf} object for the given
+   * parent SBML object and with the given {@link Class} as the type of the
+   * list.
    */
   public static <T extends SBase> ListOf<T> newInstance(SBase parent,
     Class<T> clazz) {
@@ -344,6 +346,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   protected Type listType = Type.none;
 
   /**
+   * name of the list at it appears in the SBMLFile. By default, it is
+   * null. This value is used only if the type of the ListOf is {@link Type#other}.
+   */
+  protected String otherListName = null;
+
+    
+  /**
    * Creates a ListOf instance. By default, the list containing the SBase
    * elements is empty.
    */
@@ -355,8 +364,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
    * Creates a {@link ListOf} instance from a level and version. By default, the
    * list containing the SBase elements is empty.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public ListOf(int level, int version) {
     super(level, version);
@@ -365,13 +374,14 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   /**
    * Creates a ListOf instance from a given ListOf.
    * 
-   * @param listOf
+   * @param listOf the list to clone
    */
   @SuppressWarnings("unchecked")
   public ListOf(ListOf<? extends SBase> listOf) {
     super(listOf);
     setSBaseListType(listOf.getSBaseListType());
-
+    setOtherListName(listOf.getOtherListName());
+    
     for (SBase base : listOf) {
       if (base != null) {
         add((T) base.clone());
@@ -503,7 +513,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
    * @param element
    *            the item to be added to the list.
    * @return {@code true} if this could be successfully appended.
-   * @throws LevelVersionError
+   * @throws LevelVersionError if the SBML level and version of the new element is different from the SBML level and version of list.
    * @see #add(SBase)
    */
   @SuppressWarnings("unchecked")
@@ -555,6 +565,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
     if (equals) {
       ListOf<?> listOf = (ListOf<?>) o;
       equals &= getSBaseListType() == listOf.getSBaseListType();
+      equals &= getOtherListName() == listOf.getOtherListName();
     }
     return equals;
   }
@@ -697,7 +708,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
         && (listType == Type.listOfLocalParameters)) {
       return Type.listOfParameters.toString();
     }
-    if ((listType == Type.other) && (listOf.size() > 0)) {
+    
+    if ((listType == Type.other) && otherListName != null) 
+    {
+      return otherListName;
+    }
+    else if ((listType == Type.other) && (listOf.size() > 0)) 
+    {
       // Important for extension packages:
       String className = getFirst().getClass().getSimpleName();
 
@@ -706,13 +723,15 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
           + ((className.endsWith("s") || className.toLowerCase()
               .endsWith("information")) ? "" : "s");
     }
+    
     return (listType != null) ? listType.toString() : Type.none.toString();
   }
 
   /**
-   * The first element in this list.
+   * Returns the first element in this list.
    * 
-   * @return
+   * @return the first element in this list.
+   * @throws IndexOutOfBoundsException if there are no element in the list
    */
   public T getFirst() {
     return listOf.get(0);
@@ -721,13 +740,15 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   /**
    * Returns the last element in this list.
    * 
-   * @return
+   * @return the last element in this list.
+   * @throws IndexOutOfBoundsException if there are no element in the list
    */
   public T getLast() {
     return listOf.get(listOf.size() - 1);
   }
 
   /**
+   * Returns the SBaseListType of this ListOf instance.
    * 
    * @return the SBaseListType of this ListOf instance
    */
@@ -781,20 +802,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   @Override
   public ListIterator<T> listIterator(int index) {
     return listOf.listIterator(index);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix,
-    String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-      value);
-    if (!isAttributeRead) {
-      // no special attributes for ListOf
-    }
-    return isAttributeRead;
   }
 
   /* (non-Javadoc)
@@ -902,22 +909,22 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   }
 
   /**
-   * Removes all elements from this list that fulfill the filter property of
-   * the given filter.
+   * Removes all elements from this list that are accepted by the {@link Filter#accepts(Object)}
+   * method of the given filter.
    * 
-   * @param f
-   * @return
+   * @param f a {@link Filter} to apply
+   * @return {@code true} if this list changed as a result of the call
    */
   public boolean removeAll(Filter f) {
     return removeAll(filterList(f));
   }
 
   /**
-   * Removes the first element from this list that fulfills the filter
-   * property of the given filter.
+   * Removes the first element from this list that is accepted by the {@link Filter#accepts(Object)}
+   * method of the given filter.
    * 
-   * @param f
-   * @return
+   * @param f a {@link Filter} to apply
+   * @return the removed element or null if no elements satisfied the filter
    */
   public T removeFirst(Filter f) {
     T t = firstHit(f);
@@ -949,10 +956,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   @Override
   public T set(int index, T element) throws LevelVersionError {
     T prevElem = listOf.set(index, element);
-    // TODO: this should rather be a firePropertyChangedEvent, as the
-    // element is first removed and then added again. But the method
-    // registerChild fires a NodeAddedEvent
-    ((TreeNodeWithChangeSupport) element).fireNodeRemovedEvent();
+
+    if (prevElem != null) {
+      ((TreeNodeWithChangeSupport) prevElem).fireNodeRemovedEvent();
+    }
     try {
       registerChild(element);
     } catch (RuntimeException exc) {
@@ -969,7 +976,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
    * Clears this {@link ListOf} if not empty and then adds all elements in
    * the given {@link List} to this {@link ListOf}.
    * 
-   * @param listOf
+   * @param listOf the list that contain all the elements to add to this {@link ListOf}
    */
   public void setListOf(List<T> listOf) {
     if (!this.listOf.isEmpty()) {
@@ -1005,7 +1012,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
    * Sets the {@link Type} of this {@link ListOf} instance to the {@link Type}
    * defined by the given {@link Class}.
    * 
-   * @param type
+   * @param type a class instance
    */
   public void setSBaseListType(Class<T> type) {
     setSBaseListType(Type.valueOf(type));
@@ -1014,7 +1021,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   /**
    * Sets the {@link Type} of this {@link ListOf} instance to 'listType'.
    * 
-   * @param listType
+   * @param listType a list {@link Type}
    */
   public void setSBaseListType(Type listType) {
     Type oldType = this.listType;
@@ -1064,4 +1071,28 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
     firePropertyChange(TreeNodeChangeEvent.baseListType, oldType, listType);
   }
 
+  
+  /**
+   * Returns the XML element name used when the ListOf type is set to {@link Type#other}.
+   *
+   * <p>This an internal method that should not be used outside of the main jsbml code
+   * (packages). You have to know what you are doing when using this method.
+   * 
+   * @return the XML element name or null if it was not set.
+   */
+  public String getOtherListName() {
+    return otherListName;
+  }
+
+  /**
+   * Sets the XML element name used when the ListOf type is set to {@link Type#other}.
+   *
+   * <p>This an internal method that should not be used outside of the main jsbml code
+   * (packages). You have to know what you are doing when using this method.
+   *
+   * @param otherListName the value of otherListName to be set.
+   */
+  public void setOtherListName(String otherListName) {
+    this.otherListName = otherListName;
+  }
 }
