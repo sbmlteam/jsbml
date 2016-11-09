@@ -275,15 +275,16 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
   {
     super.writeElement(xmlObject, sbmlElementToWrite);
 
-    // listOfBindingSiteSpeciesTypes if a BindingSpeciesType is the first element of the list of SpeciesTypes.
-    if (xmlObject.isSetName() && xmlObject.getName().equals("listOfBindingSiteSpeciesTypes")) {
-      xmlObject.setName(MultiConstants.listOfSpeciesTypes);
+    if (sbmlElementToWrite instanceof ListOf<?>) {
+      ListOf list = (ListOf) sbmlElementToWrite;
+//      System.out.println("MultiParser - writeElement - elementName = " + list.getElementName() 
+//          + ", otherName = '" + list.getOtherListName() + "'");
+      
+      if (! xmlObject.getName().equals(list.getElementName())) {
+        xmlObject.setName(list.getElementName());
+      }
     }
-    else if (xmlObject.isSetName() && xmlObject.getName().equals("listOfSpeciesTypeComponentIndexs")) {
-      xmlObject.setName(MultiConstants.listOfSpeciesTypeComponentIndexes);
-    }    
-    // listOfIntraSpeciesReactions cannot happen as core ListOf don't depend on the first element for their name.
- // TODO - need to named listOfSpeciesTypeComponentMapInProducts: 'listOfSpeciesTypeComponentMapsInProduct'
+    
     
     if (logger.isDebugEnabled()) {
       logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
@@ -323,6 +324,8 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
 
+    System.out.println("MultiParser - createPluginFor called for '" + sbase + "'");
+    
     if (sbase != null) {
       if (sbase instanceof Model) {
         return new MultiModelPlugin((Model) sbase);
@@ -350,4 +353,22 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#createListOfChild(org.sbml.jsbml.ListOf, java.lang.String)
+   */
+  @Override
+  protected Object createListOfChild(ListOf<?> listOf, String elementName) {
+    
+    // We need to create the plugin beforehand in some cases
+    if (elementName.equals(MultiConstants.intraSpeciesReaction) 
+        || elementName.equals(MultiConstants.bindingSiteSpeciesType)) 
+    {
+      // getPlugin will create the plugin if it does not already exist
+      listOf.getParent().getPlugin(MultiConstants.shortLabel);
+    }
+
+    return super.createListOfChild(listOf, elementName);
+  }
+
+  
 }

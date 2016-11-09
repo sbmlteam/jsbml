@@ -399,5 +399,15 @@ public class MultiConstants {
    */
   public static final String subListOfSpeciesFeatures = "subListOfSpeciesFeatures";
 
+  /**
+   * 
+   */
+  public static final String intraSpeciesReaction = "intraSpeciesReaction";
+
+  /**
+   * 
+   */
+  public static final String bindingSiteSpeciesType = "bindingSiteSpeciesType";
+
 
 }

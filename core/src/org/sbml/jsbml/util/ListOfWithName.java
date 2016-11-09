@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -27,9 +26,8 @@ import org.sbml.jsbml.SBase;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @param <T>
+ * @param <T> the type of element this ListOf will contain
  */
 public class ListOfWithName<T extends SBase> extends ListOf<T> {
 

@@ -138,6 +138,7 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
       listOfSpeciesTypes.setPackageName(null);
       listOfSpeciesTypes.setPackageName(MultiConstants.shortLabel);
       listOfSpeciesTypes.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesTypes.setOtherListName(MultiConstants.listOfSpeciesTypes);
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfSpeciesTypes);
@@ -277,7 +278,7 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
    * Sets the listOfSpeciesTypes. If there was already some elements defined
    * on listOfSpeciesTypes, they will be unset beforehand.
    *
-   * @param listOfSpeciesTypes
+   * @param listOfSpeciesTypes the list of {@link MultiSpeciesType}s to set
    */
   public void setListOfSpeciesTypes(ListOf<MultiSpeciesType> listOfSpeciesTypes) {
     unsetListOfSpeciesTypes();
@@ -289,6 +290,7 @@ public class MultiModelPlugin extends AbstractSBasePlugin {
       listOfSpeciesTypes.setPackageName(null);
       listOfSpeciesTypes.setPackageName(MultiConstants.shortLabel);
       listOfSpeciesTypes.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesTypes.setOtherListName(MultiConstants.listOfSpeciesTypes);
     }
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfSpeciesTypes);
