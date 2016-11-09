@@ -43,7 +43,7 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
   /**
    * 
    */
-  private ListOf<SpeciesTypeComponentMapInProduct> listOfSpeciesTypeComponentMapInProducts; // TODO - need to be named listOfSpeciesTypeComponentMapsInProduct ?
+  private ListOf<SpeciesTypeComponentMapInProduct> listOfSpeciesTypeComponentMapInProducts;
 
 
   /**
@@ -165,7 +165,8 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
       listOfSpeciesTypeComponentMapInProducts.setPackageName(null);
       listOfSpeciesTypeComponentMapInProducts.setPackageName(MultiConstants.shortLabel);
       listOfSpeciesTypeComponentMapInProducts.setSBaseListType(ListOf.Type.other);
-
+      listOfSpeciesTypeComponentMapInProducts.setOtherListName(MultiConstants.listOfSpeciesTypeComponentMapInProducts);
+      
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfSpeciesTypeComponentMapInProducts);
       }
@@ -179,7 +180,7 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
    * If {@link #listOfSpeciesTypeComponentMapInProducts} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfSpeciesTypeComponentMapInProducts
+   * @param listOfSpeciesTypeComponentMapInProducts the list of {@link SpeciesTypeComponentMapInProduct}
    */
   public void setListOfSpeciesTypeComponentMapInProducts(ListOf<SpeciesTypeComponentMapInProduct> listOfSpeciesTypeComponentMapInProducts) {
     unsetListOfSpeciesTypeComponentMapInProducts();
@@ -190,8 +191,9 @@ public class MultiSpeciesReferencePlugin extends MultiSimpleSpeciesReferencePlug
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesTypeComponentMapInProducts.setPackageName(null);
       listOfSpeciesTypeComponentMapInProducts.setPackageName(MultiConstants.shortLabel);
-      this.listOfSpeciesTypeComponentMapInProducts.setSBaseListType(ListOf.Type.other);
-
+      listOfSpeciesTypeComponentMapInProducts.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesTypeComponentMapInProducts.setOtherListName(MultiConstants.listOfSpeciesTypeComponentMapInProducts);
+      
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(this.listOfSpeciesTypeComponentMapInProducts);
       }

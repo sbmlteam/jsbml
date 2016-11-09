@@ -4,7 +4,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2014 jointly by the following organizations:
+ * Copyright (C) 2009-2016 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -265,6 +265,7 @@ public class SpeciesFeature extends AbstractNamedSBase implements ListOfSpeciesF
       listOfSpeciesFeatureValues.setPackageName(null);
       listOfSpeciesFeatureValues.setPackageName(MultiConstants.shortLabel);
       listOfSpeciesFeatureValues.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesFeatureValues.setOtherListName(MultiConstants.listOfSpeciesFeatureValues);
 
       registerChild(listOfSpeciesFeatureValues);
     }
@@ -277,7 +278,7 @@ public class SpeciesFeature extends AbstractNamedSBase implements ListOfSpeciesF
    * If {@link #listOfSpeciesFeatureValues} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfSpeciesFeatureValues
+   * @param listOfSpeciesFeatureValues the list of {@link SpeciesFeatureValue}s to set
    */
   public void setListOfSpeciesFeatureValues(ListOf<SpeciesFeatureValue> listOfSpeciesFeatureValues) {
     unsetListOfSpeciesFeatureValues();
@@ -288,8 +289,9 @@ public class SpeciesFeature extends AbstractNamedSBase implements ListOfSpeciesF
       // changing the ListOf package name from 'core' to 'multi'
       listOfSpeciesFeatureValues.setPackageName(null);
       listOfSpeciesFeatureValues.setPackageName(MultiConstants.shortLabel);
-      this.listOfSpeciesFeatureValues.setSBaseListType(ListOf.Type.other);
-
+      listOfSpeciesFeatureValues.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesFeatureValues.setOtherListName(MultiConstants.listOfSpeciesFeatureValues);
+      
       registerChild(listOfSpeciesFeatureValues);
     }
   }

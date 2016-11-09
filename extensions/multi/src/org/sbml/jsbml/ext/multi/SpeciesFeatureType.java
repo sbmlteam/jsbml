@@ -236,7 +236,8 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
       listOfPossibleSpeciesFeatureValues.setPackageName(null);
       listOfPossibleSpeciesFeatureValues.setPackageName(MultiConstants.shortLabel);
       listOfPossibleSpeciesFeatureValues.setSBaseListType(ListOf.Type.other);
-
+      listOfPossibleSpeciesFeatureValues.setOtherListName(MultiConstants.listOfPossibleSpeciesFeatureValues);
+      
       registerChild(listOfPossibleSpeciesFeatureValues);
     }
     return listOfPossibleSpeciesFeatureValues;
@@ -248,7 +249,7 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
    * If {@link #listOfPossibleSpeciesFeatureValues} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfPossibleSpeciesFeatureValues
+   * @param listOfPossibleSpeciesFeatureValues the list of {@link PossibleSpeciesFeatureValue}
    */
   public void setListOfPossibleSpeciesFeatureValues(ListOf<PossibleSpeciesFeatureValue> listOfPossibleSpeciesFeatureValues) {
     unsetListOfPossibleSpeciesFeatureValues();
@@ -260,7 +261,8 @@ public class SpeciesFeatureType extends AbstractNamedSBase implements UniqueName
       listOfPossibleSpeciesFeatureValues.setPackageName(null);
       listOfPossibleSpeciesFeatureValues.setPackageName(MultiConstants.shortLabel);
       listOfPossibleSpeciesFeatureValues.setSBaseListType(ListOf.Type.other);
-
+      listOfPossibleSpeciesFeatureValues.setOtherListName(MultiConstants.listOfPossibleSpeciesFeatureValues);
+      
       registerChild(listOfPossibleSpeciesFeatureValues);
     }
   }

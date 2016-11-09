@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -24,11 +23,12 @@ package org.sbml.jsbml.ext.qual;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
@@ -42,9 +42,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Florian Mittag
- * @version $Rev$
  * @since 1.0
- * @date $Date$
  */
 public class Input extends AbstractNamedSBase implements UniqueNamedSBase, CallableSBase {
 

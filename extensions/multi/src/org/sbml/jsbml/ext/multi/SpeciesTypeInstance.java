@@ -265,6 +265,55 @@ public class SpeciesTypeInstance extends AbstractNamedSBase { //  implements Uni
   }
   
   
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 6089;
+    int result = super.hashCode();
+    result = prime * result + ((compartmentReference == null) ? 0
+        : compartmentReference.hashCode());
+    result = prime * result
+        + ((speciesType == null) ? 0 : speciesType.hashCode());
+    return result;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    SpeciesTypeInstance other = (SpeciesTypeInstance) obj;
+    if (compartmentReference == null) {
+      if (other.compartmentReference != null) {
+        return false;
+      }
+    } else if (!compartmentReference.equals(other.compartmentReference)) {
+      return false;
+    }
+    if (speciesType == null) {
+      if (other.speciesType != null) {
+        return false;
+      }
+    } else if (!speciesType.equals(other.speciesType)) {
+      return false;
+    }
+    return true;
+  }
+
+
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();

@@ -59,7 +59,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
   private ListOf<CompartmentReference> listOfCompartmentReferences;
 
   /**
-   * Creates an MultiCompartmentPlugin instance
+   * Creates an MultiCompartmentPlugin instance.
    */
   public MultiCompartmentPlugin() {
     super();
@@ -81,8 +81,9 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
 
 
   /**
-   * Clone constructor
-   * @param obj
+   * Clone constructor.
+   * 
+   * @param obj the {@link MultiCompartmentPlugin} to clone
    */
   public MultiCompartmentPlugin(MultiCompartmentPlugin obj) {
     super(obj);
@@ -181,6 +182,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
       listOfCompartmentReferences.setPackageName(null);
       listOfCompartmentReferences.setPackageName(MultiConstants.shortLabel);
       listOfCompartmentReferences.setSBaseListType(ListOf.Type.other);
+      listOfCompartmentReferences.setOtherListName(MultiConstants.listOfCompartmentReferences);
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfCompartmentReferences);
@@ -196,7 +198,7 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
    * If {@link #listOfCompartmentReferences} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfCompartmentReferences
+   * @param listOfCompartmentReferences the list of {@link CompartmentReference}s to set
    */
   public void setListOfCompartmentReferences(ListOf<CompartmentReference> listOfCompartmentReferences) {
     unsetListOfCompartmentReferences();
@@ -208,7 +210,8 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
       listOfCompartmentReferences.setPackageName(null);
       listOfCompartmentReferences.setPackageName(MultiConstants.shortLabel);
       listOfCompartmentReferences.setSBaseListType(ListOf.Type.other);
-
+      listOfCompartmentReferences.setOtherListName(MultiConstants.listOfCompartmentReferences);
+      
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(this.listOfCompartmentReferences);
       }
@@ -528,6 +531,64 @@ public class MultiCompartmentPlugin extends AbstractSBasePlugin  {
       MessageFormat.format(resourceBundle.getString("IndexExceedsBoundsException"),
         index, Math.min(pos, 0)));
   }
+
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 6217;
+    int result = super.hashCode();
+    result = prime * result
+        + ((compartmentType == null) ? 0 : compartmentType.hashCode());
+    result = prime * result + ((isType == null) ? 0 : isType.hashCode());
+    result = prime * result + ((listOfCompartmentReferences == null) ? 0
+        : listOfCompartmentReferences.hashCode());
+    return result;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    MultiCompartmentPlugin other = (MultiCompartmentPlugin) obj;
+    if (compartmentType == null) {
+      if (other.compartmentType != null) {
+        return false;
+      }
+    } else if (!compartmentType.equals(other.compartmentType)) {
+      return false;
+    }
+    if (isType == null) {
+      if (other.isType != null) {
+        return false;
+      }
+    } else if (!isType.equals(other.isType)) {
+      return false;
+    }
+    if (listOfCompartmentReferences == null) {
+      if (other.listOfCompartmentReferences != null) {
+        return false;
+      }
+    } else if (!listOfCompartmentReferences
+        .equals(other.listOfCompartmentReferences)) {
+      return false;
+    }
+    return true;
+  }
+
 
   @Override
   public Map<String, String> writeXMLAttributes() {
