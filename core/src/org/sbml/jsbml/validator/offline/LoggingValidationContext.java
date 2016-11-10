@@ -109,6 +109,9 @@ public class LoggingValidationContext extends ValidationContext
       
     } else {
       logger.warn("Couldn't load SBMLError for error code " + id);
+      SBMLError defaultError = new SBMLError();
+      defaultError.setCode(id);
+      this.log.add(defaultError);
     }
   }
 
