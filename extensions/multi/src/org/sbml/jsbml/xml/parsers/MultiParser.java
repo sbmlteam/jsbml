@@ -275,17 +275,6 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
   {
     super.writeElement(xmlObject, sbmlElementToWrite);
 
-    if (sbmlElementToWrite instanceof ListOf<?>) {
-      ListOf list = (ListOf) sbmlElementToWrite;
-//      System.out.println("MultiParser - writeElement - elementName = " + list.getElementName() 
-//          + ", otherName = '" + list.getOtherListName() + "'");
-      
-      if (! xmlObject.getName().equals(list.getElementName())) {
-        xmlObject.setName(list.getElementName());
-      }
-    }
-    
-    
     if (logger.isDebugEnabled()) {
       logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
     }
@@ -324,8 +313,6 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
 
-    System.out.println("MultiParser - createPluginFor called for '" + sbase + "'");
-    
     if (sbase != null) {
       if (sbase instanceof Model) {
         return new MultiModelPlugin((Model) sbase);
