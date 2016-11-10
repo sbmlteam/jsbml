@@ -7528,152 +7528,195 @@ public interface SBMLErrorCodes {
     public static final int ARRAYS_20305 = 8020305;
     public static final int ARRAYS_20306 = 8020306;
     public static final int ARRAYS_20307 = 8020307;
- 	
+
+    
+    /**
+     * To conform to Version 1 of the Multi package specification for SBML Level 3, an SBML 
+     * document must declare the use of the following XML Namespace:
+     * “http://www.sbml.org/sbml/level3/version1/multi/version1” (Reference: SBML Level 3
+     * Package Specification for Multi, Version 1, Section 3.1 on page 9).
+     */
+    public static final int MULTI_10101 = 7010101; 
+    
+    /**
+     * Wherever they appear in an SBML document, elements and attributes from the Multi package
+     * must be declared either implicitly or explicitly to be in the XML namespace
+     * “http://www.sbml.org/sbml/level3/version1/multi/version1” (Reference: SBML Level 3
+     * Package Specification for Multi, Version 1, Section 3.1 on page 9).
+     */
+    public static final int MULTI_10102 = 7010102; 
+    public static final int MULTI_10103 = 7010103;
+    public static final int MULTI_10104 = 7010104;
+    public static final int MULTI_10105 = 7010105;
+    
+    public static final int MULTI_10301 = 7010301;
+    public static final int MULTI_10302 = 7010302;
+    public static final int MULTI_10303 = 7010303;
+    
+    public static final int MULTI_10401 = 7010401;
+    public static final int MULTI_10402 = 7010402;
+    public static final int MULTI_10403 = 7010403;
+    public static final int MULTI_10404 = 7010404;
+    public static final int MULTI_10405 = 7010405;
+    public static final int MULTI_10406 = 7010406;
+    public static final int MULTI_10408 = 7010408;
+    
+    public static final int MULTI_10501 = 7010501;
+    public static final int MULTI_10502 = 7010502;
+    public static final int MULTI_10503 = 7010503;
+    public static final int MULTI_10504 = 7010504;
+    public static final int MULTI_10505 = 7010505;
+    public static final int MULTI_10506 = 7010506;
+    public static final int MULTI_10508 = 7010508;
+    public static final int MULTI_10509 = 7010509;
+    
+    public static final int MULTI_10601 = 7010601;
+    public static final int MULTI_10602 = 7010602;
+    public static final int MULTI_10603 = 7010603;
+    public static final int MULTI_10604 = 7010604;
+    public static final int MULTI_10605 = 7010605;
+    
+    public static final int MULTI_10701 = 7010701;
+    public static final int MULTI_10702 = 7010702;
+    public static final int MULTI_10703 = 7010703;
+    public static final int MULTI_10704 = 7010704;
+    
+    public static final int MULTI_10801 = 7010801;
+    public static final int MULTI_10802 = 7010802;
+    
+    public static final int MULTI_20101 = 7020101;
+    public static final int MULTI_20102 = 7020102;
+    public static final int MULTI_20103 = 7020103;
+    public static final int MULTI_20104 = 7020104;
+    
+    public static final int MULTI_20201 = 7020201;
+    public static final int MULTI_20202 = 7020202;
+    public static final int MULTI_20203 = 7020203;
+    public static final int MULTI_20204 = 7020204;
+    public static final int MULTI_20205 = 7020205;
+    public static final int MULTI_20206 = 7020206;
+    public static final int MULTI_20207 = 7020207;
+    public static final int MULTI_20208 = 7020208;
+    public static final int MULTI_20209 = 7020209;
+    
+    public static final int MULTI_20301 = 7020301;
+    public static final int MULTI_20302 = 7020302;
+    public static final int MULTI_20303 = 7020303;
+    public static final int MULTI_20304 = 7020304;
+    public static final int MULTI_20305 = 7020305;
+    
+    public static final int MULTI_20401 = 7020401;
+    public static final int MULTI_20402 = 7020402;
+    public static final int MULTI_20403 = 7020403;
+    public static final int MULTI_20404 = 7020404;
+    public static final int MULTI_20405 = 7020405;
+    public static final int MULTI_20406 = 7020406;
+    public static final int MULTI_20407 = 7020407;
+    public static final int MULTI_20408 = 7020408;
+    public static final int MULTI_20409 = 7020409;
+    public static final int MULTI_20410 = 7020410;
+    public static final int MULTI_20411 = 7020411;
+    public static final int MULTI_20412 = 7020412;
+    public static final int MULTI_20413 = 7020413;
+    public static final int MULTI_20414 = 7020414;
+    public static final int MULTI_20415 = 7020415;
+    public static final int MULTI_20416 = 7020416;
+    public static final int MULTI_20417 = 7020417;
+    
+    public static final int MULTI_20501 = 7020501;
+        
+    public static final int MULTI_20601 = 7020601;
+    public static final int MULTI_20602 = 7020602;
+    public static final int MULTI_20603 = 7020603;
+    public static final int MULTI_20604 = 7020604;
+    public static final int MULTI_20605 = 7020605;
+    public static final int MULTI_20606 = 7020606;
+    public static final int MULTI_20607 = 7020607;
+    public static final int MULTI_20608 = 7020608;
+    
+    public static final int MULTI_20701 = 7020701;
+    public static final int MULTI_20702 = 7020702;
+    public static final int MULTI_20703 = 7020703;
+    public static final int MULTI_20704 = 7020704;
+    
+    public static final int MULTI_20801 = 7020801;
+    public static final int MULTI_20802 = 7020802;
+    public static final int MULTI_20803 = 7020803;
+    public static final int MULTI_20805 = 7020805;
+    public static final int MULTI_20806 = 7020806;
+    
+    public static final int MULTI_20901 = 7020901;
+    public static final int MULTI_20902 = 7020902;
+    public static final int MULTI_20903 = 7020903;
+    public static final int MULTI_20904 = 7020904;
+    public static final int MULTI_20907 = 7020907;
+    
+    public static final int MULTI_21101 = 7021101;
+    public static final int MULTI_21102 = 7021102;
+    public static final int MULTI_21103 = 7021103;
+    public static final int MULTI_21104 = 7021104;
+    public static final int MULTI_21105 = 7021105;
+    public static final int MULTI_21106 = 7021106;
+    
+    public static final int MULTI_21201 = 7021201;
+    public static final int MULTI_21202 = 7021202;
+    public static final int MULTI_21203 = 7021203;
+    public static final int MULTI_21204 = 7021204;
+    public static final int MULTI_21205 = 7021205;
+    public static final int MULTI_21206 = 7021206;
+    public static final int MULTI_21207 = 7021207;
+    public static final int MULTI_21208 = 7021208;
+    public static final int MULTI_21209 = 7021209;
+    public static final int MULTI_21210 = 7021210;
+    public static final int MULTI_21211 = 7021211;
+    public static final int MULTI_21212 = 7021212;
+    
+    public static final int MULTI_21301 = 7021301;
+    public static final int MULTI_21302 = 7021302;
+    public static final int MULTI_21303 = 7021303;
+    public static final int MULTI_21304 = 7021304;
+    public static final int MULTI_21305 = 7021305;
+    public static final int MULTI_21306 = 7021306;
+    
+    public static final int MULTI_21401 = 7021401;
+    public static final int MULTI_21402 = 7021402;
+    public static final int MULTI_21403 = 7021403;
+    public static final int MULTI_21404 = 7021404;
+    public static final int MULTI_21405 = 7021405;
+    public static final int MULTI_21406 = 7021406;
+    public static final int MULTI_21407 = 7021407;
+    public static final int MULTI_21408 = 7021408;
+    public static final int MULTI_21409 = 7021409;
+    public static final int MULTI_21410 = 7021410;
+    
+    public static final int MULTI_21501 = 7021501;
+    public static final int MULTI_21502 = 7021502;
+    public static final int MULTI_21503 = 7021503;
+    public static final int MULTI_21504 = 7021504;
+    
+    public static final int MULTI_21601 = 7021601;
+    public static final int MULTI_21602 = 7021602;
+    
+    public static final int MULTI_21701 = 7021701;
+    public static final int MULTI_21702 = 7021702;
+    
+    public static final int MULTI_21801 = 7021801;
+    public static final int MULTI_21802 = 7021802;
+    public static final int MULTI_21803 = 7021803;
+    
+    public static final int MULTI_21901 = 7021901;
+    public static final int MULTI_21902 = 7021902;
+    public static final int MULTI_21903 = 7021903;
+    public static final int MULTI_21904 = 7021904;
+    public static final int MULTI_21905 = 7021905;
+    public static final int MULTI_21906 = 7021906;
+    
+    public static final int MULTI_22101 = 7022101;
+    public static final int MULTI_22102 = 7022102;
+    public static final int MULTI_22103 = 7022103;
+    
+    
+    
  	// At the moment (2016-11), from the draft packages, only multi has some validation in libSBML.
 
- 	// TODO - add by hand the arrays errors
- 	
- 	/*
- 	 * 
- 	 * 
-
-General rules about MathML content in the Arrays Package
-
-
-public static final int ARRAYS_10207 = 8010207; The first argument of a MathML selector must have a number of dimensions equal to
-              the number of arguments to the selector minus 1. (Reference: SBML Level 3 Package
-             Specification for Arrays, Version 1, Section 3.5 on page 10.)
-public static final int ARRAYS_10208 = 8010208; The arguments of a MathML selector other than the first argument must be statically com-
-              putable. In other words, any identifier that appears in an argument, other than a Dimension
-               id for the corresponding object, must be a constant. (Reference: SBML Level 3 Package
-              Specification for Arrays, Version 1, Section 3.5 on page 10.)
-public static final int ARRAYS_10209 = 8010209; The arguments of a MathML selector other than the first argument must be evaluated to
-              a scalar value. (Reference: SBML Level 3 Package Specification for Arrays, Version 1, Sec-
-               tion 3.5 on page 10.)
-public static final int ARRAYS_10210 = 8010210; For each possible value of each Dimension id (i.e., 0 to size-1 of the Dimension referred to)
-            that appears in the second and later arguments of the selector, there should be no array
-           out-of-bounds problems. Namely, it must evaluate to a non-negative integer that is less than
-          the size of the corresponding Dimension for the object being indexed where the last argument
-         refers to dimension 0, next to last to dimension 1, etc. (Reference: SBML Level 3 Package
-        Specification for Arrays, Version 1, Section 3.5 on page 10.)
-public static final int ARRAYS_10211 = 8010211; All mathematical operations must be performed on scalar values rather than vectors. (Refer-
-            ence: SBML Level 3 Package Specification for Arrays, Version 1, Section 3.5 on page 10.)
-public static final int ARRAYS_10212 = 8010212; For MathML operations with two or more operands involving MathML vectors or SBase
-            objects with a list of Dimension objects, the number of dimensions and their size must agree
-           for all operands unless the operand is a scalar type (i.e., it does not have a list of Dimension
-          objects). (Reference: SBML Level 3 Package Specification for Arrays, Version 1, Section 3.5 on
-           page 10.)
-public static final int ARRAYS_10213 = 8010213; No SBase is allowed to have value of type vector. (Reference: SBML Level 3 Package Specifi-
-              cation for Arrays, Version 1, Section 3.5 on page 10.)
-              
-Rules for the extended SBase abstract class
-
-public static final int ARRAYS_20101 = 8020101; Any object derived from the extended SBase class (defined in the Arrays package) may contain
-              at most one instance of a ListOfDimensions. (Reference: SBML Level 3 Package Specification
-               for Arrays, Version 1, Section 3.3 on page 6.)
-public static final int ARRAYS_20102 = 8020102; Apart from the general notes and annotation permitted on all SBML objects, a ListOfDimen-
-            sions container object may only contain Dimension objects. (Reference: SBML Level 3 Package
-           Specification for Arrays, Version 1, Section 3.3 on page 6.)
-
-public static final int ARRAYS_20103 = 8020103; The ListOfDimensions associated with an SBase object must have a Dimension object with
-            arrays:arrayDimension attribute set to 0, 1, . . . , n − 1 before adding a Dimension object with
-             arrays:arrayDimension attribute set to n. (Reference: SBML Level 3 Package Specification
-              for Arrays, Version 1, Section 3.3 on page 6.)
-public static final int ARRAYS_20104 The ListOfDimensions associated with an SBase object must not have multiple Dimension
-            objects with the same arrays:arrayDimension attribute. (Reference: SBML Level 3 Package
-           Specification for Arrays, Version 1, Section 3.3 on page 6.)
-public static final int ARRAYS_20105 A ListOfDimensions object may have the optional SBML core attributes metaid and sboTerm.
-            No other attributes from the SBML Level 3 Core namespace or the Arrays namespace are
-           permitted on a ListOfDimensions object. (Reference: SBML Level 3 Package Specification for
-            Arrays, Version 1, Section 3.3 on page 6.)
-public static final int ARRAYS_20106 ListOf objects are not permitted to have a ListOfDimensions. (Reference: SBML Level 3
-Package Specification for Arrays, Version 1, Section 3.3 on page 7.)
-public static final int ARRAYS_20107 In SBML Level 3 Core, Models, FunctionDefinitions, Units, UnitDefinitions, KineticLaws,
-            LocalParameters, Triggers, Priorities, and Delays are not permitted to have a ListOfDi-
-           mensions. All other SBML Level 3 Core objects are permitted to have a ListOfDimensions in-
-          cluding: Compartments, Species, Parameters, Initial assignments, Rules, Constraints,
-         Reactions, Species references, Events, and Event assignments. All SBML objects de-
-        fined by packages that inherit from SBase are permitted to have a ListOfDimensions unless it
-         is explicitly disallowed in the corresponding package specification. (Reference: SBML Level 3
-          Package Specification for Arrays, Version 1, Section 3.3 on page 7.)
-public static final int ARRAYS_20108 The Dimension and Index objects are not permitted to have a ListOfDimensions. (Reference:
-            SBML Level 3 Package Specification for Arrays, Version 1, Section 3.3 on page 7.)
-public static final int ARRAYS_20109 Any object derived from the extended SBase class (defined in the Arrays package) may contain
-              at most one instance of a ListOfIndices. (Reference: SBML Level 3 Package Specification for
-               Arrays, Version 1, Section 3.4 on page 8.)
-public static final int ARRAYS_20110 Apart from the general notes and annotation subobjects permitted on all SBML objects, a
-            ListOfIndices container object may only contain Index objects. (Reference: SBML Level 3
-           Package Specification for Arrays, Version 1, Section 3.4 on page 8.)
-public static final int ARRAYS_20111 The ListOfIndices associated with an SBase object must have a Index object with
-            arrays:arrayDimension attribute set to 0, 1, . . . , n − 1 before adding a Index object with
-             arrays:arrayDimension attribute set to n for every arrays:referencedAttribute that
-            are being indexed. (Reference: SBML Level 3 Package Specification for Arrays, Version 1,
-             Section 3.3 on page 6.)
-public static final int ARRAYS_20112 The ListOfIndices in an SBase object must not have multiple Index objects with the same
-            pair of values arrays:arrayDimension and arrays:referencedAttribute attributes. (Ref-
-           erence: SBML Level 3 Package Specification for Arrays, Version 1, Section 3.4 on page 8.)
-public static final int ARRAYS_20113 A ListOfIndices object may have the optional SBML core attributes metaid and sboTerm. No
-            other attributes from the SBML Level 3 Core namespace or the Arrays namespace are permitted
-           on a ListOfIndices object. (Reference: SBML Level 3 Package Specification for Arrays, Version 1,
-            Section 3.4 on page 8.)
-public static final int ARRAYS_20114 Only SBML objects that include defined attributes of type SIdRef are permitted to have a
-              ListOfIndices. For SBML Level 3 Core, this includes Model to reference a conversionFactor
-             element, Species to reference a compartment or a conversionFactor element, Reactions
-to reference a compartment, Initial assignments to reference a symbol, Rules to refer-
-ence a variable, Species references to reference a species, and Events assignments
-to reference a variable. In addition to these, any SBML object in a package with a defined
-attribute of type SIdRef may also have a ListOfIndices. (Reference: SBML Level 3 Package
-Specification for Arrays, Version 1, Section 3.4 on page 8.)
-public static final int ARRAYS_20115 SBase objects containg SIdRef must have a ListOfIndices if the referenced SBase is an array.
-            (Reference: SBML Level 3 Package Specification for Arrays, Version 1, Section 3.4 on page 8.)
-public static final int ARRAYS_20116 SBase objects containg SIdRef with a ListOfDimensions should have a ListOfIndices contain-
-            ing as many Index objects for this particular arrays:referencedAttribute as the number
-           of Dimension objects the referenced object contains. (Reference: SBML Level 3 Package
-Specification for Arrays, Version 1, Section 3.4 on page 8.)
-
-Rules for Dimension objects
-public static final int ARRAYS_20201 A Dimension object may have the optional SBML Level 3 Core attributes metaid and sboTerm.
-            No other attributes from the SBML Level 3 Core namespace are permitted on a Dimension
-           object. (Reference: SBML Level 3 Version 1 Core, Section 3.2.)
-public static final int ARRAYS_20202 A Dimension object must have a value for the attributes arrays:arrayDimension and
-            arrays:size, and may additionally have the attributes arrays:id and arrays:name. (Refer-
-           ence: SBML Level 3 Package Specification for Arrays, Version 1, Section 3.3 on page 6.)
-public static final int ARRAYS_20203 The value of the arrays:arrayDimension attribute on a given Dimension object, must be
-            a non-negative integer value. (Reference: SBML Level 3 Package Specification for Arrays,
-             Version 1, Section 3.3 on page 6.)
-public static final int ARRAYS_20204 The value of the arrays:size attribute on a given Dimension object, must be a valid SIdRef
-            to an object of type Parameter. (Reference: SBML Level 3 Package Specification for Arrays,
-             Version 1, Section 3.3 on page 6.)
-public static final int ARRAYS_20205 The value of the Parameter referenced by the arrays:size attribute must be a non-negative
-            scalar constant integer. (Reference: SBML Level 3 Package Specification for Arrays, Version 1,
-             Section 3.3 on page 6.)
-Rules for Index objects
-public static final int ARRAYS_20301 An Index object may have the optional SBML Level 3 Core attributes metaid and sboTerm.
-            No other attributes from the SBML Level 3 Core namespace are permitted on a Index object.
-           (Reference: SBML Level 3 Version 1 Core, Section 3.2.)
-public static final int ARRAYS_20302 An Index object must have a value for the attributes arrays:arrayDimension, and
-            arrays:referencedAttribute . (Reference: SBML Level 3 Package Specification for Arrays,
-             Version 1, Section 3.4 on page 8.)
-public static final int ARRAYS_20303 The value of the arrays:referencedAttribute attribute on a given Index object, must be an
-            existing attribute of type SIdRef with a value that references a valid SId. (Reference: SBML
-           Level 3 Package Specification for Arrays, Version 1, Section 3.4 on page 8.)
-public static final int ARRAYS_20304 The value of the arrays:arrayDimension attribute on a given Index object, must be a non-
-            negative integer value. (Reference: SBML Level 3 Package Specification for Arrays, Version 1,
-             Section 3.4 on page 8.)
-public static final int ARRAYS_20305 The object referenced by the SIdRef indicated by the arrays:referencedAttribute at-
-            tribute must include an arrays:arrayDimension matching the arrays:arrayDimension for
-the Index. (Reference: SBML Level 3 Package Specification for Arrays, Version 1, Section 3.4 on
-page 8.)
-public static final int ARRAYS_20306 An Index object must have exactly one MathML math element. (Reference: SBML Level 3
-            Package Specification for Arrays, Version 1, Section 3.4 on page 8.)
-public static final int ARRAYS_20307 The MathML math element in an Index object must be statically computable. In other words,
-            any identifier that appears in the math element, other than a Dimension id for the object with
-             this Index, must be a constant. (Reference: SBML Level 3 Package Specification for Arrays,
-              Version 1, Section 3.4 on page 8.)
-public static final int ARRAYS_20308 For each possible value of each Dimension id (i.e., 0 to size-1 of the Dimension referred to)
-            that appears in the MathML math element, there should be no array out-of-bounds problems.
-           Namely, it must evaluate to a non-negative integer that is less than the size of the corresponding
-          Dimension for the object being indexed.
-
- 	 */
 }
