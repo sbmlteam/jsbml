@@ -7,14 +7,12 @@ Version 1.2 (XX-XX-201X)
 
  * New Features:
 
-  - Updated the implementation of the SBML Level 3 Multi package to the
-    Version 1.0.7 specification (August 2016).
+  - Updated the implementation of the SBML Level 3 Multi package to the Version 1.0.7 specification (August 2016).
 
 
  * Bug Fixes:
 
-  - Several corrections to the Spatial package, when writing to XML. Thanks
-    to Kaito Ii for reporting the errors.
+  - Several corrections to the Spatial package, when writing to XML. Thanks to Kaito Ii for reporting the errors.
 
 
 ===========================================================================
@@ -31,95 +29,52 @@ Version 1.2-beta1 (26-10-2016)
 
   - Added the ASTNodePlugin interface so that ASTNode can have plugins.
   
-  - Added new initDefaults method in most SBase based classes with an
-    additional Boolean flag 'explicit' as parameter. This allows, for
-    example, setting the SBML Level 2 default in an SBML Level 3 class.
-    If the explicit boolean is set to true, the default values will be
-    written to XML.
+  - Added new initDefaults method in most SBase based classes with an additional Boolean flag 'explicit' as parameter. This allows, for example, setting the SBML Level 2 default in an SBML Level 3 class. If the explicit boolean is set to true, the default values will be written to XML.
 
-  - JSBML now tries to retain any unknown XML elements encountered while
-    reading an XML source. This makes it possible to write them back,
-    and users can also access them through a user object XMLNode.
-  
-  - Added a static function parseMathML() in ASTNode to make the function
-    easier to find. Thanks to Jason Zwolak who suggested it.
-  
-  - Added two methods, hasTerm(int) and hasTerm(String), in SBO to allow
-    users to safely check if a term can be retrieved for a given SBO
-    identifier without having to catch a NoSuchElementException.
-  
-  - Updated the implementation of the SBML Level 3 Groups package to the
-    final Version 1, Release 1 specification.
-
-  - Integrated a draft version of an offline SBML validation system that
-    was begun during GSOC 2016 by Roman Schulte. The current version
-    should only be used for testing; it is not complete and should not
-    yet be used in production.
+  - JSBML now tries to retain any unknown XML elements encountered while reading an XML source. This makes it possible to write them back, and users can also access them through a user object XMLNode.
     
-  - The toString() methods of most classes have been replaced by a generic 
-    method so you might find some changes. Please don't hesitate to provide
-    us with feedback about this change. 
+  - Added a static function parseMathML() in ASTNode to make the function easier to find. Thanks to Jason Zwolak who suggested it.
   
-  - We deprecated the Model.getInitialAssignment() and Model.getRule() methods
-    because they have been made ambiguous by the introduction of an id on
-    SBase in SBML L3V2. The JSBML JavaDoc will point you to the replacement
-    methods. The new method names make it explicit what is used to retrieve
-    the element, for example 'Model.getRuleByVariable()'.
+  - Added two methods, hasTerm(int) and hasTerm(String), in SBO to allow users to safely check if a term can be retrieved for a given SBO identifier without having to catch a NoSuchElementException.
   
-  - We introduced a new class, UniqueSId, to help recognize any class that
-    must have a unique SId in the whole Model. This class replaced
-    UniqueNamedSBase which was not change and can help recognize any class
-    that must have a unique SId in the whole Model before SBML L3V2. The
-    same applies to SBase and NamedSBase, every SBase have now an id and a
-    name and the NamedSBase class only apply to elements that had an id and
-    a name before SBML L3V2.
+  - Updated the implementation of the SBML Level 3 Groups package to the final Version 1, Release 1 specification.
+
+  - Integrated a draft version of an offline SBML validation system that was begun during GSOC 2016 by Roman Schulte. The current version should only be used for testing; it is not complete and should not yet be used in production.
+    
+  - The toString() methods of most classes have been replaced by a generic method so you might find some changes. Please don't hesitate to provide us with feedback about this change. 
+  
+  - We deprecated the Model.getInitialAssignment() and Model.getRule() methods because they have been made ambiguous by the introduction of an id on SBase in SBML L3V2. The JSBML JavaDoc will point you to the replacement methods. The new method names make it explicit what is used to retrieve the element, for example 'Model.getRuleByVariable()'.
+  
+  - We introduced a new class, UniqueSId, to help recognize any class that must have a unique SId in the whole Model. This class replaced UniqueNamedSBase which was not change and can help recognize any class that must have a unique SId in the whole Model before SBML L3V2. The same applies to SBase and NamedSBase, every SBase have now an id and a name and the NamedSBase class only apply to elements that had an id and a name before SBML L3V2.
   
   
  * Bug Fixes:
 
-  - A whole SBMLDocument was not serializable because a few classes did
-    not implement the Serializable class. This should be fixed
-    now. Thanks to Jens Einloft who reported the problem.
+  - A whole SBMLDocument was not serializable because a few classes did not implement the Serializable class. This should be fixed now. Thanks to Jens Einloft who reported the problem.
 
-  - Fixed the SBMLReader class to make sure the UTF-8 encoding was used
-    when reading an SBML model from a String. Thanks to Matthias König who
-    reported this problem.
+  - Fixed the SBMLReader class to make sure the UTF-8 encoding was used when reading an SBML model from a String. Thanks to Matthias König who reported this problem.
     
-  - Corrected an encoding problem in the tidy SBML writer that happened
-    when the default JVM encoding was not UTF-8.
+  - Corrected an encoding problem in the tidy SBML writer that happened when the default JVM encoding was not UTF-8.
   
-  - Several improvements were made to the infix formula reading/writing.
-    Thanks to Miguel de Alba who reported some problem and the libSBML team
-    who provided a large set of test cases.
+  - Several improvements were made to the infix formula reading/writing. Thanks to Miguel de Alba who reported some problem and the libSBML team who provided a large set of test cases.
 
-  - When writing a 'sbml:units' attribute on MathML <cn> elements for real
-    numbers with e-notation, the XML tag <cn> was closed before the
-    attribute was written. Thanks to Matthias König who reported this
-    problem.  
+  - When writing a 'sbml:units' attribute on MathML <cn> elements for real numbers with e-notation, the XML tag <cn> was closed before the attribute was written. Thanks to Matthias König who reported this problem.  
   
-  - The clone constructor for SBaseRef was not cloning properly its child
-    SBaseRef.
+  - The clone constructor for SBaseRef was not cloning properly its child SBaseRef.
 
-  - The equals method of ASTNode was failing when one of the double values
-    was set to NaN.
+  - The equals method of ASTNode was failing when one of the double values was set to NaN.
   
-  - Corrected the 'metaid' attribute value pattern; it did not include
-    the colon character.
+  - Corrected the 'metaid' attribute value pattern; it did not include the colon character.
   
-  - Corrected the FBCModelPlugin clone constructor so that it properly
-    cloned the 'strict' attribute.
+  - Corrected the FBCModelPlugin clone constructor so that it properly cloned the 'strict' attribute.
 
-  - Corrected the Boundary and SampledFieldGeometry clone constructor.
-    Thanks to Kaito Ii who reported the problem.
+  - Corrected the Boundary and SampledFieldGeometry clone constructor. Thanks to Kaito Ii who reported the problem.
 
-  - Corrected several potential NullPointerExceptions that could occur
-    during the cloning of an SBMLDocument that contain plugins.
+  - Corrected several potential NullPointerExceptions that could occur during the cloning of an SBMLDocument that contain plugins.
+    
+  - Corrected a potential NullPointerException in the TreeNodeAdapter(Object, TreeNode) constructor.
   
-  - Corrected a potential NullPointerException in the 
-    TreeNodeAdapter(Object, TreeNode) constructor.
-  
-  - Corrected the number returned by ASTNode.getReal() in the case of 
-    REAL_E, when the mantissa is NaN or infinity.  
+  - Corrected the number returned by ASTNode.getReal() in the case of REAL_E, when the mantissa is NaN or infinity.  
 
 
 ===========================================================================
