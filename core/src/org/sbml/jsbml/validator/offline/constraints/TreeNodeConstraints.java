@@ -25,7 +25,10 @@ import java.util.Set;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.ASTNodePlugin;
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
@@ -42,6 +45,9 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
    * Log4j logger
    */
   protected static final transient Logger logger = Logger.getLogger(TreeNodeConstraints.class);
+  /**
+   * 
+   */
   protected static final boolean isDebugEnabled = logger.isDebugEnabled();
   
   @Override
@@ -101,7 +107,44 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
 
           }
           
-          // TODO - go through the SBasePlugins
+          // going through the SBasePlugins
+          if (t instanceof SBase) {
+            SBase sbase = (SBase) t;
+            
+            if (sbase.getNumPlugins() > 0) {
+              for (SBasePlugin sbasePlugin : sbase.getExtensionPackages().values()) {
+
+                if (isDebugEnabled) {
+                  logger.debug("Child '" + sbasePlugin.getClass().getSimpleName() + "'");
+                  logger.debug("Child = '" + sbasePlugin + "'");
+                }
+
+                if (sbasePlugin != null) {
+                  ctx.loadConstraints(sbasePlugin.getClass());
+                  success = ctx.validate(sbasePlugin, false) && success;
+                }
+              }
+            }
+          }
+          // going through the ASTNodePlugins
+          if (t instanceof ASTNode) {
+            ASTNode astnode = (ASTNode) t;
+            
+            if (astnode.getNumPlugins() > 0) {
+              for (ASTNodePlugin astnodePlugin : astnode.getExtensionPackages().values()) {
+
+                if (isDebugEnabled) {
+                  logger.debug("Child '" + astnodePlugin.getClass().getSimpleName() + "'");
+                  logger.debug("Child = '" + astnodePlugin + "'");
+                }
+
+                if (astnodePlugin != null) {
+                  ctx.loadConstraints(astnodePlugin.getClass());
+                  success = ctx.validate(astnodePlugin, false) && success;
+                }
+              }
+            }
+          }
 
           ctx.setRootConstraint(root, type);
 
