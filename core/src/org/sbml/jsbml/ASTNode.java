@@ -36,6 +36,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.ASTNodePlugin;
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.text.parser.FormulaParser;
@@ -52,6 +53,7 @@ import org.sbml.jsbml.util.compilers.LaTeXCompiler;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.compilers.UnitsCompiler;
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.PackageParser;
 import org.sbml.jsbml.xml.parsers.ParserManager;
@@ -4970,6 +4972,17 @@ public class ASTNode extends AbstractTreeNode {
    */
   public void unsetPlugin(String nameOrUri) {
     unsetExtension(nameOrUri);
+  }
+
+  /**
+   * Returns the map containing all the {@link ASTNodePlugin} extension objects
+   * of this {@link ASTNode}.
+   * 
+   * @return the map containing all the {@link ASTNodePlugin} extension objects
+   * of this {@link ASTNode}.
+   */
+  public Map<String, ASTNodePlugin> getExtensionPackages() {
+    return plugins;
   }
 
 }
