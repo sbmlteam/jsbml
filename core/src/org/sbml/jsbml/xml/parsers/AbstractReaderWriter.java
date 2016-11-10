@@ -429,8 +429,6 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
    */
   protected Object createListOfChild(ListOf<?> listOf, String elementName) {
 
-    System.out.println("createListOfChild - listOf = " + listOf.getElementName());
-    
     Object parentSBase = listOf.getParent();
     SBasePlugin parentPlugin = null;
 
@@ -438,8 +436,6 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
       return null;
     }
     parentPlugin = ((SBase) parentSBase).getExtension(getNamespaceURI());
-
-    System.out.println("createListOfChild - parentSBase = " + parentSBase + ", plugin = " + parentPlugin);
 
     if (parentPlugin != null) {
       parentSBase = parentPlugin;
