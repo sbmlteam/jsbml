@@ -368,7 +368,9 @@ public class SpeciesFeature extends AbstractNamedSBase implements ListOfSpeciesF
    *         {@link #listOfSpeciesFeatureValues}
    */
   public SpeciesFeatureValue createSpeciesFeatureValue() {
-    return createSpeciesFeatureValue();
+    SpeciesFeatureValue sfv = new SpeciesFeatureValue();
+    addSpeciesFeatureValue(sfv);
+    return sfv;
   }
 
 
