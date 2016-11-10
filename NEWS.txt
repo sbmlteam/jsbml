@@ -2,6 +2,22 @@
 
 
 ===========================================================================
+Version 1.2 (XX-XX-201X)
+===========================================================================
+
+ * New Features:
+
+  - Updated the implementation of the SBML Level 3 Multi package to the
+    Version 1.0.7 specification (August 2016).
+
+
+ * Bug Fixes:
+
+  - Several corrections to the Spatial package, when writing to XML. Thanks
+    to Kaito Ii for reporting the errors.
+
+
+===========================================================================
 Version 1.2-beta1 (26-10-2016)
 ===========================================================================
 
