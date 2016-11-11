@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,6 +22,8 @@ package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Abstract super class for all kinds of glyphs that graphically represent an
@@ -30,7 +31,6 @@ import org.sbml.jsbml.NamedSBase;
  * 
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public abstract class AbstractReferenceGlyph extends GraphicalObject {
 
@@ -46,24 +46,26 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
   private String reference;
 
   /**
-   * 
+   * Creates a new instance of {@link AbstractReferenceGlyph}.
    */
   public AbstractReferenceGlyph() {
     super();
   }
 
   /**
+   * Creates a new instance of {@link AbstractReferenceGlyph}.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public AbstractReferenceGlyph(int level, int version) {
     super(level, version);
   }
 
   /**
+   * Creates a new instance of {@link AbstractReferenceGlyph} from the given glyph.
    * 
-   * @param glyph
+   * @param glyph the glyph to clone.
    */
   public AbstractReferenceGlyph(AbstractReferenceGlyph glyph) {
     super(glyph);
@@ -73,17 +75,20 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
   }
 
   /**
-   * @param id
+   * Creates a new instance of {@link AbstractReferenceGlyph}.
+   * 
+   * @param id the id
    */
   public AbstractReferenceGlyph(String id) {
     super(id);
   }
 
   /**
+   * Creates a new instance of {@link AbstractReferenceGlyph}.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public AbstractReferenceGlyph(String id, int level, int version) {
     super(id, level, version);
@@ -112,16 +117,28 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
   }
 
   /**
+   * Gets the reference.
    * 
-   * @return
+   * <p>This attribute is used to store all the references from the different glyphs, meaning the 'compartment' for {@link CompartmentGlyph},
+   * the 'species' for {@link SpeciesGlyph}, the 'reaction' for {@link ReactionGlyph} amd the 'reference' for {@link GeneralGlyph}.</p>
+   * 
+   * <p>The optional reference attribute of type SIdRef that can be used to specify the id of the corresponding element
+   * in the model that is represented.<br/>
+   * If the reference attribute is used together with the metaidRef, they need to refer to the same object in the Model.</p>
+
+   * @return the reference.
    */
   public String getReference() {
     return isSetReference() ? reference : "";
   }
 
   /**
+   * Gets the {@link NamedSBase} instance corresponding to the reference id.
    * 
-   * @return
+   * <p>Careful if you want to support SBML L3V2, you should use {@link #getSBaseInstance()}.
+   * This method might be deprecated in future JSBML releases.</p>
+   * 
+   * @return the {@link NamedSBase} instance corresponding to the reference id.
    */
   public NamedSBase getReferenceInstance() {
     Model model = getModel();
@@ -129,9 +146,23 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
   }
 
   /**
+   * Gets the {@link SBase} instance corresponding to the reference id.
    * 
-   * @return
-   * @see #getReferenceInstance()
+   * @return the {@link SBase} instance corresponding to the reference id.
+   */
+  public SBase getSBaseInstance() {
+    Model model = getModel();
+    return isSetReference() && (model != null) ? model.findUniqueSBase(getReference()) : null;
+  }
+  
+  /**
+   * Gets the {@link NamedSBase} instance corresponding to the reference id.
+   * 
+   * <p>Careful if you want to support SBML L3V2, you should use {@link #getSBaseInstance()}.
+   * This method might be deprecated in future JSBML releases.</p>
+   * 
+   * @return the {@link NamedSBase} instance corresponding to the reference id.
+   * @see #getSBaseInstance()
    */
   public NamedSBase getNamedSBaseInstance() {
     return getReferenceInstance();
@@ -149,23 +180,38 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
   }
 
   /**
+   * Returns {@code true} if the reference attribute is not null and not empty.
    * 
-   * @return
+   * @return {@code true} if the reference attribute is set.
    */
   public boolean isSetReference() {
     return (reference != null) && (reference.length() > 0);
   }
 
   /**
+   * Sets the reference based on the id of the given {@link NamedSBase}.
    * 
-   * @param namedSBase
+   * @param namedSBase the {@link NamedSBase} to set as reference for this glyph.
+   * @see #setReference(String)
    */
   public void setNamedSBase(NamedSBase namedSBase) {
     setReference(namedSBase.getId());
   }
 
   /**
-   * @param sbase
+   * Sets the reference based on the id of the given {@link SBase}.
+   * 
+   * @param sbase the {@link SBase} to set as reference for this glyph.
+   * @see #setReference(String)
+   */
+  public void setSBase(SBase sbase) {
+    setReference(sbase.getId());
+  }
+  
+  /**
+   * Sets the reference.
+   * 
+   * @param sbase the id of an {@link SBase}.
    * @return {@code true} if this operation caused any change.
    */
   public boolean setReference(String sbase) {
@@ -176,8 +222,8 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
    * Sets the reference object to which the id sbase refers to. The type defines the category
    * that changed for the {@link TreeNodeChangeEvent}.
    * 
-   * @param sbase
-   * @param type
+   * @param sbase the id of an {@link SBase}.
+   * @param type the type of reference,can be 'compartment', 'species', 'reaction' or 'reference'.
    * @return {@code true} if this operation caused any change.
    */
   boolean setReference(String sbase, String type) {
@@ -191,6 +237,8 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
   }
 
   /**
+   * Unsets the reference.
+   * 
    * @return {@code true} if this operation caused any change.
    */
   public boolean unsetReference() {

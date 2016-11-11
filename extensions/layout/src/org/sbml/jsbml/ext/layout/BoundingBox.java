@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -41,7 +40,6 @@ import org.sbml.jsbml.util.ResourceManager;
  * @author Andreas Dr&auml;ger
  * @author Clemens Wrzodek
  * @since 1.0
- * @version $Rev$
  */
 public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase {
 
@@ -66,7 +64,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   private Point position;
 
   /**
-   * 
+   * Creates a new instance of {@link BoundingBox}. 
    */
   public BoundingBox() {
     super();
@@ -74,8 +72,9 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
+   * Creates a new instance of {@link BoundingBox}.
    * 
-   * @param boundingBox
+   * @param boundingBox the {@link BoundingBox} to clone.
    */
   public BoundingBox(BoundingBox boundingBox) {
     super(boundingBox);
@@ -88,9 +87,10 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
+   * Creates a new instance of {@link BoundingBox}.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public BoundingBox(int level, int version) {
     super(level, version);
@@ -98,8 +98,9 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
+   * Creates a new instance of {@link BoundingBox}.
    * 
-   * @param id
+   * @param id the id
    */
   public BoundingBox(String id) {
     super(id);
@@ -107,10 +108,11 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
+   * Creates a new instance of {@link BoundingBox}.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public BoundingBox(String id, int level, int version) {
     super(id, level, version);
@@ -139,6 +141,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   /**
    * Creates, sets and returns {@link Dimensions} based on the
    * given values.
+   * 
    * @param width
    * @param height
    * @param depth
@@ -164,6 +167,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   /**
    * Creates, sets and returns a {@link Point} based on the
    * given values.
+   * 
    * @param x
    * @param y
    * @param z
@@ -306,8 +310,10 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
-   * The dimensions element is required and of type {@link Dimensions}. It represents
-   * the size of the {@link BoundingBox}.
+   * Sets the {@link Dimensions}.
+   * 
+   * <p>The dimensions element is required and of type {@link Dimensions}. It represents
+   * the size of the {@link BoundingBox}.</p>
    * 
    * @param dimensions
    */
@@ -323,8 +329,11 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
 
 
   /**
-   * Position always specifies the upper left corner of the {@link BoundingBox}.
-   * The position is of type {@link Point}.
+   * Sets the position.
+   * 
+   * <p>Position always specifies the upper left corner of the {@link BoundingBox}.
+   * The position is of type {@link Point}.</p>
+   * 
    * @param point
    */
   public void setPosition(Point point) {

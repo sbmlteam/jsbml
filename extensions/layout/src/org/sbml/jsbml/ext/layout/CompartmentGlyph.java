@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -39,7 +38,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public class CompartmentGlyph extends AbstractReferenceGlyph implements CompartmentalizedSBase {
 
@@ -54,7 +52,7 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
   private Double order;
 
   /**
-   * 
+   * Creates a new instance of {@link CompartmentGlyph}.
    */
   public CompartmentGlyph() {
     super();
@@ -62,8 +60,9 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
   }
 
   /**
+   * Creates a new instance of {@link CompartmentGlyph}.
    * 
-   * @param compartmentGlyph
+   * @param compartmentGlyph the {@link CompartmentGlyph} to clone.
    */
   public CompartmentGlyph(CompartmentGlyph compartmentGlyph) {
     super(compartmentGlyph);
@@ -71,9 +70,10 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
   }
 
   /**
+   * Creates a new instance of {@link CompartmentGlyph}.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public CompartmentGlyph(int level, int version) {
     super(level, version);
@@ -81,8 +81,9 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
   }
 
   /**
+   * Creates a new instance of {@link CompartmentGlyph}.
    * 
-   * @param id
+   * @param id the id
    */
   public CompartmentGlyph(String id) {
     super(id);
@@ -90,10 +91,11 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
   }
 
   /**
+   * Creates a new instance of {@link CompartmentGlyph}.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public CompartmentGlyph(String id, int level, int version) {
     super(id, level, version);
@@ -226,18 +228,21 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
   }
 
   /**
-   * The order attribute is an optional attribute of type {@link Double}. It is there
+   * Sets the oder.
+   * 
+   * <p>The order attribute is an optional attribute of type {@link Double}. It is there
    * to handle the case where compartments in a layout overlap, and tools want to
    * clearly disambiguate which {@link CompartmentGlyph} is on top of the other.
    * The order attribute follows the coordinate system. There are z dimension points
    * into a screen; thus, an element with a <b>lower</b> order value will be <b>in front</b>
    * of an elements with a <b>higher</b> value. If not specified, the order is undefined
    * and tools are free to display the compartment glyphs in the order that best fits their
-   * needs.
+   * needs.</p>
    * 
-   * Note: if z coordinates are used (and this order is seemingly redundant), the order
-   * can still be used to disambiguate drawing order.
-   * @param order
+   * <p>Note: if z coordinates are used (and this order is seemingly redundant), the order
+   * can still be used to disambiguate drawing order.</p>
+   * 
+   * @param order the oder
    */
   public void setOrder(double order) {
     double oldOrder = this.order;

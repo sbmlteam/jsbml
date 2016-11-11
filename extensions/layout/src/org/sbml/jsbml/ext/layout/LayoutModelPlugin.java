@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -40,7 +39,6 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @author Andreas Dr&auml;ger
  * @author Clemens Wrzodek
  * @since 1.0
- * @version $Rev$
  */
 public class LayoutModelPlugin extends AbstractSBasePlugin {
 
@@ -141,6 +139,7 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
     listOfLayouts.setPackageName(null);
     listOfLayouts.setPackageName(LayoutConstants.shortLabel);
     listOfLayouts.setSBaseListType(ListOf.Type.other);
+    listOfLayouts.setOtherListName(LayoutConstants.listOfLayouts);
 
     if (isSetExtendedSBase()) {
       getExtendedSBase().registerChild(listOfLayouts);
@@ -332,6 +331,7 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
       listOfLayouts.setPackageName(null);
       listOfLayouts.setPackageName(LayoutConstants.shortLabel);
       listOfLayouts.setSBaseListType(ListOf.Type.other);
+      listOfLayouts.setOtherListName(LayoutConstants.listOfLayouts);
     }
 
     if (isSetExtendedSBase()) {
