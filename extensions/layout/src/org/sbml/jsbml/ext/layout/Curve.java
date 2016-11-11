@@ -242,6 +242,7 @@ public class Curve extends AbstractNamedSBase {
       listOfCurveSegments.setPackageName(null);
       listOfCurveSegments.setPackageName(LayoutConstants.shortLabel);
       listOfCurveSegments.setSBaseListType(ListOf.Type.other);
+      listOfCurveSegments.setOtherListName(LayoutConstants.listOfCurveSegments);
 
       registerChild(listOfCurveSegments);
     }
@@ -311,7 +312,7 @@ public class Curve extends AbstractNamedSBase {
       listOfCurveSegments.setPackageName(null);
       listOfCurveSegments.setPackageName(LayoutConstants.shortLabel);
       listOfCurveSegments.setSBaseListType(ListOf.Type.other);
-
+      listOfCurveSegments.setOtherListName(LayoutConstants.listOfCurveSegments);
     }
     registerChild(this.listOfCurveSegments);
   }
