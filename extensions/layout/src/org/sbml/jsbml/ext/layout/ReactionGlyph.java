@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -44,7 +43,6 @@ import org.sbml.jsbml.Reaction;
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public class ReactionGlyph extends AbstractReferenceGlyph {
 
@@ -278,6 +276,8 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
       listOfSpeciesReferencesGlyphs.setPackageName(null);
       listOfSpeciesReferencesGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfSpeciesReferencesGlyphs.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesReferencesGlyphs.setOtherListName(LayoutConstants.listOfSpeciesReferencesGlyphs);
+      
       registerChild(listOfSpeciesReferencesGlyphs);
     }
     return listOfSpeciesReferencesGlyphs;

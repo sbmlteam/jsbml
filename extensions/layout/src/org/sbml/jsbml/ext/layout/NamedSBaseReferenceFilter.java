@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,9 +34,7 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
  * {@link NamedSBase}.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2012-04-23
  * @since 1.0
- * @version $Rev$
  */
 public class NamedSBaseReferenceFilter extends NameFilter {
 

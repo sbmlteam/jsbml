@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -56,7 +55,6 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Andreas Dr&auml;ger
  * @author Clemens Wrzodek
  * @since 1.0
- * @version $Rev$
  */
 public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 
@@ -704,12 +702,14 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public ListOf<GraphicalObject> getListOfAdditionalGraphicalObjects() {
     if (!isSetListOfAdditionalGraphicalObjects()) {
-      listOfAdditionalGraphicalObjects = new ListOfWithName<GraphicalObject>(LayoutConstants.listOfAdditionalGraphicalObjects);
+      listOfAdditionalGraphicalObjects = new ListOf<GraphicalObject>();
       listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
       listOfAdditionalGraphicalObjects.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
       listOfAdditionalGraphicalObjects.setPackageName(null);
       listOfAdditionalGraphicalObjects.setPackageName(LayoutConstants.shortLabel);
+      listOfAdditionalGraphicalObjects.setOtherListName(LayoutConstants.listOfAdditionalGraphicalObjects);
+      
       registerChild(listOfAdditionalGraphicalObjects);
     }
     return listOfAdditionalGraphicalObjects;
@@ -727,6 +727,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       // changing the ListOf package name from 'core' to 'layout'
       listOfCompartmentGlyphs.setPackageName(null);
       listOfCompartmentGlyphs.setPackageName(LayoutConstants.shortLabel);
+      listOfCompartmentGlyphs.setOtherListName(LayoutConstants.listOfCompartmentGlyphs);
+      
       registerChild(listOfCompartmentGlyphs);
     }
     return listOfCompartmentGlyphs;
@@ -744,6 +746,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       // changing the ListOf package name from 'core' to 'layout'
       listOfReactionGlyphs.setPackageName(null);
       listOfReactionGlyphs.setPackageName(LayoutConstants.shortLabel);
+      listOfReactionGlyphs.setOtherListName(LayoutConstants.listOfReactionGlyphs);
+      
       registerChild(listOfReactionGlyphs);
     }
     return listOfReactionGlyphs;
@@ -761,6 +765,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       // changing the ListOf package name from 'core' to 'layout'
       listOfSpeciesGlyphs.setPackageName(null);
       listOfSpeciesGlyphs.setPackageName(LayoutConstants.shortLabel);
+      listOfSpeciesGlyphs.setOtherListName(LayoutConstants.listOfSpeciesGlyphs);
+      
       registerChild(listOfSpeciesGlyphs);
     }
     return listOfSpeciesGlyphs;
@@ -778,6 +784,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       // changing the ListOf package name from 'core' to 'layout'
       listOfTextGlyphs.setPackageName(null);
       listOfTextGlyphs.setPackageName(LayoutConstants.shortLabel);
+      listOfTextGlyphs.setOtherListName(LayoutConstants.listOfTextGlyphs);
+      
       registerChild(listOfTextGlyphs);
     }
     return listOfTextGlyphs;
@@ -1309,20 +1317,22 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 
 
   /**
-   * This element is optional. If set, this list cannot be empty. Most objects for
+   * Sets the {@link #listOfAdditionalGraphicalObjects}.
+   * 
+   * <p>This element is optional. If set, this list cannot be empty. Most objects for
    * which layout information is to be included in an SBML file have a corresponding
    * object in {@link org.sbml.jsbml.Model}. As there might be cases where the user wants to
    * include object types in the layout that do fall in any of the other categories
    * described below, we include a listOfAdditionalGraphicalObjects in each {@link Layout}
    * object. This list holds an arbitrary number of {@link GraphicalObject} elements.
    * The {@link GraphicalObject} only defines a bounding box in a specific place in the
-   * {@link Layout} without giving additional information about its contents.
+   * {@link Layout} without giving additional information about its contents.</p>
    * 
-   * The listOfAdditionalGraphicalObjects, when present, must contain one or more of the
+   * <p>The listOfAdditionalGraphicalObjects, when present, must contain one or more of the
    * following elements: {@link GraphicalObject} or {@link GeneralGlyph}. When using a
    * {@link GraphicalObject} it is recommended that some form of meta-information is provided.
    * For additional relationships such as SBML events or rules, the {@link GeneralGlyph} can
-   * be used.
+   * be used.</p>
    * 
    * @param additionalGraphicalObjects
    */
@@ -1331,34 +1341,16 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     unsetListOfAdditionalGraphicalObjects();
 
     if (additionalGraphicalObjects != null) {
-      boolean registerDone = false;
+      listOfAdditionalGraphicalObjects = additionalGraphicalObjects;
 
-      // in case, the ListOf was created by hand by a user without the proper class, we need to make a copy of the list
-      if ((! (additionalGraphicalObjects instanceof ListOfWithName<?>))
-          || (! additionalGraphicalObjects.getElementName().equals(LayoutConstants.listOfAdditionalGraphicalObjects)))
-      {
-        listOfAdditionalGraphicalObjects = getListOfAdditionalGraphicalObjects(); // initializing a new ListOfWithName with the proper settings
-        registerDone = true;
+      listOfAdditionalGraphicalObjects.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfAdditionalGraphicalObjects.setPackageName(null);
+      listOfAdditionalGraphicalObjects.setPackageName(LayoutConstants.shortLabel);
+      listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
+      listOfAdditionalGraphicalObjects.setOtherListName(LayoutConstants.listOfAdditionalGraphicalObjects);
 
-        // Need to reset the parent of all the given list to prevent warning when we add them to the real new list
-        for (GraphicalObject go : additionalGraphicalObjects) {
-          go.setParent(null);
-        }
-
-        // now adding all the cloned GraphicalObject to the real new list
-        listOfAdditionalGraphicalObjects.addAll(additionalGraphicalObjects);
-      }
-
-      if (!registerDone) {
-        listOfAdditionalGraphicalObjects = additionalGraphicalObjects;
-
-        listOfAdditionalGraphicalObjects.setPackageVersion(-1);
-        // changing the ListOf package name from 'core' to 'layout'
-        listOfAdditionalGraphicalObjects.setPackageName(null);
-        listOfAdditionalGraphicalObjects.setPackageName(LayoutConstants.shortLabel);
-        listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
-        registerChild(listOfAdditionalGraphicalObjects);
-      }
+      registerChild(listOfAdditionalGraphicalObjects);
     }
   }
 
@@ -1379,6 +1371,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfCompartmentGlyphs.setPackageName(null);
       listOfCompartmentGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
+      listOfCompartmentGlyphs.setOtherListName(LayoutConstants.listOfCompartmentGlyphs);
       registerChild(listOfCompartmentGlyphs);
     }
 
@@ -1400,6 +1393,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfReactionGlyphs.setPackageName(null);
       listOfReactionGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
+      listOfReactionGlyphs.setOtherListName(LayoutConstants.listOfReactionGlyphs);
       registerChild(listOfReactionGlyphs);
     }
   }
@@ -1421,6 +1415,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfSpeciesGlyphs.setPackageName(null);
       listOfSpeciesGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesGlyphs.setOtherListName(LayoutConstants.listOfSpeciesGlyphs);
       registerChild(listOfSpeciesGlyphs);
     }
   }
@@ -1441,6 +1436,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfTextGlyphs.setPackageName(null);
       listOfTextGlyphs.setPackageName(LayoutConstants.shortLabel);
       listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
+      listOfTextGlyphs.setOtherListName(LayoutConstants.listOfTextGlyphs);
       registerChild(listOfTextGlyphs);
     }
   }

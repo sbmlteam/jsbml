@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -27,8 +26,6 @@ import java.util.List;
 /**
  * Contains some constants related to the layout package.
  * 
- * @author
- * @version $Rev$
  * @since 1.0
  */
 public class LayoutConstants {
@@ -302,6 +299,11 @@ public class LayoutConstants {
    * 
    */
   public static final String type = "type";
+
+  /**
+   * 
+   */
+  public static final String listOfSpeciesReferencesGlyphs = "listOfSpeciesReferencesGlyphs";
 
   /**
    * 
