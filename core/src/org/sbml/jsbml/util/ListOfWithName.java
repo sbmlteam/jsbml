@@ -28,6 +28,7 @@ import org.sbml.jsbml.SBase;
  * @author Nicolas Rodriguez
  * @since 1.0
  * @param <T> the type of element this ListOf will contain
+ * @deprecated since JSBML 1.2 and the introduction of {@link ListOf#setOtherListName(String)}, this class is not necessary any more.
  */
 public class ListOfWithName<T extends SBase> extends ListOf<T> {
 
