@@ -59,8 +59,7 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
    */
   public ListOfMemberConstraint() {
     super();
-    setPackageVersion(-1);
-    packageName = GroupsConstants.shortLabel;
+    initDefaults();
   }
 
   /**
@@ -69,8 +68,7 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
    */
   public ListOfMemberConstraint(int level, int version) {
     super(level, version);
-    setPackageVersion(-1);
-    packageName = GroupsConstants.shortLabel;
+    initDefaults();
   }
 
   /**
@@ -84,6 +82,15 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
     }
   }
 
+  /**
+   * 
+   */
+  public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = GroupsConstants.shortLabel;
+    setOtherListName(GroupsConstants.listOfMemberConstraints);
+    setSBaseListType(ListOf.Type.other);
+  }
 
 
   /* (non-Javadoc)

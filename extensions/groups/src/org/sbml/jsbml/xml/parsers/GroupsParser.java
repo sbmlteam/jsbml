@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -47,8 +46,8 @@ import org.sbml.jsbml.ext.groups.MemberConstraint;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
+@SuppressWarnings("deprecation")
 @ProviderFor(ReadingParser.class)
 public class GroupsParser extends AbstractReaderWriter implements PackageParser {
 
