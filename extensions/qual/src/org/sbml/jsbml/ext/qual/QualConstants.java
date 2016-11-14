@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,9 +34,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * Contains some constants related to the qual package.
  * 
  * @author Finja B&uuml;chel
- * @version $Rev$
  * @since 1.0
- * @date $Date$
  */
 public class QualConstants  extends PropertyChangeEvent {
 
@@ -125,6 +122,31 @@ public class QualConstants  extends PropertyChangeEvent {
    * 
    */
   public static final String packageName = "Qualitative";
+
+  /**
+   * 
+   */
+  public static final String listOfFunctionTerms = "listOfFunctionTerms";
+
+  /**
+   * 
+   */
+  public static final String listOfInputs = "listOfInputs";
+
+  /**
+   * 
+   */
+  public static final String listOfOutputs = "listOfOutputs";
+
+  /**
+   * 
+   */
+  public static final String listOfQualitativeSpecies = "listOfQualitativeSpecies";
+
+  /**
+   * 
+   */
+  public static final String listOfTransitions = "listOfTransitions";
 
 
 
@@ -241,9 +263,11 @@ public class QualConstants  extends PropertyChangeEvent {
   }
 
   /**
-   * @param level
-   * @param version
-   * @return
+   * Returns a namespace URI corresponding to the given level and version.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
+   * @return a namespace URI corresponding to the given level and version.
    */
   public static String getNamespaceURI(int level, int version) {
     return namespaceURI;

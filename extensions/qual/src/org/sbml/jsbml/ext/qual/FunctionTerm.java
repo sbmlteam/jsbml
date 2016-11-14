@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,9 +35,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Florian Mittag
- * @version $Rev$
  * @since 1.0
- * @date $Date$
  */
 public class FunctionTerm extends AbstractMathContainer {
 
@@ -57,7 +54,7 @@ public class FunctionTerm extends AbstractMathContainer {
   private boolean defaultTerm;
 
   /**
-   * Default constructor
+   * Creates a new {@link FunctionTerm} instance.
    * 
    */
   public FunctionTerm() {
@@ -66,9 +63,10 @@ public class FunctionTerm extends AbstractMathContainer {
   }
 
   /**
+   * Creates a new {@link FunctionTerm} instance.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public FunctionTerm(int level, int version) {
     super(level, version);
@@ -76,10 +74,11 @@ public class FunctionTerm extends AbstractMathContainer {
   }
 
   /**
+   * Creates a new {@link FunctionTerm} instance.
    * 
-   * @param math
-   * @param level
-   * @param version
+   * @param math the {@link ASTNode} representing the function.
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public FunctionTerm(ASTNode math, int level, int version) {
     super(math, level, version);
@@ -117,7 +116,7 @@ public class FunctionTerm extends AbstractMathContainer {
   }
 
   /**
-   * Return false, resultLevel is not mandatory.
+   * Returns false, resultLevel is not mandatory.
    * 
    * @return false
    */
@@ -139,7 +138,7 @@ public class FunctionTerm extends AbstractMathContainer {
    * Exception.
    * 
    * @return the resultLevel if it is set.
-   * @throws PropertyUndefinedError
+   * @throws PropertyUndefinedError is {@link #isSetResultLevel()} return false.
    */
   public int getResultLevel() {
     if (isSetResultLevel()) {
