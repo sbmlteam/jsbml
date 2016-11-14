@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -42,9 +41,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Florian Mittag
  * @author Clemens Wrzodek
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 16.04.2014
  */
 public class QualModelPlugin extends AbstractSBasePlugin {
 
@@ -358,7 +355,8 @@ public class QualModelPlugin extends AbstractSBasePlugin {
       listOfQualitativeSpecies.setPackageName(null);
       listOfQualitativeSpecies.setPackageName(QualConstants.shortLabel);
       listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
-
+      listOfQualitativeSpecies.setOtherListName(QualConstants.listOfQualitativeSpecies);
+      
       if (isSetExtendedSBase()) {
         getModel().registerChild(listOfQualitativeSpecies);
       }
@@ -377,6 +375,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
       listOfTransitions.setPackageName(null);
       listOfTransitions.setPackageName(QualConstants.shortLabel);
       listOfTransitions.setSBaseListType(ListOf.Type.other);
+      listOfTransitions.setOtherListName(QualConstants.listOfTransitions);
 
       if (isSetExtendedSBase()) {
         getModel().registerChild(listOfTransitions);
@@ -584,6 +583,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
       listOfQualitativeSpecies.setPackageName(null);
       listOfQualitativeSpecies.setPackageName(QualConstants.shortLabel);      
       listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
+      listOfQualitativeSpecies.setOtherListName(QualConstants.listOfQualitativeSpecies);
     }
     
     if (isSetExtendedSBase()) {
@@ -607,6 +607,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
       listOfTransitions.setPackageName(null);
       listOfTransitions.setPackageName(QualConstants.shortLabel);      
       listOfTransitions.setSBaseListType(ListOf.Type.other);
+      listOfTransitions.setOtherListName(QualConstants.listOfTransitions);
     }
     
     if (isSetExtendedSBase()) {

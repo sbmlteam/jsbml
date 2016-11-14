@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -44,9 +43,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Florian Mittag
- * @version $Rev$
  * @since 1.0
- * @date $Date$
  */
 public class Output extends AbstractNamedSBase implements UniqueNamedSBase, CallableSBase{
 
@@ -68,7 +65,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
   private Integer                outputLevel;
 
   /**
-   * 
+   * Creates a new {@link Output} instance.
    */
   public Output() {
     super();
@@ -76,7 +73,9 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
   }
 
   /**
-   * @param id
+   * Creates a new {@link Output} instance.
+   * 
+   * @param id the id
    */
   public Output(String id) {
     super(id);
@@ -84,18 +83,21 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
   }
 
   /**
-   * @param qualitativeSpecies
-   * @param transitionEffect
+   * Creates a new {@link Output} instance.
+   * 
+   * @param qualitativeSpecies the {@link QualitativeSpecies} linked to this {@link Output}.
+   * @param transitionEffect the transition effect
    */
   public Output(QualitativeSpecies qualitativeSpecies, OutputTransitionEffect transitionEffect) {
     this(null, qualitativeSpecies, transitionEffect);
   }
 
   /**
+   * Creates a new {@link Output} instance.
    * 
-   * @param id
-   * @param qualitativeSpecies
-   * @param transitionEffect
+   * @param id the id
+   * @param qualitativeSpecies the {@link QualitativeSpecies} linked to this {@link Output}.
+   * @param transitionEffect the transition effect
    */
   public Output(String id, QualitativeSpecies qualitativeSpecies, OutputTransitionEffect transitionEffect) {
     this(id);
@@ -104,9 +106,10 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
   }
 
   /**
+   * Creates a new {@link Output} instance.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Output(int level, int version) {
     this(null, null, level, version);
@@ -114,19 +117,23 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
 
 
   /**
-   * @param id
-   * @param level
-   * @param version
+   * Creates a new {@link Output} instance.
+   * 
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Output(String id, int level, int version) {
     this(id, null, level, version);
   }
 
   /**
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * Creates a new {@link Output} instance.
+   * 
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Output(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -138,7 +145,9 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
   }
 
   /**
-   * @param out
+   * Creates a new {@link Output} instance.
+   * 
+   * @param out the {@link Output} instance to be cloned
    */
   public Output(Output out) {
     super(out);
