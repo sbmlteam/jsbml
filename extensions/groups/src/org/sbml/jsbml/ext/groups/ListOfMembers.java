@@ -20,6 +20,8 @@
  */
 package org.sbml.jsbml.ext.groups;
 
+import java.util.Map;
+
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
@@ -41,8 +43,7 @@ public class ListOfMembers extends ListOf<Member> implements NamedSBase, UniqueN
    */
   public ListOfMembers() {
     super();
-    setPackageVersion(-1);
-    packageName = GroupsConstants.shortLabel;
+    initDefaults();
   }
 
   /**
@@ -53,8 +54,7 @@ public class ListOfMembers extends ListOf<Member> implements NamedSBase, UniqueN
    */
   public ListOfMembers(int level, int version) {
     super(level, version);
-    setPackageVersion(-1);
-    packageName = GroupsConstants.shortLabel;
+    initDefaults();
   }
 
   /**
@@ -75,6 +75,16 @@ public class ListOfMembers extends ListOf<Member> implements NamedSBase, UniqueN
     return new ListOfMembers(this);
   }
 
+  /**
+   * 
+   */
+  public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = GroupsConstants.shortLabel;
+    setOtherListName(GroupsConstants.listOfMembers);
+    setSBaseListType(ListOf.Type.other);
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -86,4 +96,24 @@ public class ListOfMembers extends ListOf<Member> implements NamedSBase, UniqueN
     return prime * hashCode;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(GroupsConstants.shortLabel + ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(GroupsConstants.shortLabel + ":name", getName());
+    }
+
+    return attributes;
+  }
+
+  
 }

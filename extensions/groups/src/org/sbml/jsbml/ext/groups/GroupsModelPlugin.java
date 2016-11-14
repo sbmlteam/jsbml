@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,7 +35,6 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Nicolas Rodriguez
  * @author Clemens Wrzodek
  * @since 1.0
- * @version $Rev$
  */
 public class GroupsModelPlugin extends AbstractSBasePlugin {
 
@@ -56,7 +54,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   /**
    * Creates a new {@link GroupsModelPlugin} instance cloned from the given parameter.
    * 
-   * @param groupModelPlugin
+   * @param groupModelPlugin the instance to clone
    */
   public GroupsModelPlugin(GroupsModelPlugin groupModelPlugin) {
     super(groupModelPlugin);
@@ -70,7 +68,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   /**
    * Creates a new {@link GroupsModelPlugin} instance
    * 
-   * @param model
+   * @param model the parent core {@link Model}.
    */
   public GroupsModelPlugin(Model model) {
     super(model);
@@ -226,6 +224,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
       listOfGroups.setPackageName(null);
       listOfGroups.setPackageName(GroupsConstants.shortLabel);
       listOfGroups.setSBaseListType(ListOf.Type.other);
+      listOfGroups.setOtherListName(GroupsConstants.listOfGroups);
 
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfGroups);
@@ -328,6 +327,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
       listOfGroups.setPackageName(null);
       listOfGroups.setPackageName(GroupsConstants.shortLabel);
       listOfGroups.setSBaseListType(ListOf.Type.other);
+      listOfGroups.setOtherListName(GroupsConstants.listOfGroups);
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfGroups);

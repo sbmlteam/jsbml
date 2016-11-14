@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -34,7 +33,6 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @author Nicolas Rodriguez
  * @author Clemens Wrzodek
  * @since 1.0
- * @version $Rev$
  */
 public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
 
@@ -54,7 +52,7 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
   private String metaIdRef;
 
   /**
-   * 
+   * Creates a new {@link Member} instance.
    */
   public Member() {
     super();
@@ -70,17 +68,19 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Member} instance.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Member(int level, int version) {
     super(level, version);
   }
 
   /**
+   * Creates a new {@link Member} instance.
    * 
-   * @param member
+   * @param member the {@link Member} instance to clone
    */
   public Member(Member member) {
     super(member);
@@ -171,7 +171,8 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
 
   /**
    * Sets the value of idRef
-   * @param idRef
+   * 
+   * @param idRef the value of idRef
    */
   public void setIdRef(String idRef) {
     String oldIdRef = this.idRef;
@@ -219,7 +220,8 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
 
   /**
    * Sets the value of metaIdRef
-   * @param metaIdRef
+   * 
+   * @param metaIdRef the value of metaIdRef
    */
   public void setMetaIdRef(String metaIdRef) {
     String oldMetaIdRef = this.metaIdRef;
