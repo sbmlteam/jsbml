@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -27,7 +26,6 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
@@ -38,7 +36,6 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @author Nicolas Rodriguez
  * @author Clemens Wrzodek
  * @since 1.0
- * @version $Rev$
  */
 public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 
@@ -55,7 +52,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
      */
     classification,
     /**
-     * The group represents a collection of parts, and its members have a <i>part-of</i> relationship to the group. For ex-ample,
+     * The group represents a collection of parts, and its members have a <i>part-of</i> relationship to the group. For example,
      * the group could represent a cellular structure, and individual compartments could be made members
      * of the group to indicate they represent subparts of that cellular structure
      */
@@ -90,7 +87,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   // removed as unsupported but could be added again in the future  private ListOfMemberConstraint listOfMemberConstraints = null;
 
   /**
-   * 
+   * Creates a new {@link Group} instance.
    */
   public Group() {
     super();
@@ -98,8 +95,9 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Group} instance from the given Group.
    * 
-   * @param group
+   * @param group the {@link Group} to clone
    */
   public Group(Group group) {
     super(group);
@@ -118,9 +116,10 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Group} instance.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Group(int level, int version) {
     super(level, version);
@@ -308,13 +307,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public ListOfMembers getListOfMembers() {
     if (!isSetListOfMembers()) {
-      listOfMembers = new ListOfMembers();
-      listOfMembers.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'groups'
-      listOfMembers.setPackageName(null);
-      listOfMembers.setPackageName(GroupsConstants.shortLabel);
-      listOfMembers.setSBaseListType(ListOf.Type.other);
-
+      listOfMembers = new ListOfMembers();      
       registerChild(listOfMembers);
     }
 
@@ -344,13 +337,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     this.listOfMembers = listOfMembers;
 
     if (listOfMembers != null) {
-      listOfMembers.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'groups'
-      listOfMembers.setPackageName(null);
-      listOfMembers.setPackageName(GroupsConstants.shortLabel);
-      listOfMembers.setSBaseListType(ListOf.Type.other);
-
-      registerChild(this.listOfMembers);
+      registerChild(listOfMembers);
     }
   }
 
