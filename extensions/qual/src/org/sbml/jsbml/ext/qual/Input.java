@@ -69,7 +69,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
 
 
   /**
-   * 
+   * Creates a new {@link Input} instance.
    */
   public Input() {
     super();
@@ -77,7 +77,9 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
   }
 
   /**
-   * @param id
+   * Creates a new {@link Input} instance.
+   * 
+   * @param id the id to be set.
    */
   public Input(String id) {
     super(id);
@@ -86,10 +88,11 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
 
 
   /**
+   * Creates a new {@link Input} instance.
    * 
-   * @param id
-   * @param qualitativeSpecies
-   * @param transitionEffect
+   * @param id the id to be set.
+   * @param qualitativeSpecies the {@link QualitativeSpecies} that is linked to this {@link Input}.
+   * @param transitionEffect the transition effect.
    */
   public Input(String id, QualitativeSpecies qualitativeSpecies, InputTransitionEffect transitionEffect) {
     this(id);
@@ -98,18 +101,21 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
   }
 
   /**
+   * Creates a new {@link Input} instance.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Input(int level, int version) {
     this(null, null, level, version);
   }
 
   /**
-   * @param id
-   * @param level
-   * @param version
+   * Creates a new {@link Input} instance.
+   * 
+   * @param id the id to be set.
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Input(String id, int level, int version) {
     this(id, null, level, version);
@@ -117,10 +123,12 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
 
 
   /**
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * Creates a new {@link Input} instance.
+   * 
+   * @param id the id to be set.
+   * @param name the name to be set.
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Input(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -132,7 +140,9 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
   }
 
   /**
-   * @param in
+   * Creates a new {@link Input} instance cloned from the given {@link Input}.
+   * 
+   * @param in the {@link Input} instance to clone.
    */
   public Input(Input in) {
     super(in);

@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -43,9 +42,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Clemens Wrzodek
- * @version $Rev$
  * @since 1.0
- * @date $Date$
  */
 public class QualitativeSpecies extends AbstractNamedSBase implements CompartmentalizedSBase, UniqueNamedSBase {
 
@@ -71,7 +68,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
   private Integer maxLevel;
 
   /**
-   * 
+   * Creates a new {@link QualitativeSpecies} instance.
    */
   public QualitativeSpecies() {
     super();
@@ -79,18 +76,22 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
   }
 
   /**
+   * Creates a new {@link QualitativeSpecies} instance.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public QualitativeSpecies(int level, int version) {
     this(null, null, level, version);
   }
 
   /**
-   * Copy constructor that clones all variables of
-   * {@code qualSpecies}.
-   * @param qualSpecies
+   * Creates a new {@link QualitativeSpecies} instance.
+   * 
+   * <p>Copy constructor that clones all variables of
+   * {@code qualSpecies}.</p>
+   *   
+   * @param qualSpecies the {@link QualitativeSpecies} to clone
    */
   public QualitativeSpecies(QualitativeSpecies qualSpecies) {
     super(qualSpecies);
@@ -110,12 +111,15 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
   }
 
   /**
-   * Copy constructor that clones all values from the input
+   * Creates a new {@link QualitativeSpecies} instance.
+   * 
+   * <p>Copy constructor that clones all values from the input
    * {@code species} that are also available in
-   * {@link QualitativeSpecies}.
+   * {@link QualitativeSpecies}.</p>
    * <p>You should consider setting a new id and meta_id afterwards
-   * to avoid duplicate identifiers.
-   * @param species
+   * to avoid duplicate identifiers.</p>
+   * 
+   * @param species the species to be used to initialize the new instance
    */
   public QualitativeSpecies(Species species) {
     super(species);
@@ -134,8 +138,9 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
   }
 
   /**
+   * Creates a new {@link QualitativeSpecies} instance.
    * 
-   * @param id
+   * @param id the id
    */
   public QualitativeSpecies(String id) {
     super(id);
@@ -143,20 +148,23 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
   }
 
   /**
+   * Creates a new {@link QualitativeSpecies} instance.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public QualitativeSpecies(String id, int level, int version) {
     this(id, null, level, version);
   }
 
   /**
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * Creates a new {@link QualitativeSpecies} instance.
+   * 
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public QualitativeSpecies(String id, String name, int level, int version) {
     super(id, name, level, version);

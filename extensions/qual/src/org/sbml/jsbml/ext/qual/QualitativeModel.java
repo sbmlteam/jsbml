@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,9 +27,7 @@ import org.sbml.jsbml.Model;
  * @author Finja B&uuml;chel
  * @author Florian Mittag
  * @author Clemens Wrzodek
- * @version $Rev$
  * @since 1.0
- * @date $Date$
  * @deprecated use {@link QualModelPlugin} instead.
  */
 @Deprecated
@@ -42,8 +39,9 @@ public class QualitativeModel extends QualModelPlugin {
   private static final long serialVersionUID = -2167310699373978921L;
 
   /**
+   * Creates a new QualitativeModel instance.
    * 
-   * @param model
+   * @param model the core model linked to this instance 
    * @deprecated use {@link QualModelPlugin} instead.
    */
   @Deprecated
@@ -52,8 +50,9 @@ public class QualitativeModel extends QualModelPlugin {
   }
 
   /**
+   * Creates a new QualitativeModel instance.
    * 
-   * @param qualitativeModel
+   * @param qualitativeModel the instance to clone
    * @deprecated use {@link QualModelPlugin} instead.
    */
   @Deprecated

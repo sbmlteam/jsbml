@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -26,9 +25,7 @@ package org.sbml.jsbml.ext.qual;
  * system. The possible values are positive, negative, dual and unknown.
  * 
  * @author Finja B&uuml;chel
- * @version $Rev$
  * @since 1.0
- * @date $Date$
  */
 public enum Sign {
   /**

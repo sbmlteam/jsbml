@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -50,9 +49,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Florian Mittag
- * @version $Rev$
  * @since 1.0
- * @date $Date$
  */
 public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
 
@@ -74,7 +71,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   private ListOf<Output>       listOfOutputs;
 
   /**
-   * 
+   * Creates a new {@link Transition} instance.
    */
   public Transition() {
     super();
@@ -82,17 +79,19 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Transition} instance.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Transition(int level, int version) {
     this(null, null, level, version);
   }
 
   /**
+   * Creates a new {@link Transition} instance.
    * 
-   * @param id
+   * @param id the id
    */
   public Transition(String id) {
     super(id);
@@ -100,20 +99,23 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * @param id
-   * @param level
-   * @param version
+   * Creates a new {@link Transition} instance.
+   * 
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Transition(String id, int level, int version) {
     this(id, null, level, version);
   }
 
   /**
+   * Creates a new {@link Transition} instance.
    * 
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Transition(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -125,7 +127,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * @param t
+   * Creates a new {@link Transition} instance.
+   * 
+   * @param t the {@link Transition} instance to clone
    */
   public Transition(Transition t) {
     super(t);
@@ -439,7 +443,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfFunctionTerms.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfFunctionTerms.setPackageName(null);
-      listOfFunctionTerms.setPackageName(QualConstants.shortLabel);      
+      listOfFunctionTerms.setPackageName(QualConstants.shortLabel);
+      listOfFunctionTerms.setOtherListName(QualConstants.listOfFunctionTerms);
+      
       registerChild(listOfFunctionTerms);
     }
     return listOfFunctionTerms;
@@ -455,7 +461,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfInputs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfInputs.setPackageName(null);
-      listOfInputs.setPackageName(QualConstants.shortLabel);      
+      listOfInputs.setPackageName(QualConstants.shortLabel);   
+      listOfInputs.setOtherListName(QualConstants.listOfInputs);
+      
       registerChild(listOfInputs);
     }
     return listOfInputs;
@@ -471,7 +479,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfOutputs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
       listOfOutputs.setPackageName(null);
-      listOfOutputs.setPackageName(QualConstants.shortLabel);      
+      listOfOutputs.setPackageName(QualConstants.shortLabel); 
+      listOfOutputs.setOtherListName(QualConstants.listOfOutputs);
+      
       registerChild(listOfOutputs);
     }
     return listOfOutputs;
@@ -671,6 +681,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfFunctionTerms.setPackageName(null);
       listOfFunctionTerms.setPackageName(QualConstants.shortLabel);      
       listOfFunctionTerms.setSBaseListType(ListOf.Type.other);
+      listOfFunctionTerms.setOtherListName(QualConstants.listOfFunctionTerms);
+      
       registerChild(listOfFunctionTerms);
     }
   }
@@ -689,6 +701,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfInputs.setPackageName(null);
       listOfInputs.setPackageName(QualConstants.shortLabel);      
       listOfInputs.setSBaseListType(ListOf.Type.other);
+      listOfInputs.setOtherListName(QualConstants.listOfInputs);
+      
       registerChild(listOfInputs);
     }
   }
@@ -708,6 +722,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfOutputs.setPackageName(null);
       listOfOutputs.setPackageName(QualConstants.shortLabel);      
       listOfOutputs.setSBaseListType(ListOf.Type.other);
+      listOfOutputs.setOtherListName(QualConstants.listOfOutputs);
+      
       registerChild(listOfOutputs);
     }
   }
