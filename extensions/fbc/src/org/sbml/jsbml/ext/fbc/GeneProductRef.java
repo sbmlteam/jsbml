@@ -26,7 +26,9 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
- * Introduced to FBC in version 2.
+ * References a {@link GeneProduct}. 
+ *
+ * <p>Introduced to FBC in version 2.</p>
  * 
  * @author Andreas Dr&auml;ger
  * @since 1.1
@@ -157,8 +159,9 @@ public class GeneProductRef extends AbstractNamedSBase implements Association, U
   }
 
   /**
+   * Returns the {@link GeneProduct} referenced by this {@link GeneProductRef}.
    * 
-   * @return
+   * @return the {@link GeneProduct} instance referenced by this {@link GeneProductRef} or null.
    */
   public GeneProduct getGeneProductInstance() {
     if (isSetGeneProduct()) {
@@ -169,8 +172,9 @@ public class GeneProductRef extends AbstractNamedSBase implements Association, U
   }
 
   /**
-   * 
-   * @return
+   * Returns whether the gene product id is set and this id is a valid {@link GeneProduct} id in this model.
+   *  
+   * @return {@code true} the gene product id is set and this id is a valid {@link GeneProduct} id in this model.
    */
   public boolean isSetGeneProductInstance() {
     return getGeneProductInstance() != null;
@@ -223,7 +227,8 @@ public class GeneProductRef extends AbstractNamedSBase implements Association, U
 
   /**
    * Sets the value of geneProduct
-   * @param geneProduct
+   * 
+   * @param geneProduct the {@link GeneProduct} id
    */
   public void setGeneProduct(String geneProduct) {
     String oldGeneProduct = this.geneProduct;
