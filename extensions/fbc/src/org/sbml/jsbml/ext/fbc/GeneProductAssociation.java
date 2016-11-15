@@ -32,9 +32,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * one gene (or gene product) is present in an association they are written as logical expressions and thereby related
  * to one another using logical ‘and’ and ‘or’ operators.
  *
- * 
- * 
- * Introduced to FBC in version 2.
+ * <p>Introduced to FBC in version 2.</p>
  * 
  * @author Andreas Dr&auml;ger
  * @since 1.1
