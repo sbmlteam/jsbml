@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,37 +24,35 @@ import org.sbml.jsbml.SBase;
 
 /**
  * @author Alex Thomas
- * @version $Rev$
  * @since 1.0
- * @date Jan 17, 2014
  */
 public interface SpatialNamedSBase extends SBase {
 
   /**
-   * Unsets the variable spatialId
+   * Unsets the id
    *
-   * @return {@code true}, if spatialId was set before,
-   *         otherwise {@code false}
+   * @return {@code true}, if id was set before, otherwise {@code false}
    */
   public boolean unsetSpatialId();
 
   /**
-   * Sets the value of spatialId
-   * @param spatialId
+   * Sets the value of the id
+   * 
+   * @param id
    */
-  public void setSpatialId(String spatialId);
+  public void setSpatialId(String id);
 
   /**
-   * Returns whether spatialId is set
+   * Returns whether id is set
    *
-   * @return whether spatialId is set
+   * @return whether id is set
    */
   public boolean isSetSpatialId();
 
   /**
-   * Returns the value of spatialId
+   * Returns the value of the id attribute
    *
-   * @return the value of spatialId
+   * @return the value of id
    */
   public String getSpatialId();
 

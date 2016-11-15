@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,14 +27,12 @@ import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @author Piero Dalle Pezze
  * @since 1.0
- * @version $Rev$
  */
 public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements SpatialNamedSBase {
 
@@ -50,12 +47,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
   private static final long serialVersionUID = -1814806955800042477L;
 
   /**
-   * 
-   */
-  String spatialId;
-
-  /**
-   * 
+   * Creates a new {@link AbstractSpatialNamedSBase} instance.
    */
   public AbstractSpatialNamedSBase() {
     super();
@@ -63,8 +55,10 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
   }
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link AbstractSpatialNamedSBase} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public AbstractSpatialNamedSBase(int level, int version) {
     super(level, version);
@@ -72,35 +66,34 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
   }
 
   /**
-   * @param nse
+   * Creates a new {@link AbstractSpatialNamedSBase} instance.
+   * 
+   * @param nse the instance to be clone.
    */
   public AbstractSpatialNamedSBase(SpatialNamedSBase nse) {
     super(nse);
-    if (nse.isSetSpatialId()) {
-      spatialId = new String(nse.getSpatialId());
-    }
   }
 
   /**
+   * Creates a new {@link AbstractSpatialNamedSBase} instance.
    * 
-   * @param spatialId
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
-  public AbstractSpatialNamedSBase(String spatialId, int level, int version) {
-    super(level,version);
+  public AbstractSpatialNamedSBase(String id, int level, int version) {
+    super(id, level,version);
     initDefaults();
-    this.spatialId = spatialId;
   }
 
   /**
+   * Creates a new {@link AbstractSpatialNamedSBase} instance.
    * 
-   * @param spatialId
+   * @param id the id
    */
-  public AbstractSpatialNamedSBase(String spatialId) {
-    super();
+  public AbstractSpatialNamedSBase(String id) {
+    super(id);
     initDefaults();
-    this.spatialId = spatialId;
   }
 
   @Override
@@ -121,13 +114,6 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
-    if (equal) {
-      SpatialNamedSBase nse = (SpatialNamedSBase) object;
-      equal &= nse.isSetSpatialId() == isSetSpatialId();
-      if (equal && isSetSpatialId()) {
-        equal &= nse.getSpatialId().equals(getSpatialId());
-      }
-    }
     return equal;
   }
 
@@ -136,11 +122,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    */
   @Override
   public int hashCode() {
-    final int prime = 983;
     int hashCode = super.hashCode();
-    if (isSetSpatialId()) {
-      hashCode += prime * getSpatialId().hashCode();
-    }
     return hashCode;
   }
 
@@ -151,11 +133,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    */
   @Override
   public String getSpatialId() {
-    if (isSetSpatialId()) {
-      return spatialId;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.spatialId, this);
+    return getId();
   }
 
 
@@ -165,7 +143,7 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    */
   @Override
   public boolean isSetSpatialId() {
-    return spatialId != null;
+    return isSetId();
   }
 
 
@@ -174,10 +152,8 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    * @see org.sbml.jsbml.ext.spatial.SpatialNamedSBase#setSpatialId(java.lang.String)
    */
   @Override
-  public void setSpatialId(String spatialId) {
-    String oldSpatialId = this.spatialId; // TODO - the IdManager need to be updated
-    this.spatialId = spatialId;
-    firePropertyChange(SpatialConstants.spatialId, oldSpatialId, this.spatialId);
+  public void setSpatialId(String id) {
+    setId(id);
   }
 
 
@@ -187,12 +163,11 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    */
   @Override
   public boolean unsetSpatialId() {
-    if (isSetSpatialId()) {
-      String oldSpatialId = spatialId;
-      spatialId = null;
-      firePropertyChange(SpatialConstants.spatialId, oldSpatialId, spatialId);
+    if (isSetId()) {
+      unsetId();
       return true;
     }
+    
     return false;
   }
 
