@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,7 +28,6 @@ import java.util.List;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 public class FBCConstants {
 
@@ -116,7 +114,7 @@ public class FBCConstants {
   public static final String leftChild = "leftChild";
 
   /**
-   * 
+   * old name of the listOfFluxObjectives.
    */
   public static final String listOfFluxes = "listOfFluxes";
 
@@ -214,6 +212,11 @@ public class FBCConstants {
    */
   public static final String value = "value";
 
+  /**
+   * 
+   */
+  public static final String listOfFluxBounds = "listOfFluxBounds";
+
   static {
     namespaces = new ArrayList<String>();
     namespaces.add(namespaceURI_L3V1V1);
@@ -221,21 +224,23 @@ public class FBCConstants {
   }
 
   /**
+   * Returns a namespace URI corresponding to the given SBML level and version.
    * 
-   * @param level
-   * @param version
-   * @return
+   * @param level the SBML level
+   * @param version the SBML version
+   * @return a namespace URI corresponding to the given SBML level and version.
    */
   public static String getNamespaceURI(int level, int version) {
     return namespaceURI;
   }
 
   /**
+   * Returns a namespace URI corresponding to the given SBML level and version and package version.
    * 
-   * @param level
-   * @param version
-   * @param packageVersion
-   * @return
+   * @param level the SBML level
+   * @param version the SBML version
+   * @param packageVersion the package version
+   * @return a namespace URI corresponding to the given SBML level and version and package version.
    */
   public static String getNamespaceURI(int level, int version, int packageVersion) {
     switch (packageVersion) {

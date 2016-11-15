@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,14 +34,12 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.SyntaxChecker;
 
 /**
- * {@link FBCSpeciesPlugin} is the extended {@link Species} class with the additional
- * attributes charge and chemicalFormula
+ * Extends the SBML core {@link Species} class with the additional
+ * attributes charge and chemicalFormula.
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 02.10.2013
  */
 public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
 
@@ -95,7 +92,8 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public FBCSpeciesPlugin(FBCSpeciesPlugin obj) {
     super(obj);
@@ -111,8 +109,9 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
   }
 
   /**
-   * Creates an FBCSpeciesPlugin instance
-   * @param species
+   * Creates an {@link FBCSpeciesPlugin} instance
+   * 
+   * @param species the core {@link Species} that is extended.
    */
   public FBCSpeciesPlugin(Species species) {
     super(species);
@@ -232,10 +231,13 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
   }
 
   /**
-   * Sets the value of charge. The optional field charge takes an integer indicating
+   * Sets the value of charge. 
+   * 
+   * <p>The optional field charge takes an integer indicating
    * the charge on the species (in terms of electrons, not the SI unit coulombs).
-   * This attribute can be used for charge balancing.
-   * @param charge
+   * <br/>This attribute can be used for charge balancing.</p>
+   * 
+   * @param charge the value of charge. 
    */
   public void setCharge(int charge) {
     int oldCharge = this.charge;
@@ -247,13 +249,14 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
   /**
    * Sets the value of chemicalFormula.
    * 
-   * The format of chemical formula must consist only of atomic names (as  in
+   * <p>The format of chemical formula must consist only of atomic names (as  in
    * the  Periodic  Table) or user defined compounds either of which take the
    * form of a single capital letter followed by zero or more lower-case
    * letters. Where there is more than a single atom  present, this is indicated
    * with an integer. With regards to order (and enhance interoperability)
-   * it is recommended to use the Hill system order (Hill 1900, 2012).
-   * @param chemicalFormula
+   * it is recommended to use the Hill system order (Hill 1900, 2012).</p>
+   * 
+   * @param chemicalFormula the chemical formula
    */
   public void setChemicalFormula(String chemicalFormula) {
     if ((chemicalFormula != null) &&

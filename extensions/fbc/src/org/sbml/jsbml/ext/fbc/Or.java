@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -21,12 +20,13 @@
 package org.sbml.jsbml.ext.fbc;
 
 /**
- * Introduced to FBC in version 2.
+ * This class represents a set of two or more associations that are related in an order independent ‘and’
+ * relationship.
+ * 
+ * <p>Introduced to FBC in version 2.</p>
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.1
- * @date 06.03.2015
  */
 public class Or extends LogicalOperator {
 
@@ -36,22 +36,26 @@ public class Or extends LogicalOperator {
   private static final long serialVersionUID = -4558397941057530943L;
 
   /**
-   * 
+   * Creates a new {@link Or} instance.
    */
   public Or() {
     super();
   }
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link Or} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Or(int level, int version) {
     super(level, version);
   }
 
   /**
-   * @param or
+   * Creates a new {@link Or} instance.
+   * 
+   * @param or the instance to clone
    */
   public Or(Or or) {
     super(or);
