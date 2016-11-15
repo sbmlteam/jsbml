@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,9 +29,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * Introduced to FBC in version 2.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.1
- * @date 06.03.2015
  */
 public class GeneProductRef extends AbstractNamedSBase implements Association, UniqueNamedSBase {
 
@@ -47,7 +44,7 @@ public class GeneProductRef extends AbstractNamedSBase implements Association, U
   private String geneProduct;
 
   /**
-   * 
+   * Creates a new {@link GeneProductRef} instance.
    */
   public GeneProductRef() {
     super();
@@ -55,7 +52,9 @@ public class GeneProductRef extends AbstractNamedSBase implements Association, U
   }
 
   /**
-   * @param gpr
+   * Creates a new {@link GeneProductRef} instance.
+   * 
+   * @param gpr the instance to clone
    */
   public GeneProductRef(GeneProductRef gpr) {
     super(gpr);
@@ -65,8 +64,10 @@ public class GeneProductRef extends AbstractNamedSBase implements Association, U
   }
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link GeneProductRef} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public GeneProductRef(int level, int version) {
     super(level, version);
@@ -74,7 +75,9 @@ public class GeneProductRef extends AbstractNamedSBase implements Association, U
   }
 
   /**
-   * @param id
+   * Creates a new {@link GeneProductRef} instance.
+   * 
+   * @param id the id
    */
   public GeneProductRef(String id) {
     super(id);
@@ -82,9 +85,11 @@ public class GeneProductRef extends AbstractNamedSBase implements Association, U
   }
 
   /**
-   * @param id
-   * @param level
-   * @param version
+   * Creates a new {@link GeneProductRef} instance.
+   * 
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public GeneProductRef(String id, int level, int version) {
     super(id, level, version);
@@ -92,10 +97,12 @@ public class GeneProductRef extends AbstractNamedSBase implements Association, U
   }
 
   /**
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * Creates a new {@link GeneProductRef} instance.
+   * 
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public GeneProductRef(String id, String name, int level, int version) {
     super(id, name, level, version);

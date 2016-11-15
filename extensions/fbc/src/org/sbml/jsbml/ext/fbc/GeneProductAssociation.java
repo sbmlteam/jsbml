@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,12 +28,16 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
+ * Contains a single {@link Association}. Where more than
+ * one gene (or gene product) is present in an association they are written as logical expressions and thereby related
+ * to one another using logical ‘and’ and ‘or’ operators.
+ *
+ * 
+ * 
  * Introduced to FBC in version 2.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.1
- * @date 06.03.2015
  */
 public class GeneProductAssociation extends AbstractNamedSBase implements UniqueNamedSBase {
 
@@ -49,7 +52,7 @@ public class GeneProductAssociation extends AbstractNamedSBase implements Unique
   private Association association;
 
   /**
-   * 
+   * Creates a new {@link GeneProductAssociation} instance.
    */
   public GeneProductAssociation() {
     super();
@@ -57,7 +60,7 @@ public class GeneProductAssociation extends AbstractNamedSBase implements Unique
   }
 
   /**
-   * 
+   * Initializes the default values.
    */
   private void initDefaults() {
     setPackageVersion(-1);
@@ -65,7 +68,9 @@ public class GeneProductAssociation extends AbstractNamedSBase implements Unique
   }
 
   /**
-   * @param gpa
+   * Creates a new {@link GeneProductAssociation} instance.
+   * 
+   * @param gpa the instance to clone.
    */
   public GeneProductAssociation(GeneProductAssociation gpa) {
     super(gpa);
@@ -75,8 +80,10 @@ public class GeneProductAssociation extends AbstractNamedSBase implements Unique
   }
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link GeneProductAssociation} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public GeneProductAssociation(int level, int version) {
     super(level, version);
@@ -84,7 +91,9 @@ public class GeneProductAssociation extends AbstractNamedSBase implements Unique
   }
 
   /**
-   * @param id
+   * Creates a new {@link GeneProductAssociation} instance.
+   * 
+   * @param id the id
    */
   public GeneProductAssociation(String id) {
     super(id);
@@ -92,9 +101,11 @@ public class GeneProductAssociation extends AbstractNamedSBase implements Unique
   }
 
   /**
-   * @param id
-   * @param level
-   * @param version
+   * Creates a new {@link GeneProductAssociation} instance.
+   * 
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public GeneProductAssociation(String id, int level, int version) {
     super(id, level, version);
@@ -102,10 +113,12 @@ public class GeneProductAssociation extends AbstractNamedSBase implements Unique
   }
 
   /**
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * Creates a new {@link GeneProductAssociation} instance.
+   * 
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public GeneProductAssociation(String id, String name, int level, int version) {
     super(id, name, level, version);

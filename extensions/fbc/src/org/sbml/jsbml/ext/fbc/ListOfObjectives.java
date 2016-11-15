@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -27,12 +26,10 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
- * Unlike other SBML {@link ListOf} classes, {@link ListOfObjectives} adds an additional
- * required attribute activeObjective.
+ * {@link ListOfObjectives} adds an additional required attribute: 'activeObjective'.
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 public class ListOfObjectives extends ListOf<Objective> {
 
@@ -47,7 +44,7 @@ public class ListOfObjectives extends ListOf<Objective> {
   private String activeObjective;
 
   /**
-   * 
+   * Creates a new {@link ListOfObjectives} instance.
    */
   public ListOfObjectives() {
     super();
@@ -55,8 +52,10 @@ public class ListOfObjectives extends ListOf<Objective> {
   }
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link ListOfObjectives} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public ListOfObjectives(int level, int version) {
     super(level, version);
@@ -64,7 +63,9 @@ public class ListOfObjectives extends ListOf<Objective> {
   }
 
   /**
-   * @param listOf
+   * Creates a new {@link ListOfObjectives} instance.
+   * 
+   * @param listOf the instance to clone
    */
   public ListOfObjectives(ListOfObjectives listOf) {
     this((ListOf<Objective>) listOf);
@@ -76,8 +77,9 @@ public class ListOfObjectives extends ListOf<Objective> {
   }
 
   /**
+   * Creates a new {@link ListOfObjectives} instance.
    * 
-   * @param listOf
+   * @param listOf the instance to clone
    */
   public ListOfObjectives(ListOf<Objective> listOf) {
     super(listOf);
@@ -90,6 +92,7 @@ public class ListOfObjectives extends ListOf<Objective> {
     setPackageVersion(-1);
     packageName = FBCConstants.shortLabel;
     setSBaseListType(ListOf.Type.other);
+    setOtherListName(FBCConstants.listOfObjectives);
   }
 
   /* (non-Javadoc)
@@ -110,8 +113,9 @@ public class ListOfObjectives extends ListOf<Objective> {
   }
 
   /**
-   * Iterates through this list until it finds
-   * @return
+   * Returns the active {@link Objective}.
+   * 
+   * @return the active {@link Objective} or null if none can be found.
    */
   public Objective getActiveObjectiveInstance() {
     return firstHit(new NameFilter(getActiveObjective()));
@@ -158,13 +162,14 @@ public class ListOfObjectives extends ListOf<Objective> {
   }
 
   /**
-   * This attribute refers to an id of an existing {@link Objective}. This attribute
-   * exists so that multiple objectives are defined in a single model, the model will
-   * always be well-defined, i.e., there is a single objective function which defines
-   * a single optimum.
+   * Sets the active objective.
    * 
-   * Sets the value of {@link #activeObjective}
-   * @param activeObjective
+   * <p>This attribute refers to an id of an existing {@link Objective}. This attribute
+   * exists so that if multiple objectives are defined in a single model, the model will
+   * always be well-defined, i.e., there is a single objective function which defines
+   * a single optimum.</p>
+   * 
+   * @param activeObjective the value of {@link #activeObjective}
    */
   public void setActiveObjective(String activeObjective) {
     String oldActiveObjective = this.activeObjective;
@@ -174,7 +179,8 @@ public class ListOfObjectives extends ListOf<Objective> {
 
   /**
    * Sets the value of {@link #activeObjective} to the id of the given {@link Objective}.
-   * @param activeObjective
+   * 
+   * @param activeObjective an {@link Objective} that will be set as the active objective.
    * @see #setActiveObjective(String)
    */
   public void setActiveObjective(Objective activeObjective) {

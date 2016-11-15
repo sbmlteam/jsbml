@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,12 +30,14 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 
 /**
- * Introduced to FBC in version 2.
+ * Extends the SBML Level 3 Version 1 Core {@link Reaction} class with the addition of a
+ * new optional element {@link GeneProductAssociation} as well as two optional attributes lowerFluxBound and
+ * upperFluxBound.
+ *
+ * <p>Introduced to FBC in version 2.</p>
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.1
- * @date 06.03.2015
  */
 public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
 
@@ -62,7 +63,7 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   private String upperFluxBound;
 
   /**
-   * 
+   * Creates a new {@link FBCReactionPlugin} instance.
    */
   public FBCReactionPlugin() {
     super();
@@ -70,7 +71,9 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
 
 
   /**
-   * @param reactionPlugin
+   * Creates a new {@link FBCReactionPlugin} instance.
+   * 
+   * @param reactionPlugin the instance to be clone
    */
   public FBCReactionPlugin(FBCReactionPlugin reactionPlugin) {
     super(reactionPlugin);
@@ -87,7 +90,9 @@ public class FBCReactionPlugin extends AbstractFBCSBasePlugin {
   }
 
   /**
-   * @param extendedSBase
+   * Creates a new {@link FBCReactionPlugin} instance.
+   * 
+   * @param extendedSBase the core {@link Reaction} that is extended
    */
   public FBCReactionPlugin(Reaction extendedSBase) {
     super(extendedSBase);

@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -32,13 +31,11 @@ import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * {@link FluxBound} is a new FBC class which holds a single (in)equality that provides
+ * {@link FluxBound} is an FBC Version 1 class which holds a single (in)equality that provides
  * the maximum or minimum value that a reaction flux can obtain at steady state.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 27.10.2011
  * @deprecated Only defined in FBC Version 1.
  */
 @Deprecated
@@ -49,7 +46,6 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @author Andreas Dr&auml;ger
    * @since 1.0
-   * @version $Rev$
    * @deprecated Only defined in FBC version 1.
    */
   @Deprecated

@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -22,13 +21,13 @@ package org.sbml.jsbml.ext.fbc;
 
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.ext.SBasePlugin;
 
 /**
+ * Represents the basic properties of all {@link SBasePlugin} in the FBC package.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.1
- * @date 06.03.2015
  */
 public abstract class AbstractFBCSBasePlugin extends AbstractSBasePlugin {
 

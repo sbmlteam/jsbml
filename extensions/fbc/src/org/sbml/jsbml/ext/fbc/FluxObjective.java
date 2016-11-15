@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -37,9 +36,7 @@ import org.sbml.jsbml.util.StringTools;
  * variable weighted by a signed linear coefficient.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 27.10.2011
  */
 public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBase {
 
@@ -72,8 +69,8 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   /**
    * Creates a FluxObjective instance with a level and version.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public FluxObjective(int level, int version) {
     this(null, null, level, version);
@@ -82,7 +79,7 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   /**
    * Creates a FluxObjective instance with an id.
    * 
-   * @param id
+   * @param id the id
    */
   public FluxObjective(String id) {
     super(id);
@@ -92,9 +89,9 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   /**
    * Creates a FluxObjective instance with an id, level, and version.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public FluxObjective(String id, int level, int version) {
     this(id, null, level, version);
@@ -103,10 +100,10 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   /**
    * Creates a FluxObjective instance with an id, name, level, and version.
    * 
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public FluxObjective(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -120,7 +117,8 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public FluxObjective(FluxObjective obj) {
     super(obj);
@@ -208,7 +206,9 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
-   * @return
+   * Returns the {@link Reaction} associated with this {@link FluxObjective}.
+   * 
+   * @return the {@link Reaction} associated with this {@link FluxObjective} or null if the reaction attribute is not a valid reaction id.
    */
   public Reaction getReactionInstance() {
     if (isSetReaction()) {
@@ -219,8 +219,9 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
+   * Returns whether reaction is set and is a valid {@link Reaction} in the model.
    * 
-   * @return
+   * @return whether reaction is set and is a valid {@link Reaction} in the model.
    */
   public boolean isSetReactionInstance() {
     return getReactionInstance() != null;
@@ -298,8 +299,10 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
+   * Sets the {@link Reaction} that this {@link FluxObjective} is associated with in the context
+   * of the enclosing {@link Objective} class.
    * 
-   * @param reaction
+   * @param reaction the reaction to set
    */
   public void setReaction(Reaction reaction) {
     setReaction(reaction.getId());
@@ -308,6 +311,7 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   /**
    * Sets the reaction that this {@link FluxObjective} is associated with in the context
    * of the enclosing {@link Objective} class.
+   * 
    * @param reaction the reaction to set
    */
   public void setReaction(String reaction) {
