@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -21,25 +20,13 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import java.text.MessageFormat;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-import org.sbml.jsbml.PropertyUndefinedError;
-
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public class SpatialSymbolReference extends ParameterType {
 
-  
-  /**
-   * A {@link Logger} for this class.
-   */
-  private static final transient Logger logger = Logger.getLogger(SpatialSymbolReference.class);
   
   /**
    * Generated serial version identifier.
@@ -47,30 +34,26 @@ public class SpatialSymbolReference extends ParameterType {
   private static final long serialVersionUID = -8906622500258765056L;
 
   /**
-   * 
-   */
-  private String spatialRef;
-  
-  /**
-   * 
+   * Creates a new {@link SpatialSymbolReference} instance.
    */
   public SpatialSymbolReference() {
     super();
   }
 
   /**
-   * @param ssr
+   * Creates a new {@link SpatialSymbolReference} instance.
+   * 
+   * @param ssr the instance to clone
    */
   public SpatialSymbolReference(SpatialSymbolReference ssr) {
     super(ssr);
-    if (ssr.isSetSpatialRef()) {
-      setSpatialRef(ssr.getSpatialRef());
-    }    
   }
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link SpatialSymbolReference} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public SpatialSymbolReference(int level, int version) {
     super(level, version);
@@ -92,87 +75,4 @@ public class SpatialSymbolReference extends ParameterType {
     return super.equals(object);
   }
 
-  
-  /**
-   * Returns the value of {@link #spatialRef}.
-   *
-   * @return the value of {@link #spatialRef}.
-   */
-  public String getSpatialRef() {
-    //TODO: if variable is boolean, create an additional "isVar"
-    //TODO: return primitive data type if possible (e.g., int instead of Integer)
-    if (isSetSpatialRef()) {
-      return spatialRef;
-    }
-    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
-    throw new PropertyUndefinedError(SpatialConstants.spatialRef, this);
-  }
-
-
-  /**
-   * Returns whether {@link #spatialRef} is set.
-   *
-   * @return whether {@link #spatialRef} is set.
-   */
-  public boolean isSetSpatialRef() {
-    return this.spatialRef != null;
-  }
-
-
-  /**
-   * Sets the value of spatialRef
-   *
-   * @param spatialRef the value of spatialRef to be set.
-   */
-  public void setSpatialRef(String spatialRef) {
-    String oldSpatialRef = this.spatialRef;
-    this.spatialRef = spatialRef;
-    firePropertyChange(SpatialConstants.spatialRef, oldSpatialRef, this.spatialRef);
-  }
-
-
-  /**
-   * Unsets the variable spatialRef.
-   *
-   * @return {@code true} if spatialRef was set before, otherwise {@code false}.
-   */
-  public boolean unsetSpatialRef() {
-    if (isSetSpatialRef()) {
-      String oldSpatialRef = this.spatialRef;
-      this.spatialRef = null;
-      firePropertyChange(SpatialConstants.spatialRef, oldSpatialRef, this.spatialRef);
-      return true;
-    }
-    return false;
-  }
-  
-  
-  public Map<String, String> writeXMLAttributes() {
-    Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetSpatialRef()) {
-      attributes.remove(SpatialConstants.spatialRef);
-      attributes.put(SpatialConstants.shortLabel + ":" + SpatialConstants.spatialRef, getSpatialRef());
-    }
-    return attributes;
-  }
-
-
-  public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    if (!isAttributeRead) {
-      isAttributeRead = true;
-      if (attributeName.equals(SpatialConstants.spatialRef)) {
-        try {
-          setSpatialRef(value);          
-        } catch (Exception e) {
-          logger.warn(MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.spatialRef, getElementName()));
-        }
-      }
-      else {
-        isAttributeRead = false;
-      }
-    }
-    return isAttributeRead;
-  }
 }

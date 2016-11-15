@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -34,9 +33,8 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @author Piero Dalle Pezze
  * @since 1.0
- * @version $Rev$
  */
-public class AnalyticVolume extends AbstractMathContainer implements SpatialNamedSBase{
+public class AnalyticVolume extends AbstractMathContainer implements SpatialNamedSBase {
 
 
   /**
@@ -44,10 +42,6 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   private static final transient Logger logger = Logger.getLogger(AnalyticVolume.class);
 
-  /**
-   * 
-   */
-  String spatialId;
   /**
    * 
    */
@@ -68,7 +62,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
 
 
   /**
-   * 
+   * Creates a new {@link AnalyticVolume} instance.
    */
   public AnalyticVolume() {
     super();
@@ -76,13 +70,13 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
   }
 
   /**
-   * @param node
+   * Creates a new {@link AnalyticVolume} instance.
+   * 
+   * @param node the {@link AnalyticVolume} to be clone.
    */
   public AnalyticVolume(AnalyticVolume node) {
     super(node);
-    if (node.isSetSpatialId()) {
-      setSpatialId(node.getSpatialId());
-    }
+
     if (node.isSetOrdinal()) {
       setOrdinal(node.getOrdinal());
     }
@@ -95,15 +89,16 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
   }
 
   /**
-   * @param id
-   * @param level
-   * @param version
+   * Creates a new {@link AnalyticVolume} instance.
+   * 
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public AnalyticVolume(String id, int level, int version)
   {
-    super(level,version);
+    super(id, level,version);
     initDefaults();
-    spatialId = id;
   }
 
   /**
@@ -132,10 +127,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     boolean equal = super.equals(object);
     if (equal) {
       AnalyticVolume av = (AnalyticVolume) object;
-      equal &= av.isSetSpatialId() == isSetSpatialId();
-      if (equal && isSetSpatialId()) {
-        equal &= av.getSpatialId().equals(getSpatialId());
-      }
+
       equal &= av.isSetOrdinal() == isSetOrdinal();
       if (equal && isSetOrdinal()) {
         equal &= av.getOrdinal() == getOrdinal();
@@ -179,7 +171,8 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
 
   /**
    * Sets the value of functionType
-   * @param functionType
+   * 
+   * @param functionType the function type
    */
   public void setFunctionType(FunctionKind functionType) {
     FunctionKind oldFunctionType = this.functionType;
@@ -231,7 +224,8 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
 
   /**
    * Sets the value of domainType
-   * @param domainType
+   * 
+   * @param domainType the domain type
    */
   public void setDomainType(String domainType) {
     String oldDomainType = this.domainType;
@@ -280,7 +274,8 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
 
   /**
    * Sets the value of ordinal
-   * @param ordinal
+   * 
+   * @param ordinal the ordinal
    */
   public void setOrdinal(int ordinal) {
     Integer oldOrdinal = this.ordinal;
@@ -309,13 +304,8 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   @Override
   public boolean unsetSpatialId() {
-    if (isSetSpatialId()) {
-      String oldSpatialId = spatialId;
-      spatialId = null;
-      firePropertyChange(SpatialConstants.spatialId, oldSpatialId, spatialId);
-      return true;
-    }
-    return false;
+    unsetId();
+    return true;
   }
 
   /* (non-Javadoc)
@@ -323,9 +313,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   @Override
   public void setSpatialId(String spatialId) {
-    String oldSpatialId = this.spatialId; // TODO - the IdManager need to be updated
-    this.spatialId = spatialId;
-    firePropertyChange(SpatialConstants.spatialId, oldSpatialId, this.spatialId);
+    setId(spatialId);
   }
 
   /* (non-Javadoc)
@@ -333,7 +321,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   @Override
   public boolean isSetSpatialId() {
-    return spatialId != null;
+    return isSetId();
   }
 
   /* (non-Javadoc)
@@ -341,11 +329,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   @Override
   public String getSpatialId() {
-    if (isSetSpatialId()) {
-      return spatialId;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.spatialId, this);
+    return getId();
   }
 
   /* (non-Javadoc)
@@ -355,9 +339,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
   public int hashCode() {
     final int prime = 1093;//Changed. It was 431
     int hashCode = super.hashCode();
-    if (isSetSpatialId()) {
-      hashCode += prime * getSpatialId().hashCode();
-    }
+
     if (isSetFunctionType()) {
       hashCode += prime * getFunctionType().hashCode();
     }
@@ -377,8 +359,8 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetSpatialId()) {
-      attributes.remove("spatialId");
-      attributes.put(SpatialConstants.shortLabel + ":spatialId", getSpatialId());
+      attributes.remove("id");
+      attributes.put(SpatialConstants.shortLabel + ":id", getSpatialId());
     }
     if (isSetDomainType()) {
       attributes.remove("domainType");

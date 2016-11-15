@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,15 +28,16 @@ import javax.swing.tree.TreeNode;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 
 /**
+ * Top level class for all possible child of a {@link SpatialParameterPlugin}.
+ * 
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
- * @date 09.09.2011
  */
 public class ParameterType extends AbstractSBase {
 
@@ -55,22 +55,24 @@ public class ParameterType extends AbstractSBase {
 
   /**
    * Only one spatialId, {@link SpatialSymbolReference}, or
-   * speciesRef, {@link ParameterType}, can be defined per
+   * variable, {@link ParameterType}, can be defined per
    * parameter.
    */
 
   /**
-   * Refers to SpIdRef in the documentation
+   * Refers to the id of any element defined in the Geometry of the model.
+   *
    */
-  private String spId;
-
-  /**
-   * Refers to species object that the parameter is associated with
-   */
-  private String speciesRef; // TODO Check whether this is the correct name.
+  private String spatialRef;
 
   /**
    * 
+   */
+  private String variable;
+  
+  
+  /**
+   * Creates a new {@link ParameterType} instance.
    */
   public ParameterType() {
     super();
@@ -78,9 +80,10 @@ public class ParameterType extends AbstractSBase {
   }
 
   /**
+   * Creates a new {@link ParameterType} instance.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public ParameterType(int level, int version) {
     super(level,version);
@@ -89,15 +92,17 @@ public class ParameterType extends AbstractSBase {
 
 
   /**
-   * @param ref
+   * Creates a new {@link ParameterType} instance.
+   * 
+   * @param ref the instance to clone
    */
   public ParameterType(ParameterType ref) {
     super(ref);
-    if (ref.isSetSpId()) {
-      setSpId(ref.getSpId());
+    if (ref.isSetSpatialRef()) {
+      setSpatialRef(ref.getSpatialRef());
     }
-    if (ref.isSetSpeciesReference()) {
-      setSpeciesReference(ref.getSpeciesReference());
+    if (ref.isSetVariable()) {
+      setVariable(ref.getVariable());
     }
   }
 
@@ -111,108 +116,226 @@ public class ParameterType extends AbstractSBase {
 
 
   /**
+   * Returns the {@link Geometry} instance.
    * 
-   * @return
-   */
-  public Species getSpeciesInstance() {
-    Model model = getModel();
-    return model != null ? model.getSpecies(getSpeciesReference()) : null;
-  }
-
-  /**
-   * 
-   * @return
-   */
-  public Species getVariableInstance() {
-    return getSpeciesInstance();
-  }
-
-  /**
-   * @return
+   * @return the {@link Geometry} instance.
    */
   public Geometry getGeometryInstance() {
 
     Model model = getModel();
 
     SpatialModelPlugin m = (SpatialModelPlugin) model.getExtension(SpatialConstants.shortLabel);
-    //TODO: Get the correct element in geometry using the spid
     return m.getGeometry();
   }
 
+  // TODO: add a method to get the correct element in geometry using the spatialRef id
+
   /**
-   * @return the variable
+   * Returns the spatial reference (id of any element defined in the Geometry of the model).
+   * 
+   * @return the spatial reference
+   * @see #getSpatialRef()
    */
   public String getSpId() {
-    return isSetSpId() ? spId : "";
+    return getSpatialRef();
   }
 
   /**
-   * @return
-   */
-  public String getSpeciesReference() {
-    return isSetSpeciesReference() ? speciesRef : "";
-  }
-
-  /**
-   * @return
-   */
-  public String getVariable() {
-    return getSpeciesReference();
-  }
-
-  /**
-   * @return
-   */
-  public boolean isSetSpeciesReference() {
-    return speciesRef == null ? false : true;
-  }
-
-  /**
-   * @return
-   */
-  public boolean isSetVariable() {
-    return isSetSpeciesReference();
-  }
-
-  /**
+   * Returns the spatial reference (id of any element defined in the Geometry of the model).
    * 
-   * @return
+   * @return the spatial reference
+   */
+  public String getSpatialRef() {
+    return isSetSpId() ? spatialRef : "";
+  }
+
+  /**
+   * Returns {@code true} is the spatial reference is set.
+   * 
+   * @return {@code true} is the spatial reference is set.
+   * @see #isSetSpatialRef()
    */
   public boolean isSetSpId() {
-    return spId != null;
+    return isSetSpatialRef();
   }
 
   /**
-   * @return
+   * Returns {@code true} is the spatial reference is set.
+   * 
+   * @return {@code true} is the spatial reference is set.
    */
   public boolean isSetSpatialRef() {
-    return spId != null;
+    return spatialRef != null;
   }
 
   /**
-   * @param spId the variable to set
+   * Sets the spatial reference
+   * 
+   * @param spatialRef the spatialRef to set
+   * @see #setSpatialRef(String)
    */
-  public void setSpId(String spId) {
-    this.spId = spId;
-    speciesRef = null;
+  public void setSpId(String spatialRef) {
+    setSpatialRef(spatialRef);
+  }
+  
+  /**
+   * Sets the spatial reference
+   * 
+   * @param spatialRef the spatialRef to set
+   */
+  public void setSpatialRef(String spatialRef) {
+    String oldSpatialRef= this.spatialRef;
+    this.spatialRef = spatialRef;
+    firePropertyChange(SpatialConstants.spatialRef, oldSpatialRef, this.spatialRef);
+  }
+  
+  
+  /**
+   * Returns the value of {@link #variable}.
+   *
+   * @return the value of {@link #variable}.
+   */
+  public String getVariable() {
+    if (isSetVariable()) {
+      return variable;
+    }
+    
+    return "";
   }
 
   /**
-   * @param speciesRef
+   * Returns the {@link Species} or {@link Parameter} instance associated with {@link #variable}.
+   *
+   * @return an {@link SBase} associated with {@link #variable} or null.
    */
-  public void setSpeciesReference(String speciesRef) {
-    this.speciesRef = speciesRef;
-
+  public SBase getVariableInstance() {
+    Model model = getModel();
+    
+    SBase sbase = model != null ? model.findUniqueSBase(variable) : null;
+    return sbase;
+  }
+  
+  /**
+   * Returns the {@link Species} instance associated with {@link #variable}.
+   *
+   * @return a {@link Species} associated with {@link #variable} or null.
+   */
+  public Species getSpeciesInstance() {
+    SBase sbase = getVariableInstance();
+    
+    if (sbase != null && sbase instanceof Species) {
+      return (Species) sbase;
+    }
+    
+    return null;
   }
 
   /**
-   * @param speciesRef
+   * Returns the value of {@link #variable}.
+   *
+   * @return the value of {@link #variable}.
+   * @see #getVariable()
    */
-  public void setVariable(String speciesRef) {
-    setSpeciesReference(speciesRef);
+  public String getSpeciesReference() {
+    return getVariable();
+  }
+  
+  /**
+   * Returns the {@link Parameter} instance associated with {@link #variable}.
+   *
+   * @return a {@link Parameter} associated with {@link #variable} or null.
+   */
+  public Parameter getParameterInstance() {
+    SBase sbase = getVariableInstance();
+    
+    if (sbase != null && sbase instanceof Parameter) {
+      return (Parameter) sbase;
+    }
+    
+    return null;
   }
 
+  /**
+   * Returns whether {@link #variable} is set.
+   *
+   * @return whether {@link #variable} is set.
+   * @see #isSetVariable()
+   */
+  public boolean isSetSpeciesReference() {
+    return isSetVariable();
+  }
 
+  /**
+   * Returns whether {@link #variable} is set.
+   *
+   * @return whether {@link #variable} is set.
+   */
+  public boolean isSetVariable() {
+    return variable != null;
+  }
+
+  /**
+   * Sets the value of variable
+   *
+   * @param variable the value of variable to be set.
+   * @see #setVariable(String)
+   */
+  public void setSpeciesReference(String variable) {
+    setVariable(variable);
+  }
+
+  /**
+   * Sets the value of variable
+   *
+   * @param variable the value of variable to be set.
+   */
+  public void setVariable(String variable) {
+    String oldVariable = this.variable;
+    this.variable = variable;
+    firePropertyChange(SpatialConstants.variable, oldVariable, this.variable);
+  }
+
+  /**
+   * Unsets the spatialRef attribute.
+   *
+   * @return {@code true} if spatialRef was set before, otherwise {@code false}.
+   */
+  public boolean unsetSpatialRef() {
+    if (isSetSpatialRef()) {
+      String oldSpatialRef = this.spatialRef;
+      this.spatialRef = null;
+      firePropertyChange(SpatialConstants.spatialRef, oldSpatialRef, this.spatialRef);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Unsets the variable attribute.
+   *
+   * @return {@code true} if variable was set before, otherwise {@code false}.
+   */
+  public boolean unsetVariable() {
+    if (isSetVariable()) {
+      String oldVariable = this.variable;
+      this.variable = null;
+      firePropertyChange(SpatialConstants.variable, oldVariable, this.variable);
+      return true;
+    }
+    return false;
+  }
+  
+  
+  /**
+   * Sets the value of variable
+   *
+   * @param variable the value of variable to be set.
+   * @see #setVariable(String)
+   */
+  public void setSpeciesRef(String variable) {
+    setVariable(variable);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
    */
@@ -253,17 +376,14 @@ public class ParameterType extends AbstractSBase {
     boolean equal = super.equals(object);
     if (equal) {
       ParameterType param = (ParameterType) object;
-      if (param.isSetSpId() && param.isSetSpeciesReference()) {
-        throw new SBMLException("Both SpId and SpIdRef cannot be set");
-      } else {
-        if (param.isSetSpId()) {
-          equal &= param.getSpId().equals(getSpId());
-        }
-        else if (param.isSetSpeciesReference()){
-          equal &= param.getSpeciesReference().equals(getSpeciesReference());
-        }
+      if (param.isSetSpId()) {
+        equal &= param.getSpId().equals(getSpId());
+      }
+      if (param.isSetVariable()) {
+        equal &= param.getVariable().equals(getVariable());
       }
     }
+
     return equal;
   }
 
@@ -277,9 +397,10 @@ public class ParameterType extends AbstractSBase {
     if (isSetSpId()) {
       hashCode += prime * getSpId().hashCode();
     }
-    if (isSetSpeciesReference()) {
-      hashCode += prime * getSpeciesReference().hashCode();
+    if (isSetVariable()) {
+      hashCode += prime * getVariable().hashCode();
     }
+    
     return hashCode;
   }
 
@@ -292,9 +413,9 @@ public class ParameterType extends AbstractSBase {
     if (isSetSpId()) {
       attributes.put(SpatialConstants.shortLabel + ":spatialRef", getSpId());
     }
-    if (isSetSpeciesReference()) {
+    if (isSetVariable()) {
       attributes.put(SpatialConstants.shortLabel + ":variable",
-        String.valueOf(getSpeciesReference()));
+        String.valueOf(getVariable()));
     }
     return attributes;
   }
@@ -308,17 +429,17 @@ public class ParameterType extends AbstractSBase {
         && (SpatialConstants.shortLabel == prefix);
     if (!isAttributeRead) {
       isAttributeRead = true;
-      if (attributeName.equals(SpatialConstants.spatialId)) {
+      if (attributeName.equals(SpatialConstants.spatialRef)) {
         try {
-          setSpId(value);
+          setSpatialRef(value);
         } catch (Exception e) {
           logger.warn(MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.spatialId, getElementName()));
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.spatialRef, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.variable)) {
         try {
-          setSpeciesReference(value);
+          setVariable(value);
         } catch (Exception e) {
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.variable, getElementName()));
