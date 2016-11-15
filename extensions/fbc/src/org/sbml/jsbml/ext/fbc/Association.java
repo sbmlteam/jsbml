@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,10 +22,14 @@ package org.sbml.jsbml.ext.fbc;
 import org.sbml.jsbml.SBase;
 
 /**
+ * Represents either
+ * a single gene, or a collection of genes in a logical expression and is only ever instantiated as one of its subclasses:
+ * {@link GeneProductRef}, {@link And} and {@link Or}.
+ *
+ * <p>Introduced to FBC in version 2.</p>
+ * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.1
- * @date 06.03.2015
  */
 public interface Association extends SBase {
 }

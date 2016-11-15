@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -42,18 +41,14 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 27.10.2011
  */
 public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * 
    * @author Andreas Dr&auml;ger
-   * @version $Rev$
    * @since 1.0
-   * @date $Date$
    */
   public static enum Type {
     /**
@@ -365,6 +360,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfFluxObjectives.setPackageName(null);
       listOfFluxObjectives.setPackageName(FBCConstants.shortLabel);
       listOfFluxObjectives.setSBaseListType(ListOf.Type.other);
+      listOfFluxObjectives.setOtherListName(FBCConstants.listOfFluxObjectives);
 
       registerChild(listOfFluxObjectives);
     }
@@ -517,7 +513,9 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
       // changing the ListOf package name from 'core' to 'fbc'
       listOfFluxObjectives.setPackageName(null);
       listOfFluxObjectives.setPackageName(FBCConstants.shortLabel);
-
+      listOfFluxObjectives.setSBaseListType(ListOf.Type.other);
+      listOfFluxObjectives.setOtherListName(FBCConstants.listOfFluxObjectives);
+      
       registerChild(this.listOfFluxObjectives);
     }
   }

@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -27,12 +26,12 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
- * Introduced to FBC in version 2.
+ * Defines a single gene product.
+ *
+ * <p>Introduced to FBC in version 2.<p/>
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.1
- * @date 06.03.2015
  */
 public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase {
 
@@ -106,7 +105,7 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
-   * 
+   * Creates a new {@link GeneProduct} instance.
    */
   public GeneProduct() {
     super();
@@ -114,15 +113,19 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
-   * @param nsb
+   * Creates a new {@link GeneProduct} instance.
+   * 
+   * @param nsb the instance to clone
    */
   public GeneProduct(GeneProduct nsb) {
     super(nsb);
   }
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link GeneProduct} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public GeneProduct(int level, int version) {
     super(level, version);
@@ -130,7 +133,9 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
-   * @param id
+   * Creates a new {@link GeneProduct} instance.
+   * 
+   * @param id the id
    */
   public GeneProduct(String id) {
     super(id);
@@ -138,9 +143,11 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
-   * @param id
-   * @param level
-   * @param version
+   * Creates a new {@link GeneProduct} instance.
+   * 
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public GeneProduct(String id, int level, int version) {
     super(id, level, version);
@@ -148,10 +155,12 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * Creates a new {@link GeneProduct} instance.
+   * 
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public GeneProduct(String id, String name, int level, int version) {
     super(id, name, level, version);

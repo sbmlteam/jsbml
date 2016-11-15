@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,10 +28,12 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractSBase;
 
 /**
+ * Represents a collection of genes in a logical expression.
+ * 
+ * <p>Is is only ever instantiated as one of its subclasses: {@link And} and {@link Or}.</p>
+ * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.1
- * @date 06.03.2015
  */
 public abstract class LogicalOperator extends AbstractSBase implements Association {
 
@@ -49,7 +50,7 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
 
 
   /**
-   * 
+   * Creates a new {@link LogicalOperator} instance.
    */
   public LogicalOperator() {
     super();
@@ -58,8 +59,10 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
 
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link LogicalOperator} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public LogicalOperator(int level, int version) {
     super(level, version);
@@ -67,7 +70,9 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
   }
 
   /**
-   * @param association
+   * Creates a new {@link LogicalOperator} instance.
+   * 
+   * @param association the instance to clone
    */
   public LogicalOperator(LogicalOperator association) {
     super(association);
@@ -83,7 +88,7 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
    * Sets the given {@code ListOf<Association>}. If {@link #listOfAssociations}
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfAssociations
+   * @param listOfAssociations the list of {@link Association}s to add
    */
   public void addAllAssociations(List<Association> listOfAssociations) {
     for (Association association : listOfAssociations) {
@@ -107,7 +112,8 @@ public abstract class LogicalOperator extends AbstractSBase implements Associati
 
   /**
    * Identical to calling {@link #addAssociation(Association)}.
-   * @param child
+   * 
+   * @param child the association to add
    * @see #addAssociation(Association)
    */
   public void addChild(Association child) {

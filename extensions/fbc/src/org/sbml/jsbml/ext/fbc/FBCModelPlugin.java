@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -37,13 +36,12 @@ import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * {@link FBCModelPlugin} is the extended {@link Model} class for the FBC package.
- * It is extended by the addition of two children, list of {@link FluxBound}
- * and list of {@link Objective}
+ * 
+ * <p>It is extended by the addition of two children, list of {@link FluxBound}
+ * and list of {@link Objective}</p>
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 27.10.2011
  */
 public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
@@ -81,7 +79,8 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
   /**
    * Clone constructor
-   * @param fbcPlugin
+   * 
+   * @param fbcPlugin the instance to clone
    */
   public FBCModelPlugin(FBCModelPlugin fbcPlugin) {
     super(fbcPlugin);
@@ -102,8 +101,9 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
 
   /**
+   * Creates a new {@link FBCModelPlugin} instance.
    * 
-   * @param model
+   * @param model the core {@link Model}
    */
   public FBCModelPlugin(Model model) {
     super(model);
@@ -156,8 +156,9 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
 
   /**
-   * Creates a new {@link FluxBound} element and adds it to the {@link #listOfFluxBounds} list
-   * @return
+   * Creates a new {@link FluxBound} element and adds it to the {@link #listOfFluxBounds} list.
+   * 
+   * @return a new {@link FluxBound} element
    * @deprecated Only defined in FBC version 1.
    */
   @Deprecated
@@ -168,8 +169,8 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
   /**
    * Creates a new {@link FluxBound} element and adds it to the ListOfFluxBounds list
-   * @param id
-   *
+   * 
+   * @param id the id
    * @return a new {@link FluxBound} element
    * @deprecated Only defined in FBC version 1.
    */
@@ -182,8 +183,9 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
 
   /**
-   * Creates a new GeneProduct element and adds it to the ListOfGeneProducts list.
-   * @return
+   * Creates a new {@link GeneProduct} element and adds it to the ListOfGeneProducts list.
+   * 
+   * @return a new {@link GeneProduct} element
    */
   public GeneProduct createGeneProduct() {
     return createGeneProduct(null);
@@ -192,8 +194,8 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
   /**
    * Creates a new {@link GeneProduct} element and adds it to the {@link #listOfGeneProducts} list.
-   * @param id
-   *
+   * 
+   * @param id the id
    * @return a new {@link GeneProduct} element.
    */
   public GeneProduct createGeneProduct(String id) {
@@ -442,6 +444,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
       listOfFluxBounds.setPackageName(null);
       listOfFluxBounds.setPackageName(FBCConstants.shortLabel);
       listOfFluxBounds.setSBaseListType(ListOf.Type.other);
+      listOfFluxBounds.setOtherListName(FBCConstants.listOfFluxBounds);
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfFluxBounds);
@@ -463,6 +466,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
       listOfGeneProducts.setPackageName(null);
       listOfGeneProducts.setPackageName(FBCConstants.shortLabel);
       listOfGeneProducts.setSBaseListType(ListOf.Type.other);
+      listOfGeneProducts.setOtherListName(FBCConstants.listOfGeneProducts);
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfGeneProducts);
@@ -818,6 +822,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
       listOfFluxBounds.setPackageName(null);
       listOfFluxBounds.setPackageName(FBCConstants.shortLabel);
       listOfFluxBounds.setSBaseListType(ListOf.Type.other);
+      listOfFluxBounds.setOtherListName(FBCConstants.listOfFluxBounds);
     }
 
     if (isSetExtendedSBase()) {
@@ -841,6 +846,7 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
       listOfGeneProducts.setPackageName(null);
       listOfGeneProducts.setPackageName(FBCConstants.shortLabel);
       listOfGeneProducts.setSBaseListType(ListOf.Type.other);
+      listOfGeneProducts.setOtherListName(FBCConstants.listOfGeneProducts);
     }
 
     if (isSetExtendedSBase()) {
@@ -850,14 +856,15 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
 
   /**
    * Sets the given {@code ListOf<Objective>}.
+   * 
    * <p>
    * If the given list is an instance of {@link ListOfObjectives}, a call of
-   * this
-   * method is identical to directly calling
+   * this method is identical to directly calling
    * {@link #setListOfObjectives(ListOfObjectives)}.
    * Otherwise, a new {@link ListOfObjectives} will be created from the given
-   * {@link ListOf}.
-   * Note that in the second case there is no active objective defined.
+   * {@link ListOf}.</p>
+   * 
+   * <p>Note that in the second case there is no active objective defined.</p>
    * 
    * @param listOfObjectives
    */
