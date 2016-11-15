@@ -104,6 +104,17 @@ MathContainer {
     math = null;
   }
 
+  /**
+   * Creates a new {@link MathContainer} instance.
+   * 
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
+   */
+  public AbstractMathContainer(String id, int level, int version) {
+    super(id, level, version);
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
