@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -33,9 +32,7 @@ import org.sbml.jsbml.util.StringTools;
  * an attribute.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date May 11, 2014
  */
 public class Index extends AbstractMathContainer {
 
@@ -73,8 +70,8 @@ public class Index extends AbstractMathContainer {
   /**
    * Creates a Index instance with a level and version.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Index(int level, int version) {
     super(level, version);
@@ -84,7 +81,8 @@ public class Index extends AbstractMathContainer {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public Index(Index obj) {
     super(obj);
@@ -145,7 +143,8 @@ public class Index extends AbstractMathContainer {
 
   /**
    * Sets the value of referencedAttribute
-   * @param referencedAttribute
+   * 
+   * @param referencedAttribute the value of referencedAttribute
    */
   public void setReferencedAttribute(String referencedAttribute) {
     String oldReferencedAttribute = this.referencedAttribute;
@@ -198,7 +197,8 @@ public class Index extends AbstractMathContainer {
 
   /**
    * Sets the value of arrayDimension
-   * @param arrayDimension
+   * 
+   * @param arrayDimension the value of arrayDimension
    */
   public void setArrayDimension(int arrayDimension) {
     int oldArrayDimension = this.arrayDimension;
