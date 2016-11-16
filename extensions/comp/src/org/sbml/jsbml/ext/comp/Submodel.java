@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -22,6 +21,8 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -29,6 +30,8 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.filters.NameFilter;
@@ -38,7 +41,6 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * Submodel instances represent submodels contained within {@link CompModelPlugin}.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
@@ -79,7 +81,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Creates a Submodel instance with an id.
    * 
-   * @param id
+   * @param id the id
    */
   public Submodel(String id) {
     super(id);
@@ -89,8 +91,8 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Creates a Submodel instance with a level and version.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Submodel(int level, int version) {
     this(null, null, level, version);
@@ -99,9 +101,9 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Creates a Submodel instance with an id, level, and version.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Submodel(String id, int level, int version) {
     this(id, null, level, version);
@@ -110,10 +112,10 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Creates a Submodel instance with an id, name, level, and version.
    * 
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Submodel(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -127,7 +129,8 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public Submodel(Submodel obj) {
     super(obj);
@@ -260,7 +263,9 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * The whole purpose of a {@link Submodel} object
+   * Sets the value of the required modelRef
+   * 
+   * <p>The whole purpose of a {@link Submodel} object
    * is to instantiate a model definition, which is
    * to say, either a {@link Model} object defined
    * in the same enclosing SBML document, or a model
@@ -269,10 +274,9 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
    * identified. This required attribute must refer to
    * the identifier of a Model or {@link ExternalModelDefinition}
    * object within the enclosing SBML document (i.e., in the
-   * model namespace of the document).
+   * model namespace of the document).</p>
    * 
-   * Sets the value of the required modelRef
-   * @param modelRef
+   * @param modelRef the value of modelRef
    */
   public void setModelRef(String modelRef) {
     String oldModelRef = this.modelRef;
@@ -321,15 +325,16 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * The optional timeConversionFactor attribute is provided to allow
+   * Sets the value of the optional timeConversionFactor
+   * 
+   * <p>The optional timeConversionFactor attribute is provided to allow
    * references and assumptions about the scale of time in the {@link Submodel}
    * to be converted to the scale of time in the containing model. If set, it
    * must be the identifier of a {@link Parameter} object in the parent {@link Model}
    * object. The units of that {@link Parameter} object, if present, should reduce to
-   * being dimensionless, and the {@link Parameter} must be constant.
+   * being dimensionless, and the {@link Parameter} must be constant.</p>
    * 
-   * Sets the value of the optional timeConversionFactor
-   * @param timeConversionFactor
+   * @param timeConversionFactor the value of timeConversionFactor
    */
   public void setTimeConversionFactor(String timeConversionFactor) {
     String oldTimeConversionFactor = this.timeConversionFactor;
@@ -378,16 +383,17 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * The optional extentConversionFactor attribute is provided to allow
+   * Sets the value of the optional extentConversionFactor
+   * 
+   * <p>The optional extentConversionFactor attribute is provided to allow
    * references and assumptions about the scale of a model's reaction
    * extent to be converted to the scale of the containing model. If set,
    * it must be the identifier of a {@link Parameter} object in the
    * parent {@link Model} object. The units of that {@link Parameter}
    * object, if present, should reduce to being dimensionless, and the
-   * {@link Parameter} must be constant.
+   * {@link Parameter} must be constant.</p>
    * 
-   * Sets the value of the optional extentConversionFactor
-   * @param extentConversionFactor
+   * @param extentConversionFactor the value of the optional extentConversionFactor
    */
   public void setExtentConversionFactor(String extentConversionFactor) {
     String oldExtentConversionFactor = this.extentConversionFactor;
@@ -452,20 +458,24 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfDeletions.setPackageName(null);
       listOfDeletions.setPackageName(CompConstants.shortLabel);
       listOfDeletions.setSBaseListType(ListOf.Type.other);
+      listOfDeletions.setOtherListName(CompConstants.listOfDeletions);
+      
       registerChild(listOfDeletions);
     }
     return listOfDeletions;
   }
 
   /**
-   *  This list specifies objects to be removed from the submodel when
-   *  composing the overall model. (The "removal" is mathematical and
-   *  conceptual, not physical.)
+   * Sets the given {@code ListOf<Deletion>}. 
    * 
-   * Sets the given {@code ListOf<Deletion>}. If listOfDeletions
-   * was defined before and contains some elements, they are all unset.
+   * <p>If listOfDeletions
+   * was defined before and contains some elements, they are all unset.</p>
+   * 
+   * <p>This list specifies objects to be removed from the submodel when
+   * composing the overall model. (The "removal" is mathematical and
+   * conceptual, not physical.)</p>
    *
-   * @param listOfDeletions
+   * @param listOfDeletions the list of {@link Deletion}s
    */
   public void setListOfDeletions(ListOf<Deletion> listOfDeletions) {
     unsetListOfDeletions();
@@ -477,6 +487,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
       // changing the ListOf package name from 'core' to 'comp'
       listOfDeletions.setPackageName(null);
       listOfDeletions.setPackageName(CompConstants.shortLabel);
+      listOfDeletions.setOtherListName(CompConstants.listOfDeletions);
     }
 
     registerChild(this.listOfDeletions);
@@ -549,7 +560,8 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Creates a new Deletion element and adds it to the ListOfDeletions list
-   * @return
+   * 
+   * @return a new {@link Deletion} element
    */
   public Deletion createDeletion() {
     return createDeletion(null);
@@ -557,8 +569,8 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Creates a new {@link Deletion} element and adds it to the ListOfDeletions list
-   * @param id
-   *
+   * 
+   * @param id the id
    * @return a new {@link Deletion} element
    */
   public Deletion createDeletion(String id) {

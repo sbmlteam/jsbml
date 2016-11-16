@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,14 +22,13 @@ package org.sbml.jsbml.ext.comp;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 
 /**
- * A {@link ReplacedBy} object indicates when the parent object is to
- * be replaced by another object.
+ * Indicates when the parent object is to be replaced by another object.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class ReplacedBy extends SBaseRef {
@@ -56,8 +54,8 @@ public class ReplacedBy extends SBaseRef {
   /**
    * Creates a ReplacedBy instance with a level and version.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public ReplacedBy(int level, int version) {
     super(level, version);
@@ -66,7 +64,8 @@ public class ReplacedBy extends SBaseRef {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public ReplacedBy(ReplacedBy obj) {
     super(obj);
@@ -158,14 +157,15 @@ public class ReplacedBy extends SBaseRef {
   /**
    * Sets the value of the required submodelRef attribute.
    * 
-   * The required attribute submodelRef takes a value which must be
+   * <p>The required attribute submodelRef takes a value which must be
    * the identifier of a {@link Submodel} object in the containing model.
    * This attribute is analogous to the corresponding attribute on
    * {@link ReplacedElement}; that is, the model referenced by the
    * {@link Submodel} object establishes the object namespaces for the portRef,
    * idRef, unitRef and metaIdRef attributes: only objects within the {@link Model}
-   * object may be referenced by those attributes.
-   * @param submodelRef
+   * object may be referenced by those attributes.</p>
+   * 
+   * @param submodelRef the value of submodelRef
    * 
    */
   public void setSubmodelRef(String submodelRef) {

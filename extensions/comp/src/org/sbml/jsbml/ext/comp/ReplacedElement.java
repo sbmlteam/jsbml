@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,15 +22,18 @@ package org.sbml.jsbml.ext.comp;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+
 /**
  * 
- * A {@link ReplacedElement} object is essentially  a pointer to a  submodel
- * object that should be  considered "replaced". The object holding the
+ * Points to a  submodel object that should be  considered "replaced".
+ * 
+ * <p>The object holding the
  * {@link ReplacedElement} instance is the one <i>doing the replacing</i>; the object
- * pointed to by the {@link ReplacedElement} object is the <i>object being replaced</i>.
+ * pointed to by the {@link ReplacedElement} object is the <i>object being replaced</i>.</p>
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class ReplacedElement extends SBaseRef {
@@ -67,8 +69,8 @@ public class ReplacedElement extends SBaseRef {
   /**
    * Creates a ReplacedElement instance with a level and version. -
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public ReplacedElement(int level, int version) {
     super(level, version);
@@ -78,7 +80,8 @@ public class ReplacedElement extends SBaseRef {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public ReplacedElement(ReplacedElement obj) {
     super(obj);
@@ -191,16 +194,17 @@ public class ReplacedElement extends SBaseRef {
   }
 
   /**
-   * The required attribute submodelRef takes a value which must be
+   * Sets the value of the required submodelRef attribute.
+   * 
+   * <p>The required attribute submodelRef takes a value which must be
    * the identifier of a {@link Submodel} object in the containing model.
    * This attribute is analogous to the corresponding attribute on
    * {@link ReplacedElement}; that is, the model referenced by the
    * {@link Submodel} object establishes the object namespaces for the portRef,
    * idRef, unitRef and metaIdRef attributes: only objects within the {@link Model}
-   * object may be referenced by those attributes.
+   * object may be referenced by those attributes.</p>
    * 
-   * Sets the value of the required submodelRef attribute.
-   * @param submodelRef
+   * @param submodelRef the value of submodelRef
    */
   public void setSubmodelRef(String submodelRef) {
     String oldSubmodelRef = this.submodelRef;
@@ -210,6 +214,7 @@ public class ReplacedElement extends SBaseRef {
 
   /**
    * Unsets the variable submodelRef
+   * 
    * @return {@code true}, if submodelRef was set before,
    *         otherwise {@code false}
    */
@@ -250,7 +255,7 @@ public class ReplacedElement extends SBaseRef {
   /**
    * Sets the value of the optional deletion attribute.
    * 
-   * The optional attribute deletion takes a value that must be the identifier of a
+   * <p>The optional attribute deletion takes a value that must be the identifier of a
    * {@link Deletion} object in the parentModel of the {@link ReplacedElement} (i.e.,
    * the value of some {@link Deletion} object's id attribute). When deletion is set,
    * it means the {@link ReplacedElement} object is actually an annotation to indicate
@@ -259,8 +264,9 @@ public class ReplacedElement extends SBaseRef {
    * {@link SBaseRef}: instead of using portRef or idRef, the {@link ReplacedElement}
    * instance sets deletion to the identifier of the {@link Deletion} object. In addition,
    * the referenced {@link Deletion} must be a child of the {@link Submodel} referenced by
-   * the submodelRef attribute.
-   * @param deletion
+   * the submodelRef attribute.</p>
+   * 
+   * @param deletion the value of deletion
    */
   public void setDeletion(String deletion) {
     String oldDeletion = this.deletion;
@@ -311,13 +317,14 @@ public class ReplacedElement extends SBaseRef {
   /**
    * Sets the value of the optional conversionFactor attribute.
    * 
-   * The {@link ReplacedElement} class's conversionFactor attribute,
+   * <p>The {@link ReplacedElement} class's conversionFactor attribute,
    * if present, defines how to transform or rescale the replaced object's
    * value so that it is appropriate for the new contexts in which the
    * object appears. This attribute takes a value that must refer to a
    * {@link Parameter} object instance defined in the model. This parameter
-   * then acts as a conversion factor.
-   * @param conversionFactor
+   * then acts as a conversion factor.</p>
+   * 
+   * @param conversionFactor the value of conversionFactor
    * 
    */
   public void setConversionFactor(String conversionFactor) {

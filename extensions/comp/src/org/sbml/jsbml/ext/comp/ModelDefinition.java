@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -24,14 +23,14 @@ package org.sbml.jsbml.ext.comp;
 import org.sbml.jsbml.Model;
 
 /**
- *  Holder class for model definitions, which are models.
- *  However, modelDefinitions are non-instantiated models
+ *  Holder class for model definitions, which are {@link Model}s.
+ *  
+ *  <p>However, modelDefinitions are non-instantiated models
  *  that can be called by submodels within the {@link Model}
  *  class of an SBML document, or can be called externally
- *  with references stored in {@link ExternalModelDefinition}s.
+ *  with references stored in {@link ExternalModelDefinition}s.</p>
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class ModelDefinition extends Model {
@@ -42,7 +41,7 @@ public class ModelDefinition extends Model {
   private static final long serialVersionUID = 11908580298395050L;
 
   /**
-   * 
+   * Creates a new {@link ModelDefinition} instance.
    */
   public ModelDefinition() {
     super();
@@ -50,8 +49,10 @@ public class ModelDefinition extends Model {
   }
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link ModelDefinition} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public ModelDefinition(int level, int version) {
     super(level, version);
@@ -59,7 +60,9 @@ public class ModelDefinition extends Model {
   }
 
   /**
-   * @param model
+   * Creates a new {@link ModelDefinition} instance cloned from the given core {@link Model} instance.
+   * 
+   * @param model the core {@link Model} to clone
    */
   public ModelDefinition(Model model) {
     super(model);
@@ -70,7 +73,9 @@ public class ModelDefinition extends Model {
   }
 
   /**
-   * @param id
+   * Creates a new {@link ModelDefinition} instance.
+   * 
+   * @param id the id
    */
   public ModelDefinition(String id) {
     super(id);
@@ -78,9 +83,11 @@ public class ModelDefinition extends Model {
   }
 
   /**
-   * @param id
-   * @param level
-   * @param version
+   * Creates a new {@link ModelDefinition} instance.
+   * 
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public ModelDefinition(String id, int level, int version) {
     super(id, level, version);
