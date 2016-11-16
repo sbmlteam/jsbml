@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -22,6 +21,8 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -32,7 +33,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
- * The {@link CompSBasePlugin} class extends the {@link SBase} class by adding an optional ListOf{@link ReplacedElement}s child and a single optional {@link ReplacedBy} child.
+ * Extends the {@link SBase} class by adding an optional ListOf{@link ReplacedElement}s child and a single optional {@link ReplacedBy} child.
  *
  * <p>The {@link CompSBasePlugin} class codifies the extensions to the {@link SBase} class defined in the 'Hierarchical Model Composition' package (comp).
  * These extensions allows the modeler to define one or more {@link Submodel} elements which the parent {@link SBase} object replaces,
@@ -47,7 +48,6 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  *
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  * @see ReplacedElement
  * @see ReplacedBy
@@ -128,7 +128,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   /**
    * Creates a CompSBasePlugin instance with a level and version.
    *
-   * @param extendedSBase
+   * @param extendedSBase the core {@link SBase} that is extended.
    */
   public CompSBasePlugin(SBase extendedSBase) {
     super(extendedSBase);
@@ -137,7 +137,8 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public CompSBasePlugin(CompSBasePlugin obj) {
     super(obj);
@@ -218,6 +219,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Returns the value of replacedBy
+   * 
    * @return the value of replacedBy
    */
   public ReplacedBy getReplacedBy() {
@@ -230,6 +232,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Returns whether replacedBy is set
+   * 
    * @return whether replacedBy is set
    */
   public boolean isSetReplacedBy() {
@@ -238,7 +241,8 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Sets the value of the optional replacedBy element.
-   * @param replacedBy
+   * 
+   * @param replacedBy the value of replacedBy
    *
    */
   public void setReplacedBy(ReplacedBy replacedBy) {
@@ -296,7 +300,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    *
    * @param index an index
    * @return the {@link ReplacedElement} with the given index if it exists.
-   * @throws IndexOutOfBoundsException
+   * @throws IndexOutOfBoundsException if the index is out of range: (index < 0 || index >= size())
    */
   public ReplacedElement getReplacedElement(int index) {
     return getListOfReplacedElements().get(index);
@@ -347,6 +351,8 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
       listOfReplacedElements.setPackageName(null);
       listOfReplacedElements.setPackageName(CompConstants.shortLabel);
       listOfReplacedElements.setSBaseListType(ListOf.Type.other);
+      listOfReplacedElements.setOtherListName(CompConstants.listOfReplacedElements);
+      
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfReplacedElements);
       }
@@ -369,7 +375,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    * on listOfReplacedElements, they will be unset beforehand. If present it must
    * contain at least one {@link ReplacedElement} object.
    *
-   * @param listOfReplacedElements
+   * @param listOfReplacedElements the list of {@link ReplacedElement}s.
    */
   public void setListOfReplacedElements(ListOf<ReplacedElement> listOfReplacedElements) {
     unsetListOfReplacedElements();
@@ -381,6 +387,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
       listOfReplacedElements.setPackageName(null);
       listOfReplacedElements.setPackageName(CompConstants.shortLabel);
       listOfReplacedElements.setSBaseListType(ListOf.Type.other);
+      listOfReplacedElements.setOtherListName(CompConstants.listOfReplacedElements);
     }
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfReplacedElements);
@@ -408,7 +415,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    * Adds a new element to listOfReplacedElements.
    * <p>listOfReplacedElements is initialized if necessary.
    *
-   * @param replacedElement
+   * @param replacedElement the element to be added to the list
    * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addReplacedElement(ReplacedElement replacedElement) {

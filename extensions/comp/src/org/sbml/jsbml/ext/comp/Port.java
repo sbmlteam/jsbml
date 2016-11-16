@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,7 +28,6 @@ import org.sbml.jsbml.LevelVersionError;
  * designated interfaces.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class Port extends AbstractNamedSBaseRef {
@@ -50,7 +48,7 @@ public class Port extends AbstractNamedSBaseRef {
   /**
    * Creates a Port instance with an id.
    * 
-   * @param id
+   * @param id the id
    */
   public Port(String id) {
     super(id);
@@ -60,8 +58,8 @@ public class Port extends AbstractNamedSBaseRef {
   /**
    * Creates a Port instance with a level and version.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Port(int level, int version) {
     this(null, null, level, version);
@@ -70,9 +68,9 @@ public class Port extends AbstractNamedSBaseRef {
   /**
    * Creates a Port instance with an id, level, and version.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Port(String id, int level, int version) {
     this(id, null, level, version);
@@ -81,10 +79,10 @@ public class Port extends AbstractNamedSBaseRef {
   /**
    * Creates a Port instance with an id, name, level, and version.
    * 
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Port(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -98,7 +96,8 @@ public class Port extends AbstractNamedSBaseRef {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public Port(Port obj) {
     super(obj);

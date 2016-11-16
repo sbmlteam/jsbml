@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,7 +24,10 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.SubModel;
 
 /**
  * The {@link ExternalModelDefinition} objects are model definitions - in and of
@@ -35,7 +37,6 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * objects.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class ExternalModelDefinition extends AbstractNamedSBase implements UniqueNamedSBase {
@@ -69,7 +70,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   /**
    * Creates a ExternalModelDefinition instance with an id.
    * 
-   * @param id
+   * @param id the id
    */
   public ExternalModelDefinition(String id) {
     super(id);
@@ -79,9 +80,9 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   /**
    * Creates a ExternalModelDefinition instance with an id, level, and version.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public ExternalModelDefinition(String id, int level, int version) {
     this(id, null, level, version);
@@ -90,10 +91,10 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   /**
    * Creates a ExternalModelDefinition instance with an id, name, level, and version.
    * 
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public ExternalModelDefinition(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -108,7 +109,8 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public ExternalModelDefinition(ExternalModelDefinition obj) {
     super(obj);
@@ -220,13 +222,14 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   /**
    * Sets the value of the required source attribute.
    * 
-   * The source attribute is used to locate the SBML document containing
+   * <p>The source attribute is used to locate the SBML document containing
    * an {@link ExternalModelDefinition}. The value of the attribute must
    * be a URI, which includes URLs, URNs, or relative/absolute file locations.
    * The source attribute must refer specifically to an SBML Level 3 Version 1
    * document. The entire file at the given location is referenced. The source
-   * attribute must have a value for every {@link ExternalModelDefinition}.
-   * @param source
+   * attribute must have a value for every {@link ExternalModelDefinition}.</p>
+   * 
+   * @param source the value of the source
    * 
    */
   public void setSource(String source) {
@@ -277,21 +280,22 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   /**
    * Sets the value of the optional modelRef attribute.
    * 
-   * modelRef is used to identify a {@link Model} or {@link ExternalModelDefinition}
+   * <p>modelRef is used to identify a {@link Model} or {@link ExternalModelDefinition}
    * object within the SBML document located at source. The object referenced may be
    * the main model in the document, or it may be a model definition contained in the
    * SBML document's listOfModelDefinitions or listOfExternalModelDefinitions. Loops
    * are not allowed: it must be possible to follow a chain of
-   * {@link ExternalModelDefinition} objects to its end in a {@link Model} object.
+   * {@link ExternalModelDefinition} objects to its end in a {@link Model} object.</p>
    * 
-   * In core SBML, the id on {@link Model} is an optional attribute, and therefore, it
+   * <p>In core SBML, the id on {@link Model} is an optional attribute, and therefore, it
    * is possible that the {@link Model} object in a given SBML document does not have
    * an identifier. In that case, there is no value to give to the modelRef attribute
    * in {@link ExternalModelDefinition}. If modelRef does not have a value, then the
    * main model (i.e., the model element within the sbml element) in the referenced
    * file is interpreted as being the model referenced by this {@link ExternalModelDefinition}
-   * instance.
-   * @param modelRef
+   * instance.</p>
+   * 
+   * @param modelRef the value of modelRef
    */
   public void setModelRef(String modelRef) {
     String oldModelRef = this.modelRef;
@@ -305,6 +309,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 
   /**
    * Unsets the variable modelRef
+   * 
    * @return {@code true}, if modelRef was set before,
    *         otherwise {@code false}
    */
@@ -345,12 +350,13 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   /**
    * Sets the value of the optional md5 attribute.
    * 
-   * The md5 attribute takes a string value. If set, it must be an MD5 checksum value
+   * <p>The md5 attribute takes a string value. If set, it must be an MD5 checksum value
    * computed over the document referenced by source. This checksum can serve as a
    * data integrity check over the contents of the source. Applications may use this
    * to verify that the contents have not changed since the time that the
-   * {@link ExternalModelDefinition} reference was constructed.
-   * @param md5
+   * {@link ExternalModelDefinition} reference was constructed.</p>
+   * 
+   * @param md5 the value of md5
    * 
    */
   public void setMd5(String md5) {

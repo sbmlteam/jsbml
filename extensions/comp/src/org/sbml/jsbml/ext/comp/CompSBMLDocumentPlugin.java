@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -22,6 +21,8 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -32,15 +33,16 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
- * The top level of an {@link SBMLDocument} is a container whose
+ * Allows SBML documents to contain more than one model.
+ * 
+ * <p>The top level of an {@link SBMLDocument} is a container whose
  * structure is defined by the object class SBML in the SBML Level
  * 3 Version 1 Core specification. In Level 3 Core, this container
- * can contain only one more, an object of class {@link Model}. The
+ * can contain only one object of class {@link Model}. The
  * Hierarchical Model Composition package allows SBML documents to
- * contain more than one model.
+ * contain more than one model.</ps>
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class CompSBMLDocumentPlugin extends CompSBasePlugin {
@@ -61,16 +63,18 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   private ListOf<ExternalModelDefinition> listOfExternalModelDefinitions;
 
   /**
+   * Creates a new {@link CompSBMLDocumentPlugin} instance.
    * 
-   * @param doc
+   * @param doc the core {@link SBMLDocument} to is extended
    */
   public CompSBMLDocumentPlugin(SBMLDocument doc) {
     super(doc);
   }
 
   /**
+   * Creates a new {@link CompSBMLDocumentPlugin} instance.
    * 
-   * @param compSBMLDocumentPlugin
+   * @param compSBMLDocumentPlugin the instance to clone
    */
   public CompSBMLDocumentPlugin(CompSBMLDocumentPlugin compSBMLDocumentPlugin)
   {
@@ -90,7 +94,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * 
    * @param index an index
    * @return the {@link ExternalModelDefinition} with the given index if it exists.
-   * @throws IndexOutOfBoundsException
+   * @throws IndexOutOfBoundsException if the index is out of range: (index < 0 || index >= size())
    */
   public ExternalModelDefinition getExternalModelDefinition(int index) {
     return getListOfExternalModelDefinitions().get(index);
@@ -144,6 +148,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
       listOfExternalModelDefinitions.setPackageName(null);
       listOfExternalModelDefinitions.setPackageName(CompConstants.shortLabel);
       listOfExternalModelDefinitions.setSBaseListType(ListOf.Type.other);
+      listOfExternalModelDefinitions.setOtherListName(CompConstants.listOfExternalModelDefinitions);
 
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfExternalModelDefinitions);
@@ -233,7 +238,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * Sets the given {@code ListOf<ExternalModelDefinition>}. If listOfExternalModelDefinitions
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfExternalModelDefinitions
+   * @param listOfExternalModelDefinitions the list of {@link ExternalModelDefinition}s
    */
   public void setListOfExternalModelDefinitions(ListOf<ExternalModelDefinition> listOfExternalModelDefinitions) {
     unsetListOfExternalModelDefinitions();
@@ -245,6 +250,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
       listOfExternalModelDefinitions.setPackageName(null);
       listOfExternalModelDefinitions.setPackageName(CompConstants.shortLabel);
       listOfExternalModelDefinitions.setSBaseListType(ListOf.Type.other);
+      listOfExternalModelDefinitions.setOtherListName(CompConstants.listOfExternalModelDefinitions);
     }
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfExternalModelDefinitions);
@@ -324,7 +330,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * 
    * @param index an index
    * @return the {@link ModelDefinition} with the given index if it exists.
-   * @throws IndexOutOfBoundsException
+   * @throws IndexOutOfBoundsException if the index is out of range: (index < 0 || index >= size())
    */
   public ModelDefinition getModelDefinition(int index) {
     return getListOfModelDefinitions().get(index);
@@ -381,7 +387,8 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 
   /**
    * Creates a new ExternalModelDefinition element and adds it to the ListOfExternalModelDefinitions list
-   * @return
+   * 
+   * @return a new {@link ExternalModelDefinition} element
    */
   public ExternalModelDefinition createExternalModelDefinition() {
     return createExternalModelDefinition(null);
@@ -389,8 +396,8 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 
   /**
    * Creates a new {@link ExternalModelDefinition} element and adds it to the ListOfExternalModelDefinitions list
-   * @param id
-   *
+   * 
+   * @param id the id
    * @return a new {@link ExternalModelDefinition} element
    */
   public ExternalModelDefinition createExternalModelDefinition(String id) {
@@ -431,6 +438,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
       listOfModelDefinitions.setPackageName(null);
       listOfModelDefinitions.setPackageName(CompConstants.shortLabel);
       listOfModelDefinitions.setSBaseListType(ListOf.Type.other);
+      listOfModelDefinitions.setOtherListName(CompConstants.listOfModelDefinitions);
 
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfModelDefinitions);
@@ -446,7 +454,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * Sets the given {@code ListOf<ModelDefinition>}. If listOfModelDefinitions
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfModelDefinitions
+   * @param listOfModelDefinitions the list of {@link ModelDefinition}s
    */
   public void setListOfModelDefinitions(ListOf<ModelDefinition> listOfModelDefinitions) {
     unsetListOfModelDefinitions();
@@ -458,6 +466,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
       listOfModelDefinitions.setPackageName(null);
       listOfModelDefinitions.setPackageName(CompConstants.shortLabel);
       listOfModelDefinitions.setSBaseListType(ListOf.Type.other);
+      listOfModelDefinitions.setOtherListName(CompConstants.listOfModelDefinitions);
     }
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfModelDefinitions);
@@ -534,7 +543,8 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 
   /**
    * Creates a new ModelDefinition element and adds it to the ListOfModelDefinitions list
-   * @return
+   * 
+   * @return a new {@link ModelDefinition} element
    */
   public Model createModelDefinition() {
     return createModelDefinition(null);
@@ -542,8 +552,8 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 
   /**
    * Creates a new {@link ModelDefinition} element and adds it to the ListOfModelDefinitions list
-   * @param id
-   *
+   * 
+   * @param id the id
    * @return a new {@link ModelDefinition} element
    */
   public Model createModelDefinition(String id) {

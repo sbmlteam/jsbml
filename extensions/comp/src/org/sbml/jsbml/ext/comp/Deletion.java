@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,15 +24,16 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
- * The {@link Deletion} object class is used to define a deletion operation to
- * be applied when a submodel instantiates a model definition. Deletions may be
+ * Defines a deletion operation to
+ * be applied when a submodel instantiates a model definition.
+ * 
+ * <p>Deletions may be
  * useful in hierarchical model composition scenarios for various reasons. For
  * example, some components in a submodel may be redundant in the composed
  * model, perhaps because the same features are implemented in a different way
- * in the new model.
+ * in the new model.</p>
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase {
@@ -52,9 +52,9 @@ public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase 
   }
 
   /**
-   * Creates a Deletion instance with an id.
+   * Creates a new {@link Deletion} instance with an id.
    * 
-   * @param id
+   * @param id the id
    */
   public Deletion(String id) {
     super(id);
@@ -64,8 +64,8 @@ public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase 
   /**
    * Creates a Deletion instance with a level and version.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Deletion(int level, int version) {
     this(null, null, level, version);
@@ -74,9 +74,9 @@ public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase 
   /**
    * Creates a Deletion instance with an id, level, and version.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Deletion(String id, int level, int version) {
     this(id, null, level, version);
@@ -85,10 +85,10 @@ public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase 
   /**
    * Creates a Deletion instance with an id, name, level, and version.
    * 
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Deletion(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -102,7 +102,8 @@ public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase 
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public Deletion(Deletion obj) {
     super(obj);

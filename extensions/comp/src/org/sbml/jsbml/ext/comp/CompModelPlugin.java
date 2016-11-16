@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -22,7 +21,9 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -35,11 +36,9 @@ import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
- * The extended {@link Model} class adds two lists, one for holding
- * {@link Submodel}s and the other for holding {@link Port}s.
+ * Adds two lists, one for holding {@link Submodel}s and the other for holding {@link Port}s.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class CompModelPlugin extends CompSBasePlugin implements IdManager {
@@ -89,7 +88,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   /**
    * Creates a new {@link CompModelPlugin} instance, associated with the given {@link Model}
    * 
-   * @param model
+   * @param model the extended core {@link Model}
    */
   public CompModelPlugin(Model model) {
     super(model);
@@ -182,8 +181,9 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   }
 
   /**
-   * Creates a new Port element and adds it to the ListOfPorts list
-   * @return
+   * Creates a new {@link Port} element and adds it to the ListOfPorts list
+   * 
+   * @return a new {@link Port} instance.
    */
   public Port createPort() {
     return createPort(null);
@@ -191,8 +191,8 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
 
   /**
    * Creates a new {@link Port} element and adds it to the ListOfPorts list
-   * @param id
-   *
+   * 
+   * @param id the id
    * @return a new {@link Port} element
    */
   public Port createPort(String id) {
@@ -202,8 +202,9 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   }
 
   /**
-   * Creates a new Submodel element and adds it to the ListOfSubmodels list
-   * @return
+   * Creates a new {@link Submodel} element and adds it to the ListOfSubmodels list
+   * 
+   * @return a new {@link Submodel} element
    */
   public Submodel createSubmodel() {
     return createSubmodel(null);
@@ -213,7 +214,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * Creates a new {@link Submodel} element and adds it to the ListOfSubmodels
    * list
    * 
-   * @param id
+   * @param id the id
    * @return a new {@link Submodel} element
    */
   public Submodel createSubmodel(String id) {
@@ -311,6 +312,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
       listOfPorts.setPackageName(null);
       listOfPorts.setPackageName(CompConstants.shortLabel);
       listOfPorts.setSBaseListType(ListOf.Type.other);
+      listOfPorts.setOtherListName(CompConstants.listOfPorts);
 
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfPorts);
@@ -337,6 +339,8 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
       listOfSubmodels.setPackageName(null);
       listOfSubmodels.setPackageName(CompConstants.shortLabel);
       listOfSubmodels.setSBaseListType(ListOf.Type.other);
+      listOfSubmodels.setOtherListName(CompConstants.listOfSubmodels);
+      
       if (extendedSBase != null) {
         extendedSBase.registerChild(listOfSubmodels);
       }
@@ -369,7 +373,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * 
    * @param index an index
    * @return the {@link Port} with the given index if it exists.
-   * @throws IndexOutOfBoundsException
+   * @throws IndexOutOfBoundsException if the index is out of range: (index < 0 || index >= size())
    */
   public Port getPort(int index) {
     return getListOfPorts().get(index);
@@ -410,7 +414,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * 
    * @param index an index
    * @return the {@link Submodel} with the given index if it exists.
-   * @throws IndexOutOfBoundsException
+   * @throws IndexOutOfBoundsException if the index is out of range: (index < 0 || index >= size())
    */
   public Submodel getSubmodel(int index) {
     return getListOfSubmodels().get(index);
@@ -556,18 +560,18 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * Sets the optional {@code ListOf<Port>}. If listOfPorts
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfPorts
+   * @param listOfPorts the list of {@link Port}s.
    */
   public void setListOfPorts(ListOf<Port> listOfPorts) {
     unsetListOfPorts();
     this.listOfPorts = listOfPorts;
     if ((this.listOfPorts != null)) {
-      this.listOfPorts.setSBaseListType(ListOf.Type.other);
-      listOfPorts.unsetNamespace();
       listOfPorts.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfPorts.setPackageName(null);
       listOfPorts.setPackageName(CompConstants.shortLabel);
+      listOfPorts.setSBaseListType(ListOf.Type.other);
+      listOfPorts.setOtherListName(CompConstants.listOfPorts);
     }
     if (extendedSBase != null) {
       extendedSBase.registerChild(this.listOfPorts);
@@ -578,17 +582,18 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * Sets the optional {@code ListOf<Submodel>}. If listOfSubmodels
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfSubmodels
+   * @param listOfSubmodels the list of {@link Submodel}s.
    */
   public void setListOfSubmodels(ListOf<Submodel> listOfSubmodels) {
     unsetListOfSubmodels();
     this.listOfSubmodels = listOfSubmodels;
     if ((this.listOfSubmodels != null)) {
-      this.listOfSubmodels.setSBaseListType(ListOf.Type.other);
       listOfSubmodels.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'comp'
       listOfSubmodels.setPackageName(null);
       listOfSubmodels.setPackageName(CompConstants.shortLabel);
+      listOfSubmodels.setSBaseListType(ListOf.Type.other);
+      listOfSubmodels.setOtherListName(CompConstants.listOfSubmodels);
     }
 
     if (extendedSBase != null) {
