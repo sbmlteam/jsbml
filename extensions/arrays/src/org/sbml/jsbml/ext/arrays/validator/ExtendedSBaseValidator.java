@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -45,31 +44,27 @@ import org.sbml.jsbml.ext.arrays.validator.constraints.SBaseWithDimensionCheck;
 
 
 /**
- * This validates a given {@link SBase} object in the context of a given model and makes sure that
- * the  {@link SBase}  object is in accordance with the arrays package specification.
+ * Validates a given {@link SBase} object in the context of a given model and makes sure that
+ * the {@link SBase}  object is in accordance with the arrays package specification.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 18, 2014
  */
 public class ExtendedSBaseValidator{
 
   /**
-   * Validates the given SBase object.
+   * Validates the given {@link SBase} object.
    * 
-   * @param model
-   * @param sbase
-   * @return
+   * @param model the top level {@link Model}
+   * @param sbase the {@link SBase} to validate
+   * @return a list of {@link SBMLError}s
    */
   public static List<SBMLError> validate(Model model, SBase sbase) {
 
     List<ArraysConstraint> listOfConstraints = new ArrayList<ArraysConstraint>();
-
-
     List<SBMLError> listOfErrors = new ArrayList<SBMLError>();
     
-    addConstraints(model,sbase, listOfConstraints);
+    addConstraints(model, sbase, listOfConstraints);
 
     for (ArraysConstraint constraint : listOfConstraints) {
       constraint.check();
@@ -80,30 +75,34 @@ public class ExtendedSBaseValidator{
 
 
   /**
-   * Populates the list of constraints based on the type of the given sbase
+   * Populates the list of constraints based on the type of the given {@link SBase}
    * to be validated.
-   * @param model
-   * @param sbase
-   * @param listOfConstraints
+   * 
+   * @param model the top level {@link Model}
+   * @param sbase the {@link SBase} to validate
+   * @param listOfConstraints a list of {@link ArraysConstraint} to be populated
    */
   private static void addConstraints(Model model, SBase sbase, List<ArraysConstraint> listOfConstraints) {
-    if (canHaveDimension(sbase)) {      
-      DimensionArrayDimCheck arrayDimCheck = new DimensionArrayDimCheck(model,sbase);
+    if (canHaveDimension(sbase)) 
+    {      
+      DimensionArrayDimCheck arrayDimCheck = new DimensionArrayDimCheck(model, sbase);
       listOfConstraints.add(arrayDimCheck);
     }
-    else {
+    else 
+    {
       SBaseWithDimensionCheck dimensionCheck = new SBaseWithDimensionCheck(model, sbase);
       listOfConstraints.add(dimensionCheck);
     }
     
-    IndexArrayDimCheck indexArrayDimCheck = new IndexArrayDimCheck(model,sbase);
+    IndexArrayDimCheck indexArrayDimCheck = new IndexArrayDimCheck(model, sbase);
     listOfConstraints.add(indexArrayDimCheck);
   }
   
   /**
-   * Checks if this sbase can have a list of dimension
-   * @param sbase
-   * @return
+   * Checks if this {@link SBase} can have a list of {@link Dimension}.
+   * 
+   * @param sbase the {@link SBase} to check
+   * @return {@code true} if this {@link SBase} can have a list of {@link Dimension}.
    */
   private static boolean canHaveDimension(SBase sbase) {
     
@@ -140,6 +139,7 @@ public class ExtendedSBaseValidator{
     if (sbase instanceof Index) {
       return false;
     }
+    
     return true;
   }
   

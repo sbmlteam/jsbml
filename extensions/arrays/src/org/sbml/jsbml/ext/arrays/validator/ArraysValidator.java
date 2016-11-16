@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -42,17 +41,15 @@ import org.sbml.jsbml.ext.arrays.Index;
  * not violate any validation rules specified in the Arrays Package Specifications.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 15, 2014
  */
 public class ArraysValidator {
 
   /**
-   * Validates the given SBMLDocument
+   * Validates the given {@link SBMLDocument}
    * 
    * @param document - a document that needs to be validated
-   * @return a list of errors
+   * @return a list of {@link SBMLError}s
    */
   public static List<SBMLError> validate(SBMLDocument document) {
     List<SBMLError> listOfErrors = new ArrayList<SBMLError>();
@@ -70,14 +67,13 @@ public class ArraysValidator {
 
 
   /**
-   * 
-   * Validates the given SBMLDocument
+   * Validates the given {@link SBMLDocument}
    * 
    * @param document - a document that needs to be validated
    * @param filter - a flag that indicates whether you want to 
    * filter out comp warnings.
    * 
-   * @return
+   * @return a list of {@link SBMLError}s
    */
   public static List<SBMLError> validate(SBMLDocument document, boolean filter) {
     List<SBMLError> listOfErrors = validate(document);
@@ -107,16 +103,15 @@ public class ArraysValidator {
   /**
    * Recursively checks all nodes in the document.
    * 
-   * @param model
-   * @param node
-   * @param listOfErrors
+   * @param model a document that needs to be validated
+   * @param node the node currently validated
+   * @param listOfErrors a list of {@link SBMLError}s
    */
   private static void validate(Model model, TreeNode node, List<SBMLError> listOfErrors) {
 
-    @SuppressWarnings("unchecked")
-    Enumeration<TreeNode> children = node.children();
     if (node instanceof SBase) {
       listOfErrors.addAll(ExtendedSBaseValidator.validate(model, (SBase) node));
+      
       if (node instanceof Dimension) {
         listOfErrors.addAll(DimensionValidator.validate(model, (Dimension) node));
       }
@@ -128,12 +123,14 @@ public class ArraysValidator {
       }
     } 
 
-
+    // Validating all children
+    @SuppressWarnings("unchecked")
+    Enumeration<TreeNode> children = node.children();
+    
     while(children.hasMoreElements()) {
       TreeNode child = children.nextElement();
       validate(model, child, listOfErrors);
     }
-
   }
 
 }

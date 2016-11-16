@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -20,8 +19,6 @@
  */
 /**
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 25, 2014
  */
 package org.sbml.jsbml.ext.arrays.validator;

@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -36,8 +35,6 @@ import java.util.prefs.Preferences;
  * e.g., {@link Preferences}).
  * 
  * @author Andreas Dr&auml;ger
- * @date 2011-01-05
- * @version $Rev$
  * @since 1.0
  */
 public class ResourceManager {

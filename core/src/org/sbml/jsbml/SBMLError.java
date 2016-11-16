@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -21,17 +20,8 @@
  */
 package org.sbml.jsbml;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.ref.SoftReference;
-import java.net.URISyntaxException;
-
 import org.sbml.jsbml.util.Detail;
 import org.sbml.jsbml.util.Message;
-import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLException;
 
@@ -45,14 +35,12 @@ import org.sbml.jsbml.xml.XMLException;
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class SBMLError extends XMLException {
 
     /**
      * 
      * @author Nicolas Rodriguez
-     * @version $Rev$
      * @since 0.8
      */
     public enum SEVERITY {
@@ -194,8 +182,9 @@ public class SBMLError extends XMLException {
     }
 
     /**
+     * Returns the full {@link Message}.
      * 
-     * @return
+     * @return the full {@link Message}.
      */
     public Message getMessageInstance() {
 	return message;

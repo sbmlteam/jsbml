@@ -7528,6 +7528,7 @@ public interface SBMLErrorCodes {
     public static final int ARRAYS_20305 = 8020305;
     public static final int ARRAYS_20306 = 8020306;
     public static final int ARRAYS_20307 = 8020307;
+    public static final int ARRAYS_20308 = 8020308;
 
     
     /**
@@ -7714,6 +7715,7 @@ public interface SBMLErrorCodes {
     public static final int MULTI_22101 = 7022101;
     public static final int MULTI_22102 = 7022102;
     public static final int MULTI_22103 = 7022103;
+
     
     
     

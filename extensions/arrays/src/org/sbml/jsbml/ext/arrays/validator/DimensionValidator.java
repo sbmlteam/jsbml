@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -33,22 +32,20 @@ import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint;
 import org.sbml.jsbml.ext.arrays.validator.constraints.DimensionSizeCheck;
 
 /**
- * This validates a given {@link Dimension} object in the context of a given model and makes sure that
+ * Validates a given {@link Dimension} object in the context of a given model and makes sure that
  * the dimension object is in accordance with the arrays package specification.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 19, 2014
  */
 public class DimensionValidator {
 
   /**
    * Validates the given {@link SBase} object.
    * 
-   * @param model
-   * @param dim
-   * @return
+   * @param model the top level {@link Model}
+   * @param dim the {@link Dimension} to validate
+   * @return a list of {@link SBMLError}s
    */
   public static List<SBMLError> validate(Model model, Dimension dim) {
 
@@ -70,9 +67,9 @@ public class DimensionValidator {
    * Populates the list of constraints based on the type of the given sbase
    * to be validated.
    * 
-   * @param model
-   * @param dim
-   * @param listOfConstraints
+   * @param model the top level {@link Model}
+   * @param dim the {@link Dimension} to validate
+   * @param listOfConstraints a list of {@link ArraysConstraint} to be populated
    */
   private static void addConstraints(Model model, Dimension dim, List<ArraysConstraint> listOfConstraints) {
     DimensionSizeCheck dimSizeCheck = new DimensionSizeCheck(model, dim);

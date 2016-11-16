@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -43,9 +42,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * constant values or {@link Dimension} ids.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 27, 2014
  */
 public class StaticallyComputableCompiler implements ASTNodeCompiler {
 
@@ -847,7 +844,6 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
 
   @Override
   public ASTNodeValue getRateOf(String name) {
-    // TODO Auto-generated method stub
-    return null;
+    return compile(name);
   }
 }
