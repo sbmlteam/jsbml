@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,14 +30,13 @@ import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.util.ResourceManager;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 /**
- * This checks if the {@link Dimension} objects of a given {@link SBase} have valid array dimension.
+ * Checks if the {@link Dimension} objects of a given {@link SBase} have valid array dimension.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 10, 2014
  */
 public class DimensionArrayDimCheck extends ArraysConstraint {
 
@@ -53,9 +51,10 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
   private final SBase sbase;
 
   /**
-   * Constructs a DimensionArrayDimCheck with a model and sbase.
-   * @param model
-   * @param sbase
+   * Creates a DimensionArrayDimCheck with a model and sbase.
+   * 
+   * @param model the top level {@link Model}
+   * @param sbase the {@link SBase} to validate
    */
   public DimensionArrayDimCheck(Model model, SBase sbase)
   {
@@ -116,12 +115,12 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
   }
 
   /**
-   * Log an error indicating that two or more Dimension objects have the same array dimension.
+   * Logs an error indicating that two or more Dimension objects have the same array dimension.
    * 
-   * @param shortMsg
+   * @param shortMsg the short message
    */
   private void logArrayDimensionUniqueness(String shortMsg) {
-    int code = 20104, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20104, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("DimensionArrayDimCheck.logArrayDimensionUniqueness");
@@ -131,13 +130,13 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
 
 
   /**
-   * Log an error indicating a listOfDimensions have a Dimension with array dimension n
+   * Logs an error indicating a listOfDimensions have a Dimension with array dimension n
    * but not a Dimension with array dimension from 0...n-1.
    * 
-   * @param shortMsg
+   * @param shortMsg the short message
    */
   private void logArrayDimensionMissing(String shortMsg) {
-    int code = 20103, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20103, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("DimensionArrayDimCheck.logArrayDimensionMissing");

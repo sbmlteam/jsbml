@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -34,6 +33,7 @@ import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.ext.arrays.util.ArraysMath;
 import org.sbml.jsbml.util.ResourceManager;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 
 /**
@@ -41,9 +41,7 @@ import org.sbml.jsbml.util.ResourceManager;
  * it doesn't go out of bounds.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 17, 2014
  */
 public class IndexAttributesCheck extends ArraysConstraint {
 
@@ -201,7 +199,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
    * @param shortMsg
    */
   private void logDimensionMismatch(String shortMsg) {
-    int code = 20305, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20305, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("IndexAttributesCheck.logDimensionMismatch");
@@ -213,7 +211,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
    * @param shortMsg
    */
   private void logNotBounded(String shortMsg) {
-    int code = 20308, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20308, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("IndexAttributesCheck.logNotBounded");
@@ -225,7 +223,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
    * @param shortMsg
    */
   private void logNotStaticComp(String shortMsg) {
-    int code = 20307, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20307, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("IndexAttributesCheck.logNotStaticComp");
@@ -237,7 +235,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
    * @param shortMsg
    */
   private void logIndexMissingAttribute(String shortMsg) {
-    int code = 20302, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20302, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("IndexAttributesCheck.logIndexMissingAttribute");
@@ -249,7 +247,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
    * @param shortMsg
    */
   private void logInvalidRefAttribute(String shortMsg) {
-    int code = 20303, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20303, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("IndexAttributesCheck.logInvalidRefAttribute");

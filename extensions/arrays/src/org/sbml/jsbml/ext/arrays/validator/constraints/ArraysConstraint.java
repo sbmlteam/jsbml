@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,9 +34,7 @@ import org.sbml.jsbml.util.Message;
  * violate a certain validation rule defined in the arrays specification.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 13, 2014
  */
 public abstract class ArraysConstraint {
 
@@ -62,7 +59,7 @@ public abstract class ArraysConstraint {
   /**
    * Constructs an ArraysConstraint with a model.
    * 
-   * @param model
+   * @param model a core {@link Model}
    */
   public ArraysConstraint(Model model) {
     this.model = model;
@@ -70,31 +67,32 @@ public abstract class ArraysConstraint {
   }
 
   /**
-   * This function is used to check if the given model
+   * Checks if the given model
    * doesn't violate the constraint specified by this
    * object.
    */
   public abstract void check(); // TODO: return list of errors
 
   /**
-   * Get the listOfErrors after checking the model.
-   * @return
+   * Gets the listOfErrors after checking the model.
+   * 
+   * @return the list of {@link SBMLError}s after checking the model.
    */
   public List<SBMLError> getListOfErrors() {
     return listOfErrors;
   }
 
   /**
-   * This is used to log an error when checking the given model.
+   * Logs an error when checking the given model.
    * 
-   * @param code
-   * @param severity
-   * @param category
-   * @param line
-   * @param column
-   * @param pkg
-   * @param msg
-   * @param shortMsg
+   * @param code the error code
+   * @param severity the error severity
+   * @param category the error category
+   * @param line the line number
+   * @param column the column number
+   * @param pkg the SBML package the {@link SBMLError} belong to.
+   * @param msg the message
+   * @param shortMsg the short message
    */
   protected void logFailure(int code, int severity, int category, int line, int column, String pkg, String msg, String shortMsg) {
     SBMLError error = new SBMLError();

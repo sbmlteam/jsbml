@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -33,14 +32,12 @@ import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint;
 import org.sbml.jsbml.ext.arrays.validator.constraints.IndexAttributesCheck;
 
 /**
- * This validates a given {@link Index} object in the context of a given model
+ * Validates a given {@link Index} object in the context of a given model
  * and makes sure that the {@link Index} object is in accordance with the arrays
  * package specification.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 19, 2014
  */
 public class IndexValidator {
 

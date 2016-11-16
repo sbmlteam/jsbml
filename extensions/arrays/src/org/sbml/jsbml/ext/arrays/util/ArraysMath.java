@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -47,14 +46,12 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 26, 2014
  */
 public class ArraysMath {
 
   /**
-   * This method is used to check if the math does not evaluate to a negative number or to a value greater or
+   * Checks if the math does not evaluate to a negative number or to a value greater or
    * equal to a given size value.
    * 
    * @param dimensionSizes
@@ -94,14 +91,14 @@ public class ArraysMath {
   }
 
   /**
-   * This method is used to check if the index math does not go out of bounds.
+   * Checks if the index math does not go out of bounds.
    * 
    * @param model
    * @param index
    * @return
    */
   public static boolean evaluateIndexBounds(Model model, Index index) {
-    //TODO test it
+
     SBase parent = index.getParentSBMLObject().getParentSBMLObject();
 
     SBase parents = parent.getParentSBMLObject();
@@ -148,7 +145,7 @@ public class ArraysMath {
   }
 
   /**
-   * This method checks if adding an {@link Index} object to a parent
+   * Checks if adding an {@link Index} object to a parent
    * {@link SBase} object for referencing another {@link SBase} object does not
    * cause out-of-bounds issues.
    * 
@@ -160,7 +157,6 @@ public class ArraysMath {
    * @return
    */
   public static boolean evaluateIndexBounds(Model model, SBase reference, int arrayDim, ASTNode math, Map<String, Double> dimSizes) {
-    //TODO test it
 
     ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) reference.getExtension(ArraysConstants.shortLabel);
 
@@ -183,7 +179,7 @@ public class ArraysMath {
   }
 
   /**
-   * This method checks if adding an {@link Index} object to a parent
+   * Checks if adding an {@link Index} object to a parent
    * {@link SBase} object for referencing another {@link SBase} object does not
    * cause out-of-bounds issues.
    * 
@@ -195,7 +191,6 @@ public class ArraysMath {
    * @return
    */
   public static boolean evaluateIndexBounds(Model model, SBase parent, String refAttribute, ASTNode math, int arrayDim) {
-    //TODO test it
 
     String refId = parent.writeXMLAttributes().get(refAttribute);
 
@@ -228,7 +223,7 @@ public class ArraysMath {
   }
 
   /**
-   * This is used to check if the arguments of a selector function does not go out of bounds.
+   * Checks if the arguments of a selector function does not go out of bounds.
    * 
    * @param model
    * @param mathContainer
@@ -328,7 +323,7 @@ public class ArraysMath {
 
 
   /**
-   * This method maps a dimension id to the size of the dimension object.
+   * Maps a dimension id to the size of the dimension object.
    * 
    * @param model
    * @param arraysSBasePlugin
@@ -353,7 +348,7 @@ public class ArraysMath {
   }
 
   /**
-   * This method is used to get the lower bound index from a collection of Dimension objects.
+   * Returns the lower bound index from a collection of Dimension objects.
    * 
    * @param dimSizes
    * @return
@@ -369,7 +364,7 @@ public class ArraysMath {
   }
 
   /**
-   * This method is used to get the upper bound index from a collection of Dimension objects.
+   * Returns the upper bound index from a collection of Dimension objects.
    * 
    * @param dimSizes
    * @return
@@ -387,8 +382,7 @@ public class ArraysMath {
 
 
   /**
-   * This method is used to determine whether a {@link MathContainer} object is
-   * statically computable.
+   * Determines whether a {@link MathContainer} object is statically computable.
    * 
    * @param model
    * @param index
@@ -430,7 +424,7 @@ public class ArraysMath {
   }
 
   /**
-   * This method is used to determine whether a {@link MathContainer} object is statically computable.
+   * Determines whether a {@link MathContainer} object is statically computable.
    * 
    * @param model
    * @param mathContainer
@@ -479,7 +473,7 @@ public class ArraysMath {
   }
 
   /**
-   * This method is used to determine whether a {@link MathContainer} object is statically computable given
+   * Determines whether a {@link MathContainer} object is statically computable given
    * a list of ids that can appear in the math.
    * 
    * @param model
@@ -504,7 +498,7 @@ public class ArraysMath {
   }
 
   /**
-   * This method is used to determine whether a {@link MathContainer} object is
+   * Determines whether a {@link MathContainer} object is
    * statically computable given a list of ids that can appear in the math.
    * 
    * @param model
@@ -625,9 +619,9 @@ public class ArraysMath {
   }
 
   /**
-   * This is used to obtain a map containing a pair of array depth level and its size.
-   * @param model
+   * Returns a map containing a pair of array depth level and its size.
    * 
+   * @param model
    * @param math
    * @return
    */
@@ -638,7 +632,7 @@ public class ArraysMath {
   }
 
   /**
-   * This is used to determine how many levels deep the array is and what is the corresponding
+   * Determines how many levels deep the array is and what is the corresponding
    * size of each level.
    * 
    * @param sizeByLevel
@@ -697,7 +691,7 @@ public class ArraysMath {
   }
 
   /**
-   * This is used to check if the array is regular.
+   * Checka if the array is regular.
    * 
    * @param model
    * @param sizeByLevel

@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,14 +29,13 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.util.ResourceManager;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 /**
- * This checks if the given {@link SBase} is allowed to have a listOfDimensions.
+ * Checks that the given {@link SBase} does not have a listOfDimensions, otherwise reports an error.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 18, 2014
  */
 public class SBaseWithDimensionCheck extends ArraysConstraint {
 
@@ -53,8 +51,9 @@ public class SBaseWithDimensionCheck extends ArraysConstraint {
 
   /**
    * Creates a new SBaseWithDimensionCheck with a model and sbase.
-   * @param model
-   * @param sbase
+   * 
+   * @param model the top level {@link Model}
+   * @param sbase the {@link SBase} to validate
    */
   public SBaseWithDimensionCheck(Model model, SBase sbase)
   {
@@ -81,10 +80,11 @@ public class SBaseWithDimensionCheck extends ArraysConstraint {
 
   /**
    * Log an error indicating this object cannot have a listOfDimensions but it does.
-   * @param shortMsg
+   * 
+   * @param shortMsg the short message
    */
   private void logDimensionError(String shortMsg) {
-    int code = 20107, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20107, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("SBaseWithDimensionCheck.logDimensionError");
