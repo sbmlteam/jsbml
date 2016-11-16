@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,6 +28,7 @@ import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 
@@ -38,9 +38,7 @@ import org.sbml.jsbml.util.StringTools;
  * is arrayed.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date May 11, 2014
  */
 public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
@@ -75,7 +73,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
   /**
    * Creates a Dimension instance with an id.
    * 
-   * @param id
+   * @param id the id
    */
   public Dimension(String id) {
     super(id);
@@ -86,8 +84,8 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
   /**
    * Creates a Dimension instance with a level and version.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Dimension(int level, int version) {
     this(null, null, level, version);
@@ -97,9 +95,9 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
   /**
    * Creates a Dimension instance with an id, level, and version.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Dimension(String id, int level, int version) {
     this(id, null, level, version);
@@ -109,10 +107,10 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
   /**
    * Creates a Dimension instance with an id, name, level, and version.
    * 
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * @param id the id
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Dimension(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -127,7 +125,8 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public Dimension(Dimension obj) {
     super(obj);
@@ -196,7 +195,8 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
   /**
    * Sets the value of size
-   * @param size
+   * 
+   * @param size the value of size
    */
   public void setSize(String size) {
     String oldSize = this.size;
@@ -249,7 +249,8 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
   /**
    * Sets the value of arrayDimension
-   * @param arrayDimension
+   * 
+   * @param arrayDimension the value of arrayDimension
    */
   public void setArrayDimension(int arrayDimension) {
     int oldArrayDimension = this.arrayDimension;

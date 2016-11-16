@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,9 +29,7 @@ import java.util.List;
  * This is where the constants that are frequently used in the arrays package are defined.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date May 10, 2014
  */
 public class ArraysConstants {
 
@@ -109,9 +106,10 @@ public class ArraysConstants {
 
   /**
    * Returns the namespace URI associated with the arrays package.
-   * @param level
-   * @param version
-   * @return
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
+   * @return the namespace URI associated with the arrays package.
    */
   public static String getNamespaceURI(int level, int version) {
     return namespaceURI;
