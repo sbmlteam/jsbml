@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,7 +22,9 @@
 package org.sbml.jsbml.ext.arrays;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -40,18 +41,17 @@ import org.sbml.jsbml.util.IdManager;
  * The {@link ArraysSBasePlugin} class extends the {@link SBase} class by adding
  * an optional ListOf{@link Dimension}s child and a single optional
  * {@link Index} child.
+ * 
  * <p>
  * The {@link ArraysSBasePlugin} class codifies the extensions to the
  * {@link SBase} class defined in the 'Arrays' package. These extensions allows
  * the modeler to define one or more {@link Dimension} elements to indicate the
  * parent {@link SBase} object is arrayed. In addition, these extensions allows
  * the definition of one or more {@link Index} elements to reference the parent
- * {@link SBase} that has one or more array dimensions.
+ * {@link SBase} that has one or more array dimensions.</p>
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date May 9, 2014
  * @see Dimension
  * @see Index
  */
@@ -84,7 +84,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   private ListOf<Dimension> listOfDimensions;
 
   /**
-   * Creates an ArraysSBasePlugin instance
+   * Creates an new {@link ArraysSBasePlugin} instance.
    */
   public ArraysSBasePlugin() {
     super();
@@ -92,9 +92,9 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   }
 
   /**
-   * Creates an ArraysSBasePlugin with a level and a version.
+   * Creates an new {@link ArraysSBasePlugin} instance.
    * 
-   * @param extendedSBase
+   * @param extendedSBase the core {@link SBase} that is extended
    */
   public ArraysSBasePlugin(SBase extendedSBase) {
     super(extendedSBase);
@@ -103,7 +103,8 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the instance to clone
    */
   public ArraysSBasePlugin(ArraysSBasePlugin obj) {
     super(obj);
@@ -159,6 +160,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
       listOfIndices.setPackageName(null);
       listOfIndices.setPackageName(ArraysConstants.shortLabel);
       listOfIndices.setSBaseListType(ListOf.Type.other);
+      listOfIndices.setOtherListName(ArraysConstants.listOfIndices);
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfIndices);
@@ -171,7 +173,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * Sets the given {@code ListOf<Index>}. If listOfIndices
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfIndices
+   * @param listOfIndices the list of {@link Index}
    */
   public void setListOfIndices(ListOf<Index> listOfIndices) {
     unsetListOfIndices();
@@ -183,6 +185,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
       listOfIndices.setPackageName(null);
       listOfIndices.setPackageName(ArraysConstants.shortLabel);
       listOfIndices.setSBaseListType(ListOf.Type.other);
+      listOfIndices.setOtherListName(ArraysConstants.listOfIndices);
     }
 
     if (isSetExtendedSBase()) {
@@ -272,7 +275,8 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
 
   /**
    * Creates a new Index element and adds it to the listOfIndices list.
-   * @return
+   * 
+   * @return a new {@link Index} instance.
    */
   public Index createIndex() {
     Index field = new Index();
@@ -300,7 +304,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * and referenced attribute.
    *
    * @param dim the index of the {@link Index} element to get.
-   * @param attribute
+   * @param attribute the referenced attribute
    * @return an element from the listOfIndices at the given index.
    */
   public Index getIndex(int dim, String attribute) {
@@ -363,6 +367,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
       listOfDimensions.setPackageName(null);
       listOfDimensions.setPackageName(ArraysConstants.shortLabel);
       listOfDimensions.setSBaseListType(ListOf.Type.other);
+      listOfDimensions.setOtherListName(ArraysConstants.listOfDimensions);
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfDimensions);
@@ -375,7 +380,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * Sets the given {@code ListOf<Dimension>}. If listOfDimensions
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfDimensions
+   * @param listOfDimensions the list of {@link Dimension}s
    */
   public void setListOfDimensions(ListOf<Dimension> listOfDimensions) {
     unsetListOfDimensions();
@@ -387,6 +392,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
       listOfDimensions.setPackageName(null);
       listOfDimensions.setPackageName(ArraysConstants.shortLabel);
       listOfDimensions.setSBaseListType(ListOf.Type.other);
+      listOfDimensions.setOtherListName(ArraysConstants.listOfDimensions);
     }
 
     if (isSetExtendedSBase()) {
@@ -486,7 +492,8 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
 
   /**
    * Creates a new Dimension element and adds it to the ListOfDimensions list.
-   * @return
+   * 
+   * @return a new {@link Dimension} element.
    */
   public Dimension createDimension() {
     return createDimension(null);
@@ -494,8 +501,8 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
 
   /**
    * Creates a new {@link Dimension} element and adds it to the ListOfDimensions list.
-   * @param id
-   *
+   * 
+   * @param id the id
    * @return a new {@link Dimension} element.
    */
   public Dimension createDimension(String id) {

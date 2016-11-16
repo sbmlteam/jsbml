@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -40,9 +39,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * This compiler is used to evaluate an {@link ASTNode} object to a real number.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 20, 2014
  */
 public class ArraysCompiler implements ASTNodeCompiler{
 
@@ -60,7 +57,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
 
   /**
    * Clone constructor
-   * @param obj
+   * @param obj the instance to clone
    */
   public ArraysCompiler(ArraysCompiler obj) {
     idToValue = new HashMap<String,Double>(obj.idToValue);
