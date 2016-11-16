@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -49,9 +48,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 30, 2014
  */
 //TODO: need to check for errors
 //TODO: need to check if its name

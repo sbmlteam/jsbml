@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -33,14 +32,13 @@ import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.util.ResourceManager;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 /**
- * This checks if the {@link Index} objects of a given {@link SBase} have valid array dimension.
+ * Checks if the {@link Index} objects of a given {@link SBase} have valid array dimension.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 18, 2014
  */
 public class IndexArrayDimCheck extends ArraysConstraint {
 
@@ -55,10 +53,10 @@ public class IndexArrayDimCheck extends ArraysConstraint {
   private final SBase sbase;
 
   /**
-   * Constructs a new IndexArrayDimCheck with a model and sbase
+   * Creates a new {@link IndexArrayDimCheck} instance with a model and sbase
    * 
-   * @param model
-   * @param sbase
+   * @param model the top level {@link Model}
+   * @param sbase the {@link SBase} to validate
    */
   public IndexArrayDimCheck(Model model, SBase sbase)
   {
@@ -132,12 +130,12 @@ public class IndexArrayDimCheck extends ArraysConstraint {
   }
 
   /**
-   * Log an error indicating that two or more index objects have the same array dimension.
+   * Logs an error indicating that two or more index objects have the same array dimension.
    * 
-   * @param shortMsg
+   * @param shortMsg the short message
    */
   private void logArrayDimensionUniqueness(String shortMsg) {
-    int code = 20111, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20111, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("IndexArrayDimCheck.logArrayDimensionUniqueness");
@@ -147,13 +145,13 @@ public class IndexArrayDimCheck extends ArraysConstraint {
 
 
   /**
-   * Log an error indicating a listOfIndices have a Index with array dimension n
+   * Logs an error indicating a listOfIndices have a Index with array dimension n
    * but not an Index with array dimension from 0...n-1.
    * 
-   * @param shortMsg
+   * @param shortMsg the short message
    */
   private void logArrayDimensionMissing(String shortMsg) {
-    int code = 20110, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20110, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("IndexArrayDimCheck.logArrayDimensionMissing");
