@@ -26,8 +26,8 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
 
 /**
- * Provides constants for the different SBO checks. Every constant is a
- * {@link ValidationFunction} typed for SBase objects.
+ * Provides static methods for the different {@link SBO} checks. Every method is a
+ * {@link ValidationFunction} typed for {@link SBase} objects.
  * 
  * @author Roman
  * @since 1.2
