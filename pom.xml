@@ -44,7 +44,7 @@
   <developers>
     <developer>
       <name>JSBML team</name>
-      <email>jsbml-team@caltech.edu</email>
+      <email>jsbml-team@googlegroups.com</email>
       <organization>SBML Team</organization>
       <organizationUrl>http://www.sbml.org</organizationUrl>
     </developer>
@@ -57,7 +57,7 @@
   <mailingLists>
     <mailingList>
       <name>JSBML Team</name>
-      <post>jsbml-team@caltech.edu</post>
+      <post>jsbml-team@googlegroups.com</post>
     </mailingList>
     <mailingList>
       <name>JSBML Development</name>
@@ -67,9 +67,11 @@
   </mailingLists>
   
   <scm>
-    <url>scm:git:git://git@github.com:sbmlteam/jsbml.git</url>
+    <connection>scm:git:git://github.com/sbmlteam/jsbml.git</connection>
+    <developerConnection>scm:git:ssh://github.com:sbmlteam/jsbml.git</developerConnection>
+    <url>http://github.com/sbmlteam/jsbml/tree/master</url>
   </scm>
-  
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -186,6 +188,33 @@
         </configuration>
       </plugin>
       
+      <!-- plugins needed to deploy to sonatype/maven central --> 
+      <plugin>
+      	<groupId>org.sonatype.plugins</groupId>
+      <artifactId>nexus-staging-maven-plugin</artifactId>
+      <version>1.6.7</version>
+      <extensions>true</extensions>
+      <configuration>
+        <serverId>ossrh</serverId>
+        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+      </configuration>
+      </plugin>
+      <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-gpg-plugin</artifactId>
+      <version>1.5</version>
+      <executions>
+        <execution>
+          <id>sign-artifacts</id>
+          <phase>verify</phase>
+          <goals>
+            <goal>sign</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+    
     </plugins>
   </build>
 
@@ -213,17 +242,15 @@
   
   <distributionManagement>
 
-    <repository>
-      <id>jsbml-maven-repo-sf</id>
-      <name>JSBML Maven repository</name>
-      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
-  	</repository>
+  <snapshotRepository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+  </snapshotRepository>
+  <repository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+  </repository>
 
-    <snapshotRepository>
-      <id>jsbml-maven-repo-s-sf</id>
-      <name>JSBML Maven SNAPSHOT repository</name>
-      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
-    </snapshotRepository>
 
 <!-- 
 To Deploy locally
@@ -236,6 +263,19 @@ To Deploy locally
 
     if  snapshotRepository is not define, the defined repository
     will be used for snapshots as well.
+
+-->
+<!--
+To Deploy to sonatype
+
+  <snapshotRepository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+  </snapshotRepository>
+  <repository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+  </repository>
 
 -->
 <!--
