@@ -152,7 +152,7 @@
 		
 		<!-- don't commit the repo url for releases to avoid messing it up as much as possible -->
 		<!-- <property name="maven.repo.url" value="scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots"/> -->
-		<property name="maven.repo.url" value="https://oss.sonatype.org/content/repositories/snapshots"/> <!-- releases -->
+		<property name="maven.repo.url" value="https://oss.sonatype.org/content/repositories/snapshots"/> <!-- https://oss.sonatype.org/service/local/staging/deploy/maven2 -->
 		<property name="maven.repo.id" value="ossrh"/>
 		<!-- local test instance url file:///homes/maven/public_html/m2repo, sourceforge: jsbml-maven-repo-sf -->
 		
@@ -837,14 +837,14 @@
 		</exec>
 
 		<!-- deploy a pseudo jar file to be able to have all dependencies defined in one go ? -->
-		<!-- mvn deploy:deploy-file -DpomFile=./dev/maven/pom.xml -Dfile=./dev/maven/jsbml-pom.jar -->
+		<!-- mvn deploy:deploy-file -DpomFile=dev/maven/pom.xml -Dfile=dev/maven/jsbml-pom.jar -->
 		
 		<exec executable="mvn">
-			<arg value="deploy:deploy-file"/>
-			<arg value="-DpomFile=./dev/maven/pom.xml"/>
-			<arg value="-Dfile=./dev/maven/jsbml-pom.jar"/>
-			<arg value="-Dsources=./dev/maven/jsbml-pom-sources.jar"/>
-			<arg value="-Djavadoc=./dev/maven/jsbml-pom-javadoc.jar"/>
+			<arg value="gpg:sign-and-deploy-file"/> <!-- use 'gpg:sign-and-deploy-file' to be able to sign the files when deploying --> 
+			<arg value="-DpomFile=dev/maven/pom.xml"/>
+			<arg value="-Dfile=dev/maven/jsbml-pom.jar"/>
+			<arg value="-Dsources=dev/maven/jsbml-pom-sources.jar"/>
+			<arg value="-Djavadoc=dev/maven/jsbml-pom-javadoc.jar"/>
 			<arg value="-Durl=${maven.repo.url}"/>
 			<arg value="-DrepositoryId=${maven.repo.id}"/>
 		</exec>
