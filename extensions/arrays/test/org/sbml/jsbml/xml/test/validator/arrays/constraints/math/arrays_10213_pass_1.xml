@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model>
+    <listOfParameters>
+      <parameter constant="true" id="n" value="3"/>
+      <parameter constant="false" id="X"/>
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="X">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <cn type="integer"> 1 </cn>
+        </math>
+            </assignmentRule>
+    </listOfRules>
+  </model>
+</sbml>
