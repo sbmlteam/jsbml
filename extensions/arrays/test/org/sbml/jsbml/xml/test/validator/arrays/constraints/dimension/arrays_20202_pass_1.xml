@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" arrays:required="true" level="3" version="1" xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
+  <model>
+    <listOfParameters>
+      <parameter constant="true" id="n" value="3"/>
+      <parameter constant="false" id="X">
+        <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
+          <arrays:dimension arrays:arrayDimension="0" arrays:id="i" arrays:size="n"/>
+        </arrays:listOfDimensions>
+      </parameter>
+    </listOfParameters>
+  </model>
+</sbml>

@@ -22,7 +22,7 @@
           <arrays:dimension arrays:arrayDimension="0" arrays:id="i" arrays:size="n"/>
         </arrays:listOfDimensions>
         <arrays:listOfIndices xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
-          <arrays:index arrays:arrayDimension="0">
+          <arrays:index arrays:arrayDimension="0" arrays:referencedAttribute="variable">
             <math xmlns="http://www.w3.org/1998/Math/MathML">            
               <ci> i </ci>
             </math>
