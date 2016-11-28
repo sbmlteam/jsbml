@@ -27,7 +27,7 @@
           <arrays:dimension arrays:arrayDimension="0" arrays:id="i" arrays:size="n"/>
         </arrays:listOfDimensions>
         <arrays:listOfIndices xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
-          <arrays:index arrays:arrayDimension="0">
+          <arrays:index arrays:arrayDimension="0" arrays:referencedAttribute="variable">
           </arrays:index>
         </arrays:listOfIndices>
       </assignmentRule>
