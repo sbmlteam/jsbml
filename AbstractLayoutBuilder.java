@@ -65,7 +65,7 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
    */
   public SBGNArc<ArcT> createArc(SpeciesReferenceGlyph srg,
     ReactionGlyph reactionGlyph) {
-    logger.fine(MessageFormat.format("building arc from srgId={0} to rgId={1}", srg.getId(), reactionGlyph.getId()));
+    logger.fine(MessageFormat.format("building arc from srgId=''{0}'' to rgId=''{1}''", srg.getId(), reactionGlyph.getId()));
     int sboTerm = -1;
     SpeciesReferenceRole speciesReferenceRole = null;
     SBGNArc<ArcT> arc = null;
