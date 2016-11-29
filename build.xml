@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <!--
-    $Id$ 
-    $URL$
-
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
 
@@ -19,7 +16,6 @@
     in the file named "LICENSE.txt" included with this software distribution
     and also available online as http://sbml.org/Software/JSBML/License.
 
-    Version: $Rev$
 -->
 <project
   default="usage"
@@ -110,6 +106,15 @@
 			<path location="${core.base.dir}/build/classes"/>
 			<fileset dir="${build.dir}" includes="*.jar *.zip"/>
 		</path>
+
+		<!-- don't commit the repo url for releases to avoid messing it up as much as possible -->
+		<!-- <property name="maven.repo.url" value="scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots"/> -->
+		<property name="maven.repo.url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2"/>
+		<!-- https://oss.sonatype.org/service/local/staging/deploy/maven2 releases -->
+		<!-- <property name="maven.repo.url" value="file:///homes/maven/public_html/m2repo"/> -->
+		<property name="maven.repo.id" value="ossrh"/>
+		<!-- local test instance url file:///homes/maven/public_html/m2repo, sourceforge: jsbml-maven-repo-sf -->
+
 
 	</target>
 
@@ -611,6 +616,58 @@
 			<fileset dir="${tidy.module.base.dir}/dist/" includes="*.zip" />
 		</copy>
 
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Install jsbml in the local repo                                     -->
+	<!-- =================================================================== -->
+	<target
+	  name="maven-install"
+      description="Install jsbml localy"
+	  depends="init"
+	>
+		<exec executable="mvn">
+			<arg value="javadoc:jar"/>
+			<arg value="source:jar"/>
+			<arg value="install"/>
+		</exec>
+
+		<!-- 	TODO - add the jsbml artifact as well ?
+		 -->
+
+	</target>
+	
+	<!-- =================================================================== -->
+	<!-- Deploy jsbml in a remote repo                                     -->
+	<!-- =================================================================== -->
+	<target
+	  name="maven-deploy"
+      description="Deploy jsbml remotely"
+	  depends="init"
+	>
+		<!-- 	mvn javadoc:jar source:jar deploy
+		 -->
+		<exec executable="mvn">
+			<arg value="javadoc:jar"/>
+			<arg value="source:jar"/>
+			<arg value="deploy"/>
+		</exec>
+
+		<!-- deploy a pseudo jar file to be able to have all dependencies defined in one go ? -->
+		<!-- mvn deploy:deploy-file -DpomFile=./dev/maven/pom.xml -Dfile=./dev/maven/jsbml-pom.jar -->
+		
+		<exec executable="mvn">
+			<arg value="gpg:sign-and-deploy-file"/>
+			<arg value="-DpomFile=dev/maven/pom.xml"/>
+			<arg value="-Dfile=dev/maven/jsbml-pom.jar"/>
+			<arg value="-Dsources=dev/maven/jsbml-pom-sources.jar"/>
+			<arg value="-Djavadoc=dev/maven/jsbml-pom-javadoc.jar"/>
+			<arg value="-Durl=${maven.repo.url}"/>
+			<arg value="-DrepositoryId=${maven.repo.id}"/>
+		</exec>
+		
+		<!-- mvn test jar:test-jar to generate the test jar files to be able to run the tests in a new project -->
+		
 	</target>
 
 

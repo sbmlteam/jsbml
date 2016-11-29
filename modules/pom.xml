@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    $Id$ 
-    $URL$
+    $Id: pom.xml 2016 2014-10-06 15:09:00Z niko-rodrigue $ 
+    $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/tags/jsbml-1.0/modules/pom.xml $
 
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
@@ -19,7 +19,7 @@
     in the file named "LICENSE.txt" included with this software distribution
     and also available online as http://sbml.org/Software/JSBML/License.
 
-    Version: $Rev$
+    Version: $Rev: 2016 $
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -28,68 +28,45 @@
 
     <groupId>org.sbml.jsbml.modules</groupId>
     <artifactId>modules</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <parent>
         <groupId>org.sbml.jsbml</groupId>
         <artifactId>jsbml-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
         <relativePath>../</relativePath>
     </parent>
     
-    <build>
-        <sourceDirectory>${basedir}/src/</sourceDirectory>
-        
-        <testSourceDirectory>${basedir}/test/</testSourceDirectory>
-        
-        <resources>
-            <resource>
-                <directory>${basedir}/resources/</directory>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <skipTests>true</skipTests>
-                    <systemPropertyVariables>
-                        <user.dir>${basedir}/../../</user.dir>
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    
-    <repositories>
-		<repository>
-			<id>arbitrary</id>
-			<name>JSBML Maven Repository Test</name>
-			<url>http://jsbmlmavenrepotest.sourceforge.net/repo/</url>
-		</repository>
-	</repositories>
+   <build>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.sbml.jsbml.core</groupId>
-            <artifactId>jsbml_core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <modules>
-        <module>android</module>
-        <module>celldesigner</module>
-        <module>libSBMLio</module>
-        <module>tidy</module>
-    </modules>
+     <plugins>
+       <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-surefire-plugin</artifactId>
+         <version>2.19.1</version>
+         <configuration>
+           <skipTests>true</skipTests>
+         </configuration>
+       </plugin>
+     </plugins>
+   </build>
+   
+   <dependencies>
+     <dependency>
+       <groupId>org.sbml.jsbml</groupId>
+       <artifactId>jsbml-core</artifactId>
+       <version>${project.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>junit</groupId>
+       <artifactId>junit</artifactId>
+       <version>4.10</version>
+       <scope>test</scope>
+     </dependency>
+   </dependencies>
+   
+   <modules>
+     <module>tidy</module>
+   </modules>
     
 </project>
