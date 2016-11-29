@@ -169,7 +169,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
 
         return layoutModel.getListOfLayouts();
       } else {
-        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     }
@@ -203,7 +203,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
 
         newElement = dimension;
       }  else {
-        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
 
@@ -236,7 +236,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
           ListOf<SpeciesReferenceGlyph> list = reactionGlyph.getListOfSpeciesReferenceGlyphs();
           return list;
         } else {
-          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
         }
       }
@@ -250,7 +250,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
 
           return curve;
         } else {
-          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
         }
       }
@@ -274,7 +274,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
           ListOf<ReferenceGlyph> list = generalGlyph.getListOfReferenceGlyphs();
           return list;
         } else {
-          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
         }
       }
@@ -288,11 +288,11 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
 
           return curve;
         } else {
-          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
         }
       } else {
-        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     }
@@ -312,7 +312,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
 
         return dimension;
       } else {
-        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     }
@@ -324,7 +324,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
 
         newElement = curve.getListOfCurveSegments();
       } else {
-        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
 
@@ -359,7 +359,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
 
         return point;
       } else {
-        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     }
@@ -382,8 +382,8 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
       else if (elementName.equals(textGlyph)) {
         newElement = new TextGlyph();
       }
-      else if (elementName.equals(curveSegment) || elementName.equals("cubicBezier")
-          || elementName.equals("lineSegment")) // to allow reading of not properly written XML, we add  "cubicBezier" and "lineSegment" here.
+      else if (elementName.equals(curveSegment) || elementName.equals(LayoutConstants.cubicBezier)
+          || elementName.equals(LayoutConstants.lineSegment)) // to allow reading of not properly written XML, we add  "cubicBezier" and "lineSegment" here.
       {
         newElement = new CubicBezier(); //Always creating a CubicBezier instance until we know the exact 'type' of the curveElement !!
       }
@@ -400,19 +400,19 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
         newElement = new GraphicalObject();
       }
       else {
-        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
 
       if (newElement != null) {
         try {
-          listOf.add(newElement); 
+          listOf.add(newElement);
         } catch(ClassCastException e) {
           // as we do not test that we are using the right ListOf, we need to catch the exception here !
           if (logger.isDebugEnabled()) {
             logger.debug("Exception catched: " + e.getMessage());
           }
-          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));        
+          logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
           return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
         } catch(RuntimeException e) {
           logger.warn("RuntimeException catched: " + e.getMessage());
@@ -492,11 +492,11 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
 
     String name = xmlObject.getName();
 
-    if (name.equals("lineSegment") || name.equals("cubicBezier")) {
+    if (name.equals(LayoutConstants.lineSegment) || name.equals(LayoutConstants.cubicBezier)) {
       xmlObject.setName(LayoutConstants.curveSegment);
     }
 
-    if (name.equals("listOfLineSegments") || name.equals("listOfCubicBeziers")) {
+    if (name.equals(LayoutConstants.listOfLineSegments)) { // No such element defined in Layout package: || name.equals("listOfCubicBeziers")) {
       xmlObject.setName(LayoutConstants.listOfCurveSegments);
     }
 
