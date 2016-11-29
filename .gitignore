@@ -11,7 +11,8 @@
 *~
 .#*
 .git/COMMIT_EDITMSG
-
+auto
+*.synctex.gz
 
 # Generic programming things.
 # ......................................................................
