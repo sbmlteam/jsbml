@@ -26,10 +26,11 @@ it to your Java build and/or class path in order to use JSBML.
   \label{tab:dependencies}
   \centering
   \rowcolors{2}{sbmlrowgray}{}
+  \setlength{\extrarowheight}{1pt}
   \renewcommand{\arraystretch}{1.1}
-  \begin{tabular}{>{\ttfamily}lp{2.26in}l}
+  \begin{tabular}{>{\ttfamily}lm{2.25in}l}
     \toprule
-    \textbf{\sffamily Library name} & \textbf{Purpose} & \textbf{Source URL} \\
+    \textbf{\sffamily{Library name}} & \textbf{Purpose} & \textbf{Source URL} \\
     \midrule
     biojava-ontology-4.0.0.jar
     & biojava ontology-related classes~\citep{Holland2008}.
@@ -64,11 +65,16 @@ it to your Java build and/or class path in order to use JSBML.
     Dec. 2010), containing classes for date manipulation. 
     & \href{http://jigsaw.w3.org}{jigsaw.w3.org} \\
 
-    log4j-1.2-api-2.3.jar 
-    & Libraries for logging errors and other diagnostics.
-    & \href{http://logging.apache.org/log4j}{logging.apache.org/log4j} and \href{http://www.slf4j.org}{slf4j.org} \\
+    \parbox[c]{1.4in}{log4j-1.2-api-2.3.jar\par
+      log4j-api-2.3.jar\par
+      log4j-core-2.3.jar\par
+      log4j-slf4j-impl-2.3.jar\strut}
+    & Libraries for logging diagnostics.
+    & \href{http://logging.apache.org/log4j}{logging.apache.org/log4j} \\
 
-    log4j-api-2.3.jar \\ log4j-core-2.3.jar \\ log4j-slf4j-impl-2.3.jar \\ slf4j-api-1.7.21.jar \\
+    slf4j-api-1.7.21.jar
+    & Logging interface library.
+    & \href{http://www.slf4j.org}{slf4j.org} \\
 
     \bottomrule
   \end{tabular}
