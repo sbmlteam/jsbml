@@ -76,7 +76,7 @@ Please also indicate the specific version of JSBML you use, to improve other peo
 📰 Recent news and activities
 -----------------------------
 
-Please see the file NEWS.txt for a log of recent changes in JSBML.
+Please see the file [NEWS.md](NEWS.md) for a log of recent changes in JSBML.
 
 
 ► Getting started with JSBML
