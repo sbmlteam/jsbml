@@ -16,7 +16,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
@@ -26,11 +25,14 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;;
 
 /**
- * @author Roman
+ * @author Roman Schulte
  * @since 1.2
  */
 public class LayoutConstraints extends AbstractConstraintDeclaration {
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
+   */
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName) {
@@ -38,7 +40,9 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
 
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForCheck(java.util.Set, int, int, org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
+   */
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category) {

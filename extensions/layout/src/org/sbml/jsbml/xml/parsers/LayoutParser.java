@@ -60,7 +60,6 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
-
 /**
  * Parses the SBML level 2 layout extension package elements and
  * attributes. The namespaceURI URI of this parser is
@@ -193,7 +192,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
     if (sbase instanceof SBase) {
       SBase elem = (SBase) sbase;
       log4jLogger.debug("add to write: " + elem.getElementName()
-        + " namespace: " + elem.getNamespace().toString());
+      + " namespace: " + elem.getNamespace().toString());
       if (sbase instanceof ListOf<?>) {
         log4jLogger.debug("process a ListOf instance");
         ListOf<SBase> listOf = (ListOf<SBase>) sbase;
@@ -281,18 +280,18 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
         xmlObject.setName(sbase.getElementName());
       }
       if (!xmlObject.isSetPrefix()) {
-        xmlObject.setPrefix("layout");
+        xmlObject.setPrefix(LayoutConstants.layout);
       }
       xmlObject.setNamespace(namespaceURI);
 
       String name = xmlObject.getName();
 
-      if (name.equals("lineSegment") || name.equals("cubicBezier"))
+      if (name.equals(LayoutConstants.lineSegment) || name.equals(LayoutConstants.cubicBezier))
       {
         xmlObject.setName(LayoutConstants.curveSegment);
       }
 
-      if (name.equals("listOfLineSegments") || name.equals("listOfCubicBeziers"))
+      if (name.equals(LayoutConstants.listOfLineSegments)) // No such list defined in Layout package: name.equals("listOfCubicBeziers"))
       {
         xmlObject.setName(LayoutConstants.listOfCurveSegments);
       }
@@ -351,7 +350,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
           + attributeName + " on the element " + elementName
           + " is not part of the SBML specifications");
     }
-    
+
     return isAttributeRead;
   }
 
@@ -447,7 +446,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
   @SuppressWarnings("unchecked")
   public Object processStartElement(String elementName, String uri, String prefix,
     boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
-    if (elementName.equals("basePoint1")) {
+    if (elementName.equals(LayoutConstants.basePoint1)) {
       log4jLogger.debug("processing basePoint1");
     }
     if (sbmlLayoutElements.containsKey(elementName)) {
@@ -474,7 +473,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
         }
         if (contextObject instanceof Annotation) {
           Annotation annotation = (Annotation) contextObject;
-          if (elementName.equals("listOfLayouts")) {
+          if (elementName.equals(LayoutConstants.listOfLayouts)) {
             ListOf<Layout> listOfLayouts = (ListOf<Layout>) newContextObject;
             listOfLayouts.setSBaseListType(ListOf.Type.other);
             setNamespace(listOfLayouts, namespaceURI);
@@ -491,7 +490,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
         } else if (contextObject instanceof ListOf<?>) {
           ListOf<?> listOf = (ListOf<?>) contextObject;
           if (listOf.getParentSBMLObject() instanceof Model) {
-            if (elementName.equals("layout")
+            if (elementName.equals(LayoutConstants.layout)
                 && groupList.equals(LayoutList.listOfLayouts)) {
               ListOf<Layout> listOflayouts = (ListOf<Layout>) listOf;
               Layout layout = (Layout) newContextObject;
@@ -500,7 +499,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
               return layout;
             }
           } else if (listOf.getParentSBMLObject() instanceof Layout) {
-            if (elementName.equals("compartmentGlyph")
+            if (elementName.equals(LayoutConstants.compartmentGlyph)
                 && groupList.equals(LayoutList.listOfCompartmentGlyphs)) {
               ListOf<CompartmentGlyph> listOfCompartmentGlyph = (ListOf<CompartmentGlyph>) contextObject;
               CompartmentGlyph compartmentGlyph = (CompartmentGlyph) newContextObject;
@@ -509,7 +508,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
               listOfCompartmentGlyph.add(compartmentGlyph);
               groupList = LayoutList.listOfCompartmentGlyphs;
               return compartmentGlyph;
-            } else if (elementName.equals("textGlyph")
+            } else if (elementName.equals(LayoutConstants.textGlyph)
                 && groupList.equals(LayoutList.listOfTextGlyphs)) {
               ListOf<TextGlyph> listOfTextGlyph = (ListOf<TextGlyph>) contextObject;
               TextGlyph textGlyph = (TextGlyph) newContextObject;
@@ -518,7 +517,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
               listOfTextGlyph.add(textGlyph);
               groupList = LayoutList.listOfTextGlyphs;
               return textGlyph;
-            } else if (elementName.equals("speciesGlyph")
+            } else if (elementName.equals(LayoutConstants.speciesGlyph)
                 && groupList.equals(LayoutList.listOfSpeciesGlyphs)) {
               ListOf<SpeciesGlyph> listOfSpeciesGlyph = (ListOf<SpeciesGlyph>) contextObject;
               SpeciesGlyph speciesGlyph = (SpeciesGlyph) newContextObject;
@@ -527,7 +526,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
               listOfSpeciesGlyph.add(speciesGlyph);
               groupList = LayoutList.listOfSpeciesGlyphs;
               return speciesGlyph;
-            } else if (elementName.equals("reactionGlyph")
+            } else if (elementName.equals(LayoutConstants.reactionGlyph)
                 && groupList.equals(LayoutList.listOfReactionGlyphs)) {
               ListOf<ReactionGlyph> listOfReactionGlyph = (ListOf<ReactionGlyph>) contextObject;
               ReactionGlyph reactionGlyph = (ReactionGlyph) newContextObject;
@@ -536,7 +535,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
               listOfReactionGlyph.add(reactionGlyph);
               groupList = LayoutList.listOfReactionGlyphs;
               return reactionGlyph;
-            } else if (elementName.equals("boundingBox")
+            } else if (elementName.equals(LayoutConstants.boundingBox)
                 && groupList.equals(LayoutList.listOfCompartmentGlyphs)) {
               CompartmentGlyph compartmentGlyph = (CompartmentGlyph) contextObject;
               BoundingBox boundingBox = (BoundingBox) newContextObject;
@@ -545,7 +544,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
               return boundingBox;
             }
           } else if (listOf.getParentSBMLObject() instanceof ReactionGlyph) {
-            if (elementName.equals("speciesReferenceGlyph")
+            if (elementName.equals(LayoutConstants.speciesReferenceGlyph)
                 && groupList.equals(LayoutList.listOfSpeciesReferenceGlyphs)) {
               SpeciesReferenceGlyph speciesReferenceGlyph = (SpeciesReferenceGlyph) newContextObject;
               setNamespace(speciesReferenceGlyph, namespaceURI);
@@ -554,7 +553,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
               .add(speciesReferenceGlyph);
               return speciesReferenceGlyph;
             }
-          } else if (elementName.equals("curveSegment")
+          } else if (elementName.equals(LayoutConstants.curveSegment)
               && groupList.equals(LayoutList.listOfCurveSegments)) {
             ListOf<CurveSegment> listOfLineSegment = (ListOf<CurveSegment>) contextObject;
             CubicBezier lineSegment = (CubicBezier) newContextObject;
@@ -564,8 +563,8 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
             return lineSegment;
           } else if (listOf.getParentSBMLObject() instanceof Curve) {
 
-            if (elementName.equals("curveSegment") || elementName.equals("cubicBezier")
-                || elementName.equals("lineSegment"))
+            if (elementName.equals(LayoutConstants.curveSegment) || elementName.equals(LayoutConstants.cubicBezier)
+                || elementName.equals(LayoutConstants.lineSegment))
             {
               ListOf<CurveSegment> listOfLineSegment = (ListOf<CurveSegment>) contextObject;
               CubicBezier lineSegment = (CubicBezier) newContextObject;
@@ -578,34 +577,34 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
         } else if (contextObject instanceof Layout) {
           Layout layout = (Layout) contextObject;
           groupList = LayoutList.listOfLayouts;
-          if (elementName.equals("dimensions")
+          if (elementName.equals(LayoutConstants.dimensions)
               && groupList.equals(LayoutList.listOfLayouts)) {
             Dimensions dimensions = (Dimensions) newContextObject;
             setNamespace(dimensions, namespaceURI);
             layout.setDimensions(dimensions);
             return dimensions;
-          } else if (elementName.equals("listOfCompartmentGlyphs")
+          } else if (elementName.equals(LayoutConstants.listOfCompartmentGlyphs)
               && groupList.equals(LayoutList.listOfLayouts)) {
             ListOf<CompartmentGlyph> listOfCompartmentGlyphs = (ListOf<CompartmentGlyph>) newContextObject;
             listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
             layout.setListOfCompartmentGlyphs(listOfCompartmentGlyphs);
             groupList = LayoutList.listOfCompartmentGlyphs;
             return listOfCompartmentGlyphs;
-          } else if (elementName.equals("listOfSpeciesGlyphs")
+          } else if (elementName.equals(LayoutConstants.listOfSpeciesGlyphs)
               && groupList.equals(LayoutList.listOfLayouts)) {
             ListOf<SpeciesGlyph> listofSpeciesGlyph = (ListOf<SpeciesGlyph>) newContextObject;
             listofSpeciesGlyph.setSBaseListType(ListOf.Type.other);
             layout.setListOfSpeciesGlyphs(listofSpeciesGlyph);
             groupList = LayoutList.listOfSpeciesGlyphs;
             return listofSpeciesGlyph;
-          } else if (elementName.equals("listOfReactionGlyphs")
+          } else if (elementName.equals(LayoutConstants.listOfReactionGlyphs)
               && groupList.equals(LayoutList.listOfLayouts)) {
             ListOf<ReactionGlyph> listOfReactionGlyphs = (ListOf<ReactionGlyph>) newContextObject;
             listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
             layout.setListOfReactionGlyphs(listOfReactionGlyphs);
             groupList = LayoutList.listOfReactionGlyphs;
             return listOfReactionGlyphs;
-          } else if (elementName.equals("listOfTextGlyphs")
+          } else if (elementName.equals(LayoutConstants.listOfTextGlyphs)
               && groupList.equals(LayoutList.listOfLayouts)) {
             ListOf<TextGlyph> listOfTextGlyphs = (ListOf<TextGlyph>) newContextObject;
             listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
@@ -615,21 +614,20 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
           }
         } else if (contextObject instanceof ReactionGlyph) {
           ReactionGlyph reactionGlyph = (ReactionGlyph) contextObject;
-          if (elementName.equals("curve")
+          if (elementName.equals(LayoutConstants.curve)
               && groupList.equals(LayoutList.listOfReactionGlyphs)) {
             Curve curve = (Curve) newContextObject;
             setNamespace(curve, namespaceURI);
             reactionGlyph.setCurve(curve);
             return curve;
-          } else if (elementName
-              .equals("listOfSpeciesReferenceGlyphs")
+          } else if (elementName.equals(LayoutConstants.listOfSpeciesReferenceGlyphs)
               && groupList.equals(LayoutList.listOfReactionGlyphs)) {
             ListOf<SpeciesReferenceGlyph> listOfSpeciesReferenceGlyphs = (ListOf<SpeciesReferenceGlyph>) newContextObject;
             listOfSpeciesReferenceGlyphs.setSBaseListType(ListOf.Type.other);
             reactionGlyph.setListOfSpeciesReferencesGlyph(listOfSpeciesReferenceGlyphs);
             groupList = LayoutList.listOfSpeciesReferenceGlyphs;
             return listOfSpeciesReferenceGlyphs;
-          } else if (elementName.equals("boundingBox")) {
+          } else if (elementName.equals(LayoutConstants.boundingBox)) {
             BoundingBox boundingBox = (BoundingBox) newContextObject;
             setNamespace(boundingBox, namespaceURI);
             reactionGlyph.setBoundingBox(boundingBox);
@@ -637,14 +635,14 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
           }
         } else if (contextObject instanceof SpeciesGlyph) {
           SpeciesGlyph speciesGlyph = (SpeciesGlyph) contextObject;
-          if (elementName.equals("boundingBox")) {
+          if (elementName.equals(LayoutConstants.boundingBox)) {
             BoundingBox boundingBox = (BoundingBox) newContextObject;
             setNamespace(boundingBox, namespaceURI);
             speciesGlyph.setBoundingBox(boundingBox);
             return boundingBox;
           }
         } else if (contextObject instanceof CompartmentGlyph) {
-          if (elementName.equals("boundingBox")
+          if (elementName.equals(LayoutConstants.boundingBox)
               && groupList.equals(LayoutList.listOfCompartmentGlyphs)) {
             CompartmentGlyph compartmentGlyph = (CompartmentGlyph) contextObject;
             BoundingBox boundingBox = (BoundingBox) newContextObject;
@@ -653,7 +651,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
             return boundingBox;
           }
         } else if (contextObject instanceof TextGlyph) {
-          if (elementName.equals("boundingBox")
+          if (elementName.equals(LayoutConstants.boundingBox)
               && groupList.equals(LayoutList.listOfTextGlyphs)) {
             TextGlyph textGlyph = (TextGlyph) contextObject;
             BoundingBox boundingBox = (BoundingBox) newContextObject;
@@ -662,7 +660,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
             return boundingBox;
           }
         } else if (contextObject instanceof Curve) {
-          if (elementName.equals("listOfCurveSegments")
+          if (elementName.equals(LayoutConstants.listOfCurveSegments)
               && groupList.equals(LayoutList.listOfReactionGlyphs)) {
             Curve curve = (Curve) contextObject;
             ListOf<CurveSegment> listOfCurveSegments = (ListOf<CurveSegment>) newContextObject;
@@ -671,7 +669,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
             curve.setListOfCurveSegments(listOfCurveSegments);
             groupList = LayoutList.listOfReactionGlyphs;
             return listOfCurveSegments;
-          } else if (elementName.equals("listOfCurveSegments")
+          } else if (elementName.equals(LayoutConstants.listOfCurveSegments)
               && groupList.equals(LayoutList.listOfSpeciesReferenceGlyphs)) {
             Curve curve = (Curve) contextObject;
             ListOf<CurveSegment> listOfCurveSegments = (ListOf<CurveSegment>) newContextObject;
@@ -683,38 +681,38 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
           }
         } else if (contextObject instanceof BoundingBox) {
           BoundingBox boundingBox = (BoundingBox) contextObject;
-          if (elementName.equals("position")) {
+          if (elementName.equals(LayoutConstants.position)) {
             Point point = (Point) newContextObject;
             setNamespace(point, namespaceURI);
             boundingBox.setPosition(point);
             return point;
-          } else if (elementName.equals("dimensions")) {
+          } else if (elementName.equals(LayoutConstants.dimensions)) {
             Dimensions dimensions = (Dimensions) newContextObject;
             setNamespace(dimensions, namespaceURI);
             boundingBox.setDimensions(dimensions);
             return dimensions;
           }
         } else if (contextObject instanceof CurveSegment) {
-          if (elementName.equals("start")) {
+          if (elementName.equals(LayoutConstants.start)) {
             CurveSegment lineSegment = (CurveSegment) contextObject;
             Point start = (Point) newContextObject;
             lineSegment.setStart(start);
             setNamespace(start, namespaceURI);
             return start;
-          } else if (elementName.equals("end")) {
+          } else if (elementName.equals(LayoutConstants.end)) {
             CurveSegment lineSegment = (CurveSegment) contextObject;
             Point end = (Point) newContextObject;
             lineSegment.setEnd(end);
             setNamespace(end, namespaceURI);
             return end;
-          } else if (elementName.equals("basePoint1")) {
+          } else if (elementName.equals(LayoutConstants.basePoint1)) {
             CubicBezier lineSegment = (CubicBezier) contextObject;
 
             Point basePoint1 = (Point) newContextObject;
             lineSegment.setBasePoint1(basePoint1);
             setNamespace(basePoint1, namespaceURI);
             return basePoint1;
-          } else if (elementName.equals("basePoint2")) {
+          } else if (elementName.equals(LayoutConstants.basePoint2)) {
             CubicBezier lineSegment = (CubicBezier) contextObject;
             Point basePoint2 = (Point) newContextObject;
             lineSegment.setBasePoint2(basePoint2);
@@ -724,12 +722,12 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
         } else if (contextObject instanceof SpeciesReferenceGlyph
             && groupList.equals(LayoutList.listOfSpeciesReferenceGlyphs)) {
           SpeciesReferenceGlyph speciesReferenceGlyph = (SpeciesReferenceGlyph) contextObject;
-          if (elementName.equals("curve")) {
+          if (elementName.equals(LayoutConstants.curve)) {
             Curve curve = (Curve) newContextObject;
             speciesReferenceGlyph.setCurve(curve);
             setNamespace(curve, namespaceURI);
             return curve;
-          } else if (elementName.equals("boundingBox")) {
+          } else if (elementName.equals(LayoutConstants.boundingBox)) {
             BoundingBox boundingBox = (BoundingBox) newContextObject;
             setNamespace(boundingBox, namespaceURI);
             speciesReferenceGlyph.setBoundingBox(boundingBox);
@@ -775,16 +773,16 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
       log4jLogger.debug("elementName: " + elementName);
     }
 
-    if (elementName.equals("listOfLayouts")
-        || elementName.equals("listOfSpeciesGlyphs")
-        || elementName.equals("listOfReactionGlyphs")
-        || elementName.equals("listOfCompartmentGlyphs")
-        || elementName.equals("listOfTextGlyphs")) {
+    if (elementName.equals(LayoutConstants.listOfLayouts)
+        || elementName.equals(LayoutConstants.listOfSpeciesGlyphs)
+        || elementName.equals(LayoutConstants.listOfReactionGlyphs)
+        || elementName.equals(LayoutConstants.listOfCompartmentGlyphs)
+        || elementName.equals(LayoutConstants.listOfTextGlyphs)) {
       groupList = LayoutList.none;
       log4jLogger.debug("set listType to: none");
-    } else if (elementName.equals("listOfSpeciesReferenceGlyphs")) {
+    } else if (elementName.equals(LayoutConstants.listOfSpeciesReferenceGlyphs)) {
       groupList = LayoutList.listOfReactionGlyphs;
-      log4jLogger.debug("set listType to: listOfReactionGlyphs");
+      log4jLogger.debug("set listType to: " + LayoutConstants.listOfReactionGlyphs);
     }
 
     return true;

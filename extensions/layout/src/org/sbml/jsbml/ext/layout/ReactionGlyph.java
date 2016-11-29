@@ -33,11 +33,11 @@ import org.sbml.jsbml.Reaction;
  * Analogous to how a {@link Reaction} object has to at least have one reactant
  * or product, the {@link ReactionGlyph} has to at least have one
  * {@link SpeciesReferenceGlyph} stored in the
- * {@link #listOfSpeciesReferencesGlyphs}. The {@link ReactionGlyph} inherits
+ * {@link #listOfSpeciesReferenceGlyphs}. The {@link ReactionGlyph} inherits
  * from {@link GraphicalObject}.
  * In addition to the attributes inherited from {@link GraphicalObject}, the
  * {@link ReactionGlyph} is described by an attribute reaction, a {@link Curve}
- * element and a {@link #listOfSpeciesReferencesGlyphs} element.
+ * element and a {@link #listOfSpeciesReferenceGlyphs} element.
  * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
@@ -59,7 +59,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   /**
    * 
    */
-  private ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyphs;
+  private ListOf<SpeciesReferenceGlyph> listOfSpeciesReferenceGlyphs;
 
   /**
    * 
@@ -88,7 +88,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     if (reactionGlyph.isSetCurve()) {
       setCurve(reactionGlyph.getCurve().clone());
     }
-    if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+    if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
       setListOfSpeciesReferencesGlyph(reactionGlyph
         .getListOfSpeciesReferenceGlyphs().clone());
     }
@@ -125,7 +125,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
 
   /**
    * Appends the specified element to the end of the
-   * {@link #listOfSpeciesReferencesGlyphs}.
+   * {@link #listOfSpeciesReferenceGlyphs}.
    * 
    * @param glyph
    * @return {@code true} (as specified by {@link Collection#add})
@@ -200,8 +200,8 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
       if (equals && isSetCurve()) {
         equals &= reactionGlyph.getCurve().equals(getCurve());
       }
-      equals &= reactionGlyph.isSetListOfSpeciesReferencesGlyphs() == isSetListOfSpeciesReferencesGlyphs();
-      if (equals && isSetListOfSpeciesReferencesGlyphs()) {
+      equals &= reactionGlyph.isSetListOfSpeciesReferenceGlyphs() == isSetListOfSpeciesReferenceGlyphs();
+      if (equals && isSetListOfSpeciesReferenceGlyphs()) {
         equals &= reactionGlyph.getListOfSpeciesReferenceGlyphs().equals(getListOfSpeciesReferenceGlyphs());
       }
     }
@@ -228,7 +228,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
       }
       pos++;
     }
-    if (isSetListOfSpeciesReferencesGlyphs()) {
+    if (isSetListOfSpeciesReferenceGlyphs()) {
       if (pos == index) {
         return getListOfSpeciesReferenceGlyphs();
       }
@@ -248,7 +248,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     if (isSetCurve()) {
       count++;
     }
-    if (isSetListOfSpeciesReferencesGlyphs()) {
+    if (isSetListOfSpeciesReferenceGlyphs()) {
       count++;
     }
     return count;
@@ -263,24 +263,24 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * If the {@link #listOfSpeciesReferencesGlyphs} has not yet been initialized, this
+   * If the {@link #listOfSpeciesReferenceGlyphs} has not yet been initialized, this
    * will be done by this method.
    * 
-   * @return the {@link #listOfSpeciesReferencesGlyphs}
+   * @return the {@link #listOfSpeciesReferenceGlyphs}
    */
   public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferenceGlyphs() {
-    if (!isSetListOfSpeciesReferencesGlyphs()) {
-      listOfSpeciesReferencesGlyphs = new ListOf<SpeciesReferenceGlyph>();
-      listOfSpeciesReferencesGlyphs.setPackageVersion(-1);
+    if (!isSetListOfSpeciesReferenceGlyphs()) {
+      listOfSpeciesReferenceGlyphs = new ListOf<SpeciesReferenceGlyph>();
+      listOfSpeciesReferenceGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
-      listOfSpeciesReferencesGlyphs.setPackageName(null);
-      listOfSpeciesReferencesGlyphs.setPackageName(LayoutConstants.shortLabel);
-      listOfSpeciesReferencesGlyphs.setSBaseListType(ListOf.Type.other);
-      listOfSpeciesReferencesGlyphs.setOtherListName(LayoutConstants.listOfSpeciesReferencesGlyphs);
-      
-      registerChild(listOfSpeciesReferencesGlyphs);
+      listOfSpeciesReferenceGlyphs.setPackageName(null);
+      listOfSpeciesReferenceGlyphs.setPackageName(LayoutConstants.shortLabel);
+      listOfSpeciesReferenceGlyphs.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesReferenceGlyphs.setOtherListName(LayoutConstants.listOfSpeciesReferenceGlyphs);
+
+      registerChild(listOfSpeciesReferenceGlyphs);
     }
-    return listOfSpeciesReferencesGlyphs;
+    return listOfSpeciesReferenceGlyphs;
   }
 
   /**
@@ -329,7 +329,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     if (isSetCurve()) {
       hashCode += prime * getCurve().hashCode();
     }
-    if (isSetListOfSpeciesReferencesGlyphs()) {
+    if (isSetListOfSpeciesReferenceGlyphs()) {
       hashCode += prime * getListOfSpeciesReferenceGlyphs().hashCode();
     }
     return hashCode;
@@ -345,8 +345,8 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   /**
    * @return
    */
-  public boolean isSetListOfSpeciesReferencesGlyphs() {
-    return listOfSpeciesReferencesGlyphs != null;
+  public boolean isSetListOfSpeciesReferenceGlyphs() {
+    return listOfSpeciesReferenceGlyphs != null;
   }
 
   /**
@@ -407,16 +407,16 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    */
   public void setListOfSpeciesReferencesGlyph(ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
     unsetListOfSpeciesReferencesGlyph();
-    listOfSpeciesReferencesGlyphs = listOfSpeciesReferencesGlyph;
+    listOfSpeciesReferenceGlyphs = listOfSpeciesReferencesGlyph;
 
-    if (listOfSpeciesReferencesGlyphs != null) {
-      listOfSpeciesReferencesGlyphs.setPackageVersion(-1);
+    if (listOfSpeciesReferenceGlyphs != null) {
+      listOfSpeciesReferenceGlyphs.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
-      listOfSpeciesReferencesGlyphs.setPackageName(null);
-      listOfSpeciesReferencesGlyphs.setPackageName(LayoutConstants.shortLabel);
-      listOfSpeciesReferencesGlyphs.setSBaseListType(ListOf.Type.other);
+      listOfSpeciesReferenceGlyphs.setPackageName(null);
+      listOfSpeciesReferenceGlyphs.setPackageName(LayoutConstants.shortLabel);
+      listOfSpeciesReferenceGlyphs.setSBaseListType(ListOf.Type.other);
 
-      registerChild(listOfSpeciesReferencesGlyphs);
+      registerChild(listOfSpeciesReferenceGlyphs);
     }
   }
 
@@ -443,9 +443,9 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    * 
    */
   public void unsetListOfSpeciesReferencesGlyph() {
-    if (listOfSpeciesReferencesGlyphs != null) {
-      ListOf<SpeciesReferenceGlyph> oldValue = listOfSpeciesReferencesGlyphs;
-      listOfSpeciesReferencesGlyphs = null;
+    if (listOfSpeciesReferenceGlyphs != null) {
+      ListOf<SpeciesReferenceGlyph> oldValue = listOfSpeciesReferenceGlyphs;
+      listOfSpeciesReferenceGlyphs = null;
       oldValue.fireNodeRemovedEvent();
     }
   }
