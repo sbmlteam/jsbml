@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    $Id$ 
-    $URL$
+    $Id: pom.xml 2006 2014-10-01 12:03:50Z niko-rodrigue $ 
+    $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/tags/jsbml-1.0/modules/tidy/pom.xml $
 
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
@@ -19,29 +19,28 @@
     in the file named "LICENSE.txt" included with this software distribution
     and also available online as http://sbml.org/Software/JSBML/License.
 
-    Version: $Rev$
+    Version: $Rev: 2006 $
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.sbml.jsbml.modules</groupId>
-		<artifactId>modules</artifactId>
-		<version>1.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
-
-    <groupId>org.sbml.jsbml.modules.tidy</groupId>
-    <artifactId>jsbml_modules_tidy</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-
-	<dependencies>
-		<dependency>
-			<groupId>net.sf.jtidy</groupId>
-			<artifactId>jtidy</artifactId>
-			<version>r938</version>
-		</dependency>
-	</dependencies>
-
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sbml.jsbml.modules</groupId>
+    <artifactId>modules</artifactId>
+    <version>1.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  
+  <groupId>org.sbml.jsbml.modules</groupId>
+  <artifactId>jsbml-tidy</artifactId>
+  <packaging>jar</packaging>
+  
+  <dependencies>
+    <dependency>
+      <groupId>net.sf.jtidy</groupId>
+      <artifactId>jtidy</artifactId>
+      <version>r938</version>
+    </dependency>
+  </dependencies>
+  
 </project>
