@@ -23,7 +23,6 @@
 package org.sbml.jsbml;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -588,7 +587,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   public boolean isLeaf() {
     return getChildCount() == 0;
   }
-  
+
   /**
    * Returns true if JSBML is in the process of reading a model through the
    * {@link SBMLReader}
@@ -598,7 +597,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   protected boolean isReadingInProgress() {
     if (isSetUserObjects()
-      && userObjectKeySet().contains(JSBML.READING_IN_PROGRESS)) {
+        && userObjectKeySet().contains(JSBML.READING_IN_PROGRESS)) {
       return true;
     }
 
@@ -905,7 +904,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * 
    * @param in the object input stream
    * @throws IOException - If any of the usual Input/Output related exceptions occur.
-   * @throws ClassNotFoundException - If the class of a serialized object cannot be found. 
+   * @throws ClassNotFoundException - If the class of a serialized object cannot be found.
    * @see Serializable
    */
   private void readObject(java.io.ObjectInputStream in)
