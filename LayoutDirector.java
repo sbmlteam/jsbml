@@ -399,7 +399,7 @@ public class LayoutDirector<P> implements Runnable {
             } else {
               algorithm.addUnlayoutedGlyph(reactionGlyph);
             }
-            if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+            if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
               ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphs =
                   reactionGlyph.getListOfSpeciesReferenceGlyphs();
               // add all (srg, rg) pairs to algorithm input
@@ -447,7 +447,7 @@ public class LayoutDirector<P> implements Runnable {
    */
   private boolean reactionGlyphHasCurves(ReactionGlyph reactionGlyph) {
     boolean hasCurves = false;
-    if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+    if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
       for (SpeciesReferenceGlyph speciesReferenceGlyph :
         reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
         if (speciesReferenceGlyph.isSetCurve()) {
@@ -662,18 +662,23 @@ public class LayoutDirector<P> implements Runnable {
     double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(reactionGlyph);
     builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);
     
-    if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+    if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
       for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
         try {
           // copy SBO term of species reference to species reference glyph
           NamedSBase nsb = srg.getReferenceInstance();
           if (!(nsb instanceof SimpleSpeciesReference) && (nsb != null)) {
-            logger.warning(MessageFormat.format("Expecting simple species reference, but found {0} in {1}.", nsb.getElementName(), srg));
+            logger.warning(MessageFormat.format(
+              "Expecting simpleSpeciesReference, but found {0} with id ''{1}'' in {2} with id ''{3}''.",
+              nsb.getElementName(), nsb.getId(), srg.getElementName(), srg.getId()));
             srg.setSBOTerm(SBO.getConsumption());
           } else {
             SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) nsb;
             if ((speciesReference == null) || !speciesReference.isSetSBOTerm()) {
               if (!srg.isSetSpeciesReferenceRole()) {
+                logger.warning(MessageFormat.format(
+                  "Undefined participant role for species glyph ''{0}'' in reaction glyph ''{1}'', assuming consumption.",
+                  srg.getId(), reactionGlyph.getId()));
                 // sets consumption (straight line as default)
                 srg.setSBOTerm(SBO.getConsumption());
               }
@@ -745,12 +750,14 @@ public class LayoutDirector<P> implements Runnable {
             glyph, glyph.getReference()));
           glyph.unsetReference();
         } else {
-          List<AbstractReferenceGlyph> listOfGlyphs = new ArrayList<AbstractReferenceGlyph>();
+          List<AbstractReferenceGlyph> listOfGlyphs = null;
           if (correspondingSBase.getUserObject(LAYOUT_LINK) instanceof List<?>) {
             listOfGlyphs = (List<AbstractReferenceGlyph>) correspondingSBase.getUserObject(LAYOUT_LINK);
+          } else {
+            listOfGlyphs = new ArrayList<AbstractReferenceGlyph>();
+            correspondingSBase.putUserObject(LAYOUT_LINK, listOfGlyphs);
           }
           listOfGlyphs.add(glyph);
-          correspondingSBase.putUserObject(LAYOUT_LINK, listOfGlyphs);
         }
       }
     }
@@ -766,6 +773,7 @@ public class LayoutDirector<P> implements Runnable {
     if (extension != null) {
       LayoutModelPlugin layoutModel = (LayoutModelPlugin) extension;
       if (layoutModel.getLayoutCount() > layoutIndex) {
+        // TODO: remove this!
         if (mapOfFluxes != null) {
           // If flux values are present, set the flux values as an
           // user object of the reaction glyph.

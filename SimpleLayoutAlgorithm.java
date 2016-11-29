@@ -640,7 +640,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
    */
   protected Point createReactionGlyphPositionNew(ReactionGlyph reactionGlyph) {
     List<SpeciesReferenceGlyph> speciesReferenceGlyphList = null;
-    if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+    if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
       speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
     }
     // TODO: Use a filter here!
@@ -708,7 +708,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
     double z = 0d;
     
     List<SpeciesReferenceGlyph> speciesReferenceGlyphList = null;
-    if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+    if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
       speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
     }
     Dimensions reacGlyphDimension;
@@ -784,7 +784,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
     List<SpeciesReferenceGlyph> curveList = new LinkedList<SpeciesReferenceGlyph>();
     List<SpeciesReferenceGlyph> speciesGlyphList = new LinkedList<SpeciesReferenceGlyph>();
     
-    if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+    if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
       for (SpeciesReferenceGlyph specRefGlyph : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
         if (specRefGlyph.isSetCurve()) {
           curveList.add(specRefGlyph);
@@ -830,7 +830,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
   public double calculateReactionGlyphRotationAngle(ReactionGlyph reactionGlyph) {
     double rotationAngle = 0d;
     
-    if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+    if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
       ListOf<SpeciesReferenceGlyph> speciesRefGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
       
       // TODO: This needs to be extended to also take multiple reactants and products into account!
@@ -900,8 +900,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
       }
       if ((firstCentralPoint.getX() == secondCentralPoint.getX()) && (firstCentralPoint.getY() == secondCentralPoint.getY())) {
         secondCentralPoint = calculateCenter(reactionGlyph);
-        logger.warning(MessageFormat.format("The two points for computing rotation are equal for reaction glyph {0}",
-          reactionGlyph.getId()));
+        logger.warning(MessageFormat.format("The two points for computing rotation angle are identical for {0} with id ''{1}'': ({2,number}; {3,number})",
+          reactionGlyph.getElementName(), reactionGlyph.getId(), firstCentralPoint.getX(), firstCentralPoint.getY()));
       } else {
         rotationAngle = calculateRotationAngle(firstCentralPoint, secondCentralPoint);
       }
