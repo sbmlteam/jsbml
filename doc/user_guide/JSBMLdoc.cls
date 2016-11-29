@@ -29,7 +29,6 @@
 %% \filedate below.  Unfortunately, LaTeX will barf on the resulting string.
 
 \def\filedate{2016/11/28}
-\def\jsbmlversion{1.2}
 
 \NeedsTeXFormat{LaTeX2e}
 
