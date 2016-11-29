@@ -44,7 +44,7 @@
   <developers>
     <developer>
       <name>JSBML team</name>
-      <email>jsbml-team@caltech.edu</email>
+      <email>jsbml-team@googlegroups.com</email>
       <organization>SBML Team</organization>
       <organizationUrl>http://www.sbml.org</organizationUrl>
     </developer>
@@ -57,7 +57,7 @@
   <mailingLists>
     <mailingList>
       <name>JSBML Team</name>
-      <post>jsbml-team@caltech.edu</post>
+      <post>jsbml-team@googlegroups.com</post>
     </mailingList>
     <mailingList>
       <name>JSBML Development</name>
