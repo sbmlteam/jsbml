@@ -828,19 +828,17 @@
       description="Deploy jsbml remotely"
 	  depends="init"
 	>
-		<!-- 	mvn javadoc:jar source:jar deploy
-		 -->
+		<!-- 	mvn javadoc:jar source:jar deploy	 -->
 		<exec executable="mvn">
+			<arg value="clean"/>
 			<arg value="javadoc:jar"/>
 			<arg value="source:jar"/>
 			<arg value="deploy"/>
 		</exec>
 
-		<!-- deploy a pseudo jar file to be able to have all dependencies defined in one go ? -->
-		<!-- mvn deploy:deploy-file -DpomFile=dev/maven/pom.xml -Dfile=dev/maven/jsbml-pom.jar -->
-		
+		<!-- deploying a pseudo jar file to be able to have all packages dependencies defined in one go  -->
 		<exec executable="mvn">
-			<arg value="gpg:sign-and-deploy-file"/> <!-- use 'gpg:sign-and-deploy-file' to be able to sign the files when deploying --> 
+			<arg value="gpg:sign-and-deploy-file"/> <!-- using 'gpg:sign-and-deploy-file' to be able to sign the files when deploying --> 
 			<arg value="-DpomFile=dev/maven/pom.xml"/>
 			<arg value="-Dfile=dev/maven/jsbml-pom.jar"/>
 			<arg value="-Dsources=dev/maven/jsbml-pom-sources.jar"/>
@@ -848,6 +846,20 @@
 			<arg value="-Durl=${maven.repo.url}"/>
 			<arg value="-DrepositoryId=${maven.repo.id}"/>
 		</exec>
+		
+		<!-- TODO try to find a way to close and release the implicitly created staging repo from the sign-and-deploy-file goal. 
+		<exec executable="mvn">
+			<arg value="nexus-staging:deploy-staged"/> 'deploy-staged' could work but we would need to add by hand the extra files in the .index file 
+			<arg value="nexus-staging:close"/>
+			<arg value="nexus-staging:release"/>
+		</exec>
+		
+		nexus-staging:deploy-staged-repository could be an option but it does not seems to work fine in the tests I made.
+		
+		mvn nexus-staging:deploy-staged-repository -DautoReleaseAfterClose=false -DskipStagingRepositoryClose=true 
+		  -DrepositoryDirectory=/home/rodrigue/src/jsbml_old_sf_svn/sf_maven_repo/ 
+		  -DnexusUrl=https://oss.sonatype.org/service/local/staging/deploy/maven2 -DserverId=ossrh -DstagingProfileId=303b798d21777c
+		-->
 		
 		<!-- mvn test jar:test-jar to generate the test jar files to be able to run the tests in a new project -->
 		
