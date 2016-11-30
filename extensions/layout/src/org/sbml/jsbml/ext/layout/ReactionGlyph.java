@@ -21,13 +21,16 @@
 package org.sbml.jsbml.ext.layout;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.Species;
 
 /**
  * Analogous to how a {@link Reaction} object has to at least have one reactant
@@ -89,7 +92,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
       setCurve(reactionGlyph.getCurve().clone());
     }
     if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
-      setListOfSpeciesReferencesGlyph(reactionGlyph
+      setListOfSpeciesReferenceGlyphs(reactionGlyph
         .getListOfSpeciesReferenceGlyphs().clone());
     }
   }
@@ -263,8 +266,10 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * If the {@link #listOfSpeciesReferenceGlyphs} has not yet been initialized, this
-   * will be done by this method.
+   * Returns the list of {@link SpeciesReferenceGlyph}s.
+   * 
+   * <p>If the {@link #listOfSpeciesReferenceGlyphs} has not yet been initialized, this
+   * will be done by this method.</p>
    * 
    * @return the {@link #listOfSpeciesReferenceGlyphs}
    */
@@ -360,12 +365,24 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * @return
+   * Returns {@code true} is the list of {@link SpeciesReferenceGlyph} is set.
+   * 
+   * @return {@code true} is the list of {@link SpeciesReferenceGlyph} is set.
    */
   public boolean isSetListOfSpeciesReferenceGlyphs() {
     return listOfSpeciesReferenceGlyphs != null;
   }
 
+  /**
+   * Returns {@code true} is the list of {@link SpeciesReferenceGlyph} is set.
+   * 
+   * @return {@code true} is the list of {@link SpeciesReferenceGlyph} is set.
+   * @deprecated use {@link #isSetListOfSpeciesReferenceGlyphs()}
+   */
+  public boolean isSetListOfSpeciesReferencesGlyphs() {
+    return  isSetListOfSpeciesReferenceGlyphs();
+  }
+  
   /**
    * @return
    */
@@ -415,14 +432,16 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * Since the {@link Species} element can have several graphical representations
+   * Sets the list of {@link SpeciesReferenceGlyph}s.
+   * 
+   * <p>Since the {@link Species} element can have several graphical representations
    * in the layout there must be a way to specify which {@link SpeciesGlyph} should
    * be connected to the {@link ReactionGlyph}. This is done using the
-   * listOfSpeciesReferenceGlyphs.
+   * listOfSpeciesReferenceGlyphs.</p>
    * 
-   * @param listOfSpeciesReferencesGlyph
+   * @param listOfSpeciesReferencesGlyph the list of {@link SpeciesReferenceGlyph}s to set.
    */
-  public void setListOfSpeciesReferencesGlyph(ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
+  public void setListOfSpeciesReferenceGlyphs(ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
     unsetListOfSpeciesReferencesGlyph();
     listOfSpeciesReferenceGlyphs = listOfSpeciesReferencesGlyph;
 
@@ -437,6 +456,17 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     }
   }
 
+  
+  /**
+   * Sets the list of {@link SpeciesReferenceGlyph}s.
+   * 
+   * @param listOfSpeciesReferencesGlyph the list of {@link SpeciesReferenceGlyph}s to set.
+   * @deprecated use {@link #setListOfSpeciesReferenceGlyphs(ListOf)}
+   */
+  public void setListOfSpeciesReferencesGlyph(ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
+    setListOfSpeciesReferenceGlyphs(listOfSpeciesReferencesGlyph);
+  }
+  
   /**
    * See setReaction(String)
    * 
@@ -457,16 +487,26 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * Unsets the list of {@link SpeciesReferenceGlyph}s.
    * 
+   * @deprecated use {@link #unsetListOfSpeciesReferenceGlyphs()}
    */
   public void unsetListOfSpeciesReferencesGlyph() {
+    unsetListOfSpeciesReferenceGlyphs();
+  }
+
+  /**
+   * Unsets the list of {@link SpeciesReferenceGlyph}s.
+   * 
+   */
+  public void unsetListOfSpeciesReferenceGlyphs() {
     if (listOfSpeciesReferenceGlyphs != null) {
       ListOf<SpeciesReferenceGlyph> oldValue = listOfSpeciesReferenceGlyphs;
       listOfSpeciesReferenceGlyphs = null;
       oldValue.fireNodeRemovedEvent();
     }
   }
-
+  
   /**
    * 
    */

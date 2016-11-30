@@ -624,7 +624,7 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
               && groupList.equals(LayoutList.listOfReactionGlyphs)) {
             ListOf<SpeciesReferenceGlyph> listOfSpeciesReferenceGlyphs = (ListOf<SpeciesReferenceGlyph>) newContextObject;
             listOfSpeciesReferenceGlyphs.setSBaseListType(ListOf.Type.other);
-            reactionGlyph.setListOfSpeciesReferencesGlyph(listOfSpeciesReferenceGlyphs);
+            reactionGlyph.setListOfSpeciesReferenceGlyphs(listOfSpeciesReferenceGlyphs);
             groupList = LayoutList.listOfSpeciesReferenceGlyphs;
             return listOfSpeciesReferenceGlyphs;
           } else if (elementName.equals(LayoutConstants.boundingBox)) {
