@@ -196,7 +196,12 @@
       <extensions>true</extensions>
       <configuration>
         <serverId>ossrh</serverId>
-        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+        <nexusUrl>https://oss.sonatype.org/</nexusUrl>        
+        <!-- <skipStagingRepositoryClose>true</skipStagingRepositoryClose>
+        <autoReleaseAfterClose>false</autoReleaseAfterClose>
+        <skipRemoteStaging>true</skipRemoteStaging> 
+        the above options could be used to modify the repo to include the jsbml/jsbml pom file
+        before sending things over to nexus -->
         <autoReleaseAfterClose>true</autoReleaseAfterClose>
       </configuration>
       </plugin>
