@@ -28,7 +28,7 @@
 %% It would be so nice to be able to put the CVS/RCS 'Date' tag in the
 %% \filedate below.  Unfortunately, LaTeX will barf on the resulting string.
 
-\def\filedate{2016/11/28}
+\def\filedate{2016/11/30}
 
 \NeedsTeXFormat{LaTeX2e}
 
@@ -93,6 +93,9 @@
 \RequirePackage{tocloft}
 \RequirePackage{suffix}
 \RequirePackage{microtype}
+\RequirePackage{dirtree}
+\RequirePackage{makeidx}
+\RequirePackage[font=small,totoc]{idxlayout}
 
 % We use the "optional" package to indicate whether to generate a grayscale
 % vs a color version of the document without having to alter the .tex file
