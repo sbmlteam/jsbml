@@ -58,6 +58,7 @@ layoutTestResults.txt
 /modules/celldesigner/doc/api
 modules/libSBMLio/doc/api
 /modules/tidy/doc/api
+dev/maven/*.asc
 /.DS_Store
 
 MyTest*
