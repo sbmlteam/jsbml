@@ -5,16 +5,28 @@
 % Authors: Michael Hucka, Andreas Dr\"ager
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% General definitions, such as common URLs.
+% ...................................................................
+
+\newcommand{\jsbmlHomePageURL}{http://sbml.org/Software/JSBML}
+\newcommand{\jsbmlGitHubURL}{https://github.com/sbmlteam/jsbml}
+\newcommand{\jsbmlGroupURL}{https://groups.google.com/forum/\#!forum/jsbml-development}
+
+
+% Class names and other code concepts.
+% ...................................................................
+% 
+% The following definitions use latex index commands, so that they
+% are automatically indexed wherever they are used in documents.
+%
 % Here are the organizational rules behind the index:
-% 1. If it's a general SBML concept, it goes as a subitem under SBML
+%
+% 1. If it's a general SBML concept, it goes as a subitem under "SBML".
 %
 % 2. If it's an object in JSBML representing an SBML concept, it does
-%    *not* go under SBML
-% 
+%    *not* go under "SBML".
 
-
-
-% Some helper macros, used later below:
+% First, some helper macros, used later below:
 
 \newcommand{\plainIndexed}              [1]{#1\index{#1}\xspace}
 \newcommand{\codeIndexed}               [1]{\code{#1}\index{#1@\code{#1}}\xspace}
