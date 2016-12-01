@@ -304,6 +304,7 @@
 \definecolor{forrestgreen}{cmyk}{.76, 0, .76, .45}
 \definecolor{darkred}{rgb}{.7,0,0}
 \definecolor{winered}{cmyk}{0,1,0.331,0.502}
+\definecolor{olive}{rgb}{0.5, 0.5, 0.0}
 
 % Color for marking changed text, conditional on whether gray scale mode is on.
 
@@ -821,8 +822,13 @@
 
 \lstdefinestyle{java}{%
     language=Java,%
-    numbers=left,
+    numbers=left,%
     keywordstyle=\ttfamily\bfseries\color{black}}
+
+\lstdefinestyle{XML}{%
+    language=XML,%
+    numbers=left,%
+    keywordstyle=\ttfamily\color{olive}}
 
 \lstdefinestyle{bash}{%
     language=bash,%
