@@ -5,7 +5,7 @@
 
 In this section, we present two examples of using JSBML. The first is a
 program that reads a file containing an SBML document and displays its
-components in a Java \JTree graphical object. The second example
+components in a \JTree graphical object. The second example
 illustrates the creation of an object representing an SBML document (which,
 in JSBML, is represented programmatically using an object of class
 \SBMLDocument), as well as writing that object to a file. These basic
@@ -53,15 +53,14 @@ depends on where you have installed the JAR files for JSBML and the
 third-party libraries.
 
 \begin{figure}[ht]
-  \exampleFile[firstline=35]{src/org/sbml/jsbml/gui/JSBMLvisualizer.java}
+  \exampleFile[firstline=35,caption={}]{src/org/sbml/jsbml/gui/JSBMLvisualizer.java}
   \caption{Parsing and visualizing the content of an SBML file.}
   \label{fig:JSBMLvisualizer-source}
   \index{graphical user interface!\code{JFrame}}
 \end{figure}
 
-\begin{wrapfigure}[27]{r}{2.55in}
+\begin{wrapfigure}[23]{r}{2.55in}
   \centering
-  \vspace*{-1em}
   \setlength{\captionmargin}{1.8em}
   \includegraphics[width=.32\textwidth]{%
     ../posters/2010_ICSB_and_COMBINE/JSBMLvisualizerTransparent.png}
@@ -97,9 +96,6 @@ errors reported by \SBMLReader when it attempts to read the SBML file, and
 deal with them appropriately. Elsewhere in this document, we provide
 examples of checking for errors.
 
-Reading a file is nice, but what about writing an SBML file?  That is the
-topic of the next example.
-
 % FIXME tell people where to find the source code to the examples.
 
 
@@ -123,22 +119,10 @@ representation of the SBML model.
 
 \begin{figure}[bht]
   \vspace*{-1ex}
-  \exampleFile[firstline=32]{src/org/sbml/jsbml/demo/JSBMLexample.java}
+  \exampleFile[firstline=32,caption={}]{src/org/sbml/jsbml/demo/JSBMLexample.java}
   \vspace*{-1.5ex}
   \caption{Creating a new \code{SBMLDocument} object and writing its content
     into a file.}
   \label{fig:JSBMLexample-source}
+  \vspace*{-1em}
 \end{figure}
-
-
-\section{More examples}
-
-\fig{lst:LibSBMLio} illustrates the conversion of libSBML data structures
-into JSBML data objects. \fig{lst:PluginAction} demonstrates the
-implementation of CellDesigner's abstract class \code{PluginAction} and
-\fig{lst:Plugin1} gives a complete example for writing CellDesigner plugins
-with JSBML.  \index{CellDesigner} More detailed explanations of JSBML's
-modules can be found in \sec{sec:jsbml-modules-details}, and more complex
-examples of using JSBML are available from the JSBML SourceForge repository.
-(Please see \sec{sec:jsbml-repo-examples} for information about how to obtain
-them.)
