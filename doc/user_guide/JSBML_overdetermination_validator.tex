@@ -1,0 +1,21 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+\section{Determination of the variable in \codeNC{AlgebraicRule}s}
+
+JSBML's \OverdeterminationValidator provides methods to determine if a given
+model\index{model!over determination} is overdetermined; it uses the
+algorithm of Hopcroft and Karp~\cite{Hopcroft1973}.
+
+\OverdeterminationValidator simultaneously determines the free variable of
+each \AlgebraicRule if possible. The class \AlgebraicRule also provides a
+convenience method, \code{getDerivedVariable()}, to compute and return this
+free variable.  However, we do not recommend calling this method except in
+limited circumstances, because each call invokes the matching algorithm---an
+operation that may be expensive for large models. JSBML does not store the
+results of applying the matching algorithm, because a change in the model's
+structure could also change these results and lead to an inconsistency.  For
+models that contain multiple \AlgebraicRule objects, it is instead more
+efficient to compute the matching once by invoking
+\OverdeterminationValidator. Please see the documentation for \AlgebraicRule
+for more details.
+

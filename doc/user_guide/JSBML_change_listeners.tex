@@ -1,0 +1,69 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+\section{Change listeners}
+
+JSBML offers the ability to listen to change events in the life of an SBML
+document. To benefit from this facility, simply let your class implement
+the interface \TreeNodeChangeListener and add it to the list of listeners
+in your instance of \SBMLDocument. You only have to implement three
+methods:
+
+\begin{description}[font=\normalfont]
+
+\item[\code{nodeAdded(TreeNode node)}:] This method notifies the listener
+  that the given \TreeNode instance has just been added to the \SBMLDocument
+  object. When this method is called, the given node is already fully linked
+  to the \SBMLDocument, i.e., it has a valid parent that in turn points to
+  the given node.
+
+\item[\code{nodeRemoved(TreeNodeRemoveEvent evt)}:] This method notifies the listener
+  that a \TreeNode has just been removed, and therefore is
+  no longer part of the \SBMLDocument. The deleted element can be accessed 
+  using the \code{getSource()} method of the given event object. The 
+  \SBMLDocument will no longer contain
+  pointers to this node; however, the event object will contain
+  a pointer to its former parent, and it can be accessed by calling \code{getPreviousParent}
+  on the event object. (This makes it possible to recognize where
+  in the tree this node was located and even to revert the deletion of the
+  node.)
+
+\item[\code{propertyChange(PropertyChangeEvent evt)}:] This method
+  provides detailed information about the change in a value within the
+  \SBMLDocument.  The object passed to this method is a
+  \TreeNodeChangeEvent, which provides information about which \TreeNode
+  has been changed, which of its properties has been changed (as a
+  \String representation of the name of the property), the previous value,
+  and the new value.
+
+\end{description}
+
+These methods can help software track what their \SBMLDocument objects are
+doing at any given time.  Furthermore, these features can be very useful in
+a graphical user interface\index{graphical user interface}, where, for
+example, the user might need to be asked if he or she really wants to
+delete some element or to approve changes before making these
+persistent. Another way this can be used is for writing log
+files\index{logging!log file} of the model-building \index{model} process
+automatically. To this end, JSBML already provides the implementation
+\SimpleTreeNodeChangeListener which notifies a logger about each change.
+
+Note that the class \TreeNodeChangeEvent extends the class
+\code{java.beans.Property\-Change\-Event},
+\index{event!PropertyChangeEvent@\code{PropertyChangeEvent}} which is
+derived from
+\code{java.util.EventObject}\index{event!EventObject@\code{EventObject}}.
+It should also be pointed out that the interface \TreeNodeChangeListener
+extends the interface \code{java.beans.Pro\-perty\-Change\-Listener}
+\index{event!PropertyChangeListener@\code{PropertyChangeListener}} which in
+turn extends the interface \EventListener in the package
+\code{java.util}. In this way, the event and listener data structures fit
+into common Java API idioms \index{application programming interface!Java}
+and allow users also to make use of, e.g., \EventHandler{}s to deal with
+changes in an SBML model\index{model}.
+
+As mentioned in \sec{sec:AbstractTreeNode}, all major objects implement
+the interface \TreeNode, and its listeners are notified about all changes
+that occur in any implementing data structure. The use of
+\TreeNodeChangeListener{}s allows a software application not only to keep
+track of changes in instances of \SBase, but also changes inside of, e.g.,
+\CVTerm or \History.

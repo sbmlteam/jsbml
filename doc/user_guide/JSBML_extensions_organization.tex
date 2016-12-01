@@ -1,0 +1,66 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+\section{Organizing the source code}
+\label{sec:example-organization}
+
+In the JSBML SVN repository, all extensions are found in the subdirectory
+named \code{extensions} inside the \code{trunk} directory.  (The process
+for checking out a local copy of the repository is described
+in \sec{sec:SourceDistribution}.) Each extension is named after the
+corresponding SBML short name for the \SBMLthree package; for example,
+\code{fbc} for the Flux Balance Constraints package, \code{layout} for the
+Layout package, and so on.  The source directories for the extensions
+follow some basic conventions for their organization and contents.
+
+\begin{wrapfigure}[22]{r}{2.1in}
+  \vspace*{-3.5ex}
+  \dirtree{%
+    .1 /.
+    .2 build.xml.
+    .2 doc/.
+    .3 img/.
+    .2 lib/.
+    .2 resources/.
+    .2 src/.
+    .3 org/.
+    .4 sbml/.
+    .5 jsbml/.
+    .6 ext/.
+    .7 NAME/.
+    .6 xml/.
+    .7 parsers/.
+    .2 test/.
+  }
+  \caption{Typical structure of the source directory for a JSBML 1.0 extension.
+    The root of the tree shown here is the \code{extensions/NAME} subdirectory,
+    which is located within the \code{trunk} subdirectory of the JSBML SVN
+    repository.}
+  \label{fig:extension-src-structure}
+\end{wrapfigure}
+When creating a new extension for JSBML, please follow the conventions used
+in the existing extension directories.  These conventions are illustrated in
+\fig{fig:extension-src-structure}.  There should be a build script in a file
+named ``\code{build.xml}'' for use with Ant~\citep{ApacheAnt}, and several
+subdirectories.  The \code{doc} subdirectory should contain documentation
+about the extension, preferably with a subdirectory of its own, \code{img},
+containing at least a UML diagram of the type hierarchy of the package.  This
+can be in the form of, for instance, a Graphviz~\cite{graphvizWebsite} file
+\code{type\_hierarchy.dot}, so that the diagram can be generated in different
+image formats.  The extension directory should also contain a \code{lib}
+subdirectory where any package-specific, third-party libraries are located; a
+\code{resources} subdirectory for any non-source files that may be required
+by the extension code; an \code{src} subdirectory for the Java source code
+comprising the extension; and finally, a \code{test} subdirectory containing
+tests for the extension code, preferably in JUnit~\cite{junitWebsite}
+format.
+
+Note the structure of the \code{src} subdirectory. A JSBML extension must
+define at least two packages: \code{org.sbml.jsbml.ext.NAME}, for the
+data structures and code for defining and manipulating the SBML components
+specified by the extension, and \code{org.sbml.jsbml.xml.parsers}, for the
+code that reads and writes SBML files with the extension
+constructs.  Per Java conventions, these source subdirectories are
+organized hierarchically based on the package components, which leads to
+the nested structure shown in \fig{fig:extension-src-structure}.
+
+

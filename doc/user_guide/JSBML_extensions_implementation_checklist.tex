@@ -1,0 +1,87 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+\section{Implementation checklist}
+
+The following is a checklist summarizing the different aspects of an
+extension that need to be implemented.
+
+\newcommand{\fooname}{\code{\emph{\underline{\color{winered}Foo}}}}
+\newcommand{\barname}{\code{\emph{\underline{\color{winered}Bar}}}}
+
+\begin{itemize}[leftmargin=2em]
+
+\item Add the extension to an existing model (see
+  \fig{lst:ModelExtClass}).
+
+\item Add the five necessary methods for each class attribute:
+
+  \begin{itemize}
+    
+  \item \code{get\barname()}
+    
+  \item \code{isSet\barname{}} 
+    
+  \item \code{set\barname(int value)}
+    
+  \item \code{unset\barname()}
+
+  \end{itemize}
+
+\item Add the default constructors (see \fig{lst:ModelExtFooConstructors}).
+
+\item If the class has children, check if all list methods are implemented
+  (see the program fragments in \fig{lst:ModelExtChildren},
+  \fig{lst:ModelExtListOfFoosBasic}, \fig{lst:ModelExtAddRemoveFoos},
+  \fig{lst:ModelExtChildren}):
+
+  \begin{itemize}
+    
+  \item \code{isSetListOf\fooname{}s()}
+    
+  \item \code{getListOf\fooname{}s()}
+    
+  \item \code{setListOf\fooname{}s(ListOf<\fooname{}> listOf\fooname{}s)}
+    
+  \item \code{create\fooname()}
+    
+  \item \code{add\fooname(\fooname{} foo)}
+    
+  \item \code{remove\fooname(\fooname{} foo)}
+    
+  \item \code{remove\fooname(int i)}
+    
+  \item \code{getAllowsChildren()}
+    
+  \item \code{getChildCount()}
+    
+  \item \code{getChildAt(int i)}
+
+  \end{itemize}
+
+\item All necessary create methods are implemented (see 
+  \fig{lst:ModelExtCreateMethods}).
+
+\item Implement the \code{equals()} method (see 
+  \fig{lst:ModelExtEquals}).
+
+\item Implement the \code{hashCode()} method (see 
+  \fig{lst:ModelExtHashCode}).
+
+\item Implement the \code{clone()} method (see 
+  \fig{lst:ModelExtClone} and \fig{lst:ModelExtCloneFoo}).
+
+\item Implement the \code{toString()} method.
+
+\item Implement the \code{writeXMLAttribute()} method (see 
+  \fig{lst:ModelExtCreateXMLAttributes}).
+
+\item Implement the \code{readAttribute(String, String, String)} method (see 
+  \fig{lst:ModelExtReadAttributes}).
+  
+\item Implement the reader/writer method (see 
+  \fig{lst:ModelExtParserClass},
+  \fig{lst:ModelExtParserStartElement}, and
+  \fig{lst:ModelExtParserEndElement}).
+\end{itemize}
+
+
