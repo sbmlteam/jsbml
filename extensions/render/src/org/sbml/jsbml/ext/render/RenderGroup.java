@@ -365,7 +365,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    */
   @Override
   public String getElementName() {
-    return "g";
+    return RenderConstants.group;
   }
 
   /**
@@ -1061,8 +1061,10 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
+      
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.fontFamily)) {
         setFontFamily(FontFamily.valueOf(value.toUpperCase()));
@@ -1092,6 +1094,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         isAttributeRead = false;
       }
     }
+    
     return isAttributeRead;
   }
 }

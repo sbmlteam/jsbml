@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -32,9 +31,7 @@ import org.sbml.jsbml.SBase;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
  */
 public class GlobalRenderInformation extends RenderInformationBase {
   /**
@@ -192,6 +189,8 @@ public class GlobalRenderInformation extends RenderInformationBase {
       listOfStyles.setPackageName(null);
       listOfStyles.setPackageName(RenderConstants.shortLabel);
       listOfStyles.setSBaseListType(ListOf.Type.other);
+      listOfStyles.setOtherListName(RenderConstants.listOfStyles);
+      
       registerChild(listOfStyles);
     }
     return listOfStyles;
@@ -211,6 +210,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
       listOfStyles.setPackageName(null);
       listOfStyles.setPackageName(RenderConstants.shortLabel);
       listOfStyles.setSBaseListType(ListOf.Type.other);
+      listOfStyles.setOtherListName(RenderConstants.listOfStyles);
     
       registerChild(this.listOfStyles);
     }

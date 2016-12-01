@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -38,9 +37,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 04.05.2012
  */
 public class RenderInformationBase extends AbstractNamedSBase implements UniqueNamedSBase {
 
@@ -473,6 +470,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
       listOfColorDefinitions.setPackageName(null);
       listOfColorDefinitions.setPackageName(RenderConstants.shortLabel);
       listOfColorDefinitions.setSBaseListType(ListOf.Type.other);
+      listOfColorDefinitions.setOtherListName(RenderConstants.listOfColorDefinitions);
+      
       registerChild(listOfColorDefinitions);
     }
     return listOfColorDefinitions;
@@ -491,6 +490,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
       listOfColorDefinitions.setPackageName(null);
       listOfColorDefinitions.setPackageName(RenderConstants.shortLabel);
       listOfColorDefinitions.setSBaseListType(ListOf.Type.other);
+      listOfColorDefinitions.setOtherListName(RenderConstants.listOfColorDefinitions);
 
       registerChild(this.listOfColorDefinitions);
     }
@@ -570,6 +570,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
       listOfGradientDefinitions.setPackageName(null);
       listOfGradientDefinitions.setPackageName(RenderConstants.shortLabel);
       listOfGradientDefinitions.setSBaseListType(ListOf.Type.other);
+      listOfGradientDefinitions.setOtherListName(RenderConstants.listOfGradientDefinitions);
+      
       registerChild(listOfGradientDefinitions);
     }
     return listOfGradientDefinitions;
@@ -588,6 +590,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
       listOfGradientDefintions.setPackageName(null);
       listOfGradientDefintions.setPackageName(RenderConstants.shortLabel);
       listOfGradientDefintions.setSBaseListType(ListOf.Type.other);
+      listOfGradientDefinitions.setOtherListName(RenderConstants.listOfGradientDefinitions);
+
 
       registerChild(listOfGradientDefinitions);
     }
@@ -720,6 +724,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
       listOfLineEndings.setPackageName(null);
       listOfLineEndings.setPackageName(RenderConstants.shortLabel);
       listOfLineEndings.setSBaseListType(ListOf.Type.other);
+      listOfLineEndings.setOtherListName(RenderConstants.listOfLineEndings);
+      
       registerChild(listOfLineEndings);
     }
     return listOfLineEndings;
@@ -739,6 +745,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
       listOfLineEndings.setPackageName(null);
       listOfLineEndings.setPackageName(RenderConstants.shortLabel);
       listOfLineEndings.setSBaseListType(ListOf.Type.other);
+      listOfLineEndings.setOtherListName(RenderConstants.listOfLineEndings);
 
       registerChild(this.listOfLineEndings);
     }

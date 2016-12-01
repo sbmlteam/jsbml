@@ -150,13 +150,18 @@ public class Transformation extends AbstractSBase {
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.transform)) {
         setTransform(XMLTools.decodeStringToArrayDouble(value));
       }
+      else {
+        isAttributeRead = false;
+      }
     }
+    
     return isAttributeRead;
   }
 

@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,30 +26,32 @@ import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
  * Implements the curve concept from the SBML render extension.
+ * 
  * <p>
  * The curve concept in the SBML render extension is similar to the curves in
  * the SBML layout. Each curve consists of a number of either straight line
- * segments or cubic B&eacute;zier elements. The two element types can also by
- * mixed in a single curve object.
+ * segments or cubic B&eacute;zier elements. The two element types can also be
+ * mixed in a single curve object.</p>
+ * 
  * <p>
  * In contrast to layout curves, render curves can not have gaps and the
  * individual coordinates of the curve elements can be specified as a
- * combination of absolute and relative values.
+ * combination of absolute and relative values.</p>
+ * 
  * <p>
  * Another difference to layout curves is the fact that render curves can
  * specify decorations to be applied to the start and/or the end of the curve
- * (@see LineEnding).
+ * (@see LineEnding).</p>
+ * 
  * <p>
  * Since {@link RenderCurve} is derived from {@link GraphicalPrimitive1D}, it
- * inherits all its attributes and methods.
+ * inherits all its attributes and methods.</p>
  *
  * @author Eugen Netz
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
  */
 public class RenderCurve extends GraphicalPrimitive1D {
   /**
@@ -70,9 +70,12 @@ public class RenderCurve extends GraphicalPrimitive1D {
   /**
    * 
    */
-  protected ListOf<RenderPoint> listOfElements; // TODO - check the naming of this listOf and the associated methods compared with libsbml. Might need to extends ListOfWithName
+  protected ListOf<RenderPoint> listOfElements;
 
+  
   // TODO - implements the TreeNode methods
+  
+  // TODO - need to have a listOfCurveSegments !
 
   /**
    * Creates an Curve instance
@@ -164,6 +167,14 @@ public class RenderCurve extends GraphicalPrimitive1D {
       return false;
     }
     return true;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return RenderConstants.renderCurve;
   }
 
   /**
@@ -276,6 +287,8 @@ public class RenderCurve extends GraphicalPrimitive1D {
       listOfElements.setPackageName(null);
       listOfElements.setPackageName(RenderConstants.shortLabel);
       listOfElements.setSBaseListType(ListOf.Type.other);
+      listOfElements.setOtherListName(RenderConstants.listOfElements);
+      
       registerChild(listOfElements);
     }
     return listOfElements;
@@ -294,7 +307,8 @@ public class RenderCurve extends GraphicalPrimitive1D {
       listOfElements.setPackageName(null);
       listOfElements.setPackageName(RenderConstants.shortLabel);
       listOfElements.setSBaseListType(ListOf.Type.other);
-
+      listOfElements.setOtherListName(RenderConstants.listOfElements);
+      
       registerChild(this.listOfElements);
     }
   }

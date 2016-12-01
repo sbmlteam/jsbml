@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -32,9 +30,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
  */
 public class GraphicalPrimitive1D extends Transformation2D {
   /**
@@ -77,6 +73,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
 
   /**
    * Set the value of strokeDashArray
+   * 
    * @param strokeDashArray
    */
   public void setStrokeDashArray(Short[] strokeDashArray) {
@@ -317,6 +314,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output

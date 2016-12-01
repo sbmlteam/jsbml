@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,9 +29,7 @@ import org.sbml.jsbml.SBase;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
  */
 public class Polygon extends GraphicalPrimitive2D {
   /**
@@ -46,6 +42,7 @@ public class Polygon extends GraphicalPrimitive2D {
    */
   private ListOf<RenderPoint> listOfElements;
 
+  // TODO - need to have a listOfCurveSegments !
 
   /**
    * Creates an Polygon instance
@@ -134,6 +131,8 @@ public class Polygon extends GraphicalPrimitive2D {
       listOfElements.setPackageName(null);
       listOfElements.setPackageName(RenderConstants.shortLabel);
       listOfElements.setSBaseListType(ListOf.Type.other);
+      listOfElements.setOtherListName(RenderConstants.listOfElements);
+      
       registerChild(listOfElements);
     }
     
