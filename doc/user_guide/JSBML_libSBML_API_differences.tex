@@ -1,0 +1,518 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+\section{Differences between the APIs of JSBML and libSBML}
+\label{sec:api-differences}
+
+We strove to make JSBML be closely compatible with libSBML. However,
+because of the different programming languages used,
+some differences are impossible to overcome.
+In other cases, an exact translation from libSBML's C/C++ \index{C}
+code to Java would be inelegant and unnatural for Java users,
+conflicting with another important goal of JSBML: to provide
+an API \index{application programming interface!Java} whose classes and
+methods behave, and are organized like, those in other Java libraries.
+
+In this section, we discuss the most important differences in the APIs of
+JSBML \index{application programming interface!JSBML} and libSBML.
+\index{application programming interface!libSBML} We also provide some
+examples of how the classes and methods in JSBML may be used.
+
+
+\subsection{Level and Version \codeNC{ValuePair}}
+
+In libSBML, the Level and Version information is recorded as individual
+integers; by contrast, in JSBML it is stored in a generic object, \ValuePair,
+stored within an \AbstractSBase instance. The class \ValuePair implements the
+Java interface \Comparable and takes two values of any type that both also
+implement \Comparable.  Storing the information in this way allows users to
+check for a specific Level/Version combination more naturally, as the example
+in \fig{fig:LevelVersionCheck} demonstrates. The method
+\code{getLevelAndVersion()} in \AbstractSBase delivers an instance of
+\ValuePair with the Level and Version combination for the respective element.
+
+\begin{figure}[bh]%
+  \begin{example}
+if (mySBase.getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0) {
+  throw new IllegalArgumentException("Cannot create a " + mySBase.getElementName() + 
+  		" with Level = " + getLevel() + " and Version = " + getVersion() + ".");
+}\end{example}
+  \caption{Example program fragment showing how to check for a minimal
+    expected SBML Level/Version combination.}
+  \label{fig:LevelVersionCheck}
+\end{figure}
+
+
+\subsection{Abstract syntax trees for mathematical formulas}
+
+Both libSBML and JSBML define a class called \ASTNode for in-memory storage
+and evaluation of abstract syntax trees (ASTs) that represent mathematical
+formulas. These can be parsed either from \String{}s containing formulas in a
+C-like infix syntax, or from a MathML \index{MathML} representation.  JSBML's
+\ASTNode class provides various methods to transform ASTs to other formats,
+for instance, \code{String}s in \LaTeX \index{LaTeX@\LaTeX} syntax.  Several static methods also
+make it easy to create syntax trees.  The next example creates a new
+\ASTNode which represents the sum of the two other nodes:
+
+\begin{example}
+ASTNode myNode = ASTNode.sum(myLeftAstNode, myRightASTNode);
+\end{example}
+
+SBML specifies that mathematical formulas may contain references to the
+following kinds of components in a model: \Parameter{}s,
+\LocalParameter{}s, \FunctionDefinition{}s, \Reaction{}s, \Compartment{}s,
+\Species, and in \SBMLthree, \SpeciesReference{}s.  In JSBML, all of these
+classes implement a common interface, \CallableSBase, which extends
+the interface \NamedSBaseWithDerivedUnit. This organization ensures that
+only identifiers of these particular SBML components can be set in
+instances of \ASTNode.
+
+
+\subsubsection{Constructors and other methods for \CallableSBase}
+
+JSBML provides useful constructors and methods to work with instances of
+\CallableSBase.  The \code{set} method changes the type of an \ASTNode to
+\ASTTypeName and directly sets the name to the identifier of the given
+\CallableSBase.  The \code{get} method looks for the corresponding object in
+the \Model and returns it. If no such object can be found or the type of the
+\ASTNode is something different from \ASTTypeName, it throws an exception.
+
+\begin{example}[title={Getter and setter for \CallableSBase.}]
+public void setVariable(CallableSBase variable) { ... }
+
+public CallableSBase getVariable() { ... }
+\end{example}
+
+The following are examples of methods for creating and manipulating complex
+ASTs.  JSBML provides several static methods (such as \code{sum} shown above)
+that create small trees from objects in memory.  Other methods, such as
+\code{plus}, \code{frac} and \code{pow}, change existing tree structures:
+
+\begin{example}[title={Some examples for convenience methods, some of
+    them static methods, provided by JSBML for working with \ASTNode{}s.}]
+public ASTNode plus(CallableSBase nsb) { ... }
+
+public static ASTNode frac(MathContainer container,
+      CallableSBase numerator, CallableSBase denominator) { ... }
+
+public static ASTNode pow(MathContainer container,
+      CallableSBase basis, CallableSBase exponent) { ... }
+\end{example}
+
+In contrast to the static \code{ASTNode.sum} function at the beginning of
+this section, the \code{frac} and the \code{pow} methods above take instances
+of \CallableSBase as their arguments instead of \ASTNode objects. Consequently, the
+parent \MathContainer must be passed to the methods in order to ensure that
+valid data structures are created. (In case of methods that take \ASTNode
+objects as arguments, such as the static \code{ASTNode.sum}, the parent
+\MathContainer can be taken from the first given node object.)
+
+Finally, with the following \ASTNode constructors, dedicated single nodes can
+be created whose type (from the enumeration \ASTType) will be \code{NAME} and
+whose name will be set to the identifier of the given \CallableSBase.
+
+\begin{example}
+public ASTNode(CallableSBase nsb) { ... }
+
+public ASTNode(CallableSBase nsb, MathContainer parent) { ... }
+\end{example}
+
+
+\subsubsection{The \codeNC{ASTNodeCompiler} class}
+
+JSBML provides the interface \ASTNodeCompiler; it allows users to create
+customized interpreters for the contents of mathematical formulas encoded
+in abstract syntax trees. It is directly and recursively called from the
+\ASTNode class and returns an \ASTNodeValue object, which wraps the
+possible evaluation results of the interpretation.  As alluded to above,
+JSBML provides several implementations of this interface; for instance,
+\ASTNode objects can be directly translated to C language-like \String{}s,
+\LaTeX, \index{LaTeX@\LaTeX} or MathML \index{MathML} for further
+processing.  In addition, the class \UnitsCompiler, which JSBML uses to
+derive the unit of an abstract syntax tree, also implements this interface.
+
+
+\subsection{Compartments}
+
+In \SBMLthree~\citep{Hucka2010a}, the domain of the attribute
+\code{spatialDimensions} on \Compartment is no longer $\lbrace 0, 1, 2,
+3\rbrace$, which can be represented with a \code{short} value in Java, and is
+instead a real-numbered value (i.e., a value in $\mathbb{R}$), which requires
+a \code{double} value in Java. For this reason, the method
+\code{getSpatialDimensions()} in JSBML always returns a \code{double}
+value. For consistency with libSBML, the \Compartment class in JSBML also
+provides the redundant method \code{getSpatialDimensionsAsDouble()} that
+returns the identical value; it is marked as a deprecated method.
+\index{compartment!\code{getSpatialDimensions()}}%
+\index{compartment!\code{getSpatialDimensionsAsDouble()}}%
+
+
+\subsection{Model history}
+
+Before \SBML Level~3, only the \Model object could have an associated
+history, that is, a description about the person(s) who build the model,
+including names, email addresses, modification and creation dates.  In
+Level~3 of SBML, it is possible to annotate every construct with a
+history. This is reflected in JSBML by the name of the corresponding
+object---\History---whereas it is named \ModelHistory in libSBML.  All
+instances of \SBase in JSBML contain methods to access and manipulate its
+\History. Also, JSBML does not have libSBML's classes \ModelCreator
+and \ModelCreatorList because JSBML gathers its \Creator objects in a generic
+\code{List<Creator>} in the \History.
+
+
+\subsection{Units and unit definitions}
+\label{sec:units}
+
+There are differences between libSBML and JSBML's interfaces for handling
+units.  We describe them next.
+
+
+\subsubsection{The exponent attribute of units}
+
+In \SBMLthree~\citep{Hucka2010a}, the data type of the exponent attribute
+of a \Unit object changed from \code{int} in previous Levels to
+\code{double} values. To provide a uniform interface no matter which Level
+of SBML is being dealt with, JSBML's method \code{getExponent()} only
+returns \code{double} values. In libSBML, \code{getExponent()} always
+returns \code{int}, and there is an additional method,
+\code{getExponentAsDouble()}, to handle the cases with \code{double}
+values.  JSBML provides \code{getExponentAsDouble()} for compatibility with
+libSBML, but it is a redundant method in JSBML's case and therefore is marked
+as deprecated.
+\index{unit!getExponent()@\code{getExponent()}}%
+\index{unit!getExponentAsDouble()@\code{getExponentAsDouble()}}%
+
+
+\subsubsection{Predefined unit definitions}
+
+A model in JSBML \index{unit!predefined units} always contains all
+predefined units defined by SBML.  These can be accessed from an instance
+of \code{Model} by calling the method \code{getPredefinedUnit(String
+  unit)}.
+
+MIRIAM annotations\index{annotations!MIRIAM} \citep{Novere2005} have been
+an integral part of SBML models since Level~2 Version~2\index{SBML!Level~2
+  Version~2}. Recently, the \index{Ontology} Unit Ontology
+(UO)~\citep{unitontology} \index{annotations!unit ontology} has been
+included in the set of supported ontology and online resources of MIRIAM
+annotations~\citep{Novere2005}. Since all the predefined units in SBML have
+corresponding entries in the UO, JSBML \index{unit!MIRIAM annotation}%
+automatically equips those predefined units with the correct MIRIAM URI in
+form of a controlled vocabulary term (\code{CVTerm}) if the SBML
+Level/Version combination of the model supports MIRIAM annotations.  In
+addition, the \code{enum} \code{Unit.Kind}
+\index{unit!Unit.Kind@\code{Unit.Kind}}%
+also provides methods to directly obtain the entry from the UO that
+corresponds to a certain unit kind and also contains methods to generate
+MIRIAM URIs accordingly. In this way, JSBML facilitates the annotation of
+user-defined units and unit definitions with MIRIAM-compliant
+\index{annotations!MIRIAM} information.
+
+
+\subsubsection{Access to the units of an element}
+
+In JSBML, all SBML components whose value can be associated with a unit of
+measurement implement the interface \SBaseWithUnit.  This interface provides
+methods to access an object representing the unit. Currently, the interface
+is implemented by \AbstractNamedSBaseWithUnit, \ExplicitRule, and
+\KineticLaw.  \fig{fig:TypeHierarchy} provides an overview about the
+relationships between these and other classes and interfaces.
+
+% FIXME
+
+\AbstractNamedSBaseWithUnit is the abstract superclass for \Event and
+\QuantityWithUnit.  In the class \Event, all methods to deal with units are
+deprecated because the \code{timeUnits} attribute was removed in SBML
+Level~2 Version~2\index{SBML!Level~2}. The same holds true for instances of
+\ExplicitRule and \KineticLaw which both can only be explicitly populated
+with units in SBML Level~1\index{SBML!Level~1} for \ExplicitRule and before
+SBML in Level~2, Version~3\index{SBML!Level~2} for \KineticLaw. By
+contrast, the abstract class \QuantityWithUnit serves as the superclass for
+\LocalParameter and \Symbol, which is then the superclass of \Compartment,
+\Species, and (global) \Parameter.  With \SBaseWithUnit being a subclass of
+\SBaseWithDerivedUnit, users can access the units of such an element in two
+different ways:
+
+\begin{description}[font=\normalfont]
+
+\item[\code{getUnit()}:] This method returns a \String representation of
+  the unit kind or the identifier of a unit definition in the model \index{model} that has
+  been directly set by the user during the life time of the element. If
+  nothing has been declared, this method returns an empty \String.
+
+\item[\code{getDerivedUnit()}:] This method gives either the same
+  result as \index{unit!derived unit} \code{getUnit()} if some unit has
+  been declared explicitly, or it returns the predefined unit of the
+  element for the given SBML Level/Version combination.  If neither a
+  user-defined nor a predefined unit is available, this method returns an
+  \index{String@\code{String}!empty} empty \String.
+
+\end{description}
+
+% FIXME
+
+For convenience, JSBML also provides corresponding methods to the ones
+above for directly obtaining an instance of \UnitDefinition.  However, care
+must be taken when obtaining an instance of \UnitDefinition from one of the
+classes implementing \SBaseWithUnit because it might happen that the
+model\index{model} containing this \SBaseWithUnit does actually not contain
+the required instance of \UnitDefinition and the method returns a
+\code{UnitDefinition} that has just been created for convenience from the
+information provided by the class. It might therefore be useful for callers
+to either check if the \Model{} contains this \UnitDefinition or to add it
+to the \Model.
+
+In case of \KineticLaw it is even more difficult, because SBML
+Level~1\index{SBML!Level~1} provides the ability to set the substance unit
+and the time unit separately. To unify the API
+\index{application programming interface!JSBML}, we decided to also provide methods that
+allow the user to simply pass one \UnitDefinition or its identifier to
+\KineticLaw.  These methods then try to guess if a substance unit or time
+unit is given. Furthermore, it is possible to pass a \UnitDefinition
+representing a variant of substance per time directly. In this case, the
+\KineticLaw will memorize a direct link to this \UnitDefinition in the
+model\index{model} and also try to save separate links to the time unit and
+the substance unit. However, this may cause a problem if the containing
+\Model does not contain separate \UnitDefinition{}s for both entries.
+
+
+\subsection{Cloning when adding child nodes to instances of \codeNC{SBase}}
+
+When adding elements such as a \Species to a \Model, libSBML \index{cloning}
+will clone the object and add the clone to the \Model. In contrast, JSBML
+does not automatically perform cloning. This has the advantage that
+modifications on the object belonging to the original pointer will also
+propagate to the element added to the \Model; furthermore, this is more
+efficient at run-time and also more intuitive for Java programmers. If
+cloning is necessary, users should call the \code{clone()} method
+explicitly. Since all instances of \SBase, and also \Annotation, \ASTNode,
+\CVTerm, and \History, extend \AbstractTreeNode (which in turn implements the
+interface \Cloneable---see \fig{fig:TypeHierarchy}), all these elements can
+be cloned naturally.  However, when cloning an object in JSBML
+\index{cloning}, such as an \AbstractNamedSBase, all children of this element
+will recursively be cloned before adding them to the new element. This is
+necessary because the data structures specified in SBML
+\index{SBML!hierarchical structure} define a tree, in which each element has
+exactly one parent. It is important to note that some properties of the
+elements must not be copied when cloning:
+
+\begin{enumerate}
+
+\item The pointer to the parent node of the top level element that is
+  recursively cloned is not copied and is left as \code{null}, because the
+  cloned object will get a parent set as soon as it is added or linked again
+  to an existing tree. Note that only the top-level element of the cloned
+  subtree will have a \code{null} value as its parent. All subelements will
+  point to their correct parent element.
+
+\item The list of \TreeNodeChangeListener objects is used in all other
+  \code{setXX()} methods. Copying pointers to these may lead to
+  unexpected behaviors, because during deep cloning, the listeners of
+  the old object will suddenly be informed about all changes to values within
+  the new object.  In cloning, all values of all child elements
+  will be touched, i.e., all listeners will have to be informed many times, but
+  each time they will receive the same value. Since they do not
+  extend the \Cloneable interface, we cannot clone them either; for this reason, the cloned
+  object has no \TreeNodeChangeListener object attached to it. The user is responsible
+  for adding \TreeNodeChangeListener{}s on the cloned object if they want to be
+  notified of any changes to it.
+
+\item Since release 1.0, JSBML supports storing user objects in any object
+  derived from \AbstractTreeNode.  These user objects are organized in a map
+  data structure with object as key type, pointing to arbitrary user-defined
+  objects. Note that generally no deep cloning of these user objects is
+  possible, but JSBML keeps a pointer to these user objects in the cloned
+  element.
+
+\end{enumerate}
+
+
+\subsection{Exceptions}
+\label{sec:exceptions}
+
+In case of an error, JSBML \index{exception} methods will usually throw an
+exception, whereas libSBML \index{exception!error codes} methods return a
+numeric error code instead. The libSBML approach is rooted in the need to
+support C-like languages, while exception handling is more natural in Java.
+The JSBML approach of using exceptions helps programmers and users to avoid
+creating invalid SBML data structures already when dealing with these in
+memory. 
+
+As per usual Java practice, JSBML methods declare that these may
+potentially throw exceptions. In this way, programmers can be aware of
+potential sources of problems already at the time of writing the source
+code. Examples of the kinds of exceptions that JSBML methods may throw
+include \ParseException, \index{exception!\code{ParseException}} which may
+be thrown if a given formula cannot be parsed properly into an \ASTNode
+data structure, and \InvalidArgumentException,
+\index{exception!\code{InvalidArgumentException}} which may be thrown if
+inappropriate values are passed to methods.
+
+The following are some examples of situations that lead to exceptions:
+
+\begin{itemize}
+
+\item An object representing a constant\index{constant} such as a
+  \Parameter whose \code{constant} attribute has been set to \code{true}
+  cannot be used as the \Variable element in an \Assignment.
+  \index{JSBML!assignment@\code{Assignment}}%
+  \index{JSBML!variable@\code{Variable}}%
+  \index{parameter!\code{Parameter}}%
+  \index{parameter!\code{constant}}%
+
+\item An instance of \Priority can only be assigned to an \Event{}s if its
+  \code{level}\index{SBML!Level~3} attribute has at least been set to
+  three.
+
+\item Another example is the \InvalidArgumentException that is thrown when
+  trying to set an invalid identifier \String for an instance of
+  \AbstractNamedSBase.
+
+\item JSBML keeps track of all identifiers within a model. For each
+  namespace it contains a separate map of identifiers within the \Model. It
+  is therefore not possible to assign duplicate identifiers in case of
+  elements that implement the interface \UniqueNamedSBase.  For
+  \UnitDefinition{}s and \LocalParameter{}s separate maps are
+  maintained. Since local parameters are only visible within the
+  \KineticLaw that contain these, JSBML will only prohibit having more
+  than one local parameter within the same list that has the identical
+  identifier. All these maps are updated upon any changes within the
+  model. When adding an element with an already existing identifier for its
+  namespace, or changing some identifier to a value that is already defined
+  within this namespace, JSBML will throw an exception.
+
+\item ``Meta'' identifiers must be unique through the entire SBML file. To
+  ensure that no duplicate meta identifiers are created, JSBML keeps a map
+  of all meta identifiers on the level of the \SBMLDocument, which is
+  updated upon any change of elements within the data structure. In this
+  way, it is not possible to map the meta identifier of some element to an
+  already existing value or to add nodes to the SBML tree that contain a
+  meta identifier defined somewhere else within the tree. In both cases,
+  JSBML will throw an exception. Since meta identifiers can be generated in
+  a fully automatic way (method \code{nextMetaId()} on
+  \code{SBMLDocument}), users of JSBML should not care about these
+  identifiers at all. JSBML will automatically create meta identifiers
+  where missing upon writing an SBML file.  (See \sec{sec:find-methods}.)
+
+\item In case that spatial dimension units of a \Species{} are defined
+  whose surrounding \Compartment{} has zero dimensions or that has only
+  substance units, JSBML also throws an exception.
+
+\end{itemize}
+
+Hence, you have to be aware of potential exceptions and errors when using
+JSBML, \index{exception} on the other hand this will prevent you from doing
+obvious mistakes. The class \SBMLReader in JSBML catches those errors and
+exceptions. With the help of the logging utility, JSBML notifies users
+about syntactical problems in SBML files. JSBML follows the rule that
+illegal or invalid properties are not set.
+
+
+\subsection{No interface  \codeNC{libSBMLConstants}}
+
+JSBML does not contain an equivalent to libSBML's
+\code{libSBMLConstants}. The reason is that in JSBML, constants are encoded
+in a more natural Java fashion, \index{constant!\code{enum}}%
+using the Java construct \code{enum}. For instance, all the fields starting
+with the prefix \ASTTypePrefix{} have a corresponding field in the \ASTNode
+class itself.   There you can find the enumeration \ASTType.  Thus, instead of typing
+\code{libSBMLConstants.AST\_TYPE\_PLUS}, you type
+\code{ASTNode.Type.PLUS}.  The same holds true for \code{Unit.Kind.*}
+corresponding to the \code{libSBMLConstants.UNIT\_KIND\_*}
+\index{unit!UNIT\_KIND\_*@\code{UNIT\_KIND\_*}}%
+fields.
+
+\subsection{No class \codeNC{libSBML}}
+
+JSBML contains no class called \code{libSBML} simply because the library
+is called \emph{JSBML}.  \index{libSBML!libSBML@\code{libSBML}}%
+In its place, there is a class named \code{JSBML}.
+\index{JSBML!JSBML@\code{JSBML}} This class provides some methods similar
+to the ones provided in libSBML's \code{libSBML}, such as
+\code{getJSBMLDottedVersion()} \index{JSBML!version}%
+to obtain the current version of the JSBML library, which is 0.8 or 1.0-a* at the
+time of writing this document. However, many other methods that you might
+expect to find there, if you are used to libSBML, are located in the actual
+classes that are related with the function. 
+
+Here is an example of a method that is located on the relevant class.  To
+convert between a \String \index{unit!String@\code{String}}%
+and a corresponding \code{Unit.Kind}
+\index{unit!Unit.Kind@\code{Unit.Kind}}%
+you would use the following:
+
+\begin{example}[title={Converting a string to a unit kind in JSBML.}]
+Unit.Kind myKind = Unit.Kind.valueOf(myString);
+\end{example}
+
+Analogous to the above, the \ASTNode class provides a method to parse
+C-like infix formula {\String}s according to the specification of SBML
+Level~1~\citep{Hucka2003}\index{SBML!Level~1} into an abstract syntax
+tree. Therefore, in contrast to the \code{libSBML} class, the class
+\code{JSBML}\index{JSBML!JSBML@\code{JSBML}} contains only a few methods.
+
+
+\subsection{No individual \codeNC{ListOf*} classes, but a generic \codeNC{ListOf}}
+
+% We have the method get(String) on the ListOf and libsbml does not have it on
+% the main ListOf class, only on subclasses where it is possible to do it.
+
+JSBML does not have a specific \code{ListOf*}\index{ListOf*@\code{ListOf*}}
+class for each type of \SBase elements, which is unlike the case in
+libSBML. In JSBML, we use a generic implementation \code{ListOf<?~extends
+  SBase>} that enables the same class to be used for each of the different
+\code{ListOf*} classes defined in SBML while keeping a type-safe class.
+
+To help developers work with \code{ListOf*} lists more conveniently, JSBML
+provides several methods that use the Java \code{Filter} interface to search
+and filter the lists. For example, to query an instance of a \code{ListOf*}
+list in JSBML for specific identifiers, or names, or both, you can apply the
+following filter:
+
+\begin{example}[title={Example of searching a list for an object with a
+    particular identifier.}]
+NamedSBase nsb = myList.firstHit(new NameFilter(identifier));
+\end{example}
+
+This will return the first element in the list with the given identifier.  In
+SBML, a \code{ListOf*} list object usually must not contain multiple elements
+with the same identifier, so the element will usually be unique.  The
+\code{firstHit} method stops after finding one element that satisfies the
+given \code{Filter}. The \code{ListOf<?~extends SBase>} class also offers a
+\code{filter} method that takes a \code{Filter} object as argument and
+collects all elements accepted by that \code{Filter} object.
+
+Various filters are already implemented in JSBML and made available for use
+in your programs, but you can easily add your own custom filter. You only
+need to implement the \Filter interface defined in the JSBML package
+\code{org.sbml.jsbml.util.filters}.  In that package, you can also find an
+\OrFilter and an \AndFilter, which take as arguments multiple other
+filters. With the \SBOFilter you can query for certain SBO annotations
+\citep{Novere2006, Novere2006b} \index{annotations!SBO}%
+in your list; similarly, the \CVTermFilter helps you to identify \SBase
+instances with a desired MIRIAM (Minimal Information Required In the
+Annotation of Models) annotation~\citep{Novere2005}\index{annotations}. For
+instances of \code{ListOf<Species>}, you can apply the
+\BoundaryConditionFilter to look for those species\index{species!boundary
+  condition} that operate on the boundary of the reaction system.
+
+
+\subsection{Use of deprecation}
+
+The intention of JSBML\index{JSBML!deprecation} is to provide a Java
+library that supports the latest specifications of SBML\index{SBML}.
+\index{SBML!specification}%
+\index{deprecation}%
+But we also want to support earlier specifications. So JSBML provides
+methods and classes to cover elements and properties from earlier SBML
+specifications as well, but these are often marked as being deprecated to
+help users avoid creating models that refer to these elements. 
+
+JSBML also contains many methods added for greater compatibility with
+libSBML, but which programmers would probably not use unless they were
+transitioning existing software from libSBML.  For instance, a method such
+as \code{getNumXyz()} is not considered to be very Java-like (but such
+methods are common for a C++\index{C++} programming style). Usually, Java
+programmers would expect the method being called \code{getXyzCount()}
+instead. For cases like this, JSBML provides alternative methods and marks
+these methods that originate from libSBML as deprecated.

@@ -1,0 +1,479 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+\section{Creating the object hierarchy}
+\label{sec:creating-obj-hierarchy}
+
+A JSBML extension may need to do different things depending on the details
+of the \SBMLthree package that it implements.  In this section, we discuss
+various common actions and how they can be written in JSBML.
+
+
+\subsection{Introducing new components and extending others}
+\label{subsec:addingClasses}
+
+Most \SBMLthree packages extend existing SBML core components or define
+entirely new components.  A common need for packages is to extend the SBML
+\Model object, so we begin by explaining how this can be achieved.
+
+\begin{figure}[t]
+  \begin{example}[numbers=left]
+public class ExampleModel extends AbstractSBasePlugin {
+
+  // Basic constructor.
+  public ExampleModel(Model model) {
+    super(model);
+  }
+
+  // Returns the model.
+  public Model getModel() {
+    return (Model) getExtendedSBase();
+  }
+}\end{example}
+  \caption{How to extending \AbstractSBasePlugin to create an extended
+    \,\Model.}
+  \label{lst:ModelExtClass}
+\end{figure}
+
+\fig{lst:ModelExtClass} shows the beginnings of the definition for
+a class named \code{ExampleModel} that extends the plain SBML
+\Model. Technically, an extension really only needs to implement the
+\SBasePlugin interface, but because the abstract class \AbstractSBasePlugin
+implements important and useful methods, it is generally preferable to
+extend that one instead.  In this example, our constructor for
+\code{ExampleModel} accepts an object that is a \Model, because that is
+what we want to extend.  The call to the super constructor will save the
+given model as the \SBase object that is being extended, and it will store
+it in an attribute named \code{extendedSBase}. Our example
+\code{ExampleModel} class also adds a method, \code{getModel()}, to
+retrieve the extended model object.
+
+In most cases, extensions will also introduce new components that have no
+counterpart in the SBML core.  We illustrate this here by creating a
+component called \code{Foo} with three attributes: \code{id}, \code{name},
+and an integer-valued attribute, \code{bar}.  We assume that in the
+(hypothetical) package specification for \emph{Example}, \code{Foo} is
+derived from \SBase; let us also assume that \emph{Example} provides the
+ability to attach a list of \code{Foo} objects to an extended version of
+\Model.  We show in \sec{sec:listofs} how to create the list
+structure; here, we focus on the definition of \code{Foo}.  We define the
+class \code{Foo} by extending \AbstractSBasePlugin, and add methods for
+working with the attributes.  In \fig{lst:DefaultModelExtFooBar},
+we list the code so far, focusing on just one of the attributes,
+\emph{bar}.
+
+\begin{figure}[hbt]
+  \begin{example}[numbers=left]
+// Use Integer, so we can denote unset values as null public Integer bar;
+
+public int getBar() {
+  if (isSetBar()) {
+    return bar.intValue();
+  }
+  // This is necessary because we cannot return null here.
+  throw new PropertyUndefinedError(ExampleConstant.bar, this);
+}
+
+public boolean isSetBar() {
+  return this.bar != null;
+}
+
+public void setBar(int value) {
+  Integer oldBar = this.bar;
+  this.bar = bar;
+  firePropertyChange(ExampleConstant.bar, oldBar, this.bar);
+}
+
+public boolean unsetBar() {
+  if (isSetBar()) {
+    Integer oldBar = this.bar;
+    this.bar = null;
+    firePropertyChange(ExampleConstant.bar, oldBar, this.bar);
+    return true;
+  }
+  return false;
+}\end{example}
+  \caption{Implementation of the five necessary methods that should be
+    created for every attribute on class \code{Foo}.  Note: if attribute
+    \emph{bar} had been a boolean-valued attribute, we would also provide
+    the method \code{isBar()}, whose implementation would delegate to
+    \code{getBar()}.}
+  \label{lst:DefaultModelExtFooBar}
+\end{figure}
+
+A few points about the code of \fig{lst:DefaultModelExtFooBar} are worth
+mentioning.  The identifiers on SBML components are often required to be
+unique; for many components, the scope of uniqueness is the entire set of
+main SBML components (e.g., \Species, \Compartment{}s, etc.), but some have
+uniqueness requirements that are limited to some subset of entities (e.g.,
+unit identifiers).  For the purposes of this example, we assume that the
+identifiers of \emph{Foo} objects in a model must be unique across all
+identifiers in the model.  All entities that have such uniqueness constraints
+should implement the JSBML interface \UniqueNamedSBase; in our example, this
+is taken care of by the abstract superclasses, so nothing needs to be done
+explicitly here.
+
+The code in \fig{lst:DefaultModelExtFooBar} illustrates
+another point, the need call to \code{firePropertyChange()} in set and
+unset methods.  This is needed in order to ensure that all listeners are
+notified about changes to the objects.  Finally, note that in cases that
+the return type is a Java base type, such as \code{int} or \code{boolean},
+but the corresponding internal element (e.g., \code{Integer} or
+\code{Boolean}) is set to \code{null}, the program must throw a
+\code{PropertyUndefineError} in the get method to prevent incorrect
+results (see line~8).
+
+The last basic matter that needs to be addressed is the definition of
+appropriate class constructors for our class \code{Foo}.  The minimum we
+need to define is a constructor that takes no arguments.  Even though some
+or all of the attributes of a class may be mandatory, default constructors
+that take no arguments still need to be defined in JSBML.  This is due to
+the internal working of parsers that read SBML files and create the data
+structure in memory.  All attributes can be set after the object has been
+created.
+
+\begin{figure}[b]
+  \begin{example}[numbers=left]
+public Foo() {
+  super();
+  initDefaults();
+}
+
+public Foo(String id) {
+  super(id);
+  initDefaults();
+}
+
+public Foo(int level, int version){
+  this(null, null, level, version);
+}
+
+public Foo(String id, int level, int version) {
+  this(id, null, level, version);
+}
+
+public Foo(String id, String name, int level, int version) throws LevelVersionError {
+  super(id, name, level, version);
+  if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+    throw new LevelVersionError(getElementName(), level, version);
+  }
+  initDefaults();
+}
+
+/** Clone constructor */
+public Foo(Foo foo) {
+  super(foo);
+  bar = foo.bar;
+}
+
+public void initDefaults() {
+  addNamespace(ExampleConstant.namespaceURI);
+  bar = null;
+}\end{example}
+  \caption{Constructors for class \code{Foo}.  Note the code testing for
+    the SBML Level and Version, on lines~21--23; since this extension
+    implements a hypothetical package for \SBMLthree, the code here rejects
+    anything before Level~3 Version~1 by throwing the JSBML exception
+    \LevelVersionError.}
+  \label{lst:ModelExtFooConstructors}
+\end{figure}
+
+Beyond this, the precise combination of constructor arguments defined for a
+class is a design issue that must be decided for each class individually.
+Attempting to define a separate constructor for every possible combination
+of arguments can lead to a combinatorial explosion, resulting in complex
+class definitions, confusing code, and excessive maintenance costs, so it
+is better to decide which combinations of arguments are the most common and
+focus on them.  In \fig{lst:ModelExtFooConstructors}, we show a
+recommended selection of constructors.  They include a constructor that
+takes an identifier only, another that takes SBML Level and Version values
+only, and another that takes all arguments together.  If you delegate the
+constructor call to the super class, you have to take care of the
+initialization of your custom attributes yourself (by calling a method like
+\code{initDefaults()}).  If you delegate to another constructor in your
+class, you only have to do that at the last one in the delegation chain.
+
+
+\subsection{\codeNC{ListOf}s}
+\label{sec:listofs}
+
+Our hypothetical \emph{Example} extension adds no new attributes to the
+extended \Model itself, but it does introduce the ability to have a list of
+\code{Foo} objects as a child of \Model.  In JSBML, this will be
+implemented using Java generics and the class \code{ListOf}, such that the
+type of the list will be \code{ListOf<Foo>}.  (Unlike in libSBML, there
+will not be an actual separate \code{ListOfFoo} class.)  In
+\fig{lst:ModelExtListOfFoosBasic}, we show the basic implementation
+of the methods that would be added to \Model to handle
+\code{ListOf<Foo>}: \code{isSetListOfFoos()}, \code{getListOfFoos()},
+\code{setListOfFoos(ListOf<Foo>)}, and \code{unsetListOfFoos()}.
+
+\begin{figure}[b]
+  \begin{example}[numbers=left]
+public boolean isSetListOfFoos() {
+  return (listOfFoos != null) && !listOfFoos.isEmpty();
+}
+
+public ListOf<Foo> getListOfFoos() {
+  if (!isSetListOfFoos()) {
+    Model m = getModel();
+    listOfFoos = new ListOf<Foo>(m.getLevel(), m.getVersion());
+    listOfFoos.addNamespace(ExampleConstants.namespaceURI);
+    listOfFoos.setSBaseListType(ListOf.Type.other);
+    m.registerChild(listOfFoos);
+  }
+  return this.listOfFoos;
+}
+
+public void setListOfFoos(ListOf<Foo> listOfFoos) {
+  unsetListOfFoos();
+  this.listOfFoos = listOfFoos;
+  getModel().registerChild(this.listOfFoos);
+}
+
+public boolean unsetListOfFoos() {
+  if (isSetListOfFoos()) {
+    ListOf<Foos> oldFoos = this.listOfFoos;
+    this.listOfFoos = null;
+    oldFoos.fireNodeRemovedEvent();
+    return true;
+  }
+  return false;
+}\end{example}
+  \caption{Implementation of the methods \code{isSetListOfFoos()},
+    \code{getListOfFoos()}, and \code{setListOfFoos()}.}
+  \label{lst:ModelExtListOfFoosBasic}
+\end{figure}
+
+Typically, when adding and removing Foo objects to the \Model, direct
+access to the actual \code{ListOf} object is not necessary.  To add and
+remove \code{Foo} objects from a given SBML model, it is more convenient to
+have methods to add and remove on \code{Foo} object at a time.  We show
+such methods in \fig{lst:ModelExtAddRemoveFoos}.  The methods also
+do some additional consistency checking as part of their work.
+
+\begin{figure}[t]
+  \begin{example}[numbers=left]
+public boolean addFoo(Foo foo) {
+    return getListOfFoos().add(foo);
+}
+
+public boolean removeFoo(Foo foo) {
+  return isSetListOfFoos() ? getListOfFoos().remove(foo) : false;
+}
+
+public boolean removeFoo(int i) {
+  if (!isSetListOfFoos()) {
+    throw new IndexOutOfBoundsException(Integer.toString(i));
+  }
+  return listOfFoos.remove(i);
+}
+
+// If the object class has an id, one should also add the following:
+public boolean removeFoo(String id) {
+  return getListOfFoos().removeFirst(new NameFilter(id));
+}\end{example}
+  \caption{Implementation of \code{ListOf} methods \code{addFoo(Foo foo)},
+    \code{removeFoo(Foo foo)}, \code{removeFoo(int i)}.}
+  \label{lst:ModelExtAddRemoveFoos}
+\end{figure}
+
+\begin{figure}[hb]
+  \begin{example}[numbers=left]
+public boolean getAllowsChildren() {
+  return true;
+}
+
+public int getChildCount() {
+  int count = 0;
+  if (isSetListOfFoos()) {
+    count++;
+  }
+  return count;  // Same for each additional ListOf* or other subelement in this package.
+}
+
+public SBase getChildAt(int childIndex) {
+  if (childIndex < 0) {
+    throw new IndexOutOfBoundsException(childIndex + " < 0");
+  }
+
+  // Important: there must be an index shift according to the number of child elements in the superclass.
+
+  int pos = 0;
+  if (isSetListOfFoos()) {
+    if (pos == childIndex) {
+      return getListOfFoos();
+    }
+    pos++;
+  }
+  // Same for each additional ListOf* or other subelements in this package.
+  throw new IndexOutOfBoundsException(MessageFormat.format(
+    "Index {0,number,integer} >= {1,number,integer}", childIndex, ((int) Math.min(pos, 0))));
+}\end{example}
+  \caption{Methods which need to be implemented to make the children
+    available in the extended model.}
+  \label{lst:ModelExtChildren}
+\end{figure}
+
+To let a \code{ListOfFoo} appear as a child of the standard \Model, some
+important methods for \TreeNode need to be implemented (see
+\fig{lst:ModelExtChildren}).  Method \code{getAllowsChildren()} should
+return \code{true} in this case, since this extension allows children.  The
+child count and the indices of the children is a bit more complicated,
+because they vary with the number of non-empty \code{ListOf}s.  So, for
+every non-empty \code{ListOf} child of our model extension, we increase the
+counter by one.  (Note also that if callers access list entries by index
+number, they will need to take into account the possibility that a given
+object's index may shift. )
+
+
+\subsection{Methods for creating new objects}
+
+Since a newly created instance of type \code{Foo} is not part of the model
+unless it is added to it, \code{create*} methods should be provided that
+take care of all that (see \fig{lst:ModelExtCreateMethods}).
+These create methods should be part of the model to which the \code{Foo}
+instance is to be added, in this case \code{ExampleModel}.
+
+\begin{figure}[thb]
+  \begin{example}[numbers=left]
+public class ExampleModel extends AbstractSBasePlugin {
+
+  // ...
+
+  // only, if ID is not mandatory in Foo
+  public Foo createFoo() {
+    return createFoo(null);
+  }
+
+  public Foo createFoo(String id) {
+    Foo foo = new Foo(id, getLevel(), getVersion());
+    addFoo(foo);
+    return foo;
+  }
+
+  public Foo createFoo(String id, int bar) {
+    Foo foo = createFoo(id);
+    foo.setBar(bar);
+    return foo;
+  }
+}\end{example}
+  \caption{Convenience method to create \code{Foo} objects.}
+  \label{lst:ModelExtCreateMethods}
+\end{figure}
+
+
+\subsection{The methods \codeNC{equals}, \codeNC{hashCode}, and \codeNC{clone}}
+
+Three more methods should be implemented in an extension
+class: \code{equals}, \code{hashCode} and \code{clone}.  This is not
+different than when implementing any other Java class, but because mistakes
+here can lead to bugs that are very hard to find, we describe the process in
+detail.
+
+Whenever two objects \code{o1} and \code{o2} should be regarded as equal,
+i.e., all their attributes are equal, the \code{o1.equals(o2)} and the
+symmetric case \code{o2.equals(o1)} must return \code{true}, and otherwise
+\code{false}. The \code{hashCode} method has two purposes here: allow a
+quick check if two objects might be equal, and provide hash values for hash
+maps or hash sets and such. The relationship between \code{equals} and
+\code{hashCode} is that whenever \code{o1} is equal to \code{o2}, their
+hash codes must be the same. Vice versa, whenever their hash codes are
+different, they cannot be equal.
+
+\fig{lst:ModelExtEquals} and \fig{lst:ModelExtHashCode} are examples
+of how to write these methods for the class \code{Foo} with the attribute
+\code{bar}.  Since \code{equals} accepts general objects, it first needs to
+check if the passed object is of the same class as the object it is called
+on.  Luckily, this has been implemented in \AbstractTreeNode, the super
+class of \AbstractSBase. Each class only checks the attributes it adds to
+the super class when extending it, but not the \code{ListOf}s, because they
+are automatically checked in the \AbstractTreeNode class, the super class
+of \AbstractSBase.
+
+\begin{figure}[htb]
+  \begin{example}[numbers=left]
+@Override
+public boolean equals(Object object) {
+  boolean equals = super.equals(object);    // recursively checks all children
+  if (equals) {
+    Foo foo = (Foo) object;
+    equals &= foo.isSetBar() == isSetBar();
+    if (equals && isSetBar()) {
+      // Note: strictly speaking, this is only possible if the return type is some Object. For simple data
+      // types, such as boolean, int, short, etc., the corresponding wrapper classes should be called instead
+      // or a direct comparison should be performed.
+      equals &= (foo.getBar().equals(getBar()));
+    }
+    // ...
+    // further attributes
+  }
+  return equals;
+}\end{example}
+  \caption{Example of the \code{equals} method.}
+  \label{lst:ModelExtEquals}
+\end{figure}
+
+\begin{figure}[htb]
+  \begin{example}[numbers=left]
+@Override 
+public int hashCode() {
+  final int prime = 491;              // Some arbitrarily large prime number.
+  int hashCode = super.hashCode();    // Recursively checks all children.
+  if (isSetBar()) {
+    hashCode += prime * getBar().hashCode();
+  }
+  // ...
+  // further attributes
+
+  return hashCode;
+}\end{example}
+ \caption{Example of the \code{hashCode} method. The variable \code{prime}
+   should be a large prime number to  prevent collisions.}
+ \label{lst:ModelExtHashCode}
+\end{figure}
+
+fig{lst:ModelExtClone} and~\fig{lst:ModelExtCloneFoo} illustrates
+implementations of \code{clone()} methods.  To clone an object, the call to
+the \code{clone()} method is delegated to a constructor of that class that
+takes an instance of itself as argument.  There, all the elements of the
+class must be copied, which may require recursive cloning.
+
+Although JSBML defines all SBML elements in a hierarchical data structure, it
+is still not possible to recursively clone child elements within the
+constructor of some abstract superclasses because these can be of various
+types and they cannot simply be organized as a list of children.
+
+\begin{figure}[htb]
+  \begin{example}[numbers=left]
+@Override public ExampleModel clone() {
+  return new ExampleModel(this);
+}
+
+public ExampleModel(ExampleModel model) {
+  super(model);  // This step is critical!
+  // Deep cloning of all elements:
+  if (model.isSetListOfFoos()) {
+    listOfFoos = model.listOfFoos.clone();
+  }
+}\end{example}
+ \caption{Example of the \code{clone} method for the \code{ExampleModel} class.}
+ \label{lst:ModelExtClone}
+\end{figure}
+
+\begin{figure}[htb]
+  \begin{example}[numbers=left]
+@Override public Foo clone() {
+  return new Foo(this);
+}
+
+public Foo(Foo f) {
+  super(f);  // This step is critical!
+
+  // Integer objects are immutable, so it is sufficient to copy the pointer
+  bar = f.bar;
+}\end{example}
+  \caption{Example of the \code{clone} method for the \code{Foo} class.}
+  \label{lst:ModelExtCloneFoo}
+\end{figure}
+
+

@@ -1,0 +1,23 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+\section{The \codeNC{find*} methods}
+\label{sec:find-methods}
+
+JSBML provides developers with a number of \code{find*} methods
+\index{JSBML!\code{find*} methods}%
+on a \Model to help query for elements based on their identifiers or
+names. Software can search for various instances of \code{SBase} (for
+instance, \CallableSBase, \NamedSBase, and \NamedSBaseWithDerivedUnit);
+using methods such as \code{findLocalParameters}, \code{findQuantity},
+\code{findQuantityWithUnit}, \code{findSymbol}, and \code{findVariable},
+software can also search for the corresponding model element.  They enable
+software to work with SBML models more easily, without the need for
+explicit separate iteration loops for these common operations.
+
+As of JSBML version 1.0, the \code{find*} methods do no longer query the
+model in an iterative way. Instead, the maps described in
+\sec{sec:exceptions} are used to access elements based on their \code{id}
+attribute. Similarly, the \SBMLDocument can also directly access any of its
+subelements for a given \code{metaid}. Such a search can be performed in
+logarithmic runtime, i.e., $O(\,\log_2 n)$.
+
