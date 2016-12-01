@@ -85,5 +85,4 @@ public class JSBMLexample implements TreeNodeChangeListener {
   public void propertyChange(PropertyChangeEvent ev) {
     System.out.println("[CHG] " + ev);
   }
-
 }

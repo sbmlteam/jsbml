@@ -54,8 +54,7 @@ public class JSBMLvisualizer extends JFrame {
   }
 
   /**
-   * Main. Note: this doesn't perform error checking, but should. It is an
-   * illustration only.
+   * Main. Note: this doesn't perform error checking, but should. It is an illustration only.
    * 
    * @param args path to an SBML file.
    * @throws Exception
@@ -64,5 +63,4 @@ public class JSBMLvisualizer extends JFrame {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     new JSBMLvisualizer(SBMLReader.read(new File(args[0])));
   }
-
 }
