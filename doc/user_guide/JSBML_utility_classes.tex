@@ -1,0 +1,36 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+\section{Other utility classes provided by JSBML}
+
+JSBML also provides additional utility classes besides those mentioned
+above. In the paragraphs below, we describe some of these classes in more
+detail.  All of them are gathered in the package
+\code{org.sbml.jsbml.util}, where you can also find a growing number of
+additional helpful classes.
+
+\subsection{Mathematical functions and constants}
+
+The class \code{org.sbml.jsbml.util.Maths}
+\index{JSBML!Maths@\code{Maths}}%
+contains several static methods for mathematical operations not provided by
+the standard Java class \code{java.lang.Math}. Most of these methods are
+basic operations, for instance, \code{cot(double x)} or \code{ln(double
+  x)}.  The JSBML class \code{Maths} also provides some less commonly used
+methods, such as \code{csc(double x)} or \code{sech(double x)} as well as
+\code{double} constants representing Avogadro's number and the universal
+gas constant
+$R = 8.314472\;\mathrm{J}\cdot\mathrm{mol}^{-1}\cdot\mathrm{K}^{-1}$.
+In this way, the functions and constants implemented in class \code{Maths}
+complement standard Java with methods and numbers required by the SBML
+specifications~\citep{Hucka2003, Hucka2008, Hucka2010a}.
+
+\subsection{Some tools for \codeNC{String} manipulation}
+
+The JSBML class \StringTools provides several methods for convenient
+\String manipulation. These methods are particularly useful when parsing or
+displaying \code{double} numbers in a \code{Locale}\hyp{}dependent way. To
+this end, this class predefines a selection of useful number formats. It
+can also wrap \String elements into HTML code, mask non-ASCII characters
+using corresponding HTML codes, efficiently concatenate \String{}s, or
+deliver the operating system-dependent new line character.
+

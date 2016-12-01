@@ -1,0 +1,82 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+\section{Logging facilities}
+\index{logging}%
+
+JSBML includes the logger provided by the log4j
+project~\citep{log4j}.  Log4j allows us to use six levels of logging
+(\code{TRACE}, \code{DEBUG}, \code{INFO}, \code{WARN}, \code{ERROR}, and
+\code{FATAL}) but internally, JSBML mainly uses \code{ERROR}, \code{WARN},
+and \code{DEBUG}. The default configuration of log4j used in JSBML can be
+found in the folder \code{resources} with the name \code{log4j.properties}.
+In this file, you will find some documentation of which JSBML classes do
+some logging and at which levels.
+ 
+If a software package using JSBML does not change the default settings, all
+the log messages, starting at the info level (meaning info, warn, error and
+fatal), will be printed on the console.  Some of these messages might be
+useful to warn end-users that something has gone wrong.
+
+
+\subsection{Changing the log4j configuration}
+
+If you want to modify the default log4j behavior, you will need to create a
+custom log4j configuration file. The best way to do this, as described in
+the log4j manual~\citep{log4j}, is to use the environment variable
+\code{log4j.configuration} to point to the desired configuration file. One
+way to accomplish this is to add the following option to your \code{java}
+command (shown here for Unix/Linux and Mac~OS~X, but other operating
+systems have analogous facilities):
+
+\begin{example}[style=bash, title={Command line option making log4j
+    use a different configuration file.  This syntax applies to Unix-like
+    systems.}] 
+-Dlog4j.configuration=/home/user/myLog4j.properties
+\end{example}
+
+
+\subsection{Some example configurations}
+\ifthenelse{\boolean{includeCodeExample}}{}{\index{logging!configuration}}%
+
+\fig{fig:log4j-simple-example} gives a short example of a log4j
+configuration file.  The effect of this particular configuration is to
+change the threshold of all loggers in the \code{org.sbml.jsbml.util}
+package to \code{DEBUG}, which results in all changes that happen to SBML
+elements to be logged. The class \SimpleTreeNodeChangeListener{}  will then
+output the old value and the new value whenever a setter methods is used on
+the SBML elements.
+
+\begin{figure}[t]
+  \exampleFile[style=bash, numbers=left, caption={}]{src/log4j_debug_example.properties}
+  \caption{A simple log4j configuration example.  This sets the logging
+    level of loggers in the \code{org.sbml.jsbml.util} to \code{DEBUG},
+    causing all changes to SBML elements to be logged.}
+  \label{fig:log4j-simple-example}
+\end{figure}
+
+If your application is deployed in a server such as Tomcat~\cite{tomcat},
+it may be useful to define a log4j ``appender'' that will send some
+messages by email.  \fig{fig:log4j-email-example} gives an example
+of doing this.  It configures log4j so that any messages at the
+\code{ERROR} level \index{logging} are send by mail. All the messages are
+also written to a rolling log file.
+
+Note that using log4j's alternative, XML-based approach to defining
+configurations instead of a properties file, you can configure log4j to
+direct some log messages \index{logging}%
+to one appender and others to an other appender, using the
+\code{LevelRange} filter. In this way, it would be possible to cause
+\code{DEBUG} messages to be written to a separate file.
+
+\begin{figure}[t]
+  \exampleFile[style=bash, numbers=left, caption={}]{src/log4j_email_example.properties}
+  \caption{Example of configuring log4j to send email messages for log
+    events at the \code{ERROR} level.}
+  \label{fig:log4j-email-example}
+\end{figure}
+
+Finally, be warned that when you enable the debug level \index{logging} on
+some loggers, they may produce copious output.  You may wish to investigate
+some of the freely-available software for log
+viewing~\cite{logViewersWebpage} to work with the log files.
+

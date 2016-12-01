@@ -1,0 +1,229 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+\section{Implementing the reader and writer for an SBML package}
+
+One last thing is missing in order to be able to read and write SBML files properly
+using the new extension: a \code{ReadingParser} and a \code{WritingParser}. An easy way to provide that is
+to extend the \AbstractReaderWriter that extends both interfaces, and then implement some of 
+the required methods in a generic way. To
+implement the parser, in this case the \code{ExampleParser}, one should
+start with two members and two simple methods, as shown in
+\fig{lst:ModelExtParserClass}. As this code fragment shows, an additional class
+\code{ExampleConstants} and an enum \code{ExampleListType} are used. The class \code{ExampleConstants}
+is used to keep track of all the static \String{}s used in the extension so that we are sure 
+that the same value is used everywhere. The enum  \code{ExampleListType} can be used to keep
+track of which \code{ListOf} we are in while reading an XML file.
+
+\begin{figure}[htb]
+  \begin{example}[numbers=left]
+public class ExampleParser extends AbstractReaderWriter {
+  /**
+   * The logger for this parser
+   */
+  private Logger logger = Logger.getLogger(ExampleParser.class);
+
+  /**
+   * The ExampleListType enum which represents the name of the list this parser is
+   * currently reading.
+   */
+  private ExampleListType groupList = ExampleListType.none;
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
+   */
+  public String getShortLabel() {
+    return ExampleConstants.shortLabel;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
+   */
+  public String getNamespaceURI() {
+    return ExampleConstants.namespaceURI;
+  }
+}\end{example}
+ \caption{The first part of the parser for the extension.}
+ \label{lst:ModelExtParserClass}
+\end{figure}
+
+
+\subsection{Reading}
+
+The class \code{AbstractReaderWriter} provides more or less all the 
+features needed to read the XML file for your extension---you just need to implement one
+method from the \code{Reader} interface. In a future version of JSBML, this method
+may be implemented in a generic way using the java reflection API.
+
+The \code{processStartElement()} method is responsible for handling start
+elements, such as \code{<listOfFoos>}, and creating the appropriate
+objects.  The \code{contextObject} is the object that represents the parent
+node of the tag the parser just encountered.  First, you need to check for
+every class that may be a parent node of the classes in your extension.  In
+this case, those are objects of the classes \Model, \code{Foo} and
+\code{ListOf}.  Note that the \code{ExampleModel} has no corresponding XML
+tag and the core model is handled by the core parser.  This also
+means that the context object of a ListOfFoos is not of the type
+\code{ExampleModel}, but of type \Model.  But since the \code{ListOfFoos}
+can only be added to an \code{ExampleModel}, the extension is retrieved or
+created on the fly.
+
+The \code{groupList} variable keeps track of where we are in
+nested structures.  If the \code{listOfFoos} starting tag is encountered,
+the corresponding enum value is assigned to that variable.  Due to Java's
+type erasure, the context object inside a \code{listOfFoos} tag is of type
+\code{ListOf<?>} and a correctly set \code{groupList} variable is the only
+way of knowing where we are.  If we have checked that we are, in fact,
+inside a \code{listOfFoos} node, and encounter a \code{foo} tag, we create a
+\code{Foo} object and add it to the example model.  Technically, it is
+added to the \code{ListOfFoos} of the example model, but because
+\code{ExampleModel} provides convenience methods for managing its lists, it
+is easier to call the \code{addFoo()} method on it.
+
+\begin{figure}[tb]
+  \begin{example}[numbers=left]
+// Create the proper object and link it to its parent.
+public Object processStartElement(String elementName, String prefix,
+    boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
+
+  if (contextObject instanceof Model) {
+    Model model = (Model) contextObject;
+    ExampleModel exModel = null;
+
+    if (model.getExtension(ExampleConstants.namespaceURI) != null) {
+      exModel = (ExampleModel) model.getExtension(ExampleConstants.namespaceURI);
+    } else {
+      exModel = new ExampleModel(model);
+      model.addExtension(ExampleConstants.namespaceURI, exModel);
+    }
+
+    if (elementName.equals("listOfFoos")) {
+
+      ListOf<Foos> listOfFoos = exModel.getListOfFoos();
+      this.groupList = ExampleListType.listOfFoos;
+      return listOfFoos;
+    }
+  } else if (contextObject instanceof Foo) {
+    Foo foo = (Foo) contextObject;
+
+    // if Foo would have children, that would go here
+
+  }
+  else if (contextObject instanceof ListOf<?>) {
+    ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
+
+    if (elementName.equals("foo") && this.groupList.equals(ExampleListType.listOfFoos)) {
+      Model model = (Model) listOf.getParentSBMLObject();
+      ExampleModel exModel = (ExampleModel) model.getExtension(ExampleConstants.namespaceURI);
+
+      Foo foo = new Foo();
+      exModel.addFoo(foo);
+      return foo;
+    }
+  }
+  return contextObject;
+}\end{example}
+  \caption{Extension parser: \code{processStartElement()}.}
+  \label{lst:ModelExtParserStartElement}
+\end{figure}
+
+The \code{processEndElement()} (see \fig{lst:ModelExtParserEndElement}) 
+method is called when a closing tag is
+encountered.  The \code{groupList} attribute needs to be updated to reflect the step
+up in the tree of nested elements.  In this example, if the end of
+\code{</listOfFoos>} is reached, we certainly are inside the model tags
+again, which is denoted by \emph{none}.  Of course, more complicated
+extensions with nested lists will require more elaborate handling, but it
+should remain straightforward. If you do not use an enum or something else to
+keep track of which \code{ListOf} you are in, and if you do not need to do other
+things when a closing XML tag is encountered, you do not need to implement this method.
+
+\begin{figure}[htb]
+  \begin{example}[numbers=left]
+public boolean processEndElement(String elementName, String prefix,
+  boolean isNested, Object contextObject) {
+
+  if (elementName.equals("listOfFoos") {
+    this.groupList = ExampleListType.none;
+  }
+
+  return true;
+}\end{example}
+  \caption{Extension parser: \code{processEndElement()}.}
+  \label{lst:ModelExtParserEndElement}
+\end{figure}
+
+The attributes of an XML element are read into the corresponding object via
+the \code{readAttributes()} method that must be implemented for each class.
+An example is shown in \fig{lst:ModelExtReadAttributes} for the example class
+\code{Foo}. The \code{AbstractReaderWriter} will use these methods to set
+the attribute values into the java objects.
+
+\begin{figure}[htb]
+  \begin{example}[numbers=left]
+@Override
+public boolean readAttribute(String attributeName, String prefix, String value) {
+
+  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+  if (!isAttributeRead) {
+    isAttributeRead = true;
+
+    if (attributeName.equals(ExampleConstants.bar)) {
+      setBar(StringTools.parseSBMLInt(value));
+    } else {
+      isAttributeRead = false;
+    }
+  }
+
+  return isAttributeRead;
+}\end{example}
+  \caption{Method to read the XML attributes.}
+  \label{lst:ModelExtReadAttributes}
+\end{figure}
+
+
+\subsection{Writing}
+
+The method \code{getListOfSBMLElementsToWrite()}  must return a list of all
+objects that have to be written because of the passed object.  In this way,
+the writer can traverse the XML tree to write all nodes. If the classes of the
+extension follow the structured advice in \sec{sec:creating-obj-hierarchy}, this
+method does not need to be implement and the basic implementation from \code{AbstractReaderWriter}
+can be used. This basic implementation makes use of the method \code{TreeNode.children()}
+to find the list of children to write.
+
+In some cases, it may be necessary to modify \code{writeElement()}.  For example, this can happen when the same class is mapped to
+different XML tags, e.g., a default element and multiple additional tags.
+If this would be represented not via an attribute, but by using different
+tags, one could alter the name of the XML object in this method.
+
+The actual writing of XML attributes must be implemented in each of the
+classes in the \code{writeXMLAttributes()}.  An example is shown in 
+\fig{lst:ModelExtCreateXMLAttributes} for the class \code{Foo}.
+Then the \code{AbstractReaderWriter} class will use these methods to write
+the attributes.
+
+\begin{figure}[htb]
+  \vspace*{-1ex}
+  \begin{example}[numbers=left]
+public class Foo extends AbstractNamedSBase {
+  ...
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetBar()) {
+      attributes.remove("bar");
+      attributes.put(Foo.shortLabel + ":bar", getBar());
+
+      // Note that in case of double values, the user's locale needs to be taken into account in order to
+      // prevent the Writer from numbers in the wrong format. Even in the case of Integer it can be important, 
+      // because in some languages very strange number symbols are used (e.g., Thai or Chinese) and hence, the
+      // UTF-8 encoding of XML in SBML will lead to SBML files that cannot be parsed again. SBML only accepts 
+      // English doubles. Since bar represents an integer, less errors are to be expected.
+    }
+
+    // ... Handling of other class attributes ...
+  }
+}\end{example}
+  \caption{Method to write the XML attributes.}
+  \label{lst:ModelExtCreateXMLAttributes}
+\end{figure}
