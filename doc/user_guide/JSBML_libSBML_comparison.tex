@@ -1,0 +1,51 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+\section{Why are there differences?}
+\label{sec:jsbml-design-goals}
+
+In developing a pure Java Application Programming Interface (API) for
+working with SBML, our intention was not to simply reimplement the Java API
+already provided by libSBML~\citep{Bornstein2008}.
+\index{application programming interface!libSBML}
+We took the opportunity to rethink the API
+\index{application programming interface!JSBML} from the ground up to
+produce something more natural for Java programmers; moreover, we
+benefited from being able to take a fresh look at today's entire set of
+SBML specifications~\citep{Hucka2003, Hucka2008, Hucka2010a}
+\index{SBML!specification} and redesign, for example, JSBML's type
+hierarchy without the constraints of backwards compatibility that libSBML
+faces. 
+
+JSBML has also been developed as a library that provides more than only
+facilities for reading, manipulating, and writing SBML files and data
+streams. Although SBML only defines the structure of representations of
+biological processes in files and does not prescribe how its components
+should be stored \emph{in computer memory}, many software developers
+nevertheless find it convenient to follow similar representational
+structures in their programs. \index{model!storage and exchange} With this
+in mind, we designed JSBML with the intention that it be directly usable as
+a flexible internal data structure for numerical computation,
+visualization, and more. With the help of its \emph{modules}, JSBML can
+also be used as a communication layer between applications. For instance,
+JSBML facilitates the implementation of plugins for
+CellDesigner~\citep{Funahashi2003}, \index{CellDesigner} a popular software
+application for modeling and simulation in systems biology. Finally, JSBML
+(like libSBML before it) hides some of the differences and inconsistencies
+in SBML \index{SBML!differences between Levels} that grew into the language
+over the years as it evolved from Level to Level and Version to Version;
+this makes it considerably easier for developers to support multiple
+Levels/Versions of SBML transparently.
+
+Where possible, we maintained many of libSBML's naming conventions for
+methods and variables. Owing to the very different backgrounds of the two
+libraries, and the fact that libSBML is implemented in C \index{C} and
+C++ \index{C++}, some differences are unavoidable. To help libSBML
+developers transition more easily to using JSBML, we provide a
+compatibility module that implements many libSBML methods as adaptors
+around the corresponding JSBML methods.
+
+% FIXME add back somehow:
+% during
+% the evolution of SBML some elements or properties of elements have become
+% obsolete.
+% \index{deprecation}%
