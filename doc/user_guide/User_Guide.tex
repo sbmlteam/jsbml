@@ -113,8 +113,8 @@
   who want to adapt libSBML-based applications to using JSBML.  This user
   guide is a companion to the JSBML API documentation.
   \\ \\
-  \centerline{The JSBML home page is \url{http://sbml.org/Software/JSBML/}.}\\
-  \centerline{The JSBML discussion group is \url{https://groups.google.com/forum/\#!forum/jsbml-development}.}
+  \centerline{The JSBML home page is \url{\jsbmlHomePageURL}.}\\
+  \centerline{The JSBML discussion group is \url{\jsbmlGroupURL}.}
 }
 
 
@@ -149,7 +149,7 @@ discussion lists~\cite{SBMLforums}.
 
 \input{JSBML_getting_started}
 \input{JSBML_hello_world_examples}
-
+\input{JSBML_more_examples}
 
 
 \chapter{Differences between JSBML and libSBML}
@@ -165,15 +165,56 @@ using JSBML. We also provide some programming examples and hints for how
 to use and work with JSBML. In addition, we provide an overview of the type hierarchy 
 and API of JSBML.
 
-\input{JSBML_compared_to_libSBML}
+\input{JSBML_libSBML_comparison}
+\input{JSBML_libSBML_class_differences}
+\input{JSBML_libSBML_API_differences}
+
+
+\chapter{Additional features provided by JSBML}
+\label{chp:additional-jsbml-features}
+
+The JSBML library also provides some features that cannot be found in
+libSBML.  This chapter briefly introduces its most important additional
+capabilities.  As a side note, the previous chapter while focusing on
+describing the differences between libSBML and JSBML is also describing many
+API features of JSBML that are not described again in this chapter.
+
+\input{JSBML_change_listeners}
+\input{JSBML_overdetermination_validator}
+\input{JSBML_find_methods}
+\input{JSBML_utility_classes}
+\input{JSBML_logging_facilities}
+\input{JSBML_modules}
 \input{JSBML_offline_validation}
-\input{JSBML_howto_write_extensions}
+
+
+\chapter{Implementing extensions in JSBML}
+\label{chp:howToExtension}
+
+In this chapter, we describe how to get started with writing an extension
+for JSBML to support an \SBMLthree package.  We use a concrete (though
+artificial) example to illustrate various points.  This example extension
+is named, very cleverly, \emph{Example}, and while it does not actually do
+anything significant, we hope it will help make the explanations more
+understandable. This chapter applies to JSBML version 1.0 only;
+the 0.8 branch of JSBML does not support extension packages.
+
+\input{JSBML_extensions_organization}
+\input{JSBML_extensions_creating_objects}
+\input{JSBML_extensions_reader_writer}
+\input{JSBML_extensions_implementation_checklist}
+\input{JSBML_extensions_eclipse_templates}
 \input{JSBML_extensions_overview}
+
+
 \chapter{Acknowledgments}
 \label{chp:acknowledgements}
 
 \input{JSBML_Acknowledgments}
 
+% -----------------------------------------------------------------------------
+% Appendix
+% -----------------------------------------------------------------------------
 
 \appendix
 
@@ -182,12 +223,15 @@ and API of JSBML.
 
 \input{JSBML_FAQ}
 
-
 \chapter{Open tasks in JSBML development}
 \label{chp:open-tasks}
 
 \input{JSBML_open_tasks}
 
+
+% -----------------------------------------------------------------------------
+% References
+% -----------------------------------------------------------------------------
 
 \clearpage
 
@@ -195,50 +239,17 @@ and API of JSBML.
 \pagestyle{plain}
 \bibliography{../common/tex/literature}
 
+% -----------------------------------------------------------------------------
 % Index
+% -----------------------------------------------------------------------------
+
 \setindexprenote{\vspace*{0.1ex}}
 \printindex
+
 
 \end{document}
 
 
-
-% -----------------------------------------------------------------------------
-% 2012-04-06 <mhucka@caltech.edu> I think these comments are no longer
-% relevant, and can be deleted.  They were originally below the abstract above.
-
-
-% It includes instructions and descriptions of where and how to obtain the JSBML
-% library and the JSBML modules.
-
-%Although the libraries JSBML and libSBML, used to work with files and data
-%structures defined in SBML (Systems Biology Markup Language), are
-%very similar and share a common scope, users should be informed about their
-%major differences to help switch more easily from one library to the other. To
-%this end, the document at hand gives a brief overview of the main differences
-%between the Java\texttrademark{} application programming interfaces (API) of
-%both libraries.
-%
-%In addition, JSBML can be used as a communication layer between the widespread
-%application CellDesigner and any application that works with JSBML as its
-%internal data structure. An example is given, that demonstrates how to
-%convert between CellDesigner's plugin data structures and JSBML objects.
-%
-%In the same way, it is possible to inter-convert between data structures
-%obtained from libSBML and JSBML \textcolor{red}{No need to mention the
-%specific versions in the abstract, I think}. We provides an example of how to
-%read SBML files with libSBML, turn them into JSBML data structures, manipulate
-% them and turn them back to libSBML for writing.
-%
-%Furthermore, JSBML will provides a compatibility module, whose member classes
-%show an identical API as defined in libSBML. In this way, the
-%compatibility module will facilitate a switch from libSBML to JSBML and vice
-%versa by simply exchanging the included JAR file in the project.
-%
-%\textcolor{red}{This document gives an example for the usage of the
-%compatibility module.}
-% Not sure we need to mention in the abstract that we gives examples code for
-% each point and anyway, there is not example at the moment for this module.
-
-% I removed the line return for the \index to try to remove the extra spaces
-% that were added.
+%%% Local Variables: 
+%%% fill-column: 75
+%%% End: 
