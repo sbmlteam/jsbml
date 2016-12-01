@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -31,9 +29,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * @author Jakob Matthes
- * @version $Rev$
  * @since 1.0
- * @date 16.05.2012
  */
 public class RenderLayoutPlugin extends AbstractRenderPlugin {
   /**
@@ -46,7 +42,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   private ListOf<LocalRenderInformation> listOfLocalRenderInformation;
 
   /**
-   * Creates an RenderLayoutPlugin instance
+   * Creates a RenderLayoutPlugin instance
    * @param layout
    */
   public RenderLayoutPlugin(Layout layout) {
@@ -144,6 +140,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
       listOfLocalRenderInformation.setPackageName(null);
       listOfLocalRenderInformation.setPackageName(RenderConstants.shortLabel);
       listOfLocalRenderInformation.setSBaseListType(ListOf.Type.other);
+      listOfLocalRenderInformation.setOtherListName(RenderConstants.listOfLocalRenderInformation);
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfLocalRenderInformation);
@@ -173,7 +170,8 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
       // changing the ListOf package name from 'core' to 'render'
       listOfLocalRenderInformation.setPackageName(null);
       listOfLocalRenderInformation.setPackageName(RenderConstants.shortLabel);
-      listOfLocalRenderInformation.setSBaseListType(ListOf.Type.other);      
+      listOfLocalRenderInformation.setSBaseListType(ListOf.Type.other);     
+      listOfLocalRenderInformation.setOtherListName(RenderConstants.listOfLocalRenderInformation);
     }
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfLocalRenderInformation);

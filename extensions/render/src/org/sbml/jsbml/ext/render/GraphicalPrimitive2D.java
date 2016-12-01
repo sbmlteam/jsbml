@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,9 +28,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
  */
 public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
   /**
@@ -48,9 +44,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
    * @author Alexander Diamantikos
    * @author Jakob Matthes
    * @author Jan Rudolph
-   * @version $Rev$
    * @since 1.0
-   * @date 08.05.2012
    */
   public enum FillRule {
     /**
@@ -246,13 +240,12 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
+    
     if (isSetFill()) {
-      attributes.remove(RenderConstants.fill);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fill,
         getFill());
     }
     if (isSetFillRule()) {
-      attributes.remove(RenderConstants.fillRule);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fillRule,
         getFillRule().toString().toLowerCase());
     }
@@ -266,8 +259,10 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
     if (!isAttributeRead) {
       isAttributeRead = true;
+      
       if (attributeName.equals(RenderConstants.fill)) {
         setFill(value);
       }
@@ -279,6 +274,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
         isAttributeRead = false;
       }
     }
+    
     return isAttributeRead;
   }
 

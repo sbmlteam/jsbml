@@ -371,12 +371,18 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
     if (sbmlElementToWrite instanceof SBase) {
       SBase sbase = (SBase) sbmlElementToWrite;
 
-      // TODO - not sure this code is ready for different package versions !!
-      if (!getNamespaceURI().equals(sbase.getNamespace())) {
-        logger.debug("writeElement: rejected an element as it does not seems to have the good namespace definition");
-        logger.debug("writeElement: sbase.namespaces = " + sbase.getNamespace());
-
-        return;
+      // TODO - fetch the namespaceURI that is defined in the SBMLDocument !
+      // TODO - check if the namespace is not already defined on the xmlObject first
+      
+      // this code is not ready for different package versions !!
+//      if (!getNamespaceURI().equals(sbase.getNamespace())) {
+//        logger.debug("writeElement: rejected an element as it does not seems to have the good namespace definition");
+//        logger.debug("writeElement: sbase.namespaces = " + sbase.getNamespace());
+//
+//        return;
+//      }
+      if (sbase.getNamespace() == null) {
+        logger.warn("writeElement: the '" + sbase.getElementName() + "' element does not seems to have a namespace defined");
       }
 
       if (sbase instanceof ListOf<?>) {
@@ -389,7 +395,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
       if (!xmlObject.isSetPrefix()) {
         xmlObject.setPrefix(getShortLabel());
       }
-      xmlObject.setNamespace(getNamespaceURI());
+      xmlObject.setNamespace(getNamespaceURI()); // TODO - this code is not ready for different package versions !!
 
     }
 
@@ -404,7 +410,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
   {
     if (sbmlElementToWrite instanceof SBase) {
       xmlObject.setPrefix(getShortLabel());
-      xmlObject.setNamespace(getNamespaceURI());
+      xmlObject.setNamespace(getNamespaceURI()); // TODO - this code is not ready for different package versions !!
 
       SBase sbase = (SBase) sbmlElementToWrite;
 

@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,9 +33,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
  */
 public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase {
 
@@ -52,9 +48,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    * @author Alexander Diamantikos
    * @author Jakob Matthes
    * @author Jan Rudolph
-   * @version $Rev$
    * @since 1.0
-   * @date 08.05.2012
    */
   protected enum Spread {
     /**
@@ -299,6 +293,8 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
       listOfGradientStops.setPackageName(null);
       listOfGradientStops.setPackageName(RenderConstants.shortLabel);
       listOfGradientStops.setSBaseListType(ListOf.Type.other);
+      listOfGradientStops.setOtherListName(RenderConstants.listOfGradientStops);
+      
       registerChild(listOfGradientStops);
     }
     return listOfGradientStops;
@@ -317,6 +313,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
       listOfGradientStops.setPackageName(null);
       listOfGradientStops.setPackageName(RenderConstants.shortLabel);
       listOfGradientStops.setSBaseListType(ListOf.Type.other);
+      listOfGradientStops.setOtherListName(RenderConstants.listOfGradientStops);
 
       registerChild(this.listOfGradientStops);
     }

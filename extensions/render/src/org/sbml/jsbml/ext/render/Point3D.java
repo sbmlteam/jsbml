@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -26,9 +24,7 @@ package org.sbml.jsbml.ext.render;
  * @author Jakob Matthes
  * @author Eugen Netz
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 16.05.2012
  */
 public interface Point3D {
 
