@@ -219,6 +219,8 @@ public class GraphicalPrimitive1D extends Transformation2D {
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
   }
 
   /**

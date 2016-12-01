@@ -758,6 +758,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
+    
     z = 0d;
     rx = 0d;
     ry = 0d;
@@ -883,4 +886,149 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return isAttributeRead;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3137;
+    int result = super.hashCode();
+    result = prime * result
+        + ((absoluteHeight == null) ? 0 : absoluteHeight.hashCode());
+    result = prime * result
+        + ((absoluteRx == null) ? 0 : absoluteRx.hashCode());
+    result = prime * result
+        + ((absoluteRy == null) ? 0 : absoluteRy.hashCode());
+    result = prime * result
+        + ((absoluteWidth == null) ? 0 : absoluteWidth.hashCode());
+    result = prime * result + ((absoluteX == null) ? 0 : absoluteX.hashCode());
+    result = prime * result + ((absoluteY == null) ? 0 : absoluteY.hashCode());
+    result = prime * result + ((absoluteZ == null) ? 0 : absoluteZ.hashCode());
+    result = prime * result + ((height == null) ? 0 : height.hashCode());
+    result = prime * result + ((rx == null) ? 0 : rx.hashCode());
+    result = prime * result + ((ry == null) ? 0 : ry.hashCode());
+    result = prime * result + ((width == null) ? 0 : width.hashCode());
+    result = prime * result + ((x == null) ? 0 : x.hashCode());
+    result = prime * result + ((y == null) ? 0 : y.hashCode());
+    result = prime * result + ((z == null) ? 0 : z.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Rectangle other = (Rectangle) obj;
+    if (absoluteHeight == null) {
+      if (other.absoluteHeight != null) {
+        return false;
+      }
+    } else if (!absoluteHeight.equals(other.absoluteHeight)) {
+      return false;
+    }
+    if (absoluteRx == null) {
+      if (other.absoluteRx != null) {
+        return false;
+      }
+    } else if (!absoluteRx.equals(other.absoluteRx)) {
+      return false;
+    }
+    if (absoluteRy == null) {
+      if (other.absoluteRy != null) {
+        return false;
+      }
+    } else if (!absoluteRy.equals(other.absoluteRy)) {
+      return false;
+    }
+    if (absoluteWidth == null) {
+      if (other.absoluteWidth != null) {
+        return false;
+      }
+    } else if (!absoluteWidth.equals(other.absoluteWidth)) {
+      return false;
+    }
+    if (absoluteX == null) {
+      if (other.absoluteX != null) {
+        return false;
+      }
+    } else if (!absoluteX.equals(other.absoluteX)) {
+      return false;
+    }
+    if (absoluteY == null) {
+      if (other.absoluteY != null) {
+        return false;
+      }
+    } else if (!absoluteY.equals(other.absoluteY)) {
+      return false;
+    }
+    if (absoluteZ == null) {
+      if (other.absoluteZ != null) {
+        return false;
+      }
+    } else if (!absoluteZ.equals(other.absoluteZ)) {
+      return false;
+    }
+    if (height == null) {
+      if (other.height != null) {
+        return false;
+      }
+    } else if (!height.equals(other.height)) {
+      return false;
+    }
+    if (rx == null) {
+      if (other.rx != null) {
+        return false;
+      }
+    } else if (!rx.equals(other.rx)) {
+      return false;
+    }
+    if (ry == null) {
+      if (other.ry != null) {
+        return false;
+      }
+    } else if (!ry.equals(other.ry)) {
+      return false;
+    }
+    if (width == null) {
+      if (other.width != null) {
+        return false;
+      }
+    } else if (!width.equals(other.width)) {
+      return false;
+    }
+    if (x == null) {
+      if (other.x != null) {
+        return false;
+      }
+    } else if (!x.equals(other.x)) {
+      return false;
+    }
+    if (y == null) {
+      if (other.y != null) {
+        return false;
+      }
+    } else if (!y.equals(other.y)) {
+      return false;
+    }
+    if (z == null) {
+      if (other.z != null) {
+        return false;
+      }
+    } else if (!z.equals(other.z)) {
+      return false;
+    }
+    return true;
+  }
+
+  
 }

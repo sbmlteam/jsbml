@@ -125,6 +125,8 @@ public class GlobalRenderInformation extends RenderInformationBase {
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
   }
 
 

@@ -97,6 +97,9 @@ public class LinearGradient extends GradientBase {
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
+
     x1 = 0d;
     y1 = 0d;
     z1 = 0d;

@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -32,9 +30,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 03.06.2012
  */
 public class XMLTools {
 

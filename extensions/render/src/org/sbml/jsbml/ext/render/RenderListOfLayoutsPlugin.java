@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -31,9 +29,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * @author Jakob Matthes
- * @version $Rev$
  * @since 1.0
- * @date 16.05.2012
  */
 public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
 
@@ -157,6 +153,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
       listOfGlobalRenderInformation.setPackageName(null);
       listOfGlobalRenderInformation.setPackageName(RenderConstants.shortLabel);
       listOfGlobalRenderInformation.setSBaseListType(ListOf.Type.other);
+      listOfGlobalRenderInformation.setOtherListName(RenderConstants.listOfGlobalRenderInformation);
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfGlobalRenderInformation);
@@ -218,6 +215,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    */
   public void setListOfGlobalRenderInformation(ListOf<GlobalRenderInformation> listOfGlobalRenderInformation) {
     unsetListOfGlobalRenderInformation();
+    this.listOfGlobalRenderInformation = listOfGlobalRenderInformation;
 
     if (listOfGlobalRenderInformation != null) {
       listOfGlobalRenderInformation.setPackageVersion(-1);
@@ -225,12 +223,11 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
       listOfGlobalRenderInformation.setPackageName(null);
       listOfGlobalRenderInformation.setPackageName(RenderConstants.shortLabel);
       listOfGlobalRenderInformation.setSBaseListType(ListOf.Type.other);
+      listOfGlobalRenderInformation.setOtherListName(RenderConstants.listOfGlobalRenderInformation);
     }
     if (isSetExtendedSBase()) {
-      extendedSBase.registerChild(this.listOfGlobalRenderInformation);
+      extendedSBase.registerChild(listOfGlobalRenderInformation);
     }
-
-    this.listOfGlobalRenderInformation = listOfGlobalRenderInformation;
   }
 
   /**

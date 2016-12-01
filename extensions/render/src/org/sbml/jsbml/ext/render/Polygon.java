@@ -23,6 +23,7 @@ import java.text.MessageFormat;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.layout.CurveSegment;
 
 /**
  * @author Eugen Netz
@@ -43,7 +44,8 @@ public class Polygon extends GraphicalPrimitive2D {
   private ListOf<RenderPoint> listOfElements;
 
   // TODO - need to have a listOfCurveSegments !
-
+  private ListOf<CurveSegment> listOfCurveSegments;
+  
   /**
    * Creates an Polygon instance
    */
@@ -144,6 +146,8 @@ public class Polygon extends GraphicalPrimitive2D {
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
   }
 
   /**
@@ -187,4 +191,51 @@ public class Polygon extends GraphicalPrimitive2D {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3167;
+    int result = super.hashCode();
+    result = prime * result
+        + ((listOfCurveSegments == null) ? 0 : listOfCurveSegments.hashCode());
+    result = prime * result
+        + ((listOfElements == null) ? 0 : listOfElements.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Polygon other = (Polygon) obj;
+    if (listOfCurveSegments == null) {
+      if (other.listOfCurveSegments != null) {
+        return false;
+      }
+    } else if (!listOfCurveSegments.equals(other.listOfCurveSegments)) {
+      return false;
+    }
+    if (listOfElements == null) {
+      if (other.listOfElements != null) {
+        return false;
+      }
+    } else if (!listOfElements.equals(other.listOfElements)) {
+      return false;
+    }
+    return true;
+  }
+
+  
 }

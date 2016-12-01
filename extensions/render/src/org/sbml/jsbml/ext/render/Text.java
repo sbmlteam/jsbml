@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,9 +28,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
  */
 public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point3D {
   /**
@@ -111,6 +107,8 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
   }
 
   /* (non-Javadoc)
@@ -743,4 +741,122 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     return isAttributeRead;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3163;
+    int result = super.hashCode();
+    result = prime * result + ((absoluteX == null) ? 0 : absoluteX.hashCode());
+    result = prime * result + ((absoluteY == null) ? 0 : absoluteY.hashCode());
+    result = prime * result + ((absoluteZ == null) ? 0 : absoluteZ.hashCode());
+    result = prime * result
+        + ((fontFamily == null) ? 0 : fontFamily.hashCode());
+    result = prime * result + ((fontSize == null) ? 0 : fontSize.hashCode());
+    result = prime * result
+        + ((fontStyleItalic == null) ? 0 : fontStyleItalic.hashCode());
+    result = prime * result
+        + ((fontWeightBold == null) ? 0 : fontWeightBold.hashCode());
+    result = prime * result
+        + ((textAnchor == null) ? 0 : textAnchor.hashCode());
+    result = prime * result
+        + ((vTextAnchor == null) ? 0 : vTextAnchor.hashCode());
+    result = prime * result + ((x == null) ? 0 : x.hashCode());
+    result = prime * result + ((y == null) ? 0 : y.hashCode());
+    result = prime * result + ((z == null) ? 0 : z.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Text other = (Text) obj;
+    if (absoluteX == null) {
+      if (other.absoluteX != null) {
+        return false;
+      }
+    } else if (!absoluteX.equals(other.absoluteX)) {
+      return false;
+    }
+    if (absoluteY == null) {
+      if (other.absoluteY != null) {
+        return false;
+      }
+    } else if (!absoluteY.equals(other.absoluteY)) {
+      return false;
+    }
+    if (absoluteZ == null) {
+      if (other.absoluteZ != null) {
+        return false;
+      }
+    } else if (!absoluteZ.equals(other.absoluteZ)) {
+      return false;
+    }
+    if (fontFamily != other.fontFamily) {
+      return false;
+    }
+    if (fontSize == null) {
+      if (other.fontSize != null) {
+        return false;
+      }
+    } else if (!fontSize.equals(other.fontSize)) {
+      return false;
+    }
+    if (fontStyleItalic == null) {
+      if (other.fontStyleItalic != null) {
+        return false;
+      }
+    } else if (!fontStyleItalic.equals(other.fontStyleItalic)) {
+      return false;
+    }
+    if (fontWeightBold == null) {
+      if (other.fontWeightBold != null) {
+        return false;
+      }
+    } else if (!fontWeightBold.equals(other.fontWeightBold)) {
+      return false;
+    }
+    if (textAnchor != other.textAnchor) {
+      return false;
+    }
+    if (vTextAnchor != other.vTextAnchor) {
+      return false;
+    }
+    if (x == null) {
+      if (other.x != null) {
+        return false;
+      }
+    } else if (!x.equals(other.x)) {
+      return false;
+    }
+    if (y == null) {
+      if (other.y != null) {
+        return false;
+      }
+    } else if (!y.equals(other.y)) {
+      return false;
+    }
+    if (z == null) {
+      if (other.z != null) {
+        return false;
+      }
+    } else if (!z.equals(other.z)) {
+      return false;
+    }
+    return true;
+  }
+
+  
 }
