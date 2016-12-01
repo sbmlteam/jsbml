@@ -19,10 +19,10 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-
-import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class LocalStyle extends Style {
   /**
    * 
    */
-  private String[] idList;
+  private List<String> idList;
 
   /**
    * Creates a new {@link LocalStyle} instance
@@ -85,8 +85,8 @@ public class LocalStyle extends Style {
     super(id, level, version, group);
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
    */
@@ -103,7 +103,7 @@ public class LocalStyle extends Style {
   public int hashCode() {
     final int prime = 3301;
     int result = super.hashCode();
-    result = prime * result + Arrays.hashCode(idList);
+    result = prime * result + idList.hashCode();
     return result;
   }
 
@@ -122,7 +122,7 @@ public class LocalStyle extends Style {
       return false;
     }
     LocalStyle other = (LocalStyle) obj;
-    if (!Arrays.equals(idList, other.idList)) {
+    if ((isSetIDList() != other.isSetId()) || (isSetIDList() && !idList.equals(other.idList))) {
       return false;
     }
     return true;
@@ -131,12 +131,11 @@ public class LocalStyle extends Style {
   /**
    * @return the value of idList
    */
-  public String[] getIDList() {
-    if (isSetIDList()) {
-      return idList;
+  public List<String> getIDList() {
+    if (!isSetIDList()) {
+      return idList = new ArrayList<String>();
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.idList, this);
+    return idList;
   }
 
   /**
@@ -151,8 +150,8 @@ public class LocalStyle extends Style {
    * 
    * @param idList the id lists
    */
-  public void setIDList(String[] idList) {
-    String[] oldIDList = this.idList;
+  public void setIDList(List<String> idList) {
+    List<String> oldIDList = this.idList;
     this.idList = idList;
     firePropertyChange(RenderConstants.idList, oldIDList, this.idList);
   }
@@ -164,7 +163,7 @@ public class LocalStyle extends Style {
    */
   public boolean unsetIDList() {
     if (isSetIDList()) {
-      String[] oldIDList = idList;
+      List<String> oldIDList = idList;
       idList = null;
       firePropertyChange(RenderConstants.idList, oldIDList, idList);
       return true;
@@ -181,7 +180,7 @@ public class LocalStyle extends Style {
     if (isSetIDList()) {
       attributes.remove(RenderConstants.idList);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.idList,
-        XMLTools.arrayToWhitespaceSeparatedString(getIDList()));
+        XMLTools.arrayToWhitespaceSeparatedString(getIDList().toArray(new String[0])));
     }
     return attributes;
   }
@@ -196,7 +195,7 @@ public class LocalStyle extends Style {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(RenderConstants.idList)) {
-        setIDList(value.split(" "));
+        setIDList(Arrays.asList(value.split(" ")));
       }
       else {
         isAttributeRead = false;
@@ -205,5 +204,5 @@ public class LocalStyle extends Style {
     return isAttributeRead;
   }
 
-  
+
 }
