@@ -8,20 +8,22 @@ file distribution for JSBML complete with dependencies, that is, packaged
 with third-party Java libraries needed by JSBML; (2) download the JAR file
 distribution for JSBML \emph{excluding} dependencies; (3) download the
 source code distribution; and (4) obtain the source code directly from the
-project's Subversion repository. These four options are described below.
+project's GitHub~\citep{JSBMLGIT} repository. These four options are described below.
 
 
 \subsection{The JSBML archive with dependencies}
 
-The version of the archive that includes dependencies is a merged JAR file
-that contains all of JSBML's required third-party libraries. You can
-download it from the JSBML area on SourceForge~\cite{JSBMLdownload}. Once
-you have installed the JAR file on your computer, it is sufficient to add
-it to your Java build and/or class path in order to use JSBML.
+The version of the archive that \emph{includes} dependencies is a merged JAR file
+that contains all of JSBML's required third-party libraries. You can download
+it from the JSBML download directories on both GitHub and SourceForge~(\cite{JSBMLdownloadSF,
+  JSBMLdownloadGitHub}). Once you have installed the
+JAR file on your computer, it is sufficient to add it to your project's Java build
+and/or class path in order to use JSBML.
 
 \subsection{The JSBML archive without dependencies}
 
 \begin{table}[b]
+\vspace*{-1em}
   \caption{List of other, third-party libraries needed by JSBML.}
   \label{tab:dependencies}
   \centering
@@ -81,39 +83,43 @@ it to your Java build and/or class path in order to use JSBML.
 \end{table}
 
 The version of the JSBML archive that excludes dependencies is a JAR file
-that contains only JSBML classes. You can download it from the JSBML area
-on SourceForge~\cite{JSBMLdownload}. Since it does not include the
+that contains only JSBML classes. You can download it from the JSBML download areas
+on SourceForge and GitHub (\cite{JSBMLdownloadSF,JSBMLdownloadGitHub}). Since it does not include the
 third-party libraries needed by JSBML to operate, you will need to obtain
 and download those libraries separately. \tab{tab:dependencies} lists
 what they are. Once you have installed the JSBML JAR file \emph{and} these
 third-party libraries on your computer, you will need to add them
-\emph{all} to your Java build and/or class path in order to use JSBML.
+\emph{all} to your project's Java build and/or class path in order to use JSBML.
 
 
 \subsection{Maven dependencies}
 
 JSBML can also be obtained through Apache Maven~\citep{ApacheMaven}.
 If you are already using Maven in your project, you can add JSBML
-as a dependency, just add the following lines into your pom.xml:
+as a dependency by adding these lines into your project's \texttt{pom.xml} file:
 
-\begin{example}[language=XML, title={Maven instructions to add to your pom.xml.}]
-
-  <dependencies>
-    <dependency>
-      <groupId>org.sbml.jsbml</groupId>
-      <artifactId>jsbml</artifactId>
-      <version>|\jsbmlversion|</version>
-    </dependency>
-  </dependencies> 
+\begin{example}[style=XML,
+keywords={repositories,repository,id,name,url,releases,enabled,dependencies,
+    dependency,groupId,artifactId,version},
+  title={Maven instructions to add to your pom.xml.}]
+<dependencies>
+  <dependency>
+    <groupId>org.sbml.jsbml</groupId>
+    <artifactId>jsbml</artifactId>
+    <version>|\jsbmlversion|</version>
+  </dependency>
+</dependencies> 
 \end{example}
 
-The jsbml artifact will include jsbml-core plus all L3 packages. Like this
-there is not need to list all the packages by hand and when
-a new one is developed, you will get it without having to make too much change to your
-pom files. 
+The \texttt{jsbml} artifact will include \texttt{jsbml-core} plus the JSBML
+extensions that support all available SBML Level~3 packages.  With this
+approach, there is no need to list all the JSBML extensions by hand, and when
+a new one is developed, you will get it without having to make too many
+changes to your \texttt{pom.xml} files.
 
-If you want to pick which packages to include (not recommended), you can list them one by one, there are
-further instructions at \url{http://sbml.org/Software/JSBML/docs/Maven_Configuration}.
+If you want to select the JSBML extensions that get included in your
+project, you can opt to list them one by one, although this is not recommended practice.  Instructions for doing this can be
+found at \url{http://sbml.org/Software/JSBML/docs/Maven_Configuration}.
 
 
 \subsection{The JSBML source archive}
@@ -123,15 +129,16 @@ The source distribution for JSBML is similar to the JAR distribution that
 excludes third-party dependency libraries, except that the JSBML files are
 not compiled into class files; you must compile them yourself. As with the
 other options described above, the source distribution is available from
-the JSBML area on SourceForge~\cite{JSBMLdownload}, as an archive file in
-ZIP format.
+the JSBML download areas on SourceForge and
+GitHub~(\cite{JSBMLdownloadSF, JSBMLdownloadGitHub}), as an archive file in
+either ZIP or gzip'ed TAR format.
 
-Download whichever format is more convenient for you and unpack the archive
+You may download the archive in whichever format is more convenient for
+you, and unpack it
 on your computer somewhere.  The act of unpacking the archive will create a
 folder on your computer named after the distribution version; for
-example, this may be ``\code{jsbml-}\jsbmlversion''.  Next, you will need to compile
-the Java source code.  JSBML comes with a \emph{build file} (i.e., scripted
-instructions in a specialized format) for Apache Ant~\citep{ApacheAnt};
+example, this may be ``\code{jsbml-}\jsbmlversion''.  Next, compile
+the Java source code.  JSBML comes with a \emph{build file} for Apache Ant~\citep{ApacheAnt};
 you can use other approaches for compiling the JSBML classes and
 performing other tasks, but Ant provides an especially convenient approach.
 For the rest of the instructions below, we use Ant.  Here is an example of
@@ -164,24 +171,24 @@ ant jar
 \label{sec:SourceDistribution}
 
 The fourth approach to obtaining a copy of JSBML is to retrieve it directly
-from the Subversion repository~\cite{JSBMLSVN}.  Here is an example of how
+from the project GitHub repository~\citep{JSBMLGIT}.  Here is an example of how
 to retrieve the latest version of the JSBML sources:
 
-\newcommand{\dirname}{\code{\emph{\color{winered}jsbml}}\xspace}
+\newcommand{\dirname}{\code{\emph{\bfseries\color{winered}jsbml}}\xspace}
 
 \begin{example}[style=bash, title={Downloading the latest JSBML 
-    sources from the JSBML project's Subversion repository.}]
-svn co https://svn.code.sf.net/p/jsbml/code/trunk |\dirname|
+    sources from the JSBML project's GitHub repository.}]
+git clone --recursive git@github.com:sbmlteam/jsbml.git |\dirname|
 cd |\dirname|
 \end{example}
 
 (The name you give to the copy on your computer is up to you.  We used
 ``\dirname'' in this example, but you could name the folder something else
-if you wish.)  Once you have retrieved the folder from the Subversion
+if you wish.)  Once you have retrieved the folder from the
 repository, you can compile the source files and create a JAR file.  Please
 refer to the instructions in \sec{sec:jsbml-source-archive}.
 
-The Subversion repository contains copies of all the third-party libraries
+The JSBML git repository contains copies of all the third-party libraries
 listed in \tab{tab:dependencies} and needed by JSBML.  They are
 located in the folder ``\dirname''\code{/core/lib}.
 
@@ -189,23 +196,22 @@ located in the folder ``\dirname''\code{/core/lib}.
 \subsection{Setting up Eclipse}
 \label{sec:SettingUpEclipse}
 
-To set up Eclipse to work with JSBML, first add the \texttt{src},
-\texttt{test} and \texttt{resources} folder of the JSBML distribution to your
+To set up Eclipse to work with JSBML, first add the \texttt{core/src},
+\texttt{core/test} and \texttt{core/resources} folder of the JSBML distribution to your
 Eclipse build path, and add all of the \texttt{.jar} files found in the
-\texttt{lib} folder.
+\texttt{core/lib} folder.
 
 Next, you need to do an extra step to configure the annotation processor,
 because the different parsers in JSBML are registered automatically using
 Java annotations.  To configure the annotation processor in Eclipse, follow
-the instructions found on the web page
+the instructions given on the web page
 \url{https://github.com/niko-rodrigue/spi/blob/wiki/EclipseSettings.md}.
- The jar file of the annotation processor is located in the jsbml source tree at
- ``\dirname''\code{/core/lib/spi-full-0.2.4.jar}. If you checkout 
-the full trunk (and not just the core), you can find a folder dev, which 
-contains a README.txt file that has also these instructions and further 
+ The JAR file of the annotation processor is located in the JSBML source tree at
+ ``\dirname''\code{/core/lib/spi-full-0.2.4.jar}. If you cloned
+the full JSBML source tree, you can find in it a folder named \texttt{dev}, which 
+contains a \texttt{README.txt} file that has also these instructions and other
 important information.
-
-Finally, you can run the \code{ParserManager} class to check that the list of
+Finally, you can run the Eclipse \code{ParserManager} class to check that the list of
 parsers are not empty and that they contain the parsers you need.
 
 
@@ -213,7 +219,7 @@ parsers are not empty and that they contain the parsers you need.
 \label{sec:dependencies}
 
 JSBML provides a number of additional extensions, modules and example
-programs that you may find useful in your work.  The \emph{extensions} are
+programs that you may find useful in your work.  The JSBML \emph{extensions} are
 optional add-ons that implement support for SBML Level~3 Packages; these
 packages extend SBML syntax to support, for example, storing the layout of
 a model's graphical diagram directly in the SBML file.  The JSBML
@@ -222,75 +228,43 @@ allow CellDesigner~\cite{Funahashi2003} plugins to use JSBML.  Finally, the
 JSBML \emph{examples} are full-fledged applications that demonstrate the
 use of JSBML in actual running software.  Each of these optional components
 of JSBML is available from the project's code repository (and in some
-cases, from the download area on SourceForge~\cite{JSBMLdownload}).  In the
-subsections below, we explain how to obtain copies of them from the
-repository.
+cases, from the download areas on SourceForge and
+GitHub~\cite{JSBMLdownloadSF, JSBMLdownloadGitHub}).
 
 
 \subsubsection{JSBML Extensions}
 
-The JSBML repository's \code{extensions} folder contains a separate
-subfolder for each currently-implemented JSBML extension. You can either
-retrieve a copy of each extension separately, or obtain the complete
-\code{extensions} portion of the repository.  Here we explain the latter.
-
-First, find a suitable location on your computer where you would like to
-place the JSBML extensions folder.  (We suggest placing it side-by-side at
-the same level as your JSBML core folder, e.g., next to the folder
-``\dirname'' discussed above.)  Then, perform the following step:
-
-\begin{example}[style=bash, title={Downloading the latest JSBML extensions
-    source folder from the project's Subversion repository.}] 
-svn co https://svn.code.sf.net/p/jsbml/code/trunk/extensions jsbml-extensions
-\end{example}
-
-Each of the extensions has its own Ant build script, located in a file
-named (as per Ant conventions) ``\code{build.xml}'' within the extension's
+The \code{extensions} folder in the JSBML source tree contains a separate
+subfolder for each currently-implemented JSBML extension.
+Each of these has its own Ant build script, located in a file
+named ``\code{build.xml}'' within the extension's
 subfolder.  To build, for example, the \code{layout} extension, you could
 do the following:
 
-\begin{example}[style=bash, title={Compiling the ``\code{layout}'' extension.}]
+\begin{example}[style=bash, title={Compiling the JSBML ``\code{layout}'' extension.}]
 cd extensions/layout
 ant compile
 \end{example}
 
+\vspace*{-2ex}
 
 \subsubsection{JSBML Modules}
 \label{sec:jsbml-modules}
 
-JSBML currently provides six additional modules.  Each provides features
-for task-specific purposes. Binary versions of the modules can be found at
-the download site of JSBML~\cite{JSBMLdownload}; here we explain how you
-can obtain the most recent versions of the modules directly from the source
-code repository.  (Note: at the time of this writing, only the
-\code{tidy}, \code{CellDesigner} and the \code{libSBMLio} module have been extensively
-tested.)
+The currently-available modules are summarized in
+\tab{tab:jsbml-modules}.  Binary versions of the modules can be
+found at the JSBML download sites~(\cite{JSBMLdownloadSF,
+  JSBMLdownloadGitHub}); you can also build them from the JSBML
+source tree.  Within the \texttt{modules} folder, you will find a
+separate subdirectory for each module.  Most their own Ant build
+scripts, located in a file named ``\code{build.xml}''.  You can
+build a module by performing steps such as in the following
+example:
 
-First, find a suitable location on your computer where you would like to
-place the JSBML modules folder.  We suggest creating a folder named
-``\code{modules}'' placed side-by-side at the same level as your JSBML core
-folder, e.g., next to the folder ``\dirname'' discussed above.
-
-\begin{example}[style=bash, title={Creating a folder for the modules.}]
-mkdir modules
-cd modules
+\begin{example}[style=bash, title={Compiling the JSBML ``\code{layout}'' extension.}]
+cd modules/tidy
+ant jar
 \end{example}
-
-\newcommand{\modulename}{\code{\emph{\color{winered}modulename}}\xspace}
-
-Next, perform the following operation, once for each of the modules you
-would like to obtain, where the variable \modulename is one of the names
-listed in the first column of \tab{tab:jsbml-modules}:
-
-\begin{example}[style=bash, title={Obtaining a JSBML module.}]
-svn co https://svn.code.sf.net/p/jsbml/code/trunk/modules/|\modulename| |\modulename|
-\end{example}
-
-(In other words, if you would like to obtain both the Android and libSBMLio
-modules, execute the command above twice, once with \code{android} in place
-of \modulename and a second time with \code{libSBMLio} in place of
-\modulename.)  Once they're downloaded, please check inside each module
-directory for information about how to use them.
 
 \begin{table}[thb]
   \caption{JSBML modules available today.}
@@ -319,40 +293,25 @@ directory for information about how to use them.
     & A libSBML communications layer.
     \\
     tidy
-    & A warper around the SBMLWriter class that use the jtidy library~\cite{jtidy} (a Java port of HTML Tidy) to
+    & A warper around the SBMLWriter class that use the jtidy library~\cite{jtidy} to
     format properly the resulting XML.
     \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-You can find more information and explanation about JSBML's modules in \sec{sec:jsbml-modules-details}.
+Note: at the time of this writing, only the \code{tidy},
+\code{CellDesigner} and the \code{libSBMLio} module have been
+tested extensively.  You can find more information and explanation
+about the JSBML modules in \sec{sec:jsbml-modules-details}.
 
 
 \subsubsection{JSBML Examples}
 \label{sec:jsbml-repo-examples}
 
-The JSBML repository's \code{examples} folder contains a separate
-subfolder for each sample application.  To obtain them, first, find a
-suitable location on your computer where you would like to place the JSBML
-examples folder.  We suggest creating a folder named ``\code{examples}''
-placed side-by-side at the same level as your JSBML core folder.
-
-\begin{example}[style=bash, title={Creating a folder for the examples.}]
-mkdir examples
-cd examples
-\end{example}
-
-Next, retrieve the examples you would like to obtain.  At the time of this
-writing, there is only one example available:
-
-\begin{example}[style=bash, title={Retrieving the \emph{SBML Bar Graph}
-    example application.}] 
-svn co https://svn.code.sf.net/p/jsbml/code/trunk/examples/sbmlbargraph sbmlbargraph
-\end{example}
-
-Finally, please read the ``\code{README.txt}'' file in the freshly-obtained
-\code{sbmlbargraph} folder to learn more about how to get started with the
-example application.
-
-
+The \code{examples} folder contains a separate subfolder for each sample
+application.  At the time of this writing, there is only one example
+available.  Similar to the extensions and modules, you can build the sample
+application from the source code.  Please refer to the
+``\code{README.txt}'' file in the \code{examples/sbmlbargraph} folder to
+learn more.
