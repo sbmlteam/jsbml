@@ -215,6 +215,9 @@ public class RadialGradient extends GradientBase {
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
+    
     cx = 0.5d;
     cy = 0.5d;
     cz = 0.5d;
@@ -845,4 +848,151 @@ public class RadialGradient extends GradientBase {
     return isAttributeRead;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3169;
+    int result = super.hashCode();
+    result = prime * result
+        + ((absoluteCx == null) ? 0 : absoluteCx.hashCode());
+    result = prime * result
+        + ((absoluteCy == null) ? 0 : absoluteCy.hashCode());
+    result = prime * result
+        + ((absoluteCz == null) ? 0 : absoluteCz.hashCode());
+    result = prime * result
+        + ((absoluteFx == null) ? 0 : absoluteFx.hashCode());
+    result = prime * result
+        + ((absoluteFy == null) ? 0 : absoluteFy.hashCode());
+    result = prime * result
+        + ((absoluteFz == null) ? 0 : absoluteFz.hashCode());
+    result = prime * result + ((absoluteR == null) ? 0 : absoluteR.hashCode());
+    result = prime * result + ((cx == null) ? 0 : cx.hashCode());
+    result = prime * result + ((cy == null) ? 0 : cy.hashCode());
+    result = prime * result + ((cz == null) ? 0 : cz.hashCode());
+    result = prime * result + ((fx == null) ? 0 : fx.hashCode());
+    result = prime * result + ((fy == null) ? 0 : fy.hashCode());
+    result = prime * result + ((fz == null) ? 0 : fz.hashCode());
+    result = prime * result + ((r == null) ? 0 : r.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    RadialGradient other = (RadialGradient) obj;
+    if (absoluteCx == null) {
+      if (other.absoluteCx != null) {
+        return false;
+      }
+    } else if (!absoluteCx.equals(other.absoluteCx)) {
+      return false;
+    }
+    if (absoluteCy == null) {
+      if (other.absoluteCy != null) {
+        return false;
+      }
+    } else if (!absoluteCy.equals(other.absoluteCy)) {
+      return false;
+    }
+    if (absoluteCz == null) {
+      if (other.absoluteCz != null) {
+        return false;
+      }
+    } else if (!absoluteCz.equals(other.absoluteCz)) {
+      return false;
+    }
+    if (absoluteFx == null) {
+      if (other.absoluteFx != null) {
+        return false;
+      }
+    } else if (!absoluteFx.equals(other.absoluteFx)) {
+      return false;
+    }
+    if (absoluteFy == null) {
+      if (other.absoluteFy != null) {
+        return false;
+      }
+    } else if (!absoluteFy.equals(other.absoluteFy)) {
+      return false;
+    }
+    if (absoluteFz == null) {
+      if (other.absoluteFz != null) {
+        return false;
+      }
+    } else if (!absoluteFz.equals(other.absoluteFz)) {
+      return false;
+    }
+    if (absoluteR == null) {
+      if (other.absoluteR != null) {
+        return false;
+      }
+    } else if (!absoluteR.equals(other.absoluteR)) {
+      return false;
+    }
+    if (cx == null) {
+      if (other.cx != null) {
+        return false;
+      }
+    } else if (!cx.equals(other.cx)) {
+      return false;
+    }
+    if (cy == null) {
+      if (other.cy != null) {
+        return false;
+      }
+    } else if (!cy.equals(other.cy)) {
+      return false;
+    }
+    if (cz == null) {
+      if (other.cz != null) {
+        return false;
+      }
+    } else if (!cz.equals(other.cz)) {
+      return false;
+    }
+    if (fx == null) {
+      if (other.fx != null) {
+        return false;
+      }
+    } else if (!fx.equals(other.fx)) {
+      return false;
+    }
+    if (fy == null) {
+      if (other.fy != null) {
+        return false;
+      }
+    } else if (!fy.equals(other.fy)) {
+      return false;
+    }
+    if (fz == null) {
+      if (other.fz != null) {
+        return false;
+      }
+    } else if (!fz.equals(other.fz)) {
+      return false;
+    }
+    if (r == null) {
+      if (other.r != null) {
+        return false;
+      }
+    } else if (!r.equals(other.r)) {
+      return false;
+    }
+    return true;
+  }
+
+  
 }

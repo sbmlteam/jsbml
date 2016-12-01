@@ -167,6 +167,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
+    
     backgroundColor = new Color(0, 0, 0);
     programName = null;
     programVersion = null;

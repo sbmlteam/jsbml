@@ -180,6 +180,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
+    
     spreadMethod = Spread.PAD;
     listOfGradientStops = new ListOf<GradientStop>();
   }

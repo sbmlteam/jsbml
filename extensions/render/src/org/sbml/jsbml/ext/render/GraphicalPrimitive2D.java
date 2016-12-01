@@ -104,6 +104,8 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;    
   }
 
 

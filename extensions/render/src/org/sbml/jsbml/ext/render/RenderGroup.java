@@ -194,6 +194,8 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
   }
 
 

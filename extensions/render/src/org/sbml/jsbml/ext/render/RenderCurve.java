@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.ext.layout.CurveSegment;
 
 /**
  * Implements the curve concept from the SBML render extension.
@@ -72,6 +73,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
    */
   protected ListOf<RenderPoint> listOfElements;
 
+  protected ListOf<CurveSegment> listOfCurveSegments;
   
   // TODO - implements the TreeNode methods
   
@@ -112,6 +114,8 @@ public class RenderCurve extends GraphicalPrimitive1D {
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
   }
 
 
@@ -124,6 +128,8 @@ public class RenderCurve extends GraphicalPrimitive1D {
     final int prime = 3119;
     int result = super.hashCode();
     result = prime * result + ((endHead == null) ? 0 : endHead.hashCode());
+    result = prime * result
+        + ((listOfCurveSegments == null) ? 0 : listOfCurveSegments.hashCode());
     result = prime * result
         + ((listOfElements == null) ? 0 : listOfElements.hashCode());
     result = prime * result + ((startHead == null) ? 0 : startHead.hashCode());
@@ -150,6 +156,13 @@ public class RenderCurve extends GraphicalPrimitive1D {
         return false;
       }
     } else if (!endHead.equals(other.endHead)) {
+      return false;
+    }
+    if (listOfCurveSegments == null) {
+      if (other.listOfCurveSegments != null) {
+        return false;
+      }
+    } else if (!listOfCurveSegments.equals(other.listOfCurveSegments)) {
       return false;
     }
     if (listOfElements == null) {

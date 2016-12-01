@@ -124,7 +124,10 @@ public class LocalRenderInformation extends RenderInformationBase {
    */
   @Override
   public void initDefaults() {
-    listOfLocalStyles = null;
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
+
+    listOfLocalStyles = null;    
   }
 
 
