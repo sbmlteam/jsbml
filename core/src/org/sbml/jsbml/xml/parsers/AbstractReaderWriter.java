@@ -371,18 +371,19 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
     if (sbmlElementToWrite instanceof SBase) {
       SBase sbase = (SBase) sbmlElementToWrite;
 
-      // TODO - fetch the namespaceURI that is defined in the SBMLDocument !
-      // TODO - check if the namespace is not already defined on the xmlObject first
-      
-      // this code is not ready for different package versions !!
-//      if (!getNamespaceURI().equals(sbase.getNamespace())) {
-//        logger.debug("writeElement: rejected an element as it does not seems to have the good namespace definition");
-//        logger.debug("writeElement: sbase.namespaces = " + sbase.getNamespace());
-//
-//        return;
-//      }
       if (sbase.getNamespace() == null) {
-        logger.warn("writeElement: the '" + sbase.getElementName() + "' element does not seems to have a namespace defined");
+        logger.warn("writeElement: the '" + sbase.getElementName() + "' element of type '" + sbase.getClass().getSimpleName() + "' does not seems to have a namespace defined");        
+      }
+      
+      if (xmlObject.getNamespace() == null && sbase.getNamespace() != null) 
+      {
+        xmlObject.setNamespace(sbase.getNamespace());
+      }
+      else if (xmlObject.getNamespace() == null) 
+      {
+        // Should never happen (the namespace being null on the SBase) and it is not a problem for JSBML if 'xmlObject.getNamespace() == null'
+        
+        // TODO - fetch the namespaceURI that is defined in the SBMLDocument and set it ?        
       }
 
       if (sbase instanceof ListOf<?>) {
@@ -395,8 +396,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
       if (!xmlObject.isSetPrefix()) {
         xmlObject.setPrefix(getShortLabel());
       }
-      xmlObject.setNamespace(getNamespaceURI()); // TODO - this code is not ready for different package versions !!
-
+      
     }
 
   }
@@ -409,15 +409,13 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
     Object sbmlElementToWrite)
   {
     if (sbmlElementToWrite instanceof SBase) {
-      xmlObject.setPrefix(getShortLabel());
-      xmlObject.setNamespace(getNamespaceURI()); // TODO - this code is not ready for different package versions !!
 
       SBase sbase = (SBase) sbmlElementToWrite;
 
       if (sbase.getDeclaredNamespaces().size() > 0)
       {
         // writing all declared namespaces
-        // TODO: check that the prefix start with xmlns
+        // TODO: check that the prefix start with xmlns ?
 
         xmlObject.addAttributes(sbase.getDeclaredNamespaces());
       }

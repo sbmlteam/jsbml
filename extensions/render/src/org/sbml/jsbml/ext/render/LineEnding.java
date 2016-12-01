@@ -87,6 +87,9 @@ public class LineEnding extends GraphicalPrimitive2D {
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
+
     enableRotationMapping = true;
   }
 
@@ -250,4 +253,60 @@ public class LineEnding extends GraphicalPrimitive2D {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3121;
+    int result = super.hashCode();
+    result = prime * result
+        + ((boundingBox == null) ? 0 : boundingBox.hashCode());
+    result = prime * result + ((enableRotationMapping == null) ? 0
+        : enableRotationMapping.hashCode());
+    result = prime * result + ((group == null) ? 0 : group.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    LineEnding other = (LineEnding) obj;
+    if (boundingBox == null) {
+      if (other.boundingBox != null) {
+        return false;
+      }
+    } else if (!boundingBox.equals(other.boundingBox)) {
+      return false;
+    }
+    if (enableRotationMapping == null) {
+      if (other.enableRotationMapping != null) {
+        return false;
+      }
+    } else if (!enableRotationMapping.equals(other.enableRotationMapping)) {
+      return false;
+    }
+    if (group == null) {
+      if (other.group != null) {
+        return false;
+      }
+    } else if (!group.equals(other.group)) {
+      return false;
+    }
+    return true;
+  }
+
+  
+  
 }

@@ -176,6 +176,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
+    
     z = 0d;
   }
 
@@ -460,4 +461,81 @@ public class RenderPoint extends AbstractSBase implements Point3D {
     return isAttributeRead;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3187;
+    int result = super.hashCode();
+    result = prime * result + ((absoluteX == null) ? 0 : absoluteX.hashCode());
+    result = prime * result + ((absoluteY == null) ? 0 : absoluteY.hashCode());
+    result = prime * result + ((absoluteZ == null) ? 0 : absoluteZ.hashCode());
+    result = prime * result + ((x == null) ? 0 : x.hashCode());
+    result = prime * result + ((y == null) ? 0 : y.hashCode());
+    result = prime * result + ((z == null) ? 0 : z.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    RenderPoint other = (RenderPoint) obj;
+    if (absoluteX == null) {
+      if (other.absoluteX != null) {
+        return false;
+      }
+    } else if (!absoluteX.equals(other.absoluteX)) {
+      return false;
+    }
+    if (absoluteY == null) {
+      if (other.absoluteY != null) {
+        return false;
+      }
+    } else if (!absoluteY.equals(other.absoluteY)) {
+      return false;
+    }
+    if (absoluteZ == null) {
+      if (other.absoluteZ != null) {
+        return false;
+      }
+    } else if (!absoluteZ.equals(other.absoluteZ)) {
+      return false;
+    }
+    if (x == null) {
+      if (other.x != null) {
+        return false;
+      }
+    } else if (!x.equals(other.x)) {
+      return false;
+    }
+    if (y == null) {
+      if (other.y != null) {
+        return false;
+      }
+    } else if (!y.equals(other.y)) {
+      return false;
+    }
+    if (z == null) {
+      if (other.z != null) {
+        return false;
+      }
+    } else if (!z.equals(other.z)) {
+      return false;
+    }
+    return true;
+  }
+
+  
 }

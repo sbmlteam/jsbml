@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -39,7 +37,6 @@ import org.sbml.jsbml.ext.SBasePlugin;
 /**
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 public class PackageUtil {
@@ -153,7 +150,7 @@ public class PackageUtil {
    * that the package version and namespace is set properly.
    *
    * <p>The given boolean parameters will indicate if the method will print warnings
-   * or errors when problems are found, and if it will try to fix problems.
+   * or errors when problems are found, and if it will try to fix problems.</p>
    * 
    * @param sbase the {@link SBase} to check.
    * @param prefixMap map between package name (or prefix or label) and a {@link PackageInfo} object,
@@ -169,7 +166,7 @@ public class PackageUtil {
     if (sbase == null) {
       return;
     }
-
+    
     String packageName = sbase.getPackageName();
     String elementNamespace = sbase.getNamespace();
     int packageVersion = sbase.getPackageVersion();
@@ -250,6 +247,9 @@ public class PackageUtil {
         PackageInfo pi = getPackageInfo(sbase, packageName, packageVersion, elementNamespace, prefixMap, namespaceMap, silent, fix);
 
         if (pi == null) {
+          if (!silent) {
+            logger.warn("We could not collect package info for the element '" + sbasePlugin.getClass().getSimpleName() + "'!");
+          }
           continue;
         }
 

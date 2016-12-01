@@ -224,6 +224,9 @@ public class RenderCubicBezier extends RenderPoint {
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
+
     z1 = 0d;
     z2 = 0d;
   }
@@ -758,4 +761,135 @@ public class RenderCubicBezier extends RenderPoint {
     return isAttributeRead;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3181;
+    int result = super.hashCode();
+    result = prime * result
+        + ((absoluteX1 == null) ? 0 : absoluteX1.hashCode());
+    result = prime * result
+        + ((absoluteX2 == null) ? 0 : absoluteX2.hashCode());
+    result = prime * result
+        + ((absoluteY1 == null) ? 0 : absoluteY1.hashCode());
+    result = prime * result
+        + ((absoluteY2 == null) ? 0 : absoluteY2.hashCode());
+    result = prime * result
+        + ((absoluteZ1 == null) ? 0 : absoluteZ1.hashCode());
+    result = prime * result
+        + ((absoluteZ2 == null) ? 0 : absoluteZ2.hashCode());
+    result = prime * result + ((x1 == null) ? 0 : x1.hashCode());
+    result = prime * result + ((x2 == null) ? 0 : x2.hashCode());
+    result = prime * result + ((y1 == null) ? 0 : y1.hashCode());
+    result = prime * result + ((y2 == null) ? 0 : y2.hashCode());
+    result = prime * result + ((z1 == null) ? 0 : z1.hashCode());
+    result = prime * result + ((z2 == null) ? 0 : z2.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    RenderCubicBezier other = (RenderCubicBezier) obj;
+    if (absoluteX1 == null) {
+      if (other.absoluteX1 != null) {
+        return false;
+      }
+    } else if (!absoluteX1.equals(other.absoluteX1)) {
+      return false;
+    }
+    if (absoluteX2 == null) {
+      if (other.absoluteX2 != null) {
+        return false;
+      }
+    } else if (!absoluteX2.equals(other.absoluteX2)) {
+      return false;
+    }
+    if (absoluteY1 == null) {
+      if (other.absoluteY1 != null) {
+        return false;
+      }
+    } else if (!absoluteY1.equals(other.absoluteY1)) {
+      return false;
+    }
+    if (absoluteY2 == null) {
+      if (other.absoluteY2 != null) {
+        return false;
+      }
+    } else if (!absoluteY2.equals(other.absoluteY2)) {
+      return false;
+    }
+    if (absoluteZ1 == null) {
+      if (other.absoluteZ1 != null) {
+        return false;
+      }
+    } else if (!absoluteZ1.equals(other.absoluteZ1)) {
+      return false;
+    }
+    if (absoluteZ2 == null) {
+      if (other.absoluteZ2 != null) {
+        return false;
+      }
+    } else if (!absoluteZ2.equals(other.absoluteZ2)) {
+      return false;
+    }
+    if (x1 == null) {
+      if (other.x1 != null) {
+        return false;
+      }
+    } else if (!x1.equals(other.x1)) {
+      return false;
+    }
+    if (x2 == null) {
+      if (other.x2 != null) {
+        return false;
+      }
+    } else if (!x2.equals(other.x2)) {
+      return false;
+    }
+    if (y1 == null) {
+      if (other.y1 != null) {
+        return false;
+      }
+    } else if (!y1.equals(other.y1)) {
+      return false;
+    }
+    if (y2 == null) {
+      if (other.y2 != null) {
+        return false;
+      }
+    } else if (!y2.equals(other.y2)) {
+      return false;
+    }
+    if (z1 == null) {
+      if (other.z1 != null) {
+        return false;
+      }
+    } else if (!z1.equals(other.z1)) {
+      return false;
+    }
+    if (z2 == null) {
+      if (other.z2 != null) {
+        return false;
+      }
+    } else if (!z2.equals(other.z2)) {
+      return false;
+    }
+    return true;
+  }
+
+  
 }

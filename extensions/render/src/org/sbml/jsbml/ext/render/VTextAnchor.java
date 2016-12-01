@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -27,9 +25,7 @@ package org.sbml.jsbml.ext.render;
  * @author Jakob Matthes
  * @author Eugen Netz
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 16.05.2012
  */
 public enum VTextAnchor {
   /**

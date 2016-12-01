@@ -207,6 +207,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
+    
     roleList = null;
     typeList = null;
   }

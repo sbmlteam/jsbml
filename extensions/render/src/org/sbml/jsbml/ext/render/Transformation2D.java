@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -21,6 +19,8 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import java.util.Arrays;
+
 import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
@@ -28,9 +28,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
  */
 public class Transformation2D extends Transformation {
   /**
@@ -96,6 +94,8 @@ public class Transformation2D extends Transformation {
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
   }
 
   /**
@@ -129,4 +129,42 @@ public class Transformation2D extends Transformation {
     }
     return false;
   }
+
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3191;
+    int result = super.hashCode();
+    result = prime * result + Arrays.hashCode(transform);
+    return result;
+  }
+
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Transformation2D other = (Transformation2D) obj;
+    if (!Arrays.equals(transform, other.transform)) {
+      return false;
+    }
+    return true;
+  }
+  
+  
 }

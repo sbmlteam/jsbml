@@ -132,6 +132,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   @Override
   public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
+
     z = 0d;
   }
 
@@ -141,7 +144,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
+    final int prime = 3137;
     int result = super.hashCode();
     result = prime * result
         + ((absoluteHeight == null) ? 0 : absoluteHeight.hashCode());

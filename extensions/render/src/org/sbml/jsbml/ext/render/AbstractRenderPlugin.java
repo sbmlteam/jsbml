@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,9 +28,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
  * @author Jakob Matthes
- * @version $Rev$
  * @since 1.0
- * @date 16.05.2012
  */
 public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
 
@@ -66,7 +62,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   /**
    * 
    */
-  private Short versionMajor; // TODO - versionMajor and versionMinor are attributes of ListOf! They are int in the specs!
+  private Short versionMajor; // TODO - versionMajor and versionMinor are attributes of ListOf! They are in in the specs!
   /**
    * 
    */
