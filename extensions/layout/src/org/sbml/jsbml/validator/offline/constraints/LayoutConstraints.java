@@ -78,7 +78,7 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Layout l) {
-          System.out.println("20315! " + l.isSetDimensions());
+          // System.out.println("20315! " + l.isSetDimensions());
           return l.isSetDimensions();
         }
       };

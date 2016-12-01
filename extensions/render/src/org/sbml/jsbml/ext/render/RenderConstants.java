@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -32,9 +30,7 @@ import java.util.List;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
  */
 public class RenderConstants {
   /**
@@ -323,7 +319,11 @@ public class RenderConstants {
   /**
    * 
    */
-  public static final String listOfElements = "list-of-elements";
+  public static final String listOfElements = "listOfElements";  // JSBML used "list-of-elements" for a few years
+  /**
+   * 
+   */
+  public static final String list_of_elements = "list-of-elements";  // JSBML used "list-of-elements" for a few years
   /**
    * 
    */
@@ -416,15 +416,27 @@ public class RenderConstants {
   /**
    * 
    */
-  public static final String listOfLocalStyles = "listOfLocalStyles";
+  public static final String listOfLocalStyles = "listOfStyles"; // JSBML used "listOfLocalStyles" for a few years
   /**
    * 
    */
-  public static final String renderPoint = "renderPoint";
+  public static final String renderCurve = "curve"; // JSBML used "renderCurve" for a few years
+  /**
+   * 
+   */
+  public static final String renderPoint = "element"; // JSBML used "renderPoint" for a few years
+  /**
+   * 
+   */
+  public static final String renderCubicBezier = "element"; // JSBML used "renderCubicBezier" for a few years
   /**
    * 
    */
   public static final String style = "style";
+  /**
+   * 
+   */
+  public static final String localStyle = "style"; // JSBML used "locaStyle" for a few years
   /**
    * 
    */
@@ -444,32 +456,35 @@ public class RenderConstants {
   /**
    * 
    */
-  public static final String localRenderInformation = "localRenderInformation";
+  public static final String localRenderInformation = "renderInformation"; // JSBML used "localRenderInformation" for a few years
   /**
    * 
    */
-  public static final String globalRenderInformation = "globalRenderInformation";
+  public static final String globalRenderInformation = "renderInformation"; // JSBML used "globalRenderInformation" for a few years
   /**
    * 
    */
   public static final String listOfGradientStops = "listOfGradientStops";
+  
   /**
    * 
    */
-  public static final Object listOfLocalRenderInformation = "listOfLocalRenderInformation";
+  public static final String listOfLocalRenderInformation = "listOfRenderInformation"; // JSBML used "listOfLocalRenderInformation" for a few years
   /**
    * 
    */
-  public static final Object listOfGlobalRenderInformation = "listOfGlobalRenderInformation";
+  public static final String listOfGlobalRenderInformation = "listOfGlobalRenderInformation";
   /**
    * 
    */
   public static final String packageName = "Render";
 
   /**
-   * @param level
-   * @param version
-   * @return
+   * Returns the namespace URI corresponding to the given level and version.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
+   * @return the namespace URI corresponding to the level and version
    */
   public static String getNamespaceURI(int level, int version) {
     return level < 3 ? namespaceURI_L2 : namespaceURI;

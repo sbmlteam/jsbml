@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -27,13 +25,13 @@ import java.util.Map;
 import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
+ * 
+ * 
  * @author Eugen Netz
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
  */
 public class LocalStyle extends Style {
   /**
@@ -47,9 +45,18 @@ public class LocalStyle extends Style {
   private String[] idList;
 
   /**
+   * Creates a new {@link LocalStyle} instance
+   *
+   */
+  public LocalStyle() {
+    super();
+  }
+
+
+  /**
    * Creates a LocalStyle instance with a group
    *
-   * @param group
+   * @param group the render group
    */
   public LocalStyle(RenderGroup group) {
     super(group);
@@ -58,9 +65,9 @@ public class LocalStyle extends Style {
   /**
    * Creates a LocalStyle instance with a level and version.
    *
-   * @param level
-   * @param version
-   * @param group
+   * @param level the SBML level
+   * @param version the SBML version
+   * @param group the render group
    */
   public LocalStyle(int level, int version, RenderGroup group) {
     super(null, level, version, group);
@@ -69,14 +76,25 @@ public class LocalStyle extends Style {
   /**
    * Creates a LocalStyle instance with an id, name, level, and version.
    *
-   * @param id
-   * @param level
-   * @param version
-   * @param group
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBML version
+   * @param group the render group
    */
   public LocalStyle(String id, int level, int version, RenderGroup group) {
     super(id, level, version, group);
   }
+
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return RenderConstants.style;
+  }
+
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
@@ -130,7 +148,8 @@ public class LocalStyle extends Style {
 
   /**
    * Set the value of idList
-   * @param idList
+   * 
+   * @param idList the id lists
    */
   public void setIDList(String[] idList) {
     String[] oldIDList = this.idList;

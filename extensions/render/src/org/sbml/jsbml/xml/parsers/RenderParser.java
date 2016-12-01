@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -43,6 +41,7 @@ import org.sbml.jsbml.ext.render.GradientStop;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.LineEnding;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
+import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.ext.render.RenderInformationBase;
@@ -56,9 +55,7 @@ import org.sbml.jsbml.ext.render.Style;
  * @author Jakob Matthes
  * @author Eugen Netz
  * @author Jan Rudolph
- * @version $Rev$
  * @since 1.0
- * @date 04.06.2012
  */
 @ProviderFor(ReadingParser.class)
 public class RenderParser extends AbstractReaderWriter  implements PackageParser {
@@ -90,10 +87,13 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
   @SuppressWarnings("unchecked")
   @Override
   public Object processStartElement(String elementName, String uri, String prefix,
-    boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
+    boolean hasAttributes, boolean hasNamespaces, Object contextObject) 
+  {
     logger.debug("logger called, " + prefix + ":" + elementName + " in context of: " + contextObject.toString());
+    
     if (contextObject instanceof LayoutModelPlugin) {
       LayoutModelPlugin layoutModel = (LayoutModelPlugin) contextObject;
+      
       // TODO not sure if necessary to check if listOfLayouts != null
       ListOf<Layout> listOfLayouts = layoutModel.getListOfLayouts();
       SBase newElement = null;
@@ -105,7 +105,6 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       }
 
       if (newElement != null) {
-        listOfLayouts.registerChild(newElement);
         return newElement;
       }
     }
@@ -113,13 +112,16 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       Layout layout = (Layout) contextObject;
       SBase newElement = null;
 
-      if (elementName.equals(RenderConstants.listOfLocalRenderInformation)) {
+      // JSBML used "listOfLocalRenderInformation" for a few years so we are keeping the test using "listOfLocalRenderInformation"
+      // here to be able to read any incorrect files with JSBML
+      if (elementName.equals(RenderConstants.listOfLocalRenderInformation) || 
+          elementName.equals("listOfLocalRenderInformation"))
+      {
         RenderLayoutPlugin renderPlugin = new RenderLayoutPlugin(layout);
         layout.addExtension(RenderConstants.namespaceURI, renderPlugin);
         newElement = renderPlugin.getListOfLocalRenderInformation();
       }
       if (newElement != null) {
-        layout.registerChild(newElement);
         return newElement;
       }
     }
@@ -140,6 +142,7 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       if (renderInformation instanceof GlobalRenderInformation) {
         GlobalRenderInformation globalRenderInformation =
             (GlobalRenderInformation) renderInformation;
+        
         if (elementName.equals(RenderConstants.listOfStyles)) {
           newElement = globalRenderInformation.getListOfStyles();
         }
@@ -148,20 +151,25 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       if (renderInformation instanceof LocalRenderInformation) {
         LocalRenderInformation localRenderInformation =
             (LocalRenderInformation) renderInformation;
-        if (elementName.equals(RenderConstants.listOfLocalStyles)) {
+        
+        // JSBML used "listOfLocalStyles" for a few years so we are keeping the test using "listOfLocalStyles"
+        // here to be able to read any incorrect files with JSBML.
+        if (elementName.equals(RenderConstants.listOfLocalStyles)
+            || elementName.equals("listOfLocalStyles"))
+        {
           newElement = localRenderInformation.getListOfLocalStyles();
         }
       }
 
 
       if (newElement != null) {
-        renderInformation.registerChild(newElement);
         return newElement;
       }
     }
-
-    else if (contextObject instanceof Style) {
+    else if (contextObject instanceof Style) 
+    {
       Style style = (Style) contextObject;
+      
       if (elementName.equals(RenderConstants.group)) {
         RenderGroup g = new RenderGroup();
         style.setGroup(g);
@@ -173,17 +181,18 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
     else if (contextObject instanceof Polygon) {
       Polygon polygon = (Polygon) contextObject;
       SBase newElement = null;
-      if (elementName.equals(RenderConstants.listOfElements)) {
+      
+      if (elementName.equals(RenderConstants.listOfElements)) {  // TODO "listOfRenderPoints" + list-of-elements
         newElement = polygon.getListOfElements();
       }
       if (newElement != null) {
-        polygon.registerChild(newElement);
         return newElement;
       }
     }
 
     else if (contextObject instanceof LineEnding) {
       LineEnding lineEnding = (LineEnding) contextObject;
+      
       if (elementName.equals(RenderConstants.boundingBox)) {
         BoundingBox bbox = new BoundingBox();
         lineEnding.setBoundingBox(bbox);
@@ -202,12 +211,15 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       RenderCurve curve = (RenderCurve) contextObject;
       SBase newElement = null;
 
-      if (elementName.equals(RenderConstants.listOfElements)) {
+      // JSBML used "list-of-elements" for a few years so we are keeping the test using "list-of-elements"
+      // here to be able to read any incorrect files with JSBML.
+      if (elementName.equals(RenderConstants.listOfElements)
+          || elementName.equals(RenderConstants.list_of_elements)) // TODO - listOfRenderPoints as well ?
+      {
         newElement = curve.getListOfElements();
       }
 
       if (newElement != null) {
-        curve.registerChild(newElement);
         return newElement;
       }
     }
@@ -221,7 +233,6 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       }
 
       if (newElement != null) {
-        gradientBase.registerChild(newElement);
         return newElement;
       }
     }
@@ -232,11 +243,21 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
       SBase newElement = null;
 
-      if (elementName.equals(RenderConstants.renderPoint)) {
-        newElement = new RenderPoint();
+      if (elementName.equals(RenderConstants.renderPoint)) { // TODO - old name as well
+        newElement = new RenderPoint(); // TODO - RenderCubicBezier old name as well + here, it can be either RenderPoint or RenderCubicBezier depending of the xsi attribute...
       }
-      else if (elementName.equals(RenderConstants.style)) {
-        newElement = new Style();
+      else if (elementName.equals(RenderConstants.style)) { 
+     // we have to check the context to know if we create a LocalStyle or a GlobalStyle (Style)
+        if (listOf.getElementName().equals(RenderConstants.listOfLocalStyles)) { // TODO - we need to check the parent of the listOf !
+          newElement = new LocalStyle();
+        } else {
+          newElement = new Style();
+        }
+      }
+      // JSBML used "localStyle" for a few years so we are keeping the test using "localStyle"
+      // here to be able to read any incorrect files with JSBML.
+      else if (elementName.equals("localStyle")) {
+        newElement = new LocalStyle();
       }
       else if (elementName.equals(RenderConstants.gradientStop)) {
         newElement = new GradientStop();
@@ -250,16 +271,31 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       else if (elementName.equals(RenderConstants.lineEnding)) {
         newElement = new LineEnding();
       }
-      else if (elementName.equals(RenderConstants.localRenderInformation)) {
+      else if (elementName.equals(RenderConstants.renderInformation)) 
+      {
+        // we have to check the context to know if we create a Local or a Global element
+        if (listOf.getElementName().equals(RenderConstants.listOfLocalRenderInformation)) {
+          newElement = new LocalRenderInformation();
+        } else {
+          newElement = new GlobalRenderInformation();
+        }
+      }
+      // JSBML used "localRenderInformation" for a few years so we are keeping the test using "localRenderInformation"
+      // here to be able to read any incorrect files with JSBML.
+      else if (elementName.equals("localRenderInformation")) 
+      {
         newElement = new LocalRenderInformation();
       }
-      else if (elementName.equals(RenderConstants.globalRenderInformation)) {
+      // JSBML used "globalRenderInformation" for a few years so we are keeping the test using "globalRenderInformation"
+      // here to be able to read any incorrect files with JSBML.
+      else if (elementName.equals("globalRenderInformation")) 
+      {
         newElement = new GlobalRenderInformation();
       }
 
 
       if (newElement != null) {
-        listOf.registerChild(newElement);
+        // listOf.registerChild(newElement); // registerChild is called when adding the element to the list
         listOf.add(newElement);
       }
 
