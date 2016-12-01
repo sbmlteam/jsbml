@@ -304,7 +304,8 @@
 \definecolor{forrestgreen}{cmyk}{.76, 0, .76, .45}
 \definecolor{darkred}{rgb}{.7,0,0}
 \definecolor{winered}{cmyk}{0,1,0.331,0.502}
-\definecolor{olive}{rgb}{0.5, 0.5, 0.0}
+\definecolor{mustard}{rgb}{0.64, 0.45, 0.35}
+\definecolor{lightspecialblue}{rgb}{0.015,0.38,0.7}
 
 % Color for marking changed text, conditional on whether gray scale mode is on.
 
@@ -803,40 +804,47 @@
 \newboolean{includeCodeExample}
 \setboolean{includeCodeExample}{false}
 
-\lstset{escapechar=|,%
-    language=Java,%
-    columns=fullflexible,%
-    keepspaces=true,%
-    backgroundcolor=\color{extremelylightgray},%
-    rulecolor=\color{sbmlgray},%
-    frame=single,%
-    numberstyle=\tiny\sffamily,%
-    basicstyle=\small\ttfamily,%
-    xleftmargin=3.5pt,%
-    xrightmargin=3.5pt,%
-    aboveskip=1\baselineskip,%
-    belowskip=0.4\baselineskip,%
-    commentstyle=\footnotesize\itshape\color{mediumgray},%
-    tabsize=2,%
+\lstset{escapechar=|,
+    language=Java,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    rulecolor=\color{sbmlgray},
+    numbers=left,
+    numberstyle=\tiny\sffamily,
+    basicstyle=\small\ttfamily,
+    xleftmargin=3.5pt,
+    xrightmargin=3.5pt,
+    aboveskip=1\baselineskip,
+    belowskip=0.4\baselineskip,
+    tabsize=2,
     captionpos=b}
 
-\lstdefinestyle{java}{%
-    language=Java,%
-    numbers=left,%
-    keywordstyle=\ttfamily\bfseries\color{black}}
+\lstdefinestyle{shared}{
+    basicstyle=\small\ttfamily\color{black},
+    backgroundcolor=\color{extremelylightgray},
+    emphstyle=\ttfamily\bfseries\color{black},
+    stringstyle=\color{mustard},
+    commentstyle=\footnotesize\itshape\color{mediumgray},
+    keywordstyle=\color{winered}}
 
-\lstdefinestyle{XML}{%
-    language=XML,%
-    numbers=left,%
-    keywordstyle=\ttfamily\color{olive}}
+\lstdefinestyle{java}{
+    style=shared,
+    language=Java}
 
-\lstdefinestyle{bash}{%
-    language=bash,%
+\lstdefinestyle{XML}{
+    style=shared,
+    language=XML,
+    keywordstyle=\color{winered}}
+
+\lstdefinestyle{bash}{
+    style=shared,
+    language=bash,
     keywordstyle=\mdseries}
 
 \newcommand{\examplespacing}{\renewcommand{\baselinestretch}{0.88}}
 
-\lstnewenvironment{example}[1][]
+\lstnewenvironment{example}[1][style=java, abovecaptionskip=-1.5em]
   {\lstset{#1}\examplespacing \csname lst@SetFirstLabel\endcsname}
   {\regularspacing \csname lst@SaveFirstLabel\endcsname}
 
