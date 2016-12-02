@@ -25,14 +25,15 @@ import java.text.MessageFormat;
 import javax.swing.tree.TreeNode;
 
 /**
- * In order to be able to represent smooth curves the {@link Layout} package defines the
- * class {@link CubicBezier}. It represents a Bezier curve, and is readily available in
+ * Represents smooth curves in the {@link Layout} package.
+ * 
+ * <p>It represents a Bezier curve, and is readily available in
  * most graphics APIs. The class {@link CubicBezier} is derived from {@link LineSegment}.
  * It consists of four elements: the two inherited elements 'start' and 'end', which
  * specify the starting point and the endpoint of the cubic bezier curve, and two elements
  * 'basePoint1' and 'basePoint2', which specify the two additional base points that are
  * needed to describe a cubic bezier curve. These basepoints also allow tools that cannot
- * render bezier curves to approximate them by directly connecting the four points.
+ * render bezier curves to approximate them by directly connecting the four points.</p>
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger

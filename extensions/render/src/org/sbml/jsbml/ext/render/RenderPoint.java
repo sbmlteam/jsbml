@@ -19,12 +19,9 @@
  */
 package org.sbml.jsbml.ext.render;
 
-import java.text.MessageFormat;
 import java.util.Map;
 
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 
 /**
  * @author Eugen Netz
@@ -33,7 +30,7 @@ import org.sbml.jsbml.SBase;
  * @author Jan Rudolph
  * @since 1.0
  */
-public class RenderPoint extends AbstractSBase implements Point3D {
+public class RenderPoint extends RenderCurveSegment {
 
   /**
    * Generated serial version identifier
@@ -67,7 +64,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   private Double z;
 
   /**
-   * Creates an RenderPoint instance
+   * Creates a new {@link RenderPoint} instance
    */
   public RenderPoint() {
     super();
@@ -76,7 +73,8 @@ public class RenderPoint extends AbstractSBase implements Point3D {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the {@link RenderPoint} instance to clone
    */
   public RenderPoint(RenderPoint obj) {
     super(obj);
@@ -94,36 +92,6 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   @Override
   public RenderPoint clone() {
     return new RenderPoint(this);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
-   */
-  @Override
-  public boolean getAllowsChildren() {
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-   */
-  @Override
-  public SBase getChildAt(int childIndex) {
-    if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexSurpassesBoundsException"), childIndex, 0));
-    }
-    int pos = 0;
-    throw new IndexOutOfBoundsException(MessageFormat.format(
-      resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
-      Math.min(pos, 0)));
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-   */
-  @Override
-  public int getChildCount() {
-    return 0;
   }
 
   /* (non-Javadoc)
@@ -177,7 +145,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
     
-    z = 0d;
+    setType(Type.RENDER_POINT);
   }
 
   /* (non-Javadoc)
@@ -415,18 +383,16 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
+    
     if (isSetX()) {
-      attributes.remove(RenderConstants.x);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
         XMLTools.positioningToString(getX(), isAbsoluteX()));
     }
     if (isSetY()) {
-      attributes.remove(RenderConstants.y);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y,
         XMLTools.positioningToString(getY(), isAbsoluteY()));
     }
     if (isSetZ()) {
-      attributes.remove(RenderConstants.z);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z,
         XMLTools.positioningToString(getZ(), isAbsoluteZ()));
     }
@@ -440,8 +406,10 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
+      
       if (attributeName.equals(RenderConstants.x)) {
         setX(XMLTools.parsePosition(value));
         setAbsoluteX(XMLTools.isAbsolutePosition(value));

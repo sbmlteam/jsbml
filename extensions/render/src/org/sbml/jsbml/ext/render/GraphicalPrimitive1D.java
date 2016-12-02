@@ -292,18 +292,16 @@ public class GraphicalPrimitive1D extends Transformation2D {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
+    
     if (isSetStroke()) {
-      attributes.remove(RenderConstants.stroke);
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.stroke,
         getStroke());
     }
     if (isSetStrokeDashArray()) {
-      attributes.remove(RenderConstants.strokeDashArray);
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeDashArray,
         XMLTools.encodeArrayShortToString(getStrokeDashArray()));
     }
     if (isSetStrokeWidth()) {
-      attributes.remove(RenderConstants.strokeWidth);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
         getStrokeWidth().toString().toLowerCase());
     }
@@ -319,7 +317,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
     
     if (!isAttributeRead) {
       isAttributeRead = true;
-      // TODO: catch Exception if Enum.valueOf fails, generate logger output
+
       if (attributeName.equals(RenderConstants.stroke)) {
         setStroke(value);
       }

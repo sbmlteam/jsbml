@@ -38,7 +38,7 @@ import org.sbml.jsbml.ListOf;
  * @author Andreas Dr&auml;ger
  * @since 1.0
  */
-public class Curve extends AbstractNamedSBase {
+public class Curve extends AbstractNamedSBase implements ICurve {
 
   /**
    * Generated serial version identifier.
@@ -79,21 +79,18 @@ public class Curve extends AbstractNamedSBase {
     initDefaults();
   }
 
-  /**
-   * 
-   * @param curveSegment
-   * @return
-   * @see List#add(Object)
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.ICurve#addCurveSegment(org.sbml.jsbml.ext.layout.CurveSegment)
    */
+  @Override
   public boolean addCurveSegment(CurveSegment curveSegment) {
     return getListOfCurveSegments().add(curveSegment);
   }
 
-  /**
-   * 
-   * @param index
-   * @param element
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.ICurve#addCurveSegment(int, org.sbml.jsbml.ext.layout.CurveSegment)
    */
+  @Override
   public void addCurveSegment(int index, CurveSegment element) {
     getListOfCurveSegments().add(index, element);
   }
@@ -131,12 +128,10 @@ public class Curve extends AbstractNamedSBase {
     return cs;
   }
 
-  /**
-   * Creates a new {@link CubicBezier} instance, adds it to this {@link Curve}.
-   * and returns it.
-   * 
-   * @return the new {@link CubicBezier} instance
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.ICurve#createCubicBezier()
    */
+  @Override
   public CubicBezier createCubicBezier() {
     CubicBezier cs = new CubicBezier(getLevel(), getVersion());
     addCurveSegment(cs);
@@ -213,27 +208,26 @@ public class Curve extends AbstractNamedSBase {
     return count;
   }
 
-  /**
-   * 
-   * @param n
-   * @return
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.ICurve#getCurveSegment(int)
    */
+  @Override
   public CurveSegment getCurveSegment(int n) {
     return getListOfCurveSegments().get(n);
   }
 
-  /**
-   * 
-   * @return
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.ICurve#getCurveSegmentCount()
    */
+  @Override
   public int getCurveSegmentCount() {
     return isSetListOfCurveSegments() ? getListOfCurveSegments().size() : 0;
   }
 
-  /**
-   * 
-   * @return
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.ICurve#getListOfCurveSegments()
    */
+  @Override
   public ListOf<CurveSegment> getListOfCurveSegments() {
     if (listOfCurveSegments == null) {
       listOfCurveSegments = new ListOf<CurveSegment>(getLevel(), getVersion());
@@ -279,30 +273,26 @@ public class Curve extends AbstractNamedSBase {
     return false;
   }
 
-  /**
-   * 
-   * @return
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.ICurve#isSetListOfCurveSegments()
    */
+  @Override
   public boolean isSetListOfCurveSegments() {
     return (listOfCurveSegments != null) && (listOfCurveSegments.size() > 0);
   }
 
-  /**
-   * 
-   * @param cs
-   * @return
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.ICurve#removeCurveSegment(org.sbml.jsbml.ext.layout.CurveSegment)
    */
+  @Override
   public boolean removeCurveSegment(CurveSegment cs) {
     return getListOfCurveSegments().remove(cs);
   }
 
-  /**
-   * The listOfCurveSegments element contains arbitrary number of cuve segments that
-   * can be either of type {@link LineSegment} or of type {@link CubicBezier}. Here,
-   * both classes are child classes of the abstract type {@link CurveSegment}.
-   * 
-   * @param listOfCurveSegments
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.ICurve#setListOfCurveSegments(org.sbml.jsbml.ListOf)
    */
+  @Override
   public void setListOfCurveSegments(ListOf<CurveSegment> listOfCurveSegments) {
     unsetListOfCurveSegments();
     this.listOfCurveSegments = listOfCurveSegments;
@@ -317,15 +307,10 @@ public class Curve extends AbstractNamedSBase {
     registerChild(this.listOfCurveSegments);
   }
 
-  /**
-   * Removes the {@link #listOfCurveSegments} from this
-   * {@link org.sbml.jsbml.Model} and notifies
-   * all registered instances of
-   * {@link TreeNodeChangeListener}.
-   * 
-   * @return {@code true} if calling this method lead to a change in this
-   *         data structure.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.ICurve#unsetListOfCurveSegments()
    */
+  @Override
   public boolean unsetListOfCurveSegments() {
     if (listOfCurveSegments != null) {
       ListOf<CurveSegment> oldListOfCurveSegments = listOfCurveSegments;
