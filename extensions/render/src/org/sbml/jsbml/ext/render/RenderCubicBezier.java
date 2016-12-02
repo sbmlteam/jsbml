@@ -131,7 +131,7 @@ public class RenderCubicBezier extends RenderPoint {
       return x1;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.x1, this);
+    throw new PropertyUndefinedError(RenderConstants.basepoint1_x, this);
   }
 
   /**
@@ -142,7 +142,7 @@ public class RenderCubicBezier extends RenderPoint {
       return x2;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.x2, this);
+    throw new PropertyUndefinedError(RenderConstants.basepoint2_x, this);
   }
 
   /**
@@ -153,7 +153,7 @@ public class RenderCubicBezier extends RenderPoint {
       return y1;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.y1, this);
+    throw new PropertyUndefinedError(RenderConstants.basepoint1_y, this);
   }
 
   /**
@@ -164,7 +164,7 @@ public class RenderCubicBezier extends RenderPoint {
       return y2;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.y2, this);
+    throw new PropertyUndefinedError(RenderConstants.basepoint2_y, this);
   }
 
   /**
@@ -175,7 +175,7 @@ public class RenderCubicBezier extends RenderPoint {
       return z1;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.z1, this);
+    throw new PropertyUndefinedError(RenderConstants.basepoint1_z, this);
   }
 
   /**
@@ -186,7 +186,7 @@ public class RenderCubicBezier extends RenderPoint {
       return z2;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.z2, this);
+    throw new PropertyUndefinedError(RenderConstants.basepoint2_z, this);
   }
 
   /* (non-Javadoc)
@@ -417,7 +417,7 @@ public class RenderCubicBezier extends RenderPoint {
   public void setX1(double x1) {
     Double oldX1 = this.x1;
     this.x1 = x1;
-    firePropertyChange(RenderConstants.x1, oldX1, this.x1);
+    firePropertyChange(RenderConstants.basepoint1_x, oldX1, this.x1);
   }
 
   /**
@@ -427,7 +427,7 @@ public class RenderCubicBezier extends RenderPoint {
   public void setX2(double x2) {
     Double oldX2 = this.x2;
     this.x2 = x2;
-    firePropertyChange(RenderConstants.x2, oldX2, this.x2);
+    firePropertyChange(RenderConstants.basepoint2_x, oldX2, this.x2);
   }
 
   /**
@@ -437,7 +437,7 @@ public class RenderCubicBezier extends RenderPoint {
   public void setY1(double y1) {
     Double oldY1 = this.y1;
     this.y1 = y1;
-    firePropertyChange(RenderConstants.y1, oldY1, this.y1);
+    firePropertyChange(RenderConstants.basepoint1_y, oldY1, this.y1);
   }
 
   /**
@@ -447,7 +447,7 @@ public class RenderCubicBezier extends RenderPoint {
   public void setY2(double y2) {
     Double oldY2 = this.y2;
     this.y2 = y2;
-    firePropertyChange(RenderConstants.y2, oldY2, this.y2);
+    firePropertyChange(RenderConstants.basepoint2_y, oldY2, this.y2);
   }
 
   /**
@@ -457,7 +457,7 @@ public class RenderCubicBezier extends RenderPoint {
   public void setZ1(double z1) {
     Double oldZ1 = this.z1;
     this.z1 = z1;
-    firePropertyChange(RenderConstants.z1, oldZ1, this.z1);
+    firePropertyChange(RenderConstants.basepoint1_z, oldZ1, this.z1);
   }
 
   /**
@@ -467,7 +467,7 @@ public class RenderCubicBezier extends RenderPoint {
   public void setZ2(double z2) {
     Double oldZ2 = this.z2;
     this.z2 = z2;
-    firePropertyChange(RenderConstants.z2, oldZ2, this.z2);
+    firePropertyChange(RenderConstants.basepoint2_z, oldZ2, this.z2);
   }
 
   /**
@@ -584,7 +584,7 @@ public class RenderCubicBezier extends RenderPoint {
     if (isSetX2()) {
       Double oldX2 = x2;
       x2 = null;
-      firePropertyChange(RenderConstants.x2, oldX2, x2);
+      firePropertyChange(RenderConstants.basepoint2_x, oldX2, x2);
       return true;
     }
     return false;
@@ -599,7 +599,7 @@ public class RenderCubicBezier extends RenderPoint {
     if (isSetY1()) {
       Double oldY1 = y1;
       y1 = null;
-      firePropertyChange(RenderConstants.y1, oldY1, y1);
+      firePropertyChange(RenderConstants.basepoint1_y, oldY1, y1);
       return true;
     }
     return false;
@@ -614,7 +614,7 @@ public class RenderCubicBezier extends RenderPoint {
     if (isSetY2()) {
       Double oldY2 = y2;
       y2 = null;
-      firePropertyChange(RenderConstants.y2, oldY2, y2);
+      firePropertyChange(RenderConstants.basepoint2_y, oldY2, y2);
       return true;
     }
     return false;
@@ -629,7 +629,7 @@ public class RenderCubicBezier extends RenderPoint {
     if (isSetZ1()) {
       Double oldZ1 = z1;
       z1 = null;
-      firePropertyChange(RenderConstants.z1, oldZ1, z1);
+      firePropertyChange(RenderConstants.basepoint1_z, oldZ1, z1);
       return true;
     }
     return false;
@@ -644,7 +644,7 @@ public class RenderCubicBezier extends RenderPoint {
     if (isSetZ2()) {
       Double oldZ2 = z2;
       z2 = null;
-      firePropertyChange(RenderConstants.z2, oldZ2, z2);
+      firePropertyChange(RenderConstants.basepoint2_z, oldZ2, z2);
       return true;
     }
     return false;
@@ -659,27 +659,27 @@ public class RenderCubicBezier extends RenderPoint {
     Map<String, String> attributes = super.writeXMLAttributes();
     
     if (isSetX1()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x1,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint1_x,
         XMLTools.positioningToString(getX1(), isAbsoluteX1()));
     }
     if (isSetX2()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x2,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint2_x,
         XMLTools.positioningToString(getX2(), isAbsoluteX2()));
     }
     if (isSetY1()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y1,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint1_y,
         XMLTools.positioningToString(getY1(), isAbsoluteY1()));
     }
     if (isSetY2()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y2,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint2_y,
         XMLTools.positioningToString(getY2(), isAbsoluteY2()));
     }
     if (isSetZ1()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z1,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint1_z,
         XMLTools.positioningToString(getZ1(), isAbsoluteZ1()));
     }
     if (isSetZ2()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z2,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint2_z,
         XMLTools.positioningToString(getZ2(), isAbsoluteZ2()));
     }
     return attributes;
@@ -694,27 +694,27 @@ public class RenderCubicBezier extends RenderPoint {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
-      if (attributeName.equals(RenderConstants.x1)) {
+      if (attributeName.equals(RenderConstants.basepoint1_x)) {
         setX1(XMLTools.parsePosition(value));
         setAbsoluteX1(XMLTools.isAbsolutePosition(value));
       }
-      else if (attributeName.equals(RenderConstants.x2)) {
+      else if (attributeName.equals(RenderConstants.basepoint2_x)) {
         setX2(XMLTools.parsePosition(value));
         setAbsoluteX2(XMLTools.isAbsolutePosition(value));
       }
-      else if (attributeName.equals(RenderConstants.y1)) {
+      else if (attributeName.equals(RenderConstants.basepoint1_y)) {
         setY1(XMLTools.parsePosition(value));
         setAbsoluteY1(XMLTools.isAbsolutePosition(value));
       }
-      else if (attributeName.equals(RenderConstants.y2)) {
+      else if (attributeName.equals(RenderConstants.basepoint2_y)) {
         setY2(XMLTools.parsePosition(value));
         setAbsoluteY2(XMLTools.isAbsolutePosition(value));
       }
-      else if (attributeName.equals(RenderConstants.z1)) {
+      else if (attributeName.equals(RenderConstants.basepoint1_z)) {
         setZ1(XMLTools.parsePosition(value));
         setAbsoluteZ1(XMLTools.isAbsolutePosition(value));
       }
-      else if (attributeName.equals(RenderConstants.z2)) {
+      else if (attributeName.equals(RenderConstants.basepoint2_z)) {
         setZ2(XMLTools.parsePosition(value));
         setAbsoluteZ2(XMLTools.isAbsolutePosition(value));
       }
