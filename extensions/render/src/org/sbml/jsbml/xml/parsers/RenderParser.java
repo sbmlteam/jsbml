@@ -30,11 +30,13 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.BoundingBox;
+import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.render.ColorDefinition;
 import org.sbml.jsbml.ext.render.RenderCurve;
+import org.sbml.jsbml.ext.render.RenderGraphicalObjectPlugin;
 import org.sbml.jsbml.ext.render.GlobalRenderInformation;
 import org.sbml.jsbml.ext.render.GradientBase;
 import org.sbml.jsbml.ext.render.GradientStop;
@@ -79,6 +81,23 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
   @Override
   public String getNamespaceURI() {
     return RenderConstants.namespaceURI;
+  }
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
+   */
+  @Override
+  public boolean processAttribute(String elementName, String attributeName,
+      String value, String uri, String prefix, boolean isLastAttribute,
+      Object contextObject) 
+  {
+    if (contextObject instanceof GraphicalObject) {
+      contextObject = ((SBase) contextObject).createPlugin(RenderConstants.shortLabel);
+    }
+    
+    return super.processAttribute(elementName, attributeName, value, uri, prefix,
+        isLastAttribute, contextObject);
   }
 
   /* (non-Javadoc)
@@ -323,8 +342,9 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
         if (sbase.getElementName().equals(LayoutConstants.listOfLayouts)) {
           return new RenderListOfLayoutsPlugin((ListOf<Layout>) sbase);
         }
+      } else if (sbase instanceof GraphicalObject) {
+        return new RenderGraphicalObjectPlugin((GraphicalObject) sbase);
       }
-      // TODO - libsbml seems to have a Plugin for GraphicalObject as well RenderGraphicalObjectPlugin !!
     }
 
     return null;

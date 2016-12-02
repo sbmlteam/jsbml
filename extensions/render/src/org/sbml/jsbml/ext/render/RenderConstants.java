@@ -319,11 +319,11 @@ public class RenderConstants {
   /**
    * 
    */
-  public static final String listOfElements = "listOfElements";  // JSBML used "list-of-elements" for a few years
+  public static final String listOfElements = "listOfElements";  // JSBML used "list-of-elements", "listOfRenderPoints" or "listOfRenderCubicBeziers" for a few years
   /**
    * 
    */
-  public static final String list_of_elements = "list-of-elements";  // JSBML used "list-of-elements" for a few years
+  public static final String list_of_elements = "list-of-elements"; 
   /**
    * 
    */
@@ -477,7 +477,11 @@ public class RenderConstants {
   /**
    * 
    */
-  public static final String packageName = "Render";
+  public static final String packageName = "render";
+  /**
+   * 
+   */
+  public static final String objectRole = "objectRole";
 
   /**
    * Returns the namespace URI corresponding to the given level and version.
