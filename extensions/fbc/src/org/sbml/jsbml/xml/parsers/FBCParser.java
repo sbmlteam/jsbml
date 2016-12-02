@@ -324,34 +324,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       logger.debug("FBCParser: writeElement");
     }
 
-    if (sbmlElementToWrite instanceof SBase) {
-      SBase sbase = (SBase) sbmlElementToWrite;
-
-      if (!xmlObject.isSetName()) {
-        if (sbase instanceof ListOf<?>) {
-          ListOf<?> listOf = (ListOf<?>) sbase;
-
-          if (listOf.size() > 0) {
-            if (listOf.get(0) instanceof FluxBound) {
-              xmlObject.setName(FBCList.listOfFluxBounds.toString());
-            } else if (listOf.get(0) instanceof Objective) {
-              xmlObject.setName(FBCList.listOfObjectives.toString());
-            } else if (listOf.get(0) instanceof FluxObjective) {
-              xmlObject.setName(FBCList.listOfFluxObjectives.toString());
-            } else if (listOf.get(0) instanceof GeneProduct) {
-              xmlObject.setName(FBCList.listOfGeneProducts.toString());
-            }
-          }
-        } else {
-          xmlObject.setName(sbase.getElementName());
-        }
-      }
-      //      if (!xmlObject.isSetPrefix()) {
-      //        xmlObject.setPrefix(getShortLabel());
-      //      }
-      //			xmlObject.setNamespace(FBCConstants.namespaceURI);
-    }
-
+    super.writeElement(xmlObject, sbmlElementToWrite);
   }
 
   /**
