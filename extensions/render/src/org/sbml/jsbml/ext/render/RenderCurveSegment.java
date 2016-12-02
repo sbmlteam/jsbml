@@ -18,7 +18,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.layout;
+package org.sbml.jsbml.ext.render;
 
 import java.util.Map;
 
@@ -28,40 +28,40 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
- * Parent class to {@link LineSegment} and {@link CubicBezier}.
+ * Parent class to {@link RenderPoint} and {@link RenderCubicBezier}.
  * 
- * @author Sebastian Fr&ouml;hlich
  * @author Nicolas Rodriguez
- * @since 1.0
+ * @since 1.2
  */
-public abstract class CurveSegment extends AbstractSBase {
+public abstract class RenderCurveSegment extends AbstractSBase implements Point3D {
 
   /**
    * 
-   * @author Sebastian Fr&ouml;hlich
    * @author Nicolas Rodriguez
-   * @since 1.0
+   * @since 1.2
    */
   public enum Type
   {
     /**
      * 
      */
-    CUBIC_BEZIER("CubicBezier"),
+    RENDER_CUBIC_BEZIER("RenderCubicBezier"),
     /**
      * 
      */
-    LINE_SEGMENT("LineSegment");
+    RENDER_POINT("RenderPoint");
 
     /**
-     * @param value
-     * @return
+     * Returns the Type corresponding to the given String.
+     * 
+     * @param value a String
+     * @return the Type corresponding to the given String.
      */
     public static Type fromString(String value)
     {
       if (value == null)
       {
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("Enumeration values cannot be NULL.");
       }
 
       for (Type v : values())
@@ -71,8 +71,8 @@ public abstract class CurveSegment extends AbstractSBase {
           return v;
         }
       }
-      throw new IllegalArgumentException();
-
+      
+      return valueOf(value);
     }
 
     /**
@@ -81,14 +81,16 @@ public abstract class CurveSegment extends AbstractSBase {
     private final String xmlString;
 
     /**
-     * @param xmlString
+     * Creates a new {@link Type} instance with the given XML String.
+     * 
+     * @param xmlString the XML String
      */
     private Type(String xmlString) {
       this.xmlString = xmlString;
     }
 
     /**
-     * Returns the xmlString
+     * Returns the String that will be written to XML.
      *
      * @return the xmlString
      */
@@ -113,7 +115,7 @@ public abstract class CurveSegment extends AbstractSBase {
   /**
    * 
    */
-  private static final transient Logger logger = Logger.getLogger(CurveSegment.class);
+  private static final transient Logger logger = Logger.getLogger(RenderCurveSegment.class);
 
   /**
    * 
@@ -123,18 +125,20 @@ public abstract class CurveSegment extends AbstractSBase {
 
 
   /**
+   * Creates a new {@link RenderCurveSegment} instance.
    * 
    */
-  public CurveSegment() {
+  public RenderCurveSegment() {
     super();
     initDefaults();
   }
 
   /**
+   * Creates a new {@link RenderCurveSegment} instance cloned from the given {@link RenderCurveSegment}.
    * 
-   * @param curveSegment
+   * @param curveSegment the {@link RenderCurveSegment} to clone
    */
-  public CurveSegment(CurveSegment curveSegment) {
+  public RenderCurveSegment(RenderCurveSegment curveSegment) {
     super(curveSegment);
 
     if (curveSegment.isSetType()) {
@@ -143,52 +147,17 @@ public abstract class CurveSegment extends AbstractSBase {
   }
 
   /**
+   * Creates a new {@link RenderCurveSegment} instance.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
-  public CurveSegment(int level, int version) {
+  public RenderCurveSegment(int level, int version) {
     super(level, version);
     initDefaults();
   }
 
 
-  /**
-   * Creates, sets and returns an empty {@link Point}.
-   *
-   * @return a new {@link Point} object.
-   */
-  abstract public Point createEnd();
-
-  /**
-   * Creates, sets and returns a {@link Point} based on the
-   * given values.
-   * 
-   * @param x
-   * @param y
-   * @param z
-   * @return a new {@link Point} object.
-   */
-  abstract public Point createEnd(double x, double y, double z);
-
-  /**
-   * Creates, sets and returns an empty {@link Point}.
-   *
-   * @return a new {@link Point} object.
-   */
-  abstract public Point createStart();
-
-
-  /**
-   * Creates, sets and returns a {@link Point} based on the
-   * given values.
-   * 
-   * @param x
-   * @param y
-   * @param z
-   * @return a new {@link Point} object.
-   */
-  abstract public Point createStart(double x, double y, double z);
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
@@ -197,7 +166,7 @@ public abstract class CurveSegment extends AbstractSBase {
   public boolean equals(Object object) {
     boolean equals = super.equals(object);
     if (equals) {
-      CurveSegment curveSegment = (CurveSegment) object;
+      RenderCurveSegment curveSegment = (RenderCurveSegment) object;
       equals &= curveSegment.isSetType() == isSetType();
       if (equals && isSetType()) {
         equals &= curveSegment.getType().equals(getType());
@@ -207,22 +176,9 @@ public abstract class CurveSegment extends AbstractSBase {
   }
 
   /**
-   * Returns the {@code End} {@link Point} of this {@link CurveSegment}.
+   * Returns the type.
    * 
-   * @return the {@code End} {@link Point} of this {@link CurveSegment}.
-   */
-  abstract public Point getEnd();
-
-  /**
-   * Returns the {@code Start} {@link Point} of this {@link CurveSegment}.
-   * 
-   * @return the {@code Start} {@link Point} of this {@link CurveSegment}.
-   */
-  abstract public Point getStart();
-
-  /**
-   * 
-   * @return
+   * @return the type.
    */
   public Type getType() {
     return type;
@@ -233,7 +189,7 @@ public abstract class CurveSegment extends AbstractSBase {
    */
   @Override
   public int hashCode() {
-    final int prime = 937;
+    final int prime = 3049;
     int hashCode = super.hashCode();
     if (isSetType()) {
       hashCode += prime * getType().hashCode();
@@ -246,43 +202,31 @@ public abstract class CurveSegment extends AbstractSBase {
    */
   private void initDefaults() {
     setPackageVersion(-1);
-    packageName = LayoutConstants.shortLabel;
+    packageName = RenderConstants.shortLabel;
   }
 
   /**
+   * Returns {@code true} if the type is equals to {@link Type#RENDER_CUBIC_BEZIER}.
    * 
-   * @return
+   * @return {@code true} if the type is equals to {@link Type#RENDER_CUBIC_BEZIER}.
    */
-  public boolean isCubicBezier() {
-    return type != null && type.equals(Type.CUBIC_BEZIER);
+  public boolean isRenderCubicBezier() {
+    return type != null && type.equals(Type.RENDER_CUBIC_BEZIER);
   }
 
   /**
+   * Returns {@code true} if the type is equals to {@link Type#RENDER_POINT}.
    * 
-   * @return
+   * @return {@code true} if the type is equals to {@link Type#RENDER_POINT}.
    */
-  public boolean isLineSegment() {
-    return type != null && type.equals(Type.LINE_SEGMENT);
+  public boolean isRenderPoint() {
+    return type != null && type.equals(Type.RENDER_POINT);
   }
 
   /**
-   * Returns {@code true} if the {@code End} {@link Point} is set.
+   * Returns {@code true} if the type is set.
    * 
-   * @return {@code true} if the {@code End} {@link Point} is set.
-   */
-  abstract public boolean isSetEnd();
-
-  /**
-   * Returns {@code true} if the {@code Start} {@link Point} is set.
-   * 
-   * @return {@code true} if the {@code Start} {@link Point} is set.
-   */
-  abstract public boolean isSetStart();
-
-
-  /**
-   * 
-   * @return
+   * @return {@code true} if the type is set.
    */
   public boolean isSetType() {
     return type != null;
@@ -293,13 +237,16 @@ public abstract class CurveSegment extends AbstractSBase {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
-    String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-      value);
-    logger.debug("reading CurveSegmentImpl: " + prefix + ":" + attributeName);
+    String value) 
+  {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
+    if (logger.isDebugEnabled()) {
+      logger.debug("reading RenderCurveSegment attribute " + prefix + ":" + attributeName);
+    }
+    
     if (!isAttributeRead) {
-      //TODO: will the xsi:type element be properly read? Create test for this...
+
       if (attributeName.equals("type")) {
         try
         {
@@ -308,8 +255,8 @@ public abstract class CurveSegment extends AbstractSBase {
         catch (Exception e)
         {
           throw new SBMLException("Could not recognized the value '" + value
-            + "' for the attribute " + LayoutConstants.type
-            + " on the 'curveSegment' element.");
+            + "' for the attribute " + RenderConstants.type
+            + " on a 'RenderPoint' or 'RenderCubicBezier' element.");
         }
         return true;
       }
@@ -318,50 +265,12 @@ public abstract class CurveSegment extends AbstractSBase {
     return isAttributeRead;
   }
 
-  /**
-   * 
-   * @return
-   */
-  public Point removeEnd() {
-    if (!isSetEnd()) {
-      return null;
-    }
-    Point end = getEnd();
-    setEnd(null);
-    return end;
-  }
 
   /**
+   * Sets the {@link Type} of this {@link RenderCurveSegment} to {@link Type#RENDER_CUBIC_BEZIER}
+   * or {@link Type#RENDER_POINT}.
    * 
-   * @return
-   */
-  public Point removeStart() {
-    if (!isSetStart()) {
-      return null;
-    }
-    Point start = getStart();
-    setStart(null);
-    return start;
-  }
-
-  /**
-   * Sets the {@code End} {@link Point} of this {@link CurveSegment}.
-   * 
-   * @param end the {@code End} {@link Point} to set
-   */
-  abstract public void setEnd(Point end);
-
-  /**
-   * Sets the {@code Start} {@link Point} of this {@link CurveSegment}.
-   * 
-   * @param start the {@code Start} {@link Point} to set
-   */
-  abstract public void setStart(Point start);
-
-  /**
-   * Sets the {@link Type} of this {@link CurveSegment} to {@link LineSegment}
-   * or {@link CubicBezier}.
-   * @param type
+   * @param type the type
    */
   void setType(Type type)
   {
@@ -379,13 +288,13 @@ public abstract class CurveSegment extends AbstractSBase {
 
     if (logger.isDebugEnabled())
     {
-      logger.debug("process attributes of CurveSegmentImpl");
+      logger.debug("write XML attributes of RenderCurveSegment");
       logger.debug("isSetType: " + isSetType());
       logger.debug("Type = " + type);
     }
 
     if (isSetType()) {
-      attributes.put(LayoutConstants.xsiShortLabel + ":type", getType().toString());
+      attributes.put(RenderConstants.xsiShortLabel + ":type", getType().toString());
     }
 
     return attributes;

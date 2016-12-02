@@ -19,13 +19,12 @@
  */
 package org.sbml.jsbml.ext.render;
 
-import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 
 /**
+ * 
  * @author Eugen Netz
  * @author Alexander Diamantikos
  * @author Jakob Matthes
@@ -97,7 +96,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the {@link RenderCubicBezier} instance to clone
    */
   public RenderCubicBezier(RenderCubicBezier obj) {
     super(obj);
@@ -121,36 +121,6 @@ public class RenderCubicBezier extends RenderPoint {
   @Override
   public RenderCubicBezier clone() {
     return new RenderCubicBezier(this);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#getAllowsChildren()
-   */
-  @Override
-  public boolean getAllowsChildren() {
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#getChildAt(int)
-   */
-  @Override
-  public SBase getChildAt(int childIndex) {
-    if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexSurpassesBoundsException"), childIndex, 0));
-    }
-    int pos = 0;
-    throw new IndexOutOfBoundsException(MessageFormat.format(
-      resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
-      Math.min(pos, 0)));
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#getChildCount()
-   */
-  @Override
-  public int getChildCount() {
-    return 0;
   }
 
   /**
@@ -227,8 +197,7 @@ public class RenderCubicBezier extends RenderPoint {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
 
-    z1 = 0d;
-    z2 = 0d;
+    setType(Type.RENDER_POINT);
   }
 
   /**
@@ -688,33 +657,28 @@ public class RenderCubicBezier extends RenderPoint {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
+    
     if (isSetX1()) {
-      attributes.remove(RenderConstants.x1);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x1,
         XMLTools.positioningToString(getX1(), isAbsoluteX1()));
     }
     if (isSetX2()) {
-      attributes.remove(RenderConstants.x2);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x2,
         XMLTools.positioningToString(getX2(), isAbsoluteX2()));
     }
     if (isSetY1()) {
-      attributes.remove(RenderConstants.y1);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y1,
         XMLTools.positioningToString(getY1(), isAbsoluteY1()));
     }
     if (isSetY2()) {
-      attributes.remove(RenderConstants.y2);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y2,
         XMLTools.positioningToString(getY2(), isAbsoluteY2()));
     }
     if (isSetZ1()) {
-      attributes.remove(RenderConstants.z1);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z1,
         XMLTools.positioningToString(getZ1(), isAbsoluteZ1()));
     }
     if (isSetZ2()) {
-      attributes.remove(RenderConstants.z2);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z2,
         XMLTools.positioningToString(getZ2(), isAbsoluteZ2()));
     }

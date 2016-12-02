@@ -19,11 +19,17 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.CurveSegment;
+import org.sbml.jsbml.ext.layout.ICurve;
+import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.layout.LineSegment;
 
 /**
  * Implements the curve concept from the SBML render extension.
@@ -54,7 +60,7 @@ import org.sbml.jsbml.ext.layout.CurveSegment;
  * @author Jan Rudolph
  * @since 1.0
  */
-public class RenderCurve extends GraphicalPrimitive1D {
+public class RenderCurve extends GraphicalPrimitive1D implements ICurve {
   /**
    * 
    */
@@ -73,12 +79,11 @@ public class RenderCurve extends GraphicalPrimitive1D {
    */
   protected ListOf<RenderPoint> listOfElements;
 
+  /**
+   * 
+   */
   protected ListOf<CurveSegment> listOfCurveSegments;
   
-  // TODO - implements the TreeNode methods
-  
-  // TODO - need to have a listOfCurveSegments !
-
   /**
    * Creates an Curve instance
    */
@@ -89,7 +94,8 @@ public class RenderCurve extends GraphicalPrimitive1D {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the {@link RenderCurve} to clone
    */
   public RenderCurve(RenderCurve obj) {
     super();
@@ -191,6 +197,8 @@ public class RenderCurve extends GraphicalPrimitive1D {
   }
 
   /**
+   * Returns the value of startHead
+   * 
    * @return the value of startHead
    */
   public String getStartHead() {
@@ -202,6 +210,8 @@ public class RenderCurve extends GraphicalPrimitive1D {
   }
 
   /**
+   * Returns {@code true} if startHead is set
+   * 
    * @return whether startHead is set
    */
   public boolean isSetStartHead() {
@@ -209,8 +219,9 @@ public class RenderCurve extends GraphicalPrimitive1D {
   }
 
   /**
-   * Set the value of startHead
-   * @param startHead
+   * Sets the value of startHead.
+   * 
+   * @param startHead the start head
    */
   public void setStartHead(String startHead) {
     String oldStartHead = this.startHead;
@@ -220,6 +231,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
 
   /**
    * Unsets the variable startHead
+   * 
    * @return {@code true}, if startHead was set before,
    *         otherwise {@code false}
    */
@@ -235,6 +247,8 @@ public class RenderCurve extends GraphicalPrimitive1D {
 
 
   /**
+   * Returns the value of endHead
+   * 
    * @return the value of endHead
    */
   public String getEndHead() {
@@ -246,6 +260,8 @@ public class RenderCurve extends GraphicalPrimitive1D {
   }
 
   /**
+   * Returns {@code true} if endHead is set.
+   * 
    * @return whether endHead is set
    */
   public boolean isSetEndHead() {
@@ -253,8 +269,9 @@ public class RenderCurve extends GraphicalPrimitive1D {
   }
 
   /**
-   * Set the value of endHead
-   * @param endHead
+   * Sets the value of endHead
+   * 
+   * @param endHead the end head
    */
   public void setEndHead(String endHead) {
     String oldEndHead = this.endHead;
@@ -264,6 +281,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
 
   /**
    * Unsets the variable endHead
+   * 
    * @return {@code true}, if endHead was set before,
    *         otherwise {@code false}
    */
@@ -308,7 +326,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
   }
 
   /**
-   * @param listOfElements
+   * @param listOfElements the list of {@link RenderPoint}s
    */
   public void setListOfElements(ListOf<RenderPoint> listOfElements) {
     unsetListOfElements();
@@ -370,25 +388,222 @@ public class RenderCurve extends GraphicalPrimitive1D {
   }
 
   /**
-   * create a new Element element and adds it to the ListOfElements list
-   * <p><b>NOTE:</b>
-   * only use this method, if ID is not mandatory in Element
-   * otherwise use @see createElement(String id)!</p>
-   * @return
+   * Creates a new {@link RenderPoint} instance and adds it to the ListOfElements list
+   * 
+   * @return a new {@link RenderPoint} instance
+   * @deprecated use#createRenderPoint()
    */
   public RenderPoint createElement() {
-    return createElement(null);
+    return createRenderPoint();
   }
 
   /**
-   * create a new Element element and adds it to the ListOfElements list
-   * @param id
-   * @return
+   * Creates a new {@link RenderCubicBezier} instance and adds it to the ListOfElements list
+   * 
+   * @return a new {@link RenderCubicBezier} instance
    */
-  public RenderPoint createElement(String id) {
+  public RenderPoint createRenderCubicBezier() {
+    RenderPoint element = new RenderCubicBezier();
+    addElement(element);
+    return element;
+  }
+
+  /**
+   * Creates a new {@link RenderPoint} instance and adds it to the ListOfElements list
+   * 
+   * @return a new {@link RenderPoint} instance
+   */
+  public RenderPoint createRenderPoint() {
     RenderPoint element = new RenderPoint();
     addElement(element);
     return element;
+  }
+  
+  /**
+   * Returns {@code true} if {@link #listOfCurveSegments} contains at least
+   * one element.
+   *
+   * @return {@code true} if {@link #listOfCurveSegments} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean isSetListOfCurveSegments() {
+    if (listOfCurveSegments == null) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Returns the {@link #listOfCurveSegments}.
+   * Creates it if it does not already exist.
+   *
+   * @return the {@link #listOfCurveSegments}.
+   */
+  public ListOf<CurveSegment> getListOfCurveSegments() {
+    if (listOfCurveSegments == null) {
+      listOfCurveSegments = new ListOf<CurveSegment>();
+      listOfCurveSegments.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfCurveSegments.setPackageName(null);
+      listOfCurveSegments.setPackageName(LayoutConstants.shortLabel);
+      listOfCurveSegments.setSBaseListType(ListOf.Type.other);
+      listOfCurveSegments.setOtherListName(LayoutConstants.listOfCurveSegments);
+      
+      registerChild(listOfCurveSegments);
+    }
+    return listOfCurveSegments;
+  }
+
+  /**
+   * Sets the given {@code ListOf<CurveSegment>}.
+   * If {@link #listOfCurveSegments} was defined before and contains some
+   * elements, they are all unset.
+   *
+   * @param listOfCurveSegments the list of {@link CurveSegment}s
+   */
+  public void setListOfCurveSegments(ListOf<CurveSegment> listOfCurveSegments) {
+    unsetListOfCurveSegments();
+    this.listOfCurveSegments = listOfCurveSegments;
+
+    if (listOfCurveSegments != null) {
+      listOfCurveSegments.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'layout'
+      listOfCurveSegments.setPackageName(null);
+      listOfCurveSegments.setPackageName(LayoutConstants.shortLabel);
+      listOfCurveSegments.setSBaseListType(ListOf.Type.other);
+      listOfCurveSegments.setOtherListName(LayoutConstants.listOfCurveSegments);
+
+      registerChild(listOfCurveSegments);
+    }
+
+  }
+
+  /**
+   * Returns {@code true} if {@link #listOfCurveSegments} contains at least
+   * one element, otherwise {@code false}.
+   *
+   * @return {@code true} if {@link #listOfCurveSegments} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean unsetListOfCurveSegments() {
+    if (isSetListOfCurveSegments()) {
+      ListOf<CurveSegment> oldCurveSegments = this.listOfCurveSegments;
+      this.listOfCurveSegments = null;
+      oldCurveSegments.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Adds a new {@link CurveSegment} to the {@link #listOfCurveSegments}.
+   * <p>The listOfCurveSegments is initialized if necessary.
+   *
+   * @param curveSegment the element to add to the list
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
+   * @see java.util.Collection#add(Object)
+   */
+  public boolean addCurveSegment(CurveSegment curveSegment) {
+    return getListOfCurveSegments().add(curveSegment);
+  }
+
+  @Override
+  public void addCurveSegment(int index, CurveSegment element) {
+    getListOfCurveSegments().add(index, element);
+  }
+  
+  /**
+   * Removes an element from the {@link #listOfCurveSegments}.
+   *
+   * @param curveSegment the element to be removed from the list.
+   * @return {@code true} if the list contained the specified element and it was
+   *         removed.
+   * @see java.util.List#remove(Object)
+   */
+  public boolean removeCurveSegment(CurveSegment curveSegment) {
+    if (isSetListOfCurveSegments()) {
+      return getListOfCurveSegments().remove(curveSegment);
+    }
+    return false;
+  }
+
+  /**
+   * Removes an element from the {@link #listOfCurveSegments} at the given index.
+   *
+   * @param i the index where to remove the {@link CurveSegment}.
+   * @return the specified element if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
+   *         out of bound ({@code (i < 0) || (i > listOfCurveSegments)}).
+   */
+  public CurveSegment removeCurveSegment(int i) {
+    if (!isSetListOfCurveSegments()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfCurveSegments().remove(i);
+  }
+
+  /**
+   * Creates a new {@link LineSegment} instance and adds it to the
+   * {@link #listOfCurveSegments} list.
+   *
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfCurveSegments}
+   */
+  public LineSegment createLineSegment() {
+    LineSegment curveSegment = new LineSegment(getLevel(), getVersion());
+    addCurveSegment(curveSegment);
+    return curveSegment;
+  }
+
+  /**
+   * Creates a new {@link CubicBezier} instance and adds it to the
+   * {@link #listOfCurveSegments} list.
+   *
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfCurveSegments}
+   */
+  public CubicBezier createCubicBezier() {
+    CubicBezier curveSegment = new CubicBezier(getLevel(), getVersion());
+    addCurveSegment(curveSegment);
+    return curveSegment;
+  }
+
+  /**
+   * Gets an element from the {@link #listOfCurveSegments} at the given index.
+   *
+   * @param i the index of the {@link CurveSegment} element to get.
+   * @return an element from the listOfCurveSegments at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public CurveSegment getCurveSegment(int i) {
+    if (!isSetListOfCurveSegments()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfCurveSegments().get(i);
+  }
+
+  /**
+   * Returns the number of {@link CurveSegment}s in this
+   * {@link RenderCurve}.
+   * 
+   * @return the number of {@link CurveSegment}s in this
+   *         {@link RenderCurve}.
+   */
+  public int getCurveSegmentCount() {
+    return isSetListOfCurveSegments() ? getListOfCurveSegments().size() : 0;
+  }
+
+  /**
+   * Returns the number of {@link CurveSegment}s in this
+   * {@link RenderCurve}.
+   * 
+   * @return the number of {@link CurveSegment}s in this
+   *         {@link RenderCurve}.
+   * @libsbml.deprecated same as {@link #getCurveSegmentCount()}
+   */
+  public int getNumCurveSegments() {
+    return getCurveSegmentCount();
   }
 
   /* (non-Javadoc)
@@ -429,6 +644,58 @@ public class RenderCurve extends GraphicalPrimitive1D {
       }
     }
     return isAttributeRead;
+  }
+    
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildAt(int)
+   */
+  @Override
+  public SBase getChildAt(int childIndex) {
+    if (childIndex < 0) {
+      throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexSurpassesBoundsException"), childIndex, 0));
+    }
+    int pos = 0;
+    if (isSetListOfElements()) {
+      if (pos == childIndex) {
+        return getListOfElements();
+      }
+      pos++;
+    }
+    if (isSetListOfCurveSegments()) {
+      if (pos == childIndex) {
+        return getListOfCurveSegments();
+      }
+      pos++;
+    }
+    
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
+      Math.min(pos, 0)));
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+    
+    if (isSetListOfElements()) {
+      count++;
+    }
+    if (isSetListOfCurveSegments()) {
+      count++;
+    }
+    
+    return count;
   }
 
 }

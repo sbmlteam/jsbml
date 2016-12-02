@@ -171,27 +171,27 @@ public class RenderConstants {
   /**
    * 
    */
-  public static final String x1 = "x1";
+  public static final String x1 = "basepoint1_x"; // JSBML used "x1" for a few years
   /**
    * 
    */
-  public static final String y1 = "y1";
+  public static final String y1 = "basepoint1_y"; // JSBML used "y1" for a few years
   /**
    * 
    */
-  public static final String z1 = "z1";
+  public static final String z1 = "basepoint1_z"; // JSBML used "z1" for a few years
   /**
    * 
    */
-  public static final String x2 = "x2";
+  public static final String x2 = "basepoint2_x"; // JSBML used "x2" for a few years
   /**
    * 
    */
-  public static final String y2 = "y2";
+  public static final String y2 = "basepoint2_y"; // JSBML used "y2" for a few years
   /**
    * 
    */
-  public static final String z2 = "z2";
+  public static final String z2 = "basepoint2_z"; // JSBML used "z2" for a few years
   /**
    * 
    */
@@ -319,7 +319,7 @@ public class RenderConstants {
   /**
    * 
    */
-  public static final String listOfElements = "listOfElements";  // JSBML used "list-of-elements", "listOfRenderPoints" or "listOfRenderCubicBeziers" for a few years
+  public static final String listOfElements = "listOfElements"; // JSBML used "list-of-elements", "listOfRenderPoints" or "listOfRenderCubicBeziers" for a few years
   /**
    * 
    */
@@ -482,6 +482,38 @@ public class RenderConstants {
    * 
    */
   public static final String objectRole = "objectRole";
+  /**
+   * 
+   */
+  public static final String type = "type";
+  /**
+   * 
+   */
+  public static final String xsiShortLabel = "xsi";
+  /**
+   * 
+   */
+  public static final String element = "element";
+  /**
+   * 
+   */
+  public static final String text = "text";
+  /**
+   * 
+   */
+  public static final String ellipse = "ellipse";
+  /**
+   * 
+   */
+  public static final String rectangle = "rectangle";
+  /**
+   * 
+   */
+  public static final String polygon = "polygon";
+  /**
+   * 
+   */
+  public static final String image = "image";
 
   /**
    * Returns the namespace URI corresponding to the given level and version.

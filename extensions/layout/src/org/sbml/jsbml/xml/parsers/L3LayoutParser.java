@@ -72,6 +72,7 @@ import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.GeneralGlyph;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
+import org.sbml.jsbml.ext.layout.ICurve;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
@@ -316,8 +317,8 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     }
-    else if (contextObject instanceof Curve) {
-      Curve curve = (Curve) contextObject;
+    else if (contextObject instanceof ICurve) {
+      ICurve curve = (ICurve) contextObject;
       SBase newElement = null;
 
       if (elementName.equals(listOfCurveSegments)) {
@@ -430,22 +431,22 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
    */
   @Override
   public void processEndDocument(SBMLDocument sbmlDocument) {
-    if (sbmlDocument.isSetModel() && sbmlDocument.getModel().getExtension(getNamespaceURI()) != null)
+    if (sbmlDocument.isSetModel() && sbmlDocument.getModel().getExtension(getShortLabel()) != null)
     {
       // going through the document to find all Curve objects
       // filtering only on the ListOfLayouts
-      List<? extends TreeNode> curveElements = sbmlDocument.getModel().getExtension(getNamespaceURI()).filter(new Filter() {
+      List<? extends TreeNode> curveElements = sbmlDocument.getModel().getExtension(getShortLabel()).filter(new Filter() {
         /* (non-Javadoc)
          * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
          */
         @Override
         public boolean accepts(Object o) {
-          return o instanceof Curve;
+          return o instanceof ICurve;
         }
       });
 
       for (TreeNode curveNode : curveElements) {
-        Curve curve = (Curve) curveNode;
+        ICurve curve = (ICurve) curveNode;
 
         // transform the CubicBezier into LineSegment when needed
         int i = 0;
