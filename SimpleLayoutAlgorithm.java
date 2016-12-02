@@ -1255,6 +1255,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
       for (SpeciesReferenceGlyph specRefGlyph : speciesReferenceGlyphList) {
         if (specRefGlyph.isSetSpeciesGlyph()) {
           SpeciesGlyph speciesGlyph = specRefGlyph.getSpeciesGlyphInstance();
+          // TODO: speciesGlyph could be null
           if (speciesGlyph.isSetBoundingBox() && speciesGlyph.getBoundingBox().isSetPosition()) {
             if (specRefGlyph.isSetSpeciesReferenceRole()
                 && specRefGlyph.getSpeciesReferenceRole().equals(speciesReferenceRole)) {
