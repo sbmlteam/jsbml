@@ -14,7 +14,6 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-
 package de.zbit.sbml.layout;
 
 /**
@@ -25,5 +24,5 @@ package de.zbit.sbml.layout;
  * @version $Rev$
  */
 public interface Production<T> extends SBGNArc<T> {
-
+  
 }

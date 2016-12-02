@@ -325,6 +325,9 @@ public class LayoutDirector<P> implements Runnable {
     algorithm.setLayout(layout);
     builder.builderStart(layout);
     
+    // Render package preprocessing: Building links form elements to their local styles
+    RenderProcessor.preprocess(layout);
+    
     // Compartment glyphs
     ListOf<CompartmentGlyph> compartmentGlyphList = null;
     List<CompartmentGlyph> sortedCompartmentGlyphList = null;
@@ -348,94 +351,94 @@ public class LayoutDirector<P> implements Runnable {
     }
     
     // Text glyphs
-    ListOf<TextGlyph> textGlyphList = layout.isSetListOfTextGlyphs() ?
-        textGlyphList = layout.getListOfTextGlyphs() : null;
-        
-        // add all glyphs to algorithm input
-        
-        // 1. compartment glyphs
-        if (compartmentGlyphList != null) {
-          for (CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
-            if (glyphIsLayouted(compartmentGlyph)) {
-              algorithm.addLayoutedGlyph(compartmentGlyph);
+    ListOf<TextGlyph> textGlyphList = layout.isSetListOfTextGlyphs() ? textGlyphList = layout.getListOfTextGlyphs() : null;
+    
+    // add all glyphs to algorithm input
+    
+    // 1. compartment glyphs
+    if (compartmentGlyphList != null) {
+      for (CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
+        if (glyphIsLayouted(compartmentGlyph)) {
+          algorithm.addLayoutedGlyph(compartmentGlyph);
+        } else {
+          algorithm.addUnlayoutedGlyph(compartmentGlyph);
+        }
+      }
+    }
+    
+    // 2. species glyphs + texts
+    if (speciesGlyphList != null) {
+      
+      for (SpeciesGlyph speciesGlyph : speciesGlyphList) {
+        if (glyphIsLayouted(speciesGlyph)) {
+          algorithm.addLayoutedGlyph(speciesGlyph);
+        } else {
+          algorithm.addUnlayoutedGlyph(speciesGlyph);
+        }
+      }
+    }
+    if (textGlyphList != null) {
+      for (TextGlyph textGlyph : textGlyphList) {
+        if (glyphIsLayouted(textGlyph)) {
+          algorithm.addLayoutedGlyph(textGlyph);
+        } else {
+          algorithm.addUnlayoutedGlyph(textGlyph);
+        }
+      }
+    }
+    
+    // 3. reaction glyphs: create edges (srg, rg)
+    if (reactionGlyphList != null) {
+      for (ReactionGlyph reactionGlyph : reactionGlyphList) {
+        if (!addWhiskers){
+          reactionGlyph.putUserObject(NO_WHISKERS, true);
+        }
+        // add reaction glyph to algorithm input
+        if (glyphIsLayouted(reactionGlyph)) {
+          algorithm.addLayoutedGlyph(reactionGlyph);
+          if (reactionGlyphHasCurves(reactionGlyph)) {
+            reactionGlyph.putUserObject(SPECIAL_ROTATION_NEEDED, reactionGlyph);
+          }
+        } else {
+          algorithm.addUnlayoutedGlyph(reactionGlyph);
+        }
+        if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
+          ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphs =
+              reactionGlyph.getListOfSpeciesReferenceGlyphs();
+          // add all (srg, rg) pairs to algorithm input
+          for (SpeciesReferenceGlyph srg : speciesReferenceGlyphs) {
+            if (edgeIsLayouted(reactionGlyph, srg)) {
+              algorithm.addLayoutedEdge(srg, reactionGlyph);
             } else {
-              algorithm.addUnlayoutedGlyph(compartmentGlyph);
+              algorithm.addUnlayoutedEdge(srg, reactionGlyph);
             }
           }
         }
-        
-        // 2. species glyphs + texts
-        if (speciesGlyphList != null) {
-          for (SpeciesGlyph speciesGlyph : speciesGlyphList) {
-            if (glyphIsLayouted(speciesGlyph)) {
-              algorithm.addLayoutedGlyph(speciesGlyph);
-            } else {
-              algorithm.addUnlayoutedGlyph(speciesGlyph);
-            }
-          }
-        }
-        if (textGlyphList != null) {
-          for (TextGlyph textGlyph : textGlyphList) {
-            if (glyphIsLayouted(textGlyph)) {
-              algorithm.addLayoutedGlyph(textGlyph);
-            } else {
-              algorithm.addUnlayoutedGlyph(textGlyph);
-            }
-          }
-        }
-        
-        // 3. reaction glyphs: create edges (srg, rg)
-        if (reactionGlyphList != null) {
-          for (ReactionGlyph reactionGlyph : reactionGlyphList) {
-            if (!addWhiskers){
-              reactionGlyph.putUserObject(NO_WHISKERS, true);
-            }
-            // add reaction glyph to algorithm input
-            if (glyphIsLayouted(reactionGlyph)) {
-              algorithm.addLayoutedGlyph(reactionGlyph);
-              if (reactionGlyphHasCurves(reactionGlyph)) {
-                reactionGlyph.putUserObject(SPECIAL_ROTATION_NEEDED, reactionGlyph);
-              }
-            } else {
-              algorithm.addUnlayoutedGlyph(reactionGlyph);
-            }
-            if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
-              ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphs =
-                  reactionGlyph.getListOfSpeciesReferenceGlyphs();
-              // add all (srg, rg) pairs to algorithm input
-              for (SpeciesReferenceGlyph srg : speciesReferenceGlyphs) {
-                if (edgeIsLayouted(reactionGlyph, srg)) {
-                  algorithm.addLayoutedEdge(srg, reactionGlyph);
-                } else {
-                  algorithm.addUnlayoutedEdge(srg, reactionGlyph);
-                }
-              }
-            }
-          }
-        }
-        
-        // 2. let algorithm complete all glyphs
-        algorithm.completeGlyphs();
-        
-        // 3. build all glyphs
-        if (sortedCompartmentGlyphList != null) {
-          handleCompartmentGlyphs(sortedCompartmentGlyphList);
-        }
-        if (speciesGlyphList != null) {
-          handleSpeciesGlyphs(speciesGlyphList);
-        }
-        if (reactionGlyphList != null) {
-          handleReactionGlyphs(reactionGlyphList);
-        }
-        if (textGlyphList != null) {
-          handleTextGlyphs(textGlyphList);
-        }
-        
-        // 4. set layout dimensions
-        // TODO this is the second call (see above)
-        layout.setDimensions(algorithm.createLayoutDimension());
-        
-        builder.builderEnd();
+      }
+    }
+    
+    // 2. let algorithm complete all glyphs
+    algorithm.completeGlyphs();
+    
+    // 3. build all glyphs
+    if (sortedCompartmentGlyphList != null) {
+      handleCompartmentGlyphs(sortedCompartmentGlyphList);
+    }
+    if (speciesGlyphList != null) {
+      handleSpeciesGlyphs(speciesGlyphList);
+    }
+    if (reactionGlyphList != null) {
+      handleReactionGlyphs(reactionGlyphList);
+    }
+    if (textGlyphList != null) {
+      handleTextGlyphs(textGlyphList);
+    }
+    
+    // 4. set layout dimensions
+    // TODO this is the second call (see above)
+    layout.setDimensions(algorithm.createLayoutDimension());
+    
+    builder.builderEnd();
   }
   
   /**
