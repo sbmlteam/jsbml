@@ -22,10 +22,13 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.List;
 
+import javax.swing.tree.TreeNode;
+
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
@@ -35,22 +38,25 @@ import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.render.ColorDefinition;
-import org.sbml.jsbml.ext.render.RenderCurve;
-import org.sbml.jsbml.ext.render.RenderGraphicalObjectPlugin;
 import org.sbml.jsbml.ext.render.GlobalRenderInformation;
 import org.sbml.jsbml.ext.render.GradientBase;
 import org.sbml.jsbml.ext.render.GradientStop;
-import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.LineEnding;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderConstants;
+import org.sbml.jsbml.ext.render.RenderCubicBezier;
+import org.sbml.jsbml.ext.render.RenderCurve;
+import org.sbml.jsbml.ext.render.RenderCurveSegment;
+import org.sbml.jsbml.ext.render.RenderGraphicalObjectPlugin;
+import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.RenderInformationBase;
 import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 import org.sbml.jsbml.ext.render.RenderListOfLayoutsPlugin;
 import org.sbml.jsbml.ext.render.RenderPoint;
 import org.sbml.jsbml.ext.render.Style;
+import org.sbml.jsbml.util.filters.Filter;
 
 /**
  * @author Alexander Diamantikos
@@ -108,18 +114,20 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
   public Object processStartElement(String elementName, String uri, String prefix,
     boolean hasAttributes, boolean hasNamespaces, Object contextObject) 
   {
-    logger.debug("logger called, " + prefix + ":" + elementName + " in context of: " + contextObject.toString());
+    if (logger.isDebugEnabled()) {
+    logger.debug("processStartElement - " + prefix + ":" + elementName + 
+        " in context of: '" + ((contextObject instanceof SBase) ? ((SBase) contextObject).getElementName() : contextObject.getClass().getSimpleName()) + "'");
+    }
     
     if (contextObject instanceof LayoutModelPlugin) {
       LayoutModelPlugin layoutModel = (LayoutModelPlugin) contextObject;
       
-      // TODO not sure if necessary to check if listOfLayouts != null
       ListOf<Layout> listOfLayouts = layoutModel.getListOfLayouts();
       SBase newElement = null;
 
       if (elementName.equals(RenderConstants.listOfGlobalRenderInformation)) {
         RenderListOfLayoutsPlugin renderPlugin = new RenderListOfLayoutsPlugin(listOfLayouts);
-        listOfLayouts.addExtension(RenderConstants.namespaceURI, renderPlugin);
+        listOfLayouts.addExtension(RenderConstants.shortLabel, renderPlugin);
         newElement = renderPlugin.getListOfGlobalRenderInformation();
       }
 
@@ -137,7 +145,7 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
           elementName.equals("listOfLocalRenderInformation"))
       {
         RenderLayoutPlugin renderPlugin = new RenderLayoutPlugin(layout);
-        layout.addExtension(RenderConstants.namespaceURI, renderPlugin);
+        layout.addExtension(RenderConstants.shortLabel, renderPlugin);
         newElement = renderPlugin.getListOfLocalRenderInformation();
       }
       if (newElement != null) {
@@ -196,14 +204,44 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
         return g;
       }
     }
+    else if (contextObject instanceof RenderGroup) 
+    {
+      RenderGroup g = (RenderGroup) contextObject;
 
+      if (elementName.equals(RenderConstants.renderCurve)) {
+        return g.createCurve();
+      } else if (elementName.equals(RenderConstants.group)) {
+        return g.createRenderGroup();
+      } else if (elementName.equals(RenderConstants.group)) {
+        return g.createRenderGroup();
+      } else if (elementName.equals(RenderConstants.text)) {
+        return g.createText();
+      } else if (elementName.equals(RenderConstants.ellipse)) {
+        return g.createEllipse();
+      } else if (elementName.equals(RenderConstants.polygon)) {
+        return g.createPolygon();
+      } else if (elementName.equals(RenderConstants.rectangle)) {
+        return g.createRectangle();
+      } else if (elementName.equals(RenderConstants.image)) {
+        return g.createImage();
+      }
+    }
     else if (contextObject instanceof Polygon) {
       Polygon polygon = (Polygon) contextObject;
       SBase newElement = null;
       
-      if (elementName.equals(RenderConstants.listOfElements)) {  // TODO "listOfRenderPoints" + list-of-elements
+      // JSBML used "listOfRenderPoints" or "listOfRenderCubicBeziers" for a few years so 
+      // we are keeping the additional tests to be able to read any incorrect files with JSBML.
+      if (elementName.equals(RenderConstants.listOfElements)
+          || elementName.equals("listOfRenderPoints")
+          || elementName.equals("listOfRenderCubicBeziers")) 
+      {
         newElement = polygon.getListOfElements();
       }
+      else if (elementName.equals(LayoutConstants.listOfCurveSegments)) {
+        newElement = polygon.getListOfCurveSegments();
+      }
+      
       if (newElement != null) {
         return newElement;
       }
@@ -230,12 +268,17 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       RenderCurve curve = (RenderCurve) contextObject;
       SBase newElement = null;
 
-      // JSBML used "list-of-elements" for a few years so we are keeping the test using "list-of-elements"
-      // here to be able to read any incorrect files with JSBML.
+      // JSBML used "listOfRenderPoints" or "listOfRenderCubicBeziers" for a few years so 
+      // we are keeping the additional tests to be able to read any incorrect files with JSBML.
       if (elementName.equals(RenderConstants.listOfElements)
-          || elementName.equals(RenderConstants.list_of_elements)) // TODO - listOfRenderPoints as well ?
+          || elementName.equals("listOfRenderPoints")
+          || elementName.equals("listOfRenderCubicBeziers")) 
       {
         newElement = curve.getListOfElements();
+      }
+      else if (elementName.equals(LayoutConstants.listOfCurveSegments)) 
+      {
+        newElement = curve.getListOfCurveSegments();
       }
 
       if (newElement != null) {
@@ -262,12 +305,22 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
       SBase newElement = null;
 
-      if (elementName.equals(RenderConstants.renderPoint)) { // TODO - old name as well
-        newElement = new RenderPoint(); // TODO - RenderCubicBezier old name as well + here, it can be either RenderPoint or RenderCubicBezier depending of the xsi attribute...
+      if (elementName.equals(RenderConstants.element)) { 
+        newElement = new RenderCubicBezier();
+      }
+      // JSBML used "renderPoint" for a few years so we are keeping the test using "renderPoint"
+      // here to be able to read any incorrect files with JSBML.
+      else if (elementName.equals("renderPoint")) {
+        newElement = new RenderPoint();
+      }
+      // JSBML used "renderCubicBezier" for a few years so we are keeping the test using "renderCubicBezier"
+      // here to be able to read any incorrect files with JSBML.
+      else if (elementName.equals("renderCubicBezier")) {
+        newElement = new RenderCubicBezier();
       }
       else if (elementName.equals(RenderConstants.style)) { 
      // we have to check the context to know if we create a LocalStyle or a GlobalStyle (Style)
-        if (listOf.getElementName().equals(RenderConstants.listOfLocalStyles)) { // TODO - we need to check the parent of the listOf !
+        if (listOf.getParent() instanceof LocalRenderInformation) {
           newElement = new LocalStyle();
         } else {
           newElement = new Style();
@@ -322,7 +375,67 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
     }
     return contextObject;
   }
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processEndDocument(org.sbml.jsbml.SBMLDocument)
+   */
+  @Override
+  public void processEndDocument(SBMLDocument sbmlDocument) {
+    if (sbmlDocument.isPackageEnabled(RenderConstants.shortLabel))
+    {
+      // going through the document to find all RenderCurveSegment objects
+      List<? extends TreeNode> curveElements = sbmlDocument.getModel().getExtension(LayoutConstants.shortLabel).filter(new Filter() {
+        /* (non-Javadoc)
+         * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
+         */
+        @Override
+        public boolean accepts(Object o) {
+          return o instanceof Polygon || o instanceof RenderCurve;
+        }
+      });
 
+      for (TreeNode curveNode : curveElements) {
+        RenderCurve curve = (RenderCurve) curveNode;
+
+        // transform the RenderCubicBezier into RenderPoint when needed
+        int i = 0;
+        for (RenderPoint renderPoint : curve.getListOfElements().clone())
+        {
+          if (! renderPoint.isSetType())
+          {
+            if (((RenderCubicBezier) renderPoint).isSetX1() || ((RenderCubicBezier) renderPoint).isSetX2())
+            {
+              // trick to set the 'type' attribute, although the setType method is not visible.
+              renderPoint.readAttribute("type", "", RenderCurveSegment.Type.RENDER_CUBIC_BEZIER.toString());
+            }
+            else
+            {
+              renderPoint.readAttribute("type", "", RenderCurveSegment.Type.RENDER_POINT.toString());
+            }
+          }
+
+          if (renderPoint.getType().equals(RenderCurveSegment.Type.RENDER_POINT))
+          {
+            RenderPoint realRenderPoint = new RenderPoint(renderPoint);
+            logger.debug("Transformed a RenderCubicBezier: '" + renderPoint + "' into a RenderPoint.");
+            curve.getListOfElements().remove(i);
+            curve.getListOfElements().add(i, realRenderPoint);
+          }
+
+          if (logger.isDebugEnabled())
+          {
+            logger.debug("RenderCurveSegment = " + curve.getListOfElements().get(i));
+          }
+
+          i++;
+        }
+      }
+    }
+  }
+
+  
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()
    */
