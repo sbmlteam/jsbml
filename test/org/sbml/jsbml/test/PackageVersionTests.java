@@ -290,6 +290,7 @@ public class PackageVersionTests {
 
     Assert.assertFalse(newDoc.isPackageEnabled("fbc"));
 
+    Assert.assertTrue(clonedModel.findNamedSBase("fbc_GPR1") != null);
     Assert.assertTrue(clonedModel.findNamedSBase("fbc_GPR2") != null);
     Assert.assertTrue(clonedModel.findNamedSBase("fbc_GPR2").getPackageVersion() == 2);
     Assert.assertTrue(clonedModel.findNamedSBase("fbc_GPR2").getNamespace().equals(FBCConstants.namespaceURI_L3V1V2));
