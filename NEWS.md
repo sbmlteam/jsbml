@@ -8,11 +8,16 @@ Version 1.2 (XX-XX-201X)
  * New Features:
 
   - Updated the implementation of the SBML Level 3 Multi package to the Version 1.0.7 specification (August 2016).
+  
+  - JSBML is now deployed to Maven central to make it easier for people using maven to integrate it.
 
 
  * Bug Fixes:
 
   - Several corrections to the Spatial package, when writing to XML. Thanks to Kaito Ii for reporting the errors.
+  
+  - Updated the implementation of the SBML Level 3 Render package to the draft specification (April 2015). Plenty of XML elements where not written with the correct names. Any files created by JSBML before version 1.2 should still be readable by JSBML 1.2 so that you can just read them and write them to get the correct XML.
+  
 
 
 ===========================================================================
