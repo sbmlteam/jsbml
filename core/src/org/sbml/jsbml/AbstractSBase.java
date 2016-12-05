@@ -1638,6 +1638,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public String getNamespace() {
+    if (getPackageName().equals("core") && elementNamespace == null) {
+      return JSBML.getNamespaceFrom(getLevel(), getVersion());
+    }
     return elementNamespace;
   }
 
