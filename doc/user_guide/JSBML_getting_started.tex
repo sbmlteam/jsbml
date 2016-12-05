@@ -91,14 +91,6 @@ If you are already using Maven in your project, you can add JSBML
 as a dependency, just add the following lines into your pom.xml:
 
 \begin{example}[language=XML, title={Maven instructions to add to your pom.xml.}]
-  <repositories>
-    <repository>
-      <id>ebi-repo</id>
-      <name>The EBI repository</name>
-      <url>http://www.ebi.ac.uk/~maven/m2repo</url>
-      <releases><enabled>true</enabled></releases>
-    </repository>
-  </repositories>
 
   <dependencies>
     <dependency>
@@ -114,7 +106,7 @@ there is not need to list all the packages by hand and when
 a new one is developed, you will get it without having to make too much change to your
 pom files. 
 
-If you want to pick which package to include, you can list them one by one, there are
+If you want to pick which packages to include (not recommended), you can list them one by one, there are
 further instructions at \url{http://sbml.org/Software/JSBML/docs/Maven_Configuration}.
 
 
