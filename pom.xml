@@ -230,21 +230,6 @@
     <module>modules</module>
   </modules>
   
-  <repositories>
-    <repository>
-      <id>local-repo</id>
-      <url>http://localhost/repo</url>
-    </repository>
-    <repository>
-      <id>sf-repo</id>
-      <url>http://jsbml.sourceforge.net/m2repo</url>
-    </repository>
-    <repository>
-      <id>sf-repo-s</id>
-      <url>http://jsbml.sourceforge.net/m2repo_snapshots</url>
-    </repository>
-  </repositories>
-  
   <distributionManagement>
 
   <snapshotRepository>
@@ -301,7 +286,7 @@ To deploy to EBI:
 -->
 
 <!--
-To deploy to the jsbml maven repo
+To deploy to the jsbml maven repo 
   
     <repository>
       <id>jsbml-maven-repo-sf</id>
