@@ -761,9 +761,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
     
-    z = 0d;
-    rx = 0d;
-    ry = 0d;
+//    z = 0d;
+//    rx = 0d;
+//    ry = 0d;
   }
 
   /* (non-Javadoc)
@@ -851,15 +851,15 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     if (!isAttributeRead) {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
-      if (attributeName.equals(RenderConstants.cx)) {
+      if (attributeName.equals(RenderConstants.x)) {
         setX(XMLTools.parsePosition(value));
         setAbsoluteX(XMLTools.isAbsolutePosition(value));
       }
-      else if (attributeName.equals(RenderConstants.cy)) {
+      else if (attributeName.equals(RenderConstants.y)) {
         setY(XMLTools.parsePosition(value));
         setAbsoluteY(XMLTools.isAbsolutePosition(value));
       }
-      else if (attributeName.equals(RenderConstants.cz)) {
+      else if (attributeName.equals(RenderConstants.z)) {
         setZ(XMLTools.parsePosition(value));
         setAbsoluteZ(XMLTools.isAbsolutePosition(value));
       }

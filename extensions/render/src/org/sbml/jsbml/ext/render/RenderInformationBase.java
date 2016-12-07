@@ -806,6 +806,12 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
+    
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(RenderConstants.shortLabel + ":id", getId());
+    }
+    
     if (isSetProgramName()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.programName,
         getProgramName());

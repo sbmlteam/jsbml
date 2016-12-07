@@ -20,10 +20,14 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Map;
+
+import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.BoundingBox;
+import org.sbml.jsbml.ext.layout.IBoundingBox;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author Eugen Netz
@@ -32,7 +36,7 @@ import org.sbml.jsbml.ext.layout.BoundingBox;
  * @author Jan Rudolph
  * @since 1.0
  */
-public class LineEnding extends GraphicalPrimitive2D {
+public class LineEnding extends GraphicalPrimitive2D implements IBoundingBox {
   /**
    * Generated serial version identifier
    */
@@ -60,7 +64,8 @@ public class LineEnding extends GraphicalPrimitive2D {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the {@link LineEnding} instance to clone
    */
   public LineEnding(LineEnding obj) {
     super(obj);
@@ -89,39 +94,63 @@ public class LineEnding extends GraphicalPrimitive2D {
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
-
-    enableRotationMapping = true;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getAllowsChildren()
-   */
   @Override
   public boolean getAllowsChildren() {
-    return false;
+    return true;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildCount()
-   */
   @Override
   public int getChildCount() {
-    int count = 0;
+    int count = super.getChildCount();
+
+    if (isSetBoundingBox()) {
+      count++;
+    }
+    if (isSetGroup()) {
+      count++;
+    }
+
     return count;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildAt(int)
-   */
   @Override
-  public SBase getChildAt(int childIndex) {
-    if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexSurpassesBoundsException"), childIndex, 0));
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
     }
-    int pos = 0;
-    throw new IndexOutOfBoundsException(MessageFormat.format(
-      resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
-      Math.min(pos, 0)));
+
+    int count = super.getChildCount(), pos = 0;
+
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+
+    if (isSetBoundingBox()) {
+      if (pos == index) {
+        return getBoundingBox();
+      }
+      pos++;
+    }
+    if (isSetGroup()) {
+      if (pos == index) {
+        return getGroup();
+      }
+      pos++;
+    }
+
+    throw new IndexOutOfBoundsException(
+        MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
+            index, Math.min(pos, 0)));
+  }
+
+  @Override
+  public BoundingBox createBoundingBox() {
+    setBoundingBox(new BoundingBox());
+    return boundingBox;
   }
 
   /**
@@ -144,27 +173,25 @@ public class LineEnding extends GraphicalPrimitive2D {
 
   /**
    * Set the value of boundingBox
-   * @param boundingBox
+   * 
+   * @param boundingBox the value of boundingBox
    */
   public void setBoundingBox(BoundingBox boundingBox) {
     BoundingBox oldBoundingBox = this.boundingBox;
     this.boundingBox = boundingBox;
     firePropertyChange(RenderConstants.boundingBox, oldBoundingBox, this.boundingBox);
+    registerChild(boundingBox);
   }
 
   /**
    * Unsets the variable boundingBox
-   * @return {@code true}, if boundingBox was set before,
-   *         otherwise {@code false}
    */
-  public boolean unsetBoundingBox() {
+  public void unsetBoundingBox() {
     if (isSetBoundingBox()) {
       BoundingBox oldBoundingBox = boundingBox;
       boundingBox = null;
       firePropertyChange(RenderConstants.boundingBox, oldBoundingBox, boundingBox);
-      return true;
     }
-    return false;
   }
 
   /**
@@ -186,13 +213,15 @@ public class LineEnding extends GraphicalPrimitive2D {
   }
 
   /**
-   * Set the value of group
-   * @param group
+   * Sets the value of group
+   * 
+   * @param group the value of group
    */
   public void setGroup(RenderGroup group) {
     RenderGroup oldGroup = this.group;
     this.group = group;
     firePropertyChange(RenderConstants.group, oldGroup, this.group);
+    registerChild(group);
   }
 
   /**
@@ -229,8 +258,9 @@ public class LineEnding extends GraphicalPrimitive2D {
   }
 
   /**
-   * Set the value of enableRotationMapping
-   * @param enableRotationMapping
+   * Sets the value of enableRotationMapping
+   * 
+   * @param enableRotationMapping the value of enableRotationMapping
    */
   public void setEnableRotationMapping(Boolean enableRotationMapping) {
     Boolean oldEnableRotationMapping = this.enableRotationMapping;
@@ -306,7 +336,40 @@ public class LineEnding extends GraphicalPrimitive2D {
     }
     return true;
   }
+  
+  
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
 
-  
-  
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(RenderConstants.shortLabel + ":id", getId());
+    }
+    if (isSetEnableRotationMapping()) {
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.enableRotationMapping, enableRotationMapping.toString());
+    }
+    return attributes;
+  }
+
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals("id")) {
+        setId(value);
+      }
+      else if (attributeName.equals(RenderConstants.enableRotationMapping)) {
+        setEnableRotationMapping(StringTools.parseSBMLBoolean(value));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+
+    return isAttributeRead;
+  }
 }

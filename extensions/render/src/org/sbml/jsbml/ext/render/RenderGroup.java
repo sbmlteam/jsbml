@@ -29,6 +29,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
@@ -1022,8 +1023,11 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     Map<String, String> attributes = super.writeXMLAttributes();
 
     if (isSetFontFamily()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontFamily,
-        getFontFamily().toString().toLowerCase());
+      String fontFamily = getFontFamily().toString().toLowerCase();
+      if (fontFamily.equals("sans_serif")) {
+        fontFamily = "sans-serif";
+      }
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontFamily, fontFamily);
     }
     if (isSetTextAnchor()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.textAnchor,
@@ -1067,9 +1071,17 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     if (!isAttributeRead) {
       isAttributeRead = true;
 
-      // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.fontFamily)) {
-        setFontFamily(FontFamily.valueOf(value.toUpperCase()));
+        if (value.equals("sans-serif")) {
+          value = "SANS_SERIF";
+        }
+        try {
+          setFontFamily(FontFamily.valueOf(value.toUpperCase()));
+        } catch (Exception e) {
+          throw new SBMLException("Could not recognized the value '" + value
+              + "' for the attribute " + RenderConstants.fontFamily
+              + " on the 'g' element.");
+        }
       }
       else if (attributeName.equals(RenderConstants.fontSize)) {
         setFontSize(Short.valueOf(value));
@@ -1081,15 +1093,35 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
       }
       else if (attributeName.equals(RenderConstants.textAnchor)) {
-        setTextAnchor(HTextAnchor.valueOf(value.toUpperCase()));
+        try {
+          setTextAnchor(HTextAnchor.valueOf(value.toUpperCase()));
+        } catch (Exception e) {
+          throw new SBMLException("Could not recognized the value '" + value
+              + "' for the attribute " + RenderConstants.textAnchor
+              + " on the 'g' element.");
+        }
       }
       else if (attributeName.equals(RenderConstants.vTextAnchor)) {
-        setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));
+        try {
+          setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));
+        } catch (Exception e) {
+          throw new SBMLException("Could not recognized the value '" + value
+              + "' for the attribute " + RenderConstants.vTextAnchor
+              + " on the 'g' element.");
+        }
       }
-      else if (attributeName.equals(RenderConstants.startHead)) {
+      // JSBML used "start-head" for a few years so we are keeping the test using "start-head"
+      // here to be able to read any incorrect files with JSBML.
+      else if (attributeName.equals(RenderConstants.startHead)
+          || attributeName.equals("start-head"))
+      {
         setStartHead(value);
       }
-      else if (attributeName.equals(RenderConstants.endHead)) {
+      // JSBML used "end-head" for a few years so we are keeping the test using "end-head"
+      // here to be able to read any incorrect files with JSBML.
+      else if (attributeName.equals(RenderConstants.endHead)
+          || attributeName.equals("end-head"))
+      {
         setEndHead(value);
       }
       else {

@@ -72,6 +72,7 @@ import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.GeneralGlyph;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
+import org.sbml.jsbml.ext.layout.IBoundingBox;
 import org.sbml.jsbml.ext.layout.ICurve;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
@@ -212,8 +213,8 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
         return newElement;
       }
     }
-    else if (contextObject instanceof GraphicalObject) {
-      GraphicalObject graphicalObject = (GraphicalObject) contextObject;
+    else if (contextObject instanceof IBoundingBox) {
+      IBoundingBox graphicalObject = (IBoundingBox) contextObject;
 
       if (elementName.equals(boundingBox)) {
         BoundingBox bbox = new BoundingBox();
