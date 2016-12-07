@@ -66,7 +66,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /**
    * 
    */
-  private TextAnchor textAnchor;
+  private HTextAnchor textAnchor;
   /**
    * 
    */
@@ -139,7 +139,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getTextAnchor()
    */
   @Override
-  public TextAnchor getTextAnchor() {
+  public HTextAnchor getTextAnchor() {
     if (isSetTextAnchor()) {
       return textAnchor;
     }
@@ -425,8 +425,8 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#setTextAnchor(org.sbml.jsbml.ext.render.TextAnchor)
    */
   @Override
-  public void setTextAnchor(TextAnchor textAnchor) {
-    TextAnchor oldTextAnchor = this.textAnchor;
+  public void setTextAnchor(HTextAnchor textAnchor) {
+    HTextAnchor oldTextAnchor = this.textAnchor;
     this.textAnchor = textAnchor;
     firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, this.textAnchor);
   }
@@ -575,7 +575,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetTextAnchor() {
     if (isSetTextAnchor()) {
-      TextAnchor oldTextAnchor = textAnchor;
+      HTextAnchor oldTextAnchor = textAnchor;
       textAnchor = null;
       firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, textAnchor);
       return true;
@@ -708,7 +708,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
         setFontFamily(FontFamily.valueOf(value.toUpperCase()));
       }
       else if (attributeName.equals(RenderConstants.textAnchor)) {
-        setTextAnchor(TextAnchor.valueOf(value.toUpperCase()));
+        setTextAnchor(HTextAnchor.valueOf(value.toUpperCase()));
       }
       else if (attributeName.equals(RenderConstants.vTextAnchor)) {
         setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));

@@ -28,7 +28,9 @@ import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
+ * 
  * @author Jakob Matthes
+ * @author rodrigue
  * @since 1.0
  */
 public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
@@ -41,7 +43,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
   /**
    *
    */
-  private ListOf<GlobalRenderInformation> listOfGlobalRenderInformation;
+  private ListOfGlobalRenderInformation listOfGlobalRenderInformation;
 
   /**
    * Creates an RenderModelPlugin instance
@@ -145,15 +147,9 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
   /**
    * @return the listOfGlobalRenderInformation
    */
-  public ListOf<GlobalRenderInformation> getListOfGlobalRenderInformation() {
+  public ListOfGlobalRenderInformation getListOfGlobalRenderInformation() {
     if (!isSetListOfGlobalRenderInformation()) {
-      listOfGlobalRenderInformation = new ListOf<GlobalRenderInformation>();
-      listOfGlobalRenderInformation.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'render'
-      listOfGlobalRenderInformation.setPackageName(null);
-      listOfGlobalRenderInformation.setPackageName(RenderConstants.shortLabel);
-      listOfGlobalRenderInformation.setSBaseListType(ListOf.Type.other);
-      listOfGlobalRenderInformation.setOtherListName(RenderConstants.listOfGlobalRenderInformation);
+      listOfGlobalRenderInformation = new ListOfGlobalRenderInformation();
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfGlobalRenderInformation);
@@ -174,7 +170,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    *         otherwise {@code false}
    */
   public boolean isSetListOfGlobalRenderInformation() {
-    if ((listOfGlobalRenderInformation == null) || listOfGlobalRenderInformation.isEmpty()) {
+    if (listOfGlobalRenderInformation == null) {
       return false;
     }
     return true;
@@ -213,18 +209,10 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
   /**
    * @param listOfGlobalRenderInformation
    */
-  public void setListOfGlobalRenderInformation(ListOf<GlobalRenderInformation> listOfGlobalRenderInformation) {
+  public void setListOfGlobalRenderInformation(ListOfGlobalRenderInformation listOfGlobalRenderInformation) {
     unsetListOfGlobalRenderInformation();
     this.listOfGlobalRenderInformation = listOfGlobalRenderInformation;
 
-    if (listOfGlobalRenderInformation != null) {
-      listOfGlobalRenderInformation.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'render'
-      listOfGlobalRenderInformation.setPackageName(null);
-      listOfGlobalRenderInformation.setPackageName(RenderConstants.shortLabel);
-      listOfGlobalRenderInformation.setSBaseListType(ListOf.Type.other);
-      listOfGlobalRenderInformation.setOtherListName(RenderConstants.listOfGlobalRenderInformation);
-    }
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(listOfGlobalRenderInformation);
     }
@@ -236,7 +224,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    */
   public boolean unsetListOfGlobalRenderInformation() {
     if (isSetListOfGlobalRenderInformation()) {
-      ListOf<GlobalRenderInformation> oldGlobalRenderInformation = listOfGlobalRenderInformation;
+      ListOfGlobalRenderInformation oldGlobalRenderInformation = listOfGlobalRenderInformation;
       listOfGlobalRenderInformation = null;
       oldGlobalRenderInformation.fireNodeRemovedEvent();
       return true;

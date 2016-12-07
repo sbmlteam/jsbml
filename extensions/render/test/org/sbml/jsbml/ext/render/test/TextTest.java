@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.sbml.jsbml.ext.render.FontFamily;
 import org.sbml.jsbml.ext.render.Text;
-import org.sbml.jsbml.ext.render.TextAnchor;
+import org.sbml.jsbml.ext.render.HTextAnchor;
 import org.sbml.jsbml.ext.render.VTextAnchor;
 
 
@@ -71,7 +71,7 @@ public class TextTest {
    */
   @Test
   public void testGetTextAnchor() {
-    TextAnchor anchor=TextAnchor.START;
+    HTextAnchor anchor=HTextAnchor.START;
     Text textType=new Text();
     assertTrue(!textType.isSetTextAnchor());
     textType.setTextAnchor(anchor);
@@ -219,7 +219,7 @@ public class TextTest {
   @Test
   public void testIsSetTextAnchor() {
     Text textType=new Text();
-    TextAnchor anchor=TextAnchor.MIDDLE;
+    HTextAnchor anchor=HTextAnchor.MIDDLE;
     assertTrue(!textType.isSetTextAnchor());
     textType.setTextAnchor(anchor);
     assertTrue(textType.isSetTextAnchor());
@@ -355,18 +355,18 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link Text#setTextAnchor(TextAnchor)}.
+   * Test method for {@link Text#setTextAnchor(HTextAnchor)}.
    */
   @Test
   public void testSetTextAnchor() {
     Text textType=new Text();
-    TextAnchor anchor=TextAnchor.END;
+    HTextAnchor anchor=HTextAnchor.END;
     textType.setTextAnchor(anchor);
     assertEquals("textAnchorError",anchor,textType.getTextAnchor());
-    anchor=TextAnchor.MIDDLE;
+    anchor=HTextAnchor.MIDDLE;
     textType.setTextAnchor(anchor);
     assertEquals("textAnchorError",anchor,textType.getTextAnchor());
-    anchor=TextAnchor.START;
+    anchor=HTextAnchor.START;
     textType.setTextAnchor(anchor);
     assertEquals("textAnchorError",anchor,textType.getTextAnchor());
   }
