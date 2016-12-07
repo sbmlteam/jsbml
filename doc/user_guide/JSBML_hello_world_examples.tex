@@ -42,8 +42,8 @@ the following sequence of commands:
 \newcommand{\classpath}{\code{\emph{\color{winered}classpath}}\xspace}
 
 \begin{example}[style=bash, title={Compiling and executing the example program.}]
-  javac -classpath |\classpath|JSBMLvisualizer.java
-  java -classpath |\classpath|JSBMLvisualizer
+javac -classpath |\classpath|JSBMLvisualizer.java
+java -classpath |\classpath|JSBMLvisualizer
 \end{example}
 
 In the example commands above, replace the placeholder text \classpath with
@@ -53,7 +53,7 @@ depends on where you have installed the JAR files for JSBML and the
 third-party libraries.
 
 \begin{figure}[ht]
-  \exampleFile[firstline=35,caption={}]{src/org/sbml/jsbml/gui/JSBMLvisualizer.java}
+  \exampleFile[style=java, firstline=35, caption={}]{src/org/sbml/jsbml/gui/JSBMLvisualizer.java}
   \caption{Parsing and visualizing the content of an SBML file.}
   \label{fig:JSBMLvisualizer-source}
   \index{graphical user interface!\code{JFrame}}
@@ -119,7 +119,8 @@ representation of the SBML model.
 
 \begin{figure}[bht]
   \vspace*{-1ex}
-  \exampleFile[firstline=32,caption={}]{src/org/sbml/jsbml/demo/JSBMLexample.java}
+  \exampleFile[firstline=32, style=java,
+  caption={}]{src/org/sbml/jsbml/demo/JSBMLexample.java}
   \vspace*{-1.5ex}
   \caption{Creating a new \code{SBMLDocument} object and writing its content
     into a file.}
