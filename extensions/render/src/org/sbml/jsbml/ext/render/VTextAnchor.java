@@ -20,7 +20,12 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import org.sbml.jsbml.ext.layout.BoundingBox;
+
 /**
+ * The VTextAnchor enumeration allows models to specify how text elements are to be
+ * vertically aligned within their {@link BoundingBox}.
+ *
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Eugen Netz
@@ -39,5 +44,9 @@ public enum VTextAnchor {
   /**
    * 
    */
-  BOTTOM;
+  BOTTOM,
+  /**
+   * 
+   */
+  BASELINE;
 }

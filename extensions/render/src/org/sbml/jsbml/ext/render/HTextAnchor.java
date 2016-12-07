@@ -21,13 +21,15 @@
 package org.sbml.jsbml.ext.render;
 
 /**
+ * The enumeration HTextAnchor defines the horizontal alignment of text elements.
+ *
  * @author Eugen Netz
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
  * @since 1.0
  */
-public enum TextAnchor {
+public enum HTextAnchor {
   /**
    * 
    */

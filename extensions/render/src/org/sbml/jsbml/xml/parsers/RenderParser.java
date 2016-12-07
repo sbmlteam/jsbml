@@ -42,6 +42,7 @@ import org.sbml.jsbml.ext.render.GlobalRenderInformation;
 import org.sbml.jsbml.ext.render.GradientBase;
 import org.sbml.jsbml.ext.render.GradientStop;
 import org.sbml.jsbml.ext.render.LineEnding;
+import org.sbml.jsbml.ext.render.LinearGradient;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
@@ -291,16 +292,20 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       GradientBase gradientBase = (GradientBase) contextObject;
       SBase newElement = null;
 
+      // JSBML used to create a "listOfGradientStops" for a few years so we are keeping the test using "listOfGradientStops"
+      // here to be able to read any incorrect files with JSBML.
       if (elementName.equals(RenderConstants.listOfGradientStops)) {
         newElement = gradientBase.getListOfGradientStops();
+      }
+      else if (elementName.equals(RenderConstants.stop)) {
+        newElement = new GradientStop();
+        gradientBase.addGradientStop((GradientStop) newElement);
       }
 
       if (newElement != null) {
         return newElement;
       }
     }
-    // TODO - list of CurveSegment in the render namespace ??
-    // TODO - BoundingBox in the render namespace ?
     /**
      * parsing lists
      */
@@ -348,7 +353,7 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
           newElement = new RadialGradient();
        }
       else if (elementName.equals(RenderConstants.linearGradient)) {
-          newElement = new RadialGradient();
+          newElement = new LinearGradient();
        }
       else if (elementName.equals(RenderConstants.lineEnding)) {
         newElement = new LineEnding();

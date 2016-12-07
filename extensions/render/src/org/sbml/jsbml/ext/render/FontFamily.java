@@ -21,6 +21,8 @@
 package org.sbml.jsbml.ext.render;
 
 /**
+ * The FontFamily enumeration gives a hint as to which font is to be used when rendering {@link Text} elements.
+ * 
  * @author Jakob Matthes
  * @since 1.0
  */

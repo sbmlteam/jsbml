@@ -26,7 +26,7 @@ package org.sbml.jsbml.ext.render;
  * @author Jan Rudolph
  * @since 1.0
  */
-public interface FontRenderStyle {
+public interface FontRenderStyle { // TODO - FontWeight (bold, normal) and FontStyle (italic, normal) ?
 
   /**
    * @return the value of fontFamily
@@ -123,7 +123,7 @@ public interface FontRenderStyle {
   /**
    * @return the value of textAnchor
    */
-  public abstract TextAnchor getTextAnchor();
+  public abstract HTextAnchor getTextAnchor();
 
   /**
    * @return whether textAnchor is set
@@ -134,7 +134,7 @@ public interface FontRenderStyle {
    * Set the value of textAnchor
    * @param textAnchor
    */
-  public abstract void setTextAnchor(TextAnchor textAnchor);
+  public abstract void setTextAnchor(HTextAnchor textAnchor);
 
   /**
    * Unsets the variable textAnchor

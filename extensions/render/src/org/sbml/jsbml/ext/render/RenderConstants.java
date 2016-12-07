@@ -375,11 +375,11 @@ public class RenderConstants {
   /**
    * 
    */
-  public static final String versionMinor = "version-minor";
+  public static final String versionMinor = "versionMinor";
   /**
    * 
    */
-  public static final String versionMajor = "version-major";
+  public static final String versionMajor = "versionMajor";
   /**
    * 
    */
@@ -550,6 +550,10 @@ public class RenderConstants {
    * 
    */
   public static final String linearGradient = "linearGradient";
+  /**
+   * 
+   */
+  public static final String defaultValues = "defaultValues";
 
   /**
    * Returns the namespace URI corresponding to the given level and version.

@@ -62,20 +62,13 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   /**
    * 
    */
-  private Short versionMajor; // TODO - versionMajor and versionMinor are attributes of ListOf! They are in in the specs!
-  /**
-   * 
-   */
-  private Short versionMinor;
-  /**
-   * 
-   */
   private GlobalRenderInformation renderInformation; // TODO - one or a ListOf GlobalRenderInformation?
 
 
   /**
    * Creates an AbstractRenderPlugin instance
-   * @param extendedElement
+   * 
+   * @param extendedElement the {@link SBase} that is extended
    */
   public AbstractRenderPlugin(SBase extendedElement) {
     super(extendedElement);
@@ -94,17 +87,12 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the {@link AbstractRenderPlugin} to clone
    */
   public AbstractRenderPlugin(AbstractRenderPlugin obj) {
     super(obj);
 
-    if (obj.isSetVersionMinor()) {
-      setVersionMinor(obj.getVersionMinor());
-    }
-    if (obj.isSetVersionMajor()) {
-      setVersionMajor(obj.getVersionMajor());
-    }
     if (obj.isSetRenderInformation()) {
       setRenderInformation(obj.getRenderInformation().clone());
     }
@@ -115,99 +103,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    versionMajor = 0;
-    versionMinor = 0;
   }
-
-  // TODO - return and input values should be int
-  /**
-   * @return the value of versionMinor
-   */
-  public Short getVersionMinor() {
-    if (isSetVersionMinor()) {
-      return versionMinor;
-    }
-    return null;
-    // TODO new PropertyUndefinedError(RenderConstants.versionMinor, this);
-  }
-
-  /**
-   * @return whether versionMinor is set
-   */
-  public boolean isSetVersionMinor() {
-    return versionMinor != null;
-  }
-
-  /**
-   * Set the value of versionMinor
-   * @param versionMinor
-   */
-  public void setVersionMinor(Short versionMinor) {
-    Short oldVersionMinor = this.versionMinor;
-    this.versionMinor = versionMinor;
-    firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
-  }
-
-  /**
-   * Unsets the variable versionMinor
-   * @return {@code true}, if versionMinor was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetVersionMinor() {
-    if (isSetVersionMinor()) {
-      Short oldVersionMinor = versionMinor;
-      versionMinor = null;
-      firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, versionMinor);
-      return true;
-    }
-    return false;
-  }
-
-
-  /**
-   * @return the value of versionMajor
-   */
-  public Short getVersionMajor() {
-    if (isSetVersionMajor()) {
-      return versionMajor;
-    }
-    // This is necessary if we cannot return null here.
-    return null;
-    //FIXME throw new PropertyUndefinedError(RenderConstants.versionMajor, this);
-  }
-
-  /**
-   * @return whether versionMajor is set
-   */
-  public boolean isSetVersionMajor() {
-    return versionMajor != null;
-  }
-
-  /**
-   * Set the value of versionMajor
-   * @param versionMajor
-   */
-  public void setVersionMajor(short versionMajor) {
-    Short oldVersionMajor = this.versionMajor;
-    this.versionMajor = versionMajor;
-    firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, this.versionMajor);
-  }
-
-  /**
-   * Unsets the variable versionMajor
-   * @return {@code true}, if versionMajor was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetVersionMajor() {
-    if (isSetVersionMajor()) {
-      Short oldVersionMajor = versionMajor;
-      versionMajor = null;
-      firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, versionMajor);
-      return true;
-    }
-    return false;
-  }
-
 
   /**
    * @return the value of renderInformation
@@ -229,7 +125,8 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
 
   /**
    * Set the value of renderInformation
-   * @param renderInformation
+   * 
+   * @param renderInformation the value of renderInformation
    */
   public void setRenderInformation(GlobalRenderInformation renderInformation) {
     GlobalRenderInformation oldRenderInformation = this.renderInformation;

@@ -74,7 +74,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * 
    */
-  private TextAnchor textAnchor;
+  private HTextAnchor textAnchor;
   /**
    * 
    */
@@ -655,7 +655,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * @return the value of textAnchor
    */
-  public TextAnchor getTextAnchor() {
+  public HTextAnchor getTextAnchor() {
     if (isSetTextAnchor()) {
       return textAnchor;
     }
@@ -674,8 +674,8 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * Set the value of textAnchor
    * @param textAnchor
    */
-  public void setTextAnchor(TextAnchor textAnchor) {
-    TextAnchor oldTextAnchor = this.textAnchor;
+  public void setTextAnchor(HTextAnchor textAnchor) {
+    HTextAnchor oldTextAnchor = this.textAnchor;
     this.textAnchor = textAnchor;
     firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, this.textAnchor);
   }
@@ -687,7 +687,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    */
   public boolean unsetTextAnchor() {
     if (isSetTextAnchor()) {
-      TextAnchor oldTextAnchor = textAnchor;
+      HTextAnchor oldTextAnchor = textAnchor;
       textAnchor = null;
       firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, textAnchor);
       return true;
@@ -1081,7 +1081,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
       }
       else if (attributeName.equals(RenderConstants.textAnchor)) {
-        setTextAnchor(TextAnchor.valueOf(value.toUpperCase()));
+        setTextAnchor(HTextAnchor.valueOf(value.toUpperCase()));
       }
       else if (attributeName.equals(RenderConstants.vTextAnchor)) {
         setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));

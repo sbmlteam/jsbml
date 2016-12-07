@@ -29,6 +29,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * @author Jakob Matthes
+ * @author rodrigue
  * @since 1.0
  */
 public class RenderLayoutPlugin extends AbstractRenderPlugin {
@@ -39,7 +40,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   /**
    * 
    */
-  private ListOf<LocalRenderInformation> listOfLocalRenderInformation;
+  private ListOfLocalRenderInformation listOfLocalRenderInformation;
 
   /**
    * Creates a RenderLayoutPlugin instance
@@ -132,15 +133,9 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   /**
    * @return the listOfLocalRenderInformation
    */
-  public ListOf<LocalRenderInformation> getListOfLocalRenderInformation() {
+  public ListOfLocalRenderInformation getListOfLocalRenderInformation() {
     if (!isSetListOfLocalRenderInformation()) {
-      listOfLocalRenderInformation = new ListOf<LocalRenderInformation>();
-      listOfLocalRenderInformation.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'render'
-      listOfLocalRenderInformation.setPackageName(null);
-      listOfLocalRenderInformation.setPackageName(RenderConstants.shortLabel);
-      listOfLocalRenderInformation.setSBaseListType(ListOf.Type.other);
-      listOfLocalRenderInformation.setOtherListName(RenderConstants.listOfLocalRenderInformation);
+      listOfLocalRenderInformation = new ListOfLocalRenderInformation();
 
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfLocalRenderInformation);
@@ -161,18 +156,10 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   /**
    * @param listOfLocalRenderInformation
    */
-  public void setListOfLocalRenderInformation(ListOf<LocalRenderInformation> listOfLocalRenderInformation) {
+  public void setListOfLocalRenderInformation(ListOfLocalRenderInformation listOfLocalRenderInformation) {
     unsetListOfLocalRenderInformation();
     this.listOfLocalRenderInformation = listOfLocalRenderInformation;
 
-    if (listOfLocalRenderInformation != null) {
-      listOfLocalRenderInformation.setPackageVersion(-1);
-      // changing the ListOf package name from 'core' to 'render'
-      listOfLocalRenderInformation.setPackageName(null);
-      listOfLocalRenderInformation.setPackageName(RenderConstants.shortLabel);
-      listOfLocalRenderInformation.setSBaseListType(ListOf.Type.other);     
-      listOfLocalRenderInformation.setOtherListName(RenderConstants.listOfLocalRenderInformation);
-    }
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfLocalRenderInformation);
     }
@@ -184,7 +171,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    */
   public boolean unsetListOfLocalRenderInformation() {
     if (isSetListOfLocalRenderInformation()) {
-      ListOf<LocalRenderInformation> oldLocalRenderInformation = listOfLocalRenderInformation;
+      ListOfLocalRenderInformation oldLocalRenderInformation = listOfLocalRenderInformation;
       listOfLocalRenderInformation = null;
       oldLocalRenderInformation.fireNodeRemovedEvent();
       return true;
@@ -230,7 +217,8 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   }
 
   /**
-   * create a new LocalRenderInformation element and adds it to the ListOfLocalRenderInformation list
+   * Creates a new LocalRenderInformation element and adds it to the ListOfLocalRenderInformation list
+   * 
    * <p><b>NOTE:</b>
    * only use this method, if ID is not mandatory in LocalRenderInformation
    * otherwise use @see createLocalRenderInformation(String id)!</p>
@@ -241,7 +229,8 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   }
 
   /**
-   * create a new LocalRenderInformation element and adds it to the ListOfLocalRenderInformation list
+   * Creates a new LocalRenderInformation element and adds it to the ListOfLocalRenderInformation list
+   * 
    * @param id
    * @return
    */
