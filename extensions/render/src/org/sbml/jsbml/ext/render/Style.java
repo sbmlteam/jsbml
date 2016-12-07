@@ -21,7 +21,9 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -50,11 +52,11 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * 
    */
-  protected String[] roleList;
+  protected List<String> roleList;
   /**
    * 
    */
-  protected String[] typeList;
+  protected List<String> typeList;
 
   /**
    * Creates a Style instance with a group
@@ -207,7 +209,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   public void initDefaults() {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
-    
+
     roleList = null;
     typeList = null;
   }
@@ -251,8 +253,12 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     final int prime = 3083;
     int result = super.hashCode();
     result = prime * result + ((group == null) ? 0 : group.hashCode());
-    result = prime * result + Arrays.hashCode(roleList);
-    result = prime * result + Arrays.hashCode(typeList);
+    if (isSetRoleList()) {
+      result = prime * result + roleList.hashCode();
+    }
+    if (isSetTypeList()) {
+      result = prime * result + typeList.hashCode();
+    }
     return result;
   }
 
@@ -278,10 +284,10 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     } else if (!group.equals(other.group)) {
       return false;
     }
-    if (!Arrays.equals(roleList, other.roleList)) {
+    if ((isSetRoleList() == other.isSetRoleList()) || (isSetRoleList() && !roleList.equals(other.roleList))) {
       return false;
     }
-    if (!Arrays.equals(typeList, other.typeList)) {
+    if ((isSetTypeList() == other.isSetTypeList()) || (isSetTypeList() && !typeList.equals(other.typeList))) {
       return false;
     }
     return true;
@@ -307,12 +313,11 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * @return the value of roleList
    */
-  public String[] getRoleList() {
-    if (isSetRoleList()) {
-      return roleList;
+  public List<String> getRoleList() {
+    if (!isSetRoleList()) {
+      roleList = new ArrayList<>();
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.roleList, this);
+    return roleList;
   }
 
 
@@ -328,22 +333,22 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * Set the value of roleList
    * @param roleList
    */
-  public void setRoleList(String[] roleList) {
-    String[] oldRoleList = this.roleList;
+  public boolean setRoleList(List<String> roleList) {
+    List<String> oldRoleList = this.roleList;
     this.roleList = roleList;
     firePropertyChange(RenderConstants.roleList, oldRoleList, this.roleList);
+    return roleList != oldRoleList;
   }
 
 
   /**
    * @return the value of typeList
    */
-  public String[] getTypeList() {
-    if (isSetTypeList()) {
-      return typeList;
+  public List<String> getTypeList() {
+    if (!isSetTypeList()) {
+      typeList = new ArrayList<>();
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.typeList, this);
+    return typeList;
   }
 
 
@@ -359,10 +364,11 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * Set the value of typeList
    * @param typeList
    */
-  public void setTypeList(String[] typeList) {
-    String[] oldTypeList = this.typeList;
+  public boolean setTypeList(List<String> typeList) {
+    List<String> oldTypeList = this.typeList;
     this.typeList = typeList;
     firePropertyChange(RenderConstants.typeList, oldTypeList, this.typeList);
+    return typeList != oldTypeList;
   }
 
 
@@ -372,13 +378,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    *         otherwise {@code false}
    */
   public boolean unsetTypeList() {
-    if (isSetTypeList()) {
-      String[] oldTypeList = typeList;
-      typeList = null;
-      firePropertyChange(RenderConstants.typeList, oldTypeList, typeList);
-      return true;
-    }
-    return false;
+    return setTypeList(null);
   }
 
 
@@ -388,13 +388,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    *         otherwise {@code false}
    */
   public boolean unsetRoleList() {
-    if (isSetRoleList()) {
-      String[] oldRoleList = roleList;
-      roleList = null;
-      firePropertyChange(RenderConstants.roleList, oldRoleList, roleList);
-      return true;
-    }
-    return false;
+    return setRoleList(null);
   }
 
 
@@ -407,12 +401,12 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     if (isSetRoleList()) {
       attributes.remove(RenderConstants.roleList);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.roleList,
-        XMLTools.arrayToWhitespaceSeparatedString(getRoleList()));
+        XMLTools.arrayToWhitespaceSeparatedString(getRoleList().toArray(new String[0])));
     }
     if (isSetTypeList()) {
       attributes.remove(RenderConstants.typeList);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.typeList,
-        XMLTools.arrayToWhitespaceSeparatedString(getTypeList()));
+        XMLTools.arrayToWhitespaceSeparatedString(getTypeList().toArray(new String[0])));
     }
     return attributes;
   }
@@ -426,10 +420,10 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(RenderConstants.roleList)) {
-        setRoleList(value.split(" "));
+        setRoleList(Arrays.asList(value.split(" ")));
       }
       else if (attributeName.equals(RenderConstants.typeList)) {
-        setTypeList(value.split(" "));
+        setTypeList(Arrays.asList(value.split(" ")));
       }
       else {
         isAttributeRead = false;

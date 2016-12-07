@@ -51,10 +51,10 @@ public class GraphicalPrimitive1DTest {
     tmpV[2]=2;
     tmpV[3]=9;
     gp1D.setStrokeDashArray(tmpV);
-    assertTrue(gp1D.getStrokeDashArray()[0]==3);
-    assertTrue(gp1D.getStrokeDashArray()[1]==7);
-    assertTrue(gp1D.getStrokeDashArray()[2]==2);
-    assertTrue(gp1D.getStrokeDashArray()[3]==9);
+    assertTrue(gp1D.getStrokeDashArray().get(0) == 3);
+    assertTrue(gp1D.getStrokeDashArray().get(1) == 7);
+    assertTrue(gp1D.getStrokeDashArray().get(2) == 2);
+    assertTrue(gp1D.getStrokeDashArray().get(3) == 9);
     assertTrue(gp1D.isSetStrokeDashArray());
   }
 
@@ -66,12 +66,12 @@ public class GraphicalPrimitive1DTest {
   public void testSetStrokeDashArray() {
     GraphicalPrimitive1D gp1D=new GraphicalPrimitive1D();
     Short[] tmpV=new Short[10];
-    tmpV[0]=3;
-    tmpV[1]=7;
-    tmpV[2]=2;
-    tmpV[3]=9;
+    tmpV[0] = 3;
+    tmpV[1] = 7;
+    tmpV[2] = 2;
+    tmpV[3] = 9;
     gp1D.setStrokeDashArray(tmpV);
-    assertArrayEquals(tmpV,gp1D.getStrokeDashArray());
+    assertArrayEquals(tmpV, gp1D.getStrokeDashArray().toArray(new Short[0]));
   }
 
 

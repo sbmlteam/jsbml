@@ -215,7 +215,7 @@ public class TextGlyph extends AbstractReferenceGlyph {
    */
   public boolean isSetGraphicalObjectInstance() {
     Model model = getModel();
-    return isSetGraphicalObject() && (model != null) && (model.findNamedSBase(getGraphicalObject()) != null);
+    return isSetGraphicalObject() && (model != null) && (model.getSBaseById(getGraphicalObject()) != null);
   }
 
   /**
