@@ -76,7 +76,7 @@ JSBML provides useful constructors and methods to work with instances of
 the \Model and returns it. If no such object can be found or the type of the
 \ASTNode is something different from \ASTTypeName, it throws an exception.
 
-\begin{example}[title={Getter and setter for \CallableSBase.}]
+\begin{example}[style=java, title={Getter and setter for \CallableSBase.}]
 public void setVariable(CallableSBase variable) { ... }
 
 public CallableSBase getVariable() { ... }
@@ -87,7 +87,7 @@ ASTs.  JSBML provides several static methods (such as \code{sum} shown above)
 that create small trees from objects in memory.  Other methods, such as
 \code{plus}, \code{frac} and \code{pow}, change existing tree structures:
 
-\begin{example}[title={Some examples for convenience methods, some of
+\begin{example}[style=java, title={Some examples for convenience methods, some of
     them static methods, provided by JSBML for working with \ASTNode{}s.}]
 public ASTNode plus(CallableSBase nsb) { ... }
 
@@ -441,7 +441,8 @@ and a corresponding \code{Unit.Kind}
 \index{unit!Unit.Kind@\code{Unit.Kind}}%
 you would use the following:
 
-\begin{example}[title={Converting a string to a unit kind in JSBML.}]
+\begin{example}[style=java,
+  title={Converting a string to a unit kind in JSBML.}]
 Unit.Kind myKind = Unit.Kind.valueOf(myString);
 \end{example}
 
@@ -469,7 +470,8 @@ and filter the lists. For example, to query an instance of a \code{ListOf*}
 list in JSBML for specific identifiers, or names, or both, you can apply the
 following filter:
 
-\begin{example}[title={Example of searching a list for an object with a
+\begin{example}[style=java,
+  title={Example of searching a list for an object with a
     particular identifier.}]
 NamedSBase nsb = myList.firstHit(new NameFilter(identifier));
 \end{example}
