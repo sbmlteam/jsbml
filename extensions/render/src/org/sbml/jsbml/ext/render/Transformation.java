@@ -20,6 +20,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractSBase;
@@ -39,7 +40,7 @@ public class Transformation extends AbstractSBase {
   /**
    * 
    */
-  protected Double[] transform; // TODO - why using the Double class instance of the double primitive !?
+  protected List<Double> transform;
 
   /**
    * Creates an Transformation instance
@@ -94,7 +95,9 @@ public class Transformation extends AbstractSBase {
   public int hashCode() {
     final int prime = 3191;
     int result = super.hashCode();
-    result = prime * result + Arrays.hashCode(transform);
+    if (isSetTransform()) {
+      result = prime * result + transform.hashCode();
+    }
     return result;
   }
 
@@ -113,7 +116,7 @@ public class Transformation extends AbstractSBase {
       return false;
     }
     Transformation other = (Transformation) obj;
-    if (!Arrays.equals(transform, other.transform)) {
+    if ((isSetTransform() != other.isSetTransform()) || (!transform.equals(other.transform))) {
       return false;
     }
     return true;
@@ -128,7 +131,7 @@ public class Transformation extends AbstractSBase {
 
     if (isSetTransform()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.transform,
-        XMLTools.encodeArrayDoubleToString(transform));
+        XMLTools.encodeArrayDoubleToString(transform.toArray(new Double[0])));
     }
     return attributes;
   }
@@ -146,28 +149,29 @@ public class Transformation extends AbstractSBase {
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
+
     if (!isAttributeRead) {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.transform)) {
-        setTransform(XMLTools.decodeStringToArrayDouble(value));
+        setTransform(Arrays.asList(XMLTools.decodeStringToArrayDouble(value)));
       }
       else {
         isAttributeRead = false;
       }
     }
-    
+
     return isAttributeRead;
   }
 
   /**
    * @param transform
    */
-  private void setTransform(Double[] transform) {
-    Double[] oldTransform = this.transform;
+  private boolean setTransform(List<Double> transform) {
+    List<Double> oldTransform = this.transform;
     this.transform = transform;
     firePropertyChange(RenderConstants.transform, oldTransform, this.transform);
+    return transform != oldTransform;
   }
 
 }

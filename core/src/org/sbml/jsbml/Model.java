@@ -34,11 +34,8 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
-import org.sbml.jsbml.util.filters.Filter;
-import org.sbml.jsbml.util.filters.IdFilter;
 import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
 
 /**
@@ -57,24 +54,24 @@ import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
  *
  */
 public class Model extends AbstractNamedSBase
-  implements UniqueNamedSBase, IdManager {
+implements UniqueNamedSBase, IdManager {
 
   /**
    * Error message to indicate that an element could not be created.
    */
   private static final String           COULD_NOT_CREATE_ELEMENT_MSG =
-    "Could not create {0} because no {1} have been defined yet.";
+      "Could not create {0} because no {1} have been defined yet.";
 
   /**
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger                       =
-    Logger.getLogger(Model.class);
+      Logger.getLogger(Model.class);
   /**
    * Generated serial version identifier.
    */
   private static final long             serialVersionUID             =
-    5256379371231860049L;
+      5256379371231860049L;
   /**
    * Represents the 'areaUnits' XML attribute of a model element.
    */
@@ -445,7 +442,7 @@ public class Model extends AbstractNamedSBase
   private void addPredefinedUnits() {
 
     List<UnitDefinition> oldValue =
-      new ArrayList<UnitDefinition>(listOfPredefinedUnitDefinitions);
+        new ArrayList<UnitDefinition>(listOfPredefinedUnitDefinitions);
 
     if ((getLevel() == -1) || (getVersion() == -1)) {
       return;
@@ -860,7 +857,7 @@ public class Model extends AbstractNamedSBase
   @Deprecated
   public CompartmentType createCompartmentType(String id) {
     CompartmentType compartmentType =
-      new CompartmentType(id, getLevel(), getVersion());
+        new CompartmentType(id, getLevel(), getVersion());
     addCompartmentType(compartmentType);
 
     return compartmentType;
@@ -981,7 +978,7 @@ public class Model extends AbstractNamedSBase
    */
   public FunctionDefinition createFunctionDefinition(String id) {
     FunctionDefinition functionDef =
-      new FunctionDefinition(id, getLevel(), getVersion());
+        new FunctionDefinition(id, getLevel(), getVersion());
     addFunctionDefinition(functionDef);
 
     return functionDef;
@@ -999,7 +996,7 @@ public class Model extends AbstractNamedSBase
    */
   public InitialAssignment createInitialAssignment() {
     InitialAssignment initAssgmt =
-      new InitialAssignment(getLevel(), getVersion());
+        new InitialAssignment(getLevel(), getVersion());
     addInitialAssignment(initAssgmt);
 
     return initAssgmt;
@@ -1190,7 +1187,7 @@ public class Model extends AbstractNamedSBase
 
     if (lastReaction == null) {
       logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG, "Product",
-        "reactions"));
+          "reactions"));
       return null;
     }
 
@@ -1250,7 +1247,7 @@ public class Model extends AbstractNamedSBase
     Reaction lastReaction = getLastElementOf(listOfReactions);
     if (lastReaction == null) {
       logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG, "Reactant",
-        "reactions"));
+          "reactions"));
       return null;
     }
     SpeciesReference reactant = lastReaction.createReactant(id);
@@ -1362,8 +1359,8 @@ public class Model extends AbstractNamedSBase
   public SpeciesType createSpeciesType() {
     if ((getLevelAndVersion().compareTo(Integer.valueOf(2),
       Integer.valueOf(2)) < 0)
-      || (getLevelAndVersion().compareTo(Integer.valueOf(3),
-        Integer.valueOf(1)) >= 0)) {
+        || (getLevelAndVersion().compareTo(Integer.valueOf(3),
+          Integer.valueOf(1)) >= 0)) {
       throw new SBMLTypeUndefinedException(SpeciesType.class, getLevel(),
         getVersion());
     }
@@ -1474,7 +1471,7 @@ public class Model extends AbstractNamedSBase
    */
   public UnitDefinition createUnitDefinition(String id) {
     UnitDefinition unitDefinition =
-      new UnitDefinition(id, getLevel(), getVersion());
+        new UnitDefinition(id, getLevel(), getVersion());
     addUnitDefinition(unitDefinition);
 
     return unitDefinition;
@@ -1591,7 +1588,7 @@ public class Model extends AbstractNamedSBase
           }
         } else {
           logger.warn(
-            "A reaction that is supposed to have a local parameter defined has no kineticLaw !!!");
+              "A reaction that is supposed to have a local parameter defined has no kineticLaw!!!");
         }
       }
     }
@@ -1624,7 +1621,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Returns a {@link NamedSBase} element of the model that has the given 'id'
    * as id or {@code null} if no element is found. This method will return
-   * only elements that had an id before SBML L3V2. 
+   * only elements that had an id before SBML L3V2.
    * 
    * @param id
    *        an id indicating an element of the model.
@@ -1820,7 +1817,7 @@ public class Model extends AbstractNamedSBase
   /**
    * Returns a {@link UniqueNamedSBase} element that has the given 'id' within
    * this {@link Model} or {@code null} if no such element can be found. This method will return
-   * only elements that had an id before SBML L3V2. 
+   * only elements that had an id before SBML L3V2.
    * 
    * @param id
    *        an id indicating an {@link SBase} element of the
@@ -1850,7 +1847,7 @@ public class Model extends AbstractNamedSBase
    */
   public SBase findUniqueSBase(String id) {
     UniqueSId found = mapOfUniqueNamedSBases == null ? null : mapOfUniqueNamedSBases.get(id);
-    
+
     if (found != null) {
       return (SBase) found;
     }
@@ -1926,11 +1923,11 @@ public class Model extends AbstractNamedSBase
    */
   public AssignmentRule getAssignmentRuleByVariable(String variable) {
     ExplicitRule rule = getRuleByVariable(variable);
-    
+
     if (rule != null && rule instanceof AssignmentRule) {
       return (AssignmentRule) rule;
     }
-    
+
     return null;
   }
 
@@ -2224,18 +2221,18 @@ public class Model extends AbstractNamedSBase
   }
 
 
-  
+
   /**
    * Returns an {@link SBase} element of the model that has the given 'id'
    * as id or {@code null} if no element is found.
    * 
-   * <p>The element has to have a unique 
+   * <p>The element has to have a unique
    * id (SId) in the model to be returned by this method, meaning
    * that it need to implement the interface {@link UniqueSId}.
    * 
    * <p>If you want to get an {@link SBase} that is not in the SId namespace,
-   * you can use the filter methods ( for example: {@link #filter(Filter)}) 
-   * using the {@link IdFilter} filter. 
+   * you can use the filter methods ( for example: {@link #filter(Filter)})
+   * using the {@link IdFilter} filter.
    * 
    * @param id
    *        an id indicating an element of the model.
@@ -2400,8 +2397,9 @@ public class Model extends AbstractNamedSBase
    *         {@code symbol} as identifier (or name depending on the level
    *         and version). {@code null} if it doesn't exist.
    * @deprecated Since L3V2, every {@link SBase} can have an id. Use either {@link #getInitialAssignmentById(String)}
-   * or {@link #getInitialAssignmentBySymbol(String)}       
+   * or {@link #getInitialAssignmentBySymbol(String)}
    */
+  @Deprecated
   public InitialAssignment getInitialAssignment(String symbol) {
     return getInitialAssignmentBySymbol(symbol);
   }
@@ -2415,7 +2413,7 @@ public class Model extends AbstractNamedSBase
    * @return the first {@link InitialAssignment} of the
    *         {@link #listOfInitialAssignments}, whose {@code id} has the
    *         given value, {@code null} if it doesn't exist.
-   *         
+   * 
    */
   public InitialAssignment getInitialAssignmentById(String id) {
 
@@ -2423,7 +2421,7 @@ public class Model extends AbstractNamedSBase
     if ((found != null) && (found instanceof InitialAssignment)) {
       return (InitialAssignment) found;
     }
-    
+
     return null;
   }
 
@@ -2440,14 +2438,14 @@ public class Model extends AbstractNamedSBase
    *         {@link #listOfInitialAssignments}, whose {@link Variable} has the
    *         {@code variable} as identifier (or name depending on the level
    *         and version). {@code null} if it doesn't exist.
-   *         
+   * 
    */
   public InitialAssignment getInitialAssignmentBySymbol(String variable) {
     if (isSetListOfInitialAssignments()) {
-    return getListOfInitialAssignments().firstHit(
-      new AssignmentVariableFilter(variable));
+      return getListOfInitialAssignments().firstHit(
+        new AssignmentVariableFilter(variable));
     }
-    
+
     return null;
   }
 
@@ -2638,7 +2636,7 @@ public class Model extends AbstractNamedSBase
   public ListOf<FunctionDefinition> getListOfFunctionDefinitions() {
     if (listOfFunctionDefinitions == null) {
       listOfFunctionDefinitions =
-        ListOf.newInstance(this, FunctionDefinition.class);
+          ListOf.newInstance(this, FunctionDefinition.class);
       registerChild(listOfFunctionDefinitions);
     }
     return listOfFunctionDefinitions;
@@ -2653,7 +2651,7 @@ public class Model extends AbstractNamedSBase
   public ListOf<InitialAssignment> getListOfInitialAssignments() {
     if (listOfInitialAssignments == null) {
       listOfInitialAssignments =
-        ListOf.newInstance(this, InitialAssignment.class);
+          ListOf.newInstance(this, InitialAssignment.class);
       registerChild(listOfInitialAssignments);
     }
     return listOfInitialAssignments;
@@ -2681,7 +2679,7 @@ public class Model extends AbstractNamedSBase
    */
   public List<UnitDefinition> getListOfPredefinedUnitDefinitions() {
     return (listOfPredefinedUnitDefinitions != null)
-      ? listOfPredefinedUnitDefinitions : new ArrayList<UnitDefinition>(0);
+        ? listOfPredefinedUnitDefinitions : new ArrayList<UnitDefinition>(0);
   }
 
 
@@ -2831,7 +2829,7 @@ public class Model extends AbstractNamedSBase
    */
   public Set<ModifierSpeciesReference> getModifierSpeciesReferences() {
     Set<ModifierSpeciesReference> listOfModifiers =
-      new HashSet<ModifierSpeciesReference>();
+        new HashSet<ModifierSpeciesReference>();
     if (isSetListOfReactions()) {
       for (Reaction r : getListOfReactions()) {
         if (r.isSetListOfModifiers()) {
@@ -2852,9 +2850,9 @@ public class Model extends AbstractNamedSBase
    */
   public int getNamedSBaseCount() {
     return getNamedSBaseWithDerivedUnitCount() + 1 /* this model */
-      + getSpeciesTypeCount() + getCompartmentTypeCount()
-      + getUnitDefinitionCount() + getEventCount()
-      + getModifierSpeciesReferenceCount();
+        + getSpeciesTypeCount() + getCompartmentTypeCount()
+        + getUnitDefinitionCount() + getEventCount()
+        + getModifierSpeciesReferenceCount();
   }
 
 
@@ -2866,7 +2864,7 @@ public class Model extends AbstractNamedSBase
    */
   public int getNamedSBaseWithDerivedUnitCount() {
     return getQuantityCount() + getFunctionDefinitionCount()
-      + getReactionCount();
+    + getReactionCount();
   }
 
 
@@ -3311,16 +3309,16 @@ public class Model extends AbstractNamedSBase
     // }
     if (listOfPredefinedUnitDefinitions != null) {
       String unitKindPredefinedId = unitKind + UnitDefinition.BASE_UNIT_SUFFIX;
-      for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) { 
+      for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
         // Having a Map instead of a list would be much better
         if (unitDefinition == null || !unitDefinition.isSetId()) {
           continue;
         }
-        
-        String udId = unitDefinition.getId(); 
+
+        String udId = unitDefinition.getId();
         // For volume, substance, time, area and length, the id can be equals to
         // the given unit kind.
-        if (unitKind != null && (udId.equals(unitKind) || udId.equals(unitKindPredefinedId))) 
+        if (unitKind != null && (udId.equals(unitKind) || udId.equals(unitKindPredefinedId)))
         {
           return unitDefinition;
         }
@@ -3359,11 +3357,11 @@ public class Model extends AbstractNamedSBase
    */
   public RateRule getRateRuleByVariable(String variable) {
     ExplicitRule rule = getRuleByVariable(variable);
-    
+
     if (rule != null && rule instanceof RateRule) {
       return (RateRule) rule;
     }
-    
+
     return null;
   }
 
@@ -3430,6 +3428,7 @@ public class Model extends AbstractNamedSBase
    * @return {@code null} if no element with the required property exists.
    * @deprecated Since L3V2 every {@link SBase} can have an id. Use either {@link #getRuleById(String)} or {@link #getRuleByVariable(String)}.
    */
+  @Deprecated
   public ExplicitRule getRule(String variable) {
     return getRuleByVariable(variable);
   }
@@ -3484,13 +3483,13 @@ public class Model extends AbstractNamedSBase
    * Returns an {@link SBase} element of the model that has the given 'id'
    * as id or {@code null} if no element is found.
    * 
-   * <p>The element has to have a unique 
+   * <p>The element has to have a unique
    * id (SId) in the model to be returned by this method, meaning
    * that it need to implement the interface {@link UniqueSId}.
    * 
    * <p>If you want to get an {@link SBase} that is not in the SId namespace,
-   * you can use the filter methods (for example: {@link #filter(Filter)}) 
-   * using the {@link IdFilter} filter. 
+   * you can use the filter methods (for example: {@link #filter(Filter)})
+   * using the {@link IdFilter} filter.
    * 
    * @param id
    *        an id indicating an element of the model.
@@ -3509,7 +3508,7 @@ public class Model extends AbstractNamedSBase
    */
   public int getSBaseCount() {
     int count = getNamedSBaseCount() - getFunctionDefinitionCount()
-      + getMathContainerCount() + getListOfCount() + getUnitCount() + 1;
+        + getMathContainerCount() + getListOfCount() + getUnitCount() + 1;
     // one for this model
     if (getParent() != null) {
       count++; // the owning SBML document.
@@ -3811,12 +3810,12 @@ public class Model extends AbstractNamedSBase
    */
   public UnitDefinition getUnitDefinition(String id) {
     UnitDefinition unitDefinition =
-      mapOfUnitDefinitions != null ? mapOfUnitDefinitions.get(id) : null;
-    // Checking if it is not one of the predefined default units.
-    if (unitDefinition == null) {
-      unitDefinition = getPredefinedUnitDefinition(id);
-    }
-    return unitDefinition;
+        mapOfUnitDefinitions != null ? mapOfUnitDefinitions.get(id) : null;
+        // Checking if it is not one of the predefined default units.
+        if (unitDefinition == null) {
+          unitDefinition = getPredefinedUnitDefinition(id);
+        }
+        return unitDefinition;
   }
 
 
@@ -4071,7 +4070,7 @@ public class Model extends AbstractNamedSBase
    */
   public boolean isListOfFunctionDefinitionsEmpty() {
     return listOfFunctionDefinitions != null
-      && listOfFunctionDefinitions.size() == 0;
+        && listOfFunctionDefinitions.size() == 0;
   }
 
 
@@ -4084,7 +4083,7 @@ public class Model extends AbstractNamedSBase
    */
   public boolean isListOfInitialAssignmentsEmpty() {
     return listOfInitialAssignments != null
-      && listOfInitialAssignments.size() == 0;
+        && listOfInitialAssignments.size() == 0;
   }
 
 
@@ -4110,8 +4109,8 @@ public class Model extends AbstractNamedSBase
   public boolean isListOfReactionsEmpty() {
     return listOfReactions != null && listOfReactions.size() == 0;
   }
-  
-  
+
+
   /**
    * Checks if the listOfRules is <code>!= null</code>, but has no
    * children.
@@ -4122,7 +4121,7 @@ public class Model extends AbstractNamedSBase
   public boolean isListOfRulesEmpty() {
     return listOfRules != null && listOfRules.size() == 0;
   }
-  
+
   /**
    * Checks if the listOfSpecies is <code>!= null</code>, but has no
    * children.
@@ -4133,7 +4132,7 @@ public class Model extends AbstractNamedSBase
   public boolean isListOfSpeciesEmpty() {
     return listOfSpecies != null && listOfSpecies.size() == 0;
   }
-  
+
   /**
    * Checks if the listOfSpeciesTypes is <code>!= null</code>, but has no
    * children.
@@ -4144,7 +4143,7 @@ public class Model extends AbstractNamedSBase
   public boolean isListOfSpeciesTypesEmpty() {
     return listOfSpeciesTypes != null && listOfSpeciesTypes.size() == 0;
   }
-  
+
   /**
    * Checks if the listOfUnitDefinitions is <code>!= null</code>, but has no
    * children.
@@ -4286,7 +4285,7 @@ public class Model extends AbstractNamedSBase
   @Deprecated
   public boolean isSetListOfCompartmentTypes() {
     return (listOfCompartmentTypes != null)
-      && (listOfCompartmentTypes.size() > 0);
+        && (listOfCompartmentTypes.size() > 0);
   }
 
 
@@ -4327,7 +4326,7 @@ public class Model extends AbstractNamedSBase
    */
   public boolean isSetListOfFunctionDefinitions() {
     return (listOfFunctionDefinitions != null)
-      && (listOfFunctionDefinitions.size() > 0);
+        && (listOfFunctionDefinitions.size() > 0);
   }
 
 
@@ -4342,7 +4341,7 @@ public class Model extends AbstractNamedSBase
    */
   public boolean isSetListOfInitialAssignments() {
     return (listOfInitialAssignments != null)
-      && (listOfInitialAssignments.size() > 0);
+        && (listOfInitialAssignments.size() > 0);
   }
 
 
@@ -4425,7 +4424,7 @@ public class Model extends AbstractNamedSBase
    */
   public boolean isSetListOfUnitDefinitions() {
     return (listOfUnitDefinitions != null)
-      && (listOfUnitDefinitions.size() > 0);
+        && (listOfUnitDefinitions.size() > 0);
   }
 
 
@@ -4565,13 +4564,13 @@ public class Model extends AbstractNamedSBase
   @Override
   public boolean register(SBase sbase) {
     boolean success = registerIds(sbase.getParentSBMLObject(), sbase, true, false, null);
-    
+
     if (isReadingInProgress()) {
       // returning true when reading so that the validation can detect duplicated ids
       return true;
     }
-    
-    return success; 
+
+    return success;
   }
 
 
@@ -4592,7 +4591,7 @@ public class Model extends AbstractNamedSBase
     if (!alreadyRegisteredInKL) {
       // Register local parameter within its kinetic law first.
       logger.debug(
-        "registerIds (LP): calling kineticLaw.registerLocalParameter !");
+          "registerIds (LP): calling kineticLaw.registerLocalParameter !");
       // should never be called from the model in fact
 
       kl.registerLocalParameter(lp, delete);
@@ -4609,7 +4608,7 @@ public class Model extends AbstractNamedSBase
 
       if (logger.isDebugEnabled()) {
         logger.debug("registerIds (LP): reaction = " + r + " (r.isSetId = "
-          + r.isSetId() + ")");
+            + r.isSetId() + ")");
       }
       if ((r != null)) {
         if (delete) {
@@ -4679,9 +4678,9 @@ public class Model extends AbstractNamedSBase
        * namespace.
        */
       if ((mapOfUniqueNamedSBases.containsKey(id)
-        && (mapOfUniqueNamedSBases.get(id) != unsb))
-        || ((unsb.getLevel() == 1) && (mapOfUnitDefinitions != null)
-          && (mapOfUnitDefinitions.containsKey(id)))) 
+          && (mapOfUniqueNamedSBases.get(id) != unsb))
+          || ((unsb.getLevel() == 1) && (mapOfUnitDefinitions != null)
+              && (mapOfUnitDefinitions.containsKey(id))))
       {
         SBase elem = (SBase) mapOfUniqueNamedSBases.get(id);
         if (elem == null) {
@@ -4691,7 +4690,7 @@ public class Model extends AbstractNamedSBase
           "An element of type {2} with the id \"{0}\" is already present in this model{1}. The new element of type {3} will not be added to the model.",
           id, (isSetId() ? " \"" + getId() + "\"" : ""),
           elem != null ? elem.getElementName() : "'unknown'",
-          unsb.getElementName()));
+            unsb.getElementName()));
         return false;
       }
       mapOfUniqueNamedSBases.put(id, unsid);
@@ -4755,7 +4754,7 @@ public class Model extends AbstractNamedSBase
 
     if (logger.isDebugEnabled()) {
       logger.debug("registerIds (main): newElem = " + newElem.getElementName()
-        + " (recursive = " + recursively + ", delete = " + delete + ")");
+      + " (recursive = " + recursively + ", delete = " + delete + ")");
     }
 
     SBase newNsb = newElem;
@@ -4779,7 +4778,7 @@ public class Model extends AbstractNamedSBase
 
             if (logger.isDebugEnabled()) {
               logger.debug("registerIds (main): LP id = " + localParameterId
-                  + " (registered = " + alreadyRegistered + ")");
+                + " (registered = " + alreadyRegistered + ")");
             }
 
             success &= registerId(kl, localParam, delete, alreadyRegistered);
@@ -4791,7 +4790,7 @@ public class Model extends AbstractNamedSBase
 
         if (logger.isDebugEnabled()) {
           logger.debug(
-              "idManager found for '" + newElem + "' = " + idManager);
+            "idManager found for '" + newElem + "' = " + idManager);
         }
 
         if ((idManager != null) && (idManager != this)) {
@@ -4804,8 +4803,8 @@ public class Model extends AbstractNamedSBase
 
         // in L3 packages we might have different id namespaces
         logger.warn(MessageFormat.format(
-            "registerIds: the object {0} is neither a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.",
-            newNsb.getClass().getCanonicalName()));
+          "registerIds: the object {0} is neither a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.",
+          newNsb.getClass().getCanonicalName()));
       }
     } else if (!newNsb.isIdMandatory()) {
       // do nothing
@@ -4866,32 +4865,32 @@ public class Model extends AbstractNamedSBase
             boolean alreadyRegistered = true;
             LocalParameter localParam = (LocalParameter) child;
             String localParameterId =
-              localParam.isSetId() ? localParam.getId() : null;
+                localParam.isSetId() ? localParam.getId() : null;
 
-            if ((localParameterId != null)
-              && (kl.getLocalParameter(localParameterId) == null)) {
-              alreadyRegistered = false;
-            }
-
-            if (logger.isDebugEnabled()) {
-              logger.debug("registerIds (main): LP id = " + localParameterId
-                + " (registered = " + alreadyRegistered + ")");
-            }
-
-            success &= registerId(kl, localParam, delete, alreadyRegistered);
-
-            // we still need to register recursively the children of a
-            // LocalParameter
-            if (child.getChildCount() > 0) {
-              for (int j = 0; (j < child.getChildCount()) && success; j++) {
-                TreeNode lpChild = child.getChildAt(j);
-
-                if (lpChild instanceof SBase) {
-                  success &= registerIds((SBase) child, (SBase) lpChild,
-                    recursively, delete, idManagerList);
+                if ((localParameterId != null)
+                    && (kl.getLocalParameter(localParameterId) == null)) {
+                  alreadyRegistered = false;
                 }
-              }
-            }
+
+                if (logger.isDebugEnabled()) {
+                  logger.debug("registerIds (main): LP id = " + localParameterId
+                    + " (registered = " + alreadyRegistered + ")");
+                }
+
+                success &= registerId(kl, localParam, delete, alreadyRegistered);
+
+                // we still need to register recursively the children of a
+                // LocalParameter
+                if (child.getChildCount() > 0) {
+                  for (int j = 0; (j < child.getChildCount()) && success; j++) {
+                    TreeNode lpChild = child.getChildAt(j);
+
+                    if (lpChild instanceof SBase) {
+                      success &= registerIds((SBase) child, (SBase) lpChild,
+                        recursively, delete, idManagerList);
+                    }
+                  }
+                }
           } else {
             success &= registerIds(newElem, (SBase) child, recursively, delete,
               idManagerList);
@@ -4935,7 +4934,7 @@ public class Model extends AbstractNamedSBase
   private <T extends SBase> T remove(Class<T> clazz, String id) {
     SBase sb = findUniqueSBase(id);
     if ((sb != null)
-      && ((clazz == null) || sb.getClass().isAssignableFrom(clazz))) {
+        && ((clazz == null) || sb.getClass().isAssignableFrom(clazz))) {
       if (sb.removeFromParent()) {
         return (T) sb;
       }
@@ -4943,7 +4942,7 @@ public class Model extends AbstractNamedSBase
     logger.warn(
       MessageFormat.format("Could not find any {0} for the given id ''{1}''.",
         (clazz != null) ? "instance of " + clazz.getSimpleName() : "element",
-        id));
+          id));
     return null;
   }
 
@@ -5460,7 +5459,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfCompartments();
     this.listOfCompartments = listOfCompartments;
     if ((this.listOfCompartments != null)
-      && (this.listOfCompartments.getSBaseListType() != ListOf.Type.listOfCompartments)) {
+        && (this.listOfCompartments.getSBaseListType() != ListOf.Type.listOfCompartments)) {
       this.listOfCompartments.setSBaseListType(ListOf.Type.listOfCompartments);
     }
     registerChild(this.listOfCompartments);
@@ -5482,7 +5481,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfCompartmentTypes();
     this.listOfCompartmentTypes = listOfCompartmentTypes;
     if ((this.listOfCompartmentTypes != null)
-      && (this.listOfCompartmentTypes.getSBaseListType() != ListOf.Type.listOfCompartmentTypes)) {
+        && (this.listOfCompartmentTypes.getSBaseListType() != ListOf.Type.listOfCompartmentTypes)) {
       this.listOfCompartmentTypes.setSBaseListType(
         ListOf.Type.listOfCompartmentTypes);
     }
@@ -5502,7 +5501,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfConstraints();
     this.listOfConstraints = listOfConstraints;
     if ((this.listOfConstraints != null)
-      && (this.listOfConstraints.getSBaseListType() != ListOf.Type.listOfConstraints)) {
+        && (this.listOfConstraints.getSBaseListType() != ListOf.Type.listOfConstraints)) {
       this.listOfConstraints.setSBaseListType(ListOf.Type.listOfConstraints);
     }
     registerChild(this.listOfConstraints);
@@ -5520,7 +5519,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfEvents();
     this.listOfEvents = listOfEvents;
     if ((this.listOfEvents != null)
-      && (this.listOfEvents.getSBaseListType() != ListOf.Type.listOfEvents)) {
+        && (this.listOfEvents.getSBaseListType() != ListOf.Type.listOfEvents)) {
       this.listOfEvents.setSBaseListType(ListOf.Type.listOfEvents);
     }
     registerChild(this.listOfEvents);
@@ -5540,7 +5539,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfFunctionDefinitions();
     this.listOfFunctionDefinitions = listOfFunctionDefinitions;
     if ((this.listOfFunctionDefinitions != null)
-      && (this.listOfFunctionDefinitions.getSBaseListType() != ListOf.Type.listOfFunctionDefinitions)) {
+        && (this.listOfFunctionDefinitions.getSBaseListType() != ListOf.Type.listOfFunctionDefinitions)) {
       this.listOfFunctionDefinitions.setSBaseListType(
         ListOf.Type.listOfFunctionDefinitions);
     }
@@ -5561,7 +5560,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfInitialAssignments();
     this.listOfInitialAssignments = listOfInitialAssignments;
     if ((this.listOfInitialAssignments != null)
-      && (this.listOfInitialAssignments.getSBaseListType() != ListOf.Type.listOfInitialAssignments)) {
+        && (this.listOfInitialAssignments.getSBaseListType() != ListOf.Type.listOfInitialAssignments)) {
       this.listOfInitialAssignments.setSBaseListType(
         ListOf.Type.listOfInitialAssignments);
     }
@@ -5580,7 +5579,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfParameters();
     this.listOfParameters = listOfParameters;
     if ((this.listOfParameters != null)
-      && (this.listOfParameters.getSBaseListType() != ListOf.Type.listOfParameters)) {
+        && (this.listOfParameters.getSBaseListType() != ListOf.Type.listOfParameters)) {
       this.listOfParameters.setSBaseListType(ListOf.Type.listOfParameters);
     }
     registerChild(listOfParameters);
@@ -5598,7 +5597,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfReactions();
     this.listOfReactions = listOfReactions;
     if ((this.listOfReactions != null)
-      && (this.listOfReactions.getSBaseListType() != ListOf.Type.listOfReactions)) {
+        && (this.listOfReactions.getSBaseListType() != ListOf.Type.listOfReactions)) {
       this.listOfReactions.setSBaseListType(ListOf.Type.listOfReactions);
     }
     registerChild(this.listOfReactions);
@@ -5615,7 +5614,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfRules();
     this.listOfRules = listOfRules;
     if ((this.listOfRules != null)
-      && (this.listOfRules.getSBaseListType() != ListOf.Type.listOfRules)) {
+        && (this.listOfRules.getSBaseListType() != ListOf.Type.listOfRules)) {
       this.listOfRules.setSBaseListType(ListOf.Type.listOfRules);
     }
     registerChild(this.listOfRules);
@@ -5632,7 +5631,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfSpecies();
     this.listOfSpecies = listOfSpecies;
     if ((this.listOfSpecies != null)
-      && (this.listOfSpecies.getSBaseListType() != ListOf.Type.listOfSpecies)) {
+        && (this.listOfSpecies.getSBaseListType() != ListOf.Type.listOfSpecies)) {
       this.listOfSpecies.setSBaseListType(ListOf.Type.listOfSpecies);
     }
     registerChild(this.listOfSpecies);
@@ -5653,7 +5652,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfSpeciesTypes();
     this.listOfSpeciesTypes = listOfSpeciesTypes;
     if ((this.listOfSpeciesTypes != null)
-      && (this.listOfSpeciesTypes.getSBaseListType() != ListOf.Type.listOfSpeciesTypes)) {
+        && (this.listOfSpeciesTypes.getSBaseListType() != ListOf.Type.listOfSpeciesTypes)) {
       this.listOfSpeciesTypes.setSBaseListType(ListOf.Type.listOfSpeciesTypes);
     }
     registerChild(this.listOfSpeciesTypes);
@@ -5672,7 +5671,7 @@ public class Model extends AbstractNamedSBase
     unsetListOfUnitDefinitions();
     this.listOfUnitDefinitions = listOfUnitDefinitions;
     if ((this.listOfUnitDefinitions != null)
-      && (this.listOfUnitDefinitions.getSBaseListType() != ListOf.Type.listOfUnitDefinitions)) {
+        && (this.listOfUnitDefinitions.getSBaseListType() != ListOf.Type.listOfUnitDefinitions)) {
       this.listOfUnitDefinitions.setSBaseListType(
         ListOf.Type.listOfUnitDefinitions);
     }
@@ -5894,7 +5893,7 @@ public class Model extends AbstractNamedSBase
   public boolean unsetListOfCompartmentTypes() {
     if (listOfCompartmentTypes != null) {
       ListOf<CompartmentType> oldListOfCompartmentTypes =
-        listOfCompartmentTypes;
+          listOfCompartmentTypes;
       listOfCompartmentTypes = null;
       oldListOfCompartmentTypes.fireNodeRemovedEvent();
       return true;
@@ -5949,7 +5948,7 @@ public class Model extends AbstractNamedSBase
   public boolean unsetListOfFunctionDefinitions() {
     if (listOfFunctionDefinitions != null) {
       ListOf<FunctionDefinition> oldListOfFunctionDefinitions =
-        listOfFunctionDefinitions;
+          listOfFunctionDefinitions;
       listOfFunctionDefinitions = null;
       oldListOfFunctionDefinitions.fireNodeRemovedEvent();
       return true;
@@ -5968,7 +5967,7 @@ public class Model extends AbstractNamedSBase
   public boolean unsetListOfInitialAssignments() {
     if (listOfInitialAssignments != null) {
       ListOf<InitialAssignment> oldListOfInitialAssignments =
-        listOfInitialAssignments;
+          listOfInitialAssignments;
       listOfInitialAssignments = null;
       oldListOfInitialAssignments.fireNodeRemovedEvent();
       return true;
