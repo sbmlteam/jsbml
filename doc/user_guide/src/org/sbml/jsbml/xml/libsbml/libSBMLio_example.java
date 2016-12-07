@@ -50,5 +50,4 @@ public class libSBMLio_example {
       e.printStackTrace();
     }
   }
-
 }
