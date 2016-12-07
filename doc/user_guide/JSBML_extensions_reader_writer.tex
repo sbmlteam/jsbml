@@ -15,7 +15,7 @@ that the same value is used everywhere. The enum  \code{ExampleListType} can be 
 track of which \code{ListOf} we are in while reading an XML file.
 
 \begin{figure}[htb]
-  \begin{example}[numbers=left]
+  \begin{example}
 public class ExampleParser extends AbstractReaderWriter {
   /**
    * The logger for this parser
@@ -80,7 +80,7 @@ added to the \code{ListOfFoos} of the example model, but because
 is easier to call the \code{addFoo()} method on it.
 
 \begin{figure}[tb]
-  \begin{example}[numbers=left]
+  \begin{example}
 // Create the proper object and link it to its parent.
 public Object processStartElement(String elementName, String prefix,
     boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
@@ -138,7 +138,7 @@ keep track of which \code{ListOf} you are in, and if you do not need to do other
 things when a closing XML tag is encountered, you do not need to implement this method.
 
 \begin{figure}[htb]
-  \begin{example}[numbers=left]
+  \begin{example}
 public boolean processEndElement(String elementName, String prefix,
   boolean isNested, Object contextObject) {
 
@@ -159,7 +159,7 @@ An example is shown in \fig{lst:ModelExtReadAttributes} for the example class
 the attribute values into the java objects.
 
 \begin{figure}[htb]
-  \begin{example}[numbers=left]
+  \begin{example}
 @Override
 public boolean readAttribute(String attributeName, String prefix, String value) {
 
@@ -205,7 +205,7 @@ the attributes.
 
 \begin{figure}[htb]
   \vspace*{-1ex}
-  \begin{example}[numbers=left]
+  \begin{example}
 public class Foo extends AbstractNamedSBase {
   ...
   public Map<String, String> writeXMLAttributes() {

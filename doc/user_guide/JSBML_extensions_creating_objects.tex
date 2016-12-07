@@ -16,7 +16,7 @@ entirely new components.  A common need for packages is to extend the SBML
 \Model object, so we begin by explaining how this can be achieved.
 
 \begin{figure}[t]
-  \begin{example}[numbers=left]
+  \begin{example}
 public class ExampleModel extends AbstractSBasePlugin {
 
   // Basic constructor.
@@ -62,7 +62,7 @@ we list the code so far, focusing on just one of the attributes,
 \emph{bar}.
 
 \begin{figure}[hbt]
-  \begin{example}[numbers=left]
+  \begin{example}
 // Use Integer, so we can denote unset values as null public Integer bar;
 
 public int getBar() {
@@ -132,7 +132,7 @@ structure in memory.  All attributes can be set after the object has been
 created.
 
 \begin{figure}[b]
-  \begin{example}[numbers=left]
+  \begin{example}
 public Foo() {
   super();
   initDefaults();
@@ -208,7 +208,7 @@ of the methods that would be added to \Model to handle
 \code{setListOfFoos(ListOf<Foo>)}, and \code{unsetListOfFoos()}.
 
 \begin{figure}[b]
-  \begin{example}[numbers=left]
+  \begin{example}
 public boolean isSetListOfFoos() {
   return (listOfFoos != null) && !listOfFoos.isEmpty();
 }
@@ -252,7 +252,7 @@ such methods in \fig{lst:ModelExtAddRemoveFoos}.  The methods also
 do some additional consistency checking as part of their work.
 
 \begin{figure}[t]
-  \begin{example}[numbers=left]
+  \begin{example}
 public boolean addFoo(Foo foo) {
     return getListOfFoos().add(foo);
 }
@@ -278,7 +278,7 @@ public boolean removeFoo(String id) {
 \end{figure}
 
 \begin{figure}[hb]
-  \begin{example}[numbers=left]
+  \begin{example}
 public boolean getAllowsChildren() {
   return true;
 }
@@ -335,7 +335,7 @@ These create methods should be part of the model to which the \code{Foo}
 instance is to be added, in this case \code{ExampleModel}.
 
 \begin{figure}[thb]
-  \begin{example}[numbers=left]
+  \begin{example}
 public class ExampleModel extends AbstractSBasePlugin {
 
   // ...
@@ -391,7 +391,7 @@ are automatically checked in the \AbstractTreeNode class, the super class
 of \AbstractSBase.
 
 \begin{figure}[htb]
-  \begin{example}[numbers=left]
+  \begin{example}
 @Override
 public boolean equals(Object object) {
   boolean equals = super.equals(object);    // recursively checks all children
@@ -414,7 +414,7 @@ public boolean equals(Object object) {
 \end{figure}
 
 \begin{figure}[htb]
-  \begin{example}[numbers=left]
+  \begin{example}
 @Override 
 public int hashCode() {
   final int prime = 491;              // Some arbitrarily large prime number.
@@ -444,7 +444,7 @@ constructor of some abstract superclasses because these can be of various
 types and they cannot simply be organized as a list of children.
 
 \begin{figure}[htb]
-  \begin{example}[numbers=left]
+  \begin{example}
 @Override public ExampleModel clone() {
   return new ExampleModel(this);
 }
@@ -461,7 +461,7 @@ public ExampleModel(ExampleModel model) {
 \end{figure}
 
 \begin{figure}[htb]
-  \begin{example}[numbers=left]
+  \begin{example}
 @Override public Foo clone() {
   return new Foo(this);
 }
