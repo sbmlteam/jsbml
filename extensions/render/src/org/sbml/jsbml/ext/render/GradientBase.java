@@ -22,9 +22,12 @@ package org.sbml.jsbml.ext.render;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UniqueNamedSBase;
 
@@ -43,24 +46,26 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   private static final long serialVersionUID = -3921074024567604440L;
 
   /**
-   * 
+   * The type GradientSpreadMethod is being used by GradientBase elements to decide how gradients propagate over
+   * the whole element they are applied to.
+   *
    * @author Eugen Netz
    * @author Alexander Diamantikos
    * @author Jakob Matthes
    * @author Jan Rudolph
    * @since 1.0
    */
-  protected enum Spread {
+  public enum Spread {
     /**
-     * 
+     * the gradient color at the endpoint of the vector defines how the gradient is continued beyond that point
      */
     PAD,
     /**
-     * 
+     * the gradient continues from end to start and then from start to end again and again.
      */
     REFLECT,
     /**
-     * 
+     * the gradient pattern is repeated from start to end over and over again.
      */
     REPEAT;
   }
@@ -118,7 +123,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    */
   @Override
   public boolean getAllowsChildren() {
-    return false;
+    return true;
   }
 
   /* (non-Javadoc)
@@ -127,31 +132,37 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   @Override
   public int getChildCount() {
     int count = 0;
+    
     if (isSetListOfGradientStops()) {
-      count++;
+      count += getListOfGradientStops().size();
     }
     return count;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-   */
   @Override
-  public SBase getChildAt(int childIndex) {
-    if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexSurpassesBoundsException"), childIndex, 0));
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
     }
-    int pos = 0;
-    if (isSetListOfGradientStops()) {
-      if (pos == childIndex) {
-        return getListOfGradientStops();
-      }
-      pos++;
+
+    int count = super.getChildCount(), pos = 0;
+
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
     }
-    throw new IndexOutOfBoundsException(MessageFormat.format(
-      resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
-      Math.min(pos, 0)));
+
+     if (isSetListOfGradientStops()) {
+       return getListOfGradientStops().get(index);
+     }
+
+    throw new IndexOutOfBoundsException(
+        MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
+
+            index, Math.min(pos, 0)));
   }
+
 
   /**
    * Clone constructor
@@ -391,7 +402,6 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetSpreadMethod()) {
-      attributes.remove(RenderConstants.spreadMethod);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.spreadMethod,
         getSpreadMethod().toString().toLowerCase());
     }
@@ -405,10 +415,18 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
     if (!isAttributeRead) {
       isAttributeRead = true;
+    
       if (attributeName.equals(RenderConstants.spreadMethod)) {
-        setSpreadMethod(Spread.valueOf(value.toUpperCase()));
+        try {
+          setSpreadMethod(Spread.valueOf(value.toUpperCase()));
+        } catch (Exception e) {
+          throw new SBMLException("Could not recognized the value '" + value
+              + "' for the attribute " + RenderConstants.spreadMethod
+              + " on the 'gradient' element.");
+        }
       }
       else {
         isAttributeRead = false;

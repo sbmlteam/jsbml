@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.sbml.jsbml.ext.render.FontFamily;
 import org.sbml.jsbml.ext.render.RenderGroup;
-import org.sbml.jsbml.ext.render.TextAnchor;
+import org.sbml.jsbml.ext.render.HTextAnchor;
 import org.sbml.jsbml.ext.render.VTextAnchor;
 
 
@@ -317,7 +317,7 @@ public class GroupTest {
    */
   @Test
   public void testGetTextAnchor() {
-    TextAnchor anchor=TextAnchor.START;
+    HTextAnchor anchor=HTextAnchor.START;
     RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetTextAnchor());
     g.setTextAnchor(anchor);
@@ -331,7 +331,7 @@ public class GroupTest {
   @Test
   public void testIsSetTextAnchor() {
     RenderGroup g=new RenderGroup();
-    TextAnchor anchor=TextAnchor.MIDDLE;
+    HTextAnchor anchor=HTextAnchor.MIDDLE;
     assertTrue(!g.isSetTextAnchor());
     g.setTextAnchor(anchor);
     assertTrue(g.isSetTextAnchor());
@@ -339,18 +339,18 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#setTextAnchor(org.sbml.jsbml.ext.render.TextAnchor)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#setTextAnchor(org.sbml.jsbml.ext.render.HTextAnchor)}.
    */
   @Test
   public void testSetTextAnchor() {
     RenderGroup g=new RenderGroup();
-    TextAnchor anchor=TextAnchor.END;
+    HTextAnchor anchor=HTextAnchor.END;
     g.setTextAnchor(anchor);
     assertEquals("textAnchorError",anchor,g.getTextAnchor());
-    anchor=TextAnchor.MIDDLE;
+    anchor=HTextAnchor.MIDDLE;
     g.setTextAnchor(anchor);
     assertEquals("textAnchorError",anchor,g.getTextAnchor());
-    anchor=TextAnchor.START;
+    anchor=HTextAnchor.START;
     g.setTextAnchor(anchor);
     assertEquals("textAnchorError",anchor,g.getTextAnchor());
   }

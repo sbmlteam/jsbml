@@ -39,7 +39,13 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
    * 
    */
   protected String fill;
+  
   /**
+   * The type FillRule enumeration describes how a surface created by connecting points on a Polygon are to be filled when rendered.
+   * 
+   * <p>For a detailed description on how these values should be applied, we would like to refer you to the corresponding
+   * documentation in the <a href="http://www.w3.org/TR/SVG/painting.html#FillRuleProperty">SVG specification</a>.</p>
+   * 
    * @author Eugen Netz
    * @author Alexander Diamantikos
    * @author Jakob Matthes

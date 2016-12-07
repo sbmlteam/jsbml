@@ -31,6 +31,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.ext.layout.GraphicalObject;
 
 /**
  * @author Eugen Netz
@@ -41,6 +42,56 @@ import org.sbml.jsbml.UniqueNamedSBase;
  */
 public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
+  /**
+   * The type StyleType is used by {@link LocalStyle} and Global{@link Style} elements, in order to apply a particular style to a 
+   * {@link GraphicalObject}.
+   * 
+   * <p>This is done via the typeList attribute that uses the StyleType as its data type.
+   * A valid typeList attribute value is a combination of one or more of the enumeration values separated by white spaces.</p>
+   *
+   * <p>The {@link #ANY} value specifies that this styles applies to any type of glyph and would be equivalent to listing all the
+   * other keywords.</p>
+   *
+   * @author rodrigue
+   * @since 1.2
+   */
+  public enum Type {
+
+    /**
+     * 
+     */
+    COMPARTMENTGLYPH,
+    /**
+     * 
+     */
+    SPECIESGLYPH,
+    /**
+     * 
+     */
+    REACTIONGLYPH,
+    /**
+     * 
+     */
+    SPECIESREFERENCEGLYPH,
+    /**
+     * 
+     */
+    TEXTGLYPH,
+    /**
+     * 
+     */
+    GENERALGLYPH,
+    /**
+     * 
+     */
+    GRAPHICALOBJECT, 
+    /**
+     * 
+     */
+    ANY;
+  }
+
+  
   /**
    * Generated serial version identifier
    */
