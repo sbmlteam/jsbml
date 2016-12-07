@@ -21,8 +21,6 @@ package org.sbml.jsbml.ext.render;
 
 import java.util.Arrays;
 
-import org.sbml.jsbml.PropertyUndefinedError;
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -40,7 +38,7 @@ public class Transformation2D extends Transformation {
   /**
    * 
    */
-  protected Double[] transform = new Double[6];
+  protected Double[] transform;
 
   /**
    * Creates an Transformation2D instance
@@ -49,8 +47,6 @@ public class Transformation2D extends Transformation {
     super();
     initDefaults();
   }
-
-
 
   /**
    * @param level
@@ -67,7 +63,9 @@ public class Transformation2D extends Transformation {
    */
   public Transformation2D(Transformation2D obj) {
     super(obj);
-    transform = obj.transform; // TODO - do a copy of the array !!
+    if (obj.isSetTransform()) {
+      System.arraycopy(obj.getTransform(), 0, transform, 0, obj.getTransform().length);
+    }
   }
 
   /* (non-Javadoc)
@@ -82,11 +80,10 @@ public class Transformation2D extends Transformation {
    * @return the value of transform
    */
   public Double[] getTransform() {
-    if (isSetTransform()) {
-      return transform;
+    if (!isSetTransform()) {
+      transform = new Double[6];
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.transform, this);
+    return transform;
   }
 
   /* (non-Javadoc)
@@ -109,10 +106,11 @@ public class Transformation2D extends Transformation {
    * Set the value of transform
    * @param transform
    */
-  public void setTransform(Double[] transform) {
+  public boolean setTransform(Double[] transform) {
     Double[] oldTransform = this.transform;
     this.transform = transform;
     firePropertyChange(RenderConstants.transform, oldTransform, this.transform);
+    return transform != oldTransform;
   }
 
   /**
@@ -121,16 +119,8 @@ public class Transformation2D extends Transformation {
    *         otherwise {@code false}
    */
   public boolean unsetTransform() {
-    if (isSetTransform()) {
-      Double[] oldTransform = transform;
-      transform = null;
-      firePropertyChange(RenderConstants.transform, oldTransform, transform);
-      return true;
-    }
-    return false;
+    return setTransform(null);
   }
-
-
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
@@ -139,11 +129,11 @@ public class Transformation2D extends Transformation {
   public int hashCode() {
     final int prime = 3191;
     int result = super.hashCode();
-    result = prime * result + Arrays.hashCode(transform);
+    if (isSetTransform()) {
+      result = prime * result + Arrays.hashCode(transform);
+    }
     return result;
   }
-
-
 
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
@@ -165,6 +155,5 @@ public class Transformation2D extends Transformation {
     }
     return true;
   }
-  
-  
+
 }

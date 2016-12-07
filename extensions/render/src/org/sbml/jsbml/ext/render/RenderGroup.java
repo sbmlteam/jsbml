@@ -21,8 +21,6 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -782,7 +780,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public void setListOfElements(ListOf<Transformation2D> listOfElements) {
     unsetListOfElements();
     this.listOfElements = listOfElements;
-    
+
     if (listOfElements != null) {
       listOfElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
@@ -1063,10 +1061,10 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
+
     if (!isAttributeRead) {
       isAttributeRead = true;
-      
+
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.fontFamily)) {
         setFontFamily(FontFamily.valueOf(value.toUpperCase()));
@@ -1096,7 +1094,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         isAttributeRead = false;
       }
     }
-    
+
     return isAttributeRead;
   }
 }
