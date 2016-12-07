@@ -19,7 +19,9 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
@@ -44,7 +46,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
   /**
    * 
    */
-  protected Short[] strokeDashArray;
+  protected List<Short> strokeDashArray;
   /**
    * 
    */
@@ -54,12 +56,11 @@ public class GraphicalPrimitive1D extends Transformation2D {
   /**
    * @return the value of strokeDashArray
    */
-  public Short[] getStrokeDashArray() {
-    if (isSetStrokeDashArray()) {
-      return strokeDashArray;
+  public List<Short> getStrokeDashArray() {
+    if (!isSetStrokeDashArray()) {
+      strokeDashArray = new ArrayList<>();
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.strokeDashArray, this);
+    return strokeDashArray;
   }
 
 
@@ -70,16 +71,24 @@ public class GraphicalPrimitive1D extends Transformation2D {
     return strokeDashArray != null;
   }
 
+  /**
+   * 
+   * @param strokeDashArray
+   */
+  public void setStrokeDashArray(Short[] strokeDashArray) {
+    setStrokeDashArray(Arrays.asList(strokeDashArray));
+  }
 
   /**
    * Set the value of strokeDashArray
    * 
    * @param strokeDashArray
    */
-  public void setStrokeDashArray(Short[] strokeDashArray) {
-    Short[] oldStrokeDashArray = this.strokeDashArray;
+  public boolean setStrokeDashArray(List<Short> strokeDashArray) {
+    List<Short> oldStrokeDashArray = this.strokeDashArray;
     this.strokeDashArray = strokeDashArray;
     firePropertyChange(RenderConstants.strokeDashArray, oldStrokeDashArray, this.strokeDashArray);
+    return strokeDashArray != oldStrokeDashArray;
   }
 
 
@@ -89,13 +98,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
    *         otherwise {@code false}
    */
   public boolean unsetStrokeDashArray() {
-    if (isSetStrokeDashArray()) {
-      Short[] oldStrokeDashArray = strokeDashArray;
-      strokeDashArray = null;
-      firePropertyChange(RenderConstants.strokeDashArray, oldStrokeDashArray, strokeDashArray);
-      return true;
-    }
-    return false;
+    return setStrokeDashArray((List<Short>) null);
   }
 
   /**
@@ -128,9 +131,31 @@ public class GraphicalPrimitive1D extends Transformation2D {
     strokeWidth = obj.strokeWidth;
 
     if (obj.isSetStrokeDashArray()) {
-      setStrokeDashArray(obj.strokeDashArray.clone());
+      for (int i = 0; i < obj.getStrokeDashArray().size(); i++) {
+        addStrokeDash(new Short(obj.getStrokeDash(i)));
+      }
     }
   }
+
+  /**
+   * 
+   * @param s
+   * @return
+   */
+  public boolean addStrokeDash(Short s) {
+    return getStrokeDashArray().add(s);
+  }
+
+
+  /**
+   * 
+   * @param i
+   * @return
+   */
+  public Short getStrokeDash(int i) {
+    return isSetStrokeDashArray() ? strokeDashArray.get(i) : null;
+  }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Transformation2D#clone()
@@ -150,7 +175,9 @@ public class GraphicalPrimitive1D extends Transformation2D {
     final int prime = 3181;
     int result = super.hashCode();
     result = prime * result + ((stroke == null) ? 0 : stroke.hashCode());
-    result = prime * result + Arrays.hashCode(strokeDashArray);
+    if (isSetStrokeDashArray()) {
+      result = prime * result + strokeDashArray.hashCode();
+    }
     result = prime * result
         + ((strokeWidth == null) ? 0 : strokeWidth.hashCode());
     return result;
@@ -179,7 +206,8 @@ public class GraphicalPrimitive1D extends Transformation2D {
     } else if (!stroke.equals(other.stroke)) {
       return false;
     }
-    if (!Arrays.equals(strokeDashArray, other.strokeDashArray)) {
+    if ((isSetStrokeDashArray() != other.isSetStrokeDashArray())
+        || (isSetStrokeDashArray() && !getStrokeDashArray().equals(other.getStrokeDashArray()))) {
       return false;
     }
     if (strokeWidth == null) {
@@ -292,14 +320,14 @@ public class GraphicalPrimitive1D extends Transformation2D {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    
+
     if (isSetStroke()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.stroke,
         getStroke());
     }
     if (isSetStrokeDashArray()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeDashArray,
-        XMLTools.encodeArrayShortToString(getStrokeDashArray()));
+        XMLTools.encodeArrayShortToString(getStrokeDashArray().toArray(new Short[0])));
     }
     if (isSetStrokeWidth()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
@@ -314,7 +342,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
+
     if (!isAttributeRead) {
       isAttributeRead = true;
 
