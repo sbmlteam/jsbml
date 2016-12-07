@@ -193,6 +193,15 @@ public class GradientStop extends AbstractSBase {
     return 0;
   }
 
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return RenderConstants.stop;
+  }
+
   /**
    * @return the value of offset
    */

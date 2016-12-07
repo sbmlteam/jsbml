@@ -218,20 +218,20 @@ public class RadialGradient extends GradientBase {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
     
-    cx = 0.5d;
-    cy = 0.5d;
-    cz = 0.5d;
-    r = 0.5d;
-    fx = cx;
-    fy = cy;
-    fz = cz;
-    absoluteCx = false;
-    absoluteCy = false;
-    absoluteCz = false;
-    absoluteR = false;
-    absoluteFx = false;
-    absoluteFy = false;
-    absoluteFz = false;
+//    cx = 0.5d;
+//    cy = 0.5d;
+//    cz = 0.5d;
+//    r = 0.5d;
+//    fx = cx;
+//    fy = cy;
+//    fz = cz;
+//    absoluteCx = false;
+//    absoluteCy = false;
+//    absoluteCz = false;
+//    absoluteR = false;
+//    absoluteFx = false;
+//    absoluteFy = false;
+//    absoluteFz = false;
   }
 
   /**

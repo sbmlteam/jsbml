@@ -271,11 +271,11 @@ public class RenderConstants {
   /**
    * 
    */
-  public static final String endHead = "end-head";
+  public static final String endHead = "endHead";
   /**
    * 
    */
-  public static final String startHead = "start-head";
+  public static final String startHead = "startHead";
   /**
    * 
    */

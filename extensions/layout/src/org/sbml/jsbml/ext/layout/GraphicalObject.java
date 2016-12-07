@@ -48,7 +48,7 @@ import org.sbml.jsbml.util.ResourceManager;
  * @author Clemens Wrzodek
  * @since 1.0
  */
-public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSBase {
+public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSBase, IBoundingBox {
 
   /**
    * Generated serial version identifier.
@@ -140,10 +140,10 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
   }
 
   
-  /**
-   * Creates and sets a {@link BoundingBox} for this object.
-   * @return {@link BoundingBox}.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.IBoundingBox#createBoundingBox()
    */
+  @Override
   public BoundingBox createBoundingBox() {
     BoundingBox bb = new BoundingBox();
     setBoundingBox(bb);
@@ -217,10 +217,10 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
     return true;
   }
 
-  /**
-   * 
-   * @return
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.IBoundingBox#getBoundingBox()
    */
+  @Override
   public BoundingBox getBoundingBox() {
     return boundingBox;
   }
@@ -284,29 +284,28 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
     return true;
   }
 
-  /**
-   * @return
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.IBoundingBox#isSetBoundingBox()
    */
+  @Override
   public boolean isSetBoundingBox() {
     return boundingBox != null;
   }
 
-  /**
-   * This is the only required element (besides the SId) of the {@link GraphicalObject}. Because
-   * this class is not an abstract class and can be instantiated, {@link org.sbml.jsbml.Annotation} objects are
-   * encouraged to be added.
-   * 
-   * @param boundingBox
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.IBoundingBox#setBoundingBox(org.sbml.jsbml.ext.layout.BoundingBox)
    */
+  @Override
   public void setBoundingBox(BoundingBox boundingBox) {
     unsetBoundingBox();
     this.boundingBox = boundingBox;
     registerChild(this.boundingBox);
   }
 
-  /**
-   * 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.IBoundingBox#unsetBoundingBox()
    */
+  @Override
   public void unsetBoundingBox() {
     if (isSetBoundingBox()) {
       BoundingBox oldValue = boundingBox;

@@ -401,6 +401,12 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
+    
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(RenderConstants.shortLabel + ":id", getId());
+    }
+    
     if (isSetSpreadMethod()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.spreadMethod,
         getSpreadMethod().toString().toLowerCase());

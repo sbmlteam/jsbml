@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.render;
 import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
 
 /**
  * @author Eugen Netz
@@ -275,8 +276,13 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
         setFill(value);
       }
       else if (attributeName.equals(RenderConstants.fillRule)) {
-        // TODO - add some checks in case the value is wrong. And we probably have to do some manual translation from the specs to the enum
-        setFillRule(FillRule.valueOf(value));
+        try {
+          setFillRule(FillRule.valueOf(value.toUpperCase()));
+        } catch (Exception e) {
+          throw new SBMLException("Could not recognized the value '" + value
+              + "' for the attribute " + RenderConstants.fillRule
+              + " on the '" + getElementName() + "' element.");
+        }
       }
       else {
         isAttributeRead = false;
