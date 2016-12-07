@@ -45,6 +45,7 @@ import org.sbml.jsbml.ext.render.LineEnding;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.RadialGradient;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.ext.render.RenderCubicBezier;
 import org.sbml.jsbml.ext.render.RenderCurve;
@@ -298,6 +299,8 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
         return newElement;
       }
     }
+    // TODO - list of CurveSegment in the render namespace ??
+    // TODO - BoundingBox in the render namespace ?
     /**
      * parsing lists
      */
@@ -331,7 +334,8 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       else if (elementName.equals("localStyle")) {
         newElement = new LocalStyle();
       }
-      else if (elementName.equals(RenderConstants.gradientStop)) {
+      else if (elementName.equals(RenderConstants.gradientStop)
+    		  || elementName.equals(RenderConstants.stop)) {
         newElement = new GradientStop();
       }
       else if (elementName.equals(RenderConstants.colorDefiniton)) {
@@ -340,6 +344,12 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       else if (elementName.equals(RenderConstants.gradientBase)) {
         newElement = new GradientBase();
       }
+      else if (elementName.equals(RenderConstants.radialGradient)) {
+          newElement = new RadialGradient();
+       }
+      else if (elementName.equals(RenderConstants.linearGradient)) {
+          newElement = new RadialGradient();
+       }
       else if (elementName.equals(RenderConstants.lineEnding)) {
         newElement = new LineEnding();
       }
@@ -396,11 +406,18 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       });
 
       for (TreeNode curveNode : curveElements) {
-        RenderCurve curve = (RenderCurve) curveNode;
+        ListOf<RenderPoint> listOfElements = null;
+        
+        if (curveNode instanceof RenderCurve) { 
+    	  RenderCurve curve = (RenderCurve) curveNode;
+    	  listOfElements = curve.getListOfElements();
+        } else {
+        	listOfElements = ((Polygon) curveNode).getListOfElements();
+        }
 
         // transform the RenderCubicBezier into RenderPoint when needed
         int i = 0;
-        for (RenderPoint renderPoint : curve.getListOfElements().clone())
+        for (RenderPoint renderPoint : listOfElements.clone())
         {
           if (! renderPoint.isSetType())
           {
@@ -419,13 +436,13 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
           {
             RenderPoint realRenderPoint = new RenderPoint(renderPoint);
             logger.debug("Transformed a RenderCubicBezier: '" + renderPoint + "' into a RenderPoint.");
-            curve.getListOfElements().remove(i);
-            curve.getListOfElements().add(i, realRenderPoint);
+            listOfElements.remove(i);
+            listOfElements.add(i, realRenderPoint);
           }
 
           if (logger.isDebugEnabled())
           {
-            logger.debug("RenderCurveSegment = " + curve.getListOfElements().get(i));
+            logger.debug("RenderCurveSegment = " + listOfElements.get(i));
           }
 
           i++;
