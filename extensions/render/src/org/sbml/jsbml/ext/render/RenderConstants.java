@@ -367,7 +367,7 @@ public class RenderConstants {
   /**
    * 
    */
-  public static final String boundingBox = "bounding-box";
+  public static final String boundingBox = "boundingBox";
   /**
    * 
    */
@@ -538,6 +538,18 @@ public class RenderConstants {
    * 
    */
   public static final String image = "image";
+  /**
+   * 
+   */
+  public static final String radialGradient = "radialGradient";
+  /**
+   * 
+   */
+  public static final String stop = "stop";
+  /**
+   * 
+   */
+  public static final String linearGradient = "linearGradient";
 
   /**
    * Returns the namespace URI corresponding to the given level and version.

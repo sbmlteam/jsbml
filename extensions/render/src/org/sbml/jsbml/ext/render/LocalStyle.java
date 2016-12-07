@@ -204,5 +204,4 @@ public class LocalStyle extends Style {
     return isAttributeRead;
   }
 
-
 }
