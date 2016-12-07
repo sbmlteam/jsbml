@@ -237,6 +237,11 @@ public class ColorDefinition extends AbstractNamedSBase {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(RenderConstants.shortLabel + ":id", getId());
+    }
+    
     if (isSetValue()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.value,
         XMLTools.encodeColorToString(getValue()));

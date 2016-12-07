@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.render;
 import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
 
 /**
  * @author Eugen Netz
@@ -646,48 +647,43 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
+    
     if (isSetFontFamily()) {
-      attributes.remove(RenderConstants.fontFamily);
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontFamily,
-        getFontFamily().toString().toLowerCase());
+      String fontFamily = getFontFamily().toString().toLowerCase();
+      if (fontFamily.equals("sans_serif")) {
+        fontFamily = "sans-serif";
+      }
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontFamily, fontFamily);
     }
     if (isSetTextAnchor()) {
-      attributes.remove(RenderConstants.textAnchor);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.textAnchor,
         getTextAnchor().toString().toLowerCase());
     }
     if (isSetVTextAnchor()) {
-      attributes.remove(RenderConstants.vTextAnchor);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.vTextAnchor,
         getVTextAnchor().toString().toLowerCase());
     }
     if (isSetFontSize()) {
-      attributes.remove(RenderConstants.fontSize);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontSize,
         Short.toString(getFontSize()));
     }
     if (isSetX()) {
-      attributes.remove(RenderConstants.x);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
         XMLTools.positioningToString(getX(), isAbsoluteX()));
     }
     if (isSetY()) {
-      attributes.remove(RenderConstants.y);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y,
         XMLTools.positioningToString(getY(), isAbsoluteY()));
     }
     if (isSetZ()) {
-      attributes.remove(RenderConstants.z);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z,
         XMLTools.positioningToString(getZ(), isAbsoluteZ()));
     }
     if (isSetFontStyleItalic()) {
-      attributes.remove(RenderConstants.fontStyleItalic);
       attributes.put(RenderConstants.fontStyleItalic,
         XMLTools.fontStyleItalicToString(isFontStyleItalic()));
     }
     if (isSetFontWeightBold()) {
-      attributes.remove(RenderConstants.fontWeightBold);
       attributes.put(RenderConstants.fontWeightBold,
         XMLTools.fontWeightBoldToString(isFontWeightBold()));
     }
@@ -701,17 +697,39 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
-      // TODO: catch Exception if Enum.valueOf fails, generate logger output
+
       if (attributeName.equals(RenderConstants.fontFamily)) {
-        setFontFamily(FontFamily.valueOf(value.toUpperCase()));
-      }
+        if (value.equals("sans-serif")) {
+          value = "SANS_SERIF";
+        }
+        try {
+          setFontFamily(FontFamily.valueOf(value.toUpperCase()));
+        } catch (Exception e) {
+          throw new SBMLException("Could not recognized the value '" + value
+              + "' for the attribute " + RenderConstants.fontFamily
+              + " on the 'text' element.");
+        }
+      }    
       else if (attributeName.equals(RenderConstants.textAnchor)) {
-        setTextAnchor(HTextAnchor.valueOf(value.toUpperCase()));
+        try {
+          setTextAnchor(HTextAnchor.valueOf(value.toUpperCase()));
+        } catch (Exception e) {
+          throw new SBMLException("Could not recognized the value '" + value
+              + "' for the attribute " + RenderConstants.textAnchor
+              + " on the 'text' element.");
+        }
       }
       else if (attributeName.equals(RenderConstants.vTextAnchor)) {
-        setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));
+        try {
+          setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));
+        } catch (Exception e) {
+          throw new SBMLException("Could not recognized the value '" + value
+              + "' for the attribute " + RenderConstants.vTextAnchor
+              + " on the 'text' element.");
+        }
       }
       else if (attributeName.equals(RenderConstants.fontSize)) {
         setFontSize(Short.valueOf(value));
