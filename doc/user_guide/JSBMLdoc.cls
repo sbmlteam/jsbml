@@ -307,6 +307,7 @@
 \definecolor{winered}{cmyk}{0,1,0.331,0.502}
 \definecolor{mustard}{rgb}{0.64, 0.45, 0.35}
 \definecolor{lightspecialblue}{rgb}{0.015,0.38,0.7}
+\definecolor{darkgreen}{rgb}{0.0, 0.4, 0.33}
 
 % Color for marking changed text, conditional on whether gray scale mode is on.
 
@@ -825,7 +826,7 @@
     basicstyle=\small\ttfamily\color{black},
     backgroundcolor=\color{extremelylightgray},
     emphstyle=\ttfamily\bfseries\color{black},
-    stringstyle=\color{mustard},
+    stringstyle=\color{darkgreen},
     commentstyle=\footnotesize\itshape\color{mediumgray},
     keywordstyle=\color{winered}}
 
