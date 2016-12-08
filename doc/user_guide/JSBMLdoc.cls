@@ -842,7 +842,7 @@
     language=bash,
     keywordstyle=\mdseries}
 
-\newcommand{\examplespacing}{\renewcommand{\baselinestretch}{0.88}}
+\newcommand{\examplespacing}{\renewcommand{\baselinestretch}{0.86}}
 
 \lstnewenvironment{example}[1][style=java, abovecaptionskip=-1.5em]
   {\lstset{#1}\examplespacing \csname lst@SetFirstLabel\endcsname}
@@ -953,6 +953,7 @@
 \labelformat{paragraph}{\sectionlabel~#1}
 \labelformat{table}{Table~#1}
 \labelformat{figure}{Figure~#1}
+\labelformat{listing}{Listing~#1}
 
 \newcommand{\@commonRefNoStar}[1]{\xspace\Vref*{#1}\xspace}
 \newcommand{\@commonRefStar}[1]{\ref{#1}\xspace}
