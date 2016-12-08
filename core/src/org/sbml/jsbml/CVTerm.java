@@ -155,9 +155,20 @@ public class CVTerm extends AnnotationElement {
      */
     BQB_OCCURS_IN("occursIn"),
     /**
-     * Represents an unknown MIRIAM biological qualifier.
+     * Represents the MIRIAM biological qualifier 'isRelatedTo': the biological 
+     * entity represented by the model element is somehow associated, directly 
+     * or transitively, with the subject of the referenced resource (biological
+     * entity B). This qualifier may be used as a generic way to express any 
+     * biological relationship.
+     * 
+     * <p>Only use this qualifier if you are not able to find a more precise 
+     * qualifier.</p>
      */
-    BQB_UNKNOWN("unknownQualifier"),
+    BQB_IS_RELATED_TO("isRelatedTo"),
+    /**
+     * Represents an unknown MIRIAM biological qualifier, equivalent to {@link #BQB_IS_RELATED_TO}.
+     */
+    BQB_UNKNOWN("isRelatedTo"),
     /**
      * Represents the MIRIAM model qualifier 'hasInstance':
      * the modelling object represented by the model element has for instance
@@ -258,6 +269,20 @@ public class CVTerm extends AnnotationElement {
       return nameEquivalent;
     }
 
+    /**
+     * Sets a name corresponding to this Qualifier Object. WARNING: using
+     * this method might generate wrong SBML.
+     * 
+     * <p>This method is mainly for internal use when a qualifier
+     * is not recognized by JSBML when reading an SBML file. It can happen if the qualifier
+     * was created after the release of JSBML or if there is a typo.</p>
+     * 
+     * @param qualifierString a name corresponding to this Qualifier Object.
+     */
+    public void setElementNameEquivalent(String qualifierString) {
+      nameEquivalent = qualifierString;
+    }
+    
     /**
      * Returns {@code true} if this qualifier is a biological qualifier.
      * 
