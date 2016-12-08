@@ -2,7 +2,7 @@
 
 
 ===========================================================================
-Version 1.2 (XX-XX-201X)
+Version 1.2 (12-12-2016)
 ===========================================================================
 
  * New Features:
@@ -18,6 +18,7 @@ Version 1.2 (XX-XX-201X)
   
   - Updated the implementation of the SBML Level 3 Render package to the draft specification (April 2015). Plenty of XML elements where not written with the correct names. Any files created by JSBML before version 1.2 should still be readable by JSBML 1.2 so that you can just read them and write them to get the correct XML.
   
+  - Returning the correct namespace for core elements when calling getNamespace() or getURI() (instead of 'null' previously).
 
 
 ===========================================================================
