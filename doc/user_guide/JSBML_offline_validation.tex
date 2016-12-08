@@ -1,68 +1,145 @@
-\section[Offline validation]{The offline validator}
-\subsection{How to use offline validation}
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
 
-The offline validator is a alternative way to check the consistency of your SBMLDocument or any other Object.
-\subsubsection{Setup a ValidationContext}
-In order to validate your object you will need three steps:
-\begin{itemize}
-\item[1.] \textbf{Create a instance of ValidationContext} \\
-The context will be the center of the validation. The constructor needs two arguments for the level and version of SBML you want to use. These values could be changed later, but this will clear the loaded constraints. The \code{ValidationContext} is designed to be reusable, so you could use a single instance of ValidationContext to perform several validations. In this case just repeat Step 2 and 3.
-\begin{example}[style=java, title={Setup a ValidationContext}]
-	// Create a new instance
-	ValidationContext ctx = new ValidationContext(3, 1);
+\section[Offline validation]{The JSBML offline validator}
+
+The JSBML \emph{offline validator} is a self-contained SBML validation facility that implements some of the validation processes included in libSBML.  At the time of this writing, \textbf{the offline validator is incomplete and unsuitable for production use}.  We included it here so that users can experiment with it.  We hope to improve this facility so that in time it can be used to validate SBML files reliably.
+
+
+\subsection{Basic procedure for using offline validation in JSBML}
+
+The following sections describe the basic steps required to use the offline
+validator in your code.
+
+
+\subsubsection{Create an instance of \codeNC{ValidationContext}}
+
+\code{ValidationContext} is the center of the validation process.  The
+constructor for this class requires two arguments, for the Level and Version
+of SBML you want to validate. These values can be changed after creating the
+context object, but note that doing so will clear any loaded constraints
+(discussed below).
+
+\vspace*{1ex}
+\begin{example}[style=java, title={Setup a ValidationContext.}]
+// Create a new instance
+ValidationContext ctx = new ValidationContext(3, 1);
 \end{example}
-\item[2.] \textbf{Prepare the context} \\
-Now it's time to tell the context which class you want to validate. Use the method \code{loadConstraintsForClass(Class<?> clazz)} with the objects class as parameter (e.g. ``\code{object.getClass()}") or by using a static reference (e.g. ``\code{Species.class}"). The context will travel the hole class hierarchy to load all the constraints which are necessary. This means if you use a custom class which is derived from \Species, the validator will recognize this and also loads the constraints for the \Species class.
-\begin{example}[style=java, title={Three different ways to load constraints}]
-	// Load constraints to validate a MyClass object
-	ctx.loadConstraintsForClass(MyClass.class);	
-	
-	// Load constraints to validate the class from myObject
-	ctx.loadConstraintsForClass(myObject.getClass());
-	
-	// Load constraints to validate a single attribute
-	ctx.loadConstraintsForAttribute(myObject.getClass(), "name");
-	
-	// NOTICE: the loadConstraints methods clears the root constraint.
-	// After the third command, the context will only contain the 
-	// constraints to check the "name" attribute.
+
+The \code{ValidationContext} is designed to be reusable, so you can use a
+single instance of ValidationContext to perform several validations.  To do
+so, repeat the next two steps.
+
+
+\subsubsection{Prepare the context}
+
+Next, provide \code{ValidationContext} with the JSBML SBML objects that you
+want to validate. For each such object, use the method
+\code{loadConstraintsForClass(Class<?> clazz)} with the objects class as
+parameter (e.g., ``\code{object.getClass()}") or by using a static reference
+(e.g., ``\code{Species.class}"). The context will traverse the class
+hierarchy to load all the constraints that are necessary to achieve
+validation. For example, if you use a custom class which is derived from
+\Species, the validator will recognize this and also load the constraints for
+the \Species class.
+
+\vspace*{1ex}
+\begin{example}[style=java, title={Three different ways to load constraints.}]
+// Load constraints to validate a MyClass object
+ctx.loadConstraintsForClass(MyClass.class);	
+
+// Load constraints to validate the class from myObject
+ctx.loadConstraintsForClass(myObject.getClass());
+
+// Load constraints to validate a single attribute
+ctx.loadConstraintsForAttribute(myObject.getClass(), "name");
+
+// NOTICE: the loadConstraints methods clears the root constraint.
+// After the third command, the context will only contain the constraints to check the "name" attribute.
 \end{example}
-\item[3.] \textbf{Validate} \\
-Now you can start the validation. The method \code{validate(Object o)} will immediately return a boolean, which is \code{true} when no constraint was broken and \code{false} otherwise. If you try to call this method if a object which is not assignable to the class for which the constraints were loaded, this method also will just return \code{false} and print a log message. If you like to get a list of all the errors and broken constraints, use a instance of LoggingValidationContext instead.
-\begin{example}[style=java, title={Validate}]
-	// Perform the validation
-	boolean isValid = ctx.validate(myObject);
+
+
+\subsubsection{Run the validation}
+
+Finally, start the validation procedure. The method \code{validate(Object o)}
+will return a Boolean whose value will be \code{true} when no constraint was
+broken and \code{false} otherwise.
+
+\begin{example}[style=java, title={Validate.}]
+// Perform the validation
+boolean isValid = ctx.validate(myObject);
 \end{example}
-\end{itemize}
+
+If you invoke the \code{validate} method on an object that is not assignable
+to the class for which the constraints were loaded, this method will simply
+return \code{false} and print a log message.  To get a list of all the errors
+and broken constraints, use a instance of \code{LoggingValidationContext}
+instead.
+
 
 \subsubsection{Control the validation}
-There are some ways to control the validation process.
-\begin{itemize}
-\item[a)] \textbf{Enable/disable check categories:}\\
-With check categories, it's possible to control which subset of rules will be loaded. By default only the 
-\item[b)] \textbf{Recursive validation:}\\
-The validation context can perform a recursive validation and also validate the child objects. This is realized by using the \TreeNode Interface. If a class inherits from \TreeNode (which is the case by \SBase) and this option is enabled, the context will also load the constraints for the class of every child returned by the \TreeNode iteration methods. If one of the children is also a \TreeNode, the recursive validation will go on. This option is enable by default.
-\item[c)] \textbf{Track the validation:}\\
-If you want to follow the validation process in real time, you could use the ValidationListener interface, which provides two methods:
-\begin{itemize}
-\item \code{willValidate(ValidationContext ctx, AnyConstraint<?> c, Object o)} \\ 
-which will be called every time before a constraint will perform a check
-\item \code{didValidate(ValidationContext ctx, AnyConstraint<?> c, Object o, boolean success)} \\
-which will be called after the check. The \code{boolean success} will be the result of the check from this constraint.
-\end{itemize}
-If you want to get more information about the constraint, you could retrieve his error code. If the constraint is just a ConstraintGroup and therefore just a collection of constraints, the error code should be equals to \code{CoreSpecialErrorCodes.ID-GROUP}. In any other case you could use this error code to create the \code{SBMLError} object assoscieted with it by using the \code{SBMLErrorFactory}.
-\end{itemize}
+
+There are several ways to control the behavior of the validation process.
+
+\begin{enumerate}
+
+\item \emph{Enable/disable check categories}.  With check categories,
+  it's possible to control which subset of rules will be loaded. 
+
+\item \emph{Recursive validation}.  The validation context can perform a
+  recursive validation and also validate the child objects. This is realized
+  by using the \TreeNode Interface. If a class inherits from \TreeNode (which
+  is the case by \SBase) and this option is enabled, the context will also
+  load the constraints for the class of every child returned by the \TreeNode
+  iteration methods. If one of the children is also a \TreeNode, the
+  recursive validation will go on. This option is enabled by default.
+
+\item \emph{Track the validation.}  To follow the validation process in real
+  time, use the \code{ValidationListener} interface.  It provides two
+  methods:
+
+  \begin{itemize}
+
+  \item \code{willValidate(ValidationContext ctx, AnyConstraint<?> c, Object o)} \\ 
+    which is called every time before a constraint will perform a check
+
+  \item \code{didValidate(ValidationContext ctx, AnyConstraint<?> c, Object o, boolean success)} \\
+    which is called after the check. The \code{boolean success} will be the result of the check from this constraint.
+
+  \end{itemize}
+
+  If you want to get more information about the constraint, you can retrieve
+  its error code. If the constraint is just a \code{ConstraintGroup} and
+  therefore just a collection of constraints, the error code should be equals
+  to \code{CoreSpecialErrorCodes.ID-GROUP}. In any other case you could use
+  this error code to create the \code{SBMLError} object assoscieted with it
+  by using the \code{SBMLErrorFactory}.
+
+\end{enumerate}
 
 
-\subsection{Provide custom constraints}
-It is very easy to provide custom constraints. When the \code{ConstraintsFactory} is looking for the constraints for a class, it is using reflection to search a constraint delcaration for this class. \\
-A constraint declaration is just a simple class which has the name of the class it wants to delcare constraints for, followed by the word ``Constraints". So the class which provides the constraints for \Species is called \code{SpeciesConstraints}.\\ This class must at least implement the \code{ConstraintDeclaration} interface, but it is recommended to extends \code{AbstractConstraintDeclaration} because it already provides a implementation of the most functions and also caches the constraints.\\
-Notice that any constraint declaration must be located in the package ``\code{org.sbml.jsbml.validator.offline.constraints}".
-\\\\
-To declare new constraints follow these steps:
-\begin{itemize}
-\item[1.)] \textbf{Create constraint declaration:}\\
-First you have to create the class in which you put the code for the constraints and select which constraints should be loaded to validate a certain check category.
+\subsection{Providing custom constraints to the offline validator}
+
+It is easy to provide custom constraints. When the \code{ConstraintsFactory}
+looks for the constraints for a given class, it uses Java reflection to
+search for a constraint declaration for that class. A constraint declaration
+is just a simple class that has the name of the class it wants to declare
+constraints for, followed by the word ``Constraints''.  For example, the
+class that provides the constraints for \Species is called
+\code{SpeciesConstraints}. This class must at least implement the
+\code{ConstraintDeclaration} interface, but it is best if it also extends
+\code{AbstractConstraintDeclaration} because the latter implements most
+functions and also caches the constraints.  Notice that any constraint
+declaration must be located in the package
+``\code{org.sbml.jsbml.validator.offline.constraints}''.
+
+To declare new constraints, follow these steps:
+
+\begin{enumerate}
+
+\item \emph{Create constraint declaration}. First you have to create the
+  class in which you put the code for the constraints and select which
+  constraints should be loaded to validate a certain check category.
+
 \begin{example}[style=java, title={Create constraint declaration class}]
 // Be sure to use this package, otherwise the ConstraintFactory won't find your constraints.
 package org.sbml.jsbml.validator.offline.constraints;
@@ -70,12 +147,18 @@ package org.sbml.jsbml.validator.offline.constraints;
 // This class will contain the constraints for a MyClass object
 public class MyClassConstraints extends AbstractConstraintDeclaration {
 	
-	// To be filled with code...
+	// To be filled with your code...
 }
 \end{example}
 
-\item[2.)] \textbf{Select the error codes which should be checked}:\\
-Next, you have to collect the error codes to perform a proper validation. There are two methods, one for the complete validation in a single check category and one for the attribute validation. Inside this methods you will have a \code{Set<Integer>} to which you should add every error code that should be validated in this check category. You could use the level and version parameter to avoid loading unnecessary constraints.
+\item \emph{Select the error codes which should be checked}.  Next, you
+  have to collect the error codes to perform a proper validation. There are
+  two methods, one for the complete validation in a single check category and
+  one for the attribute validation. Inside this methods you will have a
+  \code{Set<Integer>} to which you should add every error code that should be
+  validated in this check category. You could use the level and version
+  parameter to avoid loading unnecessary constraints.
+
 \begin{example}[style=java, title={Select error codes}]
   /*
    * In this method you add all the error codes to the set, which should be 
@@ -97,9 +180,7 @@ Next, you have to collect the error codes to perform a proper validation. There 
     // other cases...
   	
     }
-	
   }
-
 
   /*
    * This method works just like the one above, expect that this time you should
@@ -122,9 +203,19 @@ Next, you have to collect the error codes to perform a proper validation. There 
   }
 \end{example}
 
-\item[3.)] \textbf{Provide the logic for the constraints}:
-Now you only have to write the constraint, this is done by provding a validation function. In the most cases you will just create a anonymus class and put your code in the \code{check(*)} method. This method should return \code{false} if the constraint is broken. Keep in mind that the constraints are cached and will be reused and shared between different \code{ValidationContext} objects. You could avoid caching by using negative numbers as your error codes.\\
-Beside of this, it's possible (and sometime necessary) to have different constraints with the same error code. Choose your error codes wisely, because classes like the \code{LoggingValidationContext} will use the error code to load a \code{SBMLError} object for this constraint.
+\item \emph{Provide the logic for the constraints}.  Now you only have to
+  write the constraint, this is done by provding a validation function. In
+  the most cases you will just create a anonymus class and put your code in
+  the \code{check(*)} method. This method should return \code{false} if the
+  constraint is broken. Keep in mind that the constraints are cached and will
+  be reused and shared between different \code{ValidationContext} objects.
+
+  You could avoid caching by using negative numbers as your error codes.
+  Beside of this, it's possible (and sometime necessary) to have different
+  constraints with the same error code. Choose your error codes wisely,
+  because classes like the \code{LoggingValidationContext} will use the error
+  code to load a \code{SBMLError} object for this constraint.
+
 \begin{example}[style=java, title={Select error codes}]
   /*
    * Here you provide the real logic for a constraint in form of a ValidationFunction
@@ -157,4 +248,5 @@ Beside of this, it's possible (and sometime necessary) to have different constra
     return func;
   }
 \end{example}
-\end{itemize}
+
+\end{enumerate}
