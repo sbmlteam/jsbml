@@ -8,12 +8,14 @@ separate libraries (packaged as JAR files). With the help of the current
 JSBML modules, JSBML can be used, for example, as a communication layer
 \index{JSBML!as communication layer} between your application and
 libSBML~\citep{Bornstein2008} or between your program and the program known
-as CellDesigner~\citep{Funahashi2003}. In addition, JSBML is planning to offers a
+as CellDesigner~\citep{Funahashi2003}. In addition, the JSBML project plans to offers a
 compatibility module \index{libSBML!compatibility module}%
 that helps to write code compatible with libSBML by providing the same package 
 structure and API as libSBML's Java
-language interface. In the rest of this section, we provide examples of how
-to use these modules.
+language interface.
+
+In the rest of this section, we provide examples of how to use the JSBML
+modules.
 
 
 \subsection{The \codeNC{libSBMLio} module: using libSBML for parsing
@@ -66,8 +68,12 @@ data structure in a CellDesigner plugin to the translator in JSBML, and (2)
 creating a plugin for CellDesigner which displays the SBML data structure
 in a tree, like the example in \fig{fig:JSBMLvisualizer-output}.
 
-\clearpage
-\exampleFile[style=java, firstline=29, caption={A simple implementation of CellDesigner's abstract class \code{PluginAction}.}, label={lst:PluginAction}]{src/org/sbml/jsbml/celldesigner/cdplugin_example.java}
+\begin{figure}[bht]
+  \vspace*{-1ex}
+  \exampleFile[style=java, firstline=29, caption={}]{src/org/sbml/jsbml/celldesigner/cdplugin_example.java}
+  \caption{A simple implementation of CellDesigner's abstract class \code{PluginAction}.}
+  \label{lst:PluginAction}
+\end{figure}
 
 Listings \vrefrange{lst:PluginAction}{lst:Plugin1} show how to translate a
 plugin's data structure from CellDesigner into a JSBML data structure. With
@@ -83,9 +89,8 @@ synchronization of changes in JSBML's data structures with CellDesigner.
 
 \clearpage
 
-\exampleFile[style=java, firstline=35, label=lst:Plugin1, caption={A simple example for a CellDesigner plugin using JSBML as a communication layer.}]{src/org/sbml/jsbml/celldesigner/SimpleCellDesignerPlugin.java}
+\exampleFile[style=java, firstline=35, label={lst:Plugin1}, caption={A simple example for a CellDesigner plugin using JSBML as a communication layer.}]{src/org/sbml/jsbml/celldesigner/SimpleCellDesignerPlugin.java}
 
-\clearpage
 
 \subsection{The \codeNC{libSBMLcompat} module: a JSBML compatibility
   module for libSBML}
@@ -97,6 +102,7 @@ to switch an existing application from libSBML to JSBML or the other way
 around without changing any code.  \index{libSBML!compatibility module}%
 This module is in early development phase.
 
+
 \subsection{The \codeNC{android} module: a compatibility module for
   Android systems}
 \index{Android}
@@ -105,14 +111,20 @@ The JSBML \emph{Android} module is intended to provide all those classes
 from the Java standard distribution that are required for JSBML, but might
 be missing on Android systems.
 
+
 \subsection{The \codeNC{compare} module: facilities for doing comparisons between libSBML and JSBML}
 
-During the early development of JSBML, we developed those set of classes in order to check that what
-JSBML was reading in memory was equivalent of what libSBML was reading in memory. Those classes were
-used (and can still be used) to detect inconsistency between JSBML and libSBML and helped to find bugs
- in both libraries.
+During the early development of JSBML, we developed a set of classes in
+order to check that what JSBML was reading in memory was equivalent of what
+libSBML was reading in memory. Those classes were used (and can still be
+used) to detect inconsistency between JSBML and libSBML and helped to find
+bugs in both libraries.  They are part of JSBML's \code{compare} module.
+
 
 \subsection{The \codeNC{tidy} module: to produce a tidy XML output}
 
-The tidy module was created to allow users to write a pretty XML output. In order to use it, you just need to replace
-in your code the use of the \SBMLWriter{} class by the \TidySBMLWriter{} class.
+The \code{tidy} module was created to allow users to write a pretty XML
+output.  It uses the JTidy library, which is a port of HTML Tidy, an HTML
+syntax checker and pretty printer.  In order to use the \code{tidy} module in
+JSBML, you just need to replace in your code the use of the \SBMLWriter{}
+class by the \TidySBMLWriter{} class.
