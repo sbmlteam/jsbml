@@ -5,7 +5,7 @@
 
 In this section, we present two examples of using JSBML. The first is a
 program that reads a file containing an SBML document and displays its
-components in a \JTree graphical object. The second example
+components in a Java \JTree graphical object. The second example
 illustrates the creation of an object representing an SBML document (which,
 in JSBML, is represented programmatically using an object of class
 \SBMLDocument), as well as writing that object to a file. These basic
@@ -15,52 +15,23 @@ elaborate programs.
 
 \subsection{Reading and visualizing an \codeNC{SBMLDocument} object}
 
-\fig{fig:JSBMLvisualizer-source} shows the listing of a very simple
-program called ``\code{JSBMLvisualizer}''. When it is run, it expects to
-be given the path name of a valid SBML file as \index{SBML!XML file} its
-sole argument. The program uses the static method \code{read()} defined
-by the JSBML object class \SBMLReader to read the file; \SBMLReader
-returns an object of class \SBMLDocument, the main SBML document
-container in JSBML.  Next, the program constructs a new
-\code{JSBMLvisualizer} object, which is derived from the standard Java
-\JFrame class. It invokes the class constructor (line 9) with the
-identifier of the model in the SBML file, obtained by calling
-\code{getModel().getId()} on the \SBMLDocument object; this sets the
-\JFrame's title to the identifier of the model. Since JSBML's \SBase
-object (and all objects derived from it) implement the \TreeNode
-interface, it is possible to create a \JTree directly from the
-information in an \SBMLDocument object instance.  (To keep our examples
-short and focused on the essentials of using JSBML, we have omitted
-error checking steps.  A real application program should guard against
-various situations, such as \code{getModel()} or \code{getId()} returning \code{null}, and
-take steps to deal with them appropriately. You might also like to read SBML files 
-in a separate thread and monitor the progress of reading the file in some progress bar.)
-
-To compile and execute ``\code{JSBMLvisualizer}'', you would need to do
-the following sequence of commands:
+\fig{fig:JSBMLvisualizer-source} shows the listing of a simple program
+called ``\code{JSBMLvisualizer}''.  The source is included in the JSBML
+distribution, in the ``\texttt{doc/user\_guide/src}'' subdirectory.  As
+with most simple JSBML-based programs, to compile and execute
+``\code{JSBMLvisualizer}'', you would execute the following sequence of
+commands:
 
 \newcommand{\classpath}{\code{\emph{\color{winered}classpath}}\xspace}
 
 \begin{example}[style=bash, title={Compiling and executing the example program.}]
-javac -classpath |\classpath|JSBMLvisualizer.java
-java -classpath |\classpath|JSBMLvisualizer
+  javac -classpath |\classpath|JSBMLvisualizer.java
+  java -classpath |\classpath|JSBMLvisualizer
 \end{example}
 
-In the example commands above, replace the placeholder text \classpath with
-the actual Java class path for the JSBML libraries and its dependencies on
-your particular computer; we do not show an exact value here because it
-depends on where you have installed the JAR files for JSBML and the
-third-party libraries.
-
-\begin{figure}[ht]
-  \exampleFile[style=java, firstline=35, caption={}]{src/org/sbml/jsbml/gui/JSBMLvisualizer.java}
-  \caption{Parsing and visualizing the content of an SBML file.}
-  \label{fig:JSBMLvisualizer-source}
-  \index{graphical user interface!\code{JFrame}}
-\end{figure}
-
-\begin{wrapfigure}[23]{r}{2.55in}
+\begin{wrapfigure}[24]{r}{2.55in}
   \centering
+  \vspace*{-1.8em}
   \setlength{\captionmargin}{1.8em}
   \includegraphics[width=.32\textwidth]{%
     ../posters/2010_ICSB_and_COMBINE/JSBMLvisualizerTransparent.png}
@@ -71,6 +42,41 @@ third-party libraries.
     implement the interface \TreeNode.}
   \label{fig:JSBMLvisualizer-output}
 \end{wrapfigure}
+In the example commands above, replace the placeholder text \classpath with
+the actual Java class path for the JSBML libraries and its dependencies on
+your particular computer; we do not show an exact value here because it
+depends on where you have installed the JAR files for JSBML and the
+third-party libraries.
+
+When run, the program expects to be given the path name of a valid SBML
+file as \index{SBML!XML file} its sole argument. It uses the static method
+\code{read()} defined by the JSBML object class \SBMLReader to read the
+file; \SBMLReader returns an object of class \SBMLDocument, the main SBML
+document container in JSBML.  Next, the program constructs a new
+\code{JSBMLvisualizer} object, which is derived from the standard Java
+\JFrame class. It invokes the class constructor (line 9) with the
+identifier of the model in the SBML file, obtained by calling
+\code{getModel().getId()} on the \SBMLDocument object; this sets the
+\JFrame's title to the identifier of the model.  Since JSBML's \SBase
+object (and all objects derived from it) implement the \TreeNode interface,
+it is possible to create a \JTree directly from the information in an
+\SBMLDocument object instance.  (To keep our examples short and focused on
+the essentials of using JSBML, we have omitted error checking steps.  A
+real application program should guard against various situations, such as
+\code{getModel()} or \code{getId()} returning \code{null}, and take steps
+to deal with them appropriately. You might also like to read SBML files in
+a separate thread and monitor the progress of reading the file in some
+progress bar.)
+
+\begin{figure}[ht]
+  \exampleFile[style=java, firstline=35, caption={}]{src/org/sbml/jsbml/gui/JSBMLvisualizer.java}
+  \caption{Parsing and visualizing the content of an SBML file.}
+  \vspace*{-1.5em}
+  \label{fig:JSBMLvisualizer-source}
+  \index{graphical user interface!\code{JFrame}}
+\end{figure}
+
+
 \fig{fig:JSBMLvisualizer-output} shows the example output when
 applying the program to an SBML test model. \index{SBML!test cases} Each
 element in the model shows up as an item in the hierarchy displayed by the
@@ -96,6 +102,9 @@ errors reported by \SBMLReader when it attempts to read the SBML file, and
 deal with them appropriately. Elsewhere in this document, we provide
 examples of checking for errors.
 
+Reading a file is nice, but what about writing an SBML file?  That is the
+topic of the next example.
+
 % FIXME tell people where to find the source code to the examples.
 
 
@@ -119,11 +128,12 @@ representation of the SBML model.
 
 \begin{figure}[bht]
   \vspace*{-1ex}
-  \exampleFile[firstline=32, style=java,
-  caption={}]{src/org/sbml/jsbml/demo/JSBMLexample.java}
-  \vspace*{-1.5ex}
-  \caption{Creating a new \code{SBMLDocument} object and writing its content
-    into a file.}
+  \exampleFile[style=java, caption={}, firstline=32]{src/org/sbml/jsbml/demo/JSBMLexample.java}
+  \vspace*{-1ex}
+  \caption{An example of Creating a new \code{SBMLDocument} object and
+    writing its content into a file.  (This file is available as
+    ``\texttt{doc/user\_guide/src/org/sbml/jsbml/demo/JSBMLexample.java}''
+    in the JSBML distribution.)}
   \label{fig:JSBMLexample-source}
   \vspace*{-1em}
 \end{figure}
