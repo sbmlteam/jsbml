@@ -92,7 +92,7 @@
 \RequirePackage[square,numbers,sort]{natbib}
 \RequirePackage{tocloft}
 \RequirePackage{suffix}
-\RequirePackage{microtype}
+\RequirePackage[final,protrusion=true,expansion=true,spacing=true]{microtype}
 \RequirePackage{dirtree}
 \RequirePackage{makeidx}
 \RequirePackage[font=small,totoc]{idxlayout}
