@@ -58,8 +58,7 @@ public class JSBMLexample implements TreeNodeChangeListener {
     SpeciesReference prod = sbReaction.createProduct(specTwo);
     prod.setSBOTerm(11);
 
-    // For brevity, WE DO NOT PERFORM ERROR CHECKING, but you should,
-    // using the method doc.checkConsistency() and then checking the error log.
+    // For brevity, we omit error checking, BUT YOU SHOULD CALL doc.checkConsistency() and check the error log.
 
     // Write the SBML document to a file.
     SBMLWriter.write(doc, "test.xml", "JSBMLexample", "1.0");
