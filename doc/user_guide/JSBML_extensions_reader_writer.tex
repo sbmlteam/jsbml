@@ -23,8 +23,7 @@ public class ExampleParser extends AbstractReaderWriter {
   private Logger logger = Logger.getLogger(ExampleParser.class);
 
   /**
-   * The ExampleListType enum which represents the name of the list this parser is
-   * currently reading.
+   * The ExampleListType enum which represents the name of the list this parser is currently reading.
    */
   private ExampleListType groupList = ExampleListType.none;
 
@@ -67,12 +66,12 @@ means that the context object of a ListOfFoos is not of the type
 can only be added to an \code{ExampleModel}, the extension is retrieved or
 created on the fly.
 
-The \code{groupList} variable keeps track of where we are in
+The \code{groupList} variable keeps track of the current location in
 nested structures.  If the \code{listOfFoos} starting tag is encountered,
 the corresponding enum value is assigned to that variable.  Due to Java's
 type erasure, the context object inside a \code{listOfFoos} tag is of type
 \code{ListOf<?>} and a correctly set \code{groupList} variable is the only
-way of knowing where we are.  If we have checked that we are, in fact,
+way of knowing the current location.  If we have checked that we are, in fact,
 inside a \code{listOfFoos} node, and encounter a \code{foo} tag, we create a
 \code{Foo} object and add it to the example model.  Technically, it is
 added to the \code{ListOfFoos} of the example model, but because
