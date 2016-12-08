@@ -270,20 +270,6 @@ public class CVTerm extends AnnotationElement {
     }
 
     /**
-     * Sets a name corresponding to this Qualifier Object. WARNING: using
-     * this method might generate wrong SBML.
-     * 
-     * <p>This method is mainly for internal use when a qualifier
-     * is not recognized by JSBML when reading an SBML file. It can happen if the qualifier
-     * was created after the release of JSBML or if there is a typo.</p>
-     * 
-     * @param qualifierString a name corresponding to this Qualifier Object.
-     */
-    public void setElementNameEquivalent(String qualifierString) {
-      nameEquivalent = qualifierString;
-    }
-    
-    /**
      * Returns {@code true} if this qualifier is a biological qualifier.
      * 
      * @return {@code true} if this qualifier is a biological qualifier,
@@ -387,6 +373,11 @@ public class CVTerm extends AnnotationElement {
    */
   private Qualifier qualifier;
 
+  /**
+   * 
+   */
+  private String unknownQualifierName = "unknownQualifier";
+  
   /**
    * Contains all the MIRIAM URI associated with the qualifier of this {@link CVTerm}
    * instance.
@@ -1378,5 +1369,30 @@ public class CVTerm extends AnnotationElement {
     return getNestedCVTermCount();
   }
 
+  /**
+   * Gets a name corresponding to the Qualifier of this {@link CVTerm}.
+   * 
+   * <p>Only useful if the qualifier is {@link Qualifier#BQM_UNKNOWN} or
+   * {@link Qualifier#BQB_UNKNOWN}.</p> 
+   * 
+   * @return the unknownQualifierName
+   */
+  public String getUnknownQualifierName() {
+    return unknownQualifierName;
+  }
+
+  /**
+   * Sets a name corresponding to the Qualifier of this {@link CVTerm}. WARNING: using
+   * this method might generate wrong SBML.
+   * 
+   * <p>This method is mainly for internal use when a qualifier
+   * is not recognized by JSBML when reading an SBML file. It can happen if the qualifier
+   * was created after the release of JSBML or if there is a typo.</p>
+   * 
+   * @param unknownQualifierName the unknownQualifierName to set
+   */
+  public void setUnknownQualifierName(String unknownQualifierName) {
+    this.unknownQualifierName = unknownQualifierName;
+  }
 
 }

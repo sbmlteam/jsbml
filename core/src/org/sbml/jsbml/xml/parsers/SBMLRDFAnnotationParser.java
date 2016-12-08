@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -30,6 +29,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
+import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.History;
 import org.sbml.jsbml.JSBML;
@@ -50,7 +50,6 @@ import org.w3c.util.InvalidDateException;
  * TODO - extends a lot the doc to describe the whole process of validation, reading and writing.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWriter {
@@ -956,6 +955,12 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         CVTerm cvTerm = new CVTerm(CVTerm.Type.MODEL_QUALIFIER, qualifier, resources.toArray(new String[resources.size()]));
         cvTerm.putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
 
+        if (!qualifier.getElementNameEquivalent().equals(bqmodelNode.getName())) {
+          // The qualifier was not recognized properly, it might have been created after the last JSBML release.
+          // We keep the qualifier String so that it can be used later on by users or to write back to XML.
+          cvTerm.setUnknownQualifierName(bqmodelNode.getName());
+        }
+        
         if (contextSBase instanceof SBase) {
           ((SBase) contextSBase).addCVTerm(cvTerm);
         } else if (contextSBase instanceof CVTerm) {
@@ -1012,6 +1017,12 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         CVTerm cvTerm = new CVTerm(CVTerm.Type.BIOLOGICAL_QUALIFIER, qualifier, resources.toArray(new String[resources.size()]));
         cvTerm.putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
 
+        if (!qualifier.getElementNameEquivalent().equals(bqbiolNode.getName())) {
+          // The qualifier was not recognized properly, it might have been created after the last JSBML release.
+          // We keep the qualifier String so that it can be used later on by users or to write back to XML.
+          cvTerm.setUnknownQualifierName(bqbiolNode.getName());
+        }
+        
         if (contextSBase instanceof SBase) {
           ((SBase) contextSBase).addCVTerm(cvTerm);
         } else if (contextSBase instanceof CVTerm) {
@@ -1743,7 +1754,15 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         trueIndex = 0;
       }
 
-      qualifierNode = getOrCreateWithCustomRDF(parentNode, trueIndex, cvterm.getQualifier().getElementNameEquivalent(),
+      String qualifierXMLName = cvterm.getQualifier().getElementNameEquivalent();
+      
+      if (cvterm.getQualifier().equals(Qualifier.BQB_UNKNOWN)
+          || cvterm.getQualifier().equals(Qualifier.BQM_UNKNOWN)) 
+      {
+        qualifierXMLName = cvterm.getUnknownQualifierName();
+      }
+      
+      qualifierNode = getOrCreateWithCustomRDF(parentNode, trueIndex, qualifierXMLName,
         cvtermURI, cvtermPrefix, cvterm.getUserObject(CUSTOM_RDF));
 
       XMLNode bagNode = getOrCreate(qualifierNode, "Bag", Annotation.URI_RDF_SYNTAX_NS, "rdf");
