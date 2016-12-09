@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -37,9 +35,7 @@ import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysMathCheck;
  * is in accordance with the arrays package specification.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 19, 2014
  */
 public class ArraysMathValidator {
 

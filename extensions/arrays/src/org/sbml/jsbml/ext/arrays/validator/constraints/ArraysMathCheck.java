@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -35,12 +33,11 @@ import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.util.ArraysMath;
 import org.sbml.jsbml.util.ResourceManager;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 /**
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 29, 2014
  */
 public class ArraysMathCheck extends ArraysConstraint {
 
@@ -186,7 +183,7 @@ public class ArraysMathCheck extends ArraysConstraint {
    * @param shortMsg
    */
   private void logMathVectorIrregular(String shortMsg) {
-    int code = 10211, severity = 0, category = 0, line = 0, column = 0;
+    int code = SBMLErrorCodes.ARRAYS_10211, severity = 0, category = 0, line = 0, column = 0;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("ArraysMathCheck.logMathVectorIrregular");
@@ -201,7 +198,7 @@ public class ArraysMathCheck extends ArraysConstraint {
    * @param shortMsg
    */
   private void logSelectorInconsistency(String shortMsg) {
-    int code = 10207, severity = 0, category = 0, line = 0, column = 0;
+    int code = SBMLErrorCodes.ARRAYS_10207, severity = 0, category = 0, line = 0, column = 0;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("ArraysMathCheck.logSelectorInconsistency");
