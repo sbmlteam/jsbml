@@ -2698,6 +2698,69 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     firePropertyChange(TreeNodeChangeEvent.version, oldVersion, version);
   }
 
+  /**
+   * Returns a String representing this SBase with all the 
+   * attributes that would be written to XML by the {@link SBMLWriter}.
+   * 
+   * @return a String representing this SBase with all its 
+   * attributes
+   */
+  @Override
+  public String toStringXMLAttributes() {
+    Map<String, String> attMap = writeXMLAttributes();
+    StringBuilder sb = new StringBuilder("<");
+    sb.append(getElementName());
+    
+    if (attMap != null) {
+      // print id, name and metaid first
+      sb.append(extractAttribute(attMap, "id"));
+      sb.append(extractAttribute(attMap, "name"));
+      sb.append(extractAttribute(attMap, "metaid"));
+      
+      for (String attributeName : attMap.keySet()) {
+        sb.append(" ").append(attributeName).append("=\"");
+        sb.append(attMap.get(attributeName)).append("\"");
+      }
+    }
+    
+    if (getChildCount() == 0) {
+      sb.append("/>");
+    } else {
+      sb.append('>');
+    }
+    
+    return sb.toString();
+  }
+  
+  /**
+   * Extracts an attribute value from the given map with or without
+   * packageName as prefix for the attribute name.
+   * 
+   * <p>If a value is found, the attribute is removed from the map.</p>
+   * 
+   * 
+   * @param attMap the attributes map
+   * @param attributeName the attribute name
+   * @return the attribute value or an empty String
+   */
+  private String extractAttribute(Map<String, String> attMap, String attributeName) {
+    String attributeValue = attMap.get(attributeName);
+    
+    if (attributeValue == null && (!packageName.equals("core"))) {
+      attributeValue = attMap.get(packageName + ":" + attributeName);
+    }
+
+    if (attributeValue != null) {
+      attMap.remove(attributeName);
+      attributeValue = " " + attributeName + "=\"" + attributeValue + "\"";
+    } else {
+      attributeValue = "";
+    }
+
+    return attributeValue;
+  }
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#unregisterChild(org.sbml.jsbml.SBase)
    */
