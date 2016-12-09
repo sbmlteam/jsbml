@@ -21,6 +21,11 @@ Version 1.2 (12-12-2016)
   - Returning the correct namespace for core elements when calling getNamespace() or getURI() (instead of 'null' previously).
 
 
+ * Miscellaneous updates:
+
+  - We have made numerous updates to the JSBML User Guide.
+
+
 ===========================================================================
 Version 1.2-beta1 (26-10-2016)
 ===========================================================================
