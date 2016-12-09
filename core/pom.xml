@@ -123,6 +123,7 @@
 			<groupId>org.mangosdk.spi</groupId>
 			<artifactId>spi</artifactId>
 			<version>0.2.4</version>
+			<optional>true</optional>
 		</dependency>
 		<!-- http://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>
