@@ -10,6 +10,8 @@ Version 1.2 (12-12-2016)
   - Updated the implementation of the SBML Level 3 Multi package to the Version 1.0.7 specification (August 2016).
   
   - JSBML is now deployed to Maven central to make it easier for people using maven to integrate it.
+  
+  - Added a new method to SBase named toStringXMLAttributes(). It will print more or less what would be written to XML (not including children elements).
 
 
  * Bug Fixes:

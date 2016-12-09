@@ -1229,5 +1229,14 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public void unsetName();
 
+  /**
+   * Returns a String representing this SBase with all the 
+   * attributes that would be written to XML by the {@link SBMLWriter}.
+   * 
+   * @return a String representing this SBase with all its 
+   * attributes
+   */
+  public String toStringXMLAttributes();
+
 
 }
