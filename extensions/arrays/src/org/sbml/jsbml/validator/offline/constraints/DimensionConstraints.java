@@ -21,6 +21,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.ext.arrays.Dimension;
+import org.sbml.jsbml.ext.arrays.validator.constraints.DimensionSizeCheck;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
@@ -36,7 +37,12 @@ public class DimensionConstraints extends AbstractConstraintDeclaration {
   {
     switch (category) {
     case GENERAL_CONSISTENCY:
+    {
+    	set.add(ARRAYS_20202);
+    	set.add(ARRAYS_20204);
+    	set.add(ARRAYS_20205);
       break;
+    }
     case IDENTIFIER_CONSISTENCY:
       break;
     case MATHML_CONSISTENCY:
@@ -59,6 +65,8 @@ public class DimensionConstraints extends AbstractConstraintDeclaration {
     
   }
 
+  // TODO - create a cache so that we don't run the constraint several time
+  
   @Override
   ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<Dimension> func = null;
@@ -66,7 +74,7 @@ public class DimensionConstraints extends AbstractConstraintDeclaration {
     switch (errorCode) {
 
     case ARRAYS_20201:
-
+    {
       func = new ValidationFunction<Dimension>() {
         @Override
         public boolean check(ValidationContext ctx, Dimension c) {
@@ -78,8 +86,76 @@ public class DimensionConstraints extends AbstractConstraintDeclaration {
       };
       break;
     }
+    case ARRAYS_20202:
+    {
+    	func = new ValidationFunction<Dimension>() {
+    		@Override
+    		public boolean check(ValidationContext ctx, Dimension c) {
+
+    			DimensionSizeCheck dimSizeCheck = new DimensionSizeCheck(c.getModel(), c);
+    			dimSizeCheck.check();
+
+    			System.out.println("ARRAYS_20202 - listOfErrors size = " + dimSizeCheck.getListOfErrors().size());
+    			
+    			if (dimSizeCheck.getListOfErrors().size() > 0) {
+    				// TODO - build a proper error message
+
+    				// check in the list of errors that we have error 20202            	
+    				return !ArraysUtils.checkListOfErrors(dimSizeCheck.getListOfErrors(), ARRAYS_20202);
+    			}
+
+    			return true;
+    		}
+    	};
+    	break;
+    }
+    case ARRAYS_20204:
+    {
+        func = new ValidationFunction<Dimension>() {
+          @Override
+          public boolean check(ValidationContext ctx, Dimension c) {
+
+        	  DimensionSizeCheck dimSizeCheck = new DimensionSizeCheck(c.getModel(), c);
+            dimSizeCheck.check();
+            
+            if (dimSizeCheck.getListOfErrors().size() > 0) {
+            	// TODO - build a proper error message
+            	
+            	// check in the list of errors that we have error 20204           	
+            	return !ArraysUtils.checkListOfErrors(dimSizeCheck.getListOfErrors(), ARRAYS_20204);
+            }
+            
+            return true;
+          }
+        };
+        break;
+    }
+    case ARRAYS_20205:
+    {
+        func = new ValidationFunction<Dimension>() {
+          @Override
+          public boolean check(ValidationContext ctx, Dimension c) {
+
+        	  DimensionSizeCheck dimSizeCheck = new DimensionSizeCheck(c.getModel(), c);
+            dimSizeCheck.check();
+            
+            if (dimSizeCheck.getListOfErrors().size() > 0) {
+            	// TODO - build a proper error message
+            	
+            	// check in the list of errors that we have error 20205          	
+            	return !ArraysUtils.checkListOfErrors(dimSizeCheck.getListOfErrors(), ARRAYS_20205);
+            }
+            
+            return true;
+          }
+        };
+        break;
+    }
+    }
 
     return func;
-  }  
+  }
+
+
 
 }

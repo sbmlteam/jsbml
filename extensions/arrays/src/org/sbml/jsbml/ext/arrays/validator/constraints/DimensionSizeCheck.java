@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,15 +30,14 @@ import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.util.ResourceManager;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 /**
  * Checks if the given {@link Dimension} object has size that is both
  * scalar and constant. Also, the size should be a non-negative integer.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 10, 2014
  */
 public class DimensionSizeCheck extends ArraysConstraint {
 
@@ -133,7 +131,7 @@ public class DimensionSizeCheck extends ArraysConstraint {
    * @param shortMsg
    */
   private void logMissingDimensionAttribute(String shortMsg) {
-    int code = 20202, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20202, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("DimensionSizeCheck.logMissingDimensionAttribute");
@@ -148,7 +146,7 @@ public class DimensionSizeCheck extends ArraysConstraint {
    * @param shortMsg
    */
   private void logDimensionSizeInvalid(String shortMsg) {
-    int code = 20204, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20204, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("DimensionSizeCheck.logDimensionSizeInvalid");
@@ -163,7 +161,7 @@ public class DimensionSizeCheck extends ArraysConstraint {
    * @param shortMsg
    */
   private void logDimensionSizeValueInconsistency(String shortMsg) {
-    int code = 20205, severity = 2, category = 0, line = -1, column = -1;
+    int code = SBMLErrorCodes.ARRAYS_20205, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = ArraysConstants.packageName;
     String msg = bundle.getString("DimensionSizeCheck.logDimensionSizeValueInconsistency");
