@@ -23,6 +23,7 @@
 package org.sbml.jsbml;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -857,8 +858,16 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
                   if (o instanceof String) {
                     // Let actual String values be wrapped in double quotes.
                     value = "\"" + o + "\"";
+                  } else if (o instanceof Collection<?>) {
+                    fName += ".size";
+                    value = Integer.valueOf(((Collection<?>) o).size()).toString();
                   } else if (o.getClass().isArray()) {
-                    value = Arrays.toString((Object[]) o);
+                    fName += ".length";
+                    value = Integer.valueOf(((Object[]) o).length).toString();
+                  } else if (o instanceof TreeNode) {
+                    // Other SBase or XMLNode or ASTNode
+                    fName += ".isSet";
+                    value = "true";
                   } else {
                     value = o.toString();
                   }
