@@ -45,7 +45,7 @@ public class ArraysUtils {
 		}
 
 		for (SBMLError error : listOfErrors) {
-			System.out.println("checkListOfErrors - current error = " + error.getCode() + ", error to found = " + errorCode);
+			// System.out.println("checkListOfErrors - current error = " + error.getCode() + ", error to found = " + errorCode);
 			if (error.getCode() == errorCode) {
 				return true;
 			}

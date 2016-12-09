@@ -104,7 +104,7 @@ public class ExtendedSBaseValidator{
    * @param sbase the {@link SBase} to check
    * @return {@code true} if this {@link SBase} can have a list of {@link Dimension}.
    */
-  private static boolean canHaveDimension(SBase sbase) {
+  public static boolean canHaveDimension(SBase sbase) {
     
     if (sbase instanceof Model) {
       return false;
