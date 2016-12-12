@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -24,6 +23,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -54,7 +54,6 @@ import org.sbml.jsbml.xml.parsers.ParserManager;
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
  */
 public class SBMLDocument extends AbstractSBase {
 
@@ -327,14 +326,48 @@ public class SBMLDocument extends AbstractSBase {
    * 
    * <p>For testing only, do not use for production.</p>
    * 
+   * <p>You can control the consistency checks that are performed when
+   * {@link #checkConsistencyOffline()} is called with the
+   * {@link #setConsistencyChecks(CHECK_CATEGORY, boolean)} method.
+   * It will fill this {@link SBMLDocument}'s {@link #listOfErrors}
+   * with {@link SBMLError}s for each problem within this whole data
+   * structure. You will then be able to obtain this list by calling
+   * {@link #getError(int)} or {@link #getListOfErrors()}.</p>
+   * 
+   * <p> If this method returns a nonzero value (meaning, one or more
+   * consistency checks have failed for SBML document), the failures may be
+   * due to <i>warnings</i> or <i>errors</i>. Callers should inspect the severity
+   * flag in the individual SBMLError objects returned by
+   * {@link SBMLDocument#getError(int)} to determine the nature of the failures.
+   * 
+
    * @return the number of errors
    */
   public int checkConsistencyOffline() {
-    LoggingValidationContext ctx =
-        new LoggingValidationContext(this.getLevel(), this.getVersion());
+    LoggingValidationContext ctx = new LoggingValidationContext(this.getLevel(), this.getVersion());
 
-    // TODO - enable only the categories selected by the user (and if checkConsistencyParameters is empty, disable the unit check by default)
-    ctx.enableCheckCategories(CHECK_CATEGORY.values(), true);
+    // By default disable the unit consistency category, enable all the rest
+    List<CHECK_CATEGORY> checks = new ArrayList<CHECK_CATEGORY>();
+    checks.addAll(Arrays.asList((CHECK_CATEGORY.values())));
+    checks.remove(CHECK_CATEGORY.UNITS_CONSISTENCY);
+    
+    // enable/disable the categories selected by the user
+    for (String checkCategory : checkConsistencyParameters.keySet()) 
+    {
+      CHECK_CATEGORY typeOfCheck = CHECK_CATEGORY.valueOf(checkCategory);
+      Boolean checkIsOn = checkConsistencyParameters.get(checkCategory);
+
+      logger.debug("checkConsistencyOffline - Type of check = " + typeOfCheck + " is " + checkIsOn);
+      
+      if (checkIsOn && typeOfCheck.equals(CHECK_CATEGORY.UNITS_CONSISTENCY)) {
+        checks.add(CHECK_CATEGORY.UNITS_CONSISTENCY);
+      }
+      else if (!checkIsOn) {
+        checks.remove(typeOfCheck);
+      }
+    }
+    
+    ctx.enableCheckCategories(checks.toArray(new CHECK_CATEGORY[checks.size()]), true);
     ctx.loadConstraints(this.getClass());
     ctx.validate(this);
 
@@ -357,7 +390,7 @@ public class SBMLDocument extends AbstractSBase {
    * <p>
    * If this method returns a nonzero value (meaning, one or more
    * consistency checks have failed for SBML document), the failures may be
-   * due to warnings @em or errors. Callers should inspect the severity
+   * due to <i>warnings</i> or <i>errors</i>. Callers should inspect the severity
    * flag in the individual SBMLError objects returned by
    * {@link SBMLDocument#getError(int)} to determine the nature of the failures.
    * 
