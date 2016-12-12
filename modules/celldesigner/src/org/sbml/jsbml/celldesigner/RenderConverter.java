@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -22,24 +21,22 @@
  */
 package org.sbml.jsbml.celldesigner;
 
-import jp.sbi.celldesigner.plugin.PluginCompartment;
-import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
-
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.render.ColorDefinition;
 import org.sbml.jsbml.ext.render.Ellipse;
-import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.Rectangle;
+import org.sbml.jsbml.ext.render.RenderGroup;
+
+import jp.sbi.celldesigner.plugin.PluginCompartment;
+import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date Jul 3, 2014
  */
 public class RenderConverter {
 
@@ -62,22 +59,9 @@ public class RenderConverter {
   {
     renderInfo.addColorDefinition(new ColorDefinition(pCompartment.getId(), pCompartment.getLineColor()));
     LocalStyle localStyle = renderInfo.getListOfLocalStyles().get("compartmentStyle");
-    String[] iDList = new String[1];
-    iDList[0] = "cGlyph_"+pCompartment.getId();
 
-    if (!localStyle.isSetIDList()) {
-      localStyle.setIDList(iDList);
-    }
-    else
-    {
-      String[] augmentedIDList = new String[localStyle.getIDList().length+1];
-      for (int i = 0; i<localStyle.getIDList().length; i++)
-      {
-        augmentedIDList[i] = localStyle.getIDList()[i];
-      }
-      augmentedIDList[localStyle.getIDList().length] = "cGlyph_" + pCompartment.getId();
-      localStyle.setIDList(augmentedIDList);
-    }
+    localStyle.getIDList().add("cGlyph_"+pCompartment.getId());
+    
     RenderGroup group = localStyle.getGroup();
     Rectangle rectangle = new Rectangle();
     rectangle.setX(pCompartment.getX());
@@ -98,23 +82,8 @@ public class RenderConverter {
   {
     renderInfo.addColorDefinition(new ColorDefinition(pSpeciesAlias.getAliasID(), pSpeciesAlias.getColor()));
     LocalStyle localStyle = renderInfo.getListOfLocalStyles().get("speciesAliasStyle");
-    String[] iDList = new String[1];
-    iDList[0] = "sGlyph_" + pSpeciesAlias.getAliasID();
 
-    if (!localStyle.isSetIDList())
-    {
-      localStyle.setIDList(iDList);
-    }
-    else
-    {
-      String[] augmentedIDList = new String[localStyle.getIDList().length+1];
-      for (int i = 0; i<localStyle.getIDList().length; i++)
-      {
-        augmentedIDList[i] = localStyle.getIDList()[i];
-      }
-      augmentedIDList[localStyle.getIDList().length] = "sGlyph_" + pSpeciesAlias.getAliasID();
-      localStyle.setIDList(augmentedIDList);
-    }
+    localStyle.getIDList().add("sGlyph_" + pSpeciesAlias.getAliasID());
 
     RenderGroup group = localStyle.getGroup();
     String speciesName = pSpeciesAlias.getType();
