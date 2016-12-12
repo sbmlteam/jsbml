@@ -83,7 +83,7 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
 
     for (Dimension dim : arraysSBasePlugin.getListOfDimensions())
     {
-      if (dim.getArrayDimension() > max) {
+      if (dim.isSetArrayDimension() && dim.getArrayDimension() > max) {
         max = dim.getArrayDimension();
       }
     }
@@ -92,6 +92,10 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
 
     for (Dimension dim : arraysSBasePlugin.getListOfDimensions())
     {
+      if (!dim.isSetArrayDimension()) {
+        continue;
+      }
+      
       int arrayDim = dim.getArrayDimension();
 
       if (!isSetArrayDimAt[arrayDim]) {

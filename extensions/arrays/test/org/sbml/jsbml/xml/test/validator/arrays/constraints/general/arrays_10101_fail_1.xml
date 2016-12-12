@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" arrays:required="true" level="3" version="1">
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1" arrays:required="true" level="3" version="1">
   <model>
     <listOfParameters>
       <parameter constant="true" id="n" value="3"/>
