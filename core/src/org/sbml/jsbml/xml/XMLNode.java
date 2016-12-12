@@ -571,6 +571,62 @@ public class XMLNode extends XMLToken {
     return OPERATION_SUCCESS;
   }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+      // just printing the bare minimum about this XMLNode
+      
+      StringBuilder builder = new StringBuilder();
+      builder.append(getClass().getSimpleName());
+      
+      if (isElement()) {
+    	  builder.append(" '" + getName() + "'");
+          builder.append(" [");
+
+          // writing attributes
+          if (getAttributesLength() > 0) {
+        	    
+        	    for (int i = 0; i < getAttributesLength(); i++) {
+        	    	String value = getAttrValue(i);
+        	    	String name = getAttrName(i);
+        	    	String prefix = getAttrPrefix(i);
+
+        	    	if (prefix != null && prefix.length() > 0) {
+        	    		builder.append(prefix).append(":");
+        	    	} 
+        	    	builder.append(name).append("=\"").append(value).append("\" ");
+        	    }
+          }
+          
+          // namespaces and child size
+          if (getNamespacesLength() > 0) {
+        	  if (getAttributesLength() > 0) {
+        		  builder.append(", ");
+        	  }
+        	  builder.append("namespaces size="); // TODO - we could write the namespaces like the attributes
+        	  builder.append(getNamespacesLength());        	  
+          }          
+          if (getNumChildren() > 0) {
+        	  if (getAttributesLength() > 0 || getNamespacesLength() > 0) {
+        		  builder.append(", ");
+        	  }
+        	  builder.append("childElements size=");
+        	  builder.append(getNumChildren()); // putting just the number of children, to avoid to print them recursively.
+          }
+      }
+      else if (isText()) {
+          builder.append(" [characters=");
+          builder.append(characters);    	  
+      }
+
+      builder.append("]");
+      
+      return builder.toString();
+    }
+    
+    
   /**
    * Returns a string representation of this {@link XMLNode}.
    * <p>
