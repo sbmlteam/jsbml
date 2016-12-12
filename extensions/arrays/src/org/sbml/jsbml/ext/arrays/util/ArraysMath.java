@@ -63,6 +63,10 @@ public class ArraysMath {
     ArraysCompiler compiler = new ArraysCompiler();
     compiler.setidToValue(getLowerBound(dimensionSizes));
 
+    if (math == null) {
+      return false;  // TODO - not sure if we should return true or false in this case
+    }
+    
     ASTNodeValue mathValue = math.compile(compiler);
 
     if (mathValue.isNumber()) {
@@ -262,6 +266,12 @@ public class ArraysMath {
       SBase sbase = model.findNamedSBase(obj.toString());
 
       ArraysSBasePlugin plugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
+      
+      if (plugin == null) {
+        // System.out.println("ArraysMath.evaluateSelectorBounds(model, mathContainer) - plugin is null - string = " + obj.toString());
+        return true; // TODO - not sure if we should return true or false in this case
+      }
+      
       int i = 1;
       while (i < math.getChildCount()) {
         ASTNode index = math.getChild(i);
@@ -286,7 +296,10 @@ public class ArraysMath {
 
       for (int i = 1; i < math.getChildCount(); ++i) {
         ASTNode index = math.getChild(i);
-        double size = vectorSizes.get(i);
+        Integer size = vectorSizes.get(i);
+        if (size == null) {
+          return false; // TODO - not sure if we should return true or false in this case
+        }
         result &= evaluateBounds(dimensionSizes, index, size);
       }
       return result;
@@ -491,6 +504,10 @@ public class ArraysMath {
     }
     ASTNode math = mathContainer.getMath();
 
+    if (math == null) {
+      return true; // TODO - not sure if we should return true or false in this case
+    }
+    
     ASTNodeValue value = math.compile(compiler);
 
     return value.toBoolean();
