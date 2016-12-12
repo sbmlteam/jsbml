@@ -240,21 +240,56 @@
     <id>ossrh</id>
     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
   </repository>
+  </distributionManagement>
+    
+  <profiles>
+    <profile>
+      <!-- To deploy to the jsbml sf maven repo add '-Ddeploy=sf' to your command line. -->
+       <activation>
+        <property>
+          <name>deploy</name>
+          <value>sf</value>
+        </property>
+      </activation>
+      <distributionManagement>
+        <repository>
+	  <id>jsbml-maven-repo-sf</id>
+	  <name>JSBML Maven repository</name>
+	  <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
+  	</repository>
+	
+	<snapshotRepository>
+	  <id>jsbml-maven-repo-s-sf</id>
+	  <name>JSBML Maven SNAPSHOT repository</name>
+	  <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
+	</snapshotRepository>
+      </distributionManagement>
+      <!-- to use jsbml maven repo test: replace 'jsbml' by 'jsbmlmavenrepotest' in the urls -->
+    </profile>
+
+    <profile>
+      <!-- To deploy locally add '-Ddeploy=local' to your command line. -->
+       <activation>
+        <property>
+          <name>deploy</name>
+          <value>local</value>
+        </property>
+      </activation>
+      <distributionManagement>
+	<repository>
+	  <id>local-repo-deploy</id>
+	  <name>Test Maven repository</name>
+	  <url>file:///var/www/html/repo</url>
+	</repository>
+      <!-- if  snapshotRepository is not define, the defined repository will be used for snapshots as well. -->
+      </distributionManagement>     
+    </profile>
+
+  </profiles>
 
 
-<!-- 
-To Deploy locally
 
-    <repository>
-      <id>local-repo-deploy</id>
-      <name>Test Maven repository</name>
-      <url>file:///var/www/html/repo</url>
-    </repository>
 
-    if  snapshotRepository is not define, the defined repository
-    will be used for snapshots as well.
-
--->
 <!--
 To Deploy to sonatype
 
@@ -285,26 +320,5 @@ To deploy to EBI:
     
 -->
 
-<!--
-To deploy to the jsbml maven repo 
-  
-    <repository>
-      <id>jsbml-maven-repo-sf</id>
-      <name>JSBML Maven repository</name>
-      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
-  	</repository>
 
-    <snapshotRepository>
-      <id>jsbml-maven-repo-s-sf</id>
-      <name>JSBML Maven SNAPSHOT repository</name>
-      <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
-    </snapshotRepository>
-
-jsbml maven repo test: replace jsbml by jsbmlmavenrepotest in the urls
-
--->
-
-  </distributionManagement>
-    
-  
 </project>
