@@ -35,14 +35,6 @@ import org.sbml.jsbml.ext.render.LinearGradient;
  */
 public class LinearGradientTest {
 
-  /**
-   * Test method for {@link LinearGradient#getAllowsChildren()}.
-   */
-  @Test
-  public void testGetAllowsChildren() {
-    LinearGradient linGrad=new LinearGradient();
-    assertTrue(!linGrad.getAllowsChildren());
-  }
 
 
   /**

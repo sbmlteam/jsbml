@@ -34,6 +34,17 @@
         <relativePath>../</relativePath>
     </parent>
   
+  	<repositories>
+		<repository>
+			<id>ebi-repo</id>
+			<name>The EBI internal repository</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+  
     <dependencies>
         <dependency>
             <groupId>org.sbml.jsbml</groupId>
@@ -46,6 +57,12 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+			<groupId>org.mangosdk.spi</groupId>
+			<artifactId>spi</artifactId>
+			<version>0.2.4</version>
+			<optional>true</optional>
+		</dependency>
     </dependencies>
 
     <modules>
