@@ -116,9 +116,9 @@ public class ArraysMathCheck extends ArraysConstraint {
 
       ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
 
-      if (arraysSBasePlugin.getDimensionCount() < math.getChildCount()-1)
+      if (arraysSBasePlugin == null || (arraysSBasePlugin.getDimensionCount() < (math.getChildCount() - 1))) // TODO - do we expect to always have an arrays plugin here ?
       {
-        String shortMsg = MessageFormat.format("Selector number of arguments of {0} is inconsistency .", math.toString());
+        String shortMsg = MessageFormat.format("Selector number of arguments of {0} is inconsistent .", math.toString());
         logSelectorInconsistency(shortMsg);
       }
 

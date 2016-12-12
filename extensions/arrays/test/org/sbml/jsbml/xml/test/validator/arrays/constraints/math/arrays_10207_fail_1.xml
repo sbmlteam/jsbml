@@ -7,13 +7,12 @@
         <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
           <arrays:dimension arrays:arrayDimension="0" arrays:id="i" arrays:size="n"/>
         </arrays:listOfDimensions>
-        <parameter constant="false" id="Y">
+      </parameter>
+      <parameter constant="false" id="Y">
         <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
           <arrays:dimension arrays:arrayDimension="0" arrays:id="i" arrays:size="n"/>
           <arrays:dimension arrays:arrayDimension="0" arrays:id="j" arrays:size="n"/>
         </arrays:listOfDimensions>
-      </parameter>
-    </listOfParameters>
       </parameter>
     </listOfParameters>
     <listOfRules>
@@ -25,7 +24,7 @@
             <ci> i </ci>
           </apply>
         </math>
-              <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
+        <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
           <arrays:dimension arrays:arrayDimension="0" arrays:id="i" arrays:size="n"/>
         </arrays:listOfDimensions>
         <arrays:listOfIndices xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
