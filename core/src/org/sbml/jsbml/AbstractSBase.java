@@ -2700,16 +2700,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Returns a String representing this SBase with all the 
-   * attributes that would be written to XML by the {@link SBMLWriter}.
+   * attributes that are defined.
    * 
    * @return a String representing this SBase with all its 
    * attributes
    */
   @Override
-  public String toStringXMLAttributes() {
+  public String toString() {
     Map<String, String> attMap = writeXMLAttributes();
-    StringBuilder sb = new StringBuilder("<");
-    sb.append(getElementName());
+    StringBuilder sb = new StringBuilder("");
+    sb.append(getElementName()).append(" [");
     
     if (attMap != null) {
       // print id, name and metaid first
@@ -2723,11 +2723,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
     }
     
-    if (getChildCount() == 0) {
-      sb.append("/>");
-    } else {
-      sb.append('>');
-    }
+    sb.append("]");
     
     return sb.toString();
   }
