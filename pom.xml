@@ -23,7 +23,7 @@
   
   <groupId>org.sbml.jsbml</groupId>
   <artifactId>jsbml-parent</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>JSBML</name>
   <inceptionYear>2009</inceptionYear>
@@ -243,7 +243,7 @@
   </distributionManagement>
     
   <profiles>
-    <profile>
+    <profile id="sf">
       <!-- To deploy to the jsbml sf maven repo add '-Ddeploy=sf' to your command line. -->
        <activation>
         <property>
@@ -267,7 +267,7 @@
       <!-- to use jsbml maven repo test: replace 'jsbml' by 'jsbmlmavenrepotest' in the urls -->
     </profile>
 
-    <profile>
+    <profile id="local">
       <!-- To deploy locally add '-Ddeploy=local' to your command line. -->
        <activation>
         <property>

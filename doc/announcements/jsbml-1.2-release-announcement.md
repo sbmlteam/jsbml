@@ -18,7 +18,7 @@ The toString() method of most JSBML classes has been replaced by a generic metho
  
 Since the time of the last JSBML release, we have moved the JSBML source code repository to github.com. Although we provide the main download files from GitHub, we will continue to distribute the releases from SourceForge until we develop a suitable release replacement scheme using either GitHub or sbml.org.
 
-You can find a detailed list of the user-visible new features and bug fixes since JSBML version 1.1 on the [NEWS](NEWS.txt) file.
+You can find a detailed list of the user-visible new features and bug fixes since JSBML version 1.1 on the [NEWS](NEWS.md) file.
 
 Thank you for your interest and support of JSBML and SBML in general.
 
