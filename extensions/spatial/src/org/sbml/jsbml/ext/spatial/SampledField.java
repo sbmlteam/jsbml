@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -34,11 +33,11 @@ import org.sbml.jsbml.xml.XMLNode;
 
 
 /**
+ * 
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @author Piero Dalle Pezze
  * @since 1.0
- * @version $Rev$
  */
 public class SampledField extends AbstractSpatialNamedSBase {
 
@@ -455,58 +454,98 @@ public class SampledField extends AbstractSpatialNamedSBase {
     return false;
   }
 
-
   /**
-   * Returns the value of interpolation
+   * Returns the value of interpolation type
    *
-   * @return the value of interpolation
+   * @return the value of interpolation type
    */
-  public InterpolationKind getInterpolation() {
+  public InterpolationKind getInterpolationType() {
     if (isSetInterpolation()) {
       return interpolation;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.interpolation, this);
+    throw new PropertyUndefinedError(SpatialConstants.interpolationType, this);
+  }
+
+  /**
+   * Returns the value of interpolation type
+   *
+   * @return the value of interpolation type
+   * @see SampledField#getInterpolationType()
+   */
+  public InterpolationKind getInterpolation() {
+    return getInterpolationType();
   }
 
 
   /**
-   * Returns whether interpolation is set
+   * Returns whether interpolation type is set
    *
-   * @return whether interpolation is set
+   * @return whether interpolation type is set
+   * @see #isSetInterpolationType()
    */
   public boolean isSetInterpolation() {
+    return isSetInterpolationType();
+  }
+
+  /**
+   * Returns whether interpolation type is set
+   *
+   * @return whether interpolation type is set
+   */
+  public boolean isSetInterpolationType() {
     return interpolation != null;
   }
 
 
   /**
-   * Sets the value of interpolation
-   * @param interpolation
+   * Sets the value of interpolation type
+   * 
+   * @param interpolation the value of interpolation type
+   * @see #setInterpolationType(InterpolationKind)
    */
   public void setInterpolation(InterpolationKind interpolation) {
+    setInterpolationType(interpolation);
+  }
+
+  /**
+   * Sets the value of interpolation type
+   * 
+   * @param interpolation the value of interpolation type
+   */
+  public void setInterpolationType(InterpolationKind interpolation) {
     InterpolationKind oldInterpolation = this.interpolation;
     this.interpolation = interpolation;
-    firePropertyChange(SpatialConstants.interpolation, oldInterpolation, this.interpolation);
+    firePropertyChange(SpatialConstants.interpolationType, oldInterpolation, this.interpolation);
   }
 
 
   /**
-   * Unsets the variable interpolation
+   * Unsets the variable interpolation type
    *
-   * @return {@code true}, if interpolation was set before,
+   * @return {@code true}, if interpolation type was set before,
    *         otherwise {@code false}
+   * @see #unsetInterpolationType()
    */
   public boolean unsetInterpolation() {
+    return unsetInterpolationType();
+  }
+
+  /**
+   * Unsets the variable interpolation type
+   *
+   * @return {@code true}, if interpolation type was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetInterpolationType() {
     if (isSetInterpolation()) {
       InterpolationKind oldInterpolation = interpolation;
       interpolation = null;
-      firePropertyChange(SpatialConstants.interpolation, oldInterpolation, interpolation);
+      firePropertyChange(SpatialConstants.interpolationType, oldInterpolation, interpolation);
       return true;
     }
     return false;
   }
-
 
   /**
    * Returns the value of {@link #samples}.
@@ -793,14 +832,14 @@ public class SampledField extends AbstractSpatialNamedSBase {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetNumSamples1()) {
-      attributes.put(SpatialConstants.shortLabel + ":numSamples1", String.valueOf(getNumSamples1()));
+      attributes.put(SpatialConstants.shortLabel + ":" + SpatialConstants.numSamples1, String.valueOf(getNumSamples1()));
     }
     if (isSetNumSamples2()) {
-      attributes.put(SpatialConstants.shortLabel + ":numSamples2",
+      attributes.put(SpatialConstants.shortLabel + ":" + SpatialConstants.numSamples2,
         String.valueOf(getNumSamples2()));
     }
     if (isSetNumSamples3()) {
-      attributes.put(SpatialConstants.shortLabel + ":numSamples3",
+      attributes.put(SpatialConstants.shortLabel + ":" + SpatialConstants.numSamples3,
         String.valueOf(getNumSamples3()));
     }
     if (isSetDataType()) {
@@ -813,7 +852,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
         getCompression().toString());
     }
     if (isSetInterpolation()) {
-      attributes.put(SpatialConstants.shortLabel + ":interpolation",
+      attributes.put(SpatialConstants.shortLabel + ":interpolationType",
         getInterpolation().toString());
     }
     if (isSetSamplesLength()) {
@@ -850,12 +889,13 @@ public class SampledField extends AbstractSpatialNamedSBase {
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.numSamples3, getElementName()));
         }
       }
-      // TODO: update the following IF, after Lucian has decided whether it is called interpolation or interpolationType
-      else if (attributeName.equals(SpatialConstants.interpolation) || attributeName.equals("interpolationType")) {
+      // The specs were ambiguous for some time so we keep both interpolation and interpolationType in this test
+      // to be able to read the incorrect models
+      else if (attributeName.equals(SpatialConstants.interpolationType) || attributeName.equals("interpolation")) {
         try {
           setInterpolation(InterpolationKind.valueOf(value));
         } catch (Exception e) {
-          logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.interpolation, getElementName()));
+          logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.interpolationType, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.compression)) {
