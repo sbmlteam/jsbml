@@ -244,6 +244,7 @@
     
   <profiles>
     <profile>
+      <id>sf</id>
       <!-- To deploy to the jsbml sf maven repo add '-Ddeploy=sf' to your command line. -->
        <activation>
         <property>
@@ -268,6 +269,7 @@
     </profile>
 
     <profile>
+      <id>local</id>
       <!-- To deploy locally add '-Ddeploy=local' to your command line. -->
        <activation>
         <property>
