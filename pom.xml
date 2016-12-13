@@ -23,7 +23,7 @@
   
   <groupId>org.sbml.jsbml</groupId>
   <artifactId>jsbml-parent</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
   <packaging>pom</packaging>
   <name>JSBML</name>
   <inceptionYear>2009</inceptionYear>

@@ -75,7 +75,7 @@
 		
 		<property name="Name" value="JSBML"/>
 		<property name="name" value="jsbml"/>
-		<property name="version" value="1.2-SNAPSHOT"/>
+		<property name="version" value="1.2"/>
 		<property name="api.version" value="1.2"/>
 
 		<property name="year" value="${YEAR}"/>

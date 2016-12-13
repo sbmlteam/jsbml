@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.sbml.jsbml.modules</groupId>
 		<artifactId>modules</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<version>1.2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -65,13 +65,13 @@
 		<dependency>
 			<groupId>org.sbml.jsbml.ext</groupId>
 			<artifactId>jsbml-layout</artifactId>
-			<version>1.2-SNAPSHOT</version>
+			<version>1.2</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.sbml.jsbml</groupId>
 			<artifactId>jsbml-core</artifactId>
-			<version>1.2-SNAPSHOT</version>
+			<version>1.2</version>
 		</dependency>
 
 		<!-- http://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
