@@ -2,6 +2,16 @@
 
 
 ===========================================================================
+Version X (xx-xx-2017)
+===========================================================================
+
+ * New Features:
+
+
+ * Bug Fixes:
+
+
+===========================================================================
 Version 1.2 (12-12-2016)
 ===========================================================================
 
@@ -11,8 +21,6 @@ Version 1.2 (12-12-2016)
   
   - JSBML is now deployed to Maven central to make it easier for people using maven to integrate it.
   
-  - Added a new method to SBase named toStringXMLAttributes(). It will print more or less what would be written to XML (not including children elements).
-
 
  * Bug Fixes:
 
