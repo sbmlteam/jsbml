@@ -188,38 +188,22 @@
         </configuration>
       </plugin>
       
-      <!-- plugins needed to deploy to sonatype/maven central --> 
+      <!-- plugin needed to deploy to sonatype/maven central. --> 
       <plugin>
-      	<groupId>org.sonatype.plugins</groupId>
-      <artifactId>nexus-staging-maven-plugin</artifactId>
-      <version>1.6.7</version>
-      <extensions>true</extensions>
-      <configuration>
-        <serverId>ossrh</serverId>
-        <nexusUrl>https://oss.sonatype.org/</nexusUrl>        
-        <!-- <skipStagingRepositoryClose>true</skipStagingRepositoryClose>
-        <autoReleaseAfterClose>false</autoReleaseAfterClose>
-        <skipRemoteStaging>true</skipRemoteStaging> 
-        the above options could be used to modify the repo to include the jsbml/jsbml pom file
-        before sending things over to nexus -->
-        <autoReleaseAfterClose>true</autoReleaseAfterClose>
-      </configuration>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-gpg-plugin</artifactId>
+	<version>1.5</version>
+	<executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+	</executions>
       </plugin>
-      <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-gpg-plugin</artifactId>
-      <version>1.5</version>
-      <executions>
-        <execution>
-          <id>sign-artifacts</id>
-          <phase>verify</phase>
-          <goals>
-            <goal>sign</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
-    
+      
     </plugins>
   </build>
 
@@ -230,19 +214,52 @@
     <module>modules</module>
   </modules>
   
-  <distributionManagement>
-
-  <snapshotRepository>
-    <id>ossrh</id>
-    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-  </snapshotRepository>
-  <repository>
-    <id>ossrh</id>
-    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-  </repository>
-  </distributionManagement>
-    
   <profiles>
+    <profile>
+      <id>ossrh</id>
+      <!-- To deploy to the jsbml sf maven repo add '-Ddeploy=ossrh' to your command line. -->
+      <activation>
+        <property>
+          <name>deploy</name>
+          <value>ossrh</value>
+        </property>
+      </activation>
+      
+      <build>
+	<plugins>
+          <!-- plugins needed to deploy to sonatype/maven central --> 
+	  <plugin>
+      	    <groupId>org.sonatype.plugins</groupId>
+	    <artifactId>nexus-staging-maven-plugin</artifactId>
+	    <version>1.6.7</version>
+	    <extensions>true</extensions>
+	    <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>        
+              <!-- <skipStagingRepositoryClose>true</skipStagingRepositoryClose>
+		   <autoReleaseAfterClose>false</autoReleaseAfterClose>
+		   <skipRemoteStaging>true</skipRemoteStaging> 
+		   the above options could be used to modify the repo to include the jsbml/jsbml pom file
+		   before sending things over to nexus -->
+              <autoReleaseAfterClose>false</autoReleaseAfterClose>
+	    </configuration>
+	  </plugin>
+	</plugins>
+      </build>
+	 
+      <distributionManagement>
+
+	<snapshotRepository>
+	  <id>ossrh</id>
+	  <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	</snapshotRepository>
+	<repository>
+	  <id>ossrh</id>
+	  <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+	</repository>
+      </distributionManagement>
+    </profile>
+
     <profile>
       <id>sf</id>
       <!-- To deploy to the jsbml sf maven repo add '-Ddeploy=sf' to your command line. -->
