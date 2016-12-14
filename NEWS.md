@@ -2,7 +2,7 @@
 
 
 ===========================================================================
-Version 1.2 (12-12-2016)
+Version 1.2 (14-12-2016)
 ===========================================================================
 
  * New Features:
@@ -19,6 +19,8 @@ Version 1.2 (12-12-2016)
   - Updated the implementation of the SBML Level 3 Render package to the draft specification (April 2015). Plenty of XML elements where not written with the correct names. Any files created by JSBML before version 1.2 should still be readable by JSBML 1.2 so that you can just read them and write them to get the correct XML.
   
   - Returning the correct namespace for core elements when calling getNamespace() or getURI() (instead of 'null' previously).
+
+  - Updated the XML attribute name of Samplefield.interpolation. Changed it from 'interpolation' to 'interplationType'. The change should be transparent for the user as the API is unchanged and when reading a file, we are reading both attribute names.
 
 
  * Miscellaneous updates:
