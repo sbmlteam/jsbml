@@ -12,7 +12,7 @@ Version X (xx-xx-2017)
 
 
 ===========================================================================
-Version 1.2 (12-12-2016)
+Version 1.2 (14-12-2016)
 ===========================================================================
 
  * New Features:
@@ -30,6 +30,7 @@ Version 1.2 (12-12-2016)
   
   - Returning the correct namespace for core elements when calling getNamespace() or getURI() (instead of 'null' previously).
 
+  - Updated the XML attribute name of Samplefield.interpolation. Changed it from 'interpolation' to 'interplationType'. The change should be transparent for the user as the API is unchanged and when reading a file, we are reading both attribute names.
 
  * Miscellaneous updates:
 

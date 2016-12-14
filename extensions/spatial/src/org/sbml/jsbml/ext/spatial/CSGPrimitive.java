@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,9 +28,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
  * @author Alex Thomas
- * @version $Rev$
  * @since 1.0
- * @date Jan 20, 2014
  */
 public class CSGPrimitive extends CSGNode{
 
