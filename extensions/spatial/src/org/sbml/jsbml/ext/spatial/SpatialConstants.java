@@ -503,7 +503,7 @@ public class SpatialConstants {
   /**
    * 
    */
-  public static final String interpolation = "interpolation";
+  public static final String interpolationType = "interpolationType";
   /**
    * 
    */
