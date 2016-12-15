@@ -1,15 +1,16 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
+ * 
  * Copyright (C) 2009-2016 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
+ * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -20,18 +21,18 @@
 
 package org.sbml.jsbml.validator.offline;
 
-import org.apache.log4j.Logger;
-import org.sbml.jsbml.util.ValuePair;
-import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
-import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
-import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
+
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
+import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
+import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 
 /**
  * A {@link ValidationContext} object is used to perform offline validation.
@@ -41,7 +42,7 @@ import javax.swing.tree.TreeNode;
  * the required constraints to validate a object from this class. By default the
  * context will try to validate recursive by searching for the {@link TreeNode}
  * interface. This behavior can be changed with
- * {@link ValidationContext#setValidateRecursivly(boolean)}.
+ * {@link ValidationContext#setValidateRecursively(boolean)}.
  * <p>
  * To start the validation process call
  * {@link ValidationContext#validate(Object)} with a object which is a instance
@@ -58,9 +59,7 @@ import javax.swing.tree.TreeNode;
  * <p>
  * 
  * @author Roman
- * @version $Rev$
  * @since 1.2
- * @date 04.07.2016
  */
 public class ValidationContext {
 
@@ -125,7 +124,7 @@ public class ValidationContext {
   }
 
   /**
-   * Will be called every time before a constraints starts his tests.
+   * Will be called every time after a constraints finished the checks.
    * 
    * @param constraint
    * @param o
@@ -147,7 +146,7 @@ public class ValidationContext {
    * won't change the root
    * constraint.
    * 
-   * @param catergoy
+   * @param category
    * @param enable
    * @see #loadConstraints(Class, int, int, CheckCategory[])
    */
@@ -334,7 +333,7 @@ public class ValidationContext {
    * 
    * @return
    */
-  public boolean getValidateRecursivly() {
+  public boolean getValidateRecursively() {
     return this.recursiv;
   }
 
@@ -467,11 +466,11 @@ public class ValidationContext {
    * If set to true, the validation context will try to validate also the childs
    * of a TreeNode interface.
    * 
-   * @param recursiv
+   * @param recursive
    */
-  public void setValidateRecursivly(boolean recursiv) {
+  public void setValidateRecursively(boolean recursive) {
 
-    this.recursiv = recursiv;
+    this.recursiv = recursive;
 
   }
 
@@ -542,9 +541,16 @@ public class ValidationContext {
   }
 
 
+  /**
+   * Will be called every time before a constraints starts his tests.
+   * 
+   * @param constraint
+   * @param o
+   */
   public void willValidate(AnyConstraint<?> constraint, Object o) {
     for (ValidationListener l : this.listener) {
       l.willValidate(this, constraint, o);
     }
   }
+  
 }
