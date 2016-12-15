@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -29,30 +28,30 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
  * 
  * @author Roman
  * @since 1.2
- * @date 08.07.2016
- * @param <T>
  */
 public interface AnyConstraint<T> {
 
   /**
    * Checks if the object conforms to the specific rule in the given context.
+   * 
    * <p>
    * If the rule behaves different for each level/version, the level and version
-   * of the context will be used.
+   * of the context will be used.</p>
    * 
-   * @param context
-   * @param object
-   * @return test passed
+   * @param context the validation context
+   * @param object the object to validate
+   * @return {@code false} if the object does not respect the constraint
    */
   abstract public boolean check(ValidationContext context, T object);
 
 
   /**
-   * Returns the error code from this constraints.
-   * In the default case this should be a error code which is defined in the
-   * SBML specifications.
+   * Returns the error code from this constraint.
    * 
-   * @return
+   * <p>In the default case this should be an error code which is defined in the
+   * SBML specifications.</p>
+   * 
+   * @return the error code from this constraint.
    */
   abstract public int getErrorCode();
 }

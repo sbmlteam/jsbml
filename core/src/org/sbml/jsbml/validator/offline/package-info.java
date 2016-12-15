@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -21,9 +20,8 @@
  */
 
 /**
- * This package provides methods to validate any kind of object without a connection to the internet.
+ * Provides classes to validate any kind of object offline.
  * 
- * @version $Rev$
  * @since 1.2
  */
 package org.sbml.jsbml.validator.offline;

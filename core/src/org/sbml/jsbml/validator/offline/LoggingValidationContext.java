@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,7 +24,6 @@ package org.sbml.jsbml.validator.offline;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Level;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -47,21 +45,37 @@ import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
  * <a href="http://www.sbml.org"> sbml.org </a>
  * 
  * @author Roman
+ * @author rodrigue
  * @since 1.2
- * @date 06.07.2016
  */
-public class LoggingValidationContext extends ValidationContext
-  implements ValidationListener {
+public class LoggingValidationContext extends ValidationContext implements ValidationListener {
 
+  /**
+   * 
+   */
   private SBMLErrorLog log;
 
 
+  /**
+   * Creates a new {@link LoggingValidationContext} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
+   */
   public LoggingValidationContext(int level, int version) {
     this(level, version, null, new HashSet<CHECK_CATEGORY>());
     this.addValidationListener(this);
   }
 
 
+  /**
+   * Creates a new {@link LoggingValidationContext} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
+   * @param rootConstraint the root constraint
+   * @param categories the set of {@link CHECK_CATEGORY} to use during validation
+   */
   public LoggingValidationContext(int level, int version,
     AnyConstraint<Object> rootConstraint, Set<CHECK_CATEGORY> categories) {
     super(level, version, rootConstraint, categories);
@@ -70,7 +84,6 @@ public class LoggingValidationContext extends ValidationContext
 
   @Override
   public void clear() {
-    // TODO Auto-generated method stub
     super.clear();
     this.clearErrorLog();
   }
@@ -84,13 +97,19 @@ public class LoggingValidationContext extends ValidationContext
 
   /**
    * Gets the {@link SBMLErrorLog} of this context.
-   * @return
+   * 
+   * @return the {@link SBMLErrorLog} of this context.
    */
   public SBMLErrorLog getErrorLog() {
     return this.log;
   }
 
 
+  /**
+   * Logs an {@link SBMLError} into the {@link SBMLErrorLog}.
+   * 
+   * @param id the error id to log
+   */
   private void logFailure(int id) {
     
     if (id == CoreSpecialErrorCodes.ID_GROUP || id == CoreSpecialErrorCodes.ID_VALIDATE_TREE_NODE)
@@ -117,18 +136,16 @@ public class LoggingValidationContext extends ValidationContext
 
 
   @Override
-  public void willValidate(ValidationContext ctx, AnyConstraint<?> c,
-    Object o) {
-    // TODO Auto-generated method stub
+  public void didValidate(ValidationContext ctx, AnyConstraint<?> c, Object o, boolean success) {
+    // System.out.println("Checked " + c.getId());
+    if (!success) {
+      logFailure(c.getErrorCode()); // TODO - get the error message or complement message from the constraint, once the system is in place.
+    }
   }
 
 
   @Override
-  public void didValidate(ValidationContext ctx, AnyConstraint<?> c, Object o,
-    boolean success) {
-    // System.out.println("Checked " + c.getId());
-    if (!success) {
-      logFailure(c.getErrorCode());
-    }
+  public void willValidate(ValidationContext ctx, AnyConstraint<?> c, Object o) {
+    // nothing need to be done    
   }
 }

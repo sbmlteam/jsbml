@@ -1,15 +1,16 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
+ * 
  * Copyright (C) 2009-2016 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
+ * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -25,11 +26,24 @@ import java.util.Set;
 
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
+/**
+ * Groups together a set of constraints.
+ * 
+ * @author Roman
+ *
+ * @param <T> the type of object to check
+ */
 public class ConstraintGroup<T> extends AbstractConstraint<T> {
 
+  /**
+   * 
+   */
   private Set<AnyConstraint<T>> constraints = new HashSet<AnyConstraint<T>>();
 
 
+  /**
+   * Creates a new {@link ConstraintGroup} instance.
+   */
   public ConstraintGroup() {
     super(CoreSpecialErrorCodes.ID_GROUP);
   }
@@ -40,9 +54,10 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
     context.willValidate(this, object);
 
     boolean success = true;
-    for (AnyConstraint<T> c : this.constraints) {
-      if (c != null) {
+    for (AnyConstraint<T> c : this.constraints) { 
+      if (c != null) {        
         success = c.check(context, object) && success;
+     // TODO - if we have the CHECK_CATEGORY and the SBMLError severity available, we could stop when changing category if an error was found previously
       }
     }
     context.didValidate(this, object, success);
@@ -52,10 +67,12 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
 
 
   /**
-   * Adds a constraint to the group. The constraints are collected in a
-   * {@link Set}, so every constraint can only added onces.
+   * Adds a constraint to the group. 
    * 
-   * @param c
+   * <p>The constraints are collected in a
+   * {@link Set}, so every constraint can only be added once.</p>
+   * 
+   * @param c the constraint to add
    */
   public void add(AnyConstraint<T> c) {
 
@@ -68,8 +85,8 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
   /**
    * Removes the constraint from the group.
    * 
-   * @param constraint
-   * @return <code>true</code> if constraint was in group
+   * @param constraint the constraint to remove
+   * @return {@code true} if constraint was in this group and was removed
    */
   public boolean remove(AnyConstraint<T> constraint) {
     return this.constraints.remove(constraint);
@@ -78,13 +95,14 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
 
   /**
    * Checks if the errorCode is in the group.
+   * 
    * <p>
    * Notice that every {@link ConstraintGroup} uses the same error code
    * {@link CoreSpecialErrorCodes#ID_GROUP}. Use
-   * {@link #contains(AnyConstraint)} instead.
+   * {@link #contains(AnyConstraint)} instead.</p>
    * 
-   * @param errorCode
-   * @return <code>true</code> if the error code is in the group
+   * @param errorCode the error code to search for
+   * @return {@code true} if the error code is in the group
    * @see #contains(AnyConstraint)
    */
   public boolean contains(int errorCode) {
@@ -100,8 +118,8 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
   /**
    * Checks if the constraint is in the group.
    * 
-   * @param c
-   * @return
+   * @param c  the constraint to search for
+   * @return {@code true} if the constraint is in the group
    */
   public boolean contains(AnyConstraint<T> c) {
     return this.constraints.contains(c);
@@ -111,7 +129,7 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
   /**
    * Returns the members of the group.
    * 
-   * @return
+   * @return the members of the group.
    */
   public AnyConstraint<T>[] getConstraints() {
     @SuppressWarnings("unchecked")
@@ -122,7 +140,8 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
   
   /**
    * Returns the number of constraints in this group
-   * @return
+   * 
+   * @return the number of constraints in this group
    */
   public int getConstraintsCount()
   {
