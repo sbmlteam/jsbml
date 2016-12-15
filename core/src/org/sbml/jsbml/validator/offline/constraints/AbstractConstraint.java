@@ -1,6 +1,5 @@
 /*
- * $Id$
- * $URL$
+ * 
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,29 +22,33 @@ package org.sbml.jsbml.validator.offline.constraints;
 /**
  * Abstract generic mother class to for all the constraints. It provides a basic
  * implementation of {@link AnyConstraint#getErrorCode()}.
- * <p>
- * Subclasses should set their own id by calling
+ * 
+ * <p>Subclasses should set their own id by calling
  * {@link AbstractConstraint#AbstractConstraint(int)}.
  * 
  * @author Roman
  * @since 1.2
- * @date 08.07.2016
- * @param <T>
  */
 public abstract class AbstractConstraint<T> implements AnyConstraint<T> {
 
+  /**
+   * 
+   */
   private final int errorCode;
 
 
+  /**
+   * Creates a new {@link AbstractConstraint} instance.
+   * 
+   * @param errorCode the error code
+   */
   protected AbstractConstraint(int errorCode) {
-    // TODO Auto-generated constructor stub
     this.errorCode = errorCode;
   }
 
 
   @Override
   public int getErrorCode() {
-    // TODO Auto-generated method stub
     return this.errorCode;
   }
 }
