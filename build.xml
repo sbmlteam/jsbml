@@ -150,12 +150,6 @@
 			<fileset dir="${simulation.core.dir}/lib/ext-lib/" includes="*.jar"/>
 		</path>
 		
-		<!-- don't commit the repo url for releases to avoid messing it up as much as possible -->
-		<!-- <property name="maven.repo.url" value="scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots"/> -->
-		<property name="maven.repo.url" value="https://oss.sonatype.org/content/repositories/snapshots"/> <!-- https://oss.sonatype.org/service/local/staging/deploy/maven2 -->
-		<property name="maven.repo.id" value="ossrh"/>
-		<!-- local test instance url file:///homes/maven/public_html/m2repo, sourceforge: jsbml-maven-repo-sf -->
-		
 	</target>
 
 	<!-- =================================================================== -->
@@ -173,11 +167,15 @@
 		<echo message="" />
 		<echo message=" available targets are:" />
 		<echo message="" />
-		<echo message="   jar         --> generates the ${name}.jar file" />
-		<echo message="   bigjar      --> generates the ${name}-with-dependencies.jar file" />
-		<echo message="   test        --> runs the tests" />
-		<echo message="   javadoc     --> generates the API documentation" />
-		<echo message="   clean       --> cleans up the directory" />
+		<echo message="   jar            --> generates the ${name}.jar file" />
+		<echo message="   bigjar         --> generates the ${name}-with-dependencies.jar file" />
+		<echo message="   javadoc        --> generates the API documentation" />
+		<echo message="   test           --> runs the tests" />
+		<echo message="   dist           --> generates all the distribution files" />		
+		<echo message="   maven-install  --> install JSBML into the local maven repo" />
+		<echo message="   maven-deploy   --> deploy JSBML into the repo defined by the 'deploy' environement variable. Expected values are 'ossrh', 'ossrh_release', 'sf'." />
+		<echo message="                      Default value is 'ossrh' which correspond to oss sonatype snapshots repository." />
+		<echo message="   clean          --> cleans up the directory" />
 		<echo message="" />
 		<echo message=" See the comments inside the build.xml file for more details." />
 		<echo message=" -------------------------------------------------------------" />
@@ -825,15 +823,54 @@
 	<!-- =================================================================== -->
 	<target
 	  name="maven-deploy"
-      description="Deploy jsbml remotely"
+    description="Deploy jsbml remotely"
 	  depends="init"
 	>
-		<!-- 	mvn javadoc:jar source:jar deploy	 -->
-		<exec executable="mvn">
+		<!-- Defining which options to use depending of the 'deploy' property content -->
+		<!-- using var here as property are not re-writable in ant -->
+		<var name="maven.repo.url" value="https://oss.sonatype.org/content/repositories/snapshots"/>
+		<var name="maven.profile" value="ossrh"/>
+		<property name="maven.repo.id" value="ossrh"/>
+		
+		<echo message="Using ${deploy} as option"/>
+		
+		<if>
+		  <equals arg1="${deploy}" arg2="ossrh_release" />
+		  <then><var name="maven.repo.url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2"/></then>
+	    <elseif>
+		  	<equals arg1="${deploy}" arg2="sf" />
+		  	<then>
+		  		<var name="maven.repo.url" value="scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots"/>
+		   		<var name="maven.profile" value="sf"/>
+		   	</then>
+	    </elseif>
+	    <elseif>
+		  	<equals arg1="${deploy}" arg2="sf_release" />
+		  	<then>
+		  		<var name="maven.repo.url" value="scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo"/>
+		   		<var name="maven.profile" value="sf"/>
+		   	</then>
+	    </elseif>
+      <elseif>
+	    	<equals arg1="${deploy}" arg2="local" />
+	    	<then>
+	    		<var name="maven.repo.url" value="file:///homes/maven/public_html/m2repo"/>
+	    		<var name="maven.profile" value="local"/>
+	    	</then>
+      </elseif>
+		</if>
+		
+		<echo message="Using ${maven.repo.url} as repository URL"/>
+		<echo message="Using ${maven.profile} as maven profile"/>
+		
+		
+		<!-- 	mvn clean javadoc:jar source:jar deploy -Ddeploy=ossrh -->	 
+		<exec executable="mvn"> <!-- 	mvn clean javadoc:jar source:jar deploy -Ddeploy=ossrh -->
 			<arg value="clean"/>
 			<arg value="javadoc:jar"/>
 			<arg value="source:jar"/>
 			<arg value="deploy"/>
+			<arg value="-Ddeploy=${maven.profile}"/>
 		</exec>
 
 		<!-- deploying a pseudo jar file to be able to have all packages dependencies defined in one go  -->
