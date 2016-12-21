@@ -22,7 +22,6 @@ package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
 
-import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.util.filters.NameFilter;
