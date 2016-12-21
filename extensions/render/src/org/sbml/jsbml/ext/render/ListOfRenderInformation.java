@@ -36,27 +36,32 @@ import org.sbml.jsbml.util.StringTools;
  * as well as an optional DefaultValues element that provides the default values for the {@link RenderInformationBase}
  * objects contained in the list.</p>
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  *
  */
 public abstract class ListOfRenderInformation<T extends RenderInformationBase> extends ListOf<T> {
 
-  
+
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 1321032127025154698L;
+
   /**
    * 
    */
-  private Integer versionMajor;
+  private Short versionMajor;
   /**
    * 
    */
-  private Integer versionMinor;
+  private Short versionMinor;
   /**
    * 
    */
   private DefaultValues defaultValues;
-  
+
   /**
-   * Creates a new {@link ListOfRenderInformation} instance 
+   * Creates a new {@link ListOfRenderInformation} instance
    */
   public ListOfRenderInformation() {
     super();
@@ -89,8 +94,8 @@ public abstract class ListOfRenderInformation<T extends RenderInformationBase> e
     }
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -145,13 +150,13 @@ public abstract class ListOfRenderInformation<T extends RenderInformationBase> e
     setPackageVersion(-1);
     setSBaseListType(ListOf.Type.other);
   }
-  
+
   /**
    * Returns the value of versionMinor
    * 
    * @return the value of versionMinor
    */
-  public int getVersionMinor() {
+  public short getVersionMinor() {
     if (isSetVersionMinor()) {
       return versionMinor;
     }
@@ -172,8 +177,8 @@ public abstract class ListOfRenderInformation<T extends RenderInformationBase> e
    * 
    * @param versionMinor the value of versionMinor
    */
-  public void setVersionMinor(int versionMinor) {
-    Integer oldVersionMinor = this.versionMinor;
+  public void setVersionMinor(short versionMinor) {
+    Short oldVersionMinor = this.versionMinor;
     this.versionMinor = versionMinor;
     firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
   }
@@ -186,7 +191,7 @@ public abstract class ListOfRenderInformation<T extends RenderInformationBase> e
    */
   public boolean unsetVersionMinor() {
     if (isSetVersionMinor()) {
-      Integer oldVersionMinor = versionMinor;
+      Short oldVersionMinor = versionMinor;
       versionMinor = null;
       firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, versionMinor);
       return true;
@@ -200,7 +205,7 @@ public abstract class ListOfRenderInformation<T extends RenderInformationBase> e
    * 
    * @return the value of versionMajor
    */
-  public int getVersionMajor() {
+  public short getVersionMajor() {
     if (isSetVersionMajor()) {
       return versionMajor;
     }
@@ -222,10 +227,26 @@ public abstract class ListOfRenderInformation<T extends RenderInformationBase> e
    * 
    * @param versionMajor the value of versionMajor
    */
-  public void setVersionMajor(int versionMajor) {
-    Integer oldVersionMajor = this.versionMajor;
+  public void setVersionMajor(short versionMajor) {
+    Short oldVersionMajor = this.versionMajor;
     this.versionMajor = versionMajor;
     firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, this.versionMajor);
+  }
+
+  /**
+   * @param versionMajor
+   * @see #setVersionMajor(short)
+   */
+  public void setVersionMajor(int versionMajor) {
+    setVersionMajor((short) versionMajor);
+  }
+
+  /**
+   * @param versionMinor
+   * @see #setVersionMinor(short)
+   */
+  public void setVersionMinor(int versionMinor) {
+    setVersionMinor((short) versionMinor);
   }
 
   /**
@@ -236,7 +257,7 @@ public abstract class ListOfRenderInformation<T extends RenderInformationBase> e
    */
   public boolean unsetVersionMajor() {
     if (isSetVersionMajor()) {
-      Integer oldVersionMajor = versionMajor;
+      Short oldVersionMajor = versionMajor;
       versionMajor = null;
       firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, versionMajor);
       return true;
@@ -244,7 +265,7 @@ public abstract class ListOfRenderInformation<T extends RenderInformationBase> e
     return false;
   }
 
-  
+
   /**
    * Returns the value of {@link #defaultValues}.
    *
@@ -331,11 +352,13 @@ public abstract class ListOfRenderInformation<T extends RenderInformationBase> e
     }
 
     throw new IndexOutOfBoundsException(
-        MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
-            index, Math.min(pos, 0)));
+      MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
+        index, Math.min(pos, 0)));
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -351,18 +374,21 @@ public abstract class ListOfRenderInformation<T extends RenderInformationBase> e
     return attributes;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
+
     if (!isAttributeRead) {
       isAttributeRead = true;
 
       if (attributeName.equals(RenderConstants.versionMajor)) {
-        setVersionMajor(StringTools.parseSBMLInt(value));
+        setVersionMajor(StringTools.parseSBMLShort(value));
       }
       else if (attributeName.equals(RenderConstants.versionMinor)) {
-        setVersionMinor(StringTools.parseSBMLInt(value));
+        setVersionMinor(StringTools.parseSBMLShort(value));
       }
       else {
         isAttributeRead = false;
