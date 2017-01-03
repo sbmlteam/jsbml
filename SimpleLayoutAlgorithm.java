@@ -900,7 +900,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
       }
       if ((firstCentralPoint.getX() == secondCentralPoint.getX()) && (firstCentralPoint.getY() == secondCentralPoint.getY())) {
         secondCentralPoint = calculateCenter(reactionGlyph);
-        logger.warning(MessageFormat.format("The two points for computing rotation angle are identical for {0} with id ''{1}'': ({2,number}; {3,number})",
+        logger.fine(MessageFormat.format("The two points for computing rotation angle are identical for {0} with id ''{1}'': ({2,number}; {3,number})",
           reactionGlyph.getElementName(), reactionGlyph.getId(), firstCentralPoint.getX(), firstCentralPoint.getY()));
       } else {
         rotationAngle = calculateRotationAngle(firstCentralPoint, secondCentralPoint);
