@@ -23,7 +23,6 @@ package org.sbml.jsbml.util.filters;
 
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
-import org.sbml.jsbml.SpeciesReference;
 
 /**
  * This is a special {@link NameFilter} that allows users to search for a

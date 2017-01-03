@@ -24,6 +24,7 @@ import java.text.MessageFormat;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * @author Eugen Netz
@@ -127,7 +128,7 @@ public class LocalRenderInformation extends RenderInformationBase {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
 
-    listOfLocalStyles = null;    
+    listOfLocalStyles = null;
   }
 
 
@@ -179,7 +180,7 @@ public class LocalRenderInformation extends RenderInformationBase {
     }
     return true;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
    */
@@ -200,7 +201,7 @@ public class LocalRenderInformation extends RenderInformationBase {
       listOfLocalStyles.setPackageName(RenderConstants.shortLabel);
       listOfLocalStyles.setSBaseListType(ListOf.Type.other);
       listOfLocalStyles.setOtherListName(RenderConstants.listOfLocalStyles);
-      
+
       registerChild(listOfLocalStyles);
     }
     return listOfLocalStyles;
@@ -220,7 +221,7 @@ public class LocalRenderInformation extends RenderInformationBase {
       listOfLocalStyles.setPackageName(RenderConstants.shortLabel);
       listOfLocalStyles.setSBaseListType(ListOf.Type.other);
       listOfLocalStyles.setOtherListName(RenderConstants.listOfLocalStyles);
-    
+
       registerChild(this.listOfLocalStyles);
     }
   }
@@ -321,6 +322,31 @@ public class LocalRenderInformation extends RenderInformationBase {
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     return isAttributeRead;
+  }
+
+  /**
+   * 
+   * @param id
+   * @return
+   */
+  public ColorDefinition getColorDefinition(String id) {
+    return isSetListOfColorDefinitions() ? listOfColorDefinitions.firstHit(new NameFilter(id)) : null;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public int getColorDefinitionCount() {
+    return isSetListOfColorDefinitions() ? listOfColorDefinitions.size() : 0;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public int getLocalStyleCount() {
+    return isSetListOfLocalStyles() ? listOfLocalStyles.size() : 0;
   }
 
 }

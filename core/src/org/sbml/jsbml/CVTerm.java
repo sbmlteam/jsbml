@@ -22,7 +22,6 @@ package org.sbml.jsbml;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -155,13 +154,13 @@ public class CVTerm extends AnnotationElement {
      */
     BQB_OCCURS_IN("occursIn"),
     /**
-     * Represents the MIRIAM biological qualifier 'isRelatedTo': the biological 
-     * entity represented by the model element is somehow associated, directly 
+     * Represents the MIRIAM biological qualifier 'isRelatedTo': the biological
+     * entity represented by the model element is somehow associated, directly
      * or transitively, with the subject of the referenced resource (biological
-     * entity B). This qualifier may be used as a generic way to express any 
+     * entity B). This qualifier may be used as a generic way to express any
      * biological relationship.
      * 
-     * <p>Only use this qualifier if you are not able to find a more precise 
+     * <p>Only use this qualifier if you are not able to find a more precise
      * qualifier.</p>
      */
     BQB_IS_RELATED_TO("isRelatedTo"),
@@ -377,7 +376,7 @@ public class CVTerm extends AnnotationElement {
    * 
    */
   private String unknownQualifierName = "unknownQualifier";
-  
+
   /**
    * Contains all the MIRIAM URI associated with the qualifier of this {@link CVTerm}
    * instance.
@@ -1373,7 +1372,7 @@ public class CVTerm extends AnnotationElement {
    * Gets a name corresponding to the Qualifier of this {@link CVTerm}.
    * 
    * <p>Only useful if the qualifier is {@link Qualifier#BQM_UNKNOWN} or
-   * {@link Qualifier#BQB_UNKNOWN}.</p> 
+   * {@link Qualifier#BQB_UNKNOWN}.</p>
    * 
    * @return the unknownQualifierName
    */
