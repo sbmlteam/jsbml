@@ -22,6 +22,8 @@
 package org.sbml.jsbml.xml;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -64,8 +66,49 @@ defined in SBML.
  */
 public class XMLNamespaces implements Serializable  {
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    final int maxLen = 10;
+    StringBuilder builder = new StringBuilder();
+    builder.append(getClass().getSimpleName());
+    builder.append(" [namespaces=");
+    builder.append(namespaces != null ? toString(namespaces.entrySet(), maxLen) : null);
+    builder.append("]");
+    return builder.toString();
+  }
+
   /**
-   * HashMap<Prefix, URI>
+   * 
+   * @param collection
+   * @param maxLen
+   * @return
+   */
+  private String toString(Collection<?> collection, int maxLen) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("[");
+    int i = 0;
+    for (Iterator<?> iterator = collection.iterator(); iterator.hasNext()
+        && i < maxLen; i++) {
+      if (i > 0) {
+        builder.append(", ");
+      }
+      builder.append(iterator.next());
+    }
+    builder.append("]");
+    return builder.toString();
+  }
+
+
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 5060279526260666389L;
+
+  /**
+   * Map<Prefix, URI>
    */
   Map<String, String> namespaces; //  = new LinkedHashMap<String, String>();
 

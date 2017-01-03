@@ -22,7 +22,6 @@ package org.sbml.jsbml;
 
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -31,8 +30,6 @@ import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.ValuePair;
-import org.sbml.jsbml.util.filters.Filter;
-import org.sbml.jsbml.util.filters.IdFilter;
 import org.sbml.jsbml.xml.XMLNode;
 
 /**
@@ -110,7 +107,7 @@ import org.sbml.jsbml.xml.XMLNode;
  * 
  * <p>
  * Beginning with SBML Level 3 Version 2, {@link SBase} also has two optional
- * attributes named 'id' and 'name'. So {@link SBase} kind of replace the interface 
+ * attributes named 'id' and 'name'. So {@link SBase} kind of replace the interface
  * {@link NamedSBase} but NamedSBase is kept so that we can easily know which elements
  * had an id and a name before SBML L3V2.
  * 
@@ -440,8 +437,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * the methods that are located in the {@link Model} and {@link SBMLDocument} classes.</p>
    *
    * <p>If you want to get an {@link SBase} that is not in the SId namespace,
-   * you can use the filter methods (for example: {@link #filter(Filter)}) 
-   * using the {@link IdFilter} filter. 
+   * you can use the filter methods (for example: {@link #filter(Filter)})
+   * using the {@link IdFilter} filter.
    * 
 
    * @param id string representing the id of the {@link SBase} to find.

@@ -4803,7 +4803,7 @@ implements UniqueNamedSBase, IdManager {
 
         // in L3 packages we might have different id namespaces
         logger.warn(MessageFormat.format(
-          "registerIds: the object {0} is neither a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.",
+          "registerIds: the object {0} is neither a UniqueNamedSBase, a LocalParameter, nor a UnitDefinition so its id will not be registered in the Model.",
           newNsb.getClass().getCanonicalName()));
       }
     } else if (!newNsb.isIdMandatory()) {
@@ -4821,7 +4821,7 @@ implements UniqueNamedSBase, IdManager {
         idManagerList = new ArrayList<IdManager>();
       }
 
-      if (newElem instanceof IdManager && newElem != this) {
+      if ((newElem instanceof IdManager) && (newElem != this)) {
         idManagerAdded++;
         idManagerList.add((IdManager) newElem);
       }

@@ -240,7 +240,7 @@ public class Curve extends AbstractNamedSBase implements ICurve {
 
       registerChild(listOfCurveSegments);
     }
-    
+
     return listOfCurveSegments;
   }
 
@@ -286,7 +286,22 @@ public class Curve extends AbstractNamedSBase implements ICurve {
    */
   @Override
   public boolean removeCurveSegment(CurveSegment cs) {
+    if (!isSetListOfCurveSegments()) {
+      throw new IndexOutOfBoundsException(Integer.toString(0));
+    }
     return getListOfCurveSegments().remove(cs);
+  }
+
+  /**
+   * 
+   * @param i
+   * @return
+   */
+  public CurveSegment removeCurveSegment(int i) {
+    if (!isSetListOfCurveSegments()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfCurveSegments().remove(i);
   }
 
   /* (non-Javadoc)
