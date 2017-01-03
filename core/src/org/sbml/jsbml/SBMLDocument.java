@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
@@ -41,7 +40,6 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
@@ -300,21 +298,21 @@ public class SBMLDocument extends AbstractSBase {
     getSBMLDocumentAttributes().remove(packageName + ":required");
   }
 
-  
-//  @Override
-//  public Enumeration<TreeNode> children() {
-//    Vector<TreeNode> vec = new Vector<>(1);
-//    
-//    if (this.model != null)
-//    {
-//      vec.add(this.model);
-//    }
-//    
-//    return vec.elements();
-//  }
+
+  //  @Override
+  //  public Enumeration<TreeNode> children() {
+  //    Vector<TreeNode> vec = new Vector<>(1);
+  //
+  //    if (this.model != null)
+  //    {
+  //      vec.add(this.model);
+  //    }
+  //
+  //    return vec.elements();
+  //  }
 
   /**
-   * Validates the {@link SBMLDocument} using the BETA version of the 
+   * Validates the {@link SBMLDocument} using the BETA version of the
    * offline validator (<span style="color:red;">do not use for production</span>).
    * 
    * <p>
@@ -344,21 +342,21 @@ public class SBMLDocument extends AbstractSBase {
    * @return the number of errors
    */
   public int checkConsistencyOffline() {
-    LoggingValidationContext ctx = new LoggingValidationContext(this.getLevel(), this.getVersion());
+    LoggingValidationContext ctx = new LoggingValidationContext(getLevel(), getVersion());
 
     // By default disable the unit consistency category, enable all the rest
     List<CHECK_CATEGORY> checks = new ArrayList<CHECK_CATEGORY>();
     checks.addAll(Arrays.asList((CHECK_CATEGORY.values())));
     checks.remove(CHECK_CATEGORY.UNITS_CONSISTENCY);
-    
+
     // enable/disable the categories selected by the user
-    for (String checkCategory : checkConsistencyParameters.keySet()) 
+    for (String checkCategory : checkConsistencyParameters.keySet())
     {
       CHECK_CATEGORY typeOfCheck = CHECK_CATEGORY.valueOf(checkCategory);
       Boolean checkIsOn = checkConsistencyParameters.get(checkCategory);
 
       logger.debug("checkConsistencyOffline - Type of check = " + typeOfCheck + " is " + checkIsOn);
-      
+
       if (checkIsOn && typeOfCheck.equals(CHECK_CATEGORY.UNITS_CONSISTENCY)) {
         checks.add(CHECK_CATEGORY.UNITS_CONSISTENCY);
       }
@@ -366,12 +364,12 @@ public class SBMLDocument extends AbstractSBase {
         checks.remove(typeOfCheck);
       }
     }
-    
+
     ctx.enableCheckCategories(checks.toArray(new CHECK_CATEGORY[checks.size()]), true);
     ctx.loadConstraints(this.getClass());
     ctx.validate(this);
 
-    this.listOfErrors = ctx.getErrorLog();
+    listOfErrors = ctx.getErrorLog();
     return ctx.getErrorLog().getErrorCount();
   }
 
@@ -884,6 +882,7 @@ public class SBMLDocument extends AbstractSBase {
    * @return the {@link SBase} with the given metaid or null
    * @see #findSBase(String)
    */
+  @Override
   public SBase getElementByMetaId(String metaid) {
     return findSBase(metaid);
   }
