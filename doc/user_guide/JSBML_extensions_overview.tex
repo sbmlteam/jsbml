@@ -20,7 +20,7 @@ latest released standards.
    package (\code{qual}, for short) allows species in a model to have
    non-quantitative or non-continuous concentrations~\cite{Chaouiya2013}.
    This may manifest as Boolean or discrete values, and is primarily employed
-   in modelling gene regulation, signalling pathways, and metabolic networks
+   in modeling gene regulation, signaling pathways, and metabolic networks
    using logical/Boolean networks~\cite{shmulevich2002} or Petri
    nets~\cite{breitling2008}, which in turn, do not rely on traditional
    quantitative coefficients to encode relationships between biochemical
@@ -40,7 +40,7 @@ latest released standards.
    SBML model. Coupling \code{groups} information with annotation and SBO
    terms~\cite{Courtot2011a} allows these sets of objects to be
    contextualized, and properly convey the roles of groups for other
-   programmers and modellers.}
+   programmers and modelers.}
  \label{fig:groups}
 \end{figure}
 
@@ -50,15 +50,15 @@ latest released standards.
  \centering
 \includegraphics[width=\textwidth]{../../../extensions/fbc/doc/img/type_hierarchy.pdf}
  \vspace*{-5.5em}
- \caption[Class diagram of the flux balance constraints extension.]{Class
-   diagram of the SBML Level~3 flux balance constraints
-   extension. Constraints-based modelling~\cite{lewis2012} utilizes a class
+ \caption[Class diagram of the Flux Balance Constraints extension.]{Class
+   diagram of the SBML Level~3 Flux Balance Constraints
+   extension. Constraints-based modeling~\cite{lewis2012} utilizes a class
    of models in which the canonical stoichiometric relations between
    reactions and metabolites are specified as constraints for convex analysis
    and mathematical optimization. Although species, reactions, and
    stoichiometry can be encoded using the SBML L3V1, Flux Balance Constraints
-   (\code{fbc}, \cite{olivier2013}) enable a constraints based
-   perspective. For example, the constraints based approach called Flux
+   (\code{fbc}, \cite{olivier2013}) enable a constraints-based
+   perspective. For example, the constraints-based approach called Flux
    Balance Analysis (FBA) often aims to find the maximum growth rate of the
    cell given a set of uptake possibilities and the ratio of molecules needed
    for cell growth. The mathematical formulation for this optimization
@@ -69,7 +69,7 @@ latest released standards.
    which optimizes the reaction fluxes. Therefore, the \code{fbc} package
    extends the SBML Level 3 core to specifically encode for bounds on fluxes,
    constraints, and objective functions, which facilitates a fluid interface
-   to existing constraints-based modelling software and optimization
+   to existing constraints-based modeling software and optimization
    solvers.}
  \label{fig:fbc}
 \end{figure}
@@ -106,11 +106,11 @@ attempts to contextualize this complexity by providing a generic framework to en
 models as hierarchical entities in an SBML document. This functionality also allows
 for storing multiple instances of a model within an enclosing model or document, which
 can be used to build libraries of models within a document or to independently manage
-different parts of a large model. Classes allow modellers to access elements within
+different parts of a large model. Classes allow modelers to access elements within
 sub-models and interface with other sub-models, and \code{comp} provides a standardized approach
 to define sub-model differences with respect to parent or reference models. Overall, \code{comp}
-is a powerful extension to the SBML Level 3 core that gives modellers and programmers
-options to standardize the encoding of complex, modular modelling frameworks. 
+is a powerful extension to the SBML Level 3 core that gives modelers and programmers
+options to standardize the encoding of complex, modular modeling frameworks. 
 }
  \label{fig:comp}
 \end{figure}
@@ -130,7 +130,7 @@ diffusive transport, and spatially localized reactions. The \code{Geometry} clas
 the spatial information and the extended \code{Species}, \code{Reaction}, \code{Compartment}, and
 \code{Parameter} objects have mappings to the \code{spatial} objects that hold information on
 molecular transport coefficients, geometric domains, and coordinates. \code{Spatial} is
-therefore able to store the geometric information commonly used in spatial modelling
+therefore able to store the geometric information commonly used in spatial modeling
 tools for the biochemical entities from standard SBML.}
  \label{fig:spatial}
 \end{figure}

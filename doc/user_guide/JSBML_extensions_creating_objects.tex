@@ -51,8 +51,8 @@ In most cases, extensions will also introduce new components that have no
 counterpart in the SBML core.  We illustrate this here by creating a
 component called \code{Foo} with three attributes: \code{id}, \code{name},
 and an integer-valued attribute, \code{bar}.  We assume that in the
-(hypothetical) package specification for \emph{Example}, \code{Foo} is
-derived from \SBase; let us also assume that \emph{Example} provides the
+(hypothetical) specification for the SBML Example package, \code{Foo} is
+derived from \SBase; let us also assume that Example provides the
 ability to attach a list of \code{Foo} objects to an extended version of
 \Model.  We show in \sec{sec:listofs} how to create the list
 structure; here, we focus on the definition of \code{Foo}.  We define the
@@ -196,7 +196,7 @@ class, you only have to do that at the last one in the delegation chain.
 \subsection{\codeNC{ListOf}s}
 \label{sec:listofs}
 
-Our hypothetical \emph{Example} extension adds no new attributes to the
+Our hypothetical Example extension adds no new attributes to the
 extended \Model itself, but it does introduce the ability to have a list of
 \code{Foo} objects as a child of \Model.  In JSBML, this will be
 implemented using Java generics and the class \code{ListOf}, such that the
@@ -318,8 +318,7 @@ To let a \code{ListOfFoo} appear as a child of the standard \Model, some
 important methods for \TreeNode need to be implemented (see
 \fig{lst:ModelExtChildren}).  Method \code{getAllowsChildren()} should
 return \code{true} in this case, since this extension allows children.  The
-child count and the indices of the children is a bit more complicated,
-because they vary with the number of non-empty \code{ListOf}s.  So, for
+child count and the indices of the children are a bit more complicated because they vary with the number of non-empty \code{ListOf}s.  So, for
 every non-empty \code{ListOf} child of our model extension, we increase the
 counter by one.  (Note also that if callers access list entries by index
 number, they will need to take into account the possibility that a given
@@ -332,7 +331,7 @@ Since a newly created instance of type \code{Foo} is not part of the model
 unless it is added to it, \code{create*} methods should be provided that
 take care of all that (see \fig{lst:ModelExtCreateMethods}).
 These create methods should be part of the model to which the \code{Foo}
-instance is to be added, in this case \code{ExampleModel}.
+instance is to be added, in this case, \code{ExampleModel}.
 
 \begin{figure}[thb]
   \begin{example}
@@ -432,7 +431,7 @@ public int hashCode() {
  \label{lst:ModelExtHashCode}
 \end{figure}
 
-fig{lst:ModelExtClone} and~\fig{lst:ModelExtCloneFoo} illustrates
+\fig{lst:ModelExtClone} and~\fig{lst:ModelExtCloneFoo} illustrates
 implementations of \code{clone()} methods.  To clone an object, the call to
 the \code{clone()} method is delegated to a constructor of that class that
 takes an instance of itself as argument.  There, all the elements of the

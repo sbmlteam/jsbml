@@ -6,7 +6,7 @@ One last thing is missing in order to be able to read and write SBML files prope
 using the new extension: a \code{ReadingParser} and a \code{WritingParser}. An easy way to provide that is
 to extend the \AbstractReaderWriter that extends both interfaces, and then implement some of 
 the required methods in a generic way. To
-implement the parser, in this case the \code{ExampleParser}, one should
+implement the parser, in this case, the \code{ExampleParser}, one should
 start with two members and two simple methods, as shown in
 \fig{lst:ModelExtParserClass}. As this code fragment shows, an additional class
 \code{ExampleConstants} and an enum \code{ExampleListType} are used. The class \code{ExampleConstants}

@@ -43,7 +43,7 @@ configuration file.  The effect of this particular configuration is to
 change the threshold of all loggers in the \code{org.sbml.jsbml.util}
 package to \code{DEBUG}, which results in all changes that happen to SBML
 elements to be logged. The class \SimpleTreeNodeChangeListener{}  will then
-output the old value and the new value whenever a setter methods is used on
+output the old value and the new value whenever a setter method is used on
 the SBML elements.
 
 \begin{figure}[t]
@@ -58,13 +58,13 @@ If your application is deployed in a server such as Tomcat~\cite{tomcat},
 it may be useful to define a log4j ``appender'' that will send some
 messages by email.  \fig{fig:log4j-email-example} gives an example
 of doing this.  It configures log4j so that any messages at the
-\code{ERROR} level \index{logging} are send by mail. All the messages are
+\code{ERROR} level \index{logging} are sent by mail. All the messages are
 also written to a rolling log file.
 
 Note that using log4j's alternative, XML-based approach to defining
 configurations instead of a properties file, you can configure log4j to
 direct some log messages \index{logging}%
-to one appender and others to an other appender, using the
+to one appender and others to another appender, using the
 \code{LevelRange} filter. In this way, it would be possible to cause
 \code{DEBUG} messages to be written to a separate file.
 
