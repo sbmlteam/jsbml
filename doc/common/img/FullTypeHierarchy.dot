@@ -12,7 +12,7 @@
  * Overview of the core type hierarchy
  */
 
-strict digraph G{
+strict digraph G {
 
 	nodesep=0.25;
 	ranksep=0.5;
@@ -66,6 +66,8 @@ strict digraph G{
    */
 
   Assignment                               [label="<<interface>>\nAssignment", style="filled", fillcolor="#F0F8FF"];
+  ASTCSymbolBaseNode                       [label="<<interface>>\nASTCSymbol\nBaseNode", style="filled", fillcolor="#F0F8FF"];ASTNode2                                 [label="<<interface>>\nASTNode2", style="filled", fillcolor="#F0F8FF"];
+  ASTNodePlugin                            [label="<<interface>>\nASTNodePlugin", style="filled", fillcolor="#F0F8FF"];
   CallableSBase                            [label="<<interface>>\nCallableSBase", style="filled", fillcolor="#F0F8FF"];
   CompartmentalizedSBase                   [label="<<interface>>\nCompartmentalized\nSBase", style="filled", fillcolor="#F0F8FF"];
   MathContainer                            [label="<<interface>>\nMathContainer", style="filled", fillcolor="#F0F8FF"];
@@ -86,6 +88,8 @@ strict digraph G{
    * Abstract data types
    */
 
+  AbstractASTNode                          [label=<<font face="Helvetica-Oblique">Abstract<br/>ASTNode</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractASTNodePlugin                    [label=<<font face="Helvetica-Oblique">Abstract<br/>ASTNodePluginr</font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractMathContainer                    [label=<<font face="Helvetica-Oblique">Abstract<br/>MathContainer</font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractNamedSBaseWithUnit               [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase<br/>WithUnit</font>>, style="filled", fillcolor="#F0F8FF"];
@@ -108,6 +112,7 @@ strict digraph G{
   Annotation                               [label="Annotation", style="filled", fillcolor="#F0F8FF"];
   AssignmentRule                           [label="Assignment\nRule"];
   ASTNode                                  [label="AST\nNode"];
+  ASTUnknown                               [label="AST\nUnknown", style="filled", fillcolor="#F0F8FF"];
   Compartment                              [label="Compartment"];
   CompartmentType                          [label="Compartment\nType"];
   Constraint                               [label="Constraint"]
@@ -170,6 +175,8 @@ strict digraph G{
   AbstractMathContainer      -> Rule                         [dir=back,arrowtail=empty];
   AbstractMathContainer      -> StoichiometryMath            [dir=back,arrowtail=empty];
   AbstractMathContainer      -> Trigger                      [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> AbstractASTNode              [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> AbstractASTNodePlugin        [dir=back,arrowtail=empty];
   AbstractTreeNode           -> AbstractSBase                [dir=back,arrowtail=empty];
   AbstractTreeNode           -> AbstractSBasePlugin          [dir=back,arrowtail=empty];
   AbstractTreeNode           -> AnnotationElement            [dir=back,arrowtail=empty];
@@ -183,6 +190,9 @@ strict digraph G{
   Assignment                 -> EventAssignment              [dir=back,arrowtail=empty,style=dashed];
   Assignment                 -> ExplicitRule                 [dir=back,arrowtail=empty,style=dashed];
   Assignment                 -> InitialAssignment            [dir=back,arrowtail=empty,style=dashed];
+  ASTNode2                   -> AbstractASTNode              [dir=back,arrowtail=empty,style=dashed];
+  ASTNode2                   -> ASTUnknown                   [dir=back,arrowtail=empty,style=dashed];
+  ASTNode2                   -> ASTCSymbolBaseNode           [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> Quantity                     [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> FunctionDefinition           [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> Reaction                     [dir=back,arrowtail=empty,style=dashed];
@@ -233,6 +243,8 @@ strict digraph G{
   TreeNode                   -> TreeNodeWithChangeSupport    [dir=back,arrowtail=empty,style=dashed];
   TreeNodeChangeListener     -> SimpleTreeNodeChangeListener [dir=back,arrowtail=empty,style=dashed];
   TreeNodeWithChangeSupport  -> AbstractTreeNode             [dir=back,arrowtail=empty,style=dashed];
+  TreeNodeWithChangeSupport  -> ASTNode2                     [dir=back,arrowtail=empty,style=dashed];
+  TreeNodeWithChangeSupport  -> ASTNodePlugin                [dir=back,arrowtail=empty,style=dashed];
   TreeNodeWithChangeSupport  -> SBase                        [dir=back,arrowtail=empty,style=dashed];
   TreeNodeWithChangeSupport  -> SBasePlugin                  [dir=back,arrowtail=empty,style=dashed];
   UniqueNamedSBase           -> CompartmentType              [dir=back,arrowtail=empty,style=dashed];
