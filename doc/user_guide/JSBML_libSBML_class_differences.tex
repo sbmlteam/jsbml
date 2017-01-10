@@ -32,8 +32,8 @@
 
 Wherever multiple SBML elements defined in at least one SBML Level/Version
 combination \index{SBML!specification} share attributes, JSBML
-\index{JSBML!type hierarchy} provides a common superclass, or at least a
-common interface, that gathers methods for manipulating the shared
+\index{JSBML!type hierarchy} provides a common superclass or at least a
+common interface that gathers methods for manipulating the shared
 properties. Consequently, JSBML's type hierarchy
 \index{application programming interface!JSBML} is richer than libSBML's (see
 \vrefrange{fig:TypeHierarchy}{fig:MathContainerHierarchy}).
@@ -245,7 +245,7 @@ a unit explicitly, in JSBML the \SBaseWithUnit serves as its superclass.
 JSBML further defines the convenience class \AbstractNamedSBaseWithUnit; it
 extends \AbstractNamedSBase and implements interfaces \SBaseWithUnit
 and \NamedSBaseWithDerivedUnit.  All elements derived from this abstract
-class may therefore declare a unit and can be addressed using an
+class may, therefore, declare a unit and can be addressed using an
 unambiguous SBML identifier.
 
 In JSBML, the interface \Quantity describes an element that is associated

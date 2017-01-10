@@ -72,7 +72,7 @@ boolean isValid = ctx.validate(myObject);
 If you invoke the \code{validate} method on an object that is not assignable
 to the class for which the constraints were loaded, this method will simply
 return \code{false} and print a log message.  To get a list of all the errors
-and broken constraints, use a instance of \code{LoggingValidationContext}
+and broken constraints, use an instance of \code{LoggingValidationContext}
 instead.
 
 
@@ -110,8 +110,8 @@ There are several ways to control the behavior of the validation process.
   If you want to get more information about the constraint, you can retrieve
   its error code. If the constraint is just a \code{ConstraintGroup} and
   therefore just a collection of constraints, the error code should be equals
-  to \code{CoreSpecialErrorCodes.ID-GROUP}. In any other case you could use
-  this error code to create the \code{SBMLError} object assoscieted with it
+  to \code{CoreSpecialErrorCodes.ID-GROUP}. In any other case, you could use
+  this error code to create the \code{SBMLError} object associated with it
   by using the \code{SBMLErrorFactory}.
 
 \end{enumerate}
@@ -136,7 +136,7 @@ To declare new constraints, follow these steps:
 
 \begin{enumerate}
 
-\item \emph{Create constraint declaration}. First you have to create the
+\item \emph{Create constraint declaration}. First, you have to create the
   class in which you put the code for the constraints and select which
   constraints should be loaded to validate a certain check category.
 
@@ -154,7 +154,7 @@ public class MyClassConstraints extends AbstractConstraintDeclaration {
 \item \emph{Select the error codes which should be checked}.  Next, you
   have to collect the error codes to perform a proper validation. There are
   two methods, one for the complete validation in a single check category and
-  one for the attribute validation. Inside this methods you will have a
+  one for the attribute validation. Inside this method, you will have a
   \code{Set<Integer>} to which you should add every error code that should be
   validated in this check category. You could use the level and version
   parameter to avoid loading unnecessary constraints.
@@ -204,17 +204,17 @@ public class MyClassConstraints extends AbstractConstraintDeclaration {
 \end{example}
 
 \item \emph{Provide the logic for the constraints}.  Now you only have to
-  write the constraint, this is done by provding a validation function. In
-  the most cases you will just create a anonymus class and put your code in
+  write the constraint, this is done by providing a validation function. In
+  most cases, you will just create an anonymous class and put your code in
   the \code{check(*)} method. This method should return \code{false} if the
   constraint is broken. Keep in mind that the constraints are cached and will
   be reused and shared between different \code{ValidationContext} objects.
 
   You could avoid caching by using negative numbers as your error codes.
-  Beside of this, it's possible (and sometime necessary) to have different
+  Beside of this, it's possible (and sometimes necessary) to have different
   constraints with the same error code. Choose your error codes wisely,
   because classes like the \code{LoggingValidationContext} will use the error
-  code to load a \code{SBMLError} object for this constraint.
+  code to load an \code{SBMLError} object for this constraint.
 
 \begin{example}[style=java, title={Select error codes}]
   /*
