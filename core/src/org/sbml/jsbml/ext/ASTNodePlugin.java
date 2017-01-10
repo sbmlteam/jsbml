@@ -19,17 +19,14 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext;
 
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 
 
@@ -44,7 +41,7 @@ import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
  * @since 1.2
  */
 public interface ASTNodePlugin extends TreeNodeWithChangeSupport {
-  
+
   /**
    * Creates a new instance of {@link ASTNodePlugin} from this {@link ASTNodePlugin}.
    * 

@@ -29,7 +29,6 @@ import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -54,7 +53,7 @@ import org.sbml.jsbml.util.filters.Filter;
 public class ASTUnknown implements ASTNode2 {
 
   /**
-   * 
+   * Generated serial version identifier.
    */
   private static final long serialVersionUID = 7504401136695608469L;
 
