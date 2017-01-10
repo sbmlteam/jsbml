@@ -1,0 +1,169 @@
+#!/usr/local/bin/dot
+#
+# Usage in Linux:
+# dot -Tpdf ASTNode2.dot -oASTNode2.pdf && acroread ASTNode2.pdf &
+# dot -Tpng ASTNode2.dot -oASTNode2.png
+#
+# Usage for Mac OS (starting Acrobat):
+# dot -Tpdf ASTNode2.dot -oASTNode2.pdf && open -a 'Adobe Reader' ASTNode2.pdf &
+#
+
+/*
+ * Overview of the new ASTNode hierarchy
+ */
+
+strict digraph G {
+
+  nodesep=0.25;
+  ranksep=0.5;
+  margin=0.01;
+
+  edge [
+    fontname="Helvetica",
+    fontsize=10,
+    labelfontname="Helvetica",
+    labelfontsize=10
+  ];
+  node [
+    fontname="Helvetica",
+    fontsize=10,
+    shape=box
+  ];
+  
+  /*******************
+   * Java base types *
+   *******************/
+
+  subgraph clusterJava {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#FFE4E1"
+    color="#ffffff"
+    label="Java data types";
+    labelloc=t;
+    labeljust=c;
+
+    // Interfaces
+    Cloneable                              [label="<<interface>>\nCloneable"];
+    Serializable                           [label="<<interface>>\nSerializable"];
+    TreeNode                               [label="<<interface>>\nTreeNode"];
+
+    // Objects
+    Object                                 [label="Object"];
+    
+    rank="same";
+  }
+  
+  /*
+   * Interfaces
+   */
+  
+  ASTCSymbolBaseNode                       [label="<<interface>>\nASTCSymbol\nBaseNode", style="filled", fillcolor="#F0F8FF"];
+  ASTCSymbolNode                           [label="<<interface>>\nASTCSymbolNode", style="filled", fillcolor="#F0F8FF"];
+  ASTNode2                                 [label="<<interface>>\nASTNode2", style="filled", fillcolor="#F0F8FF"];
+  ASTNodePlugin                            [label="<<interface>>\nASTNodePlugin", style="filled", fillcolor="#F0F8FF"];
+  TreeNodeWithChangeSupport                [label="<<interface>>\nTreeNode\nWithChangeSupport", style="filled", fillcolor="#F0F8FF"];
+
+  
+  /*
+   * Abstract data types
+   */
+
+  AbstractASTNode                          [label=<<font face="Helvetica-Oblique">Abstract<br/>ASTNode</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractASTNodePlugin                    [label=<<font face="Helvetica-Oblique">Abstract<br/>ASTNodePlugin</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractTreeNode                         [label=<<font face="Helvetica-Oblique">Abstract<br/>TreeNode</font>>, style="filled", fillcolor="#F0F8FF"];
+  ASTNumber                                [label=<<font face="Helvetica-Oblique">AST<br/>Number</font>>, style="filled", fillcolor="#F0F8FF"];
+  
+  /*
+   * Objects
+   */
+  
+  ASTArithmeticOperatorNode                [label="ASTArithmetic\nOperatorNode", style="filled", fillcolor="#F0F8FF"];
+  ASTBinaryFunctionNode                    [label="ASTBinary\nFunctionNode", style="filled", fillcolor="#F0F8FF"];
+  ASTBoolean                               [label="AST\nBoolean", style="filled", fillcolor="#F0F8FF"];
+  ASTCiFunctionNode                        [label="ASTCi\nFunctionNode", style="filled", fillcolor="#F0F8FF"];
+  ASTCiNumberNode                          [label="ASTCi\nNumberNode", style="filled", fillcolor="#F0F8FF"];
+  ASTCnExponentialNode                     [label="ASTCn\nExponentialNode", style="filled", fillcolor="#F0F8FF"];
+  ASTCnIntegerNode                         [label="ASTCn\nIntegerNode", style="filled", fillcolor="#F0F8FF"];
+  ASTCnNumberNode                          [label="ASTCn\nNumberNode<T>", style="filled", fillcolor="#F0F8FF"];
+  ASTCnRationalNode                        [label="ASTCn\nRationalNode", style="filled", fillcolor="#F0F8FF"];
+  ASTCnRealNode                            [label="ASTCn\nRealNode", style="filled", fillcolor="#F0F8FF"];
+  ASTConstantNumber                        [label="AST\nConstantNumber", style="filled", fillcolor="#F0F8FF"];
+  ASTCSymbolAvogadroNode                   [label="ASTCSymbol\nAvogadroNode", style="filled", fillcolor="#F0F8FF"];
+  ASTCSymbolDelayNode                      [label="ASTCSymbol\nDelayNode", style="filled", fillcolor="#F0F8FF"];
+  ASTCSymbolTimeNode                       [label="ASTCSymbol\nTimeNode", style="filled", fillcolor="#F0F8FF"];
+  ASTFunction                              [label="AST\nFunction", style="filled", fillcolor="#F0F8FF"];
+  ASTDivideNode                            [label="AST\nDivideNode", style="filled", fillcolor="#F0F8FF"];
+  ASTHyperbolicNode                        [label="AST\nHyperbolicNode", style="filled", fillcolor="#F0F8FF"];
+  ASTLambdaFunctionNode                    [label="ASTLambda\nFunctionNode", style="filled", fillcolor="#F0F8FF"];
+  ASTLogarithmNode                         [label="AST\nLogarithmNode", style="filled", fillcolor="#F0F8FF"];
+  ASTLogicalOperatorNode                   [label="ASTLogical\nOperatorNode", style="filled", fillcolor="#F0F8FF"];
+  ASTMinusNode                             [label="AST\nMinusNode", style="filled", fillcolor="#F0F8FF"];
+  ASTPiecewiseFunctionNode                 [label="ASTPiecewise\nFunctionNode", style="filled", fillcolor="#F0F8FF"];
+  ASTPlusNode                              [label="AST\nPlusNode", style="filled", fillcolor="#F0F8FF"];
+  ASTPowerNode                             [label="AST\nPowerNode", style="filled", fillcolor="#F0F8FF"];
+  ASTQualifierNode                         [label="AST\nQualifierNode", style="filled", fillcolor="#F0F8FF"];
+  ASTRelationalOperatorNode                [label="ASTRelational\nOperatorNode", style="filled", fillcolor="#F0F8FF"];
+  ASTRootNode                              [label="AST\nRootNode", style="filled", fillcolor="#F0F8FF"];
+  ASTTimesNode                             [label="AST\nTimesNode", style="filled", fillcolor="#F0F8FF"];
+  ASTTrigonometricNode                     [label="AST\nTrigonometricNode", style="filled", fillcolor="#F0F8FF"];
+  ASTUnaryFunctionNode                     [label="AST\nUnaryFunctionNode", style="filled", fillcolor="#F0F8FF"];
+  ASTUnknown                               [label="AST\nUnknown", style="filled", fillcolor="#F0F8FF"];
+  
+  /*********************
+   * Inheritance graph *
+   *********************/
+   
+  AbstractASTNode            -> ASTBoolean                   [dir=back,arrowtail=empty];
+  AbstractASTNode            -> ASTFunction                  [dir=back,arrowtail=empty];
+  AbstractASTNode            -> ASTNumber                    [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> AbstractASTNode              [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> AbstractASTNodePlugin        [dir=back,arrowtail=empty];
+  ASTBinaryFunctionNode      -> ASTCSymbolDelayNode          [dir=back,arrowtail=empty];
+  ASTBinaryFunctionNode      -> ASTDivideNode                [dir=back,arrowtail=empty];
+  ASTBinaryFunctionNode      -> ASTLogarithmNode             [dir=back,arrowtail=empty];
+  ASTBinaryFunctionNode      -> ASTMinusNode                 [dir=back,arrowtail=empty];
+  ASTBinaryFunctionNode      -> ASTPlusNode                  [dir=back,arrowtail=empty];
+  ASTBinaryFunctionNode      -> ASTPowerNode                 [dir=back,arrowtail=empty];
+  ASTBinaryFunctionNode      -> ASTRootNode                  [dir=back,arrowtail=empty];
+  ASTBinaryFunctionNode      -> ASTTimesNode                 [dir=back,arrowtail=empty];
+  ASTCnNumberNode            -> ASTCnExponentialNode         [dir=back,arrowtail=empty];
+  ASTCnNumberNode            -> ASTCnIntegerNode             [dir=back,arrowtail=empty];
+  ASTCnNumberNode            -> ASTCnRationalNode            [dir=back,arrowtail=empty];
+  ASTCnNumberNode            -> ASTCnRealNode                [dir=back,arrowtail=empty];
+  ASTConstantNumber          -> ASTCSymbolAvogadroNode       [dir=back,arrowtail=empty];
+  ASTFunction                -> ASTArithmeticOperatorNode    [dir=back,arrowtail=empty];
+  ASTFunction                -> ASTBinaryFunctionNode        [dir=back,arrowtail=empty];
+  ASTFunction                -> ASTCiFunctionNode            [dir=back,arrowtail=empty];
+  ASTFunction                -> ASTLambdaFunctionNode        [dir=back,arrowtail=empty];
+  ASTFunction                -> ASTLogicalOperatorNode       [dir=back,arrowtail=empty];
+  ASTFunction                -> ASTPiecewiseFunctionNode     [dir=back,arrowtail=empty];
+  ASTFunction                -> ASTQualifierNode             [dir=back,arrowtail=empty];
+  ASTFunction                -> ASTRelationalOperatorNode    [dir=back,arrowtail=empty];
+  ASTFunction                -> ASTUnaryFunctionNode         [dir=back,arrowtail=empty];
+  ASTNumber                  -> ASTCiNumberNode              [dir=back,arrowtail=empty];
+  ASTNumber                  -> ASTCnNumberNode              [dir=back,arrowtail=empty];
+  ASTNumber                  -> ASTConstantNumber            [dir=back,arrowtail=empty];
+  ASTNumber                  -> ASTCSymbolTimeNode           [dir=back,arrowtail=empty];
+  ASTNode2                   -> AbstractASTNode              [dir=back,arrowtail=empty,style=dashed];
+  ASTNode2                   -> ASTUnknown                   [dir=back,arrowtail=empty,style=dashed];
+  ASTNode2                   -> ASTCSymbolBaseNode           [dir=back,arrowtail=empty,style=dashed];
+  ASTCSymbolBaseNode         -> ASTCiFunctionNode            [dir=back,arrowtail=empty];
+  ASTCSymbolBaseNode         -> ASTCiNumberNode              [dir=back,arrowtail=empty];
+  ASTCSymbolBaseNode         -> ASTCSymbolNode               [dir=back,arrowtail=empty,style=dashed];
+  ASTCSymbolNode             -> ASTCSymbolAvogadroNode       [dir=back,arrowtail=empty,style=dashed];
+  ASTCSymbolNode             -> ASTCSymbolDelayNode          [dir=back,arrowtail=empty,style=dashed];
+  ASTCSymbolNode             -> ASTCSymbolTimeNode           [dir=back,arrowtail=empty,style=dashed];
+  ASTUnaryFunctionNode       -> ASTHyperbolicNode            [dir=back,arrowtail=empty];
+  ASTUnaryFunctionNode       -> ASTTrigonometricNode         [dir=back,arrowtail=empty];
+  
+  Cloneable                  -> TreeNodeWithChangeSupport    [dir=back,arrowtail=empty,style=dashed];
+  Object                     -> AbstractTreeNode             [dir=back,arrowtail=empty];
+  Serializable               -> TreeNodeWithChangeSupport    [dir=back,arrowtail=empty,style=dashed];
+  TreeNode                   -> TreeNodeWithChangeSupport    [dir=back,arrowtail=empty,style=dashed];
+  TreeNodeWithChangeSupport  -> AbstractTreeNode             [dir=back,arrowtail=empty,style=dashed];
+  TreeNodeWithChangeSupport  -> ASTNode2                     [dir=back,arrowtail=empty,style=dashed];
+  TreeNodeWithChangeSupport  -> ASTNodePlugin                [dir=back,arrowtail=empty,style=dashed];
+  
+}
