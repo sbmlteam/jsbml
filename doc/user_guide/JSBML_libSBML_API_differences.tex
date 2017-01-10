@@ -85,9 +85,9 @@ public CallableSBase getVariable() { ... }
 The following are examples of methods for creating and manipulating complex
 ASTs.  JSBML provides several static methods (such as \code{sum} shown above)
 that create small trees from objects in memory.  Other methods, such as
-\code{plus}, \code{frac} and \code{pow}, change existing tree structures:
+\code{plus}, \code{frac} and \code{pow} change existing tree structures:
 
-\begin{example}[style=java, title={Some examples for convenience methods, some of
+\begin{example}[style=java, title={Some examples of convenience methods, some of
     them static methods, provided by JSBML for working with \ASTNode{}s.}]
 public ASTNode plus(CallableSBase nsb) { ... }
 
@@ -149,7 +149,7 @@ returns the identical value; it is marked as a deprecated method.
 \subsection{Model history}
 
 Before \SBML Level~3, only the \Model object could have an associated
-history, that is, a description about the person(s) who build the model,
+history, that is, a description of the person(s) who build the model,
 including names, email addresses, modification and creation dates.  In
 Level~3 of SBML, it is possible to annotate every construct with a
 history. This is reflected in JSBML by the name of the corresponding
@@ -215,7 +215,7 @@ In JSBML, all SBML components whose value can be associated with a unit of
 measurement implement the interface \SBaseWithUnit.  This interface provides
 methods to access an object representing the unit. Currently, the interface
 is implemented by \AbstractNamedSBaseWithUnit, \ExplicitRule, and
-\KineticLaw.  \fig{fig:TypeHierarchy} provides an overview about the
+\KineticLaw.  \fig{fig:TypeHierarchy} provides an overview of the
 relationships between these and other classes and interfaces.
 
 % FIXME
@@ -237,7 +237,7 @@ different ways:
 
 \item[\code{getUnit()}:] This method returns a \String representation of
   the unit kind or the identifier of a unit definition in the model \index{model} that has
-  been directly set by the user during the life time of the element. If
+  been directly set by the user during the lifetime of the element. If
   nothing has been declared, this method returns an empty \String.
 
 \item[\code{getDerivedUnit()}:] This method gives either the same
@@ -258,11 +258,11 @@ classes implementing \SBaseWithUnit because it might happen that the
 model\index{model} containing this \SBaseWithUnit does actually not contain
 the required instance of \UnitDefinition and the method returns a
 \code{UnitDefinition} that has just been created for convenience from the
-information provided by the class. It might therefore be useful for callers
+information provided by the class. It may be useful for callers
 to either check if the \Model{} contains this \UnitDefinition or to add it
 to the \Model.
 
-In case of \KineticLaw it is even more difficult, because SBML
+In the case of \KineticLaw, it is even more difficult because SBML
 Level~1\index{SBML!Level~1} provides the ability to set the substance unit
 and the time unit separately. To unify the API
 \index{application programming interface!JSBML}, we decided to also provide methods that
@@ -298,8 +298,8 @@ elements must not be copied when cloning:
 
 \begin{enumerate}
 
-\item The pointer to the parent node of the top level element that is
-  recursively cloned is not copied and is left as \code{null}, because the
+\item The pointer to the parent node of the top-level element that is
+  recursively cloned is not copied and is left as \code{null} because the
   cloned object will get a parent set as soon as it is added or linked again
   to an existing tree. Note that only the top-level element of the cloned
   subtree will have a \code{null} value as its parent. All subelements will
@@ -320,7 +320,7 @@ elements must not be copied when cloning:
 \item Since release 1.0, JSBML supports storing user objects in any object
   derived from \AbstractTreeNode.  These user objects are organized in a map
   data structure with object as key type, pointing to arbitrary user-defined
-  objects. Note that generally no deep cloning of these user objects is
+  objects. Note that, generally, deep cloning of these user objects is not
   possible, but JSBML keeps a pointer to these user objects in the cloned
   element.
 
@@ -330,8 +330,8 @@ elements must not be copied when cloning:
 \subsection{Exceptions}
 \label{sec:exceptions}
 
-In case of an error, JSBML \index{exception} methods will usually throw an
-exception, whereas libSBML \index{exception!error codes} methods return a
+When errors occur, JSBML \index{exception} methods will usually throw an
+exception whereas libSBML \index{exception!error codes} methods return a
 numeric error code instead. The libSBML approach is rooted in the need to
 support C-like languages, while exception handling is more natural in Java.
 The JSBML approach of using exceptions helps programmers and users to avoid
@@ -369,8 +369,8 @@ The following are some examples of situations that lead to exceptions:
   \AbstractNamedSBase.
 
 \item JSBML keeps track of all identifiers within a model. For each
-  namespace it contains a separate map of identifiers within the \Model. It
-  is therefore not possible to assign duplicate identifiers in case of
+  namespace, it contains a separate map of identifiers within the \Model. It
+  is therefore not possible to assign duplicate identifiers for
   elements that implement the interface \UniqueNamedSBase.  For
   \UnitDefinition{}s and \LocalParameter{}s separate maps are
   maintained. Since local parameters are only visible within the
@@ -382,16 +382,16 @@ The following are some examples of situations that lead to exceptions:
   within this namespace, JSBML will throw an exception.
 
 \item ``Meta'' identifiers must be unique through the entire SBML file. To
-  ensure that no duplicate meta identifiers are created, JSBML keeps a map
-  of all meta identifiers on the level of the \SBMLDocument, which is
+  ensure that no duplicate meta-identifiers are created, JSBML keeps a map
+  of all meta-identifiers on the level of the \SBMLDocument, which is
   updated upon any change of elements within the data structure. In this
-  way, it is not possible to map the meta identifier of some element to an
+  way, it is not possible to map the meta-identifier of some element to an
   already existing value or to add nodes to the SBML tree that contain a
-  meta identifier defined somewhere else within the tree. In both cases,
-  JSBML will throw an exception. Since meta identifiers can be generated in
+  meta-identifier defined somewhere else within the tree. In both cases,
+  JSBML will throw an exception. Since meta-identifiers can be generated in
   a fully automatic way (method \code{nextMetaId()} on
   \code{SBMLDocument}), users of JSBML should not care about these
-  identifiers at all. JSBML will automatically create meta identifiers
+  identifiers at all. JSBML will automatically create meta-identifiers
   where missing upon writing an SBML file.  (See \sec{sec:find-methods}.)
 
 \item In case that spatial dimension units of a \Species{} are defined
@@ -401,7 +401,7 @@ The following are some examples of situations that lead to exceptions:
 \end{itemize}
 
 Hence, you have to be aware of potential exceptions and errors when using
-JSBML, \index{exception} on the other hand this will prevent you from doing
+JSBML, \index{exception} on the other hand, this will prevent you from doing
 obvious mistakes. The class \SBMLReader in JSBML catches those errors and
 exceptions. With the help of the logging utility, JSBML notifies users
 about syntactical problems in SBML files. JSBML follows the rule that
@@ -433,9 +433,9 @@ to the ones provided in libSBML's \code{libSBML}, such as
 to obtain the current version of the JSBML library, which is 0.8 or 1.0-a* at the
 time of writing this document. However, many other methods that you might
 expect to find there, if you are used to libSBML, are located in the actual
-classes that are related with the function. 
+classes that are related to the function. 
 
-Here is an example of a method that is located on the relevant class.  To
+Here is an example of a method that is located in the relevant class.  To
 convert between a \String \index{unit!String@\code{String}}%
 and a corresponding \code{Unit.Kind}
 \index{unit!Unit.Kind@\code{Unit.Kind}}%
