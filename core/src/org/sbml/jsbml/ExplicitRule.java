@@ -370,6 +370,14 @@ SBaseWithUnit {
     String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix,
       value);
+    
+    // special case for SBML level 1 ParameterRule
+    if ((getLevel() == 1) && (attributeName.equals("name"))) {
+      isAttributeRead = false;
+      unsetName();
+      unsetId();
+    }
+    
     if (!isAttributeRead) {
       if (getLevel() == 1) {
         if ((attributeName.equals("compartment")
