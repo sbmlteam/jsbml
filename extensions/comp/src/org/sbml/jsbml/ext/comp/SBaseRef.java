@@ -499,6 +499,15 @@ public class SBaseRef extends AbstractSBase {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
 
+    if (getPackageName().equals(CompConstants.shortLabel) && isSetId()) {
+      attributes.remove("id");
+      attributes.put(CompConstants.shortLabel + ":id", getId());
+    }
+    if (getPackageName().equals(CompConstants.shortLabel) && isSetName()) {
+      attributes.remove("name");
+      attributes.put(CompConstants.shortLabel + ":name", getName());
+    }
+    
     if (isSetPortRef()) {
       attributes.put(CompConstants.shortLabel + ':' + CompConstants.portRef, getPortRef());
     }
