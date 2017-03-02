@@ -3969,7 +3969,7 @@ public class ASTNode extends AbstractTreeNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, oldValue, name);
     if ((!type.toString().startsWith("NAME")) && (type != Type.FUNCTION)
-        && (type != Type.FUNCTION_DELAY)) {
+        && (type != Type.FUNCTION_DELAY) && (type != Type.FUNCTION_RATE_OF)) {
       Type oldType = type;
       type = variable == null ? Type.FUNCTION : Type.NAME;
       firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
