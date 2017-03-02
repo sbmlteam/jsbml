@@ -567,8 +567,14 @@ public class SBMLValidator {
 
       return sbmlErrorLog;
     } catch (XStreamException e) {
-      logger.error("There has been an error parsing the consistency check XML result: " + e.getMessage());
+      logger.error("There has been an error parsing the consistency check XML result.");
 
+      logger.info("Below is the String returned by the sbml.org validator REST API:\n" + xmlValidationString + "\n");
+      
+      if (! xmlValidationString.contains("<validation-results>")) {
+        logger.info("There is probably an issue with the sbml.org validator API, please contact the SBML team on [sbml-team at googlegroups.com].");
+      }
+      
       if (logger.isDebugEnabled()) {
         e.printStackTrace();
       }
