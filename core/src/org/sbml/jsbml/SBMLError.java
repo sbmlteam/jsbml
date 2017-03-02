@@ -374,8 +374,8 @@ public class SBMLError extends XMLException {
     public String toString() {
 	return StringTools.concat("SBMLError ", code, " [", severity, "] [", category, "] ", "\n  excerpt = ", excerpt,
 		"\n  Line = ", line, ",  Column = ", column, "\n  package = ", packageName, "\n  short message = ",
-		shortmessage.getMessage(), " (lang='", shortmessage.getLang(), "')", "\n  message = ",
-		message.getMessage(), "\n").toString();
+		(shortmessage != null ? shortmessage.getMessage() : ""), " (lang='", (shortmessage != null ? shortmessage.getLang() : ""),
+		"')", "\n  message = ", (message != null ? message.getMessage() : ""), "\n").toString();
     }
 
     /**
