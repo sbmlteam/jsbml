@@ -28,6 +28,7 @@ import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.path.PathTrackingReader;
 
 /**
  * Converts an {@link SBMLError} from the XML produced by the
@@ -87,53 +88,117 @@ public class SBMLErrorConverter implements Converter {
     UnmarshallingContext context) {
 
     SBMLError sbmlError = new SBMLError();
+    PathTrackingReader ptr = (PathTrackingReader) reader;
 
-    sbmlError.setCategory(reader.getAttribute("category"));
-    sbmlError.setSeverity(reader.getAttribute("severity"));
-    sbmlError.setCode(Integer.parseInt(reader.getAttribute("code")));
+    // boolean used to know if we recognized an element and if we did a moveup after the movedown
+    boolean movedUp = true;
+    
+    sbmlError.setCategory(ptr.getAttribute("category"));
+    sbmlError.setSeverity(ptr.getAttribute("severity"));
+    sbmlError.setCode(Integer.parseInt(ptr.getAttribute("code")));
 
-    reader.moveDown(); // location element
-    sbmlError.setLine(Integer.parseInt(reader.getAttribute("line")));
-    sbmlError.setColumn(Integer.parseInt(reader.getAttribute("column")));
+    // Testing if each element is present before extracting the information
+    
+    // location element
+    if (ptr.hasMoreChildren()) { 
+      ptr.moveDown(); // location element
+      movedUp = false;
+      
+      if (ptr.getNodeName().equals("location")) {
+        sbmlError.setLine(Integer.parseInt(ptr.getAttribute("line")));
+        sbmlError.setColumn(Integer.parseInt(ptr.getAttribute("column")));
 
-    reader.moveUp();
-    reader.moveDown(); // message element
+        ptr.moveUp();
+        movedUp = true;
+      }
+    }
+    
+    // message element
+    if (ptr.hasMoreChildren() || !movedUp) {
+      if (movedUp) { // going down only if we did call moveUp on the previous block
+        ptr.moveDown();
+        movedUp = false;
+      }
 
-    Message message = new Message();
-    message.setLang(reader.getAttribute("lang"));
-    String messageContent = reader.getValue().trim();
-    message.setMessage(messageContent);
-    sbmlError.setMessage(message);
+      if (ptr.getNodeName().equals("message")) {
 
-    reader.moveUp();
-    reader.moveDown(); // package element
+        Message message = new Message();
+        message.setLang(ptr.getAttribute("lang"));
+        String messageContent = ptr.getValue().trim();
+        message.setMessage(messageContent);
+        sbmlError.setMessage(message);
 
-    if (reader.getNodeName().equals("package")) {
-      // TODO - we could make the code in this class more robust by testing each element name before extracting the infos
-      // not really necessary at this point as the XML sent from sbml.org is always complete.
-      sbmlError.setPackage(reader.getAttribute("code"));
-      reader.moveUp();
+        ptr.moveUp();
+        movedUp = true;
+      }
     }
 
-    reader.moveDown(); // shortMessage
-    Message shortmessage = new Message();
-    shortmessage.setLang(reader.getAttribute("lang"));
-    shortmessage.setMessage(reader.getValue());
-    sbmlError.setShortMessage(shortmessage);
+    // package element
+    if (ptr.hasMoreChildren() || !movedUp) { 
+      if (movedUp) {
+        ptr.moveDown();
+        movedUp = false;
+      }
 
-    reader.moveUp();
-    reader.moveDown(); // detail
-    Detail details = new Detail();
-    details.setSeverity(Integer.parseInt(reader.getAttribute("severity")));
-    details.setCategory(Integer.parseInt(reader.getAttribute("category")));
-    sbmlError.setDetail(details);
+      if (ptr.getNodeName().equals("package")) {
+        sbmlError.setPackage(ptr.getAttribute("code"));
+        ptr.moveUp();
+        movedUp = true;
+      }
+    }
+    
+    // shortMessage element
+    if (ptr.hasMoreChildren() || !movedUp) { 
+      if (movedUp) {
+        ptr.moveDown();
+        movedUp = false;
+      }
 
-    reader.moveUp();
-    reader.moveDown(); // excerpt
-    sbmlError.setExcerpt(reader.getValue());
+      if (ptr.getNodeName().equals("shortmessage")) {
 
-    reader.moveUp();
+        Message shortmessage = new Message();
+        shortmessage.setLang(ptr.getAttribute("lang"));
+        shortmessage.setMessage(ptr.getValue());
+        sbmlError.setShortMessage(shortmessage);
 
+        ptr.moveUp();
+        movedUp = true;
+      }
+    }
+    
+    // detail element
+    if (ptr.hasMoreChildren() || !movedUp) { 
+      if (movedUp) {    
+        ptr.moveDown();
+        movedUp = false;
+      }
+
+      if (ptr.getNodeName().equals("detail")) {
+        Detail details = new Detail();
+        details.setSeverity(Integer.parseInt(ptr.getAttribute("severity")));
+        details.setCategory(Integer.parseInt(ptr.getAttribute("category")));
+        sbmlError.setDetail(details);
+
+        ptr.moveUp();
+        movedUp = true;
+      }
+    }    
+
+    // excerpt element
+    if (ptr.hasMoreChildren() || !movedUp) { 
+      if (movedUp) {    
+        ptr.moveDown(); // 
+        movedUp = false;
+      }
+
+      if (ptr.getNodeName().equals("excerpt")) {
+        sbmlError.setExcerpt(ptr.getValue()); 
+
+        ptr.moveUp();
+        movedUp = true;
+      }
+    }
+    
     return sbmlError;
   }
 
