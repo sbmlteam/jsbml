@@ -397,10 +397,17 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
    */
   @Override
   public void processEndDocument(SBMLDocument sbmlDocument) {
-    if (sbmlDocument.isPackageEnabled(RenderConstants.shortLabel))
+    if (sbmlDocument.isPackageEnabled(RenderConstants.shortLabel) && sbmlDocument.isSetModel())
     {
+      SBasePlugin layoutPlugin = sbmlDocument.getModel().getExtension(LayoutConstants.shortLabel);
+      
+      // If the Model Layout plugin is not defined, just return from the method, there is nothing to check
+      if (layoutPlugin == null) {
+        return;
+      }
+      
       // going through the document to find all RenderCurveSegment objects
-      List<? extends TreeNode> curveElements = sbmlDocument.getModel().getExtension(LayoutConstants.shortLabel).filter(new Filter() {
+      List<? extends TreeNode> curveElements = layoutPlugin.filter(new Filter() {
         /* (non-Javadoc)
          * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
          */
