@@ -198,7 +198,8 @@ public class SBMLWriter {
 
         System.out.printf("Starting writing\n");
 
-        new SBMLWriter().write(testDocument, jsbmlWriteFileName);
+        new org.sbml.jsbml.SBMLWriter("MyApp", "1.0").write(testDocument, jsbmlWriteFileName);
+        
       } catch (XMLStreamException e) {
         e.printStackTrace();
       } catch (IOException e) {
@@ -580,7 +581,7 @@ public class SBMLWriter {
     if ((programName != null) && (programName.length() > 0)) {
       outputDocument.addComment(
         MessageFormat.format(
-          " Created by {0} version {1} on {2,date,yyyy-mm-dd} at {2,time,kk:mm:ss z} with JSBML version {3}. ",
+          " Created by {0} version {1} on {2,date,yyyy-MM-dd} at {2,time,kk:mm:ss z} with JSBML version {3}. ",
           (programName != null) && (programName.length() > 0) ? programName : "?",
             (programVersion != null)  && (programVersion.length() > 0) ? programVersion : "?",
               Calendar.getInstance().getTime(), JSBML.getJSBMLDottedVersion()));
