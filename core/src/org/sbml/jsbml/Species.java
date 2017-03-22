@@ -335,8 +335,15 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    */
   @Override
   public UnitDefinition getDerivedUnitDefinition() {
-    UnitDefinition specUnit = super.getDerivedUnitDefinition();
+    UnitDefinition specUnit = null;
+    if (isSetUnitsInstance()) {
+      specUnit = getUnitsInstance();
+    }
+    String derivedUnits = super.getDerivedUnits();
     Model model = getModel();
+    if ((model != null) && (derivedUnits.length() > 0)) {
+      specUnit = model.getUnitDefinition(derivedUnits);
+    }
     if ((specUnit == null) && (getLevel() > 2) && (model != null) && (model.isSetSubstanceUnits())) {
       // According to SBML specification of Level 3 Version 1, page 44, lines 20-22:
       specUnit = model.getSubstanceUnitsInstance();
