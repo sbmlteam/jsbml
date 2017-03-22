@@ -46,11 +46,11 @@ public interface TreeNodeChangeListener extends PropertyChangeListener {
 
   /**
    * The {@link TreeNodeRemovedEvent} passed to this method provides information
-   * about the node that has been removed from a
-   * containing parent and does hence no longer belong to the
-   * {@link SBMLDocument} anymore. In addition, a pointer to its previous parent
-   * is also provided. In this way, an implementing class
-   * can identify the location within the tree where it was before.
+   * about the node that has been removed from a containing parent and does
+   * hence no longer belong to the {@link SBMLDocument} anymore. In addition, a
+   * pointer to its previous parent is also provided. In this way, an
+   * implementing class can identify the location within the tree where it was
+   * before.
    * 
    * @param event
    *        The event containing information about the removed {@link TreeNode}.
