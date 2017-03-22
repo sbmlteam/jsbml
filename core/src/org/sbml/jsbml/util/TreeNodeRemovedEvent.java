@@ -90,7 +90,7 @@ public class TreeNodeRemovedEvent extends EventObject {
    * @see java.lang.Object#clone()
    */
   @Override
-  protected Object clone() throws CloneNotSupportedException {
+  protected TreeNodeRemovedEvent clone() {
     return new TreeNodeRemovedEvent(this);
   }
 
@@ -119,15 +119,12 @@ public class TreeNodeRemovedEvent extends EventObject {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("TreeNodeRemovedEvent [");
+    builder.append(getClass().getSimpleName()).append(" [");
     if (source != null) {
-      builder.append("source=");
-      builder.append(source);
+      builder.append("source=").append(source);
     }
     if (previousParent != null) {
-      builder.append("previousParent=");
-      builder.append(previousParent);
-      builder.append(", ");
+      builder.append("previousParent=").append(previousParent).append(", ");
     }
     builder.append(']');
     return builder.toString();
