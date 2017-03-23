@@ -36,7 +36,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTNode2;
-import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -2359,7 +2358,7 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
-    
+
     if (equal) {
       ASTNode ast = (ASTNode) object;
       equal &= ast.getType() == type;
@@ -4090,12 +4089,12 @@ public class ASTNode extends AbstractTreeNode {
    *             of a unit definition.
    */
   public void setUnits(String unitId) {
-    
+
     if (!isNumber()) {
       if (!isReadingInProgress()) {
         throw new IllegalArgumentException(MessageFormat.format(
-            resourceBundle.getString("ASTNode.setUnits1"),
-            unitId));
+          resourceBundle.getString("ASTNode.setUnits1"),
+          unitId));
       } else {
         logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits1"), unitId));
       }
@@ -4104,20 +4103,20 @@ public class ASTNode extends AbstractTreeNode {
       if (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId)) {
         if (!isReadingInProgress()) {
           throw new IllegalArgumentException(MessageFormat.format(
-              resourceBundle.getString("ASTNode.setUnits2"),
-              unitId));
+            resourceBundle.getString("ASTNode.setUnits2"),
+            unitId));
         } else {
-          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits2"), unitId));          
+          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits2"), unitId));
         }
       }
       if (parentSBMLObject.isSetLevel() && (parentSBMLObject.getLevel() < 3)) {
-        if (!isReadingInProgress()) {        
-        throw new IllegalArgumentException(MessageFormat.format(
-          resourceBundle.getString("ASTNode.setUnits3"),
-          unitId));
+        if (!isReadingInProgress()) {
+          throw new IllegalArgumentException(MessageFormat.format(
+            resourceBundle.getString("ASTNode.setUnits3"),
+            unitId));
         } else {
-          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits3"), unitId));          
-        }        
+          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits3"), unitId));
+        }
       }
     }
     String oldValue = this.unitId;
