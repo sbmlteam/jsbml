@@ -2186,12 +2186,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
       /*
        * Memorize all TreeNodeChangeListeners that are currently assigned to the
-       * new
-       * SBase in order to re-use these later. For now we must remove all those
-       * to
-       * avoid listeners to be called before we could really add the SBase to
-       * this
-       * subtree.
+       * new SBase in order to re-use these later. For now we must remove all
+       * those to avoid listeners to be called before we could really add the
+       * SBase to this subtree.
        */
       List<TreeNodeChangeListener> listeners =
           sbase.getListOfTreeNodeChangeListeners();

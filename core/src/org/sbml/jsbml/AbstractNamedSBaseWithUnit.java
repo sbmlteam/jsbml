@@ -154,7 +154,7 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
     }
     String derivedUnits = getDerivedUnits();
     Model model = getModel();
-    if ((model != null) && (derivedUnits.length() > 0)) {
+    if ((model != null) && (derivedUnits != null) && !derivedUnits.isEmpty()) {
       return model.getUnitDefinition(derivedUnits);
     }
     return null;
@@ -282,28 +282,28 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
     }
 
     String oldUnits = unitsID;
-    
+
     if (units == null) {
       unitsID = null;
     } else {
       units = units.trim();
-      
+
       boolean illegalArgument = false;
-      
+
       if (!Unit.isValidUnit(getModel(), units)) {
         illegalArgument = true; // TODO - make use of the offline validation once attributes validation is in place.
       }
       if (illegalArgument) {
         if (!isReadingInProgress()) {
-        throw new IllegalArgumentException(MessageFormat.format(
-          JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
+          throw new IllegalArgumentException(MessageFormat.format(
+            JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
         } else {
           logger.info(MessageFormat.format(JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
         }
       }
       unitsID = units;
     }
-    
+
     if (oldUnits != unitsID) {
       firePropertyChange(TreeNodeChangeEvent.units, oldUnits, unitsID);
     }
