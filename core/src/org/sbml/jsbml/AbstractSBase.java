@@ -2789,9 +2789,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       /*
        * Do not remove ChangeListeners from the sbase here, this will be done
        * in the super class. It is important to keep the change listeners for
-       * now,
-       * because otherwise the listeners won't be informed that we are going to
-       * delete something from the model.
+       * now, because otherwise the listeners won't be informed that we are
+       * going to delete something from the model.
        */
     }
   }
