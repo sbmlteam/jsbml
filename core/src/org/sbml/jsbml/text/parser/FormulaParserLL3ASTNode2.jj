@@ -10,8 +10,6 @@ options
 
 PARSER_BEGIN(FormulaParserLL3ASTNode2)
 /*
- * $Id: FormulaParserLL3ASTNode2.jj 2266 2015-04-30 15:40:25Z niko-rodrigue $
- * $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/branches/astnode2-merging-alternate/core/src/org/sbml/jsbml/text/parser/FormulaParserLL3ASTNode2.jj $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -69,7 +67,7 @@ import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 
 /**
- * Class used to parse infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
+ * Parses infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
  * <p>
  * Support almost the same syntax as defined in <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/libsbml.html#parseL3Formula(java.lang.String)">
  * the LibSBML L3 parser</a>. The things not supported for now are the units associated with numbers.
@@ -78,7 +76,6 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
  * @author Nicolas Rodriguez
  * @author Victor Kofia
  * @since 1.0
- * @version $Rev: 2266 $
  */
 public class FormulaParserLL3ASTNode2 implements IFormulaParser
 {
@@ -147,7 +144,7 @@ public class FormulaParserLL3ASTNode2 implements IFormulaParser
  */
   private ASTPiecewiseFunctionNode createModulo(ASTNode2 leftChild, ASTNode2 rightChild)
   {
-      ASTPiecewiseFunctionNode node = new ASTPiecewiseFunctionNode();
+    ASTPiecewiseFunctionNode node = new ASTPiecewiseFunctionNode(); // TODO - the formula should be 'piecewise(a - b * ceil(a/b), xor((a < 0), (b < 0)), a - b * floor(a/b))'
 		
 	  ASTUnaryFunctionNode floorNode = new ASTUnaryFunctionNode(Type.FUNCTION_FLOOR);
 	  ASTDivideNode aDividedByB = new ASTDivideNode();
@@ -170,6 +167,121 @@ public class FormulaParserLL3ASTNode2 implements IFormulaParser
 
 	  return node;	
   }    
+
+  /**
+   * Returns a piecewise {@link ASTNode} representing the remainder operation between the left and right child given.
+   *
+   * <p/> The formula produced for 'a rem b' or remainder(a, b) is 'piecewise(floor(a/b), gt(a/b, 0), ceil(a/b))'
+   *
+   * @param leftChild
+   * @param rightChild
+   * @return a piecewise {@link ASTNode} representing the remainder operation between the left and right child given.
+   * @see http://sbml.org/Documents/FAQ#Why_can.27t_I_use_the_.3Crem.3E_operator_in_SBML_MathML.3F
+   */
+   /*
+  private ASTNode createRemainder(ASTNode leftChild, ASTNode rightChild)
+  {
+    ASTNode node = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
+
+    ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
+    ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
+    aDividedByB.addChild(leftChild);
+    aDividedByB.addChild(rightChild);
+
+    floorNode.addChild(aDividedByB);
+    node.addChild(floorNode);
+
+    ASTNode greaterThan = new ASTNode(ASTNode.Type.RELATIONAL_GT);
+    greaterThan.addChild(aDividedByB.clone());
+    greaterThan.addChild(new ASTNode(0));
+
+    node.addChild(greaterThan);
+
+    ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
+    ceilNode.addChild(aDividedByB.clone());
+
+    node.addChild(ceilNode);
+
+    return node;	
+  }  
+  */  
+
+  /**
+   * Returns a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+   *
+   * <p/> The formula produced for 'a % b' or modulo(a, b) is 'piecewise(a - b * ceil(a/b), xor((a < 0), (b < 0)), a - b * floor(a/b))'
+   *
+   * @param leftChild
+   * @param rightChild
+   * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+   * 
+   */
+   /* 
+   // TODO - replace the createModulo with the right formula
+  /**
+   * Returns a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+   *
+   * <p/> The formula produced for 'a % b' or modulo(a, b) is 'piecewise(a - b * ceil(a/b), xor((a < 0), (b < 0)), a - b * floor(a/b))'
+   *
+   * @param leftChild
+   * @param rightChild
+   * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+   * 
+   */
+  private ASTNode createModulo(ASTNode leftChild, ASTNode rightChild)
+  {
+    ASTNode piecewiseNode = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
+
+    ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
+    aDividedByB.addChild(leftChild);
+    aDividedByB.addChild(rightChild);
+
+    // a - b * ceil(a/b)
+    ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
+    ceilNode.addChild(aDividedByB);
+    ASTNode rightTimesCeil = new ASTNode(ASTNode.Type.TIMES);
+    rightTimesCeil.addChild(rightChild);
+    rightTimesCeil.addChild(ceilNode);
+    
+    ASTNode minusNode1 = new ASTNode(ASTNode.Type.MINUS);
+    minusNode1.addChild(leftChild);
+    minusNode1.addChild(rightTimesCeil);
+    
+    piecewiseNode.addChild(minusNode1);
+    
+    // xor((a < 0), (b < 0))
+    ASTNode lowerThanZeroLeft = new ASTNode(ASTNode.Type.RELATIONAL_LT);
+    lowerThanZeroLeft.addChild(leftChild);
+    lowerThanZeroLeft.addChild(new ASTNode(0));
+
+    ASTNode lowerThanZeroRight = new ASTNode(ASTNode.Type.RELATIONAL_LT);
+    lowerThanZeroRight.addChild(rightChild);
+    lowerThanZeroRight.addChild(new ASTNode(0));
+
+    ASTNode xorNode = new ASTNode(ASTNode.Type.LOGICAL_XOR);
+    xorNode.addChild(lowerThanZeroLeft);
+    xorNode.addChild(lowerThanZeroRight);
+    
+    piecewiseNode.addChild(xorNode);
+
+    // a - b * floor(a/b)
+    ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
+    floorNode.addChild(aDividedByB.clone());
+
+    ASTNode rightTimesFloor = new ASTNode(ASTNode.Type.TIMES);
+    rightTimesFloor.addChild(rightChild);
+    rightTimesFloor.addChild(floorNode);
+    
+    ASTNode minusNode2 = new ASTNode(ASTNode.Type.MINUS);
+    minusNode2.addChild(leftChild);
+    minusNode2.addChild(rightTimesFloor);
+    
+    piecewiseNode.addChild(minusNode2);
+
+
+    return piecewiseNode;  
+  }    
+*/
   
 }
 
