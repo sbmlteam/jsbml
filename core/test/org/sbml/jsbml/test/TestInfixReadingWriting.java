@@ -32,9 +32,62 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.xml.XMLNode;
 
 
+/**
+ * 
+ * 
+ * @author rodrigue
+ *
+ */
 public class TestInfixReadingWriting {
 
+  /**
+   * 
+   */
+  public static String[] TESTS_TO_IGNORE = {
+      // trigonometric operators (output could be optional?)
+      "0019", "0020", "0035", "0036", "0039", "0040",
+      "0110", "0111", "0126", "0127", "0130", "0131", 
+      
+      // additional/missing parenthesis in JSBML, not harmful
+      "0072", "0076", "0164", "0168", "0200", "0201", "0202", "0203",
+      "0249",
+      //? the parenthesis might be better for readability ?
+      "0301",
+      
+      // different output for multiple arguments to relational operators
+      "0086", "0087", "0088", "0089", "0090", "0091",
+      
+      // number like '1e3' written wrongly with many zeros by libsbml 
+      "0196", "0197", "0211", "0212", "0213", "0214",
+      
+      // very large numbers written with an exponent by JSBML/java
+      "0224", "0225"
+  };
+  
+  /*
+   
+    output for log/ln (not wrong but might be better the way libsbml does it) => "0056", "0057", "0058", "0147", "0149", "0150"
+    
+    output for sqrt/root different ==> "0063", "0064", "0155", "0156", "0178"
+   
+   
+    arithmetic operator removed from the output when there is only one argument or less ? ==> "0084", "0085", "0176", "0177", "0180", "0181"
+    
+    units in formula not supported ==> "0209", "0210", "0211", "0212", "0213", "0214", "0215", "0216", "0217"
+                                       "0221", "0222"  
+    
+    '1e' written '1' by JSBML, wrong or same ? ==> "0218", "0219", "0220"
+    
+    modulo => need to restore the original String ? ==> "0233", "0254", "0255", "0279", "0280", "0302"-"0361"
+    
+    
+    // Stopped to check them at nb 0363
+   */
 
+  /**
+   * 
+   * @param args path to the folder containing all the test files.
+   */
   public static void main(String[] args) {
     
     if (args.length < 1) {
@@ -149,7 +202,7 @@ public class TestInfixReadingWriting {
         if (different) {
           differences.add("input= '" + infixInput + "', output = '" + infixOutput + "' (expected output = '" + infixExpectedOutput + "') (" + fileName + ")");
         }
-        if (different && (infixInput.indexOf("%") == -1) && (infixExpectedOutput.indexOf("arc") == -1)) {
+        if (different && (infixInput.indexOf("%") == -1) && (infixOutput.indexOf("arc") == -1)) {
           difference2s.add("input= '" + infixInput + "', output = '" + infixOutput + "' (expected output = '" + infixExpectedOutput + "')");
         }
       }
@@ -185,6 +238,12 @@ public class TestInfixReadingWriting {
     if (difference2s.size() > 0) {
       System.out.println("\n\nNb tests where we don't have the same output (excluding modulo and trigonometric operators) = " + difference2s.size()
         + " (nb tests = " + nbTests + ")");
+      
+      System.out.println("\n\n");
+      for (String difference : difference2s) {
+        System.out.println(difference);
+      }
+      
     }
   }
 }
