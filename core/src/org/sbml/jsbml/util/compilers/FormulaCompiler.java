@@ -483,8 +483,11 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
       return checkDenominatorBrackets(node.getLeftChild());
     }
     String term = node.compile(this).toString();
+    
     if (node.isSum() || node.isDifference() || node.isUMinus()
-        || (node.getType() == Type.TIMES)) {
+        || (node.getType() == Type.TIMES) || node.getType() == Type.DIVIDE
+        || node.isRelational() || node.isLogical())
+    {
       term = brackets(term).toString();
     }
     return term;
@@ -706,9 +709,27 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
     for (ASTNode node : nodes) {
       l.add(node);
     }
-    return new ASTNodeValue(concat(name, brackets(lambdaBody(l)))
-      .toString(), this);
+    return new ASTNodeValue(concat(name, brackets(lambdaBody(l))).toString(), this);
   }
+
+  /**
+  * Compiles a function with one argument and where we don't want to put the argument
+  * between brackets if it is a number or an id. 
+  * 
+  * @param name the name of the function, can also be just a sign, like not ('!') or '<='.
+  * @param node the single argument to the function
+  * @return a new {@link ASTNodeValue} that contain the String representation of the function.
+  * @throws SBMLException if an error is detected while going through the {@link ASTNode}
+  */
+ protected ASTNodeValue functionNotAlwaysBrackets(String name, ASTNode node)
+     throws SBMLException 
+ {
+   if (node.isName() || node.isNumber()) {
+     return new ASTNodeValue(concat(name, node.compile(this)).toString(), this);
+   }
+   
+   return new ASTNodeValue(concat(name, brackets(node.compile(this))).toString(), this);
+ }
 
   /**
    *
@@ -947,7 +968,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue not(ASTNode node) throws SBMLException {
-    return function("!", node);
+    return functionNotAlwaysBrackets("!", node);
   }
 
   /* (non-Javadoc)
