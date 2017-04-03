@@ -101,7 +101,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
     }
     Character op = Character.valueOf(operator);
     for (int count = 1; count < vsb.size(); count++) {
-      append(equation, op, vsb.get(count));
+      append(equation, op, vsb.get(count)); // TODO - could be 'append(equation, " ", op, " ", vsb.get(count));' to add a space between the operator and the arguments. If we change it, we have many tests to update.
     }
     return equation;
   }
@@ -209,12 +209,14 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
     }
     String b = basis.toString();
     if (b.contains("*") || b.contains("-") || b.contains("+")
-        || b.contains("/") || b.contains("^")) {
+        || b.contains("/") || b.contains("^") || b.contains("|") || b.contains("&") 
+        || b.contains("<") || b.contains("=") || b.contains(">")) {
       basis = brackets(basis);
     }
     String e = exponent.toString();
     if (e.contains("*") || e.contains("-") || e.contains("+")
-        || e.contains("/") || e.contains("^")) {
+        || e.contains("/") || e.contains("^") || b.contains("|") || b.contains("&") 
+        || b.contains("<") || b.contains("=") || b.contains(">")) {
       exponent = brackets(e);
     }
     return arith('^', basis, exponent);
@@ -494,18 +496,20 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   /**
-   * Creates brackets if needed.
+   * Creates brackets around the given ASTNode if it is not a simple number or String 
+   * or a function (meaning the method {@link ASTNode#isFunction()} returns true).
    *
-   * @param node
-   * @return
-   * @throws SBMLException
+   * @param node the {@link ASTNode} to compile to String
+   * @return a String representing the given ASTNode
+   * @throws SBMLException - if any error occurs while going through the ASTNode
    */
-  protected String checkRelationalArgumentBrackets(ASTNode node) throws SBMLException {
+  protected String checkArgumentBrackets(ASTNode node) throws SBMLException {
 
     String term = node.compile(this).toString();
 
-    if (node.isNumber() || node.isString()
-        || node.isFunction()) {
+    if ((node.isNumber() || node.isString() || node.isFunction()) 
+        && (! (node.getType() == ASTNode.Type.FUNCTION_POWER || node.getType() == ASTNode.Type.FUNCTION_REM)))
+    {
       return term;
     }
 
@@ -943,7 +947,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
     StringBuffer minus = new StringBuffer();
 
-    minus.append(nodes.get(0));
+    minus.append(checkBrackets(nodes.get(0)));
 
     for (int i = 1; i < nodes.size(); i++) {
       if (i > 0) {
@@ -997,13 +1001,21 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
       return new ASTNodeValue("", this);
     }
 
-    plus.append(nodes.get(0).toFormula(this));
+    if (nodes.get(0).isSum()) {
+      plus.append(nodes.get(0));
+    } else {
+      plus.append(checkBrackets(nodes.get(0)));
+    }
+    
 
     for (int i = 1; i < nodes.size(); i++) {
       plus.append('+');
 
-      plus.append(checkBrackets(nodes.get(i)));
-
+      if (nodes.get(i).isSum()) {
+        plus.append(nodes.get(i));
+      } else {
+        plus.append(checkBrackets(nodes.get(i)));
+      }
     }
     return new ASTNodeValue(plus.toString(), this);
 
@@ -1014,7 +1026,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue pow(ASTNode left, ASTNode right) throws SBMLException {
-    return new ASTNodeValue(pow(left.compile(this), right.compile(this)).toString(), this);
+    return new ASTNodeValue(arith('^', checkArgumentBrackets(left), checkArgumentBrackets(right)).toString(), this);
   }
 
   /**
@@ -1028,9 +1040,9 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   protected String relation(ASTNode left, String symbol, ASTNode right)
       throws SBMLException {
 
-    return (new StringBuffer().append(checkRelationalArgumentBrackets(left))
+    return (new StringBuffer().append(checkArgumentBrackets(left))
       .append(FORMULA_ARGUMENT_SEPARATOR).append(symbol).append(FORMULA_ARGUMENT_SEPARATOR)
-      .append(checkRelationalArgumentBrackets(right))).toString();
+      .append(checkArgumentBrackets(right))).toString();
   }
 
   /* (non-Javadoc)
@@ -1210,7 +1222,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
   @Override
   public ASTNodeValue rem(List<ASTNode> values) {
-    return function("rem", values);
+    return function("rem", values); // TODO - output it as '%' ?
   }
 
   @Override
