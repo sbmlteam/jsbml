@@ -678,10 +678,10 @@ TOKEN :
   < POWER : "^" >
 }
 
-TOKEN :
-{
-  < MINUS : "-" >
-}
+//TOKEN :
+//{
+//  < MINUS : "-" >
+//}
 
 TOKEN :
 {
@@ -806,7 +806,7 @@ TOKEN :
 
 TOKEN :
 {
-	< IDCHAR : < LETTER > | < DIGIT > | "_" | "." >
+	< IDCHAR : < LETTER > | < DIGIT > | "_" | "." | "-" >
 }
 
 TOKEN :
@@ -979,13 +979,13 @@ private ASTNode termLevel4() :
       node.addChild(rightChild);
       leftChild = node;
     }
-  | < MINUS > rightChild = termLevel5()
-    {
-      node = new ASTNode('-');
-      node.addChild(leftChild);
-      node.addChild(rightChild);
-      leftChild = node;
-    }
+//  | < MINUS > rightChild = termLevel5()
+//    {
+//      node = new ASTNode('-');
+//      node.addChild(leftChild);
+//      node.addChild(rightChild);
+//      leftChild = node;
+//    }
   )*
   {
 	return leftChild;
@@ -1044,19 +1044,19 @@ private ASTNode termLevel6() :
   ASTNode node = null;
 }
 {
-  < MINUS > node = termLevel7()
-  {
-    ASTNode uiMinus = new ASTNode('-');
-    uiMinus.addChild(node);
-    return uiMinus;
-  }
-| < NOT > node = termLevel7()
+//  < MINUS > node = termLevel7()
+//  {
+//    ASTNode uiMinus = new ASTNode('-');
+//    uiMinus.addChild(node);
+//    return uiMinus;
+//  }
+  < NOT > node = termLevel7()
   {
     ASTNode not = new ASTNode(Type.LOGICAL_NOT);
     not.addChild(node);
     return not;
   }
-| node = termLevel7()
+ | node = termLevel7()
   {
     return node;
   }
