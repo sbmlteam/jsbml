@@ -604,8 +604,8 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     rightTimesFloor.addChild(floorNode);
 
     ASTNode minusNode2 = new ASTNode(ASTNode.Type.MINUS);
-    minusNode1.addChild(leftChild);
-    minusNode1.addChild(rightTimesFloor);
+    minusNode2.addChild(leftChild);
+    minusNode2.addChild(rightTimesFloor);
 
     piecewiseNode.addChild(minusNode2);
 
@@ -763,35 +763,18 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PLUS:
-      case MINUS:
         ;
         break;
       default:
         jj_la1[4] = jj_gen;
         break label_3;
       }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case PLUS:
-        jj_consume_token(PLUS);
-        rightChild = termLevel5();
+      jj_consume_token(PLUS);
+      rightChild = termLevel5();
       node = new ASTNode('+');
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
-        break;
-      case MINUS:
-        jj_consume_token(MINUS);
-        rightChild = termLevel5();
-      node = new ASTNode('-');
-      node.addChild(leftChild);
-      node.addChild(rightChild);
-      leftChild = node;
-        break;
-      default:
-        jj_la1[5] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
     }
         {if (true) return leftChild;}
     throw new Error("Missing return statement in function");
@@ -811,7 +794,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
         ;
         break;
       default:
-        jj_la1[6] = jj_gen;
+        jj_la1[5] = jj_gen;
         break label_4;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -851,7 +834,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
       leftChild = node;
         break;
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[6] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -863,13 +846,6 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
   final private ASTNode termLevel6() throws ParseException {
   ASTNode node = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case MINUS:
-      jj_consume_token(MINUS);
-      node = termLevel7();
-    ASTNode uiMinus = new ASTNode('-');
-    uiMinus.addChild(node);
-    {if (true) return uiMinus;}
-      break;
     case NOT:
       jj_consume_token(NOT);
       node = termLevel7();
@@ -885,7 +861,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     {if (true) return node;}
       break;
     default:
-      jj_la1[8] = jj_gen;
+      jj_la1[7] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -904,7 +880,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
         ;
         break;
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[8] = jj_gen;
         break label_5;
       }
       jj_consume_token(POWER);
@@ -939,7 +915,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
           ;
           break;
         default:
-          jj_la1[10] = jj_gen;
+          jj_la1[9] = jj_gen;
           break label_6;
         }
         jj_consume_token(SPLITTER);
@@ -1032,7 +1008,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     {if (true) return node;}
         break;
       default:
-        jj_la1[14] = jj_gen;
+        jj_la1[13] = jj_gen;
         if (jj_2_2(4)) {
           t = jj_consume_token(STRING);
     ASTNode selector = new ASTNode();
@@ -1049,7 +1025,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
               ;
               break;
             default:
-              jj_la1[11] = jj_gen;
+              jj_la1[10] = jj_gen;
               break label_7;
             }
           }
@@ -1070,7 +1046,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
               ;
               break;
             default:
-              jj_la1[12] = jj_gen;
+              jj_la1[11] = jj_gen;
               break label_8;
             }
             jj_consume_token(SPLITTER);
@@ -1086,7 +1062,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
               ;
               break;
             default:
-              jj_la1[13] = jj_gen;
+              jj_la1[12] = jj_gen;
               break label_9;
             }
             jj_consume_token(LEFT_BRACKET);
@@ -1156,7 +1132,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     {if (true) return node;}
             break;
           default:
-            jj_la1[15] = jj_gen;
+            jj_la1[14] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -1187,7 +1163,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_31() {
+  private boolean jj_3R_28() {
     if (jj_scan_token(POWER)) return true;
     return false;
   }
@@ -1203,17 +1179,17 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     return false;
   }
 
-  private boolean jj_3R_34() {
+  private boolean jj_3R_31() {
     if (jj_scan_token(STRING)) return true;
     return false;
   }
 
-  private boolean jj_3R_29() {
-    if (jj_3R_30()) return true;
+  private boolean jj_3R_26() {
+    if (jj_3R_27()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3R_31()) { jj_scanpos = xsp; break; }
+      if (jj_3R_28()) { jj_scanpos = xsp; break; }
     }
     return false;
   }
@@ -1229,16 +1205,6 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
   }
 
   private boolean jj_3R_18() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_21()) {
-    jj_scanpos = xsp;
-    if (jj_3R_22()) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3R_21() {
     if (jj_scan_token(PLUS)) return true;
     return false;
   }
@@ -1275,46 +1241,46 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     return false;
   }
 
-  private boolean jj_3R_33() {
+  private boolean jj_3R_30() {
     if (jj_scan_token(LEFT_BRACES)) return true;
     if (jj_scan_token(RIGHT_BRACES)) return true;
     return false;
   }
 
-  private boolean jj_3R_27() {
+  private boolean jj_3R_24() {
     if (jj_scan_token(DIVIDE)) return true;
     return false;
   }
 
-  private boolean jj_3R_25() {
-    if (jj_3R_29()) return true;
+  private boolean jj_3R_22() {
+    if (jj_3R_26()) return true;
     return false;
   }
 
   private boolean jj_3R_10() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_scan_token(23)) {
+    if (jj_scan_token(22)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(24)) return true;
+    if (jj_scan_token(23)) return true;
     }
     return false;
   }
 
-  private boolean jj_3R_30() {
+  private boolean jj_3R_27() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_1()) {
     jj_scanpos = xsp;
-    if (jj_3R_32()) {
+    if (jj_3R_29()) {
     jj_scanpos = xsp;
     if (jj_3_2()) {
     jj_scanpos = xsp;
     if (jj_3_3()) {
     jj_scanpos = xsp;
-    if (jj_3R_33()) {
+    if (jj_3R_30()) {
     jj_scanpos = xsp;
-    if (jj_3R_34()) return true;
+    if (jj_3R_31()) return true;
     }
     }
     }
@@ -1340,31 +1306,41 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     return false;
   }
 
-  private boolean jj_3R_26() {
+  private boolean jj_3R_20() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_23()) {
+    jj_scanpos = xsp;
+    if (jj_3R_24()) {
+    jj_scanpos = xsp;
+    if (jj_3R_25()) return true;
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_23() {
     if (jj_scan_token(TIMES)) return true;
     return false;
   }
 
-  private boolean jj_3R_24() {
-    if (jj_scan_token(NOT)) return true;
-    if (jj_3R_29()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_20() {
+  private boolean jj_3R_19() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_26()) {
+    if (jj_3R_21()) {
     jj_scanpos = xsp;
-    if (jj_3R_27()) {
-    jj_scanpos = xsp;
-    if (jj_3R_28()) return true;
-    }
+    if (jj_3R_22()) return true;
     }
     return false;
   }
 
-  private boolean jj_3R_32() {
+  private boolean jj_3R_21() {
+    if (jj_scan_token(NOT)) return true;
+    if (jj_3R_26()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_29() {
     if (jj_scan_token(OPEN_PAR)) return true;
     if (jj_3R_12()) return true;
     return false;
@@ -1380,32 +1356,8 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     return false;
   }
 
-  private boolean jj_3R_19() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_23()) {
-    jj_scanpos = xsp;
-    if (jj_3R_24()) {
-    jj_scanpos = xsp;
-    if (jj_3R_25()) return true;
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_23() {
-    if (jj_scan_token(MINUS)) return true;
-    if (jj_3R_29()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_28() {
+  private boolean jj_3R_25() {
     if (jj_scan_token(MODULO)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_22() {
-    if (jj_scan_token(MINUS)) return true;
     return false;
   }
 
@@ -1420,13 +1372,13 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[16];
+  final private int[] jj_la1 = new int[15];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x1800000,0x8000001,0x40000,0x20000,0xa0,0xa0,0x700,0x700,0x1c02880,0x40,0x10,0x8000,0x10,0x8000,0x800,0x1002000,};
+      jj_la1_0 = new int[] {0xc00000,0x4000001,0x20000,0x10000,0x20,0x380,0x380,0xe01400,0x40,0x10,0x4000,0x10,0x4000,0x400,0x801000,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[3];
   private boolean jj_rescan = false;
@@ -1443,7 +1395,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1458,7 +1410,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1469,7 +1421,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1480,7 +1432,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1490,7 +1442,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1500,7 +1452,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1612,12 +1564,12 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[28];
+    boolean[] la1tokens = new boolean[27];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 15; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1626,7 +1578,7 @@ public class CobraFormulaParser implements IFormulaParser, CobraFormulaParserCon
         }
       }
     }
-    for (int i = 0; i < 28; i++) {
+    for (int i = 0; i < 27; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
