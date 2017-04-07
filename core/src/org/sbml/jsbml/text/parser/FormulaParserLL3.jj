@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.text.parser.IFormulaParser;
@@ -1194,6 +1195,12 @@ private ASTNode termLevel8() throws NumberFormatException :
     {
       node.addChild(argument);
     }
+    
+    // add a special case for FUNTION_LN => transform it into FUNCTION_LOG if it has 2 arguments
+    if (node.getType().equals(ASTNode.Type.FUNCTION_LN) && node.getChildCount() > 1) {
+      node.setType(ASTNode.Type.FUNCTION_LOG);
+    }
+    
     return node;
   }
   // (expression)

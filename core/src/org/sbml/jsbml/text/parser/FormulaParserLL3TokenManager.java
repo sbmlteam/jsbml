@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.text.parser.IFormulaParser;
