@@ -951,7 +951,7 @@ private ASTNode termLevel3() :
       {
         type = ASTNode.Type.RELATIONAL_LEQ;
       }
-      node = new ASTNode(type); // TODO - those elements can have more children
+      node = new ASTNode(type);
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
@@ -1051,6 +1051,10 @@ private ASTNode termLevel6() :
     uiMinus.addChild(node);
     return uiMinus;
   }
+| < PLUS > node = termLevel7()
+  {
+    return node;
+  }  
 | < NOT > node = termLevel7()
   {
     ASTNode not = new ASTNode(Type.LOGICAL_NOT);
@@ -1101,8 +1105,15 @@ private ASTNode termLevel8() throws NumberFormatException :
 {
   t = < INTEGER >
   {
-    i = Integer.parseInt(t.image); // Could use StringTools.parseXXX methods here but not doing so allow to support different locale ??
-    node.setValue(i);
+    try {
+      i = Integer.parseInt(t.image); // Could use StringTools.parseXXX methods here but not doing so allow to support different locale ??
+      node.setValue(i);
+    } catch (NumberFormatException e) {
+      // it could happen that the number is too big to be stored in an Integer
+      d = Double.parseDouble(t.image);
+      node.setValue(d);
+    }
+    
     return node;
   }
 | t = < NUMBER >
@@ -1126,9 +1137,9 @@ private ASTNode termLevel8() throws NumberFormatException :
     node.setValue(Double.parseDouble(vals [ 0 ]), i);
     return node;
   }
-  // Function call: f(...)
+// Function call: f(...)
 | LOOKAHEAD(2)
-  t = string() < OPEN_PAR > child = termLevel2()
+  t = string() < OPEN_PAR > child = termLevel2() // TODO - we need to support function without arguments
   (
     < SPLITTER > furtherChild = termLevel2()
     {

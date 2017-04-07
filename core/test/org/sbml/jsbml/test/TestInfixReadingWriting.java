@@ -22,13 +22,17 @@ package org.sbml.jsbml.test;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.xml.XMLNode;
 
 
@@ -51,6 +55,13 @@ public class TestInfixReadingWriting {
       // additional/missing parenthesis in JSBML, not harmful
       "0072", "0076", "0164", "0168", "0200", "0201", "0202", "0203",
       "0249",
+      "0362", "0379", "0380", "0381", "0382", "0383", "0384", "0385",
+      "0386", "0387", "0388", "0389", "0394", "0395", "0395", "0396",
+      "0397", "0398", "0399", "0400", "0401", "0402", "0407", "0408",
+      "0408", "0409", "0410", "0411", "0412", "0413", "0418", "0419",
+      "0420", "0421", "0422", "0427", "0428", "0429", "0434", "0439",
+      "0442",
+      
       //? the parenthesis might be better for readability ?
       "0301",
       
@@ -61,7 +72,18 @@ public class TestInfixReadingWriting {
       "0196", "0197", "0211", "0212", "0213", "0214",
       
       // very large numbers written with an exponent by JSBML/java
-      "0224", "0225"
+      "0224", "0225",
+      
+      // different output for '-x' ==> '(-x)' instead of '-x' for libsbml
+      "0855", "0856", "0857", "0858",
+      "0861", "0862", "0863", "0864", "0865", "0866", "0867", "0868",
+      "0875", "0876", "0877", "0878",
+      "1001", "1002", 
+
+      // different output for 'not(x)' ==> '!(x)' instead of '!x' for libsbml
+      "0923", "0924", "0925", "0926", "0929", "0930", "0931", "0932",
+      "0933", "0934", "0935", "0936", "0943", "0944", "0945", "0946",
+
   };
   
   /*
@@ -130,27 +152,35 @@ public class TestInfixReadingWriting {
     long init = Calendar.getInstance().getTimeInMillis();
     List<String> differences = new ArrayList<String>();
     List<String> difference2s = new ArrayList<String>();
+    List<String> parseExceptions = new ArrayList<String>();
     int nbEquals = 0;
     int nbEqualsIgnoreSpace = 0;
     int nbTests = 0;
+    Set<String> ignoredTestsSet = new HashSet<>(Arrays.asList(TESTS_TO_IGNORE));
+    
+    FormulaParserLL3 parser = new FormulaParserLL3(new StringReader(""));
+    parser.setCaseSensitive(false);
     
     for (File file : files)
     {
       String fileName = file.getAbsolutePath();
-      // read the mathml, infix math input and expected output.
+      String fileId = fileName.substring(fileName.length() - 8, fileName.length() - 4);
+      
       
       byte[] encoded = null;
       String mathMLString =  null;
       String infixInput = null;
       String infixExpectedOutput = null;
+      String infixOutput = null;
       
       try 
       {
+        // reading the mathml, infix math input and expected output.
+        
         encoded = Files.readAllBytes(file.toPath());
         mathMLString =  new String(encoded, "UTF-8");
 
         ASTNode astNode = ASTNode.readMathMLFromString(mathMLString);
-        String infixOutput = astNode.toFormula();
 
         if (astNode.getNumSemanticsAnnotations() != 2) {
           System.out.println("!!!!!!!!!! ERROR: for file '" + fileName + "' we found " + astNode.getNumSemanticsAnnotations() + " semantics annotations !");
@@ -171,6 +201,7 @@ public class TestInfixReadingWriting {
             if (encoding.equals("infix-input")) 
             {
               infixInput = xmlNode.getChild(0).getCharacters();
+              infixOutput = ASTNode.parseFormula(infixInput, parser).toFormula();
             }
             else if (encoding.equals("infix-output"))
             {
@@ -185,6 +216,9 @@ public class TestInfixReadingWriting {
         System.out.println("Infix output = '" + infixOutput + "'");
         System.out.print("Infix expected output = '" + infixExpectedOutput + "'");
        
+        // TODO - we could compare the initial MathMl encoded in the file with the mathMl produced by JSBML after 'ASTNode.parseFormula(infixInput)'
+        
+        
         boolean different = true;
         
         if (infixOutput != null && infixOutput.equals(infixExpectedOutput)) {
@@ -192,7 +226,8 @@ public class TestInfixReadingWriting {
           System.out.print("  ###");
           different = false;
         }
-        if (infixOutput != null && infixOutput.replace(" ", "").equals(infixExpectedOutput.replace(" ", ""))) {
+        if (infixOutput != null && (infixOutput.replace(" ", "").equals(infixExpectedOutput.replace(" ", ""))
+            || infixOutput.replace(" ", "").equals(infixInput.replace(" ", "")))) {
           nbEqualsIgnoreSpace++;
           System.out.println("  @@@");
           different = false;
@@ -202,12 +237,14 @@ public class TestInfixReadingWriting {
         if (different) {
           differences.add("input= '" + infixInput + "', output = '" + infixOutput + "' (expected output = '" + infixExpectedOutput + "') (" + fileName + ")");
         }
-        if (different && (infixInput.indexOf("%") == -1) && (infixOutput.indexOf("arc") == -1)) {
+        if (different && (infixInput.indexOf("%") == -1) && (infixOutput.indexOf("arc") == -1) && (ignoredTestsSet.contains(fileId) == false)) {
           difference2s.add("input= '" + infixInput + "', output = '" + infixOutput + "' (expected output = '" + infixExpectedOutput + "')");
         }
       }
       catch (Exception e) 
       {
+        differences.add("input= '" + infixInput + "', output = '" + infixOutput + "' (exception = '" + e.getClass().getSimpleName() + "') (" + fileName + ")");
+        parseExceptions.add("input= '" + infixInput);
         System.out.println(fileName);
         e.printStackTrace();
       }
@@ -234,7 +271,17 @@ public class TestInfixReadingWriting {
         System.out.println(difference);
       }
     }
-    
+
+    if (parseExceptions.size() > 0) {
+      System.out.println("\n\nNb tests where we encounter a ParseException = " + parseExceptions.size()
+        + " (nb tests = " + nbTests + ")");
+      
+      System.out.println("\n\n");
+      for (String difference : parseExceptions) {
+        System.out.println(difference);
+      }
+    }
+
     if (difference2s.size() > 0) {
       System.out.println("\n\nNb tests where we don't have the same output (excluding modulo and trigonometric operators) = " + difference2s.size()
         + " (nb tests = " + nbTests + ")");
@@ -243,7 +290,6 @@ public class TestInfixReadingWriting {
       for (String difference : difference2s) {
         System.out.println(difference);
       }
-      
     }
   }
 }
