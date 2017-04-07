@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.text.parser.IFormulaParser;
@@ -1221,6 +1220,36 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     finally { jj_save(2, xla); }
   }
 
+  private boolean jj_3R_34() {
+    if (jj_scan_token(NUMBER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_12() {
+    if (jj_3R_13()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_14()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_18() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_21()) {
+    jj_scanpos = xsp;
+    if (jj_3R_22()) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_21() {
+    if (jj_scan_token(PLUS)) return true;
+    return false;
+  }
+
   private boolean jj_3_2() {
     if (jj_scan_token(STRING)) return true;
     Token xsp;
@@ -1443,36 +1472,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
 
   private boolean jj_3R_14() {
     if (jj_scan_token(BOOLEAN_LOGIC)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_34() {
-    if (jj_scan_token(NUMBER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_12() {
-    if (jj_3R_13()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_14()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_18() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_21()) {
-    jj_scanpos = xsp;
-    if (jj_3R_22()) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3R_21() {
-    if (jj_scan_token(PLUS)) return true;
     return false;
   }
 
