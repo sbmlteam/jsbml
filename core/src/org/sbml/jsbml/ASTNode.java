@@ -2103,6 +2103,10 @@ public class ASTNode extends AbstractTreeNode {
       value = compiler.floor(getLeftChild());
       break;
     case FUNCTION_LN:
+      if (getChildCount() > 1) { // TODO - in general, should we throw an SBMLException if we encounter more child than expected ?
+        value = compiler.log(getLeftChild(), getRightChild()); // TODO - temporary fix as we read log(1, 2) as ln(1, 2) currently (07/04/2017)
+        break;
+      }
       value = compiler.ln(getLeftChild());
       break;
     case FUNCTION_MAX:
