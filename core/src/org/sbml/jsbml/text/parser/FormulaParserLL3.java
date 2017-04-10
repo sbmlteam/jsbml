@@ -438,7 +438,45 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
 
   public static Properties stringToType = new Properties();
 
+  /**
+   * indicates if we will ignore case or not when trying to find mathml operators.
+   */
   private boolean ignoreCase = false;
+
+  /**
+   * Defines the different behaviors the parser can have regarding the 'log' operator.
+   * 
+   * <p>By default, it will be read as the natural logarithm 'ln' as it was defined 
+   * in SBML Level 1, Appendix C, table 6.</p>
+   * 
+   * @author rodrigue
+   *
+   */
+  public static enum LOG_BEHAVIOR {
+    /**
+     * 'log' is interpreted as the natural logarithm 'ln' as it was defined 
+   * in SBML Level 1, Appendix C, table 6. This is the default value.
+     */
+    LOG_IS_LN,
+    /**
+     * 'log(x)' is interpreted as 'log10(x)' or 'log(10, x)'
+     */
+    LOG_IS_LOG10,
+    /**
+     * 'log(x)' is interpreted as 'log(2, x)'
+     */
+    LOG_IS_LOG2,
+    /**
+     * 'log(x)' is not allowed and a {@link ParseException} will be returned if it is encountered. 'log(b, x)'
+     * and 'ln(x)' are still allowed.
+     */
+    LOG_IS_NOT_ALLOWED
+  };
+
+  /**
+   * indicates how to parse the 'log' operator when it has one argument.
+   */
+  private static LOG_BEHAVIOR logBehavior = LOG_BEHAVIOR.LOG_IS_LN;
 
 
   static
@@ -459,6 +497,22 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   }
 
   /**
+   * Returns the case sensitivity of the parser, for the mathml elements.
+   *
+   * <p>The default behavior is to be case sensitive, meaning
+   * '{@code cos}' would be recognized as the mathematical <a href="http://www.w3.org/TR/MathML2/chapter4.html#contm.trig">cosinus</a> but
+   * '{@code Cos}', '{@code cOs}' or any other alternatives would be recognized 
+   * as a name and read as a 'ci' element. If you pass {@code false} to the method {@link #setCaseSensitive(boolean)}
+   * all the different versions of {@code cos} would be recognized  as the mathematical
+   * <a href="http://www.w3.org/TR/MathML2/chapter4.html#contm.trig">cosinus</a>.  
+   *
+   */
+  public boolean getCaseSensitive()
+  {
+        return ignoreCase;
+  }
+
+  /**
    * Sets the case sensitivity of the parser, for the mathml elements.
    *
    * <p>The default behavior is to be case sensitive, meaning
@@ -472,8 +526,28 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
    */
   public void setCaseSensitive(boolean caseSensitive)
   {
-        this.ignoreCase = !caseSensitive;
+        ignoreCase = !caseSensitive;
   }
+
+  /**
+   * Returns the parser behavior when encountering the 'log' operator with one argument.
+   *
+   */
+  public LOG_BEHAVIOR getLogBehavior()
+  {
+        return logBehavior;
+  }
+
+  /**
+   * Sets the parser behavior when encountering the 'log' operator with one argument.
+   *
+   * @param newLogBehavior {@link LOG_BEHAVIOR} value to define what the parser should do when encountering the 'log' operator. 
+   */
+  public void setLogBehavior(LOG_BEHAVIOR newLogBehavior)
+  {
+        logBehavior = newLogBehavior;
+  }
+
 
   private void checkSize(ArrayList < ASTNode > arguments, int i) throws ParseException
   {
@@ -507,42 +581,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
         return null;
       }
     }
-  }
-
-  /**
-   * Returns a piecewise {@link ASTNode} representing the remainder operation between the left and right child given.
-   *
-   * <p/> The formula produced for 'a rem b' or remainder(a, b) is 'piecewise(floor(a/b), gt(a/b, 0), ceil(a/b))'
-   *
-   * @param leftChild
-   * @param rightChild
-   * @return a piecewise {@link ASTNode} representing the remainder operation between the left and right child given.
-   * @see http://sbml.org/Documents/FAQ#Why_can.27t_I_use_the_.3Crem.3E_operator_in_SBML_MathML.3F
-   */
-  private ASTNode createRemainder(ASTNode leftChild, ASTNode rightChild)
-  {
-    ASTNode node = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
-
-    ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
-    ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
-    aDividedByB.addChild(leftChild);
-    aDividedByB.addChild(rightChild);
-
-    floorNode.addChild(aDividedByB);
-    node.addChild(floorNode);
-
-    ASTNode greaterThan = new ASTNode(ASTNode.Type.RELATIONAL_GT);
-    greaterThan.addChild(aDividedByB.clone());
-    greaterThan.addChild(new ASTNode(0));
-
-    node.addChild(greaterThan);
-
-    ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
-    ceilNode.addChild(aDividedByB.clone());
-
-    node.addChild(ceilNode);
-
-    return node;
   }
 
   /**
@@ -1053,6 +1091,17 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     if (node.getType().equals(ASTNode.Type.FUNCTION_LN) && node.getChildCount() > 1) {
       node.setType(ASTNode.Type.FUNCTION_LOG);
     }
+    else if (s.equals("log")) {
+      // special case for 'log' with one argument
+      if (logBehavior == LOG_BEHAVIOR.LOG_IS_LOG10) {
+        node.setType(ASTNode.Type.FUNCTION_LOG);
+      } else if (logBehavior == LOG_BEHAVIOR.LOG_IS_LOG2) {
+        node.setType(ASTNode.Type.FUNCTION_LOG);
+        node.insertChild(0, new ASTNode(2));
+      } else if (logBehavior == LOG_BEHAVIOR.LOG_IS_NOT_ALLOWED) {
+        {if (true) throw new ParseException("The 'log(x)' operator is not allowed, please use 'ln(x)', 'log10(x)' or log(base, x).");}
+      }
+    }
 
     {if (true) return node;}
       } else {
@@ -1220,18 +1269,73 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_34() {
-    if (jj_scan_token(NUMBER)) return true;
+  private boolean jj_3R_11() {
+    if (jj_scan_token(LEFT_BRACKET)) return true;
+    if (jj_3R_12()) return true;
+    if (jj_scan_token(RIGHT_BRACKET)) return true;
     return false;
   }
 
-  private boolean jj_3R_12() {
-    if (jj_3R_13()) return true;
+  private boolean jj_3R_37() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_scan_token(RIGHT_BRACES)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_32() {
+    if (jj_scan_token(POWER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_29() {
+    if (jj_scan_token(MODULO)) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(STRING)) return true;
+    Token xsp;
+    if (jj_3R_11()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_11()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_22() {
+    if (jj_scan_token(MINUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_35() {
+    if (jj_scan_token(EXPNUMBER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_30() {
+    if (jj_3R_31()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3R_14()) { jj_scanpos = xsp; break; }
+      if (jj_3R_32()) { jj_scanpos = xsp; break; }
     }
+    return false;
+  }
+
+  private boolean jj_3R_36() {
+    if (jj_scan_token(OPEN_PAR)) return true;
+    if (jj_3R_12()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_14() {
+    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_34() {
+    if (jj_scan_token(NUMBER)) return true;
     return false;
   }
 
@@ -1250,13 +1354,22 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     return false;
   }
 
-  private boolean jj_3_2() {
-    if (jj_scan_token(STRING)) return true;
+  private boolean jj_3R_12() {
+    if (jj_3R_13()) return true;
     Token xsp;
-    if (jj_3R_11()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3R_11()) { jj_scanpos = xsp; break; }
+      if (jj_3R_14()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_10() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(26)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(27)) return true;
     }
     return false;
   }
@@ -1273,12 +1386,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       xsp = jj_scanpos;
       if (jj_3R_18()) { jj_scanpos = xsp; break; }
     }
-    return false;
-  }
-
-  private boolean jj_3R_36() {
-    if (jj_scan_token(OPEN_PAR)) return true;
-    if (jj_3R_12()) return true;
     return false;
   }
 
@@ -1344,13 +1451,9 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     return false;
   }
 
-  private boolean jj_3R_10() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(26)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(27)) return true;
-    }
+  private boolean jj_3_3() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_3R_12()) return true;
     return false;
   }
 
@@ -1375,6 +1478,11 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     if (jj_3R_29()) return true;
     }
     }
+    return false;
+  }
+
+  private boolean jj_3R_38() {
+    if (jj_scan_token(STRING)) return true;
     return false;
   }
 
@@ -1413,65 +1521,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   private boolean jj_3_1() {
     if (jj_3R_10()) return true;
     if (jj_scan_token(OPEN_PAR)) return true;
-    return false;
-  }
-
-  private boolean jj_3_3() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_3R_12()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_38() {
-    if (jj_scan_token(STRING)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_32() {
-    if (jj_scan_token(POWER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_29() {
-    if (jj_scan_token(MODULO)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_11() {
-    if (jj_scan_token(LEFT_BRACKET)) return true;
-    if (jj_3R_12()) return true;
-    if (jj_scan_token(RIGHT_BRACKET)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_37() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_scan_token(RIGHT_BRACES)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_22() {
-    if (jj_scan_token(MINUS)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_35() {
-    if (jj_scan_token(EXPNUMBER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_30() {
-    if (jj_3R_31()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_32()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_14() {
-    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
     return false;
   }
 
