@@ -864,7 +864,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue ln(ASTNode node) throws SBMLException {
-    return function("log", node);
+    return function("ln", node);
   }
 
   /* (non-Javadoc)
