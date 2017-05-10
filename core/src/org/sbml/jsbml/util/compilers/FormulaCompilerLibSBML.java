@@ -87,7 +87,7 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
     if (left != null && left.getParent().getChildCount() > 2 ||
         left != null && left.getParent().getChildCount() < 2) 
     {
-      return function("geq", ((ASTNode) left.getParent()).getListOfNodes());
+      return function("geq", ((ASTNode) left.getParent()).getListOfNodes()); // TODO - still use  ">=" when there are more than 2 children
     }
     
     return new ASTNodeValue(relation(left, ">=", right), this);
@@ -147,13 +147,13 @@ public class FormulaCompilerLibSBML extends FormulaCompiler {
     return new ASTNodeValue(relation(left, "!=", right), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#not(org.sbml.jsbml.ASTNode)
-   */
-  @Override
-  public ASTNodeValue not(ASTNode node) throws SBMLException {
-    return function("!", node);
-  }
+//  /* (non-Javadoc)
+//   * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#not(org.sbml.jsbml.ASTNode)
+//   */
+//  @Override
+//  public ASTNodeValue not(ASTNode node) throws SBMLException {
+//    return functionNotAlwaysBrackets("!", node);
+//  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#or(java.util.List)

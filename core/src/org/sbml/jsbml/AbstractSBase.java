@@ -19,7 +19,8 @@
  */
 package org.sbml.jsbml;
 
-import java.text.MessageFormat;
+import static java.text.MessageFormat.format;
+
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -273,11 +274,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     lv.setV(version);
 
     if (!hasValidLevelVersionNamespaceCombination()) {
-      
+
       if (!isReadingInProgress()) {
         throw new LevelVersionError(this);
       } else {
-        logger.error(MessageFormat.format(LevelVersionError.UNDEFINED_LEVEL_VERSION_COMBINATION_MSG, level, version));
+        logger.error(format(LevelVersionError.UNDEFINED_LEVEL_VERSION_COMBINATION_MSG, level, version));
       }
     }
   }
@@ -456,7 +457,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       // the package namespace and version will be set in firePropertyChange
       firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbasePlugin);
     } else {
-      throw new IllegalArgumentException(MessageFormat.format(
+      throw new IllegalArgumentException(format(
         resourceBundle.getString("AbstractSBase.addExtensionExc"), nameOrUri));
     }
   }
@@ -715,7 +716,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           for (i = 0; i < addedBody.getChildCount(); i++) {
             if (curBody.addChild(addedBody.getChildAt(i)) < 0) {
-              logger.warn(MessageFormat.format(
+              logger.warn(format(
                 resourceBundle.getString("AbstractSBase.problemAddingXMLNode"),
                 SBMLtools.toXML(addedBody.getChildAt(i))));
               return;
@@ -730,7 +731,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           for (i = 0; i < addedNotes.getChildCount(); i++) {
             if (curBody.addChild(addedNotes.getChildAt(i)) < 0) {
-              logger.warn(MessageFormat.format(
+              logger.warn(format(
                 resourceBundle.getString("AbstractSBase.problemAddingXMLNode"),
                 SBMLtools.toXML(addedNotes.getChildAt(i))));
               return;
@@ -760,7 +761,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           for (i = 0; i < addedNotes.getChildCount(); i++) {
             if (curBody.addChild(addedNotes.getChildAt(i)) < 0) {
-              logger.warn(MessageFormat.format(
+              logger.warn(format(
                 resourceBundle.getString("AbstractSBase.appendNotes"),
                 SBMLtools.toXML(addedNotes.getChildAt(i))));
               return;
@@ -797,7 +798,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           for (i = 0; i < addedNotes.getChildCount(); i++) {
             if (curNotes.addChild(addedNotes.getChildAt(i)) < 0) {
-              logger.warn(MessageFormat.format(
+              logger.warn(format(
                 resourceBundle.getString("AbstractSBase.appendNotes"),
                 SBMLtools.toXML(addedNotes.getChildAt(i))));
               return;
@@ -1028,7 +1029,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return sbasePlugin;
     }
 
-    throw new IllegalArgumentException(MessageFormat.format(
+    throw new IllegalArgumentException(format(
       resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
   }
 
@@ -1216,7 +1217,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     TreeNode parent = getParent();
 
     if (logger.isDebugEnabled()) {
-      logger.debug(MessageFormat.format(
+      logger.debug(format(
         resourceBundle.getString("AbstractSBase.fireNodeRemovedEvent"), this,
         parent));
     }
@@ -1322,7 +1323,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public TreeNode getChildAt(int childIndex) {
     if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(MessageFormat.format(
+      throw new IndexOutOfBoundsException(format(
         resourceBundle.getString("IndexSurpassesBoundsException"), childIndex,
         0));
     }
@@ -1353,10 +1354,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
 
     throw new IndexOutOfBoundsException(isLeaf()
-      ? MessageFormat.format(
+      ? format(
         resourceBundle.getString("IndexExceedsBoundsException2"),
         getElementName())
-        : MessageFormat.format(
+        : format(
           resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
           Math.min(pos, 0)));
   }
@@ -1393,7 +1394,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (isSetAnnotation()) {
       return annotation.getCVTerm(index);
     }
-    throw new IndexOutOfBoundsException(MessageFormat.format(
+    throw new IndexOutOfBoundsException(format(
       resourceBundle.getString("AbstractSBase.getCVTerm"), index));
   }
 
@@ -1433,33 +1434,33 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /*
    * (non-Javadoc)
-   * @see org.sbml.jsbml.SBase#getElementBySId() 
+   * @see org.sbml.jsbml.SBase#getElementBySId()
    */
   @Override
   public SBase getElementBySId(String id) {
     @SuppressWarnings("unchecked")
     List<SBase> foundSBases = (List<SBase>) this.filter(new SIdFilter(id), false, true);
-    
+
     if (foundSBases != null && foundSBases.size() == 1) {
       return foundSBases.get(0);
     }
-    
+
     return null;
   }
 
   /*
    * (non-Javadoc)
-   * @see org.sbml.jsbml.SBase#getElementByMetaId() 
+   * @see org.sbml.jsbml.SBase#getElementByMetaId()
    */
   @Override
   public SBase getElementByMetaId(String id) {
     @SuppressWarnings("unchecked")
     List<SBase> foundSBases = (List<SBase>) this.filter(new MetaIdFilter(id), false, true);
-    
+
     if (foundSBases != null && foundSBases.size() == 1) {
       return foundSBases.get(0);
     }
-    
+
     return null;
   }
 
@@ -1487,7 +1488,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return extensions.get(packageParser.getPackageName());
     }
 
-    throw new IllegalArgumentException(MessageFormat.format(
+    throw new IllegalArgumentException(format(
       resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
   }
 
@@ -1750,7 +1751,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
     }
 
-    throw new IllegalArgumentException(MessageFormat.format(
+    throw new IllegalArgumentException(format(
       resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
   }
 
@@ -2052,7 +2053,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return extensions.get(packageParser.getPackageName()) != null;
     }
 
-    throw new IllegalArgumentException(MessageFormat.format(
+    throw new IllegalArgumentException(format(
       resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
   }
 
@@ -2130,8 +2131,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if ((! (this instanceof NamedSBase)) && (getLevelAndVersion().compareTo(3, 1) <= 0)) {
         return false;
       }
-      
-      setId(value);      
+
+      setId(value);
       return true;
 
     } else if (attributeName.equals("name")) {
@@ -2139,14 +2140,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if ((! (this instanceof NamedSBase)) && (getLevelAndVersion().compareTo(3, 1) <= 0)) {
         return false;
       }
-      
+
       setName(value);
       if (isSetLevel() && (getLevel() == 1)) {
         setId(value);
       }
       return true;
     }
-      
+
     return false;
   }
 
@@ -2159,11 +2160,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public boolean registerChild(SBase sbase) throws LevelVersionError {
     if ((sbase != null) && (sbase.getParent() != null)) {
       if (sbase.getParent() == this) {
-        logger.warn(MessageFormat.format(
+        logger.warn(format(
           resourceBundle.getString("AbstractSBase.registerChild1"),
           sbase.getElementName(), sbase, getElementName(), this));
       } else {
-        logger.warn(MessageFormat.format(
+        logger.warn(format(
           resourceBundle.getString("AbstractSBase.registerChild2"),
           sbase.getClass().getSimpleName(), sbase, sbase.getParent(), this));
       }
@@ -2185,12 +2186,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
       /*
        * Memorize all TreeNodeChangeListeners that are currently assigned to the
-       * new
-       * SBase in order to re-use these later. For now we must remove all those
-       * to
-       * avoid listeners to be called before we could really add the SBase to
-       * this
-       * subtree.
+       * new SBase in order to re-use these later. For now we must remove all
+       * those to avoid listeners to be called before we could really add the
+       * SBase to this subtree.
        */
       List<TreeNodeChangeListener> listeners =
           sbase.getListOfTreeNodeChangeListeners();
@@ -2219,7 +2217,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         }
         sbase.addAllChangeListeners(listeners);
 
-        throw new IllegalArgumentException(MessageFormat.format(
+        throw new IllegalArgumentException(format(
           resourceBundle.getString("AbstractSBase.registerChild3"),
           sbase.getElementName()));
       }
@@ -2461,7 +2459,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId,
           this);
       } else if (!SyntaxChecker.isValidMetaId(metaId) && !isReadingInProgress()) {
-        throw new IllegalArgumentException(MessageFormat.format(
+        throw new IllegalArgumentException(format(
           resourceBundle.getString("AbstractSBase.setMetaId"), metaId,
           getElementName()));
       }
@@ -2517,11 +2515,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       // throwing the error !
       // if we implement proper conversion some days, we need to unset the
       // namespace before changing it.
-      logger.error(MessageFormat.format(
+      logger.error(format(
         resourceBundle.getString("AbstractSBase.setNamespaceExc"),
         elementNamespace, namespace));
       // throw new
-      // IllegalArgumentException(MessageFormat.format(resourceBundle.getString("AbstractSBase.setNamespaceExc"),
+      // IllegalArgumentException(format(resourceBundle.getString("AbstractSBase.setNamespaceExc"),
       // elementNamespace, namespace));
     }
     String old = elementNamespace;
@@ -2646,7 +2644,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         this);
     }
     if (!SBO.checkTerm(term) && !isReadingInProgress()) {
-      throw new IllegalArgumentException(MessageFormat.format(
+      throw new IllegalArgumentException(format(
         resourceBundle.getString("AbstractSBase.setSBOTerm"), term));
     }
     Integer oldTerm = Integer.valueOf(sboTerm);
@@ -2662,7 +2660,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public void setSBOTerm(String sboid) {
     int sboTermInt = SBO.stringToInt(sboid);
-    
+
     // if there is a problem, store the value in a user object
     if (sboTermInt == -1) {
       putUserObject(JSBML_WRONG_SBO_TERM, sboid); // TODO - we could make use of the generic way of storing unknown attributes ?
@@ -2700,10 +2698,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   }
 
   /**
-   * Returns a String representing this SBase with all the 
+   * Returns a String representing this SBase with all the
    * attributes that are defined.
    * 
-   * @return a String representing this SBase with all its 
+   * @return a String representing this SBase with all its
    * attributes
    */
   @Override
@@ -2711,24 +2709,24 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     Map<String, String> attMap = writeXMLAttributes();
     StringBuilder sb = new StringBuilder("");
     sb.append(getElementName()).append(" [");
-    
+
     if (attMap != null) {
       // print id, name and metaid first
       sb.append(extractAttribute(attMap, "id"));
       sb.append(extractAttribute(attMap, "name"));
       sb.append(extractAttribute(attMap, "metaid"));
-      
+
       for (String attributeName : attMap.keySet()) {
         sb.append(" ").append(attributeName).append("=\"");
         sb.append(attMap.get(attributeName)).append("\"");
       }
     }
-    
+
     sb.append("]");
-    
+
     return sb.toString();
   }
-  
+
   /**
    * Extracts an attribute value from the given map with or without
    * packageName as prefix for the attribute name.
@@ -2742,7 +2740,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   private String extractAttribute(Map<String, String> attMap, String attributeName) {
     String attributeValue = attMap.get(attributeName);
-    
+
     if (attributeValue == null && (!packageName.equals("core"))) {
       attributeValue = attMap.get(packageName + ":" + attributeName);
     }
@@ -2765,7 +2763,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public void unregisterChild(SBase sbase) {
 
     if (logger.isDebugEnabled()) {
-      logger.debug(MessageFormat.format(
+      logger.debug(format(
         resourceBundle.getString("AbstractSBase.unregisterChild1"),
         sbase.getElementName(),
         (sbase instanceof NamedSBase ? ((NamedSBase) sbase).getId() : "")));
@@ -2783,7 +2781,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
       // If possible, recursively unregister all ids of the SBase in our model:
       if ((idManager != null) && !idManager.unregister(sbase)) {
-        throw new IllegalArgumentException(MessageFormat.format(
+        throw new IllegalArgumentException(format(
           resourceBundle.getString("AbstractSBase.unregisterChild2"),
           sbase.getElementName()));
       }
@@ -2791,9 +2789,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       /*
        * Do not remove ChangeListeners from the sbase here, this will be done
        * in the super class. It is important to keep the change listeners for
-       * now,
-       * because otherwise the listeners won't be informed that we are going to
-       * delete something from the model.
+       * now, because otherwise the listeners won't be informed that we are
+       * going to delete something from the model.
        */
     }
   }
@@ -2810,7 +2807,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   private void unregisterChild(SBasePlugin sbasePlugin) {
 
     if (logger.isDebugEnabled()) {
-      logger.debug(MessageFormat.format(
+      logger.debug(format(
         resourceBundle.getString("AbstractSBase.unregisterChild3"),
         sbasePlugin));
     }
@@ -2871,7 +2868,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return;
     }
 
-    throw new IllegalArgumentException(MessageFormat.format(
+    throw new IllegalArgumentException(format(
       resourceBundle.getString("AbstractSBase.createPlugin"), nameOrUri));
   }
 
@@ -2966,13 +2963,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         SBMLDocument doc = getSBMLDocument();
         if (doc != null) {
           setMetaId(doc.nextMetaId());
-          logger.debug(MessageFormat.format(
+          logger.debug(format(
             "Some annotations would get lost because there was no metaid defined on {0}. To avoid this, an automatic metaid ''{0}'' has been generated.",
             getElementName(), getMetaId()));
           // Setting the new metaid in the RDF about attribute.
           getAnnotation().setAbout('#' + getMetaId());
         } else {
-          logger.warn(MessageFormat.format(
+          logger.warn(format(
             "Some annotations can get lost because no metaid is defined on {0}.",
             getElementName()));
         }
@@ -3010,14 +3007,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           }
         } else {
           logger.warn(
-            MessageFormat.format("Plugin for namespace {0} is null!", key));
+            format("Plugin for namespace {0} is null!", key));
         }
       }
     }
 
     return attributes;
   }
-  
+
   /**
    * Checks if the sID is a valid identifier.
    * 
@@ -3032,7 +3029,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   boolean checkIdentifier(String sID) {
     if ((sID == null) || !SyntaxChecker.isValidId(sID, getLevel(), getVersion())) {
-      throw new IllegalArgumentException(MessageFormat.format(
+      throw new IllegalArgumentException(format(
         resourceBundle.getString("AbstractNamedSBase.checkIdentifier"),
         sID, getElementName()));
     }

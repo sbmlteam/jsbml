@@ -40,7 +40,8 @@ import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 
 /**
- * Class used to parse infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
+ * Parses infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
+ * 
  * <p>
  * Support almost the same syntax as defined in <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/libsbml.html#parseL3Formula(java.lang.String)">
  * the LibSBML L3 parser</a>. The things not supported for now are the units associated with numbers.
@@ -442,15 +443,52 @@ in the text-string formula syntax.</caption>
  * @author Alexander D&ouml;rr
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 public class FormulaParserLL3 implements IFormulaParser
 {
 
   public static Properties stringToType = new Properties();
 
+  /**
+   * indicates if we will ignore case or not when trying to find mathml operators.
+   */
   private boolean ignoreCase = false;
 
+  /**
+   * Defines the different behaviors the parser can have regarding the 'log' operator.
+   * 
+   * <p>By default, it will be read as the natural logarithm 'ln' as it was defined 
+   * in SBML Level 1, Appendix C, table 6.</p>
+   * 
+   * @author rodrigue
+   *
+   */
+  public static enum LOG_BEHAVIOR {
+    /**
+     * 'log' is interpreted as the natural logarithm 'ln' as it was defined 
+   * in SBML Level 1, Appendix C, table 6. This is the default value.
+     */
+    LOG_IS_LN,
+    /**
+     * 'log(x)' is interpreted as 'log10(x)' or 'log(10, x)'
+     */
+    LOG_IS_LOG10,
+    /**
+     * 'log(x)' is interpreted as 'log(2, x)'
+     */
+    LOG_IS_LOG2,
+    /**
+     * 'log(x)' is not allowed and a {@link ParseException} will be returned if it is encountered. 'log(b, x)'
+     * and 'ln(x)' are still allowed.
+     */
+    LOG_IS_NOT_ALLOWED
+  };
+  
+  /**
+   * indicates how to parse the 'log' operator when it has one argument.
+   */
+  private static LOG_BEHAVIOR logBehavior = LOG_BEHAVIOR.LOG_IS_LN;
+  
 
   static
   {	  
@@ -470,6 +508,22 @@ public class FormulaParserLL3 implements IFormulaParser
   } 
 
   /**
+   * Returns the case sensitivity of the parser, for the mathml elements.
+   *
+   * <p>The default behavior is to be case sensitive, meaning
+   * '{@code cos}' would be recognized as the mathematical <a href="http://www.w3.org/TR/MathML2/chapter4.html#contm.trig">cosinus</a> but
+   * '{@code Cos}', '{@code cOs}' or any other alternatives would be recognized 
+   * as a name and read as a 'ci' element. If you pass {@code false} to the method {@link #setCaseSensitive(boolean)}
+   * all the different versions of {@code cos} would be recognized  as the mathematical
+   * <a href="http://www.w3.org/TR/MathML2/chapter4.html#contm.trig">cosinus</a>.  
+   *
+   */
+  public boolean getCaseSensitive()
+  {
+        return ignoreCase;
+  }
+
+  /**
    * Sets the case sensitivity of the parser, for the mathml elements.
    *
    * <p>The default behavior is to be case sensitive, meaning
@@ -483,9 +537,29 @@ public class FormulaParserLL3 implements IFormulaParser
    */
   public void setCaseSensitive(boolean caseSensitive)
   {
-	this.ignoreCase = !caseSensitive;
+	ignoreCase = !caseSensitive;
   }
   
+  /**
+   * Returns the parser behavior when encountering the 'log' operator with one argument.
+   *
+   */
+  public LOG_BEHAVIOR getLogBehavior()
+  {
+        return logBehavior;
+  }
+
+  /**
+   * Sets the parser behavior when encountering the 'log' operator with one argument.
+   *
+   * @param newLogBehavior {@link LOG_BEHAVIOR} value to define what the parser should do when encountering the 'log' operator. 
+   */
+  public void setLogBehavior(LOG_BEHAVIOR newLogBehavior)
+  {
+        logBehavior = newLogBehavior;
+  }
+
+
   private void checkSize(ArrayList < ASTNode > arguments, int i) throws ParseException
   {
     if (arguments.size() > i)
@@ -520,41 +594,70 @@ public class FormulaParserLL3 implements IFormulaParser
     }
   }
 
-/**
- * Returns a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
- *
- * <p/> The formula produced for 'a % b' or modulo(a, b) is 'piecewise(floor(a/b), gt(a/b, 0), ceil(a/b))'
- *
- * @param leftChild
- * @param rightChild
- * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
- * @see http://sbml.org/Documents/FAQ#Why_can.27t_I_use_the_.3Crem.3E_operator_in_SBML_MathML.3F
- */
+  /**
+   * Returns a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+   *
+   * <p/> The formula produced for 'a % b' or modulo(a, b) is 'piecewise(a - b * ceil(a/b), xor((a < 0), (b < 0)), a - b * floor(a/b))'
+   *
+   * @param leftChild
+   * @param rightChild
+   * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+   * 
+   */
   private ASTNode createModulo(ASTNode leftChild, ASTNode rightChild)
   {
-      ASTNode node = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
-		
-	  ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
-	  ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
-	  aDividedByB.addChild(leftChild);
-	  aDividedByB.addChild(rightChild);
-		
-	  floorNode.addChild(aDividedByB);
-	  node.addChild(floorNode);
-		
-	  ASTNode greaterThan = new ASTNode(ASTNode.Type.RELATIONAL_GT);
-	  greaterThan.addChild(aDividedByB.clone());
-	  greaterThan.addChild(new ASTNode(0));
-		
-	  node.addChild(greaterThan);
-		
-	  ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
-	  ceilNode.addChild(aDividedByB.clone());
-		
-	  node.addChild(ceilNode);
+    ASTNode piecewiseNode = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
 
-	  return node;	
+    ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
+    aDividedByB.addChild(leftChild);
+    aDividedByB.addChild(rightChild);
+
+    // a - b * ceil(a/b)
+    ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
+    ceilNode.addChild(aDividedByB);
+    ASTNode rightTimesCeil = new ASTNode(ASTNode.Type.TIMES);
+    rightTimesCeil.addChild(rightChild);
+    rightTimesCeil.addChild(ceilNode);
+    
+    ASTNode minusNode1 = new ASTNode(ASTNode.Type.MINUS);
+    minusNode1.addChild(leftChild);
+    minusNode1.addChild(rightTimesCeil);
+    
+    piecewiseNode.addChild(minusNode1);
+    
+    // xor((a < 0), (b < 0))
+    ASTNode lowerThanZeroLeft = new ASTNode(ASTNode.Type.RELATIONAL_LT);
+    lowerThanZeroLeft.addChild(leftChild);
+    lowerThanZeroLeft.addChild(new ASTNode(0));
+
+    ASTNode lowerThanZeroRight = new ASTNode(ASTNode.Type.RELATIONAL_LT);
+    lowerThanZeroRight.addChild(rightChild);
+    lowerThanZeroRight.addChild(new ASTNode(0));
+
+    ASTNode xorNode = new ASTNode(ASTNode.Type.LOGICAL_XOR);
+    xorNode.addChild(lowerThanZeroLeft);
+    xorNode.addChild(lowerThanZeroRight);
+    
+    piecewiseNode.addChild(xorNode);
+
+    // a - b * floor(a/b)
+    ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
+    floorNode.addChild(aDividedByB.clone());
+
+    ASTNode rightTimesFloor = new ASTNode(ASTNode.Type.TIMES);
+    rightTimesFloor.addChild(rightChild);
+    rightTimesFloor.addChild(floorNode);
+    
+    ASTNode minusNode2 = new ASTNode(ASTNode.Type.MINUS);
+    minusNode2.addChild(leftChild);
+    minusNode2.addChild(rightTimesFloor);
+    
+    piecewiseNode.addChild(minusNode2);
+
+
+    return piecewiseNode;  
   }    
+
 
   private boolean compareString(String str1, String str2)  {	if (ignoreCase)	{		return str1.equalsIgnoreCase(str2);
 	}
@@ -796,17 +899,6 @@ private ASTNode expression() :
   }
 }
 
-// TermLvl3, TermLvl2 here to define the operator precedence ???!? Could it be done in one method ??
-
-/*
- TODO - do we need this specific test about log ??
-| < LOG > child = termLevel4()
-  {
-    node = new ASTNode(Type.FUNCTION_LN);
-    node.addChild(child);
-    return node;
-  }
-*/
 
 private ASTNode termLevel2() :
 {
@@ -886,7 +978,7 @@ private ASTNode termLevel3() :
       {
         type = ASTNode.Type.RELATIONAL_LEQ;
       }
-      node = new ASTNode(type); // TODO - those elements can have more children
+      node = new ASTNode(type);
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
@@ -986,6 +1078,10 @@ private ASTNode termLevel6() :
     uiMinus.addChild(node);
     return uiMinus;
   }
+| < PLUS > node = termLevel7()
+  {
+    return node;
+  }  
 | < NOT > node = termLevel7()
   {
     ASTNode not = new ASTNode(Type.LOGICAL_NOT);
@@ -1036,8 +1132,15 @@ private ASTNode termLevel8() throws NumberFormatException :
 {
   t = < INTEGER >
   {
-    i = Integer.parseInt(t.image); // Could use StringTools.parseXXX methods here but not doing so allow to support different locale ??
-    node.setValue(i);
+    try {
+      i = Integer.parseInt(t.image); // Could use StringTools.parseXXX methods here but not doing so allow to support different locale ??
+      node.setValue(i);
+    } catch (NumberFormatException e) {
+      // it could happen that the number is too big to be stored in an Integer
+      d = Double.parseDouble(t.image);
+      node.setValue(d);
+    }
+    
     return node;
   }
 | t = < NUMBER >
@@ -1061,9 +1164,9 @@ private ASTNode termLevel8() throws NumberFormatException :
     node.setValue(Double.parseDouble(vals [ 0 ]), i);
     return node;
   }
-  // Function call: f(...)
+// Function call: f(...)
 | LOOKAHEAD(2)
-  t = string() < OPEN_PAR > child = termLevel2()
+  t = string() < OPEN_PAR > child = termLevel2() // TODO - we need to support function without arguments
   (
     < SPLITTER > furtherChild = termLevel2()
     {
@@ -1118,6 +1221,23 @@ private ASTNode termLevel8() throws NumberFormatException :
     {
       node.addChild(argument);
     }
+    
+    // add a special case for FUNTION_LN => transform it into FUNCTION_LOG if it has 2 arguments
+    if (node.getType().equals(ASTNode.Type.FUNCTION_LN) && node.getChildCount() > 1) {
+      node.setType(ASTNode.Type.FUNCTION_LOG);
+    }
+    else if (s.equals("log")) {
+      // special case for 'log' with one argument
+      if (logBehavior == LOG_BEHAVIOR.LOG_IS_LOG10) {
+        node.setType(ASTNode.Type.FUNCTION_LOG);  
+      } else if (logBehavior == LOG_BEHAVIOR.LOG_IS_LOG2) {
+        node.setType(ASTNode.Type.FUNCTION_LOG);
+        node.insertChild(0, new ASTNode(2));
+      } else if (logBehavior == LOG_BEHAVIOR.LOG_IS_NOT_ALLOWED) {
+        throw new ParseException("The 'log(x)' operator is not allowed, please use 'ln(x)', 'log10(x)' or log(base, x).");
+      }
+    }
+    
     return node;
   }
   // (expression)

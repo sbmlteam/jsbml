@@ -420,7 +420,7 @@ public class UnitDefinition extends AbstractNamedSBase {
           sb.append('*'); // multiplication dot \u22c5.
         }
         if (compact) {
-          sb.append(unit.toString());
+          sb.append(unit.printUnit());
         } else {
           sb.append(unit.getKind().getName().toLowerCase());
           sb.append(MessageFormat.format(
@@ -936,7 +936,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfArea() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.clone().simplify();
+      UnitDefinition ud = clone().simplify();
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
@@ -957,7 +957,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfDimensionless() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.clone().simplify();
+      UnitDefinition ud = clone().simplify();
 
       // if after the simplify() call no more units exists, it's dimensionless
       if (ud.getUnitCount() == 0) {
@@ -984,7 +984,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfLength() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.clone().simplify();
+      UnitDefinition ud = clone().simplify();
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
@@ -1007,7 +1007,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstance() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.clone().simplify();
+      UnitDefinition ud = clone().simplify();
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
@@ -1027,7 +1027,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerArea() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.clone().simplify();
+      UnitDefinition ud = clone().simplify();
 
       if (ud.getUnitCount() == 2) {
         if (ud.getUnit(0).isVariantOfSubstance()) {
@@ -1054,7 +1054,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerLength() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.clone().simplify();
+      UnitDefinition ud = clone().simplify();
 
       if (ud.getUnitCount() == 2) {
         Unit unit = ud.getUnit(0);
@@ -1083,7 +1083,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerTime() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.clone().simplify();
+      UnitDefinition ud = clone().simplify();
 
       if (ud.getUnitCount() == 2) {
         Unit unit1 = ud.getUnit(0);
@@ -1111,7 +1111,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerVolume() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.clone().simplify();
+      UnitDefinition ud = clone().simplify();
 
       if (ud.getUnitCount() == 2) {
         Unit unit = ud.getUnit(0);
@@ -1142,7 +1142,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfTime() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.clone().simplify();
+      UnitDefinition ud = clone().simplify();
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
@@ -1164,8 +1164,8 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfVolume() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = this.clone().simplify();
-      
+      UnitDefinition ud = clone().simplify();
+
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
         return unit.isVariantOfVolume();
@@ -1273,11 +1273,11 @@ public class UnitDefinition extends AbstractNamedSBase {
       ValuePair<Integer, Integer> lv = getLevelAndVersion();
       if ((0 <= lv.compareTo(Integer.valueOf(2), Integer.valueOf(3)))
           && Unit.Kind.isValidUnitKindString(id, lv.getL().intValue(),
-              lv.getV().intValue())) 
+            lv.getV().intValue()))
       {
         throw new IllegalArgumentException(MessageFormat.format(
-            "Cannot use the name {0} of a unit base kind as an identifier for a UnitDefinition.",
-            id));
+          "Cannot use the name {0} of a unit base kind as an identifier for a UnitDefinition.",
+          id));
       }
     }
     super.setId(id);

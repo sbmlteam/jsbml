@@ -38,47 +38,45 @@ public interface CobraFormulaParserConstants {
   /** RegularExpression Id. */
   int POWER = 6;
   /** RegularExpression Id. */
-  int MINUS = 7;
+  int TIMES = 7;
   /** RegularExpression Id. */
-  int TIMES = 8;
+  int DIVIDE = 8;
   /** RegularExpression Id. */
-  int DIVIDE = 9;
+  int MODULO = 9;
   /** RegularExpression Id. */
-  int MODULO = 10;
+  int OPEN_PAR = 10;
   /** RegularExpression Id. */
-  int OPEN_PAR = 11;
+  int CLOSE_PAR = 11;
   /** RegularExpression Id. */
-  int CLOSE_PAR = 12;
+  int LEFT_BRACES = 12;
   /** RegularExpression Id. */
-  int LEFT_BRACES = 13;
+  int RIGHT_BRACES = 13;
   /** RegularExpression Id. */
-  int RIGHT_BRACES = 14;
+  int LEFT_BRACKET = 14;
   /** RegularExpression Id. */
-  int LEFT_BRACKET = 15;
+  int RIGHT_BRACKET = 15;
   /** RegularExpression Id. */
-  int RIGHT_BRACKET = 16;
+  int COMPARISON = 16;
   /** RegularExpression Id. */
-  int COMPARISON = 17;
+  int BOOLEAN_LOGIC = 17;
   /** RegularExpression Id. */
-  int BOOLEAN_LOGIC = 18;
+  int AND = 18;
   /** RegularExpression Id. */
-  int AND = 19;
+  int OR = 19;
   /** RegularExpression Id. */
-  int OR = 20;
+  int XOR = 20;
   /** RegularExpression Id. */
-  int XOR = 21;
+  int NOT = 21;
   /** RegularExpression Id. */
-  int NOT = 22;
+  int LOG = 22;
   /** RegularExpression Id. */
-  int LOG = 23;
+  int STRING = 23;
   /** RegularExpression Id. */
-  int STRING = 24;
+  int IDCHAR = 24;
   /** RegularExpression Id. */
-  int IDCHAR = 25;
+  int LETTER = 25;
   /** RegularExpression Id. */
-  int LETTER = 26;
-  /** RegularExpression Id. */
-  int EOL = 27;
+  int EOL = 26;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -92,7 +90,6 @@ public interface CobraFormulaParserConstants {
     "<SPLITTER>",
     "\"+\"",
     "\"^\"",
-    "\"-\"",
     "\"*\"",
     "\"/\"",
     "\"%\"",
