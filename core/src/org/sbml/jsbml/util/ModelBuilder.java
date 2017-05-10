@@ -174,6 +174,15 @@ public class ModelBuilder {
     return unit;
   }
 
+  public Unit buildUnit(double multiplier, int scale, Kind kind, double exponent) {
+    Unit unit = new Unit(doc.getLevel(), doc.getVersion());
+    unit.setKind(kind);
+    unit.setMultiplier(multiplier);
+    unit.setScale(scale);
+    unit.setExponent(exponent);
+    return unit;
+  }
+
   /**
    * 
    */
@@ -420,10 +429,15 @@ public class ModelBuilder {
    * @param name
    * @return
    */
-  public UnitDefinition buildUnitDefinition(String id, String name) {
+  public UnitDefinition buildUnitDefinition(String id, String name, Unit... units) {
     Model model = getModel();
     UnitDefinition ud = model.createUnitDefinition(id);
     ud.setName(name);
+    if (units != null) {
+      for (Unit unit : units) {
+        ud.addUnit(unit);
+      }
+    }
     return ud;
   }
 

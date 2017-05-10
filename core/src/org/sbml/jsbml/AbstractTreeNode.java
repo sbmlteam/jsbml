@@ -444,8 +444,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
         boolean parentSBMLChange = propertyName.equals(TreeNodeChangeEvent.parentSBMLObject);
         boolean newValIsTreeNode = newValue instanceof TreeNodeWithChangeSupport;
         boolean oldValIsTreeNode = oldValue instanceof TreeNodeWithChangeSupport;
-        if ((changeType == 0) && newValIsTreeNode && !userObjectChange
-            && !propertyName.equals(TreeNodeChangeEvent.parentSBMLObject)) {
+        if ((changeType == 0) && newValIsTreeNode && !userObjectChange && !parentSBMLChange) {
           /*
            * This last condition is important because otherwise a treeNodeAdded
            * event would be triggered, i.e., the attempt to re-add the parent

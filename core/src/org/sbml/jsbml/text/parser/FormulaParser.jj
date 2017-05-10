@@ -33,13 +33,16 @@ package org.sbml.jsbml.text.parser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
+import java.util.Map;
 import java.util.Properties;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
+import org.sbml.jsbml.util.StringTools;
 
 /**
- * Class used to parse infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
+ * Parses infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
+ * 
  * <p>
  * Support almost the same syntax as defined in <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/libsbml.html#parseFormula(java.lang.String)">
  * the LibSBML C-inspired infix notation taken from SBML Level 1 parser</a>.
@@ -47,7 +50,6 @@ import org.sbml.jsbml.resources.Resource;
  * @author Alexander D&ouml;rr
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class FormulaParser implements IFormulaParser
 {
@@ -105,41 +107,105 @@ public class FormulaParser implements IFormulaParser
   }
 
   /**
- * Returns a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
- *
- * <p/> The formula produced for 'a % b' or modulo(a, b) is 'piecewise(floor(a/b), gt(a/b, 0), ceil(a/b))'
- *
- * @param leftChild
- * @param rightChild
- * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
- * @see http://sbml.org/Documents/FAQ#Why_can.27t_I_use_the_.3Crem.3E_operator_in_SBML_MathML.3F
- */
+   * Returns a piecewise {@link ASTNode} representing the remainder operation between the left and right child given.
+   *
+   * <p/> The formula produced for 'a rem b' or remainder(a, b) is 'piecewise(floor(a/b), gt(a/b, 0), ceil(a/b))'
+   *
+   * @param leftChild
+   * @param rightChild
+   * @return a piecewise {@link ASTNode} representing the remainder operation between the left and right child given.
+   * @see http://sbml.org/Documents/FAQ#Why_can.27t_I_use_the_.3Crem.3E_operator_in_SBML_MathML.3F
+   */
+  private ASTNode createRemainder(ASTNode leftChild, ASTNode rightChild)
+  {
+    ASTNode node = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
+
+    ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
+    ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
+    aDividedByB.addChild(leftChild);
+    aDividedByB.addChild(rightChild);
+
+    floorNode.addChild(aDividedByB);
+    node.addChild(floorNode);
+
+    ASTNode greaterThan = new ASTNode(ASTNode.Type.RELATIONAL_GT);
+    greaterThan.addChild(aDividedByB.clone());
+    greaterThan.addChild(new ASTNode(0));
+
+    node.addChild(greaterThan);
+
+    ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
+    ceilNode.addChild(aDividedByB.clone());
+
+    node.addChild(ceilNode);
+
+    return node;	
+  }    
+
+  /**
+   * Returns a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+   *
+   * <p/> The formula produced for 'a % b' or modulo(a, b) is 'piecewise(a - b * ceil(a/b), xor((a < 0), (b < 0)), a - b * floor(a/b))'
+   *
+   * @param leftChild
+   * @param rightChild
+   * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+   * 
+   */
   private ASTNode createModulo(ASTNode leftChild, ASTNode rightChild)
   {
-      ASTNode node = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
-		
-	  ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
-	  ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
-	  aDividedByB.addChild(leftChild);
-	  aDividedByB.addChild(rightChild);
-		
-	  floorNode.addChild(aDividedByB);
-	  node.addChild(floorNode);
-		
-	  ASTNode greaterThan = new ASTNode(ASTNode.Type.RELATIONAL_GT);
-	  greaterThan.addChild(aDividedByB.clone());
-	  greaterThan.addChild(new ASTNode(0));
-		
-	  node.addChild(greaterThan);
-		
-	  ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
-	  ceilNode.addChild(aDividedByB.clone());
-		
-	  node.addChild(ceilNode);
+    ASTNode piecewiseNode = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
 
-	  return node;	
+    ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
+    aDividedByB.addChild(leftChild);
+    aDividedByB.addChild(rightChild);
+
+    // a - b * ceil(a/b)
+    ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
+    ceilNode.addChild(aDividedByB);
+    ASTNode rightTimesCeil = new ASTNode(ASTNode.Type.TIMES);
+    rightTimesCeil.addChild(rightChild);
+    rightTimesCeil.addChild(ceilNode);
+    
+    ASTNode minusNode1 = new ASTNode(ASTNode.Type.MINUS);
+    minusNode1.addChild(leftChild);
+    minusNode1.addChild(rightTimesCeil);
+    
+    piecewiseNode.addChild(minusNode1);
+    
+    // xor((a < 0), (b < 0))
+    ASTNode lowerThanZeroLeft = new ASTNode(ASTNode.Type.RELATIONAL_LT);
+    lowerThanZeroLeft.addChild(leftChild);
+    lowerThanZeroLeft.addChild(new ASTNode(0));
+
+    ASTNode lowerThanZeroRight = new ASTNode(ASTNode.Type.RELATIONAL_LT);
+    lowerThanZeroRight.addChild(rightChild);
+    lowerThanZeroRight.addChild(new ASTNode(0));
+
+    ASTNode xorNode = new ASTNode(ASTNode.Type.LOGICAL_XOR);
+    xorNode.addChild(lowerThanZeroLeft);
+    xorNode.addChild(lowerThanZeroRight);
+    
+    piecewiseNode.addChild(xorNode);
+
+    // a - b * floor(a/b)
+    ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
+    floorNode.addChild(aDividedByB.clone());
+
+    ASTNode rightTimesFloor = new ASTNode(ASTNode.Type.TIMES);
+    rightTimesFloor.addChild(rightChild);
+    rightTimesFloor.addChild(floorNode);
+    
+    ASTNode minusNode2 = new ASTNode(ASTNode.Type.MINUS);
+    minusNode2.addChild(leftChild);
+    minusNode2.addChild(rightTimesFloor);
+    
+    piecewiseNode.addChild(minusNode2);
+
+
+    return piecewiseNode;  
   }    
-  
+
 }
 
 PARSER_END(FormulaParser)

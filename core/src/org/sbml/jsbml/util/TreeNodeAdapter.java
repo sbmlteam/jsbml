@@ -22,7 +22,8 @@
  */
 package org.sbml.jsbml.util;
 
-import java.text.MessageFormat;
+import static java.text.MessageFormat.format;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -87,10 +88,10 @@ public class TreeNodeAdapter extends AbstractTreeNode {
     super();
     this.userObject = userObject;
     this.parent = parent;
-    
+
     if (parent instanceof TreeNodeWithChangeSupport) {
-      TreeNodeWithChangeSupport parentTreeNode = (TreeNodeWithChangeSupport) parent; 
-    
+      TreeNodeWithChangeSupport parentTreeNode = (TreeNodeWithChangeSupport) parent;
+
       if (parentTreeNode.getListOfTreeNodeChangeListeners() != null) {
         addAllChangeListeners(parentTreeNode.getListOfTreeNodeChangeListeners());
       }
@@ -149,7 +150,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
   @Override
   public TreeNode getChildAt(int childIndex) {
     if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexSurpassesBoundsException"), childIndex, 0));
+      throw new IndexOutOfBoundsException(format(resourceBundle.getString("IndexSurpassesBoundsException"), childIndex, 0));
     }
     if (isSetUserObject()) {
       if (userObject instanceof TreeNode) {
@@ -179,7 +180,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
         }
       }
     }
-    throw new IndexOutOfBoundsException(MessageFormat.format(
+    throw new IndexOutOfBoundsException(format(
       resourceBundle.getString("IndexExceedsBoundsException"),
       childIndex, getChildCount()));
   }
