@@ -77,7 +77,7 @@ public class OfflineValidatorTests {
       System.out.println(
         "start          - first error code to be checked. Error codes could be started by package name (layout-20613 == 6020613).");
       System.out.println(
-        "end            - last error code to check. Must follow at start sperated by a colon ':'");
+        "end            - last error code to check. Must follow at start seperated by a colon ':'");
       System.out.println(
         "containsString - a String which must be contained in every file name.");
       System.out.println(
@@ -94,10 +94,17 @@ public class OfflineValidatorTests {
     final String range = args[1];
     final String[] blocks = range.split(":");
 
+    if (blocks[0].contains("-")) {
+      blocks[0] = correctPackageErrorCode(blocks[0]);
+    }
+    
     final int startCode = Integer.parseInt(blocks[0]);
     int endCode = startCode;
 
     if (blocks.length > 1) {
+      if (blocks[1].contains("-")) {
+        blocks[1] = correctPackageErrorCode(blocks[1]);
+      }
       endCode = Integer.parseInt(blocks[1]);
     }
 
@@ -120,7 +127,20 @@ public class OfflineValidatorTests {
         nbDirValidated++;
 
         validateDirectory(dir, code);
-      } else {
+      } else if (code > 1000000) {
+        String codeStr = Integer.toString(code);        
+        String packageShortLabel = getPackageLabel(codeStr);
+        
+        // Just taking the last 5 digit from the error code to build the directory name
+        dir = new File(testDataDir, packageShortLabel + "-" + codeStr.substring(codeStr.length() - 5));
+        
+        System.out.println("DEBUG - checking if the folder '" + dir.getAbsolutePath() + "' exists");
+        
+        if (dir.exists()) {
+          nbDirValidated++;
+
+          validateDirectory(dir, code);          
+        }
         // dirsMissed++;
         // System.out.println("No directory found for error code " + code);
       }
@@ -188,6 +208,97 @@ public class OfflineValidatorTests {
       System.out.println(out);
     }
     
+  }
+
+
+  /**
+   * @param code
+   * @return
+   */
+  private static String getPackageLabel(String codeStr) 
+  {
+    switch(codeStr.charAt(0)) {
+    case '1':
+      return "comp";
+    case '2':
+      return "fbc";
+    case '3':
+      return "qual";
+    case '4':
+      return "groups";
+    case '6':
+      return "layout";
+    case '7':
+      return "multi";
+    case '8':
+      return "arrays";
+
+    }
+  
+    return "";
+  }
+
+
+  /**
+   * Corrects an error code that contain 'packageLabel-' and transforms it
+   * into a valid integer.
+   * 
+   * <p>For example 'layout-20301' will be transformed into '6020301'.</p>
+   * 
+   * @param errorCode an error code that contain '-'
+   * @return a corrected error code if the prefix contain a known SBML L3 package, the
+   * unmodified argument otherwise.
+   */
+  private static String correctPackageErrorCode(String errorCode) 
+  {
+    if (! errorCode.contains("-"))
+    {
+      return errorCode;
+    }
+    
+    String[] x = errorCode.split("-");
+    
+    if (x.length == 2)
+    {
+      String prefix = "";
+      
+      switch(x[0]) {
+      
+      case "layout": {
+        prefix = "60";
+        break;
+      }
+      case "comp": {
+        prefix = "10";
+        break;
+      }
+      case "fbc": {
+        prefix = "20";
+        break;
+      }
+      case "qual": {
+        prefix = "40";
+        break;
+      }
+      case "groups": {
+        prefix = "40";
+        break;
+      }
+      case "arrays": {
+        prefix = "80";
+        break;
+      }
+      case "multi": {
+        prefix = "70";
+        break;
+      }
+
+      }
+      
+      return prefix + x[1];
+    }
+    
+    return errorCode;
   }
 
 

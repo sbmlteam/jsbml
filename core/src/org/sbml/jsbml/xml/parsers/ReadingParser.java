@@ -32,7 +32,6 @@ import org.sbml.jsbml.Trigger;
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public interface ReadingParser {
 

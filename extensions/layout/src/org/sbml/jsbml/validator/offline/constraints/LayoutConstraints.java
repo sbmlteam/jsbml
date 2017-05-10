@@ -51,6 +51,9 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(LAYOUT_20315);
+      
+      addRangeToSet(set, LAYOUT_20301, LAYOUT_20317);
+      
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -69,18 +72,157 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
 
 
   @Override
-  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode) {
     ValidationFunction<Layout> func = null;
 
     switch (errorCode) {
+
+    case LAYOUT_20301:
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // TODO - can have only notes and annotation from core as sub-elements
+          // TODO - check the unknownElements XMLNode
+          
+          return true;
+        }
+      };
+      break;
+
+    case LAYOUT_20302:
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // TODO - can have only sboTerm and metaId attributes from core
+          // TODO - check unknownElements
+          
+          return true;
+        }
+      };
+      break;
+
+    case LAYOUT_20303:
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // TODO - check that there is at most one instance of the listOf
+          // ListOfCompartmentGlyphs, ListOfSpeciesGlyphs, ListOfReactionGlyphs, ListOfTextGlyphs, ListOfAdditionalGraphicalObjects.
+          
+          return true;
+        }
+      };
+      break;
+
+    case LAYOUT_20304:
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // TODO - check that if present the listOf is not empty
+          // ListOfCompartmentGlyphs, ListOfSpeciesGlyphs, ListOfReactionGlyphs, ListOfTextGlyphs, ListOfAdditionalGraphicalObjects.
+          
+          return true;
+        }
+      };
+      break;
+
+    case LAYOUT_20305:
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // TODO - check attributes, only allowed is id and name.
+          
+          return true;
+        }
+      };
+      break;
+
+    case LAYOUT_20306:
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // TODO - check that the name was valid -> unknownAttributes ? or it will be set ?
+          
+          return true;
+        }
+      };
+      break;
+
+    case LAYOUT_20307:
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // TODO - check that ListOfCompartmentGlyphs has only sboTerm and metaid from core
+          
+          return true;
+        }
+      };
+      break;
+
+    case LAYOUT_20308:
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // TODO - check that ListOfCompartmentGlyphs contains only CompartmentGlyph objects
+          // TODO - check unknownElements
+          
+          return true;
+        }
+      };
+      break;
+
+    case LAYOUT_20309:
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // TODO - check that ListOfSpeciesGlyphs has only sboTerm and metaid from core
+          
+          return true;
+        }
+      };
+      break;
+
+    case LAYOUT_20310:
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // TODO - check that ListOfSpeciesGlyphs contains only SpeciesGlyph objects
+          // TODO - check unknownElements
+          
+          return true;
+        }
+      };
+      break;
+
     case LAYOUT_20315:
       func = new ValidationFunction<Layout>() {
 
         @Override
-        public boolean check(ValidationContext ctx, Layout l) {
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // TODO - check if there was more than one xml dimensions element
+          
           // System.out.println("20315! " + l.isSetDimensions());
-          return l.isSetDimensions();
+          return layout.isSetDimensions();
         }
       };
       break;

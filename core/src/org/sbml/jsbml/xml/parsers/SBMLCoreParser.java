@@ -80,7 +80,6 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
  */
 // It might be better to have one parser per level and version
 // rather than one SBMLCoreParser which parses everything.

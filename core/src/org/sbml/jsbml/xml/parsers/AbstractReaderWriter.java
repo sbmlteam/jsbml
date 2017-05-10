@@ -48,7 +48,6 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 public abstract class AbstractReaderWriter implements ReadingParser, WritingParser {
 
