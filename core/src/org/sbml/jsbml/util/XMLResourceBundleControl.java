@@ -21,8 +21,6 @@ package org.sbml.jsbml.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -146,28 +144,20 @@ public class XMLResourceBundleControl extends Control {
     ResourceBundle bundle = null;
 
     if (format.equalsIgnoreCase(XML)) {
-      // 1. Localize resource file
+      // Localize resource file
       String bundleName = toBundleName(baseName, locale);
       String resName = toResourceName(bundleName, format);
-      URL url = loader.getResource(resName);
-
-      // 2. Create Stream to the resource file
-      if (url != null) {
-        URLConnection connection = url.openConnection();
-        if (connection != null) {
-          if (reload) {
-            connection.setUseCaches(false);
-          }
-          InputStream stream = connection.getInputStream();
-          if (stream != null) {
-            // 3. Create ResourceBundle object
-            bundle = new XMLResourceBundle(stream);
-            stream.close();
-          }
-        }
+      InputStream is = loader.getResourceAsStream(resName);
+      if (is == null) {
+        is = getClass().getResourceAsStream('/' + resName);
+      }
+      if (is != null) {
+        // Create ResourceBundle object
+        bundle = new XMLResourceBundle(is);
+        is.close();
       }
     }
-    // 4. Return the bundle.
+    // Return the bundle.
     return bundle;
   }
 

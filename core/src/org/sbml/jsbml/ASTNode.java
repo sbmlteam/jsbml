@@ -36,7 +36,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTNode2;
-import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -2104,6 +2103,10 @@ public class ASTNode extends AbstractTreeNode {
       value = compiler.floor(getLeftChild());
       break;
     case FUNCTION_LN:
+      if (getChildCount() > 1) { // TODO - in general, should we throw an SBMLException if we encounter more child than expected ?
+        value = compiler.log(getLeftChild(), getRightChild()); // TODO - temporary fix as we read log(1, 2) as ln(1, 2) currently (07/04/2017)
+        break;
+      }
       value = compiler.ln(getLeftChild());
       break;
     case FUNCTION_MAX:
@@ -2359,7 +2362,7 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
-    
+
     if (equal) {
       ASTNode ast = (ASTNode) object;
       equal &= ast.getType() == type;
@@ -4090,12 +4093,12 @@ public class ASTNode extends AbstractTreeNode {
    *             of a unit definition.
    */
   public void setUnits(String unitId) {
-    
+
     if (!isNumber()) {
       if (!isReadingInProgress()) {
         throw new IllegalArgumentException(MessageFormat.format(
-            resourceBundle.getString("ASTNode.setUnits1"),
-            unitId));
+          resourceBundle.getString("ASTNode.setUnits1"),
+          unitId));
       } else {
         logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits1"), unitId));
       }
@@ -4104,20 +4107,20 @@ public class ASTNode extends AbstractTreeNode {
       if (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId)) {
         if (!isReadingInProgress()) {
           throw new IllegalArgumentException(MessageFormat.format(
-              resourceBundle.getString("ASTNode.setUnits2"),
-              unitId));
+            resourceBundle.getString("ASTNode.setUnits2"),
+            unitId));
         } else {
-          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits2"), unitId));          
+          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits2"), unitId));
         }
       }
       if (parentSBMLObject.isSetLevel() && (parentSBMLObject.getLevel() < 3)) {
-        if (!isReadingInProgress()) {        
-        throw new IllegalArgumentException(MessageFormat.format(
-          resourceBundle.getString("ASTNode.setUnits3"),
-          unitId));
+        if (!isReadingInProgress()) {
+          throw new IllegalArgumentException(MessageFormat.format(
+            resourceBundle.getString("ASTNode.setUnits3"),
+            unitId));
         } else {
-          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits3"), unitId));          
-        }        
+          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits3"), unitId));
+        }
       }
     }
     String oldValue = this.unitId;

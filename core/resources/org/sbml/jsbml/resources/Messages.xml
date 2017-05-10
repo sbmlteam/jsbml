@@ -26,7 +26,7 @@
     Since:   1.1
   </comment>
   
-  <entry key="IndexExceedsBoundsException">Index {0,number,integer} >= {1,number,integer}</entry>
+  <entry key="IndexExceedsBoundsException">Index {0,number,integer} &#8805; {1,number,integer}</entry>
   <entry key="IndexExceedsBoundsException2">Node {0} has no children.</entry>
   <entry key="IndexSurpassesBoundsException">Index {0,number,integer} &#60; {0,number,integer}</entry>
   <entry key="NullArgument">Argument is null.</entry>

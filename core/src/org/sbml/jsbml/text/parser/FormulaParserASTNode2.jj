@@ -10,8 +10,6 @@ options
 
 PARSER_BEGIN(FormulaParserASTNode2)
 /*
- * $Id: FormulaParserASTNode2.jj 2266 2015-04-30 15:40:25Z niko-rodrigue $
- * $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/branches/astnode2-merging-alternate/core/src/org/sbml/jsbml/text/parser/FormulaParserASTNode2.jj $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -67,7 +65,8 @@ import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 
 /**
- * Class used to parse infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
+ * Parses infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
+ *
  * <p>
  * Support almost the same syntax as defined in <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/libsbml.html#parseFormula(java.lang.String)">
  * the LibSBML C-inspired infix notation taken from SBML Level 1 parser</a>.
@@ -75,8 +74,7 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
  * @author Alexander D&ouml;rr
  * @author Nicolas Rodriguez
  * @author Victor Kofia
- * @since 0.8
- * @version $Rev: 2266 $
+ * @since 1.0
  */
 public class FormulaParserASTNode2 implements IFormulaParser
 {

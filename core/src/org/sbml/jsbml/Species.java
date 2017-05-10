@@ -381,7 +381,11 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   @Override
   public String getDerivedUnits() {
     if (isSetHasOnlySubstanceUnits() && !hasOnlySubstanceUnits()) {
-      // TODO!!! Here is something wrong! This method must return the same as getDerivedUnitInstance(), I think!
+      return null;
+    }
+    Compartment c = getCompartmentInstance();
+    if ((c != null) && c.isSetSpatialDimensions() && (c.getSpatialDimensions() == 0d)) {
+      return null;
     }
     return super.getDerivedUnits();
   }
@@ -1059,8 +1063,8 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   public void setSpatialSizeUnits(String spatialSizeUnits)
       throws PropertyNotAvailableException, SBMLException {
     // TODO - replace all the checks by a call to the offline validator once all the species attribute checks are in place.
-    
-    if (!isReadingInProgress() && (getLevel() != 2) && ((1 != getVersion()) || (2 != getVersion()))) { 
+
+    if (!isReadingInProgress() && (getLevel() != 2) && ((1 != getVersion()) || (2 != getVersion()))) {
       throw new PropertyNotAvailableException(
         TreeNodeChangeEvent.spatialSizeUnits, this);
     }
