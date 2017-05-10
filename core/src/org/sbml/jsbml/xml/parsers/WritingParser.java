@@ -29,7 +29,6 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
  */
 public interface WritingParser {
 
