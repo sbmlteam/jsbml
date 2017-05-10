@@ -33,7 +33,6 @@ import org.apache.log4j.Logger;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class ParserManager {
