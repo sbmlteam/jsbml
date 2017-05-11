@@ -26,6 +26,7 @@ import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;;
 
 /**
@@ -82,16 +83,7 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
 
     case LAYOUT_20301:
     {
-      func = new ValidationFunction<Layout>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, Layout layout) {
-          
-          // TODO - check that there is only notes and annotation from core as child
-          
-          return true;
-        }
-      };
+      func = new UnknownCoreElementValidationFunction<Layout>();
       break;
     }
     case LAYOUT_20302:
@@ -131,7 +123,19 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
     }
     case LAYOUT_20305:
     {
-      func = new UnknownPackageAttributeValidationFunction<Layout>(LayoutConstants.shortLabel);
+      func = new UnknownPackageAttributeValidationFunction<Layout>(LayoutConstants.shortLabel) {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+        
+          if (!layout.isSetId()) {
+            return false;
+          }
+          
+          return super.check(ctx, layout);
+        }
+
+      };
       break;
     }
     case LAYOUT_20306:
