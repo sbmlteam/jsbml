@@ -134,8 +134,6 @@ public class OfflineValidatorTests {
         // Just taking the last 5 digit from the error code to build the directory name
         dir = new File(testDataDir, packageShortLabel + "-" + codeStr.substring(codeStr.length() - 5));
         
-        System.out.println("DEBUG - checking if the folder '" + dir.getAbsolutePath() + "' exists");
-        
         if (dir.exists()) {
           nbDirValidated++;
 
