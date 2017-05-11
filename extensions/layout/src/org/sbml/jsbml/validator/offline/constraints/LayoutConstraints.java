@@ -22,8 +22,11 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;;
 
 /**
  * @author Roman Schulte
@@ -50,8 +53,8 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      set.add(LAYOUT_20315);
-      
+
+      System.out.println("Layout rules definition");
       addRangeToSet(set, LAYOUT_20301, LAYOUT_20317);
       
       break;
@@ -78,34 +81,26 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
     switch (errorCode) {
 
     case LAYOUT_20301:
+    {
       func = new ValidationFunction<Layout>() {
 
         @Override
         public boolean check(ValidationContext ctx, Layout layout) {
           
-          // TODO - can have only notes and annotation from core as sub-elements
-          // TODO - check the unknownElements XMLNode
+          // TODO - check that there is only notes and annotation from core as child
           
           return true;
         }
       };
       break;
-
+    }
     case LAYOUT_20302:
-      func = new ValidationFunction<Layout>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, Layout layout) {
-          
-          // TODO - can have only sboTerm and metaId attributes from core
-          // TODO - check unknownElements
-          
-          return true;
-        }
-      };
+    {
+      func = new UnknownCoreAttributeValidationFunction<Layout>();
       break;
-
+    }
     case LAYOUT_20303:
+    {
       func = new ValidationFunction<Layout>() {
 
         @Override
@@ -118,8 +113,9 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+    }
     case LAYOUT_20304:
+    {
       func = new ValidationFunction<Layout>() {
 
         @Override
@@ -132,21 +128,14 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+    }
     case LAYOUT_20305:
-      func = new ValidationFunction<Layout>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, Layout layout) {
-          
-          // TODO - check attributes, only allowed is id and name.
-          
-          return true;
-        }
-      };
+    {
+      func = new UnknownPackageAttributeValidationFunction<Layout>(LayoutConstants.shortLabel);
       break;
-
+    }
     case LAYOUT_20306:
+    {
       func = new ValidationFunction<Layout>() {
 
         @Override
@@ -158,8 +147,9 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+    }
     case LAYOUT_20307:
+    {
       func = new ValidationFunction<Layout>() {
 
         @Override
@@ -171,8 +161,9 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+    }
     case LAYOUT_20308:
+    {
       func = new ValidationFunction<Layout>() {
 
         @Override
@@ -185,8 +176,9 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+    }
     case LAYOUT_20309:
+    {
       func = new ValidationFunction<Layout>() {
 
         @Override
@@ -198,8 +190,9 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+    }
     case LAYOUT_20310:
+    {
       func = new ValidationFunction<Layout>() {
 
         @Override
@@ -212,8 +205,9 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+    }
     case LAYOUT_20315:
+    {
       func = new ValidationFunction<Layout>() {
 
         @Override
@@ -226,7 +220,7 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
-
+    }
     }
 
     return func;
