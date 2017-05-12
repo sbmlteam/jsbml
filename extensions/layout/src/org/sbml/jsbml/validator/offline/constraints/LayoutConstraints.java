@@ -21,16 +21,25 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.ext.layout.CompartmentGlyph;
+import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.layout.ReactionGlyph;
+import org.sbml.jsbml.ext.layout.SpeciesGlyph;
+import org.sbml.jsbml.ext.layout.TextGlyph;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;;
 
 /**
  * @author Roman Schulte
+ * @author rodrigue
  * @since 1.2
  */
 public class LayoutConstraints extends AbstractConstraintDeclaration {
@@ -40,8 +49,9 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
    */
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
-    // TODO Auto-generated method stub
+    int version, String attributeName) 
+  {
+    // TODO 
 
   }
 
@@ -98,10 +108,11 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Layout layout) {
           
-          // TODO - check that there is at most one instance of the listOf
-          // ListOfCompartmentGlyphs, ListOfSpeciesGlyphs, ListOfReactionGlyphs, ListOfTextGlyphs, ListOfAdditionalGraphicalObjects.
-          
-          return true;
+          return new DuplicatedElementValidationFunction<Layout>(LayoutConstants.listOfCompartmentGlyphs).check(ctx, layout) 
+              && new DuplicatedElementValidationFunction<Layout>(LayoutConstants.listOfSpeciesGlyphs).check(ctx, layout) 
+              && new DuplicatedElementValidationFunction<Layout>(LayoutConstants.listOfReactionGlyphs).check(ctx, layout) 
+              && new DuplicatedElementValidationFunction<Layout>(LayoutConstants.listOfTextGlyphs).check(ctx, layout) 
+              && new DuplicatedElementValidationFunction<Layout>(LayoutConstants.listOfAdditionalGraphicalObjects).check(ctx, layout); 
         }
       };
       break;
@@ -113,8 +124,23 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Layout layout) {
           
-          // TODO - check that if present the listOf is not empty
-          // ListOfCompartmentGlyphs, ListOfSpeciesGlyphs, ListOfReactionGlyphs, ListOfTextGlyphs, ListOfAdditionalGraphicalObjects.
+          // checking that if present the listOfs are not empty
+          
+          if (layout.isSetListOfCompartmentGlyphs() && layout.getListOfCompartmentGlyphs().size() == 0) {
+            return false;
+          }
+          if (layout.isSetListOfSpeciesGlyphs() && layout.getListOfSpeciesGlyphs().size() == 0) {
+            return false;
+          }
+          if (layout.isSetListOfReactionGlyphs() && layout.getListOfReactionGlyphs().size() == 0) {
+            return false;
+          }
+          if (layout.isSetListOfTextGlyphs() && layout.getListOfTextGlyphs().size() == 0) {
+            return false;
+          }
+          if (layout.isSetListOfAdditionalGraphicalObjects() && layout.getListOfAdditionalGraphicalObjects().size() == 0) {
+            return false;
+          }
           
           return true;
         }
@@ -145,7 +171,7 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Layout layout) {
           
-          // TODO - check that the name was valid -> unknownAttributes ? or it will be set ?
+          // nothing to check as java read any kind of String
           
           return true;
         }
@@ -159,7 +185,11 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Layout layout) {
           
-          // TODO - check that ListOfCompartmentGlyphs has only sboTerm and metaid from core
+          // checking that ListOfCompartmentGlyphs has only sboTerm and metaid from core
+          if (layout.isSetListOfCompartmentGlyphs()) {
+            return new UnknownCoreAttributeValidationFunction<ListOf<CompartmentGlyph>>().check(ctx, layout.getListOfCompartmentGlyphs())
+                && new UnknownPackageAttributeValidationFunction<ListOf<CompartmentGlyph>>(LayoutConstants.shortLabel).check(ctx, layout.getListOfCompartmentGlyphs());
+          }
           
           return true;
         }
@@ -173,8 +203,10 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Layout layout) {
           
-          // TODO - check that ListOfCompartmentGlyphs contains only CompartmentGlyph objects
-          // TODO - check unknownElements
+          // checking that ListOfCompartmentGlyphs contains only notes, annotation and CompartmentGlyph objects
+          if (layout.isSetListOfCompartmentGlyphs()) {
+            return new UnknownElementValidationFunction<ListOf<CompartmentGlyph>>().check(ctx, layout.getListOfCompartmentGlyphs());
+          }
           
           return true;
         }
@@ -188,7 +220,11 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Layout layout) {
           
-          // TODO - check that ListOfSpeciesGlyphs has only sboTerm and metaid from core
+          // checking that ListOfSpeciesGlyphs has only sboTerm and metaid from core
+          if (layout.isSetListOfSpeciesGlyphs()) {
+            return new UnknownCoreAttributeValidationFunction<ListOf<SpeciesGlyph>>().check(ctx, layout.getListOfSpeciesGlyphs())
+                && new UnknownPackageAttributeValidationFunction<ListOf<SpeciesGlyph>>(LayoutConstants.shortLabel).check(ctx, layout.getListOfSpeciesGlyphs());
+          }
           
           return true;
         }
@@ -202,8 +238,80 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Layout layout) {
           
-          // TODO - check that ListOfSpeciesGlyphs contains only SpeciesGlyph objects
-          // TODO - check unknownElements
+          // checking that ListOfSpeciesGlyphs contains only notes, annotation and SpeciesGlyph objects
+          if (layout.isSetListOfSpeciesGlyphs()) {
+            return new UnknownElementValidationFunction<ListOf<SpeciesGlyph>>().check(ctx, layout.getListOfSpeciesGlyphs());
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    case LAYOUT_20311:
+    {
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // checking that ListOfReactionGlyphs has only sboTerm and metaid from core
+          if (layout.isSetListOfReactionGlyphs()) {
+            return new UnknownCoreAttributeValidationFunction<ListOf<ReactionGlyph>>().check(ctx, layout.getListOfReactionGlyphs())
+                && new UnknownPackageAttributeValidationFunction<ListOf<ReactionGlyph>>(LayoutConstants.shortLabel).check(ctx, layout.getListOfReactionGlyphs());
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    case LAYOUT_20312:
+    {
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // checking that ListOfReactionGlyphs contains only notes, annotation and ReactionGlyph objects
+          if (layout.isSetListOfReactionGlyphs()) {
+            return new UnknownElementValidationFunction<ListOf<ReactionGlyph>>().check(ctx, layout.getListOfReactionGlyphs());
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    case LAYOUT_20313:
+    {
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // checking that ListOfAdditionalGraphicalObjectGlyphs has only sboTerm and metaid from core
+          if (layout.isSetListOfAdditionalGraphicalObjects()) {
+            return new UnknownCoreAttributeValidationFunction<ListOf<GraphicalObject>>().check(ctx, layout.getListOfAdditionalGraphicalObjects())
+                && new UnknownPackageAttributeValidationFunction<ListOf<GraphicalObject>>(LayoutConstants.shortLabel).check(ctx, layout.getListOfAdditionalGraphicalObjects());
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    case LAYOUT_20314:
+    {
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // checking that ListOfAdditionalGraphicalObjectGlyphs contains only notes, annotation and AdditionalGraphicalObjectGlyph objects
+          if (layout.isSetListOfAdditionalGraphicalObjects()) {
+            return new UnknownElementValidationFunction<ListOf<GraphicalObject>>().check(ctx, layout.getListOfAdditionalGraphicalObjects());
+          }
           
           return true;
         }
@@ -217,10 +325,49 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Layout layout) {
           
-          // TODO - check if there was more than one xml dimensions element
+          // checking if there is one and no more than one xml dimensions element
           
           // System.out.println("20315! " + l.isSetDimensions());
-          return layout.isSetDimensions();
+          if  (!layout.isSetDimensions()) {
+            return false;
+          }
+          
+          return new DuplicatedElementValidationFunction<>(LayoutConstants.dimensions).check(ctx, layout);
+        }
+      };
+      break;
+    }
+    case LAYOUT_20316:
+    {
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // checking that ListOfTextGlyphs has only sboTerm and metaid from core
+          if (layout.isSetListOfTextGlyphs()) {
+            return new UnknownCoreAttributeValidationFunction<ListOf<TextGlyph>>().check(ctx, layout.getListOfTextGlyphs())
+                && new UnknownPackageAttributeValidationFunction<ListOf<TextGlyph>>(LayoutConstants.shortLabel).check(ctx, layout.getListOfTextGlyphs());
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    case LAYOUT_20317:
+    {
+      func = new ValidationFunction<Layout>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Layout layout) {
+          
+          // checking that ListOfTextGlyphs contains only notes, annotation and TextGlyph objects
+          if (layout.isSetListOfTextGlyphs()) {
+            return new UnknownElementValidationFunction<ListOf<TextGlyph>>().check(ctx, layout.getListOfTextGlyphs());
+          }
+          
+          return true;
         }
       };
       break;
