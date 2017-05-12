@@ -178,6 +178,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
       Layout layout = (Layout) contextObject;
       SBase newElement = null;
 
+   // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(listOfCompartmentGlyphs)) {
 
         newElement = layout.getListOfCompartmentGlyphs();
