@@ -31,9 +31,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * 
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
- * @date 2010-04-20
  * @since 0.8
- * @version $Rev$
  */
 public class LocalParameter extends QuantityWithUnit {
 

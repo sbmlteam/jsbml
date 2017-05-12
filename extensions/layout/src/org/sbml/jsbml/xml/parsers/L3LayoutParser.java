@@ -168,6 +168,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
         LayoutModelPlugin layoutModel = new LayoutModelPlugin(model);
         model.addExtension(getNamespaceURI(), layoutModel);
 
+        // keep order of elements for later validation
+        AbstractReaderWriter.storeElementsOrder(getPackageName() + ":" + elementName, model);
+
         return layoutModel.getListOfLayouts();
       } else {
         logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
