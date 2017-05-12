@@ -34,8 +34,8 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementVal
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;;
 
 /**
- * @author Roman Schulte
- * @since 1.2
+ * @author Nicolas Rodriguez, Thomas M Hamm
+ * @since 1.3
  */
 public class GeneProductConstraints extends AbstractConstraintDeclaration {
 
