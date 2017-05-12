@@ -63,3 +63,5 @@ dev/maven/*.asc
 /.DS_Store
 
 MyTest*
+
+*.dll
