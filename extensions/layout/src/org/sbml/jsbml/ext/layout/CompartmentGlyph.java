@@ -197,7 +197,20 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
       }
       else if (attributeName.equals(LayoutConstants.order))
       {
-        setOrder(StringTools.parseSBMLDouble(value));
+        Double valueDbl = StringTools.parseSBMLDouble(value);
+        
+        // If the value is NaN, we could have encountered a NumberFormatExpection
+        // So we parse it again to be sure as StringTools.parseSBMLDouble does not propagate the exception.
+        if (valueDbl.isNaN()) {
+          try {
+            Double.parseDouble(value);
+          } catch (NumberFormatException e) {
+            // The value is a wrong double so don't set it and return false so that it is put in the unknown attributes
+            return false;
+          }    
+        }
+        
+        setOrder(valueDbl);
       }
       else
       {
@@ -244,7 +257,7 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
    * @param order the oder
    */
   public void setOrder(double order) {
-    double oldOrder = this.order;
+    Double oldOrder = this.order;
     this.order = order;
     firePropertyChange(LayoutConstants.order, oldOrder, this.order);
   }
@@ -265,7 +278,7 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
    */
   public boolean unsetOrder() {
     if (isSetOrder()) {
-      double oldOrder = order;
+      Double oldOrder = order;
       order = null;
       firePropertyChange(LayoutConstants.order, oldOrder, order);
       return true;

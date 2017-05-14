@@ -81,6 +81,9 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
         isAttributeRead = sbase.readAttribute(attributeName, prefix,
           value);
       } catch (Throwable exc) {
+        if (logger.isDebugEnabled()) {
+          exc.printStackTrace();
+        }
         logger.error(exc.getMessage());
       }
     }
@@ -100,7 +103,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 
     if (!isAttributeRead) {
       logger.warn(MessageFormat.format(
-        "processAttribute: The attribute ''{0}'' on the element {1} is not part of the SBML specifications ({2}).",
+        "processAttribute: The attribute ''{0}'' on the element {1} is not part of the SBML specifications ({2}) or has an invalid value.",
         attributeName, elementName, contextObject.getClass().getSimpleName()));
     }
     

@@ -36,7 +36,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Nicolas Rodriguez
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
  */
 public class Compartment extends Symbol {
 

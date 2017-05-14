@@ -38,6 +38,8 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidat
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;;
 
 /**
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link Layout} class.
+ * 
  * @author Roman Schulte
  * @author rodrigue
  * @since 1.2
@@ -65,7 +67,6 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
     switch (category) {
     case GENERAL_CONSISTENCY:
 
-      System.out.println("Layout rules definition");
       addRangeToSet(set, LAYOUT_20301, LAYOUT_20317);
       
       break;

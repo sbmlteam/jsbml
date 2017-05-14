@@ -181,7 +181,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
       Layout layout = (Layout) contextObject;
       SBase newElement = null;
 
-   // keep order of elements for later validation
+      // keep order of elements for later validation
       AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
       
       if (elementName.equals(listOfCompartmentGlyphs)) {
@@ -221,6 +221,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
     else if (contextObject instanceof IBoundingBox) {
       IBoundingBox graphicalObject = (IBoundingBox) contextObject;
 
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);      
+      
       if (elementName.equals(boundingBox)) {
         BoundingBox bbox = new BoundingBox();
         graphicalObject.setBoundingBox(bbox);
