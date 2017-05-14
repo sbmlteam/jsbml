@@ -53,6 +53,8 @@ public class UnknownCoreAttributeValidationFunction<T extends TreeNodeWithChange
         for (int i = 0; i < attLength; i++) {
           String attributePrefix = unknownNode.getAttrPrefix(i);
           String attributeURI = unknownNode.getAttrURI(i);
+        
+          
           
           // We consider that if the prefix is empty, the attribute belong to core
           if (attributePrefix.trim().length() == 0 || attributeURI.equals(sbmlNamespace)) {
