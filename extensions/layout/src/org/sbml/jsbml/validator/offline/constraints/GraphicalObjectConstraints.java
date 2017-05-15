@@ -21,26 +21,24 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
-import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;;
 
 /**
- * Defines validation rules (as {@link ValidationFunction} instances) for the {@link LayoutModelPlugin} class.
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link GraphicalObject} class.
  *  
  * @author rodrigue
  * @since 1.3
  */
-public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration {
+public class GraphicalObjectConstraints extends AbstractConstraintDeclaration {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
@@ -63,7 +61,7 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
     switch (category) {
     case GENERAL_CONSISTENCY:
 
-      addRangeToSet(set, LAYOUT_20201, LAYOUT_20204);
+      addRangeToSet(set, LAYOUT_20401, LAYOUT_20407);
       
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -84,45 +82,71 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
 
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode) {
-    ValidationFunction<LayoutModelPlugin> func = null;
+    ValidationFunction<GraphicalObject> func = null;
 
     switch (errorCode) {
 
-    case LAYOUT_20201:
+    case LAYOUT_20401:
     {
-      func = new ValidationFunction<LayoutModelPlugin>() {
+      func = new ValidationFunction<GraphicalObject>() {
 
         @Override
-        public boolean check(ValidationContext ctx, LayoutModelPlugin layoutMP) {
+        public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
           
-          return new DuplicatedElementValidationFunction<Model>(LayoutConstants.shortLabel + ":" + LayoutConstants.listOfLayouts).check(ctx, layoutMP.getModel())
-              && new UnknownPackageElementValidationFunction<Model>(LayoutConstants.shortLabel).check(ctx, layoutMP.getModel()); 
+          return new UnknownCoreElementValidationFunction<GraphicalObject>().check(ctx, graphicalObject); 
         }
       };
       break;
     }
-    case LAYOUT_20202:
+    case LAYOUT_20402:
     {
-      func = new ValidationFunction<LayoutModelPlugin>() {
+      func = new ValidationFunction<GraphicalObject>() {
 
         @Override
-        public boolean check(ValidationContext ctx, LayoutModelPlugin layoutMP) {
+        public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
           
-          return layoutMP.isSetListOfLayouts() && layoutMP.getListOfLayouts().size() == 0; 
+          return new UnknownCoreAttributeValidationFunction<GraphicalObject>().check(ctx, graphicalObject); 
         }
       };
       break;
     }
-    case LAYOUT_20203:
+    case LAYOUT_20403:
     {
-      func = new ValidationFunction<LayoutModelPlugin>() {
+      func = new ValidationFunction<GraphicalObject>() {
 
         @Override
-        public boolean check(ValidationContext ctx, LayoutModelPlugin layoutMP) {
+        public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
           
-          // checking that ListOfLayouts contains only notes, annotation and Layout objects if defined
-          if (layoutMP.isSetListOfLayouts()) {
-            return new UnknownElementValidationFunction<ListOf<Layout>>().check(ctx, layoutMP.getListOfLayouts());
+          return new UnknownPackageElementValidationFunction<GraphicalObject>(LayoutConstants.shortLabel).check(ctx, graphicalObject)
+              && new DuplicatedElementValidationFunction<>(LayoutConstants.boundingBox).check(ctx, graphicalObject); 
+        }
+      };
+      break;
+    }
+    case LAYOUT_20404:
+    {
+      func = new UnknownPackageAttributeValidationFunction<GraphicalObject>(LayoutConstants.shortLabel) {
+
+        @Override
+        public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
+          
+          if (!graphicalObject.isSetId()) {
+            return false;
+          }
+          return super.check(ctx, graphicalObject); 
+        }
+      };
+      break;
+    }
+    case LAYOUT_20405:
+    {
+      func = new ValidationFunction<GraphicalObject>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
+          
+          if (graphicalObject.isSetMetaidRef()) {
+            return SyntaxChecker.isValidMetaId(graphicalObject.getMetaidRef());
           }
           
           return true;
@@ -130,20 +154,30 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
       };
       break;
     }
-    case LAYOUT_20204:
+    case LAYOUT_20406:
     {
-      func = new ValidationFunction<LayoutModelPlugin>() {
+      func = new ValidationFunction<GraphicalObject>() {
 
         @Override
-        public boolean check(ValidationContext ctx, LayoutModelPlugin layoutMP) {
-          
-          // checking that ListOfLayouts has only sboTerm and metaid from core
-          if (layoutMP.isSetListOfLayouts()) {
-            return new UnknownCoreAttributeValidationFunction<ListOf<Layout>>().check(ctx, layoutMP.getListOfLayouts())
-                && new UnknownPackageAttributeValidationFunction<ListOf<Layout>>(LayoutConstants.shortLabel).check(ctx, layoutMP.getListOfLayouts());
+        public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
+
+          if (graphicalObject.isSetMetaidRef()) {
+            return graphicalObject.getSBMLDocument().getElementByMetaId(graphicalObject.getMetaidRef()) != null;
           }
           
           return true;
+        }
+      };
+      break;
+    }
+    case LAYOUT_20407:
+    {
+      func = new ValidationFunction<GraphicalObject>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
+          
+          return graphicalObject.isSetBoundingBox() && new DuplicatedElementValidationFunction<>(LayoutConstants.boundingBox).check(ctx, graphicalObject); 
         }
       };
       break;
