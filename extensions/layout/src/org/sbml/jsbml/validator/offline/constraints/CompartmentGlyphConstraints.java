@@ -64,7 +64,6 @@ public class CompartmentGlyphConstraints extends AbstractConstraintDeclaration {
     switch (category) {
     case GENERAL_CONSISTENCY:
 
-      System.out.println("Layout rules definition");
       addRangeToSet(set, LAYOUT_20501, LAYOUT_20510);
       
       break;
