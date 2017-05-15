@@ -150,7 +150,11 @@ public class CompartmentGlyphConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, CompartmentGlyph compartmentGlyph) {
           
-          return compartmentGlyph.isSetMetaidRef() && SyntaxChecker.isValidMetaId(compartmentGlyph.getMetaidRef()); 
+          if (compartmentGlyph.isSetMetaidRef()) {
+            return SyntaxChecker.isValidMetaId(compartmentGlyph.getMetaidRef());
+          }
+          
+          return true;
         }
       };
       break;
@@ -178,8 +182,12 @@ public class CompartmentGlyphConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, CompartmentGlyph compartmentGlyph) {
           
-          return compartmentGlyph.isSetCompartment() && SyntaxChecker.isValidId(compartmentGlyph.getCompartment(), 
-            compartmentGlyph.getLevel(), compartmentGlyph.getVersion()); 
+          if (compartmentGlyph.isSetCompartment()) {
+            return SyntaxChecker.isValidId(compartmentGlyph.getCompartment(), 
+                compartmentGlyph.getLevel(), compartmentGlyph.getVersion());
+          }
+          
+          return true;
         }
       };
       break;
@@ -208,18 +216,21 @@ public class CompartmentGlyphConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, CompartmentGlyph compartmentGlyph) {
           
           if (compartmentGlyph.isSetCompartment() && compartmentGlyph.isSetMetaidRef()) {
-            Compartment c = compartmentGlyph.getModel().getCompartment(compartmentGlyph.getCompartment());
-            Compartment cFromRef = (Compartment) compartmentGlyph.getSBMLDocument().getElementByMetaId(compartmentGlyph.getMetaidRef());
-            
-            if ((c == null || cFromRef == null) && c != cFromRef) {
-              return false;
-            } else if (! (c != null && cFromRef != null && c.equals(cFromRef))) {
+            try {
+              Compartment c = compartmentGlyph.getModel().getCompartment(compartmentGlyph.getCompartment());
+              Compartment cFromRef = (Compartment) compartmentGlyph.getSBMLDocument().getElementByMetaId(compartmentGlyph.getMetaidRef());
+
+              if ((c == null || cFromRef == null) && c != cFromRef) {
+                return false;
+              } else if (! (c != null && cFromRef != null && c.equals(cFromRef))) {
+                return false;
+              }
+            } catch (ClassCastException e) {
+              // can happen if the metaidRef point to an other element than a Compartment
               return false;
             }
-            
-            return  true;
           }
-          
+
           return true;
         }
       };
