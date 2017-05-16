@@ -88,26 +88,12 @@ public class GraphicalObjectConstraints extends AbstractConstraintDeclaration {
 
     case LAYOUT_20401:
     {
-      func = new ValidationFunction<GraphicalObject>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
-          
-          return new UnknownCoreElementValidationFunction<GraphicalObject>().check(ctx, graphicalObject); 
-        }
-      };
+      func = new UnknownCoreElementValidationFunction<GraphicalObject>();
       break;
     }
     case LAYOUT_20402:
     {
-      func = new ValidationFunction<GraphicalObject>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
-          
-          return new UnknownCoreAttributeValidationFunction<GraphicalObject>().check(ctx, graphicalObject); 
-        }
-      };
+      func = new UnknownCoreAttributeValidationFunction<GraphicalObject>();
       break;
     }
     case LAYOUT_20403:

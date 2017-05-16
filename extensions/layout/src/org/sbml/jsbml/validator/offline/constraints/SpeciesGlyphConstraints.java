@@ -89,26 +89,12 @@ public class SpeciesGlyphConstraints extends AbstractConstraintDeclaration {
 
     case LAYOUT_20601:
     {
-      func = new ValidationFunction<SpeciesGlyph>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, SpeciesGlyph speciesGlyph) {
-          
-          return new UnknownCoreElementValidationFunction<SpeciesGlyph>().check(ctx, speciesGlyph);
-        }
-      };
+      func = new UnknownCoreElementValidationFunction<SpeciesGlyph>();
       break;
     }
     case LAYOUT_20602:
     {
-      func = new ValidationFunction<SpeciesGlyph>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, SpeciesGlyph speciesGlyph) {
-          
-          return new UnknownCoreAttributeValidationFunction<SpeciesGlyph>().check(ctx, speciesGlyph);
-        }
-      };
+      func = new UnknownCoreAttributeValidationFunction<SpeciesGlyph>();
       break;
     }
     case LAYOUT_20603:
