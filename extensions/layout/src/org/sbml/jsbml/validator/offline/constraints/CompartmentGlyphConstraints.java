@@ -91,26 +91,12 @@ public class CompartmentGlyphConstraints extends AbstractConstraintDeclaration {
 
     case LAYOUT_20501:
     {
-      func = new ValidationFunction<CompartmentGlyph>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, CompartmentGlyph compartmentGlyph) {
-          
-          return new UnknownCoreElementValidationFunction<CompartmentGlyph>().check(ctx, compartmentGlyph);
-        }
-      };
+      func = new UnknownCoreElementValidationFunction<CompartmentGlyph>();
       break;
     }
     case LAYOUT_20502:
     {
-      func = new ValidationFunction<CompartmentGlyph>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, CompartmentGlyph compartmentGlyph) {
-          
-          return new UnknownCoreAttributeValidationFunction<CompartmentGlyph>().check(ctx, compartmentGlyph);
-        }
-      };
+      func = new UnknownCoreAttributeValidationFunction<CompartmentGlyph>();
       break;
     }
     case LAYOUT_20503:
