@@ -322,15 +322,54 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
       isAttributeRead = true;
 
       if (attributeName.equals(LayoutConstants.x)) {
-        setX(StringTools.parseSBMLDouble(value));
+        Double valueDouble = StringTools.parseSBMLDouble(value); 
+            
+        // If the value is NaN, we could have encountered a NumberFormatExpection
+        // So we parse it again to be sure as StringTools.parseSBMLDouble does not propagate the exception.
+        if (valueDouble.isNaN()) {
+          try {
+            Double.parseDouble(value);
+          } catch (NumberFormatException e) {
+            // The value is a wrong double so don't set it and return false so that it is put in the unknown attributes
+            return false;
+          }    
+        }
+        
+        setX(valueDouble);
       }
       else if (attributeName.equals(LayoutConstants.y))
       {
-        setY(StringTools.parseSBMLDouble(value));
+        Double valueDouble = StringTools.parseSBMLDouble(value); 
+        
+        // If the value is NaN, we could have encountered a NumberFormatExpection
+        // So we parse it again to be sure as StringTools.parseSBMLDouble does not propagate the exception.
+        if (valueDouble.isNaN()) {
+          try {
+            Double.parseDouble(value);
+          } catch (NumberFormatException e) {
+            // The value is a wrong double so don't set it and return false so that it is put in the unknown attributes
+            return false;
+          }    
+        }
+        
+        setY(valueDouble);
       }
       else if (attributeName.equals(LayoutConstants.z))
       {
-        setZ(StringTools.parseSBMLDouble(value));
+        Double valueDouble = StringTools.parseSBMLDouble(value); 
+        
+        // If the value is NaN, we could have encountered a NumberFormatExpection
+        // So we parse it again to be sure as StringTools.parseSBMLDouble does not propagate the exception.
+        if (valueDouble.isNaN()) {
+          try {
+            Double.parseDouble(value);
+          } catch (NumberFormatException e) {
+            // The value is a wrong double so don't set it and return false so that it is put in the unknown attributes
+            return false;
+          }    
+        }
+        
+        setZ(valueDouble);
       }
       else {
         return false;
