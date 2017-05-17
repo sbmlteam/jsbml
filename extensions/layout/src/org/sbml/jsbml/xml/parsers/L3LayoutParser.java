@@ -351,6 +351,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
     else if (contextObject instanceof CurveSegment) {
       CubicBezier curveSegment = (CubicBezier) contextObject;
 
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);      
+
       if (elementName.equals(start)) {
         Point point = new Point();
         curveSegment.setStart(point);
