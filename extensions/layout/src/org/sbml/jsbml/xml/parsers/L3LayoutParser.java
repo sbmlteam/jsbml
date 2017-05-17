@@ -333,6 +333,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
       ICurve curve = (ICurve) contextObject;
       SBase newElement = null;
 
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);      
+
       if (elementName.equals(listOfCurveSegments)) {
 
         newElement = curve.getListOfCurveSegments();
