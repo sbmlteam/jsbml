@@ -310,6 +310,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
     {
       BoundingBox bbox = (BoundingBox) contextObject;
 
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);      
+      
       if (elementName.equals(position)) {
         Point position = new Point();
         bbox.setPosition(position);
