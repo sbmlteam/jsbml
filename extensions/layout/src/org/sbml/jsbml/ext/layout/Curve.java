@@ -23,7 +23,7 @@ import java.text.MessageFormat;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 
 /**
@@ -37,7 +37,7 @@ import org.sbml.jsbml.ListOf;
  * @author Andreas Dr&auml;ger
  * @since 1.0
  */
-public class Curve extends AbstractNamedSBase implements ICurve {
+public class Curve extends AbstractSBase implements ICurve {
 
   /**
    * Generated serial version identifier.
