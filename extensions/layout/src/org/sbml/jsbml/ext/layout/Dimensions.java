@@ -263,15 +263,54 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
       //isAttributeRead = true;
       if (attributeName.equals(LayoutConstants.width))
       {
-        setWidth(StringTools.parseSBMLDouble(value));
+        Double valueDouble = StringTools.parseSBMLDouble(value); 
+        
+        // If the value is NaN, we could have encountered a NumberFormatExpection
+        // So we parse it again to be sure as StringTools.parseSBMLDouble does not propagate the exception.
+        if (valueDouble.isNaN()) {
+          try {
+            Double.parseDouble(value);
+          } catch (NumberFormatException e) {
+            // The value is a wrong double so don't set it and return false so that it is put in the unknown attributes
+            return false;
+          }    
+        }
+
+        setWidth(valueDouble);
       }
       else if (attributeName.equals(LayoutConstants.height))
       {
-        setHeight(StringTools.parseSBMLDouble(value));
+        Double valueDouble = StringTools.parseSBMLDouble(value); 
+        
+        // If the value is NaN, we could have encountered a NumberFormatExpection
+        // So we parse it again to be sure as StringTools.parseSBMLDouble does not propagate the exception.
+        if (valueDouble.isNaN()) {
+          try {
+            Double.parseDouble(value);
+          } catch (NumberFormatException e) {
+            // The value is a wrong double so don't set it and return false so that it is put in the unknown attributes
+            return false;
+          }    
+        }
+
+        setHeight(valueDouble);
       }
       else if (attributeName.equals(LayoutConstants.depth))
       {
-        setDepth(StringTools.parseSBMLDouble(value));
+        Double valueDouble = StringTools.parseSBMLDouble(value); 
+        
+        // If the value is NaN, we could have encountered a NumberFormatExpection
+        // So we parse it again to be sure as StringTools.parseSBMLDouble does not propagate the exception.
+        if (valueDouble.isNaN()) {
+          try {
+            Double.parseDouble(value);
+          } catch (NumberFormatException e) {
+            // The value is a wrong double so don't set it and return false so that it is put in the unknown attributes
+            return false;
+          }    
+        }
+
+        setDepth(valueDouble);
       }
       else
       {
