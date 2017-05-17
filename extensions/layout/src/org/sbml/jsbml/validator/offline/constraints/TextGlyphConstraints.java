@@ -22,6 +22,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.TextGlyph;
@@ -239,8 +240,9 @@ public class TextGlyphConstraints extends AbstractConstraintDeclaration {
           
           if (textGlyph.isSetGraphicalObject()) {
             Layout layout = (Layout) textGlyph.getParent().getParent();
-            layout.getElementBySId(textGlyph.getGraphicalObject());
-            return textGlyph.getModel().getElementBySId(textGlyph.getGraphicalObject()) != null;
+            SBase sbase = layout.getElementBySId(textGlyph.getGraphicalObject());
+            
+            return sbase != null && sbase instanceof GraphicalObject;
           }
           
           return true;
