@@ -4,7 +4,7 @@
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
- * Copyright (C) 2009-2016 by the University of Tuebingen, Germany.
+ * Copyright (C) 2009-2017 by the University of Tuebingen, Germany.
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -75,7 +75,7 @@ public class RenderProcessor {
       ListOf<LocalRenderInformation> listOfLocalRenderInformation = rlp.getListOfLocalRenderInformation();
       for (LocalRenderInformation lri : listOfLocalRenderInformation) {
         if (lri.isSetListOfLocalStyles() && lri.isSetListOfColorDefinitions()) {
-          Map<String, LocalStyle> roles = new HashMap<>();
+          Map<String, LocalStyle> roles = new HashMap<String, LocalStyle>();
           for (LocalStyle ls : lri.getListOfLocalStyles()) {
             for (String id : ls.getIDList()) {
               SBase sbase = model.getSBaseById(id);
