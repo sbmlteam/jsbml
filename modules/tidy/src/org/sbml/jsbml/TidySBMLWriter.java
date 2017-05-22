@@ -50,7 +50,6 @@ import org.w3c.tidy.Tidy;
  * 
  * @author Nicolas Rodriguez
  * @since 1.1
- * @version $Rev$
  */
 public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneable, Serializable {
 

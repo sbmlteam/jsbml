@@ -34,7 +34,6 @@ import java.util.TreeSet;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
@@ -55,6 +54,11 @@ import org.sbml.libsbml.libsbmlConstants;
  */
 public class OfflineValidatorVersusLibsbmlTests {
 
+  /**
+   * 
+   */
+  private static boolean ENABLE_UNITS_VALIDATION = false;
+  
   /**
    * This value should be set to true after the static block is executed
    * otherwise, there is not need to run this test !! You will need
@@ -109,10 +113,12 @@ public class OfflineValidatorVersusLibsbmlTests {
   private static Set<Integer> notDetected = new TreeSet<Integer>();
   private static Map<String, String> notDetectedFiles = new TreeMap<String, String>();
   private static Map<Integer, Integer> differencesMap = new TreeMap<Integer, Integer>();
-  private static long readTime = 0;
+  private static long globalJSBMLReadTime = 0;
+  private static long globalJSBMLValidationTime = 0;
+  private static long globalLibSBMLReadTime = 0;
+  private static long globalLibSBMLValidationTime = 0;
 
-  private static Map<String, LoggingValidationContext> contextCache     =
-      new HashMap<String, LoggingValidationContext>();
+  private static Map<String, LoggingValidationContext> contextCache = new HashMap<String, LoggingValidationContext>();
 
   private static Set<Integer> notImplementedConstraints = new HashSet<Integer>();  
 
@@ -155,10 +161,14 @@ public class OfflineValidatorVersusLibsbmlTests {
       10501, 10503, 10511, 10512, 10513, 10521, 10522, 10523, 10531, 10532, 10533, 10534, 10541, 10542, 10551, 10562, 10563, 10565,
       10101, 10102, 10103, 20101, 20102, 20103, 20301));
     
-    long init = Calendar.getInstance().getTimeInMillis();
+    // long init = Calendar.getInstance().getTimeInMillis();
 
     validateDirectory(testDataDir);
 
+    double nbSecondesRead = globalJSBMLReadTime / 1000.0;
+    double nbSecondesValidating = globalJSBMLValidationTime / 1000.0;
+    double nbSecondes = nbSecondesRead + nbSecondesValidating;
+    
     if (exceptions.size() > 0) {
       System.out.println();
       printStrongHLine();
@@ -171,22 +181,31 @@ public class OfflineValidatorVersusLibsbmlTests {
         System.out.println();
         System.out.println();
       }
-      
     }
     
-    long end = Calendar.getInstance().getTimeInMillis();
-    double nbSecondes = (end - init) / 1000.0;
-    double nbSecondesRead = readTime / 1000.0;
-    double nbSecondesValidating = ((end - init) - readTime) / 1000.0;
+    System.out.println("Units validation was " + (ENABLE_UNITS_VALIDATION ? "on" : "off") + "\n\n");
 
     if (nbSecondes > 120) {
-      System.out.println("It took " + nbSecondes / 60 + " minutes.");
+      System.out.println("It took " + nbSecondes / 60 + " minutes for JSBML.");
     } else {
-      System.out.println("It took " + nbSecondes + " secondes.");
+      System.out.println("It took " + nbSecondes + " secondes for JSBML.");
     }
 
-    System.out.println("Reading: " + nbSecondesRead + " secondes.");
-    System.out.println("Validating: " + nbSecondesValidating + " secondes.");
+    System.out.println("Reading: " + nbSecondesRead + " secondes for JSBML (" + nbSecondesRead/totalFileTested + " mean per file).");
+    System.out.println("Validating: " + nbSecondesValidating + " secondes for JSBML (" + nbSecondesValidating/totalFileTested + " mean per file).\n");
+
+    nbSecondesRead = globalLibSBMLReadTime / 1000.0;
+    nbSecondesValidating = globalLibSBMLValidationTime / 1000.0;
+    nbSecondes = nbSecondesRead + nbSecondesValidating;
+    
+    if (nbSecondes > 120) {
+      System.out.println("It took " + nbSecondes / 60 + " minutes for LibSBML.");
+    } else {
+      System.out.println("It took " + nbSecondes + " secondes for LibSBML.");
+    }
+
+    System.out.println("Reading: " + nbSecondesRead + " secondes for LibSBML (" + nbSecondesRead/totalFileTested + " mean per file).");
+    System.out.println("Validating: " + nbSecondesValidating + " secondes for LibSBML (" + nbSecondesValidating/totalFileTested + " mean per file).");
 
     if (notDetectedFiles.size() > 0) {
       System.out.println("\nList of incorrectly detected constraints in the following files :\n");
@@ -274,21 +293,29 @@ public class OfflineValidatorVersusLibsbmlTests {
     try {
       long startRead = Calendar.getInstance().getTimeInMillis();
       SBMLDocument doc = new SBMLReader().readSBML(file);
-      readTime += (Calendar.getInstance().getTimeInMillis() - startRead);
+      
+      long endRead = Calendar.getInstance().getTimeInMillis();
 
       LoggingValidationContext ctx = getContext(doc);
-
       ctx.validate(doc);
+      
+      long endValidation = Calendar.getInstance().getTimeInMillis();
+      
       SBMLErrorLog log = ctx.getErrorLog();
 
       int errors = log.getNumErrors();
 
+      double readTime = endRead - startRead; 
+      globalJSBMLReadTime += readTime;
+      double validationTime = endValidation - endRead;
+      globalJSBMLValidationTime += validationTime;
+      
       boolean constraintBroken = false;
       Map<Integer, Integer> jsbmlErrorCount = new TreeMap<Integer, Integer>();
       Map<Integer, Integer> libsbmlErrorCount = new TreeMap<Integer, Integer>();
       HashSet<Integer> wronglyValidatedConstraintSet = new HashSet<Integer>();
       
-      System.out.println(errors + " constraints broken with the JSBML offline validator.");
+      System.out.println(errors + " constraints broken with the JSBML offline validator (" + readTime/1000 + "s to read, " + validationTime/1000 + "s to validate).");
       for (SBMLError e : log.getValidationErrors()) {
         int errorCode = e.getCode();
                 
@@ -324,11 +351,24 @@ public class OfflineValidatorVersusLibsbmlTests {
       }
       
       // do the validation with libsbml and count each errorCode
+      startRead = Calendar.getInstance().getTimeInMillis();
       org.sbml.libsbml.SBMLDocument ldoc = new org.sbml.libsbml.SBMLReader().readSBML(file.getAbsolutePath());
-      ldoc.setConsistencyChecks(libsbmlConstants.LIBSBML_CAT_UNITS_CONSISTENCY, true);
+      endRead = Calendar.getInstance().getTimeInMillis();
+      
+      if (ENABLE_UNITS_VALIDATION) {
+        ldoc.setConsistencyChecks(libsbmlConstants.LIBSBML_CAT_UNITS_CONSISTENCY, true);
+      } else {
+        ldoc.setConsistencyChecks(libsbmlConstants.LIBSBML_CAT_UNITS_CONSISTENCY, false);
+      }
       long lerrors = ldoc.checkConsistency();
-
-      System.out.println(lerrors + " constraints broken with the libSBML validator.\n");
+      endValidation = Calendar.getInstance().getTimeInMillis();
+      
+      readTime = endRead - startRead; 
+      globalLibSBMLReadTime += readTime;
+      validationTime = endValidation - endRead;
+      globalLibSBMLValidationTime += validationTime;
+      
+      System.out.println(lerrors + " constraints broken with the libSBML validator (" + readTime/1000 + "s to read, " + validationTime/1000 + "s to validate).\n");
 
       for (int i = 0; i < lerrors; i++) {
         org.sbml.libsbml.SBMLError error = ldoc.getError(i);
@@ -444,6 +484,9 @@ public class OfflineValidatorVersusLibsbmlTests {
     if (ctx == null) {
       ctx = new LoggingValidationContext(doc.getLevel(), doc.getVersion());
       ctx.enableCheckCategories(CHECK_CATEGORY.values(), true);
+      if (!ENABLE_UNITS_VALIDATION) {
+        ctx.enableCheckCategory(CHECK_CATEGORY.UNITS_CONSISTENCY, false);
+      }
       ctx.loadConstraints(SBMLDocument.class);
       contextCache.put(key, ctx);
     } else {
