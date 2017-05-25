@@ -57,8 +57,12 @@ public class OfflineValidatorVersusLibsbmlTests {
   /**
    * 
    */
-  private static boolean ENABLE_UNITS_VALIDATION = false;
+  private static boolean ENABLE_UNITS_VALIDATION = true;
   
+  /**
+   * The file size limit in kilobytes above which we don't do the validation
+   */
+  private static int FILE_SIZE_LIMIT = 15000;
   /**
    * This value should be set to true after the static block is executed
    * otherwise, there is not need to run this test !! You will need
@@ -191,8 +195,8 @@ public class OfflineValidatorVersusLibsbmlTests {
       System.out.println("It took " + nbSecondes + " secondes for JSBML.");
     }
 
-    System.out.println("Reading: " + nbSecondesRead + " secondes for JSBML (" + nbSecondesRead/totalFileTested + " mean per file).");
-    System.out.println("Validating: " + nbSecondesValidating + " secondes for JSBML (" + nbSecondesValidating/totalFileTested + " mean per file).\n");
+    System.out.println("Reading: " + nbSecondesRead + " seconds for JSBML (" + nbSecondesRead/totalFileTested + " mean per file).");
+    System.out.println("Validating: " + nbSecondesValidating + " seconds for JSBML (" + nbSecondesValidating/totalFileTested + " mean per file).\n");
 
     nbSecondesRead = globalLibSBMLReadTime / 1000.0;
     nbSecondesValidating = globalLibSBMLValidationTime / 1000.0;
@@ -204,8 +208,8 @@ public class OfflineValidatorVersusLibsbmlTests {
       System.out.println("It took " + nbSecondes + " secondes for LibSBML.");
     }
 
-    System.out.println("Reading: " + nbSecondesRead + " secondes for LibSBML (" + nbSecondesRead/totalFileTested + " mean per file).");
-    System.out.println("Validating: " + nbSecondesValidating + " secondes for LibSBML (" + nbSecondesValidating/totalFileTested + " mean per file).");
+    System.out.println("Reading: " + nbSecondesRead + " seconds for LibSBML (" + nbSecondesRead/totalFileTested + " mean per file).");
+    System.out.println("Validating: " + nbSecondesValidating + " seconds for LibSBML (" + nbSecondesValidating/totalFileTested + " mean per file).");
 
     if (notDetectedFiles.size() > 0) {
       System.out.println("\nList of incorrectly detected constraints in the following files :\n");
@@ -267,6 +271,13 @@ public class OfflineValidatorVersusLibsbmlTests {
         if (accept && filter != null) {
           accept = pathname.getName().matches(filter);
         }
+        
+        double fileSizeKB = pathname.length()/1024;
+        
+        if (fileSizeKB > FILE_SIZE_LIMIT) {
+          return false;
+        }
+        
         return accept;
       }
     });
@@ -288,7 +299,10 @@ public class OfflineValidatorVersusLibsbmlTests {
     String name = file.getName();
 
     printStrongHLine();
-    System.out.println("File: " + name);
+    
+    double fileSizeKB = file.length()/1024;
+    
+    System.out.println("File: " + name + " (size= " + fileSizeKB + "kb)");
 
     try {
       long startRead = Calendar.getInstance().getTimeInMillis();
