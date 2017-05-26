@@ -59,7 +59,10 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_20601);
-      set.add(CORE_20608);
+      
+      if (context.isEnabledCategory(CHECK_CATEGORY.UNITS_CONSISTENCY)) {
+        set.add(CORE_20608);
+      }
       set.add(CORE_20610);
       set.add(CORE_20614);
 
@@ -117,8 +120,6 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
     case OVERDETERMINED_MODEL:
       break;
     case UNITS_CONSISTENCY:
-
-      set.add(CORE_20608);
 
       if (level == 2 && version < 3)
       {
