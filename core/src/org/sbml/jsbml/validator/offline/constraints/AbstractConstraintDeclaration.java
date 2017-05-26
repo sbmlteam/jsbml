@@ -28,21 +28,28 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 /**
  * Abstract mother class for all constraints declarations.
+ * 
+ * <p>
  * ***IMPORTANT***
  * Every constraints declarations must provide the empty constructor!!!
+ * </p>
  * 
  * @author Roman
+ * @author rodrigue
  * @since 1.2
- * @date 02.08.2016
  */
 public abstract class AbstractConstraintDeclaration
 implements ConstraintDeclaration, SBMLErrorCodes {
 
-  private static HashMap<String, SoftReference<ConstraintDeclaration>> instances_     =
+  /**
+   * Caches the {@link ConstraintDeclaration}s with SoftReferences
+   */
+  private static HashMap<String, SoftReference<ConstraintDeclaration>> instances     =
       new HashMap<String, SoftReference<ConstraintDeclaration>>();
 
   /**
@@ -54,23 +61,34 @@ implements ConstraintDeclaration, SBMLErrorCodes {
   /**
    * Stores class names which didn't have a constraint declaration
    */
-  private static Set<String>                                           classBlacklist =
-      new HashSet<String>();
+  private static Set<String> classBlacklist = new HashSet<String>();
 
   /**
    * Log4j logger
    */
-  protected static final transient Logger                              logger         =
-      Logger.getLogger(AbstractConstraintDeclaration.class);
+  protected static final transient Logger logger = Logger.getLogger(AbstractConstraintDeclaration.class);
 
 
+  /**
+   * Gets a {@link ConstraintDeclaration} corresponding to the given class name.
+   * 
+   * <p>A class has to exits in the package "org.sbml.jsbml.validator.offline.constraints"
+   * and the class name has to be the given {@code className} + 'Constraints'.</p>
+   * 
+   * <p>If not corresponding constraint class is found, {@code null} will be returned
+   * and the given {@code className} will be put into a black list so that we don't try
+   * again to search a {@link ConstraintDeclaration} for this class.</p>
+   * 
+   * @param className a class name
+   * @return a {@link ConstraintDeclaration} corresponding to the given class name or null.
+   */
   public static ConstraintDeclaration getInstance(String className) {
 
     if (classBlacklist.contains(className)) {
       return null;
     }
 
-    SoftReference<ConstraintDeclaration> ref = instances_.get(className);
+    SoftReference<ConstraintDeclaration> ref = instances.get(className);
     ConstraintDeclaration declaration = null;
 
     // Tries to retrieve declaration from cache
@@ -84,16 +102,13 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
       try {
         @SuppressWarnings("unchecked")
-        Class<ConstraintDeclaration> c =
-        (Class<ConstraintDeclaration>) Class.forName(
-          "org.sbml.jsbml.validator.offline.constraints." + constraintsClass);
+        Class<ConstraintDeclaration> c = (Class<ConstraintDeclaration>) Class.forName("org.sbml.jsbml.validator.offline.constraints." + constraintsClass);
 
         declaration = c.newInstance();
-        instances_.put(className,
-          new SoftReference<ConstraintDeclaration>(declaration));
+        instances.put(className, new SoftReference<ConstraintDeclaration>(declaration));
+        
       } catch (Exception e) {
-        logger.debug(
-          "Couldn't find ConstraintsDeclaration: " + constraintsClass);
+        logger.debug("Couldn't find ConstraintsDeclaration: " + constraintsClass);
         classBlacklist.add(className);
       }
     }
@@ -103,12 +118,12 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
 
   @Override
-  public <T> ConstraintGroup<T> createConstraints(int[] errorCodes) {
+  public <T> ConstraintGroup<T> createConstraints(int[] errorCodes, ValidationContext context) {
     ConstraintGroup<T> group = new ConstraintGroup<T>();
 
     for (int errorCode : errorCodes) {
       @SuppressWarnings("unchecked")
-      AnyConstraint<T> c = (AnyConstraint<T>) this.createConstraint(errorCode);
+      AnyConstraint<T> c = (AnyConstraint<T>) this.createConstraint(errorCode, context);
 
       if (c != null) {
         group.add(c);
@@ -121,45 +136,45 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
   @Override
   public AnyConstraint<?> createConstraints(int level, int version,
-    CHECK_CATEGORY category) {
-    // TODO Auto-generated method stub
+    CHECK_CATEGORY category, ValidationContext context) 
+  {
     CHECK_CATEGORY[] cats = {category};
-    return this.createConstraints(level, version, cats);
+    return this.createConstraints(level, version, cats, context);
   }
 
 
   @Override
   public <T> ConstraintGroup<T> createConstraints(int level, int version,
-    String attributeName) {
+    String attributeName, ValidationContext context) {
 
     Set<Integer> set = new HashSet<Integer>();
 
-    this.addErrorCodesForAttribute(set, level, version, attributeName);
+    this.addErrorCodesForAttribute(set, level, version, attributeName, context);
 
     int[] array = convertToArray(set);
 
-    return this.createConstraints(array);
+    return this.createConstraints(array, context);
   }
 
 
   @Override
   public <T> ConstraintGroup<T> createConstraints(int level, int version,
-    CHECK_CATEGORY[] categories) {
+    CHECK_CATEGORY[] categories, ValidationContext context) {
 
     Set<Integer> set = new HashSet<Integer>();
 
     for (CHECK_CATEGORY cat : categories) {
-      this.addErrorCodesForCheck(set, level, version, cat);
+      this.addErrorCodesForCheck(set, level, version, cat, context);
     }
 
     int[] array = convertToArray(set);
 
-    return this.createConstraints(array);
+    return this.createConstraints(array, context);
   }
 
 
   @Override
-  public <T> AnyConstraint<T> createConstraint(int errorCode) {
+  public <T> AnyConstraint<T> createConstraint(int errorCode, ValidationContext context) {
 
     @SuppressWarnings("unchecked")
     AnyConstraint<T> c = (AnyConstraint<T>) this.getFromCache(errorCode);
@@ -167,7 +182,7 @@ implements ConstraintDeclaration, SBMLErrorCodes {
     if (c == null) {
       @SuppressWarnings("unchecked")
       ValidationFunction<T> func =
-      (ValidationFunction<T>) getValidationFunction(errorCode);
+      (ValidationFunction<T>) getValidationFunction(errorCode, context);
 
       c = (func != null) ? new ValidationConstraint<T>(errorCode, func) : null;
 
@@ -178,6 +193,15 @@ implements ConstraintDeclaration, SBMLErrorCodes {
   }
 
 
+  /**
+   * Adds a range of integers to the given {@link Set}.
+   * 
+   * <p>Adds all the integers between {@code from} and {@code to}</p>
+   * 
+   * @param set the set where to add integers
+   * @param from the first integer to be added 
+   * @param to the last integer to be added
+   */
   protected void addRangeToSet(Set<Integer> set, int from, int to) {
     for (int i = from; i <= to; i++) {
       set.add(i);
@@ -185,6 +209,12 @@ implements ConstraintDeclaration, SBMLErrorCodes {
   }
 
 
+  /**
+   * Converts the given {@link Set} into a java array.
+   * 
+   * @param set the set to convert
+   * @return a java array that contains all the elements from the set.
+   */
   protected int[] convertToArray(Set<Integer> set) {
     int[] out = new int[set.size()];
     Iterator<Integer> iter = set.iterator();
@@ -197,23 +227,40 @@ implements ConstraintDeclaration, SBMLErrorCodes {
   }
 
 
+  /**
+   * Gets a constraint from the cache.
+   * 
+   * @param errorCode the error code
+   * @return a constraint from the cache or null if a constraint is not found 
+   * for the given error code or if the constraint was cleared from the cache 
+   */
   protected AnyConstraint<?> getFromCache(int errorCode) {
     Integer key = new Integer(errorCode);
-    SoftReference<AnyConstraint<?>> ref =
-        AbstractConstraintDeclaration.cache.get(key);
+    SoftReference<AnyConstraint<?>> ref = AbstractConstraintDeclaration.cache.get(key);
+    
     if (ref != null) {
       AnyConstraint<?> c = (ref.get());
       // If the constraint was cleared, the reference in the
       // HashMap can be removed.
       if (c == null) {
-        AbstractConstraintDeclaration.cache.remove(key);
+        AbstractConstraintDeclaration.cache.remove(key); // TODO - check - The key used here is not the same as on the method addToCache ! 
       }
       return c;
     }
+    
     return null;
   }
 
 
+  /**
+   * Adds the given constraint to the cache.
+   * 
+   * <p>The name of the key in the cache is the class name
+   * without 'Constraints' and the error code concatenated together.</p>
+   * 
+   * @param errorCode the error code
+   * @param constraint the constraint to add to the cache
+   */
   protected void addToCache(Integer errorCode, AnyConstraint<?> constraint) {
 
     if (constraint == null || errorCode < 0
@@ -221,23 +268,14 @@ implements ConstraintDeclaration, SBMLErrorCodes {
       return;
     }
 
-    SoftReference<AnyConstraint<?>> ref =
-        new SoftReference<AnyConstraint<?>>(constraint);
+    SoftReference<AnyConstraint<?>> ref = new SoftReference<AnyConstraint<?>>(constraint);
     
     String thisName = this.getClass().getSimpleName();
     String removeWord = "Constraints";
     
     String className = thisName.substring(0, thisName.length() - removeWord.length());
+    
     AbstractConstraintDeclaration.cache.put(className + errorCode, ref);
   }
   
-  /**
-   * Returns the {@link ValidationFunction} of the error code, if it's defined
-   * in this {@link ConstraintDeclaration}
-   * 
-   * @param errorCode
-   * @return the {@link ValidationFunction} or <code>null</code> if not defined
-   *         in this {@link ConstraintDeclaration}
-   */
-  abstract ValidationFunction<?> getValidationFunction(int errorCode);
 }

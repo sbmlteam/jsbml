@@ -41,7 +41,6 @@ import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 /**
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 public class KineticLawConstraints extends AbstractConstraintDeclaration {
 
@@ -55,7 +54,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
   
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
+    int version, String attributeName, ValidationContext context) {
     // TODO Auto-generated method stub
 
   }
@@ -63,7 +62,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category, ValidationContext context) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
@@ -134,7 +133,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
 
   @Override
   @SuppressWarnings("deprecation")
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<KineticLaw> func = null;
 
     switch (errorCode) {
