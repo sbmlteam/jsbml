@@ -341,6 +341,17 @@ public class ValidationContext {
 
 
   /**
+   * Returns true if the given {@link CHECK_CATEGORY} is enabled in this {@link ValidationContext}.
+   * 
+   * @param checkCategory the check category
+   * @return true if the given {@link CHECK_CATEGORY} is enabled in this {@link ValidationContext}.
+   */
+  public boolean isEnabledCategory(CHECK_CATEGORY checkCategory) {
+    return categories.contains(checkCategory);
+  }
+  
+
+  /**
    * Checks if the level and version of this context is less then the given
    * level and version. A level and version pair is less if either the level
    * is smaller or the level is equal but the version is smaller.
@@ -442,8 +453,8 @@ public class ValidationContext {
    * Sets the level/version and clears the root constraint if one of these
    * values differs from the current values.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public void setLevelAndVersion(int level, int version) {
     if (level != this.level || version != this.version) {
@@ -455,8 +466,12 @@ public class ValidationContext {
   }
 
 
-  public void setRootConstraint(AnyConstraint<Object> rootConstraint,
-    Class<?> constraintType) {
+  /**
+   * 
+   * @param rootConstraint
+   * @param constraintType
+   */
+  public void setRootConstraint(AnyConstraint<Object> rootConstraint, Class<?> constraintType) {
 
     logger.debug("Set type to " + constraintType.getSimpleName());
     this.rootConstraint = rootConstraint;
@@ -465,10 +480,12 @@ public class ValidationContext {
 
 
   /**
-   * If set to true, the validation context will try to validate also the childs
-   * of a TreeNode interface.
+   * Sets the recursivity of the validation.
    * 
-   * @param recursive
+   * <p>If set to true, the validation context will try to validate also the child
+   * of a {@link TreeNode} instance.</p>
+   * 
+   * @param recursive boolean to indicate if the validation should be recursive or not
    */
   public void setValidateRecursively(boolean recursive) {
 
@@ -478,9 +495,9 @@ public class ValidationContext {
 
 
   /**
-   * Set the version of the context and clears the root constraint.
+   * Sets the version of the context and clears the root constraint.
    * 
-   * @param version
+   * @param version the SBML version
    */
   public void setVersion(int version) {
     setLevelAndVersion(this.level, version);
@@ -490,8 +507,7 @@ public class ValidationContext {
   /**
    * Validates the object against the loaded constraints.
    * 
-   * @param o,
-   *        object to be validated
+   * @param o object to be validated
    * @return true if no constraint was broken
    */
   public boolean validate(Object o) {
@@ -501,12 +517,11 @@ public class ValidationContext {
 
   /**
    * Validates the object with the loaded constraints and clears the HashMap
-   * afterwards if the clearMap is set <code>true</code>.
+   * afterwards if the clearMap is set to <code>true</code>.
    * 
-   * @param o
-   * @param clearMap,
-   *        clears HashMap after validation
-   * @return
+   * @param o the object to validate
+   * @param clearMap boolean to indicate if we need to clear the context after validation
+   * @return <code>true</code> if the object passed successfully validation.
    */
   public boolean validate(Object o, boolean clearMap) {
     if (this.constraintType != null) {
@@ -544,15 +559,18 @@ public class ValidationContext {
 
 
   /**
-   * Will be called every time before a constraints starts his tests.
+   * Allows a {@link ValidationListener} to perform some operation before
+   * a constraint is called.
    * 
-   * @param constraint
-   * @param o
+   * <p>This method will be called every time before a constraints starts its tests.</p>
+   * 
+   * @param constraint the constraint that will be called
+   * @param o the object on which the constraint will be called
    */
   public void willValidate(AnyConstraint<?> constraint, Object o) {
     for (ValidationListener l : this.listener) {
       l.willValidate(this, constraint, o);
     }
   }
-  
+
 }
