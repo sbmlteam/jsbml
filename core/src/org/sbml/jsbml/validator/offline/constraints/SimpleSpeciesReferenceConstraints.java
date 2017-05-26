@@ -37,7 +37,7 @@ public class SimpleSpeciesReferenceConstraints
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
+    int version, String attributeName, ValidationContext context) {
     // TODO Auto-generated method stub
 
   }
@@ -45,7 +45,7 @@ public class SimpleSpeciesReferenceConstraints
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category, ValidationContext context) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
@@ -74,7 +74,7 @@ public class SimpleSpeciesReferenceConstraints
 
 
   @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<SimpleSpeciesReference> func = null;
 
     switch (errorCode) {

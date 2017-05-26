@@ -34,7 +34,7 @@ public class IndexConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-      CHECK_CATEGORY category) 
+      CHECK_CATEGORY category, ValidationContext context) 
   {
     switch (category) {
     case GENERAL_CONSISTENCY:
@@ -62,7 +62,7 @@ public class IndexConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-      int version, String attributeName) {
+      int version, String attributeName, ValidationContext context) {
     // TODO Auto-generated method stub
     
   }
@@ -70,7 +70,7 @@ public class IndexConstraints extends AbstractConstraintDeclaration {
   // TODO - create a cache so that we don't run the constraint several time
   
   @Override
-  ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<Index> func = null;
 
     switch (errorCode) {

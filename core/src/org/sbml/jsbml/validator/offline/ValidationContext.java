@@ -35,27 +35,28 @@ import org.sbml.jsbml.validator.offline.factory.ConstraintFactory;
 
 /**
  * A {@link ValidationContext} object is used to perform offline validation.
+ * 
  * <p>
  * To prepare the context for the validation use the
  * {@link ValidationContext#loadConstraints(Class)} method, which will loads all
  * the required constraints to validate a object from this class. By default the
  * context will try to validate recursive by searching for the {@link TreeNode}
  * interface. This behavior can be changed with
- * {@link ValidationContext#setValidateRecursively(boolean)}.
+ * {@link ValidationContext#setValidateRecursively(boolean)}.</p>
  * <p>
  * To start the validation process call
  * {@link ValidationContext#validate(Object)} with a object which is a instance
  * of the class for which the constraints were loaded. If not constraints were
  * loaded or the object doesn't match the class, no validation process is
- * started.
+ * started.</p>
  * <p>
  * To track the validation process in real-time you can add a
  * {@link ValidationListener} to this context by using the
- * {@link ValidationContext#addValidationListener(ValidationListener)} method.
+ * {@link ValidationContext#addValidationListener(ValidationListener)} method.</p>
  * <p>
  * The level and version parameter determine which SBML specifications are used.
  * For more informations look up <a href="http://www.sbml.org"> sbml.org </a>
- * <p>
+ * </p>
  * 
  * @author Roman
  * @since 1.2
@@ -82,6 +83,8 @@ public class ValidationContext {
   private int                             level;
   private int                             version;
   private boolean                         recursiv = true;
+  
+  // TODO - package version for all packages - if not given, take latest version ? 
 
 
   public ValidationContext(int level, int version) {
@@ -234,7 +237,7 @@ public class ValidationContext {
 
     AnyConstraint<Object> c =
       (AnyConstraint<Object>) factory.getConstraintsForAttribute(clazz,
-        attributeName, this.level, this.version);
+        attributeName, this.level, this.version, this);
 
     this.setRootConstraint(c, clazz);
   }

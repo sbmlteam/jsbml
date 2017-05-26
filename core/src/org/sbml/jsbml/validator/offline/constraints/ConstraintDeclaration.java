@@ -24,17 +24,20 @@ import java.util.Set;
 
 import org.sbml.jsbml.SBMLError.SEVERITY;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 
 /**
- * Basic interface for constraint declarations. If you want to provide
+ * Interface for constraint declarations.
+ * 
+ * <p>If you want to provide
  * constraints for a custom class, consider to inherit from
  * {@link AbstractConstraintDeclaration} instead. This abstract class has
- * already a working implementation of most of the methods and supports caching
+ * already a working implementation of most of the methods and supports caching.</p>
  * 
  * @see AbstractConstraintDeclaration
  * @author Roman
+ * @author rodrigue
  * @since 1.2
- * @date 04.08.2016
  */
 public interface ConstraintDeclaration {
 
@@ -42,30 +45,32 @@ public interface ConstraintDeclaration {
    * Creates all the constraints which are needed to validate the categories
    * in the given level and version of SBML.
    * 
-   * @param level
-   * @param version
-   * @param categories
+   * @param level the sbml level
+   * @param version the sbml version
+   * @param categories the check categories
+   * @param context the validation context
    * @return A {@link ConstraintGroup} with at least 1 member or
    *         <code>null</code> if no constraint was loaded
-   * @see #createConstraints(int, int, CHECK_CATEGORY)
+   * @see #createConstraints(int, int, CHECK_CATEGORY, ValidationContext)
    */
-  abstract public <T> ConstraintGroup<T> createConstraints(int level,
-    int version, CHECK_CATEGORY[] categories);
+  public <T> ConstraintGroup<T> createConstraints(int level,
+    int version, CHECK_CATEGORY[] categories, ValidationContext context);
 
 
   /**
    * Creates all the constraints which are needed to validate this category
    * in the given level and version of SBML.
    * 
-   * @param level
-   * @param version
-   * @param categories
+   * @param level the sbml level
+   * @param version the sbml version
+   * @param category the check category
+   * @param context the validation context
    * @return A {@link ConstraintGroup} with at least 1 member or
    *         <code>null</code> if no constraint was loaded
-   * @see #createConstraints(int, int, CHECK_CATEGORY[])
+   * @see #createConstraints(int, int, CHECK_CATEGORY[], ValidationContext)
    */
-  abstract public AnyConstraint<?> createConstraints(int level, int version,
-    CHECK_CATEGORY category);
+  public AnyConstraint<?> createConstraints(int level, int version,
+    CHECK_CATEGORY category, ValidationContext context);
 
 
   /**
@@ -74,61 +79,75 @@ public interface ConstraintDeclaration {
    * which refer to a error with severities {@link SEVERITY#ERROR} or
    * {@link SEVERITY#FATAL}.
    * 
-   * @param level
-   * @param version
-   * @param categories
+   * @param level the sbml level
+   * @param version the sbml version
+   * @param attributeName the attribute name
+   * @param context the validation context
    * @return A {@link ConstraintGroup} with at least 1 member or
    *         <code>null</code> if no constraint was loaded
-   * @see #createConstraints(int, int, CHECK_CATEGORY[])
+   * @see #createConstraints(int, int, CHECK_CATEGORY[], ValidationContext)
    */
-  abstract public <T> ConstraintGroup<T> createConstraints(int level,
-    int version, String attributeName);
+  public <T> ConstraintGroup<T> createConstraints(int level,
+    int version, String attributeName, ValidationContext context);
 
 
   /**
    * Adds all error codes which are needed for a check in this category to the
    * set.
    * 
-   * @param set
-   * @param level
-   * @param version
-   * @param category
+   * @param set the {@link Set} of error codes for the given category.
+   * @param level the sbml level
+   * @param version the sbml version
+   * @param category the category to check
+   * @param context the validation context
    */
-  abstract public void addErrorCodesForCheck(Set<Integer> set, int level,
-    int version, CHECK_CATEGORY category);
-
+  public void addErrorCodesForCheck(Set<Integer> set, int level,
+    int version, CHECK_CATEGORY category, ValidationContext context);
 
   /**
    * Adds all error codes which are needed for a check the attribute to the
    * set.
    * 
-   * @param set
-   * @param level
-   * @param version
-   * @param category
+   * @param set the {@link Set} of error codes for the given category.
+   * @param level the sbml level
+   * @param version the sbml version
+   * @param attributeName the attribute name
+   * @param context the validation context
    */
-  abstract public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName);
-
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName, ValidationContext context);
 
   /**
-   * Tries to create the constraints with the given error codes
+   * Creates the constraints with the given error codes.
    * 
-   * @param errorCodes
+   * @param errorCodes an array of error codes
+   * @param context the validation context
    * @return A {@link ConstraintGroup} with at least 1 member or
    *         <code>null</code> if no constraint was loaded
-   * @see #createConstraint(int)
+   * @see #createConstraint(int, ValidationContext)
    */
-  abstract public <T> ConstraintGroup<T> createConstraints(int[] errorCodes);
+  public <T> ConstraintGroup<T> createConstraints(int[] errorCodes, ValidationContext context);
 
 
   /**
-   * Tries to create the constraint with the given error code
+   * Creates the constraint with the given error code.
    * 
-   * @param errorCode
+   * @param errorCode the error code
+   * @param context the validation context
    * @return @link AnyConstraint} or
    *         <code>null</code> if no constraint was loaded
-   * @see #createConstraint(int)
    */
-  abstract public <T> AnyConstraint<T> createConstraint(int errorCode);
+  public <T> AnyConstraint<T> createConstraint(int errorCode, ValidationContext context);
+  
+  /**
+   * Returns the {@link ValidationFunction} of the error code, if it's defined
+   * in this {@link ConstraintDeclaration}.
+   * 
+   * @param errorCode the error code
+   * @param context the validation context
+   * @return the {@link ValidationFunction} or <code>null</code> if not defined
+   *         in this {@link ConstraintDeclaration}
+   */
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context);
+
 }

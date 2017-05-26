@@ -52,14 +52,14 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
   protected static final boolean isDebugEnabled = logger.isDebugEnabled();
   
   @Override
-  public void addErrorCodesForAttribute(Set<Integer> set, int level, int version, String attributeName) {
+  public void addErrorCodesForAttribute(Set<Integer> set, int level, int version, String attributeName, ValidationContext context) {
     // no constraint for attributes
   }
 
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) 
+    CHECK_CATEGORY category, ValidationContext context) 
   {
     // always adding a ValidationFunction that is used to recursively validate the jsbml tree structure
     set.add(ID_VALIDATE_TREE_NODE);
@@ -67,7 +67,7 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
 
 
   @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<TreeNode> func = null;
 
     switch (errorCode) {

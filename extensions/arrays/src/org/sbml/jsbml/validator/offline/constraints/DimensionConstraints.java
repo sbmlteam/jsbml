@@ -23,7 +23,6 @@ import java.util.Set;
 
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.validator.constraints.DimensionSizeCheck;
-import org.sbml.jsbml.ext.arrays.validator.constraints.IndexArrayDimCheck;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
@@ -35,7 +34,7 @@ public class DimensionConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-      CHECK_CATEGORY category) 
+      CHECK_CATEGORY category, ValidationContext context) 
   {
     switch (category) {
     case GENERAL_CONSISTENCY:
@@ -62,7 +61,7 @@ public class DimensionConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-      int version, String attributeName) {
+      int version, String attributeName, ValidationContext context) {
     // TODO Auto-generated method stub
     
   }
@@ -70,7 +69,7 @@ public class DimensionConstraints extends AbstractConstraintDeclaration {
   // TODO - create a cache so that we don't run the constraint several time
   
   @Override
-  ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<Dimension> func = null;
 
     switch (errorCode) {

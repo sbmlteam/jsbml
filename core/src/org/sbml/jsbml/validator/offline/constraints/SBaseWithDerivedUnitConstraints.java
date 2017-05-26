@@ -24,11 +24,11 @@ import java.util.Set;
 
 import org.sbml.jsbml.SBaseWithDerivedUnit;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 
 /**
  * @author Roman
  * @since 1.2
- * @date 06.08.2016
  */
 public class SBaseWithDerivedUnitConstraints
   extends AbstractConstraintDeclaration {
@@ -41,7 +41,7 @@ public class SBaseWithDerivedUnitConstraints
    */
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category, ValidationContext context) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
@@ -69,7 +69,7 @@ public class SBaseWithDerivedUnitConstraints
    */
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
+    int version, String attributeName, ValidationContext context) {
     // TODO Auto-generated method stub
 
   }
@@ -81,7 +81,7 @@ public class SBaseWithDerivedUnitConstraints
    * getValidationFunction(int)
    */
   @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<SBaseWithDerivedUnit> func = null;
 
     switch (errorCode) {
