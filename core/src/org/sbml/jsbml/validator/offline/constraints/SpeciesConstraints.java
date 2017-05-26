@@ -90,10 +90,9 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           set.add(CORE_20615);
         }
       }
-      else if (level == 3)
+      else if (level >= 3)
       {
         set.add(CORE_20609);
-        set.add(CORE_20616);
         set.add(CORE_20617);
         set.add(CORE_20623);
         set.add(CORE_20705);
@@ -128,6 +127,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
       if (level > 2)
       {
+        set.add(CORE_20616);
         set.add(CORE_99508);
       }
 

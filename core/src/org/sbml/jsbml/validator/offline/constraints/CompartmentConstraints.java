@@ -62,10 +62,9 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
           set.add(CORE_20510);
         }
       }
-      else if (level == 3)
+      else if (level >= 3)
       {
         set.add(CORE_20517);
-        addRangeToSet(set, CORE_20511, CORE_20513);
       }
 
       break;
@@ -99,6 +98,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
       if (level > 2)
       {
+        addRangeToSet(set, CORE_20511, CORE_20513);
         set.add(CORE_20518);
         set.add(CORE_99508);
       }
