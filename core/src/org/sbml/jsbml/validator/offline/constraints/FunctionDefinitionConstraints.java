@@ -426,7 +426,7 @@ extends AbstractConstraintDeclaration {
           if (math != null && math.isLambda())
           {
             ASTNode body = fd.getBody();  
-            return body != null && !body.isVariable();
+            return body != null;
           }
 
           return true;
