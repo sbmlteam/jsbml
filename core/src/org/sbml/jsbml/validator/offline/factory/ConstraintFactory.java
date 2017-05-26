@@ -69,7 +69,7 @@ public class ConstraintFactory {
   public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz, ValidationContext ctx) {
 
     return this.getConstraintsForClass(clazz, ctx.getCheckCategories(),
-      ctx.getLevel(), ctx.getVersion());
+      ctx.getLevel(), ctx.getVersion(), ctx);
   }
 
 
@@ -80,10 +80,10 @@ public class ConstraintFactory {
    * @return
    */
   public <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz,
-    CHECK_CATEGORY[] categories, int level, int version) {
+    CHECK_CATEGORY[] categories, int level, int version, ValidationContext context) {
     Set<Class<?>> set = new HashSet<Class<?>>();
 
-    return getConstraintsForClass(clazz, categories, level, version, set);
+    return getConstraintsForClass(clazz, categories, level, version, set, context);
   }
 
 
@@ -94,8 +94,7 @@ public class ConstraintFactory {
    * @return
    */
   private <T> ConstraintGroup<T> getConstraintsForClass(Class<?> clazz,
-    CHECK_CATEGORY[] categories, int level, int version,
-    Set<Class<?>> collectedClasses) {
+    CHECK_CATEGORY[] categories, int level, int version, Set<Class<?>> collectedClasses, ValidationContext context) {
 
     if (collectedClasses.contains(clazz)) {
       // Already collected
@@ -108,7 +107,7 @@ public class ConstraintFactory {
 
     for (Class<?> inf : clazz.getInterfaces()) {
       ConstraintGroup<T> c = this.getConstraintsForClass(inf, categories, level,
-        version, collectedClasses);
+        version, collectedClasses, context);
 
       if (c != null) {
         group.add(c);
@@ -119,7 +118,7 @@ public class ConstraintFactory {
     if (superclass != null) {
 
       ConstraintGroup<T> c = this.getConstraintsForClass(superclass, categories,
-        level, version, collectedClasses);
+        level, version, collectedClasses, context);
 
       if (c != null) {
         group.add(c);
@@ -136,7 +135,7 @@ public class ConstraintFactory {
     if (declaration != null) {
 
       ConstraintGroup<T> c =
-        declaration.createConstraints(level, version, categories);
+        declaration.createConstraints(level, version, categories, context);
       group.add(c);
     }
 
@@ -153,11 +152,11 @@ public class ConstraintFactory {
    * @return
    */
   public <T> ConstraintGroup<T> getConstraintsForAttribute(Class<?> clazz, String attributeName,
-     int level, int version) {
+     int level, int version, ValidationContext context) {
     
     Set<Class<?>> set = new HashSet<Class<?>>();
 
-    return getConstraintsForAttribute(clazz, attributeName, level, version, set);
+    return getConstraintsForAttribute(clazz, attributeName, level, version, set, context);
   }
   
   /**
@@ -169,7 +168,7 @@ public class ConstraintFactory {
    * @return
    */
   public <T> ConstraintGroup<T> getConstraintsForAttribute(Class<?> clazz, String attributeName,
-     int level, int version, Set<Class<?>> collectedClasses) {
+     int level, int version, Set<Class<?>> collectedClasses, ValidationContext context) {
     
     
     if (collectedClasses.contains(clazz)) {
@@ -183,7 +182,7 @@ public class ConstraintFactory {
 
     for (Class<?> inf : clazz.getInterfaces()) {
       ConstraintGroup<T> c = this.getConstraintsForAttribute(inf, attributeName, level,
-        version, collectedClasses);
+        version, collectedClasses, context);
 
       group.add(c);
 
@@ -193,7 +192,7 @@ public class ConstraintFactory {
     if (superclass != null) {
 
       ConstraintGroup<T> c = this.getConstraintsForAttribute(superclass, attributeName,
-        level, version, collectedClasses);
+        level, version, collectedClasses, context);
 
       group.add(c);
 
@@ -205,7 +204,7 @@ public class ConstraintFactory {
     if (declaration != null) {
 
       ConstraintGroup<T> c =
-        declaration.createConstraints(level, version, attributeName);
+        declaration.createConstraints(level, version, attributeName, context);
       group.add(c);
     }
 

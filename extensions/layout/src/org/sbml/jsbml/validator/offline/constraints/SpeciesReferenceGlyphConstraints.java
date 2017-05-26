@@ -51,7 +51,7 @@ public class SpeciesReferenceGlyphConstraints extends AbstractConstraintDeclarat
    */
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) 
+    int version, String attributeName, ValidationContext context) 
   {
     // TODO - implement
 
@@ -62,7 +62,7 @@ public class SpeciesReferenceGlyphConstraints extends AbstractConstraintDeclarat
    */
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category, ValidationContext context) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
@@ -87,7 +87,7 @@ public class SpeciesReferenceGlyphConstraints extends AbstractConstraintDeclarat
 
 
   @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<SpeciesReferenceGlyph> func = null;
 
     switch (errorCode) {

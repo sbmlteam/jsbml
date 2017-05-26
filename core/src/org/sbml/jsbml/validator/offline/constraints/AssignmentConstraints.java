@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 
 /**
  * 
@@ -34,7 +35,7 @@ public abstract class AssignmentConstraints
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category, ValidationContext context) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
@@ -57,14 +58,14 @@ public abstract class AssignmentConstraints
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
+    int version, String attributeName, ValidationContext context) {
     // TODO Auto-generated method stub
 
   }
 
 
   @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<Assignment> func = null;
 
     switch (errorCode) {

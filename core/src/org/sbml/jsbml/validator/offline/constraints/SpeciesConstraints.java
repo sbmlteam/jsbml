@@ -48,14 +48,14 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
+    int version, String attributeName, ValidationContext context) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category, ValidationContext context) {
     switch (category) {
     case GENERAL_CONSISTENCY:
       set.add(CORE_20601);
@@ -137,7 +137,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
 
   @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<Species> func = null;
 
     switch (errorCode) {

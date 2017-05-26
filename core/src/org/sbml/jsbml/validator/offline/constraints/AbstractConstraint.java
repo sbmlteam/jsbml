@@ -21,7 +21,7 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 /**
- * Abstract generic mother class to for all the constraints. It provides a basic
+ * Abstract generic mother class for all the constraints. It provides a basic
  * implementation of {@link AnyConstraint#getErrorCode()}.
  * 
  * <p>Subclasses should set their own id by calling

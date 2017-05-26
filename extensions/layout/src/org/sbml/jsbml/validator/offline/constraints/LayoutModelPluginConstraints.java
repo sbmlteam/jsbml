@@ -47,7 +47,7 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
    */
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) 
+    int version, String attributeName, ValidationContext context) 
   {
     // TODO 
 
@@ -58,7 +58,7 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
    */
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category, ValidationContext context) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
@@ -83,7 +83,7 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
 
 
   @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<LayoutModelPlugin> func = null;
 
     switch (errorCode) {

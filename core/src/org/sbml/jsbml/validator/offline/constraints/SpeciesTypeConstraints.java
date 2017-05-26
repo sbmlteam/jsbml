@@ -1,6 +1,4 @@
 /*
- * $IdSpeciesTypeConstraints.java 18:02:41 roman $
- * $URLSpeciesTypeConstraints.java $
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -25,13 +23,13 @@ import java.util.Set;
 
 import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 
 
 /**
  * @author Roman
  * @since 1.2
- * @date 08.08.2016
  */
 @SuppressWarnings("deprecation")
 public class SpeciesTypeConstraints extends AbstractConstraintDeclaration {
@@ -41,7 +39,7 @@ public class SpeciesTypeConstraints extends AbstractConstraintDeclaration {
    */
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category, ValidationContext context) {
     switch (category) {
     case GENERAL_CONSISTENCY:
       break;
@@ -74,7 +72,7 @@ public class SpeciesTypeConstraints extends AbstractConstraintDeclaration {
    */
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
+    int version, String attributeName, ValidationContext context) {
     // TODO Auto-generated method stub
 
   }
@@ -84,7 +82,7 @@ public class SpeciesTypeConstraints extends AbstractConstraintDeclaration {
    * @see org.sbml.jsbml.validator.offline.constraints.AbstractConstraintDeclaration#getValidationFunction(int)
    */
   @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<SpeciesType> func = null;
     
     switch (errorCode) {

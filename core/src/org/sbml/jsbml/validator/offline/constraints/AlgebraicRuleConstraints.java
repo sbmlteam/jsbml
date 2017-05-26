@@ -24,18 +24,18 @@ import java.util.Set;
 
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 
 /**
  * @author Roman
  * @since 1.2
- * @date 05.08.2016
  */
 public class AlgebraicRuleConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category, ValidationContext context) {
     switch (category) {
     case GENERAL_CONSISTENCY:
       if (level > 2)
@@ -62,14 +62,14 @@ public class AlgebraicRuleConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
+    int version, String attributeName, ValidationContext context) {
     // TODO Auto-generated method stub
 
   }
 
 
   @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<AssignmentRule> func = null;
 
     switch (errorCode) {

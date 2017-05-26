@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.Priority;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
@@ -36,7 +37,7 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
+    int version, String attributeName, ValidationContext context) {
     // TODO Auto-generated method stub
     
   }
@@ -44,7 +45,7 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category, ValidationContext context) {
     switch (category) {
     case GENERAL_CONSISTENCY:
       if (level == 3)
@@ -70,7 +71,7 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
 
 
   @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<Priority> func = null;
 
     switch (errorCode) {

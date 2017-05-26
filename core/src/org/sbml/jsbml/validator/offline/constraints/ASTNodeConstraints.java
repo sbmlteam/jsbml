@@ -57,7 +57,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
    */
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category) {
+    CHECK_CATEGORY category, ValidationContext context) {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
@@ -108,7 +108,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
    */
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName) {
+    int version, String attributeName, ValidationContext context) {
     // TODO Auto-generated method stub
 
   }
@@ -121,7 +121,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
    */
   @Override
 
-  public ValidationFunction<?> getValidationFunction(int errorCode) {
+  public ValidationFunction<?> getValidationFunction(int errorCode, final ValidationContext context) {
     ValidationFunction<ASTNode> func = null;
 
     switch (errorCode) {
@@ -500,8 +500,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
             @SuppressWarnings("unchecked")
             ValidationFunction<ASTNode> f2 =
-              (ValidationFunction<ASTNode>) new ASTNodeConstraints().getValidationFunction(
-                CORE_10219);
+              (ValidationFunction<ASTNode>) new ASTNodeConstraints().getValidationFunction(CORE_10219, context);
 
             return f2.check(ctx, node);
           }
