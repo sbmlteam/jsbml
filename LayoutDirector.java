@@ -126,6 +126,11 @@ public class LayoutDirector<P> implements Runnable {
    */
   public static final String SPECIES_RELATIVE_DOCKING_POINT = "SPECIES_RELATIVE_DOCKING_POINT";
   
+  public static final Map<String,Double> rotationAngles = new HashMap<String,Double>();
+  /**
+   * checks, if the nodes are drawn again, to get the rotationAngles again
+   */
+  public static boolean fromRearrangeCycle = false;  
   /**
    * LayoutAlgorithm instance to compute missing information
    */
@@ -157,6 +162,7 @@ public class LayoutDirector<P> implements Runnable {
    * boolean value to be passed into layout glyph creation algorithms to add whiskers or not
    */
   private Boolean addWhiskers = true;
+  
   
   /**
    * @param inputFile file containing the SBML document
@@ -663,7 +669,9 @@ public class LayoutDirector<P> implements Runnable {
     // The responsible classes for rotation are LayoutBuilder and the ProcessNodeRealizier.
     // The first one only calculates the rotation angle, while the second one performs drawing.
     double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(reactionGlyph);
-    builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);
+    builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);  
+    System.out.println("Bin hier "+ reactionGlyph);
+    System.out.println("Drehung: " + rgRotationAngle);
     
     if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
       for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
