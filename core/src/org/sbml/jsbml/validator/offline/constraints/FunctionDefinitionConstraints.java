@@ -26,8 +26,11 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -402,10 +405,29 @@ extends AbstractConstraintDeclaration {
           {
             for (ASTNode n : body.getListOfNodes())
             {
-              // NAME_TIME not allowed
-              if (n.getType() == Type.NAME_TIME)
-              {
-                return false;
+              if (n != null) {
+                List<? extends TreeNode> timeNodes = n.filter(new Filter() {
+                  
+                  @Override
+                  public boolean accepts(Object o) {
+                    if (o instanceof ASTNode) {
+                      ASTNode node = (ASTNode) o;
+                      
+                      // NAME_TIME is found
+                      if (node.getType() == Type.NAME_TIME)
+                      {
+                        return true;
+                      }
+                    }
+                    
+                    return false;
+                  }
+                }, false, true);
+                
+                // NAME_TIME not allowed
+                if (timeNodes != null && timeNodes.size() > 0) {
+                  return false;
+                }
               }
             }
           }
