@@ -73,7 +73,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
     case MATHML_CONSISTENCY:
       break;
     case MODELING_PRACTICE:
-      if (level == 2 && version >= 4)
+      if (level >= 2)
       {
         set.add(CORE_80501);
       }
@@ -479,10 +479,14 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
           Model m = c.getModel();
 
-          if (m != null && c.getSpatialDimensions() != 0 && !c.isSetSize())
+          if (m != null && !c.isSetSize())
           {
+            if (c.isSetSpatialDimensions() && c.getSpatialDimensions() == 0) {
+              return true;
+            }
+            
             boolean sizeByAssignment = false;
-
+            
             if (c.isSetId())
             {
               sizeByAssignment = m.getInitialAssignmentBySymbol(c.getId()) != null;
