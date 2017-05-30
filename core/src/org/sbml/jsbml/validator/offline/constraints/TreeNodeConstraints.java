@@ -122,7 +122,11 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
 
                 if (sbasePlugin != null) {
                   ctx.loadConstraints(sbasePlugin.getClass());
+                  
+                  // We should not validate the children of SBasePlugin as there are already included in the previous children enumeration
+                  ctx.setValidateRecursively(false);
                   success = ctx.validate(sbasePlugin, false) && success;
+                  ctx.setValidateRecursively(true);
                 }
               }
             }
@@ -141,7 +145,11 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
 
                 if (astnodePlugin != null) {
                   ctx.loadConstraints(astnodePlugin.getClass());
+
+                  // We should not validate the children of ASTNodePlugin as there are already included in the main children enumeration
+                  ctx.setValidateRecursively(false);
                   success = ctx.validate(astnodePlugin, false) && success;
+                  ctx.setValidateRecursively(true);                  
                 }
               }
             }
