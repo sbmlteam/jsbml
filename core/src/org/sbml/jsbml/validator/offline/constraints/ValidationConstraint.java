@@ -31,7 +31,6 @@ import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
  * 
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  * @param <T>
  */
 public class ValidationConstraint<T> extends AbstractConstraint<T> {
