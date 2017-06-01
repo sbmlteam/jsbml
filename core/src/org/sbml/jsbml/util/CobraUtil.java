@@ -33,7 +33,6 @@ import org.sbml.jsbml.xml.XMLNode;
  *
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 public class CobraUtil {

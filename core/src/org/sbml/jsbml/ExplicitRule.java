@@ -31,9 +31,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * variable field of the underlying {@link Rule}.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-08-05
  * @since 0.8
- * @version $Rev$
  */
 public abstract class ExplicitRule extends Rule implements Assignment,
 SBaseWithUnit {

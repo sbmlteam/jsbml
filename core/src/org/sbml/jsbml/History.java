@@ -37,7 +37,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class History extends AnnotationElement {
   /**

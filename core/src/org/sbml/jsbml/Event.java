@@ -38,7 +38,6 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
  */
 public class Event extends AbstractNamedSBaseWithUnit implements
 UniqueNamedSBase {

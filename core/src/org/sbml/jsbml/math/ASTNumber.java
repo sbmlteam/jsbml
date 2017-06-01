@@ -25,9 +25,7 @@ package org.sbml.jsbml.math;
  * in a mathematical expression.
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 30, 2014
  */
 public abstract class ASTNumber extends AbstractASTNode {
 

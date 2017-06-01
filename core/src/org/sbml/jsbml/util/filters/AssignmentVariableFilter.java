@@ -28,7 +28,6 @@ import org.sbml.jsbml.Assignment;
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class AssignmentVariableFilter implements Filter {
 

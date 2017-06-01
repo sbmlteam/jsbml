@@ -45,10 +45,8 @@ import org.w3c.dom.Node;
  * 
  * @author Victor Kofia
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @param <T>
  * @since 1.0
- * @date Aug 2, 2014
  */
 @SuppressWarnings("deprecation")
 public class ASTNode2Value<T> {

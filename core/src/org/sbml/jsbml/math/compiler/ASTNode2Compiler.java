@@ -49,9 +49,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
  * 
  * @author Victor Kofia
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date Jun 9, 2014
  */
 public interface ASTNode2Compiler {
 

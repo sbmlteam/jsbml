@@ -23,7 +23,6 @@
  * and/or {@link org.sbml.jsbml.xml.parsers.WritingParser} to read or write some
  * specific parts of an SBML file.
  * 
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.xml.parsers;

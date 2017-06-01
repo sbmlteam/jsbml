@@ -21,7 +21,6 @@ package org.sbml.jsbml.util;
 
 /**
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class Detail {

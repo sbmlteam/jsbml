@@ -58,7 +58,6 @@ import org.xml.sax.helpers.DefaultHandler;
  * @see SAX2Parser
  * @see NodeWriter
  * @since 0.8
- * @version $Rev$
  */
 public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 

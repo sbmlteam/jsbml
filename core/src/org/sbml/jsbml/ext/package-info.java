@@ -23,7 +23,6 @@
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
  */
 package org.sbml.jsbml.ext;

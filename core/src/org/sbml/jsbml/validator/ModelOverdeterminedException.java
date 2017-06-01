@@ -25,7 +25,6 @@ package org.sbml.jsbml.validator;
  * 
  * @author Alexander D&ouml;rr
  * @since 0.8
- * @version $Rev$
  */
 public class ModelOverdeterminedException extends Exception {
 

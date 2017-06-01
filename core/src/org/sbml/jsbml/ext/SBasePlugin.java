@@ -35,7 +35,6 @@ import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
  * these new attributes or elements.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public interface SBasePlugin extends TreeNodeWithChangeSupport {

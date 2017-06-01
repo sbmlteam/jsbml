@@ -34,7 +34,6 @@ import org.apache.log4j.Logger;
  * 
  * @author Chen Li
  * @since 0.8
- * @version $Rev$
  */
 public class DateProcessor {
 

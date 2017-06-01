@@ -29,9 +29,7 @@ import org.sbml.jsbml.math.ASTNode2;
  * 
  * @author Andreas Dr&auml;ger
  * @author Victor Kofia
- * @date 2014-09-25
  * @since 0.8
- * @version $Rev$
  */
 public class UnitException extends SBMLException {
 

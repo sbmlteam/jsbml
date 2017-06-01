@@ -33,9 +33,7 @@ import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
  * An Abstract Syntax Tree (AST) node representing the power function
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 30, 2014
  */
 public class ASTPowerNode extends ASTBinaryFunctionNode {
 

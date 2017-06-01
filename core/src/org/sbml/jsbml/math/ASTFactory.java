@@ -39,9 +39,7 @@ import org.sbml.jsbml.math.parser.ParseException;
  * trees or alter the topology of existing ones.
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jun 20, 2014
  */
 public class ASTFactory {
 

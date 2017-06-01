@@ -46,9 +46,7 @@ import org.w3c.dom.Node;
  * string.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-05-18
  * @since 0.8
- * @version $Rev$
  * @deprecated use {@link MathMLXMLStreamCompiler} instead.
  */
 @Deprecated

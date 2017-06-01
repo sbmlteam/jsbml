@@ -27,7 +27,6 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public interface MathContainer extends SBaseWithDerivedUnit {
 

@@ -35,9 +35,7 @@ import java.util.regex.Pattern;
  * upon their first use.
  *
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 28.10.2014
  */
 public class SyntaxChecker {
 

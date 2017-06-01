@@ -58,7 +58,6 @@ import java.text.MessageFormat;
  * objects.
  * 
  * @since 0.8
- * @version $Rev$
  */
 public class XMLTriple implements Serializable {
 

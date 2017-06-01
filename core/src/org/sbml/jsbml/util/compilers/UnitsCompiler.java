@@ -39,9 +39,7 @@ import org.sbml.jsbml.util.Maths;
  * Derives the units from mathematical operations.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-05-20
  * @since 0.8
- * @version $Rev$
  */
 public class UnitsCompiler implements ASTNodeCompiler {
 

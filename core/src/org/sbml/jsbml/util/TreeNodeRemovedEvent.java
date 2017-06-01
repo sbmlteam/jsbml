@@ -44,9 +44,7 @@ import javax.swing.tree.TreeNode;
  * methods, namely {@link #getSource()} and {@link #getPreviousParent()}.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
- * @date 02.06.2012
  */
 public class TreeNodeRemovedEvent extends EventObject {
 

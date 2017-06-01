@@ -37,9 +37,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 /**
  * @author Andreas Dr&auml;ger
  * @author Florian Mittag
- * @version $Rev$
  * @since 1.0
- * @date 28.10.2011
  */
 public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SBasePlugin {
 

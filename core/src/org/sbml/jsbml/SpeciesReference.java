@@ -35,7 +35,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class SpeciesReference extends SimpleSpeciesReference implements
 Variable {

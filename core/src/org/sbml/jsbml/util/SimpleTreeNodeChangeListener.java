@@ -33,9 +33,7 @@ import org.sbml.jsbml.ASTNode;
  * all the events to the standard out stream.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-11-16
  * @since 0.8
- * @version $Rev$
  */
 public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener, Serializable {
 

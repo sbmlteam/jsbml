@@ -38,7 +38,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.2
  */
 public abstract class AbstractASTNodePlugin extends AbstractTreeNode implements ASTNodePlugin {

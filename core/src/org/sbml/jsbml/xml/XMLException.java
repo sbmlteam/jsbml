@@ -24,9 +24,7 @@ package org.sbml.jsbml.xml;
  * correctly.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-10-30
  * @since 0.8
- * @version $Rev$
  */
 public class XMLException extends RuntimeException {
 

@@ -30,7 +30,6 @@ package org.sbml.jsbml.text.parser;
  * long as you retain the public fields.
  * 
  * @since 0.8
- * @version $Rev$
  */
 public class ParseException extends Exception {
 

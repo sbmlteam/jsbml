@@ -22,7 +22,6 @@
  * Contains classes to deal with and to manage non-Java resources, such as
  * configuration files.
  * 
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.resources;

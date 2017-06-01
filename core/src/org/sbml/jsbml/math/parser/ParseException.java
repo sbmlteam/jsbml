@@ -33,7 +33,6 @@ import org.sbml.jsbml.math.parser.Token;
  * long as you retain the public fields.
  * 
  * @since 0.8
- * @version $Rev$
  */
 public class ParseException extends Exception {
 

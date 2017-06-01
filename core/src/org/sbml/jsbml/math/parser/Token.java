@@ -26,7 +26,6 @@ import org.sbml.jsbml.math.parser.Token;
 /**
  * Describes the input token stream.
  * @since 0.8
- * @version $Rev$
  */
 
 public class Token implements java.io.Serializable {

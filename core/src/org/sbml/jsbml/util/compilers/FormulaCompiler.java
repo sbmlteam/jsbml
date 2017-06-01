@@ -44,7 +44,6 @@ import org.sbml.jsbml.util.StringTools;
  * @author Alexander D&ouml;rr
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 
 /*

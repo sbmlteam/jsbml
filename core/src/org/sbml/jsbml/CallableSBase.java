@@ -32,9 +32,7 @@ package org.sbml.jsbml;
  * {@link LocalParameter} also belongs to these elements.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2011-02-15
  * @since 0.8
- * @version $Rev$
  */
 public interface CallableSBase extends NamedSBaseWithDerivedUnit {
 

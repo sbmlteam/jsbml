@@ -22,7 +22,6 @@
  * The classes in this package can be used to evaluate the information
  * represented by abstract syntax trees (ASTNode objects).
  * 
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.util.compilers;

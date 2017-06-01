@@ -25,7 +25,6 @@ package org.sbml.jsbml.math.parser;
  * An implementation of interface CharStream, where the stream is assumed to
  * contain only ASCII characters (without unicode processing).
  * @since 0.8
- * @version $Rev$
  */
 public class SimpleCharStream
 {
