@@ -29,9 +29,7 @@ import javax.xml.stream.XMLStreamException;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date Jun 30, 2014
  */
 public class CellDesignerTestAction extends AbstractCellDesignerPluginAction {
   /**

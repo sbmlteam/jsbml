@@ -35,9 +35,7 @@ import org.sbml.jsbml.math.ASTFactory;
  * Test cases for {@link ASTCnIntegerNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 25, 2014
  */
 public class ASTCnIntegerNodeTest {
 

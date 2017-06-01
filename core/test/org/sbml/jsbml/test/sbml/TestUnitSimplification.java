@@ -33,9 +33,7 @@ import org.sbml.jsbml.UnitDefinition;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 21.03.2012
  */
 public class TestUnitSimplification {
 

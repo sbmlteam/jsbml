@@ -38,9 +38,7 @@ import org.sbml.libsbml.libsbml;
 /**
  * 
  * @author  Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 15.12.2011
  */
 public class ReactionReadTest {
 

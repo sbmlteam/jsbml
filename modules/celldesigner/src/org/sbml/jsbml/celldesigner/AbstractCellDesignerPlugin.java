@@ -60,9 +60,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * synchronization between CellDesigner and corresponding JSBML data structures.
  *
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 13.02.2014
  */
 public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin implements Runnable {
 

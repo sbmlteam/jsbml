@@ -24,9 +24,7 @@ import org.sbml.jsbml.gui.JSBMLvisualizer;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 11.12.2014
  */
 public class libSBMLio_example {
 

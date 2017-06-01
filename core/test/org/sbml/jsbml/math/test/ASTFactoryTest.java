@@ -54,9 +54,7 @@ import org.sbml.jsbml.math.parser.ParseException;
  * Test cases for {@link ASTFactory}
  *
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 25, 2014
  */
 public class ASTFactoryTest {
 

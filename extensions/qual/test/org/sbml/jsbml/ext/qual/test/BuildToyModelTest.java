@@ -43,9 +43,7 @@ import org.sbml.jsbml.text.parser.ParseException;
 
 /**
  * @author Florian Mittag
- * @version $Rev$
  * @since 1.0
- * @date 27.10.2011
  */
 public class BuildToyModelTest {
 

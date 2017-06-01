@@ -27,9 +27,7 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
- * @date 26.03.2015
  */
 public class DistribInput extends AbstractNamedSBase {
 

@@ -37,7 +37,6 @@ import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * @author Alex Thomas
- * @version $Rev$
  * @since 1.0
  */
 public class RemoveFromParentTest {

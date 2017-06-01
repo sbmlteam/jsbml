@@ -40,7 +40,6 @@ import org.sbml.jsbml.CVTerm;
  * @author Sarah Keating
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class TestCVTerms {
 

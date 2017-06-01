@@ -26,9 +26,7 @@ import org.sbml.jsbml.*;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 11.12.2014
  */
 public class JSBMLvisualizer extends JFrame {
 

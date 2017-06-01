@@ -19,8 +19,6 @@
  */
 /**
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 25, 2014
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;

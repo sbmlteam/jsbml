@@ -29,7 +29,6 @@ import java.util.logging.*;
  * @file    LogFormatter.java
  * @brief   Class for formatting log messages.
  * @author  Michael Hucka
- * @date    Created in 2012, based on code written for the SBML Test Suite.
  */
 public class LogFormatter
 extends java.util.logging.Formatter

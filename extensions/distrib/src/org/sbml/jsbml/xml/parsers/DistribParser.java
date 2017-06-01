@@ -56,7 +56,6 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class DistribParser extends AbstractReaderWriter implements PackageParser {

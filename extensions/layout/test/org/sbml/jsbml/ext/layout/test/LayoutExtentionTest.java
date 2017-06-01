@@ -50,7 +50,6 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
  * 
  * @author Sebastian Fr&ouml;hlich
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  * 
  */

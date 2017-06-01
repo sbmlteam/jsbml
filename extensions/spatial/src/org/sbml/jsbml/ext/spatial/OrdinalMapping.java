@@ -32,7 +32,6 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * 
  * @author Alex Thomas
- * @version $Rev$
  * @since 0.8
  */
 public class OrdinalMapping extends AbstractSBase {

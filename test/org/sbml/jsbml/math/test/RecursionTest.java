@@ -37,9 +37,7 @@ import org.sbml.jsbml.text.parser.ParseException;
 /**
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 16.10.2014
  */
 public class RecursionTest {
 

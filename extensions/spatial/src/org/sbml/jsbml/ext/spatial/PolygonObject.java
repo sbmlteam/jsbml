@@ -31,9 +31,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Alex Thomas
- * @version $Rev$
  * @since 1.0
- * @date Jan 21, 2014
  * @deprecated
  */
 @Deprecated

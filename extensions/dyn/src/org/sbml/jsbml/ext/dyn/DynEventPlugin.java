@@ -32,7 +32,6 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * @author Harold G&oacute;mez
  * @since 1.0
- * @version $Rev$
  */
 public class DynEventPlugin extends DynSBasePlugin {
 

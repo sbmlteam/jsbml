@@ -35,9 +35,7 @@ import org.sbml.jsbml.util.SubModel;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 0.8
- * @date 27.10.2011
  */
 public class SubModelTest {
 

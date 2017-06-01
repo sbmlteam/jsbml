@@ -24,7 +24,6 @@ package org.sbml.jsbml.ext.spatial;
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @author Piero Dalle Pezze
- * @version $Rev: 2216 $
  * @since 1.0
  */
 public enum InterpolationKind {

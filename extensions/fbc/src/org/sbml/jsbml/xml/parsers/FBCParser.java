@@ -67,7 +67,6 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 @SuppressWarnings("deprecation")
 @ProviderFor(ReadingParser.class)

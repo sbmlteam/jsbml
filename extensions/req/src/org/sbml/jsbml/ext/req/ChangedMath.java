@@ -54,7 +54,6 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * distribution (something impossible with Math).
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class ChangedMath extends AbstractNamedSBase {

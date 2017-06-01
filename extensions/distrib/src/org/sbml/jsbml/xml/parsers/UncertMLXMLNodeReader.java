@@ -43,7 +43,6 @@ import org.sbml.jsbml.xml.XMLTriple;
  * 
  * @author Nicolas Rodriguez
  * @since 1.1
- * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class UncertMLXMLNodeReader extends XMLNodeReader {

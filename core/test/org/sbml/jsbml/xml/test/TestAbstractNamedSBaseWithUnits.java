@@ -33,9 +33,7 @@ import org.sbml.jsbml.UnitDefinition;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
- * @date 27.10.2011
  */
 public class TestAbstractNamedSBaseWithUnits {
 

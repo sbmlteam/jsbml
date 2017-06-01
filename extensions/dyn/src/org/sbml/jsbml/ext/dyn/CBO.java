@@ -67,7 +67,6 @@ import org.sbml.jsbml.resources.Resource;
  * 
  * @author Harold G&oacute;mez
  * @since 1.0
- * @version $Rev$
  */
 public class CBO {
   /**

@@ -31,7 +31,6 @@ import org.sbml.jsbml.ext.render.RenderCubicBezier;
  * @author Ibrahim Vazirabad
  * @version 1771
  * @since 1.0
- * @date Jun 1, 2014
  */
 public class RenderCubicBezierTest {
 

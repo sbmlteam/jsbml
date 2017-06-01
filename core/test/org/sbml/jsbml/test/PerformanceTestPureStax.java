@@ -45,7 +45,6 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class PerformanceTestPureStax {

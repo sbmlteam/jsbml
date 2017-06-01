@@ -42,7 +42,6 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * children.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class ReqSBasePlugin extends AbstractSBasePlugin {

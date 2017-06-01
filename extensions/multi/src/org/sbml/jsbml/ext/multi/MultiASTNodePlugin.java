@@ -30,7 +30,6 @@ import org.sbml.jsbml.ext.AbstractASTNodePlugin;
 /**
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 public class MultiASTNodePlugin extends AbstractASTNodePlugin {

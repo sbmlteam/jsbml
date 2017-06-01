@@ -36,9 +36,7 @@ import org.sbml.jsbml.util.filters.CVTermFilter;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 16.04.2014
  */
 public class QualExample {
 

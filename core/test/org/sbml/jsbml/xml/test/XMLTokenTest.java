@@ -42,7 +42,6 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 public class XMLTokenTest {
 

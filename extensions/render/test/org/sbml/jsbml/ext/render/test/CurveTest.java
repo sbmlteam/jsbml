@@ -31,9 +31,7 @@ import org.sbml.jsbml.ext.render.RenderPoint;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev 1733$
  * @since 1.0
- * @date May 14, 2014
  */
 public class CurveTest {
 

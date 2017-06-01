@@ -27,7 +27,6 @@ import org.sbml.jsbml.LevelVersionError;
 /**
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 public class SpeciesFeatureChange extends AbstractNamedSBase {

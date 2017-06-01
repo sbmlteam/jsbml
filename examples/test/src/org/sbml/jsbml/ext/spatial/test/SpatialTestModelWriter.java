@@ -35,9 +35,7 @@ import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 07.02.2014
  */
 public class SpatialTestModelWriter {
 

@@ -31,7 +31,6 @@ import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 /**
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class T1 {
 

@@ -30,7 +30,6 @@ import org.sbml.jsbml.ListOf;
 /**
  * @author Harold G&oacute;mez
  * @since 1.0
- * @version $Rev$
  */
 public class DynCompartmentPlugin extends DynSBasePlugin {
 

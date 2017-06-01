@@ -20,7 +20,6 @@
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.xml.libsbml;

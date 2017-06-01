@@ -45,9 +45,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * Test cases for the arrays compiler
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 26, 2014
  */
 public class CompilerTest {
 

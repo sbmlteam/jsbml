@@ -26,7 +26,6 @@ import org.sbml.jsbml.AbstractSBase;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 public class SpeciesFeatureValue extends AbstractSBase {

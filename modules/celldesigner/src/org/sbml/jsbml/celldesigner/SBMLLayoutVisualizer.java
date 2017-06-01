@@ -46,9 +46,7 @@ import org.sbml.jsbml.gui.SBMLFileFilter;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev 1776$
  * @since 1.0
- * @date Jun 3, 2014
  */
 public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
   /** Generated serial version identifier */

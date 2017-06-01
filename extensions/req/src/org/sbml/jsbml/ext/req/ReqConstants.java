@@ -32,7 +32,6 @@ import java.util.List;
  * of a model with associated mathematics.
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class ReqConstants {

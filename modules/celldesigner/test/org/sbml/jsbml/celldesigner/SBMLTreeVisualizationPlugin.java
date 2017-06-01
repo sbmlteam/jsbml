@@ -40,9 +40,7 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
  * become unexpanded.
  *
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date 16.04.2014
  */
 public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
 

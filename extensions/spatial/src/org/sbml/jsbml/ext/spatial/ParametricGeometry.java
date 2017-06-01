@@ -31,7 +31,6 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Andreas Dr&auml;ger
  * @author Piero Dalle Pezze
  * @since 1.0
- * @version $Rev$
  */
 public class ParametricGeometry extends GeometryDefinition {
 

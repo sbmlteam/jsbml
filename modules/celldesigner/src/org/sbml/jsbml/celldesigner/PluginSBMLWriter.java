@@ -34,7 +34,6 @@ import org.sbml.jsbml.SBMLOutputConverter;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
  */
 public class PluginSBMLWriter implements SBMLOutputConverter<PluginModel> {

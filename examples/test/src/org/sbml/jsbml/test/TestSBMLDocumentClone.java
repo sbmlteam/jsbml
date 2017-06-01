@@ -50,7 +50,6 @@ import org.sbml.jsbml.util.filters.Filter;
  * Test class used to check that jsbml SBMLDocument equals method return true when passed it's clone.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.2
  */
 public class TestSBMLDocumentClone {

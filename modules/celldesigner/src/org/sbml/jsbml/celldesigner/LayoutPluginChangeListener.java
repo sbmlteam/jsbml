@@ -39,9 +39,7 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date Sep 10, 2014
  */
 public class LayoutPluginChangeListener {
 

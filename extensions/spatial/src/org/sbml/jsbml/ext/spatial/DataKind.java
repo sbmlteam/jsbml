@@ -28,9 +28,7 @@ package org.sbml.jsbml.ext.spatial;
  * Classes using DataKind need to use the methods toLowerCase() and toUpperCase() to deal with these values 
  * in the methods writeXMLAttributes() and readAttribute(). 
  * @author Piero Dalle Pezze
- * @version $Rev$
  * @since 1.0
- * @date 23 Apr 2015
  */
 public enum DataKind {
   /**

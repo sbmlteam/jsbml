@@ -38,7 +38,6 @@ import org.sbml.jsbml.util.compilers.LibSBMLFormulaCompiler;
  * Tests related to {@link ASTNode#toFormula()} and {@link ASTNode#toFormula(FormulaCompiler)}.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class ASTNodeFormulaToStringTest {

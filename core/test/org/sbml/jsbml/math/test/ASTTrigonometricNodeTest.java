@@ -32,9 +32,7 @@ import org.sbml.jsbml.math.ASTTrigonometricNode;
  * Test cases for {@link ASTTrigonometricNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 24, 2014
  */
 public class ASTTrigonometricNodeTest {
 

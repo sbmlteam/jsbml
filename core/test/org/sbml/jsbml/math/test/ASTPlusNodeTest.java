@@ -33,9 +33,7 @@ import org.sbml.jsbml.math.ASTPlusNode;
  * Test cases for {@link ASTPlusNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 25, 2014
  */
 public class ASTPlusNodeTest {
 

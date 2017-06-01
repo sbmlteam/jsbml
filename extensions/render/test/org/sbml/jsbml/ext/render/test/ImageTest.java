@@ -29,9 +29,7 @@ import org.sbml.jsbml.ext.render.Image;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date Jun 15, 2014
  */
 public class ImageTest {
 

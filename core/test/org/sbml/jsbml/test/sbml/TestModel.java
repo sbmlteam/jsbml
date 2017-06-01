@@ -68,7 +68,6 @@ import org.sbml.jsbml.text.parser.ParseException;
  * @author  Akiya Jouraku
  * @author  Ben Bornstein
  * @since 0.8
- * @version $Rev$
  *
  */
 @SuppressWarnings("deprecation")

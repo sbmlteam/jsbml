@@ -33,7 +33,6 @@ import org.sbml.jsbml.ontology.Term;
 /**
  * @author Harold G&oacute;mez
  * @since 1.0
- * @version $Rev$
  */
 public class DynSBasePlugin extends AbstractSBasePlugin {
 

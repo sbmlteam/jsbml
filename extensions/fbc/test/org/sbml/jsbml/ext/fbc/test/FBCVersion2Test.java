@@ -58,9 +58,7 @@ import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.1
- * @date 06.03.2015
  */
 public class FBCVersion2Test {
 

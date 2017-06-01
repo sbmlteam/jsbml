@@ -32,9 +32,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 /**
  * @author Alex Thomas
  * @author Piero Dalle Pezze
- * @version $Rev$
  * @since 1.0
- * @date Jan 20, 2014
  */
 public class CSGSetOperator extends CSGNode {
 
