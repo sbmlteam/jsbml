@@ -25,7 +25,6 @@ package org.sbml.jsbml;
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
  */
 @Deprecated

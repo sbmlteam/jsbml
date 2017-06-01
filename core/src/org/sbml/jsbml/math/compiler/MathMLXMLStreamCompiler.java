@@ -63,9 +63,7 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Nicolas Rodriguez
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Aug 8, 2014
  */
 public class MathMLXMLStreamCompiler {
 

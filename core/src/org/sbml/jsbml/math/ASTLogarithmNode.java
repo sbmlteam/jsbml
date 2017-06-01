@@ -36,9 +36,7 @@ import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
  * An Abstract Syntax Tree (AST) node representing the logarithm function
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 30, 2014
  */
 public class ASTLogarithmNode extends ASTBinaryFunctionNode {
 

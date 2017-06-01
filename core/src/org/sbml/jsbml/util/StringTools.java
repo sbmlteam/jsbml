@@ -40,7 +40,6 @@ import org.sbml.jsbml.resources.Resource;
  * @author Nicolas Rodriguez
  * @author Clemens Wrzodek
  * @since 0.8
- * @version $Rev$
  */
 public class StringTools {
 

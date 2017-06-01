@@ -39,7 +39,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public abstract class XMLToken extends AbstractTreeNode {
 

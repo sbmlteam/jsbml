@@ -44,9 +44,7 @@ import org.sbml.jsbml.util.filters.Filter;
  * 
  * @author Victor Kofia
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date Oct 2, 2014
  */
 public class ASTUnknown implements ASTNode2 {
 

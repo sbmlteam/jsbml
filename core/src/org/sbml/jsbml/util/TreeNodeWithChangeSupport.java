@@ -38,9 +38,7 @@ import org.sbml.jsbml.util.filters.Filter;
  * attributes.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
- * @date 2011-09-15
  */
 public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
 Serializable {

@@ -32,9 +32,7 @@ import org.sbml.jsbml.math.compiler.LaTeXCompiler;
  * in a mathematical expression.
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 30, 2014
  */
 public class ASTQualifierNode extends ASTFunction {
 

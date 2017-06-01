@@ -36,9 +36,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * An Abstract Syntax Tree (AST) node representing the time function
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 30, 2014
  */
 public class ASTCSymbolTimeNode extends ASTNumber
 implements ASTCSymbolNode {

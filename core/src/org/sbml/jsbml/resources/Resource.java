@@ -33,9 +33,7 @@ import java.util.Properties;
  * 
  * @author Hannes Borch
  * @author Andreas Dr&auml;ger
- * @date 2009-02-05
  * @since 0.8
- * @version $Rev$
  */
 public final class Resource {
 

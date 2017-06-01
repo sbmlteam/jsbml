@@ -31,7 +31,6 @@ import org.sbml.jsbml.ASTNode;
  * {@link ASTNode#parseFormula(String, IFormulaParser)} method.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public interface IFormulaParser {

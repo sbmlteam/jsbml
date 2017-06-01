@@ -27,7 +27,6 @@ import org.xml.sax.helpers.*;
  * 
  * @author Marco Donizelli
  * @since 0.8
- * @version $Rev$
  */
 public interface SAX2Parser {
 

@@ -32,7 +32,6 @@ package org.sbml.jsbml;
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @date 19.09.2011
  * @see UniqueSId
  */
 public interface UniqueNamedSBase extends NamedSBase, UniqueSId {

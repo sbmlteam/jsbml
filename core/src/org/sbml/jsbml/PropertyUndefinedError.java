@@ -32,9 +32,7 @@ import org.sbml.jsbml.ext.SBasePlugin;
  * declared by the user.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
- * @date 24.03.2011
  */
 public class PropertyUndefinedError extends PropertyException {
 

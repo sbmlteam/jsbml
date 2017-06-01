@@ -27,7 +27,6 @@ import org.apache.log4j.Priority;
  * 
  * TODO: Comment missing
  * @since 0.8
- * @version $Rev$
  */
 public class XMLLogger {
 

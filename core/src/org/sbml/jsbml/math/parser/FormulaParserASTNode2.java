@@ -64,7 +64,6 @@ import org.sbml.jsbml.math.parser.IFormulaParser;
  * @author Nicolas Rodriguez
  * @author Victor Kofia
  * @since 0.8
- * @version $Rev$
  */
 public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNode2Constants {
   public static Properties stringToType = new Properties();

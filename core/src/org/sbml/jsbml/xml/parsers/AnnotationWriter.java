@@ -27,7 +27,6 @@ import org.sbml.jsbml.xml.XMLNode;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 public interface AnnotationWriter {
 

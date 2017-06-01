@@ -36,7 +36,6 @@ import org.sbml.jsbml.JSBML;
  * 
  * <p>
  * @since 0.8
- * @version $Rev$
  */
 public class XMLAttributes implements Serializable {
 

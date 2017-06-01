@@ -24,9 +24,7 @@ package org.sbml.jsbml;
  * not available for the current SBML Level/Version combination.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-11-21
  * @since 0.8
- * @version $Rev$
  */
 public class PropertyNotAvailableException extends PropertyException {
 

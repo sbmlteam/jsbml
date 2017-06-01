@@ -24,7 +24,6 @@ package org.sbml.jsbml;
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class ModifierSpeciesReference extends SimpleSpeciesReference {
 

@@ -26,9 +26,7 @@ import java.util.EventListener;
  * handling these events should implement this interface.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 2014-02-15
  */
 public interface ProgressListener extends EventListener {
 

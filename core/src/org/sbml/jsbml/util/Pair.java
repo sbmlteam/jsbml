@@ -26,11 +26,9 @@ import java.util.Map.Entry;
  * A general implementation of a 2-tuple, i.e., two arbitrary objects.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @param <L>
  * @param <V>
  * @since 1.0
- * @date 07.03.2014
  */
 public class Pair<L, V> implements Cloneable, Entry<L, V>, Serializable {
 

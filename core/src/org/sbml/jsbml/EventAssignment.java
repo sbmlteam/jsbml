@@ -30,7 +30,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @since 0.8
- * @version $Rev$
  */
 public class EventAssignment extends AbstractMathContainer implements Assignment {
 

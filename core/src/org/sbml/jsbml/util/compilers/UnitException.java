@@ -27,9 +27,7 @@ import org.sbml.jsbml.SBMLException;
  * expressions, i.e., instances of {@link ASTNode}.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2011-01-20
  * @since 0.8
- * @version $Rev$
  */
 public class UnitException extends SBMLException {
 

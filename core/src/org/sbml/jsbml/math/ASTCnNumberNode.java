@@ -38,10 +38,8 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * constants.
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @param <T>
  * @since 1.0
- * @date May 30, 2014
  */
 public class ASTCnNumberNode<T> extends ASTNumber {
 

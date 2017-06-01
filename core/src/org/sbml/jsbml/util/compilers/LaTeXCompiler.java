@@ -36,9 +36,7 @@ import org.sbml.jsbml.util.StringTools;
  * included into scientific writings or to be displayed in a GUI.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2009-01-03
  * @since 0.8
- * @version $Rev$
  */
 public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 

@@ -26,7 +26,6 @@ import org.sbml.jsbml.xml.XMLException;
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class SBMLException extends XMLException {
 
@@ -153,7 +152,6 @@ public class SBMLException extends XMLException {
    * Error codes.
    * 
    * @author Andreas Dr&auml;ger <a href="mailto:andreas.draeger@uni-tuebingen.de">andreas.draeger@uni-tuebingen.de</a>
-   * @date 2009-10-16
    */
   public enum Code {
     /**

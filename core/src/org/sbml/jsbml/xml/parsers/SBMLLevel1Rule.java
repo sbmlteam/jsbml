@@ -36,7 +36,6 @@ import org.sbml.jsbml.RateRule;
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 class SBMLLevel1Rule extends ExplicitRule {
 

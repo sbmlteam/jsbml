@@ -32,9 +32,7 @@ import org.apache.log4j.Logger;
  * registered in the containing {@link Model}.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
- * @date 19.09.2011
  */
 public class IdentifierException extends SBMLException {
 

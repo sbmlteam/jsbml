@@ -23,7 +23,6 @@
  * elements, i.e., here you can find parsers and writers for SBML and also
  * elements to define XML nodes to be used for notes or annotations.
  * 
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.xml;

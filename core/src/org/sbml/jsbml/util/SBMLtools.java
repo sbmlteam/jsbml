@@ -31,9 +31,7 @@ import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 21.10.2013
  */
 public class SBMLtools {
 

@@ -44,9 +44,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * in a mathematical expression.
  *
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 30, 2014
  */
 public class ASTCiNumberNode extends ASTNumber implements
 ASTCSymbolBaseNode {

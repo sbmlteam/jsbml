@@ -30,7 +30,6 @@ import java.util.List;
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  * @param <T> The type of output model that can be treated by this converter.
  */
 public interface SBMLOutputConverter<T> {

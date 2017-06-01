@@ -47,9 +47,7 @@ import org.sbml.jsbml.util.StringTools;
  *
  * @author Andreas Dr&auml;ger
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Aug 2, 2014
  */
 public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 

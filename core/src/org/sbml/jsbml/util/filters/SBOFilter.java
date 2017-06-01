@@ -27,9 +27,7 @@ import org.sbml.jsbml.SBase;
  * field is set to a certain value of interest.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-05-26
  * @since 0.8
- * @version $Rev$
  */
 public class SBOFilter implements Filter {
 

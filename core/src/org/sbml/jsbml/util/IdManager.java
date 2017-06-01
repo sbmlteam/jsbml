@@ -26,7 +26,6 @@ import org.sbml.jsbml.SBase;
  * Manages an id namespace.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public interface IdManager {

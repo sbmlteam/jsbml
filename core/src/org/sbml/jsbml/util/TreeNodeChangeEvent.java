@@ -30,9 +30,7 @@ import org.sbml.jsbml.SBase;
  * changed in an {@link SBase} and also provides the old and the new value.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-11-14
  * @since 0.8
- * @version $Rev$
  */
 public class TreeNodeChangeEvent extends PropertyChangeEvent {
 
