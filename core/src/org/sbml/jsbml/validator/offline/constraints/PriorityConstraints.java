@@ -31,7 +31,6 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValid
 /**
  * @author Roman
  * @since 1.2
- * @date 04.08.2016
  */
 public class PriorityConstraints extends AbstractConstraintDeclaration {
 
