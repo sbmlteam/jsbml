@@ -3,9 +3,6 @@
 # dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
 # dot -Tpng type_hierarchy.dot -otype_hierarchy.png
 #
-# $Id$
-# $URL$
-# $Rev$
 /*
  * Overview of the groups extension type hierarchy
  */

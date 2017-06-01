@@ -10,8 +10,6 @@ options
 
 PARSER_BEGIN(FormulaParserASTNode2)
 /*
- * $Id: FormulaParserASTNode2.jj 2266 2015-04-30 15:40:25Z niko-rodrigue $
- * $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/branches/astnode2-merging-alternate/core/src/org/sbml/jsbml/math/parser/FormulaParserASTNode2.jj $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -76,7 +74,6 @@ import org.sbml.jsbml.math.parser.IFormulaParser;
  * @author Nicolas Rodriguez
  * @author Victor Kofia
  * @since 0.8
- * @version $Rev: 2266 $
  */
 public class FormulaParserASTNode2 implements IFormulaParser
 {
