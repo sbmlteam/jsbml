@@ -31,9 +31,7 @@ import org.sbml.jsbml.math.ASTQualifierNode;
  * Test cases for {@link ASTQualifierNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 24, 2014
  */
 public class ASTQualifierNodeTest {
 

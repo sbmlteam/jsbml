@@ -31,7 +31,6 @@ import org.sbml.jsbml.util.ResourceManager;
  * 
  * @author Harold G&oacute;mez
  * @since 1.0
- * @version $Rev$
  */
 public class DynConstants {
 

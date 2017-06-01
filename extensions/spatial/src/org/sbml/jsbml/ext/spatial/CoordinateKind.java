@@ -22,7 +22,6 @@ package org.sbml.jsbml.ext.spatial;
 /**
  * 
  * @author Alex Thomas
- * @version $Rev$
  * @since 0.8
  */
 public enum CoordinateKind {

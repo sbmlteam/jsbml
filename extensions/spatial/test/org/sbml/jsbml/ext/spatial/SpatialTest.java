@@ -33,9 +33,7 @@ import org.sbml.jsbml.SpeciesReference;
 /**
  * 
  * @author Alex Thomas
- * @version $Rev$
  * @since 1.0
- * @date 02.12.2014
  */
 public class SpatialTest {
 

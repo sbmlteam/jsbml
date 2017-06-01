@@ -27,7 +27,6 @@ package org.sbml.jsbml.ext.multi;
  * Attributes of type {@link RepresentationType} cannot take on any other values.
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 public enum RepresentationType {

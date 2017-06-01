@@ -32,8 +32,6 @@ import org.sbml.jsbml.xml.libsbml.LibSBMLReader;
 
 /**
  * @author Andreas Dr&auml;ger
- * @date 2010-12-01
- * @version $Rev$
  */
 public class LibSBMLioTest {
 

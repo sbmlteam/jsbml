@@ -32,9 +32,7 @@ import org.sbml.jsbml.util.IdManager;
 
 /**
  * @author Alex Thomas
- * @version $Rev$
  * @since 1.0
- * @date Dec 10, 2013
  */
 public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements IdManager {
 

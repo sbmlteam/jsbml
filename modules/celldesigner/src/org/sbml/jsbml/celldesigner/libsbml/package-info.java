@@ -21,7 +21,6 @@
 /**
  * Simplified for CellDesigner.
  * 
- * @version $Rev$
  * @since 1.0
  */
 package org.sbml.jsbml.celldesigner.libsbml;

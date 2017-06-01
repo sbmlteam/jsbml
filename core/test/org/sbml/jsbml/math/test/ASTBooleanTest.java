@@ -34,9 +34,7 @@ import org.sbml.jsbml.math.ASTFactory;
  * Test cases for {@link ASTBoolean}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 18, 2014
  */
 public class ASTBooleanTest {
 

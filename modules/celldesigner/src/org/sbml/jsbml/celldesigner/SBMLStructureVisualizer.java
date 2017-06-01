@@ -27,9 +27,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date Jul 6, 2014
  */
 /** Displays the content of an SBML file in a {@link JTree} */
 public class SBMLStructureVisualizer extends JFrame {

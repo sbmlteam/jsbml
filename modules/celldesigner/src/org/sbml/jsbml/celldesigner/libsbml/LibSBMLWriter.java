@@ -29,9 +29,7 @@ import org.sbml.libsbml.Model;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 03.02.2014
  */
 public class LibSBMLWriter implements SBMLOutputConverter<org.sbml.libsbml.Model> {
 

@@ -39,9 +39,7 @@ import org.sbml.jsbml.math.ASTCiNumberNode;
  * Test cases for {@link ASTCiNumberNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 30, 2014
  */
 public class ASTCiNumberNodeTest {
 

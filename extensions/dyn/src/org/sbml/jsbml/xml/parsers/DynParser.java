@@ -53,7 +53,6 @@ import org.sbml.jsbml.ext.dyn.SpatialComponent;
  *
  * @author Harold G&oacute;mez
  * @since 1.0
- * @version $Rev$
  */
 @ProviderFor(ReadingParser.class)
 public class DynParser extends AbstractReaderWriter implements PackageParser {

@@ -29,7 +29,6 @@ import org.sbml.jsbml.UniqueNamedSBase;
 /**
  * @author Harold G&oacute;mez
  * @since 1.0
- * @version $Rev$
  */
 public class SpatialComponent extends AbstractNamedSBase implements
 UniqueNamedSBase {

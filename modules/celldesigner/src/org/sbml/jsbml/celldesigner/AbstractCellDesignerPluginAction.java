@@ -31,9 +31,7 @@ import jp.sbi.celldesigner.plugin.PluginAction;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date Jul 8, 2014
  */
 public abstract class AbstractCellDesignerPluginAction extends PluginAction {
 

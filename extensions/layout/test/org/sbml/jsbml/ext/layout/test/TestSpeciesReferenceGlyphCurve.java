@@ -42,7 +42,6 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 
 /**
  * 
- * @version $Rev$
  * @since 1.0
  */
 public class TestSpeciesReferenceGlyphCurve {

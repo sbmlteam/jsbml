@@ -22,9 +22,7 @@ package org.sbml.jsbml.ext.spatial;
 /**
  * This enum type was created following the specifications defined in Spatial Package v0.90.
  * @author Piero Dalle Pezze
- * @version $Rev$
  * @since 1.0
- * @date 23 Apr 2015
  */
 public enum BoundaryConditionKind {
   /**

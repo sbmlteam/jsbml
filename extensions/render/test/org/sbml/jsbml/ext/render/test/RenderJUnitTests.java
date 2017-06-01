@@ -27,9 +27,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev 1771$
  * @since 1.0
- * @date May 17, 2014
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={ColorDefinitionTest.class, CurveTest.class, EllipseTest.class, GroupTest.class,

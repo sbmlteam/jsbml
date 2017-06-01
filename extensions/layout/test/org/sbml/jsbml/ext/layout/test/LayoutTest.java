@@ -36,9 +36,7 @@ import org.sbml.jsbml.SBMLReader;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 26.05.2011
  */
 @Ignore
 public class LayoutTest {

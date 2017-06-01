@@ -51,7 +51,6 @@ import org.sbml.jsbml.xml.XMLTriple;
  * @author  Akiya Jouraku
  * @author  Ben Bornstein
  * @since 1.0
- * @version $Rev$
  */
 public class TestSBase {
 

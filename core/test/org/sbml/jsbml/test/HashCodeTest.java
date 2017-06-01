@@ -38,9 +38,7 @@ import org.sbml.jsbml.text.parser.ParseException;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
- * @date 03.08.2011
  */
 public class HashCodeTest {
 

@@ -28,7 +28,6 @@ import java.net.*;
  * @file    Dialog.java
  * @brief   Pop-up dialog window helper class.
  * @author  Michael Hucka
- * @date    Created in 2012
  */
 public class Dialog
 {

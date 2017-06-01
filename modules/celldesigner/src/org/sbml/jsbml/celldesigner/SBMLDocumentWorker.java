@@ -33,9 +33,7 @@ import org.sbml.jsbml.ext.render.RenderConstants;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date Jun 10, 2014
  */
 public class SBMLDocumentWorker extends SwingWorker<SBMLDocument, Throwable> {
 

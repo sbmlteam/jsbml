@@ -77,7 +77,6 @@ import com.topologi.diffx.config.DiffXConfig;
  * any differences in the manner they read SBML files.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  */
 @SuppressWarnings("deprecation")
 public class SBMLReaderTest {

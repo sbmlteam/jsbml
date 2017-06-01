@@ -32,9 +32,7 @@ import org.sbml.jsbml.ext.render.VTextAnchor;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev 1733$
  * @since 1.0
- * @date May 14, 2014
  */
 public class TextTest {
 

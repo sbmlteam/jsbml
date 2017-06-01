@@ -31,9 +31,7 @@ import org.sbml.jsbml.ext.arrays.Dimension;
 
 /**
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Dec 29, 2014
  */
 public class DimensionIDCheck extends ArraysConstraint {
 

@@ -41,7 +41,6 @@ import org.sbml.jsbml.Parameter;
  * @author  Akiya Jouraku
  * @author  Ben Bornstein
  * @since 0.8
- * @version $Rev$
  *
  */
 public class TestParameter {

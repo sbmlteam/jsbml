@@ -44,9 +44,7 @@ import org.sbml.jsbml.math.ASTQualifierNode;
  * Test cases for {@link ASTCiFunctionNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 30, 2014
  */
 public class ASTCiFunctionNodeTest {
 

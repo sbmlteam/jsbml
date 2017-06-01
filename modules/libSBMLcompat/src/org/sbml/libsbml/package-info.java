@@ -21,7 +21,6 @@
  * This package provides a wrapping of JSBML classes in the same package
  * structure like it is done in libSBML.
  * 
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.libsbml;

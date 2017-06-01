@@ -25,7 +25,6 @@ import org.sbml.jsbml.UnitDefinition;
 /**
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class UnitDefinitionTest {
 

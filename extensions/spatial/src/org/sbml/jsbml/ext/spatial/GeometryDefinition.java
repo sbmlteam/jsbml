@@ -30,7 +30,6 @@ import org.sbml.jsbml.util.StringTools;
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
 

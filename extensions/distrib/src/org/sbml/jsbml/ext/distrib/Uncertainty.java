@@ -30,9 +30,7 @@ import org.sbml.jsbml.xml.XMLNode;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
- * @date 26.03.2015
  */
 public class Uncertainty extends AbstractNamedSBase {
 

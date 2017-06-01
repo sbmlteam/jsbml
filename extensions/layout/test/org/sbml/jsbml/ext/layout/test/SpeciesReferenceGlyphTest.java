@@ -42,7 +42,6 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
  * @author Ibrahim Vazirabad
  * @version $1713$
  * @since 1.0
- * @date May 7, 2014
  */
 public class SpeciesReferenceGlyphTest {
 

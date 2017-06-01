@@ -32,9 +32,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 20.12.2011
  */
 public class FilterTest {
 

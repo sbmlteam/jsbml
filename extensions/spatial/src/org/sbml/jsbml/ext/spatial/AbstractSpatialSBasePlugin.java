@@ -30,9 +30,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * 
  * @author Alex Thomas
  * @author Piero Dalle Pezze
- * @version $Rev$
  * @since 1.0
- * @date Jan 22, 2014
  */
 public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
 

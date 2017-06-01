@@ -78,7 +78,6 @@ import org.sbml.libsbml.libsbmlConstants;
  * 
  * @author Meike Aichele
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
  */
 public class LibSBMLChangeListener implements TreeNodeChangeListener {

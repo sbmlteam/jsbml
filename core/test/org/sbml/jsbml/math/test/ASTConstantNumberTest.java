@@ -35,9 +35,7 @@ import org.sbml.jsbml.math.ASTFactory;
  * Test cases for {@link ASTConstantNumber}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 24, 2014
  */
 public class ASTConstantNumberTest {
 

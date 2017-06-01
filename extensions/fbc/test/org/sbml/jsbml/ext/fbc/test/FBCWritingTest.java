@@ -30,7 +30,6 @@ import org.sbml.jsbml.SBMLWriter;
 /**
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public class FBCWritingTest {
 

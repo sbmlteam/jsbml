@@ -47,9 +47,7 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 
 /**
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 2014-06-17
  */
 public class DisablePackageTests {
 

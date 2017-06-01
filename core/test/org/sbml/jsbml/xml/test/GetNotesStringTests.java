@@ -35,7 +35,6 @@ import org.sbml.jsbml.SBMLReader;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  */
 public class GetNotesStringTests {
 

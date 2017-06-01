@@ -40,9 +40,7 @@ import org.sbml.jsbml.util.compilers.LibSBMLFormulaCompiler;
  * 
  * @author Nicolas Rodriguez
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 9, 2015
  */
 public class ASTNodeInfixParsingTest {
 

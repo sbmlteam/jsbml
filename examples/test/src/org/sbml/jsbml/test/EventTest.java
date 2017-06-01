@@ -35,9 +35,7 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**
  * @author Andreas Dr&auml;ger
- * @date 2010-11-12
  * @since 0.8
- * @version $Rev$
  */
 @Ignore
 public class EventTest extends SimpleTreeNodeChangeListener {

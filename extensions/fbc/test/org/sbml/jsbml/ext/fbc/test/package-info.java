@@ -26,7 +26,6 @@
  * <p><img title="JSBML" alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
  */
 package org.sbml.jsbml.ext.fbc.test;

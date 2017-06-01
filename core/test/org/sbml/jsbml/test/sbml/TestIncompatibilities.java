@@ -39,7 +39,6 @@ import org.sbml.jsbml.text.parser.ParseException;
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class TestIncompatibilities {
 

@@ -38,7 +38,6 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
  * @author Ibrahim Vazirabad
  * @version $1713 $
  * @since 1.0
- * @date May 7, 2014
  */
 public class TextGlyphTest {
 

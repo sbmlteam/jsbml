@@ -32,7 +32,6 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @author Piero Dalle Pezze
  * @since 1.0
- * @version $Rev$
  */
 public class CompartmentMapping extends AbstractSpatialNamedSBase {
 

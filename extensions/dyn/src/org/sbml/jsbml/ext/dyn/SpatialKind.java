@@ -28,7 +28,6 @@ package org.sbml.jsbml.ext.dyn;
  * 
  * @author Harold G&oacute;mez
  * @since 1.0
- * @version $Rev$
  */
 public enum SpatialKind {
   /**

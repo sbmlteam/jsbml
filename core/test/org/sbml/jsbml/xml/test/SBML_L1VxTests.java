@@ -47,7 +47,6 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class SBML_L1VxTests {
 

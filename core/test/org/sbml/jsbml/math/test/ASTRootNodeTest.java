@@ -35,9 +35,7 @@ import org.sbml.jsbml.math.ASTRootNode;
  * Test cases for {@link ASTRootNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 23, 2014
  */
 public class ASTRootNodeTest {
 

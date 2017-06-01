@@ -37,7 +37,6 @@ import org.sbml.jsbml.text.parser.ParseException;
 /**
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class PriorityTest {
 

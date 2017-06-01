@@ -29,7 +29,6 @@ import org.sbml.jsbml.ListOf;
 /**
  * 
  * @author Alex Thomas
- * @version $Rev$
  * @since 0.8
  */
 public class MixedGeometry extends GeometryDefinition {

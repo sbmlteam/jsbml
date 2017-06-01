@@ -45,7 +45,6 @@ import javax.swing.WindowConstants;
  * @file    About.java
  * @brief   The "About" window for SBML Bar Graph.
  * @author  Michael Hucka
- * @date    Created in 2012
  */
 public class AboutPane
 extends JFrame

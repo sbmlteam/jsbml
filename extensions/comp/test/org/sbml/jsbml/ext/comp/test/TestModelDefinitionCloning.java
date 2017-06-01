@@ -37,7 +37,6 @@ import org.sbml.jsbml.ext.comp.ModelDefinition;
 /**
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 public class TestModelDefinitionCloning {

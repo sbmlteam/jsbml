@@ -32,9 +32,7 @@ import org.sbml.jsbml.math.ASTMinusNode;
  * Test cases for {@link ASTMinusNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 25, 2014
  */
 public class ASTMinusNodeTest {
 

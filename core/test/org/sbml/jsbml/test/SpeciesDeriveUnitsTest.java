@@ -33,7 +33,6 @@ import org.sbml.jsbml.util.ModelBuilder;
 /**
  * @author Andreas Dr&auml;ger
  * @since 1.2
- * @date 22.03.2017
  */
 public class SpeciesDeriveUnitsTest {
 

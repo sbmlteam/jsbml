@@ -38,7 +38,6 @@ import org.sbml.jsbml.validator.SBMLValidator;
  * 
  * @author  Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class CheckConsistencyTests {
 

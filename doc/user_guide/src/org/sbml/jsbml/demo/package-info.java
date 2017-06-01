@@ -22,8 +22,6 @@
  * This package has been created for demonstration purposes only.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 19.11.2014
  */
 package org.sbml.jsbml.demo;

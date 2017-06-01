@@ -24,7 +24,6 @@ package org.sbml.bargraph;
  * @file    Version.java
  * @brief   Object storing the version number of this software release.
  * @author  Michael Hucka
- * @date    Created in 2012
  */
 public class Version
 {

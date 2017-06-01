@@ -31,9 +31,7 @@ import org.sbml.jsbml.ext.render.ColorDefinition;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev 1733$
  * @since 1.0
- * @date May 15, 2014
  */
 public class ColorDefinitionTest {
 

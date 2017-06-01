@@ -29,7 +29,6 @@ import org.sbml.jsbml.SBMLOutputConverter;
 /**
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class LibSBMLWriter implements SBMLOutputConverter<org.sbml.libsbml.Model> {
 

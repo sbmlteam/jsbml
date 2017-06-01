@@ -43,9 +43,7 @@ import org.sbml.jsbml.xml.XMLTriple;
 
 /**
  * @author Nicolas Rdodriguez
- * @version $Rev$
  * @since 1.1
- * @date 26.03.2015
  */
 public class CreateUncertMLXMLNode {
 

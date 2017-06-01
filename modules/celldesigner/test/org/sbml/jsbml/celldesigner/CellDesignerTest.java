@@ -46,9 +46,7 @@ import jp.sbi.celldesigner.plugin.PluginUnitDefinition;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date Jun 30, 2014
  */
 public class CellDesignerTest extends AbstractCellDesignerPlugin {
 

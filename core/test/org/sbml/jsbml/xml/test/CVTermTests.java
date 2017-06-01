@@ -46,7 +46,6 @@ import org.sbml.jsbml.SBase;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 @SuppressWarnings("deprecation")
 public class CVTermTests {

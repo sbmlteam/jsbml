@@ -41,7 +41,6 @@ import org.sbml.libsbml.libsbml;
  * This class is used to test {@link LibSBMLChangeListener} with JUnit tests
  * 
  * @author Meike Aichele
- * @version $Rev$
  * @since 1.0
  */
 public class LibSBMLChangeListenerTest {

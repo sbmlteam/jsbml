@@ -41,9 +41,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
- * @date 15.09.2011
  */
 public class IdRegistrationTest {
 

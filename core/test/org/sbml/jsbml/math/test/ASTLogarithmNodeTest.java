@@ -36,9 +36,7 @@ import org.sbml.jsbml.math.ASTLogarithmNode;
  * Test cases for the ASTLogarithmNode class
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 23, 2014
  */
 public class ASTLogarithmNodeTest {
 

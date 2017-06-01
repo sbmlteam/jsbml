@@ -30,9 +30,7 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * @author Alex Thomas
  * @author Piero Dalle Pezze
- * @version $Rev$
  * @since 1.0
- * @date Jan 20, 2014
  */
 public class CSGScale extends CSGTransformation {
 

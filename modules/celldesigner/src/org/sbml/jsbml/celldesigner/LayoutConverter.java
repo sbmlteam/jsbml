@@ -64,9 +64,7 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date Jun 19, 2014
  */
 public class LayoutConverter {
 

@@ -79,7 +79,6 @@ import org.sbml.libsbml.libsbmlConstants;
  * package
  * 
  * @author Meike Aichele
- * @version $Rev$
  * @since 1.0
  */
 @SuppressWarnings("deprecation")
