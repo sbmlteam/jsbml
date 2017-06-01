@@ -3,8 +3,6 @@
 # dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
 # dot -Tpng type_hierarchy.dot -otype_hierarchy.png
 #
-# $Id: type_hierarchy.dot 
-# $URL$
 
 /*
  * Overview of the dynamic structures extension type hierarchy

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    $Id$ 
-    $URL$
 
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
@@ -19,7 +17,6 @@
     in the file named "LICENSE.txt" included with this software distribution
     and also available online as http://sbml.org/Software/JSBML/License.
 
-    Version: $Rev$
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
