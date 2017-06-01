@@ -27,9 +27,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
  * @author Alex Thomas
- * @version $Rev$
  * @since 1.0
- * @date Jan 20, 2014
  */
 public class CSGPseudoPrimitive extends CSGNode{
 

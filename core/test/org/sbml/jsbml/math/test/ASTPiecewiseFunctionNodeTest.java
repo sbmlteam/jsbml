@@ -38,9 +38,7 @@ import org.sbml.jsbml.math.ASTRelationalOperatorNode;
  * Test cases for {@link ASTPiecewiseFunctionNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 25, 2014
  */
 public class ASTPiecewiseFunctionNodeTest {
 

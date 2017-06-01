@@ -73,9 +73,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
- * @date 20.04.2015
  */
 @SuppressWarnings("deprecation")
 public class PackageVersionTests {

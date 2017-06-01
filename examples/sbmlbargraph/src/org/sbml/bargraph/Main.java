@@ -33,7 +33,6 @@ import gnu.getopt.Getopt;
  * @file    Main.java
  * @brief   Main class for SBML Bar Graph.
  * @author  Michael Hucka
- * @date    Created in 2012
  */
 public class Main
 {

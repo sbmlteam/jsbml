@@ -19,8 +19,6 @@
  */
 /**
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 1, 2014
  */
 package org.sbml.jsbml.math.test;

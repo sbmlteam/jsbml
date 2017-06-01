@@ -33,9 +33,7 @@ import org.sbml.jsbml.math.ASTRelationalOperatorNode;
  * Test cases for {@link ASTRelationalOperatorNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 24, 2014
  */
 public class ASTRelationalOperatorNodeTest {
 

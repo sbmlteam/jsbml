@@ -22,8 +22,6 @@
  * A collection of helpful classes for graphical user interfaces based on JSBML.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 10.02.2014
  */
 package org.sbml.jsbml.gui;

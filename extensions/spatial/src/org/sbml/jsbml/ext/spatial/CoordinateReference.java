@@ -32,9 +32,7 @@ import org.sbml.jsbml.AbstractSBase;
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @author Piero Dalle Pezze
- * @version $Rev$
  * @since 1.0
- * @date 09.09.2011
  * @deprecated Not present in spec 0.90, as be moved into DiffusionCoefficient.
  */
 public abstract class CoordinateReference extends AbstractSBase {

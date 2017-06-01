@@ -29,9 +29,7 @@ import javax.swing.JTextArea;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date Jun 21, 2014
  */
 public class GUIErrorConsole {
 

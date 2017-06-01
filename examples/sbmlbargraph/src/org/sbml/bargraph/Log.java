@@ -41,7 +41,6 @@ import java.util.logging.Logger;
  * @file    Log.java
  * @brief   Logging helper, for error, debugging and other log messages.
  * @author  Michael Hucka
- * @date    Created in 2012, based on code written for the SBML Test Suite.
  */
 public class Log
 {

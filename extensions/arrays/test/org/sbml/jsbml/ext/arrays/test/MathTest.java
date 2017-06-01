@@ -36,9 +36,7 @@ import org.sbml.jsbml.text.parser.ParseException;
  * Also, test if infix parsing is working properly for these MathML constructs.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date May 27, 2014
  */
 public class MathTest {
 

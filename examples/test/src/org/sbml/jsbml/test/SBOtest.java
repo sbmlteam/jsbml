@@ -25,9 +25,7 @@ import org.sbml.jsbml.ontology.Term;
 /**
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 28.10.2013
  */
 public class SBOtest {
 

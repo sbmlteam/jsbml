@@ -31,9 +31,7 @@ import jp.sbi.celldesigner.plugin.PluginMenuItem;
  * A simple plugin for CellDesigner that visualizes and exports SBML files.
  * 
  * @author Ibrahim Vazirabad
- * @version $Rev 1776$
  * @since 1.0
- * @date Jun 3, 2014
  */
 public class SBMLExportPlugin extends AbstractCellDesignerPlugin  {
 

@@ -37,8 +37,6 @@ import org.sbml.jsbml.xml.libsbml.LibSBMLReader;
 
 /**
  * @author Andreas Dr&auml;ger
- * @date 2011-02-03
- * @version $Rev$
  */
 public class SimpleApplication {
 

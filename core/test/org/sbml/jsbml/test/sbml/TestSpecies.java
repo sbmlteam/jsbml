@@ -38,7 +38,6 @@ import org.sbml.jsbml.Species;
  * @author  Akiya Jouraku
  * @author  Ben Bornstein
  * @since 0.8
- * @version $Rev$
  */
 public class TestSpecies {
 

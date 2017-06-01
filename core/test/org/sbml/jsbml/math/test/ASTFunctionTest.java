@@ -50,9 +50,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * Test cases for {@link ASTFunction}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 27, 2014
  */
 public class ASTFunctionTest {
 

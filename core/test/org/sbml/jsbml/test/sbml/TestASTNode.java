@@ -37,7 +37,6 @@ import org.sbml.jsbml.ASTNode.Type;
 
 /**
  * 
- * @version $Rev$
  */
 public class TestASTNode {
 

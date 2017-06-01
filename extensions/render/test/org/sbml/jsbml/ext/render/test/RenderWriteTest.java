@@ -35,9 +35,7 @@ import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 /**
  * @author Florian Mittag
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
- * @date 12.06.2012
  */
 public class RenderWriteTest {
 

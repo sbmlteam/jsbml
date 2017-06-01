@@ -34,9 +34,7 @@ import org.sbml.jsbml.math.ASTFactory;
  * Test cases for {@link ASTArithmeticOperatorNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date August 3, 2014
  */
 public class ASTArithmeticOperatorNodeTest extends TestCase {
 

@@ -28,7 +28,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * Suite of tests for the arrays package.
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 @RunWith(value=Suite.class)

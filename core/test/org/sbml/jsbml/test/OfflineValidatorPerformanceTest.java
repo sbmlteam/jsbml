@@ -37,7 +37,6 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * 
  * @author Roman
  * @since 1.2
- * @date 18.07.2016
  */
 public final class OfflineValidatorPerformanceTest {
 

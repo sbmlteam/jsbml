@@ -23,9 +23,7 @@ package org.sbml.jsbml.ext.spatial;
  * This enum type was created following the specifications defined in Spatial Package v0.90.
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
- * @version $Rev: 2205 $
  * @since 1.0
- * @date 10.12.2014
  */
 public enum FunctionKind {
   /**

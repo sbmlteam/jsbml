@@ -29,9 +29,7 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 17.10.2013
  */
 public class FormulaParserLL3Test {
 

@@ -34,7 +34,6 @@ import org.sbml.jsbml.SBMLException;
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public class Domain extends AbstractSpatialNamedSBase {
 

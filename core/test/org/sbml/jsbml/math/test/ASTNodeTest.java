@@ -27,9 +27,7 @@ import org.sbml.jsbml.ASTNode;
 
 /**
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 1, 2014
  */
 public class ASTNodeTest {
 

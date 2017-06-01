@@ -51,9 +51,7 @@ import org.sbml.libsbml.libsbmlConstants;
  * Simplified {@link LibSBMLUtils} for CellDesigner's older version of libSBML.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 03.02.2014
  */
 @SuppressWarnings("deprecation")
 public class LibSBMLUtils {

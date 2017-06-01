@@ -26,7 +26,6 @@ package org.sbml.bargraph;
  * @file    Config.java
  * @brief   Configuration data and methods.
  * @author  Michael Hucka
- * @date    Created in 2012. This file is based on code I wrote in 2000-2003.
  */
 public class Config
 {

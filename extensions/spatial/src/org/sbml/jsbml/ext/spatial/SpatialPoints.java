@@ -31,7 +31,6 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * @author Piero Dalle Pezze
  * @since 1.0
- * @version $Rev: 0 $
  */
 public class SpatialPoints extends AbstractSBase {
 

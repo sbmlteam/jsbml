@@ -29,7 +29,6 @@ import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class TestNotes

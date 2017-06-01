@@ -33,7 +33,6 @@ import org.sbml.jsbml.math.ASTNode2;
 
 /**
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  * 
  */

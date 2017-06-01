@@ -32,9 +32,7 @@ import org.sbml.jsbml.SBase;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.1
- * @date 23.11.2015
  */
 public class RecursiveSBMLDocumentExploration {
 

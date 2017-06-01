@@ -41,7 +41,6 @@ import org.sbml.jsbml.util.ProgressListener;
  * {@link org.sbml.jsbml.xml.libsbml}.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
  * +@date 03.02.2014
  */

@@ -31,7 +31,6 @@ import org.sbml.jsbml.text.parser.ParseException;
 
 /**
  * @version Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 public class TestFunctionDefinition2 {

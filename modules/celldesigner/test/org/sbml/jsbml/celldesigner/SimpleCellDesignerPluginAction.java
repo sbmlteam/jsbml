@@ -26,9 +26,7 @@ import javax.xml.stream.XMLStreamException;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 16.04.2014
  */
 public class SimpleCellDesignerPluginAction extends AbstractCellDesignerPluginAction {
 

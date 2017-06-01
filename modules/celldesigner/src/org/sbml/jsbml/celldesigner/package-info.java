@@ -27,7 +27,6 @@
  * 
  * @author Andreas Dr&auml;ger
  * @author Alexander Peltzer
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.celldesigner;

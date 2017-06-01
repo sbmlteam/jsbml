@@ -82,7 +82,6 @@ import org.sbml.libsbml.libsbmlConstants;
  * program.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
  */
 @SuppressWarnings("deprecation")

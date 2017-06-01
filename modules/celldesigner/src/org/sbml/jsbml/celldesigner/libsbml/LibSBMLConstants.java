@@ -21,9 +21,7 @@ package org.sbml.jsbml.celldesigner.libsbml;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 06.11.2013
  */
 public class LibSBMLConstants {
 

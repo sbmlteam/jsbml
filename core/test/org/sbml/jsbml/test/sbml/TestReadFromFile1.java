@@ -50,7 +50,6 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * @author  Akiya Jouraku
  * @author  Ben Bornstein
  * @since 0.8
- * @version $Rev$
  */
 public class TestReadFromFile1 {
 

@@ -30,9 +30,7 @@ import org.sbml.jsbml.util.ResourceManager;
  * 
  * @author Alex Thomas
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 17.10.2013
  */
 public class SpatialConstants {
 

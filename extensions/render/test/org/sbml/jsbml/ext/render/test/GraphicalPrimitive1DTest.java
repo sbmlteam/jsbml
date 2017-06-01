@@ -32,7 +32,6 @@ import org.sbml.jsbml.ext.render.GraphicalPrimitive1D;
  * @author Ibrahim Vazirabad
  * @version 1771
  * @since 1.0
- * @date Jun 2, 2014
  */
 public class GraphicalPrimitive1DTest {
 

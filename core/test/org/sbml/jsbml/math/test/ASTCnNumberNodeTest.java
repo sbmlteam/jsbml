@@ -40,9 +40,7 @@ import org.sbml.jsbml.util.ModelBuilder;
  * Test cases for {@link ASTCnNumberNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 25, 2014
  */
 public class ASTCnNumberNodeTest {
 

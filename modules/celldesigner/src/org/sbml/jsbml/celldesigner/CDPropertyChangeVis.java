@@ -36,9 +36,7 @@ import javax.swing.SwingConstants;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
  * @since 1.0
- * @date Jul 1, 2014
  */
 public class CDPropertyChangeVis extends JFrame implements ActionListener {
   /** Generated serial version identifier */

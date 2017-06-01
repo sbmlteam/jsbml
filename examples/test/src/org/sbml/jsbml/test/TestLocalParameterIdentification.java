@@ -35,9 +35,7 @@ import org.sbml.jsbml.Species;
 
 /**
  * @author Roland Keller
- * @version $Rev$
  * @since 0.8
- * @date 10.08.2012
  */
 public class TestLocalParameterIdentification {
 

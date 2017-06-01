@@ -52,9 +52,7 @@ import org.sbml.jsbml.text.parser.ParseException;
  * Test cases for validation.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date Jun 16, 2014
  */
 public class ArraysValidationTest {
 

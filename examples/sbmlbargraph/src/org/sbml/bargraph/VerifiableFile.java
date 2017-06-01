@@ -47,7 +47,6 @@ import java.util.Stack;
  * @file    VerifiableFile.java
  * @brief   Enhancement of the basic Java File class
  * @author  Michael Hucka
- * @date    This file is based on code I wrote in 2000-2003.
  */
 class VerifiableFile
 extends File

@@ -41,9 +41,7 @@ import org.sbml.jsbml.UnitDefinition;
  * works using a generic implementation.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 17.10.2013
  */
 @SuppressWarnings("deprecation")
 public class RemoveFromModelTest {

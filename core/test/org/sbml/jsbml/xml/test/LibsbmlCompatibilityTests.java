@@ -40,7 +40,6 @@ import org.sbml.jsbml.test.sbml.TestSpecies;
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={TestCompartment.class, TestSpecies.class, TestParameter.class, TestL3Parameter.class,

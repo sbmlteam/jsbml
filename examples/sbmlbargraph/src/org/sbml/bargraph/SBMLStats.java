@@ -29,7 +29,6 @@ import org.sbml.jsbml.*;
  * @file    SBMLStats.java
  * @brief   Object representing statistics about a given SBML file.
  * @author  Michael Hucka
- * @date    Created in 2012
  */
 public class SBMLStats
 {

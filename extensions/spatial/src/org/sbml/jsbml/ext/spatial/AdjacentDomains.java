@@ -29,7 +29,6 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public class AdjacentDomains extends AbstractSpatialNamedSBase {
 

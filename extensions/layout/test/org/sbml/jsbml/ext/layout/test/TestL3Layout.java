@@ -48,7 +48,6 @@ import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 /**
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 public class TestL3Layout {
 

@@ -47,9 +47,7 @@ import org.sbml.jsbml.ext.arrays.Index;
  * Test the writing and reading of arrays models.
  * 
  * @author Leandro Watanabe
- * @version $Rev$
  * @since 1.0
- * @date May 19, 2014
  */
 public class ArraysWriteTest {
 

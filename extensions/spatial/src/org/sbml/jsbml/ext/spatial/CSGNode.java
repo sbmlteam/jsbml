@@ -21,9 +21,7 @@ package org.sbml.jsbml.ext.spatial;
 
 /**
  * @author Alex-Thomas
- * @version $Rev$
  * @since 1.0
- * @date Jan 20, 2014
  */
 public abstract class CSGNode extends AbstractSpatialNamedSBase {
 

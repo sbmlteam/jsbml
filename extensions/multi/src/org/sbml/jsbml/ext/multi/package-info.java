@@ -29,7 +29,6 @@
  * classes from the proposal and it need to be completed.
  * <p><img alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
  *
- * @version $Rev$
  * @since 1.0
  * 
  */

@@ -28,7 +28,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Ibrahim Vazirabad
  * @version $1713$
  * @since 1.0
- * @date May 7, 2014
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={TextGlyphTest.class, SpeciesReferenceGlyphTest.class, LayoutExtentionTest.class})

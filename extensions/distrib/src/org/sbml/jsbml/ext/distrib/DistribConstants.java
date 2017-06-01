@@ -23,9 +23,7 @@ import java.util.List;
 
 /**
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
- * @date 26.03.2015
  */
 public class DistribConstants {
 

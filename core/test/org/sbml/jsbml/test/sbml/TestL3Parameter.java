@@ -36,7 +36,6 @@ import org.sbml.jsbml.Parameter;
 /**
  * @author
  * @since 0.8
- * @version $Rev$
  */
 public class TestL3Parameter {
 

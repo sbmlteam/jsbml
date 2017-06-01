@@ -20,7 +20,6 @@
  */
 
 /**
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.test;

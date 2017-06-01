@@ -23,7 +23,6 @@ package org.sbml.jsbml.ext.spatial;
  * This enum type was created following the specifications defined in Spatial Package v0.90.
  * @author Alex Thomas
  * @author Piero Dalle Pezze
- * @version $Rev: 2206 $
  * @since 0.8
  */
 public enum GeometryKind {

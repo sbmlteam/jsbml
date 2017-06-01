@@ -59,7 +59,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
  * @file    Main.java
  * @brief   Main window for SBML Bar Graph.
  * @author  Michael Hucka
- * @date    Created in 2012
  */
 public class MainWindow
 extends JFrame

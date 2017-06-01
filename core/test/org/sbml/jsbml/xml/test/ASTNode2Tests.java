@@ -64,9 +64,7 @@ import org.sbml.jsbml.math.test.ASTUnaryFunctionNodeTest;
  * JUnit suite of tests for the new math package. 
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Oct 6, 2014
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={ASTArithmeticOperatorNodeTest.class,

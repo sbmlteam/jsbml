@@ -35,9 +35,7 @@ import org.sbml.jsbml.math.ASTUnaryFunctionNode;
  * Test cases for {@link ASTUnaryFunctionNode}
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 24, 2014
  */
 public class ASTUnaryFunctionNodeTest {
 

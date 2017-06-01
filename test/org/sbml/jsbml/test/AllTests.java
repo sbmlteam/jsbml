@@ -37,7 +37,6 @@ import org.sbml.jsbml.xml.test.Tests;
  * JUnit {@link TestSuite} to regroup all the tests done for jsbml-core and the L3 packages.
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
  */
 @RunWith(value=Suite.class)

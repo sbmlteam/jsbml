@@ -96,7 +96,6 @@ import org.sbml.libsbml.XMLNode;
  * 
  * @author Andreas Dr&auml;ger
  * @author Alexander Peltzer
- * @version $Rev$
  * @since 1.0
  */
 @SuppressWarnings("deprecation")

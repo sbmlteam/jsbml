@@ -23,9 +23,7 @@ import org.sbml.jsbml.celldesigner.libsbml.LibSBMLConstants;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 12.12.2013
  */
 public class CellDesignerConstants extends LibSBMLConstants {
 

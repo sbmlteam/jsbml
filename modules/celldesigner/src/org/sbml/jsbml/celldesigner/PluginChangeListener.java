@@ -114,8 +114,6 @@ import org.sbml.libsbml.XMLNode;
 /**
  * @author Alexander Peltzer
  * @author Andreas Dr&auml;ger
- * @version $Rev$
- * @date 10:50:22
  */
 @SuppressWarnings("deprecation")
 public class PluginChangeListener implements TreeNodeChangeListener {

@@ -26,9 +26,7 @@ import jp.sbi.celldesigner.plugin.PluginAction;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 11.12.2014
  */
 public class SimpleCellDesignerPluginAction extends PluginAction {
 
