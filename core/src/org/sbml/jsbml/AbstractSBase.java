@@ -827,7 +827,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   protected boolean checkAttribute(String attributeName) {
 
-    if (!isReadingInProgress()) {
+    // do not do the checks if we are reading a model or in the process of cloning any TreeNode
+    if (! (isReadingInProgress() || isCloningInProgress())) {
       AbstractSBase.attributeValidator.setLevelAndVersion(getLevel(),
         getVersion());
 

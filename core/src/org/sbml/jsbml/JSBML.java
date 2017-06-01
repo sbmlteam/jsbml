@@ -134,6 +134,11 @@ public class JSBML {
   public static final transient String READING_IN_PROGRESS = "jsbml.reading.in.progress"; 
   
   /**
+   * 
+   */
+  public static final transient String CLONING_IN_PROGRESS = "jsbml.cloning.in.progress";
+
+  /**
    * Key used to store the real parent element for each  child of a {@link ASTNode.Type#FUNCTION_PIECEWISE} ASTNode.
    */
   public static final transient String PIECEWISE_ID = "jsbml.piecewise.id"; 
@@ -148,6 +153,7 @@ public class JSBML {
    * us to validate the order or check if any elements are duplicated.
    */
   public static final transient String CHILD_ELEMENT_NAMES = "jsbml.child.elements.names";
+
   
   /**
    * Adds the given {@link UnitDefinition} to the given model or returns the
