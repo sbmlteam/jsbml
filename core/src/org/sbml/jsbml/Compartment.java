@@ -113,6 +113,9 @@ public class Compartment extends Symbol {
     }
 
     // size is set in the super clone constructor
+    
+    // removing the cloning in progress user object
+    removeUserObject(JSBML.CLONING_IN_PROGRESS);
   }
 
 
