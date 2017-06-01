@@ -670,8 +670,6 @@ public class LayoutDirector<P> implements Runnable {
     // The first one only calculates the rotation angle, while the second one performs drawing.
     double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(reactionGlyph);
     builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);  
-    System.out.println("Bin hier "+ reactionGlyph);
-    System.out.println("Drehung: " + rgRotationAngle);
     
     if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
       for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
