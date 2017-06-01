@@ -1,6 +1,4 @@
 /*
- * $Id: InterpolationKind.java 2109 2015-01-05 04:50:45Z pdp10 $
- * $URL: svn+ssh://pdp10@svn.code.sf.net/p/jsbml/code/trunk/extensions/spatial/src/org/sbml/jsbml/ext/spatial/InterpolationKind.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
