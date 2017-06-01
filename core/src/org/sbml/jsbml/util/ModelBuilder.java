@@ -42,7 +42,6 @@ import org.sbml.jsbml.text.parser.ParseException;
  * 
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
  */
 public class ModelBuilder {
 

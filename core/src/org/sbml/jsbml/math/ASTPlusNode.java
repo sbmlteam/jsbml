@@ -33,9 +33,7 @@ import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
  * An Abstract Syntax Tree (AST) node representing the plus operator
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 2, 2014
  */
 public class ASTPlusNode extends ASTBinaryFunctionNode {
 

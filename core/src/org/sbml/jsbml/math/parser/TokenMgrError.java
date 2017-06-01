@@ -25,7 +25,6 @@ package org.sbml.jsbml.math.parser;
  * Token Manager Error.
  * 
  * @since 0.8
- * @version $Rev$
  */
 public class TokenMgrError extends Error
 {

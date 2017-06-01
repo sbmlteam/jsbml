@@ -32,7 +32,6 @@ import org.sbml.jsbml.SBMLException;
  * <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)">formulaToString</a>
  * method.
  * 
- * @version $Rev$
  * @since 1.0
  */
 public class LibSBMLFormulaCompiler extends FormulaCompiler {

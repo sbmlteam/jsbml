@@ -48,7 +48,6 @@ import org.sbml.jsbml.xml.parsers.SBMLRDFAnnotationParser;
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class Annotation extends AnnotationElement {
 

@@ -30,9 +30,7 @@ import org.sbml.jsbml.UnitDefinition;
  * {@link UnitDefinition#areIdentical(UnitDefinition, UnitDefinition)}.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 15.03.2012
  */
 public class IdenticalUnitDefinitionFilter implements Filter {
 

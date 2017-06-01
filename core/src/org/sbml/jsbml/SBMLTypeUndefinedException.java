@@ -30,9 +30,7 @@ import org.sbml.jsbml.util.Message;
  * in certain versions of SBML Level 2.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 17.10.2013
  */
 public class SBMLTypeUndefinedException extends SBMLError {
 

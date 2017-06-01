@@ -432,7 +432,6 @@ in the text-string formula syntax.</caption>
  * @author Alexander D&ouml;rr
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constants {
 

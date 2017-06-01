@@ -23,7 +23,6 @@
  * All classes in this package implement the interface {@link org.sbml.jsbml.util.filters.Filter} that can
  * be used to, e.g., select entries from a {@link org.sbml.jsbml.ListOf} object.
  * 
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.util.filters;

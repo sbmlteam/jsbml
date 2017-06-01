@@ -20,9 +20,7 @@ package org.sbml.jsbml;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.1
- * @date 21.09.2015
  */
 public interface CompartmentalizedSBase extends NamedSBase {
 

@@ -24,7 +24,6 @@ package org.sbml.jsbml.util;
  * See the <a href="http://sbml.org/Facilities/Documentation/Validator_Web_API">SBML Online Validator web API</a> page.
  * 
  * @since 0.8
- * @version $Rev$
  */
 public class Option {
 

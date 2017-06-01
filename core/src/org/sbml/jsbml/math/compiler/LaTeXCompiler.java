@@ -40,9 +40,7 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Andreas Dr&auml;ger
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Aug 4, 2014
  */
 public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
 

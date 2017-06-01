@@ -24,9 +24,7 @@ package org.sbml.jsbml.util;
  * whenever exactly two values are required for a specific task.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-09-01
  * @since 0.8
- * @version $Rev$
  * @param <L>
  * @param <V>
  */

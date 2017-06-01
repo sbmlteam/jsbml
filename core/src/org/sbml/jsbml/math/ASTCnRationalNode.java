@@ -38,9 +38,7 @@ import org.sbml.jsbml.util.ValuePair;
  * in a mathematical expression
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 30, 2014
  */
 public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer>> {
 

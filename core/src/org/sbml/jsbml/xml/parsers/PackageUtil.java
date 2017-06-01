@@ -406,7 +406,6 @@ public class PackageUtil {
 /**
  *
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.1
  */
 final class PackageInfo {

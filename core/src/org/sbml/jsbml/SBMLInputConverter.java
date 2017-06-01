@@ -33,7 +33,6 @@ import org.sbml.jsbml.util.ProgressListener;
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  * @param <T> The type of input model that can be treated by this converter.
  */
 public interface SBMLInputConverter<T> {

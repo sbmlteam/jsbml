@@ -26,9 +26,7 @@ package org.sbml.jsbml;
  * A common super class for all those elements that can be part of an {@link Annotation}.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
- * @date 08.07.2011
  */
 public abstract class AnnotationElement extends AbstractTreeNode {
 

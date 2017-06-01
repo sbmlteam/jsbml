@@ -34,9 +34,7 @@ import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
  * An Abstract Syntax Tree (AST) node representing the minus operator
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jul 2, 2014
  */
 public class ASTMinusNode extends ASTBinaryFunctionNode {
 

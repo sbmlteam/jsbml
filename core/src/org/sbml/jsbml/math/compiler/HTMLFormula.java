@@ -35,9 +35,7 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * @author Andreas Dr&auml;ger
  * @author Victor Kofia
- * @date 2014-09-25
  * @since 0.8
- * @version $Rev$
  */
 public class HTMLFormula extends MathMLXMLStreamCompiler {
 

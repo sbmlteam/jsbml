@@ -32,7 +32,6 @@ import org.sbml.jsbml.math.ASTNode2;
  * @author Andreas Dr&auml;ger
  * @author Victor Kofia
  * 
- * @version $Rev$
  * @since 1.0
  */
 public class LibSBMLFormulaCompiler extends FormulaCompiler {

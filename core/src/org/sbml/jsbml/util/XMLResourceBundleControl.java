@@ -44,8 +44,6 @@ import java.util.Set;
  * </pre>
  * 
  * @author Andreas Dr&auml;ger
- * @date 2011-01-04
- * @version $Rev$
  * @since 1.0
  */
 public class XMLResourceBundleControl extends Control {
@@ -62,7 +60,6 @@ public class XMLResourceBundleControl extends Control {
    * split the given {@link String} into an array of {@link String}s.
    * 
    * @author Andreas Dr&auml;ger
-   * @date 2011-01-04
    */
   private static class XMLResourceBundle extends ResourceBundle {
 

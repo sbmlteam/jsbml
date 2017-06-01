@@ -24,7 +24,6 @@ package org.sbml.jsbml.text.parser;
 /**
  * Describes the input token stream.
  * @since 0.8
- * @version $Rev$
  */
 
 public class Token implements java.io.Serializable {

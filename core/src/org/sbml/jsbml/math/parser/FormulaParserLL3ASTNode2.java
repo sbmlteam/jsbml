@@ -66,7 +66,6 @@ import org.sbml.jsbml.math.parser.IFormulaParser;
  * @author Nicolas Rodriguez
  * @author Victor Kofia
  * @since 1.0
- * @version $Rev$
  */
 public class FormulaParserLL3ASTNode2 implements IFormulaParser, FormulaParserLL3ASTNode2Constants {
 

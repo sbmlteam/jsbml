@@ -35,7 +35,6 @@ import org.sbml.jsbml.SBMLException;
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  *
  */
 public class FindUnitsCompiler implements ASTNodeCompiler {

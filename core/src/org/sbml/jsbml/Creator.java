@@ -36,7 +36,6 @@ import org.sbml.jsbml.validator.SyntaxChecker;
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public class Creator extends AnnotationElement {
 

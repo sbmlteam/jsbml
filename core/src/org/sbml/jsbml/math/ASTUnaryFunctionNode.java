@@ -37,9 +37,7 @@ import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
  * parameter
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 30, 2014
  */
 public class ASTUnaryFunctionNode extends ASTFunction {
 

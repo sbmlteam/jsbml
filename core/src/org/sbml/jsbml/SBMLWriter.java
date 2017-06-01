@@ -44,7 +44,6 @@ import javax.xml.stream.XMLStreamException;
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class SBMLWriter implements Cloneable, Serializable {
 

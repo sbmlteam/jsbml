@@ -60,7 +60,6 @@ defined in SBML.
  * their URI or position in the list.
  * 
  * @since 0.8
- * @version $Rev$
  */
 public class XMLNamespaces implements Serializable  {
 

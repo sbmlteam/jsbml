@@ -36,7 +36,6 @@ import com.ctc.wstx.stax.WstxOutputFactory;
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class XMLNodeWriter {
 

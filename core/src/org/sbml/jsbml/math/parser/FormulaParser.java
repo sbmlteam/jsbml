@@ -37,7 +37,6 @@ import org.sbml.jsbml.resources.Resource;
  * @author Alexander D&ouml;rr
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class FormulaParser implements IFormulaParser, FormulaParserConstants {
   public static Properties stringToType = new Properties();

@@ -31,7 +31,6 @@ import org.sbml.jsbml.SBMLDocument;
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  */
 public interface TreeNodeChangeListener extends PropertyChangeListener {
 

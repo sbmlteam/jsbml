@@ -24,7 +24,6 @@ package org.sbml.jsbml;
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
- * @version $Rev$
  * @deprecated Since SBML Level 3 Version 1 use {@link AssignmentRule} with
  *             instances of {@link SpeciesReference} as {@link Variable}
  *             instead.

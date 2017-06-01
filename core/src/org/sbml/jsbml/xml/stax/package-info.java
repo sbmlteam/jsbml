@@ -23,7 +23,6 @@
  * href="http://jcp.org/en/jsr/detail%3Fid=173">Streaming API for XML (StAX)</a>
  * to read or write an SBML file.
  * 
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.xml.stax;

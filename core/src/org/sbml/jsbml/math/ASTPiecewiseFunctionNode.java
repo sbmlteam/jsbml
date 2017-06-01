@@ -36,9 +36,7 @@ import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
  * element in a mathematical expression.
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date May 30, 2014
  */
 public class ASTPiecewiseFunctionNode extends ASTFunction {
 

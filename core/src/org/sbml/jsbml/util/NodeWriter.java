@@ -29,7 +29,6 @@ import org.w3c.dom.Node;
  * 
  * @author Marco Donizelli
  * @since 0.8
- * @version $Rev$
  */
 public interface NodeWriter {
 

@@ -39,7 +39,6 @@ import org.sbml.jsbml.util.Option;
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class SBMLErrorLog {
 

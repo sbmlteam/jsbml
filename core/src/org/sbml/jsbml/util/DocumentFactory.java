@@ -31,7 +31,6 @@ import org.xml.sax.SAXException;
  * 
  * @author Marco Donizelli
  * @since 0.8
- * @version $Rev$
  */
 public interface DocumentFactory {
 

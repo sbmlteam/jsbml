@@ -56,9 +56,7 @@ import org.sbml.jsbml.ListOf;
  * </ul>
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
- * @date 19.07.2011
  */
 public class TreeNodeAdapter extends AbstractTreeNode {
 

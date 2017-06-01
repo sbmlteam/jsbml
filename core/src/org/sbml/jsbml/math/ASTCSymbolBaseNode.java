@@ -25,9 +25,7 @@ package org.sbml.jsbml.math;
  * that contains a definitionURL and name attribute.
  * 
  * @author Victor Kofia
- * @version $Rev$
  * @since 1.0
- * @date Jun 18, 2014
  */
 public interface ASTCSymbolBaseNode extends ASTNode2 {
 

@@ -69,7 +69,6 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
  * @author Nicolas Rodriguez
  * @author chenli
  * @since 0.8
- * @version $Rev$
  */
 @SuppressWarnings("deprecation")
 public class SubModel {

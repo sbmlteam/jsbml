@@ -22,7 +22,6 @@
  * This package provides methods to validate the content of SBML models, whether
  * given in a file or as a data structure.
  * 
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.validator;
