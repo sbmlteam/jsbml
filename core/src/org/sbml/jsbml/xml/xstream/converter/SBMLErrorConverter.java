@@ -39,7 +39,6 @@ import com.thoughtworks.xstream.io.path.PathTrackingReader;
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
  */
 public class SBMLErrorConverter implements Converter {
 

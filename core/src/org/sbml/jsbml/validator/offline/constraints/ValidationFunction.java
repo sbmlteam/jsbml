@@ -28,7 +28,6 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
  * 
  * @author Roman
  * @since 1.2
- * @date 05.08.2016
  * @param <T>
  */
 public interface ValidationFunction<T> {

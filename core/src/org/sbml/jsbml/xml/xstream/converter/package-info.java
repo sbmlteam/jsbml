@@ -25,7 +25,6 @@
  * It is currently use only to parse the result of the libSBML validation
  * process but might be use in future release to parse SBML
  * 
- * @version $Rev$
  * @since 0.8
  */
 package org.sbml.jsbml.xml.xstream.converter;

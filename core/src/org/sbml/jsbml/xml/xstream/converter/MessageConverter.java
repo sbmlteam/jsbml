@@ -30,7 +30,6 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 /**
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
  */
 public class MessageConverter implements Converter {
 
