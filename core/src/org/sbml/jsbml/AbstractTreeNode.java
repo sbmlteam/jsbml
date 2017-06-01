@@ -1,7 +1,4 @@
 /*
- * $Id$
- * $URL$
- *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -53,9 +50,7 @@ import org.sbml.jsbml.util.filters.Filter;
  * A basic implementation of the {@link TreeNode} interface.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 0.8
- * @date 11.07.2011
  */
 public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 
@@ -174,6 +169,11 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
       if (anode.isSetUserObjects()) {
         userObjects = new HashMap<Object, Object>();
         userObjects.putAll(anode.userObjects);
+      }
+      
+      // TODO - add this for all objects when we start using the checkAttribute method for other classes than Compartment.
+      if (anode instanceof Compartment) {
+        putUserObject(JSBML.CLONING_IN_PROGRESS, "true");
       }
     }
   }
@@ -596,6 +596,24 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   protected boolean isReadingInProgress() {
     if (isSetUserObjects()
         && userObjectKeySet().contains(JSBML.READING_IN_PROGRESS)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Returns true if JSBML is in the process of cloning an element.
+   * 
+   * <p>In this case, the attribute validation cannot happen as when cloning
+   * the parent is not set. And without parent, we cannot get
+   * the {@link Model} or {@link SBMLDocument} to check all the maps there and more.</p>
+   * 
+   * @return true if JSBML is in the process of cloning an element.
+   */
+  protected boolean isCloningInProgress() {
+    if (isSetUserObjects()
+        && userObjectKeySet().contains(JSBML.CLONING_IN_PROGRESS)) {
       return true;
     }
 

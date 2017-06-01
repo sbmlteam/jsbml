@@ -35,9 +35,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * {@link ASTNode}, or it might be directly defined as an attribute.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-12-16
  * @since 0.8
- * @version $Rev$
  */
 public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
@@ -70,7 +68,8 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
    * @param nsbu
    */
   public AbstractNamedSBaseWithUnit(AbstractNamedSBaseWithUnit nsbu) {
-    super(nsbu);
+    super(nsbu);        
+    
     if (nsbu.isSetUnits()) {
       setUnits(new String(nsbu.getUnits()));
     } else {
