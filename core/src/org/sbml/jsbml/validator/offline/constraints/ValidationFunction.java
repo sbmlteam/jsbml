@@ -28,7 +28,6 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
  * 
  * @author Roman
  * @since 1.2
- * @param <T>
  */
 public interface ValidationFunction<T> {
 
@@ -36,11 +35,10 @@ public interface ValidationFunction<T> {
    * Returns <code>true</code> if the constraint is valid and <code>false</code>
    * if it's broken.
    * 
-   * @param ctx,
-   *        the context in which the validation is performed
-   * @param t,
-   *        the object to check
+   * @param ctx the context in which the validation is performed
+   * @param t the object to check
    * @return <code>false</code> if the constraint is broken
    */
   public boolean check(ValidationContext ctx, T t);
+    
 }

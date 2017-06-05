@@ -273,13 +273,13 @@
         <repository>
 	  <id>jsbml-maven-repo-sf</id>
 	  <name>JSBML Maven repository</name>
-	  <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
+	  <url>scp://web.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
   	</repository>
 	
 	<snapshotRepository>
 	  <id>jsbml-maven-repo-s-sf</id>
 	  <name>JSBML Maven SNAPSHOT repository</name>
-	  <url>scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
+	  <url>scp://web.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
 	</snapshotRepository>
       </distributionManagement>
       <!-- to use jsbml maven repo test: replace 'jsbml' by 'jsbmlmavenrepotest' in the urls -->
