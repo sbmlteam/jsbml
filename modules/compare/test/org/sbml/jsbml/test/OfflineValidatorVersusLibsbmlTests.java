@@ -57,12 +57,13 @@ public class OfflineValidatorVersusLibsbmlTests {
   /**
    * 
    */
-  private static boolean ENABLE_UNITS_VALIDATION = true;
+  private static boolean ENABLE_UNITS_VALIDATION = false;
   
   /**
    * The file size limit in kilobytes above which we don't do the validation
    */
-  private static int FILE_SIZE_LIMIT = 15000;
+  private static int FILE_SIZE_LIMIT = 5000;
+  
   /**
    * This value should be set to true after the static block is executed
    * otherwise, there is not need to run this test !! You will need
@@ -224,7 +225,7 @@ public class OfflineValidatorVersusLibsbmlTests {
     System.out.println("\n\nNumber of files correctly validated: "
         + filesCorrectly + " out of " + totalFileTested);
     System.out.println("\nNumber of files correctly validating the implemented constraints: "
-        + nbFilesCorrectForImplementedConstraints + " out of " + totalFileTested);
+        + (filesCorrectly + nbFilesCorrectForImplementedConstraints) + " out of " + totalFileTested);
 
     System.out.println("\nIncorrect constraints list (errors followed by a '!' are errors that we know are not implemented): ");
     
@@ -302,12 +303,12 @@ public class OfflineValidatorVersusLibsbmlTests {
     
     double fileSizeKB = file.length()/1024;
     
-    System.out.println("File: " + name + " (size= " + fileSizeKB + "kb)");
-
     try {
       long startRead = Calendar.getInstance().getTimeInMillis();
       SBMLDocument doc = new SBMLReader().readSBML(file);
-      
+
+      System.out.println("File: " + name + " (size= " + fileSizeKB + "kb, SBML L" + doc.getLevel() + "V" + doc.getVersion() + ")");
+
       long endRead = Calendar.getInstance().getTimeInMillis();
 
       LoggingValidationContext ctx = getContext(doc);

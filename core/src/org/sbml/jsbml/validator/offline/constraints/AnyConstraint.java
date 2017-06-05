@@ -43,7 +43,7 @@ public interface AnyConstraint<T> {
    * @param object the object to validate
    * @return {@code false} if the object does not respect the constraint
    */
-  abstract public boolean check(ValidationContext context, T object);
+  public boolean check(ValidationContext context, T object);
 
 
   /**
@@ -54,5 +54,6 @@ public interface AnyConstraint<T> {
    * 
    * @return the error code from this constraint.
    */
-  abstract public int getErrorCode();
+  public int getErrorCode();
+  
 }

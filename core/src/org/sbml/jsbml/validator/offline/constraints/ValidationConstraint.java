@@ -22,24 +22,34 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 /**
  * The basic constraint which uses a {@link ValidationFunction} object to
  * perform validation.
- * Notice that two {@link ValidationConstraint} objects are equal if they have the same error Code
+ * 
+ * <p>Notice that two {@link ValidationConstraint} objects are equal if they have the same error Code.</p>
  * 
  * @author Roman
  * @since 1.2
- * @param <T>
  */
 public class ValidationConstraint<T> extends AbstractConstraint<T> {
 
-  protected static transient Logger logger =
-    Logger.getLogger(ValidationConstraint.class);
+  /**
+   * the logger
+   */
+  protected static transient Logger logger = Logger.getLogger(ValidationConstraint.class);
+  /**
+   *  the {@link ValidationFunction} that will perform the validation
+   */
   private ValidationFunction<T>     func;
 
 
+  /**
+   * Creates a new {@link ValidationConstraint} instance.
+   * 
+   * @param errorCode the error code
+   * @param func the {@link ValidationFunction} that will perform the validation
+   */
   public ValidationConstraint(int errorCode, ValidationFunction<T> func) {
     super(errorCode);
     this.func = func;
@@ -47,8 +57,8 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
 
 
   /**
-   * Two {@link ValidationConstraint} objects are euqal if they have the same
-   * error code.
+   * Returns {@code true} if the two {@link ValidationConstraint} objects have the same error code.
+   * 
    */
   @Override
   public boolean equals(Object obj) {
@@ -61,7 +71,6 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
  
   @Override
   public boolean check(ValidationContext context, T t) {
-    // TODO Auto-generated method stub
     boolean passed = true;
     logger.debug("Validate constraint " + this.getErrorCode());
 
@@ -74,4 +83,5 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
 
     return passed;
   }
+
 }
