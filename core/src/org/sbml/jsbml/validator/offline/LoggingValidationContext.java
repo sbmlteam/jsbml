@@ -109,7 +109,7 @@ public class LoggingValidationContext extends ValidationContext implements Valid
    * 
    * @param id the error id to log
    */
-  private void logFailure(int id) {
+  public void logFailure(int id) {
     
     if (id == CoreSpecialErrorCodes.ID_GROUP || id == CoreSpecialErrorCodes.ID_VALIDATE_TREE_NODE)
     {
@@ -138,7 +138,11 @@ public class LoggingValidationContext extends ValidationContext implements Valid
   public void didValidate(ValidationContext ctx, AnyConstraint<?> c, Object o, boolean success) {
     // System.out.println("Checked " + c.getId());
     if (!success) {
-      logFailure(c.getErrorCode()); // TODO - get the error message or complement message from the constraint, once the system is in place.
+      logFailure(c.getErrorCode()); // TODO - remove when new system is in place !!
+      
+      // TODO - the ValidationFunction should fill in the SBMLErrors directly to the ValidationContext to make things much simpler !!!
+      // They can all call #logFailure(int) to start with, then we can start to build custom error message for each error code.
+      
     }
   }
 
