@@ -39,7 +39,7 @@ import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
  * @author Roman
  * @since 1.2
  */
-public class CompartmentConstraints extends AbstractConstraintDeclaration{
+public class CompartmentConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
@@ -178,16 +178,17 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
     case CORE_20501:
 
-      func = new ValidationFunction<Compartment>() {
+      func = new AbstractValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
           /*
            * Invalid use of the 'size' attribute for a
            * zero-dimensional compartment
            */
-          if (c.getSpatialDimensions() == 0)
+          if (c.getSpatialDimensions() == 0 && c.isSetSize())
           {
-            return !c.isSetSize();
+            ValidationConstraint.logError(ctx, CORE_20501); 
+            return false;
           }
 
           return true;
@@ -196,7 +197,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       break;
 
     case CORE_20502:
-      func = new ValidationFunction<Compartment>() {
+      func = new AbstractValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
           /*
@@ -204,9 +205,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
            * zero-dimensional compartment
            */
 
-          if (c.getSpatialDimensions() == 0)
+          if (c.getSpatialDimensions() == 0 && c.isSetUnits())
           {
-            return !c.isSetUnits();
+            ValidationConstraint.logError(ctx, CORE_20502);
+            return true;
           }
 
           return true;
@@ -215,13 +217,14 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       break;
 
     case CORE_20503:
-      func = new ValidationFunction<Compartment>() {
+      func = new AbstractValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
 
-          if (c.getSpatialDimensions() == 0)
+          if (c.getSpatialDimensions() == 0 && (!c.isConstant()))
           {
-            return c.isConstant();
+            ValidationConstraint.logError(ctx, CORE_20503);
+            return true;
           }
 
           return true;
@@ -230,13 +233,14 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       break;
 
     case CORE_20504:
-      func = new ValidationFunction<Compartment>() {
+      func = new AbstractValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
 
-          if (c.isSetOutside())
+          if (c.isSetOutside() && (c.getOutsideInstance() == null))
           {
-            return c.getOutsideInstance() != null;
+            ValidationConstraint.logError(ctx, CORE_20504);
+            return true;
           }
 
           return true;
@@ -245,8 +249,8 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
       break;
 
     case CORE_20505:
-      func = new ValidationFunction<Compartment>() {
-        HashSet<Compartment> outsideSet =  new HashSet<Compartment>();
+      func = new AbstractValidationFunction<Compartment>() {
+        HashSet<Compartment> outsideSet =  new HashSet<Compartment>(); // TODO - we should store the HashSet in the ValidationContext to make the process more Thread safe.
 
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
@@ -258,10 +262,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
           while(com != null && com.isSetOutside())
           {
-
-            // add returns false if the compartment is already in the set
+            // returns false if the compartment is already in the set
             if(!outsideSet.add(com))
             {
+              ValidationConstraint.logError(ctx, CORE_20504);
               return false;
             }
 
@@ -484,6 +488,10 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
             if (c.isSetSpatialDimensions() && c.getSpatialDimensions() == 0) {
               return true;
             }
+            if (ctx.getLevel() >= 3 && (!c.isSetSpatialDimensions())) {
+              // There are no default for spatialDimensions in L3, so don't report this error if spatialDimensions is not set
+              return true;
+            }
             
             boolean sizeByAssignment = false;
             
@@ -513,4 +521,5 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration{
 
     return func;
   }
+
 }

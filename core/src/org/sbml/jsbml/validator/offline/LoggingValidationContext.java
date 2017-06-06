@@ -26,8 +26,10 @@ import java.util.Set;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.constraints.AbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
 import org.sbml.jsbml.validator.offline.constraints.CoreSpecialErrorCodes;
+import org.sbml.jsbml.validator.offline.constraints.ValidationConstraint;
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
 
 /**
@@ -138,11 +140,24 @@ public class LoggingValidationContext extends ValidationContext implements Valid
   public void didValidate(ValidationContext ctx, AnyConstraint<?> c, Object o, boolean success) {
     // System.out.println("Checked " + c.getId());
     if (!success) {
-      logFailure(c.getErrorCode()); // TODO - remove when new system is in place !!
+      
+      if (c instanceof ValidationConstraint<?>) {
+        ValidationConstraint<?> vc = (ValidationConstraint<?>) c;
+      
+        if ((vc.getValidationFunction() instanceof AbstractValidationFunction<?>) 
+            && ((AbstractValidationFunction<?>) vc.getValidationFunction()).isSelfLogging()) 
+        {
+          // nothing to do, the SBMLerror is/are added directly by the ValidationFunction
+        }
+        else
+        {
+          // TODO - ask a factory to build a customized message
+          logFailure(c.getErrorCode());
+        }
       
       // TODO - the ValidationFunction should fill in the SBMLErrors directly to the ValidationContext to make things much simpler !!!
       // They can all call #logFailure(int) to start with, then we can start to build custom error message for each error code.
-      
+      }
     }
   }
 
