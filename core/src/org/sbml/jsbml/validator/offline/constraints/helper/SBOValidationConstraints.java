@@ -86,9 +86,7 @@ public final class SBOValidationConstraints {
      {
 
        @Override
-       public boolean check(
-         ValidationContext ctx,
-         SBase sb) {
+       public boolean check(ValidationContext ctx, SBase sb) {
 
          if (sb.isSetSBOTerm()) {
            try {
@@ -96,7 +94,6 @@ public final class SBOValidationConstraints {
            } catch (Exception e) {
              return false;
            }
-
          }
 
          return true;
@@ -112,9 +109,7 @@ public final class SBOValidationConstraints {
      {
 
        @Override
-       public boolean check(
-         ValidationContext ctx,
-         SBase sb) {
+       public boolean check(ValidationContext ctx, SBase sb) {
 
          if (sb.isSetSBOTerm()) {
            try {
@@ -123,7 +118,6 @@ public final class SBOValidationConstraints {
            } catch (Exception e) {
              return false;
            }
-
          }
 
          return true;
@@ -139,9 +133,7 @@ public final class SBOValidationConstraints {
      {
 
        @Override
-       public boolean check(
-         ValidationContext ctx,
-         SBase sb) {
+       public boolean check(ValidationContext ctx, SBase sb) {
 
          if (sb.isSetSBOTerm()) {
            if (ctx.isLevelAndVersionGreaterEqualThan(2, 4)) {
@@ -157,7 +149,6 @@ public final class SBOValidationConstraints {
                return false;
              }
            }
-
          }
 
          return true;
@@ -173,9 +164,7 @@ public final class SBOValidationConstraints {
      {
 
        @Override
-       public boolean check(
-         ValidationContext ctx,
-         SBase sb) {
+       public boolean check(ValidationContext ctx, SBase sb) {
 
          if (sb.isSetSBOTerm()) {
            try {
@@ -184,7 +173,6 @@ public final class SBOValidationConstraints {
            } catch (Exception e) {
              return false;
            }
-
          }
 
          return true;
@@ -200,9 +188,7 @@ public final class SBOValidationConstraints {
      {
 
        @Override
-       public boolean check(
-         ValidationContext ctx,
-         SBase sb) {
+       public boolean check(ValidationContext ctx, SBase sb) {
 
          if (sb.isSetSBOTerm()) {
            try {
@@ -240,9 +226,7 @@ public final class SBOValidationConstraints {
      {
 
        @Override
-       public boolean check(
-         ValidationContext ctx,
-         SBase sb) {
+       public boolean check(ValidationContext ctx, SBase sb) {
 
          if (sb.isSetSBOTerm()) {
            try {
@@ -251,7 +235,6 @@ public final class SBOValidationConstraints {
            } catch (Exception e) {
              return false;
            }
-
          }
 
          return true;
