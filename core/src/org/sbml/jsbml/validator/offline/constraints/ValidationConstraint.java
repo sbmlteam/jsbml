@@ -21,6 +21,8 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
 /**
@@ -42,6 +44,22 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
    *  the {@link ValidationFunction} that will perform the validation
    */
   private ValidationFunction<T>     func;
+
+
+  
+  /**
+   * Logs a new {@link SBMLError} into a {@link LoggingValidationContext}.
+   * 
+   * @param ctx the context
+   * @param errorCode the error code
+   */
+  public static void logError(ValidationContext ctx, int errorCode) {
+    if (ctx != null && ctx instanceof LoggingValidationContext) {
+      LoggingValidationContext lctx = (LoggingValidationContext) ctx;
+      
+      lctx.logFailure(errorCode);
+    }
+  }
 
 
   /**
@@ -82,6 +100,16 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
     context.didValidate(this, t, passed);
 
     return passed;
+  }
+  
+  
+  /**
+   * Returns the {@link ValidationFunction} registered in this {@link ValidationConstraint}.
+   * 
+   * @return the {@link ValidationFunction} registered in this {@link ValidationConstraint}.
+   */
+  public ValidationFunction<T> getValidationFunction() {
+    return func;
   }
 
 }
