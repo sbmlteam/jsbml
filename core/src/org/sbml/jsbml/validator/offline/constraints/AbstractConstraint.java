@@ -25,7 +25,7 @@ package org.sbml.jsbml.validator.offline.constraints;
  * implementation of {@link AnyConstraint#getErrorCode()}.
  * 
  * <p>Subclasses should set their own id by calling
- * {@link AbstractConstraint#AbstractConstraint(int)}.
+ * {@link AbstractConstraint#AbstractConstraint(int)}.</p>
  * 
  * @author Roman
  * @since 1.2
@@ -50,6 +50,6 @@ public abstract class AbstractConstraint<T> implements AnyConstraint<T> {
 
   @Override
   public int getErrorCode() {
-    return this.errorCode;
+    return errorCode;
   }
 }

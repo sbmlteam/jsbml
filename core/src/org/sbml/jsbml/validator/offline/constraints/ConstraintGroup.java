@@ -31,6 +31,7 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
  * @author Roman
  *
  * @param <T> the type of object to check
+ * @since 1.2
  */
 public class ConstraintGroup<T> extends AbstractConstraint<T> {
 
@@ -56,7 +57,6 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
     for (AnyConstraint<T> c : this.constraints) { 
       if (c != null) {        
         success = c.check(context, object) && success;
-     // TODO - if we have the CHECK_CATEGORY and the SBMLError severity available, we could stop when changing category if an error was found previously
       }
     }
     context.didValidate(this, object, success);
@@ -76,7 +76,7 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
   public void add(AnyConstraint<T> c) {
 
     if (c != null) {
-      this.constraints.add(c);
+      constraints.add(c);
     }
   }
 
@@ -88,7 +88,7 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
    * @return {@code true} if constraint was in this group and was removed
    */
   public boolean remove(AnyConstraint<T> constraint) {
-    return this.constraints.remove(constraint);
+    return constraints.remove(constraint);
   }
 
 
@@ -105,7 +105,7 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
    * @see #contains(AnyConstraint)
    */
   public boolean contains(int errorCode) {
-    for (AnyConstraint<T> con : this.constraints) {
+    for (AnyConstraint<T> con : constraints) {
       if (con.getErrorCode() == errorCode) {
         return true;
       }
@@ -121,19 +121,19 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
    * @return {@code true} if the constraint is in the group
    */
   public boolean contains(AnyConstraint<T> c) {
-    return this.constraints.contains(c);
+    return constraints.contains(c);
   }
 
 
   /**
    * Returns the members of the group.
    * 
-   * @return the members of the group.
+   * @return the members of the group as an array.
    */
   public AnyConstraint<T>[] getConstraints() {
     @SuppressWarnings("unchecked")
-    AnyConstraint<T>[] constraints =
-    this.constraints.toArray(new AnyConstraint[this.constraints.size()]);
+    AnyConstraint<T>[] constraints = this.constraints.toArray(new AnyConstraint[this.constraints.size()]);
+    
     return constraints;
   }
   
@@ -144,7 +144,7 @@ public class ConstraintGroup<T> extends AbstractConstraint<T> {
    */
   public int getConstraintsCount()
   {
-    return this.constraints.size();
+    return constraints.size();
   }
  
 }
