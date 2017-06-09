@@ -108,7 +108,9 @@ implements ConstraintDeclaration, SBMLErrorCodes {
         instances.put(className, new SoftReference<ConstraintDeclaration>(declaration));
         
       } catch (Exception e) {
-        logger.debug("Couldn't find ConstraintsDeclaration: " + constraintsClass);
+        if (logger.isDebugEnabled()) {
+          logger.debug("Couldn't find ConstraintsDeclaration: " + constraintsClass);
+        }
         classBlacklist.add(className);
       }
     }
@@ -120,6 +122,30 @@ implements ConstraintDeclaration, SBMLErrorCodes {
   @Override
   public <T> ConstraintGroup<T> createConstraints(int[] errorCodes, ValidationContext context) {
     ConstraintGroup<T> group = new ConstraintGroup<T>();
+
+    for (int errorCode : errorCodes) {
+      @SuppressWarnings("unchecked")
+      AnyConstraint<T> c = (AnyConstraint<T>) this.createConstraint(errorCode, context);
+
+      if (c != null) {
+        group.add(c);
+      }
+    }
+
+    return (group.getConstraintsCount() > 0) ? group : null;
+  }
+
+  /**
+   * Creates the constraints with the given error codes and regroup them into a {@link CategoryConstraintGroup}.
+   * 
+   * @param errorCodes an array of error codes
+   * @param context the validation context
+   * @return A {@link CategoryConstraintGroup} with at least 1 member or
+   *         <code>null</code> if no constraint was loaded
+   * @see #createConstraint(int, ValidationContext)
+   */
+  public <T> ConstraintGroup<T> createConstraints(int[] errorCodes, ValidationContext context, CHECK_CATEGORY category) {
+    ConstraintGroup<T> group = new CategoryConstraintGroup<T>(category);
 
     for (int errorCode : errorCodes) {
       @SuppressWarnings("unchecked")
@@ -145,8 +171,10 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
   @Override
   public <T> ConstraintGroup<T> createConstraints(int level, int version,
-    String attributeName, ValidationContext context) {
-
+    String attributeName, ValidationContext context) 
+  {
+    // No need to distinguish between check category for now for attribute
+    
     Set<Integer> set = new HashSet<Integer>();
 
     this.addErrorCodesForAttribute(set, level, version, attributeName, context);
@@ -157,22 +185,52 @@ implements ConstraintDeclaration, SBMLErrorCodes {
   }
 
 
+  /* // code creating one CategoryConstraintGroup for each category but it is making the validation very, very slow. I am not yet sure why!
+   
   @Override
   public <T> ConstraintGroup<T> createConstraints(int level, int version,
-    CHECK_CATEGORY[] categories, ValidationContext context) {
+    CHECK_CATEGORY[] categories, ValidationContext context) 
+  {
+    ConstraintGroup<T> group = new ConstraintGroup<T>();
+    Set<Integer> errorSet = new HashSet<Integer>();
 
+    // we create one CategoryConstraintGroup per CHECK_CATEGORY, then create a global ConstraintGroup that contain the check category ConstraintGroups.    
+    for (CHECK_CATEGORY cat : categories) {
+      
+      addErrorCodesForCheck(errorSet, level, version, cat, context);
+      int[] errorArray = convertToArray(errorSet);
+      
+      ConstraintGroup<T> categoryGroup = createConstraints(errorArray, context, cat);
+      
+      if (categoryGroup != null) {
+        group.add(categoryGroup);
+      }
+      
+      // reset the error set for the next category
+      errorSet.clear();
+    }
+
+    return (group.getConstraintsCount() > 0) ? group : null;
+  }
+   */
+
+  
+  //  Working code with only one level of ConstraintGroup
+  @Override
+  public <T> ConstraintGroup<T> createConstraints(int level, int version,
+    CHECK_CATEGORY[] categories, ValidationContext context) 
+  {
     Set<Integer> set = new HashSet<Integer>();
 
     for (CHECK_CATEGORY cat : categories) {
       this.addErrorCodesForCheck(set, level, version, cat, context);
     }
-
     int[] array = convertToArray(set);
-
+    
     return this.createConstraints(array, context);
   }
-
-
+      
+      
   @Override
   public <T> AnyConstraint<T> createConstraint(int errorCode, ValidationContext context) {
 
@@ -181,8 +239,7 @@ implements ConstraintDeclaration, SBMLErrorCodes {
 
     if (c == null) {
       @SuppressWarnings("unchecked")
-      ValidationFunction<T> func =
-      (ValidationFunction<T>) getValidationFunction(errorCode, context);
+      ValidationFunction<T> func = (ValidationFunction<T>) getValidationFunction(errorCode, context);
 
       c = (func != null) ? new ValidationConstraint<T>(errorCode, func) : null;
 
@@ -236,14 +293,20 @@ implements ConstraintDeclaration, SBMLErrorCodes {
    */
   protected AnyConstraint<?> getFromCache(int errorCode) {
     Integer key = new Integer(errorCode);
-    SoftReference<AnyConstraint<?>> ref = AbstractConstraintDeclaration.cache.get(key);
+    String thisName = this.getClass().getSimpleName();
+    String removeWord = "Constraints";
+    
+    String className = thisName.substring(0, thisName.length() - removeWord.length());
+
+    
+    SoftReference<AnyConstraint<?>> ref = AbstractConstraintDeclaration.cache.get(className + errorCode);
     
     if (ref != null) {
       AnyConstraint<?> c = (ref.get());
       // If the constraint was cleared, the reference in the
       // HashMap can be removed.
       if (c == null) {
-        AbstractConstraintDeclaration.cache.remove(key); // TODO - check - The key used here is not the same as on the method addToCache ! 
+        AbstractConstraintDeclaration.cache.remove(className + key); 
       }
       return c;
     }
