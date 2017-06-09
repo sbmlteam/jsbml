@@ -105,7 +105,17 @@ public class LoggingValidationContext extends ValidationContext implements Valid
     return this.log;
   }
 
-
+  /**
+   * Logs an {@link SBMLError} into the {@link SBMLErrorLog}.
+   * 
+   * @param error the error to log
+   */
+  public void logFailure(SBMLError error) {
+    if (error != null) {
+      log.add(error);
+    }
+  }
+  
   /**
    * Logs an {@link SBMLError} into the {@link SBMLErrorLog}.
    * 
@@ -126,7 +136,7 @@ public class LoggingValidationContext extends ValidationContext implements Valid
     SBMLError e = SBMLErrorFactory.createError(id, this.getLevel(), this.getVersion());
     
     if (e != null) {
-      this.log.add(e);
+      log.add(e);
       
       // TODO - if it is an Error or above, set the current category as the maximum (or create a set of ignored categories) to validate for the next elements.
       
@@ -134,7 +144,7 @@ public class LoggingValidationContext extends ValidationContext implements Valid
       logger.warn("Couldn't load SBMLError for error code " + id);
       SBMLError defaultError = new SBMLError();
       defaultError.setCode(id);
-      this.log.add(defaultError);
+      log.add(defaultError);
     }
   }
 
