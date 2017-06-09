@@ -176,7 +176,7 @@ public class OfflineValidatorVersusLibsbmlTests {
 
     // this JOptionPane is added here to be able to start visualVM profiling
     // before the reading or writing is started.
-    JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
+    // JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
 
     notImplementedConstraints.addAll(Arrays.asList(10201, 10202, 10203, 10204, 10205, 10206, 10207,
       10309, 10310, 10311, 10401, 10402, 10403, 10801, 10804, 21006, 
