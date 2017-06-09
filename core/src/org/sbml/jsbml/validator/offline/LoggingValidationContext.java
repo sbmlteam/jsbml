@@ -118,7 +118,9 @@ public class LoggingValidationContext extends ValidationContext implements Valid
       return;
     }
     
-    logger.debug("Constraint " + id + " is broken!");
+    if (logger.isDebugEnabled()) {
+      logger.debug("Constraint " + id + " is broken!");
+    }
     
     // Try to create the SBMLError from the .json file
     SBMLError e = SBMLErrorFactory.createError(id, this.getLevel(), this.getVersion());

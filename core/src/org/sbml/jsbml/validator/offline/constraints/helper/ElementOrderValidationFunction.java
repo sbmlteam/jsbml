@@ -84,8 +84,10 @@ public class ElementOrderValidationFunction<T extends SBase> implements Validati
         
         if (currentElementIndex == -1) {
           // There was a problem, the element name does not seems to be part of the expected children.
-          // But it can happen when we have L3 package children. 
-          logger.debug("ElementOrderValidationFunction - '" + elementName + "' is not recognized for element '" + t.getElementName() + "'");
+          // But it can happen when we have L3 package children.
+          if (logger.isDebugEnabled()) {
+            logger.debug("ElementOrderValidationFunction - '" + elementName + "' is not recognized for element '" + t.getElementName() + "'");
+          }
           // we continue as we don't check for that in this rule
           continue;
         }
