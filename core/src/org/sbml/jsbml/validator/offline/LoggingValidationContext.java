@@ -35,15 +35,15 @@ import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
 /**
  * A subclass of {@link ValidationContext} which implements the
  * {@link ValidationListener} interface to track his own validation process.
- * <p>
- * A instance of this class creates a {@link SBMLErrorLog} which contains a
- * {@link SBMLError} object for every broken constraint.
- * <p>
- * The level and version parameter are
- * used to determine which rules will be checked.
- * <p>
- * For more informations about the SBML specifications look up
- * <a href="http://www.sbml.org"> sbml.org </a>
+ * 
+ * <p> An instance of this class creates an {@link SBMLErrorLog} which contains some
+ * {@link SBMLError} object for every broken constraint.</p>
+ * 
+ * <p> The level and version parameter are
+ * used to determine which rules will be checked.</p>
+ * 
+ * <p> For more informations about the SBML specifications look up
+ * <a href="http://www.sbml.org"> sbml.org </a>.</p>
  * 
  * @author Roman
  * @author rodrigue
@@ -121,11 +121,12 @@ public class LoggingValidationContext extends ValidationContext implements Valid
     logger.debug("Constraint " + id + " is broken!");
     
     // Try to create the SBMLError from the .json file
-    SBMLError e =
-      SBMLErrorFactory.createError(id, this.getLevel(), this.getVersion());
+    SBMLError e = SBMLErrorFactory.createError(id, this.getLevel(), this.getVersion());
     
     if (e != null) {
       this.log.add(e);
+      
+      // TODO - if it is an Error or above, set the current category as the maximum (or create a set of ignored categories) to validate for the next elements.
       
     } else {
       logger.warn("Couldn't load SBMLError for error code " + id);
@@ -162,8 +163,20 @@ public class LoggingValidationContext extends ValidationContext implements Valid
   }
 
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.ValidationContext#validate(java.lang.Object, boolean)
+   */
+  @Override
+  public boolean validate(Object o, boolean clearMap) {
+    // go through each CategoryConstraintGroup here ? 
+    // and maintain a set of category that we ignore if there was an error (not only warnings) in one of the previous category 
+    
+    return super.validate(o, clearMap);
+  }
+
+
   @Override
   public void willValidate(ValidationContext ctx, AnyConstraint<?> c, Object o) {
-    // nothing need to be done    
+    // nothing to do here
   }
 }
