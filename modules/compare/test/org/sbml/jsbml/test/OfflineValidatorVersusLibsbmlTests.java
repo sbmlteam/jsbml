@@ -31,12 +31,14 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.swing.JOptionPane;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
@@ -55,7 +57,7 @@ import org.sbml.libsbml.libsbmlConstants;
 public class OfflineValidatorVersusLibsbmlTests {
 
   /**
-   * 
+   * Enables or not unit validation.
    */
   private static boolean ENABLE_UNITS_VALIDATION = false;
   
@@ -63,6 +65,17 @@ public class OfflineValidatorVersusLibsbmlTests {
    * The file size limit in kilobytes above which we don't do the validation
    */
   private static int FILE_SIZE_LIMIT = 5000;
+  
+  /**
+   * Tells if we should print {@link #PRINT_ERROR_LIMIT} error messages per error code
+   */
+  private static boolean PRINT_ERROR_SAMPLE = true;
+  
+  /**
+   * Indicates the maximum of error we should print for each error code, if {@link #PRINT_ERROR_SAMPLE} is {@code true}.
+   */
+  private static final int PRINT_ERROR_LIMIT = 2;
+
   
   /**
    * This value should be set to true after the static block is executed
@@ -161,6 +174,10 @@ public class OfflineValidatorVersusLibsbmlTests {
       System.exit(0);      
     }
 
+    // this JOptionPane is added here to be able to start visualVM profiling
+    // before the reading or writing is started.
+    JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
+
     notImplementedConstraints.addAll(Arrays.asList(10201, 10202, 10203, 10204, 10205, 10206, 10207,
       10309, 10310, 10311, 10401, 10402, 10403, 10801, 10804, 21006, 
       10501, 10503, 10511, 10512, 10513, 10521, 10522, 10523, 10531, 10532, 10533, 10534, 10541, 10542, 10551, 10562, 10563, 10565,
@@ -258,7 +275,7 @@ public class OfflineValidatorVersusLibsbmlTests {
 
 
   /**
-   * 
+   * Validates an entire directory, taking "*.xml" and files not bigger than {@link #FILE_SIZE_LIMIT}kb.
    * 
    * @param dir the directory
    */
@@ -292,7 +309,7 @@ public class OfflineValidatorVersusLibsbmlTests {
 
 
   /**
-   * 
+   * Validates a given file with jsbml and libsbml and compares the results.
    * 
    * @param file the file to validate
    */
@@ -312,6 +329,7 @@ public class OfflineValidatorVersusLibsbmlTests {
       long endRead = Calendar.getInstance().getTimeInMillis();
 
       LoggingValidationContext ctx = getContext(doc);
+      
       ctx.validate(doc);
       
       long endValidation = Calendar.getInstance().getTimeInMillis();
@@ -342,8 +360,16 @@ public class OfflineValidatorVersusLibsbmlTests {
         } else {
           jsbmlErrorCount.put(errorCode, jsbmlErrorCount.get(errorCode) + 1);
         }
+        
+        if (PRINT_ERROR_SAMPLE && jsbmlErrorCount.get(errorCode) < PRINT_ERROR_LIMIT) {
+          System.out.println("\n" + e.toString());
+        }
       }
-
+      
+      if (PRINT_ERROR_SAMPLE) {
+          System.out.println();
+      }
+      
       // check if there are any empty ListOf in the SBMLDocument and report them as a new Error
       List<? extends TreeNode> emptyListOfs = doc.filter(new Filter() {
         
@@ -361,7 +387,7 @@ public class OfflineValidatorVersusLibsbmlTests {
         jsbmlErrorCount.put(26000, emptyListOfs.size());
         
         for (TreeNode emptyListOf : emptyListOfs) {
-          System.out.println("Empty ListOf found - " + ((ListOf) emptyListOf).getSBaseListType() + ", element name = " + ((ListOf) emptyListOf).getElementName());
+          System.out.println("Empty ListOf found - " + ((ListOf<?>) emptyListOf).getSBaseListType() + ", element name = " + ((ListOf<?>) emptyListOf).getElementName());
         }
       }
       
@@ -397,9 +423,17 @@ public class OfflineValidatorVersusLibsbmlTests {
         } else {
           libsbmlErrorCount.put(errorCode, libsbmlErrorCount.get(errorCode) + 1);
         }
-         
+        
+        if (PRINT_ERROR_SAMPLE && libsbmlErrorCount.get(errorCode) < PRINT_ERROR_LIMIT) {
+          System.out.println("\n" + toString(error));
+        }
+
       }
       
+      if (PRINT_ERROR_SAMPLE) {
+        System.out.println();
+      }
+
       // compare both results and report error code where the numbers differ between jsbml and libsbml
       Set<Integer> wrongConstraintCodes = new HashSet<Integer>(); 
       wrongConstraintCodes.addAll(jsbmlErrorCount.keySet());
@@ -470,10 +504,10 @@ public class OfflineValidatorVersusLibsbmlTests {
 
 
   /**
+   * Registers in several list or map the error code and the file name where it was not detected properly.
    * 
-   * 
-   * @param errorCode
-   * @param fileName
+   * @param errorCode the error code that was not detected properly
+   * @param fileName the file name where it was not detected properly.
    */
   private static void didNotDetect(int errorCode, String fileName) {
     
@@ -491,6 +525,12 @@ public class OfflineValidatorVersusLibsbmlTests {
   }
 
 
+  /**
+   * Gets a new {@link LoggingValidationContext} for the given {@link SBMLDocument}.
+   * 
+   * @param doc the SBML document
+   * @return a new {@link LoggingValidationContext} initialised for the given {@link SBMLDocument}.
+   */
   private static LoggingValidationContext getContext(SBMLDocument doc) {
     String key = "l" + doc.getLevel() + "v" + doc.getVersion();
     LoggingValidationContext ctx = contextCache.get(key);
@@ -518,8 +558,28 @@ public class OfflineValidatorVersusLibsbmlTests {
   }
 
 
+  /**
+   * Inserts a kind of line separator in the console.
+   */
   private static void printStrongHLine() {
 
     System.out.println("==============================");
   }
+  
+
+  /**
+   * Prints a libsbml SBMLerror in a similar way as the jsbml SBMLError.
+   * 
+   * @param error the error to print
+   * @return a String representing the error
+   */
+  public static String toString(org.sbml.libsbml.SBMLError error) {
+    return StringTools.concat("SBMLError ", error.getErrorId(), " [", error.getSeverityAsString(), "] [", error.getCategoryAsString(), "] ",
+        "\n  Line = ", error.getLine(), ",  Column = ", error.getColumn(), "\n  package = ", error.getPackage(), "\n  short message = ",
+        (error.getShortMessage() != null ? error.getShortMessage() : ""),
+        "\n  message = ", (error.getMessage() != null ? error.getMessage() : ""), "\n").toString();
+
+    //  "\n  excerpt = ", error.,
+  }
+
 }
