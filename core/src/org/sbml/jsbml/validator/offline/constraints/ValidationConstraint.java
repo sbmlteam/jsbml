@@ -20,10 +20,13 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.text.MessageFormat;
+
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
 
 /**
  * The basic constraint which uses a {@link ValidationFunction} object to
@@ -61,6 +64,26 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
     }
   }
 
+  /**
+   * Logs a new {@link SBMLError} into a {@link LoggingValidationContext}.
+   * 
+   * @param ctx the context
+   * @param errorCode the error code
+   */
+  public static void logError(ValidationContext ctx, int errorCode, String messageFormat, String...args) {
+    if (ctx != null && ctx instanceof LoggingValidationContext) {
+      LoggingValidationContext lctx = (LoggingValidationContext) ctx;
+      
+      // Try to create the SBMLError from the .json file
+      SBMLError e = SBMLErrorFactory.createError(errorCode, ctx.getLevel(), ctx.getVersion());
+      
+      String detailedMessage = MessageFormat.format(messageFormat, (Object[]) args);
+
+      e.getMessageInstance().setMessage(e.getMessageInstance().getMessage() + detailedMessage);
+      
+      lctx.logFailure(e);
+    }
+  }
 
   /**
    * Creates a new {@link ValidationConstraint} instance.

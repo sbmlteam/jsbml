@@ -314,7 +314,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
       };
       break;
     case CORE_10214:
-      func = new ValidationFunction<ASTNode>() {
+      func = new AbstractValidationFunction<ASTNode>() {
 
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
@@ -325,7 +325,19 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             Model m = node.getParentSBMLObject().getModel();
 
             if (m != null) {
-              return m.getFunctionDefinition(node.getName()) != null;
+              
+              FunctionDefinition f = m.getFunctionDefinition(node.getName());
+              
+              if (f == null) {
+
+                // TODO - put the validation message into a language dependent set of classes with the possibility of 'pre' and 'post' string
+                
+                ValidationConstraint.logError(ctx, CORE_10214, "The formula ''{0}'' in the math element of the {1} uses ''{2}'' which is not a function definition id.",
+                    node.getParentSBMLObject().getMath().toFormula(), node.getParentSBMLObject().getClass().getSimpleName(), node.getName());
+                
+                return  false;
+              
+              }
             }
           }
 
