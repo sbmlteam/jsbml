@@ -90,7 +90,10 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
   @Override
   public boolean check(ValidationContext context, T t) {
     boolean passed = true;
-    logger.debug("Validate constraint " + this.getErrorCode());
+    
+    if (logger.isDebugEnabled()) {
+      logger.debug("Validate constraint " + this.getErrorCode());
+    }
 
     if (this.func != null) {
       passed = func.check(context, t);
