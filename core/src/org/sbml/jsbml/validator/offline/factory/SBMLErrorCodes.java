@@ -22,8 +22,10 @@ package org.sbml.jsbml.validator.offline.factory;
 
 
 /**
- * Automatically generated file, using the python scripts extractErrors.py and createErrorCodeInterface.py
+ * Automatically generated file, using the python scripts extractErrors.py on the libSBML source code
+ * and createErrorCodeInterface.py on the generated json file.
  *
+ * @since 1.2
  */
 public interface SBMLErrorCodes { 
  
