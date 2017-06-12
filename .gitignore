@@ -65,3 +65,5 @@ dev/maven/*.asc
 MyTest*
 
 *.dll
+
+.pydevproject
