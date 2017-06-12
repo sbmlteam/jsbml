@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 # =============================================================================
-# @file   createErrorCodeInterface.py
-# @brief  Extracts SBML errors from the json file and creates an interface that contains all error codes.
-# @author Roman Schulte
+# @file   createSBMLErrorShortMessageBundle.py
+# @brief  Creates a java ListResourceBundle that contains each error code short shortMessage
+# @author Nicolas Rodriguez
 # =============================================================================
 #
 # This file is part of the JSBML offline validator project.
 #
 # This script expects two input parameters, where the first is the location
 # of the SBMLErrors.json and the second one the output path for the newly created
-# Java interface. Example:
+# Java class. Example:
 #
-# python createErrorCodeInterface.py ./SBMLErrors.json ../../../../../src/org/sbml/jsbml/validator/offline/factory/
+# python createSBMLErrorShortMessageBundle.py ./SBMLErrors.json ../../../../../src/org/sbml/jsbml/validator/offline/i18n/
 #
 # If needed this script will create new directories.
 
@@ -65,34 +65,66 @@ file = '''/*
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */\n
-package org.sbml.jsbml.validator.offline.factory;
-\n\n
+package org.sbml.jsbml.validator.offline.i18n;
+\n
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
+
+
 /**
- * Automatically generated file, using the python scripts extractErrors.py on the libSBML source code
- * and createErrorCodeInterface.py on the generated json file.
+ * Contains the short messages for each {@link SBMLError} in the English language.
+ * 
+ * <p>The key for each short message is the integer defined for each {@link SBMLError} in {@link SBMLErrorCodes}.</p>
+ * 
+ * <p>Automatically generated file, using the python scripts extractErrors.py on the libSBML source code
+ * and createSBMLErrorShortMessageBundle.py on the generated json file.</p>
  *
- * @since 1.2
+ * @see ResourceBundle
+ * @since 1.3
  */
-public interface SBMLErrorCodes { \n \n'''
+public class SBMLErrorShortMessage extends ResourceBundle { \n \n
+  /**
+   * 
+   */
+  private static final Map<String, String> contents = new HashMap<String, String>();
+  
+  static {
+      '''
 
 for key in sorted(data, key=int):
     code = int(key)
     pkg = error_package(code)
     short = code - pkg[1]
-    file += '\n\t /**\n\t  * Error code ' + str(code) + ':'
-    message = data[key]["Message"]
-    break_after = 80
-    char_count = break_after
-    for block in message.split():
-        if (char_count + len(block)) > break_after:
-            file += '\n\t  * ' + block.replace("<", "&lt;").replace(">", "&gt;") + ' '
-            char_count = len(block) + 1
-        else:
-            file += block.replace("<", "&lt;").replace(">", "&gt;") + ' '
-            char_count += len(block) + 1
+    # file += '\n\t /**\n\t  * Error code ' + str(code) + ':'
+    shortMessage = data[key]["ShortMessage"]
+    
+    # quote double quote
+    shortMessage = shortMessage.replace("\"", "\\\"")
 
-    file += '\n\t  */\n \t public static final int ' + pkg[0] + "_" + str(short).zfill(5) + " = " + str(code) + "; \n"
-file += '}'
+    file += '\n        contents.put(Integer.toString(SBMLErrorCodes.' + pkg[0] + "_" + str(short).zfill(5) + "), \"" + shortMessage + "\");\n"
+    
+    
+file += '''  } \n
+
+  @Override
+  protected Object handleGetObject(String key) {
+
+    return contents.get(key);
+  }
+
+  @Override
+  public Enumeration<String> getKeys() {
+    
+    return java.util.Collections.enumeration(contents.keySet());
+  }
+
+}\n'''
+
 
 
 
@@ -103,7 +135,7 @@ if len(sys.argv) > 2:
     if not os.path.exists(dir):
         os.makedirs(dir)
 
-    with open(dir + "/SBMLErrorCodes.java", "w") as text_file:
+    with open(dir + "/SBMLErrorShortMessage.java", "w") as text_file:
         text_file.write(file)
         print 'done'
 else:
