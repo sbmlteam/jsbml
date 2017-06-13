@@ -23,10 +23,15 @@ package org.sbml.jsbml.validator.offline.factory;
 import java.io.File;
 import java.io.FileReader;
 import java.lang.ref.SoftReference;
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.Message;
 
 /**
@@ -74,7 +79,27 @@ public class SBMLErrorFactory {
    */
   private static SoftReference<JSONObject> cachedJson;
 
-
+  /**
+   * 
+   */
+  private static ResourceBundle sbmlErrorMessageBundle;
+  
+  /**
+   * 
+   */
+  private static ResourceBundle sbmlErrorShortMessageBundle;
+  
+  /**
+   * 
+   */
+  private static ResourceBundle sbmlErrorPostMessageBundle;
+  
+  /**
+   * 
+   */
+  private static ResourceBundle sbmlErrorPreMessageBundle;
+  
+  
   /**
    * Creates a new {@link SBMLError} instance. 
    * 
@@ -84,6 +109,20 @@ public class SBMLErrorFactory {
    * @return a new {@link SBMLError} instance. 
    */
   public static SBMLError createError(int id, int level, int version) {
+    return createError(id, level, version, false, null);
+  }
+  
+  /**
+   * Creates a new {@link SBMLError} instance. 
+   * 
+   * @param id the error id
+   * @param level the SBML level
+   * @param version the SBML version
+   * @param customMessage if {@code true}, the method will attempt to create a custom message passing the id of the given {@link SBase}
+   * @param sbase an SBase which did provoke the {@link SBMLError}. If it's id is not define, no custom message will be returned.
+   * @return a new {@link SBMLError} instance. 
+   */
+  public static SBMLError createError(int id, int level, int version, boolean customMessage, SBase sbase) {
     JSONObject errors = null;
     
     // Trying to get the json object from the cache
@@ -116,14 +155,62 @@ public class SBMLErrorFactory {
         e.setCategory((String) errorEntry.get(JSON_KEY_CATEGORY));
         e.setPackage((String) errorEntry.get(JSON_KEY_PACKAGE));
         
+        //
+        // Building the error message from the various ResourceBundle
+        String bundleKey = Integer.toString(id);
+        StringBuilder messageBuilder = new StringBuilder();
+        
+        ResourceBundle preMessageBundle = getSBMLErrorPreMessageBundle(new Locale("en", "EN", "L" + level + "V" + version));
+        String preMessageI18n = getBundleString(preMessageBundle, bundleKey);
+        
+        if (preMessageI18n != null && preMessageI18n.trim().length() > 0)
+        {
+          messageBuilder.append(preMessageI18n).append("\n");
+        }
+        
+        String messageI18n = getSBMLErrorMessageBundle().getString(bundleKey);
+        
+        if (messageI18n != null && messageI18n.trim().length() > 0)
+        {
+          messageBuilder.append(messageI18n);
+        }
+        else
+        {
+          // getting the message from the json file
+          messageI18n = (String) errorEntry.get(JSON_KEY_MESSAGE);
+          
+          // TODO - debug log about this error id
+          System.out.println("DEBUG - error id '" + id + "' has no message !!");
+        }
+        
+        if (customMessage && sbase != null && sbase.isSetId()) {
+          String postMessageI18n = getBundleString(getSBMLErrorPostMessageBundle(), bundleKey);
+          
+          if (postMessageI18n != null && postMessageI18n.trim().length() > 0)
+          {
+            messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getId()));
+          }
+        }
+        
         Message m = new Message();
-        m.setMessage((String) errorEntry.get(JSON_KEY_MESSAGE));
+        m.setMessage(messageBuilder.toString());
         m.setLang("en");
         e.setMessage(m);
-        
+
+        // Building the short message from the various ResourceBundle
+        ResourceBundle shortMessageBundle = getSBMLErrorShortMessageBundle();
+        String shortMessageI18n = shortMessageBundle.getString(bundleKey);
+
         Message sm = new Message();
-        sm.setMessage((String) errorEntry.get(JSON_KEY_SHORT_MESSAGE));
-        sm.setLang("en");
+        
+        if (shortMessageI18n != null) {
+          sm.setMessage(shortMessageI18n);
+          sm.setLang("en"); // TODO - set the language of the bundle or Locale
+        }
+        else {
+          sm.setMessage((String) errorEntry.get(JSON_KEY_SHORT_MESSAGE));
+          sm.setLang("en");          
+        }
         e.setShortMessage(sm);
         
         Object sev = errorEntry.get(SBMLErrorFactory.getSeverityKey(level, version));
@@ -141,6 +228,95 @@ public class SBMLErrorFactory {
   }
 
 
+  /**
+   * 
+   * @param bundle
+   * @param Key
+   * @return
+   */
+  public static String getBundleString(ResourceBundle preMessageBundle, String bundleKey) {
+    
+    String value = null;
+    
+    try {
+      value = preMessageBundle.getString(bundleKey);
+    }
+    catch (MissingResourceException e) {
+      // nothing to do, just return null
+    }
+
+    return value;
+  }
+
+  /**
+   * 
+   * 
+   * @return
+   */
+  public static ResourceBundle getSBMLErrorMessageBundle() {
+
+    if (sbmlErrorMessageBundle == null) {
+      sbmlErrorMessageBundle = ResourceBundle.getBundle("org.sbml.jsbml.validator.offline.i18n.SBMLErrorMessage");
+    }
+    
+    // TODO - if the Local language is not 'en' change the package where to search for the bundle
+    
+    return sbmlErrorMessageBundle;
+  }
+
+  /**
+   * 
+   * 
+   * @return
+   */
+  public static ResourceBundle getSBMLErrorShortMessageBundle() {
+
+    if (sbmlErrorShortMessageBundle == null) {
+      sbmlErrorShortMessageBundle = ResourceBundle.getBundle("org.sbml.jsbml.validator.offline.i18n.SBMLErrorShortMessage");
+    }
+    
+    return sbmlErrorShortMessageBundle;
+  }
+
+  /**
+   * 
+   * 
+   * @return
+   */
+  public static ResourceBundle getSBMLErrorPostMessageBundle() {
+
+    if (sbmlErrorPostMessageBundle == null) {
+      sbmlErrorPostMessageBundle = ResourceBundle.getBundle("org.sbml.jsbml.validator.offline.i18n.SBMLErrorPostMessage");
+    }
+    
+    return sbmlErrorPostMessageBundle;    
+  }
+
+  /**
+   * 
+   * 
+   * @return
+   */
+  public static ResourceBundle getSBMLErrorPreMessageBundle() {
+
+    if (sbmlErrorPreMessageBundle == null) {
+      sbmlErrorPreMessageBundle = ResourceBundle.getBundle("org.sbml.jsbml.validator.offline.i18n.SBMLErrorPreMessage");
+    }
+    
+    return sbmlErrorPreMessageBundle;        
+  }
+
+  /**
+   * 
+   * 
+   * @return
+   */
+  public static ResourceBundle getSBMLErrorPreMessageBundle(Locale locale) {
+
+    return ResourceBundle.getBundle("org.sbml.jsbml.validator.offline.i18n.SBMLErrorPreMessage", locale);
+  }
+  
+  
   /**
    * Returns {@code true} if the error is available for the given SBML level and version.
    * 
