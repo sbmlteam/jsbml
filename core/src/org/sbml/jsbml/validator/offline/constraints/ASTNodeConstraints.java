@@ -330,10 +330,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               
               if (f == null) {
 
-                // TODO - put the validation message into a language dependent set of classes with the possibility of 'pre' and 'post' string
-                
-                ValidationConstraint.logError(ctx, CORE_10214, "The formula ''{0}'' in the math element of the {1} uses ''{2}'' which is not a function definition id.",
-                    node.getParentSBMLObject().getMath().toFormula(), node.getParentSBMLObject().getClass().getSimpleName(), node.getName());
+                // TODO - for the second parameter, we should print something more complete so that the element could be identified easily
+                ValidationConstraint.logError(ctx, CORE_10214, node.getParentSBMLObject().getMath().toFormula(), node.getParentSBMLObject().getElementName(), node.getName());
                 
                 return  false;
               

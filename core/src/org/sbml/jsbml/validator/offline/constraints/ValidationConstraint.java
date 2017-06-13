@@ -21,6 +21,7 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.text.MessageFormat;
+import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBMLError;
@@ -49,37 +50,28 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
   private ValidationFunction<T>     func;
 
 
-  
   /**
    * Logs a new {@link SBMLError} into a {@link LoggingValidationContext}.
    * 
    * @param ctx the context
    * @param errorCode the error code
    */
-  public static void logError(ValidationContext ctx, int errorCode) {
-    if (ctx != null && ctx instanceof LoggingValidationContext) {
-      LoggingValidationContext lctx = (LoggingValidationContext) ctx;
-      
-      lctx.logFailure(errorCode);
-    }
-  }
-
-  /**
-   * Logs a new {@link SBMLError} into a {@link LoggingValidationContext}.
-   * 
-   * @param ctx the context
-   * @param errorCode the error code
-   */
-  public static void logError(ValidationContext ctx, int errorCode, String messageFormat, String...args) {
+  public static void logError(ValidationContext ctx, int errorCode, String...args) {
     if (ctx != null && ctx instanceof LoggingValidationContext) {
       LoggingValidationContext lctx = (LoggingValidationContext) ctx;
       
       // Try to create the SBMLError from the .json file
       SBMLError e = SBMLErrorFactory.createError(errorCode, ctx.getLevel(), ctx.getVersion());
       
-      String detailedMessage = MessageFormat.format(messageFormat, (Object[]) args);
+      ResourceBundle postMessageBundle = SBMLErrorFactory.getSBMLErrorPostMessageBundle();
+      String postMessageI18n = SBMLErrorFactory.getBundleString(postMessageBundle, Integer.toString(errorCode));
+      
+      if (postMessageI18n != null) {
+        String detailedMessage = MessageFormat.format(postMessageI18n, (Object[]) args);
 
-      e.getMessageInstance().setMessage(e.getMessageInstance().getMessage() + detailedMessage);
+        e.getMessageInstance().setMessage(e.getMessageInstance().getMessage() + "\n" + detailedMessage);
+        
+      }
       
       lctx.logFailure(e);
     }
