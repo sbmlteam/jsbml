@@ -48,11 +48,33 @@ public class SBMLErrorPostMessage extends ResourceBundle {
    * 
    */
   private static final Map<String, String> contents = new HashMap<String, String>();
+    
+  /**
+   * 
+   */
+  public static final String DEFAULT_POST_MESSAGE_WITH_ID = "DEFAULT_POST_MESSAGE_WITH_ID";
+
+  /**
+   * 
+   */
+  public static final String DEFAULT_POST_MESSAGE_WITH_METAID = "DEFAULT_POST_MESSAGE_WITH_METAID";
+
+  /**
+   * 
+   */
+  public static final String DEFAULT_POST_MESSAGE = "DEFAULT_POST_MESSAGE";
   
   static {
       
+      contents.put(DEFAULT_POST_MESSAGE_WITH_ID, "The <{0}> with id ''{1}'' does not comply.");
+    
+      contents.put(DEFAULT_POST_MESSAGE_WITH_METAID, "The <{0}> with metaid ''{1}'' does not comply.");
+
+      contents.put(DEFAULT_POST_MESSAGE, "The element {0} does not comply.");
+
       contents.put(Integer.toString(SBMLErrorCodes.CORE_10214), "The formula ''{0}'' in the math element of the <{1}> uses ''{2}'' which is not a function definition id.");
       
+      // compartment
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20501), "The <compartment> with id ''{0}'' should not have a ''size'' attribute OR should have a ''spatialDimensions'' attribute that is not set to ''0''.");
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20502), "The <compartment> with id ''{0}'' should not have a ''units'' attribute OR should have a ''spatialDimensions'' attribute that is not set to ''0''.");
@@ -83,6 +105,9 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20518), "The <compartment> ''{0}'' has no discernable units.");
       
+      // species
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20601), "The <species> with id ''{0}'' refers to the compartment ''{1}'' which is not defined.");
+      
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20903), "The {0} with id ''{1}'' should have a constant value of ''false''.");
       
@@ -90,6 +115,7 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_80601), "The <species> with the id ''{0}'' does not have an ''initialConcentration'' or ''initialAmount'' attribute, nor is its initial value set by an <initialAssignment> or <assignmentRule>.");
       
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_99508), "The units of the <compartment> ''{0}'' cannot be fully checked. Unit consistency reported as either no errors or further unit errors related to this object may not be accurate.");
   }
 
   @Override
