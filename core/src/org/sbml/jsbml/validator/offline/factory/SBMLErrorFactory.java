@@ -33,6 +33,10 @@ import org.json.simple.parser.JSONParser;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.Message;
+import org.sbml.jsbml.validator.offline.i18n.SBMLErrorMessage;
+import org.sbml.jsbml.validator.offline.i18n.SBMLErrorPostMessage;
+import org.sbml.jsbml.validator.offline.i18n.SBMLErrorPreMessage;
+import org.sbml.jsbml.validator.offline.i18n.SBMLErrorShortMessage;
 
 /**
  * Creates {@link SBMLError} populated with values coming from a json file.
@@ -190,6 +194,22 @@ public class SBMLErrorFactory {
           {
             messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getId()));
           }
+          else 
+          {
+            // let's do a default post message
+            if (sbase.isSetId()) {
+              postMessageI18n = getSBMLErrorPostMessageBundle().getString(SBMLErrorPostMessage.DEFAULT_POST_MESSAGE_WITH_ID);
+              messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getElementName(), sbase.getId()));
+            }
+            else if (sbase.isSetMetaId()) {
+              postMessageI18n = getSBMLErrorPostMessageBundle().getString(SBMLErrorPostMessage.DEFAULT_POST_MESSAGE_WITH_METAID);
+              messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getElementName(), sbase.getMetaId()));              
+            }
+            else {
+              postMessageI18n = getSBMLErrorPostMessageBundle().getString(SBMLErrorPostMessage.DEFAULT_POST_MESSAGE);
+              messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getElementName())); // TODO - create a better String with the potential attributes or/and the position in the file.
+            }
+          }
         }
         
         Message m = new Message();
@@ -229,17 +249,21 @@ public class SBMLErrorFactory {
 
 
   /**
+   * Gets the String corresponding to the given key in the bundle, returns null if the key is not found.
    * 
-   * @param bundle
-   * @param Key
-   * @return
+   * <p>This method catch {@link MissingResourceException} so that methods using it do not have to
+   * worry about it, they just have to deal with null values.</p>
+   * 
+   * @param bundle the {@link ResourceBundle} where to search
+   * @param key the key to search in the bundle
+   * @return the String corresponding to the given key in the bundle, returns null if the key is not found.
    */
-  public static String getBundleString(ResourceBundle preMessageBundle, String bundleKey) {
+  public static String getBundleString(ResourceBundle bundle, String key) {
     
     String value = null;
     
     try {
-      value = preMessageBundle.getString(bundleKey);
+      value = bundle.getString(key);
     }
     catch (MissingResourceException e) {
       // nothing to do, just return null
@@ -249,9 +273,9 @@ public class SBMLErrorFactory {
   }
 
   /**
+   * Returns the {@link SBMLErrorMessage} bundle associated with the current {@link Locale}.
    * 
-   * 
-   * @return
+   * @return the {@link SBMLErrorMessage} bundle associated with the current {@link Locale}.
    */
   public static ResourceBundle getSBMLErrorMessageBundle() {
 
@@ -265,9 +289,9 @@ public class SBMLErrorFactory {
   }
 
   /**
+   * Returns the {@link SBMLErrorShortMessage} bundle associated with the current {@link Locale}.
    * 
-   * 
-   * @return
+   * @return the {@link SBMLErrorShortMessage} bundle associated with the current {@link Locale}.
    */
   public static ResourceBundle getSBMLErrorShortMessageBundle() {
 
@@ -279,9 +303,9 @@ public class SBMLErrorFactory {
   }
 
   /**
+   * Returns the {@link SBMLErrorPostMessage} bundle associated with the current {@link Locale}.
    * 
-   * 
-   * @return
+   * @return the {@link SBMLErrorPostMessage} bundle associated with the current {@link Locale}.
    */
   public static ResourceBundle getSBMLErrorPostMessageBundle() {
 
@@ -293,9 +317,9 @@ public class SBMLErrorFactory {
   }
 
   /**
+   * Returns the {@link SBMLErrorPreMessage} bundle associated with the current {@link Locale}.
    * 
-   * 
-   * @return
+   * @return the {@link SBMLErrorPreMessage} bundle associated with the current {@link Locale}.
    */
   public static ResourceBundle getSBMLErrorPreMessageBundle() {
 
@@ -307,9 +331,10 @@ public class SBMLErrorFactory {
   }
 
   /**
+   * Returns the {@link SBMLErrorPreMessage} bundle associated with the given {@link Locale}.
    * 
-   * 
-   * @return
+   * @param locale the locale
+   * @return the {@link SBMLErrorPreMessage} bundle associated with the given {@link Locale}.
    */
   public static ResourceBundle getSBMLErrorPreMessageBundle(Locale locale) {
 
