@@ -2183,8 +2183,10 @@ public class ASTNode extends AbstractTreeNode {
             resourceBundle.getString("ASTNode.compile2"),
             getName(), getParentSBMLObject().getElementName());
           logger.warn(message);
-          throw new SBMLException(message);
-          // value = compiler.compile(variable);
+          
+          value = compiler.function(getName(), getChildren());
+          
+          //throw new SBMLException(message); // We need to be able to print invalid formula so that user can correct it
         }
       } else {
         logger.debug(MessageFormat.format(

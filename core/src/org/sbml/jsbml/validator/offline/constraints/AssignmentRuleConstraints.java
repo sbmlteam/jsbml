@@ -198,15 +198,18 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_20903:
-      func = new ValidationFunction<AssignmentRule>() {
+      func = new AbstractValidationFunction<AssignmentRule>() {
 
         @Override
         public boolean check(ValidationContext ctx, AssignmentRule r) {
 
           Variable var = r.getVariableInstance();
 
-          if (var != null) {
-            return !var.getConstant();
+          if (var != null && var.getConstant()) {
+            
+            ValidationConstraint.logError(ctx, CORE_20903, var.getElementName(), var.getId());
+            
+            return false;
           }
 
           return true;
