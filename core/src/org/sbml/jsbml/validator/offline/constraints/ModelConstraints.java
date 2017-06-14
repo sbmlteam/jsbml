@@ -845,10 +845,15 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
-          UnitDefinition def = m.getSubstanceUnitsInstance();
+          
+          if (m.isSetSubstanceUnits()) {
+            UnitDefinition def = m.getSubstanceUnitsInstance();
 
-          return def != null
-            && (def.isVariantOfSubstance() || def.isVariantOfDimensionless());
+            return def != null
+                && (def.isVariantOfSubstance() || def.isVariantOfDimensionless());
+          }
+          
+          return true;
         }
       };
       break;
