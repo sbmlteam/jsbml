@@ -59,7 +59,7 @@ public class OfflineValidatorVersusLibsbmlTests {
   /**
    * Enables or not unit validation.
    */
-  private static boolean ENABLE_UNITS_VALIDATION = false;
+  private static boolean ENABLE_UNITS_VALIDATION = true;
   
   /**
    * The file size limit in kilobytes above which we don't do the validation
@@ -74,7 +74,7 @@ public class OfflineValidatorVersusLibsbmlTests {
   /**
    * Indicates the maximum of error we should print for each error code, if {@link #PRINT_ERROR_SAMPLE} is {@code true}.
    */
-  private static final int PRINT_ERROR_LIMIT = 2;
+  private static final int PRINT_ERROR_LIMIT = 3;
 
   
   /**

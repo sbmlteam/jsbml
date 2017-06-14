@@ -178,7 +178,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
 
     case CORE_20501:
 
-      func = new AbstractValidationFunction<Compartment>() {
+      func = new ValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
           /*
@@ -187,7 +187,6 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
            */
           if (c.getSpatialDimensions() == 0 && c.isSetSize())
           {
-            ValidationConstraint.logError(ctx, CORE_20501); 
             return false;
           }
 
@@ -197,7 +196,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_20502:
-      func = new AbstractValidationFunction<Compartment>() {
+      func = new ValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
           /*
@@ -207,8 +206,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
 
           if (c.getSpatialDimensions() == 0 && c.isSetUnits())
           {
-            ValidationConstraint.logError(ctx, CORE_20502);
-            return true;
+            return false;
           }
 
           return true;
@@ -217,14 +215,13 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_20503:
-      func = new AbstractValidationFunction<Compartment>() {
+      func = new ValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
 
           if (c.getSpatialDimensions() == 0 && (!c.isConstant()))
           {
-            ValidationConstraint.logError(ctx, CORE_20503);
-            return true;
+            return false;
           }
 
           return true;
@@ -239,8 +236,8 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
 
           if (c.isSetOutside() && (c.getOutsideInstance() == null))
           {
-            ValidationConstraint.logError(ctx, CORE_20504);
-            return true;
+            ValidationConstraint.logError(ctx, CORE_20504, c.getId(), c.getOutside());
+            return false;
           }
 
           return true;
@@ -249,27 +246,44 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_20505:
-      func = new AbstractValidationFunction<Compartment>() {
-        HashSet<Compartment> outsideSet =  new HashSet<Compartment>(); // TODO - we should store the HashSet in the ValidationContext to make the process more Thread safe.
+      func = new ValidationFunction<Compartment>() {
 
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
 
           Compartment com = c;
+          
+          if (!c.isSetId()) {
+            return true;
+          }
 
-          // Clears set
-          outsideSet.clear();
+          // We use a context global set here to avoid to report several times the same outside loop.
+          // for example: 'a -> b -> c -> a' will be reported only once for compartment with id 'a' and not for 'b' and 'c' who are in the same loop.
+          @SuppressWarnings("unchecked")
+          Set<Compartment> visitedCompartments = (Set<Compartment>) ctx.getHashMap().get("OUTSIDE_SET"); 
 
-          while(com != null && com.isSetOutside())
+          if (visitedCompartments == null) {
+            visitedCompartments = new HashSet<Compartment>();
+            ctx.getHashMap().put("OUTSIDE_SET", visitedCompartments);
+          }
+
+          String compartmentId = c.getId();
+          
+          while (com != null && com.isSetOutside())
           {
-            // returns false if the compartment is already in the set
-            if(!outsideSet.add(com))
+            
+            boolean visited = visitedCompartments.add(com);
+            
+            if (compartmentId.equals(com.getOutside()))
             {
-              ValidationConstraint.logError(ctx, CORE_20504);
-              return false;
+              return false; // TODO - we could check the exact compartment loop to display a nicer error message
             }
 
-            com = com.getOutsideInstance();
+            if (!visited) {
+              break;
+            }
+            
+            com = com.getOutsideInstance();            
           }
 
           return true;
@@ -278,7 +292,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_20506:
-      func = new ValidationFunction<Compartment>() {
+      func = new AbstractValidationFunction<Compartment>() {
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
 
@@ -286,8 +300,11 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
 
             Compartment outside = c.getOutsideInstance();
 
-            if (outside != null) {
-              return outside.getSpatialDimensions() == 0;
+            if (outside != null && outside.getSpatialDimensions() != 0) {
+              
+              ValidationConstraint.logError(ctx, CORE_20506, c.getId(), outside.getId());
+              
+              return false;
             }
 
           }
@@ -390,13 +407,16 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_20510:
-      func = new ValidationFunction<Compartment>() {
+      func = new AbstractValidationFunction<Compartment>() {
         // @SuppressWarnings("deprecation")
         @Override
         public boolean check(ValidationContext ctx, Compartment c) {
 
-          if (c.isSetCompartmentType()) {
-            return c.getCompartmentTypeInstance() != null;
+          if (c.isSetCompartmentType() && c.getCompartmentTypeInstance() == null) {
+            
+            ValidationConstraint.logError(ctx, CORE_20510, c.getId(), c.getCompartmentType());
+            
+            return false;
           }
 
           return true;

@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
@@ -121,7 +122,7 @@ public class LoggingValidationContext extends ValidationContext implements Valid
    * 
    * @param id the error id to log
    */
-  public void logFailure(int id) {
+  public void logFailure(int id, Object o) {
     
     if (id == CoreSpecialErrorCodes.ID_GROUP || id == CoreSpecialErrorCodes.ID_VALIDATE_TREE_NODE)
     {
@@ -133,9 +134,16 @@ public class LoggingValidationContext extends ValidationContext implements Valid
     }
     
     // Try to create the SBMLError from the .json file
-    SBMLError e = SBMLErrorFactory.createError(id, this.getLevel(), this.getVersion());
+    SBMLError e = null;
+    
+    if (o != null && o instanceof SBase) {
+      e = SBMLErrorFactory.createError(id, this.getLevel(), this.getVersion(), true, (SBase) o);
+    } else {
+      e = SBMLErrorFactory.createError(id, this.getLevel(), this.getVersion());
+    }
     
     if (e != null) {
+      
       log.add(e);
       
       // TODO - if it is an Error or above, set the current category as the maximum (or create a set of ignored categories) to validate for the next elements.
@@ -165,11 +173,8 @@ public class LoggingValidationContext extends ValidationContext implements Valid
         else
         {
           // TODO - ask a factory to build a customized message
-          logFailure(c.getErrorCode());
+          logFailure(c.getErrorCode(), o);
         }
-      
-      // TODO - the ValidationFunction should fill in the SBMLErrors directly to the ValidationContext to make things much simpler !!!
-      // They can all call #logFailure(int) to start with, then we can start to build custom error message for each error code.
       }
     }
   }
