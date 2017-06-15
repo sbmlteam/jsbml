@@ -24,6 +24,8 @@ import java.util.Set;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
@@ -60,6 +62,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
       if (context.isEnabledCategory(CHECK_CATEGORY.UNITS_CONSISTENCY)) {
         set.add(CORE_80701);
       }
+      set.add(CORE_80702);
       set.add(CORE_81121);
       break;
     case OVERDETERMINED_MODEL:
@@ -158,7 +161,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
       };
       break;
       
-    case CORE_80701:
+    case CORE_80701: {
       func = new ValidationFunction<LocalParameter>() {
 
         @Override
@@ -169,6 +172,28 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+    }
+      
+    case CORE_80702:{
+      func = new ValidationFunction<LocalParameter>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, LocalParameter p) {
+
+          Model m = p.getModel();
+
+          if (m != null && !p.isSetValue()) {
+            boolean setByAssignment = false;
+
+            return setByAssignment;
+          }
+
+          return true;
+        }
+      };
+      break;
+    }
+
     }
     
     return func;
