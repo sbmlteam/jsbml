@@ -68,7 +68,7 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
     case MATHML_CONSISTENCY:
       break;
     case MODELING_PRACTICE:
-      if (level == 2 && context.isEnabledCategory(CHECK_CATEGORY.UNITS_CONSISTENCY)) {
+      if (context.isEnabledCategory(CHECK_CATEGORY.UNITS_CONSISTENCY)) {
         set.add(CORE_80701);
       }
       set.add(CORE_80702);
