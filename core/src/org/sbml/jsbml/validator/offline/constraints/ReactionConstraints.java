@@ -232,8 +232,11 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
         
         @Override
         public boolean check(ValidationContext ctx, Reaction r) {
-          // id, reversible and fast are mandatory attributes
-          if (!r.isSetId() || !r.isSetReversible() || !r.isSetFast()) {
+          // id, reversible and fast are mandatory attributes for L3V1, fast is removed from L3V2
+          if (!r.isSetId() || !r.isSetReversible()) {
+            return false;
+          }
+          if (ctx.getVersion() == 1 && !r.isSetFast()) {
             return false;
           }
           return super.check(ctx, r);
