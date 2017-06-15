@@ -193,7 +193,15 @@ public class ModelBuilder {
    * 
    */
   public ModelBuilder(int level, int version) {
-    doc = new SBMLDocument(level, version);
+    this(new SBMLDocument(level, version));
+  }
+
+  /**
+   * 
+   * @param doc
+   */
+  public ModelBuilder(SBMLDocument doc) {
+    this.doc = doc;
   }
 
   /**
