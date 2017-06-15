@@ -38,6 +38,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
 
@@ -63,6 +64,11 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       break;
     case IDENTIFIER_CONSISTENCY:
+      
+      if (level > 2) {
+        set.add(CORE_10311);
+      }
+      
       break;
     case MATHML_CONSISTENCY:
       if (level > 1) {
@@ -658,7 +664,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
-    case CORE_10222:
+    case CORE_10222: {
       func = new ValidationFunction<ASTNode>() {
 
         @Override
@@ -679,8 +685,30 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
       };
       break;
+    }
+    
+    case CORE_10311: {
+      func = new AbstractValidationFunction<ASTNode>() {
+      
+        @Override
+        public boolean check(ValidationContext ctx, ASTNode node) {
 
-    case CORE_10501:
+          if (node.isSetUnits()) {
+            boolean isValid = SyntaxChecker.isValidId(node.getUnits(), ctx.getLevel(), ctx.getVersion());
+            
+            if (!isValid) {
+              ValidationConstraint.logErrorWithPostmessageCode(ctx, CORE_10311, CORE_10311 + "_MATH", node.getUnits(),
+                  node.getParentSBMLObject().getElementName());
+              return false;
+            }
+          }
+          return true;
+        }
+      };
+      break;
+    }
+
+    case CORE_10501: {
       func = new ValidationFunction<ASTNode>() {
 
         @Override
@@ -750,6 +778,9 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+    }
+    
     }
 
     return func;
