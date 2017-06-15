@@ -28,6 +28,7 @@ import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
+import org.sbml.jsbml.validator.offline.i18n.SBMLErrorPostMessage;
 
 /**
  * The basic constraint which uses a {@link ValidationFunction} object to
@@ -55,8 +56,25 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
    * 
    * @param ctx the context
    * @param errorCode the error code
+   * @param args the arguments that will be passed to {@link MessageFormat#format(String, Object...)} to build the final post message.
    */
   public static void logError(ValidationContext ctx, int errorCode, String...args) {
+
+    logErrorWithPostmessageCode(ctx, errorCode, Integer.toString(errorCode), args);
+  }
+
+  /**
+   * Logs a new {@link SBMLError} into a {@link LoggingValidationContext}.
+   * 
+   * @param ctx the context
+   * @param errorCode the error code
+   * @param postErrorMessageKey the key to be used to get the message from the {@link SBMLErrorPostMessage} bundle. In some cases,
+   * we need several different post messages so we need several different keys.
+   * @param args the arguments that will be passed to {@link MessageFormat#format(String, Object...)} to build the final post message.
+   * 
+   */
+  public static void logErrorWithPostmessageCode(ValidationContext ctx, int errorCode, String postErrorMessageKey, String...args) {
+
     if (ctx != null && ctx instanceof LoggingValidationContext) {
       LoggingValidationContext lctx = (LoggingValidationContext) ctx;
       
@@ -64,7 +82,7 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
       SBMLError e = SBMLErrorFactory.createError(errorCode, ctx.getLevel(), ctx.getVersion());
       
       ResourceBundle postMessageBundle = SBMLErrorFactory.getSBMLErrorPostMessageBundle();
-      String postMessageI18n = SBMLErrorFactory.getBundleString(postMessageBundle, Integer.toString(errorCode));
+      String postMessageI18n = SBMLErrorFactory.getBundleString(postMessageBundle, postErrorMessageKey);
       
       if (postMessageI18n != null) {
         String detailedMessage = MessageFormat.format(postMessageI18n, (Object[]) args);
@@ -74,8 +92,9 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
       }
       
       lctx.logFailure(e);
-    }
+    }    
   }
+
 
   /**
    * Creates a new {@link ValidationConstraint} instance.

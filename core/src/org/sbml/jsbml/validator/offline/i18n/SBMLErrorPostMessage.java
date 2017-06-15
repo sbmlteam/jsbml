@@ -74,6 +74,18 @@ public class SBMLErrorPostMessage extends ResourceBundle {
 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_10214), "The formula ''{0}'' in the math element of the <{1}> uses ''{2}'' which is not a function definition id.");
       
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_10309), "The metaid ''{0}'' does not conform to the syntax.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_10310), "The id ''{0}'' does not conform to the syntax.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_10311), "The units ''{0}'' of the <{1}> with id ''{2}'' does not conform to the syntax."); // TODO - Several messages depending of the error ?
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_10311) + "_MATH", "The units ''{0}'' on the ''cn'' math element of <{1}> does not conform to the syntax.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_10313), "The units ''{0}'' of the <{1}> with id ''{2}'' do not refer to a valid unit kind/built-in unit or the identifier of an existing <unitDefinition>.");
+      
+      // TODO - for 10311 and 10313, we could have a different main message for 'L2 and before' and L3
+      
       // compartment
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20501), "The <compartment> with id ''{0}'' should not have a ''size'' attribute OR should have a ''spatialDimensions'' attribute that is not set to ''0''.");
       
@@ -105,15 +117,23 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20518), "The <compartment> ''{0}'' has no discernable units.");
       
+      
       // species
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20601), "The <species> with id ''{0}'' refers to the compartment ''{1}'' which is not defined.");
       
       
+      // 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20903), "The {0} with id ''{1}'' should have a constant value of ''false''.");
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_80501), "The <compartment> with the id ''{0}'' does not have a ''size'' attribute, nor is its initial value set by an <initialAssignment> or <assignmentRule>.");
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_80601), "The <species> with the id ''{0}'' does not have an ''initialConcentration'' or ''initialAmount'' attribute, nor is its initial value set by an <initialAssignment> or <assignmentRule>.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_80701), "The <parameter> with the id ''{0}'' does not have a 'units' attribute.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_80702), "The <parameter> with the id ''{0}'' does not have a 'value' attribute, nor is its initial value set by an <initialAssignment> or <assignmentRule>.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_81121), "In this instance the local parameter with id ''{0}'' will shadow the ''{1}'' with an identical id.");
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_99508), "The units of the <compartment> ''{0}'' cannot be fully checked. Unit consistency reported as either no errors or further unit errors related to this object may not be accurate.");
   }

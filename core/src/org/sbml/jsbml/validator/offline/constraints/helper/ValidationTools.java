@@ -30,6 +30,7 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
@@ -41,12 +42,14 @@ import org.sbml.jsbml.SBaseWithDerivedUnit;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
+import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * Collection of helpful functions and variables for validation.
@@ -407,4 +410,60 @@ public final class ValidationTools {
 
     return true; // TODO - do we return true or false if one of the unit cannot be calculated ?
   }
+
+
+  /**
+   * Checks that the given units is a valid units in the {@link Model} (validation rule 10313).
+   * 
+   * @param ctx the validation context
+   * @param m the model 
+   * @param units the units value to check
+   * @return {@code false} if the given units is not a valid units in the {@link Model}, {@code true} otherwise.
+   */
+  public static boolean checkUnit(ValidationContext ctx, Model m, String units) {
+
+    boolean definedInModel = false;
+    
+    if (m != null) {
+      definedInModel = m.getUnitDefinition(units) != null;
+    }
+
+    if (! (definedInModel
+      || Unit.isUnitKind(units, ctx.getLevel(), ctx.getVersion())
+      || Unit.isPredefined(units, ctx.getLevel()))) 
+    {
+      return false;
+    }
+    
+    return definedInModel;
+  }
+  
+  /**
+   * Checks if the given {@link SBase} contains an attribute in the unknown XML user object. 
+   * If the attribute is found, checks that it respect the UnitSId syntax (validation rule 10311).
+   * 
+   * @param ctx the validation context
+   * @param sbase the sbase to check
+   * @param attributeName the attribute name to search in the unknown XML attributes
+   * @return an invalid units attribute value, if the attribute is found in the unknown XML user object and it does not 
+   * respect the UnitSId syntax. Returns {@code null} otherwise.
+   */
+  public static String checkUnknownUnitSyntax(ValidationContext ctx, SBase sbase, String attributeName) {
+
+    XMLNode unknownNode = (XMLNode) sbase.getUserObject(JSBML.UNKNOWN_XML);
+    
+    if (unknownNode != null) {
+      
+      String units = unknownNode.getAttrValue(attributeName);
+      
+      if (units != null && units.trim().length() > 0 &&
+          SyntaxChecker.isValidId(units, ctx.getLevel(), ctx.getVersion())) 
+      {
+          return units;
+      }
+    }
+    
+    return null;
+  }
+
 }

@@ -26,21 +26,25 @@ import java.util.Set;
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.InitialAssignment;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.OverdeterminationValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ElementOrderValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * @author Roman
@@ -98,6 +102,11 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       set.add(CORE_10301);
       set.add(CORE_10302);
       set.add(CORE_10304);
+
+      if (level > 2) {
+        set.add(CORE_10311);
+        set.add(CORE_10313);
+      }
 
       break;
     case MATHML_CONSISTENCY:
@@ -296,6 +305,216 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+
+    case CORE_10311:{
+      func = new AbstractValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+
+          boolean isCheckValid = true;
+          boolean hasUnknownXML = m.getUserObject(JSBML.UNKNOWN_XML) != null;
+          
+          // checking all the units in the model: substanceUnits , volumeUnits , areaUnits , lengthUnits , timeUnits and extentUnits
+          // And reporting one error for each problem.
+
+          if (m.isSetSubstanceUnits())
+          {
+            boolean isUnitsValid = SyntaxChecker.isValidId(m.getSubstanceUnits(), ctx.getLevel(), ctx.getVersion());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10311, m.getSubstanceUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+          else if (hasUnknownXML) 
+          {
+            String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.substanceUnits);
+
+            if (invalidUnits != null) {
+              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+
+          if (m.isSetVolumeUnits())
+          {
+            boolean isUnitsValid = SyntaxChecker.isValidId(m.getVolumeUnits(), ctx.getLevel(), ctx.getVersion());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10311, m.getVolumeUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+          else if (hasUnknownXML) 
+          {
+            String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.volumeUnits);
+
+            if (invalidUnits != null) {
+              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+
+          if (m.isSetAreaUnits())
+          {
+            boolean isUnitsValid = SyntaxChecker.isValidId(m.getAreaUnits(), ctx.getLevel(), ctx.getVersion());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10311, m.getAreaUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+          else if (hasUnknownXML) 
+          {
+            String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.areaUnits);
+
+            if (invalidUnits != null) {
+              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+
+          if (m.isSetLengthUnits())
+          {
+            boolean isUnitsValid = SyntaxChecker.isValidId(m.getLengthUnits(), ctx.getLevel(), ctx.getVersion());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10311, m.getLengthUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+          else if (hasUnknownXML) 
+          {
+            String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.lengthUnits);
+
+            if (invalidUnits != null) {
+              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+          
+          if (m.isSetTimeUnits())
+          {
+            boolean isUnitsValid = SyntaxChecker.isValidId(m.getTimeUnits(), ctx.getLevel(), ctx.getVersion());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10311, m.getTimeUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+          else if (hasUnknownXML) 
+          {
+            String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.timeUnits);
+
+            if (invalidUnits != null) {
+              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+
+          if (m.isSetExtentUnits())
+          {
+            boolean isUnitsValid = SyntaxChecker.isValidId(m.getExtentUnits(), ctx.getLevel(), ctx.getVersion());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10311, m.getExtentUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+          else if (hasUnknownXML) 
+          {
+            String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.extentUnits);
+
+            if (invalidUnits != null) {
+              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+          
+          return isCheckValid;
+        }
+      };
+      break;
+    }
+
+    case CORE_10313:{
+      func = new AbstractValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+
+          boolean isCheckValid = true;
+
+          // checking all the units in the model: substanceUnits , volumeUnits , areaUnits , lengthUnits , timeUnits and extentUnits
+          // And reporting one error for each problem.
+
+          if (m.isSetSubstanceUnits())
+          {
+            boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getSubstanceUnits());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10313, m.getSubstanceUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+
+          if (m.isSetVolumeUnits())
+          {
+            boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getVolumeUnits());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10313, m.getVolumeUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+
+          if (m.isSetAreaUnits())
+          {
+            boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getAreaUnits());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10313, m.getAreaUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+          
+          if (m.isSetLengthUnits())
+          {
+            boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getLengthUnits());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10313, m.getLengthUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+          
+          if (m.isSetTimeUnits())
+          {
+            boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getTimeUnits());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10313, m.getTimeUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+
+          if (m.isSetExtentUnits())
+          {
+            boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getExtentUnits());
+        
+            if (!isUnitsValid) {
+              ValidationConstraint.logError(ctx, CORE_10313, m.getExtentUnits(), m.getElementName(), m.getId());
+              isCheckValid = false;
+            }
+          }
+          
+          return isCheckValid;
+        }
+      };
+      break;
+    }
+    
     case CORE_10601:
       func = new ValidationFunction<Model>() {
 
