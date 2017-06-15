@@ -347,11 +347,15 @@ public class OfflineValidatorVersusLibsbmlTests {
       Map<Integer, Integer> jsbmlErrorCount = new TreeMap<Integer, Integer>();
       Map<Integer, Integer> libsbmlErrorCount = new TreeMap<Integer, Integer>();
       HashSet<Integer> wronglyValidatedConstraintSet = new HashSet<Integer>();
+      Set<String> ignoredCategories = analyseSBMLerrorLog(log.getValidationErrors());
       
       System.out.println(errors + " constraints broken with the JSBML offline validator (" + readTime/1000 + "s to read, " + validationTime/1000 + "s to validate).");
       for (SBMLError e : log.getValidationErrors()) {
         int errorCode = e.getCode();
-                
+        
+        if (e.getCategory() != null && ignoredCategories.contains(e.getCategory())) {
+          continue;
+        }
         // System.out.println("JSBML - error " + errorCode);
         
         // count each errorCode
@@ -500,6 +504,123 @@ public class OfflineValidatorVersusLibsbmlTests {
 
     System.out.println();
     System.out.println();
+  }
+
+
+  /**
+   * 
+   * 
+   * @param validationErrors
+   * @return
+   */
+  private static Set<String> analyseSBMLerrorLog(List<SBMLError> validationErrors) 
+  {
+    Set<String> ignoredCategories = new HashSet<String>();
+    
+    /* order is:
+    identifier consistency
+    general consistency
+    sbo
+    math
+    units
+    overdetermined
+    modelling practice
+     */
+    
+    for (SBMLError e : validationErrors) {
+      String category = e.getCategory();
+      String severity = e.getSeverity();
+      
+      if (severity != null && (severity.equalsIgnoreCase("error") || severity.equalsIgnoreCase("fatal"))) {
+        // the category we are in will be the latest one.
+        
+        // System.out.println("DEBUG - SBMLError.category = '" + category + "'");
+        
+        switch(category) {
+          
+          case "SBML identifier consistency":
+            ignoredCategories.add("General SBML conformance");
+            ignoredCategories.add("SBML component consistency");
+            
+          case "General SBML conformance":
+          case "SBML component consistency":
+            ignoredCategories.add("SBO term consistency");
+            
+          case "SBO term consistency":
+            ignoredCategories.add("MathML consistency");
+            
+          case "MathML consistency":
+            ignoredCategories.add("SBML unit consistency");
+            
+          case "SBML unit consistency":
+            ignoredCategories.add("Overdetermined model");
+            
+          case "Overdetermined model":
+            ignoredCategories.add("Modeling practice");
+        }
+      }
+      
+    }
+    
+    return ignoredCategories;
+  }
+
+  /**
+   * 
+   * 
+   * @param validationErrors
+   * @return
+   */
+  private static Set<CHECK_CATEGORY> analyseSBMLerrorLog2(List<SBMLError> validationErrors) 
+  {
+    Set<CHECK_CATEGORY> ignoredCategories = new HashSet<CHECK_CATEGORY>();
+    CHECK_CATEGORY latest = CHECK_CATEGORY.MODELING_PRACTICE;
+    
+    /* order is:
+    identifier consistency
+    general consistency
+    sbo
+    math
+    units
+    overdetermined
+    modelling practice
+     */
+    
+    for (SBMLError e : validationErrors) {
+      String category = e.getCategory();
+      String severity = e.getSeverity();
+      
+      if (severity != null && (severity.equalsIgnoreCase("error") || severity.equalsIgnoreCase("fatal"))) {
+        // the category we are in will be the latest one.
+        
+        // System.out.println("DEBUG - SBMLError.category = '" + category + "'");
+        
+        switch(category) {
+          
+          case "SBML identifier consistency":
+            ignoredCategories.add(CHECK_CATEGORY.GENERAL_CONSISTENCY);
+            
+          case "General SBML conformance":
+          case "SBML component consistency":
+            ignoredCategories.add(CHECK_CATEGORY.SBO_CONSISTENCY);
+            
+          case "SBO term consistency":
+            ignoredCategories.add(CHECK_CATEGORY.MATHML_CONSISTENCY);
+            
+          case "MathML consistency":
+            ignoredCategories.add(CHECK_CATEGORY.UNITS_CONSISTENCY);
+            
+          case "SBML unit consistency":
+            ignoredCategories.add(CHECK_CATEGORY.OVERDETERMINED_MODEL);
+            
+          case "Overdetermined model":
+            ignoredCategories.add(CHECK_CATEGORY.MODELING_PRACTICE);
+        }
+      }
+      
+    }
+    
+    return ignoredCategories;
   }
 
 

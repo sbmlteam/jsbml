@@ -135,6 +135,8 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_81121), "In this instance the local parameter with id ''{0}'' will shadow the ''{1}'' with an identical id.");
       
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_99505), "The units of the <{0}> <math> expression ''{1}'' cannot be fully checked. Unit consistency reported as either no errors or further unit errors related to this object may not be accurate.");
+      
       contents.put(Integer.toString(SBMLErrorCodes.CORE_99508), "The units of the <compartment> ''{0}'' cannot be fully checked. Unit consistency reported as either no errors or further unit errors related to this object may not be accurate.");
   }
 
