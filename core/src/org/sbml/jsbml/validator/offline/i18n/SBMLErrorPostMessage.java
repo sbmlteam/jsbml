@@ -121,6 +121,44 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       // species
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20601), "The <species> with id ''{0}'' refers to the compartment ''{1}'' which is not defined.");
       
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20602), "The <species> with id ''{0}'' should not have a ''spatialSizeUnits'' attribute OR should have a ''hasOnlySubstanceUnits'' attribute that is not set to ''true''");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20603), "The <species> with id ''{0}'' is located in 0-D <compartment> ''{1}'' and therefore should not have a ''spatialSizeUnits'' attribute.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20604), "The <species> with id ''{0}'' is located in 0-D <compartment> ''{1}'' and therefore should not have an ''initialConcentration'' attribute.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20605), "The <species> with id ''{0}'' is located in 1-D <compartment> ''{1}'' and therefore should not have a ''spatialSizeUnits'' attribute set to ''{2}''.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20606), "The <species> with id ''{0}'' is located in 2-D <compartment> ''{1}'' and therefore should not have a ''spatialSizeUnits'' attribute set to ''{2}''.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20607), "The <species> with id ''{0}'' is located in 3-D <compartment> ''{1}'' and therefore should not have a ''spatialSizeUnits'' attribute set to ''{2}''.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20608), "The value of a <species>''s ''substanceUnits'' attribute can only be one of the following: ''substance'', ''mole'', ''item'', ''gram'',"
+          + " ''kilogram'', ''dimensionless'', ''avogadro'', or the identifier of a <unitDefinition> derived from ''mole'' (with an ''exponent'' of ''1''), ''item'' (with an ''exponent'' of ''1''), ''gram'' (with an ''exponent'' of ''1''),"
+          + " ''kilogram'' (with an ''exponent'' of ''1''), ''avogadro'' (with an ''exponent'' of ''1'') or ''dimensionless'' or a combination of these units. The current value ''{1}'' on the <species> with id ''{0}'' is not allowed.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20609), "The <species> with id ''{0}'' cannot have both attributes ''initialAmount'' and ''initialConcentration''.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20610), "The species ''{0}'' occurs in both a rule and reaction ''{1}''.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20611), "The <species> with id ''{0}'' cannot have 'boundaryCondition' set to ''false'' and ''constant'' set to ''true''.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20612), "The <species> with id ''{0}'' refers to the speciesType ''{1}'' which is not defined.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20613), "The compartment ''{0}'' contains more than one species with species type ''{1}''.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20614), "The <species> with the id ''{0}'' is missing the ''compartment'' attribute.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20615), "The <species> with the id ''{0}'' has the ''spatialSizeUnits'' attribute defined which is invalid.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20616), "");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20617), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20623), "");
+
+      
+      
       
       // 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20903), "The {0} with id ''{1}'' should have a constant value of ''false''.");

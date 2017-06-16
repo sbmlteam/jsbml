@@ -401,9 +401,14 @@ public final class ValidationTools {
     UnitDefinition assignmentDerivedUnit = assignment.getDerivedUnitDefinition();
     UnitDefinition varDerivedUnit = var.getDerivedUnitDefinition();
 
-//  System.out.println("haveEquivalentUnits - " + assignment.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(ruleDerivedUnit));
-//  System.out.println("haveEquivalentUnits - " + var.getClass().getSimpleName() + " unit = " + UnitDefinition.printUnits(sbaseDerivedUnit));
-  
+//    System.out.println("haveEquivalentUnits - " + assignment.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(assignmentDerivedUnit));
+//    System.out.println("haveEquivalentUnits - " + var.getClass().getSimpleName() + " unit = " + UnitDefinition.printUnits(varDerivedUnit));
+
+    if (assignmentDerivedUnit != null && assignmentDerivedUnit.isInvalid()) { // TODO - apply this change to other tests
+      // we cannot check the units, so we return true
+      return true;
+    }
+    
     if (assignmentDerivedUnit != null && varDerivedUnit != null) {
       return UnitDefinition.areEquivalent(assignmentDerivedUnit, varDerivedUnit);
     }

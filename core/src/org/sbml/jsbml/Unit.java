@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
@@ -2074,15 +2075,35 @@ public class Unit extends AbstractSBase implements UniqueSId {
   }
 
   /**
-   * @return {@code true} if this Unit is a variant of substance.
+   * Tests if this {@link Unit} is a variant
+   * of 'substance'.
+   * 
+   * <p>Returns {@code true} if this Unit is a variant of 'substance',
+   * meaning moles or items (and grams or kilograms from
+   * SBML Level 2 Version 2 onwards, and avogadro from L3) with only arbitrary variations in
+   * scale or multiplier values. From SBML L3V2, the exponent can be different from 1.
+   * {@link Kind#DIMENSIONLESS} is also an allowed
+   * value but is not tested here, you have to use {@link #isDimensionless()}
+   * if you want to test for dimensionless.</p>
+   *         
+   * @return {@code true} if this {@link Unit} is a variant of substance.
+   * @see #isDimensionless()
    */
   public boolean isVariantOfSubstance() {
     Kind kind = getKind();
     if ((kind == Kind.MOLE) || (kind == Kind.ITEM)
         || ((((getLevel() == 2) && (getVersion() > 1)) || (getLevel() > 2))
-            && ((kind == Kind.GRAM) || isKilogram())) || (getLevel() > 2 && kind == Kind.AVOGADRO)) {
-      return (getOffset() == 0d) && (getExponent() == 1d);
+            && ((kind == Kind.GRAM) || isKilogram())) || (getLevel() > 2 && kind == Kind.AVOGADRO)) 
+    {
+      if (getLevelAndVersion().compareTo(3, 1) <= 0) {
+        return (getOffset() == 0d) && (getExponent() == 1d);
+      } else {
+        return (getOffset() == 0d);
+      }
     }
+    
+    // dimensionless is an allowed kind for substance but is not tested here
+    
     return false;
   }
 

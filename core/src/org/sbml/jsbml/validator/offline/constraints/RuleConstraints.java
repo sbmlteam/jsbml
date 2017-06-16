@@ -43,7 +43,10 @@ public class RuleConstraints extends AbstractConstraintDeclaration {
     
     switch (category) {
     case GENERAL_CONSISTENCY:
-      set.add(CORE_20907);
+      
+      if (level > 2) {
+        set.add(CORE_20907);
+      }
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -84,27 +87,29 @@ public class RuleConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<Rule> func = null;
     
     switch (errorCode) {
-      case CORE_20907:
+      
+      case CORE_20907: {
         func = new ValidationFunction<Rule>() {
 
           @Override
           public boolean check(ValidationContext ctx, Rule rule) {
-            
+
             if (rule.isSetMath()) {
               if (rule.isSetUserObjects() && rule.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT) != null) {
                 int nbMath = (int) rule.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT);
-            
+
                 return nbMath == 1;                  
               }
             } else if (rule.getLevelAndVersion().compareTo(3, 2) < 0) {
               // math is mandatory before SBML L3V2
               return false;
             }
-            
+
             return true;
           }
         };
         break;
+      }
 
     case CORE_10705:
       return SBOValidationConstraints.isMathematicalExpression;
