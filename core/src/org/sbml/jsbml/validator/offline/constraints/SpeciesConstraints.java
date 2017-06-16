@@ -146,14 +146,16 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       return SBOValidationConstraints.isMaterialEntity;
 
     case CORE_20601:
-      func = new ValidationFunction<Species>() {
+      func = new AbstractValidationFunction<Species>() {
         @Override
         public boolean check(ValidationContext ctx, Species s) {
           /*
            * Invalid value found for Species 'compartment' attribute
            */
-          if (s.isSetCompartment() && s.getModel() != null) {
-            return s.getCompartmentInstance() != null;
+          if (s.isSetCompartment() && s.getModel() != null && s.getCompartmentInstance() == null) {
+            
+            ValidationConstraint.logError(ctx, CORE_20601, s.getId(), s.getCompartment());
+            return false;
           }
 
           return true;
@@ -179,7 +181,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       break;
 
     case CORE_20603:
-      func = new ValidationFunction<Species>() {
+      func = new AbstractValidationFunction<Species>() {
 
 
         @Override
@@ -189,8 +191,11 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           {
             Compartment c = s.getCompartmentInstance();
 
-            if (c != null && c.getSpatialDimensions() == 0) {
-              return !s.isSetSpatialSizeUnits();
+            if (c != null && c.getSpatialDimensions() == 0 && s.isSetSpatialSizeUnits()) {
+
+              ValidationConstraint.logError(ctx, CORE_20603, s.getId(), s.getCompartment());
+
+              return false;
             }
           }
 
@@ -200,14 +205,17 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       break;
 
     case CORE_20604:
-      func = new ValidationFunction<Species>() {
+      func = new AbstractValidationFunction<Species>() {
         @Override
         public boolean check(ValidationContext ctx, Species s) {
 
           Compartment c = s.getCompartmentInstance();
 
-          if (c != null && c.getSpatialDimensions() == 0) {
-            return !s.isSetInitialConcentration();
+          if (c != null && c.getSpatialDimensions() == 0 && s.isSetInitialConcentration()) {
+
+            ValidationConstraint.logError(ctx, CORE_20604, s.getId(), s.getCompartment());
+
+            return false;
           }
 
           return true;
@@ -216,130 +224,153 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       break;
 
     case CORE_20605:
-      func = new ValidationFunction<Species>() {
+      func = new AbstractValidationFunction<Species>() {
         @Override
         public boolean check(ValidationContext ctx, Species s) {
 
           Compartment c = s.getCompartmentInstance();
-
+          boolean checkResult = true;
+          
           if (c != null && c.getSpatialDimensions() == 1 && s.isSetSpatialSizeUnits()) {
             UnitDefinition def = s.getSpatialSizeUnitsInstance();
 
             if (def == null)
             {
-              return false;
+              checkResult = false;
             }
 
-            boolean isLength = def.isVariantOfLength();
+            boolean isLength = checkResult && def.isVariantOfLength();
 
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
-              return isLength;
+            if (ctx.getLevel() == 2 && ctx.getLevel() == 1 && !isLength) {
+              checkResult = false;
             }
 
-            if (ctx.getLevel() >= 2) {
-              return def.isVariantOfDimensionless() || isLength;
+            if (ctx.getLevel() >= 2 && (! (def.isVariantOfDimensionless() || isLength)) ) {
+              checkResult = false;
             }
           }
 
-          return true;
+          if (!checkResult) {
+            // report error
+            ValidationConstraint.logError(ctx, CORE_20605, s.getId(), s.getCompartment(), s.getSpatialSizeUnits());
+          }
+          
+          return checkResult;
         }
       };
       break;
 
     case CORE_20606:
-      func = new ValidationFunction<Species>() {
+      func = new AbstractValidationFunction<Species>() {
         @Override
         public boolean check(ValidationContext ctx, Species s) {
 
           Compartment c = s.getCompartmentInstance();
-
+          boolean checkResult = true;
+          
           if (c != null && c.getSpatialDimensions() == 2 && s.isSetSpatialSizeUnits()) {
 
             UnitDefinition def = s.getSpatialSizeUnitsInstance();
 
             if (def == null)
             {
-              return false;
+              checkResult = false;
             }
 
-            boolean isArea = def.isVariantOfArea();
+            boolean isArea = checkResult && def.isVariantOfArea();
 
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
-              return isArea;
+            if (ctx.getLevel() == 2 && ctx.getLevel() == 1 && !isArea) {
+              checkResult = false;
             }
 
-            if (ctx.getLevel() >= 2) {
-
-              return def.isVariantOfDimensionless() || isArea;
+            if (ctx.getLevel() >= 2 && (! (def.isVariantOfDimensionless() || isArea))) {
+              checkResult = false;
             }
           }
 
-          return true;
+          if (!checkResult) {
+            // report error
+            ValidationConstraint.logError(ctx, CORE_20606, s.getId(), s.getCompartment(), s.getSpatialSizeUnits());
+          }
+          
+          return checkResult;
         }
       };
       break;
 
     case CORE_20607:
-      func = new ValidationFunction<Species>() {
+      func = new AbstractValidationFunction<Species>() {
 
         @Override
         public boolean check(ValidationContext ctx, Species s) {
 
           Compartment c = s.getCompartmentInstance();
-
+          boolean checkResult = true;
+          
           if (c != null && c.getSpatialDimensions() == 3 && s.isSetSpatialSizeUnits()) {
 
             UnitDefinition def = s.getSpatialSizeUnitsInstance();
 
             if (def == null)
             {
-              return false;
+              checkResult = false;
             }
 
-            boolean isVolume = def.isVariantOfVolume();
+            boolean isVolume = checkResult && def.isVariantOfVolume();
 
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1) {
-              return isVolume;
+            if (ctx.getLevel() == 2 && ctx.getLevel() == 1 && !isVolume) {
+              checkResult = false;
             }
 
-            if (ctx.getLevel() >= 2) {
-
-              return def.isVariantOfDimensionless() || isVolume;
+            if (ctx.getLevel() >= 2 && (! (def.isVariantOfDimensionless() || isVolume))) {
+              checkResult = false;
             }
           }
 
-          return true;
+          if (!checkResult) {
+            // report error
+            ValidationConstraint.logError(ctx, CORE_20607, s.getId(), s.getCompartment(), s.getSpatialSizeUnits());
+          }
+          
+          return checkResult;
         }
       };
       break;
     case CORE_20608:
-      func = new ValidationFunction<Species>() {
+      func = new AbstractValidationFunction<Species>() {
 
 
         @Override
         public boolean check(ValidationContext ctx, Species s) {
 
+          boolean checkResult = true;
+          
           if (s.isSetSubstanceUnits())
           {
-
             UnitDefinition ud = s.getSubstanceUnitsInstance();
 
-            if (ud == null)
+            if (ud != null)
             {
-              return false;
-            }
-
-            if (ctx.getLevel() == 1 || (ctx.getLevel() == 2 && ctx.getVersion() == 1))
-            {
-              return ud.isVariantOfSubstance();
-            }
-            else
-            {
-              return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
+              if ((ctx.getLevel() == 1 || (ctx.getLevel() == 2 && ctx.getVersion() == 1)) 
+                  && !ud.isVariantOfSubstance())
+              {
+                checkResult = false;
+              }
+              else if (! (ud.isVariantOfSubstance() || ud.isVariantOfDimensionless()))
+              {
+                checkResult = false;
+              }
+            } else {
+              checkResult = false;
             }
           }
 
-          return true;
+          if (!checkResult) {
+            // report error
+            ValidationConstraint.logError(ctx, CORE_20608, s.getId(), s.getSubstanceUnits());
+          }
+          
+          return checkResult;
         }
       };
       break;
@@ -366,7 +397,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       break;
 
     case CORE_20610:
-      func = new ValidationFunction<Species>() {
+      func = new AbstractValidationFunction<Species>() {
 
         @Override
         public boolean check(ValidationContext ctx, Species s) {
@@ -409,6 +440,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
                   {
                     if (sr.getSpecies().equals(s.getId()))
                     {
+                      ValidationConstraint.logError(ctx, CORE_20610, s.getId(), r.getId());
                       return false;
                     }
                   }
@@ -419,6 +451,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
                   {
                     if (sr.getSpecies().equals(s.getId()))
                     {
+                      ValidationConstraint.logError(ctx, CORE_20610, s.getId(), r.getId());
                       return false;
                     }
                   }
@@ -432,14 +465,17 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       };
       break;
 
+    // case CORE_20611: // Done in SpeciesReferenceConstraints
+      
     case CORE_20612:
-      func = new ValidationFunction<Species>() {
+      func = new AbstractValidationFunction<Species>() {
 
         @Override
         public boolean check(ValidationContext ctx, Species s) {
-          if (s.isSetSpeciesType()) {
+          if (s.isSetSpeciesType() && s.getSpeciesTypeInstance() == null) {
 
-            return s.getSpeciesTypeInstance() != null;
+            ValidationConstraint.logError(ctx, CORE_20612, s.getId(), s.getSpeciesType());
+            return false;
           }
           return true;
         }
@@ -452,6 +488,9 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         @Override
         public boolean check(ValidationContext ctx, Species s) {
 
+          // TODO - change the way we report the error, to report the error per compartment, only once.
+          // And we should be able to avoid a loop over the full listofSpecies for each species
+          
           Model m = s.getModel();
           if (s.isSetSpeciesType() && m != null)
           {

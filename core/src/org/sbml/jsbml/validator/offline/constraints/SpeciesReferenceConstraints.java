@@ -83,7 +83,7 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
     switch (errorCode) {
 
       case CORE_20611:
-        func = new ValidationFunction<SpeciesReference>() {
+        func = new AbstractValidationFunction<SpeciesReference>() {
 
           // TODO - maintain a set of species ids to not report the error twice for the same species ?
           
@@ -92,10 +92,11 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
 
             Species s = sr.getSpeciesInstance();
 
-      
-            if (s != null && !s.isBoundaryCondition()) {
+            // if the species is constant and 'boundaryCondition = false', it cannot be a reactant or product
+            if (s != null && !s.isBoundaryCondition() && s.isConstant()) {
 
-              return !s.isConstant(); // if the species is constant and 'boundaryCondition = false', it cannot be a reactant or product
+              ValidationConstraint.logError(ctx, CORE_20611, s.getId());
+              return false; 
             }
 
             return true;
