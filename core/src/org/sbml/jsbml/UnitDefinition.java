@@ -996,25 +996,41 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * Tests if a given unit definition is a variant
-   * of the predefined unit identifier 'substance'.
+   * Tests if this {@link UnitDefinition} is a variant
+   * of 'substance'.
    * 
    * @return {@code true} if this UnitDefinition is a variant of the predefined
-   *         unit
-   *         substance, meaning moles or items (and grams or kilograms from
-   *         SBML Level 2 Version 2 onwards) with only arbitrary variations in
-   *         scale or multiplier values; false otherwise.
+   *         unit substance, meaning moles or items (and grams or kilograms from
+   *         SBML Level 2 Version 2 onwards, and avogadro from L3) with only arbitrary variations in
+   *         scale or multiplier values. From SBML L3V2, we can have a combination of the allowed units
+   *         and the exponent can be different from 1. {@link Kind#DIMENSIONLESS} is also an allowed
+   *         value for substance but is not tested here, you have to use {@link #isVariantOfDimensionless()}
+   *         if you want to test for dimensionless. Returns @code{ false} otherwise.
+   * @see #isVariantOfDimensionless()
    */
   public boolean isVariantOfSubstance() {
+    boolean isVariantOfSubstance = false;
+
     if (isSetListOfUnits()) {
       UnitDefinition ud = clone().simplify();
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
-        return unit.isVariantOfSubstance();
+        isVariantOfSubstance = unit.isVariantOfSubstance();
+        
+      } else if (getLevelAndVersion().compareTo(3, 2) >= 0) {
+        
+        // in L3V2, it can be a combination of the substance units so we can have more than one unit after simplify()
+        isVariantOfSubstance = true;
+        
+        for (Unit unit : ud.getListOfUnits()) {
+          
+          isVariantOfSubstance &= unit.isVariantOfSubstance();
+        }
       }
     }
-    return false;
+    
+    return isVariantOfSubstance;
   }
 
 

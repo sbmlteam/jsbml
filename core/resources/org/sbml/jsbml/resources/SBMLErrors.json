@@ -1895,6 +1895,7 @@
         "Message": "The value of a <species>'s 'units' attribute is restricted. \nReference: L3V1 Section 4.6.4\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning",
         "ShortMessage": "Invalid value for a Species 'units' attribute"
     }, 
     "20609": {
@@ -1932,6 +1933,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error",
         "ShortMessage": "Invalid value for the 'speciesType' attribute of a species"
     }, 
     "20613": {
@@ -1958,6 +1960,7 @@
         "Package": "core", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error",
         "ShortMessage": "Attribute 'spatialSizeUnits' is not supported in this Level+Version of SBML"
     }, 
     "20616": {
