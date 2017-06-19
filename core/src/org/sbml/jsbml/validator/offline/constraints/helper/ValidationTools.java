@@ -413,7 +413,7 @@ public final class ValidationTools {
       return UnitDefinition.areEquivalent(assignmentDerivedUnit, varDerivedUnit);
     }
 
-    return true; // TODO - do we return true or false if one of the unit cannot be calculated ?
+    return true;
   }
 
 

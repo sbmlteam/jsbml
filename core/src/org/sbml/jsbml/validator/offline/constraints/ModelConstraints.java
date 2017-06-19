@@ -992,7 +992,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_20705:
-      func = new ValidationFunction<Model>() {
+      func = new AbstractValidationFunction<Model>() {
 
         @Override
         public boolean check(ValidationContext ctx, Model m) {
@@ -1000,7 +1000,11 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetConversionFactor()) {
             Parameter fac = m.getConversionFactorInstance();
 
-            return fac != null && fac.isConstant();
+            if (fac != null && !fac.isConstant()) {
+              
+              ValidationConstraint.logError(ctx, CORE_20705, m.getConversionFactor());
+              return false;
+            }
           }
 
           return true;
