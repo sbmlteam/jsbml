@@ -546,11 +546,14 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       break;
 
     case CORE_20617:
-      func = new ValidationFunction<Species>() {
+      func = new AbstractValidationFunction<Species>() {
         @Override
         public boolean check(ValidationContext ctx, Species s) {
-          if (s.isSetConversionFactor()) {
-            return s.getConversionFactorInstance() != null;
+          
+          if (s.isSetConversionFactor() && s.getConversionFactorInstance() == null) {
+            
+            ValidationConstraint.logError(ctx, CORE_20617, s.getId(), s.getConversionFactor());
+            return false;
           }
 
           return true;
@@ -575,13 +578,19 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
       break;
 
     case CORE_20705:
-      func = new ValidationFunction<Species>() {
+      func = new AbstractValidationFunction<Species>() {
         @Override
         public boolean check(ValidationContext ctx, Species s) {
           if (s.isSetConversionFactor())
           {
             Parameter fac = s.getConversionFactorInstance();
-            return fac != null && fac.isConstant();
+
+            // don't report if the parameter is null, that's the job of CORE_20617
+            if (fac != null && !fac.isConstant()) {
+              
+              ValidationConstraint.logError(ctx, CORE_20705, s.getConversionFactor());
+              return  false;
+            }
           }
 
           return true;

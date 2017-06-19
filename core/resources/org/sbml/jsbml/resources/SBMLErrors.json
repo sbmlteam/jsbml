@@ -657,7 +657,8 @@
         "Category": "SBML identifier consistency", 
         "DefaultSeverity": "na", 
         "Message": "Unit identifier references (i.e the 'units' attribute on <Compartment>, the 'units' attribute on <Parameter>, and the 'substanceUnits' attribute on <Species>) must be the identifier of a <UnitDefinition> in the <Model>, or the identifier of a predefined unit in SBML.\n", 
-        "Package": "core", 
+        "Package": "core",   
+        "SeverityL3V2": "error",
         "ShortMessage": "Dangling reference to a unit."
     }, 
     "10401": {
@@ -1977,6 +1978,7 @@
         "Message": "The value of the attribute 'conversionFactor' on a Species object must be the identifier of an existing Parameter object defined in the enclosing Model object.\nReference: L3V1 Section 4.6.7\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error",
         "ShortMessage": "Invalid value for the 'conversionFactor' attribute"
     }, 
     "20623": {
@@ -1984,7 +1986,8 @@
         "DefaultSeverity": "na", 
         "Message": "A Species object must have the required attributes 'id', 'compartment', 'hasOnlySubstanceUnits', 'boundaryCondition' and 'constant', and may have the optional attributes 'metaid', 'sboTerm', 'name', 'initialAmount', 'initialConcentration', 'substanceUnits' and 'conversionFactor'. No other attributes from the SBML Level 3 Core namespace are permitted on a Species object.\nReference: L3V1 Section 4.6\n", 
         "Package": "core", 
-        "SeverityL3V1": "error", 
+        "SeverityL3V1": "error",
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on Species object"
     }, 
     "20701": {
@@ -1992,6 +1995,7 @@
         "DefaultSeverity": "error", 
         "Message": "The 'units' in a <Parameter> definition must be a value chosen from among the following: a predefined unit (e.g., 'substance', 'time', etc.), the identifier of a <UnitDefinition> in the model, or one of the base units in SBML (e.g., 'litre', 'mole', 'metre', etc.)\nReference: L3V1 Section 4.7.3\n", 
         "Package": "core", 
+        "SeverityL3V1": "warning",
         "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid value for the 'units' attribute of a Parameter object"
     }, 
@@ -2000,7 +2004,8 @@
         "DefaultSeverity": "na", 
         "Message": "If the attribute 'units' on a given Parameter object has not been set, then the unit of measurement associated with that parameter's value is undefined.\nReference: L3V1 Section 4.7.3\n", 
         "Package": "core", 
-        "SeverityL3V1": "warning", 
+        "SeverityL3V1": "warning",
+        "SeverityL3V2": "warning", 
         "ShortMessage": "No units defined for the parameter"
     }, 
     "20705": {
@@ -2009,6 +2014,7 @@
         "Message": "A Parameter object referenced by the attribute 'conversionFactor' on a Species or Model object must have a value of 'true' for its attribute 'constant'.\nReference: L3V1 Section 4.6.7\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error",
         "ShortMessage": "A conversion factor must reference a Parameter object declared to be a constant"
     }, 
     "20706": {
