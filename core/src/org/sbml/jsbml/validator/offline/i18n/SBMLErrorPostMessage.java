@@ -151,11 +151,39 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20615), "The <species> with the id ''{0}'' has the ''spatialSizeUnits'' attribute defined which is invalid.");
       
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20616), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20616), "The <species> with id ''{0}'' does not have a substanceUnits attribute, nor does its enclosing <model>.");
       
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20617), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20617), " The <species> with id ''{0}'' sets the ''conversionFactor'' to ''{1}'' but no <parameter> with that ''id'' exists in the <model>.");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20623), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20623), "The <species> with id ''{0}'' does not comply."); // TODO - Several messages depending which attributes are missing
+
+      
+      // parameter
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "The ''units'' attribute of the <parameter> is ''{0}'', which does not comply.");
+          
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20702), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20705), "The <parameter> with id ''{0}'' should have the ''constant'' attribute set to ''true''.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20706), "");
+
+      
+      //
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20801), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
 
       
       
