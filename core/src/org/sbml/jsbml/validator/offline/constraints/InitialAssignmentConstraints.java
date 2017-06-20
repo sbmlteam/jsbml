@@ -182,29 +182,37 @@ extends AbstractConstraintDeclaration {
       return SBOValidationConstraints.isMathematicalExpression;
 
     case CORE_20801:
-      func = new ValidationFunction<InitialAssignment>() {
+      func = new AbstractValidationFunction<InitialAssignment>() {
 
         @Override
         public boolean check(ValidationContext ctx, InitialAssignment ia) {
           Model m = ia.getModel();
-
+          boolean check = true;
+          
           if (ia.isSetSymbol() && m != null) {
 
             String symbol = ia.getSymbol();
-
+            
             boolean checkL2 = (m.isSetListOfCompartments() && m.getCompartment(symbol) != null)
                 || (m.isSetListOfSpecies() && m.getSpecies(symbol) != null)
                 || (m.isSetListOfParameters() && m.getParameter(symbol) != null);
 
-            if (ctx.getLevel() == 2 || checkL2) {
-              return checkL2;
+            if (ctx.getLevel() == 2) {
+              check =  checkL2;
             } else {
               SBase s = m.findUniqueSBase(symbol);
-              return s != null && (s instanceof SpeciesReference);
+              
+              if (s == null || !(s instanceof SpeciesReference)) {
+                check = checkL2;
+              }
             }
           }
 
-          return false;
+          if (!check) {
+            ValidationConstraint.logError(ctx, CORE_20801, ia.getVariable());
+          }
+          
+          return check;
         }
       };
       break;

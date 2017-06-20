@@ -121,7 +121,7 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_20701:
-      func = new ValidationFunction<Parameter>() {
+      func = new AbstractValidationFunction<Parameter>() {
 
         @Override
         public boolean check(ValidationContext ctx, Parameter p) {
@@ -131,9 +131,14 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
             String units = p.getUnits();
             Model m = p.getModel();
 
-            return Unit.isUnitKind(units, ctx.getLevel(), ctx.getVersion())
+            if (! (Unit.isUnitKind(units, ctx.getLevel(), ctx.getVersion())
                 || Unit.isPredefined(units, ctx.getLevel())
-                || (m != null && m.getUnitDefinition(units) != null);
+                || (m != null && m.getUnitDefinition(units) != null))) 
+            {
+            
+              ValidationConstraint.logError(ctx, CORE_20701, p.getId(), p.getUnits());
+              return false;
+            }
           }
 
           return true;
@@ -151,6 +156,8 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+      // TODO - what about 20703 and 20704
+      
     case CORE_20706:
       func = new UnknownAttributeValidationFunction<Parameter>() {
         

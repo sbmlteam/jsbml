@@ -30,6 +30,8 @@ import java.util.ResourceBundle;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.sbml.jsbml.Assignment;
+import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.Message;
@@ -187,7 +189,7 @@ public class SBMLErrorFactory {
           System.out.println("DEBUG - error id '" + id + "' has no message !!");
         }
         
-        if (customMessage && sbase != null && sbase.isSetId()) {
+        if (customMessage && sbase != null) {
           String postMessageI18n = getBundleString(getSBMLErrorPostMessageBundle(), bundleKey);
           
           if (postMessageI18n != null && postMessageI18n.trim().length() > 0)
@@ -204,6 +206,14 @@ public class SBMLErrorFactory {
             else if (sbase.isSetMetaId()) {
               postMessageI18n = getSBMLErrorPostMessageBundle().getString(SBMLErrorPostMessage.DEFAULT_POST_MESSAGE_WITH_METAID);
               messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getElementName(), sbase.getMetaId()));              
+            }
+            else if (sbase instanceof InitialAssignment) {
+              postMessageI18n = getSBMLErrorPostMessageBundle().getString(SBMLErrorPostMessage.DEFAULT_POST_MESSAGE_WITH_SYMBOL);
+              messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getElementName(), ((InitialAssignment) sbase).getVariable()));
+            }
+            else if (sbase instanceof Assignment) {
+              postMessageI18n = getSBMLErrorPostMessageBundle().getString(SBMLErrorPostMessage.DEFAULT_POST_MESSAGE_WITH_VARIABLE);
+              messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getElementName(), ((Assignment) sbase).getVariable()));
             }
             else {
               postMessageI18n = getSBMLErrorPostMessageBundle().getString(SBMLErrorPostMessage.DEFAULT_POST_MESSAGE);
