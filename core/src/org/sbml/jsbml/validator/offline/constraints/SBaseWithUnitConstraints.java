@@ -94,7 +94,7 @@ public class SBaseWithUnitConstraints
 
     switch (errorCode) {
       // 
-      case CORE_10313:
+      case CORE_10313: {
         func = new AbstractValidationFunction<SBaseWithUnit>() {
 
           @Override
@@ -116,7 +116,11 @@ public class SBaseWithUnitConstraints
                 || Unit.isUnitKind(unit, ctx.getLevel(), ctx.getVersion())
                 || Unit.isPredefined(unit, ctx.getLevel()))) 
               {
-                ValidationConstraint.logError(ctx, CORE_10313, sb.getUnits(), sb.getElementName(), sb.getId());
+                if (ctx.getLevel() > 2) {
+                  ValidationConstraint.logError(ctx, CORE_10313, sb.getUnits(), sb.getElementName(), sb.getId());
+                } else {
+                  ValidationConstraint.logError(ctx, CORE_99303, sb.getUnits(), sb.getElementName(), sb.getId());
+                }
                 return false;
               }
             }
@@ -125,7 +129,9 @@ public class SBaseWithUnitConstraints
           }
         };
         break;
-
+      }
+      
+      // case CORE_99303: // nothing to do, taken care by CORE_10313
     }
     return func;
   }

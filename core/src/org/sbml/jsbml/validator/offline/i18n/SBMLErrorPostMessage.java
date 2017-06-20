@@ -62,6 +62,17 @@ public class SBMLErrorPostMessage extends ResourceBundle {
   /**
    * 
    */
+  public static final String DEFAULT_POST_MESSAGE_WITH_VARIABLE = "DEFAULT_POST_MESSAGE_WITH_VARIABLE";
+  
+  /**
+   * 
+   */
+  public static final String DEFAULT_POST_MESSAGE_WITH_SYMBOL = "DEFAULT_POST_MESSAGE_WITH_SYMBOL";
+
+
+  /**
+   * 
+   */
   public static final String DEFAULT_POST_MESSAGE = "DEFAULT_POST_MESSAGE";
   
   static {
@@ -69,9 +80,15 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(DEFAULT_POST_MESSAGE_WITH_ID, "The <{0}> with id ''{1}'' does not comply.");
     
       contents.put(DEFAULT_POST_MESSAGE_WITH_METAID, "The <{0}> with metaid ''{1}'' does not comply.");
-
+      
+      contents.put(DEFAULT_POST_MESSAGE_WITH_VARIABLE, "The <{0}> with ''variable'' ''{1}'' does not comply.");
+      
+      contents.put(DEFAULT_POST_MESSAGE_WITH_SYMBOL, "The <{0}> with ''symbol'' ''{1}'' does not comply.");
+      
       contents.put(DEFAULT_POST_MESSAGE, "The element {0} does not comply.");
-
+      
+      
+      //    
       contents.put(Integer.toString(SBMLErrorCodes.CORE_10214), "The formula ''{0}'' in the math element of the <{1}> uses ''{2}'' which is not a function definition id.");
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_10309), "The metaid ''{0}'' does not conform to the syntax.");
@@ -159,31 +176,31 @@ public class SBMLErrorPostMessage extends ResourceBundle {
 
       
       // parameter
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "The ''units'' attribute of the <parameter> is ''{0}'', which does not comply.");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "The ''units'' attribute of the <parameter> with id ''{0}'' is ''{1}'', which does not comply.");
           
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20702), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20702), "The <parameter> with id ''{0}'' does not have a ''units'' attribute.");
 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20705), "The <parameter> with id ''{0}'' should have the ''constant'' attribute set to ''true''.");
       
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20706), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20706), "The <parameter> with id ''{0}'' does not comply."); // TODO - Several messages depending which attributes are missing
 
       
       //
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20801), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20801), "The <initialAssignment> with symbol ''{0}'' does not refer to an existing <compartment>, <species>, <parameter> or <speciesReference>."); // TODO - different message for L2
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20802), "");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20803), "");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20804), "");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20805), "");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20806), "");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+      // contents.put(Integer.toString(SBMLErrorCodes.CORE_20807), "");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20701), "");
+      // contents.put(Integer.toString(SBMLErrorCodes.CORE_20808), "");
 
       
       
@@ -200,6 +217,8 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(Integer.toString(SBMLErrorCodes.CORE_80702), "The <parameter> with the id ''{0}'' does not have a 'value' attribute, nor is its initial value set by an <initialAssignment> or <assignmentRule>.");
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_81121), "In this instance the local parameter with id ''{0}'' will shadow the ''{1}'' with an identical id.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_99303), "The units ''{0}'' of the <{1}> with id ''{2}'' do not refer to a valid unit kind/built-in unit or the identifier of an existing <unitDefinition>.");
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_99505), "The units of the <{0}> <math> expression ''{1}'' cannot be fully checked. Unit consistency reported as either no errors or further unit errors related to this object may not be accurate.");
       
