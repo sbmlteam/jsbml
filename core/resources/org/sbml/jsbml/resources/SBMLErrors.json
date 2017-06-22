@@ -2075,7 +2075,8 @@
         "Category": "SBML component consistency", 
         "DefaultSeverity": "na", 
         "Message": "The identifier given as the value of a 'symbol' attribute in any <initialAssignment> definition cannot be the identifier of a <compartment> with a 'spatialDimensions' value of 0.\n", 
-        "Package": "core", 
+        "Package": "core",
+        "SeverityL2V5": "error", 
         "ShortMessage": "InitialAssignment cannot reference 0D compartment"
     }, 
     "20901": {

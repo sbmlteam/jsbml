@@ -204,7 +204,12 @@ extends AbstractConstraintDeclaration {
               
               if (s == null || !(s instanceof SpeciesReference)) {
                 check = checkL2;
-              }
+                
+                // for SBML L3V2, the id could come from other type of SBase
+                if (ctx.getVersion() >= 2 && s == null) {
+                  check = false;
+                }
+              } 
             }
           }
 
@@ -236,7 +241,7 @@ extends AbstractConstraintDeclaration {
       break;
       
     case CORE_20806:
-      func = new ValidationFunction<InitialAssignment>() {
+      func = new AbstractValidationFunction<InitialAssignment>() {
 
         @Override
         public boolean check(ValidationContext ctx, InitialAssignment ia) {
@@ -248,8 +253,10 @@ extends AbstractConstraintDeclaration {
 
             Compartment c = m.isSetListOfCompartments() ? m.getCompartment(s) : null;
 
-            if (c != null) {
-              return c.getSpatialDimensions() != 0;
+            if (c != null && c.getSpatialDimensions() == 0) {
+              
+              ValidationConstraint.logError(ctx, CORE_20806, ia.getVariable());
+              return false;
             }
           }
 

@@ -185,20 +185,44 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20706), "The <parameter> with id ''{0}'' does not comply."); // TODO - Several messages depending which attributes are missing
 
       
-      //
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20801), "The <initialAssignment> with symbol ''{0}'' does not refer to an existing <compartment>, <species>, <parameter> or <speciesReference>."); // TODO - different message for L2
+      // initialAssignment
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20801), "The <initialAssignment> with symbol ''{0}'' does not refer to an existing <compartment>, <species>, <parameter> or <speciesReference>."); // TODO - different message for different SBML level and version
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20802), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20802), "The <initialAssignment> symbol ''{0}'' conflicts with the previously defined <initialAssignment> symbol ''{0}''");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20803), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20803), "The <assignmentRule> variable ''{0}'' conflicts with the previously defined <initialAssignment> symbol ''{0}''");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20804), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20804), "The <initialAssignment> with symbol ''{0}'' does not contain one and only one <math> element.");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20805), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20805), "The <initialAssignment> with symbol ''{0}'' does not comply."); // TODO - Several messages depending which attributes are missing
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20806), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20806), "The <initialAssignment> with symbol ''{0}'' references a compartment which has spatialDimensions of 0.");
+      
+      
+      // rules
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20901), "The <assignmentRule> with variable ''{0}'' does not refer to an existing <compartment>, <species>, <parameter> or <speciesReference>."); // TODO - different message for different SBML level and version
 
-      // contents.put(Integer.toString(SBMLErrorCodes.CORE_20807), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20902), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20903), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20904), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20905), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20906), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20907), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20908), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20909), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20910), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20911), "");
+
+      // contents.put(Integer.toString(SBMLErrorCodes.CORE_20912), "");
 
       // contents.put(Integer.toString(SBMLErrorCodes.CORE_20808), "");
 
