@@ -55,7 +55,7 @@ public abstract class UniqueValidation<T, U> implements ValidationFunction<T>{
           }
         }
         
-        ids.clear();
+        ids.clear(); // TODO - going through the list each time, having a map and going through the list only once would be much better. 
         return false; // TODO - how do we provides the id and the elements that had the duplicated id ?
       }
 
