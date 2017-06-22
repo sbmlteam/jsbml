@@ -1038,7 +1038,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           Set<String> iaIds = new HashSet<String>();
 
           if (m.isSetListOfInitialAssignments()) {
-            for (InitialAssignment ia : m.getListOfInitialAssignments()) {
+            for (InitialAssignment ia : m.getListOfInitialAssignments()) { // TODO - use the existing map and methods for this one
               iaIds.add(ia.getVariable());
             }
           }
