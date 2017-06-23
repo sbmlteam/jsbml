@@ -714,18 +714,26 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
 
-          Type t = node.getType();
-          if (t == Type.PLUS || t == Type.MINUS || t == Type.FUNCTION_ABS
-            || t == Type.FUNCTION_CEILING || t == Type.FUNCTION_FLOOR
+          Type t = node.getType(); // TODO - check section 3.4.11 in the L2V5 specs
+          
+          // || t == Type.FUNCTION_ABS || t == Type.FUNCTION_CEILING || t == Type.FUNCTION_FLOOR. // The units of other operators such as abs , floor , and ceiling , can be anything.
+          
+          if (t == Type.PLUS || t == Type.MINUS 
             || t == Type.RELATIONAL_EQ || t == Type.RELATIONAL_GEQ
             || t == Type.RELATIONAL_GT || t == Type.RELATIONAL_LEQ
-            || t == Type.RELATIONAL_LT || t == Type.RELATIONAL_NEQ) {
+            || t == Type.RELATIONAL_LT || t == Type.RELATIONAL_NEQ) 
+          {
             if (node.getNumChildren() > 0) {
               UnitDefinition ud = node.getChild(0).getUnitsInstance();
 
               // Shouldn't be null or invalid
               if (ud == null || ud.getNumChildren() == 0
-                || ud.getUnit(0).isInvalid()) {
+                || ud.getUnit(0).isInvalid()) 
+              {
+                if (ud != null && ud.isInvalid()) {
+                  // we cannot check the units, so we return true
+                  return true;
+                }
                 return false;
               }
 
@@ -735,6 +743,12 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 // one of the children doesn't have a unit or the unit is not
                 // the same as the rest
                 if (ud2 == null || !UnitDefinition.areEquivalent(ud, ud2)) {
+                  
+                  if (ud2 != null && ud2.isInvalid()) {
+                    // we cannot check the units, so we return true
+                    return true;                    
+                  }
+                  
                   return false;
                 }
               }
@@ -774,6 +788,10 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               }
             }
           }
+          // TODO - there are other ASTNode.Type to check like exp , ln , log ,
+          // factorial , sin , cos , tan , sec , csc , cot , sinh , cosh , tanh , sech , csch , coth , arcsin , arccos , arctan ,
+          // arcsec , arccsc , arccot , arcsinh , arccosh , arctanh , arcsech , arccsch , arccoth .
+          // and FunctionDefinition
 
           return true;
         }
