@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.Assignment;
+import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.KineticLaw;
@@ -40,25 +41,33 @@ import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.AbstractValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.ValidationConstraint;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 
 /**
+ * Validates rule {@link SBMLErrorCodes#CORE_20906}.
+ * 
+ * <p>There must not be circular dependencies in the combined set of InitialAssignment , AssignmentRule
+ * and KineticLaw objects in a model. Each of these constructs has the effect of assigning a value to
+ * an identifier (i.e., the identifier given in the attribute symbol in InitialAssignment , the attribute
+ * variable in AssignmentRule , and the attribute id on the KineticLaw ’s enclosing Reaction ). Each
+ * of these constructs computes the value using a mathematical formula. The formula for a given
+ * identifier cannot make reference to a second identifier whose own definition depends directly or
+ * indirectly on the first identifier. (References: SBML L3V1 Section 4.9.5; SBML L3V2 Section 4.9.5.)</p>
  * 
  * @author Roman
+ * @author rodrigue
  * @since 1.2
  */
 public class AssignmentCycleValidation
-  implements ValidationFunction<SBase> {
-  
+  extends AbstractValidationFunction<SBase> {
+
   /**
-   * 
+   * Key to store a set of ids in the {@link ValidationContext} so that we do not report several times the same cycle.
    */
-  private Set<String> visited = new HashSet<String>();
-  /**
-   * 
-   */
-  private Queue<SBase> toCheck = new LinkedList<SBase>();
+  private static final String ASSIGNMENT_CYCLE_VALIDATION_FOUND_CYCLE_IDS = "AssignmentCycleValidation.foundCycleIds";
   
   /**
    * A {@link Logger} for this class.
@@ -78,27 +87,47 @@ public class AssignmentCycleValidation
     }
     
     Model m = sb.getModel();
+    boolean check = true;
     
     if (m != null)
     {
-      visited.clear();
-      String currentId = getRelatedId(sb);
+      Set<String> visited = new HashSet<String>();
+      boolean isCompartment = sb instanceof Assignment && ((Assignment) sb).getVariableInstance() instanceof Compartment;
+      String currentId = getRelatedId(sb, isCompartment);
+      Queue<SBase> toCheck = new LinkedList<SBase>();
       
+      // A Set that contains all the ids implicated in a cycle, so that we do not report several times the same cycle.
+      @SuppressWarnings("unchecked")
+      Set<String> foundCycleIds = (Set<String>) ctx.getHashMap().get(ASSIGNMENT_CYCLE_VALIDATION_FOUND_CYCLE_IDS);
+      
+      if (foundCycleIds == null) {
+        foundCycleIds = new HashSet<String>();
+        ctx.getHashMap().put(ASSIGNMENT_CYCLE_VALIDATION_FOUND_CYCLE_IDS, foundCycleIds);
+      }
+
       if (isDebugEnabled) {
         logger.debug("Testing " + currentId);
       }
       
       if (currentId != null && !currentId.isEmpty())
       {
+        if (foundCycleIds.contains(currentId)) {
+          // cycle already found and reported
+          return true;
+        }
+        
+        SBase previousChild = sb;
+        String previousId = currentId;
+        
         // Collect the children
-        checkChildren(m, sb);
+        checkChildren(m, sb, toCheck);
         
         while (!toCheck.isEmpty())
         {
           SBase child = toCheck.poll();
           
           // Referred to this id?
-          String childId = getRelatedId(child);
+          String childId = getRelatedId(child, isCompartment);
           
           // If this child wasn't visited yet
           if (childId != null && visited.add(childId)){
@@ -113,17 +142,45 @@ public class AssignmentCycleValidation
               if (isDebugEnabled) {
                 logger.debug("Found an assignment cycle with '" + childId + "'");
               }
-              return false;
+              String relatedId1 = sb instanceof InitialAssignment ? "symbol" : (sb instanceof Reaction ? "id" : "variable"); // TODO - Can it be Species ? 
+              String relatedId2 = previousChild instanceof InitialAssignment ? "symbol" : (previousChild instanceof Reaction ? "id" : "variable");
+              foundCycleIds.add(currentId);
+              foundCycleIds.add(previousId);
+              
+              // using different messages for different configuration
+              if (isCompartment && child instanceof Species) {
+                ValidationConstraint.logErrorWithPostmessageCode(ctx, SBMLErrorCodes.CORE_20906, SBMLErrorCodes.CORE_20906 + "_COMP", sb.getElementName(), currentId, child.getId());
+                
+              } else if (previousId != null && previousId.equals(currentId)) {
+                
+                String formula = "";
+                
+                if (sb instanceof Reaction) {
+                  formula = ((Reaction) sb).getKineticLaw().getMath().toFormula();
+                } else if (sb instanceof MathContainer) {
+                  formula = ((MathContainer) sb).getMath().toFormula();
+                }
+                
+                ValidationConstraint.logErrorWithPostmessageCode(ctx, SBMLErrorCodes.CORE_20906, SBMLErrorCodes.CORE_20906 + "_SELF", sb.getElementName(), relatedId1, currentId, formula);
+                
+              } else { 
+                ValidationConstraint.logError(ctx, SBMLErrorCodes.CORE_20906, sb.getElementName(), relatedId1, currentId, previousChild.getElementName(), relatedId2, previousId);
+              }
+
+              check = false; // do not return straight away to be able to detect other potential cycle ?
             }
             
             // Else check the children
-            checkChildren(m, child);
+            previousChild = child;
+            previousId = childId;
+            
+            checkChildren(m, child, toCheck);
           }
         }
       }
     }
     
-    return true;
+    return check;
   }
   
   /**
@@ -134,7 +191,7 @@ public class AssignmentCycleValidation
    * @param sb an {@link SBase}
    * @return an id depending of the type of SBase given. 
    */
-  private String getRelatedId(SBase sb)
+  private String getRelatedId(SBase sb, boolean isCompartment)
   {
     if (sb instanceof Reaction)
     {
@@ -144,7 +201,7 @@ public class AssignmentCycleValidation
     {
       return ((Assignment) sb).getVariable();
     }
-    else if (sb instanceof Species)
+    else if (sb instanceof Species && isCompartment)
     {
       return ((Species) sb).getCompartment();
     }
@@ -157,15 +214,15 @@ public class AssignmentCycleValidation
    * @param m
    * @param sb
    */
-  private void checkChildren(Model m, SBase sb)
+  private void checkChildren(Model m, SBase sb, Queue<SBase> toCheck)
   {
     if (sb instanceof ExplicitRule || sb instanceof InitialAssignment)
     {
-      checkChildren(m, (MathContainer) sb);
+      checkChildren(m, (MathContainer) sb, toCheck);
     }
     else if (sb instanceof Reaction)
     {
-      checkChildren(m, (Reaction) sb);
+      checkChildren(m, (Reaction) sb, toCheck);
     }    
   }
   
@@ -174,11 +231,11 @@ public class AssignmentCycleValidation
    * @param m
    * @param r
    */
-  private void checkChildren(Model m, MathContainer r)
+  private void checkChildren(Model m, MathContainer r, Queue<SBase> toCheck)
   {
     if (r.isSetMath())
     {
-      checkChildren(m, r.getMath());
+      checkChildren(m, r.getMath(), toCheck);
     }
   }
   
@@ -187,7 +244,7 @@ public class AssignmentCycleValidation
    * @param m
    * @param r
    */
-  private void checkChildren(Model m, Reaction r)
+  private void checkChildren(Model m, Reaction r, Queue<SBase> toCheck)
   {
     if (r.isSetKineticLaw())
     {
@@ -195,7 +252,7 @@ public class AssignmentCycleValidation
       
       if (kl.isSetMath())
       {
-        checkChildren(m, kl.getMath());
+        checkChildren(m, kl.getMath(), toCheck);
       }
     }
   }
@@ -205,7 +262,7 @@ public class AssignmentCycleValidation
    * @param m
    * @param math
    */
-  private void checkChildren(Model m, ASTNode math)
+  private void checkChildren(Model m, ASTNode math, Queue<SBase> toCheck)
   {
     if (isDebugEnabled) {
       logger.debug("Looking for ASTNode NAME");

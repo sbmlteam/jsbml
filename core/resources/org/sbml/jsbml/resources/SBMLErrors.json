@@ -3669,6 +3669,7 @@
         "Message": "In situations where a mathematical expression refers to time, the units of time should be consistent with the global time units of the model. In models where the 'timeUnits' attribute has not been declared, libSBML does not yet have the functionality to verify accurately the consistency of the units in such expressions. \n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning",
         "ShortMessage": "Unable to verify consistency of units: the unit of time has not been declared"
     }, 
     "99507": {
@@ -3676,7 +3677,8 @@
         "DefaultSeverity": "na", 
         "Message": "In situations where a mathematical expression refers to extent, the units of extent should be consistent with the global extent units of the model. In models where the 'extentUnits' attribute has not been declared, libSBML does not yet have the functionality to verify accurately the consistency of the units in such expressions. \n", 
         "Package": "core", 
-        "SeverityL3V1": "warning", 
+        "SeverityL3V1": "warning",
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Unable to verify consistency of units: the units of reaction extent have not been declared"
     }, 
     "99508": {
@@ -3685,6 +3687,7 @@
         "Message": "In situations where a mathematical expression refers to a compartment, species or parameter, it is necessary to know the units of the object to establish unit consistency. In models where the units of an object have not been declared, libSBML does not yet have the functionality to accurately verify the consistency of the units in mathematical expressions referring to that object. \n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Unable to verify consistency of units: encountered a model entity with no declared units"
     }, 
     "99701": {

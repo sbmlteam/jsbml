@@ -116,7 +116,7 @@ public class RateRuleConstraints extends AbstractConstraintDeclaration {
       break;
       
     case CORE_20904:
-      func = new ValidationFunction<RateRule>() {
+      func = new AbstractValidationFunction<RateRule>() {
 
         @Override
         public boolean check(ValidationContext ctx, RateRule r) {
@@ -124,8 +124,10 @@ public class RateRuleConstraints extends AbstractConstraintDeclaration {
 
           Variable var = r.getVariableInstance();
 
-          if (var != null) {
-            return !var.isConstant();
+          if (var != null && var.isConstant()) {
+            
+            ValidationConstraint.logError(ctx, CORE_20904, var.getElementName(), var.getId());
+            return false;
           }
 
           return true;

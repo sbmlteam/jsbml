@@ -194,7 +194,11 @@ public class SBMLErrorFactory {
           
           if (postMessageI18n != null && postMessageI18n.trim().length() > 0)
           {
-            messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getId()));
+            if (sbase instanceof Assignment) {
+              messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, ((Assignment) sbase).getVariable()));
+            } else {
+              messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getId()));
+            }
           }
           else 
           {
