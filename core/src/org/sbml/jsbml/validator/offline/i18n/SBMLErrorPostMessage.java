@@ -202,15 +202,20 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       // rules
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20901), "The <assignmentRule> with variable ''{0}'' does not refer to an existing <compartment>, <species>, <parameter> or <speciesReference>."); // TODO - different message for different SBML level and version
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20902), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20902), "The <rateRule> with variable ''{0}'' does not refer to an existing <compartment>, <species>, <parameter> or <speciesReference>."); // TODO - different message for different SBML level and version
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20903), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20903), "The {0} with id ''{1}'' should have a constant value of ''false''.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20904), "The {0} with id ''{1}'' should have a constant value of ''false''.");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20904), "");
+      // Rule SBMLErrorCodes.CORE_20905 removed because it was effectively a duplicate of 10304.
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20905), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20906), "The <{0}> with {1} ''{2}'' creates a cycle with the <{3}> with {4} ''{5}''."); // TODO - different messages depending of the elements involved
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20906), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20906) + "_SELF", "The <{0}> with {1} ''{2}'' refers to that variable within the math formula ''{3}''.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20906) + "_COMP", "The <{0}> assigning value to compartment ''{1}'' refers to species ''{2}''->  Since the use of the species id in this"
+          + " context refers to a concentration, this is an implicit reference to compartment ''{1}''.");
 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20907), "");
 
@@ -230,8 +235,6 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       
       
       // 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20903), "The {0} with id ''{1}'' should have a constant value of ''false''.");
-      
       contents.put(Integer.toString(SBMLErrorCodes.CORE_80501), "The <compartment> with the id ''{0}'' does not have a ''size'' attribute, nor is its initial value set by an <initialAssignment> or <assignmentRule>.");
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_80601), "The <species> with the id ''{0}'' does not have an ''initialConcentration'' or ''initialAmount'' attribute, nor is its initial value set by an <initialAssignment> or <assignmentRule>.");
