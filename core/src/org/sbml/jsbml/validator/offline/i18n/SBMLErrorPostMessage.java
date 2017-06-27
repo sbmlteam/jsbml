@@ -217,22 +217,40 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20906) + "_COMP", "The <{0}> assigning value to compartment ''{1}'' refers to species ''{2}''->  Since the use of the species id in this"
           + " context refers to a concentration, this is an implicit reference to compartment ''{1}''.");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20907), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20907), "");  // TODO - properly check the number of math elements and allow zero for L3V2
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20908), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20908), ""); // 20908, 20909 and 20910 are attributes checks, using the default message for now.
 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20909), "");
 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20910), "");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20911), "");
-
-      // contents.put(Integer.toString(SBMLErrorCodes.CORE_20912), "");
-
-      // contents.put(Integer.toString(SBMLErrorCodes.CORE_20808), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20911), "The <{0}> with variable ''{1}'' references a compartment which has spatialDimensions of 0.");
 
       
       
+      // constraints
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21001), "The <constraint> with the formula ''{0}'' returns a value that is not Boolean.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21002), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21003), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21004), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21005), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21006), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21007), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21008), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21009), "");
+
+
+      // contents.put(Integer.toString(SBMLErrorCodes.CORE_21101), "");
+
       
       // 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_80501), "The <compartment> with the id ''{0}'' does not have a ''size'' attribute, nor is its initial value set by an <initialAssignment> or <assignmentRule>.");
