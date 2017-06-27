@@ -726,7 +726,17 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             if (node.getNumChildren() > 0) {
               UnitDefinition ud = node.getChild(0).getUnitsInstance();
 
-              // Shouldn't be null or invalid
+              if (logger.isDebugEnabled()) {
+                logger.debug("10501 - unit = " + ud);
+              }
+              
+              // the units can be null for 'cn' element without sbml:units
+              if (ud == null && node.getChild(0).isNumber()) {
+                // we cannot check the units, so we return true
+                return true;
+              }
+              
+              // should not be null for other child type
               if (ud == null || ud.getNumChildren() == 0
                 || ud.getUnit(0).isInvalid()) 
               {
@@ -740,6 +750,16 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               for (int n = 1; n < node.getNumChildren(); n++) {
                 UnitDefinition ud2 = node.getChild(n).getUnitsInstance();
 
+                if (logger.isDebugEnabled()) {
+                  logger.debug("10501 - unit = " + ud2);
+                }
+                
+                // the units can be null for 'cn' element without sbml:units
+                if (ud2 == null && node.getChild(n).isNumber()) {
+                  // we cannot check the units, so we return true
+                  return true;
+                }
+                
                 // one of the children doesn't have a unit or the unit is not
                 // the same as the rest
                 if (ud2 == null || !UnitDefinition.areEquivalent(ud, ud2)) {
