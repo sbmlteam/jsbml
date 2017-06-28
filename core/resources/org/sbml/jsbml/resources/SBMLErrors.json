@@ -2195,6 +2195,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error",
         "ShortMessage": "A Constraint's Message subobject must be in the XHTML XML namespace"
     }, 
     "21004": {
