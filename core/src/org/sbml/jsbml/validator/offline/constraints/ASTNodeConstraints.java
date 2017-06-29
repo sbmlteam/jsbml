@@ -26,6 +26,7 @@ import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.Compartment;
@@ -50,6 +51,11 @@ import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
  */
 public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
+  /**
+   * 
+   */
+  private static transient Logger logger = Logger.getLogger(ASTNodeConstraints.class);
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
@@ -154,12 +160,18 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
 
+          // We don't validate inside FunctionDefinition
+          if (node.getParentSBMLObject() instanceof FunctionDefinition) {
+            return true;
+          }
+          
           // In logical operators...
           if (node.isLogical()) {
 
             // all children must be booleans
             for (ASTNode n : node.getChildren()) {
               if (!n.isBoolean()) {
+                
                 return false;
               }
             }
@@ -714,6 +726,11 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
 
+          // don't check this rule inside FunctionDefinition
+          if (node.getParentSBMLObject() instanceof FunctionDefinition) {
+            return true;
+          }
+
           Type t = node.getType(); // TODO - check section 3.4.11 in the L2V5 specs
           
           // || t == Type.FUNCTION_ABS || t == Type.FUNCTION_CEILING || t == Type.FUNCTION_FLOOR. // The units of other operators such as abs , floor , and ceiling , can be anything.
@@ -730,8 +747,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 logger.debug("10501 - unit = " + ud);
               }
               
-              // the units can be null for 'cn' element without sbml:units
-              if (ud == null && node.getChild(0).isNumber()) {
+              // the units can be null if we have only 'cn' element without sbml:units
+              if (ud == null) {
                 // we cannot check the units, so we return true
                 return true;
               }
@@ -751,11 +768,11 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 UnitDefinition ud2 = node.getChild(n).getUnitsInstance();
 
                 if (logger.isDebugEnabled()) {
-                  logger.debug("10501 - unit = " + ud2);
+                  logger.debug("10501 - unit n = " + ud2);
                 }
                 
-                // the units can be null for 'cn' element without sbml:units
-                if (ud2 == null && node.getChild(n).isNumber()) {
+                // the units can be null if we have only 'cn' element without sbml:units
+                if (ud2 == null) {
                   // we cannot check the units, so we return true
                   return true;
                 }
@@ -778,6 +795,13 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               ASTNode right = node.getRightChild();
 
               UnitDefinition ud = right.getUnitsInstance();
+          
+              // the units can be null for 'cn' element without sbml:units
+              if (ud == null && right.isNumber()) {
+                // we cannot check the units, so we return true
+                return true;
+              }
+
               if (ud == null || !ud.isVariantOfTime()) {
                 return false;
               }
@@ -789,14 +813,35 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
             UnitDefinition ud = node.getChild(0).getUnitsInstance();
 
+            // the units can be null if we have only 'cn' element without sbml:units
+            if (ud == null) {
+              // we cannot check the units, so we return true
+              return true;
+            }
+            
+            if (logger.isDebugEnabled()) {
+              logger.debug("10501 - unit = " + ud);
+            }            
+            
             for (int n = 1; n < node.getNumChildren(); n++) {
               ASTNode child = node.getChild(n);
               UnitDefinition def = child.getUnitsInstance();
 
+              // the units can be null if we have only 'cn' element without sbml:units
+              if (def == null) {
+                // we cannot check the units, so we return true
+                return true;
+              }
+              
+              if (logger.isDebugEnabled()) {
+                logger.debug("10501 - unit n = " + def);
+              }
+
               // Even children must be same unit as first child
               if (n % 2 == 0) {
                 if ((ud == null && def != null) || (ud != null && def == null)
-                  || UnitDefinition.areEquivalent(ud, def)) {
+                  || UnitDefinition.areEquivalent(ud, def)) 
+                {
                   return false;
                 }
               }
