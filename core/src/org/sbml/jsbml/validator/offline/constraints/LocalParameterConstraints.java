@@ -24,8 +24,7 @@ import java.util.Set;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Parameter;
-import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
@@ -96,7 +95,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
     switch (errorCode) {
       
     case CORE_21124:
-      func = new ValidationFunction<LocalParameter>() {
+      func = new AbstractValidationFunction<LocalParameter>() {
         
         @Override
         public boolean check(ValidationContext ctx, LocalParameter lp) 
@@ -111,6 +110,8 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
               String constant = unknownNode.getAttrValue("constant");
               
               if (! "true".equals(constant)) {
+                
+                ValidationConstraint.logError(ctx, CORE_21124, lp.getId(), ((SBase) lp.getParent().getParent().getParent()).getId());
                 return false;
               }
             }
@@ -134,6 +135,8 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+      
+      // TODO 21173
       
     case CORE_81121:
       func = new ValidationFunction<LocalParameter>() {

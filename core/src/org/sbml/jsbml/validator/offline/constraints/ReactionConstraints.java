@@ -152,9 +152,9 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Reaction r) {
 
           // if any of the ListOf or kineticLaw are empty, we return false
-          return ! ((r.isSetListOfModifiers() && r.isListOfModifiersEmpty()) 
-              || (r.isSetListOfProducts() && r.isListOfProductsEmpty()) 
-              || (r.isSetListOfReactants() && r.isListOfReactantsEmpty()) 
+          return ! ((r.isListOfModifiersEmpty()) 
+              || (r.isListOfProductsEmpty()) 
+              || (r.isListOfReactantsEmpty()) 
               || (r.isSetKineticLaw() && r.getKineticLaw().getChildCount() == 0));
         }
       };
@@ -212,14 +212,15 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_21107:
-      func = new ValidationFunction<Reaction>() {
+      func = new AbstractValidationFunction<Reaction>() {
 
         @Override
         public boolean check(ValidationContext ctx, Reaction r) {
 
-          if (r.isSetCompartment()) {
+          if (r.isSetCompartment() && r.getCompartmentInstance() == null) {
 
-            return r.getCompartmentInstance() != null;
+            ValidationConstraint.logError(ctx, CORE_21107, r.getId(), r.getCompartment());
+            return false;
           }
 
           return true;
@@ -245,7 +246,7 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
       break;
       
     case CORE_21121:
-      func = new ValidationFunction<Reaction>() {
+      func = new AbstractValidationFunction<Reaction>() {
 
         @Override
         public boolean check(ValidationContext ctx, Reaction r) {
@@ -263,8 +264,9 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
               String name = node.getName();
 
               // Is a Species but not in list of defined species?
-              if (m.getSpecies(name) != null
-                && !definedSpecies.contains(name)) {
+              if (m.getSpecies(name) != null && !definedSpecies.contains(name)) {
+                
+                ValidationConstraint.logError(ctx, CORE_21121, name, r.getId());
                 return false;
               }
             }
