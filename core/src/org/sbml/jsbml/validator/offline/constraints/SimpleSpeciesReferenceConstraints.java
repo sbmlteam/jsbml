@@ -22,6 +22,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -82,12 +83,18 @@ public class SimpleSpeciesReferenceConstraints
       return SBOValidationConstraints.isParticipantRole;
       
     case CORE_21111:
-      func = new ValidationFunction<SimpleSpeciesReference>() {
+      func = new AbstractValidationFunction<SimpleSpeciesReference>() {
 
         @Override
         public boolean check(ValidationContext ctx, SimpleSpeciesReference sr) {
 
-          return sr.getSpeciesInstance() != null;
+          if (sr.isSetSpecies() && sr.getSpeciesInstance() == null) {
+            
+            ValidationConstraint.logError(ctx, CORE_21111, ((SBase) sr.getParent().getParent()).getId(), sr.getSpecies());
+            return false;
+          }
+          
+          return true;
         }
       };
       break;

@@ -2381,7 +2381,15 @@ public interface SBMLErrorCodes {
 	  * LocalParameter object. Reference: L3V1 Section 4.11 
 	  */
  	 public static final int CORE_21172 = 21172; 
+ 	 
+ 	 /**
+ 	 * The id of a LocalParameter object must not be the same as the species attribute of any Species-
+Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
+ 	 */
+ 	public static final int CORE_21173 = 21173; 
 
+ 	 public static final int CORE_21174 = 21174;
+ 	
 	 /**
 	  * Error code 21201:
 	  * An &lt;event&gt; object must have a 'trigger'. Reference: L3V1 Section 4.12.2 
