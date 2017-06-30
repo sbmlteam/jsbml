@@ -288,6 +288,7 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       // event      
       contents.put(Integer.toString(SBMLErrorCodes.CORE_21202), "The <trigger> element of the <event> with id ''{0}'' returns a value that is not Boolean. ");
       
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21203), "The <event> with id ''{0}'' does not contain any <eventAssignment> elements.");
       
       
       // 
