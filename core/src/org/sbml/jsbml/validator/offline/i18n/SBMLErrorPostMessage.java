@@ -69,6 +69,10 @@ public class SBMLErrorPostMessage extends ResourceBundle {
    */
   public static final String DEFAULT_POST_MESSAGE_WITH_SYMBOL = "DEFAULT_POST_MESSAGE_WITH_SYMBOL";
 
+  /**
+   * 
+   */
+  public static final String DEFAULT_POST_MESSAGE_KINETIC_LAW = "DEFAULT_POST_MESSAGE_KINETIC_LAW";
 
   /**
    * 
@@ -84,6 +88,8 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(DEFAULT_POST_MESSAGE_WITH_VARIABLE, "The <{0}> with ''variable'' ''{1}'' does not comply.");
       
       contents.put(DEFAULT_POST_MESSAGE_WITH_SYMBOL, "The <{0}> with ''symbol'' ''{1}'' does not comply.");
+      
+      contents.put(DEFAULT_POST_MESSAGE_KINETIC_LAW, "The <kineticLaw> within the <reaction> with id ''{0}'' does not comply.");
       
       contents.put(DEFAULT_POST_MESSAGE, "The element {0} does not comply.");
       
@@ -217,21 +223,72 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20906) + "_COMP", "The <{0}> assigning value to compartment ''{1}'' refers to species ''{2}''->  Since the use of the species id in this"
           + " context refers to a concentration, this is an implicit reference to compartment ''{1}''.");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20907), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20907), "");  // TODO - properly check the number of math elements and allow zero for L3V2
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20908), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20908), ""); // 20908, 20909 and 20910 are attributes checks, using the default message for now.
 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20909), "");
 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20910), "");
 
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_20911), "");
-
-      // contents.put(Integer.toString(SBMLErrorCodes.CORE_20912), "");
-
-      // contents.put(Integer.toString(SBMLErrorCodes.CORE_20808), "");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_20911), "The <{0}> with variable ''{1}'' references a compartment which has spatialDimensions of 0.");
 
       
+      
+      // constraints
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21001), "The <constraint> with the formula ''{0}'' returns a value that is not Boolean.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21002), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21003), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21004), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21005), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21006), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21007), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21008), "");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21009), "");
+
+
+      // reaction
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21101), ""); // 21101-21106 checks, using the default message for now.
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21107), "The <reaction> with id ''{0}'' refers to the compartment ''{1}'' which is not defined.");
+      
+      // contents.put(Integer.toString(SBMLErrorCodes.CORE_21108), ""); // TODO 21108 and 21109 missing from the json file !
+      
+      // contents.put(Integer.toString(SBMLErrorCodes.CORE_21109), "");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21110), ""); // TODO - Several messages depending which attributes are missing - same for 21150, 21151, 21116, 21117
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21111), "The <speciesReference> in the <reaction> with id ''{0}'' references species ''{1}'', which is undefined.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21113), "In <reaction> with id ''{0}'' the <speciesReference> with species ''{1}'' cannot have both ''stoichiometry'' and a <stoichiometryMath> element.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21116), ""); 
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21117), "");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21121), "The species ''{0}'' is not listed as a product, reactant, or modifier of reaction ''{1}''.");
+      
+      // using the default kineticLaw message for CORE_21122, CORE_21123
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21124), "The local parameter with id ''{0}'' within the <reaction> ''{1}'' does not comply.");
+      
+      // using the default kineticLaw message for CORE_21125-CORE_21132
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21173), "The <localParameter> with id 's' in the <reaction> with id ''{0}'' conflicts with the reactant referring to the <species> ''{1}''.");
+      
+      
+      // event      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21202), "The <trigger> element of the <event> with id ''{0}'' returns a value that is not Boolean. ");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21203), "The <event> with id ''{0}'' does not contain any <eventAssignment> elements.");
       
       
       // 

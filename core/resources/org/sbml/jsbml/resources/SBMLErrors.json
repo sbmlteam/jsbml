@@ -702,7 +702,7 @@
     "10501": {
         "Category": "SBML unit consistency", 
         "DefaultSeverity": "warning", 
-        "Message": "", 
+        "Message": "The units of the expressions used as arguments to a function call should match the units expected for the arguments of that function. (References: SBML L3V1 Section 3.4; SBML L3V2 Section 3.4.)", 
         "Package": "core", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
@@ -2195,6 +2195,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error",
         "ShortMessage": "A Constraint's Message subobject must be in the XHTML XML namespace"
     }, 
     "21004": {

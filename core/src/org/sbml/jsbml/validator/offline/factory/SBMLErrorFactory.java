@@ -31,9 +31,13 @@ import java.util.ResourceBundle;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.sbml.jsbml.Assignment;
+import org.sbml.jsbml.Delay;
+import org.sbml.jsbml.Event;
 import org.sbml.jsbml.InitialAssignment;
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.util.Message;
 import org.sbml.jsbml.validator.offline.i18n.SBMLErrorMessage;
 import org.sbml.jsbml.validator.offline.i18n.SBMLErrorPostMessage;
@@ -196,6 +200,8 @@ public class SBMLErrorFactory {
           {
             if (sbase instanceof Assignment) {
               messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, ((Assignment) sbase).getVariable()));
+            } else if (sbase instanceof Trigger || sbase instanceof Delay) {
+                messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, ((Event) sbase.getParent()).getId()));
             } else {
               messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getId()));
             }
@@ -218,6 +224,10 @@ public class SBMLErrorFactory {
             else if (sbase instanceof Assignment) {
               postMessageI18n = getSBMLErrorPostMessageBundle().getString(SBMLErrorPostMessage.DEFAULT_POST_MESSAGE_WITH_VARIABLE);
               messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, sbase.getElementName(), ((Assignment) sbase).getVariable()));
+            }
+            else if (sbase instanceof KineticLaw) {
+              postMessageI18n = getSBMLErrorPostMessageBundle().getString(SBMLErrorPostMessage.DEFAULT_POST_MESSAGE_KINETIC_LAW);
+              messageBuilder.append("\n").append(MessageFormat.format(postMessageI18n, ((SBase) sbase.getParent()).getId()));
             }
             else {
               postMessageI18n = getSBMLErrorPostMessageBundle().getString(SBMLErrorPostMessage.DEFAULT_POST_MESSAGE);

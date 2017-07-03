@@ -146,10 +146,12 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
             while(!toCheck.isEmpty())
             {
               ASTNode node = toCheck.poll();
-              if (node.isLiteral())
+
+              if (node.isNumber())
               {
                 if (!node.isSetUnits())
                 {
+                  // TODO - create proper error message
                   return false;
                 }
               }
