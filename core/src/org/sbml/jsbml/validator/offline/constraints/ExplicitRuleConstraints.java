@@ -102,7 +102,7 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ExplicitRule r) {
           
-          return r.isSetMath();
+          return r.isSetMath(); // TODO - check the real number of math element and for L3V2, there can be none.
         }
       };
       break;
