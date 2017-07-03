@@ -108,7 +108,7 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_20911:
-      func = new ValidationFunction<ExplicitRule>() {
+      func = new AbstractValidationFunction<ExplicitRule>() {
 
         @Override
         public boolean check(ValidationContext ctx, ExplicitRule r) {
@@ -118,8 +118,10 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
           if (r.isSetVariable() && m != null) {
             Compartment c = m.getCompartment(var);
 
-            if (c != null) {
-              return c.getSpatialDimensions() != 0;
+            if (c != null && c.isSetSpatialDimensions() && c.getSpatialDimensions() == 0) {
+              
+              ValidationConstraint.logError(ctx, CORE_20911, r.getElementName(), r.getVariable());
+              return false;
             }
           }
 

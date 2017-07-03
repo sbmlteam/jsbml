@@ -93,7 +93,14 @@ public class TriggerConstraints extends AbstractConstraintDeclaration {
 
           if (t.isSetMath()) {
 
-            return ValidationTools.getDataType(t.getMath()) == ValidationTools.DT_BOOLEAN;
+            boolean isValid = ValidationTools.getDataType(t.getMath()) == ValidationTools.DT_BOOLEAN;
+            
+            // in SBML L3V2, number as equivalent to boolean
+            if (!isValid && ctx.getLevelAndVersion().compareTo(3, 2) >= 0) {
+              isValid = ValidationTools.getDataType(t.getMath()) == ValidationTools.DT_NUMBER;
+            }
+            
+            return isValid;
           }
 
           return true;
