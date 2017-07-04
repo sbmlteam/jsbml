@@ -96,10 +96,10 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
   public GraphicalPrimitive2D(GraphicalPrimitive2D obj) {
     super(obj);
     
-    if (isSetFill()) {
+    if (obj.isSetFill()) {
       setFill(obj.fill);
     }
-    if (isSetFillRule()) {
+    if (obj.isSetFillRule()) {
       setFillRule(obj.fillRule);
     }
   }
