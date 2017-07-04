@@ -104,7 +104,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * Creates a Group instance with an id.
    * 
-   * @param id
+   * @param id the id
    */
   public RenderGroup(String id) {
     super();
@@ -115,8 +115,8 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * Creates a Group instance with a level and version.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBMl version
    */
   public RenderGroup(int level, int version) {
     this(null, null, level, version);
@@ -125,9 +125,9 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * Creates a Group instance with an id, level, and version.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the id
+   * @param level the SBML level
+   * @param version the SBMl version
    */
   public RenderGroup(String id, int level, int version) {
     this(id, null, level, version);
@@ -136,10 +136,10 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * Creates a Group instance with an id, name, level, and version.
    * 
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * @param id the render group SId
+   * @param name the name
+   * @param level the SBML level
+   * @param version the SBMl version
    */
   public RenderGroup(String id, String name, int level, int version) {
     super(level, version);
@@ -150,7 +150,8 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the {@link RenderGroup} instance to clone
    */
   public RenderGroup(RenderGroup obj) {
     super(obj);
@@ -178,6 +179,9 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     }
     if (obj.isSetEndHead()) {
       setEndHead(obj.getEndHead());
+    }
+    if (obj.isSetListOfElements()) {
+      setListOfElements(obj.getListOfElements().clone());
     }
   }
 

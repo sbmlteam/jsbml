@@ -63,6 +63,7 @@ public class Transformation2D extends Transformation {
    */
   public Transformation2D(Transformation2D obj) {
     super(obj);
+    
     if (obj.isSetTransform()) {
       System.arraycopy(obj.getTransform(), 0, transform, 0, obj.getTransform().length);
     }
