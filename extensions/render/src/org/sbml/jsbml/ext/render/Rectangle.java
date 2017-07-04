@@ -716,7 +716,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   }
 
   /**
-   * Creates an Rectangle instance
+   * Creates a new {@link Rectangle} instance.
    */
   public Rectangle() {
     super();
@@ -725,6 +725,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Clone constructor
+   * 
    * @param obj
    */
   public Rectangle(Rectangle obj) {

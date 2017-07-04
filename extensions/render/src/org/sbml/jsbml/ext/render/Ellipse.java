@@ -25,6 +25,8 @@ import java.util.Map;
 import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
+ * Encodes an ellipse.
+ * 
  * @author Eugen Netz
  * @author Alexander Diamantikos
  * @author Jakob Matthes
@@ -77,15 +79,44 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   protected Boolean absoluteRy;
 
+  // TODO - missing attribute ratio
   
+  /**
+   * Creates a new {@link Ellipse} instance.
+   *  
+   */
   public Ellipse() {
     super();
   }
 
+  /**
+   * Creates a new {@link Ellipse} instance, copied from the given ellipse.
+   * 
+   * @param obj the Ellipse to be cloned
+   */
   public Ellipse(Ellipse obj) {
     super(obj);
+    
+    cx = obj.cx;
+    cy = obj.cy;
+    cz = obj.cz;
+    rx = obj.rx;
+    ry = obj.ry;
+    
+    absoluteCx = obj.absoluteCx;
+    absoluteCy = obj.absoluteCy;
+    absoluteCz = obj.absoluteCz;
+    absoluteRx = obj.absoluteRx;
+    absoluteRy = obj.absoluteRy;
   }
 
+  
+  /**
+   * Creates a new {@link Ellipse} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
+   */
   public Ellipse(int level, int version) {
     super(level, version);
   }

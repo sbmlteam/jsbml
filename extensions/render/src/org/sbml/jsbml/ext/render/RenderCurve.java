@@ -99,11 +99,19 @@ public class RenderCurve extends GraphicalPrimitive1D implements ICurve {
    */
   public RenderCurve(RenderCurve obj) {
     super();
-    startHead = obj.startHead;
-    endHead = obj.endHead;
+    
+    if (obj.isSetStartHead()) {
+      setStartHead(obj.startHead);
+    }    
+    if (obj.isSetEndHead()) {
+      setEndHead(obj.endHead);
+    }
 
     if (obj.isSetListOfElements()) {
       setListOfElements(obj.getListOfElements().clone());
+    }
+    if (obj.isSetListOfCurveSegments()) {
+      setListOfCurveSegments(obj.getListOfCurveSegments().clone());
     }
   }
 

@@ -61,7 +61,9 @@ public class RenderGraphicalObjectPlugin extends AbstractRenderPlugin {
   public RenderGraphicalObjectPlugin(RenderGraphicalObjectPlugin obj) {
     super(obj);
 
-    // TODO - objectRole
+    if (obj.isSetObjectRole()) {
+      setObjectRole(obj.objectRole);
+    }
   }
 
   /* (non-Javadoc)

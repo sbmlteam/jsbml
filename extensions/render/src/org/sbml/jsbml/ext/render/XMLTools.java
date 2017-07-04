@@ -26,6 +26,8 @@ import java.util.Locale;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * Utility class to help write the XML
+ * 
  * @author Eugen Netz
  * @author Alexander Diamantikos
  * @author Jakob Matthes
