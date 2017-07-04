@@ -90,12 +90,18 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
 
   /**
    * Clone constructor
+   * 
    * @param obj
    */
   public GraphicalPrimitive2D(GraphicalPrimitive2D obj) {
     super(obj);
-    fill = obj.fill;
-    fillRule = obj.fillRule; // TODO - use setter + clone
+    
+    if (isSetFill()) {
+      setFill(obj.fill);
+    }
+    if (isSetFillRule()) {
+      setFillRule(obj.fillRule);
+    }
   }
 
   /* (non-Javadoc)

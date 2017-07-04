@@ -164,12 +164,19 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Clone constructor
-   * @param obj
+   * 
+   * @param obj the {@link Style} instance to be cloned
    */
   public Style(Style obj) {
     super(obj);
-    roleList = obj.roleList; // TODO - do a proper copy of the arrays
-    typeList = obj.typeList;
+    
+    if (obj.isSetRoleList()) {
+      setRoleList(new ArrayList<String>(obj.roleList));
+    }
+    
+    if (obj.isSetTypeList()) {
+      setTypeList(new ArrayList<String>(obj.typeList));
+    }
 
     if (obj.isSetGroup()) {
       setGroup(obj.getGroup().clone());
@@ -219,6 +226,8 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
       }
       pos++;
     }
+    
+    // roleList and typeList are attributes of the style element
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
       resourceBundle.getString("IndexExceedsBoundsException"), index,
@@ -365,7 +374,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public List<String> getRoleList() {
     if (!isSetRoleList()) {
-      roleList = new ArrayList<>();
+      roleList = new ArrayList<String>();
     }
     return roleList;
   }
@@ -396,7 +405,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public List<String> getTypeList() {
     if (!isSetTypeList()) {
-      typeList = new ArrayList<>();
+      typeList = new ArrayList<String>();
     }
     return typeList;
   }

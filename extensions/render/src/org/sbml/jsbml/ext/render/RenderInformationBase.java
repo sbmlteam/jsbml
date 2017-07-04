@@ -136,6 +136,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
    */
   public RenderInformationBase(RenderInformationBase obj) {
     super(obj);
+    
     programName = obj.programName;
     programVersion = obj.programVersion;
     referenceRenderInformation = obj.referenceRenderInformation;

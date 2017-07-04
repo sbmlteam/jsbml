@@ -86,7 +86,25 @@ public class LocalStyle extends Style {
   }
 
 
+  /**
+   * Creates a new {@link LocalStyle} instance, cloned from the given object.
+   * 
+   * @param localStyle the local style to be cloned.
+   */
+  public LocalStyle(LocalStyle localStyle) {
+    super(localStyle);
+    
+    if (localStyle.isSetIDList()) {
+      setIDList(new ArrayList<String>(localStyle.getIDList()));
+    }
+  }
 
+
+  @Override
+  public LocalStyle clone() {
+    return new LocalStyle(this);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
    */

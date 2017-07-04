@@ -103,7 +103,7 @@ public class RenderCubicBezier extends RenderPoint {
     super(obj);
     absoluteX1 = obj.absoluteX1;
     absoluteY1 = obj.absoluteY1;
-    absoluteZ2 = obj.absoluteZ2;
+    absoluteZ1 = obj.absoluteZ1;
     absoluteX2 = obj.absoluteX2;
     absoluteY2 = obj.absoluteY2;
     absoluteZ2 = obj.absoluteZ2;

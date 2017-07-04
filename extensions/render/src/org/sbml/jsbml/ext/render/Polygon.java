@@ -71,6 +71,9 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     if (obj.isSetListOfElements()) {
       setListOfElements(obj.getListOfElements().clone());
     }
+    if (obj.isSetListOfCurveSegments()) {
+      setListOfCurveSegments(obj.getListOfCurveSegments().clone());
+    }
   }
 
   /**

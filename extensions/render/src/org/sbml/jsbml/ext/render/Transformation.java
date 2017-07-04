@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -63,11 +64,15 @@ public class Transformation extends AbstractSBase {
 
   /**
    * Clone constructor
+   * 
    * @param obj
    */
   public Transformation(Transformation obj) {
     super(obj);
-    transform = obj.transform; // TODO - do a proper copy of the array
+    
+    if (obj.isSetTransform()) {
+      setTransform(new ArrayList<Double>(obj.transform));
+    }
   }
 
   /* (non-Javadoc)

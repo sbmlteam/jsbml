@@ -101,9 +101,29 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   public Text(Text obj) {
     super(obj);
     
-    // TODO copy all attributes
+    // copy all attributes
+    absoluteX = obj.absoluteX;
+    absoluteY = obj.absoluteY;
+    absoluteZ = obj.absoluteZ;
+    
+    fontFamily = obj.fontFamily;
+    fontSize = obj.fontSize;
+    fontStyleItalic = obj.fontStyleItalic;
+    fontWeightBold = obj.fontWeightBold;
+    
+    textAnchor = obj.textAnchor;
+    vTextAnchor = obj.vTextAnchor;
+    
+    x = obj.x;
+    y = obj.y;
+    z = obj.z;
   }
 
+  @Override
+  public Text clone() {
+    return new Text(this);
+  }
+  
   /**
    * Initializes the default values using the namespace.
    */
