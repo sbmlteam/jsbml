@@ -50,7 +50,7 @@ and
 
 *Repository*: [https://github.com/sbmlteam/jsbml](https://github.com/sbmlteam/jsbml)
 
-*Pivotal tracker*: [https://www.pivotaltracker.com/n/projects/977060](https://www.pivotaltracker.com/n/projects/977060)
+*Pivotal tracker*: [https://www.pivotaltracker.com/projects/499447](https://www.pivotaltracker.com/projects/499447)
 
 
 ♥️ Please cite the JSBML papers and your version of JSBML
