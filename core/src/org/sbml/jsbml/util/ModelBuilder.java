@@ -150,6 +150,7 @@ public class ModelBuilder {
    *        the definition of stoichiometry and {@link Species} for which a
    *        reactant is to be created.
    */
+  @SafeVarargs
   public static void buildReactants(Reaction reaction, Pair<Double, Species>... reactants) {
     if (reactants != null) {
       buildParticipants(reaction.getListOfReactants(), reactants);
