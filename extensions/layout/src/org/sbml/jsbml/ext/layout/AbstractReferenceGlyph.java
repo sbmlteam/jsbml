@@ -140,8 +140,11 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
    * @return the {@link NamedSBase} instance corresponding to the reference id.
    */
   public NamedSBase getReferenceInstance() {
-    Model model = getModel();
-    return isSetReference() && (model != null) ? model.findNamedSBase(getReference()) : null;
+    if (isSetReference()) {
+      Model model = getModel();
+      return (model != null) ? model.findNamedSBase(getReference()) : null;
+    }
+    return null;
   }
 
   /**
@@ -153,7 +156,7 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
     Model model = getModel();
     return isSetReference() && (model != null) ? model.findUniqueSBase(getReference()) : null;
   }
-  
+
   /**
    * Gets the {@link NamedSBase} instance corresponding to the reference id.
    * 
@@ -206,7 +209,7 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
   public void setSBase(SBase sbase) {
     setReference(sbase.getId());
   }
-  
+
   /**
    * Sets the reference.
    * 
