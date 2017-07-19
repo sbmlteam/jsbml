@@ -311,6 +311,10 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
     return isSetReference();
   }
 
+  public boolean isSetSpeciesReferenceInstance() {
+    return getSpeciesReferenceInstance() != null;
+  }
+
   /**
    * @return
    */
