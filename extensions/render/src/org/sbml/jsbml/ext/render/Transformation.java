@@ -69,7 +69,7 @@ public class Transformation extends AbstractSBase {
    */
   public Transformation(Transformation obj) {
     super(obj);
-    
+
     if (obj.isSetTransform()) {
       setTransform(new ArrayList<Double>(obj.transform));
     }
@@ -121,7 +121,7 @@ public class Transformation extends AbstractSBase {
       return false;
     }
     Transformation other = (Transformation) obj;
-    if ((isSetTransform() != other.isSetTransform()) || (!transform.equals(other.transform))) {
+    if ((isSetTransform() != other.isSetTransform()) || (isSetTransform() && !transform.equals(other.transform))) {
       return false;
     }
     return true;
