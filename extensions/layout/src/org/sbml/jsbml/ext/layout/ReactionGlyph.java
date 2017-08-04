@@ -378,15 +378,24 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    * @return {@code true} is the list of {@link SpeciesReferenceGlyph} is set.
    * @deprecated use {@link #isSetListOfSpeciesReferenceGlyphs()}
    */
+  @Deprecated
   public boolean isSetListOfSpeciesReferencesGlyphs() {
     return  isSetListOfSpeciesReferenceGlyphs();
   }
-  
+
   /**
    * @return
    */
   public boolean isSetReaction() {
     return isSetReference();
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetReactionInstance() {
+    return getReactionInstance() != null;
   }
 
   /* (non-Javadoc)
@@ -455,17 +464,18 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     }
   }
 
-  
+
   /**
    * Sets the list of {@link SpeciesReferenceGlyph}s.
    * 
    * @param listOfSpeciesReferencesGlyph the list of {@link SpeciesReferenceGlyph}s to set.
    * @deprecated use {@link #setListOfSpeciesReferenceGlyphs(ListOf)}
    */
+  @Deprecated
   public void setListOfSpeciesReferencesGlyph(ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
     setListOfSpeciesReferenceGlyphs(listOfSpeciesReferencesGlyph);
   }
-  
+
   /**
    * See setReaction(String)
    * 
@@ -490,6 +500,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    * 
    * @deprecated use {@link #unsetListOfSpeciesReferenceGlyphs()}
    */
+  @Deprecated
   public void unsetListOfSpeciesReferencesGlyph() {
     unsetListOfSpeciesReferenceGlyphs();
   }
@@ -505,7 +516,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
       oldValue.fireNodeRemovedEvent();
     }
   }
-  
+
   /**
    * 
    */

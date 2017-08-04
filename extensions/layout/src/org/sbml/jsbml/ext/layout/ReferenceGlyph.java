@@ -265,6 +265,14 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
     return role != null;
   }
 
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetReferenceInstance() {
+    return getReferenceInstance() != null;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
