@@ -1428,7 +1428,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       {
         index = 0;
       }
-      if (index != 0 && index < parent.getChildCount())
+      if (index != 0 && index < (parent.getChildCount() -1))
       {
         XMLNode nextNode = parent.getChildAt(index + 1);
 
