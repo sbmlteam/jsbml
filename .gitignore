@@ -53,6 +53,11 @@ libsbmlCompatibilityTestResults.txt
 *.toc
 *.aux
 *.bbl
+*.fls
+*.fdb_latexmk
+*.nav
+*.snm
+*.vrb
 
 *.class
 layoutTestResults.txt
