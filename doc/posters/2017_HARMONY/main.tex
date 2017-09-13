@@ -1,0 +1,136 @@
+\documentclass[letterpaper]{scrartcl}
+
+\usepackage{mathptmx}
+\usepackage[scaled=.9]{helvet}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+
+\input{macro}
+
+
+%% Sets page size and margins
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+%\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{authblk} % managing affiliations
+
+\makeatletter
+  %\renewcommand\maketitle{\AB@maketitle} % revert \maketitle to its old definition
+  \renewcommand\AB@affilsepx{\quad\protect\Affilfont} % put affiliations into one line
+  \hypersetup{
+     breaklinks={true},
+     % colorlinks={false},
+     pdfstartpage={1},
+     pdfauthor={Nicolas Rodriguez, Thomas M. Hamm, Roman Schulte, Leandro Watanabe, Ibrahim Yusef Vazirabad, Victor Kofia, Chris J. Myers, Nicolas Le Novère, Michael Hucka, Andreas Dräger},
+     pdfpagemode={UseNone},
+     pdfsubject={Poster Abstract},
+     pdfkeywords={JSBML, Java, Application Programing Interface, Systems Biology, SBML, modeling},
+     pdfcenterwindow={true},
+     pdfview={FitV},
+     pdffitwindow={true},
+     pdfwindowui={false},
+     pdfstartview={FitV},
+     pdfnewwindow={false},
+     pdfdisplaydoctitle={true},
+     pdfhighlight={/P},
+     pdflang={en},
+     pdftoolbar={false},
+     plainpages={false},
+     unicode={true},
+     urlcolor={blue}
+  }
+  \AtBeginDocument{\hypersetup{pdftitle=\@title}}
+\makeatother
+\renewcommand\Affilfont{\small}
+
+
+%
+% Please make sure that the list of authors is correct (below and also in the hypersetup).
+%
+\title{The JSBML project: a fully featured Java API for working with systems biological models}
+\author[1]{Nicolas Rodriguez}%\thanks{\href{mailto:rodriguezn@babraham.ac.uk}{\texttt{rodriguezn@babraham.ac.uk}}}}
+\author[2]{Thomas M. Hamm}%\thanks{\href{mailto:hamm@informatik.uni-tuebingen.de}{\texttt{hamm@informatik.uni-tuebingen.de}}}}
+\author[2]{Roman Schulte}
+\author[3]{Leandro Watanabe}
+\author[4]{Ibrahim Yusef Vazirabad}
+\author[5]{Victor Kofia}
+\author[3]{Chris J. Myers}
+\author[6]{Akira Funahashi}
+\author[1]{Nicolas Le Novère}
+\author[7]{Michael Hucka}%\thanks{\href{mailto:mhucka@caltech.edu}{\texttt{mhucka@caltech.edu}}}}
+\author[2]{Andreas Dräger}%\thanks{\href{mailto:draeger@informatik.uni-tuebingen.de}{\texttt{draeger@informatik.uni-tuebingen.de}}}}
+
+\affil[1]{The Babraham Institute, Cambridge, United Kingdom}
+\affil[2]{Center for Bioinformatics Tübingen (ZBIT), Applied Bioinformatics Group, University of Tübingen, Tübingen, Germany}
+\affil[3]{Department of Electrical and Computer Engineering, University of Utah, Salt Lake City, UT USA}
+\affil[4]{Marquette University, Milwaukee, WI, USA}
+\affil[5]{University of Toronto, Toronto, ON, Canada} %Princess Margaret Cancer Centre
+\affil[6]{Keio University, Department of Biosciences and Informatics, %3-14-1, Hiyoshi, Kohoku-Ward, 
+Yokohama, %223-8522, 
+Japan}
+\affil[7]{The California Institute of Technology, Pasadena, CA, USA}
+
+\pagestyle{empty}
+\date{\vspace{-1cm}} % This is going to be a general abstract and we therefore want to omit printing any date.
+
+\begin{document}
+\maketitle\thispagestyle{empty}
+
+\begin{abstract}
+\noindent\textbf{Background:}
+SBML is the most widely used data format to encode and exchange models in systems biology.
+The open-source JSBML project has been launched in 2009 as an international collaboration with the aim to provide a feature-rich pure Java\texttrademark{} implementation for reading, manipulating and writing SBML files.
+
+\noindent\textbf{Results:}
+The JSBML project has matured into a stable, actively developed, and well-documented software project with a large number of contributors around the world.
+A growing number of applications is now available that uses JSBML as their back-end for data manipulation.
+These cover diverse areas of use cases, such as model building and graphical display, constraint-based modeling, dynamic simulation, model annotation, and many more.
+JSBML supports all levels, versions, and releases of SBML and provides numerous utility functions that facilitate working with this standard.
+Thereby, JSBML integrates well with further Java libraries for community standards, such as SBGN or the COMBINE archive.
+
+\noindent\textbf{Discussion:}
+The JSBML team actively maintains and updates the project.
+JSBML is being used in students’ education and numerous research projects.
+Major model databases, such as BioModels or BiGG Models, use JSBML-based tools for their curation pipelines.
+JSBML is also regularly subject of international students coding events.
+
+\noindent\textbf{Availability:}
+Source code, binaries and documentation for JSBML can be freely obtained under the terms of the LGPL 2.1 from the website \url{http://sbml.org/Software/JSBML/} and on GitHub \url{https://github.com/sbmlteam/jsbml/}.
+The users' guide at \url{http://sbml.org/Software/JSBML/docs/} provides further information about using JSBML.
+
+\noindent\textbf{Contact:}
+\href{mailto:jsbml-development@googlegroups.com}{\texttt{jsbml-development@googlegroups.com}}
+\end{abstract}
+
+
+\begin{thebibliography}{}
+
+\bibitem{Draeger2011b}
+Dr\"ager, A., Rodriguez, N., Dumousseau, M., D\"orr, A., Wrzodek, C., {Le
+  Nov\`{e}re}, N., Zell, A., and Hucka, M. (2011).
+\newblock {JSBML: a flexible Java library for working with SBML}.
+\newblock {\em Bioinformatics,\/}
+\newblock {\href{http://bioinformatics.oxfordjournals.org/content/31/20/3383}{doi:10.1093/bioinformatics/btv341}}.
+
+\bibitem{Rodriguez2015}
+Rodriguez, N., Thomas, A., Watanabe, L., Vazirabad, I.~Y., Kofia, V.,
+  G\'{o}mez, H.~F., Mittag, F., Matthes, J., Rudolph, J.~D., Wrzodek, F., Netz,
+  E., Diamantikos, A., Eichner, J., Keller, R., Wrzodek, C., Fr\"ohlich, S.,
+  Lewis, N.~E., Myers, C.~J., {Le Nov\`{e}re}, N., Palsson, B.~{\O}., Hucka,
+  M., and Dr\"ager, A. (2015).
+\newblock {JSBML 1.0: providing a smorgasbord of options to encode systems
+  biology models}.
+\newblock {\em Bioinformatics,\/}
+\newblock {\href{http://bioinformatics.oxfordjournals.org/content/27/15/2167}{doi:10.1093/bioinformatics/btr361}}.
+
+\end{thebibliography}
+
+\section{Listing}
+
+\lstinputlisting[framexleftmargin=7mm, frame=shadowbox, rulesepcolor=\color{blue}, caption=JSBML Example, firstline=28, lastline=51]{JSBMLExample.java}
+
+\end{document}
