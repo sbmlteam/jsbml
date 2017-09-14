@@ -565,6 +565,7 @@ public class SBMLReader {
       throws XMLStreamException {
     WstxInputFactory inputFactory = new WstxInputFactory();
     
+    // see https://groups.google.com/d/msg/jsbml-development/cckEJPYNzQY/5ynmIbqNCAAJ for why we did set this value
     try {
       inputFactory.setProperty(WstxInputProperties.P_MAX_ELEMENT_DEPTH, 5000);
     } catch(IllegalArgumentException e) {
