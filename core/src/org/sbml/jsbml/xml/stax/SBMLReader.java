@@ -71,6 +71,7 @@ import org.sbml.jsbml.xml.parsers.ReadingParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeReader;
 
+import com.ctc.wstx.api.WstxInputProperties;
 import com.ctc.wstx.stax.WstxInputFactory;
 
 
@@ -563,7 +564,13 @@ public class SBMLReader {
   private Object readXMLFromStream(InputStream stream, TreeNodeChangeListener listener)
       throws XMLStreamException {
     WstxInputFactory inputFactory = new WstxInputFactory();
-    inputFactory.getConfig().setMaxElementDepth(5000);
+    
+    try {
+      inputFactory.setProperty(WstxInputProperties.P_MAX_ELEMENT_DEPTH, 5000);
+    } catch(IllegalArgumentException e) {
+      // do nothing - the XML libraries used do not support this property for some reason
+    }
+    
     XMLEventReader xmlEventReader = inputFactory.createXMLEventReader(stream);
     return readXMLFromXMLEventReader(xmlEventReader, listener);
   }
