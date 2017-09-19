@@ -112,17 +112,19 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case UNITS_CONSISTENCY:
+      set.add(CORE_10541);
+      
       if (level == 1)
       {
-        set.add(99127);
-        set.add(99128);
+        set.add(CORE_99127);
+        set.add(CORE_99128);
       }
       else if (level == 2)
       {
         if (version == 1)
         {
-          set.add(99127);
-          set.add(99128);
+          set.add(CORE_99127);
+          set.add(CORE_99128);
         }
       }
       break;
@@ -161,6 +163,27 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
         };
         break;
 
+      case CORE_10541:
+      {
+        func = new ValidationFunction<KineticLaw>() {
+          
+          @Override
+          public boolean check(ValidationContext ctx, KineticLaw kl) {
+          
+            // checking that the unit are equivalent to substance / time for < L3
+            // and extend / time for L3
+            if (!ValidationTools.hasCorrectUnits(kl)) {
+              return false;
+            }
+            
+            return true;
+          }
+        };
+        
+        
+        break;
+      }
+      
     case CORE_10709:
       return SBOValidationConstraints.isRateLaw;
 
