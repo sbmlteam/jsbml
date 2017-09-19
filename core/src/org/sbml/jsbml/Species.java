@@ -341,11 +341,15 @@ public class Species extends Symbol implements CompartmentalizedSBase {
       // According to SBML specification of Level 3 Version 1, page 44, lines 20-22:
       specUnit = model.getSubstanceUnitsInstance();
     }
-    if (isSetHasOnlySubstanceUnits() && !hasOnlySubstanceUnits()) {
+    
+    // For SBML level below 3, hasOnlySubstanceUnits has a default value and we are not getting it with the method hasOnlySubstanceUnits()
+    // so we need to use directly the class variable
+    if ((isSetHasOnlySubstanceUnits() || getLevel() < 3) && !hasOnlySubstanceUnits) {
       Compartment compartment = getCompartmentInstance();
       if ((specUnit != null) && (compartment != null)
           && (0d < compartment.getSpatialDimensions())) {
         UnitDefinition sizeUnit; // = getSpatialSizeUnitsInstance();
+        
         if ((model != null) && isSetSpatialSizeUnits()) {
           sizeUnit = model.getUnitDefinition(getSpatialSizeUnits());
         } else {
