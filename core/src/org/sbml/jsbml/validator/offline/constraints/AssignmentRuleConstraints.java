@@ -148,7 +148,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
 
           Variable var = r.getVariableInstance();
 
-          if (var != null && var instanceof Parameter) {
+          if (var != null && var instanceof Parameter && ((Parameter) var).isSetUnits()) {
 
             // check that unit from rule are equivalent to the parameter unit
             return ValidationTools.haveEquivalentUnits(r, var);
