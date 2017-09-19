@@ -98,18 +98,13 @@ public final class ValidationTools {
   {
 
     @Override
-    public boolean check(
-      ValidationContext ctx,
-      SBaseWithDerivedUnit sb) {
+    public boolean check(ValidationContext ctx, SBaseWithDerivedUnit sb) {
 
-      UnitDefinition ud =
-          sb.getDerivedUnitDefinition();
+      UnitDefinition ud = sb.getDerivedUnitDefinition();
 
       return ud != null
-          && ud.getNumChildren() > 0
-          && !ud.getUnit(
-            0).isInvalid();
-
+          && ud.getUnitCount() > 0
+          && !ud.getUnit(0).isInvalid();
     }
   };
 
@@ -416,6 +411,39 @@ public final class ValidationTools {
     return true;
   }
 
+  /**
+   * Returns true if the given {@link KineticLaw} has correct derived units.
+   * 
+   * @param kl the kineticLaw to check
+   * @return true if the given {@link KineticLaw} has correct derived units.
+   */
+  public static boolean hasCorrectUnits(KineticLaw kl) {
+    // check that the units from the kineticLaw are equivalent to substance / time or extent / time (for L3).
+    UnitDefinition klDerivedUnit = kl.getDerivedUnitDefinition();
+    
+    UnitDefinition expectedUnit = null;
+    Model m = kl.getModel();
+    
+    if (kl.getLevel() < 3) {      
+      expectedUnit = m.getSubstanceUnitsInstance().divideBy(m.getTimeUnitsInstance());      
+    } else if (m.isSetTimeUnits() && m.isSetExtentUnits()) {      
+      expectedUnit = m.getExtentUnitsInstance().divideBy(m.getTimeUnitsInstance());      
+    }
+
+//    System.out.println("hasCorrectUnits - " + klDerivedUnit.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(klDerivedUnit));
+//    System.out.println("hasCorrectUnits - " + expectedUnit.getClass().getSimpleName() + " unit = " + UnitDefinition.printUnits(expectedUnit));
+
+    if (klDerivedUnit != null && klDerivedUnit.isInvalid()) {
+      // we cannot check the units, so we return true
+      return true;
+    }
+    
+    if (klDerivedUnit != null && expectedUnit != null) {
+      return UnitDefinition.areEquivalent(klDerivedUnit, expectedUnit);
+    }
+
+    return true;
+  }
 
   /**
    * Checks that the given units is a valid units in the {@link Model} (validation rule 10313).
