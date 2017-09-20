@@ -430,15 +430,15 @@ public final class ValidationTools {
       expectedUnit = m.getExtentUnitsInstance().divideBy(m.getTimeUnitsInstance());      
     }
 
-//    System.out.println("hasCorrectUnits - " + klDerivedUnit.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(klDerivedUnit));
-//    System.out.println("hasCorrectUnits - " + expectedUnit.getClass().getSimpleName() + " unit = " + UnitDefinition.printUnits(expectedUnit));
+//    System.out.println("hasCorrectUnits - unit = " + UnitDefinition.printUnits(klDerivedUnit) + " (kl unit)");
+//    System.out.println("hasCorrectUnits - unit = " + UnitDefinition.printUnits(expectedUnit) + " (expected unit)");
 
     if (klDerivedUnit != null && klDerivedUnit.isInvalid()) {
       // we cannot check the units, so we return true
       return true;
     }
     
-    if (klDerivedUnit != null && expectedUnit != null) {
+    if (klDerivedUnit != null && expectedUnit != null && !klDerivedUnit.isInvalid()) {
       return UnitDefinition.areEquivalent(klDerivedUnit, expectedUnit);
     }
 
