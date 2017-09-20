@@ -33,6 +33,7 @@ import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.StoichiometryMath;
@@ -106,10 +107,9 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<MathContainer> func = null;
 
     switch (errorCode) {
-    case CORE_10217:
+    case CORE_10217: {
       func = new ValidationFunction<MathContainer>() {
 
- 
         @Override
         public boolean check(ValidationContext ctx, MathContainer mc) {
   
@@ -128,13 +128,18 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+    }
       
-    case CORE_99505:
+    case CORE_99505: {
       func = new ValidationFunction<MathContainer>() {
-        
         
         @Override
         public boolean check(ValidationContext ctx, MathContainer mc) {
+          
+          if (mc instanceof FunctionDefinition) {
+            // this rule does not apply to the content of a FunctionDefinition ? 
+            return true;
+          }
           
           if (mc.isSetMath())
           {
@@ -151,43 +156,42 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
               {
                 if (!node.isSetUnits())
                 {
-                  // TODO - create proper error message
+                  // TODO - create proper error messages
+                  // System.out.println("DEBUG 99505 1 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : ""));
                   return false;
                 }
               }
               else if (node.isName())
               {
-                Parameter p = m.getParameter(node.getName());
-                
-                if (p == null || !p.isSetUnits())
+                // Checking if it is a local parameter
+                if (mc instanceof KineticLaw)
                 {
-                  // Could be a arg of a FunctionDefinition
-                  if (mc instanceof FunctionDefinition)
+                  KineticLaw kl = (KineticLaw) mc;
+                  LocalParameter lp = kl.getLocalParameter(node.getName());
+                  if (lp != null)
                   {
-                    FunctionDefinition fd = (FunctionDefinition) mc;
+//                    if (!lp.isSetUnits()) {
+//                       System.out.println("DEBUG 99505 2 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : ""));
+//                    }
                     
-                    if (fd.getArgument(node.getName()) == null)
-                    {
-                      return false;
-                    }
-                  }
-                  // Or a local parameter
-                  else if (mc instanceof KineticLaw)
-                  {
-                    KineticLaw kl = (KineticLaw) mc;
-                    LocalParameter lp = kl.getLocalParameter(node.getName());
-                    if (lp == null || !lp.isSetUnits())
-                    {
-                      return false;
-                    }
-                  }
-                  else 
-                  { 
-                    return false;
+                    return  lp.isSetUnits();
                   }
                 }
+
+                // If we arrive here, it means it was not a LocalParameter
+                Parameter p = m.getParameter(node.getName());
+
+                if (p != null)
+                {
+//                  if (!p.isSetUnits()) 
+//                  { 
+//                     System.out.println("DEBUG 99505 3 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : ""));
+//                  }
+                  
+                  return p.isSetUnits();
+                }
               }
-              
+            
               toCheck.addAll(node.getListOfNodes());
             }
           }
@@ -197,6 +201,7 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+    }
     }
 
     return func;
