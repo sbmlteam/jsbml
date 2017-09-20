@@ -348,6 +348,7 @@
         "Message": "An SBML document must conform to the rules of XML well-formedness defined in the XML 1.0 specification. These rules define the basic structural and syntactic constraints with which all XML documents must comply.\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Document is not well-formed XML"
     }, 
     "10201": {
@@ -362,7 +363,7 @@
     "10202": {
         "Category": "MathML consistency", 
         "DefaultSeverity": "error", 
-        "Message": "The only permitted MathML 2.0 elements in SBML Level 2 are the following: <cn>, <ci>, <csymbol>, <sep>, <apply>, <piecewise>, <piece>, <otherwise>, <eq>, <neq>, <gt>, <lt>, <geq>, <leq>, <plus>, <minus>, <times>, <divide>, <power>, <root>, <abs>, <exp>, <ln>, <log>, <floor>, <ceiling>, <factorial>, <and>, <or>, <xor>, <not>, <degree>, <bvar>, <logbase>, <sin>, <cos>, <tan>, <sec>, <csc>, <cot>, <sinh>, <cosh>, <tanh>, <sech>, <csch>, <coth>, <arcsin>, <arccos>, <arctan>, <arcsec>, <arccsc>, <arccot>, <arcsinh>, <arccosh>, <arctanh>, <arcsech>, <arccsch>, <arccoth>, <true>, <false>, <notanumber>, <pi>, <infinity>, <exponentiale>, <semantics>, <annotation>, and <annotation-xml>. \nReference: L3V1 Section 3.4.1\n", 
+        "Message": "The only permitted MathML 2.0 elements in SBML Level 2 are the following: <cn>, <ci>, <csymbol>, <sep>, <apply>, <piecewise>, <piece>, <otherwise>, <eq>, <neq>, <gt>, <lt>, <geq>, <leq>, <plus>, <minus>, <times>, <divide>, <power>, <root>, <abs>, <exp>, <ln>, <log>, <floor>, <ceiling>, <factorial>, <and>, <or>, <xor>, <not>, <degree>, <bvar>, <logbase>, <sin>, <cos>, <tan>, <sec>, <csc>, <cot>, <sinh>, <cosh>, <tanh>, <sech>, <csch>, <coth>, <arcsin>, <arccos>, <arctan>, <arcsec>, <arccsc>, <arccot>, <arcsinh>, <arccosh>, <arctanh>, <arcsech>, <arccsch>, <arccoth>, <true>, <false>, <notanumber>, <pi>, <infinity>, <exponentiale>, <semantics>, <annotation>, and <annotation-xml>. SBML L3V2 added <implies>, <max>, <min>, <rem> and <quotient>.\nReference: L3V1 Section 3.4.1\n", 
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
@@ -389,7 +390,7 @@
     "10205": {
         "Category": "MathML consistency", 
         "DefaultSeverity": "error", 
-        "Message": "In SBML Level 2, the only values permitted for 'definitionURL' on a <csymbol> element are \"http://www.sbml.org/sbml/symbols/time\" and \"http://www.sbml.org/sbml/symbols/delay\". SBML Level 3 added \"http://www.sbml.org/sbml/symbols/avogadro\". \nReference: L3V1 Section 3.4.6\n", 
+        "Message": "In SBML Level 2, the only values permitted for 'definitionURL' on a <csymbol> element are \"http://www.sbml.org/sbml/symbols/time\" and \"http://www.sbml.org/sbml/symbols/delay\". SBML Level 3 added \"http://www.sbml.org/sbml/symbols/avogadro\". SBML Level 3 Version 2 added \"http://www.sbml.org/sbml/symbols/rateOf\"\nReference: L3V1 Section 3.4.6\n", 
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
@@ -430,6 +431,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL2V1": "warning", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Non-Boolean argument given to Boolean operator"
     }, 
     "10210": {
@@ -440,6 +442,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL2V1": "warning", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Non-numerical argument given to numerical operator"
     }, 
     "10211": {
@@ -450,6 +453,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL2V1": "warning", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Arguments to <eq> and <neq> must have the same data types"
     }, 
     "10212": {
@@ -460,6 +464,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL2V1": "warning", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Terms in a <piecewise> expression must have consistent data types"
     }, 
     "10213": {
@@ -470,6 +475,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL2V1": "warning", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "The second argument of a <piece> expression must yield a Boolean value"
     }, 
     "10214": {
@@ -485,7 +491,7 @@
     "10215": {
         "Category": "MathML consistency", 
         "DefaultSeverity": "error", 
-        "Message": "Outside of a <functionDefinition>, if a <ci> element is not the first element within a MathML <apply>, then the <ci>'s value can only be chosen from the set of identifiers of <species>, <compartment>, <parameter>, <reaction>, or (in Level 3) <speciesReference> objects defined in the SBML model. (In L2V1, the <ci>'s value can't be chosen from the identifiers of <reaction> objects). \nReference: L3V1 Section 3.4.3\n", 
+        "Message": "Outside of a <functionDefinition>, if a <ci> element is not the first element within a MathML <apply>, then the <ci>'s value can only be chosen from the set of identifiers of (in L2V1) <species>, <compartment>, or <parameter> objects; (in L2V2-L2V5), <species>, <compartment>, <parameter> or <reaction> objects; (in L3V1) <species>, <compartment>, <parameter>, <reaction> or <speciesReference> objects and (in L3V2) <species>, <compartment>, <parameter>, <reaction>, <speciesReference> objects or L3 package objects with defined mathematical meaning. \nReference: L3V1 Section 3.4.3\n", 
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
@@ -495,7 +501,7 @@
     "10216": {
         "Category": "MathML consistency", 
         "DefaultSeverity": "error", 
-        "Message": "The 'id' value of a <parameter> defined within a <kineticLaw> can only be used in <ci> elements within the MathML content of that same <kineticLaw>; the identifier is not visible to other parts of the model. \nReference: L3V1 Sections 3.3.1, 3.4.3 and 4.13.5\n", 
+        "Message": "The 'id' value of a <parameter> or <localParameter> defined within a <kineticLaw> can only be used in <ci> elements within the MathML content of that same <kineticLaw>; the identifier is not visible to other parts of the model. \nReference: L3V1 Sections 3.3.1, 3.4.3 and 4.13.5\n", 
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
@@ -510,6 +516,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL2V1": "warning", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "A formula's result in this context must be a numerical value"
     }, 
     "10218": {
@@ -528,7 +535,9 @@
         "Message": "The number of arguments used in a call to a function defined by a <functionDefinition> must equal the number of arguments accepted by that function, or in other words, the number of <bvar> elements inside the <lambda> element of the function definition.  \nReference: L3V1 Section 4.3.4\n", 
         "Package": "core", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Incorrect number of arguments given to function invocation"
     }, 
     "10220": {
@@ -537,6 +546,7 @@
         "Message": "The SBML attribute 'units' may only be added to MathML <cn> elements; no other MathML elements are permitted to have the 'units' attribute. \nReference: L3V1 Section 3.4.2\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Attribute 'units' is only permitted on <cn> elements"
     }, 
     "10221": {
@@ -545,6 +555,7 @@
         "Message": "The value of the SBML attribute 'units' on a MathML <cn> element must be chosen from either the set of identifiers of UnitDefinition objects in the model, or the set of base units defined by SBML. \nReference: L3V1 Section 3.4.2\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid value given for the 'units' attribute"
     }, 
     "10222": {
@@ -552,7 +563,32 @@
         "DefaultSeverity": "na", 
         "Message": "The value of a <ci> element may not be the identifier of a <compartment> with a 'spatialDimensions' value of 0. \n", 
         "Package": "core", 
-        "ShortMessage": "A <ci> element cannot reference 0D Compartment"
+        "SeverityL2V5": "error", 
+        "ShortMessage": "A <ci> element cannot reference a 0D compartment"
+    }, 
+    "10223": {
+        "Category": "MathML consistency", 
+        "DefaultSeverity": "na", 
+        "Message": "The single argument for the rateOf csymbol function must be a <ci> element.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "error", 
+        "ShortMessage": "A 'rateOf' <csymbol> must target only a single <ci> element"
+    }, 
+    "10224": {
+        "Category": "MathML consistency", 
+        "DefaultSeverity": "na", 
+        "Message": "The target of a 'rateOf' <csymbol> function must not appear as the 'variable' of an <assignmentRule>, nor may its value be determined by an <algebraicRule>.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "error", 
+        "ShortMessage": "The target of a 'rateOf' <csymbol> cannot be assigned"
+    }, 
+    "10225": {
+        "Category": "MathML consistency", 
+        "DefaultSeverity": "na", 
+        "Message": "If the target of a 'rateOf' <csymbol> function is a <species> with a 'hasOnlySubstanceUnits' value of 'false', the <compartment> of that <species> must not appear as the 'variable' of an <assignmentRule>, nor may its 'size' be determined by an <algebraicRule>.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "error", 
+        "ShortMessage": "Compartments of non-substance <species> referenced by 'rateOf' must not vary"
     }, 
     "10301": {
         "Category": "SBML identifier consistency", 
@@ -651,14 +687,17 @@
         "Message": "Message\nReference: L3V1 Section 3.1.1\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid syntax for a 'name' attribute value"
     }, 
     "10313": {
         "Category": "SBML identifier consistency", 
         "DefaultSeverity": "na", 
         "Message": "Unit identifier references (i.e the 'units' attribute on <Compartment>, the 'units' attribute on <Parameter>, and the 'substanceUnits' attribute on <Species>) must be the identifier of a <UnitDefinition> in the <Model>, or the identifier of a predefined unit in SBML.\n", 
-        "Package": "core",   
-        "SeverityL3V2": "error",
+        "Package": "core", 
+        "SeverityL2V5": "error", 
+        "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Dangling reference to a unit."
     }, 
     "10401": {
@@ -689,6 +728,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "The SBML XML namespace cannot be used in an Annotation object"
     }, 
     "10404": {
@@ -697,16 +737,17 @@
         "Message": "A given SBML object may contain at most one <annotation> element.\nReference: L3V1 Section 3.2\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only one Annotation object is permitted under a given SBML object"
     }, 
     "10501": {
         "Category": "SBML unit consistency", 
         "DefaultSeverity": "warning", 
-        "Message": "The units of the expressions used as arguments to a function call should match the units expected for the arguments of that function. (References: SBML L3V1 Section 3.4; SBML L3V2 Section 3.4.)", 
+        "Message": "The units of the expressions used as arguments to a function call should match the units expected for the arguments of that function. (References: L2V2 Section 3.5; L2V3 Section 3.4; L2V4 Section 3.4; L2V5 Section 3.4.)", 
         "Package": "core", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "ShortMessage": ""
+        "ShortMessage": "Mismatched units in the arguments of a function call"
     }, 
     "10503": {
         "Category": "SBML unit consistency", 
@@ -714,6 +755,7 @@
         "Message": "The unit of measurement associated with the mathematical formula in the MathML math element of every KineticLaw object in a model should be identical to all KineticLaw objects in the model.\nReference: L3V1 Section 3.4\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "The kinetic law's units are inconsistent with those of other kinetic laws in the model"
     }, 
     "10511": {
@@ -722,7 +764,9 @@
         "Message": "When the 'variable' in an <assignmentRule> refers to a <compartment>, the units of the rule's right-hand side are expected to be consistent with the units of that compartment's size. \nReference: L3V1 Section 4.9.3\n", 
         "Package": "core", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Mismatched units in assignment rule for compartment"
     }, 
     "10512": {
@@ -731,7 +775,9 @@
         "Message": "When the 'variable' in an <assignmentRule> refers to a <species>, the units of the rule's right-hand side are expected to be consistent with the units of the species' quantity.\nReference: L3V1 Section 4.9.3\n", 
         "Package": "core", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Mismatched units in assignment rule for species"
     }, 
     "10513": {
@@ -740,7 +786,9 @@
         "Message": "When the 'variable' in an <assignmentRule> refers to a <parameter>, the units of the rule's right-hand side are expected to be consistent with the units declared for that parameter. \nReference: L3V1 Section 4.9.3\n", 
         "Package": "core", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Mismatched units in assignment rule for parameter"
     }, 
     "10514": {
@@ -749,39 +797,43 @@
         "Message": "When the value of the attribute variable in an AssignmentRule object refers to a SpeciesReference object, the unit of measurement associated with the rule's right-hand side should be consistent with the unit of stoichiometry, that is, dimensionless.\nReference: L3V1 Section 4.9.3\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Mismatched units in assignment rule for stoichiometry"
     }, 
     "10521": {
         "Category": "SBML unit consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "When the 'variable' in an <initialAssignment> refers to a <compartment>, the units of the <initialAssignment>'s <math> expression are expected to be consistent with the units of that compartment's size. \nReference: L3V1 Section 4.8\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Mismatched units in initial assignment to compartment"
     }, 
     "10522": {
         "Category": "SBML unit consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "When the 'variable' in an <initialAssignment> refers to a <species>, the units of the <initialAssignment>'s <math> expression are expected to be consistent with the units of that species' quantity.\nReference: L3V1 Section 4.8\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Mismatched units in initial assignment to species"
     }, 
     "10523": {
         "Category": "SBML unit consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "When the 'variable' in an <initialAssignment> refers to a <parameter>, the units of the <initialAssignment>'s <math> expression are expected to be consistent with the units declared for that parameter.\nReference: L3V1 Section 4.8\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Mismatched units in initial assignment to parameter"
     }, 
     "10524": {
@@ -790,6 +842,7 @@
         "Message": "When the value of the attribute variable in an InitialAssignment object refers to a SpeciesReference object, the unit of measurement associated with the InitialAssignment's math expression should be consistent with the unit of stoichiometry, that is, dimensionless.\nReference: L3V1 Section 4.8\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Mismatched units in initial assignment to stoichiometry"
     }, 
     "10531": {
@@ -798,7 +851,9 @@
         "Message": "When the 'variable' in a <rateRule> definition refers to a <compartment>, the units of the rule's right-hand side are expected to be of the form _x per time_, where _x_ is either the 'units' in that <compartment> definition, or (in the absence of explicit units declared for the compartment size) the default units for that compartment, and _time_ refers to the units of time for the model.\nReference: L3V1 Sections 4.5.4, 4.2.4 AND 4.9.4\n", 
         "Package": "core", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Mismatched units in rate rule for compartment"
     }, 
     "10532": {
@@ -807,7 +862,9 @@
         "Message": "When the 'variable' in a <rateRule> definition refers to a <species>, the units of the rule's right-hand side are expected to be of the form _x per time_, where _x_ is the units of that species' quantity, and _time_ refers to the units of time for the model.\nReference: L3V1 Sections 4.6.5, 4.2.4 AND 4.9.4\n", 
         "Package": "core", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Mismatched units in rate rule for species"
     }, 
     "10533": {
@@ -816,7 +873,9 @@
         "Message": "When the 'variable' in a <rateRule> definition refers to a <parameter>, the units of the rule's right-hand side are expected to be of the form _x per time_, where _x_ is the 'units' in that <parameter> definition, and _time_ refers to the units of time for the model.\nReference: L3V1 Sections 4.7.3, 4.2.4 AND 4.9.4\n", 
         "Package": "core", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Mismatched units in rate rule for parameter"
     }, 
     "10534": {
@@ -825,6 +884,7 @@
         "Message": "When the value of the attribute variable in a RateRule object refers to a SpeciesReference object, the unit of measurement associated with the RateRule's math expression should be consistent with {unit derived from dimensionless}/{unit of time}.\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Mismatched units in rate rule for stoichiometry"
     }, 
     "10541": {
@@ -833,7 +893,9 @@
         "Message": "The units of the 'math' formula in a <kineticLaw> definition are expected to be the equivalent of _substance per time_.\nReference: L3V1 Sections 4.11.7, 4.2.4 AND 4.9.4\n", 
         "Package": "core", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "The units of the kinetic law are not 'substance'/'time'"
     }, 
     "10542": {
@@ -842,50 +904,55 @@
         "Message": "For every Species object produced or consumed in a reaction (that is, referenced by a SpeciesReference object), the unit of measurement of the species' substance should be consistent with the unit of extent for the model times the unit of the conversion factor for that species. More precisely, the product of the units indicated by the Model object's extentUnits and the conversionFactor attribute for that particular Species (whether the attribute is set directly on the Species object or inherited from the enclosing Model object) should be consistent with the unit specified by that Species object's substanceUnits attribute value.\nReference: L3V1 Section 4.2.6\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "The species' units are not consistent with units of extent"
     }, 
     "10551": {
         "Category": "SBML unit consistency", 
-        "DefaultSeverity": "error", 
+        "DefaultSeverity": "warning", 
         "Message": "When a value for <delay> is given in a <event> definition, the units of the delay formula are expected to correspond to either the value of 'timeUnits' in the <event> or (if no 'timeUnits' are given), the model's default units of time.\nReference: L3V1 Section 4.12.3\n", 
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
+        "SeverityL2V1": "error", 
+        "SeverityL2V2": "error", 
+        "SeverityL2V3": "error", 
         "ShortMessage": "The units of the delay expression are not units of time"
     }, 
     "10561": {
         "Category": "SBML unit consistency", 
-        "DefaultSeverity": "error", 
+        "DefaultSeverity": "warning", 
         "Message": "When the 'variable' in an <eventAssignment> refers to a <compartment>, the units of the <eventAssignment>'s <math> expression are expected to be consistent with the units of that compartment's size.\nReference: L3V1 Section 4.12.4\n", 
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
+        "SeverityL2V1": "error", 
+        "SeverityL2V2": "error", 
+        "SeverityL2V3": "error", 
         "ShortMessage": "Mismatched units in event assignment for compartment"
     }, 
     "10562": {
         "Category": "SBML unit consistency", 
-        "DefaultSeverity": "error", 
+        "DefaultSeverity": "warning", 
         "Message": "When the 'variable' in an <eventAssignment> refers to a <species>, the units of the <eventAssignment>'s <math> expression are expected to be consistent with the units of the species' quantity.\nReference: L3V1 Section 4.12.4\n", 
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
+        "SeverityL2V1": "error", 
+        "SeverityL2V2": "error", 
+        "SeverityL2V3": "error", 
         "ShortMessage": "Mismatched units in event assignment for species"
     }, 
     "10563": {
         "Category": "SBML unit consistency", 
-        "DefaultSeverity": "error", 
+        "DefaultSeverity": "warning", 
         "Message": "When the 'variable' in an <eventAssignment> refers to a <parameter>, the units of the <eventAssignment>'s <math> expression are expected to be consistent with the units declared for that parameter.\nReference: L3V1 Section 4.12.4\n", 
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
+        "SeverityL2V1": "error", 
+        "SeverityL2V2": "error", 
+        "SeverityL2V3": "error", 
         "ShortMessage": "Mismatched units in event assignment for parameter"
     }, 
     "10564": {
@@ -894,6 +961,7 @@
         "Message": "When the value of the attribute variable of an EventAssignment object is the identifier of a SpeciesReference object, the unit of measurement associated with the EventAssignment's math expression should be consistent with the unit of stoichiometry, i.e., dimensionless.\nReference: L3V1 Section 4.12.4\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Mismatched units in event assignment for stoichiometry"
     }, 
     "10565": {
@@ -902,6 +970,7 @@
         "Message": "In an Event object, the unit of measurement associated with a Priority object's <math> expression object should be 'dimensionless'. \nReference: L3V1 Section 4.12.3\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "The units of a priority expression must be 'dimensionless'"
     }, 
     "10599": {
@@ -923,123 +992,134 @@
     }, 
     "10701": {
         "Category": "SBO term consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "The value of the 'sboTerm' attribute on a <model> is expected to be an SBO identifier (http://www.biomodels.net/SBO/).  In SBML Level 2 prior to Version 4 the value is expected to be a term derived from SBO:0000004, \"modeling framework\"; in Version 4 and above it is expected to be a term derived from SBO:0000231 \"occurring entity representation\"\nReference: L3V1 Section 5\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a Model object"
     }, 
     "10702": {
         "Category": "SBO term consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "The value of the 'sboTerm' attribute on a <functionDefinition> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a mathematical expression (i.e., terms derived from SBO:0000064, \"mathematical expression\"). \nReference: L3V1 Section 5\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a FunctionDefinition object"
     }, 
     "10703": {
         "Category": "SBO term consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "The value of the 'sboTerm' attribute on a <parameter> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a quantitative parameter defined in SBO (i.e., terms derived from SBO:0000002, \"quantitative systems description parameter\"). \nReference: L3V1 Section 5\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a Parameter object"
     }, 
     "10704": {
         "Category": "SBO term consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "The value of the 'sboTerm' attribute on an <initialAssignment> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a mathematical expression (i.e., terms derived from SBO:0000064, \"mathematical expression\"). \nReference: L3V1 Section 5\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for an InitialAssignment object"
     }, 
     "10705": {
         "Category": "SBO term consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "The value of the 'sboTerm' attribute on a rule is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a mathematical expression (i.e., terms derived from SBO:0000064, \"mathematical expression\"). Note: This applies to Algebraic Rules in addition to Rate and Assignment Rules.\nReference: L3V1 Section 5\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a Rule object"
     }, 
     "10706": {
         "Category": "SBO term consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "The value of the 'sboTerm' attribute on a <constraint> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a mathematical expression (i.e., terms derived from SBO:0000064, \"mathematical expression\"). \nReference: L3V1 Section 5\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a Constraint object"
     }, 
     "10707": {
         "Category": "SBO term consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "The value of the 'sboTerm' attribute on a <reaction> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to an occurring entity representation defined in SBO (i.e., terms derived from SBO:0000231, \"occurring entity representation\"). \nReference: L3V1 Section 5\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a Reaction object"
     }, 
     "10708": {
         "Category": "SBO term consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "The value of the 'sboTerm' attribute on a <speciesReference> or <modifierSpeciesReference> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a participant role. The appropriate term depends on whether the object is a reactant, product or modifier. If a reactant, then it should be a term in the SBO:0000010, \"reactant\" hierarchy; if a product, then it should be a term in the SBO:0000011, \"product\" hierarchy; and if a modifier, then it should be a term in the SBO:0000019, \"modifier\" hierarchy. \nReference: L3V1 Section 5\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a SpeciesReference object"
     }, 
     "10709": {
         "Category": "SBO term consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "The value of the 'sboTerm' attribute on a <kineticLaw> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring rate law defined in SBO (i.e., terms derived from SBO:0000001, \"rate law\"). \nReference: L3V1 Section 5\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a KineticLaw object"
     }, 
     "10710": {
         "Category": "SBO term consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "The value of the 'sboTerm' attribute on an <event> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to an occurring entity representation defined in SBO (i.e., terms derived from SBO:0000231, \"occurring entity representation\"). \nReference: L3V1 Section 5\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for an Event object"
     }, 
     "10711": {
         "Category": "SBO term consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "The value of the 'sboTerm' attribute on an <eventAssignment> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a mathematical expression (i.e., terms derived from SBO:0000064, \"mathematical expression\"). \nReference: L3V1 Section 5\n", 
         "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for an EventAssignment object"
     }, 
     "10712": {
@@ -1049,7 +1129,9 @@
         "Package": "core", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a Compartment object"
     }, 
     "10713": {
@@ -1059,7 +1141,9 @@
         "Package": "core", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a Species object"
     }, 
     "10714": {
@@ -1069,6 +1153,7 @@
         "Package": "core", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a CompartmentType object"
     }, 
     "10715": {
@@ -1078,6 +1163,7 @@
         "Package": "core", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a SpeciesType object"
     }, 
     "10716": {
@@ -1087,7 +1173,9 @@
         "Package": "core", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for an Event Trigger object"
     }, 
     "10717": {
@@ -1097,16 +1185,27 @@
         "Package": "core", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for an Event Delay object"
     }, 
     "10718": {
         "Category": "SBO term consistency", 
         "DefaultSeverity": "na", 
-        "Message": "[Although SBML Level 3 Version 1 does not explicitly define the following as an error, other Levels and/or Versions of SBML do.] \nThe value of the 'sboTerm' attribute on a <localParameter> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a quantitative parameter (i.e., terms derived from SBO:0000002, \"quantitive systems description parameter\").\nReference: L3V1 Section 5\n", 
+        "Message": "The value of the 'sboTerm' attribute on a <localParameter> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a quantitative parameter (i.e., terms derived from SBO:0000002, \"quantitive systems description parameter\").\nReference: L3V1 Section 5\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid 'sboTerm' attribute value for a LocalParameter object"
+    }, 
+    "10719": {
+        "Category": "SBO term consistency", 
+        "DefaultSeverity": "na", 
+        "Message": "The value of the 'sboTerm' attribute on the <sbml> object is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a modeling framework (i.e., terms derived from SBO:0000004, \"modelling framework\").\nReference: L3V1 Section 5\n", 
+        "Package": "core", 
+        "SeverityL3V2": "warning", 
+        "ShortMessage": "Invalid 'sboTerm' attribute value for the <sbml> element"
     }, 
     "10801": {
         "Category": "General SBML conformance", 
@@ -1143,6 +1242,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Invalid notes content found"
     }, 
     "10805": {
@@ -1151,6 +1251,7 @@
         "Message": "A given SBML object may contain at most one <notes> element. \nReference: L3V1 Section 3.2\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only one Notes subobject is permitted on a given SBML object"
     }, 
     "20101": {
@@ -1180,6 +1281,7 @@
         "Message": "The <sbml> container element must declare the XML Namespace for any SBML Level 3 packages used within the SBML document. This declaration must be consistent with the values of the 'level' and 'version' attributes on the <sbml> element.\nReference: L3V1 Section 4.1.2\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Inconsistent or invalid SBML Level/Version for the package namespace declaration"
     }, 
     "20105": {
@@ -1188,6 +1290,7 @@
         "Message": "The attribute 'level' on the <sbml> container element must have a value of type 'positiveInteger'.\nReference: L3V1 Section 3.1.4\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "The 'level' attribute must have a positive integer value"
     }, 
     "20106": {
@@ -1196,6 +1299,7 @@
         "Message": "The attribute 'version' on the <sbml> container element must have a value of type 'positiveInteger'.\nReference: L3V1 Section 3.1.4\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "The 'version' attribute must have a positive integer value"
     }, 
     "20108": {
@@ -1204,6 +1308,7 @@
         "Message": "The <sbml> object may only have the optional attributes 'metaid' and 'sboTerm'.\nReference: L3V1 Section 4.1\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the SBML container element"
     }, 
     "20109": {
@@ -1212,6 +1317,7 @@
         "Message": "It is not possible to use SBML L3 packages with earlier levels of SBML.\n", 
         "Package": "core", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "An L3 package ns found on the SBML container element"
     }, 
     "20201": {
@@ -1227,6 +1333,7 @@
         "Message": "The order of subelements within a <model> element must be the following (where any one may be optional, but the ordering must be maintained): <listOfFunctionDefinitions>, <listOfUnitDefinitions>, <listOfCompartmentTypes>, <listOfSpeciesTypes>, <listOfCompartments>, <listOfSpecies>, <listOfParameters>, <listOfInitialAssignments>, <listOfRules>, <listOfConstraints>, <listOfReactions> and <listOfEvents>. \n", 
         "Package": "core", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Incorrect ordering of components within the Model object"
     }, 
     "20203": {
@@ -1234,6 +1341,7 @@
         "DefaultSeverity": "error", 
         "Message": "The <listOf___> containers in a <model> are optional, but if present, the lists cannot be empty. Specifically, if any of the following are present in a <model>, they must not be empty: <listOfFunctionDefinitions>, <listOfUnitDefinitions>, <listOfCompartmentTypes>, <listOfSpeciesTypes>, <listOfCompartments>,  <listOfSpecies>, <listOfParameters>, <listOfInitialAssignments>, <listOfRules>, <listOfConstraints>, <listOfReactions> and <listOfEvents>.\nReference: L3V1 Section 4.2\n", 
         "Package": "core", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Empty ListOf___ object found"
     }, 
     "20204": {
@@ -1249,6 +1357,7 @@
         "Message": "There may be at most one instance of each of the following kind of element in a <model> object: ListOfFunctionDefinitions, ListOfUnitDefinitions, ListOfCompartments, ListOfSpecies, ListOfParameters, ListOfInitialAssignments, ListOfRules, ListOfConstraints, ListOfReactions and ListOfEvents.\nReference: L3V1 Section 4.2\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only one of each kind of ListOf___ object is allowed inside a Model object"
     }, 
     "20206": {
@@ -1257,6 +1366,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfFunctionDefinitions container object may only contain FunctionDefinition objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only FunctionDefinition, Notes and Annotation objects are allowed in ListOfFunctionDefinitions"
     }, 
     "20207": {
@@ -1265,6 +1375,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfUnitDefinitions container object may only contain UnitDefinition objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only UnitDefinition, Notes and Annotation objects are allowed in ListOfUnitDefinitions objects"
     }, 
     "20208": {
@@ -1273,6 +1384,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfCompartments container object may only contain Compartment objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only Compartment, Notes and Annotation objects are allowed in ListOfCompartments objects"
     }, 
     "20209": {
@@ -1281,6 +1393,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfSpecies container object may only contain Species objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only Species, Notes and Annotation objects are allowed in ListOfSpecies objects"
     }, 
     "20210": {
@@ -1289,6 +1402,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfParameters container object may only contain Parameter objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only Parameter, Notes and Annotation objects are allowed in ListOfParameters objects"
     }, 
     "20211": {
@@ -1297,6 +1411,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfInitialAssignments container object may only contain InitialAssignment objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only InitialAssignment, Notes and Annotation objects are allowed in ListOfInitialAssignments objects"
     }, 
     "20212": {
@@ -1305,6 +1420,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfRules container object may only contain Rule objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only Rule, Notes and Annotation objects are allowed in ListOfRules objects"
     }, 
     "20213": {
@@ -1313,6 +1429,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfConstraints container object may only contain Constraint objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only Constraint, Notes and Annotation objects are allowed in ListOfConstraints objects"
     }, 
     "20214": {
@@ -1321,6 +1438,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfReactions container object may only contain Reaction objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only Reaction, Notes and Annotation objects are allowed in ListOfReactions objects"
     }, 
     "20215": {
@@ -1329,6 +1447,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfEvents container object may only contain Event objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only Event, Notes and Annotation objects are allowed in ListOfEvents objects"
     }, 
     "20216": {
@@ -1337,6 +1456,7 @@
         "Message": "The value of the attribute 'conversionFactor' on a Model object must be the identifier of an existing Parameter object defined in the Model object's ListOfParameters.\nReference: L3V1 Section 4.2\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "A 'conversionFactor' attribute value must reference a Parameter object"
     }, 
     "20217": {
@@ -1345,6 +1465,7 @@
         "Message": "The value of the attribute 'timeUnits' on a Model object should be either the units 'second', 'dimensionless', or the identifier of a UnitDefinition object based on these units.\nReference: L3V1 Section 4.2.4\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid 'timeUnits' attribute value"
     }, 
     "20218": {
@@ -1353,6 +1474,7 @@
         "Message": "The value of the attribute 'volumeUnits' on a Model object should be either the units 'litre', 'dimensionless', or the identifier of a UnitDefinition object based on these units or a unit derived from 'metre' (with an exponent of '3').\nReference: L3V1 Section 4.2.5\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid 'volumeUnits' attribute value"
     }, 
     "20219": {
@@ -1361,6 +1483,7 @@
         "Message": "The value of the attribute 'areaUnits' on a Model object should be either 'dimensionless' or the identifier of a UnitDefinition object based on 'dimensionless' or a unit derived from 'metre' (with an exponent of '2').\nReference: L3V1 Section 4.2.5\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid 'areaUnits' attribute value"
     }, 
     "20220": {
@@ -1369,6 +1492,7 @@
         "Message": "The value of the attribute 'lengthUnits' on a Model object should be either the units 'metre', 'dimensionless', or the identifier of a UnitDefinition object based on these units.\nReference: L3V1 Section 4.2.5\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid 'lengthUnits' attribute value"
     }, 
     "20221": {
@@ -1377,6 +1501,7 @@
         "Message": "The value of the attribute extentUnits on a Model object should be either the units 'mole', 'item', 'avogadro', 'dimensionless', 'kilogram', 'gram', or the identifier of a UnitDefinition object based on these units.\nReference: L3V1 Section 4.2.6\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid 'extentUnits' attribute value"
     }, 
     "20222": {
@@ -1385,6 +1510,7 @@
         "Message": "A Model object may only have the following attributes, all of which are optional: 'metaid', 'sboTerm', 'id', 'name', 'substanceUnits', 'timeUnits', 'volumeUnits', 'areaUnits', 'lengthUnits', 'extentUnits' and 'conversionFactor'. No other attributes from the SBML Level 3 Core namespace are permitted on a Model object.\nReference: L3V1 Section 4.2\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the Model object"
     }, 
     "20223": {
@@ -1393,6 +1519,7 @@
         "Message": "A ListOfFunctionDefinitions object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfFunctionDefinitions object.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfFunctionDefinitions object"
     }, 
     "20224": {
@@ -1401,6 +1528,7 @@
         "Message": "A ListOfUnitDefinitions object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfUnitDefinitions object.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfUnitDefinitions object"
     }, 
     "20225": {
@@ -1409,6 +1537,7 @@
         "Message": "A ListOfCompartments object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfCompartments object.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfCompartments object"
     }, 
     "20226": {
@@ -1417,6 +1546,7 @@
         "Message": "A ListOfSpecies object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfSpecies object.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfSpecies object"
     }, 
     "20227": {
@@ -1425,6 +1555,7 @@
         "Message": "A ListOfParameters object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfParameters object.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfParameters object"
     }, 
     "20228": {
@@ -1433,6 +1564,7 @@
         "Message": "A ListOfInitialAssignments object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfInitialAssignments object.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfInitialAssignments object"
     }, 
     "20229": {
@@ -1441,6 +1573,7 @@
         "Message": "A ListOfRules object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfRules object.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfRules object"
     }, 
     "20230": {
@@ -1449,6 +1582,7 @@
         "Message": "A ListOfConstraints object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfConstraints object.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfConstraints object"
     }, 
     "20231": {
@@ -1457,6 +1591,7 @@
         "Message": "A ListOfReactions object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfReactions object.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfReactions object"
     }, 
     "20232": {
@@ -1465,6 +1600,7 @@
         "Message": "A ListOfEvents object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfEvents object.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfEvents object"
     }, 
     "20233": {
@@ -1473,6 +1609,7 @@
         "Message": "[Although SBML Level 3 Version 1 does not explicitly define the following as an error, other Levels and/or Versions of SBML do.] \nThe value of the attribute substanceUnits on a Model object should be either the units 'mole', 'item', 'avogadro', 'dimensionless', 'kilogram', 'gram', or the identifier of a UnitDefinition object based on these units.\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid 'substanceUnits' attribute value"
     }, 
     "20301": {
@@ -1527,6 +1664,7 @@
         "Message": "A FunctionDefinition object must contain exactly one MathML math element.  The <math> element is optional in L3V2 and beyond.\nReference: L3V1 Section 4.3\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "A FunctionDefinition object may contain one <math> element"
     }, 
     "20307": {
@@ -1535,6 +1673,7 @@
         "Message": "FunctionDefinition object must have the required attribute 'id', and may have the optional attributes 'metaid', 'sboTerm' and 'name'. No other attributes from the SBML Level 3 Core namespace are permitted on a FunctionDefinition object.\nReference: L3V1 Section 4.3\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the FunctionDefinition object"
     }, 
     "20401": {
@@ -1550,6 +1689,7 @@
         "Message": "Redefinitions of the built-in unit 'substance' are restricted.\n", 
         "Package": "core", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Invalid redefinition of built-in type 'substance'"
     }, 
     "20403": {
@@ -1560,6 +1700,7 @@
         "SeverityL1V1": "warning", 
         "SeverityL1V2": "warning", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Invalid redefinition of built-in type 'length'"
     }, 
     "20404": {
@@ -1570,6 +1711,7 @@
         "SeverityL1V1": "warning", 
         "SeverityL1V2": "warning", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Invalid redefinition of built-in type name 'area'"
     }, 
     "20405": {
@@ -1578,6 +1720,7 @@
         "Message": "Redefinitions of the built-in unit 'time' are restricted.\n", 
         "Package": "core", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Invalid redefinition of built-in type name 'time'"
     }, 
     "20406": {
@@ -1586,6 +1729,7 @@
         "Message": "Redefinitions of the built-in unit 'volume' are restricted.\n", 
         "Package": "core", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Invalid redefinition of built-in type name 'volume'"
     }, 
     "20407": {
@@ -1594,7 +1738,9 @@
         "Message": "If a <unitDefinition> for 'volume' simplifies to a <unit> in which the 'kind' attribute value is 'litre', then its 'exponent' attribute value must be '1'.\n", 
         "Package": "core", 
         "SeverityL2V4": "na", 
+        "SeverityL2V5": "na", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Must use 'exponent'=1 when defining 'volume' in terms of litres"
     }, 
     "20408": {
@@ -1613,6 +1759,7 @@
         "Message": "The <listOfUnits> container in a <unitDefinition> cannot be empty. \n", 
         "Package": "core", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "An empty list of Unit objects is not permitted in a UnitDefinition object"
     }, 
     "20410": {
@@ -1630,6 +1777,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Unit attribute 'offset' is not supported in this Level+Version of SBML"
     }, 
     "20412": {
@@ -1640,6 +1788,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Unit name 'Celsius' is not defined in this Level+Version of SBML"
     }, 
     "20413": {
@@ -1656,6 +1805,7 @@
         "Message": "There may be at most one ListOfUnits container objects in a UnitDefinition object.\nReference: L3V1 Section 4.4\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "At most one ListOfUnits object is allowed inside a UnitDefinition object"
     }, 
     "20415": {
@@ -1664,6 +1814,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfUnits container object may only contain Unit objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only Unit, Notes and Annotation objects are allowed in ListOfUnits objects"
     }, 
     "20419": {
@@ -1672,6 +1823,7 @@
         "Message": "A UnitDefinition object must have the required attribute 'id' and may have the optional attributes 'metaid', 'sboTerm' and 'name'. No other attributes from the SBML Level 3 Core namespace are permitted on a UnitDefinition object.\nReference: L3V1 Section 4.4\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the UnitDefinition object"
     }, 
     "20420": {
@@ -1680,6 +1832,7 @@
         "Message": "A ListOfUnits object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfUnits object.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfUnits object"
     }, 
     "20421": {
@@ -1688,6 +1841,7 @@
         "Message": "A Unit object must have the required attributes 'kind', 'exponent', 'scale' and 'multiplier', and may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a Unit object.\nReference: L3V1 Section 4.4\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the Unit object"
     }, 
     "20501": {
@@ -1698,6 +1852,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Invalid use of the 'size' attribute for a zero-dimensional compartment"
     }, 
     "20502": {
@@ -1708,6 +1863,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Invalid use of the 'units' attribute for a zero-dimensional compartment"
     }, 
     "20503": {
@@ -1718,6 +1874,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Zero-dimensional compartments must be defined to be constant"
     }, 
     "20504": {
@@ -1726,17 +1883,19 @@
         "Message": "The 'outside' attribute value of a <compartment> must be the identifier of another <compartment> defined in the model.\n", 
         "Package": "core", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Invalid value for the 'outside' attribute of a Compartment object"
     }, 
     "20505": {
         "Category": "SBML component consistency", 
-        "DefaultSeverity": "warning", 
+        "DefaultSeverity": "error", 
         "Message": "A <compartment> may not enclose itself through a chain of references involving the 'outside' field. This means that a compartment cannot have its own identifier as the value of 'outside', nor can it point to another compartment whose 'outside' field points directly or indirectly to the compartment.\n", 
         "Package": "core", 
-        "SeverityL2V2": "error", 
-        "SeverityL2V3": "error", 
-        "SeverityL2V4": "error", 
+        "SeverityL1V1": "warning", 
+        "SeverityL1V2": "warning", 
+        "SeverityL2V1": "warning", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Recursive nesting of compartments via the 'outside' attribute is not permitted"
     }, 
     "20506": {
@@ -1748,6 +1907,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Invalid nesting of zero-dimensional compartments"
     }, 
     "20507": {
@@ -1758,6 +1918,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid value for the 'units' attribute of a one-dimensional compartment"
     }, 
     "20508": {
@@ -1768,6 +1929,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid value for the 'units' attribute of a two-dimensional compartment"
     }, 
     "20509": {
@@ -1776,6 +1938,7 @@
         "Message": "The value of the 'units' attribute on a <compartment> having 'spatialDimensions' of '3' is restricted. \nReference: L3V1 Section 4.5.4\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid value for the 'units' attribute of a three-dimensional compartment"
     }, 
     "20510": {
@@ -1786,6 +1949,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Invalid value for the 'compartmentType' attribute of a compartment"
     }, 
     "20511": {
@@ -1794,6 +1958,7 @@
         "Message": "If the attribute 'units' on a Compartment object having a 'spatialDimensions' attribute value of '1' has not been set, then the unit of measurement associated with the compartment's size is determined by the value of the enclosing Model object's 'lengthUnits' attribute. If neither the Compartment object's 'units' nor the enclosing Model object's 'lengthUnits' attributes are set, the unit of compartment size is undefined.\nReference: L3V1 Section 4.5.4\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "No units defined for 1-D compartment"
     }, 
     "20512": {
@@ -1802,6 +1967,7 @@
         "Message": "If the attribute 'units' on a Compartment object having a 'spatialDimensions' attribute value of '2' has not been set, then the unit of measurement associated with the compartment's size is determined by the value of the enclosing Model object's 'areaUnits' attribute. If neither the Compartment object's 'units' nor the enclosing Model object's 'areaUnits' attributes are set, the unit of compartment size is undefined.\nReference: L3V1 Section 4.5.4\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "No units defined for 2-D compartment"
     }, 
     "20513": {
@@ -1810,6 +1976,7 @@
         "Message": "If the attribute 'units' on a Compartment object having a 'spatialDimensions' attribute value of '3' has not been set, then the unit of measurement associated with the compartment's size is determined by the value of the enclosing Model object's 'volumeUnits' attribute. If neither the Compartment object's 'units' nor the enclosing Model object's 'volumeUnits' attributes are set, the unit of compartment size is undefined.\nReference: L3V1 Section 4.5.4\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "No units defined for 3-D Compartment object"
     }, 
     "20517": {
@@ -1818,6 +1985,7 @@
         "Message": "A Compartment object must have the required attributes 'id' and 'constant', and may have the optional attributes 'metaid', 'sboTerm', 'name', 'spatialDimensions', 'size' and 'units'. No other attributes from the SBML Level 3 Core namespace are permitted on a Compartment object.\nReference: L3V1 Section 4.5\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on Compartment object"
     }, 
     "20518": {
@@ -1826,6 +1994,7 @@
         "Message": "If neither the attribute 'units' nor the attribute 'spatialDimensions' on a Compartment object is set, the unit associated with that compartment's size is undefined.\nReference: L3V1 Section 4.5\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "No units defined for Compartment object"
     }, 
     "20601": {
@@ -1861,6 +2030,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Attribute 'initialConcentration' must not be set if the compartment is zero-dimensional"
     }, 
     "20605": {
@@ -1896,7 +2066,7 @@
         "Message": "The value of a <species>'s 'units' attribute is restricted. \nReference: L3V1 Section 4.6.4\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
-        "SeverityL3V2": "warning",
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid value for a Species 'units' attribute"
     }, 
     "20609": {
@@ -1934,7 +2104,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
-        "SeverityL2V5": "error",
+        "SeverityL2V5": "error", 
         "ShortMessage": "Invalid value for the 'speciesType' attribute of a species"
     }, 
     "20613": {
@@ -1945,6 +2115,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Cannot have multiple species of the same species type in the same compartment"
     }, 
     "20614": {
@@ -1961,7 +2132,7 @@
         "Package": "core", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
-        "SeverityL2V5": "error",
+        "SeverityL2V5": "error", 
         "ShortMessage": "Attribute 'spatialSizeUnits' is not supported in this Level+Version of SBML"
     }, 
     "20616": {
@@ -1970,6 +2141,7 @@
         "Message": "If the attribute 'substanceUnits' in a Species object has not been set, then the unit of measurement associated with the species' quantity is determined by the value of the enclosing Model object's 'substanceUnits' attribute. If neither the Species object's 'substanceUnits' attribute nor the enclosing Model object's 'substanceUnits' attribute are set, then the unit of that species' quantity is undefined.\nReference: L3V1 Section 4.6.5\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "No substance units defined for the species"
     }, 
     "20617": {
@@ -1978,7 +2150,7 @@
         "Message": "The value of the attribute 'conversionFactor' on a Species object must be the identifier of an existing Parameter object defined in the enclosing Model object.\nReference: L3V1 Section 4.6.7\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
-        "SeverityL3V2": "error",
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid value for the 'conversionFactor' attribute"
     }, 
     "20623": {
@@ -1986,7 +2158,7 @@
         "DefaultSeverity": "na", 
         "Message": "A Species object must have the required attributes 'id', 'compartment', 'hasOnlySubstanceUnits', 'boundaryCondition' and 'constant', and may have the optional attributes 'metaid', 'sboTerm', 'name', 'initialAmount', 'initialConcentration', 'substanceUnits' and 'conversionFactor'. No other attributes from the SBML Level 3 Core namespace are permitted on a Species object.\nReference: L3V1 Section 4.6\n", 
         "Package": "core", 
-        "SeverityL3V1": "error",
+        "SeverityL3V1": "error", 
         "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on Species object"
     }, 
@@ -1995,8 +2167,8 @@
         "DefaultSeverity": "error", 
         "Message": "The 'units' in a <Parameter> definition must be a value chosen from among the following: a predefined unit (e.g., 'substance', 'time', etc.), the identifier of a <UnitDefinition> in the model, or one of the base units in SBML (e.g., 'litre', 'mole', 'metre', etc.)\nReference: L3V1 Section 4.7.3\n", 
         "Package": "core", 
-        "SeverityL3V1": "warning",
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Invalid value for the 'units' attribute of a Parameter object"
     }, 
     "20702": {
@@ -2004,7 +2176,7 @@
         "DefaultSeverity": "na", 
         "Message": "If the attribute 'units' on a given Parameter object has not been set, then the unit of measurement associated with that parameter's value is undefined.\nReference: L3V1 Section 4.7.3\n", 
         "Package": "core", 
-        "SeverityL3V1": "warning",
+        "SeverityL3V1": "warning", 
         "SeverityL3V2": "warning", 
         "ShortMessage": "No units defined for the parameter"
     }, 
@@ -2014,7 +2186,7 @@
         "Message": "A Parameter object referenced by the attribute 'conversionFactor' on a Species or Model object must have a value of 'true' for its attribute 'constant'.\nReference: L3V1 Section 4.6.7\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
-        "SeverityL3V2": "error",
+        "SeverityL3V2": "error", 
         "ShortMessage": "A conversion factor must reference a Parameter object declared to be a constant"
     }, 
     "20706": {
@@ -2023,6 +2195,7 @@
         "Message": "A Parameter object must have the required attributes 'id' and 'constant', and may have the optional attributes 'metaid', 'sboTerm', 'name', 'value' and 'units'. No other attributes from the SBML Level 3 Core namespace are permitted on a Parameter object.\nReference: L3V1 Section 4.7\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on Parameter object"
     }, 
     "20801": {
@@ -2061,6 +2234,7 @@
         "Message": "An InitialAssignment object must contain exactly one MathML <math> element.  The <math> element is optional in L3V2 and beyond.\nReference: L3V1 Section 4.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "An InitialAssignment object may contain one <math> element"
     }, 
     "20805": {
@@ -2069,13 +2243,14 @@
         "Message": "An InitialAssignment object must have the required attribute 'symbol' and may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on an InitialAssignment object.\nReference: L3V1 Section 4.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on an InitialAssignment object"
     }, 
     "20806": {
         "Category": "SBML component consistency", 
         "DefaultSeverity": "na", 
         "Message": "The identifier given as the value of a 'symbol' attribute in any <initialAssignment> definition cannot be the identifier of a <compartment> with a 'spatialDimensions' value of 0.\n", 
-        "Package": "core",
+        "Package": "core", 
         "SeverityL2V5": "error", 
         "ShortMessage": "InitialAssignment cannot reference 0D compartment"
     }, 
@@ -2134,6 +2309,7 @@
         "Message": "Every AssignmentRule, RateRule and AlgebraicRule object must contain exactly one MathML <math> element.  The <math> element is optional in L3V2 and beyond.\nReference: L3V1 Section 4.9\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "A rule object may contain one <math> element"
     }, 
     "20908": {
@@ -2142,6 +2318,7 @@
         "Message": "An AssignmentRule object must have the required attribute 'variable' and may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on an AssignmentRule object.\nReference: L3V1 Section 4.9\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on an AssignmentRule object"
     }, 
     "20909": {
@@ -2150,6 +2327,7 @@
         "Message": "A RateRule object must have the required attribute 'variable' and may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a RateRule object.\nReference: L3V1 Section 4.9\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on a RateRule object"
     }, 
     "20910": {
@@ -2158,6 +2336,7 @@
         "Message": "An AlgebraicRule object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on an AlgebraicRule object.\nReference: L3V1 Section 4.9\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on an AlgebraicRule object"
     }, 
     "20911": {
@@ -2165,7 +2344,16 @@
         "DefaultSeverity": "na", 
         "Message": "The value of a <rateRule> or <assignmentRule>'s 'variable' attribute must not be the identifier of a <compartment> with a 'spatialDimensions' value of 0.\n", 
         "Package": "core", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Rule cannot reference 0D compartment"
+    }, 
+    "20912": {
+        "Category": "SBML component consistency", 
+        "DefaultSeverity": "na", 
+        "Message": "There must not be circular dependencies in the combined set of <rateRule> and <kineticLaw> objects in the model.  Each of these constructs has the effect of assigning a value to the time derivative of one or more identifiers (i.e., the identifier given in the attribute 'variable' in the <rateRule>, and the identifier of any <species> referenced by a <speciesReference> in the same <reaction> as the <kineticLaw>).  Each of these constructs computes the value using a mathematical formula.  The formula used to calculate the time derivative of a given identifier cannot make reference to a second identifier whose own definition depends directly or indirectly on a 'rateOf' 'csymbol' for the first identifier.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "error", 
+        "ShortMessage": "Circular dependencies are not permitted in RateRule and KineticLaw objects"
     }, 
     "21001": {
         "Category": "SBML component consistency", 
@@ -2175,6 +2363,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL2V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "A Constraint object's <math> must evaluate to a Boolean value"
     }, 
     "21002": {
@@ -2185,6 +2374,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Subobjects inside the Constraint object are not in the prescribed order"
     }, 
     "21003": {
@@ -2195,7 +2385,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
-        "SeverityL2V5": "error",
+        "SeverityL2V5": "error", 
         "ShortMessage": "A Constraint's Message subobject must be in the XHTML XML namespace"
     }, 
     "21004": {
@@ -2226,6 +2416,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Invalid content for a Constraint object's Message object"
     }, 
     "21007": {
@@ -2234,6 +2425,7 @@
         "Message": "A <constraint> object must contain exactly one MathML <math> element.  The <math> element is optional in L3V2 and beyond.\nReference: L3V1 Section 4.10\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "A Constraint object may contain one <math> element"
     }, 
     "21008": {
@@ -2242,6 +2434,7 @@
         "Message": "A <constraint> object may contain at most one <message> subobject.\nReference: L3V1 Section 4.10\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "A Constraint object can only have one Message subobject"
     }, 
     "21009": {
@@ -2250,6 +2443,7 @@
         "Message": "A <constraint> object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a Constraint object.\nReference: L3V1 Section 4.10\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on Constraint object"
     }, 
     "21101": {
@@ -2257,6 +2451,7 @@
         "DefaultSeverity": "error", 
         "Message": "A <reaction> definition must contain at least one <speciesReference>, either in its <listOfReactants> or its <listOfProducts>. A reaction without any reactant or product species is not permitted, regardless of whether the reaction has any modifier species.\nReference: L3V1 Section 4.11.3\n", 
         "Package": "core", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Cannot have a reaction with neither reactants nor products"
     }, 
     "21102": {
@@ -2265,6 +2460,7 @@
         "Message": "The order of subelements within <reaction> must be the following: <listOfReactants> (optional), <listOfProducts> (optional), <listOfModifiers> (optional), <kineticLaw>.\n", 
         "Package": "core", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Subobjects inside the Reaction object are not in the prescribed order"
     }, 
     "21103": {
@@ -2272,6 +2468,7 @@
         "DefaultSeverity": "error", 
         "Message": "The following containers are all optional in a <reaction>, but if any is present, it must not be empty: <listOfReactants>, <listOfProducts>, <listOfModifiers>, <kineticLaw>.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Reaction components, if present, cannot be empty"
     }, 
     "21104": {
@@ -2296,6 +2493,7 @@
         "Message": "A <reaction> object may contain at most one of each of the following elements: <listOfReactants>, <listOfProducts>, <listOfModifiers>, and <kineticLaw>.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "A Reaction object can only contain one of each allowed type of object"
     }, 
     "21107": {
@@ -2304,6 +2502,7 @@
         "Message": "The value of the attribute 'compartment' in a <reaction> object is optional, but if present, must be the identifier of an existing Compartment object defined in the model.\nReference: L3V1 Section 4.11.1\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid value for the Reaction 'compartment' attribute"
     }, 
     "21110": {
@@ -2312,6 +2511,7 @@
         "Message": "A <reaction> object must have the required attributes 'id', 'reversible' and 'fast', and may have the optional attributes 'metaid', 'sboTerm', 'name' and 'compartment'. No other attributes from the SBML Level 3 Core namespace are permitted on a Reaction object.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute for a Reaction object"
     }, 
     "21111": {
@@ -2336,6 +2536,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "The 'stoichiometry' attribute and StoichiometryMath subobject are mutually exclusive"
     }, 
     "21116": {
@@ -2344,6 +2545,7 @@
         "Message": "A <speciesReference> object must have the required attributes 'species' and 'constant', and may have the optional attributes 'metaid', 'sboTerm', 'name' 'id' and 'stoichiometry'. No other attributes from the SBML Level 3 Core namespace are permitted on a <speciesReference> object.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the SpeciesReference object"
     }, 
     "21117": {
@@ -2352,6 +2554,7 @@
         "Message": "A <modifierSpeciesReference> object must have the required attribute 'species' and may have the optional attributes 'metaid', 'sboTerm', 'id' and 'name'. No other attributes from the SBML Level 3 Core namespace are permitted on a <modifierSpeciesReference> object.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ModifierSpeciesReference object"
     }, 
     "21121": {
@@ -2371,6 +2574,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Incorrect ordering of components in the KineticLaw object"
     }, 
     "21123": {
@@ -2378,6 +2582,7 @@
         "DefaultSeverity": "error", 
         "Message": "If present, the <listOfParameters> in a <kineticLaw> must not be an empty list.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "The list of parameters, if present, cannot be empty"
     }, 
     "21124": {
@@ -2389,6 +2594,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Parameters local to a KineticLaw object must have a 'constant' attribute value of 'true'"
     }, 
     "21125": {
@@ -2399,6 +2605,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Attribute 'substanceUnits' is not supported in this Level+Version of SBML"
     }, 
     "21126": {
@@ -2409,6 +2616,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Attribute 'timeUnits' is not supported in this Level+Version of SBML"
     }, 
     "21127": {
@@ -2417,6 +2625,7 @@
         "Message": "A KineticLaw object may contain at most one ListOfLocalParameters container object.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only one ListOfLocalParameters object is permitted within a KineticLaw object"
     }, 
     "21128": {
@@ -2425,6 +2634,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfLocalParameters container object may only contain LocalParameter objects.\nReference: L3V1 Section 4.2.8\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only LocalParameter, Notes and Annotation objects are allowed in ListOfLocalParameter objects"
     }, 
     "21129": {
@@ -2433,6 +2643,7 @@
         "Message": "A ListOfLocalParameters object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfLocalParameters object.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfLocalParameters object"
     }, 
     "21130": {
@@ -2453,6 +2664,7 @@
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Unknown species referenced in the StoichiometryMath object's <math> formula"
     }, 
     "21132": {
@@ -2461,6 +2673,7 @@
         "Message": "A KineticLaw object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a KineticLaw object.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the KineticLaw object"
     }, 
     "21150": {
@@ -2469,6 +2682,7 @@
         "Message": "A ListOfSpeciesReferences object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfSpeciesReferences object.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfSpeciesReferences object"
     }, 
     "21151": {
@@ -2477,6 +2691,7 @@
         "Message": "A ListOfModifierSpeciesReferences object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfModifierSpeciesReferences object.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfModifiers object"
     }, 
     "21152": {
@@ -2484,6 +2699,7 @@
         "DefaultSeverity": "na", 
         "Message": "The value of the 'fast' attribute should be 'false', as the attribute has been deprecated.\n", 
         "Package": "core", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Fast attribute deprecated"
     }, 
     "21172": {
@@ -2492,12 +2708,22 @@
         "Message": "A LocalParameter object must have the required attribute 'id' and may have the optional attributes 'metaid', 'sboTerm', 'name', 'value' and 'units'. No other attributes from the SBML Level 3 Core namespace are permitted on a LocalParameter object.\nReference: L3V1 Section 4.11\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
+        "ShortMessage": "Invalid attribute found on the LocalParameter object"
+    }, 
+    "21173": {
+        "Category": "SBML component consistency", 
+        "DefaultSeverity": "na", 
+        "Message": "[Although SBML Level 3 Version 1 does not explicitly define the following as an error, other Levels and/or Versions of SBML do.] \nThe 'id' attribute of a <localParameter> object must not be the same as the 'species' attribute of any <speciesReference> in the same <reaction>.\n", 
+        "Package": "core", 
+        "SeverityL3V1": "warning", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the LocalParameter object"
     }, 
     "21201": {
         "Category": "SBML component consistency", 
         "DefaultSeverity": "error", 
-        "Message": "An <event> object must have a 'trigger'.\nReference: L3V1 Section 4.12.2\n", 
+        "Message": "An <event> object must have a 'trigger'. In SBML Level 3 Version 2 this rule was relaxed to stating that an <event> object must have at most one 'trigger' element.\nReference: L3V1 Section 4.12.2\n", 
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
@@ -2510,6 +2736,7 @@
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "A Trigger object's <math> expression must evaluate to a Boolean value"
     }, 
     "21203": {
@@ -2519,6 +2746,7 @@
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "The Event object is missing an EventAssignment subobject"
     }, 
     "21204": {
@@ -2538,6 +2766,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Incorrect ordering of components in Event object"
     }, 
     "21206": {
@@ -2546,6 +2775,7 @@
         "Message": "If an <event>'s 'useValuesFromTriggerTime' attribute has the value 'false', then the <event> must contain a <delay> element.  The implication of 'useValuesFromTriggerTime=false' is that there is a delay between the time of trigger and the time of value assignments performed by the <event>.  \nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "ShortMessage": "Attribute 'useValuesFromTriggerTime'='false', but the Event object does not define a delay"
     }, 
     "21207": {
@@ -2561,6 +2791,7 @@
         "Message": "A Trigger object must contain exactly one MathML <math> element.  The <math> element is optional in L3V2 and beyond.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "A Trigger object may have one <math> element"
     }, 
     "21210": {
@@ -2569,6 +2800,7 @@
         "Message": "A Delay object must contain exactly one MathML <math> element.  The <math> element is optional in L3V2 and beyond.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "A Delay object may have one <math> element"
     }, 
     "21211": {
@@ -2596,6 +2828,7 @@
         "Message": "An EventAssignment object must contain exactly one MathML <math> element.  The <math> element is optional in L3V2 and beyond.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "An EventAssignment object may have one <math> element"
     }, 
     "21214": {
@@ -2604,6 +2837,7 @@
         "Message": "An EventAssignment object must have the required attribute 'variable' and may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on an EventAssignment object.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the EventAssignment object"
     }, 
     "21221": {
@@ -2612,6 +2846,7 @@
         "Message": "An Event object may contain at most one Delay object.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "An Event object can only have one Delay subobject"
     }, 
     "21222": {
@@ -2620,6 +2855,7 @@
         "Message": "An Event object may contain at most one ListOfEventAssignments object.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "An Event object can only have one ListOfEventAssignments subobject"
     }, 
     "21223": {
@@ -2628,6 +2864,7 @@
         "Message": "Apart from the general Notes and Annotation subobjects permitted on all SBML components, a ListOfEventAssignments container object may only contain EventAssignment objects.\nReference: L3V1 Section 4.12.4\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Only EventAssignment, Notes and Annotation objects are allowed in ListOfEventAssignments"
     }, 
     "21224": {
@@ -2636,6 +2873,7 @@
         "Message": "A ListOfEventAssignments object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a ListOfEventAssignments object.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the ListOfEventAssignments object"
     }, 
     "21225": {
@@ -2644,6 +2882,7 @@
         "Message": "An Event object must have the required attribute 'useValuesFromTriggerTime' and in addition may have the optional attributes 'metaid', 'sboTerm', 'id',  and 'name'. No other attributes from the SBML Level 3 Core namespace are permitted on an Event object.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the Event object"
     }, 
     "21226": {
@@ -2652,6 +2891,7 @@
         "Message": "A Trigger object must have the required attributes 'persistent' and 'initialValue', and in addition, may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a Trigger object.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the Trigger object"
     }, 
     "21227": {
@@ -2660,6 +2900,7 @@
         "Message": "A Delay object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a Delay object.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the Delay object"
     }, 
     "21228": {
@@ -2668,6 +2909,7 @@
         "Message": "The attribute 'persistent' on a Trigger object must have a value of type Boolean.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "The Trigger attribute 'persistent' must evaluate to a Boolean value"
     }, 
     "21229": {
@@ -2676,6 +2918,7 @@
         "Message": "The attribute 'initialValue' on a Trigger object must have a value of type Boolean.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "The Trigger attribute 'initialValue' must evaluate to a Boolean value"
     }, 
     "21230": {
@@ -2684,6 +2927,7 @@
         "Message": "An Event object may contain at most one Priority object.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "An Event object can only have one Priority subobject"
     }, 
     "21231": {
@@ -2692,6 +2936,7 @@
         "Message": "An Priority object must contain exactly one MathML <math> element.  The <math> element is optional in L3V2 and beyond.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "A Priority object may have one <math> element"
     }, 
     "21232": {
@@ -2700,6 +2945,7 @@
         "Message": "A Priority object may have the optional attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespace are permitted on a Priority object.\nReference: L3V1 Section 4.12\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Invalid attribute found on the Priority object"
     }, 
     "29999": {
@@ -2809,6 +3055,7 @@
         "SeverityL2V2": "warning", 
         "SeverityL2V3": "warning", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "ShortMessage": "SBML Level 1 does not support species types"
     }, 
     "91006": {
@@ -2819,6 +3066,7 @@
         "SeverityL2V2": "warning", 
         "SeverityL2V3": "warning", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "ShortMessage": "SBML Level 1 does not support compartment types"
     }, 
     "91007": {
@@ -2833,7 +3081,7 @@
     "91008": {
         "Category": "Translation to SBML L1V2", 
         "DefaultSeverity": "error", 
-        "Message": "A <speciesReference> containing a non-integer or non-rational <stoichiometryMath> subelement cannot be represented in SBML Level 1.\n", 
+        "Message": "A <speciesReference> containing a non-integer or non-rational <stoichiometryMath> subelement (or in Level3 whose stoichiometry is assigned by non-integer or non-rational math) cannot be represented in SBML Level 1.\n", 
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
@@ -2874,6 +3122,7 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "SBML Level 1 does not support species 'spatialSizeUnits' settings"
     }, 
     "91013": {
@@ -2892,7 +3141,9 @@
         "Message": "SBML Level 2 Version 4 removed the requirement that all units be consistent.  This model contains units that produce inconsistencies and thus conversion to Level 1 would produce an invalid model.\n", 
         "Package": "core", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "SBML Level 1 requires strict unit consistency"
     }, 
     "91015": {
@@ -2901,6 +3152,7 @@
         "Message": "This model contains conversion factors and thus conversion to earlier levels is not supported.\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "SBML Level 1 does not support the 'conversionFactor' attribute"
     }, 
     "91016": {
@@ -2909,6 +3161,7 @@
         "Message": "SBML Level 1/2 do not have the 'compartment' attribute on a Reaction.  This information will be lost in the conversion.\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "SBML Level 1 does not support the 'compartment' attribute on Reaction objects"
     }, 
     "91017": {
@@ -2917,6 +3170,7 @@
         "Message": "Conversion to SBML Level 1 requires that 'extent' units be a variant of substance\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "Units of extent must be compatible with units of substance"
     }, 
     "91018": {
@@ -2925,7 +3179,8 @@
         "Message": "Conversion to SBML Levels 1 and 2 requires that any global units must refer to a valid unit kind or the id of a valid unitDefinition.\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
-        "ShortMessage": "Global units must be refer to unit kind or unitDefinition."
+        "SeverityL3V2": "error", 
+        "ShortMessage": "Global units must be refer to unit kind or unitDefinition"
     }, 
     "91019": {
         "Category": "Translation to SBML L1V2", 
@@ -2934,7 +3189,7 @@
         "Package": "core", 
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
-        "ShortMessage": "The concept of hasOnlySubstanceUnits was not available in SBML Level 1."
+        "ShortMessage": "The concept of hasOnlySubstanceUnits was not available in SBML Level 1"
     }, 
     "91020": {
         "Category": "Translation to SBML L1V2", 
@@ -2942,7 +3197,8 @@
         "Message": "Conversion of the csymbol avogadro is not yet supported.\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
-        "ShortMessage": "Avogadro not supported in Levels 2 and 1."
+        "SeverityL3V2": "error", 
+        "ShortMessage": "Avogadro not supported in Levels 2 and 1"
     }, 
     "92001": {
         "Category": "Translation to SBML L2V1", 
@@ -2972,6 +3228,7 @@
         "SeverityL2V2": "warning", 
         "SeverityL2V3": "warning", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "ShortMessage": "SBML Level 2 Version 1 does not support SpeciesType objects"
     }, 
     "92004": {
@@ -2982,6 +3239,7 @@
         "SeverityL2V2": "warning", 
         "SeverityL2V3": "warning", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "ShortMessage": "SBML Level 2 Version 1 does not support CompartmentType objects"
     }, 
     "92005": {
@@ -3010,7 +3268,9 @@
         "Message": "The implication of 'useValuesFromTriggerTime=false' is that there is a delay between the time of trigger and the time of value assignments performed by the <event>.  This interpretation is not supported by SBML Level 2 versions prior to Version 4. (References: L2V3 Section 4.14; L2V4 Section 4.14)\n", 
         "Package": "core", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "SBML Level 2 Version 1 does not support the 'useValuesFromTriggerTime' attribute"
     }, 
     "92008": {
@@ -3019,7 +3279,9 @@
         "Message": "SBML Level 2 Version 4 removed the requirement that all units be consistent.  This model contains units that produce inconsistencies and thus conversion to Level 2 Version 1 would produce an invalid model.\n", 
         "Package": "core", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "SBML Level 2 Version 1 requires strict unit consistency"
     }, 
     "92009": {
@@ -3028,6 +3290,7 @@
         "Message": "Models in SBML Level 2 Versions 1-4 can only represent compartments with integer values 0, 1, 2, or 3 as spatial dimensions.\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "SBML Level 2 Version 1 requires that compartments have spatial dimensions of 0-3"
     }, 
     "92010": {
@@ -3043,6 +3306,7 @@
         "Message": "Event priority is not supported in SBML Level 2.\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "SBML Level 2 Version 1 does not support priorities on Event objects"
     }, 
     "92012": {
@@ -3051,6 +3315,7 @@
         "Message": "Non persistent events are not supported in SBML Level 2.\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "SBML Level 2 Version 1 does not support the 'persistent' attribute on Trigger objects"
     }, 
     "92013": {
@@ -3059,16 +3324,18 @@
         "Message": "Initialvalue of event Triggers was assumed true in L2.\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "SBML Level 2 Version 1 does not support the 'initialValue' attribute on Trigger objects"
     }, 
     "93001": {
         "Category": "Translation to SBML L2V2", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "warning", 
         "Message": "In SBML Level 2 Version 2, an 'sboTerm' attribute is only permitted on the following elements: <model>, <functionDefinition>, <parameter>, <initialAssignment>, <rule>, <constraint>, <reaction>, <speciesReference>, <kineticLaw>, <event> and <eventAssignment>.\n", 
         "Package": "core", 
-        "SeverityL2V3": "warning", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
+        "SeverityL2V2": "na", 
         "ShortMessage": "The 'sboTerm' attribute is invalid for this component in SBML Level 2 Version 2"
     }, 
     "93002": {
@@ -3105,7 +3372,9 @@
         "Message": "The implication of 'useValuesFromTriggerTime=false' is that there is a delay between the time of trigger and the time of value assignments performed by the <event>.  This interpretation is not supported by SBML Level 2 versions prior to Version 4. (References: L2V3 Section 4.14; L2V4 Section 4.14)\n", 
         "Package": "core", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "This Level+Version of SBML does not support the 'useValuesFromTriggerTime' attribute"
     }, 
     "93006": {
@@ -3114,7 +3383,9 @@
         "Message": "In SBML Level 2 prior to Version 4 the value  of the 'sboTerm' attribute on a <model> is expected to be a term derived from SBO:0000004, \"modeling framework\"; in Version 4 and above it is expected to be a term derived from SBO:0000231 \"interaction\". Using the existing term will create an invalid  L2V2 model. (References: L2V2 Section 4.2.1; L2V3 Sections 4.2.2 and 5; L2V4 Sections 4.2.2 and 5)\n", 
         "Package": "core", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version"
     }, 
     "93007": {
@@ -3123,7 +3394,9 @@
         "Message": "SBML Level 2 Version 4 removed the requirement that all units be consistent.  This model contains units that produce inconsistencies and thus conversion to Level 2 Version 2 would produce an invalid model.\n", 
         "Package": "core", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "SBML Level 2 Version 2 requires strict unit consistency"
     }, 
     "93008": {
@@ -3131,8 +3404,10 @@
         "DefaultSeverity": "na", 
         "Message": "SBML Level 2 Version 4 removed the requirement that all sboTerms be drawn from a given branch of SBO (http://www.biomodels.net/SBO/). This model contains sboTerms that produce inconsistencies and thus conversion to Level 2 Version 2 would produce an invalid model.\n", 
         "Package": "core", 
-        "SeverityL2V4": "error", 
-        "SeverityL3V1": "error", 
+        "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
+        "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "SBML Level 2 Version 2 requires strict SBO term consistency"
     }, 
     "93009": {
@@ -3197,7 +3472,9 @@
         "Message": "The implication of 'useValuesFromTriggerTime=false' is that there is a delay between the time of trigger and the time of value assignments performed by the <event>.  This interpretation is not supported by SBML Level 2 versions prior to Version 4. (References: L2V3 Section 4.14; L2V4 Section 4.14)\n", 
         "Package": "core", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "This Level+Version of SBML does not support the 'useValuesFromTriggerTime' attribute"
     }, 
     "94007": {
@@ -3206,7 +3483,9 @@
         "Message": "In SBML Level 2 prior to Version 4 the value  of the 'sboTerm' attribute on a <model> is expected to be a term derived from SBO:0000004, \"modeling framework\"; in Version 4 and above it is expected to be a term derived from SBO:0000231 \"interaction\". Using the existing term will create an invalid  L2V3 model. (References: L2V2 Section 4.2.1; L2V3 Sections 4.2.2 and 5; L2V4 Sections 4.2.2 and 5)\n", 
         "Package": "core", 
         "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version"
     }, 
     "94008": {
@@ -3214,8 +3493,10 @@
         "DefaultSeverity": "na", 
         "Message": "SBML Level 2 Version 4 removed the requirement that all units be consistent.  This model contains units that produce inconsistencies and thus conversion to Level 2 Version 3 would produce an invalid model.\n", 
         "Package": "core", 
-        "SeverityL2V4": "warning", 
-        "SeverityL3V1": "warning", 
+        "SeverityL2V4": "error", 
+        "SeverityL2V5": "error", 
+        "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "SBML Level 2 Version 3 requires strict unit consistency"
     }, 
     "94009": {
@@ -3224,7 +3505,9 @@
         "Message": "SBML Level 2 Version 4 removed the requirement that all sboTerms be drawn from a given branch of SBO (http://www.biomodels.net/SBO/). This model contains sboTerms that produce inconsistencies and thus conversion to Level 2 Version 3 would produce an invalid model.\n", 
         "Package": "core", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "SBML Level 2 Version 3 requires strict SBO term consistency"
     }, 
     "94010": {
@@ -3310,6 +3593,7 @@
         "SeverityL2V2": "warning", 
         "SeverityL2V3": "warning", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "ShortMessage": "SBML Level 3 Version 1 does not support SpeciesType objects"
     }, 
     "96002": {
@@ -3320,6 +3604,7 @@
         "SeverityL2V2": "warning", 
         "SeverityL2V3": "warning", 
         "SeverityL2V4": "warning", 
+        "SeverityL2V5": "warning", 
         "ShortMessage": "SBML Level 3 Version 1 does not support CompartmentType objects"
     }, 
     "96003": {
@@ -3393,6 +3678,7 @@
         "Message": "The 'outside' attribute on <compartment>, previously available in SBML Level 2 has been removed as of SBML Level 3 Version 1.\n", 
         "Package": "core", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "This Level+Version of SBML does not support the 'outside' attribute on Compartment objects"
     }, 
     "96011": {
@@ -3403,7 +3689,100 @@
         "SeverityL1V1": "na", 
         "SeverityL1V2": "na", 
         "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "This Level+Version of SBML does not support the StoichiometryMath object"
+    }, 
+    "98001": {
+        "Category": "", 
+        "DefaultSeverity": "error", 
+        "Message": "Conversion of a non-integer exponent is not supported.\n", 
+        "Package": "core", 
+        "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "Exponent of type double not supported in Levels 2 and 1."
+    }, 
+    "98002": {
+        "Category": "", 
+        "DefaultSeverity": "error", 
+        "Message": "SBML Level 3 Version 2 introduced a number of new MathML elements that were not supported in previous levels and versions.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "This MathML element is only permitted in L3V2"
+    }, 
+    "98003": {
+        "Category": "", 
+        "DefaultSeverity": "warning", 
+        "Message": "SBML Level 3 Version 2 allows a listOf element to be present without any children of the listOf type. This was not valid in previous levels and versions and the empty listOf will be removed.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "Empty 'ListOf' element is only permitted in L3V2"
+    }, 
+    "98004": {
+        "Category": "", 
+        "DefaultSeverity": "warning", 
+        "Message": "SBML Level 3 Version 2 allows elements to be specified without a <math> element. Previous levels and versions required the <math> element. The <element> with the missing <math> will be removed.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "Missing <math> element is only permitted in L3V2"
+    }, 
+    "98005": {
+        "Category": "", 
+        "DefaultSeverity": "warning", 
+        "Message": "SBML Level 3 Version 2 allows an <event> to be specified without a <trigger> element. Previous levels and versions required the <trigger> element.\n", 
+        "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "missing <trigger> element is only permitted in L3V2"
+    }, 
+    "98006": {
+        "Category": "", 
+        "DefaultSeverity": "error", 
+        "Message": "SBML Level 3 Version 2 relaxed the restrictions on where a math expression should return a Boolean or a numeric result.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "Interchange of Boolean and numeric values only permitted in L3V2"
+    }, 
+    "98007": {
+        "Category": "", 
+        "DefaultSeverity": "warning", 
+        "Message": "SBML Level 3 Version 2 moved the 'id' and 'name' attributes to SBase. Previous levels and versions do not support these attributes for some elements. These attributes will be removed.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "Conversion will lose attributes only available in L3V2 and higher"
+    }, 
+    "98008": {
+        "Category": "", 
+        "DefaultSeverity": "error", 
+        "Message": "SBML Level 3 Version 2 allows an <reaction> to be specified without either a <listOfReactants> or <listOfProducts> element. Previous levels and versions required the at least one of the two to be present.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "Omission of both <listOfReactants> and <listOfProducts> is only valid in L3V2"
+    }, 
+    "98009": {
+        "Category": "", 
+        "DefaultSeverity": "warning", 
+        "Message": "SBML Level 3 Version 2 introduced a number of new MathML elements that were not supported in previous levels and versions. An <initialAssignment> uses some such MathML; this will be converted and the relevant value used in the model.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "Some L3V2-specific MathML elements are not permitted in InitialAssignment objects"
+    }, 
+    "98010": {
+        "Category": "", 
+        "DefaultSeverity": "error", 
+        "Message": "Conversion of a fast reaction is not supported.\n", 
+        "Package": "core", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "Conversion of reactions employing the 'fast' attribute is not supported"
+    }, 
+    "98011": {
+        "Category": "", 
+        "DefaultSeverity": "error", 
+        "Message": "The use of the <speciesReference> id attribute in MathML is not supported prior to L3.\n", 
+        "Package": "core", 
+        "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "SpeciesReference Id not supported in MathML"
     }, 
     "99101": {
         "Category": "General SBML conformance", 
@@ -3437,6 +3816,7 @@
         "Message": "Every SBML Level 3 package is identified uniquely by an XML namespace URI and defines the attribute named 'required'. A value of required=true indicates that interpreting the package is necessary for complete mathematical interpretation of the model. (L3V1 Section 4.1.2) This instance of libSBML version 5 cannot find the code necessary to interpret the package information.\n", 
         "Package": "core", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "The SBML document requires an SBML Level 3 package unavailable in this software"
     }, 
     "99108": {
@@ -3445,6 +3825,7 @@
         "Message": "Every SBML Level 3 package is identified uniquely by an XML namespace URI and defines the attribute named 'required'. LibSBML has detected what appears to be an SBML Level 3 package with required=false but this instance of libSBML-5 cannot find the code necessary to parse this information.\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "The SBML document uses an SBML Level 3 package unavailable in this software"
     }, 
     "99109": {
@@ -3453,6 +3834,7 @@
         "Message": "The 'required' attribute for this package is expected to be 'false' as there is no way to change the mathematical interpretation of the model using the constructs in this package.\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "This package expects required to be false"
     }, 
     "99127": {
@@ -3492,14 +3874,26 @@
         "SeverityL3V1": "warning", 
         "ShortMessage": "Invalid 'substanceUnits' attribute value"
     }, 
+    "99131": {
+        "Category": "SBML component consistency", 
+        "DefaultSeverity": "error", 
+        "Message": "The <stoichiometryMath> element lacks a necessary <math> element.\n", 
+        "Package": "core", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
+        "ShortMessage": "The <stoichiometryMath> element must contain a <math> element"
+    }, 
     "99206": {
         "Category": "SBML component consistency", 
-        "DefaultSeverity": "na", 
+        "DefaultSeverity": "error", 
         "Message": "The 'timeUnits' attribute on <event>, previously available in SBML Level 2 versions prior to Version 3, has been removed as of SBML Level 2 Version 3. (References: L2V3 Section 4.14; L2V4 Section 4.14)\n", 
         "Package": "core", 
-        "SeverityL2V3": "error", 
-        "SeverityL2V4": "error", 
-        "SeverityL3V1": "error", 
+        "SeverityL1V1": "na", 
+        "SeverityL1V2": "na", 
+        "SeverityL2V1": "na", 
+        "SeverityL2V2": "na", 
         "ShortMessage": "This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects"
     }, 
     "99219": {
@@ -3589,6 +3983,8 @@
         "DefaultSeverity": "warning", 
         "Message": "Where a component has an attribute that refers to a unit identifier, that attribute must refer to a unit defined in SBML or be the id of a UnitDefinition in the model.\n", 
         "Package": "core", 
+        "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Units must refer to valid unit or unitDefinition"
     }, 
     "99401": {
@@ -3655,6 +4051,9 @@
         "DefaultSeverity": "warning", 
         "Message": "The specified annotation RELATION element does not permit nested elements. This was introduced in L2V5 and L3V2.\nReference: L3V1 Section 6.3\n", 
         "Package": "core", 
+        "SeverityL2V5": "na", 
+        "SeverityL3V1": "na", 
+        "SeverityL3V2": "na", 
         "ShortMessage": "Nested annotations not allowed"
     }, 
     "99505": {
@@ -3670,7 +4069,7 @@
         "Message": "In situations where a mathematical expression refers to time, the units of time should be consistent with the global time units of the model. In models where the 'timeUnits' attribute has not been declared, libSBML does not yet have the functionality to verify accurately the consistency of the units in such expressions. \n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
-        "SeverityL3V2": "warning",
+        "SeverityL3V2": "warning", 
         "ShortMessage": "Unable to verify consistency of units: the unit of time has not been declared"
     }, 
     "99507": {
@@ -3678,7 +4077,7 @@
         "DefaultSeverity": "na", 
         "Message": "In situations where a mathematical expression refers to extent, the units of extent should be consistent with the global extent units of the model. In models where the 'extentUnits' attribute has not been declared, libSBML does not yet have the functionality to verify accurately the consistency of the units in such expressions. \n", 
         "Package": "core", 
-        "SeverityL3V1": "warning",
+        "SeverityL3V1": "warning", 
         "SeverityL3V2": "warning", 
         "ShortMessage": "Unable to verify consistency of units: the units of reaction extent have not been declared"
     }, 
@@ -3690,6 +4089,14 @@
         "SeverityL3V1": "warning", 
         "SeverityL3V2": "warning", 
         "ShortMessage": "Unable to verify consistency of units: encountered a model entity with no declared units"
+    }, 
+    "99509": {
+        "Category": "SBML unit consistency", 
+        "DefaultSeverity": "na", 
+        "Message": "When an object is missing a <math> element it is not possible to perform unit consistency checking for that object. \n", 
+        "Package": "core", 
+        "SeverityL3V2": "warning", 
+        "ShortMessage": "Unable to verify consistency of units: encountered an object with no <math> element"
     }, 
     "99701": {
         "Category": "SBO term consistency", 
@@ -3728,6 +4135,7 @@
         "SeverityL2V2": "na", 
         "SeverityL2V3": "na", 
         "SeverityL2V4": "na", 
+        "SeverityL2V5": "na", 
         "ShortMessage": "CompartmentType objects are not available in this Level+Version of SBML"
     }, 
     "99903": {
@@ -3750,12 +4158,13 @@
     }, 
     "99905": {
         "Category": "Internal consistency", 
-        "DefaultSeverity": "error", 
+        "DefaultSeverity": "na", 
         "Message": "The 'sboTerm' attribute on <compartment>, <compartmentType> <delay>, <species>, <speciesType>, <stoichiometryMath>, <trigger> <unit> and <unitDefinition> was not available before SBML Level 2 Version 3. In order for the internal representation of these components to be correct, the value for the sboTerm member variable should be '-1'.\n", 
         "Package": "core", 
-        "SeverityL2V3": "na", 
-        "SeverityL2V4": "na", 
-        "SeverityL3V1": "na", 
+        "SeverityL1V1": "error", 
+        "SeverityL1V2": "error", 
+        "SeverityL2V1": "error", 
+        "SeverityL2V2": "error", 
         "ShortMessage": "The 'sboTerm' attribute is not available on this component before SBML Level 2 Version 3"
     }, 
     "99906": {
@@ -3783,6 +4192,7 @@
         "SeverityL2V2": "na", 
         "SeverityL2V3": "na", 
         "SeverityL2V4": "na", 
+        "SeverityL2V5": "na", 
         "ShortMessage": "CompartmentType objects are not available in this Level+Version of SBML"
     }, 
     "99909": {
@@ -3873,6 +4283,7 @@
         "SeverityL2V2": "na", 
         "SeverityL2V3": "na", 
         "SeverityL2V4": "na", 
+        "SeverityL2V5": "na", 
         "ShortMessage": "Attribute 'speciesType' is not available on Species objects in SBML Level 1"
     }, 
     "99919": {
@@ -3912,6 +4323,7 @@
         "SeverityL2V2": "na", 
         "SeverityL2V3": "na", 
         "SeverityL2V4": "na", 
+        "SeverityL2V5": "na", 
         "ShortMessage": "The SpeciesType object is not supported in SBML Level 1"
     }, 
     "99923": {
@@ -3922,6 +4334,7 @@
         "SeverityL1V1": "error", 
         "SeverityL1V2": "error", 
         "SeverityL3V1": "error", 
+        "SeverityL3V2": "error", 
         "ShortMessage": "The StoichiometryMath object is not supported in SBML Level 1"
     }, 
     "99924": {
@@ -3948,6 +4361,7 @@
         "Message": "The 'spatialDimensions' attribute on <compartment> was left unset on the SBML Level 3 model.  Conversion will apply a default value of '3'.\n", 
         "Package": "core", 
         "SeverityL3V1": "warning", 
+        "SeverityL3V2": "warning", 
         "ShortMessage": "No value given for 'spatialDimensions' attribute; assuming a value of 3"
     }, 
     "99994": {
@@ -4905,9 +5319,9 @@
     "2020210": {
         "Category": "SBML component consistency", 
         "DefaultSeverity": "error", 
-        "Message": "The attribute 'fbc:strict' on the <model> object must have a value of datatype boolean.\n", 
+        "Message": "The attribute 'fbc:strict' on the <model> object must have a value of datatype Boolean.\n", 
         "Package": "fbc", 
-        "ShortMessage": "'Strict' attribute must be boolean"
+        "ShortMessage": "'Strict' attribute must be Boolean"
     }, 
     "2020211": {
         "Category": "SBML component consistency", 
@@ -5430,9 +5844,9 @@
     "3010201": {
         "Category": "MathML consistency", 
         "DefaultSeverity": "error", 
-        "Message": "The MathML <math> element in a <functionTerm> object should evaluate to a value of type boolean.\nReference: L3V1 Qual V1 Section 3.6.5\n", 
+        "Message": "The MathML <math> element in a <functionTerm> object should evaluate to a value of type Boolean.\nReference: L3V1 Qual V1 Section 3.6.5\n", 
         "Package": "qual", 
-        "ShortMessage": "FunctionTerm should return boolean"
+        "ShortMessage": "FunctionTerm should return Boolean"
     }, 
     "3010202": {
         "Category": "MathML consistency", 
@@ -5535,9 +5949,9 @@
     "3020304": {
         "Category": "SBML component consistency", 
         "DefaultSeverity": "error", 
-        "Message": "The attribute 'qual:constant' in <qualitativeSpecies> must be of the data type boolean.\nReference: L3V1 Qual V1 Section 3.5\n", 
+        "Message": "The attribute 'qual:constant' in <qualitativeSpecies> must be of the data type Boolean.\nReference: L3V1 Qual V1 Section 3.5\n", 
         "Package": "qual", 
-        "ShortMessage": "Attribute 'constant' on <qualitativeSpecies> must be boolean."
+        "ShortMessage": "Attribute 'constant' on <qualitativeSpecies> must be Boolean."
     }, 
     "3020305": {
         "Category": "SBML component consistency", 
@@ -5962,7 +6376,7 @@
     "4020102": {
         "Category": "SBML component consistency", 
         "DefaultSeverity": "error", 
-        "Message": "The value of attribute 'groups:required' on the <sbml> object must be of data type 'boolean'.\nReference: L3V1 Core Section 4.1.2\n", 
+        "Message": "The value of attribute 'groups:required' on the <sbml> object must be of data type Boolean.\nReference: L3V1 Core Section 4.1.2\n", 
         "Package": "groups", 
         "ShortMessage": "The groups:required attribute must be Boolean"
     }, 
