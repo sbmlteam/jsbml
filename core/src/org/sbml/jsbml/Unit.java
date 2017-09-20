@@ -1197,13 +1197,18 @@ public class Unit extends AbstractSBase implements UniqueSId {
       unit1.setExponent(newExponent);
 
     } else if (k1.equals(Kind.INVALID) || k2.equals(Kind.INVALID)) {
+
+      // The resulting units is always invalid
+      unit1.setKind(Kind.INVALID);
+      
+      // TODO - just set all other attributes to their default for invalid units ?
+      
       if (!k2.equals(Kind.INVALID)) {
         if (unit2.isSetOffset) {
           unit1.setOffset(unit2.getOffset());
         }
         unit1.setMultiplier(unit2.getMultiplier());
         unit1.setScale(unit2.getScale());
-        unit1.setKind(k2);
         unit1.setExponent(unit2.getExponent());
       }
     } else {

@@ -2331,7 +2331,16 @@ public class ASTNode extends AbstractTreeNode {
     if (compiler == null) {
       compiler = new UnitsCompiler(level, version);
     }
-    return compile(compiler).getUnits().simplify();
+    
+    UnitDefinition derivedUnit = compile(compiler).getUnits();
+    UnitDefinition simplifiedUnit = derivedUnit.simplify();
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("ASTNode.deriveUnit - before simplify - units = " + UnitDefinition.printUnits(derivedUnit));
+      logger.debug("ASTNode.deriveUnit - after simplify  - units = " + UnitDefinition.printUnits(simplifiedUnit));
+    }
+    
+    return simplifiedUnit;
   }
 
   /**
