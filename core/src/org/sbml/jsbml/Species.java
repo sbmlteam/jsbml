@@ -384,9 +384,10 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    */
   @Override
   public String getDerivedUnits() {
-    if (isSetHasOnlySubstanceUnits() && !hasOnlySubstanceUnits()) {
-      return null;
-    }
+//    if (isSetHasOnlySubstanceUnits() && !hasOnlySubstanceUnits()) {
+//      return null;
+//    }
+
     Compartment c = getCompartmentInstance();
     if ((c != null) && c.isSetSpatialDimensions() && (c.getSpatialDimensions() == 0d)) {
       return null;
