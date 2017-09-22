@@ -444,16 +444,6 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   public String getPredefinedUnitID() {
     int level = getLevel();
     if (level < 3) {
-      //			if (level == 2) {
-      //				Compartment compartment = getCompartmentInstance();
-      //				if ((compartment != null)
-      //						&& (compartment.getSpatialDimensions() > 0d)) {
-      //					return null;
-      //				}
-      //			}
-      /* L1V1: default "substance"; also "volume" or any base unit
-       * L1V2: default "substance"; also any base unit
-       */
       return "substance";
     }
     return null;
