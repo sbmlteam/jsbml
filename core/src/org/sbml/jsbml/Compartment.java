@@ -293,7 +293,11 @@ public class Compartment extends Symbol {
   @Override
   public UnitDefinition getDerivedUnitDefinition() {
     if ((getLevel() < 3) || isSetUnitsInstance()) {
-      return super.getDerivedUnitDefinition();
+      
+      UnitDefinition compUnits = super.getDerivedUnitDefinition();
+      // System.out.println("Compartment - getDerivedUnitDefinition - super.unit = " + UnitDefinition.printUnits(compUnits));
+      
+      return compUnits;
     } else if (isSetSpatialDimensions()) {
       double dim = getSpatialDimensions();
       if ((dim - ((short) dim) == 0d)) {
@@ -353,15 +357,19 @@ public class Compartment extends Symbol {
       if (getLevel() < 2) {
         return UnitDefinition.VOLUME;
       }
-      switch ((short) getSpatialDimensions()) {
-      case 3:
-        return UnitDefinition.VOLUME;
-      case 2:
-        return UnitDefinition.AREA;
-      case 1:
-        return UnitDefinition.LENGTH;
-      default:
-        break;
+      
+      // For level below 3, spatialDimensions should have a default value but the iSet method return false so we cannot use the getter
+      if (spatialDimensions != null) { // Additional check in case spatialDimensions has been unset
+        switch (spatialDimensions.shortValue()) {
+          case 3:
+            return UnitDefinition.VOLUME;
+          case 2:
+            return UnitDefinition.AREA;
+          case 1:
+            return UnitDefinition.LENGTH;
+          default:
+            break;
+        }
       }
     }
     return null;
