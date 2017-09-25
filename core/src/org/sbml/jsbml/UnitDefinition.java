@@ -708,6 +708,15 @@ public class UnitDefinition extends AbstractNamedSBase {
    * @return the modified {@link UnitDefinition} instance for convenience
    */
   public UnitDefinition divideBy(UnitDefinition definition) {
+    
+    // Making sure to return an invalid unit if either the numerator or denominator is invalid.
+    if (definition.isInvalid()) {
+      return definition;
+    }
+    if (isInvalid()) {
+      return this;
+    }
+    
     // Avoid creation of not needed empty list:
     if (definition.isSetListOfUnits()) {
       for (Unit unit1 : definition.getListOfUnits()) {
