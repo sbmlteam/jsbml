@@ -335,8 +335,23 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    */
   @Override
   public UnitDefinition getDerivedUnitDefinition() {
-    UnitDefinition specUnit = super.getDerivedUnitDefinition();
+    // We cannot use 'super.getDerivedUnitDefinition()' because the method Species.getDerivedUnits() cannot be used in this case
+    // as it return null if hasOnlySubstanceUnits is 'false' and we just want to have the species units for this method
+    UnitDefinition specUnit = null;
     Model model = getModel();
+    
+    if (isSetUnitsInstance()) {
+      specUnit = getUnitsInstance();
+    } else {
+      String derivedUnits = super.getDerivedUnits();
+
+      // System.out.println("Species - getDerivedUnits " + getElementName() + " = " + derivedUnits + " (unitsID = " + unitsID + ", isSetUnits = " + isSetUnits() + ")");
+
+      if ((model != null) && (derivedUnits != null) && !derivedUnits.isEmpty()) {
+        specUnit = model.getUnitDefinition(derivedUnits);
+      }
+    }
+
     if ((specUnit == null) && (getLevel() > 2) && (model != null) && (model.isSetSubstanceUnits())) {
       // According to SBML specification of Level 3 Version 1, page 44, lines 20-22:
       specUnit = model.getSubstanceUnitsInstance();
@@ -379,14 +394,37 @@ public class Species extends Symbol implements CompartmentalizedSBase {
     return specUnit;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Derives the unit of this {@link Species}.
+   * 
+   * <p>If the model that contains
+   * this {@link Species} already contains a unit that is equivalent to the derived
+   * unit, the corresponding identifier will be returned. In case that the
+   * unit cannot be derived or that no equivalent unit exists within the
+   * model, or if the model has not been defined yet, null will be returned.
+   * In case that this quantity represents a basic {@link Unit.Kind} this
+   * method will return the {@link String} representation of this
+   * {@link Unit.Kind}.</p>
+   * 
+   * <p>In the specific case of a {@link Species}, if {@code hasOnlySubstanceUnits} is set to {@code false}
+   * the method will always return {@code null} so prefer to use the method {@link #getDerivedUnitDefinition()}
+   * which will return a the right result in this case.</p>
+   * 
+   * @return  a {@link String} that represent the id of a {@link UnitDefinition}. This {@link UnitDefinition}
+   * represent the derived unit of this quantity. If it is not possible to derive a unit for this quantity
+   * or if no equivalent {@link UnitDefinition} can be found in the {@link Model}, null is returned. 
    * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getDerivedUnits()
    */
   @Override
   public String getDerivedUnits() {
-//    if (isSetHasOnlySubstanceUnits() && !hasOnlySubstanceUnits()) {
-//      return null;
-//    }
+    if (getLevel() > 2 && !isSetHasOnlySubstanceUnits()) {
+      // In this case, we have no way to guess the units
+      return null;
+    }
+    if (isSetHasOnlySubstanceUnits() && !hasOnlySubstanceUnits()) {
+      // In this case, we could search in the model for a UnitDefinition corresponding to the units of the Species divided by the units of the Compartment.
+      return null;
+    }
 
     Compartment c = getCompartmentInstance();
     if ((c != null) && c.isSetSpatialDimensions() && (c.getSpatialDimensions() == 0d)) {
