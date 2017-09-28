@@ -720,7 +720,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
       break;
     }
 
-    case CORE_10501: {
+    case CORE_10501: { // TODO - validation could be done directly inside the ValidationUnitscompiler avoiding to go through the ASTNode several times
       func = new ValidationFunction<ASTNode>() {
 
         @Override
@@ -738,13 +738,14 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           if (t == Type.PLUS || t == Type.MINUS 
             || t == Type.RELATIONAL_EQ || t == Type.RELATIONAL_GEQ
             || t == Type.RELATIONAL_GT || t == Type.RELATIONAL_LEQ
-            || t == Type.RELATIONAL_LT || t == Type.RELATIONAL_NEQ) 
+            || t == Type.RELATIONAL_LT || t == Type.RELATIONAL_NEQ
+            || t == Type.FUNCTION_MAX || t == Type.FUNCTION_MIN) 
           {
             if (node.getNumChildren() > 0) {
               UnitDefinition ud = node.getChild(0).getUnitsInstance();
 
               if (logger.isDebugEnabled()) {
-                logger.debug("10501 - unit = " + ud);
+                logger.debug("10501 - unit = " + ud + " " + UnitDefinition.printUnits(ud));
               }
               
               // the units can be null if we have only 'cn' element without sbml:units
@@ -768,7 +769,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 UnitDefinition ud2 = node.getChild(n).getUnitsInstance();
 
                 if (logger.isDebugEnabled()) {
-                  logger.debug("10501 - unit n = " + ud2);
+                  logger.debug("10501 - unit n = " + ud2 + " " + UnitDefinition.printUnits(ud2));
                 }
                 
                 // the units can be null if we have only 'cn' element without sbml:units
@@ -820,7 +821,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             }
             
             if (logger.isDebugEnabled()) {
-              logger.debug("10501 - unit = " + ud);
+              logger.debug("10501 - piecewise - unit = " + ud);
             }            
             
             for (int n = 1; n < node.getNumChildren(); n++) {
@@ -834,7 +835,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               }
               
               if (logger.isDebugEnabled()) {
-                logger.debug("10501 - unit n = " + def);
+                logger.debug("10501 - piecewise - unit n = " + def);
               }
 
               // Even children must be same unit as first child
@@ -853,6 +854,9 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               }
             }
           }
+          
+          // TODO - check the second argument of 'pow', it should be an integer otherwise we need to fail this rule.
+          
           // TODO - there are other ASTNode.Type to check like exp , ln , log ,
           // factorial , sin , cos , tan , sec , csc , cot , sinh , cosh , tanh , sech , csch , coth , arcsin , arccos , arctan ,
           // arcsec , arccsc , arccot , arcsinh , arccosh , arctanh , arcsech , arccsch , arccoth .

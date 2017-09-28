@@ -425,12 +425,12 @@ public final class ValidationTools {
     Model m = kl.getModel();
     
     if (kl.getLevel() < 3) {      
-      expectedUnit = m.getSubstanceUnitsInstance().divideBy(m.getTimeUnitsInstance());      
+      expectedUnit = m.getSubstanceUnitsInstance().clone().divideBy(m.getTimeUnitsInstance());      
     } else if (m.isSetTimeUnits() && m.isSetExtentUnits()) {      
-      expectedUnit = m.getExtentUnitsInstance().divideBy(m.getTimeUnitsInstance());      
+      expectedUnit = m.getExtentUnitsInstance().clone().divideBy(m.getTimeUnitsInstance());      
     }
 
-//    System.out.println("hasCorrectUnits - unit = " + UnitDefinition.printUnits(klDerivedUnit) + " (kl unit)");
+//    System.out.println("hasCorrectUnits - unit = " + UnitDefinition.printUnits(klDerivedUnit) + " (kl unit, reaction '" + kl.getParent().getId() + "')");
 //    System.out.println("hasCorrectUnits - unit = " + UnitDefinition.printUnits(expectedUnit) + " (expected unit)");
 
     if (klDerivedUnit != null && klDerivedUnit.isInvalid()) {

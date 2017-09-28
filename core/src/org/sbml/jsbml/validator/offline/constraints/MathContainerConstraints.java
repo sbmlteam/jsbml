@@ -131,7 +131,7 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
     }
       
     case CORE_99505: {
-      func = new ValidationFunction<MathContainer>() {
+      func = new AbstractValidationFunction<MathContainer>() {
         
         @Override
         public boolean check(ValidationContext ctx, MathContainer mc) {
@@ -141,23 +141,32 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
             return true;
           }
           
-          if (mc.isSetMath())
+          if (mc.isSetMath()) // TODO - could be done inside the ValidationUnitscompiler
           {
             Model m = mc.getModel();
             Queue<ASTNode> toCheck = new LinkedList<ASTNode>();
             
             toCheck.offer(mc.getMath());
             
+            // System.out.println("DEBUG 99505 0 - element = " + mc.getElementName() + " - " + mc.getMetaId());
+            
             while(!toCheck.isEmpty())
             {
               ASTNode node = toCheck.poll();
 
+              // System.out.println("DEBUG 99505 00 - node = " + node.toSimpleString());
+              
               if (node.isNumber())
               {
+
+//                System.out.println("DEBUG 99505 1 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : "") 
+//                    + " - node = " + node.getReal() + " " + node.isSetUnits());
+
                 if (!node.isSetUnits())
                 {
                   // TODO - create proper error messages
                   // System.out.println("DEBUG 99505 1 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : ""));
+                  ValidationConstraint.logError(ctx, CORE_99505, mc.getElementName(), mc.getMath().toFormula());
                   return false;
                 }
               }
@@ -170,11 +179,11 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
                   LocalParameter lp = kl.getLocalParameter(node.getName());
                   if (lp != null)
                   {
-//                    if (!lp.isSetUnits()) {
-//                       System.out.println("DEBUG 99505 2 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : ""));
-//                    }
-                    
-                    return  lp.isSetUnits();
+                    if (!lp.isSetUnits()) {
+                      // System.out.println("DEBUG 99505 2 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : ""));
+                      ValidationConstraint.logError(ctx, CORE_99505, mc.getElementName(), mc.getMath().toFormula());
+                      return false;
+                    }
                   }
                 }
 
@@ -183,19 +192,21 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
 
                 if (p != null)
                 {
-//                  if (!p.isSetUnits()) 
-//                  { 
-//                     System.out.println("DEBUG 99505 3 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : ""));
-//                  }
-                  
-                  return p.isSetUnits();
+                  if (!p.isSetUnits()) 
+                  { 
+                    // System.out.println("DEBUG 99505 3 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : ""));
+                    ValidationConstraint.logError(ctx, CORE_99505, mc.getElementName(), mc.getMath().toFormula());
+                    return false;
+                  }
                 }
               }
             
-              toCheck.addAll(node.getListOfNodes());
+              if (node.getChildCount() > 0) {
+                toCheck.addAll(node.getListOfNodes());
+                // System.out.println("DEBUG 99505 4 - toCheck size = " + toCheck.size());
+              }
             }
           }
-          
  
           return true;
         }
