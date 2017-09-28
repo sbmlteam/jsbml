@@ -711,7 +711,9 @@ public class UnitDefinition extends AbstractNamedSBase {
     
     // Making sure to return an invalid unit if either the numerator or denominator is invalid.
     if (definition.isInvalid()) {
-      return definition;
+      unsetListOfUnits();
+      createInvalidUnit();
+      return this;
     }
     if (isInvalid()) {
       return this;

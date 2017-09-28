@@ -705,7 +705,7 @@ public class CVTerm extends AnnotationElement {
    * @see javax.swing.tree.TreeNode#getChildCount()
    */
   @Override
-  public int getChildCount() {
+  public int getChildCount() { // TODO - include NestedCVTerms in the tree so that we get them when doing recursive filters on SBase.
     return getResources().size();
   }
 
@@ -1283,7 +1283,7 @@ public class CVTerm extends AnnotationElement {
    * @see java.util.Collection#add(Object)
    */
   public boolean addNestedCVTerm(CVTerm cvTerm) {
-    return getListOfNestedCVTerms().add(cvTerm);
+    return getListOfNestedCVTerms().add(cvTerm); // TODO - set the parent as this
   }
 
   /**
