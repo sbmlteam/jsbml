@@ -109,6 +109,8 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       
       // TODO - for 10311 and 10313, we could have a different main message for 'L2 and before' and L3
       
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_10501), "The element ''{0}'' does not comply.");
+    
       // compartment
       contents.put(Integer.toString(SBMLErrorCodes.CORE_20501), "The <compartment> with id ''{0}'' should not have a ''size'' attribute OR should have a ''spatialDimensions'' attribute that is not set to ''0''.");
       
