@@ -38,6 +38,8 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
+import org.sbml.jsbml.util.compilers.UnitsCompiler;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -731,6 +733,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             return true;
           }
 
+          // TODO - get the units of the overall ASTNode and if they are invalid, do not report this error ?? Does not seems true all the time though !
+          
           Type t = node.getType(); // TODO - check section 3.4.11 in the L2V5 specs
           
           // || t == Type.FUNCTION_ABS || t == Type.FUNCTION_CEILING || t == Type.FUNCTION_FLOOR. // The units of other operators such as abs , floor , and ceiling , can be anything.
@@ -802,8 +806,15 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 // we cannot check the units, so we return true
                 return true;
               }
+              if (ud == null || ud.simplify().isInvalid()) {
+                // we cannot check the units, so we return true
+                return true;
+              }
 
-              if (ud == null || !ud.isVariantOfTime()) {
+              if (!ud.isVariantOfTime()) {
+                
+                logger.debug("10501 - parameter units are not a variant of time");
+                
                 return false;
               }
             }
@@ -853,9 +864,35 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 }
               }
             }
+          } else if (t == Type.FUNCTION_POWER) {
+            
+            if (node.getNumChildren() < 2) {
+              return true;
+            }
+            // checking the second argument of 'pow', it should be an integer otherwise we need to fail this rule.
+
+            ASTNode exponent = node.getChild(1);
+            UnitsCompiler unitsCompiler = new UnitsCompiler(node.getParentSBMLObject().getModel());
+            ASTNodeValue exponentValue = exponent.compile(unitsCompiler);
+            
+            try {
+              Double exponentDbl = new Double(exponentValue.toDouble());
+              
+              if ((exponentDbl == Math.floor(exponentDbl)) && !Double.isInfinite(exponentDbl)) {
+                // the exponent is an integer. all good.
+              } else {
+                // TODO - do a custom error message for this one
+                return false;
+              }
+              
+              // TODO ? - the units of the first argument should be 'dimensionless' (if b is not integer or rational). The second argument (b) should always have units of 'dimensionless'.
+              
+            } catch (Exception e) {
+              logger.debug("10501 - power - there was a problem getting the double value of the exponent - " + e.getMessage());
+            }
+            
           }
           
-          // TODO - check the second argument of 'pow', it should be an integer otherwise we need to fail this rule.
           
           // TODO - there are other ASTNode.Type to check like exp , ln , log ,
           // factorial , sin , cos , tan , sec , csc , cot , sinh , cosh , tanh , sech , csch , coth , arcsin , arccos , arctan ,
