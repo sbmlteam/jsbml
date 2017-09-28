@@ -46,20 +46,20 @@ public class UnitsCompiler implements ASTNodeCompiler {
   /**
    * SBML level field
    */
-  private final int level;
+  protected final int level;
   /**
    * SBML version field
    */
-  private final int version;
+  protected final int version;
   /**
    * The model associated to this compiler.
    */
-  private Model model;
+  protected Model model;
   /**
    * Necessary for function definitions to remember the units of the argument
    * list.
    */
-  private HashMap<String, ASTNodeValue> namesToUnits;
+  protected HashMap<String, ASTNodeValue> namesToUnits;
 
   /**
    * 
@@ -441,7 +441,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
      * parameter are determined from the built-in time. The value of the d
      * parameter, when evaluated, must be numerical (i.e., a number in
      * MathML real, integer, or e-notation format) and be greater than or
-     * equal to 0. (v2l4)
+     * equal to 0. (l2v4)
      */
     UnitDefinition value = x.compile(this).getUnits().clone();
     UnitDefinition time = delay.compile(this).getUnits().clone();
@@ -470,7 +470,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * 
    * @return
    */
-  private ASTNodeValue dimensionless() {
+  protected ASTNodeValue dimensionless() {
     UnitDefinition ud = new UnitDefinition(level, version);
     ud.addUnit(Unit.Kind.DIMENSIONLESS);
     return new ASTNodeValue(ud, this);
@@ -539,9 +539,16 @@ public class UnitsCompiler implements ASTNodeCompiler {
       throws SBMLException {
     UnitDefinition ud = numerator.compile(this).getUnits().clone();
     UnitDefinition denom = denominator.compile(this).getUnits().clone();
+    
+//    System.out.println("UnitsCompiler - divide/frac - numerator   unit = " + UnitDefinition.printUnits(ud));
+//    System.out.println("UnitsCompiler - divide/frac - denominator unit = " + UnitDefinition.printUnits(denom));
+    
     setLevelAndVersion(ud);
     setLevelAndVersion(denom);
     ud.divideBy(denom);
+
+    // System.out.println("UnitsCompiler - divide/frac - result unit = " + UnitDefinition.printUnits(ud) + "\n");
+
     ASTNodeValue value = new ASTNodeValue(ud, this);
     value.setValue(numerator.compile(this).toDouble()
       / denominator.compile(this).toDouble());
@@ -612,8 +619,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue getConstantAvogadro(String name) {
-    // TODO: If there is a different value in a later SBML specification, this must be checked here.
-    ASTNodeValue value = new ASTNodeValue(Maths.AVOGADRO_L3V1, this);
+    ASTNodeValue value = new ASTNodeValue(Maths.getAvogadro(level, version), this);
     UnitDefinition perMole = new UnitDefinition(level, version);
     perMole.setLevel(level);
     perMole.setId("per_mole");
@@ -698,9 +704,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
   /**
    * Creates an invalid unit definition encapsulated in an ASTNodeValue.
    * 
-   * @return
+   * @return an invalid unit definition encapsulated in an ASTNodeValue.
    */
-  private ASTNodeValue invalid() {
+  protected ASTNodeValue invalid() {
     UnitDefinition ud = new UnitDefinition(level, version);
     ud.addUnit(new Unit(level, version));
     return new ASTNodeValue(ud, this);
@@ -938,10 +944,20 @@ public class UnitsCompiler implements ASTNodeCompiler {
       i--;
     }
 
+    if (value.getUnits() == null || value.getUnits().isInvalid()) {
+      return value;
+    }
+
     for (int j = i - 1; j >= 0; j--) {
+      
+      if (compiledvalues[j].getUnits() == null || compiledvalues[j].getUnits().isInvalid())
+      {
+        value.setUnits(ud);
+        return value;
+      }
+      
       unifyUnits(value, compiledvalues[j]);
-      value.setValue(Double.valueOf(value.toDouble()
-        + compiledvalues[j].toNumber().doubleValue()));
+      value.setValue(Double.valueOf(value.toDouble() + compiledvalues[j].toNumber().doubleValue()));
 
     }
 
@@ -949,7 +965,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
   }
 
   /**
-   * This method tries to unify the units of two ASTNodeValues so that they
+   * Tries to unify the units of two ASTNodeValues so that they
    * have the same units and their value thus is also adjusted. If the units
    * of both ASTNodeValues are not compatible, an exception is thrown.
    * 
@@ -957,7 +973,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * @param right
    * @throws SBMLException
    */
-  private void unifyUnits(ASTNodeValue left, ASTNodeValue right)
+  protected void unifyUnits(ASTNodeValue left, ASTNodeValue right)
       throws SBMLException {
     if (UnitDefinition.areCompatible(left.getUnits(), right.getUnits())) {
 
@@ -1049,7 +1065,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  private ASTNodeValue pow(ASTNodeValue base, ASTNodeValue exponent)
+  protected ASTNodeValue pow(ASTNodeValue base, ASTNodeValue exponent)
       throws SBMLException {
     double exp = Double.NaN, v;
     v = exponent.toDouble();
@@ -1074,7 +1090,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * 
    * @param units
    */
-  private void checkForDimensionlessOrInvalidUnits(UnitDefinition units) {
+  protected void checkForDimensionlessOrInvalidUnits(UnitDefinition units) {
     units.simplify();
     String illegal = null;
 
@@ -1136,7 +1152,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  private ASTNodeValue root(double rootExponent, ASTNodeValue radiant)
+  protected ASTNodeValue root(double rootExponent, ASTNodeValue radiant)
       throws SBMLException {
     UnitDefinition ud = radiant.getUnits().clone();
     for (Unit u : ud.getListOfUnits()) {
@@ -1186,7 +1202,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * 
    * @param unit
    */
-  private void setLevelAndVersion(UnitDefinition unit) {
+  protected void setLevelAndVersion(UnitDefinition unit) {
     if ((unit.getLevel() != level) || (unit.getVersion() != version)) {
       unit.setLevel(level);
       unit.setVersion(version);
@@ -1289,6 +1305,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
     for (ASTNode value : values) {
       ASTNodeValue av = value.compile(this);
       v = av.getUnits().clone();
+      
+      // System.out.println("UnitsCompiler - times - " + value.getVariable().getElementName() + " " + value.getVariable().getId() + " unit = " + UnitDefinition.printUnits(v));
+      
       setLevelAndVersion(v);
       ud.multiplyWith(v);
       d *= av.toDouble();
@@ -1356,27 +1375,27 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
   @Override
   public ASTNodeValue max(List<ASTNode> values) {
-    return function("max", values);
+    return function("max", values); // TODO
   }
 
   @Override
   public ASTNodeValue min(List<ASTNode> values) {
-    return function("min", values);
+    return function("min", values); // TODO
   }
 
   @Override
   public ASTNodeValue quotient(List<ASTNode> values) {
-    return function("quotient", values);
+    return function("quotient", values); // TODO
   }
 
   @Override
   public ASTNodeValue rem(List<ASTNode> values) {
-    return function("rem", values);
+    return function("rem", values); // TODO
   }
 
   @Override
   public ASTNodeValue implies(List<ASTNode> values) {
-    return function("implies", values);
+    return function("implies", values); // TODO
   }
 
   @Override
