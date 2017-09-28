@@ -229,7 +229,7 @@ public class SBMLErrorMessage extends ResourceBundle {
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_10404), "A given SBML object may contain at most one <annotation> element (Reference: L3V1 Section 3.2).");  
 
-        contents.put(Integer.toString(SBMLErrorCodes.CORE_10501), "");  
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_10501), "The units of the expressions used as arguments to a function call should match the units expected for the arguments of that function. (References: L2V2 Section 3.5; L2V3 Section 3.4; L2V4 Section 3.4.)");  
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_10503), "The unit of measurement associated with the mathematical formula in the MathML math element of every KineticLaw object in a model should be identical to all KineticLaw objects in the model (Reference: L3V1 Section 3.4).");  
 
