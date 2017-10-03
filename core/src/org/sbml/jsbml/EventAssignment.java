@@ -237,9 +237,9 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
    */
   public String toFormula() {
     if (getMath() != null && getVariable() != null) {
-      return getVariable() + " = " + getMath().toString();
+      return getVariable() + " = " + getMath().toFormula();
     } else if (isSetMath()) {
-      return getMath().toString();
+      return getMath().toFormula();
     } else if (isSetVariable()) {
       return getVariable() + " = 0";
     }
