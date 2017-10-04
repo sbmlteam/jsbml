@@ -322,7 +322,7 @@
 	  description="Compiles the source directory"
 	  depends="prepare-src"
 	>
-		<javac srcdir="${build.src}"
+		<javac srcdir="${build.src}" encoding="UTF-8"
            destdir="${build.dest}"
            debug="${debug}"
            optimize="${optimize}"
