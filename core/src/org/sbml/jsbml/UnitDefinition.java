@@ -661,7 +661,49 @@ public class UnitDefinition extends AbstractNamedSBase {
     return this;
   }
 
+  /**
+   * Converts this unit definition to using only SI units or valid SBML substance units.
+   * 
+   * <p>It means that 'item' or 'gram' won't be transformed, it is in particular important for
+   * 'item' as it get transformed into 'dimensionless' and it is not allowed in all level and version
+   * where 'item' is allowed.</p>
+   * 
+   * @return itself for convenience
+   */
+  public UnitDefinition convertToSIAndSubstanceUnits() {
+    UnitDefinition ud[] = new UnitDefinition[getUnitCount()];
+    Set<TreeNodeChangeListener> listeners =
+        new HashSet<TreeNodeChangeListener>(getListOfTreeNodeChangeListeners());
+    removeAllTreeNodeChangeListeners();
+    
+    for (int i = ud.length - 1; i >= 0; i--) {
+      Unit unit = removeUnit(i);
+      
+      if (unit.getKind() == Kind.ITEM || unit.getKind() == Kind.GRAM) {
+        // We don't modify the unit
+        UnitDefinition tempUD = new UnitDefinition(getLevel(), getVersion());
+        tempUD.addUnit(unit);
+        
+        ud[i] = tempUD;
+        
+      } else {
+        ud[i] = Unit.convertToSI(unit);
+      }
+    }
+    for (UnitDefinition u : ud) {
+      for (Unit unit : u.getListOfUnits()) {
+        unit.parent = null; // setting this to avoid a warning when adding the unit to the new ListOf
+        getListOfUnits().add(unit);
+      }
+    }
+    simplify();
+    addAllChangeListeners(listeners);
+    
+    return this;
+  }
 
+
+  
   /**
    * Creates a new {@link Unit} instance with the {@link Unit.Kind#INVALID} kind
    * and adds
@@ -1030,7 +1072,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     boolean isVariantOfSubstance = false;
 
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().convertToSIUnits();
+      UnitDefinition ud = clone().convertToSIAndSubstanceUnits();
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
@@ -1061,7 +1103,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerArea() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().convertToSIUnits();
+      UnitDefinition ud = clone().convertToSIAndSubstanceUnits();
 
       if (ud.getUnitCount() == 2) {
         if (ud.getUnit(0).isVariantOfSubstance()) {
@@ -1088,7 +1130,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerLength() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().convertToSIUnits();
+      UnitDefinition ud = clone().convertToSIAndSubstanceUnits();
 
       if (ud.getUnitCount() == 2) {
         Unit unit = ud.getUnit(0);
@@ -1117,7 +1159,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerTime() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().convertToSIUnits();
+      UnitDefinition ud = clone().convertToSIAndSubstanceUnits();
 
       if (ud.getUnitCount() == 2) {
         Unit unit1 = ud.getUnit(0);
@@ -1145,7 +1187,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerVolume() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().convertToSIUnits();
+      UnitDefinition ud = clone().convertToSIAndSubstanceUnits();
 
       if (ud.getUnitCount() == 2) {
         Unit unit = ud.getUnit(0);
