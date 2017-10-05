@@ -637,9 +637,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 
   /**
-   * This method converts this unit definition to a
+   * Converts this unit definition to using only SI units.
+   * 
+   * @return itself for convenience
    */
-  public void convertToSIUnits() {
+  public UnitDefinition convertToSIUnits() {
     UnitDefinition ud[] = new UnitDefinition[getUnitCount()];
     Set<TreeNodeChangeListener> listeners =
         new HashSet<TreeNodeChangeListener>(getListOfTreeNodeChangeListeners());
@@ -648,10 +650,15 @@ public class UnitDefinition extends AbstractNamedSBase {
       ud[i] = Unit.convertToSI(removeUnit(i));
     }
     for (UnitDefinition u : ud) {
-      getListOfUnits().addAll(u.getListOfUnits());
+      for (Unit unit : u.getListOfUnits()) {
+        unit.parent = null; // setting this to avoid a warning when adding the unit to the new ListOf
+        getListOfUnits().add(unit);
+      }
     }
     simplify();
     addAllChangeListeners(listeners);
+    
+    return this;
   }
 
 
@@ -947,7 +954,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfArea() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().simplify();
+      UnitDefinition ud = clone().convertToSIUnits();
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
@@ -968,7 +975,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfDimensionless() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().simplify();
+      UnitDefinition ud = clone().convertToSIUnits();
 
       // if after the simplify() call no more units exists, it's dimensionless
       if (ud.getUnitCount() == 0) {
@@ -995,7 +1002,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfLength() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().simplify();
+      UnitDefinition ud = clone().convertToSIUnits();
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
@@ -1023,7 +1030,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     boolean isVariantOfSubstance = false;
 
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().simplify();
+      UnitDefinition ud = clone().convertToSIUnits();
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
@@ -1054,7 +1061,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerArea() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().simplify();
+      UnitDefinition ud = clone().convertToSIUnits();
 
       if (ud.getUnitCount() == 2) {
         if (ud.getUnit(0).isVariantOfSubstance()) {
@@ -1081,7 +1088,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerLength() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().simplify();
+      UnitDefinition ud = clone().convertToSIUnits();
 
       if (ud.getUnitCount() == 2) {
         Unit unit = ud.getUnit(0);
@@ -1110,7 +1117,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerTime() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().simplify();
+      UnitDefinition ud = clone().convertToSIUnits();
 
       if (ud.getUnitCount() == 2) {
         Unit unit1 = ud.getUnit(0);
@@ -1138,7 +1145,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfSubstancePerVolume() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().simplify();
+      UnitDefinition ud = clone().convertToSIUnits();
 
       if (ud.getUnitCount() == 2) {
         Unit unit = ud.getUnit(0);
@@ -1169,7 +1176,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfTime() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().simplify();
+      UnitDefinition ud = clone().convertToSIUnits();
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
@@ -1191,7 +1198,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   public boolean isVariantOfVolume() {
     if (isSetListOfUnits()) {
-      UnitDefinition ud = clone().simplify();
+      UnitDefinition ud = clone().convertToSIUnits();
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);

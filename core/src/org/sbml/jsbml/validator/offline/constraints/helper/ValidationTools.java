@@ -396,7 +396,7 @@ public final class ValidationTools {
     UnitDefinition assignmentDerivedUnit = assignment.getDerivedUnitDefinition();
     UnitDefinition varDerivedUnit = var.getDerivedUnitDefinition();
 
-//    System.out.println("haveEquivalentUnits - " + assignment.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(assignmentDerivedUnit));
+//    System.out.println("haveEquivalentUnits - " + assignment.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(assignmentDerivedUnit) + " isInvalid = " + assignmentDerivedUnit.isInvalid());
 //    System.out.println("haveEquivalentUnits - " + var.getClass().getSimpleName() + " unit = " + UnitDefinition.printUnits(varDerivedUnit));
 
     if (assignmentDerivedUnit != null && assignmentDerivedUnit.isInvalid()) { // TODO - apply this change to other tests
@@ -405,7 +405,19 @@ public final class ValidationTools {
     }
     
     if (assignmentDerivedUnit != null && varDerivedUnit != null) {
-      return UnitDefinition.areEquivalent(assignmentDerivedUnit, varDerivedUnit);
+      // converting to SI units after cloning to avoid modifying existing unitDefinition in the Model
+      assignmentDerivedUnit = assignmentDerivedUnit.clone().convertToSIUnits();
+      varDerivedUnit = varDerivedUnit.clone().convertToSIUnits();
+      
+      boolean equivalent = areEquivalent(assignmentDerivedUnit, varDerivedUnit);
+      
+      if (!equivalent) {
+        
+//        System.out.println("haveEquivalentUnits SI - " + assignment.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(assignmentDerivedUnit));
+//        System.out.println("haveEquivalentUnits SI - " + var.getClass().getSimpleName() + " unit = " + UnitDefinition.printUnits(varDerivedUnit));
+      }
+      
+      return equivalent;
     }
 
     return true;
@@ -439,12 +451,109 @@ public final class ValidationTools {
     }
     
     if (klDerivedUnit != null && expectedUnit != null && !klDerivedUnit.isInvalid()) {
-      return UnitDefinition.areEquivalent(klDerivedUnit, expectedUnit);
+      // converting to SI units before comparing the units 
+      klDerivedUnit = klDerivedUnit.clone().convertToSIUnits();
+      expectedUnit.convertToSIUnits();
+      
+      return areEquivalent(klDerivedUnit, expectedUnit);
     }
 
     return true;
   }
+  
+  /**
+   * Returns true or false depending on whether two
+   * {@link UnitDefinition} objects are equivalent.
+   * 
+   * <p>
+   * For the purposes of performing this comparison, two {@link UnitDefinition}
+   * objects are considered equivalent when they contain equivalent list of
+   * {@link Unit} objects. {@link Unit} objects are in turn considered
+   * equivalent if they satisfy the predicate
+   * {@link Unit#areEquivalent(Unit, Unit)}. The predicate tests a subset of the
+   * objects's attributes.
+   * </p>
+   * <p>For this test, the UnitDefinitions are not cloned or simplified so be sure to call
+   * this method if you don't mind the arguments to be modified and if your UnitDefinitions are
+   * already simplified and converted to SI.</p>
+   * 
+   * @param ud1
+   *        the first {@link UnitDefinition} object to compare
+   * @param ud2
+   *        the second {@link UnitDefinition} object to compare
+   * @return {@code true} if all the Unit objects in ud1 are equivalent to
+   *         the {@link Unit} objects in ud2, {@code false} otherwise.
+   * @see UnitDefinition#areIdentical(UnitDefinition, UnitDefinition)
+   * @see Unit#areEquivalent(Unit, String)
+   */
+  public static boolean areEquivalent(UnitDefinition ud1, UnitDefinition ud2) {
 
+    // This method is different from UnitDefinition.areEquivalent by the fact that the given UnitDefinition
+    // are not cloned and simplified. So it can be called for optimization when the cloning and simplification
+    // of the units are already done or not necessary
+    
+    if (ud1.getUnitCount() == ud2.getUnitCount()) {
+      boolean equivalent = true;
+      
+      for (int i = 0; i < ud1.getUnitCount(); i++) {
+        equivalent &= Unit.areEquivalent(ud1.getUnit(i), ud2.getUnit(i));
+      }
+      
+      return equivalent;
+    }
+    
+    return false;
+  }
+
+
+  /**
+   * Returns {@code true} or {@code false} depending on
+   * whether two {@link UnitDefinition} objects are identical.
+   * 
+   * <p>
+   * For the purposes of performing this comparison, two {@link UnitDefinition}
+   * objects are considered identical when they contain identical lists of
+   * {@link Unit} objects. Pairs of {@link Unit} objects in the lists are in
+   * turn considered identical if they satisfy the predicate
+   * {@link Unit#areIdentical(Unit, Unit)}. The predicate compares every
+   * attribute of the {@link Unit} objects.
+   * </p>
+   * <p>For this test, the UnitDefinitions are not cloned or simplified so be sure to call
+   * this method if you don't mind the arguments to be modified and if your UnitDefinitions are
+   * already simplified and converted to SI.</p>
+
+   * 
+   * @param ud1
+   *        the first {@link UnitDefinition} object to compare
+   * @param ud2
+   *        the second {@link UnitDefinition} object to compare
+   * @return {@code true} if all the {@link Unit} objects in ud1 are
+   *         identical to the {@link Unit} objects of ud2, {@code false}
+   *         otherwise.
+   */
+  public static boolean areIdentical(UnitDefinition ud1, UnitDefinition ud2) {
+
+    // This method is not used at the moment but would be if we implement a strict units validation like in libSBML 
+    
+    // This method is different from UnitDefinition.areIdentical by the fact that the given UnitDefinition
+    // are not cloned and simplified. So it can be called for optimization when the cloning and simplification
+    // of the units are already done or not necessary
+
+    if (ud1.getUnitCount() == ud2.getUnitCount()) {
+      boolean identical = true;
+      
+      for (int i = 0; (i < ud1.getUnitCount()) && identical; i++) {
+        identical &= Unit.areIdentical(ud1.getUnit(i), ud2.getUnit(i));
+      }
+      
+      return identical;
+    }
+    
+    return false;
+  }
+
+  
+  
   /**
    * Checks that the given units is a valid units in the {@link Model} (validation rule 10313).
    * 
