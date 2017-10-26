@@ -275,7 +275,7 @@ public class OfflineValidatorTests {
         break;
       }
       case "qual": {
-        prefix = "40";
+        prefix = "30";
         break;
       }
       case "groups": {
