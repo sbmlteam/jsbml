@@ -20,8 +20,8 @@
 
 package org.sbml.jsbml.validator.offline.factory;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.ref.SoftReference;
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -143,12 +143,11 @@ public class SBMLErrorFactory {
     // if the json object is null, populate it from the json file and put it on the cache.
     if (errors == null) {
       try {
-        String fileName = "../../../resources/SBMLErrors.json";
-
-        File file = new File(SBMLErrorFactory.class.getResource(fileName).getFile());
+        InputStream in = SBMLErrorFactory.class.getResourceAsStream("/org/sbml/jsbml/resources/SBMLErrors.json");
         JSONParser parser = new JSONParser();
         
-        errors = (JSONObject) (parser.parse(new FileReader(file)));
+        errors = (JSONObject) (parser.parse(new InputStreamReader(in)));
+        
       } catch (Exception e) {
         e.printStackTrace();
       }
