@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
@@ -42,6 +43,10 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  */
 public class OfflineValidatorTests {
 
+  /**
+   * Enables or not unit validation.
+   */
+  private static boolean ENABLE_UNITS_VALIDATION = true;
 
   private static int nbDirValidated = 0;
   // private static int dirsMissed = 0;
@@ -62,6 +67,7 @@ public class OfflineValidatorTests {
   private static Map<String, LoggingValidationContext> contextCache     =
     new HashMap<String, LoggingValidationContext>();
 
+  private static Logger logger = Logger.getLogger(OfflineValidatorTests.class);
 
   /**
    * @param args
@@ -86,6 +92,8 @@ public class OfflineValidatorTests {
       System.exit(0);
     }
 
+    logger.info("Starting tests...");
+    
     if (args.length > 2) {
       filter = args[2];
     }
@@ -390,6 +398,11 @@ public class OfflineValidatorTests {
     if (ctx == null) {
       ctx = new LoggingValidationContext(doc.getLevel(), doc.getVersion());
       ctx.enableCheckCategories(CHECK_CATEGORY.values(), true);
+      
+      if (!ENABLE_UNITS_VALIDATION) {
+        ctx.enableCheckCategory(CHECK_CATEGORY.UNITS_CONSISTENCY, false);
+      }
+      
       ctx.loadConstraints(SBMLDocument.class);
       contextCache.put(key, ctx);
     } else {
