@@ -692,8 +692,7 @@ public class Unit extends AbstractSBase implements UniqueSId {
     case HERTZ:
       /* 1 Becquerel = 1 sec^-1 */
       /* 1 Hertz = 1 sec^-1 */
-      ud.addUnit(new Unit(Math.pow(mult, -1d), scale, Kind.SECOND, -exp,
-        l, v));
+      ud.addUnit(new Unit(Math.pow(mult, -1d), scale, Kind.SECOND, -exp, l, v));
       break;
 
     case CANDELA:
@@ -724,8 +723,7 @@ public class Unit extends AbstractSBase implements UniqueSId {
 
     case FARAD:
       /* 1 Farad = 1 m^-2 kg^-1 s^4 A^2 */
-      ud.addUnit(new Unit(Math.sqrt(mult), scale, Kind.AMPERE, 2d * exp,
-        l, v));
+      ud.addUnit(new Unit(Math.sqrt(mult), scale, Kind.AMPERE, 2d * exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, -exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.METRE, -2d * exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.SECOND, 4d * exp, l, v));
@@ -1305,7 +1303,15 @@ public class Unit extends AbstractSBase implements UniqueSId {
     super(level, version);
 
     // Using the set method to have the isSet properly set to true.
-    setMultiplier(multiplier);
+    
+    if (level < 2 && multiplier != 1) {
+      // allowing the multiplier to be set to something else than 1 for SBML level 1 to allow
+      // the validation to be done when we convert the units to SI
+      this.multiplier = multiplier;
+      this.isSetMultiplier = true;
+    } else {
+      setMultiplier(multiplier);
+    }
     setScale(scale);
     setKind(kind);
     setExponent(exponent);
@@ -2325,10 +2331,11 @@ public class Unit extends AbstractSBase implements UniqueSId {
    *             if Level &lt; 2 and the given {@code multiplier != 1}.
    */
   public void setMultiplier(double multiplier) {
-    if ((getLevel() < 2) && (multiplier != 1d)) {
+    if ((getLevel() < 2) && (multiplier != 1d) && !isInvalidSBMLAllowed()) {
       // added the multiplier test != 1 to prevent error being reported when it is not necessary
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.multiplier, this);
     }
+    
     Double oldMultiplyer = this.multiplier;
     isSetMultiplier = true;
     this.multiplier = multiplier;
