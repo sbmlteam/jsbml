@@ -151,6 +151,10 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
           if (ud.getId().equals("length")) {
             if (ctx.isLevelAndVersionLesserEqualThan(2, 1)) {
+              // Meter not allowed on L2V1
+              if (ctx.isLevelAndVersionEqualTo(2, 1) && ud.getUnitCount() > 0 && ud.getUnit(0).getKind() == Kind.METER) {
+                return false;
+              }
               return ud.isVariantOfLength();
             } else {
               return ud.isVariantOfLength() || ud.isVariantOfDimensionless();
