@@ -23,9 +23,11 @@ package org.sbml.jsbml.validator.offline;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
@@ -177,6 +179,16 @@ public class LoggingValidationContext extends ValidationContext implements Valid
         }
       }
     }
+
+    // TODO - remove the values only at the very end
+//    if (o instanceof SBase) {
+//      SBase s = (SBase) o;
+//      
+//      if (s.isSetUserObjects()) {
+//        s.userObjectKeySet().remove(JSBML.ALLOW_INVALID_SBML);
+//      }   
+//    }
+
   }
 
 
@@ -195,5 +207,14 @@ public class LoggingValidationContext extends ValidationContext implements Valid
   @Override
   public void willValidate(ValidationContext ctx, AnyConstraint<?> c, Object o) {
     // nothing to do here
+    
+    
+    if (o instanceof SBase) {
+      SBase s = (SBase) o;
+      
+      s.putUserObject(JSBML.ALLOW_INVALID_SBML, Boolean.TRUE);
+    }
   }
+  
+  
 }
