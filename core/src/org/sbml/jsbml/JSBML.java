@@ -129,9 +129,19 @@ public class JSBML {
   public static final transient String URI_XHTML_DEFINITION = "http://www.w3.org/1999/xhtml";
 
   /**
+   * String that can be added to an SBase user objects, if it is associated with the value {@code true},
+   * then the getters and setters will allow to set some invalid values instead of throwing exceptions.
+   * 
+   * <p>This is in particular useful when reading a file so that we read exactly what is on file or 
+   * when validating as we sometimes need to create invalid objects in the process.</p>
+   *  
+   */
+  public static final transient String ALLOW_INVALID_SBML = "jsbml.allow.invalid.sbml"; 
+  
+  /**
    * 
    */
-  public static final transient String READING_IN_PROGRESS = "jsbml.reading.in.progress"; 
+  public static final transient String READING_IN_PROGRESS = ALLOW_INVALID_SBML;   
   
   /**
    * 
