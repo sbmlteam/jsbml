@@ -588,14 +588,24 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 
   /**
    * Returns true if JSBML is in the process of reading a model through the
-   * {@link SBMLReader}
-   * methods.
+   * {@link SBMLReader} methods.
+   * 
+   * @return true if JSBML is in the process of reading a model
+   * @see #isInvalidSBMLAllowed()
+   */
+  protected boolean isReadingInProgress() {
+    return isInvalidSBMLAllowed();
+  }
+
+  /**
+   * Returns true if JSBML is set so that invalid SBML is allowed to be set,
+   * for example, for the purpose of reading a file or doing validation.
    * 
    * @return true if JSBML is in the process of reading a model
    */
-  protected boolean isReadingInProgress() {
+  protected boolean isInvalidSBMLAllowed() {
     if (isSetUserObjects()
-        && userObjectKeySet().contains(JSBML.READING_IN_PROGRESS)) {
+        && userObjectKeySet().contains(JSBML.ALLOW_INVALID_SBML)) {
       return true;
     }
 
