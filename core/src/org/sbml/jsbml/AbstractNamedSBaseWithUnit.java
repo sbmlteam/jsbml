@@ -152,6 +152,9 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
       return getUnitsInstance();
     }
     String derivedUnits = getDerivedUnits();
+    
+    // System.out.println("AbstractNamedSBaseWithUnit - getDerivedUnits " + getElementName() + " = " + derivedUnits + " (unitsID = " + unitsID + ", isSetUnits = " + isSetUnits() + ")");
+
     Model model = getModel();
     if ((model != null) && (derivedUnits != null) && !derivedUnits.isEmpty()) {
       return model.getUnitDefinition(derivedUnits);
@@ -168,6 +171,9 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
       return unitsID;
     }
     String predef = getPredefinedUnitID();
+    
+    // System.out.println("AbstractNamedSBaseWithUnit - getDerivedUnits " + getElementName() + " - predef = " + predef);
+    
     return predef != null ? predef : "";
   }
 
