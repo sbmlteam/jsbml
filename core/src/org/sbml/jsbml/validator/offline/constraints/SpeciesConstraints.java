@@ -318,11 +318,11 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
             boolean isVolume = checkResult && def.isVariantOfVolume();
 
-            if (ctx.getLevel() == 2 && ctx.getLevel() == 1 && !isVolume) {
+            if (checkResult && ctx.getLevel() == 2 && ctx.getLevel() == 1 && !isVolume) {
               checkResult = false;
             }
 
-            if (ctx.getLevel() >= 2 && (! (def.isVariantOfDimensionless() || isVolume))) {
+            if (checkResult && ctx.getLevel() >= 2 && (! (def.isVariantOfDimensionless() || isVolume))) {
               checkResult = false;
             }
           }
