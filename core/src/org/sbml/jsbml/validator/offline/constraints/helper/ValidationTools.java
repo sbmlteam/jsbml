@@ -36,6 +36,7 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.SBaseWithDerivedUnit;
@@ -607,5 +608,25 @@ public final class ValidationTools {
     
     return null;
   }
+  
+  /**
+   * Returns the infix formula representing this ASTNode or an empty String if there was
+   * a problem to construct the formula.
+   * 
+   * @return the infix formula representing this ASTNode
+   */
+  public static String printASTNodeAsFormula(ASTNode node) {
+    String formula = "";
+    try {
+      formula = node.toFormula();
+    } catch (SBMLException e) {
+      // nothing special to do
+    } catch (RuntimeException e) {
+      // added to prevent a crash when we cannot create the formula
+    }
+    
+    return formula;
+  }
+
 
 }

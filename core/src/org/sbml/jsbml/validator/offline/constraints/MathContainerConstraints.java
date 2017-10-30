@@ -159,14 +159,14 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
               if (node.isNumber())
               {
 
-//                System.out.println("DEBUG 99505 1 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : "") 
-//                    + " - node = " + node.getReal() + " " + node.isSetUnits());
+                // System.out.println("DEBUG 99505 1 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : "") 
+                //    + " - node = " + node.getReal() + " " + node.isSetUnits());
 
                 if (!node.isSetUnits())
                 {
                   // TODO - create proper error messages
                   // System.out.println("DEBUG 99505 1 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : ""));
-                  ValidationConstraint.logError(ctx, CORE_99505, mc.getElementName(), mc.getMath().toFormula());
+                  ValidationConstraint.logError(ctx, CORE_99505, mc.getElementName(), ValidationTools.printASTNodeAsFormula(mc.getMath()));
                   return false;
                 }
               }
@@ -181,7 +181,7 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
                   {
                     if (!lp.isSetUnits()) {
                       // System.out.println("DEBUG 99505 2 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : ""));
-                      ValidationConstraint.logError(ctx, CORE_99505, mc.getElementName(), mc.getMath().toFormula());
+                      ValidationConstraint.logError(ctx, CORE_99505, mc.getElementName(), ValidationTools.printASTNodeAsFormula(mc.getMath()));
                       return false;
                     }
                   }
@@ -195,7 +195,7 @@ public class MathContainerConstraints extends AbstractConstraintDeclaration {
                   if (!p.isSetUnits()) 
                   { 
                     // System.out.println("DEBUG 99505 3 - element = " + mc.getElementName() + " - " + mc.getMath().toFormula() + " - " + (mc instanceof KineticLaw ? ((Reaction) mc.getParent()).getId() : ""));
-                    ValidationConstraint.logError(ctx, CORE_99505, mc.getElementName(), mc.getMath().toFormula());
+                    ValidationConstraint.logError(ctx, CORE_99505, mc.getElementName(), ValidationTools.printASTNodeAsFormula(mc.getMath()));
                     return false;
                   }
                 }

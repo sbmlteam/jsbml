@@ -156,9 +156,9 @@ public class AssignmentCycleValidation
                 String formula = "";
                 
                 if (sb instanceof Reaction) {
-                  formula = ((Reaction) sb).getKineticLaw().getMath().toFormula();
+                  formula = ValidationTools.printASTNodeAsFormula(((Reaction) sb).getKineticLaw().getMath());
                 } else if (sb instanceof MathContainer) {
-                  formula = ((MathContainer) sb).getMath().toFormula();
+                  formula = ValidationTools.printASTNodeAsFormula(((MathContainer) sb).getMath());
                 }
                 
                 ValidationConstraint.logErrorWithPostmessageCode(ctx, SBMLErrorCodes.CORE_20906, SBMLErrorCodes.CORE_20906 + "_SELF", sb.getElementName(), relatedId1, currentId, formula);
