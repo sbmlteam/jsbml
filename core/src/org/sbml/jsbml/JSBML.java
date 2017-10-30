@@ -159,6 +159,13 @@ public class JSBML {
   public static final transient String UNKNOWN_XML = "jsbml.unknown.xml";
 
   /**
+   * Key used to store any invalid XML encountered while reading an SBML file (in particular used for invalid attributes, for validation
+   * purpose. If a boolean attribute is not of type boolean or a double is not of type Double, the xml String contained in the file will be stored
+   * in the user objects of the corresponding {@link SBase}).
+   */
+  public static final transient String INVALID_XML = "jsbml.invalid.xml";
+
+  /**
    * Key used to store the list of the xml child element names of an SBase. It later allows
    * us to validate the order or check if any elements are duplicated.
    */

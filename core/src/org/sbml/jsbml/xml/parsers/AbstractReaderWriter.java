@@ -219,6 +219,44 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
   }
 
   /**
+   * Process an invalid XML attribute. Stores it into an {@link XMLNode}. This XMLNode is
+   * put into the user object map of the contextObject, using the key {@link JSBML#INVALID_XML}.
+   * 
+   * @param attributeName the attribute name.
+   * @param namespace the attribute namespace URI.
+   * @param value the attribute value.
+   * @param prefix the attribute namespace prefix.
+   * @param contextObject the context Object.
+   */
+  public static void processInvalidAttribute(String attributeName, String namespace,
+    String value, String prefix, Object contextObject)
+  {
+    if (contextObject instanceof AbstractTreeNode)
+    {
+      AbstractTreeNode treeNode = (AbstractTreeNode) contextObject;
+      XMLNode invalidNode = (XMLNode) treeNode.getUserObject(JSBML.INVALID_XML);
+
+      if (invalidNode == null) {
+        invalidNode = new XMLNode(new XMLTriple("invalid", "", ""), new XMLAttributes(), new XMLNamespaces());
+        treeNode.putUserObject(JSBML.INVALID_XML, invalidNode);
+      }
+
+      if (logger.isDebugEnabled()) {
+        logger.debug("processInvalidAttribute - storing the attribute = '" + attributeName + "', with value = '" + value + "'.");
+      }
+
+      invalidNode.addAttr(new XMLTriple(attributeName, namespace, prefix), value);
+    }
+    else
+    {
+      if (logger.isDebugEnabled()) {
+        logger.warn("processInvalidAttribute - the contextObject is not an AbstractTreeNode ! object = " + contextObject.getClass().getSimpleName());
+      }
+    }
+  }
+
+
+  /**
    * Process an unknown XML attribute. Stores it into an {@link XMLNode}. This XMLNode is
    * put into the user object map of the contextObject, using the key {@link JSBML#UNKNOWN_XML}.
    * 
