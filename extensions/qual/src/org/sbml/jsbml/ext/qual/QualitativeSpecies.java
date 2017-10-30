@@ -30,6 +30,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * Similarly to the {@link Species} in SBML, the components of qualitative models refer to pools
@@ -396,12 +397,20 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
       isAttributeRead = true;
 
       if (attributeName.equals(QualConstants.constant)) {
-        setConstant(StringTools.parseSBMLBoolean(value));
+        try {
+          setConstant(StringTools.parseSBMLBooleanStrict(value));
+        } catch (IllegalArgumentException e) {
+          // the String does not represent a boolean value
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
+          // we do not modify isAttributeRead to false to avoid the attribute to be put into the unknown attributes as well.
+        }
       } else if (attributeName.equals(QualConstants.compartment)) {
         setCompartment(value);
       } else if (attributeName.equals(QualConstants.initialLevel)) {
+        // TODO - do something similar as for the constant attribute if there are some validation rules or test files
         setInitialLevel(StringTools.parseSBMLInt(value));
       } else if (attributeName.equals(QualConstants.maxLevel)) {
+        // TODO - do something similar as for the constant attribute
         setMaxLevel(StringTools.parseSBMLInt(value));
       } else {
         isAttributeRead = false;
