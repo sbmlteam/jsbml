@@ -354,6 +354,36 @@ public class StringTools {
   }
 
   /**
+   * Parses a String into a boolean following the rules of the SBML
+   * specifications, section 3.1.2.
+   * 
+   * @param valueAsStr
+   *            a boolean as a String
+   * @return the String as a boolean. If the String is not a valid boolean an exception is returned.
+   * @throws IllegalArgumentException if the String cannot be converted into a boolean.
+   */
+  public static boolean parseSBMLBooleanStrict(String valueAsStr) throws IllegalArgumentException {
+
+    String toTest = valueAsStr.trim();
+
+    // Test for true/false ignoring case.
+    boolean value = Boolean.parseBoolean(toTest);
+
+    if (toTest.equals("0")) {
+      value = false; // this test would not be needed as the value is
+      // already false but it is there for completion.
+    } else if (toTest.equals("1")) {
+      value = true;
+    } else if (!(toTest.equalsIgnoreCase("true")
+        || toTest.equalsIgnoreCase("false")))
+    {
+      throw new IllegalArgumentException("Could not create a boolean from the string " + valueAsStr);
+    }
+
+    return value;
+  }
+  
+  /**
    * Parses a String into a double number following the rules of the SBML
    * specifications, section 3.1.5.
    * 
