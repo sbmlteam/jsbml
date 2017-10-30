@@ -274,7 +274,11 @@ public class UnitDefinition extends AbstractNamedSBase {
     }
 
     id = id.toLowerCase();
-    Unit u = new Unit(level, version);
+    Unit u = new Unit();
+    // prevent exception when loading invalid model
+    u.putUserObject(JSBML.ALLOW_INVALID_SBML, Boolean.TRUE);
+    u.setLevel(level);
+    u.setVersion(version);
 
     // explicitly set default values:
     u.initDefaults(2, 4, true);
@@ -316,9 +320,18 @@ public class UnitDefinition extends AbstractNamedSBase {
     } else {
       name = "Predefined" + name;
     }
-    UnitDefinition ud = new UnitDefinition(id, level, version);
+    UnitDefinition ud = new UnitDefinition(id);
+    // prevent exception when loading invalid model
+    ud.putUserObject(JSBML.ALLOW_INVALID_SBML, Boolean.TRUE);
+    ud.setLevel(level);
+    ud.setVersion(version);
+
     ud.setName(name);
-    ud.addUnit(u);  // TODO - set the JSBML.READING_IN_PROGRESS user object if defined in 'this'. (to help with validation)
+    ud.addUnit(u);
+    
+    u.removeUserObject(JSBML.ALLOW_INVALID_SBML);
+    ud.removeUserObject(JSBML.ALLOW_INVALID_SBML);
+    
     return ud;
   }
 
