@@ -21,7 +21,9 @@ package org.sbml.jsbml.util.compilers;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CallableSBase;
@@ -29,11 +31,13 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Quantity;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.Maths;
+import org.sbml.jsbml.util.filters.Filter;
 
 /**
  * Derives the units from mathematical operations.
@@ -88,6 +92,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
     this.model = model;
   }
 
+  
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNodeValue)
    */
@@ -340,8 +346,63 @@ public class UnitsCompiler implements ASTNodeCompiler {
         value.setValue(Double.valueOf(q.getValue()));
       }
     }
+    
+    // if it is a reaction, check for loop for reaction. If there is a loop return invalid.    
+    if (variable instanceof Reaction) {
+      Reaction r = (Reaction) variable;
+      
+      if (r.isSetKineticLaw() && r.isSetId()) {
+        // check for loop
+        final Set<String> reactionIdsSet = new HashSet<String>();
+        final Set<String> checkedReactionIdsSet = new HashSet<String>();
+        checkedReactionIdsSet.add(r.getId());
+        
+        findReactions(r.getKineticLaw().getMath(), reactionIdsSet, checkedReactionIdsSet);
+
+        if (reactionIdsSet.contains(r.getId())) {
+          return invalid();
+        }
+      }
+    }
+    
     value.setUnits(variable.getDerivedUnitDefinition());
     return value;
+  }
+  
+  /**
+   * 
+   * 
+   * @param node
+   * @param reactionIdsSet
+   */
+  private void findReactions(final ASTNode node, final Set<String> reactionIdsSet, final Set<String> checkedReactionIdsSet) {
+    node.filter(new Filter() {
+      
+      @Override
+      public boolean accepts(Object o) {
+        if (o instanceof ASTNode) {
+          ASTNode n = (ASTNode) o;
+          
+          if (n.getType() == ASTNode.Type.NAME && n.getVariable() instanceof Reaction) {
+            reactionIdsSet.add(node.getName());            
+          }
+        }
+        return false;
+      }
+    });
+    
+    for (String reactionId : reactionIdsSet) {
+      if (!checkedReactionIdsSet.contains(reactionId)) {
+        checkedReactionIdsSet.add(reactionId);
+        
+        try {
+          Reaction uncheckedReaction = node.getParentSBMLObject().getModel().getReaction(reactionId);
+        
+          findReactions(uncheckedReaction.getKineticLaw().getMath(), reactionIdsSet, checkedReactionIdsSet);
+          
+        } catch (Exception e) {}
+      }
+    }
   }
 
   /* (non-Javadoc)
@@ -349,6 +410,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue compile(String name) {
+    
     if (namesToUnits.containsKey(name)) {
       return namesToUnits.get(name);
     }
