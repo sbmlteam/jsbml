@@ -67,13 +67,20 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
         set.add(CORE_21009);
       }
       if (level >= 2) {
-        set.add(CORE_21001);
+        
+        if (context.isLevelAndVersionLessThan(3, 2)) {
+          set.add(CORE_21001);
+        }
+        
         set.add(CORE_21003);
-        set.add(CORE_21006);
       }
       
       if (level == 2) {
-        set.add(CORE_21002);        
+        set.add(CORE_21002);    
+        
+        if (version > 1) {
+          set.add(CORE_21006);
+        }
       }
       
       break;
