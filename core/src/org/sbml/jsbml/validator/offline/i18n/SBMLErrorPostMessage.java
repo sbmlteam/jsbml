@@ -284,7 +284,7 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       
       // using the default kineticLaw message for CORE_21125-CORE_21132
       
-      contents.put(Integer.toString(SBMLErrorCodes.CORE_21173), "The <localParameter> with id 's' in the <reaction> with id ''{0}'' conflicts with the reactant referring to the <species> ''{1}''.");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_21173), "The <localParameter> with id ''{0}'' in the <reaction> with id ''{1}'' conflicts with the {2} referring to the <species> ''{0}''.");
       
       
       // event      
