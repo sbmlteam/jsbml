@@ -96,17 +96,6 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
     case CORE_20906:
       return new AssignmentCycleValidation();
       
-    case CORE_20907:
-      func = new ValidationFunction<ExplicitRule>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, ExplicitRule r) {
-          
-          return r.isSetMath(); // TODO - check the real number of math element and for L3V2, there can be none.
-        }
-      };
-      break;
-
     case CORE_20911:
       func = new AbstractValidationFunction<ExplicitRule>() {
 
