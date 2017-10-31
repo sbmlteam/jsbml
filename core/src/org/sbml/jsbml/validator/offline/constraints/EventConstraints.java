@@ -143,7 +143,13 @@ public class EventConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Event e) {
 
-          return e.isSetTrigger() && new DuplicatedElementValidationFunction<>("trigger").check(ctx, e);
+          boolean duplicatedTriggerElement = new DuplicatedElementValidationFunction<>("trigger").check(ctx, e);
+          
+          if (ctx.isLevelAndVersionGreaterEqualThan(3, 2)) {
+            return duplicatedTriggerElement;
+          }
+          
+          return e.isSetTrigger() && duplicatedTriggerElement;
         }
       };
       break;
