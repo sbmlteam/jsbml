@@ -100,7 +100,7 @@ public class RuleConstraints extends AbstractConstraintDeclaration {
 
                 return nbMath == 1;                  
               }
-            } else if (rule.getLevelAndVersion().compareTo(3, 2) < 0) {
+            } else if (ctx.isLevelAndVersionLessThan(3, 2)) {
               // math is mandatory before SBML L3V2
               return false;
             }
