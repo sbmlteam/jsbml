@@ -24,6 +24,7 @@ import java.util.Set;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -50,6 +51,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
       
       if (level > 2) {
         set.add(CORE_21172);
+        set.add(CORE_21173);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -94,7 +96,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
     
     switch (errorCode) {
       
-    case CORE_21124:
+    case CORE_21124: {
       func = new AbstractValidationFunction<LocalParameter>() {
         
         @Override
@@ -121,6 +123,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+    }
       
     case CORE_21172:
       func = new UnknownAttributeValidationFunction<LocalParameter>() {
@@ -136,8 +139,42 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
       };
       break;
       
-      // TODO 21173
-      
+    case CORE_21173: {
+      func = new AbstractValidationFunction<LocalParameter>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, LocalParameter lp) 
+        {
+          boolean check = true;
+
+          if (lp.isSetId()) {
+            String localParameterId = lp.getId();
+            Reaction r = (Reaction) lp.getParent().getParent().getParent();
+            String type = "reactant";
+            
+            if (r.getReactantForSpecies(localParameterId) != null) {
+              check = false;
+            }
+            if (r.getProductForSpecies(localParameterId) != null) {
+              type = "product";
+              check = false;
+            }
+            if (r.getModifierForSpecies(localParameterId) != null) {
+              type = "modifier";
+              check = false;
+            }
+            
+            if (!check) {
+              ValidationConstraint.logError(ctx, CORE_21173, localParameterId, r.getId(), type);
+            }
+          }
+                    
+          return check;
+        }
+      };
+      break;
+    }      
+    
     case CORE_81121:
       func = new ValidationFunction<LocalParameter>() {
         

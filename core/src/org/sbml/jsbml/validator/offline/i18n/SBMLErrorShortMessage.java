@@ -638,6 +638,8 @@ public class SBMLErrorShortMessage extends ResourceBundle {
         contents.put(Integer.toString(SBMLErrorCodes.CORE_21152), "Fast attribute deprecated");
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_21172), "Invalid attribute found on the LocalParameter object");
+        
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_21173), "Invalid attribute value found on the LocalParameter object");
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_21201), "The Event object is missing a Trigger subobject");
 

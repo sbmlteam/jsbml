@@ -639,6 +639,8 @@ public class SBMLErrorMessage extends ResourceBundle {
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_21172), "A LocalParameter object must have the required attribute 'id' and may have the optional attributes 'metaid', 'sboTerm', 'name', 'value' and 'units'. No other attributes from the SBML Level 3 Core namespace are permitted on a LocalParameter object (Reference: L3V1 Section 4.11).");  
 
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_21173), "The 'id' attribute of a <localParameter> object must not be the same as the 'species' attribute of any <speciesReference> in the same <reaction>.");
+        
         contents.put(Integer.toString(SBMLErrorCodes.CORE_21201), "An <event> object must have a 'trigger' (Reference: L3V1 Section 4.12.2).");  
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_21202), "An <event>'s <trigger> expression must evaluate to a value of type Boolean (Reference: L3V1 Section 4.12.2).");  
