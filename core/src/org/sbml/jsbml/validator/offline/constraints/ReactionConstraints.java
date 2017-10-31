@@ -31,7 +31,6 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
@@ -69,7 +68,11 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      set.add(CORE_21101);
+      
+      if (context.isLevelAndVersionLessThan(3, 2)) {
+        set.add(CORE_21101);
+      }
+      
       set.add(CORE_21102);
       set.add(CORE_21104);
       set.add(CORE_21105);
@@ -93,7 +96,7 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
       }
       
       // For level and version before L3V2
-      if (ValuePair.of(level, version).compareTo(3, 2) < 0) {
+      if (context.isLevelAndVersionLessThan(3, 2)) {
         set.add(CORE_21103);        
       }
 
