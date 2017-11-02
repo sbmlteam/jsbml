@@ -1047,7 +1047,7 @@ public class UnitDefinition extends AbstractNamedSBase {
         ud.putUserObject(JSBML.ALLOW_INVALID_SBML, Boolean.TRUE);
       }
       
-      ud.convertToSIUnits();
+      ud.convertToSIAndSubstanceUnits();
 
       // if after the simplify() call no more units exists, it's dimensionless
       if (ud.getUnitCount() == 0) {
