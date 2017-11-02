@@ -351,12 +351,15 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
             if (ud != null)
             {
+              boolean isVariantOfSubstance = ud.isVariantOfSubstance();
+              boolean isVariantOfDimensionless = ud.isVariantOfDimensionless();
+
               if ((ctx.getLevel() == 1 || (ctx.getLevel() == 2 && ctx.getVersion() == 1)) 
-                  && !ud.isVariantOfSubstance())
+                  && !isVariantOfSubstance)
               {
                 checkResult = false;
               }
-              else if (! (ud.isVariantOfSubstance() || ud.isVariantOfDimensionless()))
+              else if (! (isVariantOfSubstance || isVariantOfDimensionless))
               {
                 checkResult = false;
               }
@@ -364,7 +367,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
               checkResult = false;
             }
           }
-
+          
           if (!checkResult) {
             // report error
             ValidationConstraint.logError(ctx, CORE_20608, s.getId(), s.getSubstanceUnits());
@@ -431,6 +434,8 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
               return true;
             }
 
+            // TODO ? - instead of going through all reactions for each species, we could create a map of Species ids to check and do the actual check inside SpeciesReferenceConstraint 
+            
             // This species can't be part of a Reaction
             if (m.isSetListOfReactions()) {
               for (Reaction r: m.getListOfReactions())
