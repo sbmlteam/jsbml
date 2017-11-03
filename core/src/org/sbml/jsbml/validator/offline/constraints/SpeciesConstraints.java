@@ -352,14 +352,14 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             if (ud != null)
             {
               boolean isVariantOfSubstance = ud.isVariantOfSubstance();
-              boolean isVariantOfDimensionless = ud.isVariantOfDimensionless();
+              // boolean isVariantOfDimensionless = ud.isVariantOfDimensionless();
 
               if ((ctx.getLevel() == 1 || (ctx.getLevel() == 2 && ctx.getVersion() == 1)) 
                   && !isVariantOfSubstance)
               {
                 checkResult = false;
               }
-              else if (! (isVariantOfSubstance || isVariantOfDimensionless))
+              else if (! (isVariantOfSubstance || ud.isVariantOfDimensionless()))
               {
                 checkResult = false;
               }
