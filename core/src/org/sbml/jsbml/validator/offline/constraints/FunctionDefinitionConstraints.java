@@ -296,6 +296,9 @@ extends AbstractConstraintDeclaration {
                 {
                   return false;
                 }
+                else if (ctx.isLevelAndVersionGreaterThan(3, 1) && node.getType() == Type.FUNCTION_RATE_OF) {
+                  return false;
+                }
               }
             }
           }
@@ -369,7 +372,7 @@ extends AbstractConstraintDeclaration {
           return body.isBoolean() || 
               body.isNumber() ||
               body.isFunction() || 
-              body.isOperator();
+              body.isOperator() || body.getType() == Type.CONSTANT_PI || body.getType() == Type.CONSTANT_E;
         }
       };
       break;
