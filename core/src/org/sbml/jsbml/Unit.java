@@ -2064,7 +2064,9 @@ public class Unit extends AbstractSBase implements UniqueSId {
   }
 
   /**
-   * 
+   *  Returns {@code true} if this Unit is a variant of area, meaning of {@link Kind#METRE}
+   *  with an exponent of 2.
+   *  
    * @return {@code true} if this Unit is a variant of area.
    */
   public boolean isVariantOfArea() {
