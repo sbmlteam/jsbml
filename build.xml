@@ -290,7 +290,7 @@
 	  description="Compiles the test directory"
 	  depends="prepare-src, package, prepare-tidy"
 	>
-		<javac srcdir="${test.src.dir}"
+		<javac srcdir="${test.src.dir}" encoding="UTF-8"
            destdir="${build.dest}"
            debug="${debug}"
            optimize="${optimize}"

@@ -198,7 +198,7 @@
            debug="${debug}"
            optimize="${optimize}"
            verbose="${verbose}"
-      source="${jsbml.build.javac.source}"
+      source="${jsbml.build.javac.source}" encoding="UTF-8"
       target="${jsbml.build.javac.target}"
            classpathref="classpath">
 		</javac>

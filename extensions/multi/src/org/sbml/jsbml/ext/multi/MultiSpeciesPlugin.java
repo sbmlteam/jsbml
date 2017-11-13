@@ -35,7 +35,7 @@ import org.sbml.jsbml.ext.multi.util.ListOfSpeciesFeatureContent;
  * the backbone for the species such as components (including binding sites) and speciesFeatureTypes.
  * When referencing a speciesType, a species can be further defined with regard to the binding statuses of its
  * outwardBindingSites and the speciesFeatures. With the options to have variable values selected, such as
- * “either” for the bindingStatus attribute and multiple possibleSpeciesFeatureValues for a speciesFeature,
+ * "either" for the bindingStatus attribute and multiple possibleSpeciesFeatureValues for a speciesFeature,
  * an extended species can work as a template or pattern how species participate in reactions.
  *
  * @author Nicolas Rodriguez

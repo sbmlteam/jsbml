@@ -31,8 +31,8 @@ import org.sbml.jsbml.Species;
  * <p> A speciesType can contain a list of instances of other speciesTypes which can also have their own
  * speciesTypeInstances, so the complete structure of a speciesType can be like a tree. A speciesType can not
  * contain an instance of any other speciesType that already contains the instance of it. In other words, circular references 
- * are not allowed when constructing speciesTypes. For example, if a speciesType “A” contains the instance of
- * another speciesType “B”, “B” must not contain the instance of “A” anywhere in the complete structure of “B”.
+ * are not allowed when constructing speciesTypes. For example, if a speciesType "A" contains the instance of
+ * another speciesType "B", "B" must not contain the instance of "A" anywhere in the complete structure of "B".
  * 
  * @author Nicolas Rodriguez
  * @since 1.0

@@ -165,7 +165,7 @@
   <!-- Compiles the source directory                                       -->
   <!-- =================================================================== -->
   <target name="compile" depends="prepare-src">   
-    <javac srcdir="${build.src}"
+    <javac srcdir="${build.src}" encoding="UTF-8"
            destdir="${build.dest}"
            debug="${debug}"
            optimize="${optimize}"
