@@ -96,6 +96,10 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         set.add(CORE_20216);
         set.add(CORE_20705);
         addRangeToSet(set, CORE_20223, CORE_20232);
+        
+        if (version >= 2) {
+          set.add(CORE_20233);  
+        }
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -990,6 +994,25 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+
+    case CORE_20233:{
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+     
+          // check the substanceUnits value
+          if (m.isSetSubstanceUnits()) {
+            UnitDefinition ud = m.getSubstanceUnitsInstance();
+            
+            return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
 
     case CORE_20705:
       func = new AbstractValidationFunction<Model>() {
