@@ -38,7 +38,8 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
+import org.sbml.jsbml.xml.parsers.MathMLStaxParser;;
 
 /**
  * 
@@ -112,10 +113,12 @@ extends AbstractConstraintDeclaration {
 
           if (ctx.getLevel() > 1 && fd.isSetMath()) {
             ASTNode math = fd.getMath();
-
+            int nbSemantics = (int) ((fd.isSetUserObjects() && fd.getUserObject(MathMLStaxParser.JSBML_SEMANTICS_COUNT) != null) ? fd.getUserObject(MathMLStaxParser.JSBML_SEMANTICS_COUNT) : 0);
+            
             if (ctx.isLevelAndVersionLessThan(2, 3)) {
               // must be a lambda
-              if (!math.isLambda() || math.isSemantics()) {
+
+              if (!math.isLambda() || math.isSemantics() || nbSemantics > 0) {
                 success = false;
               }
 
