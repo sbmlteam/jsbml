@@ -7441,7 +7441,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
  	/**
  	 * To conform to Version 1 of the Arrays package specification for SBML Level 3, an SBML docu-
      * ment must declare the use of the following XML Namespace:
-     * “http://www.sbml.org/sbml/level3/version1/arrays/version1”. (Reference: SBML Level 3
+     * "http://www.sbml.org/sbml/level3/version1/arrays/version1". (Reference: SBML Level 3
      * Package Specification for Arrays, Version 1, S
  	 */
  	public static final int ARRAYS_10101 = 8010101; 
@@ -7449,7 +7449,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
  	/**
  	 * Wherever they appear in an SBML document, elements and attributes from the Arrays package
      * must be declared either implicitly or explicitly to be in the XML namespace
-     * “http://www.sbml.org/sbml/level3/version1/arrays/version1”. (Reference: SBML Level 3
+     * "http://www.sbml.org/sbml/level3/version1/arrays/version1". (Reference: SBML Level 3
      * Package Specification for Arrays, Version 1, Section 3.1 on page 6.)
  	 */
  	public static final int ARRAYS_10102 = 8010102; 
@@ -7467,7 +7467,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
  	public static final int ARRAYS_10202 = 8010202;
 
  	/**
- 	 * The value of attribute arrays:required on the SBML object must be set to “true” (Reference:
+ 	 * The value of attribute arrays:required on the SBML object must be set to 'true' (Reference:
      * SBML Level 3 Package Specification for Arrays, Version 1, Section 3.1 on page 6.)
  	 */
  	public static final int ARRAYS_10203 = 8010203;
@@ -7477,7 +7477,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
  	/**
  	 * Wherever MathML content appears in an SBML document, the MathML content must be
  	 * placed within a math element, and that math element must be either explicitly or implicitly
- 	 * declared to be in the XML namespace “http://www.w3.org/1998/Math/MathML”. (Reference:
+ 	 * declared to be in the XML namespace "http://www.w3.org/1998/Math/MathML". (Reference:
  	 * SBML Level 3 Version 1 Core, Section 3.4.)
  	 * The following is a list of the additional MathML 2.0 elements permitted in the Arrays package:
  	 * vector and selector. (Reference: SBML Level 3 Package Specification for Arrays, Version 1,
@@ -7543,7 +7543,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
     /**
      * To conform to Version 1 of the Multi package specification for SBML Level 3, an SBML 
      * document must declare the use of the following XML Namespace:
-     * “http://www.sbml.org/sbml/level3/version1/multi/version1” (Reference: SBML Level 3
+     * "http://www.sbml.org/sbml/level3/version1/multi/version1" (Reference: SBML Level 3
      * Package Specification for Multi, Version 1, Section 3.1 on page 9).
      */
     public static final int MULTI_10101 = 7010101; 
@@ -7551,7 +7551,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
     /**
      * Wherever they appear in an SBML document, elements and attributes from the Multi package
      * must be declared either implicitly or explicitly to be in the XML namespace
-     * “http://www.sbml.org/sbml/level3/version1/multi/version1” (Reference: SBML Level 3
+     * "http://www.sbml.org/sbml/level3/version1/multi/version1" (Reference: SBML Level 3
      * Package Specification for Multi, Version 1, Section 3.1 on page 9).
      */
     public static final int MULTI_10102 = 7010102; 
