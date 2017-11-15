@@ -22,17 +22,17 @@ TAGS
 # JSBML-specific things.
 # ......................................................................
 
-**/.classpath
-**/.project
-**/dist
-**/build
-**/bin
+.classpath
+.project
+dist
+build
+bin
 *.log
-**/.apt_generated
-**/.factorypath
-**/.settings
+.apt_generated
+.factorypath
+.settings
 jsbmlTestResults.txt
-**/target
+target
 libsbmlCompatibilityTestResults.txt
 *.log
 **/.wtpmodules
