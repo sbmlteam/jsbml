@@ -89,7 +89,7 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
       }
     }
     else if (sbase instanceof TreeNode) {
-      Enumeration<TreeNode> children = ((TreeNode) sbase).children();
+      Enumeration<? extends TreeNode> children = ((TreeNode) sbase).children();
 
       while (children.hasMoreElements()) {
         listOfElementsToWrite.add(children.nextElement());
