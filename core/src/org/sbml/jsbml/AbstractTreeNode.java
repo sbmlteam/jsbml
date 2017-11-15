@@ -84,7 +84,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
       throw new IllegalArgumentException(resourceBundle.getString("NullArgument"));
     }
     // linear search
-    Enumeration<TreeNode> e = parent.children();
+    Enumeration<? extends TreeNode> e = parent.children();
     for (int i = 0; e.hasMoreElements(); i++) {
       TreeNode elem = e.nextElement();
       if ((child == elem) || child.equals(elem)) {
