@@ -92,14 +92,11 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         set.add(CORE_20802);
         set.add(CORE_20803);
       }
-      if (level == 3) {
-        set.add(CORE_20216);
+      if (level >= 3) {
+
+        addRangeToSet(set, CORE_20216, CORE_20221);
+        addRangeToSet(set, CORE_20223, CORE_20233);
         set.add(CORE_20705);
-        addRangeToSet(set, CORE_20223, CORE_20232);
-        
-        if (version >= 2) {
-          set.add(CORE_20233);  
-        }
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -114,9 +111,6 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
       break;
     case MATHML_CONSISTENCY:
-      if (level > 2) {
-        addRangeToSet(set, CORE_20217, CORE_20221);
-      }
       break;
     case MODELING_PRACTICE:
       break;
@@ -762,6 +756,10 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetTimeUnits()) {
             UnitDefinition ud = m.getTimeUnitsInstance();
 
+            if (ud.getUnitCount() == 0) {
+              return false;
+            }
+
             if (ud != null) {
               return ud.isVariantOfTime() || ud.isVariantOfDimensionless();
             }
@@ -779,6 +777,10 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetVolumeUnits()) {
             UnitDefinition ud = m.getVolumeUnitsInstance();
+
+            if (ud.getUnitCount() == 0) {
+              return false;
+            }
 
             if (ud != null) {
               return ud.isVariantOfVolume() || ud.isVariantOfDimensionless();
@@ -798,6 +800,10 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetAreaUnits()) {
             UnitDefinition ud = m.getAreaUnitsInstance();
 
+            if (ud.getUnitCount() == 0) {
+              return false;
+            }
+
             if (ud != null) {
               return ud.isVariantOfArea() || ud.isVariantOfDimensionless();
             }
@@ -816,6 +822,9 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetLengthUnits()) {
             UnitDefinition ud = m.getLengthUnitsInstance();
 
+            if (ud.getUnitCount() == 0) {
+              return false;
+            }
             if (ud != null) {
               return ud.isVariantOfLength() || ud.isVariantOfDimensionless();
             }
@@ -832,15 +841,10 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetExtentUnits()) {
-            UnitDefinition ud = m.getExtentUnitsInstance().simplify();
+            UnitDefinition ud = m.getExtentUnitsInstance();
 
-            if (ud != null) {
-              // Quick check for 'avogadro'
-              if (ud.getNumChildren() == 1) {
-                if (ud.getUnit(0).isAvogadro()) {
-                  return true;
-                }
-              }
+            if (ud.getUnitCount() == 0) {
+              return false;
             }
 
             return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
