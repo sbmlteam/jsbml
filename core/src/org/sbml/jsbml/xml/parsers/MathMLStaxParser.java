@@ -86,6 +86,11 @@ public class MathMLStaxParser implements ReadingParser {
    * 
    */
   public static final String JSBML_MATH_COUNT = "jsbml.math.element.count";
+  
+  /**
+   * 
+   */
+  public static final String JSBML_SEMANTICS_COUNT = "jsbml.semantics.element.count";
 
   /**
    *
@@ -425,7 +430,10 @@ public class MathMLStaxParser implements ReadingParser {
       }
       
       if (elementName.equals("math")) {
-        processMathElement(contextObject);
+        processMathElement(contextObject, JSBML_MATH_COUNT, elementName);
+      }
+      if (elementName.equals("semantics")) {
+        processMathElement(contextObject, JSBML_SEMANTICS_COUNT, elementName);
       }
 
       // trying to count the piecewise, piece and otherwise open elements to annotate the ASTNode with the counter,
@@ -560,11 +568,11 @@ public class MathMLStaxParser implements ReadingParser {
   }
 
   /**
-   * Process a {@link MathContainer} to add one to the number of math element encountered.
+   * Process a {@link MathContainer} to add one to the number of element encountered.
    * 
    * @param contextObject a {@link MathContainer} instance
    */
-  private void processMathElement(Object contextObject) {
+  private void processMathElement(Object contextObject, String userObjectKey, String elementName) {
     
     MathContainer mathContainer = null;
 
@@ -582,13 +590,13 @@ public class MathMLStaxParser implements ReadingParser {
             || mathContainer instanceof EventAssignment || mathContainer instanceof Priority
             || mathContainer instanceof FunctionDefinition)) 
     {
-      int nbMath = (int) ((mathContainer.isSetUserObjects() && mathContainer.getUserObject(JSBML_MATH_COUNT) != null) ? mathContainer.getUserObject(JSBML_MATH_COUNT) : 0);
-      nbMath++;
+      int nbElement = (int) ((mathContainer.isSetUserObjects() && mathContainer.getUserObject(userObjectKey) != null) ? mathContainer.getUserObject(userObjectKey) : 0);
+      nbElement++;
       
-      mathContainer.putUserObject(JSBML_MATH_COUNT, nbMath);
+      mathContainer.putUserObject(userObjectKey, nbElement);
       
       if (mathContainer instanceof Constraint || mathContainer instanceof KineticLaw) {
-        AbstractReaderWriter.storeElementsOrder("math", mathContainer);
+        AbstractReaderWriter.storeElementsOrder(elementName, mathContainer);
       }
     }
   }

@@ -360,7 +360,8 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
             }
 
             boolean isArea = def.isVariantOfArea();
-
+            // boolean isDimensionless = def.isVariantOfDimensionless(); 
+            
             if (ctx.getLevel() == 2 && ctx.getVersion() == 1) {
               return isArea;
             }

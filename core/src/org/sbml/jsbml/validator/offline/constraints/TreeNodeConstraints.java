@@ -40,7 +40,7 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
  * @since 1.2
  */
 public class TreeNodeConstraints extends AbstractConstraintDeclaration
-  implements CoreSpecialErrorCodes {
+implements CoreSpecialErrorCodes {
 
   /**
    * Log4j logger
@@ -50,7 +50,7 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
    * 
    */
   protected static final boolean isDebugEnabled = logger.isDebugEnabled();
-  
+
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level, int version, String attributeName, ValidationContext context) {
     // no constraint for attributes
@@ -59,7 +59,7 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category, ValidationContext context) 
+    CHECK_CATEGORY category, ValidationContext context)
   {
     // always adding a ValidationFunction that is used to recursively validate the jsbml tree structure
     set.add(ID_VALIDATE_TREE_NODE);
@@ -89,7 +89,7 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
           if (isDebugEnabled) {
             logger.debug("Found Tree " + t.getChildCount() + " " + children.hasMoreElements());
           }
-          
+
           AnyConstraint<Object> root = ctx.getRootConstraint();
           Class<?> type = ctx.getConstraintType();
 
@@ -107,11 +107,11 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
             }
 
           }
-          
+
           // going through the SBasePlugins
           if (t instanceof SBase) {
             SBase sbase = (SBase) t;
-            
+
             if (sbase.getNumPlugins() > 0) {
               for (SBasePlugin sbasePlugin : sbase.getExtensionPackages().values()) {
 
@@ -122,7 +122,7 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
 
                 if (sbasePlugin != null) {
                   ctx.loadConstraints(sbasePlugin.getClass());
-                  
+
                   // We should not validate the children of SBasePlugin as there are already included in the previous children enumeration
                   ctx.setValidateRecursively(false);
                   success = ctx.validate(sbasePlugin, false) && success;
@@ -134,7 +134,7 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
           // going through the ASTNodePlugins
           if (t instanceof ASTNode) {
             ASTNode astnode = (ASTNode) t;
-            
+
             if (astnode.getNumPlugins() > 0) {
               for (ASTNodePlugin astnodePlugin : astnode.getExtensionPackages().values()) {
 
@@ -149,7 +149,7 @@ public class TreeNodeConstraints extends AbstractConstraintDeclaration
                   // We should not validate the children of ASTNodePlugin as there are already included in the main children enumeration
                   ctx.setValidateRecursively(false);
                   success = ctx.validate(astnodePlugin, false) && success;
-                  ctx.setValidateRecursively(true);                  
+                  ctx.setValidateRecursively(true);
                 }
               }
             }

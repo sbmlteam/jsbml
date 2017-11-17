@@ -648,13 +648,23 @@ public class UnitDefinition extends AbstractNamedSBase {
     return new UnitDefinition(this);
   }
 
-
   /**
-   * Converts this unit definition to using only SI units.
+   * Converts this unit definition to using only SI units and then call {@link #simplify()}.
    * 
    * @return itself for convenience
    */
   public UnitDefinition convertToSIUnits() {
+    return convertToSIUnits(true);
+  }
+  
+  /**
+   * Converts this unit definition to using only SI units. It will call {@link #simplify()}
+   * if {@code true} as been given as argument.
+   * 
+   * @param simplify whether to simplify the UnitDefinition or not after converting it to SI.
+   * @return itself for convenience
+   */
+  public UnitDefinition convertToSIUnits(boolean simplify) {
 
     UnitDefinition ud[] = new UnitDefinition[getUnitCount()];    
     Set<TreeNodeChangeListener> listeners =
@@ -673,7 +683,10 @@ public class UnitDefinition extends AbstractNamedSBase {
         }
       }
     }
-    simplify();
+    
+    if (simplify) {
+      simplify();
+    }
     addAllChangeListeners(listeners);
     
     return this;
@@ -1013,6 +1026,8 @@ public class UnitDefinition extends AbstractNamedSBase {
    * @return {@code true} if this UnitDefinition is a variant of Area
    */
   public boolean isVariantOfArea() {
+    boolean isVariantOfArea = false; 
+
     if (isSetListOfUnits()) {
       UnitDefinition ud = clone(); 
       
@@ -1024,10 +1039,31 @@ public class UnitDefinition extends AbstractNamedSBase {
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
-        return unit.isVariantOfArea();
+        isVariantOfArea = unit.isVariantOfArea();
+      }
+
+      // in L3V1 a combination of dimensionless and metre is considered valid
+      if (getLevelAndVersion().compareTo(3, 1) >= 0 && getUnitCount() > 1 && !isVariantOfArea) {
+
+        ud = clone(); 
+        
+        if (isInvalidSBMLAllowed()) {
+          ud.putUserObject(JSBML.ALLOW_INVALID_SBML, Boolean.TRUE);
+        }
+        
+        ud.convertToSIUnits(false); // so that dimensionless is not lost if combined with metre.
+
+        // in L3V1, it can be a combination of the area units so we can have more than one unit after simplify()
+        isVariantOfArea = true;
+
+        for (Unit unit : ud.getListOfUnits()) {
+
+          isVariantOfArea &= (unit.isMetre() || (unit.getKind() == Kind.DIMENSIONLESS));
+        }
       }
     }
-    return false;
+    
+    return isVariantOfArea;
   }
 
 
@@ -1047,7 +1083,7 @@ public class UnitDefinition extends AbstractNamedSBase {
         ud.putUserObject(JSBML.ALLOW_INVALID_SBML, Boolean.TRUE);
       }
       
-      ud.convertToSIUnits();
+      ud.convertToSIAndSubstanceUnits();
 
       // if after the simplify() call no more units exists, it's dimensionless
       if (ud.getUnitCount() == 0) {
@@ -1073,6 +1109,8 @@ public class UnitDefinition extends AbstractNamedSBase {
    *         multiplier values; false otherwise.
    */
   public boolean isVariantOfLength() {
+    boolean isVariantOfLength = false; 
+    
     if (isSetListOfUnits()) {
       UnitDefinition ud = clone(); 
       
@@ -1084,10 +1122,31 @@ public class UnitDefinition extends AbstractNamedSBase {
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
-        return unit.isVariantOfLength();
+        isVariantOfLength = unit.isVariantOfLength();
+      }
+
+      // in L3V1, it can be a combination of the length units so we can have more than one unit after simplify()
+      if (getLevelAndVersion().compareTo(3, 1) >= 0 && getUnitCount() > 1 && !isVariantOfLength) {
+
+        ud = clone(); 
+        
+        if (isInvalidSBMLAllowed()) {
+          ud.putUserObject(JSBML.ALLOW_INVALID_SBML, Boolean.TRUE);
+        }
+        
+        ud.convertToSIUnits(false);
+        
+        // in L3V1, it can be a combination of the length units so we can have more than one unit after simplify()
+        isVariantOfLength = true;
+
+        for (Unit unit : ud.getListOfUnits()) {
+
+          isVariantOfLength &= unit.isMetre() ||  unit.getKind() == Kind.DIMENSIONLESS;
+        }
       }
     }
-    return false;
+    
+    return isVariantOfLength;
   }
 
 
@@ -1120,14 +1179,14 @@ public class UnitDefinition extends AbstractNamedSBase {
         Unit unit = ud.getUnit(0);
         isVariantOfSubstance = unit.isVariantOfSubstance();
         
-      } else if (getLevelAndVersion().compareTo(3, 2) >= 0) {
+      } else if (getLevelAndVersion().compareTo(3, 1) >= 0  && getUnitCount() > 1 ) {
         
-        // in L3V2, it can be a combination of the substance units so we can have more than one unit after simplify()
+        // from L3V1, it can be a combination of the substance units so we can have more than one unit after simplify()
         isVariantOfSubstance = true;
         
         for (Unit unit : ud.getListOfUnits()) {
           
-          isVariantOfSubstance &= unit.isVariantOfSubstance();
+          isVariantOfSubstance &= unit.isVariantOfSubstance(false);
         }
       }
     }
@@ -1283,6 +1342,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    *         otherwise.
    */
   public boolean isVariantOfTime() {
+    
+    boolean isVariantOfTime = false;
+    
     if (isSetListOfUnits()) {
       UnitDefinition ud = clone(); 
       
@@ -1294,10 +1356,30 @@ public class UnitDefinition extends AbstractNamedSBase {
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
-        return unit.isVariantOfTime();
+        isVariantOfTime = unit.isVariantOfTime();
+      } 
+
+      if (getLevelAndVersion().compareTo(3, 1) >= 0  && getUnitCount() > 1  && !isVariantOfTime) {
+        
+        ud = clone(); 
+
+        if (isInvalidSBMLAllowed()) {
+          ud.putUserObject(JSBML.ALLOW_INVALID_SBML, Boolean.TRUE);
+        }
+
+        ud.convertToSIUnits(false);
+        
+        // from L3V1, it can be a combination of the time units so we can have more than one unit after simplify()
+        isVariantOfTime = true;
+        
+        for (Unit unit : ud.getListOfUnits()) {
+          
+          isVariantOfTime &= unit.getKind() == Kind.SECOND || unit.getKind() == Kind.DIMENSIONLESS;
+        }
       }
     }
-    return false;
+    
+    return isVariantOfTime;
   }
 
 
@@ -1311,6 +1393,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    *         {@code false} otherwise.
    */
   public boolean isVariantOfVolume() {
+
+    boolean isVariantOfVolume = false;
+
     if (isSetListOfUnits()) {
       UnitDefinition ud = clone(); 
       
@@ -1322,10 +1407,32 @@ public class UnitDefinition extends AbstractNamedSBase {
 
       if (ud.getUnitCount() == 1) {
         Unit unit = ud.getUnit(0);
-        return unit.isVariantOfVolume();
+        isVariantOfVolume = unit.isVariantOfVolume();
+      } 
+      
+      if (getLevelAndVersion().compareTo(3, 1) >= 0  && getUnitCount() > 1 && !isVariantOfVolume) {
+        
+        ud = clone(); 
+
+        if (isInvalidSBMLAllowed()) {
+          ud.putUserObject(JSBML.ALLOW_INVALID_SBML, Boolean.TRUE);
+        }
+
+        ud.convertToSIUnits(false);
+
+        // from L3V1, it can be a combination of the volume units so we can have more than one unit after simplify()
+        isVariantOfVolume = true;
+        
+        for (Unit unit : ud.getListOfUnits()) {
+          Kind kind = unit.getKind();
+          
+          isVariantOfVolume &= (kind == Kind.LITER) || (kind == Kind.LITRE)
+              || (kind == Kind.METER) || (kind == Kind.METRE);
+        }
       }
     }
-    return false;
+    
+    return isVariantOfVolume;
   }
 
 

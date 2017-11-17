@@ -111,7 +111,7 @@ public class ASTUnknown implements ASTNode2 {
    * @see javax.swing.tree.TreeNode#children()
    */
   @Override
-  public Enumeration<?> children() {
+  public Enumeration<? extends TreeNode> children() {
     // TODO Auto-generated method stub
     return null;
   }
