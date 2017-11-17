@@ -57,15 +57,15 @@ public class OfflineValidatorTests {
   private static String                                filter           = "";
 
   private static Map<String, Exception>                exceptions       =
-    new HashMap<String, Exception>();
+      new HashMap<String, Exception>();
   private static Set<Integer>                          notDetected      =
-    new TreeSet<Integer>();
+      new TreeSet<Integer>();
   private static Map<Integer, String>                  notDetectedFiles =
-    new HashMap<Integer, String>();
+      new HashMap<Integer, String>();
   private static long                                  readTime         = 0;
 
   private static Map<String, LoggingValidationContext> contextCache     =
-    new HashMap<String, LoggingValidationContext>();
+      new HashMap<String, LoggingValidationContext>();
 
   private static Logger logger = Logger.getLogger(OfflineValidatorTests.class);
 
@@ -76,24 +76,24 @@ public class OfflineValidatorTests {
 
     if (args.length < 1) {
       System.out.println(
-        "Usage: java org.sbml.jsbml.test.OfflineValidatorTests testDataFolder start[:end] [containsString]");
+          "Usage: java org.sbml.jsbml.test.OfflineValidatorTests testDataFolder start[:end] [containsString]");
       System.out.println();
       System.out.println(
-        "testDataFolder - root folder which contains a child folder for every error code");
+          "testDataFolder - root folder which contains a child folder for every error code");
       System.out.println(
-        "start          - first error code to be checked. Error codes could be started by package name (layout-20613 == 6020613).");
+          "start          - first error code to be checked. Error codes could be started by package name (layout-20613 == 6020613).");
       System.out.println(
-        "end            - last error code to check. Must follow at start seperated by a colon ':'");
+          "end            - last error code to check. Must follow at start seperated by a colon ':'");
       System.out.println(
-        "containsString - a String which must be contained in every file name.");
+          "containsString - a String which must be contained in every file name.");
       System.out.println(
         "\n Example: \n java org.sbml.jsbml.test.OfflineValidatorTests ./ 20600:20700 l3v1 \n "
-          + "This arguments will start the test for all error codes from 20600 up to 20700, but only uses the test files which contains the String 'l3v1'.");
+            + "This arguments will start the test for all error codes from 20600 up to 20700, but only uses the test files which contains the String 'l3v1'.");
       System.exit(0);
     }
 
     logger.info("Starting tests...");
-    
+
     if (args.length > 2) {
       filter = args[2];
     }
@@ -105,7 +105,7 @@ public class OfflineValidatorTests {
     if (blocks[0].contains("-")) {
       blocks[0] = correctPackageErrorCode(blocks[0]);
     }
-    
+
     final int startCode = Integer.parseInt(blocks[0]);
     int endCode = startCode;
 
@@ -136,16 +136,16 @@ public class OfflineValidatorTests {
 
         validateDirectory(dir, code);
       } else if (code > 1000000) {
-        String codeStr = Integer.toString(code);        
+        String codeStr = Integer.toString(code);
         String packageShortLabel = getPackageLabel(codeStr);
-        
+
         // Just taking the last 5 digit from the error code to build the directory name
         dir = new File(testDataDir, packageShortLabel + "-" + codeStr.substring(codeStr.length() - 5));
-        
+
         if (dir.exists()) {
           nbDirValidated++;
 
-          validateDirectory(dir, code);          
+          validateDirectory(dir, code);
         }
         // dirsMissed++;
         // System.out.println("No directory found for error code " + code);
@@ -164,9 +164,9 @@ public class OfflineValidatorTests {
         System.out.println();
         System.out.println();
       }
-      
+
     }
-    
+
     long end = Calendar.getInstance().getTimeInMillis();
     double nbSecondes = (end - init) / 1000.0;
     double nbSecondesRead = readTime / 1000.0;
@@ -184,28 +184,28 @@ public class OfflineValidatorTests {
     System.out.println("\n\nNumber of constraints correctly validated: "
         + (nbDirValidated - notDetected.size()) + " out of " + nbDirValidated);
     System.out.println("\nIncorrect constraints list: ");
-    
+
     Integer previous = 0;
     Integer[] notDetectedA = notDetected.toArray(new Integer[notDetected.size()]);
-    
+
     for (int i = 0; i < notDetectedA.length; i++) {
       Integer errorCode = notDetectedA[i];
-      
+
       if (i == 0) {
         previous = errorCode;
       }
 
       Integer errorBase = previous - (previous % 100);
-      
+
       if ((errorCode - errorBase) > 100) {
         System.out.println();
       }
       System.out.print(errorCode + ", ");
       previous = errorCode;
     }
-    
+
     System.out.println("\n\nNumber of files correctly validated: "
-      + filesCorrectly + " out of " + totalFileTested);
+        + filesCorrectly + " out of " + totalFileTested);
     System.out.println("Didn't detect the following broken constraints:");
 
     for (Integer i : notDetected) {
@@ -213,7 +213,7 @@ public class OfflineValidatorTests {
       String out = i + " in " + notDetectedFiles.get(i);
       System.out.println(out);
     }
-    
+
   }
 
 
@@ -221,7 +221,7 @@ public class OfflineValidatorTests {
    * @param code
    * @return
    */
-  private static String getPackageLabel(String codeStr) 
+  private static String getPackageLabel(String codeStr)
   {
     switch(codeStr.charAt(0)) {
     case '1':
@@ -240,7 +240,7 @@ public class OfflineValidatorTests {
       return "arrays";
 
     }
-  
+
     return "";
   }
 
@@ -255,21 +255,21 @@ public class OfflineValidatorTests {
    * @return a corrected error code if the prefix contain a known SBML L3 package, the
    * unmodified argument otherwise.
    */
-  private static String correctPackageErrorCode(String errorCode) 
+  private static String correctPackageErrorCode(String errorCode)
   {
     if (! errorCode.contains("-"))
     {
       return errorCode;
     }
-    
+
     String[] x = errorCode.split("-");
-    
+
     if (x.length == 2)
     {
       String prefix = "";
-      
+
       switch(x[0]) {
-      
+
       case "layout": {
         prefix = "60";
         break;
@@ -300,10 +300,10 @@ public class OfflineValidatorTests {
       }
 
       }
-      
+
       return prefix + x[1];
     }
-    
+
     return errorCode;
   }
 
@@ -314,7 +314,7 @@ public class OfflineValidatorTests {
       @Override
       public boolean accept(File pathname) {
         return pathname.getName().endsWith(".xml")
-          && pathname.getName().contains(filter);
+            && pathname.getName().contains(filter);
       }
     });
 
@@ -370,7 +370,7 @@ public class OfflineValidatorTests {
       }
     } catch (Exception e) {
       exceptions.put(name, e);
-//      e.printStackTrace(); 
+      //      e.printStackTrace();
     }
 
     System.out.println();
@@ -391,30 +391,31 @@ public class OfflineValidatorTests {
 
 
   private static LoggingValidationContext getContext(SBMLDocument doc) {
-    String key = "l" + doc.getLevel() + "v" + doc.getVersion();
+    int l = doc.getLevel(), v = doc.getVersion();
+    String key = "l" + l + "v" + v;
     LoggingValidationContext ctx = contextCache.get(key);
 
     // If no context was in cache create new one
     if (ctx == null) {
-      ctx = new LoggingValidationContext(doc.getLevel(), doc.getVersion());
+      ctx = new LoggingValidationContext(l, v);
       ctx.enableCheckCategories(CHECK_CATEGORY.values(), true);
-      
+      // TODO: check also if other categories should be disabled
       if (!ENABLE_UNITS_VALIDATION) {
         ctx.enableCheckCategory(CHECK_CATEGORY.UNITS_CONSISTENCY, false);
       }
-      
+
       ctx.loadConstraints(SBMLDocument.class);
       contextCache.put(key, ctx);
     } else {
-      
+
       // Reset context if necessary
       ctx.clearErrorLog();
-      
+
       if (ctx.getConstraintType() != SBMLDocument.class) {
         ctx.loadConstraints(SBMLDocument.class);
       }
     }
-   
+
     return ctx;
   }
 
