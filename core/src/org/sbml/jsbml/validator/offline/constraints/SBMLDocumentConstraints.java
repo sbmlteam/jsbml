@@ -166,18 +166,18 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
           String sbmlNamespace = null;
           
           if (namespaceMap.size() == 0) {
-            // Something is wrong with the namespace and we found no parser for the file
+            // Something is wrong with the namespace
             return false;
           }
           
-          for (String attributeNameWithPrefix : namespaceMap.keySet()) {
-            
-            if (attributeNameWithPrefix.equals("xmlns")) {
-              sbmlNamespace = namespaceMap.get(attributeNameWithPrefix);
-              break;
-            }
+          String namespaceKey = "xmlns";
+          
+          if (d.isSetUserObjects() && d.getUserObject(JSBML.ELEMENT_XML_PREFIX) != null) {
+            namespaceKey = namespaceKey + ":" + d.getUserObject(JSBML.ELEMENT_XML_PREFIX);
           }
 
+          sbmlNamespace = namespaceMap.get(namespaceKey);
+          
           int level = d.getLevel();
           int version = d.getVersion();
           
@@ -197,10 +197,50 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument d) {
-          // TODO - The sbml container element must declare the SBML Level using the attribute 
-          // 'level', and this declaration must be consistent with the XML Namespace declared 
-          // for the sbml element.
-          return d.isSetLevel();
+
+          if (!d.isSetLevel()) {
+            return false;
+          }
+          
+          Map<String, String> namespaceMap = d.getDeclaredNamespaces();
+          String sbmlNamespace = null;
+          
+          if (namespaceMap.size() == 0) {
+            // Something is wrong with the namespace
+            return false;
+          }
+          
+          String namespaceKey = "xmlns";
+          
+          if (d.isSetUserObjects() && d.getUserObject(JSBML.ELEMENT_XML_PREFIX) != null) {
+            namespaceKey = namespaceKey + ":" + d.getUserObject(JSBML.ELEMENT_XML_PREFIX);
+          }
+
+          sbmlNamespace = namespaceMap.get(namespaceKey);
+          
+          if (sbmlNamespace == null) {
+            return false;
+          }
+          
+          int level = d.getLevel();          
+          int namespaceLevel = -1;
+          
+          int levelPosition = sbmlNamespace.indexOf("level");
+          
+          if (levelPosition == -1) {
+            namespaceLevel = -1;
+          } else {
+            String levelString = sbmlNamespace.substring(levelPosition + 5, levelPosition + 6);
+            
+            // get an int
+            try {
+              namespaceLevel = Integer.parseInt(levelString);
+            } catch (NumberFormatException e) {
+              // nothing to do
+            }
+          }
+          
+          return level == namespaceLevel;
         }
       };
       break;
@@ -210,10 +250,54 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument d) {
-          // TODO - The sbml container element must declare the SBML Version using the attribute 
-          // 'version', and this declaration must be consistent with the XML Namespace declared 
-          // for the sbml element.
-          return d.isSetVersion();
+
+          if (!d.isSetVersion()) {
+            return false;
+          }
+          
+          Map<String, String> namespaceMap = d.getDeclaredNamespaces();
+          String sbmlNamespace = null;
+          
+          if (namespaceMap.size() == 0) {
+            // Something is wrong with the namespace
+            return false;
+          }
+          
+          String namespaceKey = "xmlns";
+          
+          if (d.isSetUserObjects() && d.getUserObject(JSBML.ELEMENT_XML_PREFIX) != null) {
+            namespaceKey = namespaceKey + ":" + d.getUserObject(JSBML.ELEMENT_XML_PREFIX);
+          }
+
+          sbmlNamespace = namespaceMap.get(namespaceKey);
+          
+          if (sbmlNamespace == null) {
+            return false;
+          }
+          
+          int version = d.getVersion();          
+          int namespaceVersion = -1;
+          
+          int levelPosition = sbmlNamespace.indexOf("version");
+          
+          if (levelPosition == -1) {
+            namespaceVersion = 1;
+            
+            if (d.getLevel() == 1 && (version == 1 || version == 2)) {
+              return true;
+            }
+          } else {
+            String levelString = sbmlNamespace.substring(levelPosition + 7, levelPosition + 8);
+            
+            // get an int
+            try {
+              namespaceVersion = Integer.parseInt(levelString);
+            } catch (NumberFormatException e) {
+              // nothing to do
+            }
+          }
+          
+          return version == namespaceVersion;
         }
       };
       break;

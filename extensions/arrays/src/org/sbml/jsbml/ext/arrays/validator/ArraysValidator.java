@@ -125,7 +125,7 @@ public class ArraysValidator {
 
     // Validating all children
     @SuppressWarnings("unchecked")
-    Enumeration<TreeNode> children = node.children();
+    Enumeration<? extends TreeNode> children = node.children();
     
     while(children.hasMoreElements()) {
       TreeNode child = children.nextElement();

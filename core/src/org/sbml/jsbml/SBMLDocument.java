@@ -627,7 +627,7 @@ public class SBMLDocument extends AbstractSBase {
       }
     }
     if (recursively) {
-      Enumeration<TreeNode> children = sbase.children();
+      Enumeration<? extends TreeNode> children = sbase.children();
       while (children.hasMoreElements()) {
         TreeNode node = children.nextElement();
 
