@@ -640,6 +640,10 @@ public class SBMLReader {
 
           SBMLDocument sbmlDocument = new SBMLDocument();
           sbmlDocument.putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
+          
+          if (currentNode.getPrefix() != null && currentNode.getPrefix().trim().length() > 0) {
+            sbmlDocument.putUserObject(JSBML.ELEMENT_XML_PREFIX, currentNode.getPrefix());  
+          }
 
           // the output of the change listener is activated or not via log4j.properties
           sbmlDocument.addTreeNodeChangeListener(listener == null

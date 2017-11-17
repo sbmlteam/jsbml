@@ -180,7 +180,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
     }
 
     List<Object> listOfElementsToWrite = new ArrayList<Object>();
-    Enumeration<TreeNode> children = null;
+    Enumeration<? extends TreeNode> children = null;
 
     if (sbase instanceof SBMLDocument) {
       // nothing to do

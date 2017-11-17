@@ -139,12 +139,14 @@ public class JSBML {
   public static final transient String ALLOW_INVALID_SBML = "jsbml.allow.invalid.sbml"; 
   
   /**
+   * Key used to indicate that we are in the process of reading an XML document.
    * 
+   * @see #ALLOW_INVALID_SBML
    */
   public static final transient String READING_IN_PROGRESS = ALLOW_INVALID_SBML;   
   
   /**
-   * 
+   * Key used to indicate that we are in the process of cloning an object.
    */
   public static final transient String CLONING_IN_PROGRESS = "jsbml.cloning.in.progress";
 
@@ -164,6 +166,12 @@ public class JSBML {
    * in the user objects of the corresponding {@link SBase}).
    */
   public static final transient String INVALID_XML = "jsbml.invalid.xml";
+  
+  /**
+   * Key used to store the XML prefix of an element when needed.
+   */
+  public static final transient String ELEMENT_XML_PREFIX = "jsbml.element.xml.prefix";
+  
 
   /**
    * Key used to store the list of the xml child element names of an SBase. It later allows
