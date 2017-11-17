@@ -454,8 +454,14 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
     if (equals) {
       // Cast is possible because super class checks the class attributes
       Reaction r = (Reaction) object;
-      equals &= r.fast == fast;
-      equals &= r.reversible == reversible;
+      equals &= r.isSetFast() == isSetFast();
+      if (equals && isSetFast()) {
+        equals &= r.fast.equals(fast);
+      }
+      equals &= r.isSetReversible() == isSetReversible();
+      if (equals && isSetReversible()) {
+        equals &= r.reversible.equals(reversible);
+      }
       equals &= r.getCompartment().equals(getCompartment());
     }
     return equals;
