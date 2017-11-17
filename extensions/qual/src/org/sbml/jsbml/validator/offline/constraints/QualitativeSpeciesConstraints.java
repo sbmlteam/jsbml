@@ -21,14 +21,17 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.ext.qual.Output;
 import org.sbml.jsbml.ext.qual.QualConstants;
+import org.sbml.jsbml.ext.qual.QualModelPlugin;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
+import org.sbml.jsbml.ext.qual.Transition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 
 /**
  * @author Nicolas Rodriguez, Lisa Falk
@@ -36,89 +39,228 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttribu
  */
 public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration {
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
-   */
-  @Override
-  public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName, ValidationContext context) {
-    // TODO 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
+	 * addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
+	 */
+	@Override
+	public void addErrorCodesForAttribute(Set<Integer> set, int level, int version, String attributeName,
+			ValidationContext context) {
+		// TODO
 
-  }
+	}
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForCheck(java.util.Set, int, int, org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
-   */
-  @Override
-  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-    CHECK_CATEGORY category, ValidationContext context) {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
+	 * addErrorCodesForCheck(java.util.Set, int, int,
+	 * org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
+	 */
+	@Override
+	public void addErrorCodesForCheck(Set<Integer> set, int level, int version, CHECK_CATEGORY category,
+			ValidationContext context) {
 
-    switch (category) {
-    case GENERAL_CONSISTENCY:
+		switch (category) {
+		case GENERAL_CONSISTENCY:
+			if (level >= 3) {
+				set.add(QUAL_20308);
 
-      addRangeToSet(set, QUAL_20301, QUAL_20313); // TODO - not sure all rules should go into that category
-      
-      break;
-    case IDENTIFIER_CONSISTENCY:
-      break;
-    case MATHML_CONSISTENCY:
-      break;
-    case MODELING_PRACTICE:
-      break;
-    case OVERDETERMINED_MODEL:
-      break;
-    case SBO_CONSISTENCY:
-      break;
-    case UNITS_CONSISTENCY:
-      break;
-    }
-  }
+				addRangeToSet(set, QUAL_20301, QUAL_20303);
 
+				set.add(QUAL_20310);
 
-  @Override
-  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
-    ValidationFunction<QualitativeSpecies> func = null;
+				set.add(QUAL_20309);
 
-    switch (errorCode) {
-    
-      case QUAL_20301: {
-        func = new UnknownCoreAttributeValidationFunction<QualitativeSpecies>();
-        break;
-      }
-      case QUAL_20302: {
-        // TODO - for the rules about unknown elements to work, the QualParser need to be modified to register those unknown elements if necessary
-        func = new UnknownCoreElementValidationFunction<QualitativeSpecies>();
-        break;
-      }
+				addRangeToSet(set, QUAL_20312, QUAL_20313);
+			}
+			break;
 
-      case QUAL_20303: {
-        func = new UnknownPackageAttributeValidationFunction<QualitativeSpecies>(QualConstants.shortLabel) {
+		case IDENTIFIER_CONSISTENCY:
+			if (level >= 3) {
+				addRangeToSet(set, QUAL_20304, QUAL_20307);
+			}
 
-          /* (non-Javadoc)
-           * @see org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction#check(org.sbml.jsbml.validator.offline.ValidationContext, org.sbml.jsbml.util.TreeNodeWithChangeSupport)
-           */
-          @Override
-          public boolean check(ValidationContext ctx, QualitativeSpecies t) {
-            // id, compartment and constant are required
-            if (!t.isSetConstant() || !t.isSetCompartment() || !t.isSetId()) {
-              return false;
-            }
-            
-            return super.check(ctx, t);
-          }
-          
-          
-        };
-        break;
-      }
+			break;
 
-      case QUAL_20304: {
-        func = new InvalidAttributeValidationFunction<QualitativeSpecies>(QualConstants.constant);
-        break;
-      }
-    }
+		case MATHML_CONSISTENCY:
+			break;
 
-    return func;
-  }
+		case MODELING_PRACTICE:
+			if (level >= 3) {
+				set.add(QUAL_20311);
+			}
+			break;
 
+		case OVERDETERMINED_MODEL:
+			break;
+
+		case SBO_CONSISTENCY:
+			break;
+
+		case UNITS_CONSISTENCY:
+			break;
+		}
+	}
+
+	@Override
+	public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
+		ValidationFunction<QualitativeSpecies> func = null;
+
+		switch (errorCode) {
+
+		case QUAL_20301: {
+			// may have the optional attributes metaid and sboTerm
+			// no other namespaces are permitted
+			func = new UnknownCoreAttributeValidationFunction<QualitativeSpecies>();
+			break;
+		}
+		case QUAL_20302: {
+			// may have the optional subobjects for notes and annotations
+			// no other namespaces are permitted
+			// TODO - for the rules about unknown elements to work, the QualParser need to
+			// be modified to register those unknown elements if necessary
+			func = new UnknownCoreElementValidationFunction<QualitativeSpecies>();
+			break;
+		}
+
+		case QUAL_20303: {
+			// must have the required attributes qual:id, qual:compartment and qual:constant
+			// may have the optional attributes qual:name, qual:initialLeveland
+			// qual:maxLevel
+			// no other namespaces are permitted
+
+			func = new UnknownPackageAttributeValidationFunction<QualitativeSpecies>(QualConstants.shortLabel) {
+
+				/*
+				 * (non-Javadoc)
+				 * 
+				 * @see org.sbml.jsbml.validator.offline.constraints.helper.
+				 * UnknownPackageAttributeValidationFunction#check(org.sbml.jsbml.validator.
+				 * offline.ValidationContext, org.sbml.jsbml.util.TreeNodeWithChangeSupport)
+				 */
+				@Override
+				public boolean check(ValidationContext ctx, QualitativeSpecies t) {
+					// id, compartment and constant are required
+					if (!t.isSetConstant() || !t.isSetCompartment() || !t.isSetId()) {
+						return false;
+					}
+
+					return super.check(ctx, t);
+				}
+			};
+			break;
+		}
+
+		case QUAL_20304: {
+			// The attribute qual:constant must be of the data type boolean
+			func = new InvalidAttributeValidationFunction<QualitativeSpecies>(QualConstants.constant);
+			break;
+		}
+
+		case QUAL_20305:
+			// The attribute qual:name must be of the data type string
+			func = new InvalidAttributeValidationFunction<QualitativeSpecies>(QualConstants.name);
+			break;
+
+		case QUAL_20306:
+			// The attribute qual:initialLevel must be of the data type integer
+			func = new InvalidAttributeValidationFunction<QualitativeSpecies>(QualConstants.initialLevel);
+			break;
+
+		case QUAL_20307:
+			// The attribute qual:maxLevel must be of the data type integer
+			func = new InvalidAttributeValidationFunction<QualitativeSpecies>(QualConstants.maxLevel);
+			break;
+
+		case QUAL_20308:
+			// The value of the attribute qual:compartment must be the identifier
+			// of an existing Compartment object defined in the enclosing Model object
+
+			func = new ValidationFunction<QualitativeSpecies>() {
+				@Override
+				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
+					if (qs.isSetCompartment() && qs.getModel() != null && qs.getCompartmentInstance() == null) {
+						ValidationConstraint.logError(ctx, QUAL_20308, qs.getId(), qs.getCompartment());
+						return false;
+					}
+					return true;
+				}
+			};
+			break;
+
+		case QUAL_20309:
+			// The value of the attribute qual:initialLevel cannot be greater than the
+			// value of the qual:maxLevel attribute for the given QualitativeSpecies object
+			func = new ValidationFunction<QualitativeSpecies>() {
+				@Override
+				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
+					if (qs.isSetInitialLevel() && qs.isSetMaxLevel() && qs.getInitialLevel() > qs.getMaxLevel()) {
+						return false;
+					}
+					return true;
+				}
+			};
+			break;
+
+		case QUAL_20310:
+			// If the attribute qual:constant set to true it can only be referred to by an
+			// Input
+			// It cannot be the subject of an Output in a Transition
+			func = new ValidationFunction<QualitativeSpecies>() {
+				@Override
+				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
+					if (qs.isSetConstant() && qs.getConstant()) {
+						QualModelPlugin qmp = (QualModelPlugin) qs.getModel().getPlugin(qs.getNamespace());
+						for (Transition trans : qmp.getListOfTransitions()) {
+							for (Output output : trans.getListOfOutputs()) {
+								if (output.getQualitativeSpecies().equals(qs.getId())) {
+									return false;
+								}
+							}
+						}
+					}
+					return true;
+				}
+			};
+			break;
+
+		case QUAL_20311:
+			// recommendation!!
+			// A QualitativeSpecies that is referenced by an Output with the
+			// qual:transitionEffect attribute
+			// set to “assignmentLevel” cannot be referenced by any other Output with the
+			// same
+			// transitionEffect throughout the set of transitions for the containing model.
+
+		case QUAL_20312:
+			// The attribute qual:initialLevel must not be negative
+			func = new ValidationFunction<QualitativeSpecies>() {
+				@Override
+				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
+					if (qs.isSetInitialLevel() && qs.getInitialLevel() < 0) {
+						return false;
+					}
+					return true;
+				}
+			};
+			break;
+
+		case QUAL_20313:
+			// The attribute qual:maxLevel must not be negative.
+			func = new ValidationFunction<QualitativeSpecies>() {
+				@Override
+				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
+					if (qs.isSetMaxLevel() && qs.getMaxLevel() < 0) {
+						return false;
+					}
+					return true;
+				}
+			};
+			break;
+		}
+		return func;
+	}
 }
