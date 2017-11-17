@@ -101,9 +101,11 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   private String speciesTypeID;
 
   /**
-   * Creates a Species instance. By default, the charge, {@link #compartmentID},
+   * Creates a Species instance. 
+   * 
+   * <p>By default, the charge, {@link #compartmentID},
    * speciesTypeID, conversionFactorID, hasOnlySubstanceUnits,
-   * boundaryCondition are {@code null}.
+   * boundaryCondition are {@code null}.</p>
    */
   public Species() {
     super();
@@ -111,12 +113,14 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
-   * Creates a Species instance from a level and version. By default, the
-   * charge, {@link #compartmentID}, speciesTypeID, conversionFactorID,
-   * hasOnlySubstanceUnits, boundaryCondition are {@code null}.
+   * Creates a Species instance from a level and version. 
    * 
-   * @param level
-   * @param version
+   * <p>By default, the
+   * charge, {@link #compartmentID}, speciesTypeID, conversionFactorID,
+   * hasOnlySubstanceUnits, boundaryCondition are {@code null}.</p>
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Species(int level, int version) {
     this(null, null, level, version);
@@ -125,7 +129,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Creates a Species instance from a Species.
    * 
-   * @param species
+   * @param species the {@link Species} instance to be cloned. 
    */
   public Species(Species species) {
     super(species);
@@ -171,8 +175,9 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
+   * Creates a new {@link Species} instance with the given id.
    * 
-   * @param id
+   * @param id the species id
    */
   public Species(String id) {
     this();
@@ -180,24 +185,27 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
-   * Creates a Species instance from a level and verison. By default, the
-   * charge, {@link #compartmentID}, speciesTypeID, conversionFactorID,
-   * hasOnlySubstanceUnits, boundaryCondition are {@code null}.
+   * Creates a Species instance from a level and version. 
    * 
-   * @param id
-   * @param level
-   * @param version
+   * <p>By default, the
+   * charge, {@link #compartmentID}, speciesTypeID, conversionFactorID,
+   * hasOnlySubstanceUnits, boundaryCondition are {@code null}.</p>
+   * 
+   * @param id the species id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Species(String id, int level, int version) {
     this(id, null, level, version);
   }
 
   /**
+   * Creates a new {@link Species} instance with the given id.
    * 
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * @param id the species id
+   * @param name the species name
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Species(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -267,11 +275,18 @@ public class Species extends Symbol implements CompartmentalizedSBase {
       if (equals && isSetSpatialSizeUnits()) {
         equals &= s.getSpatialSizeUnits().equals(getSpatialSizeUnits());
       }
+      
+      equals &= s.isSetConversionFactor() == isSetConversionFactor();
+      if (equals && isSetConversionFactor()) {
+        equals &= s.getConversionFactor().equals(getConversionFactor());
+      }
     }
+    
     return equals;
   }
 
   /**
+   * Returns the boundaryCondition Boolean of this Species.
    * 
    * @return the boundaryCondition Boolean of this Species.
    */
@@ -280,6 +295,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
+   * Returns the charge of this {@link Species}.
    * 
    * @return the charge value of this Species if it is set, 0 otherwise.
    */
@@ -311,16 +327,18 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
+   * Returns the conversionFactor of this Species.
    * 
-   * @return the conversionFactorID of this Species.
+   * @return the conversionFactor of this Species.
    */
   public String getConversionFactor() {
     return conversionFactorID;
   }
 
   /**
+   * Returns the conversionFactor of this Species as a {@link Parameter} instance.
    * 
-   * @return the Parameter instance which has the conversionFactorID of this
+   * @return the Parameter instance which has the conversionFactor of this
    *         Species as id, null if it doesn't exist.
    */
   public Parameter getConversionFactorInstance() {
@@ -445,6 +463,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
+   * Returns the hasOnlySubstanceUnits Boolean of this Species.
    * 
    * @return the hasOnlySubstanceUnits Boolean of this Species.
    */
@@ -453,6 +472,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
+   * Returns the initialAmount of this {@link Species}.
    * 
    * @return the initialAmount of this Species if it has been set, o
    *         otherwise.
@@ -465,6 +485,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
+   * Returns the initialConcentration of this {@link Species}.
    * 
    * @return the initialConcentration of this {@link Species} if it has been
    *         set, o otherwise.
@@ -489,10 +510,12 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
-   * If determined, this method first checks the explicitly set spatial size
+   * Returns the spatialSizeUnits of this {@link Species}.
+   * 
+   * <p>If determined, this method first checks the explicitly set spatial size
    * units of this {@link Species}. If no such value is defined, it will
    * return the units of the surrounding {@link Compartment}. Only if this is
-   * also not possible, an empty {@link String} will be returned.
+   * also not possible, an empty {@link String} will be returned.</p>
    * 
    * @return the spatialSizeUnits of this {@link Species}.
    * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
@@ -507,15 +530,17 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
-   * Determines the spatial units of this {@link Species}. If the spatial
-   * units have been set explicitly using {@link #spatialSizeUnitsID} the
+   * Returns the spatialSizeUnits {@link UnitDefinition} instance of this {@link Species}.
+   * 
+   * <p>Determines the spatial units of this {@link Species}. If the spatial
+   * units have been set explicitly using 'spatialSizeUnits' the
    * corresponding {@link UnitDefinition} from the {@link Model} to which this
    * {@link Species} belongs will be returned. Otherwise, the size unit from
    * the surrounding {@link Compartment} of this {@link Species} will be
-   * returned. If this also fails, {@code null} will be returned.
+   * returned. If this also fails, {@code null} will be returned.</p>
    * 
    * @return The {@link UnitDefinition} instance which as the
-   *         {@link #spatialSizeUnitsID} of this {@link Species} as id or the
+   *         'spatialSizeUnits' of this {@link Species} as id or the
    *         size unit of the surrounding {@link Compartment}.
    *         {@code null} if it doesn't exist.
    * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
@@ -532,8 +557,9 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
+   * Returns the speciesType of this {@link Species}.
    * 
-   * @return the speciesTypeID of this {@link Species}. The empty String if it
+   * @return the speciesType of this {@link Species}. The empty String if it
    *         is not set.
    * @deprecated Only valid for SBML Level 2 Versions 2, 3, and 4.
    */
@@ -543,8 +569,9 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
+   * Returns the speciesType of this {@link Species} as a {@link SpeciesType}.
    * 
-   * @return the SpeciesType instance which has the speciesTypeID of this
+   * @return the SpeciesType instance which has the speciesType of this
    *         Species as id. Null if it doesn't exist.
    * @deprecated Only valid for SBML Level 2 Versions 2, 3, and 4.
    */
@@ -557,8 +584,9 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
+   * Returns the substanceUnits of this Species.
    * 
-   * @return the substanceUnitsID of this Species.
+   * @return the substanceUnits of this Species.
    */
   public String getSubstanceUnits() {
     String units = getUnits();
@@ -572,8 +600,9 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
+   * Returns the substanceUnits of this Species as a {@link UnitDefinition} instance.
    * 
-   * @return The UnitsDefinition instance which has the substanceUnistID of
+   * @return The UnitsDefinition instance which has the substanceUnist of
    *         this Species as id.
    */
   public UnitDefinition getSubstanceUnitsInstance() {
@@ -613,12 +642,17 @@ public class Species extends Symbol implements CompartmentalizedSBase {
     if (isSetSpatialSizeUnits()) {
       hashCode += prime * getSpatialSizeUnits().hashCode();
     }
+    if (isSetConversionFactor()) {
+      hashCode += prime * getConversionFactor().hashCode();
+    }
+    
     return hashCode;
   }
 
   /**
+   * Returns the 'hasOnlySubstanceUnits' for this {@link Species}.
    * 
-   * @return
+   * @return the 'hasOnlySubstanceUnits' for this {@link Species}.
    */
   public boolean hasOnlySubstanceUnits() {
     return isSetHasOnlySubstanceUnits() ? hasOnlySubstanceUnits
@@ -635,18 +669,19 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Initializes the default values of this Species.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public void initDefaults(int level, int version) {
     initDefaults(level, version, false);
   }
 
   /**
+   * Initializes the default values of this Species.
    * 
-   * @param level
-   * @param version
-   * @param explicit
+   * @param level the SBML level
+   * @param version the SBML version
+   * @param explicit whether to set the values explicitly or not
    */
   public void initDefaults(int level, int version, boolean explicit) {
     amount = true;
@@ -868,29 +903,20 @@ public class Species extends Symbol implements CompartmentalizedSBase {
         }
       }
 
-      if (getLevel() == 2) {
-
-        if (getVersion() < 3) {
-          if (attributeName.equals("spatialSizeUnits")) {
-            setSpatialSizeUnits(value);
-            return true;
-          }
-        }
-
-        if (getVersion() > 1) {
-          if (attributeName.equals("speciesType")) {
-            setSpeciesType(value);
-            return true;
-          }
-        }
+      if (attributeName.equals("spatialSizeUnits")) {
+        setSpatialSizeUnits(value);
+        return true;
       }
 
-      if (getLevel() < 3) {
+      if (attributeName.equals("speciesType")) {
+        setSpeciesType(value);
+        return true;
+      }
+
         if (attributeName.equals("charge")) {
           setCharge(StringTools.parseSBMLInt(value));
           return true;
         }
-      }
 
       if (getLevel() == 3) {
         if (attributeName.equals("conversionFactor")) {
@@ -917,7 +943,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Sets the boundaryCondition Boolean.
    * 
-   * @param boundaryCondition
+   * @param boundaryCondition the boundary condition
    */
   public void setBoundaryCondition(boolean boundaryCondition) {
     Boolean oldBoundaryCondition = this.boundaryCondition;
@@ -930,7 +956,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Sets the charge of this {@link Species}.
    * 
-   * @param charge
+   * @param charge the charge
    * @deprecated Only defined in SBML Level 1, Version 1 and 2, and Level 2
    *             Version 1. Since Level 2 Version 2 it has been marked as a
    *             deprecated property, but has been completely removed in SBML
@@ -971,6 +997,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
     // TODO - do a call to the offline validator once all the species attribute checks are in place.
     if ((compartment == null) || checkIdentifier(compartment)) {
       String oldCompartment = compartmentID;
+      
       if ((compartment != null) && (compartment.trim().length() == 0)) {
         compartmentID = null;
       } else {
@@ -984,10 +1011,10 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
-   * Sets the conversionFactorID of this {@link Species} to the id of
+   * Sets the conversionFactor of this {@link Species} to the id of
    * 'conversionFactor'. This is only possible if Level &gt;= 3.
    * 
-   * @param conversionFactor
+   * @param conversionFactor the conversion factor
    */
   public void setConversionFactor(Parameter conversionFactor) {
     setConversionFactor(conversionFactor != null ? conversionFactor.getId()
@@ -995,10 +1022,10 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   }
 
   /**
-   * Sets the conversionFactorID of this {@link Species} to
+   * Sets the conversionFactor of this {@link Species} to
    * 'conversionFactorID'. This is only possible if Level &gt;= 3.
    * 
-   * @param conversionFactorID
+   * @param conversionFactorID the conversion factor
    * @throws PropertyNotAvailableException if Level &lt; 3.
    */
   public void setConversionFactor(String conversionFactorID) {
@@ -1020,7 +1047,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Sets hasOnlySubstanceUnits Boolean
    * 
-   * @param hasOnlySubstanceUnits
+   * @param hasOnlySubstanceUnits the has only substance units value to be set
    * @throws PropertyNotAvailableException if Level &lt; 2.
    */
   public void setHasOnlySubstanceUnits(boolean hasOnlySubstanceUnits) {
@@ -1045,7 +1072,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Sets the initialAmount of this {@link Species}.
    * 
-   * @param initialAmount
+   * @param initialAmount the initial amount
    */
   public void setInitialAmount(double initialAmount) {
     // store initialConcentration in user define object to allow validation of incorrect SBML files
@@ -1063,7 +1090,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Sets the initialConcentration of this {@link Species}.
    * 
-   * @param initialConcentration
+   * @param initialConcentration the initial concentration
    */
   public void setInitialConcentration(double initialConcentration) {
     // store initialAmount in user define object to allow validation of incorrect SBML files
@@ -1082,11 +1109,11 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    * Sets the spatialSizeUnitsID of this {@link Species} to
    * 'spatialSizeUnits'.
    * 
-   * @param spatialSizeUnits
+   * @param spatialSizeUnits the unit to set
    * @deprecated This property is only valid for SBML Level 2 Versions 1 and
    *             2.
    * @throws PropertyNotAvailableException
-   *         for inapropriate Level/Version combinations.
+   *         for inappropriate Level/Version combinations.
    * @throws SBMLException
    *         in case that {@link #hasOnlySubstanceUnits()} is set to
    *         {@code true} or the spatial dimensions of the surrounding
@@ -1119,25 +1146,25 @@ public class Species extends Symbol implements CompartmentalizedSBase {
         "Cannot set spatial size units on species {0} because its surrounding compartment has zero dimensions.",
         toString()));
     }
+    
+    // end of the checks and start of the simple setter
     String oldSpatialSizeUnits = spatialSizeUnitsID;
-    if ((spatialSizeUnits != null)
-        && (spatialSizeUnits.trim().length() == 0)) {
+    if ((spatialSizeUnits != null) && (spatialSizeUnits.trim().length() == 0)) {
       spatialSizeUnitsID = null;
     } else {
       spatialSizeUnitsID = spatialSizeUnits;
     }
-    firePropertyChange(TreeNodeChangeEvent.spatialSizeUnits,
-      oldSpatialSizeUnits, spatialSizeUnitsID);
+    firePropertyChange(TreeNodeChangeEvent.spatialSizeUnits, oldSpatialSizeUnits, spatialSizeUnitsID);
   }
 
   /**
    * Sets the spatialSizeUnitsID of this {@link Species} to the id of
    * 'spatialSizeUnits'.
    * 
-   * @param spatialSizeUnits
+   * @param spatialSizeUnits the unit to set
    * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
    * @throws PropertyNotAvailableException
-   *         for inapropriate Level/Version combinations.
+   *         for inappropriate Level/Version combinations.
    * @throws SBMLException
    *         in case that {@link #hasOnlySubstanceUnits()} is set to
    *         {@code true} or the spatial dimensions of the surrounding
@@ -1153,8 +1180,8 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    * Sets the speciesTypeID of this {@link Species} to the id of
    * 'speciesType'.
    * 
-   * @param speciesType
-   * @deprecated
+   * @param speciesType the species type to set
+   * @deprecated This property is only valid for SBML Level 2 from Version 2.
    */
   @Deprecated
   public void setSpeciesType(SpeciesType speciesType) {
@@ -1164,10 +1191,10 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Sets the speciesTypeID of this {@link Species} to 'speciesType'.
    * 
-   * @param speciesType
-   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
+   * @param speciesType the species type to set
+   * @deprecated Only valid in SBML Level 2 from Version 2.
    * @throws PropertyNotAvailableException
-   *             for inapropriate Level/Version combinations.
+   *             for inappropriate Level/Version combinations.
    */
   @Deprecated
   public void setSpeciesType(String speciesType) {
@@ -1188,7 +1215,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Sets the substanceUnitsID to 'unit'.
    * 
-   * @param unit
+   * @param unit the unit to set
    */
   public void setSubstanceUnits(String unit) {
     setUnits(unit);
@@ -1197,7 +1224,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Sets the substanceUnits.
    * 
-   * @param unit
+   * @param unit the unit to set
    */
   public void setSubstanceUnits(Unit unit) {
     setUnits(unit);
@@ -1206,7 +1233,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Sets the substanceUnits.
    * 
-   * @param unitKind
+   * @param unitKind the unit to set
    */
   public void setSubstanceUnits(Unit.Kind unitKind) {
     setUnits(unitKind);
@@ -1215,7 +1242,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Sets the substanceUnitsID to the id of 'units'.
    * 
-   * @param units
+   * @param units the unit to set
    */
   public void setSubstanceUnits(UnitDefinition units) {
     setUnits(units);
@@ -1224,7 +1251,10 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   /**
    * Unsets the charge of this Species
    * 
-   * @deprecated
+   * @deprecated  Only defined in SBML Level 1, Version 1 and 2, and Level 2
+   *             Version 1. Since Level 2 Version 2 it has been marked as a
+   *             deprecated property, but has been completely removed in SBML
+   *             Level 3.
    */
   @Deprecated
   public void unsetCharge() {

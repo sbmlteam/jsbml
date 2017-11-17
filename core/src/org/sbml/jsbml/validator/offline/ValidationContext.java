@@ -22,9 +22,8 @@ package org.sbml.jsbml.validator.offline;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
-
-import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.ValuePair;
@@ -88,7 +87,7 @@ public class ValidationContext {
   /**
    * A map where any objects can be stored during validation
    */
-  private HashMap<String, Object>         hashMap = new HashMap<String, Object>();
+  private Map<String, Object>         hashMap = new HashMap<String, Object>();
 
   // The level and version of the SBML specification
   /**
@@ -103,8 +102,8 @@ public class ValidationContext {
    * Is the validation done recursively or not
    */
   private boolean                         recursiv = true;
-  
-  // TODO - package version for all packages - if not given, take latest version ? 
+
+  // TODO - package version for all packages - if not given, take latest version ?
 
 
   /**
@@ -132,12 +131,12 @@ public class ValidationContext {
     this.categories = categories;
     this.rootConstraint = rootConstraint;
     this.categories.add(CHECK_CATEGORY.GENERAL_CONSISTENCY); // TODO - why adding this one all the time ?
-    this.listenerSet = new HashSet<ValidationListener>();
+    listenerSet = new HashSet<ValidationListener>();
   }
 
 
   /**
-   * Adds a {@link ValidationListener} to this context. 
+   * Adds a {@link ValidationListener} to this context.
    * 
    * <p> A {@link ValidationContext} can have
    * multiple listeners and every attached listener will receive the events from
@@ -151,7 +150,7 @@ public class ValidationContext {
     }
   }
 
-  
+
   /**
    * Clears the loaded constraints
    */
@@ -168,7 +167,7 @@ public class ValidationContext {
    * 
    * @param constraint the constraint that has been validated
    * @param o the object on which the constraint that has been validated
-   * @param success {@code true} if the constraint was successful, {@code false} if an error was detected. 
+   * @param success {@code true} if the constraint was successful, {@code false} if an error was detected.
    */
   public final void didValidate(AnyConstraint<?> constraint, Object o, boolean success) {
     for (ValidationListener l : listenerSet) {
@@ -215,7 +214,7 @@ public class ValidationContext {
 
 
   /**
-   * Loads the constraints to validate a Object from the class. 
+   * Loads the constraints to validate a Object from the class.
    * 
    * <p>Uses the
    * CheckCategories, level and version of this context. Resets the root
@@ -275,10 +274,10 @@ public class ValidationContext {
   public void loadConstraintsForAttribute(Class<?> clazz, String attributeName) {
     ConstraintFactory factory = ConstraintFactory.getInstance();
 
-    AnyConstraint<Object> c = (AnyConstraint<Object>) factory.getConstraintsForAttribute(clazz,
-        attributeName, level, version, this);
+    AnyConstraint<Object> c = factory.getConstraintsForAttribute(clazz,
+      attributeName, level, version, this);
 
-    this.setRootConstraint(c, clazz);
+    setRootConstraint(c, clazz);
   }
 
 
@@ -313,7 +312,7 @@ public class ValidationContext {
    * 
    * @return the validation objects {@link HashMap}.
    */
-  public HashMap<String, Object> getHashMap() {
+  public Map<String, Object> getHashMap() {
     return hashMap;
   }
 
@@ -346,11 +345,11 @@ public class ValidationContext {
 
 
   /**
-   * Returns the root constraint from this context. 
+   * Returns the root constraint from this context.
    * 
    * <p>The value may be
    * <code>null</code> if no constraint was loaded. The
-   * {@link AnyConstraint#check(ValidationContext, Object)} method will be called on 
+   * {@link AnyConstraint#check(ValidationContext, Object)} method will be called on
    * the root constraint in {@link #validate(Object)}.</p>
    * 
    * @return the root constraint or {@code null} if no constraints were loaded
@@ -393,11 +392,11 @@ public class ValidationContext {
   public boolean isEnabledCategory(CHECK_CATEGORY checkCategory) {
     return categories.contains(checkCategory);
   }
-  
+
 
   /**
    * Checks if the level and version of this context is less then the given
-   * level and version. 
+   * level and version.
    * 
    * <p>A level and version pair is less if either the level
    * is smaller or the level is equal but the version is smaller.</p>
@@ -409,13 +408,13 @@ public class ValidationContext {
    */
   public boolean isLevelAndVersionLessThan(int level, int version) {
     return (this.level < level)
-      || (this.level == level && this.version < version);
+        || (this.level == level && this.version < version);
   }
 
 
   /**
    * Checks if the level and version of this context is greater than the given
-   * level and version. 
+   * level and version.
    * 
    * <p>A level and version pair is greater if either the level
    * is greater or the level is equal but the version is greater.</p>
@@ -423,11 +422,11 @@ public class ValidationContext {
    * @param level the SBML level
    * @param version the SBML version
    * @return {@code true} if the level and version of this context is greater than the given
-   * level and version. 
+   * level and version.
    */
   public boolean isLevelAndVersionGreaterThan(int level, int version) {
     return (this.level > level)
-      || (this.level == level && this.version > version);
+        || (this.level == level && this.version > version);
   }
 
 
@@ -458,7 +457,7 @@ public class ValidationContext {
    */
   public boolean isLevelAndVersionGreaterEqualThan(int level, int version) {
     return isLevelAndVersionGreaterThan(level, version)
-      || isLevelAndVersionEqualTo(level, version);
+        || isLevelAndVersionEqualTo(level, version);
   }
 
 
@@ -475,7 +474,7 @@ public class ValidationContext {
    */
   public boolean isLevelAndVersionLesserEqualThan(int level, int version) {
     return isLevelAndVersionLessThan(level, version)
-      || isLevelAndVersionEqualTo(level, version);
+        || isLevelAndVersionEqualTo(level, version);
   }
 
 
@@ -499,7 +498,7 @@ public class ValidationContext {
    * @see #setLevelAndVersion(int, int)
    */
   public void setLevel(int level) {
-    setLevelAndVersion(level, this.version);
+    setLevelAndVersion(level, version);
   }
 
 
@@ -512,8 +511,8 @@ public class ValidationContext {
    */
   public void setLevelAndVersion(int level, int version) {
     if (level != this.level || version != this.version) {
-      this.rootConstraint = null;
-      this.constraintType = null;
+      rootConstraint = null;
+      constraintType = null;
       this.level = level;
       this.version = version;
     }
@@ -531,7 +530,7 @@ public class ValidationContext {
     if (logger.isDebugEnabled()) {
       logger.debug("Set type to " + constraintType.getSimpleName());
     }
-    
+
     this.rootConstraint = rootConstraint;
     this.constraintType = constraintType;
   }
@@ -547,7 +546,7 @@ public class ValidationContext {
    */
   public void setValidateRecursively(boolean recursive) {
 
-    this.recursiv = recursive;
+    recursiv = recursive;
 
   }
 
@@ -558,7 +557,7 @@ public class ValidationContext {
    * @param version the SBML version
    */
   public void setVersion(int version) {
-    setLevelAndVersion(this.level, version);
+    setLevelAndVersion(level, version);
   }
 
 
@@ -598,7 +597,7 @@ public class ValidationContext {
         if (logger.isDebugEnabled()) {
           logger.debug("rooConstraint class = '" + rootConstraint.getClass().getSimpleName() + "' has " + ((ConstraintGroup<Object>) rootConstraint).getConstraintsCount() + " child.");
         }
-        
+
         if (clearMap) {
           hashMap.clear();
         }
@@ -607,8 +606,8 @@ public class ValidationContext {
       } else {
 
         logger.error("Tried to validate a object of class " + o.getClass().getName()
-            + ", but the ValidationContext loaded the constraints for class "
-            + constraintType.getName() + ".");
+          + ", but the ValidationContext loaded the constraints for class "
+          + constraintType.getName() + ".");
       }
     } else {
       logger.error("Tried to validate a object, but the ValidationContext didn't load any constraints.");
