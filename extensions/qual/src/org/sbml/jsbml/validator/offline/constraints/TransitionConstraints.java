@@ -21,9 +21,21 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.ext.qual.FunctionTerm;
+import org.sbml.jsbml.ext.qual.Input;
+import org.sbml.jsbml.ext.qual.Output;
+import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.ext.qual.Transition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 
 /**
  * @author Nicolas Rodriguez, Lisa Falk
@@ -82,63 +94,161 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 			// may have the optional attributes metaid and sboTerm
 			// no other namespaces are permitted
 
+			func = new UnknownCoreAttributeValidationFunction<Transition>();
+			break;
+
 		case QUAL_20402:
 			// may have the optional subobjects for notes and annotations
 			// no other namespaces are permitted
 
+			func = new UnknownCoreElementValidationFunction<Transition>();
+			break;
+
 		case QUAL_20403:
 			// may have the optional attributes qual:id, name
 			// no other namespaces are permitted
+
+			func = new UnknownPackageAttributeValidationFunction<Transition>(QualConstants.shortLabel);
+			break;
+
+		case QUAL_20404:
+			// The attribute name must be of the data type String
+			// edit Transition.readAttribute
+
+			func = new InvalidAttributeValidationFunction<Transition>(QualConstants.name);
+			break;
+
+		case QUAL_20405:
+			// must have one and only one instance of the ListOfFunctionTerms objects
+			// and may have at most one instance of the ListOfInputs and ListOfOutputs
+			// objects
+
 			func = new ValidationFunction<Transition>() {
+
 				@Override
 				public boolean check(ValidationContext ctx, Transition t) {
-
+					if (t.isSetListOfFunctionTerms()) {
+						return new DuplicatedElementValidationFunction<Transition>("listOfReactants").check(ctx, t)
+								&& new DuplicatedElementValidationFunction<Transition>("listOfInputs").check(ctx, t)
+								&& new DuplicatedElementValidationFunction<Transition>("listOfOutputs").check(ctx, t);
+					}
 					return false;
 				}
 			};
 			break;
 
-		case QUAL_20404:
-			// The attribute name must be of the data type String
-
-
-		case QUAL_20405:
-			// must have one and only one instance of the ListOfFunctionTerms objects
-			// and may have at most one instance of the ListOfInputs and ListOfOutputs objects
-
 		case QUAL_20406:
 			// ListOfInputs and ListOfOutputs subobjects on a are optional,
 			// but if present, these container object must not be empty.
 
+			func = new ValidationFunction<Transition>() {
+
+				@Override
+				public boolean check(ValidationContext ctx, Transition t) {
+					// if ListOfInputs or ListOfOutputs are empty, we return false, else true
+					return !((t.isSetListOfInputs() && t.getListOfInputs().isEmpty())
+							|| (t.isSetListOfOutputs() && t.getListOfOutputs().isEmpty()));
+				}
+			};
+			break;
+
 		case QUAL_20407:
 			// ListOfInputs container object may only contain Input objects
 
+			func = new ValidationFunction<Transition>() {
+
+				@Override
+				public boolean check(ValidationContext ctx, Transition t) {
+					if (t.isSetListOfInputs() || t.getListOfInputs().isEmpty()) {
+						UnknownElementValidationFunction<ListOf<Input>> unFunc = new UnknownElementValidationFunction<ListOf<Input>>();
+						return unFunc.check(ctx, t.getListOfInputs());
+					}
+					return true;
+				}
+			};
+			break;
+
 		case QUAL_20408:
-			// ListOfOutputs container objectmay only contain Output objects
+			// ListOfOutputs container object may only contain Output objects
+
+			func = new ValidationFunction<Transition>() {
+
+				@Override
+				public boolean check(ValidationContext ctx, Transition t) {
+					if (t.isSetListOfOutputs() || t.getListOfOutputs().isEmpty()) {
+						UnknownElementValidationFunction<ListOf<Output>> unFunc = new UnknownElementValidationFunction<ListOf<Output>>();
+						return unFunc.check(ctx, t.getListOfOutputs());
+					}
+					return true;
+				}
+			};
+			break;
 
 		case QUAL_20409:
-			// ListOfFunctionTerms container object must contain one and only one DefaultTerm object and
-			// then may only contain FunctionTerm objects.
+			// ListOfFunctionTerms container object must contain one and only one
+			// DefaultTerm object and then may only contain FunctionTerm objects.
 
 		case QUAL_20410:
 			// A ListOfInputs object may have the optional metaid and sboTerm
 			// no other namespaces are permitted on a ListOfInputs object
 
+			func = new ValidationFunction<Transition>() {
+
+				@Override
+				public boolean check(ValidationContext ctx, Transition t) {
+
+					if (t.isSetListOfInputs()) {
+						UnknownAttributeValidationFunction<ListOf<Input>> unFunc = new UnknownAttributeValidationFunction<ListOf<Input>>();
+						return unFunc.check(ctx, t.getListOfInputs());
+					}
+					return true;
+				}
+			};
+			break;
+
 		case QUAL_20411:
 			// A ListOfOutputs object may have the optional metaid and sboTerm
 			// no other namespaces are permitted on a ListOfOutputs object
+
+			func = new ValidationFunction<Transition>() {
+
+				@Override
+				public boolean check(ValidationContext ctx, Transition t) {
+
+					if (t.isSetListOfOutputs()) {
+						UnknownAttributeValidationFunction<ListOf<Output>> unFunc = new UnknownAttributeValidationFunction<ListOf<Output>>();
+						return unFunc.check(ctx, t.getListOfOutputs());
+					}
+					return true;
+				}
+			};
+			break;
 
 		case QUAL_20412:
 			// A ListOfFunctionTerms object may have the optional metaid and sboTerm
 			// no other namespaces are permitted on a ListOfFunctionTerms object;
 
+			func = new ValidationFunction<Transition>() {
+
+				@Override
+				public boolean check(ValidationContext ctx, Transition t) {
+
+					if (t.isSetListOfFunctionTerms()) {
+						UnknownAttributeValidationFunction<ListOf<FunctionTerm>> unFunc = new UnknownAttributeValidationFunction<ListOf<FunctionTerm>>();
+						return unFunc.check(ctx, t.getListOfFunctionTerms());
+					}
+					return true;
+				}
+			};
+			break;
+
 		case QUAL_20413:
-			// No element of the ListOfFunctionTerms object may cause the level of a QualitativeSpecies to
-			// exceed the value qual:maxLevel attribute
+			// No element of the ListOfFunctionTerms object may cause the level of a
+			// QualitativeSpecies to exceed the value qual:maxLevel attribute
 
 		case QUAL_20414:
-			//No element of the ListOfFunctionTerms object may cause the level of a QualitativeSpecies to
-			//become negative
+			// No element of the ListOfFunctionTerms object may cause the level of a
+			// QualitativeSpecies to become negative
 		}
 		return func;
 	}
