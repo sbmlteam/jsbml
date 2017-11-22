@@ -68,8 +68,6 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
 	 */
 	private Integer maxLevel;
 
-	private String name;
-
 	/**
 	 * Creates a new {@link QualitativeSpecies} instance.
 	 */
@@ -448,12 +446,6 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
 				} catch (NumberFormatException e) {
 					AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
 				}
-			} else if (attributeName.equals(QualConstants.name)) {
-				try {
-					setName(StringTools.parseSMBLNameToString(value));
-				} catch (IllegalArgumentException e) {
-					AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
-				}
 			} else {
 				isAttributeRead = false;
 			}
@@ -583,12 +575,6 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
 		Integer oldMaxLevel = this.maxLevel;
 		this.maxLevel = maxLevel;
 		firePropertyChange(QualConstants.maxLevel, oldMaxLevel, this.maxLevel);
-	}
-
-	public void setName(String name) {
-		String oldName = this.name;
-		this.name = name;
-		firePropertyChange(QualConstants.name, oldName, this.name);
 	}
 
 	/*
