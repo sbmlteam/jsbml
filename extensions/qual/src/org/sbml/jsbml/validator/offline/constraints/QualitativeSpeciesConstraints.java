@@ -66,23 +66,12 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 		switch (category) {
 		case GENERAL_CONSISTENCY:
 			if (level >= 3) {
-				set.add(QUAL_20308);
-
-				addRangeToSet(set, QUAL_20301, QUAL_20303);
-
-				set.add(QUAL_20310);
-
-				set.add(QUAL_20309);
-
+				addRangeToSet(set, QUAL_20301, QUAL_20310);
 				addRangeToSet(set, QUAL_20312, QUAL_20313);
 			}
 			break;
 
 		case IDENTIFIER_CONSISTENCY:
-			if (level >= 3) {
-				addRangeToSet(set, QUAL_20304, QUAL_20307);
-			}
-
 			break;
 
 		case MATHML_CONSISTENCY:
@@ -120,8 +109,6 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 		case QUAL_20302: {
 			// may have the optional subobjects for notes and annotations
 			// no other namespaces are permitted
-			// TODO - for the rules about unknown elements to work, the QualParser need to
-			// be modified to register those unknown elements if necessary
 			func = new UnknownCoreElementValidationFunction<QualitativeSpecies>();
 			break;
 		}
@@ -179,7 +166,7 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 			// The value of the attribute qual:compartment must be the identifier
 			// of an existing Compartment object defined in the enclosing Model object
 
-			func = new ValidationFunction<QualitativeSpecies>() {
+			func = new AbstractValidationFunction<QualitativeSpecies>() {
 				@Override
 				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
 					if (qs.isSetCompartment() && qs.getModel() != null && qs.getCompartmentInstance() == null) {
@@ -234,6 +221,7 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 			// set to “assignmentLevel” cannot be referenced by any other Output with the
 			// same
 			// transitionEffect throughout the set of transitions for the containing model.
+			break;
 
 		case QUAL_20312:
 			// The attribute qual:initialLevel must not be negative
