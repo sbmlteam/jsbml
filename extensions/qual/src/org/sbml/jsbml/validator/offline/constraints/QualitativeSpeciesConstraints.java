@@ -34,6 +34,8 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementVal
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 
 /**
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link QualitativeSpecies} class.
+ * 
  * @author Nicolas Rodriguez, Lisa Falk
  * @since 1.3
  */
