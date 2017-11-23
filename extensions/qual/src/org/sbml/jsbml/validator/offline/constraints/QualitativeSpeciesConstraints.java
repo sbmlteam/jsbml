@@ -102,22 +102,21 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 
 		case QUAL_20301: {
 			// may have the optional attributes metaid and sboTerm
-			// no other namespaces are permitted
+			// no other attributes in the core namespace are permitted
 			func = new UnknownCoreAttributeValidationFunction<QualitativeSpecies>();
 			break;
 		}
 		case QUAL_20302: {
 			// may have the optional subobjects for notes and annotations
-			// no other namespaces are permitted
+			// no other elements in the core namespace are permitted
 			func = new UnknownCoreElementValidationFunction<QualitativeSpecies>();
 			break;
 		}
 
 		case QUAL_20303: {
 			// must have the required attributes qual:id, qual:compartment and qual:constant
-			// may have the optional attributes qual:name, qual:initialLeveland
-			// qual:maxLevel
-			// no other namespaces are permitted
+			// may have the optional attributes qual:name, qual:initialLevel and qual:maxLevel
+			// no other attributes in the qual namespace are permitted
 
 			func = new UnknownPackageAttributeValidationFunction<QualitativeSpecies>(QualConstants.shortLabel) {
 
@@ -218,9 +217,8 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 			// recommendation!!
 			// A QualitativeSpecies that is referenced by an Output with the
 			// qual:transitionEffect attribute
-			// set to “assignmentLevel” cannot be referenced by any other Output with the
-			// same
-			// transitionEffect throughout the set of transitions for the containing model.
+			// set to 'assignmentLevel' cannot be referenced by any other Output with the
+			// same transitionEffect throughout the set of transitions for the containing model.
 			break;
 
 		case QUAL_20312:
