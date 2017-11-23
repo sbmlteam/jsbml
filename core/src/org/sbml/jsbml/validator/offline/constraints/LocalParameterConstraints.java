@@ -28,6 +28,7 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.xml.XMLNode;
 
@@ -69,6 +70,10 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if (context.isLevelAndVersionGreaterEqualThan(3, 1)) {
+        set.add(CORE_10718);
+      }
+      
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -96,6 +101,18 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
     
     switch (errorCode) {
       
+      case CORE_10718: {
+        func = new ValidationFunction<LocalParameter>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, LocalParameter lp) {
+
+            return SBOValidationConstraints.isQuantitativeParameter.check(ctx, lp);
+          }
+        };
+        break;
+      }
+
     case CORE_21124: {
       func = new AbstractValidationFunction<LocalParameter>() {
         

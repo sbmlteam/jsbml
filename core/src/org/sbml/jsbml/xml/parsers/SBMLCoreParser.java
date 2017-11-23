@@ -712,6 +712,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
         } else if (contextObject instanceof SBMLDocument) {
           SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
 
+          // keep order of elements for later validation
+          AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+
           if (elementName.equals("model")) {
             Model model = (Model) newContextObject;
             model.setLevel(sbmlDocument.getLevel());

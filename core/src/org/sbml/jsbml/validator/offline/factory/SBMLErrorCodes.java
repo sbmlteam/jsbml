@@ -1048,10 +1048,21 @@ public interface SBMLErrorCodes {
 	  * error, other Levels and/or Versions of SBML do.] The value of the 'sboTerm' 
 	  * attribute on a &lt;localParameter&gt; is expected to be an SBO identifier 
 	  * (http://www.biomodels.net/SBO/) referring to a quantitative parameter (i.e., 
-	  * terms derived from SBO:0000002, "quantitive systems description parameter"). 
+	  * terms derived from SBO:0000545, "quantitive systems description parameter"). 
 	  * Reference: L3V1 Section 5 
 	  */
  	 public static final int CORE_10718 = 10718; 
+
+ 	  /**
+      * Error code 10719:
+      * [Although SBML Level 3 Version 1 does not explicitly define the following as an 
+      * error, other Levels and/or Versions of SBML do.] The value of the 'sboTerm' 
+      * attribute on the &lt;sbml&gt; is expected to be an SBO identifier 
+      * (http://www.biomodels.net/SBO/) referring to a modeling framework (i.e., 
+      * terms derived from SBO:0000004, "modeling framework"). 
+      * Reference: L3V1 Section 5 
+      */
+     public static final int CORE_10719 = 10719; 
 
 	 /**
 	  * Error code 10801:

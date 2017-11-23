@@ -29,10 +29,12 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;;
 
 /**
  * 
@@ -60,12 +62,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
       set.add(CORE_20101);
       set.add(CORE_20102);
       set.add(CORE_20103);
-      
-      // For level and version before L3V2
-      if (ValuePair.of(level, version).compareTo(3, 2) < 0) {
-        set.add(CORE_20201);
-      }
-      
+      set.add(CORE_20201);
       set.add(CORE_20108);      
       
       break;
@@ -78,6 +75,10 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     case OVERDETERMINED_MODEL:
       break;
     case SBO_CONSISTENCY:
+      if (context.isLevelAndVersionGreaterEqualThan(3, 1)) {
+        set.add(CORE_10719);
+      }
+
       break;
     case UNITS_CONSISTENCY:
       break;
@@ -155,6 +156,18 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
       };
       break;
+
+    case CORE_10719: {
+      func = new ValidationFunction<SBMLDocument>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument doc) {
+
+          return SBOValidationConstraints.isModellingFramework.check(ctx, doc);
+        }
+      };
+      break;
+    }
 
     case CORE_20101:
       func = new ValidationFunction<SBMLDocument>() {
@@ -332,7 +345,20 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument d) {
 
-          return d.getModel() != null;
+          // count the number of model xml element and check if it is not above 1
+          DuplicatedElementValidationFunction<SBMLDocument> duplicatedModelcheck = new DuplicatedElementValidationFunction<>(TreeNodeChangeEvent.model);
+
+          if (!duplicatedModelcheck.check(ctx, d)) {
+            return false;
+          }
+          
+          if (ctx.isLevelAndVersionLessThan(3, 2)) {
+            return d.getModel() != null;
+          }
+          else {
+            // from L3V2 the model element can be undefined
+            return true;
+          }
         }
       };
       break;
