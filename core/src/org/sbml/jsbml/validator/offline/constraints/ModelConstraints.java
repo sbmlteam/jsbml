@@ -532,8 +532,10 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Model m) {
 
           if (ctx.getLevel() == 2 && ctx.getVersion() < 4) {
-            return SBOValidationConstraints.isModellingFramework.check(ctx, m);
-          } else {
+            return SBOValidationConstraints.isModellingFramework.check(ctx, m);            
+          } else if (ctx.isLevelAndVersionGreaterEqualThan(3, 1)) {            
+            return SBOValidationConstraints.isModellingFramework.check(ctx, m) || SBOValidationConstraints.isInteraction.check(ctx, m);
+          } else {            
             return SBOValidationConstraints.isInteraction.check(ctx, m);
           }
         }
