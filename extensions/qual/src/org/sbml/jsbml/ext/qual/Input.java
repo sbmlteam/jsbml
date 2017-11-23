@@ -26,11 +26,11 @@ import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * Each {@link Input} refers to a {@link QualitativeSpecies} that participates
@@ -496,22 +496,22 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
       if (attributeName.equals(QualConstants.qualitativeSpecies)) {
         setQualitativeSpecies(value);
       } else if (attributeName.equals(QualConstants.thresholdLevel)) {
-        setThresholdLevel(StringTools.parseSBMLInt(value));
+    	  try {
+    		  setThresholdLevel(StringTools.parseSBMLInt(value));
+    	  } catch (IllegalArgumentException e) {
+      	AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
+      }
       } else if (attributeName.equals(QualConstants.sign)) {
         try {
           setSign(Sign.valueOf(value));
-        } catch (Exception e) {
-          throw new SBMLException("Could not recognized the value '" + value
-            + "' for the attribute " + QualConstants.sign
-            + " on the 'input' element.");
-        }
+        } catch (IllegalArgumentException e) {
+        	AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
+		}
       } else if (attributeName.equals(QualConstants.transitionEffect)) {
         try {
           setTransitionEffect(InputTransitionEffect.valueOf(value));
-        } catch (Exception e) {
-          throw new SBMLException("Could not recognized the value '" + value
-            + "' for the attribute " + QualConstants.transitionEffect
-            + " on the 'input' element.");
+        } catch (IllegalArgumentException e) {
+        	AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
         }
       } else {
         isAttributeRead = false;
