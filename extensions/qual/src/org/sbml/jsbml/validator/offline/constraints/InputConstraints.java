@@ -1,0 +1,177 @@
+package org.sbml.jsbml.validator.offline.constraints;
+
+import java.util.Set;
+
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.ext.qual.Input;
+import org.sbml.jsbml.ext.qual.InputTransitionEffect;
+import org.sbml.jsbml.ext.qual.QualConstants;
+import org.sbml.jsbml.ext.qual.QualitativeSpecies;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
+
+public class InputConstraints extends AbstractConstraintDeclaration {
+
+	@Override
+	public void addErrorCodesForAttribute(Set<Integer> set, int level, int version, String attributeName,
+			ValidationContext context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addErrorCodesForCheck(Set<Integer> set, int level, int version, CHECK_CATEGORY category,
+			ValidationContext context) {
+		switch (category) {
+		case GENERAL_CONSISTENCY:
+			set.add(QUAL_20501);
+			set.add(QUAL_20502);
+			set.add(QUAL_20503);
+			set.add(QUAL_20504);
+			set.add(QUAL_20505);
+			set.add(QUAL_20506);
+			set.add(QUAL_20507);
+			set.add(QUAL_20508);
+			set.add(QUAL_20509);
+			set.add(QUAL_20510);
+
+		case MODELING_PRACTICE:
+			break;
+		case SBO_CONSISTENCY:
+			break;
+		case IDENTIFIER_CONSISTENCY:
+			break;
+		case MATHML_CONSISTENCY:
+			break;
+		case OVERDETERMINED_MODEL:
+			break;
+		case UNITS_CONSISTENCY:
+
+		}
+	}
+
+	@Override
+	public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
+		ValidationFunction<Input> func = null;
+
+		switch (errorCode) {
+		case QUAL_20501:
+			// May have the optional attributes metaid and sboTerm.
+			// No other namespaces are permitted.
+
+			func = new UnknownCoreAttributeValidationFunction<Input>();
+			break;
+
+		case QUAL_20502:
+			// May have the optional subobjects for notes and annotations.
+			// No other namespaces are permitted.
+
+			func = new UnknownCoreElementValidationFunction<Input>();
+			break;
+
+		case QUAL_20503:
+			// must have the attributes qual:qualitativeSpecies, qual:transitionEffect
+			// may have the attributes qual:id, qual:name, qual:sign, qual:thresholdLevel
+			// No other attributes are permitted.
+
+			func = new UnknownPackageAttributeValidationFunction<Input>(QualConstants.shortLabel) {
+
+				@Override
+				public boolean check(ValidationContext ctx, Input i) {
+					// id, compartment and constant are required
+					if (!i.isSetQualitativeSpecies() || !i.isSetTransitionEffect()) {
+						return false;
+					}
+					return super.check(ctx, i);
+				}
+			};
+			break;
+
+		case QUAL_20504:
+			// The attribute qual:name in Input must be of the data type string.
+
+			func = new InvalidAttributeValidationFunction<Input>(QualConstants.name);
+			break;
+
+		case QUAL_20505:
+			// The value of the attribute qual:sign of must conform the syntax of the SBML
+			// data type sign and may only take on the allowed values of sign defined in
+			// SBML; that is, the value must be one of the following: “positive”,
+			// “negative”, “dual” or “unknown”.
+
+			func = new InvalidAttributeValidationFunction<Input>(QualConstants.sign);
+			break;
+
+		case QUAL_20506:
+			// The value of the attribute qual:transitionEffect must conform to the
+			// syntax of the SBML data type transitionInputEffect and may only take on the
+			// allowed values of transitionInputEffect defined in SBML; that is, the value
+			// must be one of the following: “none” or “consumption”.
+
+			func = new InvalidAttributeValidationFunction<Input>(QualConstants.transitionEffect);
+			break;
+
+		case QUAL_20507:
+			// The attribute qual:thresholdLevel in Input must be of the data type integer.
+
+			func = new InvalidAttributeValidationFunction<Input>(QualConstants.thresholdLevel);
+			break;
+
+		case QUAL_20508:
+			// The value of the attribute qual:qualitativeSpecies must be the identifier
+			// of an existing QualitativeSpecies object defined in the enclosing Model
+
+		  func = new ValidationFunction<Input>() {
+		    @Override
+		    public boolean check(ValidationContext ctx, Input i) {
+
+		      Model m = i.getModel();
+		      return !(i.isSetQualitativeSpecies() && m != null && m.getSBaseById(i.getQualitativeSpecies()) == null);
+		      
+		    }
+		  };
+		  break;
+
+		case QUAL_20509:
+			// An Input that refers to a QualitativeSpecies that has a qual:constant
+			// attribute set to “true” cannot have the attribute qual:transitionEffect set
+			// to “consumption”.
+		  
+		  func = new ValidationFunction<Input>() {
+		    @Override
+		    public boolean check(ValidationContext ctx, Input i) {
+
+		      Model m = i.getModel();
+
+		      if (i.isSetQualitativeSpecies() && m != null && i.isSetTransitionEffect()) {
+		        QualitativeSpecies qs = null;
+		        if (m.getSBaseById(i.getQualitativeSpecies()) instanceof QualitativeSpecies) {
+		          qs = (QualitativeSpecies) m.getSBaseById(i.getQualitativeSpecies());
+		        }
+		        return (qs != null && qs.getConstant() && i.getTransitionEffect() != InputTransitionEffect.consumption);
+		      }
+		      return true;
+		    }
+		  };
+		  break;
+
+		case QUAL_20510:
+			// The attribute qual:thresholdLevel in Input must not be negative
+			func = new ValidationFunction<Input>() {
+				@Override
+				public boolean check(ValidationContext ctx, Input i) {
+					if (i.isSetThresholdLevel() && i.getThresholdLevel() < 0) {
+						return false;
+					}
+					return true;
+				}
+			};
+			break;
+		}
+		return func;
+	}
+}
