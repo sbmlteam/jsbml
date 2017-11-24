@@ -26,9 +26,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Quantity;
 import org.sbml.jsbml.Reaction;
@@ -342,8 +344,28 @@ public class UnitsCompiler implements ASTNodeCompiler {
     ASTNodeValue value = new ASTNodeValue(variable, this);
     if (variable instanceof Quantity) {
       Quantity q = (Quantity) variable;
+      Model m = q.getModel();
+      
       if (q.isSetValue()) {
         value.setValue(Double.valueOf(q.getValue()));
+      }
+      
+      // checking if the quantity is affected by initialAssigment or AssignmentRule
+      if (m.getInitialAssignmentBySymbol(q.getId()) != null) {
+        InitialAssignment ia = m.getInitialAssignmentBySymbol(q.getId());
+        
+        if (ia.isSetMath()) {
+          ASTNodeValue iaValue = ia.getMath().compile(this);
+          value.setValue(iaValue.toDouble());
+        }
+      }
+      if (m.getAssignmentRuleByVariable(q.getId()) != null) {
+        AssignmentRule ar = m.getAssignmentRuleByVariable(q.getId());
+        
+        if (ar.isSetMath()) {
+          ASTNodeValue arValue = ar.getMath().compile(this);
+          value.setValue(arValue.toDouble());
+        }
       }
     }
     
@@ -1128,10 +1150,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * @throws SBMLException
    */
   protected ASTNodeValue pow(ASTNodeValue base, ASTNodeValue exponent)
-      throws SBMLException {
+      throws SBMLException 
+  {
     double exp = Double.NaN, v;
     v = exponent.toDouble();
     exp = v == 0d ? 0d : 1d / v;
+    
     if (exp == 0d) {
       UnitDefinition ud = new UnitDefinition(level, version);
       ud.addUnit(Kind.DIMENSIONLESS);
@@ -1215,8 +1239,10 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * @throws SBMLException
    */
   protected ASTNodeValue root(double rootExponent, ASTNodeValue radiant)
-      throws SBMLException {
+      throws SBMLException 
+  {
     UnitDefinition ud = radiant.getUnits().clone();
+
     for (Unit u : ud.getListOfUnits()) {
       if ((((u.getExponent() / rootExponent) % 1d) != 0d) && !u.isDimensionless() && !u.isInvalid()) {
         new UnitException(MessageFormat.format(

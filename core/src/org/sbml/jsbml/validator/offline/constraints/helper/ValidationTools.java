@@ -432,16 +432,17 @@ public final class ValidationTools {
    */
   public static boolean hasCorrectUnits(KineticLaw kl) {
     // check that the units from the kineticLaw are equivalent to substance / time or extent / time (for L3).
-    UnitDefinition klDerivedUnit = kl.getDerivedUnitDefinition();
+    UnitDefinition klDerivedUnit = kl.getDerivedUnitDefinition().clone().convertToSIUnits();
     
     UnitDefinition expectedUnit = null;
     Model m = kl.getModel();
-    
+        
     if (kl.getLevel() < 3) {      
       expectedUnit = m.getSubstanceUnitsInstance().clone().divideBy(m.getTimeUnitsInstance());      
     } else if (m.isSetTimeUnits() && m.isSetExtentUnits()) {      
       expectedUnit = m.getExtentUnitsInstance().clone().divideBy(m.getTimeUnitsInstance());      
     }
+    expectedUnit.convertToSIUnits();
 
 //    System.out.println("hasCorrectUnits - unit = " + UnitDefinition.printUnits(klDerivedUnit) + " (kl unit, reaction '" + kl.getParent().getId() + "')");
 //    System.out.println("hasCorrectUnits - unit = " + UnitDefinition.printUnits(expectedUnit) + " (expected unit)");
