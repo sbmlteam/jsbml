@@ -804,7 +804,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
   }
 
   @Override
-  public ASTNodeValue getRateOf(String name) {
+  public ASTNodeValue getRateOf(ASTNode nameAST) {
     return dummyValue;
   }
 

@@ -183,8 +183,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    * @see Unit#areEquivalent(Unit, String)
    */
   public static boolean areEquivalent(UnitDefinition ud1, UnitDefinition ud2) {
-    UnitDefinition ud1clone = ud1.clone().simplify();
-    UnitDefinition ud2clone = ud2.clone().simplify();
+    UnitDefinition ud1clone = ud1.clone().convertToSIUnits();
+    UnitDefinition ud2clone = ud2.clone().convertToSIUnits();
+    
     if (ud1clone.getUnitCount() == ud2clone.getUnitCount()) {
       boolean equivalent = true;
       for (int i = 0; i < ud1clone.getUnitCount(); i++) {

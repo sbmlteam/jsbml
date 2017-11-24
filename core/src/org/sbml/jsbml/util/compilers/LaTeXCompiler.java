@@ -1633,13 +1633,13 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   @Override
-  public ASTNodeValue getRateOf(String name) {
+  public ASTNodeValue getRateOf(ASTNode nameAST) {
 
     StringBuffer value = new StringBuffer();
 
     value.append(mathtt("rateOf"));
 
-      value.append(brackets(name));
+      value.append(brackets(nameAST.getName()));
 
     return new ASTNodeValue(value.toString(), this);
   }

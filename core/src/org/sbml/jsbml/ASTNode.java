@@ -2016,7 +2016,7 @@ public class ASTNode extends AbstractTreeNode {
       value = compiler.getConstantAvogadro(getName());
       break;
     case FUNCTION_RATE_OF:
-      value = compiler.getRateOf(getLeftChild().getName());
+      value = compiler.getRateOf(getLeftChild());
       break;
     case REAL_E:
       value = compiler.compile(getMantissa(), getExponent(),
