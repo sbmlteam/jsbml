@@ -145,7 +145,7 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
       break;
 
     case CORE_10562:
-      func = new ValidationFunction<EventAssignment>() {
+      func = new ValidationFunction<EventAssignment>() { // TODO - check
 
         @Override
         public boolean check(ValidationContext ctx, EventAssignment r) {
@@ -154,7 +154,7 @@ public class EventAssignmentConstraints extends AbstractConstraintDeclaration {
 
           if (var != null && var instanceof Species) {
 
-            // check that unit from rule are equivalent to the species unit
+            // check that unit from assignment are equivalent to the species unit
             return ValidationTools.haveEquivalentUnits(r, var);
           }
 

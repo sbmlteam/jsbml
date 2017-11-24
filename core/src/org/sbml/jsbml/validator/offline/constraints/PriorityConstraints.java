@@ -29,6 +29,8 @@ import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidat
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link Priority} class.
+ * 
  * @author Roman
  * @since 1.2
  */
@@ -36,9 +38,9 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName, ValidationContext context) {
-    // TODO Auto-generated method stub
-    
+      int version, String attributeName, ValidationContext context) 
+  {
+    // TODO 
   }
 
 
@@ -64,6 +66,11 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
     case SBO_CONSISTENCY:
       break;
     case UNITS_CONSISTENCY:
+      
+      if (context.isLevelAndVersionGreaterEqualThan(3, 1)) {
+        set.add(CORE_10565);
+      }
+      
       break;
     }
   }
@@ -75,6 +82,24 @@ public class PriorityConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
+      case CORE_10565: {
+        func = new ValidationFunction<Priority>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, Priority r) {
+
+            if (r.isSetMath()) {
+
+              // check that unit are equivalent to dimensionless
+              return r.getDerivedUnitDefinition().isVariantOfDimensionless();
+            }
+
+            return true;
+          }
+        };
+        break;
+      }
+      
     case CORE_21231:
       func = new DuplicatedMathValidationFunction<Priority>();
       break;
