@@ -1230,8 +1230,8 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   @Override
-  public ASTNodeValue getRateOf(String name) {
-    return new ASTNodeValue("rateOf(" + name + ")", this);
+  public ASTNodeValue getRateOf(ASTNode nameAST) {
+    return new ASTNodeValue("rateOf(" + nameAST.getName() + ")", this);
   }
 
 }

@@ -99,10 +99,10 @@ public class UnitsCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue abs(ASTNode value) throws SBMLException {
-    ASTNodeValue v = new ASTNodeValue(this);
+    ASTNodeValue v = value.compile(this);
     if (value.isDifference() || value.isSum() || value.isUMinus()
         || value.isNumber()) {
-      v.setValue(Double.valueOf(Math.abs(value.compile(this).toDouble())));
+      v.setValue(Double.valueOf(Math.abs(v.toDouble())));
     }
     return v;
   }
@@ -1461,8 +1461,32 @@ public class UnitsCompiler implements ASTNodeCompiler {
   }
 
   @Override
-  public ASTNodeValue getRateOf(String name) {
-    ASTNodeValue value = dimensionless(); // TODO -  should be the units of 'name' divided by the model units of time.
+  public ASTNodeValue getRateOf(ASTNode nameAST) {
+    String name = null;
+    
+    if (nameAST.isName()) {
+      name = nameAST.getName();
+    }
+    else {
+      return new ASTNodeValue(this);
+    }
+    
+    ASTNodeValue value = new ASTNodeValue(this);
+    
+    if (namesToUnits.containsKey(name)) {
+      value = namesToUnits.get(name);
+    }
+    
+    // should be the units of 'name' divided by the model units of time.
+    Model m = nameAST.getParentSBMLObject().getModel();
+    
+    if (m != null) {
+      UnitDefinition timeUnits = m.getTimeUnitsInstance();
+      
+      value.setUnits(value.getUnits().divideBy(timeUnits));
+    }
+    
+    
     return value;
   }
 

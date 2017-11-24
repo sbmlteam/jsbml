@@ -25,7 +25,16 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.LocalParameter;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.UnitDefinition;
+
 
 /**
  * A compiler for abstract syntax trees. This compiler evaluates the values
@@ -771,9 +780,20 @@ public interface ASTNodeCompiler {
   public ASTNodeValue implies(List<ASTNode> values);
 
   /**
-   * @param name
-   * @return
+   * Returns the instantaneous rate of change, with respect to time, of an entity in the model.
+   * 
+   * <p>It is a function that takes a single argument, an identifier of
+   * type SId . The allowable identifiers for use with rateOf in SBML Level 3 Version 2 Core are restricted
+   * to those of {@link Compartment}, {@link LocalParameter}, {@link Parameter}, {@link Species}, and {@link SpeciesReference} objects in the
+   * enclosing model; in addition, SBML Level 3 packages may define entities with mathematical meaning
+   * whose rateOf 's can be referenced. Note that rateOf is not allowed for {@link Reaction} objects, because their
+   * identifiers already represent the rate of change of the reaction, and calculating second derivatives is
+   * beyond the scope of this construct. Likewise, there is no sensible meaning to be given to the rateOf of
+   * a FunctionDefinition, Event, Priority, Delay, or other SBML entities.</p>
+   * 
+   * @param astNode an ASTNode representing an identifier
+   * @return the instantaneous rate of change, with respect to time, of an entity in the model.
    */
-  public ASTNodeValue getRateOf(String name);
+  public ASTNodeValue getRateOf(ASTNode astNode);
 
 }
