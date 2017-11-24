@@ -1081,6 +1081,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   public void setInitialAmount(double initialAmount) {
     // store initialConcentration in user define object to allow validation of incorrect SBML files
     if (isReadingInProgress() && isSetInitialConcentration()) {
+      // TODO - replace by processInvalidAttribute and change the corresponding rule(s)
       AbstractReaderWriter.processUnknownAttribute("initialConcentration", "", getInitialConcentration() + "", "", this);
     }
     if (!amount) {
@@ -1099,6 +1100,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   public void setInitialConcentration(double initialConcentration) {
     // store initialAmount in user define object to allow validation of incorrect SBML files
     if (isReadingInProgress() && isSetInitialAmount()) {
+      // TODO - replace by processInvalidAttribute and change the corresponding rule(s)
       AbstractReaderWriter.processUnknownAttribute("initialAmount", "", getInitialAmount() + "", "", this);
     }
     if (amount) {
