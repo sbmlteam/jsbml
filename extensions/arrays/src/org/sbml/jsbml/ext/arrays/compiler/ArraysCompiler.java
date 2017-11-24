@@ -1091,7 +1091,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   }
 
   @Override
-  public ASTNodeValue getRateOf(String name) {
+  public ASTNodeValue getRateOf(ASTNode name) {
     // TODO Auto-generated method stub
     return null;
   }

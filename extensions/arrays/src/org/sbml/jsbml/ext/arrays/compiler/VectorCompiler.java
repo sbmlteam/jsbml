@@ -5013,7 +5013,7 @@ public class VectorCompiler implements ASTNodeCompiler {
   }
 
   @Override
-  public ASTNodeValue getRateOf(String name) {
+  public ASTNodeValue getRateOf(ASTNode nameAST) {
     // TODO Auto-generated method stub
     return null;
   }

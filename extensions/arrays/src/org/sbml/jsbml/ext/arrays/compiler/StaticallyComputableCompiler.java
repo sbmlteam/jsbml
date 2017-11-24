@@ -842,7 +842,10 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
   }
 
   @Override
-  public ASTNodeValue getRateOf(String name) {
-    return compile(name);
+  public ASTNodeValue getRateOf(ASTNode nameAST) {
+    List<ASTNode> values = new ArrayList<ASTNode>();
+    values.add(nameAST);
+    
+    return function("rateOf", values);
   }
 }

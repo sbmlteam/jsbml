@@ -23,6 +23,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.Delay;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
@@ -30,6 +31,8 @@ import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstrai
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link Delay} class.
+ * 
  * @author Roman
  * @since 1.2
  */
@@ -69,6 +72,8 @@ public class DelayConstraints extends AbstractConstraintDeclaration {
       }
       break;
     case UNITS_CONSISTENCY:
+      set.add(CORE_10551);
+      
       break;
     }
 
@@ -80,6 +85,37 @@ public class DelayConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<Delay> func = null;
 
     switch (errorCode) {
+      
+      case CORE_10551: {
+        func = new ValidationFunction<Delay>() {
+
+          @SuppressWarnings("deprecation")
+          @Override
+          public boolean check(ValidationContext ctx, Delay d) {
+
+            if (d.isSetMath() && (d.getModel().isSetTimeUnits() || ctx.getLevel() < 3)) {
+
+              UnitDefinition timeUnits = d.getModel().getTimeUnitsInstance();
+              UnitDefinition delayUnits = d.getDerivedUnitDefinition();
+
+              if (ctx.isLevelAndVersionLesserEqualThan(2, 2) && d.getParent().isSetTimeUnits()) {
+                timeUnits = d.getParent().getTimeUnitsInstance();
+              }
+              
+              if (delayUnits.isInvalid()) {
+                return true;
+              }
+
+              // check that the units are equivalent
+              return UnitDefinition.areIdentical(delayUnits, timeUnits);
+            }
+
+            return true;
+          }
+        };
+        break;
+      }
+  
     case CORE_10717:
       return SBOValidationConstraints.isMathematicalExpression;
       
