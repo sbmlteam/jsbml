@@ -147,42 +147,52 @@ public class InputConstraints extends AbstractConstraintDeclaration {
 			break;
 
 		case QUAL_20508:
-			// The value of the attribute qual:qualitativeSpecies must be the identifier
-			// of an existing QualitativeSpecies object defined in the enclosing Model
+      // The value of the attribute qual:qualitativeSpecies must be the identifier
+      // of an existing QualitativeSpecies object defined in the enclosing Model
 
-		  func = new ValidationFunction<Input>() {
-		    @Override
-		    public boolean check(ValidationContext ctx, Input i) {
+      func = new ValidationFunction<Input>() {
+        @Override
+        public boolean check(ValidationContext ctx, Input i) {
 
-		      Model m = i.getModel();
-		      return !(i.isSetQualitativeSpecies() && m != null && m.getSBaseById(i.getQualitativeSpecies()) == null);
-		      
-		    }
-		  };
-		  break;
+          Model m = i.getModel();
+          
+          if (i.isSetQualitativeSpecies() && m != null) {
+            if (m.getSBaseById(i.getQualitativeSpecies()) instanceof QualitativeSpecies) {
+              return (m.getSBaseById(i.getQualitativeSpecies()) != null);
+            }
+            return false;
+          }
+          return true;  
+        }
+      };
+      break;
 
-		case QUAL_20509:
-			// An Input that refers to a QualitativeSpecies that has a qual:constant
-			// attribute set to 'true' cannot have the attribute qual:transitionEffect set
-			// to 'consumption'.
-		  
-		  func = new ValidationFunction<Input>() {
-		    @Override
-		    public boolean check(ValidationContext ctx, Input i) {
+    case QUAL_20509:
+      // An Input that refers to a QualitativeSpecies that has a qual:constant
+      // attribute set to “true” cannot have the attribute qual:transitionEffect set
+      // to “consumption”.
+      
+      func = new ValidationFunction<Input>() {
+        @Override
+        public boolean check(ValidationContext ctx, Input i) {
 
-		      Model m = i.getModel();
+          Model m = i.getModel();
+          boolean check = true;
 
-		      if (i.isSetQualitativeSpecies() && m != null && i.isSetTransitionEffect()) {
-		        QualitativeSpecies qs = null;
-		        if (m.getSBaseById(i.getQualitativeSpecies()) instanceof QualitativeSpecies) {
-		          qs = (QualitativeSpecies) m.getSBaseById(i.getQualitativeSpecies());
-		        }
-		        return (qs != null && qs.getConstant() && i.getTransitionEffect() != InputTransitionEffect.consumption);
-		      }
-		      return true;
-		    }
-		  };
-		  break;
+          if (i.isSetQualitativeSpecies() && m != null && i.isSetTransitionEffect()) { 
+            QualitativeSpecies qs = null;
+            if (m.getSBaseById(i.getQualitativeSpecies()) instanceof QualitativeSpecies) {
+              qs = (QualitativeSpecies) m.getSBaseById(i.getQualitativeSpecies());
+            }
+            if (qs != null && qs.isSetConstant() && qs.getConstant() && i.getTransitionEffect() == InputTransitionEffect.consumption) {
+              check = false;
+            }
+          }
+          return check;
+        }
+      };
+      break;
+
 
 		case QUAL_20510:
 			// The attribute qual:thresholdLevel in Input must not be negative
