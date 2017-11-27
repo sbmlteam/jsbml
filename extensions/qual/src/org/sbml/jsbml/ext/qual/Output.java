@@ -24,11 +24,13 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * Each {@link Output} refers to a {@link QualitativeSpecies} that participates
@@ -447,15 +449,17 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
       if (attributeName.equals(QualConstants.qualitativeSpecies)) {
         setQualitativeSpecies(value);
       } else if (attributeName.equals(QualConstants.outputLevel)) {
-        setOutputLevel(StringTools.parseSBMLInt(value));
+        try {
+          setOutputLevel(StringTools.parseSBMLInt(value));
+        } catch (IllegalArgumentException e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
+        }
       } else if (attributeName.equals(QualConstants.transitionEffect)) {
         try {
           setTransitionEffect(OutputTransitionEffect.valueOf(value));
-        } catch (Exception e) {
-          throw new SBMLException("Could not recognized the value '" + value + "' for the attribute " +
-              QualConstants.transitionEffect + " on the 'output' element.");
+        } catch (IllegalArgumentException e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
         }
-
       } else {
         isAttributeRead = false;
       }
