@@ -777,8 +777,9 @@ public class Unit extends AbstractSBase implements UniqueSId {
     case LITER:
     case LITRE:
       /* 1 litre = 0.001 m^3 = (0.1 m)^3 */
-      ud.addUnit(new Unit(Math.pow(0.001d * mult, 1d / 3d), scale,
-        Kind.METRE, 3d * exp, l, v));
+      // There was a change in the multiplier which is marked as a hack in libSBML and I 
+      // don't think this is necessary.
+      ud.addUnit(new Unit(mult, scale -3, Kind.METRE, 3d * exp, l, v));
       break;
 
     case LUMEN:
