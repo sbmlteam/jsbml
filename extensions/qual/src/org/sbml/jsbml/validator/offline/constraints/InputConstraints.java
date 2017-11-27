@@ -150,22 +150,18 @@ public class InputConstraints extends AbstractConstraintDeclaration {
       // The value of the attribute qual:qualitativeSpecies must be the identifier
       // of an existing QualitativeSpecies object defined in the enclosing Model
 
-      func = new ValidationFunction<Input>() {
-        @Override
-        public boolean check(ValidationContext ctx, Input i) {
+		  func = new ValidationFunction<Input>() {
+		    @Override
+		    public boolean check(ValidationContext ctx, Input i) {
 
-          Model m = i.getModel();
-          
-          if (i.isSetQualitativeSpecies() && m != null) {
-            if (m.getSBaseById(i.getQualitativeSpecies()) instanceof QualitativeSpecies) {
-              return (m.getSBaseById(i.getQualitativeSpecies()) != null);
-            }
-            return false;
-          }
-          return true;  
-        }
-      };
-      break;
+		      Model m = i.getModel();    
+		      if (i.isSetQualitativeSpecies() && m != null && i.getQualitativeSpeciesInstance() == null) {
+		        return false;
+		      }
+		      return true;  
+		    }
+		  };
+		  break;
 
     case QUAL_20509:
       // An Input that refers to a QualitativeSpecies that has a qual:constant
@@ -177,18 +173,13 @@ public class InputConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Input i) {
 
           Model m = i.getModel();
-          boolean check = true;
-
           if (i.isSetQualitativeSpecies() && m != null && i.isSetTransitionEffect()) { 
-            QualitativeSpecies qs = null;
-            if (m.getSBaseById(i.getQualitativeSpecies()) instanceof QualitativeSpecies) {
-              qs = (QualitativeSpecies) m.getSBaseById(i.getQualitativeSpecies());
-            }
+            QualitativeSpecies qs = i.getQualitativeSpeciesInstance();
             if (qs != null && qs.isSetConstant() && qs.getConstant() && i.getTransitionEffect() == InputTransitionEffect.consumption) {
-              check = false;
+              return false;
             }
           }
-          return check;
+          return true;
         }
       };
       break;
