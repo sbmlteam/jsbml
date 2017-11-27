@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.CallableSBase;
+import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
@@ -266,6 +267,18 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
     } else {
       throw new PropertyUndefinedError(QualConstants.qualitativeSpecies, this);
     }
+  }
+  
+  public QualitativeSpecies getQualitativeSpeciesInstance() {
+    if (isSetQualitativeSpecies()) {
+      Model model = getModel();
+      if (model != null) {
+        if (model.getSBaseById(getQualitativeSpecies()) instanceof QualitativeSpecies) {
+          return (QualitativeSpecies) model.getSBaseById(getQualitativeSpecies());
+        }
+      }
+    }
+    return null;
   }
 
 
