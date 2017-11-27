@@ -220,6 +220,18 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
       throw new PropertyUndefinedError(QualConstants.qualitativeSpecies, this);
     }
   }
+  
+  public QualitativeSpecies getQualitativeSpeciesInstance() {
+    if (isSetQualitativeSpecies()) {
+      Model model = getModel();
+      if (model != null) {
+        if (model.getSBaseById(getQualitativeSpecies()) instanceof QualitativeSpecies) {
+          return (QualitativeSpecies) model.getSBaseById(getQualitativeSpecies());
+        }
+      }
+    }
+    return null;
+  }
 
 
   /**
