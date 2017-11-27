@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ext.qual.Output;
+import org.sbml.jsbml.ext.qual.OutputTransitionEffect;
 import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -121,10 +122,7 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 
           Model m = o.getModel();
           
-          if (o.isSetQualitativeSpecies() && m != null) {
-            if (m.getSBaseById(o.getQualitativeSpecies()) instanceof QualitativeSpecies) {
-              return (m.getSBaseById(o.getQualitativeSpecies()) != null);
-            }
+          if (o.isSetQualitativeSpecies() && m != null && o.getQualitativeSpeciesInstance() == null) {
             return false;
           }
           return true;  
@@ -136,15 +134,33 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 			// The QualitativeSpecies referred to by the attribute qual:qualitativeSpecies
 			// in an Output object must have the value of its qual:constant attribute set to
 			// 'false'.
-
-			break;
+		  
+      func = new ValidationFunction<Output>() {
+        @Override
+        public boolean check(ValidationContext ctx, Output o) {
+          if (o.isSetQualitativeSpecies() && !o.getQualitativeSpeciesInstance().getConstant()) {
+            return false;
+          }
+          return true;
+        }
+      };
+      break;
 
 		case QUAL_20609:
 			// When the value of the attribute qual:transitionEffect of a Output object is
 			// set to the value 'production' the attribute qual:outputLevel for that
 			// particular Output object must have a value set.
 
-			break;
+      func = new ValidationFunction<Output>() {
+        @Override
+        public boolean check(ValidationContext ctx, Output o) {
+          if (o.isSetTransitionEffect() && o.getTransitionEffect() == OutputTransitionEffect.production && !o.isSetOutputLevel()) {
+            return false;
+          }
+          return true;
+        }
+      };
+      break;
 
 		case QUAL_20610:
 			// The attribute qual:outputLevel must not be negative
