@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
@@ -33,8 +34,11 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Quantity;
+import org.sbml.jsbml.QuantityWithUnit;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.SBaseWithDerivedUnit;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
@@ -1499,15 +1503,17 @@ public class UnitsCompiler implements ASTNodeCompiler {
     
     ASTNodeValue value = new ASTNodeValue(this);
     
-    if (namesToUnits.containsKey(name)) {
-      value = namesToUnits.get(name);
-    }
-    
     // should be the units of 'name' divided by the model units of time.
     Model m = nameAST.getParentSBMLObject().getModel();
     
     if (m != null) {
       UnitDefinition timeUnits = m.getTimeUnitsInstance();
+      SBase sb = m.getSBaseById(name);
+      
+      if (sb != null && sb instanceof Quantity) {
+        value.setUnits(((Quantity) sb).getDerivedUnitDefinition());
+        value.setValue(((Quantity) sb).getValue());
+      }
       
       value.setUnits(value.getUnits().divideBy(timeUnits));
     }
