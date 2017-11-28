@@ -97,16 +97,16 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
         func = new ValidationFunction<SpeciesReference>() {
           
           @Override
-          public boolean check(ValidationContext ctx, SpeciesReference kl) {
+          public boolean check(ValidationContext ctx, SpeciesReference speciesRef) {
           
             // checking that the units of the species is consistent with the unit of the extend multiplied by the species conversionFactor
             
             // get extend units
-            Model m = kl.getModel();
+            Model m = speciesRef.getModel();
             UnitDefinition extendUnits = m.getExtentUnitsInstance();
             
             // get species conversionFactor or more conversionFactor - if defined multiply it by the species units
-            Species s = kl.getSpeciesInstance();
+            Species s = speciesRef.getSpeciesInstance();
             UnitDefinition speciesUnits = s != null ? s.getDerivedSubtanceUnitDefinition() : null;
             
             if (extendUnits != null && !extendUnits.isInvalid()) {
