@@ -39,6 +39,8 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidat
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link KineticLaw} class.
+ * 
  * @author Roman
  * @since 1.2
  */
@@ -179,7 +181,6 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
             return true;
           }
         };
-        
         
         break;
       }
