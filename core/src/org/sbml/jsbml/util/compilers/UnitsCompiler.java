@@ -1198,8 +1198,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
     if (illegal != null) {
       throw new IllegalArgumentException(
         new UnitException(MessageFormat.format(
-          "An invalid or dimensionless unit is required but given is {0}.",
-          illegal)));
+          "An invalid or dimensionless unit is required but given is {0}.", illegal)));
     }
   }
 
@@ -1208,18 +1207,17 @@ public class UnitsCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
-      throws SBMLException {
-    if (rootExponent.isSetUnits()) {
+      throws SBMLException 
+  {
+    if (rootExponent.isSetUnits() || !(rootExponent.isInteger() || rootExponent.isRational())) {
       checkForDimensionlessOrInvalidUnits(rootExponent.getUnitsInstance());
     }
-    if (rootExponent.isNumber()) {
 
-      if (!(rootExponent.isInteger() || rootExponent.isRational())) {
-        checkForDimensionlessOrInvalidUnits(rootExponent
-          .getUnitsInstance());
-      }
+    ASTNodeValue rootExponentValue = rootExponent.compile(this); 
+    
+    if (rootExponentValue.isNumber()) {
 
-      return root(rootExponent.compile(this).toDouble(), radiant);
+      return root(rootExponentValue.toDouble(), radiant);
     }
 
     return new ASTNodeValue(this);
