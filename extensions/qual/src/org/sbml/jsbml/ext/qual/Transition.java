@@ -29,8 +29,6 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * A {@link Transition} defines the changes in level associated with the {@link QualitativeSpecies}
@@ -595,17 +593,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     
     if (!isAttributeRead) {
 		isAttributeRead = true;
-
-		if (attributeName.equals(QualConstants.name)) {
-			try {
-				setName(StringTools.parseSMBLNameToString(value));
-			} catch (IllegalArgumentException e) {
-				AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
-			}
 		} else {
 			isAttributeRead = false;
 		}
-	}
 
 	return isAttributeRead;
 

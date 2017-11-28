@@ -437,13 +437,13 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
 			} else if (attributeName.equals(QualConstants.initialLevel)) {
 				try {
 					setInitialLevel(StringTools.parseSBMLInt(value));
-				} catch (NumberFormatException e) {
+				} catch (IllegalArgumentException e) {
 					AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
 				}
 			} else if (attributeName.equals(QualConstants.maxLevel)) {
 				try {
 					setMaxLevel(StringTools.parseSBMLInt(value));
-				} catch (NumberFormatException e) {
+				} catch (IllegalArgumentException e) {
 					AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
 				}
 			} else {
