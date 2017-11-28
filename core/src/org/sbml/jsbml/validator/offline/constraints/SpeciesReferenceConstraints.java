@@ -22,14 +22,19 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
 
 /**
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link SpeciesReference} class.
+ * 
  * @author Roman
+ * @author rodrigue
  * @since 1.2
  */
 public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
@@ -70,6 +75,11 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
     case SBO_CONSISTENCY:
       break;
     case UNITS_CONSISTENCY:
+      // TODO - we should probably do some caching for this one to improve performance
+      if (context.isLevelAndVersionGreaterEqualThan(3, 1)) {
+        set.add(CORE_10542);
+      }
+      
       break;
     }
   }
@@ -81,6 +91,52 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<SpeciesReference> func = null;
 
     switch (errorCode) {
+
+      case CORE_10542:
+      {
+        func = new ValidationFunction<SpeciesReference>() {
+          
+          @Override
+          public boolean check(ValidationContext ctx, SpeciesReference kl) {
+          
+            // checking that the units of the species is consistent with the unit of the extend multiplied by the species conversionFactor
+            
+            // get extend units
+            Model m = kl.getModel();
+            UnitDefinition extendUnits = m.getExtentUnitsInstance();
+            
+            // get species conversionFactor or more conversionFactor - if defined multiply it by the species units
+            Species s = kl.getSpeciesInstance();
+            UnitDefinition speciesUnits = s != null ? s.getDerivedSubtanceUnitDefinition() : null;
+            
+            if (extendUnits != null && !extendUnits.isInvalid()) {
+              UnitDefinition cfUnits = null;
+              
+              if (s.isSetConversionFactor() && m.getParameter(s.getConversionFactor()) != null) {
+                cfUnits = m.getParameter(s.getConversionFactor()).getUnitsInstance();
+              } 
+              else if (m.isSetConversionFactor() && m.getConversionFactorInstance() != null) {
+                cfUnits = m.getConversionFactorInstance().getUnitsInstance();
+              }
+              
+              if (cfUnits != null && !cfUnits.isInvalid()) {
+                extendUnits = extendUnits.clone().multiplyWith(cfUnits);
+              }
+              
+              // check the extend x CF ~= species
+              if (speciesUnits != null && !speciesUnits.isInvalid()) {
+                
+                return UnitDefinition.areEquivalent(speciesUnits, extendUnits);
+              }
+            }
+            
+            return true;
+          }
+        };
+        
+        
+        break;
+      }
 
       case CORE_20611:
         func = new AbstractValidationFunction<SpeciesReference>() {
