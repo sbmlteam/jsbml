@@ -415,6 +415,7 @@ public class StringTools {
 	 * 
 	 * @param valueAsStr
 	 *            an int as a {@link String}
+	 * @throw IllegalArgumentException
 	 * @return the {@link String} as an int. If the {@link String} is not a valid
 	 *         int number, 0 is returned.
 	 */
@@ -425,18 +426,9 @@ public class StringTools {
 		} catch (NumberFormatException e) {
 			Logger logger = Logger.getLogger(StringTools.class);
 			logger.warn("Could not create an integer from the string " + valueAsStr);
-			throw new NumberFormatException("Must be of type int!");
+			throw new IllegalArgumentException("Must be of type int!");
 		}
 		return value;
-	}
-
-	public static String parseSMBLNameToString(String valueAsStr) {
-		if (valueAsStr == null || (valueAsStr != null && valueAsStr.length() > 0)) {
-			Logger logger = Logger.getLogger(StringTools.class);
-			logger.warn("Name must be set!");
-			throw new IllegalArgumentException("Name must be set!");
-		}
-		return valueAsStr;
 	}
 
 	/**
