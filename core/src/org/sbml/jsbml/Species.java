@@ -355,25 +355,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   public UnitDefinition getDerivedUnitDefinition() {
     // We cannot use 'super.getDerivedUnitDefinition()' because the method Species.getDerivedUnits() cannot be used in this case
     // as it return null if hasOnlySubstanceUnits is 'false' and we just want to have the species units for this method
-    UnitDefinition specUnit = null;
-    Model model = getModel();
-    
-    if (isSetUnitsInstance()) {
-      specUnit = getUnitsInstance();
-    } else {
-      String derivedUnits = super.getDerivedUnits();
-
-      // System.out.println("Species - getDerivedUnits " + getElementName() + " = " + derivedUnits + " (unitsID = " + unitsID + ", isSetUnits = " + isSetUnits() + ")");
-
-      if ((model != null) && (derivedUnits != null) && !derivedUnits.isEmpty()) {
-        specUnit = model.getUnitDefinition(derivedUnits);
-      }
-    }
-
-    if ((specUnit == null) && (getLevel() > 2) && (model != null) && (model.isSetSubstanceUnits())) {
-      // According to SBML specification of Level 3 Version 1, page 44, lines 20-22:
-      specUnit = model.getSubstanceUnitsInstance();
-    }
+    UnitDefinition specUnit = getDerivedSubtanceUnitDefinition();
     
     // For SBML level below 3, hasOnlySubstanceUnits has a default value and we are not getting it with the method hasOnlySubstanceUnits()
     // so we need to use directly the class variable
@@ -386,6 +368,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
       
       if ((specUnit != null) && (compartment != null)) {
         UnitDefinition sizeUnit; // = getSpatialSizeUnitsInstance();
+        Model model = getModel();
         
         if ((model != null) && isSetSpatialSizeUnits()) {
           sizeUnit = model.getUnitDefinition(getSpatialSizeUnits());
@@ -413,6 +396,39 @@ public class Species extends Symbol implements CompartmentalizedSBase {
         }
       }
     }
+    return specUnit;
+  }
+
+
+  /**
+   * Returns the derived species substance units, never dividing by the compartment units.
+   * 
+   * @return the derived species substance units, never dividing by the compartment units.
+   * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getDerivedUnitDefinition()
+   */
+  public UnitDefinition getDerivedSubtanceUnitDefinition() {
+    // We cannot use 'super.getDerivedUnitDefinition()' because the method Species.getDerivedUnits() cannot be used in this case
+    // as it return null if hasOnlySubstanceUnits is 'false' and we just want to have the species units for this method
+    UnitDefinition specUnit = null;
+    Model model = getModel();
+    
+    if (isSetUnitsInstance()) {
+      specUnit = getUnitsInstance();
+    } else {
+      String derivedUnits = super.getDerivedUnits();
+
+      // System.out.println("Species - getDerivedUnits " + getElementName() + " = " + derivedUnits + " (unitsID = " + unitsID + ", isSetUnits = " + isSetUnits() + ")");
+
+      if ((model != null) && (derivedUnits != null) && !derivedUnits.isEmpty()) {
+        specUnit = model.getUnitDefinition(derivedUnits);
+      }
+    }
+
+    if ((specUnit == null) && (getLevel() > 2) && (model != null) && (model.isSetSubstanceUnits())) {
+      // According to SBML specification of Level 3 Version 1, page 44, lines 20-22:
+      specUnit = model.getSubstanceUnitsInstance();
+    }
+    
     return specUnit;
   }
 
