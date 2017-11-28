@@ -1477,7 +1477,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
   @Override
   public ASTNodeValue quotient(List<ASTNode> values) {
-    return function("quotient", values); // TODO
+    if (values.size() == 2) {
+      return frac(values.get(0), values.get(1));
+    }
+    
+    return new ASTNodeValue(this);
   }
 
   @Override
