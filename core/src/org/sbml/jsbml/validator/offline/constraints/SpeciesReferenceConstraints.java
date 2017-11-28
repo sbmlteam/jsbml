@@ -107,7 +107,7 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
             
             // get species conversionFactor or more conversionFactor - if defined multiply it by the species units
             Species s = speciesRef.getSpeciesInstance();
-            UnitDefinition speciesUnits = s != null ? s.getDerivedSubtanceUnitDefinition() : null;
+            UnitDefinition speciesUnits = s != null ? s.getDerivedSubstanceUnitDefinition() : null;
             
             if (extendUnits != null && !extendUnits.isInvalid()) {
               UnitDefinition cfUnits = null;

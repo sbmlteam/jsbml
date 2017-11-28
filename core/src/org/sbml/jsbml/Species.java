@@ -355,7 +355,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
   public UnitDefinition getDerivedUnitDefinition() {
     // We cannot use 'super.getDerivedUnitDefinition()' because the method Species.getDerivedUnits() cannot be used in this case
     // as it return null if hasOnlySubstanceUnits is 'false' and we just want to have the species units for this method
-    UnitDefinition specUnit = getDerivedSubtanceUnitDefinition();
+    UnitDefinition specUnit = getDerivedSubstanceUnitDefinition();
     
     // For SBML level below 3, hasOnlySubstanceUnits has a default value and we are not getting it with the method hasOnlySubstanceUnits()
     // so we need to use directly the class variable
@@ -406,7 +406,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
    * @return the derived species substance units, never dividing by the compartment units.
    * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getDerivedUnitDefinition()
    */
-  public UnitDefinition getDerivedSubtanceUnitDefinition() {
+  public UnitDefinition getDerivedSubstanceUnitDefinition() {
     // We cannot use 'super.getDerivedUnitDefinition()' because the method Species.getDerivedUnits() cannot be used in this case
     // as it return null if hasOnlySubstanceUnits is 'false' and we just want to have the species units for this method
     UnitDefinition specUnit = null;

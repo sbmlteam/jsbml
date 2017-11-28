@@ -442,7 +442,6 @@ public final class ValidationTools {
     } else if (m.isSetTimeUnits() && m.isSetExtentUnits()) {      
       expectedUnit = m.getExtentUnitsInstance().clone().divideBy(m.getTimeUnitsInstance());      
     }
-    expectedUnit.convertToSIUnits();
 
 //    System.out.println("hasCorrectUnits - unit = " + UnitDefinition.printUnits(klDerivedUnit) + " (kl unit, reaction '" + kl.getParent().getId() + "')");
 //    System.out.println("hasCorrectUnits - unit = " + UnitDefinition.printUnits(expectedUnit) + " (expected unit)");
