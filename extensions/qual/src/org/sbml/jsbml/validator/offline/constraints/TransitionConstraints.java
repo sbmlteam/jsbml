@@ -55,20 +55,9 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 			ValidationContext context) {
 		switch (category) {
 		case GENERAL_CONSISTENCY:
-			set.add(QUAL_20401);
-			set.add(QUAL_20402);
-			set.add(QUAL_20403);
-			set.add(QUAL_20404);
-			set.add(QUAL_20405);
-			set.add(QUAL_20406);
-			set.add(QUAL_20407);
-			set.add(QUAL_20408);
-			set.add(QUAL_20409);
-			set.add(QUAL_20410);
-			set.add(QUAL_20411);
-			set.add(QUAL_20412);
-			set.add(QUAL_20413);
-			set.add(QUAL_20414);
+		  if (level >= 3) {
+		    addRangeToSet(set, QUAL_20401, QUAL_20414);
+		  }
 
 		case MODELING_PRACTICE:
 			break;
@@ -187,6 +176,8 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 		case QUAL_20409:
 			// ListOfFunctionTerms container object must contain one and only one
 			// DefaultTerm object and then may only contain FunctionTerm objects.
+		  
+		  break;
 
 		case QUAL_20410:
 			// A ListOfInputs object may have the optional metaid and sboTerm

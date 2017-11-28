@@ -21,7 +21,6 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ext.qual.Input;
 import org.sbml.jsbml.ext.qual.InputTransitionEffect;
 import org.sbml.jsbml.ext.qual.QualConstants;
@@ -53,17 +52,10 @@ public class InputConstraints extends AbstractConstraintDeclaration {
 			ValidationContext context) {
 		switch (category) {
 		case GENERAL_CONSISTENCY:
-			set.add(QUAL_20501);
-			set.add(QUAL_20502);
-			set.add(QUAL_20503);
-			set.add(QUAL_20504);
-			set.add(QUAL_20505);
-			set.add(QUAL_20506);
-			set.add(QUAL_20507);
-			set.add(QUAL_20508);
-			set.add(QUAL_20509);
-			set.add(QUAL_20510);
-
+		  if (level >= 3) {
+		    addRangeToSet(set, QUAL_20501, QUAL_20510);
+		  }
+		  
 		case MODELING_PRACTICE:
 			break;
 		case SBO_CONSISTENCY:
@@ -154,8 +146,7 @@ public class InputConstraints extends AbstractConstraintDeclaration {
 		    @Override
 		    public boolean check(ValidationContext ctx, Input i) {
 
-		      Model m = i.getModel();    
-		      if (i.isSetQualitativeSpecies() && m != null && i.getQualitativeSpeciesInstance() == null) {
+		      if (i.isSetQualitativeSpecies() && i.getQualitativeSpeciesInstance() == null) {
 		        return false;
 		      }
 		      return true;  
@@ -171,9 +162,8 @@ public class InputConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<Input>() {
         @Override
         public boolean check(ValidationContext ctx, Input i) {
-
-          Model m = i.getModel();
-          if (i.isSetQualitativeSpecies() && m != null && i.isSetTransitionEffect()) { 
+          
+          if (i.isSetQualitativeSpecies() && i.isSetTransitionEffect()) { 
             QualitativeSpecies qs = i.getQualitativeSpeciesInstance();
             if (qs != null && qs.isSetConstant() && qs.getConstant() && i.getTransitionEffect() == InputTransitionEffect.consumption) {
               return false;

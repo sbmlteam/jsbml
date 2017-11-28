@@ -2,11 +2,9 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ext.qual.Output;
 import org.sbml.jsbml.ext.qual.OutputTransitionEffect;
 import org.sbml.jsbml.ext.qual.QualConstants;
-import org.sbml.jsbml.ext.qual.QualitativeSpecies;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
@@ -14,6 +12,12 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeV
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 
+/**
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link Output} class.
+ * 
+ * @author Nicolas Rodriguez, Lisa Falk
+ * @since 1.3
+ */
 public class OutputConstraints extends AbstractConstraintDeclaration {
 
 	@Override
@@ -27,16 +31,9 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 			ValidationContext context) {
 		switch (category) {
 		case GENERAL_CONSISTENCY:
-			set.add(QUAL_20601);
-			set.add(QUAL_20602);
-			set.add(QUAL_20603);
-			set.add(QUAL_20604);
-			set.add(QUAL_20605);
-			set.add(QUAL_20606);
-			set.add(QUAL_20607);
-			set.add(QUAL_20608);
-			set.add(QUAL_20609);
-			set.add(QUAL_20610);
+		  if (level >= 3) {
+		    addRangeToSet(set, QUAL_20601, QUAL_20610);
+		  }
 
 		case MODELING_PRACTICE:
 			break;
@@ -81,7 +78,6 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 
 				@Override
 				public boolean check(ValidationContext ctx, Output o) {
-					// id, compartment and constant are required
 					if (!o.isSetQualitativeSpecies() || !o.isSetTransitionEffect()) {
 						return false;
 					}
@@ -119,10 +115,8 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<Output>() {
         @Override
         public boolean check(ValidationContext ctx, Output o) {
-
-          Model m = o.getModel();
           
-          if (o.isSetQualitativeSpecies() && m != null && o.getQualitativeSpeciesInstance() == null) {
+          if (o.isSetQualitativeSpecies() && o.getQualitativeSpeciesInstance() == null) {
             return false;
           }
           return true;  
@@ -135,16 +129,16 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 			// in an Output object must have the value of its qual:constant attribute set to
 			// 'false'.
 		  
-      func = new ValidationFunction<Output>() {
-        @Override
-        public boolean check(ValidationContext ctx, Output o) {
-          if (o.isSetQualitativeSpecies() && !o.getQualitativeSpeciesInstance().getConstant()) {
-            return false;
-          }
-          return true;
-        }
-      };
-      break;
+		  func = new ValidationFunction<Output>() {
+		    @Override
+		    public boolean check(ValidationContext ctx, Output o) {
+		      if (o.isSetQualitativeSpecies() && o.getQualitativeSpeciesInstance() != null && o.getQualitativeSpeciesInstance().isSetConstant() && !(o.getQualitativeSpeciesInstance().getConstant())) {
+		        return false;
+		      }
+		      return true;
+		    }
+		  };
+		  break;
 
 		case QUAL_20609:
 			// When the value of the attribute qual:transitionEffect of a Output object is

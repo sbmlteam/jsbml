@@ -25,6 +25,7 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * Each {@link FunctionTerm} is also associated with a result and in addition to a Boolean
@@ -247,12 +248,15 @@ public class FunctionTerm extends AbstractMathContainer {
       isAttributeRead = true;
 
       if (attributeName.equals(QualConstants.resultLevel)) {
-        setResultLevel(StringTools.parseSBMLInt(value));
+        try {
+          setResultLevel(StringTools.parseSBMLInt(value));
+        } catch (IllegalArgumentException e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
+        }
       } else {
         isAttributeRead = false;
       }
     }
-
     return isAttributeRead;
   }
 
