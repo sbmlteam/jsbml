@@ -2837,7 +2837,8 @@ public class ASTNode extends AbstractTreeNode {
     MathContainer parent = getParentSBMLObject();
     int level = parent != null ? parent.getLevel() : -1;
     int version = parent != null ? parent.getVersion() : -1;
-    if (!isSetUnits() || (getParentSBMLObject() == null)) {
+    
+    if (!isSetUnits() || (parent == null)) {
       if (isVariable()) {
         CallableSBase variable = getVariable();
         if (variable != null) {
@@ -2852,10 +2853,11 @@ public class ASTNode extends AbstractTreeNode {
     }
     if (Unit.Kind.isValidUnitKindString(getUnits(), level, version)) {
       return UnitDefinition.getPredefinedUnit(getUnits(), level, version);
-    } else if (getParentSBMLObject().getModel() == null) {
+    } else if (parent.getModel() == null) {
       return null;
     }
-    return getParentSBMLObject().getModel().getUnitDefinition(getUnits());
+    
+    return parent.getModel().getUnitDefinition(getUnits());
   }
 
   /**
