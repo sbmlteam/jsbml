@@ -30,6 +30,10 @@ import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValid
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
+<<<<<<< HEAD
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
+=======
+>>>>>>> 2810de8daf85ab322f10ab6f0d645c506e8c0053
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link FunctionTerm} class.
@@ -123,10 +127,20 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 		case QUAL_20806:
 			// The attribute qual:resultLevel in FunctionTerm must not be negative.
 		  
+<<<<<<< HEAD
+      func = new AbstractValidationFunction<FunctionTerm>() {
+				@Override
+				public boolean check(ValidationContext ctx, FunctionTerm ft) {
+					if (ft.isSetResultLevel() && ft.getResultLevel() < 0) {
+					  // TODO do a test to see if it is a defaultTerm and then change the first argument
+					  
+					  ValidationConstraint.logError(ctx, QUAL_20806, ft.getElementName(), Integer.valueOf(ft.getResultLevel()).toString());
+=======
       func = new ValidationFunction<FunctionTerm>() {
 				@Override
 				public boolean check(ValidationContext ctx, FunctionTerm ft) {
 					if (ft.isSetResultLevel() && ft.getResultLevel() < 0) {
+>>>>>>> 2810de8daf85ab322f10ab6f0d645c506e8c0053
 						return false;
 					}
 					return true;
