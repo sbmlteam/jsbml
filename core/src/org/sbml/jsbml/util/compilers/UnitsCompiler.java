@@ -1209,12 +1209,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
   public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
       throws SBMLException 
   {
+    ASTNodeValue rootExponentValue = rootExponent.compile(this); 
+
     if (rootExponent.isSetUnits() || !(rootExponent.isInteger() || rootExponent.isRational())) {
-      checkForDimensionlessOrInvalidUnits(rootExponent.getUnitsInstance());
+      checkForDimensionlessOrInvalidUnits(rootExponentValue.getUnits());
     }
 
-    ASTNodeValue rootExponentValue = rootExponent.compile(this); 
-    
     if (rootExponentValue.isNumber()) {
 
       return root(rootExponentValue.toDouble(), radiant);
@@ -1249,7 +1249,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
       if ((((u.getExponent() / rootExponent) % 1d) != 0d) && !u.isDimensionless() && !u.isInvalid()) {
         new UnitException(MessageFormat.format(
           "Cannot perform power or root operation due to incompatibility with a unit exponent. Given are {0,number} as the exponent of the unit and {1,number} as the root exponent for the current computation.",
-          u.getExponent(), rootExponent));
+          u.getExponent(), rootExponent)); // TODO - this exception is never thrown
       }
 
       if (!(u.isDimensionless() || u.isInvalid())) {
@@ -1484,7 +1484,24 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
   @Override
   public ASTNodeValue rem(List<ASTNode> values) {
-    return function("rem", values); // TODO
+    
+    if (values.size() == 2) {
+      ASTNode numerator = values.get(0);
+      ASTNode denominator = values.get(1);
+      UnitDefinition ud = numerator.compile(this).getUnits().clone();
+      UnitDefinition denom = denominator.compile(this).getUnits().clone();
+
+      setLevelAndVersion(ud);
+      setLevelAndVersion(denom);
+      ud.divideBy(denom);
+
+      ASTNodeValue value = new ASTNodeValue(ud, this);
+      value.setValue(numerator.compile(this).toDouble() % denominator.compile(this).toDouble());
+      
+      return value;
+    }
+    
+    return new ASTNodeValue(this);
   }
 
   @Override
