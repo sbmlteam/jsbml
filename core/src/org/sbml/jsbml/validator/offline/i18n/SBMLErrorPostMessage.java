@@ -309,11 +309,10 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(Integer.toString(SBMLErrorCodes.CORE_99505), "The units of the <{0}> <math> expression ''{1}'' cannot be fully checked. Unit consistency reported as either no errors or further unit errors related to this object may not be accurate.");
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_99508), "The units of the <compartment> ''{0}'' cannot be fully checked. Unit consistency reported as either no errors or further unit errors related to this object may not be accurate.");
-<<<<<<< HEAD
       
+      
+      // qualitative model
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20806), "The resultLevel of the <{0}> is ''{1}'', which is negative.");
-=======
->>>>>>> 2810de8daf85ab322f10ab6f0d645c506e8c0053
   }
 
   @Override
