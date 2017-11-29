@@ -636,8 +636,8 @@ public class Unit extends AbstractSBase implements UniqueSId {
    */
   public static boolean areEquivalent(Unit unit1, Unit unit2) {
     return Kind.areEquivalent(unit1.getKind(), unit2.getKind())
-        && unit1.getExponent() == unit2.getExponent();
-  }
+        && (unit1.getExponent() == unit2.getExponent() || (Math.abs(unit1.getExponent() - unit2.getExponent()) < (unit1.getExponent() * 0.001)));
+  } // TODO - check if we can use some of the Math or StrictMath operations when calculating exponent
 
   /**
    * <p>
