@@ -117,7 +117,7 @@ public class RateRuleConstraints extends AbstractConstraintDeclaration {
             
             if (variable != null) {
               
-              UnitDefinition variableUnits = variable.getDerivedUnitDefinition();
+              UnitDefinition variableUnits = ValidationTools.getDerivedUnitDefinition(variable);
               
               if (variableUnits != null && !variableUnits.isInvalid()) {
                 Model m = variable.getModel();
@@ -125,7 +125,7 @@ public class RateRuleConstraints extends AbstractConstraintDeclaration {
                 variableUnits = variableUnits.clone().divideBy(m.getTimeUnitsInstance());
                 
                 if (!variableUnits.isInvalid()) {
-                  UnitDefinition ruleUnits = rateRule.getDerivedUnitDefinition();
+                  UnitDefinition ruleUnits = ValidationTools.getDerivedUnitDefinition(rateRule);
 
                   if (ruleUnits != null && !ruleUnits.isInvalid()) {
                     

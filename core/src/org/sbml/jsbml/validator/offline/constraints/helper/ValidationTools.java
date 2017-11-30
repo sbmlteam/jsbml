@@ -69,6 +69,29 @@ public final class ValidationTools {
 
   public static final String                             KEY_META_ID_SET    =
       "metaIds";
+  /**
+   * Constant used to cache the derived {@link UnitDefinition} in the user object of an {@link SBase}.
+   * 
+   */
+  private static final String VALIDATION_CACHE_DERIVED_UNIT_DEFINITION = "jsbml.offline.validator.cache.dud";
+
+  /**
+   * Constant used to cache the derived {@link UnitDefinition} in the user objects of an {@link SBase}.
+   * 
+   */
+  private static final String VALIDATION_CACHE_DERIVED_SUBSTANCE_UNIT_DEFINITION = "jsbml.offline.validator.cache.dsud";
+  
+  /**
+   * Constant used to cache the derived extends {@link UnitDefinition} in the user objects of a {@link Model}.
+   * 
+   */
+  private static final String VALIDATION_CACHE_DERIVED_EXTEND_UNIT_DEFINITION = "jsbml.offline.validator.cache.model.extends";
+
+  /**
+   * Constant used to cache the derived time {@link UnitDefinition} in the user objects of a {@link Model}.
+   * 
+   */
+  private static final String VALIDATION_CACHE_DERIVED_TIME_UNIT_DEFINITION = "jsbml.offline.validator.cache.model.substance";
 
   public static Filter                                   FILTER_IS_FUNCTION =
       new Filter()
@@ -101,7 +124,7 @@ public final class ValidationTools {
     @Override
     public boolean check(ValidationContext ctx, SBaseWithDerivedUnit sb) {
 
-      UnitDefinition ud = sb.getDerivedUnitDefinition();
+      UnitDefinition ud = ValidationTools.getDerivedUnitDefinition(sb);
 
       return ud != null
           && ud.getUnitCount() > 0
@@ -394,8 +417,8 @@ public final class ValidationTools {
    */
   public static boolean haveEquivalentUnits(Assignment assignment, Variable var) {
     // check that the units from assignment are equivalent to the units of the variable
-    UnitDefinition assignmentDerivedUnit = assignment.getDerivedUnitDefinition();
-    UnitDefinition varDerivedUnit = var.getDerivedUnitDefinition();
+    UnitDefinition assignmentDerivedUnit = ValidationTools.getDerivedUnitDefinition(assignment);
+    UnitDefinition varDerivedUnit = ValidationTools.getDerivedUnitDefinition(var);
 
 //    System.out.println("haveEquivalentUnits - " + assignment.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(assignmentDerivedUnit) + " isInvalid = " + assignmentDerivedUnit.isInvalid());
 //    System.out.println("haveEquivalentUnits - " + var.getClass().getSimpleName() + " unit = " + UnitDefinition.printUnits(varDerivedUnit));
@@ -432,7 +455,7 @@ public final class ValidationTools {
    */
   public static boolean hasCorrectUnits(KineticLaw kl) {
     // check that the units from the kineticLaw are equivalent to substance / time or extent / time (for L3).
-    UnitDefinition klDerivedUnit = kl.getDerivedUnitDefinition().clone().convertToSIUnits();
+    UnitDefinition klDerivedUnit = ValidationTools.getDerivedUnitDefinition(kl).clone().convertToSIUnits();
     
     UnitDefinition expectedUnit = null;
     Model m = kl.getModel();
@@ -628,5 +651,120 @@ public final class ValidationTools {
     return formula;
   }
 
+
+  /**
+   * Returns the derived {@link UnitDefinition} for the given {@link SBaseWithDerivedUnit}.
+   * 
+   * <p> Try to get the derived unit from the user objects first and store it there
+   * for future usage if it is not there.
+   * </p>
+   * 
+   * @param sbase the sbase
+   * @return the derived {@link UnitDefinition} for the given {@link SBaseWithDerivedUnit}.
+   */
+  public static UnitDefinition getDerivedUnitDefinition(SBaseWithDerivedUnit sbase) {
+    
+    if (sbase.isSetUserObjects() && sbase.getUserObject(VALIDATION_CACHE_DERIVED_UNIT_DEFINITION) != null) {
+      return (UnitDefinition) sbase.getUserObject(VALIDATION_CACHE_DERIVED_UNIT_DEFINITION);
+    }
+    
+    UnitDefinition derivedUD = sbase.getDerivedUnitDefinition();
+    
+    sbase.putUserObject(VALIDATION_CACHE_DERIVED_UNIT_DEFINITION, derivedUD);
+    
+    return derivedUD;
+  }
+
+  /**
+   * Returns the substance only derived {@link UnitDefinition} for the given {@link Species}.
+   * 
+   * <p> Try to get the derived unit from the user objects first and store it there
+   * for future usage if it is not there.
+   * </p>
+   * 
+   * @param sbase the sbase
+   * @return the substance only derived {@link UnitDefinition} for the given {@link Species}.
+   */
+  public static UnitDefinition getDerivedSubstanceUnitDefinition(Species sbase) {
+    
+    if (sbase.isSetUserObjects() && sbase.getUserObject(VALIDATION_CACHE_DERIVED_SUBSTANCE_UNIT_DEFINITION) != null) {
+      return (UnitDefinition) sbase.getUserObject(VALIDATION_CACHE_DERIVED_SUBSTANCE_UNIT_DEFINITION);
+    }
+    
+    UnitDefinition derivedUD = sbase.getDerivedSubstanceUnitDefinition();
+    
+    sbase.putUserObject(VALIDATION_CACHE_DERIVED_SUBSTANCE_UNIT_DEFINITION, derivedUD);
+    
+    return derivedUD;
+  }
+
+  /**
+   * Returns the extend {@link UnitDefinition} for the given {@link Model}.
+   * 
+   * <p> Try to get the derived unit from the user objects first and store it there
+   * for future usage if it is not there.
+   * </p>
+   * 
+   * @param m the model
+   * @return the extend {@link UnitDefinition} for the given {@link Model}.
+   */
+  public static UnitDefinition getDerivedExtendUnitDefinition(Model m) {
+    
+    if (m.isSetUserObjects() && m.getUserObject(VALIDATION_CACHE_DERIVED_EXTEND_UNIT_DEFINITION) != null) {
+      return (UnitDefinition) m.getUserObject(VALIDATION_CACHE_DERIVED_EXTEND_UNIT_DEFINITION);
+    }
+    
+    UnitDefinition derivedUD = m.getExtentUnitsInstance();
+    
+    m.putUserObject(VALIDATION_CACHE_DERIVED_EXTEND_UNIT_DEFINITION, derivedUD);
+    
+    return derivedUD;
+  }  
+
+  /**
+   * Returns the substance {@link UnitDefinition} for the given {@link Model}.
+   * 
+   * <p> Try to get the derived unit from the user objects first and store it there
+   * for future usage if it is not there.
+   * </p>
+   * 
+   * @param m the model
+   * @return the substance {@link UnitDefinition} for the given {@link Model}.
+   */
+  public static UnitDefinition getDerivedSubstanceUnitDefinition(Model m) {
+    
+    if (m.isSetUserObjects() && m.getUserObject(VALIDATION_CACHE_DERIVED_SUBSTANCE_UNIT_DEFINITION) != null) {
+      return (UnitDefinition) m.getUserObject(VALIDATION_CACHE_DERIVED_SUBSTANCE_UNIT_DEFINITION);
+    }
+    
+    UnitDefinition derivedUD = m.getSubstanceUnitsInstance();
+    
+    m.putUserObject(VALIDATION_CACHE_DERIVED_SUBSTANCE_UNIT_DEFINITION, derivedUD);
+    
+    return derivedUD;
+  }  
+
+  /**
+   * Returns the time {@link UnitDefinition} for the given {@link Model}.
+   * 
+   * <p> Try to get the derived unit from the user objects first and store it there
+   * for future usage if it is not there.
+   * </p>
+   * 
+   * @param m the model
+   * @return the time {@link UnitDefinition} for the given {@link Model}.
+   */
+  public static UnitDefinition getDerivedTimeUnitDefinition(Model m) {
+    
+    if (m.isSetUserObjects() && m.getUserObject(VALIDATION_CACHE_DERIVED_TIME_UNIT_DEFINITION) != null) {
+      return (UnitDefinition) m.getUserObject(VALIDATION_CACHE_DERIVED_TIME_UNIT_DEFINITION);
+    }
+    
+    UnitDefinition derivedUD = m.getTimeUnitsInstance();
+    
+    m.putUserObject(VALIDATION_CACHE_DERIVED_TIME_UNIT_DEFINITION, derivedUD);
+    
+    return derivedUD;
+  }  
 
 }
