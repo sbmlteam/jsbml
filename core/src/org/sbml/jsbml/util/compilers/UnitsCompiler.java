@@ -1489,11 +1489,6 @@ public class UnitsCompiler implements ASTNodeCompiler {
       ASTNode numerator = values.get(0);
       ASTNode denominator = values.get(1);
       UnitDefinition ud = numerator.compile(this).getUnits().clone();
-      UnitDefinition denom = denominator.compile(this).getUnits().clone();
-
-      setLevelAndVersion(ud);
-      setLevelAndVersion(denom);
-      ud.divideBy(denom);
 
       ASTNodeValue value = new ASTNodeValue(ud, this);
       value.setValue(numerator.compile(this).toDouble() % denominator.compile(this).toDouble());
