@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
@@ -34,15 +33,12 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Quantity;
-import org.sbml.jsbml.QuantityWithUnit;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SBaseWithDerivedUnit;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.filters.Filter;
 
@@ -1472,7 +1468,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue selector(List<ASTNode> nodes) throws SBMLException {
-    return function("selector", nodes);
+    return function("selector", nodes); // TODO
   }
 
   /* (non-Javadoc)
@@ -1480,17 +1476,115 @@ public class UnitsCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue vector(List<ASTNode> nodes) throws SBMLException {
-    return function("vector", nodes);
+    return function("vector", nodes); // TODO
   }
 
   @Override
   public ASTNodeValue max(List<ASTNode> values) {
-    return function("max", values); // TODO
+    ASTNodeValue value = new ASTNodeValue(this);
+
+    if (values != null && values.size() > 0) {
+
+      int i = 0;
+      ASTNodeValue compiledValues[] = new ASTNodeValue[values.size()];
+      for (ASTNode node : values) {
+        compiledValues[i++] = node.compile(this);
+      }
+
+      double maximum = Double.MIN_VALUE;
+      i = compiledValues.length - 1;
+
+      while (i >= 0) {
+        if (Double.compare(maximum, compiledValues[i].toDouble()) < 0) {
+          maximum = compiledValues[i].toDouble();
+        }
+
+        if (!compiledValues[i].getUnits().isInvalid()) {
+          value.setUnits(compiledValues[i].getUnits());
+          value.setValue(maximum);
+          break;
+        }
+        i--;
+      }
+
+      if (value.getUnits() == null || value.getUnits().isInvalid()) {
+        // all the units were invalid, nothing to do
+      } else {
+
+        // We go through the remaining elements from  compiledValues
+        for (int j = i - 1; j >= 0; j--) {
+
+          if (compiledValues[j].getUnits() == null || compiledValues[j].getUnits().isInvalid())
+          {
+            // if we encounter again an invalid unit, we set the global unit to it
+            value.setUnits(compiledValues[j].getUnits());
+          } else {
+            unifyUnits(value, compiledValues[j]);
+          }
+          
+          if (Double.compare(maximum, compiledValues[j].toDouble()) < 0) {
+            maximum = compiledValues[i].toDouble();
+          }
+        }
+        value.setValue(maximum);
+      }
+    }
+    
+    return value;
   }
 
   @Override
   public ASTNodeValue min(List<ASTNode> values) {
-    return function("min", values); // TODO
+    ASTNodeValue value = new ASTNodeValue(this);
+
+    if (values != null && values.size() > 0) {
+
+      int i = 0;
+      ASTNodeValue compiledValues[] = new ASTNodeValue[values.size()];
+      for (ASTNode node : values) {
+        compiledValues[i++] = node.compile(this);
+      }
+
+      double minimum = Double.MAX_VALUE;
+      i = compiledValues.length - 1;
+
+      while (i >= 0) {
+        if (Double.compare(minimum, compiledValues[i].toDouble()) > 0) {
+          minimum = compiledValues[i].toDouble();
+        }
+
+        if (!compiledValues[i].getUnits().isInvalid()) {
+          value.setUnits(compiledValues[i].getUnits());
+          value.setValue(minimum);
+          break;
+        }
+        i--;
+      }
+
+      if (value.getUnits() == null || value.getUnits().isInvalid()) {
+        // all the units were invalid, nothing to do
+      } else {
+
+        // We go through the remaining elements from  compiledValues
+        for (int j = i - 1; j >= 0; j--) {
+
+          if (compiledValues[j].getUnits() == null || compiledValues[j].getUnits().isInvalid())
+          {
+            // if we encounter again an invalid unit, we set the global unit to it
+            value.setUnits(compiledValues[j].getUnits());
+          } else {
+            unifyUnits(value, compiledValues[j]);
+          }
+          
+          if (Double.compare(minimum, compiledValues[j].toDouble()) > 0) {
+            minimum = compiledValues[i].toDouble();
+          }
+        }
+        value.setValue(minimum);
+      }
+    }
+    
+    return value;
   }
 
   @Override
