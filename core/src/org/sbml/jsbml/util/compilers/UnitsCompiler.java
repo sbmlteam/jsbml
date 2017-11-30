@@ -42,6 +42,7 @@ import org.sbml.jsbml.SBaseWithDerivedUnit;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.filters.Filter;
 
@@ -346,6 +347,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
   @Override
   public ASTNodeValue compile(CallableSBase variable) {
     ASTNodeValue value = new ASTNodeValue(variable, this);
+
     if (variable instanceof Quantity) {
       Quantity q = (Quantity) variable;
       Model m = q.getModel();
@@ -355,20 +357,20 @@ public class UnitsCompiler implements ASTNodeCompiler {
       }
       
       // checking if the quantity is affected by initialAssigment or AssignmentRule
-      if (m.getInitialAssignmentBySymbol(q.getId()) != null) {
-        InitialAssignment ia = m.getInitialAssignmentBySymbol(q.getId());
-        
-        if (ia.isSetMath()) {
-          ASTNodeValue iaValue = ia.getMath().compile(this);
-          value.setValue(iaValue.toDouble());
-        }
-      }
       if (m.getAssignmentRuleByVariable(q.getId()) != null) {
         AssignmentRule ar = m.getAssignmentRuleByVariable(q.getId());
         
         if (ar.isSetMath()) {
           ASTNodeValue arValue = ar.getMath().compile(this);
           value.setValue(arValue.toDouble());
+        }
+      }
+      else if (m.getInitialAssignmentBySymbol(q.getId()) != null) {
+        InitialAssignment ia = m.getInitialAssignmentBySymbol(q.getId());
+        
+        if (ia.isSetMath()) {
+          ASTNodeValue iaValue = ia.getMath().compile(this);
+          value.setValue(iaValue.toDouble());
         }
       }
     }
@@ -383,7 +385,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
         final Set<String> checkedReactionIdsSet = new HashSet<String>();
         checkedReactionIdsSet.add(r.getId());
         
-        findReactions(r.getKineticLaw().getMath(), reactionIdsSet, checkedReactionIdsSet);
+        findReactionLoops(r.getKineticLaw().getMath(), reactionIdsSet, checkedReactionIdsSet);
 
         if (reactionIdsSet.contains(r.getId())) {
           return invalid();
@@ -401,7 +403,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * @param node
    * @param reactionIdsSet
    */
-  private void findReactions(final ASTNode node, final Set<String> reactionIdsSet, final Set<String> checkedReactionIdsSet) {
+  private void findReactionLoops(final ASTNode node, final Set<String> reactionIdsSet, final Set<String> checkedReactionIdsSet) {
     node.filter(new Filter() {
       
       @Override
@@ -409,8 +411,26 @@ public class UnitsCompiler implements ASTNodeCompiler {
         if (o instanceof ASTNode) {
           ASTNode n = (ASTNode) o;
           
-          if (n.getType() == ASTNode.Type.NAME && n.getVariable() instanceof Reaction) {
-            reactionIdsSet.add(node.getName());            
+          if (n.getType() == ASTNode.Type.NAME) {
+            CallableSBase var = n.getVariable();
+            
+            if (var != null) {
+              
+            
+
+              if (var instanceof Reaction) {
+                reactionIdsSet.add(node.getName());            
+              } else {              
+                String sid = var.getId();
+                Model m = var.getModel();
+
+                if (m.getAssignmentRuleByVariable(sid) != null) {
+                  findReactionLoops(m.getAssignmentRuleByVariable(sid).getMath(), reactionIdsSet, checkedReactionIdsSet);
+                } else if (m.getInitialAssignmentBySymbol(sid) != null) {
+                  findReactionLoops(m.getInitialAssignmentBySymbol(sid).getMath(), reactionIdsSet, checkedReactionIdsSet);
+                }
+              }
+            }
           }
         }
         return false;
@@ -424,7 +444,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
         try {
           Reaction uncheckedReaction = node.getParentSBMLObject().getModel().getReaction(reactionId);
         
-          findReactions(uncheckedReaction.getKineticLaw().getMath(), reactionIdsSet, checkedReactionIdsSet);
+          findReactionLoops(uncheckedReaction.getKineticLaw().getMath(), reactionIdsSet, checkedReactionIdsSet);
           
         } catch (Exception e) {}
       }
