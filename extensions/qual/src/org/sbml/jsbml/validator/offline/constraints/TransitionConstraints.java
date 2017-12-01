@@ -111,20 +111,21 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 			// must have one and only one instance of the ListOfFunctionTerms objects
 			// and may have at most one instance of the ListOfInputs and ListOfOutputs
 			// objects
+			  
+		  func = new ValidationFunction<Transition>() {
 
-			func = new ValidationFunction<Transition>() {
-
-				@Override
-				public boolean check(ValidationContext ctx, Transition t) {
-					if (t.isSetListOfFunctionTerms()) {
-						return new DuplicatedElementValidationFunction<Transition>("listOfReactants").check(ctx, t)
-								&& new DuplicatedElementValidationFunction<Transition>("listOfInputs").check(ctx, t)
-								&& new DuplicatedElementValidationFunction<Transition>("listOfOutputs").check(ctx, t);
-					}
-					return false;
-				}
-			};
-			break;
+		    @Override
+		    public boolean check(ValidationContext ctx, Transition t) {
+		      Boolean functionTerm = false;
+		      if (t.isSetListOfFunctionTerms() && t.getListOfFunctionTerms().size() > 0) {
+		        functionTerm = new DuplicatedElementValidationFunction<Transition>(QualConstants.listOfFunctionTerms).check(ctx, t);
+		      }
+		      Boolean input = new DuplicatedElementValidationFunction<Transition>(QualConstants.listOfInputs).check(ctx, t);
+		      Boolean output = new DuplicatedElementValidationFunction<Transition>(QualConstants.listOfOutputs).check(ctx, t);
+		      return (functionTerm && input && output);
+		    }
+		  };
+		  break;
 
 		case QUAL_20406:
 			// ListOfInputs and ListOfOutputs subobjects on a are optional,
@@ -177,6 +178,25 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 			// ListOfFunctionTerms container object must contain one and only one
 			// DefaultTerm object and then may only contain FunctionTerm objects.
 		  
+		  func = new ValidationFunction<Transition>() {
+		    @Override
+		    public boolean check(ValidationContext ctx, Transition t) {
+		      if (t.isSetListOfFunctionTerms() && !t.getListOfFunctionTerms().isEmpty()) {
+		        Boolean hasDefaultTerm = false;
+		        for (FunctionTerm ft : t.getListOfFunctionTerms()) {
+		          if (ft.isDefaultTerm()) {
+		            hasDefaultTerm = true;
+		          }
+		        }
+		        Boolean onlyDefaultTerm = new DuplicatedElementValidationFunction<ListOf<FunctionTerm>>(
+		            "delfaultTerm").check(ctx, t.getListOfFunctionTerms());
+		        Boolean onlyFuntionTermObjects = new UnknownElementValidationFunction<ListOf<FunctionTerm>>()
+		            .check(ctx, t.getListOfFunctionTerms());
+		        return (hasDefaultTerm && onlyDefaultTerm && onlyFuntionTermObjects);
+		      }
+		      return true;
+		    }
+		  };
 		  break;
 
 		case QUAL_20410:
@@ -237,9 +257,44 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 			// No element of the ListOfFunctionTerms object may cause the level of a
 			// QualitativeSpecies to exceed the value qual:maxLevel attribute
 
+		  func = new ValidationFunction<Transition>() {
+
+		    @Override
+		    public boolean check(ValidationContext ctx, Transition t) {
+		      int maxLevel = Integer.MIN_VALUE;
+		      for (Output o : t.getListOfOutputs()) {
+		        int newMaxLevel = o.getQualitativeSpeciesInstance().getMaxLevel();
+		        if (newMaxLevel > maxLevel) {
+		          maxLevel = newMaxLevel;
+		        }
+		        for (FunctionTerm ft : t.getListOfFunctionTerms()) {
+		          int resultLevel = ft.getResultLevel();
+		          if (resultLevel > maxLevel) {
+		            return false;
+		          }
+		        }
+		      }
+		      return true;
+		    }
+		  };
+		  break;
+
 		case QUAL_20414:
 			// No element of the ListOfFunctionTerms object may cause the level of a
 			// QualitativeSpecies to become negative
+		  
+      func = new ValidationFunction<Transition>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Transition t) {
+          for (FunctionTerm ft : t.getListOfFunctionTerms()) {
+            if (ft.getResultLevel() < 0)
+              return false;
+          }
+          return true;
+        }
+      };
+      break;
 		}
 		return func;
 	}
