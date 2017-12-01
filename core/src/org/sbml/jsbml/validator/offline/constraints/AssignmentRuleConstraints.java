@@ -1,5 +1,7 @@
 /*
  * ----------------------------------------------------------------------------
+ /*
+ * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
@@ -151,7 +153,13 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           if (var != null && var instanceof Parameter && ((Parameter) var).isSetUnits()) {
 
             // check that unit from rule are equivalent to the parameter unit
-            return ValidationTools.haveEquivalentUnits(r, var);
+            boolean check = ValidationTools.haveEquivalentUnits(r, var);
+            
+            if (!check) {
+              // System.out.println("DEBUG - 10513 - have non equivalent units");
+            }
+            
+            return check; 
           }
 
           return true;
@@ -241,7 +249,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           if (r.isSetMath() && m != null) {
 
             boolean later = false;
-            Set<String> defienedLater = new HashSet<String>();
+            Set<String> definedLater = new HashSet<String>();
 
             // Collect all rules which were defined AFTER this one
             // Adds also the name of this rules, because it'S also permitted to
@@ -255,7 +263,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
                 }
 
                 if (later) {
-                  defienedLater.add(eRule.getVariable());
+                  definedLater.add(eRule.getVariable());
                 }
               }
             }
@@ -267,7 +275,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
               ASTNode node = toCheck.poll();
 
               if (node.isName()) {
-                if (defienedLater.contains(node.getName())) {
+                if (definedLater.contains(node.getName())) {
                   return false;
                 }
               }

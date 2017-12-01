@@ -97,7 +97,6 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
 		        @Override
 		        public boolean check(ValidationContext ctx, FunctionTerm ft) {
-		          // id, compartment and constant are required
 		          if (!ft.isSetResultLevel()) {
 		            return false;
 		          }
@@ -127,6 +126,9 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 				@Override
 				public boolean check(ValidationContext ctx, FunctionTerm ft) {
 					if (ft.isSetResultLevel() && ft.getResultLevel() < 0) {
+					  // TODO do a test to see if it is a defaultTerm and then change the first argument
+					  
+					  ValidationConstraint.logError(ctx, QUAL_20806, ft.getElementName(), Integer.valueOf(ft.getResultLevel()).toString());
 						return false;
 					}
 					return true;

@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
@@ -34,11 +33,9 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Quantity;
-import org.sbml.jsbml.QuantityWithUnit;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SBaseWithDerivedUnit;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
@@ -346,6 +343,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
   @Override
   public ASTNodeValue compile(CallableSBase variable) {
     ASTNodeValue value = new ASTNodeValue(variable, this);
+
     if (variable instanceof Quantity) {
       Quantity q = (Quantity) variable;
       Model m = q.getModel();
@@ -355,20 +353,20 @@ public class UnitsCompiler implements ASTNodeCompiler {
       }
       
       // checking if the quantity is affected by initialAssigment or AssignmentRule
-      if (m.getInitialAssignmentBySymbol(q.getId()) != null) {
-        InitialAssignment ia = m.getInitialAssignmentBySymbol(q.getId());
-        
-        if (ia.isSetMath()) {
-          ASTNodeValue iaValue = ia.getMath().compile(this);
-          value.setValue(iaValue.toDouble());
-        }
-      }
       if (m.getAssignmentRuleByVariable(q.getId()) != null) {
         AssignmentRule ar = m.getAssignmentRuleByVariable(q.getId());
         
         if (ar.isSetMath()) {
           ASTNodeValue arValue = ar.getMath().compile(this);
           value.setValue(arValue.toDouble());
+        }
+      }
+      else if (m.getInitialAssignmentBySymbol(q.getId()) != null) {
+        InitialAssignment ia = m.getInitialAssignmentBySymbol(q.getId());
+        
+        if (ia.isSetMath()) {
+          ASTNodeValue iaValue = ia.getMath().compile(this);
+          value.setValue(iaValue.toDouble());
         }
       }
     }
@@ -383,7 +381,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
         final Set<String> checkedReactionIdsSet = new HashSet<String>();
         checkedReactionIdsSet.add(r.getId());
         
-        findReactions(r.getKineticLaw().getMath(), reactionIdsSet, checkedReactionIdsSet);
+        findReactionLoops(r.getKineticLaw().getMath(), reactionIdsSet, checkedReactionIdsSet);
 
         if (reactionIdsSet.contains(r.getId())) {
           return invalid();
@@ -401,7 +399,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * @param node
    * @param reactionIdsSet
    */
-  private void findReactions(final ASTNode node, final Set<String> reactionIdsSet, final Set<String> checkedReactionIdsSet) {
+  private void findReactionLoops(final ASTNode node, final Set<String> reactionIdsSet, final Set<String> checkedReactionIdsSet) {
     node.filter(new Filter() {
       
       @Override
@@ -409,8 +407,26 @@ public class UnitsCompiler implements ASTNodeCompiler {
         if (o instanceof ASTNode) {
           ASTNode n = (ASTNode) o;
           
-          if (n.getType() == ASTNode.Type.NAME && n.getVariable() instanceof Reaction) {
-            reactionIdsSet.add(node.getName());            
+          if (n.getType() == ASTNode.Type.NAME) {
+            CallableSBase var = n.getVariable();
+            
+            if (var != null) {
+              
+            
+
+              if (var instanceof Reaction) {
+                reactionIdsSet.add(node.getName());            
+              } else {              
+                String sid = var.getId();
+                Model m = var.getModel();
+
+                if (m.getAssignmentRuleByVariable(sid) != null) {
+                  findReactionLoops(m.getAssignmentRuleByVariable(sid).getMath(), reactionIdsSet, checkedReactionIdsSet);
+                } else if (m.getInitialAssignmentBySymbol(sid) != null) {
+                  findReactionLoops(m.getInitialAssignmentBySymbol(sid).getMath(), reactionIdsSet, checkedReactionIdsSet);
+                }
+              }
+            }
           }
         }
         return false;
@@ -424,7 +440,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
         try {
           Reaction uncheckedReaction = node.getParentSBMLObject().getModel().getReaction(reactionId);
         
-          findReactions(uncheckedReaction.getKineticLaw().getMath(), reactionIdsSet, checkedReactionIdsSet);
+          findReactionLoops(uncheckedReaction.getKineticLaw().getMath(), reactionIdsSet, checkedReactionIdsSet);
           
         } catch (Exception e) {}
       }
@@ -1209,12 +1225,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
   public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
       throws SBMLException 
   {
+    ASTNodeValue rootExponentValue = rootExponent.compile(this); 
+
     if (rootExponent.isSetUnits() || !(rootExponent.isInteger() || rootExponent.isRational())) {
-      checkForDimensionlessOrInvalidUnits(rootExponent.getUnitsInstance());
+      checkForDimensionlessOrInvalidUnits(rootExponentValue.getUnits());
     }
 
-    ASTNodeValue rootExponentValue = rootExponent.compile(this); 
-    
     if (rootExponentValue.isNumber()) {
 
       return root(rootExponentValue.toDouble(), radiant);
@@ -1249,7 +1265,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
       if ((((u.getExponent() / rootExponent) % 1d) != 0d) && !u.isDimensionless() && !u.isInvalid()) {
         new UnitException(MessageFormat.format(
           "Cannot perform power or root operation due to incompatibility with a unit exponent. Given are {0,number} as the exponent of the unit and {1,number} as the root exponent for the current computation.",
-          u.getExponent(), rootExponent));
+          u.getExponent(), rootExponent)); // TODO - this exception is never thrown
       }
 
       if (!(u.isDimensionless() || u.isInvalid())) {
@@ -1452,7 +1468,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue selector(List<ASTNode> nodes) throws SBMLException {
-    return function("selector", nodes);
+    return function("selector", nodes); // TODO
   }
 
   /* (non-Javadoc)
@@ -1460,17 +1476,115 @@ public class UnitsCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue vector(List<ASTNode> nodes) throws SBMLException {
-    return function("vector", nodes);
+    return function("vector", nodes); // TODO
   }
 
   @Override
   public ASTNodeValue max(List<ASTNode> values) {
-    return function("max", values); // TODO
+    ASTNodeValue value = new ASTNodeValue(this);
+
+    if (values != null && values.size() > 0) {
+
+      int i = 0;
+      ASTNodeValue compiledValues[] = new ASTNodeValue[values.size()];
+      for (ASTNode node : values) {
+        compiledValues[i++] = node.compile(this);
+      }
+
+      double maximum = Double.MIN_VALUE;
+      i = compiledValues.length - 1;
+
+      while (i >= 0) {
+        if (Double.compare(maximum, compiledValues[i].toDouble()) < 0) {
+          maximum = compiledValues[i].toDouble();
+        }
+
+        if (!compiledValues[i].getUnits().isInvalid()) {
+          value.setUnits(compiledValues[i].getUnits());
+          value.setValue(maximum);
+          break;
+        }
+        i--;
+      }
+
+      if (value.getUnits() == null || value.getUnits().isInvalid()) {
+        // all the units were invalid, nothing to do
+      } else {
+
+        // We go through the remaining elements from  compiledValues
+        for (int j = i - 1; j >= 0; j--) {
+
+          if (compiledValues[j].getUnits() == null || compiledValues[j].getUnits().isInvalid())
+          {
+            // if we encounter again an invalid unit, we set the global unit to it
+            value.setUnits(compiledValues[j].getUnits());
+          } else {
+            unifyUnits(value, compiledValues[j]);
+          }
+          
+          if (Double.compare(maximum, compiledValues[j].toDouble()) < 0) {
+            maximum = compiledValues[i].toDouble();
+          }
+        }
+        value.setValue(maximum);
+      }
+    }
+    
+    return value;
   }
 
   @Override
   public ASTNodeValue min(List<ASTNode> values) {
-    return function("min", values); // TODO
+    ASTNodeValue value = new ASTNodeValue(this);
+
+    if (values != null && values.size() > 0) {
+
+      int i = 0;
+      ASTNodeValue compiledValues[] = new ASTNodeValue[values.size()];
+      for (ASTNode node : values) {
+        compiledValues[i++] = node.compile(this);
+      }
+
+      double minimum = Double.MAX_VALUE;
+      i = compiledValues.length - 1;
+
+      while (i >= 0) {
+        if (Double.compare(minimum, compiledValues[i].toDouble()) > 0) {
+          minimum = compiledValues[i].toDouble();
+        }
+
+        if (!compiledValues[i].getUnits().isInvalid()) {
+          value.setUnits(compiledValues[i].getUnits());
+          value.setValue(minimum);
+          break;
+        }
+        i--;
+      }
+
+      if (value.getUnits() == null || value.getUnits().isInvalid()) {
+        // all the units were invalid, nothing to do
+      } else {
+
+        // We go through the remaining elements from  compiledValues
+        for (int j = i - 1; j >= 0; j--) {
+
+          if (compiledValues[j].getUnits() == null || compiledValues[j].getUnits().isInvalid())
+          {
+            // if we encounter again an invalid unit, we set the global unit to it
+            value.setUnits(compiledValues[j].getUnits());
+          } else {
+            unifyUnits(value, compiledValues[j]);
+          }
+          
+          if (Double.compare(minimum, compiledValues[j].toDouble()) > 0) {
+            minimum = compiledValues[i].toDouble();
+          }
+        }
+        value.setValue(minimum);
+      }
+    }
+    
+    return value;
   }
 
   @Override
@@ -1484,7 +1598,19 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
   @Override
   public ASTNodeValue rem(List<ASTNode> values) {
-    return function("rem", values); // TODO
+    
+    if (values.size() == 2) {
+      ASTNode numerator = values.get(0);
+      ASTNode denominator = values.get(1);
+      UnitDefinition ud = numerator.compile(this).getUnits().clone();
+
+      ASTNodeValue value = new ASTNodeValue(ud, this);
+      value.setValue(numerator.compile(this).toDouble() % denominator.compile(this).toDouble());
+      
+      return value;
+    }
+    
+    return new ASTNodeValue(this);
   }
 
   @Override
