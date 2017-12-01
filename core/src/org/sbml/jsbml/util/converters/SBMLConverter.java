@@ -33,7 +33,7 @@ public interface SBMLConverter {
    * 
    * @param doc the document that need to be converted, it should not be modified
    * @return the converted {@link SBMLDocument}
-   * @throws SBMLException if a problem occured during conversion
+   * @throws SBMLException if a problem occurred during conversion
    */
   public SBMLDocument convert(SBMLDocument doc) throws SBMLException;
 }
