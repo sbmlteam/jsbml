@@ -27,6 +27,7 @@ import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
@@ -125,6 +126,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       break;
     case UNITS_CONSISTENCY:
       if (level > 2) {
+        set.add(CORE_10503);
         set.add(CORE_99130);
         set.add(CORE_99506);
         set.add(CORE_99507);
@@ -512,7 +514,45 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       };
       break;
     }
-    
+
+    case CORE_10503:
+      func = new ValidationFunction<Model>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Model m) {
+          boolean check = true;
+          UnitDefinition firstUD = null;
+          
+          if (m.getReactionCount() > 0) {
+            for (Reaction r : m.getListOfReactions()) {
+              if (r.isSetKineticLaw()) {
+                KineticLaw kl = r.getKineticLaw();
+                
+                if (kl.isSetMath()) {
+                  UnitDefinition ud = ValidationTools.getDerivedUnitDefinition(kl);
+                  
+                  if (firstUD != null) {
+                    // compare both units
+                    if (!UnitDefinition.areEquivalent(firstUD, ud)) {
+                      check = false;
+                      break;
+                    }
+                  } else if (ud != null && !ud.isInvalid()) {
+                    firstUD = ud;
+                  } else {
+                    break;
+                  }
+                }
+              }
+            }
+          }
+
+          return check;
+        }
+      };
+      break;
+
+
     case CORE_10601:
       func = new ValidationFunction<Model>() {
 

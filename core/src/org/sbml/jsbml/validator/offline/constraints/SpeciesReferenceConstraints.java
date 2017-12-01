@@ -28,7 +28,8 @@ import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link SpeciesReference} class.
@@ -103,11 +104,11 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
             
             // get extend units
             Model m = speciesRef.getModel();
-            UnitDefinition extendUnits = m.getExtentUnitsInstance();
+            UnitDefinition extendUnits = ValidationTools.getDerivedExtendUnitDefinition(m);
             
             // get species conversionFactor or more conversionFactor - if defined multiply it by the species units
             Species s = speciesRef.getSpeciesInstance();
-            UnitDefinition speciesUnits = s != null ? s.getDerivedSubstanceUnitDefinition() : null;
+            UnitDefinition speciesUnits = s != null ? ValidationTools.getDerivedSubstanceUnitDefinition(s) : null;
             
             if (extendUnits != null && !extendUnits.isInvalid()) {
               UnitDefinition cfUnits = null;
