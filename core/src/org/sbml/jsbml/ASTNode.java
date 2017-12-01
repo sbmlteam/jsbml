@@ -1079,7 +1079,6 @@ public class ASTNode extends AbstractTreeNode {
    * parser class and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
 <p><blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
-
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
 </pre></blockquote></p>
    * 
@@ -1129,7 +1128,6 @@ public class ASTNode extends AbstractTreeNode {
    * <p> You can as well use the {@link FormulaParser} class to get the same parsing behaviour as in JSBML-0.8:
 <p><blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
-
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
 </pre></blockquote></p>
    * 
@@ -2837,7 +2835,8 @@ public class ASTNode extends AbstractTreeNode {
     MathContainer parent = getParentSBMLObject();
     int level = parent != null ? parent.getLevel() : -1;
     int version = parent != null ? parent.getVersion() : -1;
-    if (!isSetUnits() || (getParentSBMLObject() == null)) {
+    
+    if (!isSetUnits() || (parent == null)) {
       if (isVariable()) {
         CallableSBase variable = getVariable();
         if (variable != null) {
@@ -2852,10 +2851,11 @@ public class ASTNode extends AbstractTreeNode {
     }
     if (Unit.Kind.isValidUnitKindString(getUnits(), level, version)) {
       return UnitDefinition.getPredefinedUnit(getUnits(), level, version);
-    } else if (getParentSBMLObject().getModel() == null) {
+    } else if (parent.getModel() == null) {
       return null;
     }
-    return getParentSBMLObject().getModel().getUnitDefinition(getUnits());
+    
+    return parent.getModel().getUnitDefinition(getUnits());
   }
 
   /**
