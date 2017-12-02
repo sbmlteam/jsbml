@@ -53,6 +53,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 		case GENERAL_CONSISTENCY:
 		  if (level >= 3) {
 		    addRangeToSet(set, QUAL_20801, QUAL_20806);
+		    addRangeToSet(set, QUAL_20701, QUAL_20705);
 		  }
 		  
 		case MODELING_PRACTICE:
@@ -62,6 +63,9 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 		case IDENTIFIER_CONSISTENCY:
 			break;
 		case MATHML_CONSISTENCY:
+		  if (level >= 3) {
+		    addRangeToSet(set, QUAL_10201, QUAL_10202);
+      }
 			break;
 		case OVERDETERMINED_MODEL:
 			break;
@@ -75,6 +79,91 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 		ValidationFunction<FunctionTerm> func = null;
 
 		switch (errorCode) {
+    case QUAL_10201:
+		// The MathML math element in a FunctionTerm object should evaluate to a value of type
+		// boolean.
+		
+      func = new ValidationFunction<FunctionTerm>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionTerm ft) {
+          if (ft.isSetMath()) {
+            return ft.getMath().isBoolean(); 
+          }
+          return true;
+        }
+      };
+      break;
+      
+    case QUAL_10202:
+      // The MathML math element in a FunctionTerm object should not use the csymbol elements
+      // “time” and “delay” as these explicitly introduce time into the model.
+      
+      break;
+      
+    case QUAL_20701:
+      // May have the optional attributes metaid and sboTerm.
+      // No other namespaces are permitted.
+
+      // same as 20801
+      
+      func = new UnknownCoreAttributeValidationFunction<FunctionTerm>();
+      break;
+
+    case QUAL_20702:
+      // May have the optional subobjects for notes and annotations.
+      // No other namespaces are permitted.
+
+      // same as 20802
+      
+      func = new UnknownCoreElementValidationFunction<FunctionTerm>();      
+      break;
+
+    case QUAL_20703:
+      // must have the required attributes qual:resultLevel
+      // No other attributes are permitted.
+
+      // same as 20803
+      
+      func = new UnknownPackageAttributeValidationFunction<FunctionTerm>(QualConstants.shortLabel) {
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionTerm ft) {
+          if (!ft.isSetResultLevel()) {
+            return false;
+          }
+          return super.check(ctx, ft);
+        }
+      };
+      break;
+
+    case QUAL_20704:
+      // The attribute qual:resultLevel in DefaultTerm must be of the data type integer
+
+      // same as 20805
+      
+      func = new InvalidAttributeValidationFunction<FunctionTerm>(QualConstants.resultLevel);
+      break;
+
+    case QUAL_20705:
+      // The attribute qual:resultLevel in DefaultTerm must not be negative.
+
+      // same as 20806
+
+      func = new AbstractValidationFunction<FunctionTerm>() {
+        @Override
+        public boolean check(ValidationContext ctx, FunctionTerm ft) {
+          if (ft.isSetResultLevel() && ft.getResultLevel() < 0) {
+            // TODO do a test to see if it is a defaultTerm and then change the first argument
+            
+            ValidationConstraint.logError(ctx, QUAL_20705, ft.getElementName(), Integer.valueOf(ft.getResultLevel()).toString());
+            return false;
+          }
+          return true;
+        }
+      };
+      break;
+		
 		case QUAL_20801:
 			// May have the optional attributes metaid and sboTerm.
 			// No other namespaces are permitted.
@@ -122,7 +211,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 		case QUAL_20806:
 			// The attribute qual:resultLevel in FunctionTerm must not be negative.
 		  
-      func = new ValidationFunction<FunctionTerm>() {
+      func = new AbstractValidationFunction<FunctionTerm>() {
 				@Override
 				public boolean check(ValidationContext ctx, FunctionTerm ft) {
 					if (ft.isSetResultLevel() && ft.getResultLevel() < 0) {
