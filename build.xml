@@ -297,7 +297,8 @@
            verbose="${verbose}"
            source="${jsbml.build.javac.source}"
            target="${jsbml.build.javac.target}"
-           classpathref="classpath">
+           classpathref="classpath"
+           encoding="UTF-8">
 		</javac>
 	</target>
 
