@@ -97,7 +97,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
       
     case QUAL_10202:
       // The MathML math element in a FunctionTerm object should not use the csymbol elements
-      // “time” and “delay” as these explicitly introduce time into the model.
+      // 'time' and 'delay' as these explicitly introduce time into the model.
       
       break;
       
