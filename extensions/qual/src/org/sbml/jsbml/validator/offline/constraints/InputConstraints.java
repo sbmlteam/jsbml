@@ -156,8 +156,8 @@ public class InputConstraints extends AbstractConstraintDeclaration {
 
     case QUAL_20509:
       // An Input that refers to a QualitativeSpecies that has a qual:constant
-      // attribute set to “true” cannot have the attribute qual:transitionEffect set
-      // to “consumption”.
+      // attribute set to 'true' cannot have the attribute qual:transitionEffect set
+      // to 'consumption'.
       
       func = new ValidationFunction<Input>() {
         @Override

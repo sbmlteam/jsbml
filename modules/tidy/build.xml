@@ -199,7 +199,8 @@
     	   nowarn="no"
       source="${jsbml.build.javac.source}"
 		   target="${jsbml.build.javac.target}"
-           classpathref="classpath">
+           classpathref="classpath"
+    	encoding="UTF-8">
     </javac>      
 
   	<property name="api.version" value="1.0-beta"/>
