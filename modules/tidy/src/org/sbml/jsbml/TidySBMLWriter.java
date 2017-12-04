@@ -59,7 +59,7 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
   private static final long serialVersionUID = 1L;
 
   /**
-   * 
+   * The default Tidy instance 
    */
   private static final transient Tidy tidy = new Tidy();  // obtain a new Tidy instance
 
@@ -73,7 +73,8 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     tidy.setQuiet(true);
     tidy.setSmartIndent(true);
     tidy.setTrimEmptyElements(true);
-    tidy.setWraplen(200);
+    // preventing line wrapping by default as it can cause problems in old COBRA style sbml by cutting the notes into several lines
+    tidy.setWraplen(0);
     tidy.setWrapAttVals(false);
     tidy.setWrapScriptlets(true);
     tidy.setLiteralAttribs(true);
@@ -81,6 +82,11 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     tidy.setXmlSpace(true);
     tidy.setXmlTags(true);
   }
+  
+  /**
+   * A user tidy instance if they want to modify the default settings
+   */
+  private Tidy userTidy = null;
 
   /**
    * Writes the given SBML document to a {@link File}.
@@ -521,7 +527,13 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
       InputStreamReader in = new InputStreamReader(new ByteArrayInputStream(sbmlDocString.getBytes("UTF-8")), "UTF-8");
 
       setIndentation(getIndentationChar(), getIndentationCount());
-      tidy.parse(in, out); // run tidy, providing an input and output stream
+      
+      if (userTidy == null) {
+        tidy.parse(in, out); // run tidy, providing an input and output stream
+      } else {
+        userTidy.parse(in, out); // run tidy, providing an input and output stream
+      }
+      
     } catch (IOException e) {
       throw new SBMLException(e);
     }
@@ -649,7 +661,12 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
       InputStreamReader in = new InputStreamReader(new ByteArrayInputStream(sbmlDocString.getBytes("UTF-8")), "UTF-8");
 
       setIndentation(getIndentationChar(), getIndentationCount());
-      tidy.parse(in, out); // run tidy, providing an input and output stream
+      
+      if (userTidy == null) {
+        tidy.parse(in, out); // run tidy, providing an input and output stream
+      } else {
+        userTidy.parse(in, out); // run tidy, providing an input and output stream
+      }
 
       String outputSBMLString = outputSbml.toString("UTF-8");
       
@@ -657,6 +674,26 @@ public class TidySBMLWriter extends org.sbml.jsbml.SBMLWriter implements Cloneab
     } catch (UnsupportedEncodingException e) {
       throw new SBMLException(e);
     }
+  }
+  
+  
+
+  /**
+   * Returns the instance of {@link Tidy} that is used to pretty print the SBML.
+   * 
+   * @return the userTidy
+   */
+  public Tidy getUserTidy() {
+    return userTidy;
+  }
+
+  /**
+   * Sets the instance of {@link Tidy} that will be used to pretty print the SBML.
+   * 
+   * @param userTidy the {@link Tidy} instance to set
+   */
+  public void setUserTidy(Tidy userTidy) {
+    this.userTidy = userTidy;
   }
 
   /**
