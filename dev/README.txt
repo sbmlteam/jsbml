@@ -52,4 +52,7 @@ Definitions for writing JSBML classes:
   The jar file to use can be found in the jsbml source tree at trunk/core/lib/spi-full-0.2.4.jar.
 
   You can run the ParserManager class to check that the list of parsers are not empty and that they contain the parsers you need.
+  
+  Under windows, you need to setup windows so that it uses by default the UTF-8 encoding. Go to "Windows > Preferences > General > Content Types"
+  and set the encoding for all files to UTF-8. See http://www.eclipse.org/forums/index.php?t=msg&goto=543800 for more details.
 
