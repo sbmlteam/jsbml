@@ -97,7 +97,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
       
     case QUAL_10202:
       // The MathML math element in a FunctionTerm object should not use the csymbol elements
-      // 'time' and 'delay' as these explicitly introduce time into the model.
+      // “time” and “delay” as these explicitly introduce time into the model.
       
       break;
       
@@ -107,8 +107,22 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
       // same as 20801
       
-      func = new UnknownCoreAttributeValidationFunction<FunctionTerm>();
+      func = new ValidationFunction<FunctionTerm>() {
+        @Override
+        public boolean check(ValidationContext ctx, FunctionTerm ft) {
+          boolean func = true;
+          if (ft.isDefaultTerm()) {
+           func = new UnknownCoreAttributeValidationFunction<FunctionTerm>().check(ctx, ft);
+           if (func == false) {
+            ValidationConstraint.logError(ctx, QUAL_20701, "TheBrokenAtt");
+           }
+            return func;      
+          }
+          return true;
+        }
+      };
       break;
+
 
     case QUAL_20702:
       // May have the optional subobjects for notes and annotations.
@@ -147,29 +161,41 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
     case QUAL_20705:
       // The attribute qual:resultLevel in DefaultTerm must not be negative.
-
       // same as 20806
 
       func = new AbstractValidationFunction<FunctionTerm>() {
         @Override
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
-          if (ft.isSetResultLevel() && ft.getResultLevel() < 0) {
-            // TODO do a test to see if it is a defaultTerm and then change the first argument
-            
-            ValidationConstraint.logError(ctx, QUAL_20705, ft.getElementName(), Integer.valueOf(ft.getResultLevel()).toString());
+          if (ft.isDefaultTerm() && ft.isSetResultLevel() && ft.getResultLevel() < 0) {
+            ValidationConstraint.logError(ctx, QUAL_20705, "Default Term", Integer.valueOf(ft.getResultLevel()).toString());
             return false;
           }
           return true;
         }
       };
       break;
+
 		
 		case QUAL_20801:
 			// May have the optional attributes metaid and sboTerm.
 			// No other namespaces are permitted.
 
-			func = new UnknownCoreAttributeValidationFunction<FunctionTerm>();
-			break;
+		  func = new AbstractValidationFunction<FunctionTerm>() {
+        @Override
+        public boolean check(ValidationContext ctx, FunctionTerm ft) {
+          boolean func = true;
+          if (!ft.isDefaultTerm()) {
+            func = new UnknownCoreAttributeValidationFunction<FunctionTerm>().check(ctx, ft);
+            if (func == false) {
+            ValidationConstraint.logError(ctx, QUAL_20801, "TheBrokenAtt");
+            }
+            return func;
+          }
+          return true;
+        }
+      };
+      break;
+
 
 		case QUAL_20802:
 			// May have the optional subobjects for notes and annotations.
@@ -209,22 +235,20 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
 	
 		case QUAL_20806:
-			// The attribute qual:resultLevel in FunctionTerm must not be negative.
-		  
+      // The attribute qual:resultLevel in FunctionTerm must not be negative.
+      
       func = new AbstractValidationFunction<FunctionTerm>() {
-				@Override
-				public boolean check(ValidationContext ctx, FunctionTerm ft) {
-					if (ft.isSetResultLevel() && ft.getResultLevel() < 0) {
-					  // TODO do a test to see if it is a defaultTerm and then change the first argument
-					  
-					  ValidationConstraint.logError(ctx, QUAL_20806, ft.getElementName(), Integer.valueOf(ft.getResultLevel()).toString());
-						return false;
-					}
-					return true;
-				}
-			};
-			break;
-		}
-		return func;
-	}
+        @Override
+        public boolean check(ValidationContext ctx, FunctionTerm ft) {
+          if (!ft.isDefaultTerm() && ft.isSetResultLevel() && ft.getResultLevel() < 0) {
+            ValidationConstraint.logError(ctx, QUAL_20806, ft.getElementName(), Integer.valueOf(ft.getResultLevel()).toString());
+            return false;
+          }
+          return true;
+        }
+      };
+      break;
+    }
+    return func;
+  }
 }
