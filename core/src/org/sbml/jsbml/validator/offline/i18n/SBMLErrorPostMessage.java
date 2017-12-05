@@ -311,6 +311,17 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(Integer.toString(SBMLErrorCodes.CORE_99508), "The units of the <compartment> ''{0}'' cannot be fully checked. Unit consistency reported as either no errors or further unit errors related to this object may not be accurate.");
     
       // qualitative model
+      
+      //Attribute 'symbol' is not part of the definition of an SBML Level 3 Version 1 
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20701), "Attribute <{0}> is not part of the definition of an SBML Level 3 Version 1");
+      
+      // The resultLevel of the <defaultTerm> is '-4', which is negative. 
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20705), "The resultLevel of the <{0}> is ''{1}'', which is negative.");
+      
+      //  Attribute 'id' is not part of the definition of an SBML Level 3 Version 1
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20801), "Attribute <{0}> is not part of the definition of an SBML Level 3 Version 1");
+      
+      // The resultLevel of the <functionTerm> is '-1', which is negative. 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20806), "The resultLevel of the <{0}> is ''{1}'', which is negative.");
  }
 
