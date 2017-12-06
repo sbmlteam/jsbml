@@ -23,8 +23,8 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.AbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.ValidationConstraint;
-import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
 import org.sbml.jsbml.xml.XMLNode;
 
 
@@ -33,7 +33,7 @@ import org.sbml.jsbml.xml.XMLNode;
  * 
  * @author rodrigue
  */
-public class UnknownCoreAttributeValidationFunction<T extends TreeNodeWithChangeSupport> implements ValidationFunction<T> {
+public class UnknownCoreAttributeAbstractValidationFunction<T extends TreeNodeWithChangeSupport> extends AbstractValidationFunction<T> {
 
   @Override
   public boolean check(ValidationContext ctx, T t) {

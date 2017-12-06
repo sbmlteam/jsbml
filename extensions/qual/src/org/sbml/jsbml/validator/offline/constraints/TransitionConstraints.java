@@ -189,7 +189,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 		          }
 		        }
 		        Boolean onlyDefaultTerm = new DuplicatedElementValidationFunction<ListOf<FunctionTerm>>(
-		            "delfaultTerm").check(ctx, t.getListOfFunctionTerms());
+		            QualConstants.defaultTerm).check(ctx, t.getListOfFunctionTerms());
 		        Boolean onlyFuntionTermObjects = new UnknownElementValidationFunction<ListOf<FunctionTerm>>()
 		            .check(ctx, t.getListOfFunctionTerms());
 		        return (hasDefaultTerm && onlyDefaultTerm && onlyFuntionTermObjects);
