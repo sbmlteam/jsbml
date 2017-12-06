@@ -73,7 +73,7 @@ public class ExpandFunctionDefinitionConverter implements SBMLConverter {
    * 
    * @param mathcontainer
    */
-  public void expandFunctionDefinition(final MathContainer mathcontainer) {
+  public static void expandFunctionDefinition(final MathContainer mathcontainer) {
     if (mathcontainer == null || mathcontainer instanceof FunctionDefinition || !mathcontainer.isSetMath()) {
       // first checks on the argument 
       return;
@@ -107,7 +107,7 @@ public class ExpandFunctionDefinitionConverter implements SBMLConverter {
                 // We found a FunctionDefinition referenced in a 'ci' mathML element
                 // we need to expand it
                 
-                // TODO
+                // TODO - test for loop
                 System.out.println("expandFunctionDefinition - fdNode nb child = " + current.getChildCount());
                 
                 if (current.getChildCount() != fd.getArgumentCount()) {
@@ -168,7 +168,7 @@ public class ExpandFunctionDefinitionConverter implements SBMLConverter {
    * @param bvar
    * @param expandedBVar
    */
-  private void replaceAll(ASTNode newMath, final ASTNode bvar, final ASTNode expandedBVar) {
+  private static void replaceAll(ASTNode newMath, final ASTNode bvar, final ASTNode expandedBVar) {
 
     newMath.filter(new Filter() {
       
