@@ -27,6 +27,7 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedMathValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeAbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
@@ -107,15 +108,12 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
       // same as 20801
       
-      func = new ValidationFunction<FunctionTerm>() {
+      func = new AbstractValidationFunction<FunctionTerm>() {
         @Override
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
           boolean func = true;
           if (ft.isDefaultTerm()) {
-           func = new UnknownCoreAttributeValidationFunction<FunctionTerm>().check(ctx, ft);
-           if (func == false) {
-            ValidationConstraint.logError(ctx, QUAL_20701, "TheBrokenAtt");
-           }
+           func = new UnknownCoreAttributeAbstractValidationFunction<FunctionTerm>().check(ctx, ft, QUAL_20701);
             return func;      
           }
           return true;

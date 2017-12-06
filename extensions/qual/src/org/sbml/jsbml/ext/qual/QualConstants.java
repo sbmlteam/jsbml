@@ -121,6 +121,11 @@ public class QualConstants  extends PropertyChangeEvent {
    * 
    */
   public static final String packageName = "Qualitative";
+  
+  /**
+   * 
+   */
+  public static final String defaultTerm = "defaultTerm";
 
   /**
    * 
