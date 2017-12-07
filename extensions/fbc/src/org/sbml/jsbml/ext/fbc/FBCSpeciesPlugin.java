@@ -31,6 +31,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.SyntaxChecker;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * Extends the SBML core {@link Species} class with the additional
@@ -222,7 +223,7 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
         setChemicalFormula(value);
       } catch (IllegalArgumentException exc) {
         logger.error("Skipped invalid chemical formula: " + value);
-        // TODO - keep the value somehow
+        AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
       }
       return true;
     }
