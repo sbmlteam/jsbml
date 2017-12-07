@@ -31,6 +31,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
+import org.sbml.jsbml.util.converters.ExpandFunctionDefinitionConverter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.xml.stax.SBMLReader;
@@ -343,7 +344,14 @@ public class OfflineValidatorTests {
 
       LoggingValidationContext ctx = getContext(doc);
 
-      ctx.validate(doc);
+      SBMLDocument docToValidate = doc;
+      
+      if (doc.isSetModel() && doc.getModel().getFunctionDefinitionCount() > 0) {
+        ExpandFunctionDefinitionConverter converter = new ExpandFunctionDefinitionConverter();
+        docToValidate = converter.convert(doc);
+      }
+      ctx.validate(docToValidate);
+
       SBMLErrorLog log = ctx.getErrorLog();
 
       int errors = log.getNumErrors();
