@@ -29,14 +29,20 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.TidySBMLWriter;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
+import org.sbml.jsbml.ext.fbc.FluxBound;
 import org.sbml.jsbml.util.CobraUtil;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.converters.SBMLConverter;
 
-// kommentar was der code tut
+import net.sf.antcontrib.math.Operation;
 
 /**
+ * Converts old COBRA SBML files to SBML FBCV1
+ * 
  * @author Thomas Hamm
  * @author Nicolas Rodriguez
  * @since 1.2
@@ -52,72 +58,112 @@ public class CobraToFbcV1Converter implements SBMLConverter {
    * SBMLDocument)
    */
   @Override
-  public SBMLDocument convert(SBMLDocument doc) throws SBMLException {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-  public static void main(String[] args) throws XMLStreamException, IOException {
-    System.out.println("TEST CobraToFbcV1Converter TEST");
-    
-    // read document 
-    String folder = "C:\\Users\\TMH\\Desktop\\JSBML\\Daten_zu_cobraToFbcV2Converterjava\\alte_COBRA_Dateien\\test_set";
-    String filename = "uterus__post_menopause_cells_in_endometrial_stroma.xml";
-    
-    SBMLReader sbmlReader = new SBMLReader();
-    SBMLDocument sbmlDocument = sbmlReader.readSBMLFromFile(folder + "\\" + filename);
- 
+  public SBMLDocument convert(SBMLDocument sbmlDocument) throws SBMLException {
     Properties pElementsNote = new Properties();
     Model model = sbmlDocument.getModel();
     // only SBMLDocuments with version smaller than three are converted
     if (sbmlDocument.getLevel() < 3) {
-    // initialize default values for species attributes 
-    for (Species species : model.getListOfSpecies()) {
-      if (species.isSetHasOnlySubstanceUnits() == false) {
-        species.setHasOnlySubstanceUnits(false);
+    // set SBMLDocument to level 3 version 1
+      SBMLtools.setLevelAndVersion(sbmlDocument, 3, 1);
+    // set the units of the model
+      if (!model.isSetSubstanceUnits()) {
+        model.setSubstanceUnits("substance");
       }
-      if (species.isSetBoundaryCondition() == false) {
-        species.setBoundaryCondition(false);
+      if (!model.isSetTimeUnits()) {
+        model.setTimeUnits("second");
       }
-      if (species.isSetConstant() == false) {
-        species.setConstant(false);
+      if (!model.isSetVolumeUnits()) {
+        model.setVolumeUnits("volume");
       }
-    }
-    // initialize default values for reaction attributes reversible and fast
-    for (Reaction reaction : model.getListOfReactions()) {
-      if (reaction.isSetReversible() == false) {
-        reaction.setReversible(true);
-      }
-      if (reaction.isSetFast() == false) {
-        reaction.setFast(false);
+      if (!model.isSetAreaUnits()) {
+        model.setAreaUnits("area");
       }    
-    }
-    //set SBMLDocument to level 3 version 1
-    SBMLtools.setLevelAndVersion(sbmlDocument, 3, 1);
-     
-    //parse the COBRA SBML files and extract the values for formula and charge
-    for (Species species : model.getListOfSpecies()) {
-      pElementsNote = CobraUtil.parseCobraNotes(species);
-      FBCSpeciesPlugin fbcSpeciesPlugin = (FBCSpeciesPlugin)species.getPlugin("fbc");
-      
-      if (pElementsNote.getProperty("FORMULA") != null) {
-        System.out.println(pElementsNote.getProperty("FORMULA"));
-        fbcSpeciesPlugin.setChemicalFormula(pElementsNote.getProperty("FORMULA"));
+      if (!model.isSetLengthUnits()) {
+        model.setLengthUnits("metre");
       }
-      if (pElementsNote.getProperty("CHARGE") != null) {
-        if (species.isSetCharge() == true) {
-          species.unsetCharge();
+      if (!model.isSetExtentUnits()) {
+        model.setExtentUnits("substance");
+      }
+    // add unit definition substance
+      if (model.getUnitDefinitionById("substance") == null) {
+        UnitDefinition unitDefinitionSub = new UnitDefinition("substance");
+        model.addUnitDefinition(unitDefinitionSub);
+        unitDefinitionSub.createUnit(Unit.Kind.MOLE);
+      }
+    // add unit definition volume
+      if (model.getUnitDefinitionById("volume") == null) {
+        UnitDefinition unitDefinitionVol = new UnitDefinition("volume");
+        model.addUnitDefinition(unitDefinitionVol);
+        unitDefinitionVol.createUnit(Unit.Kind.LITRE);
+      }
+    // add unit definition area
+      if (model.getUnitDefinitionById("area") == null) {
+        UnitDefinition unitDefinitionAre = new UnitDefinition("area");
+        model.addUnitDefinition(unitDefinitionAre);
+        unitDefinitionAre.createUnit(Unit.Kind.METRE);
+      }
+    
+      for (Species species : model.getListOfSpecies()) {
+    // initialize default values for species attributes   
+        if (species.isSetHasOnlySubstanceUnits() == false) {
+          species.setHasOnlySubstanceUnits(false);
         }
-        // charge ist auch eine attribute von sepecies kann als auch da sein; wenn da löschen nach schreiben
-        System.out.println(pElementsNote.getProperty("CHARGE"));
-        fbcSpeciesPlugin.setCharge(Integer.parseInt(pElementsNote.getProperty("CHARGE")));
+        if (species.isSetBoundaryCondition() == false) {
+          species.setBoundaryCondition(false);
+        }
+        if (species.isSetConstant() == false) {
+          species.setConstant(false);
+        }
+        if (species.isSetSubstanceUnits() == false) {
+          species.setSubstanceUnits("substance");
+        }
+      
+    // parse the COBRA SBML file and extract the values for formula and charge
+        pElementsNote = CobraUtil.parseCobraNotes(species);
+        FBCSpeciesPlugin fbcSpeciesPlugin = (FBCSpeciesPlugin)species.getPlugin("fbc");
+      
+        if (pElementsNote.getProperty("FORMULA") != null) {
+          fbcSpeciesPlugin.setChemicalFormula(pElementsNote.getProperty("FORMULA"));
+        }
+      
+        if (species.isSetCharge() == true) {
+          fbcSpeciesPlugin.setCharge(species.getCharge());
+          species.unsetCharge();
+        
+        } else if (pElementsNote.getProperty("CHARGE") != null) {
+          fbcSpeciesPlugin.setCharge(Integer.parseInt(pElementsNote.getProperty("CHARGE")));
+        }
       }
-    }  
-    // write document
-    TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
-    tidySBMLWriter.writeSBMLToFile(sbmlDocument,folder + "\\" + "mod_SBMLFBCV1_" + filename);
+   
+      FBCModelPlugin fbcModelPlugin = (FBCModelPlugin)model.getPlugin("fbc");
+      for (Reaction reaction : model.getListOfReactions()) {
+    // initialize default values for reaction attributes reversible and fast 
+        if (reaction.isSetReversible() == false) {
+          reaction.setReversible(true);
+        }
+        if (reaction.isSetFast() == false) {
+          reaction.setFast(false);
+        }
+    // get lower and upper flux bound from the kinetic law, set them in the list of flux bounds, and delete the kinetic law  
+        if (reaction.getKineticLaw().getParameter("LOWER_BOUND").isSetValue()) {
+          FluxBound fluxBoundLo = new FluxBound();
+          fluxBoundLo.setReaction(reaction.getId());
+          fluxBoundLo.setOperation(FluxBound.Operation.GREATER_EQUAL);
+          fluxBoundLo.setValue(reaction.getKineticLaw().getParameter("LOWER_BOUND").getValue());
+          fbcModelPlugin.addFluxBound(fluxBoundLo);
+        }
+        if (reaction.getKineticLaw().getParameter("UPPER_BOUND").isSetValue()) {
+          FluxBound fluxBoundUp = new FluxBound();
+          fluxBoundUp.setReaction(reaction.getId());
+          fluxBoundUp.setOperation(FluxBound.Operation.LESS_EQUAL);
+          fluxBoundUp.setValue(reaction.getKineticLaw().getParameter("UPPER_BOUND").getValue());
+          fbcModelPlugin.addFluxBound(fluxBoundUp);
+        }
+        if (reaction.isSetKineticLaw()) {
+          reaction.unsetKineticLaw();
+        }
+      }
     }
-    // return sbmlDocument;??
+  return sbmlDocument;
   }
 }
