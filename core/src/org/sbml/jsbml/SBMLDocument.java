@@ -41,6 +41,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.converters.ExpandFunctionDefinitionConverter;
 import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
@@ -368,7 +369,14 @@ public class SBMLDocument extends AbstractSBase {
 
     ctx.enableCheckCategories(checks.toArray(new CHECK_CATEGORY[checks.size()]), true);
     ctx.loadConstraints(this.getClass());
-    ctx.validate(this);
+    
+    SBMLDocument docToValidate = this;
+    
+    if (isSetModel() && getModel().getFunctionDefinitionCount() > 0) {
+      ExpandFunctionDefinitionConverter converter = new ExpandFunctionDefinitionConverter();
+      docToValidate = converter.convert(this);
+    }
+    ctx.validate(docToValidate);
 
     listOfErrors = ctx.getErrorLog();
     return ctx.getErrorLog().getErrorCount();
