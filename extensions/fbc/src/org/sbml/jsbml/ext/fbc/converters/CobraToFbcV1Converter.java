@@ -31,14 +31,13 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.TidySBMLWriter;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
 import org.sbml.jsbml.util.CobraUtil;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.converters.SBMLConverter;
-
-import net.sf.antcontrib.math.Operation;
 
 /**
  * Converts old COBRA SBML files to SBML FBCV1
@@ -59,12 +58,15 @@ public class CobraToFbcV1Converter implements SBMLConverter {
    */
   @Override
   public SBMLDocument convert(SBMLDocument sbmlDocument) throws SBMLException {
+   
     Properties pElementsNote = new Properties();
     Model model = sbmlDocument.getModel();
     // only SBMLDocuments with version smaller than three are converted
     if (sbmlDocument.getLevel() < 3) {
-    // set SBMLDocument to level 3 version 1
+    // set SBMLDocument to level 3 version 1 
       SBMLtools.setLevelAndVersion(sbmlDocument, 3, 1);
+      FBCConstants fbcConstants = new FBCConstants();
+      sbmlDocument.enablePackage(fbcConstants.getNamespaceURI(3, 1, 1));
     // set the units of the model
       if (!model.isSetSubstanceUnits()) {
         model.setSubstanceUnits("substance");
@@ -101,6 +103,7 @@ public class CobraToFbcV1Converter implements SBMLConverter {
         UnitDefinition unitDefinitionAre = new UnitDefinition("area");
         model.addUnitDefinition(unitDefinitionAre);
         unitDefinitionAre.createUnit(Unit.Kind.METRE);
+        unitDefinitionAre.getUnit(0).setExponent(2);
       }
     
       for (Species species : model.getListOfSpecies()) {
@@ -118,7 +121,7 @@ public class CobraToFbcV1Converter implements SBMLConverter {
           species.setSubstanceUnits("substance");
         }
       
-    // parse the COBRA SBML file and extract the values for formula and charge
+    // parse the COBRA SBML file and extract and set the values for formula and charge
         pElementsNote = CobraUtil.parseCobraNotes(species);
         FBCSpeciesPlugin fbcSpeciesPlugin = (FBCSpeciesPlugin)species.getPlugin("fbc");
       
@@ -165,5 +168,16 @@ public class CobraToFbcV1Converter implements SBMLConverter {
       }
     }
   return sbmlDocument;
+  }
+  
+  public static void main(String[] args) throws XMLStreamException, IOException {
+   
+   // read document 
+    SBMLReader sbmlReader = new SBMLReader();
+    SBMLDocument doc = sbmlReader.readSBMLFromFile(args[0]);
+   // convert and write document
+    CobraToFbcV1Converter cobraToFbcV1Converter = new CobraToFbcV1Converter();
+    TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
+    tidySBMLWriter.writeSBMLToFile(cobraToFbcV1Converter.convert(doc),args[1]);
   }
 }
