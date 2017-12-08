@@ -737,6 +737,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           // TODO - get the units of the overall ASTNode and if they are invalid, do not report this error ?? Does not seems true all the time though !
           
           Type t = node.getType(); // TODO - check section 3.4.11 in the L2V5 specs
+          UnitsCompiler unitsCompiler = new UnitsCompiler(node.getParentSBMLObject().getModel());
           
           // || t == Type.FUNCTION_ABS || t == Type.FUNCTION_CEILING || t == Type.FUNCTION_FLOOR. // The units of other operators such as abs , floor , and ceiling , can be anything.
           
@@ -747,7 +748,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             || t == Type.FUNCTION_MAX || t == Type.FUNCTION_MIN) 
           {
             if (node.getNumChildren() > 0) {
-              UnitDefinition ud = node.getChild(0).getUnitsInstance();
+              UnitDefinition ud = node.getChild(0).compile(unitsCompiler).getUnits();
 
               if (logger.isDebugEnabled()) {
                 logger.debug("10501 - unit = " + ud + " " + UnitDefinition.printUnits(ud));
@@ -771,7 +772,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               }
 
               for (int n = 1; n < node.getNumChildren(); n++) {
-                UnitDefinition ud2 = node.getChild(n).getUnitsInstance();
+                UnitDefinition ud2 = node.getChild(n).compile(unitsCompiler).getUnits();
 
                 if (logger.isDebugEnabled()) {
                   logger.debug("10501 - unit n = " + ud2 + " " + UnitDefinition.printUnits(ud2));
@@ -820,11 +821,12 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               }
             }
           } else if (t == Type.FUNCTION_PIECEWISE) {
+            
             if (node.getNumChildren() == 0) {
               return true;
             }
-
-            UnitDefinition ud = node.getChild(0).getUnitsInstance();
+            
+            UnitDefinition ud = node.getChild(0).deriveUnit();
 
             // the units can be null if we have only 'cn' element without sbml:units
             if (ud == null) {
@@ -838,7 +840,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             
             for (int n = 1; n < node.getNumChildren(); n++) {
               ASTNode child = node.getChild(n);
-              UnitDefinition def = child.getUnitsInstance();
+              UnitDefinition def = child.deriveUnit();
 
               // the units can be null if we have only 'cn' element without sbml:units
               if (def == null) {
@@ -852,19 +854,23 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
               // Even children must be same unit as first child
               if (n % 2 == 0) {
-                if ((ud == null && def != null) || (ud != null && def == null)
-                  || UnitDefinition.areEquivalent(ud, def)) 
+                if ((ud == null || def == null || def.isInvalid()) || ud.isInvalid()) 
                 {
+                  // We cannot check properly the units so we return true;
+                  return true;
+                }
+                if (!UnitDefinition.areEquivalent(ud, def)) {
                   return false;
                 }
               }
-              // Odd children must be dimensionless;
+              // Odd children must be dimensionless; // TODO - why not boolean ??
               else {
                 if (def == null || !def.isVariantOfDimensionless()) {
                   return false;
                 }
               }
             }
+            
           } else if (t == Type.FUNCTION_POWER) {
             
             if (node.getNumChildren() < 2) {
@@ -872,8 +878,9 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             }
             // checking the second argument of 'pow', it should be an integer otherwise we need to fail this rule.
 
+            // TODO - if the units of the second argument are invalid, do not report this error - double check discussions with Sarah
+            
             ASTNode exponent = node.getChild(1);
-            UnitsCompiler unitsCompiler = new UnitsCompiler(node.getParentSBMLObject().getModel());
             ASTNodeValue exponentValue = exponent.compile(unitsCompiler);
             
             try {
@@ -893,13 +900,60 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               logger.debug("10501 - power - there was a problem getting the double value of the exponent - " + e.getMessage());
             }
             
+          } else if (t == Type.FUNCTION_ROOT) {
+            
+            if (node.getNumChildren() < 2) {
+              return true;
+            }
+            // checking the first argument of 'root', it should be an integer otherwise the unit of the second argument should be dimensionless.
+
+            // TODO - check libsbml code in ExponentUnitsCheck.cpp and create a separate method for this check.
+            
+            ASTNode degree = node.getChild(0);
+            ASTNodeValue degreeValue = degree.compile(unitsCompiler);
+            
+            
+            try {
+              Double degreeDbl = new Double(degreeValue.toDouble());
+              ASTNodeValue value = node.getChild(1).compile(unitsCompiler);
+              
+              if ((degreeDbl == Math.floor(degreeDbl)) && !Double.isInfinite(degreeDbl)) {
+                // the exponent is an integer. all good on this side.
+                
+                if (value.getUnits().isInvalid()) {
+                  return false;
+                }
+                
+              } else {
+                
+                if (!value.getUnits().isVariantOfDimensionless()) {
+
+
+                  // TODO - do a custom error message for this one
+                  // logger.debug("10501 - root - non integer exponent '" + degreeDbl + "'");
+                  return false;
+                }
+              }
+              
+            } catch (Exception e) {
+              logger.debug("10501 - root - there was a problem getting the double value of the degree - " + e.getMessage());
+            }
+            
+          } else if (t.toString().startsWith("FUNCTION_ARC") || t.toString().startsWith("FUNCTION_CO") // Trigonometric operators
+              || t.toString().startsWith("FUNCTION_CS") || t.toString().startsWith("FUNCTION_SIN") 
+              || t.toString().startsWith("FUNCTION_SEC") || t.toString().startsWith("FUNCTION_TAN")
+              || t == Type.FUNCTION_EXP || t == Type.FUNCTION_LN || t == Type.FUNCTION_LOG || t == Type.FUNCTION_FACTORIAL) 
+          {
+            // dimensionless or boolean in L3V2
+            for (int n = 0; n < node.getNumChildren(); n++) {
+              ASTNode child = node.getChild(n);
+              UnitDefinition def = child.compile(unitsCompiler).getUnits();
+             
+              if (!def.isInvalid() && (! (def.isVariantOfDimensionless() || (ctx.isLevelAndVersionGreaterEqualThan(3, 2) && child.isBoolean())))) {
+                return false;
+              }
+            }
           }
-          
-          
-          // TODO - there are other ASTNode.Type to check like exp , ln , log ,
-          // factorial , sin , cos , tan , sec , csc , cot , sinh , cosh , tanh , sech , csch , coth , arcsin , arccos , arctan ,
-          // arcsec , arccsc , arccot , arcsinh , arccosh , arctanh , arcsech , arccsch , arccoth .
-          // and FunctionDefinition
 
           return true;
         }

@@ -832,7 +832,7 @@ public class OverdeterminationValidator {
     // found node with species
     if ((node.getChildCount() == 0) && (node.isString()) &&
         (node.getType() != Type.NAME_TIME) &&
-        (node.getType() != Type.NAME_AVOGADRO)) {
+        (node.getType() != Type.NAME_AVOGADRO)) { // TODO - deal with csymbol rateOf as well ?
       if (!node.isConstant()) {
         if (param == null) {
           SBase variable=node.getVariable();
