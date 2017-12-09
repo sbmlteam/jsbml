@@ -27,6 +27,7 @@ import javax.swing.tree.TreeNode;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.converters.ExpandFunctionDefinitionConverter;
 
 /**
  * Base class for all the SBML components which contain MathML nodes.
@@ -177,8 +178,15 @@ MathContainer {
   public UnitDefinition getDerivedUnitDefinition() {
     UnitDefinition ud = null;
     if (isSetMath()) {
+      Model m = getModel();
+      ASTNode expandedMath = math;
+      
+      if (m != null && m.getFunctionDefinitionCount() > 0) {
+        expandedMath = ExpandFunctionDefinitionConverter.expandFunctionDefinition(m, math);
+      }
+      
       try {
-        ud = math.deriveUnit();
+        ud = expandedMath.deriveUnit();
       } catch (Throwable exc) {
         // Doesn't matter. We'll simply return an undefined unit.
         String name;
