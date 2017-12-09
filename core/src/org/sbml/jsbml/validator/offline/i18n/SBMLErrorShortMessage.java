@@ -313,6 +313,8 @@ public class SBMLErrorShortMessage extends ResourceBundle {
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_10718), "Invalid 'sboTerm' attribute value for a LocalParameter object");
 
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_10719), "Invalid 'sboTerm' attribute value for the <sbml> element");
+
         contents.put(Integer.toString(SBMLErrorCodes.CORE_10801), "Notes must be placed in the XHTML XML namespace");
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_10802), "XML declarations are not permitted in Notes objects");
