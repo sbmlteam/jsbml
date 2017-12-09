@@ -28,6 +28,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.TidySBMLWriter;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
@@ -58,7 +59,6 @@ public class CobraToFbcV1Converter implements SBMLConverter {
    */
   @Override
   public SBMLDocument convert(SBMLDocument sbmlDocument) throws SBMLException {
-   
     Properties pElementsNote = new Properties();
     Model model = sbmlDocument.getModel();
     // only SBMLDocuments with version smaller than three are converted
@@ -165,13 +165,19 @@ public class CobraToFbcV1Converter implements SBMLConverter {
         if (reaction.isSetKineticLaw()) {
           reaction.unsetKineticLaw();
         }
+    // set attribute constant for products and reactants
+        for (SpeciesReference speciesReference: reaction.getListOfProducts()) {
+          speciesReference.setConstant(true);
+        }
+        for (SpeciesReference speciesReference: reaction.getListOfReactants()) {
+          speciesReference.setConstant(true);
+        }
       }
     }
   return sbmlDocument;
   }
   
   public static void main(String[] args) throws XMLStreamException, IOException {
-   
    // read document 
     SBMLReader sbmlReader = new SBMLReader();
     SBMLDocument doc = sbmlReader.readSBMLFromFile(args[0]);
