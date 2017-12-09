@@ -311,7 +311,9 @@ public class SBMLErrorMessage extends ResourceBundle {
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_10717), "The value of the 'sboTerm' attribute on a <delay> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a mathematical expression (i.e., terms derived from SBO:0000064, \"mathematical expression\") (Reference: L3V1 Section 5).");  
 
-        contents.put(Integer.toString(SBMLErrorCodes.CORE_10718), "[Although SBML Level 3 Version 1 does not explicitly define the following as an error, other Levels and/or Versions of SBML do.] ).The value of the 'sboTerm' attribute on a <localParameter> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a quantitative parameter (i.e., terms derived from SBO:0000002, \"quantitive systems description parameter\") (Reference: L3V1 Section 5).");  
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_10718), "[Although SBML Level 3 Version 1 does not explicitly define the following as an error, other Levels and/or Versions of SBML do.] ).The value of the 'sboTerm' attribute on a <localParameter> is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a quantitative parameter (i.e., terms derived from SBO:0000002, \"quantitive systems description parameter\") (Reference: L3V1 Section 5).");
+        
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_10719), "The value of the 'sboTerm' attribute on the <sbml> object is expected to be an SBO identifier (http://www.biomodels.net/SBO/) referring to a modeling framework (i.e., terms derived from SBO:0000004, \"modelling framework\").\nReference: L3V1 Section 5.");
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_10801), "The contents of the <notes> element must be explicitly placed in the XHTML XML namespace (Reference: L3V1 Section 3.2.3).");  
 
