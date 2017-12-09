@@ -62,6 +62,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * The model associated to this compiler.
    */
   protected Model model;
+  protected boolean allowInvalidModel = false;
+  
   /**
    * Necessary for function definitions to remember the units of the argument
    * list.
@@ -95,6 +97,15 @@ public class UnitsCompiler implements ASTNodeCompiler {
     this.model = model;
   }
 
+  /**
+   * 
+   * @param model
+   */
+  public UnitsCompiler(Model model, boolean allowInvalidModel) {
+    this(model.getLevel(), model.getVersion());
+    this.model = model;
+    this.allowInvalidModel = allowInvalidModel;
+  }
   
   
   /* (non-Javadoc)
@@ -928,7 +939,18 @@ public class UnitsCompiler implements ASTNodeCompiler {
       i++;
     }
 
+    if (value.getUnits() == null || value.getUnits().isInvalid()) {
+      return value;
+    }
+
     for (int j = i + 1; j < compiledvalues.length; j++) {
+      
+      if (compiledvalues[j].getUnits() == null || compiledvalues[j].getUnits().isInvalid())
+      {
+        value.setUnits(ud);
+        return value;
+      }
+
       unifyUnits(value, compiledvalues[j]);
       value.setValue(Double.valueOf(value.toDouble()
         - compiledvalues[j].toNumber().doubleValue()));
@@ -1138,7 +1160,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
         right.setValue(v2);
       }
 
-    } else {
+    } else if (!allowInvalidModel) {
       throw new UnitException(
         MessageFormat.format(
           "Cannot combine the units {0} and {1} in addition, subtraction, comparison or any equivalent operation.",
@@ -1211,7 +1233,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
     } else {
       illegal = units.toString();
     }
-    if (illegal != null) {
+    if (illegal != null && (!allowInvalidModel) ) {
       throw new IllegalArgumentException(
         new UnitException(MessageFormat.format(
           "An invalid or dimensionless unit is required but given is {0}.", illegal)));
