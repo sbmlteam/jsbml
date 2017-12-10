@@ -698,7 +698,13 @@ public class CVTerm extends AnnotationElement {
    */
   @Override
   public TreeNode getChildAt(int childIndex) {
-    return new TreeNodeAdapter(getResourceURI(childIndex), this);
+    if (childIndex < getResourceCount()) {
+      return new TreeNodeAdapter(getResourceURI(childIndex), this);
+    } else if (childIndex == getResourceCount()) {
+      return new TreeNodeAdapter(listOfNestedCVTerms, this);
+    } else {
+      throw new IndexOutOfBoundsException(childIndex);
+    }
   }
 
   /* (non-Javadoc)
@@ -706,7 +712,13 @@ public class CVTerm extends AnnotationElement {
    */
   @Override
   public int getChildCount() { // TODO - include NestedCVTerms in the tree so that we get them when doing recursive filters on SBase.
-    return getResources().size();
+    int childCount = getResources().size();
+    
+    if (getNestedCVTermCount() > 0) { 
+      childCount++;
+    }
+    
+    return childCount;
   }
 
   /**

@@ -318,10 +318,39 @@ public class Annotation extends AnnotationElement {
       if (filter.accepts(term)) {
         l.add(term);
       }
+      if (term.getNestedCVTermCount() > 0) {
+        l.addAll(filterCVTerms(qualifier, term.getListOfNestedCVTerms()));
+      }
     }
+    
     return l;
   }
 
+  
+  /**
+   * Returns a list of CVTerm having the given qualifier.
+   * 
+   * @param qualifier the qualifier
+   * @param terms the list of CVTerm to filter
+   * @return a list of CVTerm having the given qualifier, an empty
+   * list is returned if no CVTerm are found.
+   */
+  private List<CVTerm> filterCVTerms(Qualifier qualifier, List<CVTerm> terms) {
+    ArrayList<CVTerm> l = new ArrayList<CVTerm>();
+    CVTermFilter filter = new CVTermFilter(qualifier);
+    for (CVTerm term : terms) {
+      if (filter.accepts(term)) {
+        l.add(term);
+      }
+      if (term.getNestedCVTermCount() > 0) {
+        l.addAll(filterCVTerms(qualifier, term.getListOfNestedCVTerms()));
+      }
+    }
+    
+    return l;
+  }
+  
+  
   /**
    * Returns a list of CVTerm having the given qualifier and
    * where the URI contains the given pattern. The pattern can only be plain text.
