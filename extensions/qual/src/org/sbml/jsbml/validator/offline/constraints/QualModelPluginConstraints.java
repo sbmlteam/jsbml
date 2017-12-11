@@ -81,14 +81,14 @@ public class QualModelPluginConstraints extends AbstractConstraintDeclaration {
 		case QUAL_10101:
 			// To conform to the QualitativeModels package specification for SBML Level 3 Version 1, an
 		  // SBML document must declare the use of the following XML Namespace:
-		  //  “http://www.sbml.org/sbml/level3/version1/qual/version1”.
+		  //  'http://www.sbml.org/sbml/level3/version1/qual/version1'.
 
 			break;
 
 		case QUAL_10102:
 			// Wherever they appear in an SBML document, elements and attributes from the Qualitative
 		  // Models package must be declared either implicitly or explicitly to be in the XML namespace
-		  // “http://www.sbml.org/sbml/level3/version1/qual/version1”. 
+		  // 'http://www.sbml.org/sbml/level3/version1/qual/version1'. 
 		  
 			break;
 			
