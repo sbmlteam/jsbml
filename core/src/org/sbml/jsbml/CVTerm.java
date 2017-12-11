@@ -703,7 +703,7 @@ public class CVTerm extends AnnotationElement {
     } else if (childIndex == getResourceCount()) {
       return new TreeNodeAdapter(listOfNestedCVTerms, this);
     } else {
-      throw new IndexOutOfBoundsException(childIndex);
+      throw new IndexOutOfBoundsException(Integer.toString(childIndex));
     }
   }
 
