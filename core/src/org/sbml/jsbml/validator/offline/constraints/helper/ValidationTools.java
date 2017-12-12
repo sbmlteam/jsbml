@@ -54,7 +54,6 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
 import org.sbml.jsbml.xml.XMLNode;
 
-import com.sun.tools.javac.resources.compiler;
 
 /**
  * Collection of helpful functions and variables for validation.
