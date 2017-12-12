@@ -1961,7 +1961,7 @@ public class ASTNode extends AbstractTreeNode {
       break;
     case DIVIDE:
       int childCount = getChildCount();
-      if (childCount != 2) {
+      if (childCount != 2 && !isInvalidSBMLAllowed()) {
         throw new SBMLException(MessageFormat.format(
           resourceBundle.getString("ASTNode.compile1"), childCount));
       }
@@ -2676,7 +2676,11 @@ public class ASTNode extends AbstractTreeNode {
     if (!isOperator() && !isNumber()) {
       return (variable == null) ? name : variable.getId();
     }
-    throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getName"));
+    if (!isInvalidSBMLAllowed()) {
+      throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getName"));
+    } 
+    
+    return name;
   }
 
   /**

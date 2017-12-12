@@ -529,7 +529,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
                 KineticLaw kl = r.getKineticLaw();
                 
                 if (kl.isSetMath()) {
-                  UnitDefinition ud = ValidationTools.getDerivedUnitDefinition(kl);
+                  UnitDefinition ud = ValidationTools.getDerivedUnitDefinition(ctx, kl);
                   
                   if (firstUD != null) {
                     // compare both units

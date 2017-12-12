@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
@@ -46,11 +47,14 @@ import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Variable;
+import org.sbml.jsbml.util.compilers.UnitsCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
 import org.sbml.jsbml.xml.XMLNode;
+
+import com.sun.tools.javac.resources.compiler;
 
 /**
  * Collection of helpful functions and variables for validation.
@@ -124,7 +128,7 @@ public final class ValidationTools {
     @Override
     public boolean check(ValidationContext ctx, SBaseWithDerivedUnit sb) {
 
-      UnitDefinition ud = ValidationTools.getDerivedUnitDefinition(sb);
+      UnitDefinition ud = ValidationTools.getDerivedUnitDefinition(ctx, sb);
 
       return ud != null
           && ud.getUnitCount() > 0
@@ -415,10 +419,10 @@ public final class ValidationTools {
    * @param var the variable to check
    * @return true if the given {@link Assignment} and {@link Variable} have equivalent derived units.
    */
-  public static boolean haveEquivalentUnits(Assignment assignment, Variable var) {
+  public static boolean haveEquivalentUnits(ValidationContext ctx, Assignment assignment, Variable var) {
     // check that the units from assignment are equivalent to the units of the variable
-    UnitDefinition assignmentDerivedUnit = ValidationTools.getDerivedUnitDefinition(assignment);
-    UnitDefinition varDerivedUnit = ValidationTools.getDerivedUnitDefinition(var);
+    UnitDefinition assignmentDerivedUnit = ValidationTools.getDerivedUnitDefinition(ctx, assignment);
+    UnitDefinition varDerivedUnit = ValidationTools.getDerivedUnitDefinition(ctx, var);
 
 //    System.out.println("haveEquivalentUnits - " + assignment.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(assignmentDerivedUnit) + " isInvalid = " + assignmentDerivedUnit.isInvalid());
 //    System.out.println("haveEquivalentUnits - " + var.getClass().getSimpleName() + " unit = " + UnitDefinition.printUnits(varDerivedUnit));
@@ -453,9 +457,9 @@ public final class ValidationTools {
    * @param kl the kineticLaw to check
    * @return true if the given {@link KineticLaw} has correct derived units.
    */
-  public static boolean hasCorrectUnits(KineticLaw kl) {
+  public static boolean hasCorrectUnits(ValidationContext ctx, KineticLaw kl) {
     // check that the units from the kineticLaw are equivalent to substance / time or extent / time (for L3).
-    UnitDefinition klDerivedUnit = ValidationTools.getDerivedUnitDefinition(kl).clone().convertToSIUnits();
+    UnitDefinition klDerivedUnit = ValidationTools.getDerivedUnitDefinition(ctx, kl).clone().convertToSIUnits();
     
     UnitDefinition expectedUnit = null;
     Model m = kl.getModel();
@@ -659,17 +663,24 @@ public final class ValidationTools {
    * for future usage if it is not there.
    * </p>
    * 
+   * @param ctx the validation context
    * @param sbase the sbase
    * @return the derived {@link UnitDefinition} for the given {@link SBaseWithDerivedUnit}.
    */
-  public static UnitDefinition getDerivedUnitDefinition(SBaseWithDerivedUnit sbase) {
+  public static UnitDefinition getDerivedUnitDefinition(ValidationContext ctx, SBaseWithDerivedUnit sbase) {
     
     if (sbase.isSetUserObjects() && sbase.getUserObject(VALIDATION_CACHE_DERIVED_UNIT_DEFINITION) != null) {
       return (UnitDefinition) sbase.getUserObject(VALIDATION_CACHE_DERIVED_UNIT_DEFINITION);
     }
     
-    UnitDefinition derivedUD = sbase.getDerivedUnitDefinition();
+    UnitDefinition derivedUD = null;
     
+    if (! (sbase instanceof AbstractMathContainer)) {
+      derivedUD = sbase.getDerivedUnitDefinition();
+    } else {
+      derivedUD = getMathDerivedUnitDefinition(ctx, (MathContainer) sbase);
+    }
+
     sbase.putUserObject(VALIDATION_CACHE_DERIVED_UNIT_DEFINITION, derivedUD);
     
     return derivedUD;
@@ -767,4 +778,34 @@ public final class ValidationTools {
     return derivedUD;
   }  
 
+  /**
+   * Returns the derived {@link UnitDefinition} for the given {@link MathContainer}.
+   * 
+   * @param ctx the validation context
+   * @param container the math container
+   * @return
+   * @throws SBMLException
+   */
+  public static UnitDefinition getMathDerivedUnitDefinition(ValidationContext ctx, MathContainer container) throws SBMLException {
+    Model model = container.getModel();
+    
+    UnitsCompiler compiler = new UnitsCompiler(model, ctx);
+    if (model == null) {
+      compiler = new UnitsCompiler(container.getLevel(), container.getVersion());
+    }
+    
+    if (container.isSetMath()) {
+
+      UnitDefinition derivedUnit = container.getMath().compile(compiler).getUnits();
+      
+      // do we need to simplify here ?
+      
+      return derivedUnit;
+    }
+    
+    UnitDefinition ud = new UnitDefinition();
+    ud.createUnit();
+    
+    return ud; 
+  }
 }
