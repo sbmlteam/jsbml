@@ -41,6 +41,8 @@ import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
 
 /**
  * Derives the units from mathematical operations.
@@ -63,7 +65,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
    */
   protected Model model;
   protected boolean allowInvalidModel = false;
-  
+  protected ValidationContext ctx;
+  protected AssignmentCycleValidation cycleValidation = new AssignmentCycleValidation();
+
   /**
    * Necessary for function definitions to remember the units of the argument
    * list.
@@ -107,6 +111,16 @@ public class UnitsCompiler implements ASTNodeCompiler {
     this.allowInvalidModel = allowInvalidModel;
   }
   
+  /**
+   * 
+   * @param model
+   */
+  public UnitsCompiler(Model model, ValidationContext ctx) {
+    this(model.getLevel(), model.getVersion());
+    this.model = model;
+    this.allowInvalidModel = true;
+    this.ctx = ctx;
+  }
   
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNodeValue)
@@ -367,6 +381,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
       if (m.getAssignmentRuleByVariable(q.getId()) != null) {
         AssignmentRule ar = m.getAssignmentRuleByVariable(q.getId());
         
+        // assignment cycle validation
+        if (cycleValidation != null && cycleValidation.check(ctx, ar)) {
+          return invalid();
+        }
+        
         if (ar.isSetMath()) {
           ASTNodeValue arValue = ar.getMath().compile(this);
           value.setValue(arValue.toDouble());
@@ -374,6 +393,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
       }
       else if (m.getInitialAssignmentBySymbol(q.getId()) != null) {
         InitialAssignment ia = m.getInitialAssignmentBySymbol(q.getId());
+        
+        // assignment cycle validation
+        if (cycleValidation != null && cycleValidation.check(ctx, ia)) {
+          return invalid();
+        }
         
         if (ia.isSetMath()) {
           ASTNodeValue iaValue = ia.getMath().compile(this);
@@ -1651,10 +1675,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
       return new ASTNodeValue(this);
     }
     
-    ASTNodeValue value = new ASTNodeValue(this);
+    ASTNodeValue value = new ASTNodeValue(this);    
     
     // should be the units of 'name' divided by the model units of time.
     Model m = nameAST.getParentSBMLObject().getModel();
+    value.setLevel(m.getLevel());
+    value.setVersion(m.getVersion());
     
     if (m != null) {
       UnitDefinition timeUnits = m.getTimeUnitsInstance();

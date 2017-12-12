@@ -174,7 +174,7 @@ public class KineticLawConstraints extends AbstractConstraintDeclaration {
           
             // checking that the unit are equivalent to substance / time for < L3
             // and extend / time for L3
-            if (!ValidationTools.hasCorrectUnits(kl)) {
+            if (!ValidationTools.hasCorrectUnits(ctx, kl)) {
               return false;
             }
             

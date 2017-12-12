@@ -362,7 +362,7 @@ public class Species extends Symbol implements CompartmentalizedSBase {
     if ((isSetHasOnlySubstanceUnits() || getLevel() < 3) && !hasOnlySubstanceUnits) {
       Compartment compartment = getCompartmentInstance();
       
-      if ((compartment.isSetSpatialDimensions() || getLevel() < 3) && (0d == compartment.getSpatialDimensions())) {
+      if (compartment != null && (compartment.isSetSpatialDimensions() || getLevel() < 3) && (0d == compartment.getSpatialDimensions())) {
         return specUnit;
       }
       

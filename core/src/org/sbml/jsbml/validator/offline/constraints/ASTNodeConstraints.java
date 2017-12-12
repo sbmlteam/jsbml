@@ -737,7 +737,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           // TODO - get the units of the overall ASTNode and if they are invalid, do not report this error ?? Does not seems true all the time though !
           
           Type t = node.getType(); // TODO - check section 3.4.11 in the L2V5 specs
-          UnitsCompiler unitsCompiler = new UnitsCompiler(node.getParentSBMLObject().getModel(), true);
+          UnitsCompiler unitsCompiler = new UnitsCompiler(node.getParentSBMLObject().getModel(), ctx);
           
           // || t == Type.FUNCTION_ABS || t == Type.FUNCTION_CEILING || t == Type.FUNCTION_FLOOR. // The units of other operators such as abs , floor , and ceiling , can be anything.
           

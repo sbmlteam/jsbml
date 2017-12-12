@@ -791,7 +791,7 @@ public class UnitDefinition extends AbstractNamedSBase {
   public UnitDefinition divideBy(UnitDefinition definition) {
     
     // Making sure to return an invalid unit if either the numerator or denominator is invalid.
-    if (definition.isInvalid()) {
+    if (definition == null || definition.isInvalid()) {
       unsetListOfUnits();
       createInvalidUnit();
       return this;

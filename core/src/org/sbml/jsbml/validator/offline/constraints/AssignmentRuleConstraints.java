@@ -115,7 +115,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           if (var != null && var instanceof Compartment) {
 
             // check that unit from rule are equivalent to the compartment unit
-            return ValidationTools.haveEquivalentUnits(r, var);
+            return ValidationTools.haveEquivalentUnits(ctx, r, var);
           }
 
           return true;
@@ -134,7 +134,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           if (var != null && var instanceof Species) {
 
             // check that unit from rule are equivalent to the species unit
-            return ValidationTools.haveEquivalentUnits(r, var);
+            return ValidationTools.haveEquivalentUnits(ctx, r, var);
           }
 
           return true;
@@ -153,7 +153,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           if (var != null && var instanceof Parameter && ((Parameter) var).isSetUnits()) {
 
             // check that unit from rule are equivalent to the parameter unit
-            boolean check = ValidationTools.haveEquivalentUnits(r, var);
+            boolean check = ValidationTools.haveEquivalentUnits(ctx, r, var);
             
             if (!check) {
               // System.out.println("DEBUG - 10513 - have non equivalent units");
@@ -178,7 +178,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
           if (var != null && var instanceof SpeciesReference) {
 
             // check that unit from rule are equivalent to the stoichiometry unit: dimensionless
-            return ValidationTools.haveEquivalentUnits(r, var);
+            return ValidationTools.haveEquivalentUnits(ctx, r, var);
           }
 
           return true;

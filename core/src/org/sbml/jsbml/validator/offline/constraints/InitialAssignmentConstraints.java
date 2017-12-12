@@ -113,7 +113,7 @@ extends AbstractConstraintDeclaration {
           if (var != null && var instanceof Compartment) {
 
             // check that unit from rule are equivalent to the compartment unit
-            return ValidationTools.haveEquivalentUnits(r, var);
+            return ValidationTools.haveEquivalentUnits(ctx, r, var);
           }
 
           return true;
@@ -132,7 +132,7 @@ extends AbstractConstraintDeclaration {
           if (var != null && var instanceof Species) {
 
             // check that unit from rule are equivalent to the species unit
-            return ValidationTools.haveEquivalentUnits(r, var);
+            return ValidationTools.haveEquivalentUnits(ctx, r, var);
           }
 
           return true;
@@ -151,7 +151,7 @@ extends AbstractConstraintDeclaration {
           if (var != null && var instanceof Parameter) {
 
             // check that unit from rule are equivalent to the parameter unit
-            return ValidationTools.haveEquivalentUnits(r, var);
+            return ValidationTools.haveEquivalentUnits(ctx, r, var);
           }
 
           return true;
@@ -170,7 +170,7 @@ extends AbstractConstraintDeclaration {
           if (var != null && var instanceof SpeciesReference) {
 
             // check that unit from rule are equivalent to the stoichiometry unit: dimensionless
-            return ValidationTools.haveEquivalentUnits(r, var);
+            return ValidationTools.haveEquivalentUnits(ctx, r, var);
           }
 
           return true;
