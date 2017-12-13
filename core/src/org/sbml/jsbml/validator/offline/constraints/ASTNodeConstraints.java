@@ -826,8 +826,16 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               return true;
             }
             
-            UnitDefinition ud = node.getChild(0).deriveUnit();
-
+            UnitDefinition ud = null;
+            
+            if (node.getChild(0) != null) {
+              try {
+                ud = node.getChild(0).deriveUnit();
+              } catch (Exception e) {
+                // on some invalid model, we get an exception thrown
+              }
+            }
+            
             // the units can be null if we have only 'cn' element without sbml:units
             if (ud == null) {
               // we cannot check the units, so we return true

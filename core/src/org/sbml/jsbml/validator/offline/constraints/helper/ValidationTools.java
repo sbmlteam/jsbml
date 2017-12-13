@@ -795,11 +795,19 @@ public final class ValidationTools {
     
     if (container.isSetMath()) {
 
-      UnitDefinition derivedUnit = container.getMath().compile(compiler).getUnits();
+      UnitDefinition derivedUnit = null;
+      
+      try {
+        derivedUnit = container.getMath().compile(compiler).getUnits();
+      } catch (Exception e) {
+        // on some invalid model, we get an exception thrown
+      }
       
       // do we need to simplify here ?
       
-      return derivedUnit;
+      if (derivedUnit != null) {
+        return derivedUnit;
+      }
     }
     
     UnitDefinition ud = new UnitDefinition();
