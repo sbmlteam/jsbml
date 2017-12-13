@@ -47,4 +47,13 @@
 	</plugin>
       </plugins>
     </build>
+    
+ 	<dependencies>
+        <dependency>
+            <groupId>org.sbml.jsbml.modules</groupId>
+            <artifactId>jsbml-tidy</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+	</dependencies>
+      
 </project>
