@@ -42,7 +42,9 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 import org.sbml.jsbml.xml.stax.SBMLReader;
+import org.sbml.libsbml.libsbml;
 import org.sbml.libsbml.libsbmlConstants;
 
 /**
@@ -96,25 +98,17 @@ public class OfflineValidatorVersusLibsbmlTests {
 
     } catch (SecurityException e) {
       e.printStackTrace();
-
-      System.out
-      .println("SecurityException exception catched: Could not load libsbml library.");
+      System.out.println("SecurityException exception catched: Could not load libsbml library.");
     } catch (UnsatisfiedLinkError e) {
       e.printStackTrace();
-      System.out
-      .println("UnsatisfiedLinkError exception catched: Could not load libsbml library.");
+      System.out.println("UnsatisfiedLinkError exception catched: Could not load libsbml library.");
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
-
-      System.out
-      .println("ClassNotFoundException exception catched: Could not load libsbml class file.");
-
+      System.out.println("ClassNotFoundException exception catched: Could not load libsbml class file.");
     } catch (RuntimeException e) {
       e.printStackTrace();
-      System.out
-      .println("Could not load libsbml.\n "
+      System.out.println("Could not load libsbml.\n "
           + "Control that the libsbmlj.jar that you are using is synchronized with your current libSBML installation.");
-
     }
   }
 
@@ -284,6 +278,7 @@ public class OfflineValidatorVersusLibsbmlTests {
 
       @Override
       public boolean accept(File pathname) {
+        
         boolean accept = pathname.getName().endsWith(".xml");
         
         if (accept && filter != null) {
@@ -300,7 +295,6 @@ public class OfflineValidatorVersusLibsbmlTests {
       }
     });
 
-    // System.out.println("Files: " + files.length);
     for (File f : files) {
       totalFileTested++;
       validateFile(f);
@@ -347,19 +341,15 @@ public class OfflineValidatorVersusLibsbmlTests {
       Map<Integer, Integer> jsbmlErrorCount = new TreeMap<Integer, Integer>();
       Map<Integer, Integer> libsbmlErrorCount = new TreeMap<Integer, Integer>();
       HashSet<Integer> wronglyValidatedConstraintSet = new HashSet<Integer>();
-      Set<String> ignoredCategories = analyseSBMLerrorLog(log.getValidationErrors());
       
       System.out.println(errors + " constraints broken with the JSBML offline validator (" + readTime/1000 + "s to read, " + validationTime/1000 + "s to validate).");
       for (SBMLError e : log.getValidationErrors()) {
         int errorCode = e.getCode();
-        
-        if (e.getCategory() != null && ignoredCategories.contains(e.getCategory())) {
-          continue;
-        }
-        // System.out.println("JSBML - error " + errorCode);
+
+        // System.out.println("JSBML - error " + errorCode); 
         
         // count each errorCode
-        if (jsbmlErrorCount.get(errorCode) == null) {
+        if (jsbmlErrorCount.get(errorCode) == null) { // TODO - check that the JSBML SBMLerrors have the same 'severity' than the libsbml SBMLerrors 
           jsbmlErrorCount.put(errorCode, 1);
         } else {
           jsbmlErrorCount.put(errorCode, jsbmlErrorCount.get(errorCode) + 1);
@@ -468,6 +458,14 @@ public class OfflineValidatorVersusLibsbmlTests {
         }
         else if (jsbmlErrorNb != libsbmlErrorNb)  
         {
+          if (errorCode == SBMLErrorCodes.CORE_99505 && doc.getModel().getEventCount() > 0) {
+            if (libsbmlErrorNb == (jsbmlErrorNb - doc.getModel().getEventCount())) {
+              System.out.println("error '" + errorCode + "' is properly detected by jsbml (problem with trigger ignored)");
+              System.out.println();
+              continue;
+            }
+          }
+          
           System.out.println("ERROR: libSBML didn't detect the same number of SBMLError for constraint '" + errorCode); //  + "' libsbml = " + libsbmlErrorNb + ", jsbml = " + jsbmlErrorNb
           constraintBroken = true;
           wronglyValidatedConstraintSet.add(errorCode);
@@ -506,64 +504,6 @@ public class OfflineValidatorVersusLibsbmlTests {
     System.out.println();
   }
 
-
-  /**
-   * 
-   * 
-   * @param validationErrors
-   * @return
-   */
-  private static Set<String> analyseSBMLerrorLog(List<SBMLError> validationErrors) 
-  {
-    Set<String> ignoredCategories = new HashSet<String>();
-    
-    /* order is:
-    identifier consistency
-    general consistency
-    sbo
-    math
-    units
-    overdetermined
-    modelling practice
-     */
-    
-    for (SBMLError e : validationErrors) {
-      String category = e.getCategory();
-      String severity = e.getSeverity();
-      
-      if (severity != null && (severity.equalsIgnoreCase("error") || severity.equalsIgnoreCase("fatal"))) {
-        // the category we are in will be the latest one.
-        
-        // System.out.println("DEBUG - SBMLError.category = '" + category + "'");
-        
-        switch(category) {
-          
-          case "SBML identifier consistency":
-            ignoredCategories.add("General SBML conformance");
-            ignoredCategories.add("SBML component consistency");
-            
-          case "General SBML conformance":
-          case "SBML component consistency":
-            ignoredCategories.add("SBO term consistency");
-            
-          case "SBO term consistency":
-            ignoredCategories.add("MathML consistency");
-            
-          case "MathML consistency":
-            ignoredCategories.add("SBML unit consistency");
-            
-          case "SBML unit consistency":
-            ignoredCategories.add("Overdetermined model");
-            
-          case "Overdetermined model":
-            ignoredCategories.add("Modeling practice");
-        }
-      }
-      
-    }
-    
-    return ignoredCategories;
-  }
 
   /**
    * 
