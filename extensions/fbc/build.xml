@@ -81,6 +81,8 @@
 			<fileset dir="${jars.dir}" includes="*.jar *.zip"/>
 			<fileset dir="${jsbml.build.dir}" includes="*.jar *.zip"/>
 			<fileset dir="${jsbml.jars.dir}" includes="*.jar *.zip"/>
+			<fileset dir="${basedir}/../../modules/tidy/lib" includes="*.jar *.zip"/>
+			<pathelement location="${basedir}/../../modules/tidy/build/classes"/>
 		</path>
 	</target>
 
