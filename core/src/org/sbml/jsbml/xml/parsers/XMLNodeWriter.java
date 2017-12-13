@@ -157,6 +157,7 @@ public class XMLNodeWriter {
       for (int i = 0; i < nbNamespaces; i++) {
         String uri = xmlNode.getNamespaceURI(i);
         String prefix = xmlNode.getNamespacePrefix(i);
+        // TODO - test to write the namespace as an attribute if an exception is raised
         writer.writeNamespace(prefix, uri);
       }
 
