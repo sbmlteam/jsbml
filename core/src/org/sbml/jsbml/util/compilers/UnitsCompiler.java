@@ -383,6 +383,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
         
         // assignment cycle validation
         if (cycleValidation != null && cycleValidation.check(ctx, ar)) {
+          // System.out.println("found a cycle for '" + q.getId() + "'"); // TODO - check 10514-fail-01-06-sev1-l3v2.xml, we find a cycle where there are no cycle
           return invalid();
         }
         
@@ -396,6 +397,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
         
         // assignment cycle validation
         if (cycleValidation != null && cycleValidation.check(ctx, ia)) {
+          // System.out.println("found a cycle for '" + q.getId() + "'");
           return invalid();
         }
         
