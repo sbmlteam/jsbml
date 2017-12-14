@@ -1,19 +1,94 @@
-	       JSBML NEWS -- History of user-visible changes
+# JSBML NEWS -- History of user-visible changes
 
 
-===========================================================================
-Version X (xx-xx-2017)
-===========================================================================
+==================================
+## Version 1.3 (14-12-2017)
+==================================
 
  * New Features:
 
+  - Added a new interface that can be used to write SBML to SBML converters in JSBML. Those converters will be very easily integrated to SBFC but this way JSBML is not dependent on SBFC directly.
+  
+  - Started to setup validation so that we can customized the SBMLError messages returned to the user. The system allow to internationalize the error messages if needed. Added a default post message for all SBMLError, do try at least to give the id or metaid of the problematic element.
+  
+  - Implemented a converter that expand the user defined function definitions.
+  
+  - Implemented a converter from SBML L2 with COBRA annotation to SBML L3, encoding the COBRA annotations using the fbc version1 package. The converter from fbc v1 to v2 will arrived in a later release.
 
+  - Modified the FormulaParserLL3 to allow to have different behavior when encountering the 'log' operator. Modified as well FormulaCompiler to output 'ln' for the FUNCTION\_LN type.
+  
+  - Added a new method in Species: getDerivedSubtanceUnitDefinition. This allow to get the derived substance units only, never dividing by the compartment units.
+  
+  - Added a new constant and method to allow invalid SBML in other situation than just reading a file, like validation.
+  
+  - Included nested CVTerms in the tree structure of JSBML and made them reachable by all the filters.
+  
+  - Added some helper methods from ModelPolisher to convert gene association string into fbc version 2 objects.
+  
+  - Added a way for the users to set their own tidy instance in case they want to change the default options.
+
+  - Added a JSBML tutorial for total beginners in SBML.
+  
+  - Validation started for the fbc and multi package.
+  
+  - Validation mostly done for the qual and layout package.
+  
+  
  * Bug Fixes:
 
+  - Corrected the way we read L1 ParameterRule, the 'name' xml attribute in this case need to be set to the 'variable' class attribute.
 
-===========================================================================
-Version 1.2 (14-12-2016)
-===========================================================================
+  - Modified the offline validation API so that we have access to the ValidationContext in all method, in case we need extra information, like all the enabled check categories or the package version.
+  
+  - Corrected the offline validation to not validate SBasePlugin recursively as their children are already validated through the TreeNode.children() method.
+  
+  - Corrected the SBMLErrorConverter class so that any missing elements from the XML returned by the sbml.org validator REST API would be fine. Improved the error messages displayed to the user when we cannot parse properly the String returned by the sbml.org validator API.
+  
+  - Corrected the method ASTNode.setName to not revert the type to FUNCTION for FUNCTION\_RATE\_OF.
+
+  - Corrected the date written to XML as a comment when the SBMLWriter has an application name set (issue [#91](/sbmlteam/jsbml/issues/91)). The minutes were written instead of the month in the date.
+  
+  - Fixed the parsing of the modulo operator. Thanks to Chris Myers who reported the problem.
+
+  - Fixed Reaction.equals so that it works all the time. An exception was thrown in L3V2 when using the method getFast(). Thanks to Chris Myers for reporting the problem.
+
+  - Simplified the way XMLResourceBundleControl load resources.
+  
+  - Fixed the method Species.getDerivedUnitDefinition so that the default value for hasOnlySubstanceUnits is used for SBML level and version below L3.
+
+  - Corrected an inconsistency between getDerivedUnitDefinition() and getDerivedUnits() in Species. Thanks to Matthias König who reported the problem.
+  
+  - Made sure to convert the units to SI before comparing them. Corrected the method UnitDefinition.convertsToSIUnits as it was provoking a lot of unnecessary warnings.
+  
+  - Added a new constant to store differently the invalid XML from the unknown XML so that we can validate them separately.
+  
+  - Fixed FormulaParserLL3 so that it transform FUNCTION\_LN into FUNCTION\_LOG if it has more than one child.
+  
+  - Corrected the way we output 'power' ('^') in infix formula. Added more test to put parenthesis when the arguments of 'power' are logical or relational operators.
+  
+  - Fixed the brackets used for denominator when writing mathML to infix formula.
+  
+  - The method AbstractSBase.checkAttribute(String) cannot be used when cloning an object as the parent is not set when cloning and many checks depend on the parent to be set in order to work properly. Thanks to Mihai Glont for reporting this problem.
+
+  - Corrected an indexing problem in the rdf annotation writer.
+  
+  - Change the way we set the max element depth as it does fail inside matlab.
+  
+  - Removed the line wrapping by default in the tidy XML writer as it could cause problem by cutting into several lines the old COBRA style SBML.
+  
+  - Small fixes to be able to compile the code with java 9.
+  
+  - Write the id and name of comp related SBaseRef elements into the comp namespace.
+  
+  - Checking that the model and the LayoutPlugin are defined before using them in the RenderParser.processEndDocument method. Fixing github issue [#132](/sbmlteam/jsbml/issues/132), thanks to Mihai Glont who reported this error.
+  
+  - Fixed the clone methods in the render package. Removed some potential NullPointerExceptions.
+  
+  - Relaxed a bit the check on the fbc chemical formula when reading an sbml file but the check should probably be relaxed to prevent losing information.
+
+==================================
+## Version 1.2 (14-12-2016)
+==================================
 
  * New Features:
 
@@ -37,9 +112,9 @@ Version 1.2 (14-12-2016)
   - We have made numerous updates to the JSBML User Guide.
 
 
-===========================================================================
-Version 1.2-beta1 (26-10-2016)
-===========================================================================
+==================================
+## Version 1.2-beta1 (26-10-2016)
+==================================
 
  * New Features:
 
@@ -100,7 +175,7 @@ Version 1.2-beta1 (26-10-2016)
 
 
 ===========================================================================
-Version 1.1 (09-12-2016)
+## Version 1.1 (09-12-2016)
 ===========================================================================
 
  * New Features:
@@ -144,7 +219,7 @@ Version 1.1 (09-12-2016)
     reported the problem.
 
 ===========================================================================
-Version 1.1-beta1 (12-10-2016)
+## Version 1.1-beta1 (12-10-2016)
 ===========================================================================
 
  * New Features:
@@ -232,7 +307,7 @@ Version 1.1-beta1 (12-10-2016)
      
   
 ===========================================================================
-Version 1.0 (09-12-2014)
+## Version 1.0 (09-12-2014)
 ===========================================================================
 
  * New Features:
@@ -282,7 +357,7 @@ Version 1.0 (09-12-2014)
 
 
 ===========================================================================
-Version 1.0-rc1 (24-09-2014)
+## Version 1.0-rc1 (24-09-2014)
 ===========================================================================
 
 * New Features:
@@ -454,7 +529,7 @@ Version 1.0-rc1 (24-09-2014)
  
   
 ======================================================================
-Version 1.0-beta1 (06-03-2014)
+## Version 1.0-beta1 (06-03-2014)
 ======================================================================
 
 * New Features:
@@ -678,7 +753,7 @@ Version 1.0-beta1 (06-03-2014)
 
 
 ======================================================================
-Version 0.8.0 (24-08-2012)
+## Version 0.8.0 (24-08-2012)
 ======================================================================
 
 * New Features:
@@ -725,7 +800,7 @@ Version 0.8.0 (24-08-2012)
   - SBML L3 packages are not supported and not kept.  
   
 ======================================================================
-Version 0.8-rc2 (12-04-2012)
+## Version 0.8-rc2 (12-04-2012)
 ======================================================================
 
 * User visible changes :
@@ -793,7 +868,7 @@ Version 0.8-rc2 (12-04-2012)
   - SBML L3 packages are not supported and not kept.  
 
 ======================================================================
-Version 0.8-rc1 (14-12-2011)
+## Version 0.8-rc1 (14-12-2011)
 ======================================================================
 
 * New Features:
@@ -1007,7 +1082,7 @@ Version 0.8-rc1 (14-12-2011)
     moment. Planned for the next major release. 
   
 ======================================================================
-Version 0.8-b2 (18-04-2011)
+## Version 0.8-b2 (18-04-2011)
 ======================================================================
 
 * New Features:
@@ -1120,7 +1195,7 @@ Version 0.8-b2 (18-04-2011)
     moment. 
   
 ===========================================================================
-Version 0.8-b1 (04-02-2011)
+## Version 0.8-b1 (04-02-2011)
 ===========================================================================
 
 This the first beta release of JSBML 0.8, JSBML is a community-driven
@@ -1155,12 +1230,10 @@ For more details, please visit http://sbml.org/Software/JSBML
     use the corresponding ASTNode tree. (cf model generated by COBRA) 
 
 ---------------------------------------------------------------------------
-$URL$
-Last Modified: $Date$
-Last Modified By: $Author$
 
 The line should not have more than 76 characters to avoid them being put
-over two lines when sending the release email.
+over two lines when sending the release email. Although, since we are using
+markdown we do not cut the lines any more.
 
 The following is for [X]Emacs users.  Please leave in place.
 Local Variables:
