@@ -63,6 +63,13 @@ public class ExpandFunctionDefinitionConverter implements SBMLConverter {
   public SBMLDocument convert(SBMLDocument doc) throws SBMLException {
     SBMLDocument resultdoc = doc;
 
+    Model m = doc.getModel();
+    
+    if (m == null || m.getFunctionDefinitionCount() == 0) {
+      // In this case, we cannot do anything about the FunctionDefinition or there is nothing to do
+      return doc;
+    }
+    
     try {
       resultdoc = doc.clone();
 
@@ -120,7 +127,7 @@ public class ExpandFunctionDefinitionConverter implements SBMLConverter {
    * <p>The given {@link ASTNode} can be modified so make sure that you
    * clone it beforehand if you don't want that to happen. Make sure to use the returned
    * ASTNode as it can be different from the given one if the top level ASTNode is of type
-   * {@link ASTNode.Type#FUNCTION}.</p>
+   * {@link org.sbml.jsbml.ASTNode.Type#FUNCTION}.</p>
    * 
    * @param math the ASTNode to expands.
    */
@@ -167,11 +174,14 @@ public class ExpandFunctionDefinitionConverter implements SBMLConverter {
                   ASTNode bvar = fd.getArgument(i);
                   ASTNode expandedBVar = current.getChild(i);
                   
-                  // TODO - test if newMath is directly equals to one of the arguments
-                  
-                  replaceAll(newMath, bvar, expandedBVar);
-                  // newMath.replaceArgument(bvar.getName(), expandedBVar);
-                  
+                  // test if newMath is directly equals to one of the arguments
+                  if (newMath.equals(bvar)) {
+                    // in this case we return directly expandedBVar
+                    newMath = expandedBVar;
+                    break;
+                  } else {                  
+                    replaceAll(newMath, bvar, expandedBVar);
+                  }
                 }
                 
                 TreeNode parent = current.getParent();
