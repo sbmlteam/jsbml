@@ -1,10 +1,7 @@
 package org.sbml.jsbml.ext.comp.util;
 
 import org.sbml.jsbml.*;
-import org.sbml.jsbml.ext.comp.CompModelPlugin;
-import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
-import org.sbml.jsbml.ext.comp.ModelDefinition;
-import org.sbml.jsbml.ext.comp.Submodel;
+import org.sbml.jsbml.ext.comp.*;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
@@ -15,6 +12,7 @@ public class CompFlatteningConverter {
 
     private ArrayList<String> previousModelIDs;
     private ArrayList<String> previousModelMetaIDs;
+    private ListOf<ModelDefinition> modelDefinitionListOf;
 
     private Model previousModel;
     private Model flattenedModel;
@@ -24,6 +22,7 @@ public class CompFlatteningConverter {
     public CompFlatteningConverter() {
         previousModelIDs = new ArrayList<>();
         previousModelMetaIDs = new ArrayList<>();
+        modelDefinitionListOf = new ListOf<>();
 
         currentModel = new Model();
         previousModel = new Model();
@@ -46,7 +45,11 @@ public class CompFlatteningConverter {
 
         if (document.isPackageEnabled("comp")) {
 
+
+
             CompSBMLDocumentPlugin compSBMLDocumentPlugin = (CompSBMLDocumentPlugin) document.getExtension("comp");
+
+            modelDefinitionListOf = compSBMLDocumentPlugin.getListOfModelDefinitions();
 
             // do I do this directly with the submodels OR...?
             if (compSBMLDocumentPlugin.getExtendedSBase().getModel().getExtension("comp") != null) {
@@ -57,20 +60,20 @@ public class CompFlatteningConverter {
             }
 
             // ...with model defitions?
-            if (compSBMLDocumentPlugin.getModelDefinitionCount() > 0) {
-
-                ListOf<ModelDefinition> listOfModelDefinitions = compSBMLDocumentPlugin.getListOfModelDefinitions();
-
-                // TODO: how to handle external model defintions-> should work the same as with normal model definitions?
-                //ListOf<ExternalModelDefinition> listOfExternalModelDefinitions = compSBMLDocumentPlugin.getListOfExternalModelDefinitions();
-
-                flattenedModel = getFlattenedModel(listOfModelDefinitions);
-
-
-            } else { //TODO: give back proper error message
-                System.out.println("no model definitions given");
-
-            }
+//            if (compSBMLDocumentPlugin.getModelDefinitionCount() > 0) {
+//
+//                ListOf<ModelDefinition> listOfModelDefinitions = compSBMLDocumentPlugin.getListOfModelDefinitions();
+//
+//                // TODO: how to handle external model defintions-> should work the same as with normal model definitions?
+//                //ListOf<ExternalModelDefinition> listOfExternalModelDefinitions = compSBMLDocumentPlugin.getListOfExternalModelDefinitions();
+//
+//                //flattenedModel = getFlattenedModel(listOfModelDefinitions);
+//
+//
+//            } else { //TODO: give back proper error message
+//                System.out.println("no model definitions given");
+//
+//            }
 
         } else { //TODO: give back proper error message
             System.out.println("no comp package");
@@ -156,7 +159,7 @@ public class CompFlatteningConverter {
                 } else {
 
                     currentModel = flattenSubModel(submodel);
-                    flattenedModel = mergeModels(currentModel, previousModel); // this Model object is made the new child of the SBMLDocument container
+                    flattenedModel = mergeModels(previousModel, currentModel); // this Model object is made the new child of the SBMLDocument container
                     previousModel = flattenedModel;
                 }
 
@@ -183,7 +186,8 @@ public class CompFlatteningConverter {
         if (previousModel != null) {
 
             for (Reaction reaction : previousModel.getListOfReactions()) {
-                currentModel.addReaction(reaction);
+                currentModel.getListOfReactions().add(reaction);
+               // previousModel.getListOfReactions().remove(reaction);
             }
 
             // ... for all lists?
@@ -234,12 +238,16 @@ public class CompFlatteningConverter {
 
         if (subModel.getModel() != null) {
 
-            Model modelOfSubmodel = new Model(subModel.getModel());
+            // initiate the referenced model
+            Model modelOfSubmodel = modelDefinitionListOf.get(subModel.getModelRef());
 
 
             // 3
             // Remove all objects that have been replaced or deleted in the submodel.
-            subModel.getListOfDeletions();
+            for (Deletion deletion : subModel.getListOfDeletions()){
+
+            }
+
 
             // model.remove ... ?
 
@@ -253,10 +261,24 @@ public class CompFlatteningConverter {
             // to a new value obtained by prepending “P” to the original identifier.
 
 
-            for (Reaction reaction : modelOfSubmodel.getListOfReactions().clone()) { // like this for all the lists?
-                String flattenedReactionID = subModelID + reaction.getId();
+            for (Reaction reaction : modelOfSubmodel.getListOfReactions()) { // like this for all the lists?
                 //modelOfSubmodel.removeReaction(reaction); // otherwise there is a warning. can this be ignored because the modelOfSubmodel gets not returned anyway
-                reaction.setId(flattenedReactionID);
+                reaction.setId(subModelID + reaction.getId());
+                //reaction.setMetaId(subModelMetaID + reaction.getMetaId()); // TODO has not always a meta ID?
+            }
+
+            for (Species species : modelOfSubmodel.getListOfSpecies()){
+                String flattenedSpeciesID = subModelID + species.getId();
+                species.setId(flattenedSpeciesID);
+
+            }
+
+            for(Compartment compartment : modelOfSubmodel.getListOfCompartments()){
+
+            }
+
+            for (Constraint constraint : modelOfSubmodel.getListOfConstraints()){
+
             }
 
             // 5
@@ -285,7 +307,7 @@ public class CompFlatteningConverter {
 
     public static void main(String[] args) throws IOException, XMLStreamException {
 
-        File file = new File(args[0]);
+        File file = new File(args[1]);
 
         SBMLReader reader = new SBMLReader();
         SBMLDocument document = reader.readSBML(file);
