@@ -185,7 +185,7 @@ public class CompFlatteningConverter {
 
         if (previousModel != null) {
 
-            for (Reaction reaction : previousModel.getListOfReactions()) {
+            for (Reaction reaction : previousModel.getListOfReactions().clone()) {
                 currentModel.getListOfReactions().add(reaction);
                // previousModel.getListOfReactions().remove(reaction);
             }
@@ -297,7 +297,7 @@ public class CompFlatteningConverter {
             // Merge the various lists (list of species, list of compartments, etc.)
             // in this step, and preserve notes and annotations as well as constructs from other SBML Level 3 packages.
 
-            model = mergeModels(modelOfSubmodel, model); // initiate model (?)
+            model = mergeModels(currentModel, modelOfSubmodel); // initiate model (?)
 
         }
 
