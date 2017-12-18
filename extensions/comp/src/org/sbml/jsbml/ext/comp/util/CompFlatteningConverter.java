@@ -2,6 +2,7 @@ package org.sbml.jsbml.ext.comp.util;
 
 import org.sbml.jsbml.*;
 import org.sbml.jsbml.ext.comp.*;
+import org.sbml.jsbml.util.SubModel;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
@@ -18,6 +19,8 @@ public class CompFlatteningConverter {
     private Model flattenedModel;
     private Model currentModel;
 
+    private SBMLDocument document;
+
 
     public CompFlatteningConverter() {
         previousModelIDs = new ArrayList<>();
@@ -25,7 +28,7 @@ public class CompFlatteningConverter {
         modelDefinitionListOf = new ListOf<>();
 
         currentModel = new Model();
-        previousModel = new Model();
+       // previousModel = new Model();
         flattenedModel = new Model();
 
     }
@@ -41,39 +44,46 @@ public class CompFlatteningConverter {
      */
     public SBMLDocument flatten(SBMLDocument document) {
 
+        this.document = document;
         flattenedModel = new Model(); // this is the model that will be returned
 
         if (document.isPackageEnabled("comp")) {
-
-
 
             CompSBMLDocumentPlugin compSBMLDocumentPlugin = (CompSBMLDocumentPlugin) document.getExtension("comp");
 
             modelDefinitionListOf = compSBMLDocumentPlugin.getListOfModelDefinitions();
 
             // do I do this directly with the submodels OR...?
-            if (compSBMLDocumentPlugin.getExtendedSBase().getModel().getExtension("comp") != null) {
-                CompModelPlugin compModelPlugin = (CompModelPlugin) compSBMLDocumentPlugin.getExtendedSBase().getModel().getExtension("comp");
-                instantiateSubModels(compModelPlugin);
-            } else {
-                System.out.println("why no comp?");
-            }
+//            if (compSBMLDocumentPlugin.getExtendedSBase().getModel().getExtension("comp") != null) {
+//                CompModelPlugin compModelPlugin = (CompModelPlugin) compSBMLDocumentPlugin.getExtendedSBase().getModel().getExtension("comp");
+//                instantiateSubModels(compModelPlugin);
+//            } else {
+//                System.out.println("why no comp?");
+//            }
 
             // ...with model defitions?
-//            if (compSBMLDocumentPlugin.getModelDefinitionCount() > 0) {
-//
-//                ListOf<ModelDefinition> listOfModelDefinitions = compSBMLDocumentPlugin.getListOfModelDefinitions();
-//
-//                // TODO: how to handle external model defintions-> should work the same as with normal model definitions?
-//                //ListOf<ExternalModelDefinition> listOfExternalModelDefinitions = compSBMLDocumentPlugin.getListOfExternalModelDefinitions();
-//
-//                //flattenedModel = getFlattenedModel(listOfModelDefinitions);
-//
-//
-//            } else { //TODO: give back proper error message
-//                System.out.println("no model definitions given");
-//
-//            }
+            if (compSBMLDocumentPlugin.getModelDefinitionCount() > 0) {
+
+                ListOf<ModelDefinition> listOfModelDefinitions = compSBMLDocumentPlugin.getListOfModelDefinitions();
+
+                for(ModelDefinition modelDefinition: listOfModelDefinitions){
+
+                    ModelDefinition modelDefinitionClone = modelDefinition; // clone the object
+                    listOfModelDefinitions.remove(modelDefinition);
+                    examineModelDefinition(modelDefinitionClone);
+                }
+
+                // TODO: how to handle external model defintions-> should work the same as with normal model definitions?
+                //ListOf<ExternalModelDefinition> listOfExternalModelDefinitions = compSBMLDocumentPlugin.getListOfExternalModelDefinitions();
+
+                //flattenedModel = getFlattenedModel(listOfModelDefinitions);
+
+
+
+            } else { //TODO: give back proper error message
+                System.out.println("no model definitions given");
+
+            }
 
         } else { //TODO: give back proper error message
             System.out.println("no comp package");
@@ -87,23 +97,23 @@ public class CompFlatteningConverter {
     }
 
 
-    /**
-     * @param listOfModelDefinitions
-     * @return
-     */
-    private Model getFlattenedModel(ListOf<ModelDefinition> listOfModelDefinitions) {
-
-        flattenedModel = new Model();
-
-        for (ModelDefinition modelDefinition : listOfModelDefinitions) {
-
-            flattenedModel = examineModelDefinition(modelDefinition);
-
-        }
-
-        return flattenedModel;
-
-    }
+//    /**
+//     * @param listOfModelDefinitions
+//     * @return
+//     */
+//    private Model getFlattenedModel(ListOf<ModelDefinition> listOfModelDefinitions) {
+//
+//        flattenedModel = new Model();
+//
+//        for (ModelDefinition modelDefinition : listOfModelDefinitions) {
+//
+//            flattenedModel = examineModelDefinition(modelDefinition);
+//
+//        }
+//
+//        return flattenedModel;
+//
+//    }
 
 
     /**
@@ -132,7 +142,7 @@ public class CompFlatteningConverter {
         } else {
             System.out.println("Model definition has no comp plugin.");
             //modelDefinition.getModel().unsetExtension("comp");
-            flattenedModel = mergeModels(modelDefinition.getModel(), flattenedModel); // TODO: flatten comp model into model?
+            flattenedModel = mergeModels(modelDefinition, flattenedModel); // TODO: flatten comp model into model?
         }
 
         return flattenedModel;
@@ -182,13 +192,35 @@ public class CompFlatteningConverter {
      */
     private Model mergeModels(Model previousModel, Model currentModel) {
 
-
         if (previousModel != null) {
 
-            for (Reaction reaction : previousModel.getListOfReactions().clone()) {
-                currentModel.getListOfReactions().add(reaction);
-               // previousModel.getListOfReactions().remove(reaction);
-            }
+            // match versions and level
+            currentModel.setLevel(previousModel.getLevel());
+            currentModel.setVersion(previousModel.getVersion());
+
+          //  currentModel.setLevel(previousModel.getLevel());
+          //  currentModel.getModel().setLevel(previousModel.getModel().getLevel());
+          //  currentModel.getListOfReactions().setLevel(previousModel.getListOfReactions().getLevel());
+
+            ListOf<Reaction> reactionListOf = previousModel.getListOfReactions().clone();
+            //previousModel.getListOfReactions().removeFromParent();
+            //reactionListOf.removeFromParent();
+            //TODO:
+            // .clone() does not work because: Level mismatch between model in Level -1 and listOfReactions in Level 3
+            // matching Levels does not work somehow
+            // ListOf 'listOfReactions []' is associated to the different parent 'modelDefinition [ id="submodel1" name="submodel1"]'
+            // Please remove it there before adding it to this 'model []' or add a clone of it to this element.
+
+            currentModel.setListOfReactions(reactionListOf);
+
+//            for (Reaction reaction : previousModel.getListOfReactions()) {
+//
+//                previousModel.removeReaction(reaction);
+//
+//               // currentModel.getListOfReactions().add(reaction);
+//                currentModel.addReaction(reaction);
+//                System.out.println(currentModel.getReactionCount());
+//            }
 
             // ... for all lists?
 
@@ -240,7 +272,6 @@ public class CompFlatteningConverter {
 
             // initiate the referenced model
             Model modelOfSubmodel = modelDefinitionListOf.get(subModel.getModelRef());
-
 
             // 3
             // Remove all objects that have been replaced or deleted in the submodel.
@@ -297,7 +328,7 @@ public class CompFlatteningConverter {
             // Merge the various lists (list of species, list of compartments, etc.)
             // in this step, and preserve notes and annotations as well as constructs from other SBML Level 3 packages.
 
-            model = mergeModels(currentModel, modelOfSubmodel); // initiate model (?)
+            model = mergeModels(previousModel, modelOfSubmodel); // initiate model (?)
 
         }
 
@@ -307,7 +338,7 @@ public class CompFlatteningConverter {
 
     public static void main(String[] args) throws IOException, XMLStreamException {
 
-        File file = new File(args[1]);
+        File file = new File(args[0]);
 
         SBMLReader reader = new SBMLReader();
         SBMLDocument document = reader.readSBML(file);
