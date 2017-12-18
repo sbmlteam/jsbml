@@ -1,5 +1,13 @@
 # JSBML NEWS -- History of user-visible changes
 
+==================================
+## Version 1.3.1 (19-12-2017)
+==================================
+
+### Bug Fixes:
+
+  - Corrected the ExpandFunctionDefinitionConverter when the body of a FunctionDefinition is equal to one of the argument(s), like 'f(x)= x'.
+
 
 ==================================
 ## Version 1.3 (14-12-2017)
@@ -7,14 +15,14 @@
 
 ### New Features:
 
-  - Added a new interface that can be used to write SBML to SBML converters in JSBML. Those converters will be very easily integrated to SBFC but this way JSBML is not dependent on SBFC directly.
-  
-  - Started to setup validation so that we can customize the SBMLError messages returned to the user. The system allow internationalizing of the error messages if needed. Added a default post message for all SBMLError, to try at least to give the id or metaid of the problematic element.
+  - Added a new interface that can be used to write converters to transform SBML documents.
   
   - Implemented a converter that expands the user-defined function definitions.
   
-  - Implemented a converter from SBML L2 with COBRA annotation to SBML L3, encoding the COBRA annotations using the FBC version 1 package. The converter from FBC V1 to V2 will arrived in a later release.
+  - Implemented a converter from SBML Level 2 with COBRA annotation to SBML Level 3, encoding the COBRA annotations using the FBC version 1 package. The converter from FBC Version 1 to Version 2 will arrived in a later release.
 
+  - Started to set up validation so that we can customize the SBMLError messages returned to the user. The system allow internationalizing of the error messages if needed. Added a default post message for all SBMLError, to try at least to give the id or metaid of the problematic element.
+  
   - Modified the FormulaParserLL3 to allow to have different behavior when encountering the 'log' operator. Modified as well FormulaCompiler to output 'ln' for the FUNCTION\_LN type.
   
   - Added a new method in Species: getDerivedSubtanceUnitDefinition, which allows getting the derived substance units only, never dividing by the compartment units.
@@ -29,14 +37,14 @@
 
   - Added a JSBML tutorial for total beginners in SBML.
   
-  - Implementation of validation started for the FBC and Multi package.
+  - Implementation of validation started for the FBC and Multi packages.
   
-  - Implementation of validation substantially complete for the Qual and Layout package.
+  - Implementation of validation substantially complete for the Qual and Layout packages.
   
   
 ### Bug Fixes:
 
-  - Corrected the way we read L1 ParameterRule, the 'name' XML attribute in this case need to be set to the 'variable' class attribute.
+  - Corrected the way we read SBML Level 1 ParameterRule, the 'name' XML attribute in this case need to be set to the 'variable' class attribute.
 
   - Modified the offline validation API so that we have access to the ValidationContext in all method, in case we need extra information, like all the enabled check categories or the package version.
   
@@ -85,6 +93,7 @@
   - Fixed the clone methods in the render package. Removed some potential NullPointerExceptions.
   
   - Relaxed a bit the check on the FBC chemical formula when reading an SBML file but the test should probably be relaxed to prevent losing information.
+
 
 ==================================
 ## Version 1.2 (14-12-2016)
