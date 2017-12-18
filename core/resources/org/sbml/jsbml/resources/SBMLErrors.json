@@ -691,7 +691,7 @@
         "ShortMessage": "Invalid syntax for a 'name' attribute value"
     }, 
     "10313": {
-        "Category": "SBML identifier consistency", 
+        "Category": "SBML unit consistency", 
         "DefaultSeverity": "na", 
         "Message": "Unit identifier references (i.e the 'units' attribute on <Compartment>, the 'units' attribute on <Parameter>, and the 'substanceUnits' attribute on <Species>) must be the identifier of a <UnitDefinition> in the <Model>, or the identifier of a predefined unit in SBML.\n", 
         "Package": "core", 

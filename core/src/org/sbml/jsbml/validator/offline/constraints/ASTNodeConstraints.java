@@ -685,6 +685,11 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
 
+          if (node.getParentSBMLObject() == null) {
+            // something is wrong with the ASTNode
+            return true;
+          }
+          
           Model m = node.getParentSBMLObject().getModel();
 
           if (m != null && node.isName()) {
