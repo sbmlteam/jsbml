@@ -1,11 +1,12 @@
 package org.sbml.jsbml.ext.comp.util;
+
 import org.sbml.jsbml.*;
 import org.sbml.jsbml.ext.comp.*;
+
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CompFlatteningConverter {
 
@@ -17,16 +18,13 @@ public class CompFlatteningConverter {
     private Model flattenedModel;
     private Model currentModel;
 
-    private SBMLDocument document;
-
-
     public CompFlatteningConverter() {
         this.previousModelIDs = new ArrayList<>();
         this.previousModelMetaIDs = new ArrayList<>();
         this.modelDefinitionListOf = new ListOf<>();
 
         currentModel = new Model();
-       // previousModel = new Model();
+        // previousModel = new Model();
         flattenedModel = new Model();
 
     }
@@ -42,7 +40,6 @@ public class CompFlatteningConverter {
      */
     public SBMLDocument flatten(SBMLDocument document) {
 
-        this.document = document;
         this.flattenedModel = new Model(); // this is the model that will be returned
 
         if (document.isPackageEnabled("comp")) {
@@ -93,26 +90,6 @@ public class CompFlatteningConverter {
         return document;
 
     }
-
-
-//    /**
-//     * @param listOfModelDefinitions
-//     * @return
-//     */
-//    private Model getFlattenedModel(ListOf<ModelDefinition> listOfModelDefinitions) {
-//
-//        flattenedModel = new Model();
-//
-//        for (ModelDefinition modelDefinition : listOfModelDefinitions) {
-//
-//            flattenedModel = examineModelDefinition(modelDefinition);
-//
-//        }
-//
-//        return flattenedModel;
-//
-//    }
-
 
 
     /**
@@ -168,25 +145,41 @@ public class CompFlatteningConverter {
      */
     private Model mergeModels(Model previousModel, Model currentModel) {
 
+        Model mergedModel = new Model();
+
         if (previousModel != null) {
 
             // match versions and level
-            currentModel.setLevel(previousModel.getLevel());
-            currentModel.setVersion(previousModel.getVersion());
+            mergedModel.setLevel(previousModel.getLevel());
+            mergedModel.setVersion(previousModel.getVersion());
 
 
+            // TODO: refactor in methods
             // ... for all lists?
             ListOf<Reaction> reactionListOfClone = previousModel.getListOfReactions().clone();
             previousModel.getListOfReactions().removeFromParent();
             for (Reaction reaction : reactionListOfClone) {
-                currentModel.addReaction(reaction.clone());
+                mergedModel.addReaction(reaction.clone());
+            }
+
+            ListOf<Reaction> reactionListOfClone2 = currentModel.getListOfReactions().clone();
+            currentModel.getListOfReactions().removeFromParent();
+            for (Reaction reaction : reactionListOfClone2) {
+                mergedModel.addReaction(reaction.clone());
             }
 
             ListOf<Compartment> compartmentListOfClone = previousModel.getListOfCompartments().clone();
             previousModel.getListOfCompartments().removeFromParent();
             for (Compartment compartment : compartmentListOfClone) {
-                currentModel.addCompartment(compartment.clone());
+                mergedModel.addCompartment(compartment.clone());
             }
+
+            ListOf<Compartment> compartmentListOfClone2 = currentModel.getListOfCompartments().clone();
+            currentModel.getListOfCompartments().removeFromParent();
+            for (Compartment compartment : compartmentListOfClone2) {
+                mergedModel.addCompartment(compartment.clone());
+            }
+
 
             ListOf<Species> speciesListOfClone = previousModel.getListOfSpecies().clone();
             previousModel.getListOfSpecies().removeFromParent();
@@ -194,9 +187,15 @@ public class CompFlatteningConverter {
                 currentModel.addSpecies(species.clone());
             }
 
+            ListOf<Species> speciesListOfClone2 = currentModel.getListOfSpecies().clone();
+            currentModel.getListOfSpecies().removeFromParent();
+            for (Species species : speciesListOfClone2) {
+                mergedModel.addSpecies(species.clone());
+            }
+
         } // else nothing to merge? -> return model
 
-        return currentModel;
+        return mergedModel;
     }
 
 
@@ -243,9 +242,11 @@ public class CompFlatteningConverter {
             // initiate a clone of the referenced model
             Model modelOfSubmodel = this.modelDefinitionListOf.get(subModel.getModelRef()).clone();
 
+            Model flattenedSubModel = new Model(); // write into this one to get rid of model definition (?)
+
             // 3
             // Remove all objects that have been replaced or deleted in the submodel.
-            for (Deletion deletion : subModel.getListOfDeletions()){
+            for (Deletion deletion : subModel.getListOfDeletions()) {
 
             }
 
@@ -266,22 +267,19 @@ public class CompFlatteningConverter {
                 //reaction.setMetaId(subModelMetaID + reaction.getMetaId()); // TODO has not always a meta ID?
             }
 
-            for (Species species : modelOfSubmodel.getListOfSpecies()){
+            for (Species species : modelOfSubmodel.getListOfSpecies()) {
                 String flattenedSpeciesID = subModelID + species.getId();
                 species.setId(flattenedSpeciesID);
-
             }
 
-            for(Compartment compartment : modelOfSubmodel.getListOfCompartments()){
+            for (Compartment compartment : modelOfSubmodel.getListOfCompartments()) {
                 String flattenedCompartmentID = subModelID + compartment.getId();
                 compartment.setId(flattenedCompartmentID);
-
             }
 
-            for (Constraint constraint : modelOfSubmodel.getListOfConstraints()){
+            for (Constraint constraint : modelOfSubmodel.getListOfConstraints()) {
                 String flattenedContraintID = subModelID + constraint.getId();
                 constraint.setId(flattenedContraintID);
-
             }
 
             // 5
@@ -336,7 +334,7 @@ public class CompFlatteningConverter {
     private Model examineModelDefinition(ModelDefinition modelDefinition) {
 
 
-        if (modelDefinition.isPackageEnabled("comp")){
+        if (modelDefinition.isPackageEnabled("comp")) {
 
             Model model = new Model(modelDefinition);
 
