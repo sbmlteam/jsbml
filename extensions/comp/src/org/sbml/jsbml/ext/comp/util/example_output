@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" comp:required="true" level="3" version="1" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1">
+    <model>
+        <listOfCompartments>
+            <compartment constant="true" id="default_compartment" sboTerm="SBO:0000410" size="1" spatialDimensions="3">
+                <comp:listOfReplacedElements xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1">
+                    <comp:replacedElement comp:idRef="default_compartment" comp:submodelRef="A"/>
+                </comp:listOfReplacedElements>
+            </compartment>
+            <compartment constant="true" id="Sdefault_compartment" sboTerm="SBO:0000410" size="1" spatialDimensions="3"/>
+        </listOfCompartments>
+        <listOfSpecies>
+            <species boundaryCondition="false" compartment="default_compartment" constant="false" hasOnlySubstanceUnits="false" id="Sh"/>
+            <species boundaryCondition="false" compartment="default_compartment" constant="false" hasOnlySubstanceUnits="false" id="Si"/>
+            <species boundaryCondition="false" compartment="default_compartment" constant="false" hasOnlySubstanceUnits="false" id="Sj"/>
+            <species boundaryCondition="false" compartment="default_compartment" constant="false" hasOnlySubstanceUnits="false" id="a"/>
+            <species boundaryCondition="false" compartment="default_compartment" constant="false" hasOnlySubstanceUnits="false" id="b"/>
+            <species boundaryCondition="false" compartment="default_compartment" constant="false" hasOnlySubstanceUnits="false" id="c"/>
+        </listOfSpecies>
+        <listOfReactions>
+            <reaction fast="false" id="_J0" reversible="true">
+                <listOfReactants>
+                    <speciesReference constant="true" species="a" stoichiometry="1"/>
+                    <speciesReference constant="true" species="b" stoichiometry="1"/>
+                </listOfReactants>
+                <listOfProducts>
+                    <speciesReference constant="true" species="c" stoichiometry="1"/>
+                </listOfProducts>
+            </reaction>
+            <reaction fast="false" id="S_J0" reversible="true">
+                <listOfReactants>
+                    <speciesReference constant="true" species="h" stoichiometry="1"/>
+                    <speciesReference constant="true" species="i" stoichiometry="1"/>
+                </listOfReactants>
+                <listOfProducts>
+                    <speciesReference constant="true" species="j" stoichiometry="1"/>
+                </listOfProducts>
+            </reaction>
+        </listOfReactions>
+    </model>
+</sbml>
