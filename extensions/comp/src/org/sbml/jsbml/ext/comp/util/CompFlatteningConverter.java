@@ -102,21 +102,27 @@ public class CompFlatteningConverter {
         if (compModelPlugin.getSubmodelCount() > 0) {
 
             ListOf<Submodel> subModelListOf = compModelPlugin.getListOfSubmodels().clone();
-            compModelPlugin.getListOfSubmodels().clear();
+            //compModelPlugin.getListOfSubmodels().clear();
 
             // check if submodel has submodel
             for (Submodel submodel : subModelListOf) {
 
-                Submodel submodelClone = submodel;
-                compModelPlugin.getListOfSubmodels().removeFromParent();
+                Submodel submodelClone = submodel.clone();
+                //compModelPlugin.getListOfSubmodels().removeFromParent();
                 submodel = submodelClone;
 
                 Model initModel = this.modelDefinitionListOf.get(submodel.getModelRef());
 
-                if (initModel.getExtension("comp") != null) { // TODO: this does not work?
+                if (initModel.getExtension("comp") != null) {
 
                     CompModelPlugin compSubModelPlugin = (CompModelPlugin) initModel.getExtension("comp");
-                    this.currentModel = instantiateSubModels(compSubModelPlugin);
+
+                    // TODO: what is going on here?
+                    //this.previousModel = mergeModels(this.previousModel, initModel);
+
+                    //this.flattenedModel = initModel;
+                    this.currentModel = initModel;
+                    this.flattenedModel = instantiateSubModels(compSubModelPlugin);
 
                 } else {
 
@@ -360,61 +366,4 @@ public class CompFlatteningConverter {
 
 }
 
-//    private CompModelPlugin examineCompModel(CompSBMLDocumentPlugin compSubDocument) {
-//
-//        CompModelPlugin compModelPlugin = null; // TODO
-//
-//        for (ModelDefinition modelDefinition : compSubDocument.getListOfModelDefinitions()) {
-//
-//            compModelPlugin = new CompModelPlugin(modelDefinition);
-//
-//            if (modelDefinition.isPackageEnabled("comp")) {
-//
-//                CompSBMLDocumentPlugin compSBMLDocumentPlugin = (CompSBMLDocumentPlugin) compModelPlugin.getSBMLDocument().getExtension("comp");
-//
-//                if (compSBMLDocumentPlugin.getModelDefinitionCount() > 0) {
-//                    compModelPlugin = examineCompModel(compSBMLDocumentPlugin);
-//                } else {
-//
-//                    ListOf<Submodel> subModelList = compModelPlugin.getListOfSubmodels();
-//                    // 1
-//                    // Examine all submodels of the model being validated.
-//                    for (Submodel subModel : subModelList) {
-//                        //examineSubModel(subModel);
-//                        System.out.println(subModel.getModelRef());
-//                    }
-//                }
-//
-//            }
-//
-//        }
-//
-//        return compModelPlugin;
-//    }
-
-//    private Submodel examineSubModel(Submodel subModel) {
-//
-//
-//        Model model = subModel.getModel();
-//
-//        CompModelPlugin compSubModel = new CompModelPlugin(subModel.getExtension("comp").getSBMLDocument().getModel());
-//        Submodel flattenedSubModel;
-//
-//        // For any submodel that itself contains submodels, perform this algorithm in 1 its entirety
-//        // on each of those inner submodels before proceeding to the next step.
-//
-//        if (compSubModel.getListOfSubmodels().size() == 0) {
-//
-//            // has no submodels -> perform algorithm
-//            flattenedSubModel = flattenSubModel(subModel);
-//
-//        } else {
-//            // call function recursively with submodel of submodel
-//            flattenedSubModel = examineSubModel(subModel);
-//
-//        }
-//
-//        return flattenedSubModel;
-//
-//    }
 
