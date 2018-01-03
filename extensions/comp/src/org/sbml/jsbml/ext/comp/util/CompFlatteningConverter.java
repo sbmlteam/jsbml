@@ -18,14 +18,18 @@ public class CompFlatteningConverter {
     private Model flattenedModel;
     private Model currentModel;
 
+    private Submodel previousSubModel;
+    private Submodel currentSubModel;
+
+
     public CompFlatteningConverter() {
         this.previousModelIDs = new ArrayList<>();
         this.previousModelMetaIDs = new ArrayList<>();
         this.modelDefinitionListOf = new ListOf<>();
 
-        currentModel = new Model();
+        //currentModel = new Model();
         // previousModel = new Model();
-        flattenedModel = new Model();
+        //flattenedModel = new Model();
 
     }
 
@@ -40,7 +44,7 @@ public class CompFlatteningConverter {
      */
     public SBMLDocument flatten(SBMLDocument document) {
 
-        this.flattenedModel = new Model(); // this is the model that will be returned
+        //this.flattenedModel = new Model(); // this is the model that will be returned
 
         if (document.isPackageEnabled("comp")) {
 
@@ -50,12 +54,12 @@ public class CompFlatteningConverter {
 
             // do I do this directly with the submodels OR...?
             if (compSBMLDocumentPlugin.getExtendedSBase().getModel().getExtension("comp") != null) {
-                this.previousModel = compSBMLDocumentPlugin.getExtendedSBase().getModel();
+                //this.previousModel = compSBMLDocumentPlugin.getExtendedSBase().getModel();
 
                 CompModelPlugin compModelPlugin = (CompModelPlugin) compSBMLDocumentPlugin.getExtendedSBase().getModel().getExtension("comp");
                 instantiateSubModels(compModelPlugin);
             } else {
-                System.out.println("why no comp?");
+                System.err.println("No comp package found.");
             }
 
             // ...with model defitions?
@@ -99,6 +103,8 @@ public class CompFlatteningConverter {
      */
     private Model instantiateSubModels(CompModelPlugin compModelPlugin) {
 
+        this.previousModel = compModelPlugin.getExtendedSBase().getModel();
+
         if (compModelPlugin.getSubmodelCount() > 0) {
 
             ListOf<Submodel> subModelListOf = compModelPlugin.getListOfSubmodels().clone();
@@ -107,36 +113,50 @@ public class CompFlatteningConverter {
             // check if submodel has submodel
             for (Submodel submodel : subModelListOf) {
 
-                Submodel submodelClone = submodel.clone();
+                // Submodel submodelClone = submodel.clone();
+                //submodel.removeFromParent();
                 //compModelPlugin.getListOfSubmodels().removeFromParent();
-                submodel = submodelClone;
+                // submodel = submodelClone;
 
-                Model initModel = this.modelDefinitionListOf.get(submodel.getModelRef());
+                ModelDefinition initModel = this.modelDefinitionListOf.get(submodel.getModelRef());
+
+                this.previousSubModel = this.currentSubModel;
+                this.currentSubModel = submodel;
 
                 if (initModel.getExtension("comp") != null) {
 
                     CompModelPlugin compSubModelPlugin = (CompModelPlugin) initModel.getExtension("comp");
 
-                    // TODO: what is going on here?
-                    //this.previousModel = mergeModels(this.previousModel, initModel);
-
-                    //this.flattenedModel = initModel;
-                    this.currentModel = initModel;
-                    this.flattenedModel = instantiateSubModels(compSubModelPlugin);
+                    instantiateSubModels(compSubModelPlugin);
 
                 } else {
 
-                    this.currentModel = flattenSubModel(submodel);
+                    this.currentModel = flattenSubModel(this.currentSubModel);
+                    this.previousModel = flattenSubModel(this.previousSubModel);
+
                     this.flattenedModel = mergeModels(this.previousModel, this.currentModel); // this Model object is made the new child of the SBMLDocument container
-                    this.previousModel = this.flattenedModel;
+
+                    this.previousModel = this.currentModel;
+
                 }
+
 
             }
             //this.flattenedModel = mergeModels(this.currentModel, this.flattenedModel);
 
         } else {
+
+//            if (this.currentModel.getExtension("comp") != null) {
+//                CompModelPlugin compSubModelPlugin = (CompModelPlugin) this.currentModel.getExtension("comp");
+//                instantiateSubModels(compSubModelPlugin);
+//            }
             System.out.println("no more submodels");
         }
+
+
+        //this.currentModel = flattenSubModel(this.currentSubModel);
+        //this.previousModel = flattenSubModel(this.previousSubModel);
+        //this.flattenedModel = mergeModels(this.previousModel, this.currentModel);
 
         return this.flattenedModel;
     }
@@ -252,11 +272,12 @@ public class CompFlatteningConverter {
 
             // 3
             // Remove all objects that have been replaced or deleted in the submodel.
+
+            // TODO
+
             for (Deletion deletion : subModel.getListOfDeletions()) {
 
             }
-
-            // model.remove ... ?
 
             // 4
             // Transform the remaining objects in the submodel as follows:
@@ -304,7 +325,8 @@ public class CompFlatteningConverter {
             // Merge the various lists (list of species, list of compartments, etc.)
             // in this step, and preserve notes and annotations as well as constructs from other SBML Level 3 packages.
 
-            model = mergeModels(this.previousModel, modelOfSubmodel); // initiate model (?)
+            model = modelOfSubmodel;
+            //model = mergeModels(this.previousModel, modelOfSubmodel); // initiate model (?)
 
         }
 
