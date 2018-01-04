@@ -312,6 +312,8 @@ public class SBMLErrorPostMessage extends ResourceBundle {
     
       // qualitative model
       
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20311), "The <transition> with id ''{0}'' includes an <output> that uses an assignment to the <qualitativeSpecies> ''{1}'' that has already been assigned.");
+      
       //Attribute 'symbol' is not part of the definition of an SBML Level 3 Version 1 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20701), "Attribute <{0}> is not part of the definition of an SBML Level 3 Version 1");
       
