@@ -80,9 +80,6 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 			break;
 
 		case MODELING_PRACTICE:
-			if (level >= 3) {
-				set.add(QUAL_20311);
-			}
 			break;
 
 		case OVERDETERMINED_MODEL:
@@ -216,7 +213,8 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 			break;
 
 		case QUAL_20311:
-			// recommendation!!
+		  // Implemented in the OutputConstraints class
+		  
 			// A QualitativeSpecies that is referenced by an Output with the
 			// qual:transitionEffect attribute
 			// set to 'assignmentLevel' cannot be referenced by any other Output with the

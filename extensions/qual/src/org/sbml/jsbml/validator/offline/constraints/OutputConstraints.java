@@ -1,10 +1,12 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.ext.qual.Output;
 import org.sbml.jsbml.ext.qual.OutputTransitionEffect;
 import org.sbml.jsbml.ext.qual.QualConstants;
+import org.sbml.jsbml.ext.qual.Transition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
@@ -20,7 +22,9 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttribu
  */
 public class OutputConstraints extends AbstractConstraintDeclaration {
 
-	@Override
+  protected static final String SET_20311 = "SET_20311";
+
+  @Override
 	public void addErrorCodesForAttribute(Set<Integer> set, int level, int version, String attributeName,
 			ValidationContext context) {
 		// TODO Auto-generated method stub
@@ -36,6 +40,10 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 		  }
 
 		case MODELING_PRACTICE:
+		  if (level >= 3) {
+		    set.add(QUAL_20311);
+		  }
+
 			break;
 		case SBO_CONSISTENCY:
 			break;
@@ -51,10 +59,48 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 	}
 
 	@Override
-	public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
-		ValidationFunction<Output> func = null;
+	public ValidationFunction<?> getValidationFunction(int errorCode, final ValidationContext context) {
+	  ValidationFunction<Output> func = null;
 
-		switch (errorCode) {
+	  switch (errorCode) {
+
+	    case QUAL_20311: {
+          // A QualitativeSpecies that is referenced by an Output with the
+          // qual:transitionEffect attribute
+          // set to 'assignmentLevel' cannot be referenced by any other Output with the
+          // same transitionEffect throughout the set of transitions for the containing model.
+	      
+	      func = new AbstractValidationFunction<Output>() {
+	        @Override
+	        public boolean check(ValidationContext ctx, Output o) {
+	          
+	          if (o.isSetTransitionEffect() && o.isSetQualitativeSpecies() && 
+	              o.getTransitionEffect() == OutputTransitionEffect.assignmentLevel) 
+	          {
+	            // TODO - write that in a global list
+	            @SuppressWarnings("unchecked")
+	            Set<String> qlWithAssignmentLevel = (Set<String>) context.getHashMap().get(SET_20311);
+	            
+	            if (qlWithAssignmentLevel == null) {
+	              qlWithAssignmentLevel = new HashSet<String>();
+	              context.getHashMap().put(SET_20311, qlWithAssignmentLevel);
+	            }
+	            if (qlWithAssignmentLevel.contains(o.getQualitativeSpecies())) {
+	              // creating a proper error message
+	              ValidationConstraint.logError(ctx, QUAL_20311, ((Transition) o.getParent().getParent()).getId(), o.getQualitativeSpecies());
+	              return false;	              
+	            } else {
+	              qlWithAssignmentLevel.add(o.getQualitativeSpecies());
+	            }
+	            
+	          }
+	          return true;  
+	        }
+	      };
+	      
+	      break;
+	    }
+		  
 		case QUAL_20601:
 			// May have the optional attributes metaid and sboTerm.
 			// No other namespaces are permitted.
