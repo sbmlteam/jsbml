@@ -21,6 +21,10 @@ public class CompFlatteningConverter {
     private Submodel previousSubModel;
     private Submodel currentSubModel;
 
+    private Submodel csm;
+    private Submodel psm;
+    private Model fm;
+
 
     public CompFlatteningConverter() {
         this.previousModelIDs = new ArrayList<>();
@@ -103,7 +107,7 @@ public class CompFlatteningConverter {
      */
     private Model instantiateSubModels(CompModelPlugin compModelPlugin) {
 
-        this.previousModel = compModelPlugin.getExtendedSBase().getModel();
+        this.flattenedModel = compModelPlugin.getExtendedSBase().getModel(); // is fist model always flat?
 
         if (compModelPlugin.getSubmodelCount() > 0) {
 
@@ -111,37 +115,40 @@ public class CompFlatteningConverter {
             //compModelPlugin.getListOfSubmodels().clear();
 
             // check if submodel has submodel
-            for (Submodel submodel : subModelListOf) {
-
-                // Submodel submodelClone = submodel.clone();
-                //submodel.removeFromParent();
-                //compModelPlugin.getListOfSubmodels().removeFromParent();
-                // submodel = submodelClone;
-
-                ModelDefinition initModel = this.modelDefinitionListOf.get(submodel.getModelRef());
-
-                this.previousSubModel = this.currentSubModel;
-                this.currentSubModel = submodel;
-
-                if (initModel.getExtension("comp") != null) {
-
-                    CompModelPlugin compSubModelPlugin = (CompModelPlugin) initModel.getExtension("comp");
-
-                    instantiateSubModels(compSubModelPlugin);
-
-                } else {
-
-                    this.currentModel = flattenSubModel(this.currentSubModel);
-                    this.previousModel = flattenSubModel(this.previousSubModel);
-
-                    this.flattenedModel = mergeModels(this.previousModel, this.currentModel); // this Model object is made the new child of the SBMLDocument container
-
-                    this.previousModel = this.currentModel;
-
-                }
+            initSM(compModelPlugin);
 
 
-            }
+//            for (Submodel submodel : subModelListOf) {
+//
+//                // Submodel submodelClone = submodel.clone();
+//                //submodel.removeFromParent();
+//                //compModelPlugin.getListOfSubmodels().removeFromParent();
+//                // submodel = submodelClone;
+//
+//                ModelDefinition initModel = this.modelDefinitionListOf.get(submodel.getModelRef());
+//
+//                this.previousSubModel = this.currentSubModel;
+//                this.currentSubModel = submodel;
+//
+//                if (initModel.getExtension("comp") != null) {
+//
+//                    CompModelPlugin compSubModelPlugin = (CompModelPlugin) initModel.getExtension("comp");
+//
+//                    instantiateSubModels(compSubModelPlugin);
+//
+//                } else {
+//
+//                    this.currentModel = flattenSubModel(this.currentSubModel);
+//                    this.previousModel = flattenSubModel(this.previousSubModel);
+//
+//                    this.flattenedModel = mergeModels(this.previousModel, this.currentModel); // this Model object is made the new child of the SBMLDocument container
+//
+//                    this.previousModel = this.currentModel;
+//
+//                }
+//
+//
+//            }
             //this.flattenedModel = mergeModels(this.currentModel, this.flattenedModel);
 
         } else {
@@ -160,6 +167,42 @@ public class CompFlatteningConverter {
 
         return this.flattenedModel;
     }
+
+
+    private Model initSM(CompModelPlugin compModelPlugin) {
+
+        ListOf<Submodel> subModelListOf = compModelPlugin.getListOfSubmodels().clone();
+
+        for (Submodel submodel : subModelListOf) {
+
+            ModelDefinition modelDefinition = modelDefinitionListOf.get(submodel.getModelRef());
+
+            if(modelDefinition.getExtension("comp") != null){
+                this.flattenedModel = mergeModels(this.flattenedModel, flattenSubModel(submodel));
+                initSM((CompModelPlugin) modelDefinition.getExtension("comp"));
+            } else {
+                this.flattenedModel = mergeModels(this.flattenedModel, flattenSubModel(submodel));
+            }
+
+            //flattenedModel = rec(submodel, null);
+           // this.flattenedModel = mergeModels(rec(submodel, null), this.flattenedModel);
+        }
+
+
+        return this.flattenedModel;
+    }
+//
+//    private Model rec(Submodel sm, Submodel psm) {
+//        psm = this.currentSubModel;
+//        this.currentSubModel = sm;
+//
+//        if (this.currentSubModel.getExtension("comp") != null) {
+//            rec(this.currentSubModel, psm);
+//        } else {
+//            this.flattenedModel = flattenSubModel(this.currentSubModel);
+//        }
+//        return this.flattenedModel;
+//    }
 
 
     /**
