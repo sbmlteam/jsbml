@@ -515,7 +515,7 @@ public class ASTFactory {
 
       while (scan.hasNextLine()) {
         fileContents.append(scan.nextLine());
-        fileContents.append("\n");
+        fileContents.append('\n');
       }
       fileContents.deleteCharAt(fileContents.length() - 1);
       scan.close();
@@ -668,7 +668,7 @@ public class ASTFactory {
     case PLUS:
       rootNode = (ASTBinaryFunctionNode) node;
       childOperator = node.getType() == Type.PLUS ? new ASTPlusNode()
-      : new ASTTimesNode();
+        : new ASTTimesNode();
       break;
     default:
       throw new IllegalArgumentException("Argument must be of type SUM or PRODUCT");

@@ -620,7 +620,7 @@ public class LayoutConverter {
               CurveSegment curveSegment = curves.get(m);
               if (curveSegment.getStart().x() == curveSegment.getEnd().x() && curveSegment.getStart().y() == curveSegment.getEnd().y())
               {
-                deletedReactions+=srGlyph.getId()+"\t"+srGlyph.getCurve().getCurveSegmentCount()+"\n";
+                deletedReactions += srGlyph.getId() + '\t' + srGlyph.getCurve().getCurveSegmentCount() + '\n';
                 curves.remove(m);
                 m--;
               }
@@ -653,8 +653,8 @@ public class LayoutConverter {
 
       System.setOut(newOut);
       PluginSystemOutUtils.printDebugInfoOfRealLineInformationOfReactionLink(inputInfo, 0);
-      textArea.setText(pReaction.getId() + "\n" + baos.toString());
-      return ("\n" + pReaction.getId() + "\n" + baos.toString());
+      textArea.setText(pReaction.getId() + '\n' + baos.toString());
+      return ('\n' + pReaction.getId() + '\n' + baos.toString());
     } finally {
       System.setOut(oldOut);
     }
@@ -820,7 +820,7 @@ public class LayoutConverter {
         if (!SRGType[i].equals("Modifier")) {
           if (specRef == null)
           {
-            JTextArea area = new JTextArea(pReaction.getId()+"\t"+SRGType[i]);
+            JTextArea area = new JTextArea(pReaction.getId() + '\t' + SRGType[i]);
             JScrollPane pane = new JScrollPane(area);
             pane.setPreferredSize(new Dimension(640, 480));
             JOptionPane.showMessageDialog(null, pane);

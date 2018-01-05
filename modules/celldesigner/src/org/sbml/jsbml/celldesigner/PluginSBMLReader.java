@@ -524,7 +524,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     while (newIt.hasNext())
     {
       Entry<String, Set<SBase>> pairs = newIt.next();
-      mapText.append(pairs.getKey().substring(0, pairs.getKey().indexOf("_"))+"\t"+pairs.getValue()+"\n");
+      mapText.append(pairs.getKey().substring(0, pairs.getKey().indexOf('_')) + '\t' + pairs.getValue() + '\n');
     }
     JScrollPane pane = new JScrollPane(new JTextArea(mapText.toString()));
     pane.setPreferredSize(new Dimension(640, 480));

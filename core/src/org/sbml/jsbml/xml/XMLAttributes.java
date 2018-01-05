@@ -40,6 +40,10 @@ import org.sbml.jsbml.JSBML;
 public class XMLAttributes implements Serializable {
 
   /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 6602965086251691073L;
+  /**
    * 
    */
   ArrayList<XMLTriple> attributeNames = new ArrayList<XMLTriple>();
@@ -817,18 +821,19 @@ public class XMLAttributes implements Serializable {
    */
   @Override
   public String toString() {
-    StringBuilder attributesStr = new StringBuilder("XML Attributes : \n");
+    StringBuilder attributesStr = new StringBuilder(getClass().getSimpleName()).append('[');
 
     int i = 0;
     for (String value : attributeValues) {
       XMLTriple triple = attributeNames.get(i);
-
-      attributesStr.append("\t").append(triple).append(" = ").append(value);
+      if (i > 0) {
+        attributesStr.append(", ");
+      }
+      attributesStr.append(triple).append('=').append(value);
 
       i++;
-    }
-
-    return attributesStr.toString();
+    };
+    return attributesStr.append(']').toString();
   }
 
 }

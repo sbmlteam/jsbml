@@ -45,11 +45,11 @@ public class GUIErrorConsole {
     } else {
       builder.append(error.getMessage());
     }
-    builder.append("\n");
+    builder.append('\n');
     for (StackTraceElement element: error.getStackTrace())
     {
       builder.append(element.toString());
-      builder.append("\n");
+      builder.append('\n');
     }
     if (error.getCause()!=null)
     {
@@ -58,7 +58,7 @@ public class GUIErrorConsole {
       for (StackTraceElement element: cause.getStackTrace())
       {
         builder.append(element.toString());
-        builder.append("\n");
+        builder.append('\n');
       }
     }
     JTextArea area = new JTextArea(builder.toString());

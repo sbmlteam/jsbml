@@ -64,6 +64,10 @@ public class XMLTriple implements Serializable {
   /**
    * 
    */
+  private static final long serialVersionUID = -5391777833844086679L;
+  /**
+   * 
+   */
   private String name = "";
   /**
    * 

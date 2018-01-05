@@ -77,22 +77,22 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
 
     if (ctx != null && ctx instanceof LoggingValidationContext) {
       LoggingValidationContext lctx = (LoggingValidationContext) ctx;
-      
+
       // Try to create the SBMLError from the .json file
       SBMLError e = SBMLErrorFactory.createError(errorCode, ctx.getLevel(), ctx.getVersion());
-      
+
       ResourceBundle postMessageBundle = SBMLErrorFactory.getSBMLErrorPostMessageBundle();
       String postMessageI18n = SBMLErrorFactory.getBundleString(postMessageBundle, postErrorMessageKey);
-      
+
       if (postMessageI18n != null) {
         String detailedMessage = MessageFormat.format(postMessageI18n, (Object[]) args);
 
-        e.getMessageInstance().setMessage(e.getMessageInstance().getMessage() + "\n" + detailedMessage);
-        
+        e.getMessageInstance().setMessage(e.getMessageInstance().getMessage() + '\n' + detailedMessage);
+
       }
-      
+
       lctx.logFailure(e);
-    }    
+    }
   }
 
 
@@ -115,18 +115,18 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof ValidationConstraint<?>) {
-      return ((ValidationConstraint<?>) obj).getErrorCode() == this.getErrorCode();
+      return ((ValidationConstraint<?>) obj).getErrorCode() == getErrorCode();
     }
     return false;
   }
 
- 
+
   @Override
   public boolean check(ValidationContext context, T t) {
     boolean passed = true;
-    
+
     if (logger.isDebugEnabled()) {
-      logger.debug("Validate constraint " + this.getErrorCode());
+      logger.debug("Validate constraint " + getErrorCode());
     }
 
     if (this.func != null) {
@@ -138,8 +138,8 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
 
     return passed;
   }
-  
-  
+
+
   /**
    * Returns the {@link ValidationFunction} registered in this {@link ValidationConstraint}.
    * 

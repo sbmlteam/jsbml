@@ -549,7 +549,7 @@ public abstract class XMLToken extends AbstractTreeNode {
     } else if (prefix.equals("xmlns")) {
       prefix = "";
     }
-    if (prefix.indexOf(":") != -1) {
+    if (prefix.indexOf(':') != -1) {
       throw new IllegalArgumentException("The only allowed prefix for a namespace is 'xmlns:'.");
     }
 
