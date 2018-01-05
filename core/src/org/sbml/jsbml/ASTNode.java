@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -2181,9 +2181,9 @@ public class ASTNode extends AbstractTreeNode {
             resourceBundle.getString("ASTNode.compile2"),
             getName(), getParentSBMLObject().getElementName());
           logger.warn(message);
-          
+
           value = compiler.function(getName(), getChildren());
-          
+
           //throw new SBMLException(message); // We need to be able to print invalid formula so that user can correct it
         }
       } else {
@@ -2329,7 +2329,7 @@ public class ASTNode extends AbstractTreeNode {
     if (compiler == null) {
       compiler = new UnitsCompiler(level, version);
     }
-    
+
     UnitDefinition derivedUnit = compile(compiler).getUnits();
     UnitDefinition simplifiedUnit = derivedUnit.simplify();
 
@@ -2337,7 +2337,7 @@ public class ASTNode extends AbstractTreeNode {
       logger.debug("ASTNode.deriveUnit - before simplify - units = " + UnitDefinition.printUnits(derivedUnit));
       logger.debug("ASTNode.deriveUnit - after simplify  - units = " + UnitDefinition.printUnits(simplifiedUnit));
     }
-    
+
     return simplifiedUnit;
   }
 
@@ -2678,8 +2678,8 @@ public class ASTNode extends AbstractTreeNode {
     }
     if (!isInvalidSBMLAllowed()) {
       throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getName"));
-    } 
-    
+    }
+
     return name;
   }
 
@@ -2839,7 +2839,7 @@ public class ASTNode extends AbstractTreeNode {
     MathContainer parent = getParentSBMLObject();
     int level = parent != null ? parent.getLevel() : -1;
     int version = parent != null ? parent.getVersion() : -1;
-    
+
     if (!isSetUnits() || (parent == null)) {
       if (isVariable()) {
         CallableSBase variable = getVariable();
@@ -2858,7 +2858,7 @@ public class ASTNode extends AbstractTreeNode {
     } else if (parent.getModel() == null) {
       return null;
     }
-    
+
     return parent.getModel().getUnitDefinition(getUnits());
   }
 
@@ -4572,8 +4572,8 @@ public class ASTNode extends AbstractTreeNode {
    */
   public static String astNodeToTree(ASTNode n, String tree, String indent) {
     //tree = tree + indent + n.getType() + " " +
-    //    (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + "\n";
-    tree = tree + indent + n.toSimpleString() + "\n";
+    //    (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + '\n';
+    tree = tree + indent + n.toSimpleString() + '\n';
 
     for (ASTNode child : n.getChildren()) {
       tree = astNodeToTree(child, tree, indent + "  ");
