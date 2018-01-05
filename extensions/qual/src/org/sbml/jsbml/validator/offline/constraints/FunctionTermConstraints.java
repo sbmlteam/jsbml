@@ -219,11 +219,23 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 		      break;
 
 		case QUAL_20804:
-			// A FunctionTerm object may contain exactly oneMathML qual:math element.
+		  // A FunctionTerm object may (interpreted as 'must' for now) contain exactly oneMathML qual:math element.
 		  // No other elements are permitted.
 		  
-		  func = new DuplicatedMathValidationFunction<FunctionTerm>();
-      break;
+		  func = new DuplicatedMathValidationFunction<FunctionTerm>(true) {
+
+            @Override
+            public boolean check(ValidationContext ctx, FunctionTerm ft) {
+              
+              // only testing if it is not a defaultTerm
+              if (!ft.isDefaultTerm()) {
+                return super.check(ctx, ft);
+              }
+              
+              return true;
+            }
+          };
+          break;
 
 		case QUAL_20805:
 			// The attribute qual:resultLevel in FunctionTerm must be of the data type integer.
