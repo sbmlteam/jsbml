@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -367,7 +367,7 @@ public class SBMLValidator {
     parameters.put("output", output);
     parameters.put("offcheck", offcheck);
 
-    System.out.println("Validating  " + filename + "\n");
+    System.out.println("Validating  " + filename + '\n');
 
     SBMLErrorLog sbmlErrorLog = checkConsistency(filename, parameters);
 
@@ -377,7 +377,7 @@ public class SBMLValidator {
     for (int j = 0; j < sbmlErrorLog.getErrorCount(); j++) {
       SBMLError error = sbmlErrorLog.getError(j);
 
-      System.out.println(error.toString() + "\n");
+      System.out.println(error.toString() + '\n');
     }
   }
 
@@ -568,12 +568,12 @@ public class SBMLValidator {
     } catch (XStreamException e) {
       logger.error("There has been an error parsing the consistency check XML result.");
 
-      logger.info("Below is the String returned by the sbml.org validator REST API:\n" + xmlValidationString + "\n");
-      
+      logger.info("Below is the String returned by the sbml.org validator REST API:\n" + xmlValidationString + '\n');
+
       if (! xmlValidationString.contains("<validation-results>")) {
         logger.info("There is probably an issue with the sbml.org validator API, please contact the SBML team on [sbml-team at googlegroups.com].");
       }
-      
+
       if (logger.isDebugEnabled()) {
         e.printStackTrace();
       }

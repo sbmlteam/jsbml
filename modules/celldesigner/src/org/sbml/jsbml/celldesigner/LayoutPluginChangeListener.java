@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -51,7 +51,7 @@ public class LayoutPluginChangeListener {
   {
     if (glyph instanceof ReactionGlyph)
     {
-      String cellDesignerID = glyph.getId().substring(glyph.getId().indexOf("_")+1);
+      String cellDesignerID = glyph.getId().substring(glyph.getId().indexOf('_') + 1);
       PluginReaction pReaction = plugModel.getReaction(cellDesignerID);
       ReactionGlyph rGlyph = (ReactionGlyph)glyph;
 
@@ -68,7 +68,7 @@ public class LayoutPluginChangeListener {
     else if (glyph instanceof SpeciesGlyph)
     {
       SpeciesGlyph sGlyph = (SpeciesGlyph)glyph;
-      String speciesID = sGlyph.getReference().substring(sGlyph.getReference().indexOf("_")+1); //refers to species;
+      String speciesID = sGlyph.getReference().substring(sGlyph.getReference().indexOf('_') + 1); //refers to species;
       if (speciesID!=null && plugModel.getSpecies(speciesID)!=null)
       {
         PluginSpeciesAlias pAlias = plugModel.getSpecies(speciesID).getSpeciesAlias(0);
@@ -110,7 +110,7 @@ public class LayoutPluginChangeListener {
     Layout layout = (Layout) glyph.getModel().getExtension("layout");
     if (glyph instanceof ReactionGlyph)
     {
-      String cellDesignerID = glyph.getId().substring(glyph.getId().indexOf("_")+1);
+      String cellDesignerID = glyph.getId().substring(glyph.getId().indexOf('_') + 1);
       PluginReaction pReaction = plugModel.getReaction(cellDesignerID);
       ReactionGlyph rGlyph = (ReactionGlyph) glyph;
       if (pReaction != null)
@@ -122,8 +122,8 @@ public class LayoutPluginChangeListener {
     else if (glyph instanceof SpeciesGlyph)
     {
       SpeciesGlyph sGlyph = (SpeciesGlyph)glyph;
-      String speciesID = sGlyph.getReference().substring(sGlyph.getReference().indexOf("_")+1); //refers to species;
-      String speciesAliasID = sGlyph.getId().substring(sGlyph.getId().indexOf("_")+1); //refers to speciesAlias;
+      String speciesID = sGlyph.getReference().substring(sGlyph.getReference().indexOf('_') + 1); //refers to species;
+      String speciesAliasID = sGlyph.getId().substring(sGlyph.getId().indexOf('_') + 1); //refers to speciesAlias;
       if (speciesID!=null)
       {
         //get and remove all PluginSpeciesAliases for a particular species.
@@ -141,7 +141,7 @@ public class LayoutPluginChangeListener {
       {
         TextGlyph tGlyph = list.get(i);
         if (tGlyph!=null) {
-          if (tGlyph.getId().substring(tGlyph.getId().indexOf("_")+1).equals(speciesAliasID))
+          if (tGlyph.getId().substring(tGlyph.getId().indexOf('_') + 1).equals(speciesAliasID))
           {
             list.remove(i);
             i--;
@@ -171,7 +171,7 @@ public class LayoutPluginChangeListener {
         for (int i = 0; i<listOfTextGlyphs.size(); i++)
         {
           TextGlyph tGlyph = listOfTextGlyphs.get(i);
-          if (tGlyph.getId().substring(tGlyph.getId().indexOf("_")+1).equals(cellDesignerID))
+          if (tGlyph.getId().substring(tGlyph.getId().indexOf('_') + 1).equals(cellDesignerID))
           {
             listOfTextGlyphs.remove(i);
             i--;
