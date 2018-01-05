@@ -27,7 +27,9 @@ import org.sbml.jsbml.xml.parsers.MathMLStaxParser;
 
 
 /**
+ * Class used to check if the 'math' mathML element is duplicated. 
  * 
+ * <p>In some cases, check as well if at least one 'math' element is present</p>
  * 
  * @author rodrigue
  */

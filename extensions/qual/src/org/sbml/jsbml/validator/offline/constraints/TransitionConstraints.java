@@ -94,8 +94,8 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 			break;
 
 		case QUAL_20403:
-			// may have the optional attributes qual:id, name
-			// no other namespaces are permitted
+			// may have the optional attributes qual:id and qual:name
+			// no other attributes from the qual namespace are permitted
 
 			func = new UnknownPackageAttributeValidationFunction<Transition>(QualConstants.shortLabel);
 			break;
