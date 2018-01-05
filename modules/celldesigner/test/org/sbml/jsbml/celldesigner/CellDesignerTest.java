@@ -215,8 +215,8 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     }
     else if (sbase instanceof PluginConstraint)
     {
-      propertyChangeVis.addSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath()+"\t"
-          +((PluginConstraint)sbase).getMessage());
+      propertyChangeVis.addSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath() + '\t'
+        +((PluginConstraint)sbase).getMessage());
     }
     else if (sbase instanceof PluginFunctionDefinition)
     {
@@ -303,8 +303,8 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     }
     else if (sbase instanceof PluginConstraint)
     {
-      propertyChangeVis.changeSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath()+"\t"
-          +((PluginConstraint)sbase).getMessage());
+      propertyChangeVis.changeSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath() + '\t'
+        +((PluginConstraint)sbase).getMessage());
     }
     else if (sbase instanceof PluginFunctionDefinition)
     {
@@ -388,8 +388,8 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     }
     else if (sbase instanceof PluginConstraint)
     {
-      propertyChangeVis.deleteSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath()+"\t"
-          +((PluginConstraint)sbase).getMessage());
+      propertyChangeVis.deleteSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath() + '\t'
+        +((PluginConstraint)sbase).getMessage());
     }
     else if (sbase instanceof PluginFunctionDefinition)
     {

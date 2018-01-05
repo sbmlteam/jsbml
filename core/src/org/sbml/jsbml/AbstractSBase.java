@@ -410,7 +410,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public void addDeclaredNamespace(String prefix, String namespace) {
     if ((!prefix.startsWith("xmlns:")) && (!prefix.equals("xmlns"))) {
-      if (prefix.indexOf(":") != -1) {
+      if (prefix.indexOf(':') != -1) {
         throw new IllegalArgumentException(
           resourceBundle.getString("AbstractSBase.addDeclaredNamespace"));
       }

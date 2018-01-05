@@ -505,7 +505,7 @@ public class SubModel {
     debugLogger.debug("getRelatedSpecies ");
     debugLogger.debug("getRelatedSpecies: reactsIds: " + Arrays.toString(reactsIds));
     debugLogger.debug("getRelatedSpecies: compartmentsIds: " + Arrays.toString(compartmentsIds));
-    debugLogger.debug("getRelatedSpecies: speciesIds: " + Arrays.toString(speciesIds) + "\n");
+    debugLogger.debug("getRelatedSpecies: speciesIds: " + Arrays.toString(speciesIds) + '\n');
 
     // get the related species
     List<String> selectedSpecies = new ArrayList<String>();
@@ -593,7 +593,7 @@ public class SubModel {
     debugLogger.debug("getRelatedRules ");
     debugLogger.debug("getRelatedRules: rulesIds: " + Arrays.toString(rulesIds));
     debugLogger.debug("getRelatedRules: compartmentsIds: " + Arrays.toString(compartmentsIds));
-    debugLogger.debug("getRelatedRules: speciesIds: " + Arrays.toString(speciesIds) + "\n");
+    debugLogger.debug("getRelatedRules: speciesIds: " + Arrays.toString(speciesIds) + '\n');
 
     // get the related rules
     List<String> selectedRules = new ArrayList<String>();
@@ -674,7 +674,7 @@ public class SubModel {
     debugLogger.debug("getRelatedEvents ");
     debugLogger.debug("getRelatedEvents: eventsIds: " + Arrays.toString(eventsIds));
     debugLogger.debug("getRelatedEvents: compartmentsIds: " + Arrays.toString(compartmentsIds));
-    debugLogger.debug("getRelatedEvents: speciesIds: " + Arrays.toString(speciesIds) + "\n");
+    debugLogger.debug("getRelatedEvents: speciesIds: " + Arrays.toString(speciesIds) + '\n');
 
     // get the related events
     ArrayList<String> selectedEvents = new ArrayList<String>();
@@ -758,7 +758,7 @@ public class SubModel {
 
     debugLogger.debug("getRelatedReactions ");
     debugLogger.debug("getRelatedReactions: selected reactsIds: " + Arrays.toString(reactsIds));
-    debugLogger.debug("getRelatedReactions: selected speciesIds: " + Arrays.toString(speciesIds) + "\n");
+    debugLogger.debug("getRelatedReactions: selected speciesIds: " + Arrays.toString(speciesIds) + '\n');
 
     // get all related reactions
     List<String> relatedReactsList = new ArrayList<String>();

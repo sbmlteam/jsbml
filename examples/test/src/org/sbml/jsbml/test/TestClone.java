@@ -51,7 +51,7 @@ public class TestClone {
     r.addReactant(s);
     r.setMetaId("meta");
 
-    System.out.println("Reaction parent and model:                     " + r.getParent() + " " + r.getModel() + "\n");
+    System.out.println("Reaction parent and model:                     " + r.getParent() + " " + r.getModel() + '\n');
 
     Reaction clonedReaction = r.clone();
 
@@ -61,7 +61,7 @@ public class TestClone {
     // That is why the getParent() and getModel() are returning null as they should
     System.out.println("Cloned reaction metaid and id:                 " + clonedReaction.getMetaId() + " " + clonedReaction.getId());
     System.out.println("Cloned reaction metaid of the first reactant:  " + clonedReaction.getReactant(0).getMetaId());
-    System.out.println("Cloned reaction parent and model:              " + clonedReaction.getParent() + " " + clonedReaction.getModel() + "\n");
+    System.out.println("Cloned reaction parent and model:              " + clonedReaction.getParent() + " " + clonedReaction.getModel() + '\n');
 
     System.out.println("Trying to add the cloned reaction to the model, which should not be possible");
     // Trying to add the
@@ -72,7 +72,7 @@ public class TestClone {
     }
     // Here the parent is still null as it should as the cloned reaction
     // was not added to the model as her id is the same as the reaction 'r'
-    System.out.println("Cloned reaction parent and model still null:   " + clonedReaction.getParent() + " " + clonedReaction.getModel() + "\n");
+    System.out.println("Cloned reaction parent and model still null:   " + clonedReaction.getParent() + " " + clonedReaction.getModel() + '\n');
 
     // setting a new unit id the the cloned reaction
     clonedReaction.setId("id2");

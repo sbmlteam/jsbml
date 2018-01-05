@@ -367,7 +367,7 @@ public class SBMLValidator {
     parameters.put("output", output);
     parameters.put("offcheck", offcheck);
 
-    System.out.println("Validating  " + filename + "\n");
+    System.out.println("Validating  " + filename + '\n');
 
     SBMLErrorLog sbmlErrorLog = checkConsistency(filename, parameters);
 
@@ -377,7 +377,7 @@ public class SBMLValidator {
     for (int j = 0; j < sbmlErrorLog.getErrorCount(); j++) {
       SBMLError error = sbmlErrorLog.getError(j);
 
-      System.out.println(error.toString() + "\n");
+      System.out.println(error.toString() + '\n');
     }
   }
 
@@ -568,12 +568,12 @@ public class SBMLValidator {
     } catch (XStreamException e) {
       logger.error("There has been an error parsing the consistency check XML result.");
 
-      logger.info("Below is the String returned by the sbml.org validator REST API:\n" + xmlValidationString + "\n");
-      
+      logger.info("Below is the String returned by the sbml.org validator REST API:\n" + xmlValidationString + '\n');
+
       if (! xmlValidationString.contains("<validation-results>")) {
         logger.info("There is probably an issue with the sbml.org validator API, please contact the SBML team on [sbml-team at googlegroups.com].");
       }
-      
+
       if (logger.isDebugEnabled()) {
         e.printStackTrace();
       }
