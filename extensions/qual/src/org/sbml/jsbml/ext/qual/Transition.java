@@ -582,25 +582,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix,
-    String value)
-  {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
-    if (!isAttributeRead) {
-		isAttributeRead = true;
-		} else {
-			isAttributeRead = false;
-		}
-
-	return isAttributeRead;
-
-  }
-
   /**
    * @param functionTerm
    *        to remove from the listOfFunctionTerms
