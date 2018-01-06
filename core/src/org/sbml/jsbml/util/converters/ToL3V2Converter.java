@@ -31,7 +31,7 @@ import org.sbml.jsbml.util.ValuePair;
  * @since 1.2
  * @date 05.01.2018
  */
-public class ToL3V2Converter extends LevelVersionConverter {
+public class ToL3V2Converter extends ToL3Converter {
 
   /**
    * @param targetLV
@@ -40,16 +40,26 @@ public class ToL3V2Converter extends LevelVersionConverter {
     super(ValuePair.of(3, 2));
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.converters.LevelVersionConverter#needsAction(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean needsAction(SBase sbase) {
     return (sbase instanceof Reaction) && ((Reaction) sbase).isSetFast();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.converters.LevelVersionConverter#performAction(org.sbml.jsbml.SBase)
+   */
   @Override
   public <T extends SBase> boolean performAction(T sbase) {
+    super.performAction(sbase);
     if (sbase instanceof Reaction) {
       Reaction r = (Reaction) sbase;
       if (r.isSetFast()) {
+        if (r.isFast()) {
+          return false;
+        }
         r.unsetFast();
       }
       return true;
