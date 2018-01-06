@@ -178,7 +178,8 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 		  func = new ValidationFunction<Output>() {
 		    @Override
 		    public boolean check(ValidationContext ctx, Output o) {
-		      if (o.isSetQualitativeSpecies() && o.getQualitativeSpeciesInstance() != null && o.getQualitativeSpeciesInstance().isSetConstant() && !(o.getQualitativeSpeciesInstance().getConstant())) {
+		      if (o.isSetQualitativeSpecies() && o.getQualitativeSpeciesInstance() != null && o.getQualitativeSpeciesInstance().isSetConstant() && o.getQualitativeSpeciesInstance().getConstant()) {
+		        // TODO - set a nice error message
 		        return false;
 		      }
 		      return true;
