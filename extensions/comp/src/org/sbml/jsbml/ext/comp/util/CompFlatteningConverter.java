@@ -7,12 +7,15 @@ import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CompFlatteningConverter {
 
+    private SBMLDocument document;
     private ArrayList<String> previousModelIDs;
     private ArrayList<String> previousModelMetaIDs;
     private ListOf<ModelDefinition> modelDefinitionListOf;
+    private ListOf<ExternalModelDefinition> externalModelDefinitionListOf;
 
     private Model previousModel;
     private Model flattenedModel;
@@ -47,6 +50,7 @@ public class CompFlatteningConverter {
      * @return
      */
     public SBMLDocument flatten(SBMLDocument document) {
+        this.document = document;
 
         //this.flattenedModel = new Model(); // this is the model that will be returned
 
@@ -55,6 +59,8 @@ public class CompFlatteningConverter {
             CompSBMLDocumentPlugin compSBMLDocumentPlugin = (CompSBMLDocumentPlugin) document.getExtension("comp");
 
             this.modelDefinitionListOf = compSBMLDocumentPlugin.getListOfModelDefinitions();
+
+            this.externalModelDefinitionListOf = compSBMLDocumentPlugin.getListOfExternalModelDefinitions();
 
             // do I do this directly with the submodels OR...?
             if (compSBMLDocumentPlugin.getExtendedSBase().getModel().getExtension("comp") != null) {
@@ -108,6 +114,7 @@ public class CompFlatteningConverter {
     private Model instantiateSubModels(CompModelPlugin compModelPlugin) {
 
         this.flattenedModel = compModelPlugin.getExtendedSBase().getModel(); // is fist model always flat?
+
 
         if (compModelPlugin.getSubmodelCount() > 0) {
 
@@ -173,11 +180,29 @@ public class CompFlatteningConverter {
 
         ListOf<Submodel> subModelListOf = compModelPlugin.getListOfSubmodels().clone();
 
+        // TODO: replace elements
+//        ListOf<ReplacedElement> listOfReplacedElements = compModelPlugin.getListOfReplacedElements();
+//        for(ReplacedElement replacedElement : listOfReplacedElements){
+//
+//        }
+
+        // TODO: ports
+//        ListOf<Port> listOfPorts =compModelPlugin.getListOfPorts();
+//        for (Port port : listOfPorts){
+
+//        }
+
+
         for (Submodel submodel : subModelListOf) {
 
-            ModelDefinition modelDefinition = modelDefinitionListOf.get(submodel.getModelRef());
+            ModelDefinition modelDefinition = this.modelDefinitionListOf.get(submodel.getModelRef());
 
-            if(modelDefinition.getExtension("comp") != null){
+            // TODO: how to initialize external model definitions?
+//            if(modelDefinition == null){
+//                ExternalModelDefinition externalModelDefinition = this.externalModelDefinitionListOf.get(submodel.getModelRef());
+//                }
+
+            if (modelDefinition.getExtension("comp") != null) {
                 this.flattenedModel = mergeModels(this.flattenedModel, flattenSubModel(submodel));
                 initSM((CompModelPlugin) modelDefinition.getExtension("comp"));
             } else {
@@ -185,9 +210,8 @@ public class CompFlatteningConverter {
             }
 
             //flattenedModel = rec(submodel, null);
-           // this.flattenedModel = mergeModels(rec(submodel, null), this.flattenedModel);
+            // this.flattenedModel = mergeModels(rec(submodel, null), this.flattenedModel);
         }
-
 
         return this.flattenedModel;
     }
@@ -206,11 +230,12 @@ public class CompFlatteningConverter {
 
 
     /**
-     * All remaining elements are placed in a single Model object;
-     * The original Model, ModelDefinition, and ExternalModelDefinition objects are all deleted.
+     * All remaining elements are placed in a single Model object
+     * The original Model, ModelDefinition, and ExternalModelDefinition objects are all deleted
      *
+     * @param previousModel
      * @param currentModel
-     * @return
+     * @return mergedModel
      */
     private Model mergeModels(Model previousModel, Model currentModel) {
 
@@ -222,51 +247,68 @@ public class CompFlatteningConverter {
             mergedModel.setLevel(previousModel.getLevel());
             mergedModel.setVersion(previousModel.getVersion());
 
+            mergeListsOfModels(previousModel.getListOfReactions(), previousModel, mergedModel);
+            mergeListsOfModels(previousModel.getListOfCompartments(), previousModel, mergedModel);
+            mergeListsOfModels(previousModel.getListOfSpecies(), previousModel, mergedModel);
 
-            // TODO: refactor in methods
-            // ... for all lists?
-            ListOf<Reaction> reactionListOfClone = previousModel.getListOfReactions().clone();
-            previousModel.getListOfReactions().removeFromParent();
-            for (Reaction reaction : reactionListOfClone) {
-                mergedModel.addReaction(reaction.clone());
-            }
+        }
 
-            ListOf<Reaction> reactionListOfClone2 = currentModel.getListOfReactions().clone();
-            currentModel.getListOfReactions().removeFromParent();
-            for (Reaction reaction : reactionListOfClone2) {
-                mergedModel.addReaction(reaction.clone());
-            }
+        if (currentModel != null) {
 
-            ListOf<Compartment> compartmentListOfClone = previousModel.getListOfCompartments().clone();
-            previousModel.getListOfCompartments().removeFromParent();
-            for (Compartment compartment : compartmentListOfClone) {
-                mergedModel.addCompartment(compartment.clone());
-            }
+            mergeListsOfModels(currentModel.getListOfReactions(), currentModel, mergedModel);
+            mergeListsOfModels(currentModel.getListOfCompartments(), currentModel, mergedModel);
+            mergeListsOfModels(currentModel.getListOfSpecies(), currentModel, mergedModel);
 
-            ListOf<Compartment> compartmentListOfClone2 = currentModel.getListOfCompartments().clone();
-            currentModel.getListOfCompartments().removeFromParent();
-            for (Compartment compartment : compartmentListOfClone2) {
-                mergedModel.addCompartment(compartment.clone());
-            }
+        }
 
-
-            ListOf<Species> speciesListOfClone = previousModel.getListOfSpecies().clone();
-            previousModel.getListOfSpecies().removeFromParent();
-            for (Species species : speciesListOfClone) {
-                currentModel.addSpecies(species.clone());
-            }
-
-            ListOf<Species> speciesListOfClone2 = currentModel.getListOfSpecies().clone();
-            currentModel.getListOfSpecies().removeFromParent();
-            for (Species species : speciesListOfClone2) {
-                mergedModel.addSpecies(species.clone());
-            }
-
-        } // else nothing to merge? -> return model
-
+        // TODO: delete original model, ModelDefinition, and ExternalModelDefinition objects
+        // QUESTION: can a model def be instantiated more than one time?
         return mergedModel;
     }
 
+
+    private void mergeListsOfModels(ListOf listOfObjects, Model sourceModel, Model targetModel) {
+
+        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfReactions) {
+
+            ListOf<Reaction> reactionListOf = sourceModel.getListOfReactions().clone();
+            sourceModel.getListOfReactions().removeFromParent();
+            for (Reaction reaction : reactionListOf) {
+                targetModel.addReaction(reaction.clone());
+            }
+        }
+
+        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfCompartments) {
+
+            ListOf<Compartment> compartmentListOf = sourceModel.getListOfCompartments().clone();
+            sourceModel.getListOfCompartments().removeFromParent();
+            for (Compartment compartment : compartmentListOf) {
+                targetModel.addCompartment(compartment.clone());
+            }
+        }
+
+        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfConstraints) {
+
+            ListOf<Constraint> constraintListOf = sourceModel.getListOfConstraints().clone();
+            sourceModel.getListOfConstraints().removeFromParent();
+            for (Constraint constraint : constraintListOf) {
+                targetModel.addConstraint(constraint.clone());
+            }
+        }
+
+
+        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfSpecies) {
+
+            ListOf<Species> speciesListOf = sourceModel.getListOfSpecies().clone();
+            sourceModel.getListOfSpecies().removeFromParent();
+            for (Species species : speciesListOf) {
+                targetModel.addSpecies(species.clone());
+            }
+        }
+
+        //TODO: for all lists?
+
+    }
 
     /**
      * Performs the routine to flatten a submodel into a model
@@ -316,11 +358,15 @@ public class CompFlatteningConverter {
             // 3
             // Remove all objects that have been replaced or deleted in the submodel.
 
-            // TODO
-
+            // TODO Delete Objects
+            // each Deletion object identifies an object to “remove” from that Model instance
             for (Deletion deletion : subModel.getListOfDeletions()) {
 
+                modelOfSubmodel.remove(deletion.getId());
+
             }
+
+            // TODO: Replace Objects
 
             // 4
             // Transform the remaining objects in the submodel as follows:
@@ -331,10 +377,12 @@ public class CompFlatteningConverter {
             // Change every meta identifier (metaid attribute)
             // to a new value obtained by prepending “P” to the original identifier.
 
-            for (Reaction reaction : modelOfSubmodel.getListOfReactions()) { // like this for all the lists?
-                //modelOfSubmodel.removeReaction(reaction); // otherwise there is a warning. can this be ignored because the modelOfSubmodel gets not returned anyway
+            // like this for all the lists?
+            for (Reaction reaction : modelOfSubmodel.getListOfReactions()) {
                 reaction.setId(subModelID + reaction.getId());
-                //reaction.setMetaId(subModelMetaID + reaction.getMetaId()); // TODO has not always a meta ID?
+                if(!reaction.getMetaId().equals("")){ // has not always a meta ID?
+                    reaction.setMetaId(subModelMetaID + reaction.getMetaId());
+                }
             }
 
             for (Species species : modelOfSubmodel.getListOfSpecies()) {
@@ -395,38 +443,38 @@ public class CompFlatteningConverter {
     }
 
 
-    /**
-     * Examines a ModelDefinition to check if there is a submodel given to flatten or a submodel has further submodels
-     * Returns one flattened Model (?)
-     *
-     * @param modelDefinition
-     * @return
-     */
-    private Model examineModelDefinition(ModelDefinition modelDefinition) {
-
-
-        if (modelDefinition.isPackageEnabled("comp")) {
-
-            Model model = new Model(modelDefinition);
-
-            CompModelPlugin compModelPlugin = new CompModelPlugin((CompModelPlugin) model.getPlugin("comp"));
-
-            // Each submodel is instantiated;
-            // that is, a copy of every Model object referenced by every Submodel object is created.
-            // This is a recursive process: if the instantiated Model itself has Submodel children, they are also instantiated.
-
-            this.flattenedModel = instantiateSubModels(compModelPlugin);
-
-
-        } else {
-            System.out.println("Model definition has no comp plugin.");
-            //modelDefinition.getModel().unsetExtension("comp");
-            this.flattenedModel = mergeModels(modelDefinition, this.flattenedModel); // TODO: flatten comp model into model?
-        }
-
-        return this.flattenedModel;
-
-    }
+//    /**
+//     * Examines a ModelDefinition to check if there is a submodel given to flatten or a submodel has further submodels
+//     * Returns one flattened Model (?)
+//     *
+//     * @param modelDefinition
+//     * @return
+//     */
+//    private Model examineModelDefinition(ModelDefinition modelDefinition) {
+//
+//
+//        if (modelDefinition.isPackageEnabled("comp")) {
+//
+//            Model model = new Model(modelDefinition);
+//
+//            CompModelPlugin compModelPlugin = new CompModelPlugin((CompModelPlugin) model.getPlugin("comp"));
+//
+//            // Each submodel is instantiated;
+//            // that is, a copy of every Model object referenced by every Submodel object is created.
+//            // This is a recursive process: if the instantiated Model itself has Submodel children, they are also instantiated.
+//
+//            this.flattenedModel = instantiateSubModels(compModelPlugin);
+//
+//
+//        } else {
+//            System.out.println("Model definition has no comp plugin.");
+//            //modelDefinition.getModel().unsetExtension("comp");
+//            this.flattenedModel = mergeModels(modelDefinition, this.flattenedModel); // TODO: flatten comp model into model?
+//        }
+//
+//        return this.flattenedModel;
+//
+//    }
 
 
 }
