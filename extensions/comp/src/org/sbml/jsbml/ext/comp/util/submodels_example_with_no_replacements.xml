@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.7.0 on 2018-01-07 19:35 with libSBML version 5.11.3. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
+  <model id="m" name="m">
+    <listOfCompartments>
+      <compartment id="comp_m" spatialDimensions="3" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="a" compartment="comp_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="b" compartment="comp_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="c" compartment="comp_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="R_m" reversible="true" fast="false" compartment="comp_m">
+        <listOfReactants>
+          <speciesReference species="a" stoichiometry="1" constant="true"/>
+          <speciesReference species="b" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="c" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+    </listOfReactions>
+    <comp:listOfSubmodels>
+      <comp:submodel comp:id="Submodel1" comp:modelRef="submodel1"/>
+    </comp:listOfSubmodels>
+  </model>
+  <comp:listOfModelDefinitions>
+    <comp:modelDefinition id="submodel2" name="submodel2">
+      <listOfCompartments>
+        <compartment id="comp_sm_2" spatialDimensions="3" constant="true"/>
+      </listOfCompartments>
+      <listOfSpecies>
+        <species id="g" compartment="comp_sm_2" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+        <species id="h" compartment="comp_sm_2" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+        <species id="i" compartment="comp_sm_2" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      </listOfSpecies>
+      <listOfReactions>
+        <reaction id="R_sm2" reversible="true" fast="false" compartment="comp_sm_2">
+          <listOfReactants>
+            <speciesReference species="g" stoichiometry="1" constant="true"/>
+            <speciesReference species="h" stoichiometry="1" constant="true"/>
+          </listOfReactants>
+          <listOfProducts>
+            <speciesReference species="i" stoichiometry="1" constant="true"/>
+          </listOfProducts>
+        </reaction>
+      </listOfReactions>
+    </comp:modelDefinition>
+    <comp:modelDefinition id="submodel1" name="submodel1">
+      <listOfCompartments>
+        <compartment id="comp_sm_1" spatialDimensions="3" constant="true"/>
+      </listOfCompartments>
+      <listOfSpecies>
+        <species id="d" compartment="comp_sm_1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+        <species id="e" compartment="comp_sm_1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+        <species id="f" compartment="comp_sm_1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      </listOfSpecies>
+      <listOfReactions>
+        <reaction id="R_sm1" reversible="false" fast="false" compartment="comp_sm_1">
+          <listOfReactants>
+            <speciesReference species="d" stoichiometry="1" constant="true"/>
+            <speciesReference species="e" stoichiometry="1" constant="true"/>
+          </listOfReactants>
+          <listOfProducts>
+            <speciesReference species="f" stoichiometry="1" constant="true"/>
+          </listOfProducts>
+        </reaction>
+      </listOfReactions>
+      <comp:listOfSubmodels>
+        <comp:submodel comp:id="Submodel2" comp:modelRef="submodel2"/>
+      </comp:listOfSubmodels>
+    </comp:modelDefinition>
+  </comp:listOfModelDefinitions>
+</sbml>
