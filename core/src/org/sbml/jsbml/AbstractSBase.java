@@ -40,6 +40,8 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.util.converters.LevelVersionConverter;
+import org.sbml.jsbml.util.converters.ToL3V2Converter;
 import org.sbml.jsbml.util.filters.MetaIdFilter;
 import org.sbml.jsbml.util.filters.SIdFilter;
 import org.sbml.jsbml.validator.SyntaxChecker;
@@ -2381,19 +2383,27 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @return {@code true} if the operation as been successful.
    */
   boolean setLevelAndVersion(int level, int version, boolean strict) {
+    return setLevelAndVersion(level, version, strict, null);
+  }
+
+  boolean setLevelAndVersion(int level, int version, boolean strict, LevelVersionConverter lvConverter) {
     if (isValidLevelAndVersionCombination(level, version)) {
+      boolean success = true;
+
       setLevel(level);
       setVersion(version);
       // TODO: perform necessary conversion and/or report potential problems or
       // lose of data to the user!
-      boolean success = true;
+      if ((lvConverter != null) && lvConverter.needsAction(this)) {
+        success &= lvConverter.performAction(this);
+      }
       Enumeration<TreeNode> children = children();
       TreeNode child;
       while (children.hasMoreElements()) {
         child = children.nextElement();
         if (child instanceof AbstractSBase) {
           success &=
-              ((AbstractSBase) child).setLevelAndVersion(level, version, strict);
+              ((AbstractSBase) child).setLevelAndVersion(level, version, strict, lvConverter);
         }
       }
       return success;
