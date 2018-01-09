@@ -7,7 +7,6 @@ import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CompFlatteningConverter {
 
@@ -16,6 +15,8 @@ public class CompFlatteningConverter {
     private ArrayList<String> previousModelMetaIDs;
     private ListOf<ModelDefinition> modelDefinitionListOf;
     private ListOf<ExternalModelDefinition> externalModelDefinitionListOf;
+
+    private ArrayList<Submodel> listOfSubmodelsToFlatten;
 
     private Model previousModel;
     private Model flattenedModel;
@@ -33,6 +34,7 @@ public class CompFlatteningConverter {
         this.previousModelIDs = new ArrayList<>();
         this.previousModelMetaIDs = new ArrayList<>();
         this.modelDefinitionListOf = new ListOf<>();
+        this.listOfSubmodelsToFlatten = new ArrayList<>();
 
         //currentModel = new Model();
         // previousModel = new Model();
@@ -122,7 +124,7 @@ public class CompFlatteningConverter {
             //compModelPlugin.getListOfSubmodels().clear();
 
             // check if submodel has submodel
-            initSM(compModelPlugin);
+            initSubModels(compModelPlugin);
 
 
 //            for (Submodel submodel : subModelListOf) {
@@ -176,13 +178,19 @@ public class CompFlatteningConverter {
     }
 
 
-    private Model initSM(CompModelPlugin compModelPlugin) {
+    private Model initSubModels(CompModelPlugin compModelPlugin) {
 
         ListOf<Submodel> subModelListOf = compModelPlugin.getListOfSubmodels().clone();
 
         // TODO: replace elements
 //        ListOf<ReplacedElement> listOfReplacedElements = compModelPlugin.getListOfReplacedElements();
-//        for(ReplacedElement replacedElement : listOfReplacedElements){
+//        for(ReplacedElement replacedElement : listOfReplacedElements){ // pointer to a submodel object that should be considered “replaced”
+//
+//            // object holding the ReplacedElement instance is the one doing the replacing
+//
+//            // object pointed to by the ReplacedElement object is the object being replaced
+//
+//            // update dependencies
 //
 //        }
 
@@ -195,6 +203,8 @@ public class CompFlatteningConverter {
 
         for (Submodel submodel : subModelListOf) {
 
+            this.listOfSubmodelsToFlatten.add(submodel);
+
             ModelDefinition modelDefinition = this.modelDefinitionListOf.get(submodel.getModelRef());
 
             // TODO: how to initialize external model definitions?
@@ -202,32 +212,50 @@ public class CompFlatteningConverter {
 //                ExternalModelDefinition externalModelDefinition = this.externalModelDefinitionListOf.get(submodel.getModelRef());
 //                }
 
-            if (modelDefinition.getExtension("comp") != null) {
-                this.flattenedModel = mergeModels(this.flattenedModel, flattenSubModel(submodel));
-                initSM((CompModelPlugin) modelDefinition.getExtension("comp"));
-            } else {
-                this.flattenedModel = mergeModels(this.flattenedModel, flattenSubModel(submodel));
+            if(modelDefinition != null){
+                if (modelDefinition.getExtension("comp") != null) {
+
+                    // instead of flattening here keep for every submodel the previous submodel / model in a list (?)
+                    // or is there a method for that?
+
+                    //this.flattenedModel = mergeModels(this.flattenedModel, flattenSubModel(submodel));
+                    initSubModels((CompModelPlugin) modelDefinition.getExtension("comp"));
+                }
+            } else { // TODO: this can be the case if the model definition is extern or not found
+                 System.out.println("no model definition found");
             }
 
-            //flattenedModel = rec(submodel, null);
-            // this.flattenedModel = mergeModels(rec(submodel, null), this.flattenedModel);
+        }
+
+
+         // "else"
+
+        return flattenAndMergeModels(this.listOfSubmodelsToFlatten);
+    }
+
+    private Model flattenAndMergeModels(ArrayList<Submodel> listOfSubmodelsToFlatten){
+
+        int sizeOfList = listOfSubmodelsToFlatten.size();
+
+        if(sizeOfList >= 2){
+            Submodel last = listOfSubmodelsToFlatten.get(sizeOfList - 1);
+            Submodel secondLast = listOfSubmodelsToFlatten.get(sizeOfList - 2);
+
+            this.flattenedModel = mergeModels(this.flattenedModel, mergeModels(flattenSubModel(secondLast), flattenSubModel(last)));
+            listOfSubmodelsToFlatten.remove(secondLast);
+            listOfSubmodelsToFlatten.remove(last);
+
+            flattenAndMergeModels(listOfSubmodelsToFlatten);
+
+        } else if(sizeOfList == 1){
+            Submodel last = listOfSubmodelsToFlatten.get(sizeOfList - 1);
+
+            this.flattenedModel = mergeModels(this.flattenedModel, flattenSubModel(last));
         }
 
         return this.flattenedModel;
-    }
-//
-//    private Model rec(Submodel sm, Submodel psm) {
-//        psm = this.currentSubModel;
-//        this.currentSubModel = sm;
-//
-//        if (this.currentSubModel.getExtension("comp") != null) {
-//            rec(this.currentSubModel, psm);
-//        } else {
-//            this.flattenedModel = flattenSubModel(this.currentSubModel);
-//        }
-//        return this.flattenedModel;
-//    }
 
+    }
 
     /**
      * All remaining elements are placed in a single Model object
@@ -325,10 +353,6 @@ public class CompFlatteningConverter {
         String subModelID = subModel.getId();
         String subModelMetaID = subModel.getMetaId();
 
-
-        System.out.println(subModelID);
-        System.out.println(subModelMetaID);
-
         // Verify that no object identifier or meta identifier of objects in that submodel
         // (i.e., the id or metaid attribute values)
         // begin with the character sequence “M__”;
@@ -353,7 +377,7 @@ public class CompFlatteningConverter {
             // initiate a clone of the referenced model
             Model modelOfSubmodel = this.modelDefinitionListOf.get(subModel.getModelRef()).clone();
 
-            Model flattenedSubModel = new Model(); // write into this one to get rid of model definition (?)
+            //Model flattenedSubModel = new Model(); // write into this one to get rid of model definition (?)
 
             // 3
             // Remove all objects that have been replaced or deleted in the submodel.
@@ -441,41 +465,6 @@ public class CompFlatteningConverter {
 
 
     }
-
-
-//    /**
-//     * Examines a ModelDefinition to check if there is a submodel given to flatten or a submodel has further submodels
-//     * Returns one flattened Model (?)
-//     *
-//     * @param modelDefinition
-//     * @return
-//     */
-//    private Model examineModelDefinition(ModelDefinition modelDefinition) {
-//
-//
-//        if (modelDefinition.isPackageEnabled("comp")) {
-//
-//            Model model = new Model(modelDefinition);
-//
-//            CompModelPlugin compModelPlugin = new CompModelPlugin((CompModelPlugin) model.getPlugin("comp"));
-//
-//            // Each submodel is instantiated;
-//            // that is, a copy of every Model object referenced by every Submodel object is created.
-//            // This is a recursive process: if the instantiated Model itself has Submodel children, they are also instantiated.
-//
-//            this.flattenedModel = instantiateSubModels(compModelPlugin);
-//
-//
-//        } else {
-//            System.out.println("Model definition has no comp plugin.");
-//            //modelDefinition.getModel().unsetExtension("comp");
-//            this.flattenedModel = mergeModels(modelDefinition, this.flattenedModel); // TODO: flatten comp model into model?
-//        }
-//
-//        return this.flattenedModel;
-//
-//    }
-
 
 }
 
