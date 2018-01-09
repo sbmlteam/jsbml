@@ -23,10 +23,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.JSBML;
-import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.ValidationFunction;
-import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 
 
 /**
@@ -34,12 +33,12 @@ import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
  * 
  * @author rodrigue
  */
-public class DuplicatedElementValidationFunction<T extends SBase> implements ValidationFunction<T> {
+public class DuplicatedElementValidationFunction<T extends TreeNodeWithChangeSupport> implements ValidationFunction<T> {
 
   /**
    * Log4j logger
    */
-  private static final transient Logger logger = Logger.getLogger(SBMLCoreParser.class);
+  private static final transient Logger logger = Logger.getLogger(DuplicatedElementValidationFunction.class);
 
   /**
    * an (XML) element name that should not be present more than once
