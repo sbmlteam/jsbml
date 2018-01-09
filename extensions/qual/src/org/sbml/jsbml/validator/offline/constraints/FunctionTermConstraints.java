@@ -128,7 +128,19 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
       // same as 20802
       
-      func = new UnknownCoreElementValidationFunction<FunctionTerm>();      
+      func = new UnknownCoreElementValidationFunction<FunctionTerm>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionTerm ft) {
+          
+          // only testing if it is a defaultTerm
+          if (ft.isDefaultTerm()) {
+            return super.check(ctx, ft);
+          }
+          
+          return true;
+        }
+      };
       break;
 
     case QUAL_20703:
@@ -141,7 +153,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
-          if (!ft.isSetResultLevel()) {
+          if (ft.isDefaultTerm() && !ft.isSetResultLevel()) {
             return false;
           }
           return super.check(ctx, ft);
@@ -154,7 +166,19 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
       // same as 20805
       
-      func = new InvalidAttributeValidationFunction<FunctionTerm>(QualConstants.resultLevel);
+      func = new InvalidAttributeValidationFunction<FunctionTerm>(QualConstants.resultLevel) {
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionTerm ft) {
+          
+          // only testing if it is a defaultTerm
+          if (ft.isDefaultTerm()) {
+            return super.check(ctx, ft);
+          }
+          
+          return true;
+        }
+      };
       break;
 
     case QUAL_20705:
@@ -196,11 +220,23 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
 
 		case QUAL_20802:
-			// May have the optional subobjects for notes and annotations.
-			// No other namespaces are permitted.
+		  // May have the optional subobjects for notes and annotations.
+		  // No other namespaces are permitted.
 
-			func = new UnknownCoreElementValidationFunction<FunctionTerm>();
-			break;
+		  func = new UnknownCoreElementValidationFunction<FunctionTerm>(){
+
+		    @Override
+		    public boolean check(ValidationContext ctx, FunctionTerm ft) {
+
+		      // only testing if it is not a defaultTerm
+		      if (!ft.isDefaultTerm()) {
+		        return super.check(ctx, ft);
+		      }
+
+		      return true;
+		    }
+		  };
+		  break;
 
 		case QUAL_20803:
 			// must have the required attribute qual:resultLevel
@@ -210,7 +246,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
 		        @Override
 		        public boolean check(ValidationContext ctx, FunctionTerm ft) {
-		          if (!ft.isSetResultLevel()) {
+		          if (!ft.isDefaultTerm() && !ft.isSetResultLevel()) {
 		            return false;
 		          }
 		          return super.check(ctx, ft);
@@ -238,10 +274,22 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
           break;
 
 		case QUAL_20805:
-			// The attribute qual:resultLevel in FunctionTerm must be of the data type integer.
-		  
-			func = new InvalidAttributeValidationFunction<FunctionTerm>(QualConstants.resultLevel);
-			break;
+		  // The attribute qual:resultLevel in FunctionTerm must be of the data type integer.
+
+		  func = new InvalidAttributeValidationFunction<FunctionTerm>(QualConstants.resultLevel) {
+
+		    @Override
+		    public boolean check(ValidationContext ctx, FunctionTerm ft) {
+
+		      // only testing if it is not a defaultTerm
+		      if (!ft.isDefaultTerm()) {
+		        return super.check(ctx, ft);
+		      }
+
+		      return true;
+		    }
+		  };
+		  break;
 
 	
 		case QUAL_20806:
