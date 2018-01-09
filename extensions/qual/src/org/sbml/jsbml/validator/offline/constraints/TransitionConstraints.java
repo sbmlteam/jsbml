@@ -262,13 +262,18 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 		    @Override
 		    public boolean check(ValidationContext ctx, Transition t) {
 		      int maxLevel = Integer.MIN_VALUE;
+
 		      for (Output o : t.getListOfOutputs()) {
 		        if (o.isSetQualitativeSpecies() && o.getQualitativeSpeciesInstance() != null && o.getQualitativeSpeciesInstance().isSetMaxLevel()) {
 		          int newMaxLevel = o.getQualitativeSpeciesInstance().getMaxLevel();
 		          if (newMaxLevel > maxLevel) {
 		            maxLevel = newMaxLevel;
 		          }
+		        } else {
+		          // if the maxLevel is not known, we continue with the next output
+		          continue;
 		        }
+		        
 		        for (FunctionTerm ft : t.getListOfFunctionTerms()) {
 		          if (ft.isSetResultLevel()) {
 		            int resultLevel = ft.getResultLevel();
@@ -292,8 +297,9 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Transition t) {
           for (FunctionTerm ft : t.getListOfFunctionTerms()) {
-            if (ft.isSetResultLevel() && ft.getResultLevel() < 0)
+            if (ft.isSetResultLevel() && ft.getResultLevel() < 0) {
               return false;
+            }
           }
           return true;
         }

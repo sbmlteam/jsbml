@@ -113,7 +113,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
           boolean func = true;
           if (ft.isDefaultTerm()) {
-           func = new UnknownCoreAttributeAbstractValidationFunction<FunctionTerm>().check(ctx, ft, QUAL_20701);
+            func = new UnknownCoreAttributeAbstractValidationFunction<FunctionTerm>().check(ctx, ft, QUAL_20701);
             return func;      
           }
           return true;
@@ -155,8 +155,11 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
           if (ft.isDefaultTerm() && !ft.isSetResultLevel()) {
             return false;
+          } else if (ft.isDefaultTerm()) {
+            return super.check(ctx, ft);
           }
-          return super.check(ctx, ft);
+          
+          return true;
         }
       };
       break;
@@ -192,6 +195,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
             ValidationConstraint.logError(ctx, QUAL_20705, "Default Term", Integer.valueOf(ft.getResultLevel()).toString());
             return false;
           }
+          
           return true;
         }
       };
@@ -206,13 +210,15 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
           boolean func = true;
+          
           if (!ft.isDefaultTerm()) {
             func = new UnknownCoreAttributeValidationFunction<FunctionTerm>().check(ctx, ft);
             if (func == false) {
-            ValidationConstraint.logError(ctx, QUAL_20801, "TheBrokenAtt");
+              ValidationConstraint.logError(ctx, QUAL_20801, "TheBrokenAtt");
             }
             return func;
           }
+          
           return true;
         }
       };
@@ -246,10 +252,13 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
 		        @Override
 		        public boolean check(ValidationContext ctx, FunctionTerm ft) {
-		          if (!ft.isDefaultTerm() && !ft.isSetResultLevel()) {
+		          if ((!ft.isDefaultTerm()) && !ft.isSetResultLevel()) {
 		            return false;
+		          } else if (!ft.isDefaultTerm()) {
+		            return super.check(ctx, ft);
 		          }
-		          return super.check(ctx, ft);
+		          
+		          return true;
 		        }
 		      };
 		      break;
