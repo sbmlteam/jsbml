@@ -41,16 +41,13 @@ import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.converters.SBMLConverter;
 
 /**
- * Converts old COBRA SBML files to SBML FBCV1
+ * converts old COBRA SBML files to SBML FBCV1
  * 
  * @author Thomas Hamm
  * @author Nicolas Rodriguez
  * @since 1.2
  */
 public class CobraToFbcV1Converter implements SBMLConverter {
-  // public void cobraToFbcV1(SBMLDocument cobraSBMLdocument) {
-  //
-  // }
 
   /*
    * (non-Javadoc)
