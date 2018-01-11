@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -698,7 +698,13 @@ public class CVTerm extends AnnotationElement {
    */
   @Override
   public TreeNode getChildAt(int childIndex) {
-    return new TreeNodeAdapter(getResourceURI(childIndex), this);
+    if (childIndex < getResourceCount()) {
+      return new TreeNodeAdapter(getResourceURI(childIndex), this);
+    } else if (childIndex == getResourceCount()) {
+      return new TreeNodeAdapter(listOfNestedCVTerms, this);
+    } else {
+      throw new IndexOutOfBoundsException(Integer.toString(childIndex));
+    }
   }
 
   /* (non-Javadoc)
@@ -706,7 +712,13 @@ public class CVTerm extends AnnotationElement {
    */
   @Override
   public int getChildCount() { // TODO - include NestedCVTerms in the tree so that we get them when doing recursive filters on SBase.
-    return getResources().size();
+    int childCount = getResources().size();
+    
+    if (getNestedCVTermCount() > 0) { 
+      childCount++;
+    }
+    
+    return childCount;
   }
 
   /**

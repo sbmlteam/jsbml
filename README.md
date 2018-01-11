@@ -3,7 +3,7 @@ JSBML
 
 <img align="right" src="doc/common/logo/jsbml_logo_200px.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
 
-[![License](http://img.shields.io/:license-LGPL-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) [![Stable version](https://img.shields.io/badge/Stable_version-1.2-brightgreen.svg)](http://shields.io)
+[![License](http://img.shields.io/:license-LGPL-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) [![Stable version](https://img.shields.io/badge/Stable_version-1.3.1-brightgreen.svg)](http://shields.io)
 
 ----
 *Authors*: [Andreas Dräger](http://sbrg.ucsd.edu/researchers/draeger/),
@@ -14,6 +14,7 @@ Alexander Diamantikos,
 [Alexander Dörr](http://www.cogsys.cs.uni-tuebingen.de/mitarb/doerr/),
 [Marine Dumousseau](https://sourceforge.net/u/marine3/profile/),
 [Johannes Eichner](http://www.ra.cs.uni-tuebingen.de/mitarb/eichner/),
+Lisa Falk,
 [Akira Funahashi](http://fun.bio.keio.ac.jp/~funa/),
 Sebastian Fröhlich,
 [Harold Gómez](https://www.bsse.ethz.ch/cobi/people/person-detail.html?persid=211340),
@@ -68,6 +69,7 @@ Article citations are **critical** for us to be able to continue support for JSB
 
 Please also indicate the specific version of JSBML you use, to improve other people's ability to reproduce your results.  You can use the Zenodo DOIs we provide for this purpose:
 
+* JSBML release 1.3.1 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1118387.svg)](https://doi.org/10.5281/zenodo.1118387)
 * JSBML release 1.2 &rArr; [10.5281/zenodo.200544](http://doi.org/10.5281/zenodo.200544)
 * JSBML release 1.1 &rArr; [10.5281/zenodo.55323](http://dx.doi.org/10.5281/zenodo.55323)
 * JSBML release 1.0 &rArr; [10.5281/zenodo.55635](http://dx.doi.org/10.5281/zenodo.55635)
@@ -109,7 +111,7 @@ If you use SBML, we also urge you to sign up for [sbml-announce](https://groups.
 
 JSBML uses third-party software libraries; these software libraries have their own copyright statements and distribution terms.  Please see the file [LICENSE.txt](./LICENSE.txt) for more information.
 
-JSBML is Copyright (C) 2009-2017 jointly by the following organizations:
+JSBML is Copyright (C) 2009-2018 jointly by the following organizations:
 
 1. The University of Tuebingen, Germany
 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK

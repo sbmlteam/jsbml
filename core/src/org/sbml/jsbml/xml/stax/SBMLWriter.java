@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -186,10 +186,10 @@ public class SBMLWriter {
         afterRead = Calendar.getInstance().getTimeInMillis();
 
         int nbProblem = testDocument.checkConsistencyOffline();
-        
+
         System.out.println("Found " + nbProblem + " constraint errors.");
         testDocument.printErrors(System.out);
-        
+
         //        System.out.println("Model Notes = " + XMLNode.convertXMLNodeToString(testDocument.getModel().getNotes()));
         //        System.out.println("MathML = " + testDocument.getModel().getReaction(0).getKineticLaw().getMath().toMathML());
 
@@ -199,7 +199,7 @@ public class SBMLWriter {
         System.out.printf("Starting writing\n");
 
         new org.sbml.jsbml.SBMLWriter("MyApp", "1.0").write(testDocument, jsbmlWriteFileName);
-        
+
       } catch (XMLStreamException e) {
         e.printStackTrace();
       } catch (IOException e) {
@@ -230,7 +230,7 @@ public class SBMLWriter {
 				{
 					i += cvTerm.getResourceCount();
 				}
-				System.out.println("\t" + i + " uris found. \n");
+				System.out.println('\t' + i + " uris found. \n");
 			}
 		}
      */
@@ -569,7 +569,7 @@ public class SBMLWriter {
     String SBMLNamespace = JSBML.getNamespaceFrom(sbmlDocument.getLevel(),
       sbmlDocument.getVersion());
     SMOutputContext context = outputDocument.getContext();
-    context.setIndentation("\n" + createIndentationString(indentCount), 1, 2);
+    context.setIndentation('\n' + createIndentationString(indentCount), 1, 2);
     SMNamespace namespace = context.getNamespace(SBMLNamespace);
     namespace.setPreferredPrefix("");
     outputDocument.addCharacters("\n");
@@ -610,7 +610,7 @@ public class SBMLWriter {
 
           logger.debug(" SBML name spaces: " + prefix + " = " + namespaceURI);
 
-          String namespacePrefix = prefix.substring(prefix.indexOf(":") + 1);
+          String namespacePrefix = prefix.substring(prefix.indexOf(':') + 1);
 
           streamWriter.setPrefix(namespacePrefix, namespaceURI);
           xmlObject.getAttributes().put(prefix, namespaceURI);

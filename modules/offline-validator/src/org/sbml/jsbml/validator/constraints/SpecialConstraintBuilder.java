@@ -14,15 +14,6 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.ext.layout.CompartmentGlyph;
-import org.sbml.jsbml.ext.layout.GraphicalObject;
-import org.sbml.jsbml.ext.layout.Layout;
-import org.sbml.jsbml.ext.layout.LayoutConstants;
-import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
-import org.sbml.jsbml.ext.layout.ReactionGlyph;
-import org.sbml.jsbml.ext.layout.SpeciesGlyph;
-import org.sbml.jsbml.ext.layout.TextGlyph;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.ValidationContext;
 import org.sbml.jsbml.validator.factory.ConstraintFactory;
@@ -32,174 +23,173 @@ import org.sbml.jsbml.validator.factory.FactoryManager;
 @SuppressWarnings("deprecation")
 public class SpecialConstraintBuilder extends AbstractConstraintBuilder {
 
-    @Override
-    public AnyConstraint<?> createConstraint(int id) {
-	switch (id) {
-	case FactoryManager.ID_EMPTY_CONSTRAINT:
-	    return new ValidationConstraint<>(id, null);
+  @Override
+  public AnyConstraint<?> createConstraint(int id) {
+    switch (id) {
+    case FactoryManager.ID_EMPTY_CONSTRAINT:
+      return new ValidationConstraint<>(id, null);
 
-	case FactoryManager.ID_VALIDATE_DOCUMENT_TREE:
-	    ValidationFunction<SBMLDocument> f2 = new ValidationFunction<SBMLDocument>() {
-		@Override
-		public boolean check(ValidationContext ctx, SBMLDocument t) {
-		    /*
-		     * Special constraint to validate the hole document tree
-		     */
-		    System.out.println("validate doc tree");
-		    ConstraintFactory factory = ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
+    case FactoryManager.ID_VALIDATE_DOCUMENT_TREE:
+      ValidationFunction<SBMLDocument> f2 = new ValidationFunction<SBMLDocument>() {
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument t) {
+          /*
+           * Special constraint to validate the hole document tree
+           */
+          System.out.println("validate doc tree");
+          ConstraintFactory factory = ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
 
-		    AnyConstraint<Model> mc = factory.getConstraintsForClass(Model.class, ctx.getCheckCategories(),
-			    ctx.getPackages());
-		    mc.check(ctx, t.getModel());
+          AnyConstraint<Model> mc = factory.getConstraintsForClass(Model.class, ctx.getCheckCategories(),
+            ctx.getPackages());
+          mc.check(ctx, t.getModel());
 
-		    return true;
-		}
-	    };
+          return true;
+        }
+      };
 
-	    return new ValidationConstraint<SBMLDocument>(id, f2);
+      return new ValidationConstraint<SBMLDocument>(id, f2);
 
-	case FactoryManager.ID_VALIDATE_CORE_MODEL_TREE:
-	    ValidationFunction<Model> f3 = new ValidationFunction<Model>() {
-		@Override
-		public boolean check(ValidationContext ctx, Model t) {
-		    /*
-		     * Special constraint to validate the hole model tree
-		     */
-		    ConstraintFactory factory = ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
+    case FactoryManager.ID_VALIDATE_CORE_MODEL_TREE:
+      ValidationFunction<Model> f3 = new ValidationFunction<Model>() {
+        @Override
+        public boolean check(ValidationContext ctx, Model t) {
+          /*
+           * Special constraint to validate the hole model tree
+           */
+          ConstraintFactory factory = ConstraintFactory.getInstance(ctx.getLevel(), ctx.getVersion());
 
-		    {
-			AnyConstraint<Species> sc = factory.getConstraintsForClass(Species.class,
-				ctx.getCheckCategories(), ctx.getPackages());
+          {
+            AnyConstraint<Species> sc = factory.getConstraintsForClass(Species.class,
+              ctx.getCheckCategories(), ctx.getPackages());
 
-			for (Species s : t.getListOfSpecies()) {
-			    sc.check(ctx, s);
-			}
-		    }
+            for (Species s : t.getListOfSpecies()) {
+              sc.check(ctx, s);
+            }
+          }
 
-		    {
+          {
 
-			AnyConstraint<Compartment> cc = factory.getConstraintsForClass(Compartment.class,
-				ctx.getCheckCategories(), ctx.getPackages());
+            AnyConstraint<Compartment> cc = factory.getConstraintsForClass(Compartment.class,
+              ctx.getCheckCategories(), ctx.getPackages());
 
-			for (Compartment c : t.getListOfCompartments()) {
-			    cc.check(ctx, c);
-			}
-		    }
+            for (Compartment c : t.getListOfCompartments()) {
+              cc.check(ctx, c);
+            }
+          }
 
-		    {
+          {
 
-			AnyConstraint<CompartmentType> cc = factory.getConstraintsForClass(CompartmentType.class,
-				ctx.getCheckCategories(), ctx.getPackages());
+            AnyConstraint<CompartmentType> cc = factory.getConstraintsForClass(CompartmentType.class,
+              ctx.getCheckCategories(), ctx.getPackages());
 
-			for (CompartmentType c : t.getListOfCompartmentTypes()) {
-			    cc.check(ctx, c);
-			}
-		    }
+            for (CompartmentType c : t.getListOfCompartmentTypes()) {
+              cc.check(ctx, c);
+            }
+          }
 
-		    {
-			AnyConstraint<Constraint> cc = factory.getConstraintsForClass(Constraint.class,
-				ctx.getCheckCategories(), ctx.getPackages());
+          {
+            AnyConstraint<Constraint> cc = factory.getConstraintsForClass(Constraint.class,
+              ctx.getCheckCategories(), ctx.getPackages());
 
-			for (Constraint c : t.getListOfConstraints()) {
-			    cc.check(ctx, c);
-			}
-		    }
+            for (Constraint c : t.getListOfConstraints()) {
+              cc.check(ctx, c);
+            }
+          }
 
-		    {
-			AnyConstraint<Event> cc = factory.getConstraintsForClass(Event.class, ctx.getCheckCategories(),
-				ctx.getPackages());
+          {
+            AnyConstraint<Event> cc = factory.getConstraintsForClass(Event.class, ctx.getCheckCategories(),
+              ctx.getPackages());
 
-			for (Event c : t.getListOfEvents()) {
-			    cc.check(ctx, c);
-			}
-		    }
+            for (Event c : t.getListOfEvents()) {
+              cc.check(ctx, c);
+            }
+          }
 
-		    {
-			AnyConstraint<FunctionDefinition> cc = factory.getConstraintsForClass(FunctionDefinition.class,
-				ctx.getCheckCategories(), ctx.getPackages());
+          {
+            AnyConstraint<FunctionDefinition> cc = factory.getConstraintsForClass(FunctionDefinition.class,
+              ctx.getCheckCategories(), ctx.getPackages());
 
-			for (FunctionDefinition c : t.getListOfFunctionDefinitions()) {
-			    cc.check(ctx, c);
-			}
-		    }
+            for (FunctionDefinition c : t.getListOfFunctionDefinitions()) {
+              cc.check(ctx, c);
+            }
+          }
 
-		    {
-			AnyConstraint<InitialAssignment> cc = factory.getConstraintsForClass(InitialAssignment.class,
-				ctx.getCheckCategories(), ctx.getPackages());
+          {
+            AnyConstraint<InitialAssignment> cc = factory.getConstraintsForClass(InitialAssignment.class,
+              ctx.getCheckCategories(), ctx.getPackages());
 
-			for (InitialAssignment c : t.getListOfInitialAssignments()) {
-			    cc.check(ctx, c);
-			}
-		    }
+            for (InitialAssignment c : t.getListOfInitialAssignments()) {
+              cc.check(ctx, c);
+            }
+          }
 
-		    {
-			AnyConstraint<Parameter> cc = factory.getConstraintsForClass(Parameter.class,
-				ctx.getCheckCategories(), ctx.getPackages());
+          {
+            AnyConstraint<Parameter> cc = factory.getConstraintsForClass(Parameter.class,
+              ctx.getCheckCategories(), ctx.getPackages());
 
-			for (Parameter c : t.getListOfParameters()) {
-			    cc.check(ctx, c);
-			}
-		    }
+            for (Parameter c : t.getListOfParameters()) {
+              cc.check(ctx, c);
+            }
+          }
 
-		    {
-			AnyConstraint<UnitDefinition> cc = factory.getConstraintsForClass(UnitDefinition.class,
-				ctx.getCheckCategories(), ctx.getPackages());
+          {
+            AnyConstraint<UnitDefinition> cc = factory.getConstraintsForClass(UnitDefinition.class,
+              ctx.getCheckCategories(), ctx.getPackages());
 
-			for (UnitDefinition c : t.getListOfPredefinedUnitDefinitions()) {
-			    cc.check(ctx, c);
-			}
+            for (UnitDefinition c : t.getListOfPredefinedUnitDefinitions()) {
+              cc.check(ctx, c);
+            }
 
-			for (UnitDefinition ud : t.getListOfUnitDefinitions()) {
-			    cc.check(ctx, ud);
-			}
-		    }
+            for (UnitDefinition ud : t.getListOfUnitDefinitions()) {
+              cc.check(ctx, ud);
+            }
+          }
 
-		    {
-			AnyConstraint<Reaction> cc = factory.getConstraintsForClass(Reaction.class,
-				ctx.getCheckCategories(), ctx.getPackages());
+          {
+            AnyConstraint<Reaction> cc = factory.getConstraintsForClass(Reaction.class,
+              ctx.getCheckCategories(), ctx.getPackages());
 
-			for (Reaction c : t.getListOfReactions()) {
-			    cc.check(ctx, c);
-			}
-		    }
+            for (Reaction c : t.getListOfReactions()) {
+              cc.check(ctx, c);
+            }
+          }
 
-		    {
-			AnyConstraint<Rule> cc = factory.getConstraintsForClass(Rule.class, ctx.getCheckCategories(),
-				ctx.getPackages());
+          {
+            AnyConstraint<Rule> cc = factory.getConstraintsForClass(Rule.class, ctx.getCheckCategories(),
+              ctx.getPackages());
 
-			for (Rule c : t.getListOfRules()) {
-			    cc.check(ctx, c);
-			}
-		    }
+            for (Rule c : t.getListOfRules()) {
+              cc.check(ctx, c);
+            }
+          }
 
-		    {
+          {
 
-			AnyConstraint<SpeciesType> cc = factory.getConstraintsForClass(SpeciesType.class,
-				ctx.getCheckCategories(), ctx.getPackages());
+            AnyConstraint<SpeciesType> cc = factory.getConstraintsForClass(SpeciesType.class,
+              ctx.getCheckCategories(), ctx.getPackages());
 
-			for (SpeciesType c : t.getListOfSpeciesTypes()) {
-			    cc.check(ctx, c);
-			}
-		    }
+            for (SpeciesType c : t.getListOfSpeciesTypes()) {
+              cc.check(ctx, c);
+            }
+          }
 
-		    {
-			AnyConstraint<TreeNodeChangeListener> cc = factory.getConstraintsForClass(
-				TreeNodeChangeListener.class, ctx.getCheckCategories(), ctx.getPackages());
+          {
+            AnyConstraint<TreeNodeChangeListener> cc = factory.getConstraintsForClass(
+              TreeNodeChangeListener.class, ctx.getCheckCategories(), ctx.getPackages());
 
-			for (TreeNodeChangeListener c : t.getListOfTreeNodeChangeListeners()) {
-			    cc.check(ctx, c);
-			}
-		    }
+            for (TreeNodeChangeListener c : t.getListOfTreeNodeChangeListeners()) {
+              cc.check(ctx, c);
+            }
+          }
 
-		    return true;
-		}
-	    };
+          return true;
+        }
+      };
 
-	    return new ValidationConstraint<Model>(id, f3);
-
-	
-	
-	return null;
+      return new ValidationConstraint<Model>(id, f3);
     }
+
+    return null;
+  }
 
 }

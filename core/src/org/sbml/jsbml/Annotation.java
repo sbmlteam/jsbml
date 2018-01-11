@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -318,10 +318,39 @@ public class Annotation extends AnnotationElement {
       if (filter.accepts(term)) {
         l.add(term);
       }
+      if (term.getNestedCVTermCount() > 0) {
+        l.addAll(filterCVTerms(qualifier, term.getListOfNestedCVTerms()));
+      }
     }
+    
     return l;
   }
 
+  
+  /**
+   * Returns a list of CVTerm having the given qualifier.
+   * 
+   * @param qualifier the qualifier
+   * @param terms the list of CVTerm to filter
+   * @return a list of CVTerm having the given qualifier, an empty
+   * list is returned if no CVTerm are found.
+   */
+  private List<CVTerm> filterCVTerms(Qualifier qualifier, List<CVTerm> terms) {
+    ArrayList<CVTerm> l = new ArrayList<CVTerm>();
+    CVTermFilter filter = new CVTermFilter(qualifier);
+    for (CVTerm term : terms) {
+      if (filter.accepts(term)) {
+        l.add(term);
+      }
+      if (term.getNestedCVTermCount() > 0) {
+        l.addAll(filterCVTerms(qualifier, term.getListOfNestedCVTerms()));
+      }
+    }
+    
+    return l;
+  }
+  
+  
   /**
    * Returns a list of CVTerm having the given qualifier and
    * where the URI contains the given pattern. The pattern can only be plain text.

@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -22,7 +22,6 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.ext.qual.QualModelPlugin;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
@@ -30,7 +29,7 @@ import org.sbml.jsbml.ext.qual.Transition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 
 /**
@@ -75,20 +74,20 @@ public class QualModelPluginConstraints extends AbstractConstraintDeclaration {
 
 	@Override
 	public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
-		ValidationFunction<QualModelPlugin> func = null;
+	  ValidationFunction<QualModelPlugin> func = null;
 
-		switch (errorCode) {
+	  switch (errorCode) {
 		case QUAL_10101:
 			// To conform to the QualitativeModels package specification for SBML Level 3 Version 1, an
 		  // SBML document must declare the use of the following XML Namespace:
-		  //  “http://www.sbml.org/sbml/level3/version1/qual/version1”.
+		  //  'http://www.sbml.org/sbml/level3/version1/qual/version1'.
 
 			break;
 
 		case QUAL_10102:
 			// Wherever they appear in an SBML document, elements and attributes from the Qualitative
 		  // Models package must be declared either implicitly or explicitly to be in the XML namespace
-		  // “http://www.sbml.org/sbml/level3/version1/qual/version1”. 
+		  // 'http://www.sbml.org/sbml/level3/version1/qual/version1'. 
 		  
 			break;
 			
@@ -106,25 +105,26 @@ public class QualModelPluginConstraints extends AbstractConstraintDeclaration {
 		case QUAL_20201:
 		  // There may be at most one instance of each of the following kinds of objects within a Model
 		  // object using QualitativeModels: ListOfTransitions and ListOfQualitativeSpecies.
-		  
-      func = new ValidationFunction<QualModelPlugin>() {
 
-        @Override
-        public boolean check(ValidationContext ctx, QualModelPlugin qmp) {
-          Boolean onlyOneListOfTransition = new DuplicatedElementValidationFunction<Model>(QualConstants.listOfTransitions).check(ctx, qmp.getModel());
-          Boolean onlyOneListOfQualSpec = new DuplicatedElementValidationFunction<Model>(QualConstants.listOfQualitativeSpecies).check(ctx, qmp.getModel());
-          return (onlyOneListOfTransition && onlyOneListOfQualSpec);
-        }
-      };
+		  func = new ValidationFunction<QualModelPlugin>() {
+
+		    @Override
+		    public boolean check(ValidationContext ctx, QualModelPlugin qmp) {		      
+		      Boolean onlyOneListOfTransition = new DuplicatedElementValidationFunction<QualModelPlugin>(QualConstants.listOfTransitions).check(ctx, qmp);
+		      Boolean onlyOneListOfQualSpec = new DuplicatedElementValidationFunction<QualModelPlugin>(QualConstants.listOfQualitativeSpecies).check(ctx, qmp);
+		      
+		      return (onlyOneListOfTransition && onlyOneListOfQualSpec);
+		    }
+		  };
 		  break;
-		  
+
 		case QUAL_20202:
 		  // The various ListOf subobjects with an Model object are optional, but if present, these
 		  // container object must not be empty. Specifically, if any of the following classes of objects
 		  // are present on the Model, it must not be empty: ListOfQualitativeSpecies and ListOfTransitions.
-		  
+
 		  break;
-		  
+
     case QUAL_20203:
       // Apart from the general notes and annotation subobjects permitted on all SBML objects, a
       // ListOfTransitions container object may only contain Transition objects.
@@ -145,6 +145,17 @@ public class QualModelPluginConstraints extends AbstractConstraintDeclaration {
       // Apart from the general notes and annotation subobjects permitted on all SBML objects, a
       // ListOfQualitativeSpecies container object may only contain QualitativeSpecies objects.
       
+      func = new ValidationFunction<QualModelPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, QualModelPlugin qmp) {
+          if (qmp.isSetListOfQualitativeSpecies()) {
+            return new UnknownElementValidationFunction<ListOf<QualitativeSpecies>>().check(ctx, qmp.getListOfQualitativeSpecies());
+          }
+          return true;
+        }
+      };
+      
       break;
       
     case QUAL_20205:
@@ -156,8 +167,7 @@ public class QualModelPluginConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, QualModelPlugin qmp) {
           if (qmp.isSetListOfQualitativeSpecies()) {
-            return new UnknownElementValidationFunction<ListOf<QualitativeSpecies>>()
-                .check(ctx, qmp.getListOfQualitativeSpecies());
+            return new UnknownAttributeValidationFunction<ListOf<QualitativeSpecies>>().check(ctx, qmp.getListOfQualitativeSpecies());
           }
           return true;
         }
@@ -176,7 +186,7 @@ public class QualModelPluginConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, QualModelPlugin qmp) {
           if (qmp.isSetListOfTransitions()) {
-            return new UnknownCoreAttributeValidationFunction<ListOf<Transition>>().check(ctx, qmp.getListOfTransitions());
+            return new UnknownAttributeValidationFunction<ListOf<Transition>>().check(ctx, qmp.getListOfTransitions());
           }
           return true;
         }

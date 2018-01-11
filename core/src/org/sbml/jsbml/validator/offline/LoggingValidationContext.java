@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -21,13 +21,13 @@
 package org.sbml.jsbml.validator.offline;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
@@ -105,7 +105,21 @@ public class LoggingValidationContext extends ValidationContext implements Valid
    * @return the {@link SBMLErrorLog} of this context.
    */
   public SBMLErrorLog getErrorLog() {
-    return this.log;
+    
+    // Filter the error log to report the categories as libSBML
+    SBMLErrorLog filteredLog = new SBMLErrorLog();
+    Set<String> ignoredCategories = analyseSBMLerrorLog(log.getValidationErrors());
+    
+    for (SBMLError e : log.getValidationErrors()) {
+      
+      if (e.getCategory() != null && ignoredCategories.contains(e.getCategory())) {
+        continue;
+      }
+      
+      filteredLog.add(e);
+    }
+    
+    return filteredLog;
   }
 
   /**
@@ -214,6 +228,66 @@ public class LoggingValidationContext extends ValidationContext implements Valid
       
       s.putUserObject(JSBML.ALLOW_INVALID_SBML, Boolean.TRUE);
     }
+  }
+
+
+  /**
+   * Goes through the list of {@link SBMLError} given to determined which
+   * check categories should be ignored.
+   * 
+   * <p>As soon as an error is detected in a check category, all the categories below it
+   * should be ignored. The order of the check category is:
+   * <ul>
+   *   <li>identifier consistency</li>
+   *   <li>general consistency</li>
+   *   <li>sbo consistency</li>
+   *   <li>math consistency</li>
+   *   <li>units consistency</li>
+   *   <li>overdetermined consistency</li>
+   *   <li>modelling practice</li>
+   * </ul>
+   * </p>
+   * 
+   * @param validationErrors the list of {@link SBMLError} to check
+   * @return a set of check categories that should be ignored.
+   */
+  public static Set<String> analyseSBMLerrorLog(List<SBMLError> validationErrors) 
+  {
+    Set<String> ignoredCategories = new HashSet<String>();
+    
+    for (SBMLError e : validationErrors) {
+      String category = e.getCategory();
+      String severity = e.getSeverity();
+      
+      if (severity != null && (severity.equalsIgnoreCase("error") || severity.equalsIgnoreCase("fatal"))) {
+        // the category we are in will be the latest one.
+        
+        switch(category) {
+          
+          case "SBML identifier consistency":
+            ignoredCategories.add("General SBML conformance");
+            ignoredCategories.add("SBML component consistency");
+            
+          case "General SBML conformance":
+          case "SBML component consistency":
+            ignoredCategories.add("SBO term consistency");
+            
+          case "SBO term consistency":
+            ignoredCategories.add("MathML consistency");
+            
+          case "MathML consistency":
+            ignoredCategories.add("SBML unit consistency");
+            
+          case "SBML unit consistency":
+            ignoredCategories.add("Overdetermined model");
+            
+          case "Overdetermined model":
+            ignoredCategories.add("Modeling practice");
+        }
+      }
+    }
+    
+    return ignoredCategories;
   }
   
   

@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -685,6 +685,11 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
 
+          if (node.getParentSBMLObject() == null) {
+            // something is wrong with the ASTNode
+            return true;
+          }
+          
           Model m = node.getParentSBMLObject().getModel();
 
           if (m != null && node.isName()) {
@@ -737,7 +742,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           // TODO - get the units of the overall ASTNode and if they are invalid, do not report this error ?? Does not seems true all the time though !
           
           Type t = node.getType(); // TODO - check section 3.4.11 in the L2V5 specs
-          UnitsCompiler unitsCompiler = new UnitsCompiler(node.getParentSBMLObject().getModel(), true);
+          UnitsCompiler unitsCompiler = new UnitsCompiler(node.getParentSBMLObject().getModel(), ctx);
           
           // || t == Type.FUNCTION_ABS || t == Type.FUNCTION_CEILING || t == Type.FUNCTION_FLOOR. // The units of other operators such as abs , floor , and ceiling , can be anything.
           
@@ -826,8 +831,16 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               return true;
             }
             
-            UnitDefinition ud = node.getChild(0).deriveUnit();
-
+            UnitDefinition ud = null;
+            
+            if (node.getChild(0) != null) {
+              try {
+                ud = node.getChild(0).deriveUnit();
+              } catch (Exception e) {
+                // on some invalid model, we get an exception thrown
+              }
+            }
+            
             // the units can be null if we have only 'cn' element without sbml:units
             if (ud == null) {
               // we cannot check the units, so we return true

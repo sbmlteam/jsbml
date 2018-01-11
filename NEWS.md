@@ -1,28 +1,112 @@
-	       JSBML NEWS -- History of user-visible changes
+# JSBML NEWS -- History of user-visible changes
+
+==================================
+## Version 1.3.1 (19-12-2017)
+==================================
+
+### Bug Fixes:
+
+  - Corrected the ExpandFunctionDefinitionConverter when the body of a FunctionDefinition is equal to one of the argument(s), like 'f(x)= x'.
 
 
-===========================================================================
-Version X (xx-xx-2017)
-===========================================================================
+==================================
+## Version 1.3 (14-12-2017)
+==================================
 
- * New Features:
+### New Features:
+
+  - Added a new interface that can be used to write converters to transform SBML documents.
+  
+  - Implemented a converter that expands the user-defined function definitions.
+  
+  - Implemented a converter from SBML Level 2 with COBRA annotation to SBML Level 3, encoding the COBRA annotations using the FBC version 1 package. The converter from FBC Version 1 to Version 2 will arrived in a later release.
+
+  - Started to set up validation so that we can customize the SBMLError messages returned to the user. The system allow internationalizing of the error messages if needed. Added a default post message for all SBMLError, to try at least to give the id or metaid of the problematic element.
+  
+  - Modified the FormulaParserLL3 to allow to have different behavior when encountering the 'log' operator. Modified as well FormulaCompiler to output 'ln' for the FUNCTION\_LN type.
+  
+  - Added a new method in Species: getDerivedSubtanceUnitDefinition, which allows getting the derived substance units only, never dividing by the compartment units.
+  
+  - Added a new constant and method to allow invalid SBML in other situation than just reading a file, like validation.
+  
+  - Included nested CVTerms in the tree structure of JSBML and made them reachable through all the filters.
+  
+  - Added some helper methods from ModelPolisher to convert gene association string into FBC version 2 objects.
+  
+  - Added a way for the users to set their tidy instance if they want to change the default options.
+
+  - Added a JSBML tutorial for total beginners in SBML.
+  
+  - Implementation of validation started for the FBC and Multi packages.
+  
+  - Implementation of validation substantially complete for the Qual and Layout packages.
+  
+  
+### Bug Fixes:
+
+  - Corrected the way we read SBML Level 1 ParameterRule, the 'name' XML attribute in this case need to be set to the 'variable' class attribute.
+
+  - Modified the offline validation API so that we have access to the ValidationContext in all method, in case we need extra information, like all the enabled check categories or the package version.
+  
+  - Corrected the offline validationnot to validate SBasePlugin recursively as the TreeNode.children() method already validates their children.
+  
+  - Corrected the SBMLErrorConverter class so that any missing elements from the XML returned by the sbml.org validator REST API would be fine. Improved the error messages displayed to the user when we cannot parse properly the String returned by the sbml.org validator API.
+  
+  - Corrected the method ASTNode.setName not to revert the type to FUNCTION for FUNCTION\_RATE\_OF.
+
+  - Corrected the date written to XML as a comment when the SBMLWriter has an application name set (issue [#91](/sbmlteam/jsbml/issues/91)). The minutes were written instead of the month in the date.
+  
+  - Fixed the parsing of the modulo operator. Thanks to Chris Myers who reported the problem.
+
+  - Fixed Reaction.equals so that it works all the time. An exception was thrown in L3V2 when using the method getFast(). Thanks to Chris Myers for reporting the problem.
+
+  - Simplified the way XMLResourceBundleControl load resources.
+  
+  - Fixed the method Species.getDerivedUnitDefinition so that the default value for hasOnlySubstanceUnits is used for SBML level and version below L3.
+
+  - Corrected an inconsistency between getDerivedUnitDefinition() and getDerivedUnits() in Species. Thanks to Matthias König who reported the problem.
+  
+  - Made sure to convert the units to SI before comparing them. Corrected the method UnitDefinition.convertsToSIUnits as it was provoking a lot of unnecessary warnings.
+  
+  - Added a new constant to store the invalid XML differently from the unknown XML so that we can validate them separately.
+  
+  - Fixed FormulaParserLL3 so that it transforms FUNCTION\_LN into FUNCTION\_LOG if it has more than one child.
+  
+  - Corrected the way we output 'power' ('^') in infix formula. Added more test to put parenthesis when the arguments of 'power' are logical or relational operators.
+  
+  - Fixed the brackets used for denominator when writing MathML to infix formula.
+  
+  - The method AbstractSBase.checkAttribute(String) cannot be used when cloning an object as the parent is not set when cloning and many checks depend on the parent to be set to work properly. Thanks to Mihai Glont for reporting this problem.
+
+  - Corrected an indexing problem in the RDF annotation writer.
+  
+  - Change the way we set the max element depth as it does fail inside Matlab.
+  
+  - Removed the line wrapping by default in the tidy XML writer as it could cause problem by cutting into several lines the old COBRA-style SBML.
+  
+  - Small fixes to be able to compile the code with Java 9.
+  
+  - Write the id and name of comp related SBaseRef elements into the comp namespace.
+  
+  - Checking that the model and the LayoutPlugin are defined before using them in the RenderParser.processEndDocument method. Fixing GitHub issue [#132](/sbmlteam/jsbml/issues/132), thanks to Mihai Glont who reported this error.
+  
+  - Fixed the clone methods in the render package. Removed some potential NullPointerExceptions.
+  
+  - Relaxed a bit the check on the FBC chemical formula when reading an SBML file but the test should probably be relaxed to prevent losing information.
 
 
- * Bug Fixes:
+==================================
+## Version 1.2 (14-12-2016)
+==================================
 
-
-===========================================================================
-Version 1.2 (14-12-2016)
-===========================================================================
-
- * New Features:
+### New Features:
 
   - Updated the implementation of the SBML Level 3 Multi package to the Version 1.0.7 specification (August 2016).
   
   - JSBML is now deployed to Maven central to make it easier for people using maven to integrate it.
   
 
- * Bug Fixes:
+### Bug Fixes:
 
   - Several corrections to the Spatial package, when writing to XML. Thanks to Kaito Ii for reporting the errors.
   
@@ -37,11 +121,11 @@ Version 1.2 (14-12-2016)
   - We have made numerous updates to the JSBML User Guide.
 
 
-===========================================================================
-Version 1.2-beta1 (26-10-2016)
-===========================================================================
+==================================
+## Version 1.2-beta1 (26-10-2016)
+==================================
 
- * New Features:
+### New Features:
 
   - The minimum JDK requirement is now 1.7.
 
@@ -70,7 +154,7 @@ Version 1.2-beta1 (26-10-2016)
   - We introduced a new class, UniqueSId, to help recognize any class that must have a unique SId in the whole Model. This class replaced UniqueNamedSBase which was not change and can help recognize any class that must have a unique SId in the whole Model before SBML L3V2. The same applies to SBase and NamedSBase, every SBase have now an id and a name and the NamedSBase class only apply to elements that had an id and a name before SBML L3V2.
   
   
- * Bug Fixes:
+### Bug Fixes:
 
   - A whole SBMLDocument was not serializable because a few classes did not implement the Serializable class. This should be fixed now. Thanks to Jens Einloft who reported the problem.
 
@@ -96,14 +180,14 @@ Version 1.2-beta1 (26-10-2016)
     
   - Corrected a potential NullPointerException in the TreeNodeAdapter(Object, TreeNode) constructor.
   
-  - Corrected the number returned by ASTNode.getReal() in the case of REAL_E, when the mantissa is NaN or infinity.  
+  - Corrected the number returned by ASTNode.getReal() in the case of REAL\_E, when the mantissa is NaN or infinity.  
 
 
 ===========================================================================
-Version 1.1 (09-12-2016)
+## Version 1.1 (09-12-2016)
 ===========================================================================
 
- * New Features:
+### New Features:
 
   - Implemented the ability to support multiple version of SBML Level 3
     package definitions.
@@ -122,7 +206,7 @@ Version 1.1 (09-12-2016)
   - Updated the implementation of the SBML Level 3 Groups package to the
     Groups version 0.7 specification.
 
- * Bug Fixes:
+### Bug Fixes:
 
   - The compartment 'units' attribute was not written in SBML L1. This is
     corrected now.
@@ -144,10 +228,10 @@ Version 1.1 (09-12-2016)
     reported the problem.
 
 ===========================================================================
-Version 1.1-beta1 (12-10-2016)
+## Version 1.1-beta1 (12-10-2016)
 ===========================================================================
 
- * New Features:
+### New Features:
 
   - Changed the default JSBML formula compiler. WARNING: this changes the
     default output for comparison operators. The parsing is now very close
@@ -206,7 +290,7 @@ Version 1.1-beta1 (12-10-2016)
   - Implemented the multi draft rev 459 (Nov 2014).
 
 
- * Bug Fixes:
+### Bug Fixes:
 
   - Methods that accepted Double/Integer/Boolean values or returned those
     where updated to double/integer/boolean in the spatial and render
@@ -232,10 +316,10 @@ Version 1.1-beta1 (12-10-2016)
      
   
 ===========================================================================
-Version 1.0 (09-12-2014)
+## Version 1.0 (09-12-2014)
 ===========================================================================
 
- * New Features:
+### New Features:
 
   - Added a new module that contain a tidy SBMLWriter that use the jtidy
     library to correct the formatting of the XML file before writing it
@@ -252,7 +336,7 @@ Version 1.0 (09-12-2014)
 
   - First draft of JSBML implementation done (experimental).
 
- * Bug Fixes:
+### Bug Fixes:
 
   - Solved error #82 in Unit.removeMultiplier. Thanks to Christian Thöns
     for pointing this out.
@@ -266,8 +350,7 @@ Version 1.0 (09-12-2014)
   - Added a check to write only the necessary namespaces when writting
     CVTerm to XML.
  
- * Support for SBML Level 3 'Hierarchical Model Composition (comp)'
-   package:
+ ### Support for SBML Level 3 'Hierarchical Model Composition (comp)' package:
 
   - Registering SBaseRef correctly in the document. Corrected the clone
     constructor of SBaseRef that did not copy the recursive SBaseRef.
@@ -275,17 +358,17 @@ Version 1.0 (09-12-2014)
   - Added all the missing equals and hashCode methods in the comp
     package.
 
- * Support for SBML Level 3 'Arrays' package:
+### Support for SBML Level 3 'Arrays' package:
 
   - Several fixes and improvements in the validation code and the
     flattening code.
 
 
 ===========================================================================
-Version 1.0-rc1 (24-09-2014)
+## Version 1.0-rc1 (24-09-2014)
 ===========================================================================
 
-* New Features:
+### New Features:
 
   - Changed the default behaviour of the parsing of math infix formula.
     The methods concerned are JSBML#parseFormula and ASTNode#parseFormula.
@@ -340,7 +423,7 @@ Version 1.0-rc1 (24-09-2014)
   
   - Added some missing getter in the L3 packages classes.
 
- * Support for SBML Level 3 'Arrays' package:
+### Support for SBML Level 3 'Arrays' package:
  
   - Arrays package implemented, version 05/05/14. Only selector and vector
     supported for now. Validations, flattening available.
@@ -348,26 +431,26 @@ Version 1.0-rc1 (24-09-2014)
   - Added support for vector and selector infix parsing to support the
     arrays package.
 
- * Support for SBML Level 3 'Layout' package:
+### Support for SBML Level 3 'Layout' package:
 
   - Added missing methods to remove GeneralGlyph objects from a Layout
     object.
   
   - Added further missing remove or unset methods in the layout package.
 
- * Support for SBML Level 3 'Qualitative Models (qual)' package:
+### Support for SBML Level 3 'Qualitative Models (qual)' package:
 
   - The class QualitativeModel in the qual package has been marked
     deprecated and should no longer be used. Aiming to achieve better
     compatibility to libSBML, the new class QualModelPlugin has been
     created to be used instead.
 
- * Support for SBML Level 3 'Spatial Processes (spatial)' package:
+### Support for SBML Level 3 'Spatial Processes (spatial)' package:
  
   - Updated to implement version 0.88 of the draft specifications.
   
 
-* Bug Fixes:
+### Bug Fixes:
 
   - Corrected the method AbstractSBase#getExtensionCount that was always
     returning 0.
@@ -417,19 +500,19 @@ Version 1.0-rc1 (24-09-2014)
 
   - Solved source for potential NullPointerException in LaTeXCompiler.
 
- * Support for SBML Level 3 'Hierarchical Model Composition (comp)' 
+### Support for SBML Level 3 'Hierarchical Model Composition (comp)' 
    package:
   
   - Fixed several issues when cloning 'comp' elements and L3 packages
     elements in general. Thanks to Chris J. Myers and the iBioSim team for
     their help to find and fix all issues.
 
- * Support for SBML Level 3 'Flux Balance Constraints (fbc)' package:
+### Support for SBML Level 3 'Flux Balance Constraints (fbc)' package:
  
   - The required flag for the fbc package was set to true instead of false,
     thanks to Chris J. Myers for reporting this problem.
 
- * Support for SBML Level 3 'Layout' package:
+### Support for SBML Level 3 'Layout' package:
  
   - The implementation of the layout package contained unnecessary classes
     that all represented a Point object (Start, End, Position, BasePoint1,
@@ -440,12 +523,12 @@ Version 1.0-rc1 (24-09-2014)
     avoid the warnings when cloning the list and to avoid to create a new
     list when not needed.
     
- * Support for SBML Level 3 'Qualitative Models (qual)' package:
+### Support for SBML Level 3 'Qualitative Models (qual)' package:
  
   - The SBML qual attribute Output.outputLevel was not read properly from
     XML.
 
- * Support for SBML Level 3 'Rendering (render)' package:
+### Support for SBML Level 3 'Rendering (render)' package:
  
   - Fixed severals bugs in the experimental render package. Renamed the
     Group class to RenderGroup and the Curve class to RenderCurve. Added
@@ -454,10 +537,10 @@ Version 1.0-rc1 (24-09-2014)
  
   
 ======================================================================
-Version 1.0-beta1 (06-03-2014)
+## Version 1.0-beta1 (06-03-2014)
 ======================================================================
 
-* New Features:
+### New Features:
 
   - The main addition to JSBML 1.0 is support for the SBML Level 3 packages,
     as described below.
@@ -586,7 +669,7 @@ Version 1.0-beta1 (06-03-2014)
   - A new JUnit test class helps to check if simplification and merging of
     Units and UnitDefinitions works correctly.
 
-* Bug Fixes:
+### Bug Fixes:
 
   - When writing SBML to files, the streams created by JSBML were not closed
     in all cases. Fixed. Thanks to Akira Funahashi for pointing this out.
@@ -669,7 +752,7 @@ Version 1.0-beta1 (06-03-2014)
   - SBMLValidator fixed according to the changes made on the sbml.org
     validator to add package information.
 
-* Known issues:
+### Known issues:
 
   - If you don't have the code handling a package in your classpath,
     jsbml-1.0-beta1 will loose the package elements, they won't be kept
@@ -678,10 +761,10 @@ Version 1.0-beta1 (06-03-2014)
 
 
 ======================================================================
-Version 0.8.0 (24-08-2012)
+## Version 0.8.0 (24-08-2012)
 ======================================================================
 
-* New Features:
+### New Features:
   
   - The new specialized EventObject TreeNodeRemovedEvent has been
     implemented in order to make sure that deleted nodes do no longer
@@ -689,7 +772,7 @@ Version 0.8.0 (24-08-2012)
     same time, it is still possible to identify their previous
     location using the field in the new EventObject.
 
-* Bug Fixes:
+### Bug Fixes:
 	
   - When cloning ASTNodes the direct pointer to referenced variables 
     (instances of CallableSBase) are set to null in the cloned object.
@@ -715,7 +798,7 @@ Version 0.8.0 (24-08-2012)
   - The units attribute on ASTNode was sometime not written out and the sbml
     namespace was sometime missing from the mathML. It should be fine now.
 
-* Known issues :
+### Known issues :
 
   - Reading of more than one RDF Description elements in the RDF annotation 
     block (the official SBML annotation scheme) is not supported at the 
@@ -725,14 +808,14 @@ Version 0.8.0 (24-08-2012)
   - SBML L3 packages are not supported and not kept.  
   
 ======================================================================
-Version 0.8-rc2 (12-04-2012)
+## Version 0.8-rc2 (12-04-2012)
 ======================================================================
 
-* User visible changes :
+### User visible changes :
 
   - Major improvements of the reading and writing speed for large models.
 
-* Bug Fixes:
+### Bug Fixes:
 
   - It was forgotten to implement an unsetSubstanceUnits method on the Model
     class. Thanks to Robert Byrnes for reporting this problem.
@@ -783,7 +866,7 @@ Version 0.8-rc2 (12-04-2012)
     incorrect as the method was expecting only a notes element to enclose
     the HTML.
   
-  * Known issues :
+### Known issues :
 
   - Reading of more than one RDF Description elements in the RDF annotation 
     block (the official SBML annotation scheme) is not supported at the 
@@ -793,10 +876,10 @@ Version 0.8-rc2 (12-04-2012)
   - SBML L3 packages are not supported and not kept.  
 
 ======================================================================
-Version 0.8-rc1 (14-12-2011)
+## Version 0.8-rc1 (14-12-2011)
 ======================================================================
 
-* New Features:
+### New Features:
 
   - NamedSBase has now the new method isIdMandatory in order to check
     whether the identifier of this element must be defined in the SBML
@@ -925,7 +1008,7 @@ Version 0.8-rc1 (14-12-2011)
     configuration for the child element. In case of differing L/V
     configurations an exception will be thrown on adding the element.
     
-* Bug Fixes:
+### Bug Fixes:
 
   - Corrected mistakes in the org.sbml.jsbml.util.Maths class, where
     some trigonometric functions were incorrectly calculated.
@@ -1000,17 +1083,17 @@ Version 0.8-rc1 (14-12-2011)
     Thanks to the numerus models in the SBML Test Suite to help us detecting 
     this problem.
   
-* Known issues :
+### Known issues :
 
   - Reading of more than one RDF Description elements in the RDF annotation 
     block (the official SBML annotation scheme) is not supported at the 
     moment. Planned for the next major release. 
   
 ======================================================================
-Version 0.8-b2 (18-04-2011)
+## Version 0.8-b2 (18-04-2011)
 ======================================================================
 
-* New Features:
+### New Features:
 
   - The new interface CallableSBase ensures that only instances of this
     type may be referenced in ASTNodes. In this way, it is no longer
@@ -1028,7 +1111,7 @@ Version 0.8-b2 (18-04-2011)
     with Level >= 3 and an undeclared value. Thanks to Roland Keller
     and Lucian Smith for pointing out this necessity.    
 
-* Bug Fixes:
+### Bug Fixes:
 
   - The class Maths, a compilation of useful mathematical functions,
     provided an implementation of the factorial function that took
@@ -1107,7 +1190,7 @@ Version 0.8-b2 (18-04-2011)
     specific SBML RDF annotations. This as been fixed and we can now have
     some RDF elements anywhere in the annotation.   
       
-* Known issues :
+### Known issues :
 
   - SBML level 1 rules when the 'type' attribute is equal to 'rate' are 
     created as AssignmentRule instead of RateRule.
@@ -1120,7 +1203,7 @@ Version 0.8-b2 (18-04-2011)
     moment. 
   
 ===========================================================================
-Version 0.8-b1 (04-02-2011)
+## Version 0.8-b1 (04-02-2011)
 ===========================================================================
 
 This the first beta release of JSBML 0.8, JSBML is a community-driven
@@ -1131,13 +1214,13 @@ libSBML.
 
 For more details, please visit http://sbml.org/Software/JSBML
 
-* Bug Fixes:
+### Bug Fixes:
   - [Tracker issue #3137967]
     Namespaces in the sbml element were incorrectly parsed, some known 
     namespaces like html were not kept for examples. This is fixed, thanks 
     to Paulo Maia for reporting this.
 
-* Known issues:
+### Known issues:
   - problem of output indentation for notes, when there is several top
     level elements.
   
@@ -1155,12 +1238,10 @@ For more details, please visit http://sbml.org/Software/JSBML
     use the corresponding ASTNode tree. (cf model generated by COBRA) 
 
 ---------------------------------------------------------------------------
-$URL$
-Last Modified: $Date$
-Last Modified By: $Author$
 
 The line should not have more than 76 characters to avoid them being put
-over two lines when sending the release email.
+over two lines when sending the release email. Although, since we are using
+markdown we do not cut the lines any more.
 
 The following is for [X]Emacs users.  Please leave in place.
 Local Variables:

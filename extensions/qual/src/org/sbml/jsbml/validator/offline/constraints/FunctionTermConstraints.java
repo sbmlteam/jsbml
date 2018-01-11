@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -98,7 +98,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
       
     case QUAL_10202:
       // The MathML math element in a FunctionTerm object should not use the csymbol elements
-      // “time” and “delay” as these explicitly introduce time into the model.
+      // 'time' and 'delay' as these explicitly introduce time into the model.
       
       break;
       
@@ -113,7 +113,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
           boolean func = true;
           if (ft.isDefaultTerm()) {
-           func = new UnknownCoreAttributeAbstractValidationFunction<FunctionTerm>().check(ctx, ft, QUAL_20701);
+            func = new UnknownCoreAttributeAbstractValidationFunction<FunctionTerm>().check(ctx, ft, QUAL_20701);
             return func;      
           }
           return true;
@@ -128,7 +128,19 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
       // same as 20802
       
-      func = new UnknownCoreElementValidationFunction<FunctionTerm>();      
+      func = new UnknownCoreElementValidationFunction<FunctionTerm>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionTerm ft) {
+          
+          // only testing if it is a defaultTerm
+          if (ft.isDefaultTerm()) {
+            return super.check(ctx, ft);
+          }
+          
+          return true;
+        }
+      };
       break;
 
     case QUAL_20703:
@@ -141,10 +153,13 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
-          if (!ft.isSetResultLevel()) {
+          if (ft.isDefaultTerm() && !ft.isSetResultLevel()) {
             return false;
+          } else if (ft.isDefaultTerm()) {
+            return super.check(ctx, ft);
           }
-          return super.check(ctx, ft);
+          
+          return true;
         }
       };
       break;
@@ -154,7 +169,19 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
       // same as 20805
       
-      func = new InvalidAttributeValidationFunction<FunctionTerm>(QualConstants.resultLevel);
+      func = new InvalidAttributeValidationFunction<FunctionTerm>(QualConstants.resultLevel) {
+
+        @Override
+        public boolean check(ValidationContext ctx, FunctionTerm ft) {
+          
+          // only testing if it is a defaultTerm
+          if (ft.isDefaultTerm()) {
+            return super.check(ctx, ft);
+          }
+          
+          return true;
+        }
+      };
       break;
 
     case QUAL_20705:
@@ -168,6 +195,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
             ValidationConstraint.logError(ctx, QUAL_20705, "Default Term", Integer.valueOf(ft.getResultLevel()).toString());
             return false;
           }
+          
           return true;
         }
       };
@@ -182,13 +210,15 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
           boolean func = true;
+          
           if (!ft.isDefaultTerm()) {
             func = new UnknownCoreAttributeValidationFunction<FunctionTerm>().check(ctx, ft);
             if (func == false) {
-            ValidationConstraint.logError(ctx, QUAL_20801, "TheBrokenAtt");
+              ValidationConstraint.logError(ctx, QUAL_20801, "TheBrokenAtt");
             }
             return func;
           }
+          
           return true;
         }
       };
@@ -196,11 +226,23 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
 
 		case QUAL_20802:
-			// May have the optional subobjects for notes and annotations.
-			// No other namespaces are permitted.
+		  // May have the optional subobjects for notes and annotations.
+		  // No other namespaces are permitted.
 
-			func = new UnknownCoreElementValidationFunction<FunctionTerm>();
-			break;
+		  func = new UnknownCoreElementValidationFunction<FunctionTerm>(){
+
+		    @Override
+		    public boolean check(ValidationContext ctx, FunctionTerm ft) {
+
+		      // only testing if it is not a defaultTerm
+		      if (!ft.isDefaultTerm()) {
+		        return super.check(ctx, ft);
+		      }
+
+		      return true;
+		    }
+		  };
+		  break;
 
 		case QUAL_20803:
 			// must have the required attribute qual:resultLevel
@@ -210,26 +252,53 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 
 		        @Override
 		        public boolean check(ValidationContext ctx, FunctionTerm ft) {
-		          if (!ft.isSetResultLevel()) {
+		          if ((!ft.isDefaultTerm()) && !ft.isSetResultLevel()) {
 		            return false;
+		          } else if (!ft.isDefaultTerm()) {
+		            return super.check(ctx, ft);
 		          }
-		          return super.check(ctx, ft);
+		          
+		          return true;
 		        }
 		      };
 		      break;
 
 		case QUAL_20804:
-			// A FunctionTerm object may contain exactly oneMathML qual:math element.
+		  // A FunctionTerm object may (interpreted as 'must' for now) contain exactly oneMathML qual:math element.
 		  // No other elements are permitted.
 		  
-		  func = new DuplicatedMathValidationFunction<FunctionTerm>();
-      break;
+		  func = new DuplicatedMathValidationFunction<FunctionTerm>(true) {
+
+            @Override
+            public boolean check(ValidationContext ctx, FunctionTerm ft) {
+              
+              // only testing if it is not a defaultTerm
+              if (!ft.isDefaultTerm()) {
+                return super.check(ctx, ft);
+              }
+              
+              return true;
+            }
+          };
+          break;
 
 		case QUAL_20805:
-			// The attribute qual:resultLevel in FunctionTerm must be of the data type integer.
-		  
-			func = new InvalidAttributeValidationFunction<FunctionTerm>(QualConstants.resultLevel);
-			break;
+		  // The attribute qual:resultLevel in FunctionTerm must be of the data type integer.
+
+		  func = new InvalidAttributeValidationFunction<FunctionTerm>(QualConstants.resultLevel) {
+
+		    @Override
+		    public boolean check(ValidationContext ctx, FunctionTerm ft) {
+
+		      // only testing if it is not a defaultTerm
+		      if (!ft.isDefaultTerm()) {
+		        return super.check(ctx, ft);
+		      }
+
+		      return true;
+		    }
+		  };
+		  break;
 
 	
 		case QUAL_20806:
