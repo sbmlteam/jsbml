@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -36,7 +36,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTNode2;
-import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -1080,7 +1079,6 @@ public class ASTNode extends AbstractTreeNode {
    * parser class and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
 <p><blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
-
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
 </pre></blockquote></p>
    * 
@@ -1130,7 +1128,6 @@ public class ASTNode extends AbstractTreeNode {
    * <p> You can as well use the {@link FormulaParser} class to get the same parsing behaviour as in JSBML-0.8:
 <p><blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
-
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
 </pre></blockquote></p>
    * 
@@ -1964,7 +1961,7 @@ public class ASTNode extends AbstractTreeNode {
       break;
     case DIVIDE:
       int childCount = getChildCount();
-      if (childCount != 2) {
+      if (childCount != 2 && !isInvalidSBMLAllowed()) {
         throw new SBMLException(MessageFormat.format(
           resourceBundle.getString("ASTNode.compile1"), childCount));
       }
@@ -2017,7 +2014,7 @@ public class ASTNode extends AbstractTreeNode {
       value = compiler.getConstantAvogadro(getName());
       break;
     case FUNCTION_RATE_OF:
-      value = compiler.getRateOf(getLeftChild().getName());
+      value = compiler.getRateOf(getLeftChild());
       break;
     case REAL_E:
       value = compiler.compile(getMantissa(), getExponent(),
@@ -2103,6 +2100,10 @@ public class ASTNode extends AbstractTreeNode {
       value = compiler.floor(getLeftChild());
       break;
     case FUNCTION_LN:
+      if (getChildCount() > 1) { // TODO - in general, should we throw an SBMLException if we encounter more child than expected ?
+        value = compiler.log(getLeftChild(), getRightChild()); // TODO - temporary fix as we read log(1, 2) as ln(1, 2) currently (07/04/2017)
+        break;
+      }
       value = compiler.ln(getLeftChild());
       break;
     case FUNCTION_MAX:
@@ -2180,8 +2181,10 @@ public class ASTNode extends AbstractTreeNode {
             resourceBundle.getString("ASTNode.compile2"),
             getName(), getParentSBMLObject().getElementName());
           logger.warn(message);
-          throw new SBMLException(message);
-          // value = compiler.compile(variable);
+          
+          value = compiler.function(getName(), getChildren());
+          
+          //throw new SBMLException(message); // We need to be able to print invalid formula so that user can correct it
         }
       } else {
         logger.debug(MessageFormat.format(
@@ -2326,7 +2329,16 @@ public class ASTNode extends AbstractTreeNode {
     if (compiler == null) {
       compiler = new UnitsCompiler(level, version);
     }
-    return compile(compiler).getUnits().simplify();
+    
+    UnitDefinition derivedUnit = compile(compiler).getUnits();
+    UnitDefinition simplifiedUnit = derivedUnit.simplify();
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("ASTNode.deriveUnit - before simplify - units = " + UnitDefinition.printUnits(derivedUnit));
+      logger.debug("ASTNode.deriveUnit - after simplify  - units = " + UnitDefinition.printUnits(simplifiedUnit));
+    }
+    
+    return simplifiedUnit;
   }
 
   /**
@@ -2358,7 +2370,7 @@ public class ASTNode extends AbstractTreeNode {
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
-    
+
     if (equal) {
       ASTNode ast = (ASTNode) object;
       equal &= ast.getType() == type;
@@ -2664,7 +2676,11 @@ public class ASTNode extends AbstractTreeNode {
     if (!isOperator() && !isNumber()) {
       return (variable == null) ? name : variable.getId();
     }
-    throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getName"));
+    if (!isInvalidSBMLAllowed()) {
+      throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getName"));
+    } 
+    
+    return name;
   }
 
   /**
@@ -2823,7 +2839,8 @@ public class ASTNode extends AbstractTreeNode {
     MathContainer parent = getParentSBMLObject();
     int level = parent != null ? parent.getLevel() : -1;
     int version = parent != null ? parent.getVersion() : -1;
-    if (!isSetUnits() || (getParentSBMLObject() == null)) {
+    
+    if (!isSetUnits() || (parent == null)) {
       if (isVariable()) {
         CallableSBase variable = getVariable();
         if (variable != null) {
@@ -2838,10 +2855,11 @@ public class ASTNode extends AbstractTreeNode {
     }
     if (Unit.Kind.isValidUnitKindString(getUnits(), level, version)) {
       return UnitDefinition.getPredefinedUnit(getUnits(), level, version);
-    } else if (getParentSBMLObject().getModel() == null) {
+    } else if (parent.getModel() == null) {
       return null;
     }
-    return getParentSBMLObject().getModel().getUnitDefinition(getUnits());
+    
+    return parent.getModel().getUnitDefinition(getUnits());
   }
 
   /**
@@ -3968,7 +3986,7 @@ public class ASTNode extends AbstractTreeNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, oldValue, name);
     if ((!type.toString().startsWith("NAME")) && (type != Type.FUNCTION)
-        && (type != Type.FUNCTION_DELAY)) {
+        && (type != Type.FUNCTION_DELAY) && (type != Type.FUNCTION_RATE_OF)) {
       Type oldType = type;
       type = variable == null ? Type.FUNCTION : Type.NAME;
       firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
@@ -4089,12 +4107,12 @@ public class ASTNode extends AbstractTreeNode {
    *             of a unit definition.
    */
   public void setUnits(String unitId) {
-    
+
     if (!isNumber()) {
       if (!isReadingInProgress()) {
         throw new IllegalArgumentException(MessageFormat.format(
-            resourceBundle.getString("ASTNode.setUnits1"),
-            unitId));
+          resourceBundle.getString("ASTNode.setUnits1"),
+          unitId));
       } else {
         logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits1"), unitId));
       }
@@ -4103,20 +4121,20 @@ public class ASTNode extends AbstractTreeNode {
       if (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId)) {
         if (!isReadingInProgress()) {
           throw new IllegalArgumentException(MessageFormat.format(
-              resourceBundle.getString("ASTNode.setUnits2"),
-              unitId));
+            resourceBundle.getString("ASTNode.setUnits2"),
+            unitId));
         } else {
-          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits2"), unitId));          
+          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits2"), unitId));
         }
       }
       if (parentSBMLObject.isSetLevel() && (parentSBMLObject.getLevel() < 3)) {
-        if (!isReadingInProgress()) {        
-        throw new IllegalArgumentException(MessageFormat.format(
-          resourceBundle.getString("ASTNode.setUnits3"),
-          unitId));
+        if (!isReadingInProgress()) {
+          throw new IllegalArgumentException(MessageFormat.format(
+            resourceBundle.getString("ASTNode.setUnits3"),
+            unitId));
         } else {
-          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits3"), unitId));          
-        }        
+          logger.warn(MessageFormat.format(resourceBundle.getString("ASTNode.setUnits3"), unitId));
+        }
       }
     }
     String oldValue = this.unitId;

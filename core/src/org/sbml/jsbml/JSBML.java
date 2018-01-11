@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -77,7 +77,7 @@ public class JSBML {
   /**
    * The current version number of JSBML.
    */
-  private static final String jsbmlVersion = "1.3-SNAPSHOT"; // TODO: replace automatically this version number with [BUILD.NUMBER]
+  private static final String jsbmlVersion = "1.4-SNAPSHOT"; // TODO: replace automatically this version number with [BUILD.NUMBER]
   /**
    * 
    */
@@ -132,19 +132,19 @@ public class JSBML {
    * String that can be added to an SBase user objects, if it is associated with the value {@code true},
    * then the getters and setters will allow to set some invalid values instead of throwing exceptions.
    * 
-   * <p>This is in particular useful when reading a file so that we read exactly what is on file or 
+   * <p>This is in particular useful when reading a file so that we read exactly what is on file or
    * when validating as we sometimes need to create invalid objects in the process.</p>
-   *  
+   * 
    */
-  public static final transient String ALLOW_INVALID_SBML = "jsbml.allow.invalid.sbml"; 
-  
+  public static final transient String ALLOW_INVALID_SBML = "jsbml.allow.invalid.sbml";
+
   /**
    * Key used to indicate that we are in the process of reading an XML document.
    * 
    * @see #ALLOW_INVALID_SBML
    */
-  public static final transient String READING_IN_PROGRESS = ALLOW_INVALID_SBML;   
-  
+  public static final transient String READING_IN_PROGRESS = ALLOW_INVALID_SBML;
+
   /**
    * Key used to indicate that we are in the process of cloning an object.
    */
@@ -153,8 +153,8 @@ public class JSBML {
   /**
    * Key used to store the real parent element for each  child of a {@link ASTNode.Type#FUNCTION_PIECEWISE} ASTNode.
    */
-  public static final transient String PIECEWISE_ID = "jsbml.piecewise.id"; 
-  
+  public static final transient String PIECEWISE_ID = "jsbml.piecewise.id";
+
   /**
    * Key used to store any unknown XML encountered while reading an SBML file.
    */
@@ -166,12 +166,12 @@ public class JSBML {
    * in the user objects of the corresponding {@link SBase}).
    */
   public static final transient String INVALID_XML = "jsbml.invalid.xml";
-  
+
   /**
    * Key used to store the XML prefix of an element when needed.
    */
   public static final transient String ELEMENT_XML_PREFIX = "jsbml.element.xml.prefix";
-  
+
 
   /**
    * Key used to store the list of the xml child element names of an SBase. It later allows
@@ -179,7 +179,7 @@ public class JSBML {
    */
   public static final transient String CHILD_ELEMENT_NAMES = "jsbml.child.elements.names";
 
-  
+
   /**
    * Adds the given {@link UnitDefinition} to the given model or returns the
    * identifier of an equivalent {@link UnitDefinition} that is already part
@@ -258,7 +258,7 @@ public class JSBML {
    */
   public static int getJSBMLVersion() {
     String jsbmlVersionString = getJSBMLVersionString();
-    int indexOfDash = jsbmlVersionString.indexOf("-");
+    int indexOfDash = jsbmlVersionString.indexOf('-');
 
     if (indexOfDash != -1) {
       jsbmlVersionString = jsbmlVersionString.substring(0, indexOfDash);

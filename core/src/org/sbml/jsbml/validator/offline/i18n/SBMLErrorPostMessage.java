@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -311,6 +311,8 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(Integer.toString(SBMLErrorCodes.CORE_99508), "The units of the <compartment> ''{0}'' cannot be fully checked. Unit consistency reported as either no errors or further unit errors related to this object may not be accurate.");
     
       // qualitative model
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20311), "The <transition> with id ''{0}'' includes an <output> that uses an assignment to the <qualitativeSpecies> ''{1}'' that has already been assigned.");
       
       //Attribute 'symbol' is not part of the definition of an SBML Level 3 Version 1 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20701), "Attribute <{0}> is not part of the definition of an SBML Level 3 Version 1");

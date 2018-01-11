@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -791,7 +791,7 @@ public class UnitDefinition extends AbstractNamedSBase {
   public UnitDefinition divideBy(UnitDefinition definition) {
     
     // Making sure to return an invalid unit if either the numerator or denominator is invalid.
-    if (definition.isInvalid()) {
+    if (definition == null || definition.isInvalid()) {
       unsetListOfUnits();
       createInvalidUnit();
       return this;

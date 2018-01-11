@@ -3,7 +3,7 @@
 	 * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
 	 * for the latest version of JSBML and more information about SBML.
 	 *
-	 * Copyright (C) 2009-2017 jointly by the following organizations:
+	 * Copyright (C) 2009-2018 jointly by the following organizations:
 	 * 1. The University of Tuebingen, Germany
 	 * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
 	 * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -165,16 +165,18 @@
 					qualModel = new QualModelPlugin(model);
 					model.addExtension(QualConstants.namespaceURI, qualModel);
 				}
-				AbstractReaderWriter.storeElementsOrder(getPackageName() + ":" + elementName, model);
+				AbstractReaderWriter.storeElementsOrder(elementName, qualModel);
+				
 				if (elementName.equals("listOfQualitativeSpecies")) {
 					ListOf<QualitativeSpecies> listOfQualitativeSpecies = qualModel.getListOfQualitativeSpecies();
 					groupList = QualList.listOfQualitativeSpecies;
 					return listOfQualitativeSpecies;
 				} else if (elementName.equals("listOfTransitions")) {
 
-					ListOf<Transition> listOfObjectives = qualModel.getListOfTransitions();
+					ListOf<Transition> listOfTransitions = qualModel.getListOfTransitions();
 					groupList = QualList.listOfTransitions;
-					return listOfObjectives;
+					
+					return listOfTransitions;
 				} else {
 					logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
 					return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
@@ -212,7 +214,7 @@
 				if (elementName.equals("transition") && groupList.equals(QualList.listOfTransitions)) {
 					Model model = (Model) listOf.getParentSBMLObject();
 					QualModelPlugin extendeModel = (QualModelPlugin) model.getExtension(QualConstants.namespaceURI);
-
+					
 					Transition transition = new Transition();
 					extendeModel.addTransition(transition);
 					return transition;

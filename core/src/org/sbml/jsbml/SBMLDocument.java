@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -42,6 +42,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.converters.ExpandFunctionDefinitionConverter;
+import org.sbml.jsbml.util.converters.ToL3V2Converter;
 import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
@@ -369,9 +370,9 @@ public class SBMLDocument extends AbstractSBase {
 
     ctx.enableCheckCategories(checks.toArray(new CHECK_CATEGORY[checks.size()]), true);
     ctx.loadConstraints(this.getClass());
-    
+
     SBMLDocument docToValidate = this;
-    
+
     if (isSetModel() && getModel().getFunctionDefinitionCount() > 0) {
       ExpandFunctionDefinitionConverter converter = new ExpandFunctionDefinitionConverter();
       docToValidate = converter.convert(this);
@@ -1632,6 +1633,11 @@ public class SBMLDocument extends AbstractSBase {
    */
   @Override
   public boolean setLevelAndVersion(int level, int version, boolean strict) {
+    if (level > 2) {
+      if (version > 1) {
+        super.setLevelAndVersion(level, version, strict, new ToL3V2Converter());
+      }
+    }
     return super.setLevelAndVersion(level, version, strict);
   }
 

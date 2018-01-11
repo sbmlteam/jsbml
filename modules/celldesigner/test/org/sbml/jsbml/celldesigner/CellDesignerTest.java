@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -215,8 +215,8 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     }
     else if (sbase instanceof PluginConstraint)
     {
-      propertyChangeVis.addSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath()+"\t"
-          +((PluginConstraint)sbase).getMessage());
+      propertyChangeVis.addSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath() + '\t'
+        +((PluginConstraint)sbase).getMessage());
     }
     else if (sbase instanceof PluginFunctionDefinition)
     {
@@ -303,8 +303,8 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     }
     else if (sbase instanceof PluginConstraint)
     {
-      propertyChangeVis.changeSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath()+"\t"
-          +((PluginConstraint)sbase).getMessage());
+      propertyChangeVis.changeSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath() + '\t'
+        +((PluginConstraint)sbase).getMessage());
     }
     else if (sbase instanceof PluginFunctionDefinition)
     {
@@ -388,8 +388,8 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     }
     else if (sbase instanceof PluginConstraint)
     {
-      propertyChangeVis.deleteSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath()+"\t"
-          +((PluginConstraint)sbase).getMessage());
+      propertyChangeVis.deleteSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath() + '\t'
+        +((PluginConstraint)sbase).getMessage());
     }
     else if (sbase instanceof PluginFunctionDefinition)
     {

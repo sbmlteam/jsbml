@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -41,6 +41,8 @@ import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
 
 /**
  * Derives the units from mathematical operations.
@@ -63,7 +65,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
    */
   protected Model model;
   protected boolean allowInvalidModel = false;
-  
+  protected ValidationContext ctx;
+  protected AssignmentCycleValidation cycleValidation = new AssignmentCycleValidation();
+
   /**
    * Necessary for function definitions to remember the units of the argument
    * list.
@@ -107,6 +111,16 @@ public class UnitsCompiler implements ASTNodeCompiler {
     this.allowInvalidModel = allowInvalidModel;
   }
   
+  /**
+   * 
+   * @param model
+   */
+  public UnitsCompiler(Model model, ValidationContext ctx) {
+    this(model.getLevel(), model.getVersion());
+    this.model = model;
+    this.allowInvalidModel = true;
+    this.ctx = ctx;
+  }
   
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNodeValue)
@@ -367,6 +381,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
       if (m.getAssignmentRuleByVariable(q.getId()) != null) {
         AssignmentRule ar = m.getAssignmentRuleByVariable(q.getId());
         
+        // assignment cycle validation
+        if (cycleValidation != null && cycleValidation.check(ctx, ar)) {
+          // System.out.println("found a cycle for '" + q.getId() + "'"); // TODO - check 10514-fail-01-06-sev1-l3v2.xml, we find a cycle where there are no cycle
+          return invalid();
+        }
+        
         if (ar.isSetMath()) {
           ASTNodeValue arValue = ar.getMath().compile(this);
           value.setValue(arValue.toDouble());
@@ -374,6 +394,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
       }
       else if (m.getInitialAssignmentBySymbol(q.getId()) != null) {
         InitialAssignment ia = m.getInitialAssignmentBySymbol(q.getId());
+        
+        // assignment cycle validation
+        if (cycleValidation != null && cycleValidation.check(ctx, ia)) {
+          // System.out.println("found a cycle for '" + q.getId() + "'");
+          return invalid();
+        }
         
         if (ia.isSetMath()) {
           ASTNodeValue iaValue = ia.getMath().compile(this);
@@ -1651,10 +1677,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
       return new ASTNodeValue(this);
     }
     
-    ASTNodeValue value = new ASTNodeValue(this);
+    ASTNodeValue value = new ASTNodeValue(this);    
     
     // should be the units of 'name' divided by the model units of time.
     Model m = nameAST.getParentSBMLObject().getModel();
+    value.setLevel(m.getLevel());
+    value.setVersion(m.getVersion());
     
     if (m != null) {
       UnitDefinition timeUnits = m.getTimeUnitsInstance();

@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2017 jointly by the following organizations:
+ * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -524,7 +524,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     while (newIt.hasNext())
     {
       Entry<String, Set<SBase>> pairs = newIt.next();
-      mapText.append(pairs.getKey().substring(0, pairs.getKey().indexOf("_"))+"\t"+pairs.getValue()+"\n");
+      mapText.append(pairs.getKey().substring(0, pairs.getKey().indexOf('_')) + '\t' + pairs.getValue() + '\n');
     }
     JScrollPane pane = new JScrollPane(new JTextArea(mapText.toString()));
     pane.setPreferredSize(new Dimension(640, 480));
