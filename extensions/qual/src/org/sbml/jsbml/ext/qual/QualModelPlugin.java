@@ -347,7 +347,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    * @return the listOfQualitativeSpecies
    */
   public ListOf<QualitativeSpecies> getListOfQualitativeSpecies() {
-    if (!isSetListOfQualitativeSpecies()) {
+    if (listOfQualitativeSpecies == null) {
       listOfQualitativeSpecies = new ListOf<QualitativeSpecies>();
       listOfQualitativeSpecies.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
@@ -367,7 +367,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    * @return the listOTransitions
    */
   public ListOf<Transition> getListOfTransitions() {
-    if (!isSetListOfTransitions()) {
+    if (listOfTransitions == null) {
       listOfTransitions = new ListOf<Transition>();
       listOfTransitions.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'qual'
@@ -538,7 +538,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    * @return {@code true} if the listOfQualitativeSpecies is set.
    */
   public boolean isSetListOfQualitativeSpecies() {
-    if ((listOfQualitativeSpecies == null) || listOfQualitativeSpecies.isEmpty()) {
+    if (listOfQualitativeSpecies == null) {
       return false;
     }
     return true;
@@ -550,7 +550,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    * @return {@code true} if the listOfTransitions is set.
    */
   public boolean isSetListOfTransitions() {
-    if ((listOfTransitions == null) || listOfTransitions.isEmpty()) {
+    if (listOfTransitions == null) {
       return false;
     }
     return true;

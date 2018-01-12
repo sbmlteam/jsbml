@@ -588,7 +588,7 @@ public class MathMLStaxParser implements ReadingParser {
             || mathContainer instanceof Constraint || mathContainer instanceof KineticLaw
             || mathContainer instanceof Trigger || mathContainer instanceof Delay
             || mathContainer instanceof EventAssignment || mathContainer instanceof Priority
-            || mathContainer instanceof FunctionDefinition)) 
+            || mathContainer instanceof FunctionDefinition || !mathContainer.getPackageName().equals("core"))) 
     {
       int nbElement = (int) ((mathContainer.isSetUserObjects() && mathContainer.getUserObject(userObjectKey) != null) ? mathContainer.getUserObject(userObjectKey) : 0);
       nbElement++;
