@@ -1,11 +1,15 @@
-/* ----------------------------------------------------------------------------
+/*
+ * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
+ * 
  * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
- * 4. The Babraham Institute, Cambridge, UK
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -15,18 +19,32 @@
  */
 package org.sbml.jsbml.ext.fbc.converters;
 
-import static org.sbml.jsbml.util.StringTools.getMessage;
 import static java.text.MessageFormat.format;
+import static org.sbml.jsbml.util.StringTools.getMessage;
+
+import java.io.StringReader;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.ext.fbc.*;
+import org.sbml.jsbml.ext.fbc.And;
+import org.sbml.jsbml.ext.fbc.Association;
+import org.sbml.jsbml.ext.fbc.FBCConstants;
+import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
+import org.sbml.jsbml.ext.fbc.FBCReactionPlugin;
+import org.sbml.jsbml.ext.fbc.GeneProduct;
+import org.sbml.jsbml.ext.fbc.GeneProductAssociation;
+import org.sbml.jsbml.ext.fbc.GeneProductRef;
+import org.sbml.jsbml.ext.fbc.LogicalOperator;
+import org.sbml.jsbml.ext.fbc.Or;
 import org.sbml.jsbml.text.parser.CobraFormulaParser;
 
-import java.io.StringReader;
-
+/**
+ * 
+ * @author Andreas Dr&auml;ger
+ * @since 1.3
+ */
 public class GPRParser {
 
   /**
@@ -106,6 +124,7 @@ public class GPRParser {
 
   /**
    * @param r
+   *        Reaction
    * @param geneReactionRule
    */
   public static GeneProductAssociation parseGPR(Reaction r, String geneReactionRule, boolean omitGenericTerms) {
@@ -130,7 +149,10 @@ public class GPRParser {
   }
 
   /**
+   * Correct gene id to match BiGG specification
+   *
    * @param id
+   *        Gene ID to correct
    * @return corrected gene id
    */
   private static String updateGeneId(String id) {
@@ -140,5 +162,5 @@ public class GPRParser {
     }
     return id;
   }
-  
+
 }

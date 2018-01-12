@@ -165,16 +165,18 @@
 					qualModel = new QualModelPlugin(model);
 					model.addExtension(QualConstants.namespaceURI, qualModel);
 				}
-				AbstractReaderWriter.storeElementsOrder(getPackageName() + ":" + elementName, model);
+				AbstractReaderWriter.storeElementsOrder(elementName, qualModel);
+				
 				if (elementName.equals("listOfQualitativeSpecies")) {
 					ListOf<QualitativeSpecies> listOfQualitativeSpecies = qualModel.getListOfQualitativeSpecies();
 					groupList = QualList.listOfQualitativeSpecies;
 					return listOfQualitativeSpecies;
 				} else if (elementName.equals("listOfTransitions")) {
 
-					ListOf<Transition> listOfObjectives = qualModel.getListOfTransitions();
+					ListOf<Transition> listOfTransitions = qualModel.getListOfTransitions();
 					groupList = QualList.listOfTransitions;
-					return listOfObjectives;
+					
+					return listOfTransitions;
 				} else {
 					logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
 					return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
@@ -212,7 +214,7 @@
 				if (elementName.equals("transition") && groupList.equals(QualList.listOfTransitions)) {
 					Model model = (Model) listOf.getParentSBMLObject();
 					QualModelPlugin extendeModel = (QualModelPlugin) model.getExtension(QualConstants.namespaceURI);
-
+					
 					Transition transition = new Transition();
 					extendeModel.addTransition(transition);
 					return transition;
