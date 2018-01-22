@@ -318,13 +318,37 @@ public class SBMLErrorPostMessage extends ResourceBundle {
 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20309), "In <qualitativeSpecies> ''{0}'' is the initalLevel: ''{1}'' greater than the maxLevel: ''{2}''.");
 
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20310), "The constant <qualitativeSpecies> ''{0}'' is referred to by an <output.");
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20310), "The constant <qualitativeSpecies> ''{0}'' is referred to by an <output>.");
 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20311), "The <transition> with id ''{0}'' includes an <output> that uses an assignment to the <qualitativeSpecies> ''{1}'' that has already been assigned.");
 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20312), "The initalLevel of the <qualitativeSpecies> ''{0}'' is ''{1}'', which is negative.");
 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20313), "The maxLevel of the <qualitativeSpecies> ''{0}'' is ''{1}'', which is negative.");
+      
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20401), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20405), "Has a <listOfFunctionTerms> == ''{0}'', has only one instant of <ListOfInputs> == ''{1}'', has only one instant of <ListOfOutputs> == ''{2}''.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20406), "The size of the <ListOfInputs> == ''{0}'', the size of the <ListOfOutputs> == ''{1}''.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20407), "''{0}''");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20408), "''{0}''");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20409), "''{0}''");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20410), "''{0}''");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20411), "''{0}''");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20412), "''{0}''");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20413), "''{0}''");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20414), "''{0}''");  
+            
       
       // Attribute 'symbol' is not part of the definition of an SBML Level 3 Version 1 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20701), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1");
