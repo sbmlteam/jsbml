@@ -28,7 +28,7 @@ import org.sbml.jsbml.ext.qual.QualitativeSpecies;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeAbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 
@@ -80,8 +80,13 @@ public class InputConstraints extends AbstractConstraintDeclaration {
 			// May have the optional attributes metaid and sboTerm.
 			// No other namespaces are permitted.
 
-			func = new UnknownCoreAttributeValidationFunction<Input>();
-			break;
+      func = new AbstractValidationFunction<Input>() {
+        @Override
+        public boolean check(ValidationContext ctx, Input i) {
+          return new UnknownCoreAttributeAbstractValidationFunction<Input>().check(ctx, i, QUAL_20301);
+        }
+      };
+      break;
 
 		case QUAL_20502:
 			// May have the optional subobjects for notes and annotations.
@@ -142,11 +147,12 @@ public class InputConstraints extends AbstractConstraintDeclaration {
       // The value of the attribute qual:qualitativeSpecies must be the identifier
       // of an existing QualitativeSpecies object defined in the enclosing Model
 
-		  func = new ValidationFunction<Input>() {
+		  func = new AbstractValidationFunction<Input>() {
 		    @Override
 		    public boolean check(ValidationContext ctx, Input i) {
 
 		      if (i.isSetQualitativeSpecies() && i.getQualitativeSpeciesInstance() == null) {
+		        ValidationConstraint.logError(ctx, QUAL_20508, i.getQualitativeSpecies());
 		        return false;
 		      }
 		      return true;  
@@ -159,13 +165,14 @@ public class InputConstraints extends AbstractConstraintDeclaration {
       // attribute set to 'true' cannot have the attribute qual:transitionEffect set
       // to 'consumption'.
       
-      func = new ValidationFunction<Input>() {
+      func = new AbstractValidationFunction<Input>() {
         @Override
         public boolean check(ValidationContext ctx, Input i) {
           
           if (i.isSetQualitativeSpecies() && i.isSetTransitionEffect()) { 
             QualitativeSpecies qs = i.getQualitativeSpeciesInstance();
             if (qs != null && qs.isSetConstant() && qs.getConstant() && i.getTransitionEffect() == InputTransitionEffect.consumption) {
+              ValidationConstraint.logError(ctx, QUAL_20509, i.getQualitativeSpecies(), i.getId());
               return false;
             }
           }
@@ -177,13 +184,14 @@ public class InputConstraints extends AbstractConstraintDeclaration {
 
 		case QUAL_20510:
 			// The attribute qual:thresholdLevel in Input must not be negative
-			func = new ValidationFunction<Input>() {
+			func = new AbstractValidationFunction<Input>() {
 				@Override
 				public boolean check(ValidationContext ctx, Input i) {
-					if (i.isSetThresholdLevel() && i.getThresholdLevel() < 0) {
-						return false;
-					}
-					return true;
+				  if (i.isSetThresholdLevel() && i.getThresholdLevel() < 0) {
+				    ValidationConstraint.logError(ctx, QUAL_20510, i.getId(), Integer.toString(i.getThresholdLevel()));
+				    return false;
+				  }
+				  return true;
 				}
 			};
 			break;
