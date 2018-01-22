@@ -312,15 +312,27 @@ public class SBMLErrorPostMessage extends ResourceBundle {
     
       // qualitative model
       
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20301), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20308), "In <qualitativeSpecies> ''{0}'' <compartment> ''{1}'' is undefined.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20309), "In <qualitativeSpecies> ''{0}'' is the initalLevel: ''{1}'' greater than the maxLevel: ''{2}''.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20310), "The constant <qualitativeSpecies> ''{0}'' is referred to by an <output.");
+
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20311), "The <transition> with id ''{0}'' includes an <output> that uses an assignment to the <qualitativeSpecies> ''{1}'' that has already been assigned.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20312), "The initalLevel of the <qualitativeSpecies> ''{0}'' is ''{1}'', which is negative.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20313), "The maxLevel of the <qualitativeSpecies> ''{0}'' is ''{1}'', which is negative.");
       
-      //Attribute 'symbol' is not part of the definition of an SBML Level 3 Version 1 
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20701), "Attribute <{0}> is not part of the definition of an SBML Level 3 Version 1");
+      // Attribute 'symbol' is not part of the definition of an SBML Level 3 Version 1 
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20701), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1");
       
       // The resultLevel of the <defaultTerm> is '-4', which is negative. 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20705), "The resultLevel of the <{0}> is ''{1}'', which is negative.");
       
-      //  Attribute 'id' is not part of the definition of an SBML Level 3 Version 1
+      // Attribute 'id' is not part of the definition of an SBML Level 3 Version 1
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20801), "Attribute <{0}> is not part of the definition of an SBML Level 3 Version 1");
       
       // The resultLevel of the <functionTerm> is '-1', which is negative. 
