@@ -312,7 +312,7 @@ public class SBMLErrorPostMessage extends ResourceBundle {
     
       // qualitative model
       
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20301), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1.");
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20301), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <qualitativeSpecies> element..");
 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20308), "In <qualitativeSpecies> ''{0}'' <compartment> ''{1}'' is undefined.");
 
@@ -327,7 +327,7 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20313), "The maxLevel of the <qualitativeSpecies> ''{0}'' is ''{1}'', which is negative.");
       
       
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20401), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1.");
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20401), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <transition> element..");
 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20405), "Has a <listOfFunctionTerms> == ''{0}'', has only one instant of <ListOfInputs> == ''{1}'', has only one instant of <ListOfOutputs> == ''{2}''.");
 
@@ -350,7 +350,7 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20414), "''{0}''");  
       
       
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20501), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1.");
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20501), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <input> element.");
 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20508), "The <qualitativeSpecies> ''{0}'' is undefined.");  
       
@@ -359,8 +359,20 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20510), "The threshholdLevel of the <input> with id''{0} is ''{1}'', which is negative.");
       
       
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20601), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <output> element.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20607), "<qualitativeSpecies> ''{0}'' is undefined.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20608), "The <qualitativeSpecies> ''{0}'' referred to by the <output> has constant set to ''{1}'' .");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20609), "The value of the attribute <transitionEffect> is set to ''{0}'' and the attribute <outputLevel> is set == ''{1}''.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20610), "The outputLevel of the <output> with id ''{0}'' is ''{1}'', which is negative.");
+      
+      
+      
       // Attribute 'symbol' is not part of the definition of an SBML Level 3 Version 1 
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20701), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1");
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20701), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 <output> element.");
       
       // The resultLevel of the <defaultTerm> is '-4', which is negative. 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20705), "The resultLevel of the <{0}> is ''{1}'', which is negative.");
