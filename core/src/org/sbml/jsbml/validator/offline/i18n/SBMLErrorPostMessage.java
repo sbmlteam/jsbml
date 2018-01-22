@@ -356,7 +356,7 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20509), "The <qualitativeSpecies> ''{0}'' referred to by the <input> with the id ''{1}'' has constant set to true, but the transitionEffect of the <input> is set to consumption. ");  
       
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20510), "The threshholdLevel  of the <input> with id''{0} is ''{1}'', which is negative.");
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20510), "The threshholdLevel of the <input> with id''{0} is ''{1}'', which is negative.");
       
       
       // Attribute 'symbol' is not part of the definition of an SBML Level 3 Version 1 

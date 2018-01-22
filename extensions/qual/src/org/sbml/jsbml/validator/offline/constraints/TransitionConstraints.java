@@ -144,8 +144,8 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 
 				@Override
 				public boolean check(ValidationContext ctx, Transition t) {
-					if (!((t.isSetListOfInputs() && t.getListOfInputs().isEmpty())
-              || (t.isSetListOfOutputs() && t.getListOfOutputs().isEmpty()))) {
+					if ((t.isSetListOfInputs() && t.getListOfInputs().isEmpty())
+              || (t.isSetListOfOutputs() && t.getListOfOutputs().isEmpty())) {
 					  ValidationConstraint.logError(ctx, QUAL_20406, Integer.toString(t.getListOfInputs().size()), Integer.toString(t.getListOfOutputs().size()));
             return false;
 					}
@@ -161,7 +161,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 
 				@Override
 				public boolean check(ValidationContext ctx, Transition t) {
-					if (t.isSetListOfInputs() || !t.getListOfInputs().isEmpty()) {
+					if (t.isSetListOfInputs() || t.getListOfInputs().isEmpty()) {
 						UnknownElementValidationFunction<ListOf<Input>> unFunc = new UnknownElementValidationFunction<ListOf<Input>>();
 						return unFunc.check(ctx, t.getListOfInputs());
 					}
