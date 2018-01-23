@@ -220,7 +220,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 				@Override
 				public boolean check(ValidationContext ctx, Transition t) {
 
-				  if (t.isSetListOfInputs() && (t.getListOfInputs() != null)) {
+				  if (t.isSetListOfInputs()) {
 				    return new UnknownAttributeValidationFunction<>().check(ctx, t.getListOfInputs());
 				  }
 				  return true;
