@@ -333,21 +333,21 @@ public class SBMLErrorPostMessage extends ResourceBundle {
 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20406), "The size of the <ListOfInputs> == ''{0}'', the size of the <ListOfOutputs> == ''{1}''.");
 
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20407), "''{0}''");
+//      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20407), "''{0}''");
+//      
+//      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20408), "''{0}''");
+//      
+//      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20409), "''{0}''");
+     
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20410), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <listOfInputs> element. ");
       
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20408), "''{0}''");
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20411), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <listOfOutputs> element. ");
       
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20409), "''{0}''");
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20412), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <listOfFunctionTerms> element. ");
       
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20410), "''{0}''");
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20413), "The <transition> with id ''{0}'' includes a resultLevel that may cause the <qualitativeSpecies> ''{1}'' to exceed its maximumLevel. ");
       
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20411), "''{0}''");
-      
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20412), "''{0}''");
-      
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20413), "''{0}''");
-      
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20414), "''{0}''");  
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20414), "The resultLevel of the <functionTerm> is ''{0}'', which is negative. ");  
       
       
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20501), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <input> element.");
