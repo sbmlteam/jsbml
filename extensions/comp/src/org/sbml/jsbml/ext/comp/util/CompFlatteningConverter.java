@@ -102,6 +102,7 @@ public class CompFlatteningConverter {
         this.flattenedModel.unsetPlugin(CompConstants.shortLabel);
 
         document.setModel(this.flattenedModel);
+        document.unsetExtension(CompConstants.shortLabel);
         document.disablePackage(CompConstants.shortLabel);
         return document;
 
