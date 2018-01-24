@@ -34,7 +34,7 @@ public class CompFlattenTest {
                 SBMLDocument document = reader.readSBML(file);
 
                 CompFlatteningConverter compFlatteningConverter = new CompFlatteningConverter();
-                //SBMLDocument flattendDocument = compFlatteningConverter.flatten(document);
+                SBMLDocument flattendDocument = compFlatteningConverter.flatten(document);
 
 //                SBMLWriter sbmlWriter = new SBMLWriter();
 //
@@ -47,7 +47,7 @@ public class CompFlattenTest {
                 //Assert.assertEquals(expectedDocument, flattendSBML);
 
                 // TODO: this way all the tests should work. change back to flattend
-                Assert.assertTrue(testSBMLDocuments(expectedDocument, expectedDocument));
+                Assert.assertTrue(testSBMLDocuments(expectedDocument, flattendDocument));
             } catch (XMLStreamException | IOException e) {
                 e.printStackTrace();
             }
@@ -68,10 +68,8 @@ public class CompFlattenTest {
 
                 if(expectedTreeNode.isLeaf() && flattenedTreeNode.isLeaf() && !expectedTreeNode.equals(flattenedTreeNode)){
                     return false;
-                } else if(expectedTreeNode.equals(flattenedTreeNode) && !expectedTreeNode.isLeaf() && !flattenedTreeNode.isLeaf()){
+                } else if (expectedTreeNode.equals(flattenedTreeNode) && !expectedTreeNode.isLeaf() && !flattenedTreeNode.isLeaf()){
                     testSBMLDocuments(expectedTreeNode, flattenedTreeNode);
-                } else {
-                    return false;
                 }
             }
 
