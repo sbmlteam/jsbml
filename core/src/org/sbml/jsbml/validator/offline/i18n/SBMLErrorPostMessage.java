@@ -312,6 +312,8 @@ public class SBMLErrorPostMessage extends ResourceBundle {
     
       // qualitative model
       
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_10201), "The mathML math element in <functionTerm> with id ''{0}'' is not evaluating to a value of type boolean.");
+      
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20301), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <qualitativeSpecies> element..");
 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20308), "In <qualitativeSpecies> ''{0}'' <compartment> ''{1}'' is undefined.");

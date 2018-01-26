@@ -83,7 +83,7 @@ public class InputConstraints extends AbstractConstraintDeclaration {
       func = new AbstractValidationFunction<Input>() {
         @Override
         public boolean check(ValidationContext ctx, Input i) {
-          return new UnknownCoreAttributeAbstractValidationFunction<Input>().check(ctx, i, QUAL_20301);
+          return new UnknownCoreAttributeAbstractValidationFunction<Input>().check(ctx, i, QUAL_20501);
         }
       };
       break;
