@@ -30,7 +30,7 @@ public enum InterpolationKind {
   /**
    * 
    */
-  nearestneighbor,
+  nearestNeighbor,
   /**
    * 
    */
