@@ -34,7 +34,7 @@ import org.sbml.jsbml.util.converters.SBMLConverter;
  * 
  * @author Thomas Hamm
  * @author Nicolas Rodriguez
- * @since 1.2
+ * @since 1.3
  */
 public class CobraToFbcV2Converter implements SBMLConverter {
 
