@@ -29,7 +29,7 @@ import org.sbml.jsbml.ext.qual.Transition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeAbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 
@@ -102,9 +102,16 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 		case QUAL_20301: {
 			// may have the optional attributes metaid and sboTerm
 			// no other attributes in the core namespace are permitted
-			func = new UnknownCoreAttributeValidationFunction<QualitativeSpecies>();
-			break;
+		  
+		  func = new AbstractValidationFunction<QualitativeSpecies>() {
+		    @Override
+		    public boolean check(ValidationContext ctx, QualitativeSpecies q) {
+		      return new UnknownCoreAttributeAbstractValidationFunction<QualitativeSpecies>().check(ctx, q, QUAL_20301);
+		    }
+		  };
+		  break;
 		}
+		
 		case QUAL_20302: {
 			// may have the optional subobjects for notes and annotations
 			// no other elements in the core namespace are permitted
@@ -179,10 +186,11 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 		case QUAL_20309:
 			// The value of the attribute qual:initialLevel cannot be greater than the
 			// value of the qual:maxLevel attribute for the given QualitativeSpecies object
-			func = new ValidationFunction<QualitativeSpecies>() {
+			func = new AbstractValidationFunction<QualitativeSpecies>() {
 				@Override
 				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
 					if (qs.isSetInitialLevel() && qs.isSetMaxLevel() && qs.getInitialLevel() > qs.getMaxLevel()) {
+					  ValidationConstraint.logError(ctx, QUAL_20309, qs.getId(), Integer.toString(qs.getInitialLevel()), Integer.toString(qs.getMaxLevel()));
 						return false;
 					}
 					return true;
@@ -194,7 +202,7 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 			// If the attribute qual:constant set to true it can only be referred to by an
 			// Input
 			// It cannot be the subject of an Output in a Transition
-			func = new ValidationFunction<QualitativeSpecies>() {
+			func = new AbstractValidationFunction<QualitativeSpecies>() {
 				@Override
 				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
 					if (qs.isSetConstant() && qs.getConstant()) {
@@ -202,6 +210,7 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 						for (Transition trans : qmp.getListOfTransitions()) {
 							for (Output output : trans.getListOfOutputs()) {
 								if (output.getQualitativeSpecies().equals(qs.getId())) {
+								  ValidationConstraint.logError(ctx, QUAL_20310, qs.getId());
 									return false;
 								}
 							}
@@ -223,10 +232,11 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 
 		case QUAL_20312:
 			// The attribute qual:initialLevel must not be negative
-			func = new ValidationFunction<QualitativeSpecies>() {
+			func = new AbstractValidationFunction<QualitativeSpecies>() {
 				@Override
 				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
 					if (qs.isSetInitialLevel() && qs.getInitialLevel() < 0) {
+					  ValidationConstraint.logError(ctx, QUAL_20312, qs.getId(), Integer.toString(qs.getInitialLevel()));
 						return false;
 					}
 					return true;
@@ -236,10 +246,11 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 
 		case QUAL_20313:
 			// The attribute qual:maxLevel must not be negative.
-			func = new ValidationFunction<QualitativeSpecies>() {
+			func = new AbstractValidationFunction<QualitativeSpecies>() {
 				@Override
 				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
 					if (qs.isSetMaxLevel() && qs.getMaxLevel() < 0) {
+					  ValidationConstraint.logError(ctx, QUAL_20313, qs.getId(), Integer.toString(qs.getMaxLevel()));
 						return false;
 					}
 					return true;

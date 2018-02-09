@@ -84,11 +84,14 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
 		// The MathML math element in a FunctionTerm object should evaluate to a value of type
 		// boolean.
 		
-      func = new ValidationFunction<FunctionTerm>() {
+      func = new AbstractValidationFunction<FunctionTerm>() {
 
         @Override
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
           if (ft.isSetMath()) {
+            if (!ft.getMath().isBoolean()) {
+              ValidationConstraint.logError(ctx, QUAL_10201, ft.getId());
+            }
             return ft.getMath().isBoolean(); 
           }
           return true;

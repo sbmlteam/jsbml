@@ -32,7 +32,7 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeAbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
@@ -83,9 +83,14 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 			// may have the optional attributes metaid and sboTerm
 			// no other namespaces are permitted
 
-			func = new UnknownCoreAttributeValidationFunction<Transition>();
-			break;
-
+	     func = new AbstractValidationFunction<Transition>() {
+	        @Override
+	        public boolean check(ValidationContext ctx, Transition t) {
+	          return new UnknownCoreAttributeAbstractValidationFunction<Transition>().check(ctx, t, QUAL_20401);
+	        }
+	      };
+	      break;
+	    
 		case QUAL_20402:
 			// may have the optional subobjects for notes and annotations
 			// no other namespaces are permitted
@@ -112,7 +117,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 			// and may have at most one instance of the ListOfInputs and ListOfOutputs
 			// objects
 			  
-		  func = new ValidationFunction<Transition>() {
+		  func = new AbstractValidationFunction<Transition>() {
 
 		    @Override
 		    public boolean check(ValidationContext ctx, Transition t) {
@@ -122,7 +127,11 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 		      }
 		      Boolean input = new DuplicatedElementValidationFunction<Transition>(QualConstants.listOfInputs).check(ctx, t);
 		      Boolean output = new DuplicatedElementValidationFunction<Transition>(QualConstants.listOfOutputs).check(ctx, t);
-		      return (functionTerm && input && output);
+		      if ((functionTerm && input && output) == false){
+		        ValidationConstraint.logError(ctx, QUAL_20405, Boolean.toString(t.isSetListOfFunctionTerms()), Boolean.toString(input), Boolean.toString(output));
+		        return false;
+		      }
+		    return true;
 		    }
 		  };
 		  break;
@@ -131,13 +140,16 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 			// ListOfInputs and ListOfOutputs subobjects on a are optional,
 			// but if present, these container object must not be empty.
 
-			func = new ValidationFunction<Transition>() {
+			func = new AbstractValidationFunction<Transition>() {
 
 				@Override
 				public boolean check(ValidationContext ctx, Transition t) {
-					// if ListOfInputs or ListOfOutputs are empty, we return false, else true
-					return !((t.isSetListOfInputs() && t.getListOfInputs().isEmpty())
-							|| (t.isSetListOfOutputs() && t.getListOfOutputs().isEmpty()));
+					if ((t.isSetListOfInputs() && t.getListOfInputs().isEmpty())
+              || (t.isSetListOfOutputs() && t.getListOfOutputs().isEmpty())) {
+					  ValidationConstraint.logError(ctx, QUAL_20406, Integer.toString(t.getListOfInputs().size()), Integer.toString(t.getListOfOutputs().size()));
+            return false;
+					}
+				  return true;
 				}
 			};
 			break;
@@ -208,11 +220,10 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 				@Override
 				public boolean check(ValidationContext ctx, Transition t) {
 
-					if (t.isSetListOfInputs()) {
-						UnknownAttributeValidationFunction<ListOf<Input>> unFunc = new UnknownAttributeValidationFunction<ListOf<Input>>();
-						return unFunc.check(ctx, t.getListOfInputs());
-					}
-					return true;
+				  if (t.isSetListOfInputs()) {
+				    return new UnknownAttributeValidationFunction<>().check(ctx, t.getListOfInputs());
+				  }
+				  return true;
 				}
 			};
 			break;
@@ -227,9 +238,8 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 				public boolean check(ValidationContext ctx, Transition t) {
 
 					if (t.isSetListOfOutputs()) {
-						UnknownAttributeValidationFunction<ListOf<Output>> unFunc = new UnknownAttributeValidationFunction<ListOf<Output>>();
-						return unFunc.check(ctx, t.getListOfOutputs());
-					}
+					  return new UnknownAttributeValidationFunction<>().check(ctx, t.getListOfOutputs());
+					  }
 					return true;
 				}
 			};
@@ -245,8 +255,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 				public boolean check(ValidationContext ctx, Transition t) {
 
 					if (t.isSetListOfFunctionTerms()) {
-						UnknownAttributeValidationFunction<ListOf<FunctionTerm>> unFunc = new UnknownAttributeValidationFunction<ListOf<FunctionTerm>>();
-						return unFunc.check(ctx, t.getListOfFunctionTerms());
+					  return new UnknownAttributeValidationFunction<>().check(ctx, t.getListOfFunctionTerms());
 					}
 					return true;
 				}
@@ -262,11 +271,12 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 		    @Override
 		    public boolean check(ValidationContext ctx, Transition t) {
 		      int maxLevel = Integer.MIN_VALUE;
-
+		      String QualSpecToExceed = "";
 		      for (Output o : t.getListOfOutputs()) {
 		        if (o.isSetQualitativeSpecies() && o.getQualitativeSpeciesInstance() != null && o.getQualitativeSpeciesInstance().isSetMaxLevel()) {
 		          int newMaxLevel = o.getQualitativeSpeciesInstance().getMaxLevel();
 		          if (newMaxLevel > maxLevel) {
+		            QualSpecToExceed = o.getQualitativeSpecies();
 		            maxLevel = newMaxLevel;
 		          }
 		        } else {
@@ -278,6 +288,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 		          if (ft.isSetResultLevel()) {
 		            int resultLevel = ft.getResultLevel();
 		            if (resultLevel > maxLevel) {
+		              ValidationConstraint.logError(ctx, QUAL_20413, t.getId(), QualSpecToExceed);
 		              return false;
 		            }
 		          }
@@ -292,12 +303,13 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 			// No element of the ListOfFunctionTerms object may cause the level of a
 			// QualitativeSpecies to become negative
 		  
-      func = new ValidationFunction<Transition>() {
+      func = new AbstractValidationFunction<Transition>() {
 
         @Override
         public boolean check(ValidationContext ctx, Transition t) {
           for (FunctionTerm ft : t.getListOfFunctionTerms()) {
             if (ft.isSetResultLevel() && ft.getResultLevel() < 0) {
+              ValidationConstraint.logError(ctx, QUAL_20414, Integer.toString(ft.getResultLevel()));
               return false;
             }
           }
