@@ -312,15 +312,74 @@ public class SBMLErrorPostMessage extends ResourceBundle {
     
       // qualitative model
       
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20311), "The <transition> with id ''{0}'' includes an <output> that uses an assignment to the <qualitativeSpecies> ''{1}'' that has already been assigned.");
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_10201), "The mathML math element in <functionTerm> with id ''{0}'' is not evaluating to a value of type boolean.");
       
-      //Attribute 'symbol' is not part of the definition of an SBML Level 3 Version 1 
-      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20701), "Attribute <{0}> is not part of the definition of an SBML Level 3 Version 1");
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20301), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <qualitativeSpecies> element..");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20308), "In <qualitativeSpecies> ''{0}'' <compartment> ''{1}'' is undefined.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20309), "In <qualitativeSpecies> ''{0}'' is the initalLevel: ''{1}'' greater than the maxLevel: ''{2}''.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20310), "The constant <qualitativeSpecies> ''{0}'' is referred to by an <output>.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20311), "The <transition> with id ''{0}'' includes an <output> that uses an assignment to the <qualitativeSpecies> ''{1}'' that has already been assigned.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20312), "The initalLevel of the <qualitativeSpecies> ''{0}'' is ''{1}'', which is negative.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20313), "The maxLevel of the <qualitativeSpecies> ''{0}'' is ''{1}'', which is negative.");
+      
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20401), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <transition> element..");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20405), "Has a <listOfFunctionTerms> == ''{0}'', has only one instant of <ListOfInputs> == ''{1}'', has only one instant of <ListOfOutputs> == ''{2}''.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20406), "The size of the <ListOfInputs> == ''{0}'', the size of the <ListOfOutputs> == ''{1}''.");
+
+//      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20407), "''{0}''");
+//      
+//      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20408), "''{0}''");
+//      
+//      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20409), "''{0}''");
+     
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20410), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <listOfInputs> element. ");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20411), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <listOfOutputs> element. ");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20412), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <listOfFunctionTerms> element. ");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20413), "The <transition> with id ''{0}'' includes a resultLevel that may cause the <qualitativeSpecies> ''{1}'' to exceed its maximumLevel. ");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20414), "The resultLevel of the <functionTerm> is ''{0}'', which is negative. ");  
+      
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20501), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <input> element.");
+
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20508), "The <qualitativeSpecies> ''{0}'' is undefined.");  
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20509), "The <qualitativeSpecies> ''{0}'' referred to by the <input> with the id ''{1}'' has constant set to true, but the transitionEffect of the <input> is set to consumption. ");  
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20510), "The threshholdLevel of the <input> with id''{0} is ''{1}'', which is negative.");
+      
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20601), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 Package qual Version 1 <output> element.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20607), "<qualitativeSpecies> ''{0}'' is undefined.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20608), "The <qualitativeSpecies> ''{0}'' referred to by the <output> has constant set to ''{1}'' .");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20609), "The value of the attribute <transitionEffect> is set to ''{0}'' and the attribute <outputLevel> is set == ''{1}''.");
+      
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20610), "The outputLevel of the <output> with id ''{0}'' is ''{1}'', which is negative.");
+      
+      
+      
+      // Attribute 'symbol' is not part of the definition of an SBML Level 3 Version 1 
+      contents.put(Integer.toString(SBMLErrorCodes.QUAL_20701), "Attribute ''{0}'' is not part of the definition of an SBML Level 3 Version 1 <output> element.");
       
       // The resultLevel of the <defaultTerm> is '-4', which is negative. 
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20705), "The resultLevel of the <{0}> is ''{1}'', which is negative.");
       
-      //  Attribute 'id' is not part of the definition of an SBML Level 3 Version 1
+      // Attribute 'id' is not part of the definition of an SBML Level 3 Version 1
       contents.put(Integer.toString(SBMLErrorCodes.QUAL_20801), "Attribute <{0}> is not part of the definition of an SBML Level 3 Version 1");
       
       // The resultLevel of the <functionTerm> is '-1', which is negative. 

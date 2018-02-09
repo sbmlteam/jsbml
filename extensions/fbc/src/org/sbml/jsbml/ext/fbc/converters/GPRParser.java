@@ -1,23 +1,56 @@
+/*
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ * 
+ * Copyright (C) 2009-2018 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
 package org.sbml.jsbml.ext.fbc.converters;
+
+import static java.text.MessageFormat.format;
+import static org.sbml.jsbml.util.StringTools.getMessage;
+
+import java.io.StringReader;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.ext.fbc.*;
+import org.sbml.jsbml.ext.fbc.And;
+import org.sbml.jsbml.ext.fbc.Association;
+import org.sbml.jsbml.ext.fbc.FBCConstants;
+import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
+import org.sbml.jsbml.ext.fbc.FBCReactionPlugin;
+import org.sbml.jsbml.ext.fbc.GeneProduct;
+import org.sbml.jsbml.ext.fbc.GeneProductAssociation;
+import org.sbml.jsbml.ext.fbc.GeneProductRef;
+import org.sbml.jsbml.ext.fbc.LogicalOperator;
+import org.sbml.jsbml.ext.fbc.Or;
 import org.sbml.jsbml.text.parser.CobraFormulaParser;
 
-import java.io.StringReader;
-import java.text.MessageFormat;
-
+/**
+ * 
+ * @author Andreas Dr&auml;ger
+ * @since 1.3
+ */
 public class GPRParser {
 
   /**
    * A {@link Logger} for this class.
    */
-  private static final transient Logger logger =
-    Logger.getLogger(GPRParser.class);
-
+  private static final transient Logger logger = Logger.getLogger(GPRParser.class);
 
   /**
    * @param ast
@@ -42,8 +75,7 @@ public class GPRParser {
         }
       }
       for (ASTNode child : ast.getListOfNodes()) {
-        Association tmp =
-          convertToAssociation(child, reactionId, model, omitGenericTerms);
+        Association tmp = convertToAssociation(child, reactionId, model, omitGenericTerms);
         if (tmp.getClass().equals(operator.getClass())) {
           // flatten binary trees to compact representation
           LogicalOperator lo = (LogicalOperator) tmp;
@@ -66,8 +98,7 @@ public class GPRParser {
    * @param model
    * @return
    */
-  private static GeneProductRef createGPR(String identifier, String reactionId,
-    Model model) {
+  private static GeneProductRef createGPR(String identifier, String reactionId, Model model) {
     int level = model.getLevel(), version = model.getVersion();
     GeneProductRef gpr = new GeneProductRef(level, version);
     String id = GPRParser.updateGeneId(identifier);
@@ -75,17 +106,14 @@ public class GPRParser {
     if (!model.containsUniqueNamedSBase(id)) {
       GeneProduct gp = (GeneProduct) model.findUniqueNamedSBase(identifier);
       if (gp == null) {
-        logger.warn(MessageFormat.format(
+        logger.warn(format(
           "Creating missing gene product with id ''{0}'' because reaction ''{1}'' uses this id in its gene-product association.",
           id, reactionId));
-        FBCModelPlugin fbcPlug =
-          (FBCModelPlugin) model.getPlugin(FBCConstants.shortLabel);
+        FBCModelPlugin fbcPlug = (FBCModelPlugin) model.getPlugin(FBCConstants.shortLabel);
         gp = fbcPlug.createGeneProduct(id);
         gp.setLabel(id);
       } else {
-        logger.info(MessageFormat.format(
-          "Updating the id of gene product ''{0}'' to ''{1}''.", gp.getId(),
-          id));
+        logger.info(format("Updating the id of gene product ''{0}'' to ''{1}''.", gp.getId(), id));
         gp.setId(id);
       }
     }
@@ -96,58 +124,35 @@ public class GPRParser {
 
   /**
    * @param r
+   *        Reaction
    * @param geneReactionRule
    */
-  public static void parseGPR(Reaction r, String geneReactionRule,
-    boolean omitGenericTerms) {
-    FBCReactionPlugin plugin =
-      (FBCReactionPlugin) r.getPlugin(FBCConstants.shortLabel);
+  public static GeneProductAssociation parseGPR(Reaction r, String geneReactionRule, boolean omitGenericTerms) {
+    FBCReactionPlugin plugin = (FBCReactionPlugin) r.getPlugin(FBCConstants.shortLabel);
     if ((geneReactionRule != null) && (geneReactionRule.length() > 0)) {
       try {
-        Association association = GPRParser.convertToAssociation(
-          ASTNode.parseFormula(geneReactionRule,
-            new CobraFormulaParser(new StringReader(""))),
-          r.getId(), r.getModel(), omitGenericTerms);
+        ASTNode ast = ASTNode.parseFormula(geneReactionRule, new CobraFormulaParser(new StringReader("")));
+        Association association = GPRParser.convertToAssociation(ast, r.getId(), r.getModel(), omitGenericTerms);
         if (!plugin.isSetGeneProductAssociation() || !association.equals(
           plugin.getGeneProductAssociation().getAssociation())) {
-          GeneProductAssociation gpa =
-            new GeneProductAssociation(r.getLevel(), r.getVersion());
+          GeneProductAssociation gpa = new GeneProductAssociation(r.getLevel(), r.getVersion());
           gpa.setAssociation(association);
           plugin.setGeneProductAssociation(gpa);
+          return gpa;
         }
       } catch (Throwable exc) {
-        logger.warn(
-          MessageFormat.format("Could not parse ''{0}'' because of {1}",
-            geneReactionRule, getMessage(exc)));
+        logger.warn(format("Could not parse ''{0}'' because of {1}",
+          geneReactionRule, getMessage(exc)));
       }
     }
+    return null;
   }
-
-
-  private static String getMessage(Throwable exc) {
-    if (exc == null) {
-      return "NULL";
-    } else {
-      String msg = exc.getLocalizedMessage();
-      if (msg == null && exc.getCause() != null) {
-        msg = exc.getCause().getLocalizedMessage();
-      }
-      if (msg == null) {
-        msg = exc.getMessage();
-      }
-      if (msg == null) {
-        msg = exc.toString();
-      }
-      if (msg == null) {
-        msg = "NULL";
-      }
-      return msg;
-    }
-  }
-
 
   /**
+   * Correct gene id to match BiGG specification
+   *
    * @param id
+   *        Gene ID to correct
    * @return corrected gene id
    */
   private static String updateGeneId(String id) {
@@ -157,4 +162,5 @@ public class GPRParser {
     }
     return id;
   }
+
 }

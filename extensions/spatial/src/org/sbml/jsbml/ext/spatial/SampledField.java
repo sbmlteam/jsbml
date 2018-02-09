@@ -892,6 +892,10 @@ public class SampledField extends AbstractSpatialNamedSBase {
       // to be able to read the incorrect models
       else if (attributeName.equals(SpatialConstants.interpolationType) || attributeName.equals("interpolation")) {
         try {
+          // for some time JSBML was using "nearestneighbor" so we try to fix those values if found
+          if (value.equals("nearestneighbor")) {
+            value = "nearestNeighbor";
+          }
           setInterpolation(InterpolationKind.valueOf(value));
         } catch (Exception e) {
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.interpolationType, getElementName()));

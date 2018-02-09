@@ -6,10 +6,12 @@ import java.util.Set;
 import org.sbml.jsbml.ext.qual.Output;
 import org.sbml.jsbml.ext.qual.OutputTransitionEffect;
 import org.sbml.jsbml.ext.qual.QualConstants;
+import org.sbml.jsbml.ext.qual.QualitativeSpecies;
 import org.sbml.jsbml.ext.qual.Transition;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeAbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
@@ -104,9 +106,15 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 		case QUAL_20601:
 			// May have the optional attributes metaid and sboTerm.
 			// No other namespaces are permitted.
-			
-			func = new UnknownCoreAttributeValidationFunction<Output>();
-			break;
+				
+	     func = new AbstractValidationFunction<Output>() {
+	        @Override
+	        public boolean check(ValidationContext ctx, Output o) {
+	          return new UnknownCoreAttributeAbstractValidationFunction<Output>().check(ctx, o, QUAL_20601);
+	        }
+	      };
+	      break;
+	  
 
 		case QUAL_20602:
 			// May have the optional subobjects for notes and annotations.
@@ -158,11 +166,12 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 			// The value of the attribute qual:qualitativeSpecies must be the identifier
 			// of an existing QualitativeSpecies object defined in the enclosing Model
 		  
-      func = new ValidationFunction<Output>() {
+      func = new AbstractValidationFunction<Output>() {
         @Override
         public boolean check(ValidationContext ctx, Output o) {
-          
+
           if (o.isSetQualitativeSpecies() && o.getQualitativeSpeciesInstance() == null) {
+            ValidationConstraint.logError(ctx, QUAL_20607, o.getQualitativeSpecies());
             return false;
           }
           return true;  
@@ -175,11 +184,11 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 			// in an Output object must have the value of its qual:constant attribute set to
 			// 'false'.
 		  
-		  func = new ValidationFunction<Output>() {
+		  func = new AbstractValidationFunction<Output>() {
 		    @Override
 		    public boolean check(ValidationContext ctx, Output o) {
 		      if (o.isSetQualitativeSpecies() && o.getQualitativeSpeciesInstance() != null && o.getQualitativeSpeciesInstance().isSetConstant() && o.getQualitativeSpeciesInstance().getConstant()) {
-		        // TODO - set a nice error message
+		        ValidationConstraint.logError(ctx, QUAL_20608, o.getId(), Boolean.toString(o.getQualitativeSpeciesInstance().getConstant()));
 		        return false;
 		      }
 		      return true;
@@ -191,11 +200,12 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 			// When the value of the attribute qual:transitionEffect of a Output object is
 			// set to the value 'production' the attribute qual:outputLevel for that
 			// particular Output object must have a value set.
-
-      func = new ValidationFunction<Output>() {
+		  
+      func = new AbstractValidationFunction<Output>() {
         @Override
         public boolean check(ValidationContext ctx, Output o) {
           if (o.isSetTransitionEffect() && o.getTransitionEffect() == OutputTransitionEffect.production && !o.isSetOutputLevel()) {
+            ValidationConstraint.logError(ctx, QUAL_20609, o.getTransitionEffect().name(), Boolean.toString(o.isSetOutputLevel()));
             return false;
           }
           return true;
@@ -206,13 +216,14 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 		case QUAL_20610:
 			// The attribute qual:outputLevel must not be negative
 
-			func = new ValidationFunction<Output>() {
-				@Override
-				public boolean check(ValidationContext ctx, Output o) {
-					if (o.isSetOutputLevel() && o.getOutputLevel() < 0) {
-						return false;
-					}
-					return true;
+			func = new AbstractValidationFunction<Output>() {
+			  @Override
+			  public boolean check(ValidationContext ctx, Output o) {
+			    if (o.isSetOutputLevel() && o.getOutputLevel() < 0) {
+			      ValidationConstraint.logError(ctx, QUAL_20610, o.getId(), Integer.toString(o.getOutputLevel()));
+			      return false;
+			    }
+			    return true;
 				}
 			};
 			break;
