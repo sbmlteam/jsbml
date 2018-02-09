@@ -900,8 +900,7 @@ public class SBMLDocument extends AbstractSBase {
 
   /**
    * Return the package namespace enabled on this SBMLDocument or null if the
-   * package
-   * is not enabled.
+   * package is not enabled.
    * 
    * @param packageURIOrName
    *        the name or URI of the package extension.
@@ -923,7 +922,7 @@ public class SBMLDocument extends AbstractSBase {
 
       for (String packageNamespaceUri : packageParser.getPackageNamespaces()) {
         if (enabledPackageMap.containsKey(packageNamespaceUri)) {
-          return packageNamespaceUri;
+          return packageNamespaceUri; // TODO - check that it is really enabled
         }
       }
     }
@@ -1210,6 +1209,8 @@ public class SBMLDocument extends AbstractSBase {
    */
   public Boolean isPackageEnabledOrDisabled(String packageURIOrName) {
 
+    Boolean isPackageEnabled = null;
+    
     // Get the package URI is needed
     PackageParser packageParser =
         ParserManager.getManager().getPackageParser(packageURIOrName);
@@ -1234,12 +1235,19 @@ public class SBMLDocument extends AbstractSBase {
 
       for (String packageURI : packageURIs) {
         if (enabledPackageMap.containsKey(packageURI)) {
-          return enabledPackageMap.get(packageURI);
+          boolean isURIEnabled = enabledPackageMap.get(packageURI);
+          if (isPackageEnabled == null) {
+            isPackageEnabled = isURIEnabled;
+          } else if (isURIEnabled) {
+            // Case where we have one version of the package disabled and one enabled
+            // like fbc_v1 disable and fbc_v2 enable, we need to return true for fbc
+            isPackageEnabled = true;
+          }
         }
       }
     }
 
-    return null;
+    return isPackageEnabled;
   }
 
 
