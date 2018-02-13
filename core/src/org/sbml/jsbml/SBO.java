@@ -261,8 +261,12 @@ public class SBO {
    *         digit string), {@code false} otherwise.
    */
   public static boolean checkTerm(String sboTerm) {
-    boolean correct = sboTerm.length() == 11;
-    correct &= sboTerm.startsWith(prefix);
+    boolean correct = false;
+
+    if (sboTerm != null) {
+      correct = sboTerm.length() == 11;
+      correct &= sboTerm.startsWith(prefix);
+    }
 
     if (correct) {
       try {
@@ -273,7 +277,7 @@ public class SBO {
       }
     }
 
-    if (!correct) {
+    if (!correct && (sboTerm != null)) {
       Logger logger = Logger.getLogger(SBO.class);
       logger.warn("The SBO term '" + sboTerm + "' does not seem to be valid.");
     }
@@ -991,7 +995,7 @@ public class SBO {
   public static int getPhysicalCompartment() {
     return 290;
   }
-  
+
   /**
    * An enumeration of the concentration of magnesium (Mg) in solution (pMg = -log10[Mg2+]).
    * 
