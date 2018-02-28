@@ -29,11 +29,11 @@ import org.sbml.jsbml.TidySBMLWriter;
 import org.sbml.jsbml.util.converters.SBMLConverter;
 
 /**
- * converts old COBRA SBML files to SBML FBCV2
+ * Converts old COBRA SBML files to SBML level 3 FBC version 2.
  * 
  * @author Thomas Hamm
  * @author Nicolas Rodriguez
- * @since 1.2
+ * @since 1.3
  */
 public class CobraToFbcV2Converter implements SBMLConverter {
 
@@ -48,10 +48,17 @@ public class CobraToFbcV2Converter implements SBMLConverter {
    // convert SBML FBCV1 file to SBML FBCV2
     FcbV1ToFbcV2Converter fbcV1ToFbcV2Converter = new FcbV1ToFbcV2Converter();
     sbmlDocument = fbcV1ToFbcV2Converter.convert(sbmlDocument);
-    
+
     return sbmlDocument;
   }
   
+  /**
+   * Converts old COBRA SBML files to SBML FBC_V2.
+   * 
+   * @param args the arguments, expect two files path, input and output files.
+   * @throws XMLStreamException if an error occurs
+   * @throws IOException if an error occurs
+   */
   public static void main(String[] args) throws XMLStreamException, IOException {
     // read document 
     SBMLReader sbmlReader = new SBMLReader();
