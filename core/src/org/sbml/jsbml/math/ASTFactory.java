@@ -813,7 +813,7 @@ public class ASTFactory {
    * @param astNode2 {@link ASTNode2}
    * @return astNode {@link ASTNode}
    */
-  
+
   public static ASTNode toASTNode(ASTNode2 astNode2) {
     // TODO implement function without parsing.
     IFormulaParser parser = new FormulaParserLL3(new StringReader(""));
