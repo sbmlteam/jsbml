@@ -205,7 +205,7 @@ public class SBMLReader {
    * @throws XMLStreamException if there are any problems reading or writing the XML file.
    */
   public static void main(String[] args) throws IOException, XMLStreamException, SBMLException  {
-
+    // TODO: This class should not contain a main method; move to examples/.
     if (args.length < 1) {
       System.out
       .println("Usage: java org.sbml.jsbml.xml.stax.SBMLReader sbmlFileName");
@@ -347,7 +347,7 @@ public class SBMLReader {
    *
    * @param fileName
    *         name of the SBML file to read.
-   * @return the initialised SBMLDocument.
+   * @return the initialized SBMLDocument.
    * @throws XMLStreamException
    * @throws IOException
    */
@@ -389,12 +389,12 @@ public class SBMLReader {
    * @throws XMLStreamException
    */
   public ASTNode readMathML(String mathML, TreeNodeChangeListener listener)
-      throws XMLStreamException	
+      throws XMLStreamException
   {
     if (logger.isDebugEnabled()) {
       logger.debug("SBMLReader.readMathML called");
     }
-    
+
     Object object = readXMLFromString(mathML, listener);
     if (object != null && object instanceof Constraint) {
       ASTNode math = ((Constraint) object).getMath();
@@ -408,30 +408,30 @@ public class SBMLReader {
 
   /**
    * Cleans the given node by removing user object(s) set during reading/parsing.
-   *  
+   * 
    * @param treeNode the node to be cleaned
    */
-  private void cleanTreeNode(AbstractTreeNode treeNode) 
+  private void cleanTreeNode(AbstractTreeNode treeNode)
   {
-	  // Go through the whole treeNode (using a fake filter!) to remove the variable that says that we were in the process of reading an xml stream.
-	  treeNode.filter(new Filter() {
+    // Go through the whole treeNode (using a fake filter!) to remove the variable that says that we were in the process of reading an xml stream.
+    treeNode.filter(new Filter() {
 
-		  @Override
-		  public boolean accepts(Object o) {
-			  if (o instanceof TreeNodeWithChangeSupport) {
-				  if (((TreeNodeWithChangeSupport) o).isSetUserObjects()) {
-					  ((TreeNodeWithChangeSupport) o).userObjectKeySet().remove(JSBML.READING_IN_PROGRESS);
-				  } // else if (! ((o instanceof TreeNodeAdapter) || (o instanceof XMLNode))) {
-				  //	            System.out.println("######### user objects not set !!!!!!!! " + o + " class name = " + o.getClass().getSimpleName());
-				  //	          }
-			  }
-			  return false;
-		  }
-	  });
+      @Override
+      public boolean accepts(Object o) {
+        if (o instanceof TreeNodeWithChangeSupport) {
+          if (((TreeNodeWithChangeSupport) o).isSetUserObjects()) {
+            ((TreeNodeWithChangeSupport) o).userObjectKeySet().remove(JSBML.READING_IN_PROGRESS);
+          } // else if (! ((o instanceof TreeNodeAdapter) || (o instanceof XMLNode))) {
+          //	            System.out.println("######### user objects not set !!!!!!!! " + o + " class name = " + o.getClass().getSimpleName());
+          //	          }
+        }
+        return false;
+      }
+    });
 
   }
 
-/**
+  /**
    * Reads a mathML {@link String} into an {@link ASTNode}.
    *
    * @param mathML
@@ -448,7 +448,7 @@ public class SBMLReader {
     if (logger.isDebugEnabled()) {
       logger.debug("SBMLReader.readMathML with parent called");
     }
-    
+
     Object object = readXMLFromString(mathML, listener);
     if (object != null && object instanceof Constraint) {
       ASTNode math = ((Constraint) object).getMath();
@@ -485,7 +485,7 @@ public class SBMLReader {
     if ((object != null) && (object instanceof Constraint)) {
       Constraint constraint = ((Constraint) object);
       cleanTreeNode(constraint);
-      	
+
       if (constraint.isSetNotes()) {
         XMLNode notes = constraint.getNotes();
         if (notes != null) {
@@ -564,14 +564,14 @@ public class SBMLReader {
   private Object readXMLFromStream(InputStream stream, TreeNodeChangeListener listener)
       throws XMLStreamException {
     WstxInputFactory inputFactory = new WstxInputFactory();
-    
+
     // see https://groups.google.com/d/msg/jsbml-development/cckEJPYNzQY/5ynmIbqNCAAJ for why we did set this value
     try {
       inputFactory.setProperty(WstxInputProperties.P_MAX_ELEMENT_DEPTH, 5000);
     } catch(IllegalArgumentException e) {
       // do nothing - the XML libraries used do not support this property for some reason
     }
-    
+
     XMLEventReader xmlEventReader = inputFactory.createXMLEventReader(stream);
     return readXMLFromXMLEventReader(xmlEventReader, listener);
   }
@@ -640,9 +640,9 @@ public class SBMLReader {
 
           SBMLDocument sbmlDocument = new SBMLDocument();
           sbmlDocument.putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
-          
+
           if (currentNode.getPrefix() != null && currentNode.getPrefix().trim().length() > 0) {
-            sbmlDocument.putUserObject(JSBML.ELEMENT_XML_PREFIX, currentNode.getPrefix());  
+            sbmlDocument.putUserObject(JSBML.ELEMENT_XML_PREFIX, currentNode.getPrefix());
           }
 
           // the output of the change listener is activated or not via log4j.properties
@@ -1179,10 +1179,10 @@ public class SBMLReader {
 
         if (!isAttributeRead) {
           // store the unknownAttribute
-          AbstractReaderWriter.processUnknownAttribute(attributeName.getLocalPart(), attributeName.getNamespaceURI(), 
-              attribute.getValue(), attributeName.getPrefix(), sbmlElements.peek());
+          AbstractReaderWriter.processUnknownAttribute(attributeName.getLocalPart(), attributeName.getNamespaceURI(),
+            attribute.getValue(), attributeName.getPrefix(), sbmlElements.peek());
         }
-        
+
       } else {
         logger.warn("Cannot find a parser for the " + attribute.getName().getNamespaceURI() + " namespace");
       }

@@ -43,7 +43,7 @@ import org.sbml.jsbml.util.converters.SBMLConverter;
  * 
  * @author Thomas Hamm
  * @author Nicolas Rodriguez
- * @since 1.2
+ * @since 1.3
  */
 public class CobraToFbcV1Converter implements SBMLConverter {
 
@@ -58,11 +58,11 @@ public class CobraToFbcV1Converter implements SBMLConverter {
     Model model = sbmlDocument.getModel();
     // only SBMLDocuments with version smaller than three are converted
     if (sbmlDocument.getLevel() < 3) {
-      // set SBMLDocument to level 3 version 1
+    // set SBMLDocument to level 3 version 1 and fbcV1 
       SBMLtools.setLevelAndVersion(sbmlDocument, 3, 1);
-      FBCConstants fbcConstants = new FBCConstants();
       sbmlDocument.enablePackage(FBCConstants.getNamespaceURI(3, 1, 1));
-      // set the units of the model
+    // set the units of the model
+
       if (!model.isSetSubstanceUnits()) {
         model.setSubstanceUnits("substance");
       }

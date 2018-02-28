@@ -2654,7 +2654,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.sboTerm,
         this);
     }
-    if (!SBO.checkTerm(term) && !isReadingInProgress()) {
+    if ((term != -1) && !SBO.checkTerm(term) && !isReadingInProgress()) {
       throw new IllegalArgumentException(format(
         resourceBundle.getString("AbstractSBase.setSBOTerm"), term));
     }
@@ -2948,10 +2948,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public void unsetSBOTerm() {
     if (isSetSBOTerm()) {
-      Integer oldSBOTerm = Integer.valueOf(sboTerm);
-      sboTerm = -1;
-      firePropertyChange(TreeNodeChangeEvent.sboTerm, oldSBOTerm,
-        Integer.valueOf(getSBOTerm()));
+      setSBOTerm(-1);
     }
   }
 
