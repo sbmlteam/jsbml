@@ -41,6 +41,7 @@ import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
 
@@ -381,9 +382,20 @@ public class UnitsCompiler implements ASTNodeCompiler {
       if (m.getAssignmentRuleByVariable(q.getId()) != null) {
         AssignmentRule ar = m.getAssignmentRuleByVariable(q.getId());
         
+        // if the validation context is null, create a new one
+        if (ctx == null) {
+          ctx = new LoggingValidationContext(level, version);
+        }
+        @SuppressWarnings("unchecked")
+        Set<String> foundCycleIds = (Set<String>) ctx.getHashMap().get(AssignmentCycleValidation.ASSIGNMENT_CYCLE_VALIDATION_FOUND_CYCLE_IDS);
+        
+        if (foundCycleIds == null) {
+          foundCycleIds = new HashSet<String>();
+          ctx.getHashMap().put(AssignmentCycleValidation.ASSIGNMENT_CYCLE_VALIDATION_FOUND_CYCLE_IDS, foundCycleIds);
+        }
         // assignment cycle validation
-        if (cycleValidation != null && cycleValidation.check(ctx, ar)) {
-          // System.out.println("found a cycle for '" + q.getId() + "'"); // TODO - check 10514-fail-01-06-sev1-l3v2.xml, we find a cycle where there are no cycle
+        if ((cycleValidation != null && !cycleValidation.check(ctx, ar)) || foundCycleIds.contains(q.getId())) {
+          // System.out.println("found a cycle for '" + q.getId() + "'");
           return invalid();
         }
         
@@ -395,8 +407,19 @@ public class UnitsCompiler implements ASTNodeCompiler {
       else if (m.getInitialAssignmentBySymbol(q.getId()) != null) {
         InitialAssignment ia = m.getInitialAssignmentBySymbol(q.getId());
         
+        // if the validation context is null, create a new one
+        if (ctx == null) {
+          ctx = new LoggingValidationContext(level, version);
+        }
+        @SuppressWarnings("unchecked")
+        Set<String> foundCycleIds = (Set<String>) ctx.getHashMap().get(AssignmentCycleValidation.ASSIGNMENT_CYCLE_VALIDATION_FOUND_CYCLE_IDS);
+        
+        if (foundCycleIds == null) {
+          foundCycleIds = new HashSet<String>();
+          ctx.getHashMap().put(AssignmentCycleValidation.ASSIGNMENT_CYCLE_VALIDATION_FOUND_CYCLE_IDS, foundCycleIds);
+        }
         // assignment cycle validation
-        if (cycleValidation != null && cycleValidation.check(ctx, ia)) {
+        if ((cycleValidation != null && !cycleValidation.check(ctx, ia)) || foundCycleIds.contains(q.getId())) {
           // System.out.println("found a cycle for '" + q.getId() + "'");
           return invalid();
         }
