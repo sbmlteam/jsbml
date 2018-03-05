@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTNode2;
+import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -4573,7 +4574,7 @@ public class ASTNode extends AbstractTreeNode {
   public static String astNodeToTree(ASTNode n, String tree, String indent) {
     //tree = tree + indent + n.getType() + " " +
     //    (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + '\n';
-    tree = tree + indent + n.toSimpleString() + '\n';
+    tree = tree + indent + n.toSimpleString() + " unit:" + n.deriveUnit() + '\n';
 
     for (ASTNode child : n.getChildren()) {
       tree = astNodeToTree(child, tree, indent + "  ");
