@@ -271,6 +271,11 @@ public class SubModel {
     if (speciesIds != null) {
       for (int i = 0; i < speciesIds.length; i++) {
         Species relatedSpecies = model.getSpecies(speciesIds[i]);
+        
+        if (subModel.getSBaseById(relatedSpecies.getId()) != null) {
+          // we have already added this species
+          continue;
+        }
         subModel.addSpecies(relatedSpecies.clone());
         processUnitsMap(unitsMap, model, relatedSpecies.getSubstanceUnits());
 
