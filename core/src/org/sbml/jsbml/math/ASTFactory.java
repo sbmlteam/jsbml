@@ -33,6 +33,8 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.parser.FormulaParserASTNode2;
 import org.sbml.jsbml.math.parser.ParseException;
+import org.sbml.jsbml.text.parser.FormulaParserLL3;
+import org.sbml.jsbml.text.parser.IFormulaParser;
 
 /**
  * A collection of static methods that can be used to create new abstract syntax
@@ -803,6 +805,27 @@ public class ASTFactory {
   public static ASTNode2 toASTNode2(ASTNode astNode) {
     // TODO - method needed when trying to use the old ASTNode class, to implement the ASTNode.toASTNode2() method.
     return null;
+  }
+  
+  /**
+   * Converts a {@link ASTNode2} to a {@link ASTNode}. 
+   * 
+   * @param astNode2 {@link ASTNode2}
+   * @return astNode {@link ASTNode}
+   */
+
+  public static ASTNode toASTNode(ASTNode2 astNode2) {
+    // TODO implement function without parsing.
+    IFormulaParser parser = new FormulaParserLL3(new StringReader(""));
+    ASTNode astNode = null;
+    try {
+      astNode = ASTNode.parseFormula(astNode2.toFormula(), parser);
+    } catch (SBMLException e) {
+      e.printStackTrace();
+    } catch (org.sbml.jsbml.text.parser.ParseException e) {
+      e.printStackTrace();
+    }  
+    return astNode;
   }
 
   /**
