@@ -25,6 +25,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.AbstractMathContainer;
@@ -96,6 +97,12 @@ public final class ValidationTools {
    */
   private static final String VALIDATION_CACHE_DERIVED_TIME_UNIT_DEFINITION = "jsbml.offline.validator.cache.model.substance";
 
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static transient final Logger logger = Logger.getLogger(ValidationTools.class);
+
+  
   public static Filter                                   FILTER_IS_FUNCTION =
       new Filter()
   {
@@ -438,10 +445,10 @@ public final class ValidationTools {
       
       boolean equivalent = areEquivalent(assignmentDerivedUnit, varDerivedUnit);
       
-      if (!equivalent) {
+      if (!equivalent && logger.isDebugEnabled()) {
         
-//        System.out.println("haveEquivalentUnits SI - " + assignment.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(assignmentDerivedUnit));
-//        System.out.println("haveEquivalentUnits SI - " + var.getClass().getSimpleName() + " unit = " + UnitDefinition.printUnits(varDerivedUnit));
+        logger.debug("haveEquivalentUnits SI - " + assignment.getClass().getSimpleName() + "    unit = " + UnitDefinition.printUnits(assignmentDerivedUnit));
+        logger.debug("haveEquivalentUnits SI - " + var.getClass().getSimpleName() + " unit = " + UnitDefinition.printUnits(varDerivedUnit));
       }
       
       return equivalent;

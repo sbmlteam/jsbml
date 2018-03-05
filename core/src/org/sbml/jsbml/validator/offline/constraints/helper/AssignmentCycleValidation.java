@@ -67,7 +67,7 @@ public class AssignmentCycleValidation
   /**
    * Key to store a set of ids in the {@link ValidationContext} so that we do not report several times the same cycle.
    */
-  private static final String ASSIGNMENT_CYCLE_VALIDATION_FOUND_CYCLE_IDS = "AssignmentCycleValidation.foundCycleIds";
+  public static final String ASSIGNMENT_CYCLE_VALIDATION_FOUND_CYCLE_IDS = "AssignmentCycleValidation.foundCycleIds";
   
   /**
    * A {@link Logger} for this class.
