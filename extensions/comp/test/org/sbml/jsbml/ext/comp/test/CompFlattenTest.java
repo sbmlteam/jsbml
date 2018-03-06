@@ -1,83 +1,84 @@
 package org.sbml.jsbml.ext.comp.test;
 
-import org.junit.Test;
 import org.junit.Assert;
-
+import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.ext.comp.util.CompFlatteningConverter;
 
-import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.logging.Logger;
 
 public class CompFlattenTest {
 
+    private final static Logger LOGGER = Logger.getLogger(CompFlatteningConverter.class.getName());
 
     @Test
-    public void testFlattening() {
+    public void testAllData() {
+
+        ClassLoader cl = this.getClass().getClassLoader();
+
         for (int i = 1; i < 62; i++) {
-            System.out.println("Testing Model " + i + ": ");
 
-            // TODO: test all the files in the folder
-            File file = new File("/Users/Christoph/Documents/Studium Bioinformatik/08 WiSe 17 18/HiWi/Code/jsbml/extensions/comp/test/org/sbml/jsbml/ext/comp/test/testdataforflattening/test" + i + ".xml");
-            File expectedFile = new File("/Users/Christoph/Documents/Studium Bioinformatik/08 WiSe 17 18/HiWi/Code/jsbml/extensions/comp/test/org/sbml/jsbml/ext/comp/test/testdataforflattening/test" + i + "_flat.xml");
+            URL urlFile = cl.getResource("testFlattening/" + "test" + i + ".xml");
+            URL urlExpected = cl.getResource("testFlattening/" + "test" + i + "_flat.xml");
 
-            SBMLReader reader = new SBMLReader();
+            assert urlFile != null;
+            assert urlExpected != null;
 
-            try {
-                SBMLDocument expectedDocument = reader.readSBML(expectedFile);
-                SBMLDocument document = reader.readSBML(file);
-
-                CompFlatteningConverter compFlatteningConverter = new CompFlatteningConverter();
-                SBMLDocument flattendDocument = compFlatteningConverter.flatten(document);
-
-//                SBMLWriter sbmlWriter = new SBMLWriter();
-//
-//                boolean test = expectedDocument.getModel().equals(flattendSBML.getModel());
-//                boolean test2 = expectedDocument.equals(flattendSBML);
-//                boolean test3 = expectedDocument.getSBMLDocumentAttributes().equals(flattendSBML.getSBMLDocumentAttributes());
-              //  Assert.assertTrue(expectedDocument.getSBMLDocumentAttributes().equals(flattendSBML.getSBMLDocumentAttributes()));
-                //Assert.assertEquals(expectedDocument.getSBMLDocumentAttributes(), flattendSBML.getSBMLDocumentAttributes());
-                //Assert.assertSame(expectedDocument, flattendSBML);
-                //Assert.assertEquals(expectedDocument, flattendSBML);
-
-                // TODO: this way all the tests should work. change back to flattend
-                Assert.assertTrue(testSBMLDocuments(expectedDocument, flattendDocument));
-            } catch (XMLStreamException | IOException e) {
-                e.printStackTrace();
-            }
+            runTestOnFiles(urlFile, urlExpected, String.valueOf(i));
 
         }
     }
 
-    private boolean testSBMLDocuments(TreeNode expectedTreeNode, TreeNode flattenedTreeNode){
+    @Test
+    public void testSpecificFile() {
 
-        int expectedCount = expectedTreeNode.getChildCount();
-        int flattenedCount = flattenedTreeNode.getChildCount();
+        int i = 1;
+        ClassLoader cl = this.getClass().getClassLoader();
 
-        if(expectedCount == flattenedCount){
-            for (int i = 0; i < expectedTreeNode.getChildCount(); i++) {
 
-                expectedTreeNode = expectedTreeNode.getChildAt(i);
-                flattenedTreeNode = flattenedTreeNode.getChildAt(i);
+        URL urlFile = cl.getResource("testFlattening/" + "test" + i + ".xml");
+        URL urlExpected = cl.getResource("testFlattening/" + "test" + i + "_flat.xml");
 
-                if(expectedTreeNode.isLeaf() && flattenedTreeNode.isLeaf() && !expectedTreeNode.equals(flattenedTreeNode)){
-                    return false;
-                } else if (expectedTreeNode.equals(flattenedTreeNode) && !expectedTreeNode.isLeaf() && !flattenedTreeNode.isLeaf()){
-                    testSBMLDocuments(expectedTreeNode, flattenedTreeNode);
-                }
-            }
+        assert urlFile != null;
+        assert urlExpected != null;
 
-        } else { // the nodes have unequal
-            return false;
+        runTestOnFiles(urlFile, urlExpected, String.valueOf(i));
+
+    }
+
+    private void runTestOnFiles(URL urlFile, URL urlExpected, String name) {
+
+        try {
+
+            File file = new File(urlFile.toURI());
+            File expectedFile = new File(urlExpected.toURI());
+
+            SBMLReader reader = new SBMLReader();
+            SBMLDocument document = reader.readSBML(file);
+            SBMLDocument expectedDocument = reader.readSBML(expectedFile);
+
+            CompFlatteningConverter compFlatteningConverter = new CompFlatteningConverter();
+            SBMLDocument flattenedDocument = compFlatteningConverter.flatten(document);
+
+
+            SBMLWriter.write(flattenedDocument, System.out, ' ', (short) 2);
+
+            LOGGER.info("Testing Model " + name + ": ");
+            Assert.assertTrue("Message", expectedDocument.equals(flattenedDocument));
+
+        } catch (XMLStreamException | IOException e) {
+            LOGGER.warning("Failed testing Model " + name + ": ");
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
-
-        return true;
 
     }
 
