@@ -39,7 +39,7 @@ public class CompFlattenTest {
     @Test
     public void testSpecificFile() {
 
-        int i = 1;
+        int i = 5;
         ClassLoader cl = this.getClass().getClassLoader();
 
 
@@ -68,10 +68,10 @@ public class CompFlattenTest {
             SBMLDocument flattenedDocument = compFlatteningConverter.flatten(document);
 
 
-            SBMLWriter.write(flattenedDocument, System.out, ' ', (short) 2);
-
             LOGGER.info("Testing Model " + name + ": ");
-            Assert.assertTrue("Message", expectedDocument.equals(flattenedDocument));
+
+            SBMLWriter.write(flattenedDocument, System.out, ' ', (short) 2);
+            Assert.assertTrue("Success Testing Model", expectedDocument.equals(flattenedDocument));
 
         } catch (XMLStreamException | IOException e) {
             LOGGER.warning("Failed testing Model " + name + ": ");
