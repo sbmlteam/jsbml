@@ -83,8 +83,7 @@ public class CompFlatteningConverter {
 
                 // TODO: the model itself has to be flattend (can hold a list of replacements etc.)
                 CompModelPlugin compModelPlugin = (CompModelPlugin) document.getModel().getExtension(CompConstants.shortLabel);
-
-                replaceElements(compModelPlugin, document.getModel(), null, null);
+                replaceElementsInModelDefinition(compModelPlugin, null);
 
                 this.flattenedModel = instantiateSubModels(compModelPlugin);
             } else {
@@ -101,6 +100,7 @@ public class CompFlatteningConverter {
         document.setModel(this.flattenedModel);
         document.unsetExtension(CompConstants.shortLabel);
         document.disablePackage(CompConstants.shortLabel);
+
         return document;
 
     }
@@ -119,6 +119,7 @@ public class CompFlatteningConverter {
         String modelID = model.getId();
         String modelMetaID = model.getMetaId();
 
+        replaceElementsInModelDefinition(compModelPlugin, null);
         this.flattenedModel = mergeModels(flattenModel(model), this.flattenedModel);
 
         if (compModelPlugin.getSubmodelCount() > 0) {
@@ -131,143 +132,48 @@ public class CompFlatteningConverter {
         return this.flattenedModel;
     }
 
-    private void replaceElements(CompModelPlugin compModelPlugin, Model model, Submodel submodel, CompSBasePlugin compSBasePlugin) {
+    private void replaceElementsInModelDefinition(CompModelPlugin compModelPlugin, CompSBasePlugin compSBasePlugin) {
 
-        //ListOf<Submodel> subModelListOf = compModelPlugin.getListOfSubmodels().clone();
+        if (compModelPlugin != null || compSBasePlugin != null) {
 
-        ListOf<ReplacedElement> listOfReplacedElements = new ListOf<>();
+            ListOf<ReplacedElement> listOfReplacedElements = new ListOf<>();
 
-        if(compModelPlugin != null){
-            listOfReplacedElements= compModelPlugin.getListOfReplacedElements();
-        } else if(compSBasePlugin != null){
-            listOfReplacedElements = compSBasePlugin.getListOfReplacedElements();
-        }
-
-        for (ReplacedElement replacedElement : listOfReplacedElements){
-
-            //submodel = subModelListOf.get(replacedElement.getSubmodelRef());
-            if(submodel != null){
-                ModelDefinition modelDefinition = this.modelDefinitionListOf.get(submodel.getModelRef());
-                modelDefinition.remove(replacedElement.getIdRef());
+            if (compModelPlugin != null) {
+                listOfReplacedElements = compModelPlugin.getListOfReplacedElements();
+            } else if (compSBasePlugin != null) {
+                listOfReplacedElements = compSBasePlugin.getListOfReplacedElements();
             }
 
+            for (ReplacedElement replacedElement : listOfReplacedElements) {
 
-            if(replacedElement.getSubmodelRef() != null){
-                Model foundModel = this.modelDefinitionListOf.get(replacedElement.getSubmodelRef());
-                if(foundModel != null){
-                    SBase sBase = foundModel.findNamedSBase(replacedElement.getIdRef());
-                    if(sBase != null){
+                for (ModelDefinition modelDefinition : this.modelDefinitionListOf) {
+                    SBase sBase = modelDefinition.findNamedSBase(replacedElement.getIdRef());
+                    if (sBase != null) {
                         sBase.removeFromParent();
                     }
                 }
-            }
 
-            if(replacedElement.getSubmodelRef() != null){
-
-                int indexOfSubModel = -1;
-                for (int i = 0; i < this.listOfSubmodelsToFlatten.size(); i++) {
-                    if(this.listOfSubmodelsToFlatten.get(i).getId().equals(replacedElement.getSubmodelRef())){
-                        indexOfSubModel = i;
-                    }
-                }
-
-                if(indexOfSubModel != -1){
-                    Submodel foundSubModel = this.listOfSubmodelsToFlatten.get(indexOfSubModel);
-
-                    if(foundSubModel != null){
-
-                        Model modelOfFoundSubModel = this.modelDefinitionListOf.get(foundSubModel.getModelRef());
-
-                        if(modelOfFoundSubModel != null){
-                            SBase sBase = modelOfFoundSubModel.findUniqueSBase(replacedElement.getIdRef());
-                            if(sBase != null){
-                                sBase.removeFromParent();
-                            }
-
+                if (compModelPlugin != null) {
+                    for(Port port : compModelPlugin.getListOfPorts()){
+                        if(port.getId().equals(replacedElement.getPortRef())){
+                            port.removeFromParent();
                         }
 
                     }
                 }
-
             }
 
-
-            if(model != null){
-                SBase sBase = model.findNamedSBase(replacedElement.getIdRef());
-                if(sBase != null){
-                    sBase.removeFromParent();
-                }
-
-                if(model.containsParameter(replacedElement.getIdRef())){
-                    model.remove(replacedElement.getIdRef());
-                }
-            }
-
-            if(compModelPlugin != null){
-
-                ReplacedBy replacedBy = compModelPlugin.getReplacedBy();
-
-                if(replacedBy != null){
-                    // add element?
-                    replacedBy.removeFromParent();
-                }
-
-            }
-            //submodel.getElementBySId(replacedElement.getIdRef()).removeFromParent();
-            //sBase.getElementBySId(replacedElement.getSBaseRef().getId()).removeFromParent();
-
-            //compModelPlugin.addSubmodel(submodel);
         }
-
-//        for (int i = 0; i < listOfReplacedElements.size(); i++) {
-//
-//            if(model != null){
-//                model.remove(listOfReplacedElements.get(i).getId());
-//            }
-//
-//            if(this.listOfSubmodelsToFlatten.contains(listOfReplacedElements.get(i).getSubmodelRef())){
-//                Submodel submodel1 = this.listOfSubmodelsToFlatten.get(this.listOfSubmodelsToFlatten.indexOf(listOfReplacedElements.get(i).getSubmodelRef()));
-//                submodel1.removeUserObject(listOfReplacedElements.get(i).getIdRef());
-//
-//            }
-//
-//            listOfReplacedElements.get(i).removeFromParent();
-//        }
-
-        listOfReplacedElements.removeFromParent();
-
     }
-
 
     private Model initSubModels(CompModelPlugin compModelPlugin) {
 
         ListOf<Submodel> subModelListOf = compModelPlugin.getListOfSubmodels().clone();
 
         // TODO: replace elements
-        replaceElements(compModelPlugin, null, null, null);
+        replaceElementsInModelDefinition(compModelPlugin, null);
 
-//        ListOf<ReplacedElement> listOfReplacedElements = compModelPlugin.getListOfReplacedElements();
-//
-//        for(ReplacedElement replacedElement : listOfReplacedElements){
-//            // pointer to a submodel object that should be considered “replaced”
-//            Submodel subModelToReplace = subModelListOf.get(replacedElement.getSubmodelRef());
-//
-//            // get the object
-//
-//            // object holding the ReplacedElement instance is the one doing the replacing
-//
-//            // object pointed to by the ReplacedElement object is the object being replaced
-//            subModelToReplace.getElementBySId(replacedElement.getId()).removeFromParent();
-//
-//            this.modelDefinitionListOf.remove(subModelToReplace.getId());
-//
-//            // update dependencies
-//
-//            // local parameters of reactions
-//
-//        }
-//
-//        listOfReplacedElements.removeFromParent();
+        //replaceElementsInSubmodel();
 
         // TODO: ports
         ListOf<Port> listOfPorts = compModelPlugin.getListOfPorts();
@@ -294,6 +200,8 @@ public class CompFlatteningConverter {
             // exist or if exists in an unparsed XML or SBML namespace, it may choose to display a warning to the user.
 
         }
+
+
 
         listOfPorts.removeFromParent();
 
@@ -323,7 +231,6 @@ public class CompFlatteningConverter {
 
         }
 
-        // "else"
         return flattenAndMergeModels(this.listOfSubmodelsToFlatten);
     }
 
@@ -488,13 +395,9 @@ public class CompFlatteningConverter {
             for (Parameter parameter : parameterListOf) {
 
                 if(parameter.isSetPlugin(CompConstants.shortLabel)){
-                    replaceElements(null,
-                            targetModel,
-                            null,
-                            (CompSBasePlugin) parameter.getExtension(CompConstants.shortLabel));
+                    replaceElementsInModelDefinition(null, (CompSBasePlugin) parameter.getExtension(CompConstants.shortLabel));
+                    parameter.unsetPlugin(CompConstants.shortLabel);
                 }
-
-                //parameter.unsetPlugin(CompConstants.shortLabel);
                 targetModel.addParameter(parameter.clone());
             }
         }
@@ -663,10 +566,13 @@ public class CompFlatteningConverter {
             if(sBase.isPackageEnabled(CompConstants.shortLabel)){
                 CompSBasePlugin compSBasePlugin = (CompSBasePlugin) sBase.getExtension(CompConstants.shortLabel);
                 CompModelPlugin compModelPlugin = (CompModelPlugin) modelOfSubmodel.getExtension(CompConstants.shortLabel);
-                replaceElements(compModelPlugin, modelOfSubmodel,null, null);
+
+                replaceElementsInModelDefinition(compModelPlugin,compSBasePlugin);
+
             }
             //sBase.unsetPlugin(CompConstants.shortLabel);
         }
+
     }
 
     private Model flattenModel(Model modelOfSubmodel) {
