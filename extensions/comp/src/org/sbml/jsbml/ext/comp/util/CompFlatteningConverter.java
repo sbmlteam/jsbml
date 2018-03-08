@@ -83,6 +83,7 @@ public class CompFlatteningConverter {
 
                 // TODO: the model itself has to be flattend (can hold a list of replacements etc.)
                 CompModelPlugin compModelPlugin = (CompModelPlugin) document.getModel().getExtension(CompConstants.shortLabel);
+                handlePorts(compModelPlugin, compModelPlugin.getListOfPorts());
                 replaceElementsInModelDefinition(compModelPlugin, null);
 
                 this.flattenedModel = instantiateSubModels(compModelPlugin);
@@ -119,6 +120,7 @@ public class CompFlatteningConverter {
         String modelID = model.getId();
         String modelMetaID = model.getMetaId();
 
+        handlePorts(compModelPlugin, compModelPlugin.getListOfPorts());
         replaceElementsInModelDefinition(compModelPlugin, null);
         this.flattenedModel = mergeModels(flattenModel(model), this.flattenedModel);
 
@@ -166,17 +168,7 @@ public class CompFlatteningConverter {
         }
     }
 
-    private Model initSubModels(CompModelPlugin compModelPlugin) {
-
-        ListOf<Submodel> subModelListOf = compModelPlugin.getListOfSubmodels().clone();
-
-        // TODO: replace elements
-        replaceElementsInModelDefinition(compModelPlugin, null);
-
-        //replaceElementsInSubmodel();
-
-        // TODO: ports
-        ListOf<Port> listOfPorts = compModelPlugin.getListOfPorts();
+    private void handlePorts(CompModelPlugin compModelPlugin, ListOf<Port> listOfPorts){
 
         for (Port port : listOfPorts){
 
@@ -187,12 +179,29 @@ public class CompFlatteningConverter {
             // The question “what does this port correspond to?” would be answered by the value of the metaIdRef attribute.
 
             String idRef = port.getIdRef();
+            String metaIDRef = port.getMetaIdRef();
 
-            if(idRef != null){
+            if(metaIDRef != null && !metaIDRef.isEmpty()){
+
+                SBase parentOfPort = compModelPlugin.getParent();
+
+                SBase sBase = compModelPlugin.getSBMLDocument().findSBase(idRef);
+                addSBaseToModel(parentOfPort.getModel(), sBase);
+
+            } else if(idRef != null && !idRef.isEmpty()){
+                SBase parentOfPort = compModelPlugin.getParent();
+
+                for (ModelDefinition modelDefinition : this.modelDefinitionListOf) {
+                    SBase sBase = modelDefinition.findNamedSBase(idRef);
+
+                    if(sBase != null){
+                        addSBaseToModel(parentOfPort.getModel(), sBase);
+                        break;
+                    }
+                }
+
 
             }
-
-            String metaIDRef = port.getMetaIdRef();
 
             // If a port references an object from a namespace that is not understood by the interpreter,
             // the interpreter must consider the port to be not understood as well.
@@ -201,9 +210,19 @@ public class CompFlatteningConverter {
 
         }
 
-
-
         listOfPorts.removeFromParent();
+    }
+
+    private Model initSubModels(CompModelPlugin compModelPlugin) {
+
+        ListOf<Submodel> subModelListOf = compModelPlugin.getListOfSubmodels().clone();
+
+        // TODO: replace elements
+        replaceElementsInModelDefinition(compModelPlugin, null);
+
+        // TODO: ports
+        ListOf<Port> listOfPorts = compModelPlugin.getListOfPorts();
+        handlePorts(compModelPlugin, listOfPorts);
 
         for (Submodel submodel : subModelListOf) {
 
@@ -589,6 +608,36 @@ public class CompFlatteningConverter {
         flattenSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfUnitDefinitions());
 
         return modelOfSubmodel;
+    }
+
+    private void addSBaseToModel(Model model, SBase sBase) {
+
+        if (model != null && sBase != null) {
+
+            sBase.removeFromParent();
+
+            if (sBase.getClass() == Reaction.class) {
+                model.addReaction((Reaction) sBase);
+            } else if (sBase.getClass() == Compartment.class) {
+                model.addCompartment((Compartment) sBase);
+            } else if (sBase.getClass() == Constraint.class) {
+                model.addConstraint((Constraint) sBase);
+            } else if (sBase.getClass() == Event.class) {
+                model.addEvent((Event) sBase);
+            } else if (sBase.getClass() == FunctionDefinition.class) {
+                model.addFunctionDefinition((FunctionDefinition) sBase);
+            } else if (sBase.getClass() == Parameter.class) {
+                model.addParameter((Parameter) sBase);
+            } else if (sBase.getClass() == Rule.class) {
+                model.addRule((Rule) sBase);
+            } else if (sBase.getClass() == Species.class) {
+                model.addSpecies((Species) sBase);
+            } else if (sBase.getClass() == UnitDefinition.class) {
+                model.addUnitDefinition((UnitDefinition) sBase);
+            }
+
+        }
+
     }
 
 }
