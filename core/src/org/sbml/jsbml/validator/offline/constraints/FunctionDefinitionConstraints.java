@@ -113,7 +113,7 @@ extends AbstractConstraintDeclaration {
 
           if (ctx.getLevel() > 1 && fd.isSetMath()) {
             ASTNode math = fd.getMath();
-            int nbSemantics = (int) ((fd.isSetUserObjects() && fd.getUserObject(MathMLStaxParser.JSBML_SEMANTICS_COUNT) != null) ? fd.getUserObject(MathMLStaxParser.JSBML_SEMANTICS_COUNT) : 0);
+            int nbSemantics = ((fd.isSetUserObjects() && fd.getUserObject(MathMLStaxParser.JSBML_SEMANTICS_COUNT) != null) ? ((Number) fd.getUserObject(MathMLStaxParser.JSBML_SEMANTICS_COUNT)).intValue() : 0);
             
             if (ctx.isLevelAndVersionLessThan(2, 3)) {
               // must be a lambda

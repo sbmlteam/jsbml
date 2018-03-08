@@ -64,7 +64,7 @@ public class DuplicatedMathValidationFunction<T extends MathContainer> implement
     
     if (mathContainer.isSetMath()) {
       if (mathContainer.isSetUserObjects() && mathContainer.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT) != null) {
-        int nbMath = (int) mathContainer.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT);
+        int nbMath = ((Number) mathContainer.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT)).intValue();
     
         return nbMath == 1;                  
       }

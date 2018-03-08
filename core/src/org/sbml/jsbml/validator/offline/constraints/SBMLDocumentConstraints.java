@@ -346,7 +346,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, SBMLDocument d) {
 
           // count the number of model xml element and check if it is not above 1
-          DuplicatedElementValidationFunction<SBMLDocument> duplicatedModelcheck = new DuplicatedElementValidationFunction<>(TreeNodeChangeEvent.model);
+          DuplicatedElementValidationFunction<SBMLDocument> duplicatedModelcheck = new DuplicatedElementValidationFunction<SBMLDocument>(TreeNodeChangeEvent.model);
 
           if (!duplicatedModelcheck.check(ctx, d)) {
             return false;

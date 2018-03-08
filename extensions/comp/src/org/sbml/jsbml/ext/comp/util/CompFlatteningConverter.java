@@ -50,13 +50,13 @@ public class CompFlatteningConverter {
     private Model flattenedModel;
 
     public CompFlatteningConverter() {
-        this.listOfSubmodelsToFlatten = new ArrayList<>();
+        this.listOfSubmodelsToFlatten = new ArrayList<Submodel>();
 
-        this.previousModelIDs = new ArrayList<>();
-        this.previousModelMetaIDs = new ArrayList<>();
+        this.previousModelIDs = new ArrayList<String>();
+        this.previousModelMetaIDs = new ArrayList<String>();
 
-        this.modelDefinitionListOf = new ListOf<>();
-        this.externalModelDefinitionListOf = new ListOf<>();
+        this.modelDefinitionListOf = new ListOf<ModelDefinition>();
+        this.externalModelDefinitionListOf = new ListOf<ExternalModelDefinition>();
 
         this.flattenedModel = new Model();
 

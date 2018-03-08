@@ -230,7 +230,7 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
           
           if (ia.isSetMath()) {
             if (ia.isSetUserObjects() && ia.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT) != null) {
-              int nbMath = (int) ia.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT);
+              int nbMath = ((Number) ia.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT)).intValue();
           
               return nbMath == 1;                  
             }

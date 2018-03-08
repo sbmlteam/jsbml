@@ -26,6 +26,7 @@ import org.sbml.jsbml.Event;
 import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
@@ -143,7 +144,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Event e) {
 
-          boolean duplicatedTriggerElement = new DuplicatedElementValidationFunction<>("trigger").check(ctx, e);
+          boolean duplicatedTriggerElement = new DuplicatedElementValidationFunction<TreeNodeWithChangeSupport>("trigger").check(ctx, e);
           
           if (ctx.isLevelAndVersionGreaterEqualThan(3, 2)) {
             return duplicatedTriggerElement;
@@ -232,11 +233,11 @@ public class EventConstraints extends AbstractConstraintDeclaration {
       break;
       
     case CORE_21221:
-      func = new DuplicatedElementValidationFunction<>("delay");
+      func = new DuplicatedElementValidationFunction<Event>("delay");
       break;
       
     case CORE_21222:
-      func = new DuplicatedElementValidationFunction<>("listOfEventAssignments");
+      func = new DuplicatedElementValidationFunction<Event>("listOfEventAssignments");
       break;
       
     case CORE_21223:
@@ -287,7 +288,7 @@ public class EventConstraints extends AbstractConstraintDeclaration {
       break;
       
     case CORE_21230:
-      func = new DuplicatedElementValidationFunction<>("priority");
+      func = new DuplicatedElementValidationFunction<Event>("priority");
       break;
       
     case CORE_99206:

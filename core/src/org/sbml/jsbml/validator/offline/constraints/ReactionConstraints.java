@@ -31,6 +31,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.AssignmentCycleValidation;
@@ -172,10 +173,10 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
           boolean check = true;
           
           if (r.isSetListOfReactants() || r.isListOfReactantsEmpty()) {
-            check &= new UnknownElementValidationFunction<>().check(ctx, r.getListOfReactants());
+            check &= new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, r.getListOfReactants());
           }
           if (r.isSetListOfProducts() || r.isListOfProductsEmpty()) {
-            check &= new UnknownElementValidationFunction<>().check(ctx, r.getListOfProducts());
+            check &= new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, r.getListOfProducts());
           }
 
           return check;
@@ -192,7 +193,7 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
           boolean check = true;
           
           if (r.isSetListOfModifiers() || r.isListOfModifiersEmpty()) {
-            check &= new UnknownElementValidationFunction<>().check(ctx, r.getListOfModifiers());
+            check &= new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, r.getListOfModifiers());
           }
 
           return check;
