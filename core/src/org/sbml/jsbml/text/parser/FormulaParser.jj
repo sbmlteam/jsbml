@@ -240,7 +240,7 @@ TOKEN :
 
 TOKEN :
 {
-  < EXPNUMBER : ([ "-" ])? < NUMBER > [ "E", "e" ] ([ "+", "-" ])? < INTEGER > >
+  < EXPNUMBER : < NUMBER > [ "E", "e" ] ([ "+", "-" ])? < INTEGER > >
 }
 
 TOKEN :
