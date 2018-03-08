@@ -175,21 +175,12 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument d) {
 
-          Map<String, String> namespaceMap = d.getDeclaredNamespaces();
-          String sbmlNamespace = null;
+          String sbmlNamespace = getSBMLDocumentNamespace(d);
           
-          if (namespaceMap.size() == 0) {
-            // Something is wrong with the namespace
+          if (sbmlNamespace == null) {
             return false;
           }
           
-          String namespaceKey = "xmlns";
-          
-          if (d.isSetUserObjects() && d.getUserObject(JSBML.ELEMENT_XML_PREFIX) != null) {
-            namespaceKey = namespaceKey + ":" + d.getUserObject(JSBML.ELEMENT_XML_PREFIX);
-          }
-
-          sbmlNamespace = namespaceMap.get(namespaceKey);
           
           int level = d.getLevel();
           int version = d.getVersion();
@@ -215,21 +206,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
             return false;
           }
           
-          Map<String, String> namespaceMap = d.getDeclaredNamespaces();
-          String sbmlNamespace = null;
-          
-          if (namespaceMap.size() == 0) {
-            // Something is wrong with the namespace
-            return false;
-          }
-          
-          String namespaceKey = "xmlns";
-          
-          if (d.isSetUserObjects() && d.getUserObject(JSBML.ELEMENT_XML_PREFIX) != null) {
-            namespaceKey = namespaceKey + ":" + d.getUserObject(JSBML.ELEMENT_XML_PREFIX);
-          }
-
-          sbmlNamespace = namespaceMap.get(namespaceKey);
+          String sbmlNamespace = getSBMLDocumentNamespace(d);
           
           if (sbmlNamespace == null) {
             return false;
@@ -255,6 +232,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
           
           return level == namespaceLevel;
         }
+
       };
       break;
       
@@ -268,21 +246,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
             return false;
           }
           
-          Map<String, String> namespaceMap = d.getDeclaredNamespaces();
-          String sbmlNamespace = null;
-          
-          if (namespaceMap.size() == 0) {
-            // Something is wrong with the namespace
-            return false;
-          }
-          
-          String namespaceKey = "xmlns";
-          
-          if (d.isSetUserObjects() && d.getUserObject(JSBML.ELEMENT_XML_PREFIX) != null) {
-            namespaceKey = namespaceKey + ":" + d.getUserObject(JSBML.ELEMENT_XML_PREFIX);
-          }
-
-          sbmlNamespace = namespaceMap.get(namespaceKey);
+          String sbmlNamespace = getSBMLDocumentNamespace(d);
           
           if (sbmlNamespace == null) {
             return false;
@@ -294,7 +258,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
           int levelPosition = sbmlNamespace.indexOf("version");
           
           if (levelPosition == -1) {
-            namespaceVersion = 1;
+            namespaceVersion = 1; // cover the case of SBML L2V1
             
             if (d.getLevel() == 1 && (version == 1 || version == 2)) {
               return true;
@@ -367,4 +331,33 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
     return func;
   }
+  
+  /**
+   * Returns the namespace of an {@link SBMLDocument}.
+   * 
+   * <p>The namespace is taken from the declared namespace map 
+   * to be able to validate models with wrong combination of 
+   * namespace and level and version.</p>
+   * 
+   * @param d an {@link SBMLDocument}
+   * @return the declared namespace of an {@link SBMLDocument}
+   */
+  private String getSBMLDocumentNamespace(SBMLDocument d) {
+    Map<String, String> namespaceMap = d.getDeclaredNamespaces();
+    String sbmlNamespace = null;
+    
+    if (namespaceMap.size() != 0) {
+
+      String namespaceKey = "xmlns";
+
+      if (d.isSetUserObjects() && d.getUserObject(JSBML.ELEMENT_XML_PREFIX) != null) {
+        namespaceKey = namespaceKey + ":" + d.getUserObject(JSBML.ELEMENT_XML_PREFIX);
+      }
+
+      sbmlNamespace = namespaceMap.get(namespaceKey);
+    }
+
+    return sbmlNamespace;
+  }
+
 }
