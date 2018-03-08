@@ -190,6 +190,9 @@ public class SBMLDocument extends AbstractSBase {
     if (!hasValidLevelVersionNamespaceCombination()) {
       throw new LevelVersionError(this);
     }
+    else {
+      addDeclaredNamespace("xmlns", getNamespace());
+    }
     initDefaults();
   }
 
