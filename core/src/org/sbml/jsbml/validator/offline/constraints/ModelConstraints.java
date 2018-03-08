@@ -34,6 +34,7 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.OverdeterminationValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -649,7 +650,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfFunctionDefinitions() || m.isListOfFunctionDefinitionsEmpty()) {
-            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfFunctionDefinitions());
+            return new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfFunctionDefinitions());
           }
 
           return true;
@@ -663,7 +664,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfUnitDefinitions() || m.isListOfUnitDefinitionEmpty()) {
-            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfUnitDefinitions());
+            return new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfUnitDefinitions());
           }
 
           return true;
@@ -677,7 +678,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfCompartments() || m.isListOfCompartmentsEmpty()) {
-            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfCompartments());
+            return new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfCompartments());
           }
 
           return true;
@@ -691,7 +692,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfSpecies() || m.isListOfSpeciesEmpty()) {
-            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfSpecies());
+            return new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfSpecies());
           }
 
           return true;
@@ -705,7 +706,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfParameters() || m.isListOfParametersEmpty()) {
-            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfParameters());
+            return new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfParameters());
           }
 
           return true;
@@ -719,7 +720,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfInitialAssignments() || m.isListOfInitialAssignmentsEmpty()) {
-            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfInitialAssignments());
+            return new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfInitialAssignments());
           }
 
           return true;
@@ -733,7 +734,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfRules() || m.isListOfRulesEmpty()) {
-            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfRules());
+            return new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfRules());
           }
 
           return true;
@@ -747,7 +748,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfConstraints() || m.isListOfConstraintsEmpty()) {
-            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfConstraints());
+            return new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfConstraints());
           }
 
           return true;
@@ -761,7 +762,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfReactions() || m.isListOfReactionsEmpty()) {
-            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfReactions());
+            return new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfReactions());
           }
 
           return true;
@@ -775,7 +776,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfEvents() || m.isListOfEventsEmpty()) {
-            return new UnknownElementValidationFunction<>().check(ctx, m.getListOfEvents());
+            return new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfEvents());
           }
 
           return true;
@@ -913,7 +914,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfFunctionDefinitions() || m.isListOfFunctionDefinitionsEmpty()) {
-            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfFunctionDefinitions());
+            return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfFunctionDefinitions());
           }
 
           return true;
@@ -927,7 +928,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfUnitDefinitions() || m.isListOfUnitDefinitionEmpty()) {
-            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfUnitDefinitions());
+            return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfUnitDefinitions());
           }
 
           return true;
@@ -941,7 +942,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfCompartments() || m.isListOfCompartmentsEmpty()) {
-            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfCompartments());
+            return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfCompartments());
           }
 
           return true;
@@ -955,7 +956,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfSpecies() || m.isListOfSpeciesEmpty()) {
-            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfSpecies());
+            return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfSpecies());
           }
 
           return true;
@@ -969,7 +970,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfParameters() || m.isListOfParametersEmpty()) {
-            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfParameters());
+            return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfParameters());
           }
 
           return true;
@@ -983,7 +984,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfInitialAssignments() || m.isListOfInitialAssignmentsEmpty()) {
-            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfInitialAssignments());
+            return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfInitialAssignments());
           }
 
           return true;
@@ -997,7 +998,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfRules() || m.isListOfRulesEmpty()) {
-            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfRules());
+            return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfRules());
           }
 
           return true;
@@ -1011,7 +1012,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfConstraints() || m.isListOfConstraintsEmpty()) {
-            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfConstraints());
+            return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfConstraints());
           }
 
           return true;
@@ -1025,7 +1026,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfReactions() || m.isListOfReactionsEmpty()) {
-            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfReactions());
+            return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfReactions());
           }
 
           return true;
@@ -1039,7 +1040,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Model m) {
           if (m.isSetListOfEvents() || m.isListOfEventsEmpty()) {
-            return new UnknownAttributeValidationFunction<>().check(ctx, m.getListOfEvents());
+            return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, m.getListOfEvents());
           }
 
           return true;

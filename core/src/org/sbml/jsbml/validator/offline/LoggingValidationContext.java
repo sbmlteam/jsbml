@@ -262,26 +262,18 @@ public class LoggingValidationContext extends ValidationContext implements Valid
       if (severity != null && (severity.equalsIgnoreCase("error") || severity.equalsIgnoreCase("fatal"))) {
         // the category we are in will be the latest one.
         
-        switch(category) {
-          
-          case "SBML identifier consistency":
+        if (category == "SBML identifier consistency") {
             ignoredCategories.add("General SBML conformance");
             ignoredCategories.add("SBML component consistency");
-            
-          case "General SBML conformance":
-          case "SBML component consistency":
+        } else if ((category == "General SBML conformance") || (category == "SBML component consistency")) {
             ignoredCategories.add("SBO term consistency");
-            
-          case "SBO term consistency":
+        } else if (category == "SBO term consistency") {
             ignoredCategories.add("MathML consistency");
-            
-          case "MathML consistency":
+        } else if (category == "MathML consistency") {
             ignoredCategories.add("SBML unit consistency");
-            
-          case "SBML unit consistency":
+        } else if (category == "SBML unit consistency") {
             ignoredCategories.add("Overdetermined model");
-            
-          case "Overdetermined model":
+        } else if (category == "Overdetermined model") {
             ignoredCategories.add("Modeling practice");
         }
       }

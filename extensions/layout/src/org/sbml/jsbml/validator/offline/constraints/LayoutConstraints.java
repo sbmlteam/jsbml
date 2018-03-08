@@ -29,6 +29,7 @@ import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
@@ -333,7 +334,7 @@ public class LayoutConstraints extends AbstractConstraintDeclaration {
             return false;
           }
           
-          return new DuplicatedElementValidationFunction<>(LayoutConstants.dimensions).check(ctx, layout);
+          return new DuplicatedElementValidationFunction<TreeNodeWithChangeSupport>(LayoutConstants.dimensions).check(ctx, layout);
         }
       };
       break;

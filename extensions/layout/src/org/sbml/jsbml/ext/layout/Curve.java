@@ -335,4 +335,11 @@ public class Curve extends AbstractSBase implements ICurve {
     return false;
   }
 
+  public ReactionGlyph getParentReactionGlyph() {
+    if (isSetParent() && getParent().isSetParent()) {
+	  return (ReactionGlyph) getParent().getParent();
+    }
+    return null;
+  }
+
 }
