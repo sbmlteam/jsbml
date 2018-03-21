@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $Id: Geometry.java 1388 2016-01-24 05:16:09Z draeger $
+ * $URL: https://rarepos.cs.uni-tuebingen.de/svn-path/SysBio/trunk/src/de/zbit/sbml/layout/Geometry.java $
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
@@ -19,15 +19,17 @@ package de.zbit.sbml.layout;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 
+import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.CurveSegment;
+import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.Point;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
+ * @version $Rev: 1388 $
  */
 public class Geometry {
   
@@ -139,6 +141,36 @@ public class Geometry {
     }
     
     return copy;
+  }
+  
+  /**
+   * Calculates the center of the given bounding box and returns a point representing that center.
+   * @param bbox
+   * @return
+   */
+  public static Point center(BoundingBox bbox) {
+    Point pos = bbox.getPosition();
+    Dimensions d = bbox.getDimensions();
+    Point p = new Point(pos.x(), pos.y(), pos.z(), pos.getLevel(), pos.getVersion());
+    p.setX(d.getWidth() + p.x());
+    p.setY(d.getHeight() + p.y());
+    p.setZ(d.getDepth() + p.z());
+    return p;
+  }
+  
+  /**
+   * Calculates the Eucledian distance between two points a and b.
+   * @param a
+   * @param b
+   * @return
+   */
+  public static double euclideanDistance(Point a, Point b) {
+    double d = 0d;
+    double r = 2d;
+    d += Math.pow(a.x() - b.x(), r);
+    d += Math.pow(a.y() - b.y(), r);
+    d += Math.pow(a.z() - b.z(), r);
+    return Math.pow(d, 1d/r);
   }
   
 }
