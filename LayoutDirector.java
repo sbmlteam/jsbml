@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $Id: LayoutDirector.java 1406 2017-06-01 12:23:59Z lbuchweitz $
+ * $URL: https://rarepos.cs.uni-tuebingen.de/svn-path/SysBio/trunk/src/de/zbit/sbml/layout/LayoutDirector.java $
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
@@ -32,7 +32,9 @@ import javax.xml.stream.XMLStreamException;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBO;
@@ -65,7 +67,7 @@ import de.zbit.util.prefs.SBPreferences;
  *            Type of the product.
  *
  * @author Mirjam Gutekunst
- * @version $Rev$
+ * @version $Rev: 1406 $
  */
 public class LayoutDirector<P> implements Runnable {
   
@@ -126,11 +128,6 @@ public class LayoutDirector<P> implements Runnable {
    */
   public static final String SPECIES_RELATIVE_DOCKING_POINT = "SPECIES_RELATIVE_DOCKING_POINT";
   
-  public static final Map<String,Double> rotationAngles = new HashMap<String,Double>();
-  /**
-   * checks, if the nodes are drawn again, to get the rotationAngles again
-   */
-  public static boolean fromRearrangeCycle = false;  
   /**
    * LayoutAlgorithm instance to compute missing information
    */
@@ -491,10 +488,10 @@ public class LayoutDirector<P> implements Runnable {
     return glyph.isSetBoundingBox()
         && glyph.getBoundingBox().isSetDimensions()
         && glyph.getBoundingBox().isSetPosition()
-        && (glyph.getBoundingBox().getPosition().getX() != 0d)
-        && (glyph.getBoundingBox().getPosition().getY() != 0d)
-        && (glyph.getBoundingBox().getDimensions().getHeight() != 0d)
-        && (glyph.getBoundingBox().getDimensions().getWidth() != 0d);
+        && glyph.getBoundingBox().getPosition().isSetX()
+        && glyph.getBoundingBox().getPosition().isSetY()
+        && glyph.getBoundingBox().getDimensions().isSetHeight()
+        && glyph.getBoundingBox().getDimensions().isSetWidth();
   }
   
   /**
@@ -519,46 +516,110 @@ public class LayoutDirector<P> implements Runnable {
   public static boolean glyphHasPosition(GraphicalObject glyph) {
     return glyph.isSetBoundingBox()
         && glyph.getBoundingBox().isSetPosition()
-        && (glyph.getBoundingBox().getPosition().getX() != 0)
-        && (glyph.getBoundingBox().getPosition().getY() != 0);
+        && !(Double.isNaN(glyph.getBoundingBox().getPosition().x())
+            || Double.isNaN(glyph.getBoundingBox().getPosition().y()));
   }
   
   /**
    * Check if a species reference glyph is a substrate. Both species reference
    * roles (higher priority) and SBO terms are used.
    *
-   * @param speciesReferenceGlyph
+   * @param srg
+   *        a {@link SpeciesReferenceGlyph}
+   * @return {@code true} if the given {@link SpeciesReferenceGlyph} can be
+   *         associated with a consuming process or {@code false} otherwise.
+   */
+  public static boolean isSubstrate(SpeciesReferenceGlyph srg) {
+    SpeciesReferenceRole role = determineRole(srg);
+    return (role == SpeciesReferenceRole.SUBSTRATE) || (role == SpeciesReferenceRole.SIDESUBSTRATE);
+  }
+  
+  /**
+   * Check if a species reference glyph can be interpreted as an activator,
+   * inhibitor, or generic modifier.
+   * 
+   * @param srg a {@link SpeciesReferenceGlyph}
+   * @return {@code true} if the given {@link SpeciesReferenceGlyph} acts as
+   *         an {@link SpeciesReferenceRole#ACTIVATOR}, {@link SpeciesReferenceRole#INHIBITOR} or {@link SpeciesReferenceRole#MODIFIER}.
+   */
+  public static boolean isModifier(SpeciesReferenceGlyph srg) {
+    SpeciesReferenceRole role = determineRole(srg);
+    return (role == SpeciesReferenceRole.ACTIVATOR) || (role == SpeciesReferenceRole.INHIBITOR) || (role == SpeciesReferenceRole.MODIFIER);
+  }
+  
+  /**
+   * 
+   * @param srg
    * @return
    */
-  public static boolean isSubstrate(SpeciesReferenceGlyph speciesReferenceGlyph) {
-    if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
-      return speciesReferenceGlyph.getSpeciesReferenceRole().equals(
-        SpeciesReferenceRole.SUBSTRATE)
-          || speciesReferenceGlyph.getSpeciesReferenceRole().equals(
-            SpeciesReferenceRole.SIDESUBSTRATE);
-    } else if (speciesReferenceGlyph.isSetSBOTerm()) {
-      return SBO.isChildOf(speciesReferenceGlyph.getSBOTerm(), 394);
+  public static SpeciesReferenceRole determineRole(SpeciesReferenceGlyph srg) {
+    // We can always return UNDEFINED. Let's try to find the best result.
+    // Hopefully, there are no contradictions, because we don't check for those...
+    SpeciesReferenceRole role = SpeciesReferenceRole.UNDEFINED;
+    // We first check if the role has been directly specified.
+    if (srg.isSetSpeciesReferenceRole() && (srg.getRole() != SpeciesReferenceRole.UNDEFINED)) {
+      role = srg.getRole();
+    } else if (srg.isSetSBOTerm()) {
+      // Now let's see if the glyph has any useful SBO term.
+      role = SpeciesReferenceRole.valueOf(srg.getSBOTerm());
     }
-    return false;
+    // If the analysis only yields undefined, we have a chance to get a more
+    // meaningful result by looking at a few other facts from the core model.
+    if (role != SpeciesReferenceRole.UNDEFINED) {
+      return role;
+    } else if (srg.isSetReference()) {
+      NamedSBase nsb = srg.getReferenceInstance();
+      if (nsb != null) {
+        if (nsb instanceof SimpleSpeciesReference) {
+          SimpleSpeciesReference ssr = (SimpleSpeciesReference) nsb;
+          // Maybe the corresponding element from SBML core has an SBO term?
+          if (ssr.isSetSBOTerm()) {
+            role = SpeciesReferenceRole.valueOf(ssr.getSBOTerm());
+          }
+          // If this SBO term isn't really useful, we can at least check in which
+          // list this SimpleSpeciesReference resides to get a somewhat vague
+          // term, which is still better than just UNDEFINED.
+          if (role != SpeciesReferenceRole.UNDEFINED) {
+            return role;
+          } else if (ssr instanceof ModifierSpeciesReference) {
+            // This isn't very precise, could be inhibitor, activator, or catalyst,
+            // which makes a huge difference. But ok, that's the best we can find.
+            return SpeciesReferenceRole.MODIFIER;
+          } else {
+            Reaction r = (Reaction) ssr.getParent();
+            // Our last chance. Let's see if this core object is in the list of
+            // reactants or in the list of products. This only gives us generic
+            // information, but based on what we have, we won't be able to figure
+            // out if the glyph should be drawn as a secondary or primary metabolite.
+            if (r != null) {
+              if (r.isSetListOfReactants() && r.getListOfReactants().contains(ssr)) {
+                return SpeciesReferenceRole.SUBSTRATE;
+              } else if (r.isSetListOfProducts() && r.getListOfProducts().contains(ssr)) {
+                return SpeciesReferenceRole.PRODUCT;
+              }
+            }
+          }
+        } else {
+          // Not helpful for what we're trying to do here, but a useful error message.
+          logger.warning(MessageFormat.format(
+            "Expecting simpleSpeciesReference, but found {0} with id ''{1}'' in {2} with id ''{3}''.",
+            nsb.getElementName(), nsb.getId(), srg.getElementName(), srg.getId()));
+        }
+      }
+    }
+    return role;
   }
   
   /**
    * Check if a species reference glyph is a product. Both species reference
    * roles (higher priority) and SBO terms are used.
    *
-   * @param speciesReferenceGlyph
+   * @param srg
    * @return
    */
-  public static boolean isProduct(SpeciesReferenceGlyph speciesReferenceGlyph) {
-    if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
-      return speciesReferenceGlyph.getSpeciesReferenceRole().equals(
-        SpeciesReferenceRole.PRODUCT)
-          || speciesReferenceGlyph.getSpeciesReferenceRole().equals(
-            SpeciesReferenceRole.SIDEPRODUCT);
-    } else if (speciesReferenceGlyph.isSetSBOTerm()) {
-      return SBO.isChildOf(speciesReferenceGlyph.getSBOTerm(), 393);
-    }
-    return false;
+  public static boolean isProduct(SpeciesReferenceGlyph srg) {
+    SpeciesReferenceRole role = determineRole(srg);
+    return (role == SpeciesReferenceRole.PRODUCT) || (role == SpeciesReferenceRole.SIDEPRODUCT);
   }
   
   /**
@@ -570,16 +631,14 @@ public class LayoutDirector<P> implements Runnable {
   private void handleCompartmentGlyphs(
     List<CompartmentGlyph> compartmentGlyphList) {
     CompartmentGlyph previousCompartmentGlyph = null;
-    for (int i = 0; i < compartmentGlyphList.size(); i++) {
-      CompartmentGlyph compartmentGlyph = compartmentGlyphList.get(i);
+    for (CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
       if ((previousCompartmentGlyph != null) &&
           previousCompartmentGlyph.isSetReference() &&
           compartmentGlyph.isSetReference()) {
         Compartment previousCompartment = (Compartment) previousCompartmentGlyph.getReferenceInstance();
-        if (previousCompartment.getUserObject(COMPARTMENT_LINK) instanceof List<?>) {
+        if ((previousCompartment != null) && (previousCompartment.getUserObject(COMPARTMENT_LINK) instanceof List<?>)) {
           @SuppressWarnings("unchecked")
-          List<Compartment> containedCompartments =
-          (List<Compartment>) previousCompartment.getUserObject(COMPARTMENT_LINK);
+          List<Compartment> containedCompartments = (List<Compartment>) previousCompartment.getUserObject(COMPARTMENT_LINK);
           if (!containedCompartments.contains(compartmentGlyph.getReferenceInstance())) {
             previousCompartment = null;
           }
@@ -669,36 +728,39 @@ public class LayoutDirector<P> implements Runnable {
     // The responsible classes for rotation are LayoutBuilder and the ProcessNodeRealizier.
     // The first one only calculates the rotation angle, while the second one performs drawing.
     double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(reactionGlyph);
-    builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);  
+    builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);
     
     if (reactionGlyph.isSetListOfSpeciesReferenceGlyphs()) {
       for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
         try {
           // copy SBO term of species reference to species reference glyph
-          NamedSBase nsb = srg.getReferenceInstance();
-          if (!(nsb instanceof SimpleSpeciesReference) && (nsb != null)) {
+          if (!srg.isSetSpeciesReferenceRole() || (srg.getSpeciesReferenceRole() == SpeciesReferenceRole.UNDEFINED)) {
+            srg.setSpeciesReferenceRole(determineRole(srg));
             logger.warning(MessageFormat.format(
-              "Expecting simpleSpeciesReference, but found {0} with id ''{1}'' in {2} with id ''{3}''.",
-              nsb.getElementName(), nsb.getId(), srg.getElementName(), srg.getId()));
-            srg.setSBOTerm(SBO.getConsumption());
-          } else {
-            SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) nsb;
-            if ((speciesReference == null) || !speciesReference.isSetSBOTerm()) {
-              if (!srg.isSetSpeciesReferenceRole()) {
-                logger.warning(MessageFormat.format(
-                  "Undefined participant role for species glyph ''{0}'' in reaction glyph ''{1}'', assuming consumption.",
-                  srg.getId(), reactionGlyph.getId()));
-                // sets consumption (straight line as default)
-                srg.setSBOTerm(SBO.getConsumption());
-              }
-            } else {
-              srg.setSBOTerm(speciesReference.getSBOTerm());
+              "Undefined role for species reference  glyph ''{0}'', determined ''{1}''.",
+              srg.getId(), srg.getRole()));
+            if (!srg.isSetSBOTerm()) {
+              logger.warning(MessageFormat.format(
+                "No SBO term defined for species reference glyph ''{0}'', synchronizing with its role ''{1}''.",
+                srg.getId(), srg.getSpeciesReferenceRole()));
+              srg.setSBOTerm(srg.getRole().toSBOterm());
+            } else if (!SBO.isChildOf(srg.getSBOTerm(), srg.getRole().toSBOterm())) {
+              srg.setSBOTerm(srg.getRole().toSBOterm());
+              logger.warning(MessageFormat.format(
+                "Missmatch between SBO term and role of species reference glyph ''{0}''. Applying corresponding value ''{1}'' from role ''{2}''",
+                srg.getId(), srg.getSBOTerm(), srg.getRole()));
             }
           }
-          
+          if (srg.getSpeciesReferenceRole() == SpeciesReferenceRole.UNDEFINED) {
+            logger.warning(MessageFormat.format(
+              "Undefined participant role for species reference glyph ''{0}'' in reaction glyph ''{1}'', assuming consumption.",
+              srg.getId(), reactionGlyph.getId()));
+            srg.setSBOTerm(SBO.getConsumption());
+          }
+          // Problems can occur when we have reverisble consumption arcs with sidesubstrates.
           builder.buildConnectingArc(srg, reactionGlyph, curveWidth);
         } catch (ClassCastException exc) {
-          logger.fine("tried to access object wiht id = " + srg.getReference());
+          logger.fine("tried to access object with id = " + srg.getReference());
           throw exc;
         }
       }
@@ -857,13 +919,17 @@ public class LayoutDirector<P> implements Runnable {
     List<CompartmentGlyph> sortedGlyphList = new ArrayList<CompartmentGlyph>();
     if (model.isSetListOfCompartments()) {
       for (Compartment compartment : model.getListOfCompartments()) {
-        List<CompartmentGlyph> compartmentGlyphList = new ArrayList<CompartmentGlyph>();
+        List<CompartmentGlyph> compartmentGlyphList;
         if (compartment.getUserObject(LAYOUT_LINK) instanceof List<?>) {
           compartmentGlyphList = (List<CompartmentGlyph>) compartment.getUserObject(LAYOUT_LINK);
+        } else {
+          compartmentGlyphList = new ArrayList<CompartmentGlyph>();
         }
         if (!compartment.isSetOutside()) {
           sortedGlyphList.addAll(compartmentGlyphList);
-          sortedGlyphList.addAll(getContainedCompartmentGlyphs(compartment));
+          List<CompartmentGlyph> containedList = getContainedCompartmentGlyphs(compartment);
+          containedList.removeAll(compartmentGlyphList);
+          sortedGlyphList.addAll(containedList);
         }
       }
     } else {

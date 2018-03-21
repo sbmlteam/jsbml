@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $Id: SimpleLayoutAlgorithm.java 1402 2017-01-03 12:17:57Z draeger $
+ * $URL: https://rarepos.cs.uni-tuebingen.de/svn-path/SysBio/trunk/src/de/zbit/sbml/layout/SimpleLayoutAlgorithm.java $
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
@@ -52,7 +52,7 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
  * @author Andreas Dr&auml;ger
  * @date 08:43:48
  * @since 1.1
- * @version $Rev$
+ * @version $Rev: 1402 $
  */
 public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
   
@@ -91,7 +91,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
    * RIGHT, LEFT, ABOVE, BELOW and UNDEFINED
    *
    * @author Mirjam Gutekunst
-   * @version $Rev$
+   * @version $Rev: 1402 $
    */
   public static enum RelativePosition {
     /**
@@ -644,16 +644,25 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
       speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
     }
     // TODO: Use a filter here!
-    SpeciesGlyph product = findSpeciesGlyphByRole(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
-    SpeciesGlyph substrate = findSpeciesGlyphByRole(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
+    SpeciesGlyph product = null; //findSpeciesGlyphByRole(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
+    SpeciesGlyph substrate = null; //findSpeciesGlyphByRole(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
     
+    Point substrateEnd = null;
+    Point productEnd = null;
     if ((product == null) || (substrate == null)) {
       if (speciesReferenceGlyphList != null) {
         for (SpeciesReferenceGlyph specRef : speciesReferenceGlyphList) {
           if (LayoutDirector.isSubstrate(specRef)) {
             substrate = specRef.getSpeciesGlyphInstance();
+            if (specRef.isSetCurve() && (specRef.getCurve().getCurveSegmentCount() > 0) && specRef.getCurve().getCurveSegment(specRef.getCurve().getCurveSegmentCount() - 1).isSetEnd()) {
+              substrateEnd = specRef.getCurve().getCurveSegment(specRef.getCurve().getCurveSegmentCount() - 1).getStart();
+            }
+            
           } else if (LayoutDirector.isProduct(specRef)) {
             product = specRef.getSpeciesGlyphInstance();
+            if (specRef.isSetCurve() && (specRef.getCurve().getCurveSegmentCount() > 0) && specRef.getCurve().getCurveSegment(0).isSetStart()) {
+              productEnd = specRef.getCurve().getCurveSegment(0).getStart();
+            }
           }
         }
       }
@@ -665,8 +674,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
       }
     }
     
-    Point substrateCenter = calculateCenter(substrate);
-    Point productCenter = calculateCenter(product);
+    Point substrateCenter = substrateEnd != null ? substrateEnd : calculateCenter(substrate);
+    Point productCenter = productEnd != null ? productEnd : calculateCenter(product);
     Dimensions rgDimensions = reactionGlyph.getBoundingBox().getDimensions();
     
     Point center = calculateCenterOfPoints(substrateCenter, productCenter);

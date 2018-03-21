@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $Id: GlyphCreator.java 1402 2017-01-03 12:17:57Z draeger $
+ * $URL: https://rarepos.cs.uni-tuebingen.de/svn-path/SysBio/trunk/src/de/zbit/sbml/layout/GlyphCreator.java $
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
@@ -33,7 +33,6 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
-import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
@@ -52,7 +51,7 @@ import de.zbit.sbml.util.SBMLtools;
  * compartment.
  * 
  * @author Jan Rudolph
- * @version $Rev$
+ * @version $Rev: 1402 $
  */
 public class GlyphCreator {
   
@@ -129,13 +128,13 @@ public class GlyphCreator {
           }
         }
         if (r.isSetListOfReactants()) {
-          for (SpeciesReference ref : r.getListOfReactants()) {
+          for (SimpleSpeciesReference ref : r.getListOfReactants()) {
             linkReferenceToReaction(ref, r, speciesToReactions);
             linkSpeciesToReaction(ref, r, reactionToReactants);
           }
         }
         if (r.isSetListOfProducts()) {
-          for (SpeciesReference ref : r.getListOfProducts()) {
+          for (SimpleSpeciesReference ref : r.getListOfProducts()) {
             linkReferenceToReaction(ref, r, speciesToReactions);
             linkSpeciesToReaction(ref, r, reactionToProducts);
           }
@@ -170,7 +169,7 @@ public class GlyphCreator {
         }
         
         if (r.isSetListOfProducts()) {
-          for (SpeciesReference ref : r.getListOfProducts()) {
+          for (SimpleSpeciesReference ref : r.getListOfProducts()) {
             createSpeciesReferenceGlyph(doc, rGlyph, ref,
               createOrGetGlyph(ref, species2glyph, sGlyphDegree, degreeThreshold, doc, layout),
               SpeciesReferenceRole.PRODUCT);
@@ -180,7 +179,7 @@ public class GlyphCreator {
         }
         
         if (r.isSetListOfReactants()) {
-          for (SpeciesReference ref : r.getListOfReactants()) {
+          for (SimpleSpeciesReference ref : r.getListOfReactants()) {
             createSpeciesReferenceGlyph(doc, rGlyph, ref,
               createOrGetGlyph(ref, species2glyph, sGlyphDegree, degreeThreshold, doc, layout),
               SpeciesReferenceRole.SUBSTRATE);
