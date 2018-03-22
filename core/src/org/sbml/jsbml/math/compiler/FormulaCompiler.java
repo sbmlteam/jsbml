@@ -1125,7 +1125,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
     if (isPrefixNotationInLogicalOperations()) {
       return function("xor", nodes);
     }
-    return logicalOperation(" xor ", nodes);
+    return logicalOperation(" XOR ", nodes); // using upper case character because 'xor' lower case is only allowed in the prefix notation.
   }
 
 }
