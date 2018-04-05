@@ -29,7 +29,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * The {@link CompFlatteningConverter} object...
+ * The {@link CompFlatteningConverter} object translates a hierarchical model defined with the SBML Level 3
+ * Hierarchical Model Composition package into a 'flattened' version of the same model. This means the the hierarchical
+ * structure is dissolved and all objects are build into a single model that does no longer require the comp package.
  *
  * @author Christoph Blessing
  * @since 1.0
@@ -73,7 +75,6 @@ public class CompFlatteningConverter {
 
         if (document.isPackageEnabled(CompConstants.shortLabel)) {
 
-            SBase sBase = document.getExtension(CompConstants.shortLabel).getExtendedSBase();
             CompSBMLDocumentPlugin compSBMLDocumentPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
 
             this.modelDefinitionListOf = compSBMLDocumentPlugin.getListOfModelDefinitions();
@@ -117,8 +118,6 @@ public class CompFlatteningConverter {
         // TODO: the first model is not always flat.
 
         Model model = compModelPlugin.getExtendedSBase().getModel();
-        String modelID = model.getId();
-        String modelMetaID = model.getMetaId();
 
         handlePorts(compModelPlugin, compModelPlugin.getListOfPorts());
         replaceElementsInModelDefinition(compModelPlugin, null);
