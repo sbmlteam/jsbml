@@ -24,14 +24,14 @@ import org.sbml.jsbml.*;
 import org.sbml.jsbml.ext.comp.*;
 
 import javax.xml.stream.XMLStreamException;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * The {@link CompFlatteningConverter} object...
+ * The {@link CompFlatteningConverter} object translates a hierarchical model defined with the SBML Level 3
+ * Hierarchical Model Composition package into a 'flattened' version of the same model. This means the the hierarchical
+ * structure is dissolved and all objects are build into a single model that does no longer require the comp package.
  *
  * @author Christoph Blessing
  * @since 1.0
@@ -50,13 +50,13 @@ public class CompFlatteningConverter {
     private Model flattenedModel;
 
     public CompFlatteningConverter() {
-        this.listOfSubmodelsToFlatten = new ArrayList<Submodel>();
+        this.listOfSubmodelsToFlatten = new ArrayList<>();
 
-        this.previousModelIDs = new ArrayList<String>();
-        this.previousModelMetaIDs = new ArrayList<String>();
+        this.previousModelIDs = new ArrayList<>();
+        this.previousModelMetaIDs = new ArrayList<>();
 
-        this.modelDefinitionListOf = new ListOf<ModelDefinition>();
-        this.externalModelDefinitionListOf = new ListOf<ExternalModelDefinition>();
+        this.modelDefinitionListOf = new ListOf<>();
+        this.externalModelDefinitionListOf = new ListOf<>();
 
         this.flattenedModel = new Model();
 
@@ -78,12 +78,15 @@ public class CompFlatteningConverter {
             CompSBMLDocumentPlugin compSBMLDocumentPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
 
             this.modelDefinitionListOf = compSBMLDocumentPlugin.getListOfModelDefinitions();
-
             this.externalModelDefinitionListOf = compSBMLDocumentPlugin.getListOfExternalModelDefinitions();
 
             if (document.isSetModel() && document.getModel().getExtension(CompConstants.shortLabel) != null) {
 
+                // TODO: the model itself has to be flattend (can hold a list of replacements etc.)
                 CompModelPlugin compModelPlugin = (CompModelPlugin) document.getModel().getExtension(CompConstants.shortLabel);
+                handlePorts(compModelPlugin, compModelPlugin.getListOfPorts());
+                replaceElementsInModelDefinition(compModelPlugin, null);
+
                 this.flattenedModel = instantiateSubModels(compModelPlugin);
             } else {
                 LOGGER.warning("No comp package found in Model. Can not flatten.");
@@ -93,8 +96,13 @@ public class CompFlatteningConverter {
             LOGGER.warning("No comp package found in Document. Can not flatten.");
         }
 
+        this.flattenedModel.unsetExtension(CompConstants.shortLabel);
+        this.flattenedModel.unsetPlugin(CompConstants.shortLabel);
+
         document.setModel(this.flattenedModel);
         document.unsetExtension(CompConstants.shortLabel);
+        document.disablePackage(CompConstants.shortLabel);
+
         return document;
 
     }
@@ -107,7 +115,13 @@ public class CompFlatteningConverter {
      */
     private Model instantiateSubModels(CompModelPlugin compModelPlugin) {
 
-        this.flattenedModel = compModelPlugin.getExtendedSBase().getModel(); // is first model always flat?
+        // TODO: the first model is not always flat.
+
+        Model model = compModelPlugin.getExtendedSBase().getModel();
+
+        handlePorts(compModelPlugin, compModelPlugin.getListOfPorts());
+        replaceElementsInModelDefinition(compModelPlugin, null);
+        this.flattenedModel = mergeModels(flattenModel(model), this.flattenedModel);
 
         if (compModelPlugin.getSubmodelCount() > 0) {
             // check if submodel has submodel
@@ -119,29 +133,95 @@ public class CompFlatteningConverter {
         return this.flattenedModel;
     }
 
+    private void replaceElementsInModelDefinition(CompModelPlugin compModelPlugin, CompSBasePlugin compSBasePlugin) {
+
+        if (compModelPlugin != null || compSBasePlugin != null) {
+
+            ListOf<ReplacedElement> listOfReplacedElements = new ListOf<>();
+
+            if (compModelPlugin != null) {
+                listOfReplacedElements = compModelPlugin.getListOfReplacedElements();
+            } else if (compSBasePlugin != null) {
+                listOfReplacedElements = compSBasePlugin.getListOfReplacedElements();
+            }
+
+            for (ReplacedElement replacedElement : listOfReplacedElements) {
+
+                for (ModelDefinition modelDefinition : this.modelDefinitionListOf) {
+                    SBase sBase = modelDefinition.findNamedSBase(replacedElement.getIdRef());
+                    if (sBase != null) {
+                        sBase.removeFromParent();
+                    }
+                }
+
+                if (compModelPlugin != null) {
+                    for(Port port : compModelPlugin.getListOfPorts()){
+                        if(port.getId().equals(replacedElement.getPortRef())){
+                            port.removeFromParent();
+                        }
+
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void handlePorts(CompModelPlugin compModelPlugin, ListOf<Port> listOfPorts){
+
+        for (Port port : listOfPorts){
+
+            // Port object instance defines a port for a component in a model.
+
+            // A port could be created by using the metaIdRef attribute
+            // to identify the object for which a given Port instance is the port;
+            // The question “what does this port correspond to?” would be answered by the value of the metaIdRef attribute.
+
+            String idRef = port.getIdRef();
+            String metaIDRef = port.getMetaIdRef();
+
+            if(metaIDRef != null && !metaIDRef.isEmpty()){
+
+                SBase parentOfPort = compModelPlugin.getParent();
+
+                SBase sBase = compModelPlugin.getSBMLDocument().findSBase(idRef);
+                addSBaseToModel(parentOfPort.getModel(), sBase);
+
+            } else if(idRef != null && !idRef.isEmpty()){
+                SBase parentOfPort = compModelPlugin.getParent();
+
+                for (ModelDefinition modelDefinition : this.modelDefinitionListOf) {
+                    SBase sBase = modelDefinition.findNamedSBase(idRef);
+
+                    if(sBase != null){
+                        addSBaseToModel(parentOfPort.getModel(), sBase);
+                        break;
+                    }
+                }
+
+
+            }
+
+            // If a port references an object from a namespace that is not understood by the interpreter,
+            // the interpreter must consider the port to be not understood as well.
+            // If an interpreter cannot tell whether the referenced object does not
+            // exist or if exists in an unparsed XML or SBML namespace, it may choose to display a warning to the user.
+
+        }
+
+        listOfPorts.removeFromParent();
+    }
 
     private Model initSubModels(CompModelPlugin compModelPlugin) {
 
         ListOf<Submodel> subModelListOf = compModelPlugin.getListOfSubmodels().clone();
 
         // TODO: replace elements
-//        ListOf<ReplacedElement> listOfReplacedElements = compModelPlugin.getListOfReplacedElements();
-//        for(ReplacedElement replacedElement : listOfReplacedElements){ // pointer to a submodel object that should be considered “replaced”
-//
-//            // object holding the ReplacedElement instance is the one doing the replacing
-//
-//            // object pointed to by the ReplacedElement object is the object being replaced
-//
-//            // update dependencies
-//
-//        }
+        replaceElementsInModelDefinition(compModelPlugin, null);
 
         // TODO: ports
-//        ListOf<Port> listOfPorts =compModelPlugin.getListOfPorts();
-//        for (Port port : listOfPorts){
-
-//        }
-
+        ListOf<Port> listOfPorts = compModelPlugin.getListOfPorts();
+        handlePorts(compModelPlugin, listOfPorts);
 
         for (Submodel submodel : subModelListOf) {
 
@@ -169,8 +249,6 @@ public class CompFlatteningConverter {
 
         }
 
-
-        // "else"
         return flattenAndMergeModels(this.listOfSubmodelsToFlatten);
     }
 
@@ -210,23 +288,39 @@ public class CompFlatteningConverter {
 
         Model mergedModel = new Model();
 
+        // Merging of SBML models should be done in the order
+        // Compartments -> Species -> Function Definitions -> Rules -> Events -> Units -> Reactions -> Parameters
+        // If done in this order, potential conflicts are resolved incrementally along the way.
+
         if (previousModel != null) {
 
             // match versions and level
             mergedModel.setLevel(previousModel.getLevel());
             mergedModel.setVersion(previousModel.getVersion());
 
-            mergeListsOfModels(previousModel.getListOfReactions(), previousModel, mergedModel);
             mergeListsOfModels(previousModel.getListOfCompartments(), previousModel, mergedModel);
             mergeListsOfModels(previousModel.getListOfSpecies(), previousModel, mergedModel);
+            mergeListsOfModels(previousModel.getListOfFunctionDefinitions(), previousModel, mergedModel);
+            mergeListsOfModels(previousModel.getListOfRules(), previousModel, mergedModel);
+            mergeListsOfModels(previousModel.getListOfEvents(), previousModel, mergedModel);
+            mergeListsOfModels(previousModel.getListOfUnitDefinitions(), previousModel, mergedModel);
+            mergeListsOfModels(previousModel.getListOfReactions(), previousModel, mergedModel);
+            mergeListsOfModels(previousModel.getListOfParameters(), previousModel, mergedModel);
+            mergeListsOfModels(previousModel.getListOfInitialAssignments(), previousModel, mergedModel);
 
         }
 
         if (currentModel != null) {
 
-            mergeListsOfModels(currentModel.getListOfReactions(), currentModel, mergedModel);
             mergeListsOfModels(currentModel.getListOfCompartments(), currentModel, mergedModel);
             mergeListsOfModels(currentModel.getListOfSpecies(), currentModel, mergedModel);
+            mergeListsOfModels(currentModel.getListOfFunctionDefinitions(), currentModel, mergedModel);
+            mergeListsOfModels(currentModel.getListOfRules(), currentModel, mergedModel);
+            mergeListsOfModels(currentModel.getListOfEvents(), currentModel, mergedModel);
+            mergeListsOfModels(currentModel.getListOfUnitDefinitions(), currentModel, mergedModel);
+            mergeListsOfModels(currentModel.getListOfReactions(), currentModel, mergedModel);
+            mergeListsOfModels(currentModel.getListOfParameters(), currentModel, mergedModel);
+            mergeListsOfModels(currentModel.getListOfInitialAssignments(), currentModel, mergedModel);
 
         }
 
@@ -238,7 +332,7 @@ public class CompFlatteningConverter {
 
     private void mergeListsOfModels(ListOf listOfObjects, Model sourceModel, Model targetModel) {
 
-        // TODO: generify with listOf SBase
+        // TODO: generify with listOf SBase ?
 
         if (listOfObjects.getSBaseListType() == ListOf.Type.listOfReactions) {
 
@@ -281,21 +375,91 @@ public class CompFlatteningConverter {
             }
         }
 
-        //TODO: for all lists?
+        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfEvents) {
+
+            ListOf<Event> eventListOf = sourceModel.getListOfEvents().clone();
+            sourceModel.getListOfEvents().removeFromParent();
+
+            for (Event event : eventListOf) {
+                targetModel.addEvent(event.clone());
+            }
+        }
+
+        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfFunctionDefinitions) {
+
+            ListOf<FunctionDefinition> functionalDefinitionsListOf = sourceModel.getListOfFunctionDefinitions().clone();
+            sourceModel.getListOfFunctionDefinitions().removeFromParent();
+
+            for (FunctionDefinition functionalDefinition : functionalDefinitionsListOf) {
+                targetModel.addFunctionDefinition(functionalDefinition.clone());
+            }
+        }
+
+        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfInitialAssignments) {
+
+            ListOf<InitialAssignment> initialAssignmentListOf = sourceModel.getListOfInitialAssignments().clone();
+            sourceModel.getListOfInitialAssignments().removeFromParent();
+
+            for (InitialAssignment initialAssignment : initialAssignmentListOf) {
+                targetModel.addInitialAssignment(initialAssignment.clone());
+            }
+        }
+
+        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfParameters) {
+
+            ListOf<Parameter> parameterListOf = sourceModel.getListOfParameters().clone();
+            sourceModel.getListOfParameters().removeFromParent();
+
+            for (Parameter parameter : parameterListOf) {
+
+                if(parameter.isSetPlugin(CompConstants.shortLabel)){
+                    replaceElementsInModelDefinition(null, (CompSBasePlugin) parameter.getExtension(CompConstants.shortLabel));
+                    parameter.unsetPlugin(CompConstants.shortLabel);
+                }
+                targetModel.addParameter(parameter.clone());
+            }
+        }
+
+        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfRules) {
+
+            ListOf<Rule> ruleListOf = sourceModel.getListOfRules().clone();
+            sourceModel.getListOfRules().removeFromParent();
+
+            for (Rule rule : ruleListOf) {
+                targetModel.addRule(rule.clone());
+            }
+        }
+
+        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfUnitDefinitions) {
+
+            ListOf<UnitDefinition> unitDefinitionListOf = sourceModel.getListOfUnitDefinitions().clone();
+            sourceModel.getListOfUnitDefinitions().removeFromParent();
+
+            for (UnitDefinition unit : unitDefinitionListOf) {
+                targetModel.addUnitDefinition(unit.clone());
+            }
+        }
+
+        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfLocalParameters) {
+
+            sourceModel.getLocalParameterCount();
+
+        }
+
+
+
+        //TODO:
+        // no longer supported? there are no get methods for this
 //        ListOf.Type.listOfCompartmentTypes
 //        ListOf.Type.listOfEventAssignments
-//        ListOf.Type.listOfEvents
-//        ListOf.Type.listOfFunctionDefinitions
-//        ListOf.Type.listOfInitialAssignments
-//        ListOf.Type.listOfLocalParameters
+//        ListOf.Type.listOfLocalParameters: there is no getter method :(
 //        ListOf.Type.listOfModifiers
-//        ListOf.Type.listOfParameters
+//        ListOf.Type.listOfSpeciesTypes
+//        ListOf.Type.listOfUnits
+
+        // maybe they are already in listOfReactions?
 //        ListOf.Type.listOfProducts
 //        ListOf.Type.listOfReactants
-//        ListOf.Type.listOfRules
-//        ListOf.Type.listOfSpeciesTypes
-//        ListOf.Type.listOfUnitDefinitions
-//        ListOf.Type.listOfUnits
 
 
     }
@@ -310,12 +474,10 @@ public class CompFlatteningConverter {
 
         Model model = new Model();
 
-        // StringBuilder stringBuilder = new StringBuilder();
-
         // 2
         // Let “M” be the identifier of a given submodel.
         String subModelID = subModel.getId() + "_";
-        String subModelMetaID = subModel.getMetaId();
+        String subModelMetaID = subModel.getMetaId() + "_";
 
         // Verify that no object identifier or meta identifier of objects in that submodel
         // (i.e., the id or metaid attribute values)
@@ -340,6 +502,8 @@ public class CompFlatteningConverter {
         this.previousModelIDs.add(subModelID);
         this.previousModelMetaIDs.add(subModelID);
 
+        //subModel.setId(subModelID);
+        //subModel.setMetaId(subModelMetaID);
 
         if (subModel.getModelRef() != null) {
 
@@ -353,9 +517,18 @@ public class CompFlatteningConverter {
             // each Deletion object identifies an object to “remove” from that Model instance
             for (Deletion deletion : subModel.getListOfDeletions()) {
 
-                modelOfSubmodel.remove(deletion.getId());
+                // TODO: search for element to remove in all model definitions?
+                this.modelDefinitionListOf.remove(deletion.getMetaIdRef());
+                subModel.removeDeletion(deletion);
+
+                //deletion.removeFromParent();
+                //for (ModelDefinition modelDefinition : this.modelDefinitionListOf){
+                //    modelDefinition.remove(deletion.getMetaIdRef());
+                //}
+                // modelOfSubmodel.remove(deletion.getMetaIdRef());
 
             }
+            subModel.getListOfDeletions().removeFromParent();
 
             // TODO: Replace Objects
 
@@ -368,28 +541,7 @@ public class CompFlatteningConverter {
             // Change every meta identifier (metaid attribute)
             // to a new value obtained by prepending “P” to the original identifier.
 
-            // like this for all the lists?
-            for (Reaction reaction : modelOfSubmodel.getListOfReactions()) {
-                reaction.setId(subModelID + reaction.getId());
-                if (!reaction.getMetaId().equals("")) { // has not always a meta ID?
-                    reaction.setMetaId(subModelMetaID + reaction.getMetaId());
-                }
-            }
-
-            for (Species species : modelOfSubmodel.getListOfSpecies()) {
-                String flattenedSpeciesID = subModelID + species.getId();
-                species.setId(flattenedSpeciesID);
-            }
-
-            for (Compartment compartment : modelOfSubmodel.getListOfCompartments()) {
-                String flattenedCompartmentID = subModelID + compartment.getId();
-                compartment.setId(flattenedCompartmentID);
-            }
-
-            for (Constraint constraint : modelOfSubmodel.getListOfConstraints()) {
-                String flattenedContraintID = subModelID + constraint.getId();
-                constraint.setId(flattenedContraintID);
-            }
+            model = flattenModel(modelOfSubmodel);
 
             // 5
             // Transform every SIdRef and IDREF type value in the remaining objects of the submodel as follows:
@@ -407,7 +559,7 @@ public class CompFlatteningConverter {
             // Merge the various lists (list of species, list of compartments, etc.)
             // in this step, and preserve notes and annotations as well as constructs from other SBML Level 3 packages.
 
-            model = modelOfSubmodel;
+            //model = modelOfSubmodel;
             //model = mergeModels(this.previousModel, modelOfSubmodel); // initiate model (?)
 
         }
@@ -415,20 +567,75 @@ public class CompFlatteningConverter {
         return model;
     }
 
+    private void flattenSBaseList(Model modelOfSubmodel, ListOf listOfSBase){
 
-    public static void main(String[] args) throws IOException, XMLStreamException {
+        ListOf<SBase> list = (ListOf<SBase>) listOfSBase;
 
-        File file = new File(args[0]);
+        for(SBase sBase : list){
 
-        SBMLReader reader = new SBMLReader();
-        SBMLDocument document = reader.readSBML(file);
+            if (!sBase.getId().equals("")) {
+                sBase.setId(modelOfSubmodel.getId() + sBase.getId());
+            }
 
-        CompFlatteningConverter compFlatteningConverter = new CompFlatteningConverter();
+            if (!sBase.getMetaId().equals("")) {
+                sBase.setMetaId(modelOfSubmodel.getId() + sBase.getMetaId());
+            }
 
-        SBMLDocument flattendSBML = compFlatteningConverter.flatten(document);
+            if(sBase.isPackageEnabled(CompConstants.shortLabel)){
+                CompSBasePlugin compSBasePlugin = (CompSBasePlugin) sBase.getExtension(CompConstants.shortLabel);
+                CompModelPlugin compModelPlugin = (CompModelPlugin) modelOfSubmodel.getExtension(CompConstants.shortLabel);
 
-        SBMLWriter.write(flattendSBML, System.out, ' ', (short) 2);
+                replaceElementsInModelDefinition(compModelPlugin,compSBasePlugin);
 
+            }
+            //sBase.unsetPlugin(CompConstants.shortLabel);
+        }
+
+    }
+
+    private Model flattenModel(Model modelOfSubmodel) {
+
+        flattenSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfReactions());
+        flattenSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfCompartments());
+        flattenSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfConstraints());
+        flattenSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfEvents());
+
+        flattenSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfFunctionDefinitions());
+        flattenSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfParameters());
+        flattenSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfRules());
+        flattenSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfSpecies());
+        flattenSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfUnitDefinitions());
+
+        return modelOfSubmodel;
+    }
+
+    private void addSBaseToModel(Model model, SBase sBase) {
+
+        if (model != null && sBase != null) {
+
+            sBase.removeFromParent();
+
+            if (sBase.getClass() == Reaction.class) {
+                model.addReaction((Reaction) sBase);
+            } else if (sBase.getClass() == Compartment.class) {
+                model.addCompartment((Compartment) sBase);
+            } else if (sBase.getClass() == Constraint.class) {
+                model.addConstraint((Constraint) sBase);
+            } else if (sBase.getClass() == Event.class) {
+                model.addEvent((Event) sBase);
+            } else if (sBase.getClass() == FunctionDefinition.class) {
+                model.addFunctionDefinition((FunctionDefinition) sBase);
+            } else if (sBase.getClass() == Parameter.class) {
+                model.addParameter((Parameter) sBase);
+            } else if (sBase.getClass() == Rule.class) {
+                model.addRule((Rule) sBase);
+            } else if (sBase.getClass() == Species.class) {
+                model.addSpecies((Species) sBase);
+            } else if (sBase.getClass() == UnitDefinition.class) {
+                model.addUnitDefinition((UnitDefinition) sBase);
+            }
+
+        }
 
     }
 
