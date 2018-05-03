@@ -264,4 +264,13 @@ public class ExpandFunctionDefinitionConverter implements SBMLConverter {
     
     System.out.println(new SBMLWriter().writeSBMLToString(resultdoc));
   }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.converters.SBMLConverter#setOption(java.lang.String)
+   */
+  
+  @Override
+  public void setOption(String option) {
+    // TODO Auto-generated method stub
+  }
 }
