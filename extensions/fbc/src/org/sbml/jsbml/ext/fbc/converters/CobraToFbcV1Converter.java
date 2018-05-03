@@ -170,16 +170,6 @@ public class CobraToFbcV1Converter implements SBMLConverter {
     return sbmlDocument;
   }
 
-//  public static void main(String[] args) throws XMLStreamException, IOException {
-//    // read document
-//    SBMLReader sbmlReader = new SBMLReader();
-//    SBMLDocument doc = sbmlReader.readSBMLFromFile(args[0]);
-//    // convert and write document
-//    CobraToFbcV1Converter cobraToFbcV1Converter = new CobraToFbcV1Converter();
-//    TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
-//    tidySBMLWriter.writeSBMLToFile(cobraToFbcV1Converter.convert(doc),args[1]);
-//  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.converters.SBMLConverter#setOption(java.lang.String)
    */
