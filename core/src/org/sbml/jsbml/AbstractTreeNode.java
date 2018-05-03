@@ -20,6 +20,7 @@
 package org.sbml.jsbml;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -834,7 +835,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
     sb.append(clazz.getSimpleName());
 
     // gather attributes
-    SortedMap<String, String> done = new TreeMap<>();
+    SortedMap<String, String> done = new TreeMap<String, String>();
     String isSet = "isSet";
     do {
       // Let's analyze all get, set, and isSet methods and see what could be useful
@@ -869,7 +870,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
               Method setter = clazz.getMethod("set" + fLUC, getter.getReturnType());
               if ((setter != null) && (getter != null)) {
                 Object o = null;
-                if ((boolean) m.invoke(this)) {
+                if (((Boolean) m.invoke(this)).booleanValue()) {
                   o = getter.invoke(this);
                 }
                 String value = null;
@@ -900,7 +901,12 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
                 done.put(fName, (value != null) ? value : "");
               }
             }
-          } catch (NoSuchMethodException | SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchFieldException exc) {
+          } catch (NoSuchMethodException exc) {
+          } catch (SecurityException exc) {
+          } catch (IllegalArgumentException exc) {
+          } catch (IllegalAccessException exc) {
+          } catch (InvocationTargetException exc) {
+          } catch (NoSuchFieldException exc) {
             // No matter what goes wrong, we are not interested in the error.
           }
         }

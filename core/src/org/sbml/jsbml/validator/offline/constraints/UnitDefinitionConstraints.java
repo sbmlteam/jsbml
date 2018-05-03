@@ -25,6 +25,7 @@ import java.util.Set;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -376,7 +377,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
           
           if (ud.isSetListOfUnits() || ud.isListOfUnitsEmpty()) {
-            return new UnknownElementValidationFunction<>().check(ctx, ud.getListOfUnits());
+            return new UnknownElementValidationFunction<TreeNodeWithChangeSupport>().check(ctx, ud.getListOfUnits());
           }
           
           return true;
@@ -407,7 +408,7 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, UnitDefinition ud) {
 
           if (ud.isSetListOfUnits() || ud.isListOfUnitsEmpty()) {
-            return new UnknownAttributeValidationFunction<>().check(ctx, ud.getListOfUnits());
+            return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, ud.getListOfUnits());
           }
 
           return true;

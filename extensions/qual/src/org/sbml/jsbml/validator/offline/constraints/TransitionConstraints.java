@@ -27,6 +27,7 @@ import org.sbml.jsbml.ext.qual.Input;
 import org.sbml.jsbml.ext.qual.Output;
 import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.ext.qual.Transition;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
@@ -221,7 +222,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 				public boolean check(ValidationContext ctx, Transition t) {
 
 				  if (t.isSetListOfInputs()) {
-				    return new UnknownAttributeValidationFunction<>().check(ctx, t.getListOfInputs());
+				    return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, t.getListOfInputs());
 				  }
 				  return true;
 				}
@@ -238,7 +239,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 				public boolean check(ValidationContext ctx, Transition t) {
 
 					if (t.isSetListOfOutputs()) {
-					  return new UnknownAttributeValidationFunction<>().check(ctx, t.getListOfOutputs());
+					  return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, t.getListOfOutputs());
 					  }
 					return true;
 				}
@@ -255,7 +256,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 				public boolean check(ValidationContext ctx, Transition t) {
 
 					if (t.isSetListOfFunctionTerms()) {
-					  return new UnknownAttributeValidationFunction<>().check(ctx, t.getListOfFunctionTerms());
+					  return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, t.getListOfFunctionTerms());
 					}
 					return true;
 				}
