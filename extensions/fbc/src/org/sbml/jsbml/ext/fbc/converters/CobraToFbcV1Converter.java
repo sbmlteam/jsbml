@@ -15,19 +15,14 @@
  */
 package org.sbml.jsbml.ext.fbc.converters;
 
-import java.io.IOException;
 import java.util.Properties;
-
-import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.TidySBMLWriter;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
@@ -45,6 +40,8 @@ import org.sbml.jsbml.util.converters.SBMLConverter;
  * @author Nicolas Rodriguez
  * @since 1.3
  */
+@SuppressWarnings("deprecation")
+
 public class CobraToFbcV1Converter implements SBMLConverter {
 
   /*
@@ -52,6 +49,7 @@ public class CobraToFbcV1Converter implements SBMLConverter {
    * @see org.sbml.jsbml.util.converters.SBMLConverter#convert(org.sbml.jsbml.
    * SBMLDocument)
    */
+  
   @Override
   public SBMLDocument convert(SBMLDocument sbmlDocument) throws SBMLException {
     Properties pElementsNote = new Properties();
@@ -172,13 +170,22 @@ public class CobraToFbcV1Converter implements SBMLConverter {
     return sbmlDocument;
   }
 
-  public static void main(String[] args) throws XMLStreamException, IOException {
-    // read document
-    SBMLReader sbmlReader = new SBMLReader();
-    SBMLDocument doc = sbmlReader.readSBMLFromFile(args[0]);
-    // convert and write document
-    CobraToFbcV1Converter cobraToFbcV1Converter = new CobraToFbcV1Converter();
-    TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
-    tidySBMLWriter.writeSBMLToFile(cobraToFbcV1Converter.convert(doc),args[1]);
+//  public static void main(String[] args) throws XMLStreamException, IOException {
+//    // read document
+//    SBMLReader sbmlReader = new SBMLReader();
+//    SBMLDocument doc = sbmlReader.readSBMLFromFile(args[0]);
+//    // convert and write document
+//    CobraToFbcV1Converter cobraToFbcV1Converter = new CobraToFbcV1Converter();
+//    TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
+//    tidySBMLWriter.writeSBMLToFile(cobraToFbcV1Converter.convert(doc),args[1]);
+//  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.converters.SBMLConverter#setOption(java.lang.String)
+   */
+  
+  @Override
+  public void setOption(String option) {
+    // TODO Auto-generated method stub
   }
 }
