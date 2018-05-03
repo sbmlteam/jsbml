@@ -18,14 +18,8 @@
  */
 package org.sbml.jsbml.ext.fbc.converters;
 
-import java.io.IOException;
-
-import javax.xml.stream.XMLStreamException;
-
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.TidySBMLWriter;
 import org.sbml.jsbml.util.converters.SBMLConverter;
 
 /**
@@ -52,20 +46,29 @@ public class CobraToFbcV2Converter implements SBMLConverter {
     return sbmlDocument;
   }
   
-  /**
-   * Converts old COBRA SBML files to SBML FBC_V2.
-   * 
-   * @param args the arguments, expect two files path, input and output files.
-   * @throws XMLStreamException if an error occurs
-   * @throws IOException if an error occurs
+//  /**
+//   * Converts old COBRA SBML files to SBML FBC_V2.
+//   * 
+//   * @param args the arguments, expect two files path, input and output files.
+//   * @throws XMLStreamException if an error occurs
+//   * @throws IOException if an error occurs
+//   */
+//  public static void main(String[] args) throws XMLStreamException, IOException {
+//    // read document 
+//    SBMLReader sbmlReader = new SBMLReader();
+//    SBMLDocument doc = sbmlReader.readSBMLFromFile(args[0]);
+//   // convert and write document
+//    CobraToFbcV2Converter cobraToFbcV2Converter = new CobraToFbcV2Converter();
+//    TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
+//    tidySBMLWriter.writeSBMLToFile(cobraToFbcV2Converter.convert(doc),args[1]);    
+//  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.converters.SBMLConverter#setOption(java.lang.String)
    */
-  public static void main(String[] args) throws XMLStreamException, IOException {
-    // read document 
-    SBMLReader sbmlReader = new SBMLReader();
-    SBMLDocument doc = sbmlReader.readSBMLFromFile(args[0]);
-   // convert and write document
-    CobraToFbcV2Converter cobraToFbcV2Converter = new CobraToFbcV2Converter();
-    TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
-    tidySBMLWriter.writeSBMLToFile(cobraToFbcV2Converter.convert(doc),args[1]);    
+  
+  @Override
+  public void setOption(String option) {
+    // TODO Auto-generated method stub
   }
 }
