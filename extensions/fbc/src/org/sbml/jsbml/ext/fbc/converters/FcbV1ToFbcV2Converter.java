@@ -19,12 +19,12 @@
 package org.sbml.jsbml.ext.fbc.converters;
 
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
-
-import javax.xml.stream.XMLStreamException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Model;
@@ -32,9 +32,7 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.TidySBMLWriter;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
@@ -52,9 +50,12 @@ import org.sbml.jsbml.util.filters.Filter;
  * @author Nicolas Rodriguez
  * @since 1.3
  */
+
 @SuppressWarnings("deprecation")
 public class FcbV1ToFbcV2Converter implements SBMLConverter {
-
+  
+  String userKey = null;
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.converters.SBMLConverter#convert(org.sbml.jsbml.SBMLDocument)
    */
@@ -119,7 +120,6 @@ public class FcbV1ToFbcV2Converter implements SBMLConverter {
       });
       
       // set fbc:strict = true
-      // TODO - check how to set the strict attribute
       Model model = sbmlDocument.getModel();
       FBCModelPlugin fbcModelPlugin = (FBCModelPlugin)model.getPlugin("fbc");
       if (!fbcModelPlugin.isSetStrict()) {
@@ -158,20 +158,33 @@ public class FcbV1ToFbcV2Converter implements SBMLConverter {
         }
       }
 
-      // notes ->fbc: geneProductAssociation in reactions and fbc:list of  Gene Products
+      // transfer the gene associations from the notes to fbc:geneProductAssociation in reactions and fbc:listOfGeneProducts in model
       Properties pElementsNote = new Properties();
-
+      
+      Pattern p;
+      if (userKey != null) {
+      // userKey is a way of writing “gene association” specified by the user    
+       p = Pattern.compile(userKey);
+      } else {
+      // regular expression to match the most common ways of writing “gene association”  
+       p = Pattern.compile("(?i)gene[\\-_ ]*association");
+      }
+      
       for (Reaction reaction : model.getListOfReactions()) {
         pElementsNote = CobraUtil.parseCobraNotes(reaction);
         String geneAssociation = null;
-
-        if (pElementsNote.getProperty("GENE_ASSOCIATION") != null) {
-          geneAssociation = pElementsNote.getProperty("GENE_ASSOCIATION");
-        } else if (pElementsNote.getProperty("GENE ASSOCIATION") != null) {
-          geneAssociation = pElementsNote.getProperty("GENE ASSOCIATION");
-        } 
-        // TODO - do we need to test more forms of 'GENE_ASSOCIATION'
-
+        Enumeration<?> keys = pElementsNote.propertyNames();
+        String key;
+        for (;keys.hasMoreElements();) {
+          key = (String)keys.nextElement();
+          Matcher m = p.matcher(key);
+          if (m.matches()) {
+            if (pElementsNote.getProperty(key) != null) {
+              geneAssociation = pElementsNote.getProperty(key);
+            }
+          }
+        }
+        
         if (geneAssociation != null && geneAssociation.trim().length() > 0) {
           GPRParser.parseGPR(reaction, geneAssociation, false, false);
         }
@@ -181,22 +194,30 @@ public class FcbV1ToFbcV2Converter implements SBMLConverter {
     return sbmlDocument;
   }
 
-  /**
-   * Converts SBML FBV V1 files to SBML FBC_V2.
-   * 
-   * @param args the arguments, expect two files path, input and output files.
-   * @throws XMLStreamException if an error occurs
-   * @throws IOException if an error occurs
+//  /**
+//   * Converts SBML FBV_V1 files to SBML FBC_V2.
+//   * 
+//   * @param args the arguments, expect two files path, input and output files.
+//   * @throws XMLStreamException if an error occurs
+//   * @throws IOException if an error occurs
+//   */
+//  public static void main(String[] args) throws XMLStreamException, IOException {
+//    // TODO: move/copy this to the examples package!
+//    // read document
+//    SBMLReader sbmlReader = new SBMLReader();
+//    SBMLDocument doc = sbmlReader.readSBMLFromFile(args[0]);
+//    // convert and write document
+//    FcbV1ToFbcV2Converter fcbV1ToFbcV2Converter = new FcbV1ToFbcV2Converter();
+//    TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
+//    tidySBMLWriter.writeSBMLToFile(fcbV1ToFbcV2Converter.convert(doc),args[1]);
+//  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.converters.SBMLConverter#setOption(java.lang.String)
    */
-  public static void main(String[] args) throws XMLStreamException, IOException {
-    // TODO: move/copy this to the examples package!
-    // read document
-    SBMLReader sbmlReader = new SBMLReader();
-    SBMLDocument doc = sbmlReader.readSBMLFromFile(args[0]);
-    // convert and write document
-    FcbV1ToFbcV2Converter fcbV1ToFbcV2Converter = new FcbV1ToFbcV2Converter();
-    TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
-    tidySBMLWriter.writeSBMLToFile(fcbV1ToFbcV2Converter.convert(doc),args[1]);
+  @Override
+  public void setOption(String option) {
+    this.userKey = option;
   }
 
 }
