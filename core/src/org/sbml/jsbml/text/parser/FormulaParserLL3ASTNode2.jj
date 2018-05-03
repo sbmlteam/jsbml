@@ -218,16 +218,6 @@ public class FormulaParserLL3ASTNode2 implements IFormulaParser
    */
    /* 
    // TODO - replace the createModulo with the right formula
-  /**
-   * Returns a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
-   *
-   * <p/> The formula produced for 'a % b' or modulo(a, b) is 'piecewise(a - b * ceil(a/b), xor((a < 0), (b < 0)), a - b * floor(a/b))'
-   *
-   * @param leftChild
-   * @param rightChild
-   * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
-   * 
-   */
   private ASTNode createModulo(ASTNode leftChild, ASTNode rightChild)
   {
     ASTNode piecewiseNode = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);

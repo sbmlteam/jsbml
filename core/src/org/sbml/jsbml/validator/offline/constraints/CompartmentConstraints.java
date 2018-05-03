@@ -108,61 +108,42 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
-    int version, String attributeName, ValidationContext context) {
+		  int version, String attributeName, ValidationContext context) {
 
-    switch (attributeName) {
-    case TreeNodeChangeEvent.sboTerm:
-      if (level == 2 && version == 3)
-      {
-        set.add(CORE_10712);
-      }
-      break;
+	  if (attributeName == TreeNodeChangeEvent.sboTerm) {
+		  if (level == 2 && version == 3) {
+			  set.add(CORE_10712);
+		  }
+	  } else if (attributeName == TreeNodeChangeEvent.spatialDimensions) {
+		  if (level == 1) {
+			  set.add(CORE_20509);
+		  } else if (level == 2) {
+			  if (version > 1) {
+				  set.add(CORE_20506);
+			  }
 
-    case TreeNodeChangeEvent.spatialDimensions:
-      if (level == 1)
-      {
-        set.add(CORE_20509);
-      }
-      else if (level == 2)
-      {
-        if (version > 1)
-        {
-          set.add(CORE_20506);
-        }
+			  addRangeToSet(set, CORE_20501, CORE_20503);
+			  addRangeToSet(set, CORE_20507, CORE_20509);
+		  }
+	  } else if (attributeName == TreeNodeChangeEvent.compartmentType) {
+		  if (level == 2 && version > 1)
+		  {
+			  set.add(CORE_20510);
+		  }
+	  } else if (attributeName == TreeNodeChangeEvent.outside) {
+		  if (level == 2 && version > 1) {
+			  set.add(CORE_20505);
+			  set.add(CORE_20506);
+		  }
+	  } else if (attributeName == TreeNodeChangeEvent.units) {
+		  if (level == 1) {
+			  set.add(CORE_20509);
+		  } else if (level == 2) {
+			  set.add(CORE_20502);
+			  addRangeToSet(set, CORE_20507, CORE_20509);
+		  }
 
-        addRangeToSet(set, CORE_20501, CORE_20503);
-        addRangeToSet(set, CORE_20507, CORE_20509);
-      }
-      break;
-
-    case TreeNodeChangeEvent.compartmentType:
-      if (level == 2 && version > 1)
-      {
-        set.add(CORE_20510);
-      }
-      break;
-
-    case TreeNodeChangeEvent.outside:
-      if (level == 2 && version > 1)
-      {
-        set.add(CORE_20505);
-        set.add(CORE_20506);
-      }
-      break;
-
-    case TreeNodeChangeEvent.units:
-      if (level == 1)
-      {
-        set.add(CORE_20509);
-      }
-      else if (level == 2)
-      {
-        set.add(CORE_20502);
-        addRangeToSet(set, CORE_20507, CORE_20509);
-      }
-      break;
-
-    }
+	  }
 
 
   }

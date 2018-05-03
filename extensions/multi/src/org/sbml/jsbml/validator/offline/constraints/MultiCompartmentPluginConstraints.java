@@ -74,9 +74,9 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName, ValidationContext context) {
 
-    switch (attributeName) {
+    /*switch (attributeName) {
       // TODO
-    }
+    }*/
 
 
   }

@@ -1108,7 +1108,7 @@ public class Unit extends AbstractSBase implements UniqueSId {
        * we have to merge the scale with the multiplier and set the scale to 0.
        * 
        * Also note that the exponent of a dimensionless unit must be one,
-       * even if it is the result of a cancelation of two other units, i.e.,
+       * even if it is the result of a cancellation of two other units, i.e.,
        * it should actually be 0.
        */
 

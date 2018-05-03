@@ -99,8 +99,7 @@ public class MathMLXMLStreamCompiler {
   public static String toMathML(ASTNode2 astNode) {
     String mathML = "";
     StringWriter stream = new StringWriter();
-    SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory
-      .newInstance());
+    SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
     try {
       XMLStreamWriter writer = smFactory.createStax2Writer(stream);
       MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(writer, "  ");

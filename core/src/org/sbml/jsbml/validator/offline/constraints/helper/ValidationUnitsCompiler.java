@@ -31,7 +31,7 @@ public class ValidationUnitsCompiler extends UnitsCompiler {
   /**
    * 
    */
-  private List<SBMLError> errors = new ArrayList<>();
+  private List<SBMLError> errors = new ArrayList<SBMLError>();
   
   
   /**

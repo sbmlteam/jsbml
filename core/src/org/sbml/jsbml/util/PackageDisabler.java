@@ -61,7 +61,7 @@ public class PackageDisabler {
    * Check namespaces for unused packages and remove them
    */
   public void disableUnused() {
-    Set<String> values = new TreeSet<>(namespaceMapping.values());
+    Set<String> values = new TreeSet<String>(namespaceMapping.values());
     for (String nameOrUri : values) {
       disable(nameOrUri, false);
     }

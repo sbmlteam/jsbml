@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -104,7 +105,7 @@ public class GraphicalObjectConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
           
           return new UnknownPackageElementValidationFunction<GraphicalObject>(LayoutConstants.shortLabel).check(ctx, graphicalObject)
-              && new DuplicatedElementValidationFunction<>(LayoutConstants.boundingBox).check(ctx, graphicalObject); 
+              && new DuplicatedElementValidationFunction<TreeNodeWithChangeSupport>(LayoutConstants.boundingBox).check(ctx, graphicalObject); 
         }
       };
       break;
@@ -163,7 +164,7 @@ public class GraphicalObjectConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
           
-          return graphicalObject.isSetBoundingBox() && new DuplicatedElementValidationFunction<>(LayoutConstants.boundingBox).check(ctx, graphicalObject); 
+          return graphicalObject.isSetBoundingBox() && new DuplicatedElementValidationFunction<TreeNodeWithChangeSupport>(LayoutConstants.boundingBox).check(ctx, graphicalObject); 
         }
       };
       break;

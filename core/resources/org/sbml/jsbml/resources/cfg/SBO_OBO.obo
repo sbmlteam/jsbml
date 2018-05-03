@@ -1,6 +1,6 @@
 format-version: 1.2
-date: 15:08:2016 07:00
-data-version: 19:07:2016 15:41
+date: 21:03:2018 07:00
+data-version: 17:02:2018 11:54
 saved-by: SBO community
 auto-generated-by: SBO Browser (http://www.ebi.ac.uk/sbo/)
 default-namespace: sbo
@@ -53,7 +53,7 @@ is_obsolete: true
 [Term]
 id: SBO:0000007
 name: obsolete participant type
-def: "The 'kind' of entity involved in some process, action or reaction in the system. This may be enzyme, simple chemical, etc." [src_code:NR]
+def: "The 'kind' of entity involved in some process, action or reaction in the system. This may be enzyme, simple chemical, etc.." [src_code:NR]
 is_obsolete: true
 
 [Term]
@@ -1192,7 +1192,7 @@ is_a: SBO:0000205 ! composite biochemical process
 
 [Term]
 id: SBO:0000185
-name: transport reaction
+name: translocation reaction
 def: "Movement of a physical entity without modification of the structure of the entity." [src_code:NR]
 is_a: SBO:0000167 ! biochemical or transport reaction
 
@@ -2546,7 +2546,7 @@ id: SBO:0000376
 name: hydrolysis
 def: "Decomposition of a compound by reaction with water, where the hydroxyl and H groups are incorporated into different products" [src_code:NR]
 comment: Created 30/9/08 - NJ
-is_a: SBO:0000176 ! biochemical reaction
+is_a: SBO:0000178 ! cleavage
 
 [Term]
 id: SBO:0000377
@@ -3965,14 +3965,14 @@ id: SBO:0000587
 name: transcellular membrane influx reaction
 def: "A transport reaction which results in the entry of the transported entity, into the cell." [src_code:NR]
 comment: created in response to \[SF req #3513165\]
-is_a: SBO:0000185 ! transport reaction
+is_a: SBO:0000185 ! translocation reaction
 
 [Term]
 id: SBO:0000588
 name: transcellular membrane efflux reaction
 def: "A transport reaction which results in the removal of the transported entity from the cell." [src_code:NR]
 comment: created in response to \[SF req #3513165\].
-is_a: SBO:0000185 ! transport reaction
+is_a: SBO:0000185 ! translocation reaction
 
 [Term]
 id: SBO:0000589
@@ -3983,7 +3983,7 @@ is_a: SBO:0000205 ! composite biochemical process
 
 [Term]
 id: SBO:0000590
-name: promoter binding region
+name: promoter
 def: "A stretch of DNA upstream of a transcription start site, to which a promoter and other transcription factors may bind to initiate or regulate expression." [src_code:NR]
 comment: created in response to \[SF req #3503791\]
 is_a: SBO:0000369 ! gene regulatory region
@@ -4041,8 +4041,8 @@ is_a: SBO:0000020 ! inhibitor
 id: SBO:0000598
 name: promoter
 def: "A region of DNA to which various transcription factors and RNA polymerase must bind in order to initiate transcription for a gene." [src_code:NR]
-comment: created in response to SourceForge term request \[SF req #3503716\] 
-is_a: SBO:0000003 ! participant role
+comment: created in response to SourceForge term request \[SF req #3503716\]
+is_obsolete: true
 
 [Term]
 id: SBO:0000599
@@ -4341,6 +4341,149 @@ def: "An inhibitor which binds only to the complex formed between the enzyme and
 comment: created to facilitate format interconversion (SBML<->BioPAX), see also \[SF req #115\]
 synonym: "anti-competitive inhibitor" []
 is_a: SBO:0000020 ! inhibitor
+
+[Term]
+id: SBO:0000641
+name: pMg
+def: "An enumeration of the concentration of magnesium (Mg) in solution (pMg = -log10\[Mg2+\])." [SBO:team "http://identifiers.org/pubmed/1567986
+http://identifiers.org/pubmed/11209"]
+comment: created to facilitate format interconversion (SBML<->BioPAX) and in response to \[SF req #117\], see also \[SF req #117\]
+is_a: SBO:0000303 ! biochemical potential
+
+[Term]
+id: SBO:0000642
+name: inhibited
+def: "Conceptual or material entity that is the object of an inhibition process, and is acted upon by an inhibitor." [SBO:team "http://identifiers.org/biomodels.sbo/SBO:0000020"]
+comment: Created in response to \[SF req #116\]
+is_a: SBO:0000644 ! modified
+
+[Term]
+id: SBO:0000643
+name: stimulated
+def: "Conceptual or material entity that is the object of a stimulation process, and is acted upon by a stimulator." [SBO:team "http://identifiers.org/biomodels.sbo/SBO:0000459"]
+comment: Created in response to \[SF req #116\]
+is_a: SBO:0000644 ! modified
+
+[Term]
+id: SBO:0000644
+name: modified
+def: "Conceptual or material entity that is the object of a modification process, and is acted upon by a modifier." [SBO:team "http://identifiers.org/biomodels.sbo/SBO:0000019"]
+comment: Created in response to \[SF req #116\]
+is_a: SBO:0000003 ! participant role
+
+[Term]
+id: SBO:0000645
+name: template
+def: "An entity that acts as the starting material for genetic production (http://identifiers.org/biomodels.sbo/SBO:0000589)." [SBO:team "http://identifiers.org/biomodels.sbo/SBO:0000589"]
+comment: Created in response to \[SF req #116\]
+is_a: SBO:0000003 ! participant role
+
+[Term]
+id: SBO:0000646
+name: mass action rate law for reversible reactions, continuous schema
+def: "Reaction scheme where the products are created from the reactants and the change of a product quantity is proportional to the product of reactant activities. The reaction scheme includes a reverse process that creates the reactants from the products. It is to be used in a reaction modelled using a continuous framework.<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n<semantics definitionURL=\"http://biomodels.net/SBO/#SBO:0000062\"> <lambda> <bvar><ci definitionURL=\"http://biomodels.net/SBO/#SBO:000035\">k1</ci></bvar> <bvar><ci definitionURL=\"http://biomodels.net/SBO/#SBO:0000157\">n1</ci></bvar> <bvar><ci definitionURL=\"http://biomodels.net/SBO/#SBO:0000158\">mu1</ci></bvar> <bvar><ci definitionURL=\"http://biomodels.net/SBO/#SBO:0000509\">R</ci></bvar> <bvar><ci definitionURL=\"http://biomodels.net/SBO/#SBO:0000039\">k2</ci></bvar> <bvar><ci definitionURL=\"http://biomodels.net/SBO/#SBO:0000490\">n2</ci></bvar> <bvar><ci definitionURL=\"http://biomodels.net/SBO/#SBO:0000158\">mu2</ci></bvar> <bvar><ci definitionURL=\"http://biomodels.net/SBO/#SBO:0000512\">P</ci></bvar> <apply> <minus/> <apply> <times/> <ci>k1</ci> <apply> <product/> <bvar><ci> i </ci></bvar> <lowlimit><cn type=\"integer\"> 0 </cn></lowlimit> <uplimit><ci> n1 </ci></uplimit> <apply> <power/> <apply> <selector/> <ci type=\"vector\">R</ci> <ci> i </ci> </apply> <apply> <selector/> <ci type=\"vector\">mu1</ci> <ci> i </ci> </apply> </apply> </apply> </apply> <apply> <times/> <ci>k2</ci> <apply> <product/> <bvar><ci> i </ci></bvar> <lowlimit><cn type=\"integer\"> 0 </cn></lowlimit> <uplimit><ci> n2 </ci></uplimit> <apply> <power/> <apply> <selector/> <ci type=\"vector\">P</ci> <ci> i </ci> </apply> <apply> <selector/> <ci type=\"vector\">mu2</ci> <ci> i </ci> </apply> </apply> </apply> </apply> </apply> </lambda> </semantics>\n</math>" [src_code:NR]
+comment: This term was added on to the tree in response to the term request \[SF req #118\]
+is_a: SBO:0000042 ! mass action rate law for reversible reactions
+
+[Term]
+id: SBO:0000647
+name: molecular mass
+def: "A measure of the mass of a molecule derived as a sum of weights of its constituent elements multiplied by the number of atoms of each of the element described by its molecular formula. It is commonly represented using units of daltons." [SBO:team "https://en.wikipedia.org/wiki/Molecular_mass"]
+comment: This term was created by Varun Kothamachu in response to  \[SF req #119\]
+synonym: "molecular weight" []
+is_a: SBO:0000002 ! quantitative systems description parameter
+
+[Term]
+id: SBO:0000648
+name: protein molecular mass
+def: "A measure of the total mass of a protein described as a sum total of the weight of all its atoms. It is commonly represented using units of daltons." [src_code:NR]
+comment: This term was created by Varun Kothamachu in response to \[SF req #119\]
+synonym: "protein molecular weight" []
+is_a: SBO:0000647 ! molecular mass
+
+[Term]
+id: SBO:0000649
+name: biomass
+def: "A composite representation of material entities required for organismal growth. It includes macromolecular content (eg. cellular protein fraction), metabolic constitution of each fraction (eg. amino acids), and atomic composition (eg. nitrogen atoms)." [src_code:NR]
+comment: Created in response to \[SF req #120\]
+is_a: SBO:0000241 ! functional entity
+
+[Term]
+id: SBO:0000650
+name: reversible process
+def: "A sequential series of actions, motions, or occurrences, such as chemical reactions, where a reversal of states that bring the system back to its original state in a characteristic manner occurs." [src_code:NR]
+comment: Created by Varun Kothamachu In response to \[SF req #96\]
+is_a: SBO:0000375 ! process
+
+[Term]
+id: SBO:0000651
+name: irreversible process
+def: "A sequential series of actions, motions, or occurrences, such as chemical reactions, where a reversal of states that bring the system back to its original state in a characteristic manner does not occur." [src_code:NR]
+comment: Created by Varun Kothamachu in response to \[SF request #96\]
+is_a: SBO:0000375 ! process
+
+[Term]
+id: SBO:0000652
+name: polymerization
+def: "A chemical reaction in which one or more monomer molecules combine to form a larger polymer molecule with repeated structural units." [src_code:NR]
+comment: Term created in response to \[SF req #121\]
+is_a: SBO:0000182 ! conversion
+
+[Term]
+id: SBO:0000653
+name: depolymerization
+def: "A chemical reaction in which a large polymer breaks into its constituent monomers (or mixture of monomers)." [src_code:NR]
+comment: Term created in response to \[SF req #121\]
+is_a: SBO:0000182 ! conversion
+
+[Term]
+id: SBO:0000654
+name: co-transport reaction
+def: "A biochemical process involving the simultaneous transport of two or more substances across a membrane via a protein or protein complex." [src_code:NR]
+comment: Term created in response to \[SF req #121\]
+is_a: SBO:0000655 ! transport reaction
+
+[Term]
+id: SBO:0000655
+name: transport reaction
+def: "The movement of an entity/entities across a biological membrane mediated by a transporter protein." [src_code:NR]
+comment: Created in response to \[SF req#121\]
+is_a: SBO:0000167 ! biochemical or transport reaction
+
+[Term]
+id: SBO:0000656
+name: activation
+def: "A conformational change in a protein resulting in its activation." [src_code:NR]
+comment: Term created in response to \[SF req #121\]
+is_a: SBO:0000182 ! conversion
+
+[Term]
+id: SBO:0000657
+name: transmembrane active transport
+def: "Protein assisted movement of molecules across a membrane from a region of low concentration to high concentration involving the consumption of cellular energy (ATP molecules)." [src_code:NR]
+comment: Term created in response to \[SF req #121\]
+is_a: SBO:0000655 ! transport reaction
+
+[Term]
+id: SBO:0000658
+name: transmembrane passive transport
+def: "Transmembrane movement of molecules without the need for external energy, and usually from a region of high concentration to low concentration." [src_code:NR]
+comment: Term created in response to \[SF req #121\]
+is_a: SBO:0000655 ! transport reaction
+
+[Term]
+id: SBO:0000659
+name: symporter-mediated transport
+def: "A membrane protein mediated transport of two ore more molecules in the same relative direction across a membrane." [SBO:team "https://en.wikipedia.org/wiki/Symporter"]
+comment: Term created in response to \[SF req #121\]
+is_a: SBO:0000654 ! co-transport reaction
+
+[Term]
+id: SBO:0000660
+name: antiporter-mediated transport
+def: "A membrane protein mediated transport of two or more molecules in opposite directions across a membrane." [src_code:NR]
+comment: Term created in response to \[SF req #121\]
+is_a: SBO:0000654 ! co-transport reaction
 
 [Typedef]
 id: is_a

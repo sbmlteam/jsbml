@@ -162,7 +162,7 @@ public class ASTRelationalOperatorNode extends ASTFunction {
     try {
       return MathMLXMLStreamCompiler.toMathML(this);
     } catch (RuntimeException e) {
-      logger.error("Unable to create MathML");
+      logger.error("Unable to create MathML because " + e.getMessage());
       return null;
     }
   }

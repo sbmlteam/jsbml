@@ -58,7 +58,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
    */
   public List<Short> getStrokeDashArray() {
     if (!isSetStrokeDashArray()) {
-      strokeDashArray = new ArrayList<>();
+      strokeDashArray = new ArrayList<Short>();
     }
     return strokeDashArray;
   }

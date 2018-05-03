@@ -96,7 +96,7 @@ public class RuleConstraints extends AbstractConstraintDeclaration {
 
             if (rule.isSetMath()) {
               if (rule.isSetUserObjects() && rule.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT) != null) {
-                int nbMath = (int) rule.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT);
+                int nbMath = ((Number) rule.getUserObject(MathMLStaxParser.JSBML_MATH_COUNT)).intValue();
 
                 return nbMath == 1;                  
               }
