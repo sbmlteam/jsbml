@@ -194,24 +194,6 @@ public class FcbV1ToFbcV2Converter implements SBMLConverter {
     return sbmlDocument;
   }
 
-//  /**
-//   * Converts SBML FBV_V1 files to SBML FBC_V2.
-//   * 
-//   * @param args the arguments, expect two files path, input and output files.
-//   * @throws XMLStreamException if an error occurs
-//   * @throws IOException if an error occurs
-//   */
-//  public static void main(String[] args) throws XMLStreamException, IOException {
-//    // TODO: move/copy this to the examples package!
-//    // read document
-//    SBMLReader sbmlReader = new SBMLReader();
-//    SBMLDocument doc = sbmlReader.readSBMLFromFile(args[0]);
-//    // convert and write document
-//    FcbV1ToFbcV2Converter fcbV1ToFbcV2Converter = new FcbV1ToFbcV2Converter();
-//    TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
-//    tidySBMLWriter.writeSBMLToFile(fcbV1ToFbcV2Converter.convert(doc),args[1]);
-//  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.converters.SBMLConverter#setOption(java.lang.String)
    */
