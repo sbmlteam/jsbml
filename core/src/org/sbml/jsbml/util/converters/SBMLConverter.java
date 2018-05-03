@@ -36,4 +36,11 @@ public interface SBMLConverter {
    * @throws SBMLException if a problem occurred during conversion
    */
   public SBMLDocument convert(SBMLDocument doc) throws SBMLException;
+  
+  /**
+   * Sets options
+   * 
+   * @param option the option that should be set
+   */
+  public void setOption(String option);
 }
