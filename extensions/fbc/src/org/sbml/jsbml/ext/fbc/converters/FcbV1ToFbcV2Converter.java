@@ -198,8 +198,8 @@ public class FcbV1ToFbcV2Converter implements SBMLConverter {
    * @see org.sbml.jsbml.util.converters.SBMLConverter#setOption(java.lang.String)
    */
   @Override
-  public void setOption(String option) {
-    this.userKey = option;
+  public void setOption(String name, String value) {
+    this.userKey = value;
   }
 
 }

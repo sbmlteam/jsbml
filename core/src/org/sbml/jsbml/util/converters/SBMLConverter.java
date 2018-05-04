@@ -42,5 +42,5 @@ public interface SBMLConverter {
    * 
    * @param option the option that should be set
    */
-  public void setOption(String option);
+  public void setOption(String name, String value);
 }

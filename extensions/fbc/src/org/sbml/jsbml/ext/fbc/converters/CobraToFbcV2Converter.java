@@ -51,7 +51,7 @@ public class CobraToFbcV2Converter implements SBMLConverter {
    */
   
   @Override
-  public void setOption(String option) {
+  public void setOption(String name, String value) {
     // TODO Auto-generated method stub
   }
 }
