@@ -109,7 +109,7 @@ If you use SBML, we also urge you to sign up for [sbml-announce](https://groups.
 ☮ Licensing and distribution
 ----------------------------
 
-JSBML uses third-party software libraries; these software libraries have their own copyright statements and distribution terms.  Please see the file [LICENSE.txt](./LICENSE.txt) for more information.
+JSBML uses third-party software libraries; these software libraries have their own copyright statements and distribution terms.  Please see the files [COPYING.txt](./COPYING.txt) and [LICENSE](./LICENSE) for more information.
 
 JSBML is Copyright (C) 2009-2018 jointly by the following organizations:
 
