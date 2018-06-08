@@ -1,10 +1,8 @@
 /*
- * $Id: LayoutDirector.java 1406 2017-06-01 12:23:59Z lbuchweitz $
- * $URL: https://rarepos.cs.uni-tuebingen.de/svn-path/SysBio/trunk/src/de/zbit/sbml/layout/LayoutDirector.java $
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
- * Copyright (C) 2009-2016 by the University of Tuebingen, Germany.
+ * Copyright (C) 2009-2018 by the University of Tuebingen, Germany.
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -14,14 +12,12 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-
-package de.zbit.sbml.layout;
+package org.sbml.jsbml.ext.render.director;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -52,30 +48,19 @@ import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
+import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.StringTools;
-
-import de.zbit.graph.sbgn.DrawingOptions;
-import de.zbit.io.csv.CSVReader;
-import de.zbit.sbml.util.SBMLtools;
-import de.zbit.util.prefs.SBPreferences;
 
 /**
  * {@link LayoutDirector} produces a graphical representation of a layout of an
  * {@link SBMLDocument}.
  *
- * @param <P>
- *            Type of the product.
- *
  * @author Mirjam Gutekunst
- * @version $Rev: 1406 $
+ * @since 1.4
+ * @param <P> Type of the product.
  */
 public class LayoutDirector<P> implements Runnable {
-  
-  /**
-   * User preferences.
-   */
-  private static final transient SBPreferences prefs = SBPreferences.getPreferencesFor(DrawingOptions.class);
-  
+    
   /**
    * 
    */
@@ -89,7 +74,7 @@ public class LayoutDirector<P> implements Runnable {
   /**
    *
    */
-  private static final double DEFAULT_CURVE_WIDTH = prefs.getDouble(DrawingOptions.EDGE_LINE_WIDTH);
+  private static final double DEFAULT_CURVE_WIDTH = 2d;
   
   /**
    * A {@link Logger} for this class
@@ -171,28 +156,6 @@ public class LayoutDirector<P> implements Runnable {
   public LayoutDirector(File inputFile, LayoutBuilder<P> builder,
     LayoutAlgorithm algorithm) throws XMLStreamException, IOException {
     this(SBMLReader.read(inputFile), builder, algorithm);
-  }
-  
-  /**
-   * @param inputFile file containing the SBML document
-   * @param builder LayoutBuilder instance for producing the output
-   * @param algorithm LayoutAlgorithm instance for layouting elements
-   * @param fluxFile file containing the flux information
-   * @throws XMLStreamException
-   * @throws IOException
-   */
-  public LayoutDirector(File inputFile, LayoutBuilder<P> builder,
-    LayoutAlgorithm algorithm, File fluxFile)
-        throws XMLStreamException, IOException {
-    this(SBMLReader.read(inputFile), builder, algorithm);
-    mapOfFluxes = new HashMap<String, Double>();
-    
-    CSVReader csvReader = new CSVReader(fluxFile.getAbsolutePath());
-    String[][] data = csvReader.read();
-    csvReader.close();
-    for (int i = 0; i < data.length; i++) {
-      mapOfFluxes.put(data[i][0], Double.parseDouble(data[i][1]));
-    }
   }
   
   /**

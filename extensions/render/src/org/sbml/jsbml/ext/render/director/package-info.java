@@ -1,10 +1,8 @@
 /*
- * $Id$
- * $URL$
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
- * Copyright (C) 2009-2016 by the University of Tuebingen, Germany.
+ * Copyright (C) 2009-2018 by the University of Tuebingen, Germany.
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -25,57 +23,57 @@
  * 
  * <p>
  * The package also contains the interfaces
- * {@link de.zbit.sbml.layout.LayoutFactory} and
- * {@link de.zbit.sbml.layout.LayoutBuilder}, giving the methods necessary to
+ * {@link org.sbml.jsbml.ext.render.director.LayoutFactory} and
+ * {@link org.sbml.jsbml.ext.render.director.LayoutBuilder}, giving the methods necessary to
  * create a graphical representation of a SBML model.
  * 
  * <h3>SBGN objects</h3>
  * <p>
  * The different SBGN objects are represented in the following class hierarchy:
  * <ul>
- * <li>Interface {@link de.zbit.sbml.layout.SBGNArc}: SBGN arcs, supported:
- * {@link de.zbit.sbml.layout.Catalysis}, {@link de.zbit.sbml.layout.Consumption},
- * {@link de.zbit.sbml.layout.Inhibition}, {@link de.zbit.sbml.layout.Modulation},
- * {@link de.zbit.sbml.layout.NecessaryStimulation}, {@link de.zbit.sbml.layout.Production},
- * {@link de.zbit.sbml.layout.Stimulation}, {@link de.zbit.sbml.layout.ReversibleConsumption}
+ * <li>Interface {@link org.sbml.jsbml.ext.render.director.SBGNArc}: SBGN arcs, supported:
+ * {@link org.sbml.jsbml.ext.render.director.Catalysis}, {@link org.sbml.jsbml.ext.render.director.Consumption},
+ * {@link org.sbml.jsbml.ext.render.director.Inhibition}, {@link org.sbml.jsbml.ext.render.director.Modulation},
+ * {@link org.sbml.jsbml.ext.render.director.NecessaryStimulation}, {@link org.sbml.jsbml.ext.render.director.Production},
+ * {@link org.sbml.jsbml.ext.render.director.Stimulation}, {@link org.sbml.jsbml.ext.render.director.ReversibleConsumption}
  * 
- * <li>Interface {@link de.zbit.sbml.layout.SBGNNode}: SBGN entity pool nodes,
- * supported: {@link de.zbit.sbml.layout.Compartment}, {@link de.zbit.sbml.layout.Macromolecule},
- * {@link de.zbit.sbml.layout.NucleicAcidFeature}, {@link de.zbit.sbml.layout.PerturbingAgent},
- * {@link de.zbit.sbml.layout.SimpleChemical}, {@link de.zbit.sbml.layout.SourceSink},
- * {@link de.zbit.sbml.layout.UnspecifiedNode}
+ * <li>Interface {@link org.sbml.jsbml.ext.render.director.SBGNNode}: SBGN entity pool nodes,
+ * supported: {@link org.sbml.jsbml.ext.render.director.Compartment}, {@link org.sbml.jsbml.ext.render.director.Macromolecule},
+ * {@link org.sbml.jsbml.ext.render.director.NucleicAcidFeature}, {@link org.sbml.jsbml.ext.render.director.PerturbingAgent},
+ * {@link org.sbml.jsbml.ext.render.director.SimpleChemical}, {@link org.sbml.jsbml.ext.render.director.SourceSink},
+ * {@link org.sbml.jsbml.ext.render.director.UnspecifiedNode}
  * 
- * <li>Interface {@link de.zbit.sbml.layout.SBGNProcessNode}: SBGN process nodes,
- * supported: {@link de.zbit.sbml.layout.AssociationNode},
- * {@link de.zbit.sbml.layout.DissociationNode}, {@link de.zbit.sbml.layout.OmittedProcessNode},
- * {@link de.zbit.sbml.layout.ProcessNode}, {@link de.zbit.sbml.layout.UncertainProcessNode}
+ * <li>Interface {@link org.sbml.jsbml.ext.render.director.SBGNProcessNode}: SBGN process nodes,
+ * supported: {@link org.sbml.jsbml.ext.render.director.AssociationNode},
+ * {@link org.sbml.jsbml.ext.render.director.DissociationNode}, {@link org.sbml.jsbml.ext.render.director.OmittedProcessNode},
+ * {@link org.sbml.jsbml.ext.render.director.ProcessNode}, {@link org.sbml.jsbml.ext.render.director.UncertainProcessNode}
  * </ul>
  * 
  * <p>
- * {@link de.zbit.sbml.layout.LayoutDirector} is used to start and direct the
+ * {@link org.sbml.jsbml.ext.render.director.LayoutDirector} is used to start and direct the
  * drawing. It uses two components:
  * 
  * <ul>
- * <li>{@link de.zbit.sbml.layout.LayoutAlgorithm}: to determine dimensions and positions of
+ * <li>{@link org.sbml.jsbml.ext.render.director.LayoutAlgorithm}: to determine dimensions and positions of
  * unlayouted elements
- * <li>{@link de.zbit.sbml.layout.LayoutBuilder}: to actually produce the graphical representation
+ * <li>{@link org.sbml.jsbml.ext.render.director.LayoutBuilder}: to actually produce the graphical representation
  * of the layout
  * </ul>
  * 
  * <p>
- * The method {@link de.zbit.sbml.layout.LayoutDirector#buildLayout} builds the
+ * The method {@link org.sbml.jsbml.ext.render.director.LayoutDirector#buildLayout} builds the
  * product. This procedure consists of four steps:
  * 
  * <ol>
- * <li>All glyphs are added to the input of the {@link de.zbit.sbml.layout.LayoutAlgorithm}.
- * <li>The {@link de.zbit.sbml.layout.LayoutAlgorithm} completes all missing information.
- * <li>All glyphs are built with the {@link de.zbit.sbml.layout.LayoutBuilder}.
+ * <li>All glyphs are added to the input of the {@link org.sbml.jsbml.ext.render.director.LayoutAlgorithm}.
+ * <li>The {@link org.sbml.jsbml.ext.render.director.LayoutAlgorithm} completes all missing information.
+ * <li>All glyphs are built with the {@link org.sbml.jsbml.ext.render.director.LayoutBuilder}.
  * <li>The dimensions of the whole layout are computed.
  * </ol>
  * 
- * <h3>The {@link de.zbit.sbml.layout.SimpleLayoutAlgorithm} Implementation</h3>
+ * <h3>The {@link org.sbml.jsbml.ext.render.director.SimpleLayoutAlgorithm} Implementation</h3>
  * 
- * The package contains a partial implementation of the {@link de.zbit.sbml.layout.LayoutAlgorithm}.
+ * The package contains a partial implementation of the {@link org.sbml.jsbml.ext.render.director.LayoutAlgorithm}.
  * It provides the some features and follows specific conventions not found
  * in any specification:
  * 
@@ -99,10 +97,10 @@
  * <li><strong>Docking points.</strong> The docking points are the points at which the reaction arc connect to
  * the species. As the line between species and reaction glyph is determined by the center of
  * the species, the docking point is the intersection of this line with the border of the
- * species. To facilitate the calculation for various shapes {@link de.zbit.sbml.layout.SimpleLayoutAlgorithm}
- * provides the methods {@link de.zbit.sbml.layout.SimpleLayoutAlgorithm#calculateDockingForEllipseSpecies},
- * {@link de.zbit.sbml.layout.SimpleLayoutAlgorithm#calculateDockingForQuadraticSpecies},
- * {@link de.zbit.sbml.layout.SimpleLayoutAlgorithm#calculateDockingForRoundSpecies}.
+ * species. To facilitate the calculation for various shapes {@link org.sbml.jsbml.ext.render.director.SimpleLayoutAlgorithm}
+ * provides the methods {@link org.sbml.jsbml.ext.render.director.SimpleLayoutAlgorithm#calculateDockingForEllipseSpecies},
+ * {@link org.sbml.jsbml.ext.render.director.SimpleLayoutAlgorithm#calculateDockingForQuadraticSpecies},
+ * {@link org.sbml.jsbml.ext.render.director.SimpleLayoutAlgorithm#calculateDockingForRoundSpecies}.
  * </ul>
  * 
  * <h3>Design Notes</h3>
@@ -115,13 +113,12 @@
  * introduced in the original implementation) is not reasonable, because the
  * layout has to be determined from all glpyhs.
  * <li>
- * The current implementation of {@link de.zbit.sbml.layout.LayoutDirector} can read in map of
+ * The current implementation of {@link org.sbml.jsbml.ext.render.director.LayoutDirector} can read in map of
  * fluxes. This is a special application for the modification of a layout and
- * should not be defined here. The product of {@link de.zbit.sbml.layout.LayoutDirector} is a
+ * should not be defined here. The product of {@link org.sbml.jsbml.ext.render.director.LayoutDirector} is a
  * layout. further modification of the layout should be performed separately.
  * </ul>
  * 
- * 
- * @version $Rev$
+ * @since 1.4
  */
-package de.zbit.sbml.layout;
+package org.sbml.jsbml.ext.render.director;

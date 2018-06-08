@@ -1,6 +1,4 @@
 /*
- * $Id$
- * $URL$
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
@@ -14,7 +12,7 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-package de.zbit.sbml.layout;
+package org.sbml.jsbml.ext.render.director;
 
 import java.awt.Color;
 import java.text.MessageFormat;
@@ -47,7 +45,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * information.
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
+ * @since 1.4
  */
 public class RenderProcessor {
   

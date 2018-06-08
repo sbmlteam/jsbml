@@ -1,10 +1,8 @@
 /*
- * $Id: SimpleLayoutAlgorithm.java 1402 2017-01-03 12:17:57Z draeger $
- * $URL: https://rarepos.cs.uni-tuebingen.de/svn-path/SysBio/trunk/src/de/zbit/sbml/layout/SimpleLayoutAlgorithm.java $
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
- * Copyright (C) 2009-2016 by the University of Tuebingen, Germany.
+ * Copyright (C) 2009-2018 by the University of Tuebingen, Germany.
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -14,7 +12,7 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-package de.zbit.sbml.layout;
+package org.sbml.jsbml.ext.render.director;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
@@ -50,9 +48,7 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
  * independent of the output format of the {@link LayoutDirector}.
  *
  * @author Andreas Dr&auml;ger
- * @date 08:43:48
- * @since 1.1
- * @version $Rev: 1402 $
+ * @since 1.4
  */
 public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
   
@@ -149,7 +145,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
   }
   
   /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.LayoutAlgorithm#getLayout()
+   * @see org.sbml.jsbml.ext.render.director.LayoutAlgorithm#getLayout()
    */
   @Override
   public Layout getLayout() {
@@ -159,7 +155,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
   /*
    * (non-Javadoc)
    *
-   * @see de.zbit.sbml.layout.LayoutAlgorithm#isSetLayout()
+   * @see org.sbml.jsbml.ext.render.director.LayoutAlgorithm#isSetLayout()
    */
   @Override
   public boolean isSetLayout() {
@@ -167,7 +163,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
   }
   
   /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.LayoutAlgorithm#setModel(Model model)
+   * @see org.sbml.jsbml.ext.render.director.LayoutAlgorithm#setModel(Model model)
    */
   @Override
   public void setLayout(Layout layout) {
@@ -709,7 +705,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
    * TODO describe calculation
    *
    * (non-Javadoc)
-   * @see de.zbit.sbml.layout.LayoutAlgorithm#createReactionGlyphPositon(ReactionGlyph reactionGlyph)
+   * @see org.sbml.jsbml.ext.render.director.LayoutAlgorithm#createReactionGlyphPositon(ReactionGlyph reactionGlyph)
    */
   protected Point createReactionGlyphPosition(ReactionGlyph reactionGlyph) {
     double x = 0d;
@@ -767,7 +763,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
    * TODO describe calculation
    *
    * (non-Javadoc)
-   * @see de.zbit.sbml.layout.LayoutAlgorithm#createReactionGlyphDimension(org.sbml.jsbml.ext.layout.ReactionGlyph)
+   * @see org.sbml.jsbml.ext.render.director.LayoutAlgorithm#createReactionGlyphDimension(org.sbml.jsbml.ext.layout.ReactionGlyph)
    */
   @Override
   public Dimensions createReactionGlyphDimension(ReactionGlyph reactionGlyph) {
@@ -833,7 +829,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
   
   /* TODO describe calculation
    * (non-Javadoc)
-   * @see de.zbit.sbml.layout.LayoutAlgorithm#calculateReactionGlyphRotationAngle(org.sbml.jsbml.ext.layout.ReactionGlyph)
+   * @see org.sbml.jsbml.ext.render.director.LayoutAlgorithm#calculateReactionGlyphRotationAngle(org.sbml.jsbml.ext.layout.ReactionGlyph)
    */
   @Override
   public double calculateReactionGlyphRotationAngle(ReactionGlyph reactionGlyph) {

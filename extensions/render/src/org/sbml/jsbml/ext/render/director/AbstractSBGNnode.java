@@ -1,10 +1,8 @@
 /*
- * $Id$
- * $URL$
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
- * Copyright (C) 2009-2016 by the University of Tuebingen, Germany.
+ * Copyright (C) 2009-2018 by the University of Tuebingen, Germany.
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -14,11 +12,11 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-package de.zbit.sbml.layout;
+package org.sbml.jsbml.ext.render.director;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
+ * @since 1.4
  * @param <T> @see {@link SBGNNode}
  */
 public abstract class AbstractSBGNnode<T> implements SBGNNode<T> {
@@ -29,7 +27,7 @@ public abstract class AbstractSBGNnode<T> implements SBGNNode<T> {
   private double lineWidth = 1d;
   
   /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNNode#getLineWidth()
+   * @see org.sbml.jsbml.ext.render.director.SBGNNode#getLineWidth()
    */
   @Override
   public double getLineWidth() {
@@ -37,7 +35,7 @@ public abstract class AbstractSBGNnode<T> implements SBGNNode<T> {
   }
   
   /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNNode#setLineWidth(double)
+   * @see org.sbml.jsbml.ext.render.director.SBGNNode#setLineWidth(double)
    */
   @Override
   public void setLineWidth(double lineWidth) {

@@ -1,10 +1,8 @@
 /*
- * $Id: GlyphCreator.java 1402 2017-01-03 12:17:57Z draeger $
- * $URL: https://rarepos.cs.uni-tuebingen.de/svn-path/SysBio/trunk/src/de/zbit/sbml/layout/GlyphCreator.java $
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
- * Copyright (C) 2009-2016 by the University of Tuebingen, Germany.
+ * Copyright (C) 2009-2018 by the University of Tuebingen, Germany.
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -14,7 +12,7 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-package de.zbit.sbml.layout;
+package org.sbml.jsbml.ext.render.director;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,8 +40,7 @@ import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
-
-import de.zbit.sbml.util.SBMLtools;
+import org.sbml.jsbml.util.SBMLtools;
 
 /**
  * This class creates a SBML layout for a model without layout information. It
@@ -51,7 +48,7 @@ import de.zbit.sbml.util.SBMLtools;
  * compartment.
  * 
  * @author Jan Rudolph
- * @version $Rev: 1402 $
+ * @since 1.4
  */
 public class GlyphCreator {
   

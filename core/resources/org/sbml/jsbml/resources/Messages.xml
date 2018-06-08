@@ -112,4 +112,6 @@
   <entry key="CVTerm.Qualifier.UNKNOWN">has something to do with</entry>
   <entry key="CVTerm.humanReadable">{0} {1} {2}.</entry>
   
+  <entry key="SBMLtools.COULD_NOT_SET_SBO_TERM">Could not set SBO term {0} for {1} with Level = {2} and Version = {3}.</entry>
+  
 </properties>
