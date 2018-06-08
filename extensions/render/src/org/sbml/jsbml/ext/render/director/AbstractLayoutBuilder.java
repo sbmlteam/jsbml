@@ -1,10 +1,8 @@
 /*
- * $Id$
- * $URL$
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
- * Copyright (C) 2009-2016 by the University of Tuebingen, Germany.
+ * Copyright (C) 2009-2018 by the University of Tuebingen, Germany.
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -14,7 +12,7 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-package de.zbit.sbml.layout;
+package org.sbml.jsbml.ext.render.director;
 
 import java.text.MessageFormat;
 import java.util.logging.Logger;
@@ -34,8 +32,7 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
  * role.
  * 
  * @author Andreas Dr&auml;ger
- * @since 1.0
- * @version $Rev$
+ * @since 1.4
  * @param <P>
  * @param <NodeT>
  * @param <ArcT>
@@ -242,7 +239,7 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
   }
   
   /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.LayoutBuilder#isProductReady()
+   * @see org.sbml.jsbml.ext.render.director.LayoutBuilder#isProductReady()
    */
   @Override
   public boolean isProductReady() {

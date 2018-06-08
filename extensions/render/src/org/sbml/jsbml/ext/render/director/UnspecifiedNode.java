@@ -1,10 +1,8 @@
 /*
- * $Id$
- * $URL$
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
- * Copyright (C) 2009-2016 by the University of Tuebingen, Germany.
+ * Copyright (C) 2009-2018 by the University of Tuebingen, Germany.
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -14,14 +12,14 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-package de.zbit.sbml.layout;
+package org.sbml.jsbml.ext.render.director;
 
 /**
  * Abstract class that all the different graphical representations for
  * unspecified entity pool nodes have to implement
  * 
  * @author Mirjam Gutekunst
- * @version $Rev$
+ * @since 1.4
  * @param <T>
  */
 public abstract class UnspecifiedNode<T> extends AbstractSBGNNodeWithCloneMarker<T> {

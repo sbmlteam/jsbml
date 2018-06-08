@@ -1,10 +1,8 @@
 /*
- * $Id$
- * $URL$
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
- * Copyright (C) 2009-2016 by the University of Tuebingen, Germany.
+ * Copyright (C) 2009-2018 by the University of Tuebingen, Germany.
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -14,7 +12,7 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-package de.zbit.sbml.layout;
+package org.sbml.jsbml.ext.render.director;
 
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.CurveSegment;
@@ -23,7 +21,7 @@ import org.sbml.jsbml.ext.layout.Point;
 /**
  * 
  * @author Andreas Dr&auml;ger
- * @version $Rev$
+ * @since 1.4
  * @param <T>  The concrete data type for a particular implementation of this node.
  */
 public abstract class AbstractSBGNProcessNode<T> extends AbstractSBGNnode<T> implements
@@ -40,7 +38,7 @@ SBGNProcessNode<T> {
   private Point pointOfContactToSubstrate;
   
   /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNProcessNode#draw(org.sbml.jsbml.ext.layout.Curve, double, org.sbml.jsbml.ext.layout.Point)
+   * @see org.sbml.jsbml.ext.render.director.SBGNProcessNode#draw(org.sbml.jsbml.ext.layout.Curve, double, org.sbml.jsbml.ext.layout.Point)
    */
   @Override
   public T draw(Curve curve, double rotationAngle, Point rotationCenter) {
@@ -54,7 +52,7 @@ SBGNProcessNode<T> {
   }
   
   /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#getPointOfContactToProduct()
+   * @see org.sbml.jsbml.ext.render.director.SBGNReactionNode#getPointOfContactToProduct()
    */
   @Override
   public Point getPointOfContactToProduct() {
@@ -62,7 +60,7 @@ SBGNProcessNode<T> {
   }
   
   /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#getPointOfContactToSubstrate()
+   * @see org.sbml.jsbml.ext.render.director.SBGNReactionNode#getPointOfContactToSubstrate()
    */
   @Override
   public Point getPointOfContactToSubstrate() {
@@ -70,7 +68,7 @@ SBGNProcessNode<T> {
   }
   
   /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#setPointOfContactToProduct(org.sbml.jsbml.ext.layout.Point)
+   * @see org.sbml.jsbml.ext.render.director.SBGNReactionNode#setPointOfContactToProduct(org.sbml.jsbml.ext.layout.Point)
    */
   @Override
   public void setPointOfContactToProduct(Point pointOfContactToProduct) {
@@ -78,7 +76,7 @@ SBGNProcessNode<T> {
   }
   
   /* (non-Javadoc)
-   * @see de.zbit.sbml.layout.SBGNReactionNode#setPointOfContactToSubstrate(org.sbml.jsbml.ext.layout.Point)
+   * @see org.sbml.jsbml.ext.render.director.SBGNReactionNode#setPointOfContactToSubstrate(org.sbml.jsbml.ext.layout.Point)
    */
   @Override
   public void setPointOfContactToSubstrate(Point pointOfContactToSubstrate) {

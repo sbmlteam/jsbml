@@ -1,10 +1,8 @@
 /*
- * $Id$
- * $URL$
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
- * Copyright (C) 2009-2016 by the University of Tuebingen, Germany.
+ * Copyright (C) 2009-2018 by the University of Tuebingen, Germany.
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -14,8 +12,7 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-
-package de.zbit.sbml.layout;
+package org.sbml.jsbml.ext.render.director;
 
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
@@ -26,25 +23,16 @@ import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
-import de.zbit.util.progressbar.AbstractProgressBar;
-
 /**
  * LayoutBuilder provides methods to build graphical representations for
  * all glyph types.
  * 
  * @author Mirjam Gutekunst
- * @version $Rev$
- * @since 1.0
+ * @since 1.4
  * @param <P> Type of the product.
  */
 public interface LayoutBuilder<P> {
-  
-  /**
-   * 
-   * @param progress
-   */
-  public void addProgressListener(AbstractProgressBar progress);
-  
+    
   /**
    * method for preparations that have to be done at the beginning of the
    * builder, e.g., the commands at the beginning of a LaTeX document
