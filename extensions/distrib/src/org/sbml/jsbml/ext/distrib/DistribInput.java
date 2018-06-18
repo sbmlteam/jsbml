@@ -20,7 +20,6 @@ package org.sbml.jsbml.ext.distrib;
 
 import java.util.Map;
 
-import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
@@ -29,7 +28,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Nicolas Rodriguez
  * @since 1.1
  */
-public class DistribInput extends AbstractNamedSBase {
+public class DistribInput extends AbstractDistrictSBase {
 
   /**
    * Generated serial version identifier.
@@ -222,14 +221,6 @@ public class DistribInput extends AbstractNamedSBase {
 
     if (isSetIndex()) {
       attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.index, index.toString());
-    }
-    if (isSetId()) {
-      attributes.remove("id");
-      attributes.put(DistribConstants.shortLabel + ":id", getId());
-    }
-    if (isSetName()) {
-      attributes.remove("name");
-      attributes.put(DistribConstants.shortLabel + ":name", getName());
     }
 
     return attributes;

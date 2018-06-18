@@ -29,6 +29,7 @@ import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.IdManager;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
 
 /**
@@ -36,7 +37,7 @@ import org.sbml.jsbml.xml.XMLNode;
  * @author Nicolas Rodriguez
  * @since 1.1
  */
-public class DrawFromDistribution extends AbstractSBase implements IdManager {
+public class DrawFromDistribution extends AbstractDistrictSBase implements IdManager {
 
   /**
    * Generated serial version identifier.
@@ -53,7 +54,7 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
    */
   private ListOf<DistribInput> listOfDistribInputs;
   /**
-   * 
+   * TODO : replace by the Distribution element
    */
   private XMLNode uncertML;
 
@@ -418,6 +419,26 @@ public class DrawFromDistribution extends AbstractSBase implements IdManager {
    */
   public int getNumDistribInputs() {
     return getDistribInputCount();
+  }
+
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+      if (isSetId() && getVersion() == 1) {
+        attributes.remove("id");
+        attributes.put(DistribConstants.shortLabel + ":id", getId());
+      }
+      if (isSetName() && getVersion() == 1) {
+        attributes.remove("name");
+        attributes.put(DistribConstants.shortLabel + ":name", getId());
+      }
+
+      return attributes;
   }
 
 
