@@ -38,6 +38,8 @@ public class Uncertainty extends AbstractNamedSBase {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -904719821379100471L;
+
+  // TODO - remove uncertML and replace by distribution and UncertStatitics
   /**
    * 
    */

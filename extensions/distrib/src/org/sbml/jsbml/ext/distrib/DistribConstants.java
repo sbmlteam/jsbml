@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 
  * @author Nicolas Rodriguez
  * @since 1.1
  */
@@ -36,6 +37,11 @@ public class DistribConstants {
    * 
    */
   public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/distrib/version1";
+
+  /**
+   * 
+   */
+  public static final String namespaceURI_L3V2V1 = "http://www.sbml.org/sbml/level3/version2/distrib/version1";
 
   /**
    * 
@@ -80,11 +86,175 @@ public class DistribConstants {
   /**
    * 
    */
+  public static final String value = "value";
+
+  /**
+   * 
+   */
+  public static final String var = "var";
+
+  /**
+   * 
+   */
+  public static final String inclusive = "inclusive";
+
+  /**
+   * 
+   */
+  public static final String varLower = "varLower";
+
+  /**
+   * 
+   */
+  public static final String varUpper = "varUpper";
+  
+  /**
+   * 
+   */
+  public static final String valueLower = "valueLower";
+
+  /**
+   * 
+   */
+  public static final String valueUpper = "valueUpper";
+
+  /**
+   * 
+   */
+  public static final String singleValueStatistic = "singleValueStatistic";
+  
+  /**
+   * 
+   */
+  public static final String spanStatistic = "spanStatistic";
+
+  /**
+   * 
+   */
+  public static final String truncationLowerBound = "truncationLowerBound";
+
+  /**
+   * 
+   */
+  public static final String truncationUpperBound = "truncationUpperBound";
+  
+  /**
+   * 
+   */
+  public static final String mean = "mean";
+  
+  /**
+   * 
+   */
+  public static final String stddev = "stddev";
+  
+  /**
+   * 
+   */
+  public static final String variance = "variance";
+  
+  /**
+   * 
+   */
+  public static final String location = "location";
+  
+  /**
+   * 
+   */
+  public static final String scale = "scale";
+
+  /**
+   * 
+   */
+  public static final String logScale = "logScale";
+
+  /**
+   * 
+   */
+  public static final String shape = "shape";
+
+  /**
+   * 
+   */
+  public static final String degreesOfFreedom = "degreesOfFreedom";
+
+  /**
+   * 
+   */
+  public static final String numberOfClasses = "numberOfClasses";
+
+  /**
+   * 
+   */
+  public static final String alpha = "alpha";
+
+  /**
+   * 
+   */
+  public static final String beta = "beta";
+
+  /**
+   * 
+   */
+  public static final String rate = "rate";
+
+  /**
+   * 
+   */
+  public static final String numerator = "numerator";
+
+  /**
+   * 
+   */
+  public static final String denominator = "denominator";
+
+  /**
+   * 
+   */
+  public static final String minimum = "minimum";
+
+  /**
+   * 
+   */
+  public static final String maximum = "maximum";
+
+  /**
+   * 
+   */
+  public static final String prob = "prob";
+
+  /**
+   * 
+   */
+  public static final String listOfCategories = "listOfCategories";
+
+  /**
+   * 
+   */
+  public static final String category = "category";
+
+  /**
+   * 
+   */
+  public static final String probability = "probability";
+
+  
+  
+  /**
+   * 
+   */
+  public static final String listOfExternalParameters = "listOfExternalParameters";
+
+  
+  /**
+   * 
+   */
   public static final List<String> namespaces;
 
   static {
     namespaces = new ArrayList<String>();
     namespaces.add(namespaceURI_L3V1V1);
+    namespaces.add(namespaceURI_L3V2V1);
   }
 
 }
