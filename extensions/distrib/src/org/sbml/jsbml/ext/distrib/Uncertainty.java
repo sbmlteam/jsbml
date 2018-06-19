@@ -41,7 +41,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Nicolas Rodriguez
  * @since 1.4
  */
-public class Uncertainty extends AbstractDistrictSBase {
+public class Uncertainty extends AbstractDistribSBase {
 
   /**
    * Generated serial version identifier.

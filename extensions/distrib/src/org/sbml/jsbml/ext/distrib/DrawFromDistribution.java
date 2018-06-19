@@ -37,7 +37,7 @@ import org.sbml.jsbml.util.IdManager;
  * @author Nicolas Rodriguez
  * @since 1.4
  */
-public class DrawFromDistribution extends AbstractDistrictSBase implements IdManager {
+public class DrawFromDistribution extends AbstractDistribSBase implements IdManager {
 
   /**
    * Generated serial version identifier.

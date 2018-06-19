@@ -38,7 +38,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author rodrigue
  * @since 1.4
  */
-public class UncertStatistics extends AbstractDistrictSBase {
+public class UncertStatistics extends AbstractDistribSBase {
 
   /**
    * 

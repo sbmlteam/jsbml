@@ -38,7 +38,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author rodrigue
  * @since 1.4
  */
-public class UncertStatisticsSpan extends AbstractDistrictSBase {
+public class UncertStatisticsSpan extends AbstractDistribSBase {
 
   /**
    * 
