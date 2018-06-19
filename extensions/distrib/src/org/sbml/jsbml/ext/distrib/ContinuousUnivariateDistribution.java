@@ -19,17 +19,46 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
+import java.text.MessageFormat;
+
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 
 
 /**
+ * The abstract {@link ContinuousUnivariateDistribution} class is the base class for a wide variety of distributions, all of which
+ * describe a potentially-bounded continuous range of probabilities. Many of the most commonly-used distributions
+ * such as the {@link NormalDistribution} and the {@link UniformDistribution} fall into this category.
+ * 
+ * <p>All ContinuousUnivariateDistribution elements may have two optional children: 'lowerTruncationBound' and
+ * 'upperTruncationBound', both of the class {@link UncertBound}. Either element, if present, limit the range
+ * of possible sampled values from the distribution. The 'lowerTruncationBound' defines the lowest value (inclusive
+ * or not, as defined by that element's inclusive attribute) that can be sampled, and the 'upperTruncationBound'
+ * defines the highest. If both children are present, the 'lowerTruncationBound' must either be lower than the
+ * 'upperTruncationBound', or they may be equal, if both bounds are set inclusive='true'. Similarly, some distributions
+ * are themselves naturally bound (some may, for example, only return values greater than zero). In those cases,
+ * the natural lower bound of the distribution must be either lower than the 'upperTruncationBound', or be equal
+ * to it if the natural lower bound is inclusive, and if the 'upperTruncationBound' is set inclusive='true'. Similarly,
+ * the natural upper bound of the distribution must either be higher than the 'lowerTruncationBound', or it may
+ * be equal to it if the natural upper bound is inclusive and if the 'lowerTruncationBound' is set inclusive='true'.
+ * It may be impossible to determine this from a static analysis of the model, as either or both bound's values may
+ * depend on other dynamic variables. If a simulator encounters this situation, the sampled value and the behavior of
+ * the simulator are undefined.</p>
+ * 
+ * <p>If bounded, the cumulative probability that would have been assigned to the region outside the bound is re-assigned
+ * proportionally to the rest of the distribution. It should be noted that while discarding any value obtained from the
+ * non-truncated version of the distribution and re-sampling is indeed one method that could be used to accomplish
+ * this, the efficiency of that algorithm decreases with the width of the allowed window, and indeed is technically zero
+ * (and would take an infinite amount of time to complete) should the bounds be equal to one another. Taking any
+ * samples obtained outside the bound window and instead returning the boundary value itself is incorrect, and will
+ * not result in a proper draw from the defined distribution.
+ * 
  * @author rodrigue
  * @since 1.4
  */
 public abstract class ContinuousUnivariateDistribution extends UnivariateDistribution {
-
-  // TODO - implements XML attributes, equals and hashcode
 
   /**
    * 
@@ -70,7 +99,7 @@ public abstract class ContinuousUnivariateDistribution extends UnivariateDistrib
    * 
    * @param sb
    */
-  public ContinuousUnivariateDistribution(SBase sb) {
+  public ContinuousUnivariateDistribution(ContinuousUnivariateDistribution sb) {
     super(sb);
   }
 
@@ -210,4 +239,111 @@ public abstract class ContinuousUnivariateDistribution extends UnivariateDistrib
     }
     return false;
   }
+
+  
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
+  public int getChildCount() {
+    int count = super.getChildCount();
+
+     if (isSetTruncationLowerBound()) {
+      count++;
+     }
+     if (isSetTruncationUpperBound()) {
+       count++;
+      }
+     
+    return count;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
+    }
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+
+    if (isSetTruncationLowerBound()) {
+      if (pos == index) {
+        return getTruncationLowerBound();
+      }
+      pos++;
+    }
+
+    if (isSetTruncationUpperBound()) {
+      if (pos == index) {
+        return getTruncationUpperBound();
+      }
+      pos++;
+    }
+
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      resourceBundle.getString("IndexExceedsBoundsException"), index,
+      Math.min(pos, 0)));
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3083;
+    int result = super.hashCode();
+    result = prime * result
+      + ((truncationLowerBound == null) ? 0 : truncationLowerBound.hashCode());
+    result = prime * result
+      + ((truncationUpperBound == null) ? 0 : truncationUpperBound.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    ContinuousUnivariateDistribution other =
+      (ContinuousUnivariateDistribution) obj;
+    if (truncationLowerBound == null) {
+      if (other.truncationLowerBound != null) {
+        return false;
+      }
+    } else if (!truncationLowerBound.equals(other.truncationLowerBound)) {
+      return false;
+    }
+    if (truncationUpperBound == null) {
+      if (other.truncationUpperBound != null) {
+        return false;
+      }
+    } else if (!truncationUpperBound.equals(other.truncationUpperBound)) {
+      return false;
+    }
+    return true;
+  }
+
+  
 }

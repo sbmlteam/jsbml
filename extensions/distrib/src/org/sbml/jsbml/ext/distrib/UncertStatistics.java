@@ -19,19 +19,26 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
-import org.sbml.jsbml.AbstractSBase;
+import java.text.MessageFormat;
+
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 
 
 /**
+ * The {@link UncertStatistics} class is a collection of zero or more statistical measures related to the uncertainty of the
+ * parent SBML element. 
+ * 
+ * <p>It contains three types of children: UncertValue children and UncertStatisticSpan children,
+ * distinguished from each other by the element name of that child, and a ListOfExternalParameters
+ * child, which contains zero or more ExternalParameter objects.
+ *
  * @author rodrigue
  * @since 1.4
  */
 public class UncertStatistics extends AbstractDistrictSBase {
-
-  // TODO - implements XML attributes, equals and hashcode, children
 
   /**
    * 
@@ -80,8 +87,18 @@ public class UncertStatistics extends AbstractDistrictSBase {
    * 
    * @param sb
    */
-  public UncertStatistics(SBase sb) {
+  public UncertStatistics(UncertStatistics sb) {
     super(sb);
+    
+    if (sb.isSetSingleValueStatistic()) {
+      setSingleValueStatistic(sb.getSingleValueStatistic().clone());
+    }
+    if (sb.isSetSpanStatistic()) {
+      setSpanStatistic(sb.getSpanStatistic().clone());
+    }
+    if (sb.isSetListOfExternalParameters()) {
+      setListOfExternalParameters(sb.getListOfExternalParameters().clone());
+    }
   }
 
 
@@ -128,9 +145,8 @@ public class UncertStatistics extends AbstractDistrictSBase {
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public AbstractSBase clone() {
-    // TODO Auto-generated method stub
-    return null;
+  public UncertStatistics clone() {
+    return new UncertStatistics(this);
   }
   
   
@@ -446,5 +462,131 @@ public class UncertStatistics extends AbstractDistrictSBase {
     }
     return false;
   }
+
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3449;
+    int result = super.hashCode();
+    result = prime * result + ((listOfExternalParameters == null) ? 0
+      : listOfExternalParameters.hashCode());
+    result = prime * result
+      + ((singleValueStatistic == null) ? 0 : singleValueStatistic.hashCode());
+    result =
+      prime * result + ((spanStatistic == null) ? 0 : spanStatistic.hashCode());
+    return result;
+  }
+
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    UncertStatistics other = (UncertStatistics) obj;
+    if (listOfExternalParameters == null) {
+      if (other.listOfExternalParameters != null) {
+        return false;
+      }
+    } else if (!listOfExternalParameters.equals(
+      other.listOfExternalParameters)) {
+      return false;
+    }
+    if (singleValueStatistic == null) {
+      if (other.singleValueStatistic != null) {
+        return false;
+      }
+    } else if (!singleValueStatistic.equals(other.singleValueStatistic)) {
+      return false;
+    }
+    if (spanStatistic == null) {
+      if (other.spanStatistic != null) {
+        return false;
+      }
+    } else if (!spanStatistic.equals(other.spanStatistic)) {
+      return false;
+    }
+    return true;
+  }
+
   
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
+  public int getChildCount() {
+    int count = super.getChildCount();
+
+    if (isSetSingleValueStatistic()) {
+      count++;
+    }
+    if (isSetSpanStatistic()) {
+      count++;
+    }
+    if (isSetListOfExternalParameters()) {
+      count++;
+    }
+
+    return count;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
+    }
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+
+    if (isSetSingleValueStatistic()) {
+      if (pos == index) {
+        return getSingleValueStatistic();
+      }
+      pos++;
+    }
+    if (isSetSpanStatistic()) {
+      if (pos == index) {
+        return getSpanStatistic();
+      }
+      pos++;
+    }
+    if (isSetListOfExternalParameters()) {
+      if (pos == index) {
+        return getListOfExternalParameters();
+      }
+      pos++;
+    }
+
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      resourceBundle.getString("IndexExceedsBoundsException"), index,
+      Math.min(pos, 0)));
+  }
+
 }

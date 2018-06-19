@@ -19,24 +19,35 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
-import org.sbml.jsbml.AbstractSBase;
+import java.text.MessageFormat;
+
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 
 
 /**
+ * The {@link PoissonDistribution} is a {@link DiscreteUnivariateDistribution} that defines the {@link UncertValue} child 'rate' (λ).
+ * 
+ * <p>The 'rate' value must be positive.
+ * A random variable x follows a Poisson distribution if the probability mass function (pmf) is of the form:</p>
+ * (λ^x / x!) . exp(-λ)
+ *  
+ * <p>The Poisson distribution can be used to model the number of events occurring within fixed time period of time.</p>
+ *
  * @author rodrigue
  * @since 1.4
  */
 public class PoissonDistribution extends DiscreteUnivariateDistribution {
 
-  // TODO - implements XML attributes, equals and hashcode
-  
   /**
    * 
    */
   private static final long serialVersionUID = 1L;
 
+  /**
+   * 
+   */
   private UncertValue rate;
   
   /**
@@ -63,8 +74,12 @@ public class PoissonDistribution extends DiscreteUnivariateDistribution {
    * 
    * @param sb
    */
-  public PoissonDistribution(SBase sb) {
+  public PoissonDistribution(PoissonDistribution sb) {
     super(sb);
+    
+    if (sb.isSetRate()) {
+      setRate(sb.getRate().clone());
+    }
   }
 
 
@@ -107,9 +122,8 @@ public class PoissonDistribution extends DiscreteUnivariateDistribution {
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public AbstractSBase clone() {
-    // TODO Auto-generated method stub
-    return null;
+  public PoissonDistribution clone() {
+    return new PoissonDistribution(this);
   }
   
   
@@ -163,5 +177,92 @@ public class PoissonDistribution extends DiscreteUnivariateDistribution {
     }
     return false;
   }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3271;
+    int result = super.hashCode();
+    result = prime * result + ((rate == null) ? 0 : rate.hashCode());
+    return result;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    PoissonDistribution other = (PoissonDistribution) obj;
+    if (rate == null) {
+      if (other.rate != null) {
+        return false;
+      }
+    } else if (!rate.equals(other.rate)) {
+      return false;
+    }
+    return true;
+  }
+  
+  
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.distrib.DiscreteUnivariateDistribution#getChildCount()
+   */
+  public int getChildCount() {
+    int count = super.getChildCount();
+
+    if (isSetRate()) {
+      count++;
+    }
+    
+    return count;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.distrib.DiscreteUnivariateDistribution#getChildAt(int)
+   */
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
+    }
+
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+
+    if (isSetRate()) {
+      if (pos == index) {
+        return getRate();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      resourceBundle.getString("IndexExceedsBoundsException"), index,
+      Math.min(pos, 0)));
+  }
+
   
 }

@@ -19,21 +19,37 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
-import org.sbml.jsbml.AbstractSBase;
+import java.text.MessageFormat;
+import java.util.Map;
+
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
+ * The {@link ExternalDistribution} class is provided to allow a modeler to encode a distribution not otherwise explicitly
+ * handled by this specification. 
+ * 
+ * <p>Because the range of possibilities is so vast, the modeler should not normally expect
+ * any given SBML simulator or other software to be able to properly manipulate this distribution, but particular
+ * software tools may implement support for certain distributions they know their own software's users may require.
+ * 
+ * <p>The required attribute definitionURL, of type ExternalRef, must be a URI that defines a valid distribution. It is
+ * strongly recommended that modelers use distributions from ProbOnto (http://probonto.org/), as consistently
+ * referencing a single ontology will improve exchangeability, at least slightly. The referenced distribution is then
+ * the distribution defined by this ExternalDistribution, along with any parameterization provided by the children
+ * ExternalParameter elements.</p>
+ * 
  * @author rodrigue
  * @since 1.4
  */
 public class ExternalDistribution extends Distribution {
 
-  // TODO - implements XML attributes, equals and hashcode, children
-
+  // TODO - same content for ExternalParameter and ExternalDistribution !
+  
   /**
    * 
    */
@@ -49,14 +65,18 @@ public class ExternalDistribution extends Distribution {
    */
   private ListOf<ExternalParameter> listOfExternalParameters;
 
+
   /**
+   * Creates a new instance of {@link ExternalDistribution}
    * 
    */
   public ExternalDistribution() {
+    super();
   }
 
-
   /**
+   * Creates a new instance of {@link ExternalDistribution}
+   * 
    * @param level
    * @param version
    */
@@ -64,24 +84,25 @@ public class ExternalDistribution extends Distribution {
     super(level, version);
   }
 
-
   /**
+   * Creates a new instance of {@link ExternalDistribution}
+   * 
    * @param sb
    */
-  public ExternalDistribution(SBase sb) {
+  public ExternalDistribution(ExternalDistribution sb) {
     super(sb);
+    
+    if (sb.isSetDefinitionURL()) {
+      setDefinitionURL(sb.getDefinitionURL());
+    }
+    if (sb.isSetListOfExternalParameters()) {
+      setListOfExternalParameters(sb.getListOfExternalParameters().clone());
+    }
   }
 
-
   /**
-   * @param id
-   */
-  public ExternalDistribution(String id) {
-    super(id);
-  }
-
-
-  /**
+   * Creates a new instance of {@link ExternalDistribution}
+   * 
    * @param id
    * @param level
    * @param version
@@ -90,8 +111,9 @@ public class ExternalDistribution extends Distribution {
     super(id, level, version);
   }
 
-
   /**
+   * Creates a new instance of {@link ExternalDistribution}
+   * 
    * @param id
    * @param name
    * @param level
@@ -101,13 +123,21 @@ public class ExternalDistribution extends Distribution {
     super(id, name, level, version);
   }
 
+  /**
+   * Creates a new instance of {@link ExternalDistribution}
+   * 
+   * @param id
+   */
+  public ExternalDistribution(String id) {
+    super(id);
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public AbstractSBase clone() {
-    return null;
+  public ExternalDistribution clone() {
+    return new ExternalDistribution(this);
   }
   
   /**
@@ -372,6 +402,135 @@ public class ExternalDistribution extends Distribution {
     return getExternalParameterCount();
   }
 
+  
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
+  public int getChildCount() {
+    int count = super.getChildCount();
+
+    if (isSetListOfExternalParameters()) {
+      count++;
+    }
+
+    return count;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
+    }
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+
+    if (isSetListOfExternalParameters()) {
+      if (pos == index) {
+        return getListOfExternalParameters();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      resourceBundle.getString("IndexExceedsBoundsException"), index,
+      Math.min(pos, 0)));
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result =
+      prime * result + ((definitionURL == null) ? 0 : definitionURL.hashCode());
+    result = prime * result + ((listOfExternalParameters == null) ? 0
+      : listOfExternalParameters.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    ExternalDistribution other = (ExternalDistribution) obj;
+    if (definitionURL == null) {
+      if (other.definitionURL != null) {
+        return false;
+      }
+    } else if (!definitionURL.equals(other.definitionURL)) {
+      return false;
+    }
+    if (listOfExternalParameters == null) {
+      if (other.listOfExternalParameters != null) {
+        return false;
+      }
+    } else if (!listOfExternalParameters.equals(
+      other.listOfExternalParameters)) {
+      return false;
+    }
+    return true;
+  }
+
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.distrib.UncertValue#writeXMLAttributes()
+   */
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetDefinitionURL()) {
+      attributes.put(DistribConstants.shortLabel + ":" + TreeNodeChangeEvent.definitionURL, getDefinitionURL());
+    }
+    
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.distrib.UncertValue#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(TreeNodeChangeEvent.definitionURL)) {
+        setDefinitionURL(value);
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
+  
 }
 
 

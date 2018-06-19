@@ -237,8 +237,6 @@ public class DistribConstants {
    * 
    */
   public static final String probability = "probability";
-
-  
   
   /**
    * 

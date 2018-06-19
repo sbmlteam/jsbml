@@ -19,65 +19,101 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
-import org.sbml.jsbml.SBase;
-
-
 /**
+ * The {@link CategoricalUnivariateDistribution} abstract class includes distributions where the various possible sampled
+ * values are each explicitly listed, along with the probability for that sampled value. 
+ * 
+ * <p>The sum of these probabilities
+ * must therefore equal 1.0, in order to be valid. This type of distribution class is used for things such as weighted die
+ * rolls, or other situations where particular values are obtained at arbitrary probabilities.
+ * Because each possible sampled value is explicitly listed in an CategoricalUnivariateDistribution, it does not have
+ * the optional UncertBound values that the other univariate distributions do: if a particular value is not allowed, it is
+ * simply dropped from the list of options, and the probabilities of the other values are scaled accordingly.</p>
+ *
  * @author rodrigue
- * @since 1.2
+ * @since 1.4
  */
 public abstract class CategoricalUnivariateDistribution extends UnivariateDistribution {
 
   /**
    * 
    */
+  private static final long serialVersionUID = 1L;
+
+
+  /**
+   * Creates an CategoricalUnivariateDistribution instance 
+   */
   public CategoricalUnivariateDistribution() {
+    super();
+    initDefaults();
   }
 
 
   /**
-   * @param level
-   * @param version
-   */
-  public CategoricalUnivariateDistribution(int level, int version) {
-    super(level, version);
-  }
-
-
-  /**
-   * @param sb
-   */
-  public CategoricalUnivariateDistribution(SBase sb) {
-    super(sb);
-  }
-
-
-  /**
-   * @param id
+   * Creates a CategoricalUnivariateDistribution instance with an id.
+   * 
+   * @param id the identifier for the new element.
    */
   public CategoricalUnivariateDistribution(String id) {
     super(id);
+    initDefaults();
   }
 
 
   /**
-   * @param id
-   * @param level
-   * @param version
+   * Creates a CategoricalUnivariateDistribution instance with a level and version.
+   * 
+   * @param level SBML Level
+   * @param version SBML Version
+   */
+  public CategoricalUnivariateDistribution(int level, int version) {
+    this(null, null, level, version);
+  }
+
+
+  /**
+   * Creates a CategoricalUnivariateDistribution instance with an id, level, and version.
+   * 
+   * @param id the identifier for this element.
+   * @param level the SBML Level
+   * @param version the SBML Version
    */
   public CategoricalUnivariateDistribution(String id, int level, int version) {
-    super(id, level, version);
+    this(id, null, level, version);
   }
 
 
   /**
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * Creates a CategoricalUnivariateDistribution instance with an id, name, level, and version.
+   * 
+   * @param id the identifier for this element.
+   * @param name a human-readable name for this element that can be used for display purposes.
+   * @param level the SBML Level
+   * @param version the SBML Version
    */
-  public CategoricalUnivariateDistribution(String id, String name, int level, int version) {
+  public CategoricalUnivariateDistribution(String id, String name, int level,
+    int version) {
     super(id, name, level, version);
+    initDefaults();
+  }
+
+
+  /**
+   * Clone constructor
+   */
+  public CategoricalUnivariateDistribution(
+    CategoricalUnivariateDistribution obj) {
+    super(obj);
+  }
+
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(DistribConstants.namespaceURI);
+    setPackageVersion(-1);
   }
 
 }

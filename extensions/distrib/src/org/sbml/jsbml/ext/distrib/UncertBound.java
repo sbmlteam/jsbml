@@ -19,38 +19,46 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
+import java.util.Map;
+
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.StringTools;
 
 
 /**
+ * The {@link UncertBound} class inherits from {@link UncertValue} and adds a single required Boolean attribute 'inclusive'. This
+ * attribute indicates whether the value the bound represents is to be included in that range ('true') or not ('false').
+ * 
+ * This allows the creation of either 'open' or 'closed' boundaries of the ranges it is used to define.
+ *
  * @author rodrigue
- * @since 1.2
+ * @since 1.4
  */
 public class UncertBound extends UncertValue {
 
-  // TODO - implements XML attributes, equals and hashcode
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   /**
    * 
    */
   private Boolean inclusive;
   
+  
   /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
-
-
-  /**
+   * Creates a new instance of {@link UncertBound}
    * 
    */
   public UncertBound() {
-    // TODO Auto-generated constructor stub
+    super();
   }
 
 
   /**
+   * Creates a new instance of {@link UncertBound}
+   * 
    * @param level
    * @param version
    */
@@ -60,22 +68,22 @@ public class UncertBound extends UncertValue {
 
 
   /**
+   * Creates a new instance of {@link UncertBound}
+   * 
    * @param sb
    */
-  public UncertBound(SBase sb) {
+  public UncertBound(UncertBound sb) {
     super(sb);
+
+    if (sb.isSetInclusive()) {
+      setInclusive(sb.getInclusive());
+    }
   }
 
 
   /**
-   * @param id
-   */
-  public UncertBound(String id) {
-    super(id);
-  }
-
-
-  /**
+   * Creates a new instance of {@link UncertBound}
+   * 
    * @param id
    * @param level
    * @param version
@@ -86,6 +94,8 @@ public class UncertBound extends UncertValue {
 
 
   /**
+   * Creates a new instance of {@link UncertBound}
+   * 
    * @param id
    * @param name
    * @param level
@@ -94,8 +104,22 @@ public class UncertBound extends UncertValue {
   public UncertBound(String id, String name, int level, int version) {
     super(id, name, level, version);
   }
-  
-  
+
+
+  /**
+   * Creates a new instance of {@link UncertBound}
+   * 
+   * @param id
+   */
+  public UncertBound(String id) {
+    super(id);
+  }
+
+  @Override
+  public UncertBound clone() {
+    return new UncertBound(this);
+  }
+
   /**
    * Returns the value of {@link #inclusive}.
    *
@@ -147,5 +171,77 @@ public class UncertBound extends UncertValue {
     }
     return false;
   }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3229;
+    int result = super.hashCode();
+    result = prime * result + ((inclusive == null) ? 0 : inclusive.hashCode());
+    return result;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    UncertBound other = (UncertBound) obj;
+    if (inclusive == null) {
+      if (other.inclusive != null) {
+        return false;
+      }
+    } else if (!inclusive.equals(other.inclusive)) {
+      return false;
+    }
+    return true;
+  }
   
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.distrib.UncertValue#writeXMLAttributes()
+   */
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetInclusive()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.inclusive, inclusive.toString());
+    }
+    
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.distrib.UncertValue#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(DistribConstants.inclusive)) {
+        setInclusive(StringTools.parseSBMLBoolean(value));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
 }

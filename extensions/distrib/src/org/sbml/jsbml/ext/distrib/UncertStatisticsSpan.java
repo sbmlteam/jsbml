@@ -19,11 +19,22 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
-import org.sbml.jsbml.AbstractSBase;
+import java.util.Map;
+
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.StringTools;
 
 /**
+ * The UncertStatisticSpan class defines a span of values that define an uncertainty statistic such as confidence
+ * interval or range. 
+ * 
+ * <p>It has four optional attributes, varLower and varUpper, of type SIdRef, and valueLower and
+ * valueUpper, of type double. Exactly one of the attributes varLower and valueLower may be defined, and exactly
+ * one of the attributes varUpper and valueUpper may be defined. If no attributes are defined, the parameters of the
+ * span are undefined. If only one attribute is defined (one of the upper or lower attributes), that aspect of the span is
+ * defined, and the other end is undefined. The span is fully defined if two attributes (one lower and one upper) is
+ *defined.</p>
+ *
  * @author rodrigue
  * @since 1.4
  */
@@ -33,8 +44,6 @@ public class UncertStatisticsSpan extends AbstractDistrictSBase {
    * 
    */
   private static final long serialVersionUID = 1L;
-
-  // TODO - implements XML attributes, equals and hashcode
 
   /**
    * 
@@ -55,15 +64,43 @@ public class UncertStatisticsSpan extends AbstractDistrictSBase {
    * 
    */
   private Double valueUpper;
-  
+
+
   /**
+   * Creates a new instance of {@link UncertStatisticsSpan}
    * 
    */
   public UncertStatisticsSpan() {
     super();
   }
 
+
   /**
+   * Creates a new instance of {@link UncertStatisticsSpan}
+   * 
+   * @param sb
+   */
+  public UncertStatisticsSpan(UncertStatisticsSpan sb) {
+    super(sb);
+    
+    if (sb.isSetValueLower()) {
+      setValueLower(sb.getValueLower());
+    }
+    if (sb.isSetValueUpper()) {
+      setValueUpper(sb.getValueUpper());
+    }
+    if (sb.isSetVarLower()) {
+      setVarLower(sb.getVarLower());
+    }
+    if (sb.isSetVarUpper()) {
+      setVarUpper(sb.getVarUpper());
+    }
+  }
+
+
+  /**
+   * Creates a new instance of {@link UncertStatisticsSpan}
+   * 
    * @param level
    * @param version
    */
@@ -71,14 +108,10 @@ public class UncertStatisticsSpan extends AbstractDistrictSBase {
     super(level, version);
   }
 
-  /**
-   * @param sb
-   */
-  public UncertStatisticsSpan(SBase sb) {
-    super(sb);
-  }
 
   /**
+   * Creates a new instance of {@link UncertStatisticsSpan}
+   * 
    * @param id
    * @param level
    * @param version
@@ -87,7 +120,10 @@ public class UncertStatisticsSpan extends AbstractDistrictSBase {
     super(id, level, version);
   }
 
+
   /**
+   * Creates a new instance of {@link UncertStatisticsSpan}
+   * 
    * @param id
    * @param name
    * @param level
@@ -97,23 +133,30 @@ public class UncertStatisticsSpan extends AbstractDistrictSBase {
     super(id, name, level, version);
   }
 
+
   /**
+   * Creates a new instance of {@link UncertStatisticsSpan}
+   * 
    * @param id
    */
   public UncertStatisticsSpan(String id) {
     super(id);
   }
 
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public AbstractSBase clone() {
-    // TODO Auto-generated method stub
-    return null;
+  public UncertStatisticsSpan clone() {
+    return new UncertStatisticsSpan(this);
   }
 
-
+  @Override
+  public String getElementName() {
+    return DistribConstants.spanStatistic;
+  }
+  
   /**
    * Returns the value of {@link #varLower}.
    *
@@ -320,6 +363,122 @@ public class UncertStatisticsSpan extends AbstractDistrictSBase {
     }
     return false;
   }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3407;
+    int result = super.hashCode();
+    result =
+      prime * result + ((valueLower == null) ? 0 : valueLower.hashCode());
+    result =
+      prime * result + ((valueUpper == null) ? 0 : valueUpper.hashCode());
+    result = prime * result + ((varLower == null) ? 0 : varLower.hashCode());
+    result = prime * result + ((varUpper == null) ? 0 : varUpper.hashCode());
+    return result;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    UncertStatisticsSpan other = (UncertStatisticsSpan) obj;
+    if (valueLower == null) {
+      if (other.valueLower != null) {
+        return false;
+      }
+    } else if (!valueLower.equals(other.valueLower)) {
+      return false;
+    }
+    if (valueUpper == null) {
+      if (other.valueUpper != null) {
+        return false;
+      }
+    } else if (!valueUpper.equals(other.valueUpper)) {
+      return false;
+    }
+    if (varLower == null) {
+      if (other.varLower != null) {
+        return false;
+      }
+    } else if (!varLower.equals(other.varLower)) {
+      return false;
+    }
+    if (varUpper == null) {
+      if (other.varUpper != null) {
+        return false;
+      }
+    } else if (!varUpper.equals(other.varUpper)) {
+      return false;
+    }
+    return true;
+  }
   
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.distrib.AbstractDistrictSBase#writeXMLAttributes()
+   */
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetValueLower()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.valueLower, valueLower.toString());
+    }
+    if (isSetValueUpper()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.valueUpper, valueUpper.toString());
+    }
+    if (isSetVarLower()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.varLower, getVarLower());
+    }
+    if (isSetVarUpper()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.varUpper, getVarUpper());
+    }
+    
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(DistribConstants.valueLower)) {
+        setValueLower(StringTools.parseSBMLDouble(value));
+      }
+      else if (attributeName.equals(DistribConstants.varLower)) {
+        setVarLower(value);
+      }
+      else if (attributeName.equals(DistribConstants.valueUpper)) {
+        setValueUpper(StringTools.parseSBMLDouble(value));
+      }
+      else if (attributeName.equals(DistribConstants.varUpper)) {
+        setVarUpper(value);
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
+
 }

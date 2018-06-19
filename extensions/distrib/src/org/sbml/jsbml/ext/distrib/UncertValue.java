@@ -19,17 +19,31 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
-import org.sbml.jsbml.AbstractSBase;
+import java.util.Map;
+
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.SBaseWithUnit;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
+ * The {@link UncertValue} class provides two optional attributes, exactly one of which must be defined. 
+ * 
+ * <p>The 'value' attribute
+ * (of type double) is used when the UncertValue represents a particular number, and the 'var' attribute (of type
+ * UncertIdRef) is used when the UncertValue represents a referenced element with mathematical meaning. In the
+ * context of a FunctionDefinition, this can only reference a DistribInput, as no SId from the Model may be referenced
+ * from within a FunctionDefinition. In other contexts, it may reference the SId of any element with mathematical
+ * meaning.</p>
+ * 
+ * <p>The optional units attribute may be used to indicate the units of the 'value' attribute. As such, it may only be defined
+ * if the UncertValue has a defined 'value' attribute, and not if it has a defined 'var' attribute. (In the latter case, the units
+may be derived from the referenced element.)
+ *
  * @author rodrigue
  * @since 1.4
  */
@@ -41,7 +55,7 @@ public class UncertValue extends AbstractDistrictSBase implements SBaseWithUnit 
    */
   private static final long serialVersionUID = 1L;
 
-  // TODO - implements units methods, XML attributes, equals and hashcode
+  // TODO - implements units methods
   
   /**
    * 
@@ -59,15 +73,18 @@ public class UncertValue extends AbstractDistrictSBase implements SBaseWithUnit 
   String units;
   
   
-  
   /**
+   * Creates a new instance of {@link UncertValue}
    * 
    */
   public UncertValue() {
+    super();
   }
 
 
   /**
+   * Creates a new instance of {@link UncertValue}
+   * 
    * @param level
    * @param version
    */
@@ -77,22 +94,28 @@ public class UncertValue extends AbstractDistrictSBase implements SBaseWithUnit 
 
 
   /**
+   * Creates a new instance of {@link UncertValue}
+   * 
    * @param sb
    */
-  public UncertValue(SBase sb) {
+  public UncertValue(UncertValue sb) {
     super(sb);
+
+    if (sb.isSetValue()) {
+      setValue(sb.getValue());
+    }
+    if (sb.isSetVar()) {
+      setVar(sb.getVar());
+    }
+    if (sb.isSetUnits()) {
+      setUnits(sb.getUnits());
+    }
   }
 
 
   /**
-   * @param id
-   */
-  public UncertValue(String id) {
-    super(id);
-  }
-
-
-  /**
+   * Creates a new instance of {@link UncertValue}
+   * 
    * @param id
    * @param level
    * @param version
@@ -103,6 +126,8 @@ public class UncertValue extends AbstractDistrictSBase implements SBaseWithUnit 
 
 
   /**
+   * Creates a new instance of {@link UncertValue}
+   * 
    * @param id
    * @param name
    * @param level
@@ -113,13 +138,22 @@ public class UncertValue extends AbstractDistrictSBase implements SBaseWithUnit 
   }
 
 
+  /**
+   * Creates a new instance of {@link UncertValue}
+   * 
+   * @param id
+   */
+  public UncertValue(String id) {
+    super(id);
+  }
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public AbstractSBase clone() {
-    // TODO Auto-generated method stub
-    return null;
+  public UncertValue clone() {
+    return new UncertValue(this);
   }
   
   
@@ -358,5 +392,106 @@ public class UncertValue extends AbstractDistrictSBase implements SBaseWithUnit 
   public void setUnits(UnitDefinition units) {
     // TODO 
     
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3209;
+    int result = super.hashCode();
+    result = prime * result + ((units == null) ? 0 : units.hashCode());
+    result = prime * result + ((value == null) ? 0 : value.hashCode());
+    result = prime * result + ((var == null) ? 0 : var.hashCode());
+    return result;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    UncertValue other = (UncertValue) obj;
+    if (units == null) {
+      if (other.units != null) {
+        return false;
+      }
+    } else if (!units.equals(other.units)) {
+      return false;
+    }
+    if (value == null) {
+      if (other.value != null) {
+        return false;
+      }
+    } else if (!value.equals(other.value)) {
+      return false;
+    }
+    if (var == null) {
+      if (other.var != null) {
+        return false;
+      }
+    } else if (!var.equals(other.var)) {
+      return false;
+    }
+    return true;
+  }
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.distrib.AbstractDistrictSBase#writeXMLAttributes()
+   */
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetValue()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.value, value.toString());
+    }
+    if (isSetVar()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.var, getVar());
+    }
+    if (isSetUnits()) {
+      attributes.put(DistribConstants.shortLabel + ":" + TreeNodeChangeEvent.units, getUnits());
+    }
+    
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(DistribConstants.value)) {
+        setValue(StringTools.parseSBMLDouble(value));
+      }
+      else if (attributeName.equals(DistribConstants.var)) {
+        setVar(value);
+      }
+      else if (attributeName.equals(TreeNodeChangeEvent.units)) {
+        setUnits(value);
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 }
