@@ -22,7 +22,6 @@ package org.sbml.jsbml.ext.distrib;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.SBase;
 
 
 /**
@@ -39,13 +38,17 @@ public abstract class AbstractDistrictSBase extends AbstractSBase {
 
 
   /**
+   * Creates a new instance of {@link AbstractDistrictSBase}
    * 
    */
   public AbstractDistrictSBase() {
+    super();
   }
 
 
   /**
+   * Creates a new instance of {@link AbstractDistrictSBase}
+   * 
    * @param level
    * @param version
    */
@@ -55,22 +58,18 @@ public abstract class AbstractDistrictSBase extends AbstractSBase {
 
 
   /**
+   * Creates a new instance of {@link AbstractDistrictSBase}
+   * 
    * @param sb
    */
-  public AbstractDistrictSBase(SBase sb) {
+  public AbstractDistrictSBase(AbstractDistrictSBase sb) {
     super(sb);
   }
 
-
+  
   /**
-   * @param id
-   */
-  public AbstractDistrictSBase(String id) {
-    super(id);
-  }
-
-
-  /**
+   * Creates a new instance of {@link AbstractDistrictSBase}
+   * 
    * @param id
    * @param level
    * @param version
@@ -81,6 +80,8 @@ public abstract class AbstractDistrictSBase extends AbstractSBase {
 
 
   /**
+   * Creates a new instance of {@link AbstractDistrictSBase}
+   * 
    * @param id
    * @param name
    * @param level
@@ -88,6 +89,16 @@ public abstract class AbstractDistrictSBase extends AbstractSBase {
    */
   public AbstractDistrictSBase(String id, String name, int level, int version) {
     super(id, name, level, version);
+  }
+
+
+  /**
+   * Creates a new instance of {@link AbstractDistrictSBase}
+   * 
+   * @param id
+   */
+  public AbstractDistrictSBase(String id) {
+    super(id);
   }
 
 

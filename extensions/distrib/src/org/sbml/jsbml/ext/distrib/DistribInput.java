@@ -33,7 +33,7 @@ public class DistribInput extends AbstractDistrictSBase {
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = -5444621543802854220L;
+  private static final long serialVersionUID = 1L;
   /**
    * 
    */

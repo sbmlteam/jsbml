@@ -19,23 +19,29 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
-import org.sbml.jsbml.SBase;
-
-
 /**
+ * 
  * @author rodrigue
- * @since 1.2
+ * @since 1.4
  */
 public abstract class UnivariateDistribution extends Distribution {
 
   /**
    * 
    */
-  public UnivariateDistribution() {
-  }
-
+  private static final long serialVersionUID = 1L;
 
   /**
+   * Creates a new instance of {@link UnivariateDistribution}
+   * 
+   */
+  public UnivariateDistribution() {
+    super();
+  }
+
+  /**
+   * Creates a new instance of {@link UnivariateDistribution}
+   * 
    * @param level
    * @param version
    */
@@ -43,24 +49,18 @@ public abstract class UnivariateDistribution extends Distribution {
     super(level, version);
   }
 
-
   /**
+   * Creates a new instance of {@link UnivariateDistribution}
+   * 
    * @param sb
    */
-  public UnivariateDistribution(SBase sb) {
+  public UnivariateDistribution(UnivariateDistribution sb) {
     super(sb);
   }
 
-
   /**
-   * @param id
-   */
-  public UnivariateDistribution(String id) {
-    super(id);
-  }
-
-
-  /**
+   * Creates a new instance of {@link UnivariateDistribution}
+   * 
    * @param id
    * @param level
    * @param version
@@ -69,15 +69,29 @@ public abstract class UnivariateDistribution extends Distribution {
     super(id, level, version);
   }
 
-
   /**
+   * Creates a new instance of {@link UnivariateDistribution}
+   * 
    * @param id
    * @param name
    * @param level
    * @param version
    */
-  public UnivariateDistribution(String id, String name, int level, int version) {
+  public UnivariateDistribution(String id, String name, int level,
+    int version) {
     super(id, name, level, version);
   }
+
+  /**
+   * Creates a new instance of {@link UnivariateDistribution}
+   * 
+   * @param id
+   */
+  public UnivariateDistribution(String id) {
+    super(id);
+  }
+
+
+
 
 }

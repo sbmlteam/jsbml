@@ -19,17 +19,33 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
+import java.text.MessageFormat;
+
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 
 
 /**
+ * The abstract {@link DiscreteUnivariateDistribution} class is the base class for a wide variety of distributions, all of which
+ * describe a potentially-bounded range of probabilities of discrete values. The most commonly-used distributions in
+ * this class is probably the {@link PoissonDistribution}. Distributions that always return integers fall in this category, which
+ * often involve events happening at particular frequencies.
+ * 
+ * <p>All {@link DiscreteUnivariateDistribution} elements (like {@link ContinuousUnivariateDistribution} elements) may have two optional
+ * children: 'lowerTruncationBound' and 'upperTruncationBound', both of the class UncertBound (defined
+ * below). Either element, if present, limit the range of possible sampled values from the distribution. The
+ * 'lowerTruncationBound' defines the value below which no sampling may take place (inclusive or not, as defined by
+ * that element's inclusive attribute), and the 'upperTruncationBound' defines the value above which no sampling
+ * may take place. These bounds may fall between the possible discrete values being returned: as an example, for
+ * a distribution that returned an integer in the series [0, 1, 2, ...], if it was given a 'lowerTruncationBound' of 1.5,
+ * the lowest value it could return would be 2. In this case, the value of the inclusive attribute on the {@link UncertBound}
+ * would be immaterial, as '1.5' could never be returned.</p>
+ * 
  * @author rodrigue
  * @since 1.4
  */
 public abstract class DiscreteUnivariateDistribution extends UnivariateDistribution {
-
-  // TODO - implements XML attributes, equals and hashcode
 
   /**
    * 
@@ -73,8 +89,15 @@ public abstract class DiscreteUnivariateDistribution extends UnivariateDistribut
    * 
    * @param sb
    */
-  public DiscreteUnivariateDistribution(SBase sb) {
+  public DiscreteUnivariateDistribution(DiscreteUnivariateDistribution sb) {
     super(sb);
+    
+    if (sb.isSetTruncationLowerBound()) {
+      setTruncationLowerBound(sb.getTruncationLowerBound().clone());
+    }
+    if (sb.isSetTruncationUpperBound()) {
+      setTruncationUpperBound(sb.getTruncationUpperBound().clone());
+    }
   }
 
 
@@ -113,6 +136,7 @@ public abstract class DiscreteUnivariateDistribution extends UnivariateDistribut
     super(id);
   }
 
+  
 
   /**
    * Returns the value of {@link #truncationLowerBound}.
@@ -215,6 +239,112 @@ public abstract class DiscreteUnivariateDistribution extends UnivariateDistribut
       return true;
     }
     return false;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result
+      + ((truncationLowerBound == null) ? 0 : truncationLowerBound.hashCode());
+    result = prime * result
+      + ((truncationUpperBound == null) ? 0 : truncationUpperBound.hashCode());
+    return result;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    DiscreteUnivariateDistribution other = (DiscreteUnivariateDistribution) obj;
+    if (truncationLowerBound == null) {
+      if (other.truncationLowerBound != null) {
+        return false;
+      }
+    } else if (!truncationLowerBound.equals(other.truncationLowerBound)) {
+      return false;
+    }
+    if (truncationUpperBound == null) {
+      if (other.truncationUpperBound != null) {
+        return false;
+      }
+    } else if (!truncationUpperBound.equals(other.truncationUpperBound)) {
+      return false;
+    }
+    return true;
+  }
+
+  
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
+  public int getChildCount() {
+    int count = super.getChildCount();
+
+     if (isSetTruncationLowerBound()) {
+      count++;
+     }
+     if (isSetTruncationUpperBound()) {
+       count++;
+      }
+     
+    return count;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
+    }
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+
+    if (isSetTruncationLowerBound()) {
+      if (pos == index) {
+        return getTruncationLowerBound();
+      }
+      pos++;
+    }
+
+    if (isSetTruncationUpperBound()) {
+      if (pos == index) {
+        return getTruncationUpperBound();
+      }
+      pos++;
+    }
+
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      resourceBundle.getString("IndexExceedsBoundsException"), index,
+      Math.min(pos, 0)));
   }
 
 }

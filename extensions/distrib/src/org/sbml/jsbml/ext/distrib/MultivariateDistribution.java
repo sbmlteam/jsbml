@@ -19,23 +19,33 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
-import org.sbml.jsbml.SBase;
-
-
 /**
+ * The {@link MultivariateDistribution} class is an abstract class with no derived classes in the current specification, but some
+ * could be added in the future. 
+ * 
+ * <p>Most likely, it will be removed from the final version of the spec.</p>
+ * 
  * @author rodrigue
- * @since 1.2
+ * @since 1.4
  */
 public abstract class MultivariateDistribution extends Distribution {
 
   /**
    * 
    */
-  public MultivariateDistribution() {
-  }
-
+  private static final long serialVersionUID = 1L;
 
   /**
+   * Creates a new instance of {@link MultivariateDistribution}
+   * 
+   */
+  public MultivariateDistribution() {
+    super();
+  }
+
+  /**
+   * Creates a new instance of {@link MultivariateDistribution}
+   * 
    * @param level
    * @param version
    */
@@ -43,24 +53,18 @@ public abstract class MultivariateDistribution extends Distribution {
     super(level, version);
   }
 
-
   /**
+   * Creates a new instance of {@link MultivariateDistribution}
+   * 
    * @param sb
    */
-  public MultivariateDistribution(SBase sb) {
+  public MultivariateDistribution(MultivariateDistribution sb) {
     super(sb);
   }
 
-
   /**
-   * @param id
-   */
-  public MultivariateDistribution(String id) {
-    super(id);
-  }
-
-
-  /**
+   * Creates a new instance of {@link MultivariateDistribution}
+   * 
    * @param id
    * @param level
    * @param version
@@ -69,15 +73,26 @@ public abstract class MultivariateDistribution extends Distribution {
     super(id, level, version);
   }
 
-
   /**
+   * Creates a new instance of {@link MultivariateDistribution}
+   * 
    * @param id
    * @param name
    * @param level
    * @param version
    */
-  public MultivariateDistribution(String id, String name, int level, int version) {
+  public MultivariateDistribution(String id, String name, int level,
+    int version) {
     super(id, name, level, version);
+  }
+
+  /**
+   * Creates a new instance of {@link MultivariateDistribution}
+   * 
+   * @param id
+   */
+  public MultivariateDistribution(String id) {
+    super(id);
   }
 
 }

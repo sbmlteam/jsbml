@@ -19,23 +19,40 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
-import org.sbml.jsbml.SBase;
-
-
 /**
+ * The {@link Distribution} class is the abstract class from which all distributions are derived.
+ * 
+ * <p>They are organized
+ * here in much the same way they were in UncertML, by whether they are univariate or multivariate, and whether
+ * they are continuous, discrete, or categorical. In addition, the {@link ExternalDistribution} inherits from Distribution, as a
+ * 'generic' distribution definition class that allows the user to define any distribution in an external ontology such as
+ * ProbOnto.</p>
+ * 
+ * <p>When a Distribution is encountered, its parent FunctionDefinition is defined as sampling from the defined distribution,
+ * and returning that sample. It may contain any number of UncertIdRef strings, each of which must correspond
+ * to an UncertId defined in a DistribInput in the same function.</p>
+ * 
  * @author rodrigue
- * @since 1.2
+ * @since 1.4
  */
 public abstract class Distribution extends AbstractDistrictSBase {
 
   /**
    * 
    */
-  public Distribution() {
-  }
-
+  private static final long serialVersionUID = 1L;
 
   /**
+   * Creates a new instance of {@link Distribution}
+   * 
+   */
+  public Distribution() {
+    super();
+  }
+
+  /**
+   * Creates a new instance of {@link Distribution}
+   * 
    * @param level
    * @param version
    */
@@ -43,24 +60,18 @@ public abstract class Distribution extends AbstractDistrictSBase {
     super(level, version);
   }
 
-
   /**
+   * Creates a new instance of {@link Distribution}
+   * 
    * @param sb
    */
-  public Distribution(SBase sb) {
+  public Distribution(Distribution sb) {
     super(sb);
   }
 
-
   /**
-   * @param id
-   */
-  public Distribution(String id) {
-    super(id);
-  }
-
-
-  /**
+   * Creates a new instance of {@link Distribution}
+   * 
    * @param id
    * @param level
    * @param version
@@ -69,8 +80,9 @@ public abstract class Distribution extends AbstractDistrictSBase {
     super(id, level, version);
   }
 
-
   /**
+   * Creates a new instance of {@link Distribution}
+   * 
    * @param id
    * @param name
    * @param level
@@ -78,6 +90,15 @@ public abstract class Distribution extends AbstractDistrictSBase {
    */
   public Distribution(String id, String name, int level, int version) {
     super(id, name, level, version);
+  }
+
+  /**
+   * Creates a new instance of {@link Distribution}
+   * 
+   * @param id
+   */
+  public Distribution(String id) {
+    super(id);
   }
 
 }

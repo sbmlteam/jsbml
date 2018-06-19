@@ -19,17 +19,17 @@
 package org.sbml.jsbml.ext.distrib;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.IdManager;
-import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
 
 /**
@@ -42,7 +42,7 @@ public class DrawFromDistribution extends AbstractDistrictSBase implements IdMan
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = -7217922005569440580L;
+  private static final long serialVersionUID = -1L;
 
   /**
    * A {@link Logger} for this class.

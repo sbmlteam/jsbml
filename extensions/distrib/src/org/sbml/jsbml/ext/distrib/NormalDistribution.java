@@ -21,7 +21,6 @@ package org.sbml.jsbml.ext.distrib;
 
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 
 
 /**
@@ -78,8 +77,18 @@ public class NormalDistribution extends ContinuousUnivariateDistribution {
    * 
    * @param sb
    */
-  public NormalDistribution(SBase sb) {
+  public NormalDistribution(NormalDistribution sb) {
     super(sb);
+    
+    if (sb.isSetMean()) {
+      setMean(sb.getMean().clone());
+    }
+    if (sb.isSetStddev()) {
+      setStddev(sb.getStddev().clone());
+    }
+    if (sb.isSetVariance()) {
+      setVariance(sb.getVariance().clone());
+    }
   }
 
 
