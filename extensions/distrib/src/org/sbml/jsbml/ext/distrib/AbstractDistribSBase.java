@@ -29,7 +29,7 @@ import org.sbml.jsbml.AbstractSBase;
  * @author rodrigue
  * @since 1.4
  */
-public abstract class AbstractDistrictSBase extends AbstractSBase {
+public abstract class AbstractDistribSBase extends AbstractSBase {
 
   /**
    * 
@@ -38,70 +38,75 @@ public abstract class AbstractDistrictSBase extends AbstractSBase {
 
 
   /**
-   * Creates a new instance of {@link AbstractDistrictSBase}
+   * Creates a new instance of {@link AbstractDistribSBase}
    * 
    */
-  public AbstractDistrictSBase() {
+  public AbstractDistribSBase() {
     super();
   }
 
 
   /**
-   * Creates a new instance of {@link AbstractDistrictSBase}
+   * Creates a new instance of {@link AbstractDistribSBase}
    * 
    * @param level
    * @param version
    */
-  public AbstractDistrictSBase(int level, int version) {
+  public AbstractDistribSBase(int level, int version) {
     super(level, version);
   }
 
 
   /**
-   * Creates a new instance of {@link AbstractDistrictSBase}
+   * Creates a new instance of {@link AbstractDistribSBase}
    * 
    * @param sb
    */
-  public AbstractDistrictSBase(AbstractDistrictSBase sb) {
+  public AbstractDistribSBase(AbstractDistribSBase sb) {
     super(sb);
   }
 
   
   /**
-   * Creates a new instance of {@link AbstractDistrictSBase}
+   * Creates a new instance of {@link AbstractDistribSBase}
    * 
    * @param id
    * @param level
    * @param version
    */
-  public AbstractDistrictSBase(String id, int level, int version) {
+  public AbstractDistribSBase(String id, int level, int version) {
     super(id, level, version);
   }
 
 
   /**
-   * Creates a new instance of {@link AbstractDistrictSBase}
+   * Creates a new instance of {@link AbstractDistribSBase}
    * 
    * @param id
    * @param name
    * @param level
    * @param version
    */
-  public AbstractDistrictSBase(String id, String name, int level, int version) {
+  public AbstractDistribSBase(String id, String name, int level, int version) {
     super(id, name, level, version);
   }
 
 
   /**
-   * Creates a new instance of {@link AbstractDistrictSBase}
+   * Creates a new instance of {@link AbstractDistribSBase}
    * 
    * @param id
    */
-  public AbstractDistrictSBase(String id) {
+  public AbstractDistribSBase(String id) {
     super(id);
   }
 
 
+  @Override
+  public String getPackageName() {
+    return DistribConstants.shortLabel;
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
    */

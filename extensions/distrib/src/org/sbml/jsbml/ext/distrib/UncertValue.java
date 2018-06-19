@@ -47,7 +47,7 @@ may be derived from the referenced element.)
  * @author rodrigue
  * @since 1.4
  */
-public class UncertValue extends AbstractDistrictSBase implements SBaseWithUnit {
+public class UncertValue extends AbstractDistribSBase implements SBaseWithUnit {
 
   
   /**

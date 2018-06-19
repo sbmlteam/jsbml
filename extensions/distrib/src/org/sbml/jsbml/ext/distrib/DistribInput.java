@@ -28,7 +28,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Nicolas Rodriguez
  * @since 1.1
  */
-public class DistribInput extends AbstractDistrictSBase {
+public class DistribInput extends AbstractDistribSBase {
 
   /**
    * Generated serial version identifier.
