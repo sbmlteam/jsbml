@@ -28,14 +28,14 @@ import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.IdManager;
-import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * 
  * @author Nicolas Rodriguez
- * @since 1.1
+ * @since 1.4
  */
 public class DrawFromDistribution extends AbstractDistrictSBase implements IdManager {
 
@@ -54,9 +54,9 @@ public class DrawFromDistribution extends AbstractDistrictSBase implements IdMan
    */
   private ListOf<DistribInput> listOfDistribInputs;
   /**
-   * TODO : replace by the Distribution element
+   * 
    */
-  private XMLNode uncertML;
+  private Distribution distribution;
 
   /**
    * Maps between the {@link DistribInput} identifiers and themselves.
@@ -91,8 +91,8 @@ public class DrawFromDistribution extends AbstractDistrictSBase implements IdMan
   public DrawFromDistribution(DrawFromDistribution obj) {
     super(obj);
 
-    if (obj.isSetUncertML()) {
-      setUncertML(obj.getUncertML().clone());
+    if (obj.isSetDistribution()) {
+      setDistribution(obj.getDistribution().clone());
     }
     if (obj.isSetListOfDistribInputs()) {
       setListOfDistribInputs(obj.getListOfDistribInputs().clone());
@@ -105,11 +105,12 @@ public class DrawFromDistribution extends AbstractDistrictSBase implements IdMan
    */
   @Override
   public int hashCode() {
-    final int prime = 5153;
+    final int prime = 31;
     int result = super.hashCode();
+    result =
+      prime * result + ((distribution == null) ? 0 : distribution.hashCode());
     result = prime * result
-        + ((listOfDistribInputs == null) ? 0 : listOfDistribInputs.hashCode());
-    result = prime * result + ((uncertML == null) ? 0 : uncertML.hashCode());
+      + ((listOfDistribInputs == null) ? 0 : listOfDistribInputs.hashCode());
     return result;
   }
 
@@ -129,18 +130,18 @@ public class DrawFromDistribution extends AbstractDistrictSBase implements IdMan
       return false;
     }
     DrawFromDistribution other = (DrawFromDistribution) obj;
+    if (distribution == null) {
+      if (other.distribution != null) {
+        return false;
+      }
+    } else if (!distribution.equals(other.distribution)) {
+      return false;
+    }
     if (listOfDistribInputs == null) {
       if (other.listOfDistribInputs != null) {
         return false;
       }
     } else if (!listOfDistribInputs.equals(other.listOfDistribInputs)) {
-      return false;
-    }
-    if (uncertML == null) {
-      if (other.uncertML != null) {
-        return false;
-      }
-    } else if (!uncertML.equals(other.uncertML)) {
       return false;
     }
     return true;
@@ -164,54 +165,53 @@ public class DrawFromDistribution extends AbstractDistrictSBase implements IdMan
     packageName = DistribConstants.shortLabel;
   }
 
-
+  
   /**
-   * Returns the value of uncertML
+   * Returns the value of {@link #distribution}.
    *
-   * @return the value of uncertML
+   * @return the value of {@link #distribution}.
    */
-  public XMLNode getUncertML() {
-    if (isSetUncertML()) {
-      return uncertML;
+  public Distribution getDistribution() {
+    if (isSetDistribution()) {
+      return distribution;
     }
-
-    return null;
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(DistribConstants.distribution, this);
   }
 
 
   /**
-   * Returns whether uncertML is set
+   * Returns whether {@link #distribution} is set.
    *
-   * @return whether uncertML is set
+   * @return whether {@link #distribution} is set.
    */
-  public boolean isSetUncertML() {
-    return uncertML != null;
+  public boolean isSetDistribution() {
+    return this.distribution != null;
   }
 
 
   /**
-   * Sets the value of uncertML
-   * @param uncertML
-   */
-  public void setUncertML(XMLNode uncertML) {
-    XMLNode oldUncertML = this.uncertML;
-    this.uncertML = uncertML;
-    this.uncertML.setParent(this);
-    firePropertyChange(DistribConstants.uncertML, oldUncertML, this.uncertML);
-  }
-
-
-  /**
-   * Unsets the variable uncertML
+   * Sets the value of distribution
    *
-   * @return {@code true}, if uncertML was set before,
-   *         otherwise {@code false}
+   * @param distribution the value of distribution to be set.
    */
-  public boolean unsetUncertML() {
-    if (isSetUncertML()) {
-      XMLNode oldUncertML = uncertML;
-      uncertML = null;
-      firePropertyChange(DistribConstants.uncertML, oldUncertML, uncertML);
+  public void setDistribution(Distribution distribution) {
+    Distribution oldDistribution = this.distribution;
+    this.distribution = distribution;
+    firePropertyChange(DistribConstants.distribution, oldDistribution, this.distribution);
+  }
+
+
+  /**
+   * Unsets the variable distribution.
+   *
+   * @return {@code true} if distribution was set before, otherwise {@code false}.
+   */
+  public boolean unsetDistribution() {
+    if (isSetDistribution()) {
+      Distribution oldDistribution = this.distribution;
+      this.distribution = null;
+      firePropertyChange(DistribConstants.distribution, oldDistribution, this.distribution);
       return true;
     }
     return false;
@@ -455,7 +455,7 @@ public class DrawFromDistribution extends AbstractDistrictSBase implements IdMan
     if (isSetListOfDistribInputs()) {
       count++;
     }
-    if (isSetUncertML()) {
+    if (isSetDistribution()) {
       count++;
     }
 
@@ -483,9 +483,9 @@ public class DrawFromDistribution extends AbstractDistrictSBase implements IdMan
       }
       pos++;
     }
-    if (isSetUncertML()) {
+    if (isSetDistribution()) {
       if (pos == index) {
-        return getUncertML();
+        return getDistribution();
       }
       pos++;
     }

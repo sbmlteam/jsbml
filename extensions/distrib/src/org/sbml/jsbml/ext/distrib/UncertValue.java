@@ -59,19 +59,33 @@ public class UncertValue extends AbstractDistrictSBase implements SBaseWithUnit 
   
   /**
    * 
+   * @author rodrigue
+   * @since 1.4
    */
-  Double value;
+  public static enum type {rate, alpha, beta, location, scale, truncationLowerBound, truncationUpperBound, 
+    degreesOfFreedom, numerator, denominator, shape, logScale, mean, stddev, variance, minimum, maximum,
+    numberOfClasses, numberOfTrials, probabilityOfSuccess, probability, numberOfSuccesses, populationSize, 
+    numberOfFailures, prob, value, coefficientOfVariation, kurtosis, median, mode, skewness, standardDeviation};
   
   /**
    * 
    */
-  String var;
+  private Double value;
   
   /**
    * 
    */
-  String units;
+  private String var;
   
+  /**
+   * 
+   */
+  private String units;
+  
+  /**
+   * 
+   */
+  private type type;
   
   /**
    * Creates a new instance of {@link UncertValue}
@@ -394,7 +408,15 @@ public class UncertValue extends AbstractDistrictSBase implements SBaseWithUnit 
     
   }
 
+  void setType (type type) {
+    this.type = type;
+  }
 
+  @Override
+  public String getElementName() {
+    return type != null ? type.toString() : super.getElementName();
+  }
+  
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */

@@ -44,7 +44,9 @@ import org.sbml.jsbml.xml.XMLTriple;
 /**
  * @author Nicolas Rdodriguez
  * @since 1.1
+ * @deprecated  the uncertML String was removed from the latest specs
  */
+@Deprecated 
 public class CreateUncertMLXMLNode {
 
   /**
@@ -106,14 +108,14 @@ public class CreateUncertMLXMLNode {
 
     DistribFunctionDefinitionPlugin dfd = (DistribFunctionDefinitionPlugin) f.getPlugin("distrib");
     DrawFromDistribution drawfd = dfd.createDrawFromDistribution();
-    drawfd.setUncertML(xmlNode);
+    // drawfd.setUncertML(xmlNode);
 
     FunctionDefinition g = m.createFunctionDefinition("g");
     dfd = (DistribFunctionDefinitionPlugin) g.getPlugin("distrib");
     drawfd = dfd.createDrawFromDistribution();
 
     XMLNode uncertMLNode = XMLNode.convertStringToXMLNode(uncertML);
-    drawfd.setUncertML(uncertMLNode);
+    // drawfd.setUncertML(uncertMLNode);
 
     String docStr = new TidySBMLWriter().writeSBMLToString(doc);
 

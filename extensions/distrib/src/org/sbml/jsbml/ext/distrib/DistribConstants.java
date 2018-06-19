@@ -243,6 +243,20 @@ public class DistribConstants {
    */
   public static final String listOfExternalParameters = "listOfExternalParameters";
 
+  /**
+   * 
+   */
+  public static final String distribution = "distribution";
+  
+  /**
+   * 
+   */
+  public static final String uncertStatistics = "uncertStatistics";
+  
+  /**
+   * 
+   */
+  public static final String uncertStatisticSpan = "uncertStatisticSpan";
   
   /**
    * 

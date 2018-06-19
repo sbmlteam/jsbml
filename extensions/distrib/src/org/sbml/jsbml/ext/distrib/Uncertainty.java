@@ -20,19 +20,28 @@
 package org.sbml.jsbml.ext.distrib;
 
 import java.text.MessageFormat;
-import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
+ * The {@link Uncertainty} class has two optional children: an {@link UncertStatistics} child and a {@link Distribution} child. Either or both
+ * may be used, depending on the information about the parent that the modeler wishes to store in this object. 
  * 
+ * <p>If neither is present, this means that no information about the uncertainty of the object is provided by this package.
+ * The Uncertainty may be annotated to provide more information about why this is.</p>
+ * 
+ * <p>Note that the described uncertainty for elements that change in value over time apply only to the element's
+ * uncertainty at a snapshot in time, and not the uncertainty in how it changes in time. For typical simulations, this
+ * means the element's initial condition. Note too that the description of the uncertainty of a Species should describe
+ * the uncertainty of its amount, not the uncertainty of its concentration. The 'primary' mathematical meaning of a
+ * Species in SBML is always the amount; the concentration may be used, but is considered to be derived.
+ *
  * @author Nicolas Rodriguez
- * @since 1.1
+ * @since 1.4
  */
-public class Uncertainty extends AbstractNamedSBase {
+public class Uncertainty extends AbstractDistrictSBase {
 
   /**
    * Generated serial version identifier.
@@ -43,7 +52,12 @@ public class Uncertainty extends AbstractNamedSBase {
   /**
    * 
    */
-  private XMLNode uncertML;
+  private UncertStatistics uncertStatistics;
+
+  /**
+   * 
+   */
+  private Distribution distribution;
 
   /**
    * Creates an Uncertainty instance
@@ -134,54 +148,105 @@ public class Uncertainty extends AbstractNamedSBase {
     return new Uncertainty(this);
   }
 
-
+  
   /**
-   * Returns the value of {@link #uncertML}.
+   * Returns the value of {@link #distribution}.
    *
-   * @return the value of {@link #uncertML}.
+   * @return the value of {@link #distribution}.
    */
-  public XMLNode getUncertML() {
-    if (isSetUncertML()) {
-      return uncertML;
+  public Distribution getDistribution() {
+    if (isSetDistribution()) {
+      return distribution;
     }
-
-    return null;
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(DistribConstants.distribution, this);
   }
 
 
   /**
-   * Returns whether {@link #uncertML} is set.
+   * Returns whether {@link #distribution} is set.
    *
-   * @return whether {@link #uncertML} is set.
+   * @return whether {@link #distribution} is set.
    */
-  public boolean isSetUncertML() {
-    return uncertML != null;
+  public boolean isSetDistribution() {
+    return this.distribution != null;
   }
 
 
   /**
-   * Sets the value of uncertML
+   * Sets the value of distribution
    *
-   * @param uncertML the value of uncertML to be set.
+   * @param distribution the value of distribution to be set.
    */
-  public void setUncertML(XMLNode uncertML) {
-    XMLNode oldUncertML = this.uncertML;
-    this.uncertML = uncertML;
-    this.uncertML.setParent(this);
-    firePropertyChange(DistribConstants.uncertML, oldUncertML, this.uncertML);
+  public void setDistribution(Distribution distribution) {
+    Distribution oldDistribution = this.distribution;
+    this.distribution = distribution;
+    firePropertyChange(DistribConstants.distribution, oldDistribution, this.distribution);
   }
 
 
   /**
-   * Unsets the variable uncertML.
+   * Unsets the variable distribution.
    *
-   * @return {@code true} if uncertML was set before, otherwise {@code false}.
+   * @return {@code true} if distribution was set before, otherwise {@code false}.
    */
-  public boolean unsetUncertML() {
-    if (isSetUncertML()) {
-      XMLNode oldUncertML = uncertML;
-      uncertML = null;
-      firePropertyChange(DistribConstants.uncertML, oldUncertML, uncertML);
+  public boolean unsetDistribution() {
+    if (isSetDistribution()) {
+      Distribution oldDistribution = this.distribution;
+      this.distribution = null;
+      firePropertyChange(DistribConstants.distribution, oldDistribution, this.distribution);
+      return true;
+    }
+    return false;
+  }
+  
+  
+  /**
+   * Returns the value of {@link #uncertStatistics}.
+   *
+   * @return the value of {@link #uncertStatistics}.
+   */
+  public UncertStatistics getUncertStatistics() {
+    if (isSetUncertStatistics()) {
+      return uncertStatistics;
+    }
+    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
+    throw new PropertyUndefinedError(DistribConstants.uncertStatistics, this);
+  }
+
+
+  /**
+   * Returns whether {@link #uncertStatistics} is set.
+   *
+   * @return whether {@link #uncertStatistics} is set.
+   */
+  public boolean isSetUncertStatistics() {
+    return this.uncertStatistics != null;
+  }
+
+
+  /**
+   * Sets the value of uncertStatistics
+   *
+   * @param uncertStatistics the value of uncertStatistics to be set.
+   */
+  public void setUncertStatistics(UncertStatistics uncertStatistics) {
+    UncertStatistics oldUncertStatistics = this.uncertStatistics;
+    this.uncertStatistics = uncertStatistics;
+    firePropertyChange(DistribConstants.uncertStatistics, oldUncertStatistics, this.uncertStatistics);
+  }
+
+
+  /**
+   * Unsets the variable uncertStatistics.
+   *
+   * @return {@code true} if uncertStatistics was set before, otherwise {@code false}.
+   */
+  public boolean unsetUncertStatistics() {
+    if (isSetUncertStatistics()) {
+      UncertStatistics oldUncertStatistics = this.uncertStatistics;
+      this.uncertStatistics = null;
+      firePropertyChange(DistribConstants.uncertStatistics, oldUncertStatistics, this.uncertStatistics);
       return true;
     }
     return false;
@@ -202,7 +267,10 @@ public class Uncertainty extends AbstractNamedSBase {
   public int getChildCount() {
     int count = super.getChildCount();
 
-    if (isSetUncertML()) {
+    if (isSetUncertStatistics()) {
+      count++;
+    }
+    if (isSetDistribution()) {
       count++;
     }
 
@@ -226,9 +294,16 @@ public class Uncertainty extends AbstractNamedSBase {
       index -= count;
     }
 
-    if (isSetUncertML()) {
+    if (isSetUncertStatistics()) {
       if (pos == index) {
-        return getUncertML();
+        return getUncertStatistics();
+      }
+      pos++;
+    }
+
+    if (isSetDistribution()) {
+      if (pos == index) {
+        return getDistribution();
       }
       pos++;
     }
@@ -238,23 +313,53 @@ public class Uncertainty extends AbstractNamedSBase {
         index, Math.min(pos, 0)));
   }
 
+
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   * @see java.lang.Object#hashCode()
    */
   @Override
-  public Map<String, String> writeXMLAttributes() {
-    Map<String, String> attributes = super.writeXMLAttributes();
-
-    if (isSetId()) {
-      attributes.remove("id");
-      attributes.put(DistribConstants.shortLabel + ":id", getId());
-    }
-    if (isSetName()) {
-      attributes.remove("name");
-      attributes.put(DistribConstants.shortLabel + ":name", getId());
-    }
-
-    return attributes;
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result =
+      prime * result + ((distribution == null) ? 0 : distribution.hashCode());
+    result = prime * result
+      + ((uncertStatistics == null) ? 0 : uncertStatistics.hashCode());
+    return result;
   }
 
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Uncertainty other = (Uncertainty) obj;
+    if (distribution == null) {
+      if (other.distribution != null) {
+        return false;
+      }
+    } else if (!distribution.equals(other.distribution)) {
+      return false;
+    }
+    if (uncertStatistics == null) {
+      if (other.uncertStatistics != null) {
+        return false;
+      }
+    } else if (!uncertStatistics.equals(other.uncertStatistics)) {
+      return false;
+    }
+    return true;
+  }
+
+  
 }

@@ -78,19 +78,19 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
 
       XMLNode xmlNode = null;
 
-      if (parentSBMLElement.isSetUncertML())
-      {
-        xmlNode = parentSBMLElement.getUncertML();
-      }
-      else
-      {
-        if ((characters != null) && (characters.trim().length() > 0)) {
-          logger.warn(MessageFormat.format(
-            "The type of String ''{0}'' on the element {1} is unknown! Some data might be lost: ''{2}''.",
-            "UncertML", parentSBMLElement.getElementName(), characters));
-        }
-        return;
-      }
+//      if (parentSBMLElement.isSetUncertML())
+//      {
+//        xmlNode = parentSBMLElement.getUncertML();
+//      }
+//      else
+//      {
+//        if ((characters != null) && (characters.trim().length() > 0)) {
+//          logger.warn(MessageFormat.format(
+//            "The type of String ''{0}'' on the element {1} is unknown! Some data might be lost: ''{2}''.",
+//            "UncertML", parentSBMLElement.getElementName(), characters));
+//        }
+//        return;
+//      }
 
       xmlNode.addChild(textNode);
 
@@ -100,19 +100,19 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
 
       XMLNode xmlNode = null;
 
-      if (parentSBMLElement.isSetUncertML())
-      {
-        xmlNode = parentSBMLElement.getUncertML();
-      }
-      else
-      {
-        if ((characters != null) && (characters.trim().length() > 0)) {
-          logger.warn(MessageFormat.format(
-            "The type of String ''{0}'' on the element {1} is unknown! Some data might be lost: ''{2}''.",
-            "UncertML", parentSBMLElement.getElementName(), characters));
-        }
-        return;
-      }
+//      if (parentSBMLElement.isSetUncertML())
+//      {
+//        xmlNode = parentSBMLElement.getUncertML();
+//      }
+//      else
+//      {
+//        if ((characters != null) && (characters.trim().length() > 0)) {
+//          logger.warn(MessageFormat.format(
+//            "The type of String ''{0}'' on the element {1} is unknown! Some data might be lost: ''{2}''.",
+//            "UncertML", parentSBMLElement.getElementName(), characters));
+//        }
+//        return;
+//      }
 
       xmlNode.addChild(textNode);
 
@@ -144,7 +144,7 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
 
       // Creating a StartElement XMLNode !!
       XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, uri, prefix), new XMLAttributes(), new XMLNamespaces());
-      sbase.setUncertML(xmlNode);
+//      sbase.setUncertML(xmlNode);
 
       return xmlNode;
     } else if (elementName.equalsIgnoreCase("UncertML") && (contextObject instanceof Uncertainty)) {
@@ -152,7 +152,7 @@ public class UncertMLXMLNodeReader extends XMLNodeReader {
 
       // Creating a StartElement XMLNode !!
       XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, uri, prefix), new XMLAttributes(), new XMLNamespaces());
-      sbase.setUncertML(xmlNode);
+      // sbase.setUncertML(xmlNode);
 
       return xmlNode;
     }
