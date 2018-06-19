@@ -37,6 +37,7 @@ package org.sbml.jsbml.ext.distrib;
  */
 public abstract class Distribution extends AbstractDistrictSBase {
 
+  // TODO - ExponentialDistribution, Gamma, Lognormal, Chi-squared, Laplace, Cauchy, Rayleigh, Binomial, Bernoulli
   /**
    * 
    */
@@ -101,4 +102,7 @@ public abstract class Distribution extends AbstractDistrictSBase {
     super(id);
   }
 
+  @Override
+  public abstract Distribution clone();
+  
 }

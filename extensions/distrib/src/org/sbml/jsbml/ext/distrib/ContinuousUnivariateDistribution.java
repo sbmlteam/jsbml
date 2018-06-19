@@ -24,7 +24,6 @@ import java.text.MessageFormat;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 
 
 /**
