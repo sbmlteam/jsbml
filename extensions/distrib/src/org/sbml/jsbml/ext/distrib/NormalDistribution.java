@@ -19,16 +19,23 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
+import java.text.MessageFormat;
+
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.PropertyUndefinedError;
 
 
 /**
+ * The {@link NormalDistribution} is a {@link ContinuousUnivariateDistribution} that defines the UncertValue children mean, stddev,
+ * and variance. The distribution must either define a stddev or a variance, but not both. The variance, if
+ * defined, must be positive.
+ * 
+ * 
  * @author rodrigue
  * @since 1.4
  */
 public class NormalDistribution extends ContinuousUnivariateDistribution {
-
-  // TODO - implements XML attributes, equals and hashcode
 
   /**
    * 
@@ -167,6 +174,7 @@ public class NormalDistribution extends ContinuousUnivariateDistribution {
   public void setMean(UncertValue mean) {
     UncertValue oldMean = this.mean;
     this.mean = mean;
+    this.mean.setType(UncertValue.Type.mean);
     firePropertyChange(DistribConstants.mean, oldMean, this.mean);
   }
 
@@ -219,6 +227,7 @@ public class NormalDistribution extends ContinuousUnivariateDistribution {
   public void setStddev(UncertValue stddev) {
     UncertValue oldStddev = this.stddev;
     this.stddev = stddev;
+    this.stddev.setType(UncertValue.Type.stddev);
     firePropertyChange(DistribConstants.stddev, oldStddev, this.stddev);
   }
 
@@ -271,6 +280,7 @@ public class NormalDistribution extends ContinuousUnivariateDistribution {
   public void setVariance(UncertValue variance) {
     UncertValue oldVariance = this.variance;
     this.variance = variance;
+    this.variance.setType(UncertValue.Type.variance);
     firePropertyChange(DistribConstants.variance, oldVariance, this.variance);
   }
 
@@ -289,6 +299,120 @@ public class NormalDistribution extends ContinuousUnivariateDistribution {
     }
     return false;
   }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((mean == null) ? 0 : mean.hashCode());
+    result = prime * result + ((stddev == null) ? 0 : stddev.hashCode());
+    result = prime * result + ((variance == null) ? 0 : variance.hashCode());
+    return result;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    NormalDistribution other = (NormalDistribution) obj;
+    if (mean == null) {
+      if (other.mean != null) {
+        return false;
+      }
+    } else if (!mean.equals(other.mean)) {
+      return false;
+    }
+    if (stddev == null) {
+      if (other.stddev != null) {
+        return false;
+      }
+    } else if (!stddev.equals(other.stddev)) {
+      return false;
+    }
+    if (variance == null) {
+      if (other.variance != null) {
+        return false;
+      }
+    } else if (!variance.equals(other.variance)) {
+      return false;
+    }
+    return true;
+  }
   
+  
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+
+  public int getChildCount() {
+    int count = super.getChildCount();
+
+    if (isSetMean()) {
+      count++;
+    }
+    if (isSetStddev()) {
+      count++;
+    }
+    if (isSetVariance()) {
+      count++;
+    }
+    
+    return count;
+  }
+
+
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
+    }
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+
+    if (isSetMean()) {
+      if (pos == index) {
+        return getMean();
+      }
+      pos++;
+    }
+    if (isSetStddev()) {
+      if (pos == index) {
+        return getStddev();
+      }
+      pos++;
+    }
+    if (isSetVariance()) {
+      if (pos == index) {
+        return getVariance();
+      }
+      pos++;
+    }
+
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      resourceBundle.getString("IndexExceedsBoundsException"), index,
+      Math.min(pos, 0)));
+  }
+
   
 }

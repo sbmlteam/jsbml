@@ -62,7 +62,7 @@ public class UncertValue extends AbstractDistribSBase implements SBaseWithUnit {
    * @author rodrigue
    * @since 1.4
    */
-  public static enum type {rate, alpha, beta, location, scale, truncationLowerBound, truncationUpperBound, 
+  public static enum Type {rate, alpha, beta, location, scale, truncationLowerBound, truncationUpperBound, 
     degreesOfFreedom, numerator, denominator, shape, logScale, mean, stddev, variance, minimum, maximum,
     numberOfClasses, numberOfTrials, probabilityOfSuccess, probability, numberOfSuccesses, populationSize, 
     numberOfFailures, prob, value, coefficientOfVariation, kurtosis, median, mode, skewness, standardDeviation};
@@ -85,7 +85,7 @@ public class UncertValue extends AbstractDistribSBase implements SBaseWithUnit {
   /**
    * 
    */
-  private type type;
+  private Type type;
   
   /**
    * Creates a new instance of {@link UncertValue}
@@ -408,7 +408,7 @@ public class UncertValue extends AbstractDistribSBase implements SBaseWithUnit {
     
   }
 
-  void setType (type type) {
+  void setType (Type type) {
     this.type = type;
   }
 
