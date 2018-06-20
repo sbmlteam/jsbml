@@ -85,34 +85,8 @@ public class DistribModelBuilder {
 
     String distribUrl = distribution;
     
-    if (distribUrl.endsWith("Distribution")) {
-      distribUrl = distribUrl.substring(0, distribUrl.length() - 12);
-    }
-    String definition = "http://www.uncertml.org/distributions/" + toUncertmlURL(distribUrl);
     
-    // UncertML element
-    XMLNode xmlNode = new XMLNode(new XMLTriple("UncertML"), new XMLAttributes(), new XMLNamespaces());
-    xmlNode.addNamespace("http://www.uncertml.org/3.0");
-
-    // NormalDistribution element
-    XMLNode distNode = new XMLNode(new XMLTriple(distribution), new XMLAttributes(), new XMLNamespaces());
-    distNode.addAttr("definition", definition);
-    xmlNode.addChild(distNode);
-
-
-    for (int i=0; i < inputs.length; i++) {
-      XMLNode inputNode = new XMLNode(new XMLTriple(inputTypes[i]), new XMLAttributes(), new XMLNamespaces());
-      distNode.addChild(inputNode);
-      distNode.addChild(new XMLNode("\n              "));
-
-      XMLNode varNode = new XMLNode(new XMLTriple("var"), new XMLAttributes(), new XMLNamespaces());
-      varNode.addAttr("varId", inputs[i]);
-      inputNode.addChild(varNode);
-      inputNode.addChild(new XMLNode("\n              "));
-    }
-
-    // adding the UncertML XMLNode to the DrawFromDistribution object
-    draw.setUncertML(xmlNode);
+    // TODO - create the distribution instance
   }
 
 
@@ -163,7 +137,7 @@ public class DistribModelBuilder {
     distNode.addChild(new XMLNode("\n            "));
 
     // adding the UncertML XMLNode to the DrawFromDistribution object
-    draw.setUncertML(xmlNode);
+    // draw.setUncertML(xmlNode);
     
   }
 
@@ -246,7 +220,7 @@ public class DistribModelBuilder {
     }
 
     // adding the UncertML XMLNode to the DrawFromDistribution object
-    draw.setUncertML(xmlNode);
+    // draw.setUncertML(xmlNode);
     
   }
 

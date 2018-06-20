@@ -3,7 +3,8 @@ JSBML
 
 <img align="right" src="doc/common/logo/jsbml_logo_200px.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
 
-[![License](http://img.shields.io/:license-LGPL-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) [![Stable version](https://img.shields.io/badge/Stable_version-1.3.1-brightgreen.svg)](http://shields.io)
+[![License](http://img.shields.io/:license-LGPL-blue.svg?style=plastic)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) [![Stable version](https://img.shields.io/badge/Stable_version-1.3.1-brightgreen.svg?style=plastic)](http://shields.io)
+[![DOI](http://img.shields.io/badge/DOI-10.1093%20%2F%20bioinformatics%20%2F%20btv341-blue.svg?style=plastic)](https://doi.org/10.1093/bioinformatics/btv341)
 
 ----
 *Authors*: [Andreas Dräger](http://sbrg.ucsd.edu/researchers/draeger/),
@@ -13,16 +14,17 @@ Meike Aichele,
 Alexander Diamantikos,
 [Alexander Dörr](http://www.cogsys.cs.uni-tuebingen.de/mitarb/doerr/),
 [Marine Dumousseau](https://sourceforge.net/u/marine3/profile/),
-[Johannes Eichner](http://www.ra.cs.uni-tuebingen.de/mitarb/eichner/),
-Lisa Falk,
+[Johannes Eichner](http://www.cogsys.cs.uni-tuebingen.de/mitarb/eichner/),
+[Lisa Falk](https://github.com/LisaFalk),
 [Akira Funahashi](http://fun.bio.keio.ac.jp/~funa/),
 Sebastian Fröhlich,
 [Harold Gómez](https://www.bsse.ethz.ch/cobi/people/person-detail.html?persid=211340),
-[Stephanie Hoffmann](http://www.ra.cs.uni-tuebingen.de/mitarb/hoffmann/),
+[Thomas M. Hamm](https://github.com/tmhamm),
+[Stephanie Hoffmann](http://www.cogsys.cs.uni-tuebingen.de/mitarb/hoffmann/),
 [Michael Hucka](http://www.cds.caltech.edu/~mhucka),
-[Roland Keller](http://www.ra.cs.uni-tuebingen.de/mitarb/keller/),
+[Roland Keller](http://www.cogsys.cs.uni-tuebingen.de/mitarb/keller/),
 [Victor Kofia](http://kofiav.blogspot.ca),
-Jakob Matthes,
+[Jakob Matthes](https://github.com/jakobmatthes),
 [Florian Mittag](http://www.cogsys.cs.uni-tuebingen.de/mitarb/mittag/),
 [Sebastian Nagel](http://www.ti.uni-tuebingen.de/Sebastian-Nagel.1843.0.html),
 [Eugen Netz](https://abi.inf.uni-tuebingen.de/People/netz),
@@ -33,10 +35,10 @@ Simon Schäfer,
 [Roman Schulte](http://www.roman-schulte.de),
 [Alex Thomas](http://sbrg.ucsd.edu/researchers/thomas/),
 [Ibrahim Y. Vazirabad](http://www.mscs.mu.edu/~ivazirab/),
-Sarah Rachel Mueller vom Hagen,
+[Sarah Rachel Mueller vom Hagen](https://github.com/mvhsara),
 [Leandro Watanabe](http://www.async.ece.utah.edu/~leandro/),
 [Clemens Wrzodek](http://www.cogsys.cs.uni-tuebingen.de/mitarb/wrzodek/),
-[Finja Wrzodek](http://www.ra.cs.uni-tuebingen.de/mitarb/buechel/),
+[Finja Wrzodek](http://www.cogsys.cs.uni-tuebingen.de/mitarb/buechel/),
 and
 [Thomas J. Zajac](https://github.com/mephenor/).
 
@@ -69,11 +71,11 @@ Article citations are **critical** for us to be able to continue support for JSB
 
 Please also indicate the specific version of JSBML you use, to improve other people's ability to reproduce your results.  You can use the Zenodo DOIs we provide for this purpose:
 
-* JSBML release 1.3.1 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1118387.svg)](https://doi.org/10.5281/zenodo.1118387)
-* JSBML release 1.2 &rArr; [10.5281/zenodo.200544](https://doi.org/10.5281/zenodo.200544)
-* JSBML release 1.1 &rArr; [10.5281/zenodo.55323](https://doi.org/10.5281/zenodo.55323)
-* JSBML release 1.0 &rArr; [10.5281/zenodo.55635](https://doi.org/10.5281/zenodo.55635)
-* JSBML release 0.8 &rArr; [10.5281/zenodo.55636](https://doi.org/10.5281/zenodo.55636)
+* JSBML release 1.3.1 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1118387.svg?style=plastic)](https://doi.org/10.5281/zenodo.1118387)
+* JSBML release 1.2 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.200544.svg?style=plastic)](https://doi.org/10.5281/zenodo.200544)
+* JSBML release 1.1 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.55323.svg?style=plastic)](https://doi.org/10.5281/zenodo.55323)
+* JSBML release 1.0 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.55635.svg?style=plastic)](https://doi.org/10.5281/zenodo.55635)
+* JSBML release 0.8 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.55636.svg?style=plastic)](https://doi.org/10.5281/zenodo.55636)
 
 
 📰 Recent news and activities
