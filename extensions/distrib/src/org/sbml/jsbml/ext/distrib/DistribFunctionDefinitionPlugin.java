@@ -26,6 +26,8 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
+ * 
+ * 
  * @author Nicolas Rodriguez
  * @since 1.1
  */
@@ -186,8 +188,12 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
 
   @Override
   public String getURI() {
-    // TODO Auto-generated method stub
-    return null;
+    if (getVersion() == 1) {
+      return DistribConstants.namespaceURI_L3V1V1;
+    }
+    else {
+      return DistribConstants.namespaceURI_L3V2V1;
+    }
   }
 
 
