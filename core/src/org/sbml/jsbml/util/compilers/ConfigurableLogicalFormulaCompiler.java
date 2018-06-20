@@ -25,9 +25,13 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.SBMLException;
 
 /**
+ * This class creates formula {@link String}s that represent the content of {@link ASTNode}s and try to reproduce an output similar to old COBRA SBML files.
+ *
+ *<p> "and" and "or" are configurable. This is the only difference between this compiler and the {@link FormulaCompilerLibSBML}. </p> 
+ * 
  * @author Thomas Hamm
  * @author Nicolas Rodriguez
- * @since 1.3
+ * @since 1.4
  */
 public class ConfigurableLogicalFormulaCompiler extends FormulaCompilerLibSBML{
   
