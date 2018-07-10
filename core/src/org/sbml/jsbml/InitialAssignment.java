@@ -277,6 +277,12 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
     if (getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0) {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.variable, this);
     }
+    
+    if (!isReadingInProgress() && variable != null) {
+      // This method will throw IllegalArgumentException if the given id does not respect the SId syntax
+      checkIdentifier(variable);
+    }
+    
     String oldVariableID = variableID;
     variableID = variable;
     firePropertyChange(TreeNodeChangeEvent.variable, oldVariableID, variable);

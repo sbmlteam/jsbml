@@ -202,6 +202,12 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
    */
   @Override
   public void setVariable(String variable) {
+    
+    if (!isReadingInProgress() && variable != null) {
+      // This method will throw IllegalArgumentException if the given id does not respect the SId syntax
+      checkIdentifier(variable);
+    }
+    
     String oldVariable = variableID;
     variableID = variable;
     firePropertyChange(TreeNodeChangeEvent.variable, oldVariable, variable);
