@@ -1015,19 +1015,17 @@ public class Species extends Symbol implements CompartmentalizedSBase {
       // If we pass the empty String or null, the value is reset.
     }
     // TODO - do a call to the offline validator once all the species attribute checks are in place.
-    if ((compartment == null) || checkIdentifier(compartment)) {
-      String oldCompartment = compartmentID;
-      
-      if ((compartment != null) && (compartment.trim().length() == 0)) {
-        compartmentID = null;
-      } else {
-        compartmentID = compartment;
-      }
-      firePropertyChange(TreeNodeChangeEvent.compartment, oldCompartment,
-        compartmentID);
-      return true;
+    
+    if (!isReadingInProgress() && compartment != null) {
+      // This method will throw IllegalArgumentException if the given id does not respect the SId syntax
+      checkIdentifier(compartment);
     }
-    return false;
+    
+    String oldCompartment = compartmentID;
+    compartmentID = compartment;
+    firePropertyChange(TreeNodeChangeEvent.compartment, oldCompartment, compartmentID);
+    
+    return true;
   }
 
   /**
