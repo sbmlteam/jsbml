@@ -229,15 +229,19 @@ implements UniqueNamedSBase {
    * @param species
    */
   public void setSpecies(String species) {
-    // TODO: make the checkIdentifier(String) optional
-    // For performance and not to loose any data when reading
-    if ((species == null) || (species.trim().length() == 0)
-        || checkIdentifier(species)) {
-      String oldSpecies = speciesID;
-      speciesID = ((species != null) && (species.trim().length() == 0)) ? null
-        : species;
-      firePropertyChange(TreeNodeChangeEvent.species, oldSpecies, speciesID);
+
+    if (species != null && species.trim().length() == 0) {
+      species = null;
     }
+
+    if (!isReadingInProgress() && species != null) {
+      // This method will throw IllegalArgumentException if the given id does not respect the SId syntax
+      checkIdentifier(species);
+    }
+
+    String oldSpecies = speciesID;
+    speciesID = species;
+    firePropertyChange(TreeNodeChangeEvent.species, oldSpecies, speciesID);
   }
 
   /**

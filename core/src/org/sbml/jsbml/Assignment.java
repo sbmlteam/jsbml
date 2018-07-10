@@ -69,6 +69,7 @@ public interface Assignment extends MathContainer, UniqueSId {
    * 
    * @param variableID
    *           the variable to set
+   * @throws IllegalArgumentException if the String does not respect the SId syntax          
    */
   public void setVariable(String variableID);
 

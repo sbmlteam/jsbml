@@ -491,7 +491,12 @@ SBaseWithUnit {
     if (variable != null && variable.trim().length() == 0) {
       variable = null;
     }
-
+    
+    if (!isReadingInProgress() && variable != null) {
+      // This method will throw IllegalArgumentException if the given id does not respect the SId syntax
+      checkIdentifier(variable);
+    }
+    
     String oldVariable = variableID;
     variableID = variable;
     firePropertyChange(TreeNodeChangeEvent.variable, oldVariable, variableID);
