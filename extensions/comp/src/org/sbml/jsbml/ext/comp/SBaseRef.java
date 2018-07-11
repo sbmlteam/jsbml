@@ -178,6 +178,16 @@ public class SBaseRef extends AbstractSBase {
    * 
    */
   public void setPortRef(String portRef) {
+    
+    if (portRef != null && portRef.trim().length() == 0) {
+      portRef = null;
+    }
+    
+    if (!isReadingInProgress() && portRef != null) {
+      // This method will throw IllegalArgumentException if the given id does not respect the SId syntax
+      checkIdentifier(portRef);
+    }
+    
     String oldPortRef = this.portRef;
     this.portRef = portRef;
     firePropertyChange(CompConstants.portRef, oldPortRef, this.portRef);
@@ -236,6 +246,16 @@ public class SBaseRef extends AbstractSBase {
    * 
    */
   public void setIdRef(String idRef) {
+    
+    if (idRef != null && idRef.trim().length() == 0) {
+      idRef = null;
+    }
+    
+    if (!isReadingInProgress() && idRef != null) {
+      // This method will throw IllegalArgumentException if the given id does not respect the SId syntax
+      checkIdentifier(idRef);
+    }
+    
     String oldIdRef = this.idRef;
     this.idRef = idRef;
     firePropertyChange(CompConstants.idRef, oldIdRef, this.idRef);
