@@ -806,6 +806,12 @@ public class UnitDefinition extends AbstractNamedSBase {
         Unit unit = unit1.clone();
         if (!(unit.isDimensionless() || unit.isInvalid())) {
           unit.setExponent(-unit1.getExponent());
+          
+//          if (unit1.isSetScale()) {
+//            unit.setScale(-unit1.getScale());
+//          }
+          // TODO - multiplier as well ? (1 / multiplier) 
+          // TODO - check libsbml code for dividing units
         }
         boolean contains = false;
         for (int i = getUnitCount() - 1; (i >= 0) && !contains; i--) {

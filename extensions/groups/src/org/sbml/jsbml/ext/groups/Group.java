@@ -25,7 +25,6 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UniqueNamedSBase;
@@ -220,11 +219,8 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    *         {@link SBase} neither has a metaId nor an id.
    */
   public Member createMember(String id, SBase sbase) {
-    if (sbase instanceof NamedSBase) {
-      NamedSBase nsb = (NamedSBase) sbase;
-      if (nsb.isSetId()) {
-        return createMemberWithIdRef(id, nsb.getId());
-      }
+    if (sbase.isSetId()) {
+      return createMemberWithIdRef(id, sbase.getId());
     }
     if (sbase.isSetMetaId()) {
       return createMemberWithMetaIdRef(id, sbase.getMetaId());
