@@ -19,14 +19,16 @@
  */
 package org.sbml.jsbml.ext.groups;
 
+import static java.text.MessageFormat.format;
+
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.validator.SyntaxChecker;
 
 /**
  * @author Nicolas Rodriguez
@@ -174,6 +176,16 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
    * @param idRef the value of idRef
    */
   public void setIdRef(String idRef) {
+    
+    if (idRef != null && idRef.trim().length() == 0) {
+      idRef = null;
+    }
+    
+    if (!isReadingInProgress() && idRef != null) {
+      // This method will throw IllegalArgumentException if the given id does not respect the SId syntax
+      checkIdentifier(idRef);
+    }
+    
     String oldIdRef = this.idRef;
     this.idRef = idRef;
     firePropertyChange(GroupsConstants.idRef, oldIdRef, this.idRef);
@@ -223,6 +235,23 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
    * @param metaIdRef the value of metaIdRef
    */
   public void setMetaIdRef(String metaIdRef) {
+    
+    if (metaIdRef != null && metaIdRef.trim().length() == 0) {
+      metaIdRef = null;
+    }
+    
+    if (!isReadingInProgress() && metaIdRef != null) {
+      // This method will throw IllegalArgumentException if the given id does not respect the SId syntax
+      // checkIdentifier(idRef);
+      boolean isValid = SyntaxChecker.isValidMetaId(metaIdRef);
+      
+      if (!isValid) {
+        throw new IllegalArgumentException(format(
+            resourceBundle.getString("AbstractSBase.setMetaId"),
+            metaIdRef, getElementName()));
+      }
+    }
+    
     String oldMetaIdRef = this.metaIdRef;
     this.metaIdRef = metaIdRef;
     firePropertyChange(GroupsConstants.metaIdRef, oldMetaIdRef, this.metaIdRef);
@@ -295,12 +324,12 @@ public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
   }
 
   /**
-   * Sets the value of idRef, using the id defined in the given {@link NamedSBase}
+   * Sets the value of idRef, using the id defined in the given {@link SBase}
    * 
-   * @param namedSbase the {@link NamedSBase} that contain the id to be set.
+   * @param namedSbase the {@link SBase} that contain the id to be set.
    * 
    */
-  public void setIdRef(NamedSBase namedSbase) {
+  public void setIdRef(SBase namedSbase) {
     setIdRef(namedSbase != null ? namedSbase.getId() : null);
   }
 

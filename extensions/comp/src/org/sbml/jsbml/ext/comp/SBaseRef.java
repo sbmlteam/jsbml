@@ -19,6 +19,8 @@
  */
 package org.sbml.jsbml.ext.comp;
 
+import static java.text.MessageFormat.format;
+
 import java.text.MessageFormat;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.validator.SyntaxChecker;
 
 /**
  * Contains the machinery for constructing references to specific components
@@ -377,6 +380,23 @@ public class SBaseRef extends AbstractSBase {
    * @param metaIdRef the value of metaIdRef
    */
   public void setMetaIdRef(String metaIdRef) {
+    
+    if (metaIdRef != null && metaIdRef.trim().length() == 0) {
+      metaIdRef = null;
+    }
+    
+    if (!isReadingInProgress() && metaIdRef != null) {
+      // This method will throw IllegalArgumentException if the given id does not respect the SId syntax
+      // checkIdentifier(idRef);
+      boolean isValid = SyntaxChecker.isValidMetaId(metaIdRef);
+      
+      if (!isValid) {
+        throw new IllegalArgumentException(format(
+            resourceBundle.getString("AbstractSBase.setMetaId"),
+            metaIdRef, getElementName()));
+      }
+    }
+
     String oldIdRef = this.metaIdRef;
     this.metaIdRef = metaIdRef;
     firePropertyChange(CompConstants.metaIdRef, oldIdRef, this.metaIdRef);
