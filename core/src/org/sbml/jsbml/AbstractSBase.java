@@ -3035,7 +3035,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @throws IllegalArgumentException
    *             if the given id is not valid in this model.
    */
-  boolean checkIdentifier(String sID) {
+  protected boolean checkIdentifier(String sID) {
     if ((sID == null) || !SyntaxChecker.isValidId(sID, getLevel(), getVersion())) {
       throw new IllegalArgumentException(format(
         resourceBundle.getString("AbstractNamedSBase.checkIdentifier"),
