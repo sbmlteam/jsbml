@@ -19,23 +19,39 @@
  */
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
+import org.sbml.jsbml.xml.XMLNamespaces;
+import org.sbml.jsbml.xml.XMLNode;
 
 /**
+ * 
  * @author Roman
+ * @author rodrigue
  * @since 1.2
  */
 public class SBaseConstraints extends AbstractConstraintDeclaration {
 
+  
+  /**
+   * 
+   */
+  private static final List<String> namespacesTocheckFor10403 = Arrays.asList("http://www.sbml.org/sbml/level1",
+    "http://www.sbml.org/sbml/level2", "http://www.sbml.org/sbml/level2/version2",
+    "http://www.sbml.org/sbml/level2/version3", "http://www.sbml.org/sbml/level2/version4",
+    "http://www.sbml.org/sbml/level2/version5");
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
@@ -48,7 +64,14 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
-      
+
+      set.add(CORE_10401);
+      set.add(CORE_10402);
+
+      if (level == 2) {
+        set.add(CORE_10403);
+      }
+
       if (level > 2) {
         set.add(CORE_10404);
         set.add(CORE_10805);
@@ -169,6 +192,116 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
         
       };
       break;
+
+    case CORE_10401: 
+    {
+      func = new ValidationFunction<SBase>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBase sb) {
+          boolean isValid = true;
+          
+          if (sb.isSetAnnotation()) {
+            
+            XMLNode unknownNode = (XMLNode) sb.getAnnotation().getUserObject(JSBML.UNKNOWN_XML);
+            
+            if (unknownNode != null) {
+                return false;
+            }
+          }
+
+          return isValid;
+        }
+      };
+      break;
+    }
+
+    case CORE_10402: 
+    {
+      func = new ValidationFunction<SBase>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBase sb) {
+          boolean isValid = true;
+          
+          if (sb.isSetAnnotation()) {
+            
+            // loop over the top level elements of the annotation and compare the prefixes used
+            XMLNode annoNode = sb.getAnnotation().getFullAnnotation();
+            Set<String> namespaceSet = new HashSet<String>();
+            
+            for (int i = 0; i < annoNode.getChildCount(); i++) {
+              XMLNode topLevelChild = annoNode.getChild(i);
+              
+              if (topLevelChild.isText()) {
+                continue;
+              }
+              
+              String namespace = topLevelChild.getNamespaceURI();
+              String prefix = topLevelChild.getPrefix();              
+              
+              if (namespace == null || namespace.trim().length() == 0) {
+                // Trying to get the namespace from the prefix
+                namespace = topLevelChild.getNamespaceURI(prefix);
+                
+                // If not found, recursively go up the SBase tree to find the namespace definition ?
+              }
+              
+              if (namespace != null && namespace.trim().length() > 0) {
+                if (namespaceSet.contains(namespace)) {
+                  // TODO - report error properly
+                  return false;
+                } else {
+                  namespaceSet.add(namespace);
+                }
+              }
+            }
+          }
+
+          return isValid;
+        }
+      };
+      break;
+    }
+
+    case CORE_10403: 
+    {
+      func = new ValidationFunction<SBase>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBase sb) {
+          boolean isValid = true;
+          
+          if (sb.isSetAnnotation()) {
+            
+            // loop over the top level elements of the annotation and make sure no SBML core namespace are used
+            XMLNode annoNode = sb.getAnnotation().getFullAnnotation();
+            
+            for (int i = 0; i < annoNode.getChildCount(); i++) {
+              XMLNode topLevelChild = annoNode.getChild(i);
+
+              if (topLevelChild.isText()) {
+                continue;
+              }
+
+              XMLNamespaces namespaces = topLevelChild.getNamespaces();
+              
+              for (int j = 0; j < namespaces.getLength(); j++) {
+                String namespace = namespaces.getURI(j);
+                
+                if (namespacesTocheckFor10403.contains(namespace)) {
+                  // TODO - report error properly
+                  return false;
+                }
+              }
+            }
+          }
+
+          return isValid;
+        }
+      };
+      break;
+    }
 
     case CORE_10404:
       func = new DuplicatedElementValidationFunction<SBase>("annotation");
