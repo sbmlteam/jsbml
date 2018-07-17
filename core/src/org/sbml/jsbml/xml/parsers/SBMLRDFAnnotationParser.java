@@ -731,6 +731,11 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       logger.debug("readCreator called");
 
       XMLNode bagNode = creatorNode.getChildElement("Bag", Annotation.URI_RDF_SYNTAX_NS);
+      
+      if (bagNode == null) {
+        return;
+      }
+      
       List<XMLNode> liNodes = bagNode.getChildElements("li", Annotation.URI_RDF_SYNTAX_NS);
 
       for (XMLNode liNode : liNodes)
