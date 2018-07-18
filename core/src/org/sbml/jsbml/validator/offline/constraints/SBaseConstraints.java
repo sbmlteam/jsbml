@@ -20,9 +20,12 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.JSBML;
@@ -67,9 +70,13 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
 
       set.add(CORE_10401);
       set.add(CORE_10402);
-
+      set.add(CORE_10801);
+      set.add(CORE_10802);
+      set.add(CORE_10803);
+      
       if (level == 2) {
         set.add(CORE_10403);
+        set.add(CORE_10804);
       }
 
       if (level > 2) {
@@ -306,7 +313,115 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
     case CORE_10404:
       func = new DuplicatedElementValidationFunction<SBase>("annotation");
       break;
-      
+
+    case CORE_10801: 
+    {
+      func = new ValidationFunction<SBase>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBase sb) {
+          boolean isValid = true;
+          
+          XMLNode unknownNode = (XMLNode) sb.getUserObject(JSBML.UNKNOWN_XML);
+          
+          if (unknownNode != null) {
+            // TODO - check that the unknown nodes are from the notes element there
+            return false;
+          }
+          
+          if (sb.isSetNotes()) {
+            
+            // loop over the top level elements of the notes and check that they are in the XHTML namespace
+            XMLNode annoNode = sb.getNotes();
+            
+            for (int i = 0; i < annoNode.getChildCount(); i++) {
+              XMLNode topLevelChild = annoNode.getChild(i);
+              
+              if (topLevelChild.isText()) {
+                continue;
+              }
+              
+              String namespace = topLevelChild.getNamespaceURI();
+              String prefix = topLevelChild.getPrefix();              
+              
+              if (namespace == null || namespace.trim().length() == 0) {
+                // Trying to get the namespace from the prefix
+                namespace = topLevelChild.getNamespaceURI(prefix);
+                
+                if (namespace == null || namespace.trim().length() == 0) {
+                  // Recursively go up the SBase tree to find the namespace definition 
+                  HashMap<String, String> declaredNamespaces = AbstractSBase.getAllDeclaredNamespaces(sb);
+                  
+                  namespace = declaredNamespaces.get("xmlns:" + prefix);                  
+                }
+              }
+              
+              if (namespace != null && namespace.trim().length() > 0 && namespace.equals(JSBML.URI_XHTML_DEFINITION)) {
+                continue;
+              } else {
+                // TODO - report error properly
+                return false;
+              }
+            }
+          }
+
+          return isValid;
+        }
+      };
+      break;
+    }
+
+//    case CORE_10802: // nothing to test for 10802 and 10803, the XML would not be read by the library
+//    case CORE_10803: 
+
+    case CORE_10804: 
+    {
+      func = new ValidationFunction<SBase>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBase sb) {
+          boolean isValid = true;
+          
+          if (sb.isSetAnnotation()) {
+            
+            // TODO - specific structure
+            XMLNode annoNode = sb.getAnnotation().getFullAnnotation();
+            Set<String> namespaceSet = new HashSet<String>();
+            
+            for (int i = 0; i < annoNode.getChildCount(); i++) {
+              XMLNode topLevelChild = annoNode.getChild(i);
+              
+              if (topLevelChild.isText()) {
+                continue;
+              }
+              
+              String namespace = topLevelChild.getNamespaceURI();
+              String prefix = topLevelChild.getPrefix();              
+              
+              if (namespace == null || namespace.trim().length() == 0) {
+                // Trying to get the namespace from the prefix
+                namespace = topLevelChild.getNamespaceURI(prefix);
+                
+                // If not found, recursively go up the SBase tree to find the namespace definition ?
+              }
+              
+              if (namespace != null && namespace.trim().length() > 0) {
+                if (namespaceSet.contains(namespace)) {
+                  // TODO - report error properly
+                  return false;
+                } else {
+                  namespaceSet.add(namespace);
+                }
+              }
+            }
+          }
+
+          return isValid;
+        }
+      };
+      break;
+    }
+
     case CORE_10805:
       func = new DuplicatedElementValidationFunction<SBase>("notes");
       break;

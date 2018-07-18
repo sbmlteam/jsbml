@@ -23,6 +23,7 @@ import static java.text.MessageFormat.format;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -41,7 +42,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.util.converters.LevelVersionConverter;
-import org.sbml.jsbml.util.converters.ToL3V2Converter;
 import org.sbml.jsbml.util.filters.MetaIdFilter;
 import org.sbml.jsbml.util.filters.SIdFilter;
 import org.sbml.jsbml.validator.SyntaxChecker;
@@ -3143,6 +3143,77 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public void unsetName() {
     setName(null);
+  }
+
+
+  /**
+   * Returns a map of all the declared namespaces in the SBML tree, visible to the given {@link SBase}.
+   * 
+   * <p>Starting from the given {@link SBase}, we will use {@link #getDeclaredNamespaces()} on it and all the parents until we 
+   * reached the {@link SBMLDocument} or these is no more parent set. That will give us a complete set of all the declared
+   * namespace visible to this SBase. If a prefix if declared twice, we keep only the first occurrence encountered, meaning that
+   * we will have the declaration that is the deeper in the tree, the one that is active for XML code.</p>
+   * 
+   * @param sb the SBase
+   * @return a map of all the declared namespaces in the SBML tree, visible to the given {@link SBase}.
+   */
+  public static HashMap<String, String> getAllDeclaredNamespaces(SBase sb) {
+    
+    HashMap<String, String> namespaceMap = new HashMap<String, String>();
+    
+    if (sb.getDeclaredNamespaces() != null) {
+      for (String key : sb.getDeclaredNamespaces().keySet()) {
+        namespaceMap.put(key, sb.getDeclaredNamespaces().get(key));
+      }
+    }
+
+    getAllDeclaredNamespaces(sb.getParent(), namespaceMap);
+    
+    return namespaceMap;
+  }
+
+
+  /**
+   * Populates a map of with the declared namespaces in the SBML tree, visible to the given element.
+   * 
+   * <p>Starting from the given element, we will use {@link #getDeclaredNamespaces()} on it and all the parents until we 
+   * reached the {@link SBMLDocument} or these is no more parent set. That will give us a complete set of all the declared
+   * namespace visible to this SBase. If a prefix if declared twice, we keep only the first occurrence encountered, meaning that
+   * we will have the declaration that is the deeper in the tree, the one that is active for XML code.</p>
+   * 
+   * @param treeNode the SBase or SBasePlugin
+   * @param namespaceMap the map to populate
+   */
+  private static void getAllDeclaredNamespaces(TreeNode treeNode, HashMap<String, String> namespaceMap) {
+    if (treeNode == null) {
+      return;
+    }
+    
+    if (treeNode instanceof SBase) {
+      SBase sb = (SBase) treeNode;
+      
+      if (sb.getDeclaredNamespaces() != null) {
+        for (String key : sb.getDeclaredNamespaces().keySet()) {
+          if (!namespaceMap.containsKey(key)) 
+          {
+            namespaceMap.put(key, sb.getDeclaredNamespaces().get(key));
+          }
+        }
+      }
+
+      getAllDeclaredNamespaces(sb.getParent(), namespaceMap);      
+    }
+    else if (treeNode instanceof SBasePlugin)
+    {
+      SBasePlugin sbp = (SBasePlugin) treeNode;
+      
+      getAllDeclaredNamespaces(sbp.getExtendedSBase(), namespaceMap);
+    }
+//    else 
+//    {
+//      System.out.println();
+//    }
+    
   }
 
 }
