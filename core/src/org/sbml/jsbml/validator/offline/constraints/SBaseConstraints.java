@@ -25,10 +25,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.stream.XMLStreamException;
-
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -93,6 +92,9 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
       
       break;
     case MATHML_CONSISTENCY:
+      
+      set.add(CORE_10201);
+      
       break;
     case MODELING_PRACTICE:
       break;
@@ -134,7 +136,30 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<SBase> func = null;
 
     switch (errorCode) {
-      
+      case CORE_10201: {
+        func = new ValidationFunction<SBase>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, SBase node) {
+
+            if (node instanceof MathContainer && node.getUserObject(JSBML.UNKNOWN_XML) != null) {
+
+              // TODO - check that the top level node(s) is/are part of the mathml possible elements
+//              try {
+//                System.out.println("10201 - MathContainer - node unknown = " + ((XMLNode) node.getUserObject(JSBML.UNKNOWN_XML)).toXMLString());
+//              } catch (XMLStreamException e) {
+//                e.printStackTrace();
+//              }
+
+              return false;
+            }
+
+            return true;
+          }
+        };
+        break;
+      }
+
     case CORE_10307:
       func = new ValidationFunction<SBase>() {
 
