@@ -2097,18 +2097,17 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
          * SBMLDocument.
          */
         doc.registerMetaIds((SBase) oldChild, true, true);
-      }
-      if (oldChild instanceof NamedSBase) {
+
         /*
          * Do the same for all identifiers under the old value.
          */
         IdManager idManager =
-            ((AbstractSBase) oldChild).getIdManager((NamedSBase) oldChild);
+            ((AbstractSBase) oldChild).getIdManager((SBase) oldChild);
         if (idManager != null) {
-          idManager.unregister((NamedSBase) oldChild);
-          NamedSBase newNsb = (NamedSBase) newChild;
+          idManager.unregister((SBase) oldChild);
+          SBase newNsb = (SBase) newChild;
           if (!idManager.register(newNsb)) {
-            throw new IdentifierException(newNsb, newNsb.getId());
+            throw new IdentifierException(newNsb, newNsb.getId()); // TODO - need to use a different constructor/factory method to have the message for 'id' and not 'metaid'
           }
         }
       }
@@ -3095,7 +3094,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       this.id = id;
     }
     if ((idManager != null) && !idManager.register(this)) {
-      IdentifierException exc = new IdentifierException(this, this.id);
+      IdentifierException exc = new IdentifierException(this, this.id);  // TODO - need to use a different constructor/factory method to have the message for 'id' and not 'metaid'
       this.id = oldId; // restore the previous setting!
       throw new IllegalArgumentException(exc);
     }
