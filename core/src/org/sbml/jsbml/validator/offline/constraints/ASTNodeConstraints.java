@@ -44,6 +44,7 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;
+import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * Validation constraints related to {@link ASTNode}.
@@ -80,7 +81,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
       break;
     case MATHML_CONSISTENCY:
       if (level > 1) {
-        addRangeToSet(set, CORE_10208, CORE_10216);
+
+        addRangeToSet(set, CORE_10201, CORE_10216);
 
         set.add(CORE_10218);
 
@@ -139,6 +141,31 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<ASTNode> func = null;
 
     switch (errorCode) {
+      
+      case CORE_10201: {
+        func = new ValidationFunction<ASTNode>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, ASTNode node) {
+
+            if (node.getUserObject(JSBML.UNKNOWN_XML) != null) {
+
+              XMLNode unknownNode = (XMLNode) node.getUserObject(JSBML.UNKNOWN_XML);
+              
+              // TODO - check that the top level node(s) is/are part of the mathml possible elements
+              // System.out.println("10201 - node unknown = " + node.getUserObject(JSBML.UNKNOWN_XML));
+              
+              if (unknownNode != null) {
+                  return false;
+              }
+            }
+
+            return true;
+          }
+        };
+        break;
+      }
+      
     case CORE_10208:
       func = new ValidationFunction<ASTNode>() {
 
@@ -734,8 +761,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
 
-          // don't check this rule inside FunctionDefinition
-          if (node.getParentSBMLObject() instanceof FunctionDefinition) {
+          // don't check this rule inside FunctionDefinition or if object is incomplete
+          if (node.getParentSBMLObject() == null || node.getParentSBMLObject() instanceof FunctionDefinition || node.getParentSBMLObject().getModel() == null) {
             return true;
           }
 
