@@ -23,7 +23,10 @@ package org.sbml.jsbml.util;
 import java.util.List;
 import java.util.Properties;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.XMLNode;
 
@@ -116,6 +119,22 @@ public class CobraUtil {
     return props;
   }
   
-  // TODO - XMLNode writeCobraNotes(Properties props)
+  /**
+   * Deletes the notes of the given {@link SBase} element and writes the content of the {@link Properties} object to the notes of the {@link SBase}.
+   *
+   * @param sbase 
+   * @param properties
+   */
+  public static void writeCobraNotes(SBase sbase, Properties properties) {
+    sbase.unsetNotes();
+    for (Object pElement : properties.keySet()) {
+      try {
+        sbase.appendNotes("<body xmlns=\"" + JSBML.URI_XHTML_DEFINITION + "\"><p>" + pElement + ": " + properties.getProperty((String)pElement) + "</p></body>");
+      } catch (XMLStreamException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+  }
   
 }
