@@ -50,6 +50,7 @@ public class TestFbcV2ToFbcV1Converter {
     // convert and write document
     FbcV2ToFbcV1Converter fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
     TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
+//    fbcV2ToFbcV1Converter.setOption("","");
     tidySBMLWriter.writeSBMLToFile(fbcV2ToFbcV1Converter.convert(doc),args[1]);
   }
 }
