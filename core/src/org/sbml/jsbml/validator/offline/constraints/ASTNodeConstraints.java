@@ -19,8 +19,10 @@
  */
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,6 +61,12 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
    */
   private static transient Logger logger = Logger.getLogger(ASTNodeConstraints.class);
   
+  /**
+   * 
+   */
+  public static final transient List<String> allowedCsymbolURI = Arrays.asList(ASTNode.URI_AVOGADRO_DEFINITION, ASTNode.URI_DELAY_DEFINITION, ASTNode.URI_RATE_OF_DEFINITION, ASTNode.URI_TIME_DEFINITION);
+
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
@@ -165,7 +173,81 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         };
         break;
       }
-      
+      case CORE_10202: {
+        func = new ValidationFunction<ASTNode>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, ASTNode node) {
+
+            // TODO - check allowed mathML elements
+            if (node.getType().equals(ASTNode.Type.UNKNOWN)) {
+              // TODO - have a proper message with the name of the offending element. 
+              return false;
+            }
+
+            return true;
+          }
+        };
+        break;
+      }
+      case CORE_10203: {
+        func = new ValidationFunction<ASTNode>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, ASTNode node) {
+
+            // encoding only on some element
+            if (node.isSetEncoding() && 
+                !(node.getType() == ASTNode.Type.FUNCTION_DELAY || node.getType() == ASTNode.Type.FUNCTION_RATE_OF
+                || node.getType() == ASTNode.Type.NAME_TIME || node.getType() == ASTNode.Type.NAME_AVOGADRO))
+            {
+              // TODO - who to recognize annotation and annotation-xml ?              
+              return false;
+            }
+            
+            return true;
+          }
+        };
+        break;
+      }
+      case CORE_10204: {
+        func = new ValidationFunction<ASTNode>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, ASTNode node) {
+
+            // TODO - ci is only allowed since L2V5/L3
+            
+            // definitionURL only on some elements
+            if (node.isSetDefinitionURL() && 
+                !(node.isSemantics() || node.isName() || node.getType() == ASTNode.Type.FUNCTION_DELAY 
+                || node.getType() == ASTNode.Type.FUNCTION_RATE_OF)) 
+            {
+              return false;
+            }
+            
+            return true;
+          }
+        };
+        break;
+      }
+      case CORE_10205: {
+        func = new ValidationFunction<ASTNode>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, ASTNode node) {
+
+            // check allowed values for definitionURL
+            if (node.isSetDefinitionURL() && !allowedCsymbolURI.contains(node.getDefinitionURL())) {
+              return false;
+            }
+
+            return true;
+          }
+        };
+        break;
+      }
+            
     case CORE_10208:
       func = new ValidationFunction<ASTNode>() {
 
