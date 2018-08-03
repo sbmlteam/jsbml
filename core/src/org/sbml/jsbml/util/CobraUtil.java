@@ -88,9 +88,14 @@ public class CobraUtil {
       // Getting the body element
       XMLNode body = notes.getChildElement("body", null);
       
+      if (body == null) {
+        // in some models a 'p' element is used instead of the 'body'
+        body = notes.getChildElement("p", null);
+      }
+      
       if (body != null) {
         parent = body;
-      }
+      } 
       
       // Getting the all the p elements (only direct child of 'parent')
       List<XMLNode> pNodes = parent.getChildElements("p", null);
@@ -131,10 +136,26 @@ public class CobraUtil {
       try {
         sbase.appendNotes("<body xmlns=\"" + JSBML.URI_XHTML_DEFINITION + "\"><p>" + pElement + ": " + properties.getProperty((String)pElement) + "</p></body>");
       } catch (XMLStreamException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }
   }
   
+  /**
+   * 
+   * 
+   * @param sbase
+   * @param props
+   */
+  public static void appendCobraNotes(SBase  sbase, Properties properties) {
+
+    for (Object pElement : properties.keySet()) {
+      try {
+        sbase.appendNotes("<body xmlns=\"" + JSBML.URI_XHTML_DEFINITION + "\"><p>" + pElement + ": " + properties.getProperty((String)pElement) + "</p></body>");
+      } catch (XMLStreamException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
 }
