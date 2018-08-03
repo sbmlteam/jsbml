@@ -31,7 +31,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.swing.JOptionPane;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
@@ -44,7 +43,6 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 import org.sbml.jsbml.xml.stax.SBMLReader;
-import org.sbml.libsbml.libsbml;
 import org.sbml.libsbml.libsbmlConstants;
 
 /**
