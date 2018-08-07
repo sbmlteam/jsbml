@@ -90,7 +90,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
           if (ft.isSetMath()) {
             if (!ft.getMath().isBoolean()) {
-              ValidationConstraint.logError(ctx, QUAL_10201, ft.getId());
+              ValidationConstraint.logError(ctx, QUAL_10201, ft, ft.getId());
             }
             return ft.getMath().isBoolean(); 
           }
@@ -195,7 +195,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
           if (ft.isDefaultTerm() && ft.isSetResultLevel() && ft.getResultLevel() < 0) {
-            ValidationConstraint.logError(ctx, QUAL_20705, "Default Term", Integer.valueOf(ft.getResultLevel()).toString());
+            ValidationConstraint.logError(ctx, QUAL_20705, ft, "Default Term", Integer.valueOf(ft.getResultLevel()).toString());
             return false;
           }
           
@@ -217,7 +217,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
           if (!ft.isDefaultTerm()) {
             func = new UnknownCoreAttributeValidationFunction<FunctionTerm>().check(ctx, ft);
             if (func == false) {
-              ValidationConstraint.logError(ctx, QUAL_20801, "TheBrokenAtt");
+              ValidationConstraint.logError(ctx, QUAL_20801, ft, "TheBrokenAtt");
             }
             return func;
           }
@@ -311,7 +311,7 @@ public class FunctionTermConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, FunctionTerm ft) {
           if (!ft.isDefaultTerm() && ft.isSetResultLevel() && ft.getResultLevel() < 0) {
-            ValidationConstraint.logError(ctx, QUAL_20806, ft.getElementName(), Integer.valueOf(ft.getResultLevel()).toString());
+            ValidationConstraint.logError(ctx, QUAL_20806, ft, ft.getElementName(), Integer.valueOf(ft.getResultLevel()).toString());
             return false;
           }
           return true;

@@ -25,6 +25,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.tree.TreeNode;
+
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -104,6 +106,7 @@ public class ValidationContext {
   private boolean                         recursiv = true;
 
   // TODO - package version for all packages - if not given, take latest version ?
+  private HashMap<String, Integer> packageVersions = new HashMap<String, Integer>();
 
 
   /**
@@ -130,6 +133,8 @@ public class ValidationContext {
     this.version = version;
     this.categories = categories;
     this.rootConstraint = rootConstraint;
+    
+    // TODO - if SBase
     this.categories.add(CHECK_CATEGORY.GENERAL_CONSISTENCY); // TODO - why adding this one all the time ?
     listenerSet = new HashSet<ValidationListener>();
   }
@@ -518,6 +523,23 @@ public class ValidationContext {
     }
   }
 
+  /**
+   * 
+   * @param packageShortName
+   * @param packageVersion
+   */
+  public void setPackageVersion(String packageShortName, int packageVersion) {
+    // TODO
+  }
+
+  /**
+   * 
+   * @param packageShortName
+   * @param packageVersion
+   */
+  public void setPackageVersion(String packageNamespace) {
+    // TODO    
+  }
 
   /**
    * Sets the root constraints and the root constraint class type.

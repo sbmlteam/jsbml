@@ -154,7 +154,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
            */
           if (s.isSetCompartment() && s.getModel() != null && s.getCompartmentInstance() == null) {
             
-            ValidationConstraint.logError(ctx, CORE_20601, s.getId(), s.getCompartment());
+            ValidationConstraint.logError(ctx, CORE_20601, s, s.getId(), s.getCompartment());
             return false;
           }
 
@@ -193,7 +193,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
             if (c != null && c.getSpatialDimensions() == 0 && s.isSetSpatialSizeUnits()) {
 
-              ValidationConstraint.logError(ctx, CORE_20603, s.getId(), s.getCompartment());
+              ValidationConstraint.logError(ctx, CORE_20603, s, s.getId(), s.getCompartment());
 
               return false;
             }
@@ -213,7 +213,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
           if (c != null && c.getSpatialDimensions() == 0 && s.isSetInitialConcentration()) {
 
-            ValidationConstraint.logError(ctx, CORE_20604, s.getId(), s.getCompartment());
+            ValidationConstraint.logError(ctx, CORE_20604, s, s.getId(), s.getCompartment());
 
             return false;
           }
@@ -252,7 +252,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
           if (!checkResult) {
             // report error
-            ValidationConstraint.logError(ctx, CORE_20605, s.getId(), s.getCompartment(), s.getSpatialSizeUnits());
+            ValidationConstraint.logError(ctx, CORE_20605, s, s.getId(), s.getCompartment(), s.getSpatialSizeUnits());
           }
           
           return checkResult;
@@ -290,7 +290,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
           if (!checkResult) {
             // report error
-            ValidationConstraint.logError(ctx, CORE_20606, s.getId(), s.getCompartment(), s.getSpatialSizeUnits());
+            ValidationConstraint.logError(ctx, CORE_20606, s, s.getId(), s.getCompartment(), s.getSpatialSizeUnits());
           }
           
           return checkResult;
@@ -329,7 +329,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
 
           if (!checkResult) {
             // report error
-            ValidationConstraint.logError(ctx, CORE_20607, s.getId(), s.getCompartment(), s.getSpatialSizeUnits());
+            ValidationConstraint.logError(ctx, CORE_20607, s, s.getId(), s.getCompartment(), s.getSpatialSizeUnits());
           }
           
           return checkResult;
@@ -370,7 +370,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           
           if (!checkResult) {
             // report error
-            ValidationConstraint.logError(ctx, CORE_20608, s.getId(), s.getSubstanceUnits());
+            ValidationConstraint.logError(ctx, CORE_20608, s, s.getId(), s.getSubstanceUnits());
           }
           
           return checkResult;
@@ -445,7 +445,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
                   {
                     if (sr.getSpecies().equals(s.getId()))
                     {
-                      ValidationConstraint.logError(ctx, CORE_20610, s.getId(), r.getId());
+                      ValidationConstraint.logError(ctx, CORE_20610, s, s.getId(), r.getId());
                       return false;
                     }
                   }
@@ -456,7 +456,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
                   {
                     if (sr.getSpecies().equals(s.getId()))
                     {
-                      ValidationConstraint.logError(ctx, CORE_20610, s.getId(), r.getId());
+                      ValidationConstraint.logError(ctx, CORE_20610, s, s.getId(), r.getId());
                       return false;
                     }
                   }
@@ -479,7 +479,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
         public boolean check(ValidationContext ctx, Species s) {
           if (s.isSetSpeciesType() && s.getSpeciesTypeInstance() == null) {
 
-            ValidationConstraint.logError(ctx, CORE_20612, s.getId(), s.getSpeciesType());
+            ValidationConstraint.logError(ctx, CORE_20612, s, s.getId(), s.getSpeciesType());
             return false;
           }
           return true;
@@ -557,7 +557,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
           
           if (s.isSetConversionFactor() && s.getConversionFactorInstance() == null) {
             
-            ValidationConstraint.logError(ctx, CORE_20617, s.getId(), s.getConversionFactor());
+            ValidationConstraint.logError(ctx, CORE_20617, s, s.getId(), s.getConversionFactor());
             return false;
           }
 
@@ -593,7 +593,7 @@ public class SpeciesConstraints extends AbstractConstraintDeclaration{
             // don't report if the parameter is null, that's the job of CORE_20617
             if (fac != null && !fac.isConstant()) {
               
-              ValidationConstraint.logError(ctx, CORE_20705, s.getConversionFactor());
+              ValidationConstraint.logError(ctx, CORE_20705, s, s.getConversionFactor());
               return  false;
             }
           }

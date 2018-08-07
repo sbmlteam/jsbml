@@ -136,7 +136,7 @@ public class ParameterConstraints extends AbstractConstraintDeclaration {
                 || (m != null && m.getUnitDefinition(units) != null))) 
             {
             
-              ValidationConstraint.logError(ctx, CORE_20701, p.getId(), p.getUnits());
+              ValidationConstraint.logError(ctx, CORE_20701, p, p.getId(), p.getUnits());
               return false;
             }
           }

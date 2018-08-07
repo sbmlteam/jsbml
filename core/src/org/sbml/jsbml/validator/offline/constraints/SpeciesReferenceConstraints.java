@@ -152,7 +152,7 @@ public class SpeciesReferenceConstraints extends AbstractConstraintDeclaration {
             // if the species is constant and 'boundaryCondition = false', it cannot be a reactant or product
             if (s != null && !s.isBoundaryCondition() && s.isConstant()) {
 
-              ValidationConstraint.logError(ctx, CORE_20611, s.getId());
+              ValidationConstraint.logError(ctx, CORE_20611, sr, s.getId());
               return false; 
             }
 

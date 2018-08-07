@@ -109,7 +109,7 @@ public class ExplicitRuleConstraints extends AbstractConstraintDeclaration {
 
             if (c != null && c.isSetSpatialDimensions() && c.getSpatialDimensions() == 0) {
               
-              ValidationConstraint.logError(ctx, CORE_20911, r.getElementName(), r.getVariable());
+              ValidationConstraint.logError(ctx, CORE_20911, r, r.getElementName(), r.getVariable());
               return false;
             }
           }

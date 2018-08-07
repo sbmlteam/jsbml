@@ -223,7 +223,7 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
 
           if (r.isSetCompartment() && r.getCompartmentInstance() == null) {
 
-            ValidationConstraint.logError(ctx, CORE_21107, r.getId(), r.getCompartment());
+            ValidationConstraint.logError(ctx, CORE_21107, r, r.getId(), r.getCompartment());
             return false;
           }
 
@@ -270,7 +270,7 @@ public class ReactionConstraints extends AbstractConstraintDeclaration {
               // Is a Species but not in list of defined species?
               if (m.getSpecies(name) != null && !definedSpecies.contains(name)) {
                 
-                ValidationConstraint.logError(ctx, CORE_21121, name, r.getId());
+                ValidationConstraint.logError(ctx, CORE_21121, r, name, r.getId());
                 return false;
               }
             }

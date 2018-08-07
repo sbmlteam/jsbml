@@ -90,7 +90,7 @@ public class SimpleSpeciesReferenceConstraints
 
           if (sr.isSetSpecies() && sr.getSpeciesInstance() == null) {
             
-            ValidationConstraint.logError(ctx, CORE_21111, ((SBase) sr.getParent().getParent()).getId(), sr.getSpecies());
+            ValidationConstraint.logError(ctx, CORE_21111, sr, ((SBase) sr.getParent().getParent()).getId(), sr.getSpecies());
             return false;
           }
           

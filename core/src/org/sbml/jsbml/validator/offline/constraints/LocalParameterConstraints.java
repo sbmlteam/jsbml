@@ -130,7 +130,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
               
               if (! "true".equals(constant)) {
                 
-                ValidationConstraint.logError(ctx, CORE_21124, lp.getId(), ((SBase) lp.getParent().getParent().getParent()).getId());
+                ValidationConstraint.logError(ctx, CORE_21124, lp, lp.getId(), ((SBase) lp.getParent().getParent().getParent()).getId());
                 return false;
               }
             }
@@ -182,7 +182,7 @@ public class LocalParameterConstraints extends AbstractConstraintDeclaration {
             }
             
             if (!check) {
-              ValidationConstraint.logError(ctx, CORE_21173, localParameterId, r.getId(), type);
+              ValidationConstraint.logError(ctx, CORE_21173, lp, localParameterId, r.getId(), type);
             }
           }
                     

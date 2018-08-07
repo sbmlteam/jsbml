@@ -21,7 +21,9 @@ package org.sbml.jsbml.validator.offline.constraints.helper;
 
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
+import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.AbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.ValidationConstraint;
@@ -69,6 +71,14 @@ public class UnknownCoreAttributeAbstractValidationFunction<T extends TreeNodeWi
     return true;
   }
   
+  /**
+   * 
+   * 
+   * @param ctx
+   * @param t
+   * @param errorCode
+   * @return
+   */
   public boolean check(ValidationContext ctx, T t, int errorCode) {
 
     boolean ret = true;
@@ -96,8 +106,16 @@ public class UnknownCoreAttributeAbstractValidationFunction<T extends TreeNodeWi
           // We consider that if the prefix is empty, the attribute belong to core
           if (attributePrefix.trim().length() == 0 || attributeURI.equals(sbmlNamespace)) {
             // TODO - create the proper SBMLError that contain useful information for the user. ValidationConstraint.logError
+            SBase source = null;
+            
+            if (t instanceof SBase) {
+              source = (SBase) t; 
+            } else {
+              source = LoggingValidationContext.getParentSBase(t);
+            }
+            
             ret = false;
-            ValidationConstraint.logError(ctx, errorCode, unknownNode.getAttrName(i));
+            ValidationConstraint.logError(ctx, errorCode, source, unknownNode.getAttrName(i));
             }
           }
         

@@ -215,7 +215,7 @@ public class AssignmentRuleConstraints extends AbstractConstraintDeclaration {
 
           if (var != null && var.getConstant()) {
             
-            ValidationConstraint.logError(ctx, CORE_20903, var.getElementName(), var.getId());            
+            ValidationConstraint.logError(ctx, CORE_20903, r, var.getElementName(), var.getId());            
             return false;
           }
 

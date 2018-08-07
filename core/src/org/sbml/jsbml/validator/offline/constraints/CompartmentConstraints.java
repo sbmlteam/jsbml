@@ -217,7 +217,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
 
           if (c.isSetOutside() && (c.getOutsideInstance() == null))
           {
-            ValidationConstraint.logError(ctx, CORE_20504, c.getId(), c.getOutside());
+            ValidationConstraint.logError(ctx, CORE_20504, c, c.getId(), c.getOutside());
             return false;
           }
 
@@ -283,7 +283,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
 
             if (outside != null && outside.getSpatialDimensions() != 0) {
               
-              ValidationConstraint.logError(ctx, CORE_20506, c.getId(), outside.getId());
+              ValidationConstraint.logError(ctx, CORE_20506, c, c.getId(), outside.getId());
               
               return false;
             }
@@ -396,7 +396,7 @@ public class CompartmentConstraints extends AbstractConstraintDeclaration {
 
           if (c.isSetCompartmentType() && c.getCompartmentTypeInstance() == null) {
             
-            ValidationConstraint.logError(ctx, CORE_20510, c.getId(), c.getCompartmentType());
+            ValidationConstraint.logError(ctx, CORE_20510, c, c.getId(), c.getCompartmentType());
             
             return false;
           }

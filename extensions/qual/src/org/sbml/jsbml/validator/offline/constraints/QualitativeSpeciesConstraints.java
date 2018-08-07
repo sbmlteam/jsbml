@@ -175,7 +175,7 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 				@Override
 				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
 					if (qs.isSetCompartment() && qs.getModel() != null && qs.getCompartmentInstance() == null) {
-						ValidationConstraint.logError(ctx, QUAL_20308, qs.getId(), qs.getCompartment());
+						ValidationConstraint.logError(ctx, QUAL_20308, qs, qs.getId(), qs.getCompartment());
 						return false;
 					}
 					return true;
@@ -190,7 +190,7 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 				@Override
 				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
 					if (qs.isSetInitialLevel() && qs.isSetMaxLevel() && qs.getInitialLevel() > qs.getMaxLevel()) {
-					  ValidationConstraint.logError(ctx, QUAL_20309, qs.getId(), Integer.toString(qs.getInitialLevel()), Integer.toString(qs.getMaxLevel()));
+					  ValidationConstraint.logError(ctx, QUAL_20309, qs, qs.getId(), Integer.toString(qs.getInitialLevel()), Integer.toString(qs.getMaxLevel()));
 						return false;
 					}
 					return true;
@@ -210,7 +210,7 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 						for (Transition trans : qmp.getListOfTransitions()) {
 							for (Output output : trans.getListOfOutputs()) {
 								if (output.getQualitativeSpecies().equals(qs.getId())) {
-								  ValidationConstraint.logError(ctx, QUAL_20310, qs.getId());
+								  ValidationConstraint.logError(ctx, QUAL_20310, qs, qs.getId());
 									return false;
 								}
 							}
@@ -236,7 +236,7 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 				@Override
 				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
 					if (qs.isSetInitialLevel() && qs.getInitialLevel() < 0) {
-					  ValidationConstraint.logError(ctx, QUAL_20312, qs.getId(), Integer.toString(qs.getInitialLevel()));
+					  ValidationConstraint.logError(ctx, QUAL_20312, qs, qs.getId(), Integer.toString(qs.getInitialLevel()));
 						return false;
 					}
 					return true;
@@ -250,7 +250,7 @@ public class QualitativeSpeciesConstraints extends AbstractConstraintDeclaration
 				@Override
 				public boolean check(ValidationContext ctx, QualitativeSpecies qs) {
 					if (qs.isSetMaxLevel() && qs.getMaxLevel() < 0) {
-					  ValidationConstraint.logError(ctx, QUAL_20313, qs.getId(), Integer.toString(qs.getMaxLevel()));
+					  ValidationConstraint.logError(ctx, QUAL_20313, qs, qs.getId(), Integer.toString(qs.getMaxLevel()));
 						return false;
 					}
 					return true;
