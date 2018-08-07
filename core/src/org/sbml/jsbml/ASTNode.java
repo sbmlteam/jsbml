@@ -2772,8 +2772,8 @@ public class ASTNode extends AbstractTreeNode {
    * @return a set of all the {@link NamedSBase} referenced on this node and
    *         all his descendant.
    */
-  public Set<NamedSBase> getReferencedNamedSBases() {
-    Set<NamedSBase> l = new HashSet<NamedSBase>();
+  public Set<SBase> getReferencedNamedSBases() {
+    Set<SBase> l = new HashSet<SBase>();
     if (isString()) {
       if (getVariable() != null) {
         l.add(getVariable());

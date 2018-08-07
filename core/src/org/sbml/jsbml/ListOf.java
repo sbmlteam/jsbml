@@ -636,7 +636,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   /**
    * Gets the list element which has the id 'id'.
    * 
-   * <p>The elements of the list have to implement {@link NamedSBase}, if they are not
+   * <p>The elements of the list have to implement {@link SBase}, if they are not
    * or if the id is not found, null is returned.
    * 
    * @param id the id to search for.
@@ -647,8 +647,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
     T foundElement = null;
 
     for (T element : listOf) {
-      if (element instanceof NamedSBase) {
-        if (((NamedSBase) element).getId().equals(id)) {
+      if (element instanceof SBase) {
+        if (((SBase) element).getId().equals(id)) {
           foundElement = element;
           break;
         }
@@ -814,18 +814,18 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T>, U
   }
 
   /**
-   * Removes a {@link NamedSBase} according to its unique id.
+   * Removes a {@link SBase} according to its unique id.
    * 
    * @param nsb
    *            the object to be removed.
    * @return success or failure.
    */
-  public boolean remove(NamedSBase nsb) {
+  public boolean remove(SBase nsb) {
     if (!listOf.remove(nsb)) {
       if (nsb.isSetId()) {
         int pos = -1;
         for (int i = 0; (i < size()) && (pos < 0); i++) {
-          NamedSBase sb = (NamedSBase) get(i);
+          SBase sb = (SBase) get(i);
           if (sb.isSetId() && nsb.isSetId()
               && sb.getId().equals(nsb.getId())) {
             pos = i;

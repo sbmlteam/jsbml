@@ -29,7 +29,6 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
@@ -91,7 +90,7 @@ public class SBMLtools {
    * @return preferably the id if it is set, otherwise the name or an empty
    *         {@link String} if both is undefined.
    */
-  public static final String getIdOrName(NamedSBase nsb) {
+  public static final String getIdOrName(SBase nsb) {
     if (nsb.isSetId()) {
       return nsb.getId();
     } else if (nsb.isSetName()) {
@@ -105,7 +104,7 @@ public class SBMLtools {
    * @return preferably the name if is set otherwise the id or an empty
    *         {@link String} if both is undefined.
    */
-  public static final String getNameOrId(NamedSBase nsb) {
+  public static final String getNameOrId(SBase nsb) {
     if (nsb.isSetName()) {
       return nsb.getName();
     } else if (nsb.isSetId()) {
