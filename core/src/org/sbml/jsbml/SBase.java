@@ -933,7 +933,23 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public CVTerm removeCVTerm(int index);
 
-
+  /**
+   * Removes a namespace from the set of declared namespaces of this
+   * {@link SBase}.
+   * 
+   * @param namespace the namespace to remove
+   */
+  public void removeDeclaredNamespaceByNamespace(String namespace);
+  
+  /**
+   * Removes a namespace from the set of declared namespaces of this
+   * {@link SBase}.
+   * 
+   * @param prefix
+   *        the prefix of the namespace to remove
+   */  
+  public void removeDeclaredNamespaceByPrefix(String prefix);
+    
   /**
    * Removes the given {@link TreeNodeChangeListener} from this element.
    * 

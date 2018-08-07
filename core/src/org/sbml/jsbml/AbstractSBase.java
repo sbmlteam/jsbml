@@ -2299,7 +2299,62 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return getAnnotation().removeCVTerm(index);
   }
 
+  
+  /**
+   * Removes a namespace from the set of declared namespaces of this
+   * {@link SBase}.
+   * 
+   * @param prefix
+   *        the prefix of the namespace to remove
+   */  
+  public void removeDeclaredNamespaceByPrefix(String prefix) {
+    if (prefix == null) {
+      return;
+    }
+    
+    if ((!prefix.startsWith("xmlns:")) && (!prefix.equals("xmlns"))) {
+      if (prefix.indexOf(':') != -1) {
+        throw new IllegalArgumentException(
+          resourceBundle.getString("AbstractSBase.addDeclaredNamespace"));
+      }
+      prefix = "xmlns:" + prefix;
+    }
+    
+    String removedNamespace = declaredNamespaces.remove(prefix);
+    
+    if (removedNamespace != null) {
+      firePropertyChange(TreeNodeChangeEvent.addDeclaredNamespace, removedNamespace, null);
+    }
+  }
 
+  /**
+   * Removes a namespace from the set of declared namespaces of this
+   * {@link SBase}.
+   * 
+   * @param namespace the namespace to remove
+   */
+  public void removeDeclaredNamespaceByNamespace(String namespace) {
+    if (namespace == null) {
+      return;
+    }
+    
+    String prefixToRemove = null;
+    
+    for (String prefix : declaredNamespaces.keySet()) {
+      String namespaceForPrefix = declaredNamespaces.get(prefix);
+      
+      if (namespace.equals(namespaceForPrefix)) {
+        prefixToRemove = prefix;
+        break;
+      }
+    }
+    
+    if (prefixToRemove != null) {
+      declaredNamespaces.remove(prefixToRemove);
+      firePropertyChange(TreeNodeChangeEvent.addDeclaredNamespace, namespace, null);
+    }
+  }
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
