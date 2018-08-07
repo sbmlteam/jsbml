@@ -1629,6 +1629,7 @@ implements UniqueNamedSBase, IdManager {
    *        an id indicating an element of the model.
    * @return a {@link NamedSBase} element of the model that has the given 'id'
    *         as id or {@code null} if no element is found.
+   * @see #getSBaseById(String)        
    */
   public NamedSBase findNamedSBase(String id) {
     SBase found = findUniqueSBase(id);

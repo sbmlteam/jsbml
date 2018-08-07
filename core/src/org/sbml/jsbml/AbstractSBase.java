@@ -2831,7 +2831,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       logger.debug(format(
         resourceBundle.getString("AbstractSBase.unregisterChild1"),
         sbase.getElementName(),
-        (sbase instanceof NamedSBase ? ((NamedSBase) sbase).getId() : "")));
+        (sbase.isSetId() ? sbase.getId() : "")));
     }
 
     if ((sbase != null)) {
