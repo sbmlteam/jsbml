@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
@@ -41,6 +42,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.converters.ExpandFunctionDefinitionConverter;
 import org.sbml.jsbml.util.converters.ToL3V2Converter;
 import org.sbml.jsbml.validator.SBMLValidator;
@@ -305,35 +307,15 @@ public class SBMLDocument extends AbstractSBase {
   }
 
 
-  //  @Override
-  //  public Enumeration<TreeNode> children() {
-  //    Vector<TreeNode> vec = new Vector<>(1);
-  //
-  //    if (this.model != null)
-  //    {
-  //      vec.add(this.model);
-  //    }
-  //
-  //    return vec.elements();
-  //  }
-
   /**
-   * Validates the {@link SBMLDocument} using the BETA version of the
-   * offline validator (<span style="color:red;">do not use for production</span>).
-   * 
-   * <p>
-   * <span style="color:red;">WARNING</span>: the offline validator is still under development and there
-   * is only a subset of rules which will be tested at the moment and you might
-   * have errors reported that should not be. As well, the error messages are not very
-   * informative, at the moment it is only a generic string not customized to provide
-   * any context to help to know which SBML element generated the error.</p>
-   * 
-   * <p>For testing only, do not use for production.</p>
+   * Validates the {@link SBMLDocument} using the JSBML internal
+   * offline validator.
    * 
    * <p>You can control the consistency checks that are performed when
    * {@link #checkConsistencyOffline()} is called with the
-   * {@link #setConsistencyChecks(CHECK_CATEGORY, boolean)} method.
-   * It will fill this {@link SBMLDocument}'s {@link #listOfErrors}
+   * {@link #setConsistencyChecks(CHECK_CATEGORY, boolean)} method.</p>
+   * 
+   * <p>It will fill this {@link SBMLDocument}'s {@link #listOfErrors}
    * with {@link SBMLError}s for each problem within this whole data
    * structure. You will then be able to obtain this list by calling
    * {@link #getError(int)} or {@link #getListOfErrors()}.</p>
@@ -344,8 +326,14 @@ public class SBMLDocument extends AbstractSBase {
    * flag in the individual SBMLError objects returned by
    * {@link SBMLDocument#getError(int)} to determine the nature of the failures.
    * 
-
-   * @return the number of errors
+   * <p>The offline validator is not yet as complete as the online one so it is not
+   * currently used by default when calling {@link #checkConsistency()} but it might be
+   * in future versions. To get an up to date status, please check the page 
+   * <a href="https://github.com/sbmlteam/jsbml/wiki/Offline-validator-status">Offline-validator-status</a>.</p>
+   * 
+   * @return the number of errors found
+   * @see SBMLErrorLog#getErrorsBySeverity(org.sbml.jsbml.SBMLError.SEVERITY)
+   * @see SBMLErrorLog#getNumFailsWithSeverity(org.sbml.jsbml.SBMLError.SEVERITY)
    */
   public int checkConsistencyOffline() {
     LoggingValidationContext ctx = new LoggingValidationContext(getLevel(), getVersion());
@@ -390,25 +378,27 @@ public class SBMLDocument extends AbstractSBase {
   /**
    * Validates the {@link SBMLDocument} using the
    * SBML.org online validator (http://sbml.org/validator/).
+   * 
    * <p>
-   * you can control the consistency checks that are performed when
-   * {@link #checkConsistency()} is called with the
+   * You can control the consistency checks that are performed when
+   * {@link #checkConsistencyOnline()} is called with the
    * {@link #setConsistencyChecks(CHECK_CATEGORY, boolean)} method.
    * It will fill this {@link SBMLDocument}'s {@link #listOfErrors}
    * with {@link SBMLError}s for each problem within this whole data
    * structure. You will then be able to obtain this list by calling
-   * {@link #getError(int)} or {@link #getListOfErrors()}.
+   * {@link #getError(int)} or {@link #getListOfErrors()}.</p>
+   * 
    * <p>
    * If this method returns a nonzero value (meaning, one or more
    * consistency checks have failed for SBML document), the failures may be
    * due to <i>warnings</i> or <i>errors</i>. Callers should inspect the severity
    * flag in the individual SBMLError objects returned by
-   * {@link SBMLDocument#getError(int)} to determine the nature of the failures.
+   * {@link SBMLDocument#getError(int)} to determine the nature of the failures.</p>
    * 
    * @return the number of errors found
    * @see #setConsistencyChecks(CHECK_CATEGORY, boolean)
    */
-  public int checkConsistency() {
+  public int checkConsistencyOnline() {
 
     File tmpFile = null;
 
@@ -570,6 +560,38 @@ public class SBMLDocument extends AbstractSBase {
   }
 
 
+  /**
+   * Validates the {@link SBMLDocument}.
+   * 
+   * <p> The validation is currently performed using the
+   * SBML.org online validator (http://sbml.org/validator/).</p>
+   * 
+   * <p>
+   * You can control the consistency checks that are performed when
+   * {@link #checkConsistency()} is called with the
+   * {@link #setConsistencyChecks(CHECK_CATEGORY, boolean)} method.
+   * It will fill this {@link SBMLDocument}'s {@link #listOfErrors}
+   * with {@link SBMLError}s for each problem within this whole data
+   * structure. You will then be able to obtain this list by calling
+   * {@link #getError(int)} or {@link #getListOfErrors()}.</p>
+   * 
+   * <p>
+   * If this method returns a nonzero value (meaning, one or more
+   * consistency checks have failed for SBML document), the failures may be
+   * due to <i>warnings</i> or <i>errors</i>. Callers should inspect the severity
+   * flag in the individual SBMLError objects returned by
+   * {@link SBMLDocument#getError(int)} to determine the nature of the failures.</p>
+   * 
+   * @return the number of errors found
+   * @see #setConsistencyChecks(CHECK_CATEGORY, boolean)
+   * @see #checkConsistencyOnline()
+   * @see #checkConsistencyOffline()
+   */
+  public int checkConsistency() {
+    return checkConsistencyOnline();
+  }
+  
+  
   /**
    * Checks if the given meta identifier can be added in this
    * {@link SBMLDocument}
