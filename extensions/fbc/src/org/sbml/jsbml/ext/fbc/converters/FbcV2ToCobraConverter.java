@@ -37,7 +37,13 @@ public class FbcV2ToCobraConverter implements SBMLConverter {
    */
   @Override
   public SBMLDocument convert(SBMLDocument sbmlDocument) throws SBMLException {
-    // TODO Auto-generated method stub
+   // convert SBML FBCV2 file to SBML FBCV1
+    FbcV2ToFbcV1Converter fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    sbmlDocument = fbcV2ToFbcV1Converter.convert(sbmlDocument);
+   // convert SBML FBCV1 file to old COBRA SBML
+    FbcV1ToCobraConverter fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    sbmlDocument = fbcV1ToCobraConverter.convert(sbmlDocument);  
+    
     return sbmlDocument;
   }
 
