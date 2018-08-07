@@ -163,6 +163,7 @@ public class SBMLErrorFactory {
         e.setCode(id);
         e.setCategory((String) errorEntry.get(JSON_KEY_CATEGORY));
         e.setPackage((String) errorEntry.get(JSON_KEY_PACKAGE));
+        e.setSource(sbase);
 
         //
         // Building the error message from the various ResourceBundle

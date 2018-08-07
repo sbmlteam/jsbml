@@ -89,7 +89,7 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 	            }
 	            if (qlWithAssignmentLevel.contains(o.getQualitativeSpecies())) {
 	              // creating a proper error message
-	              ValidationConstraint.logError(ctx, QUAL_20311, ((Transition) o.getParent().getParent()).getId(), o.getQualitativeSpecies());
+	              ValidationConstraint.logError(ctx, QUAL_20311, o, ((Transition) o.getParent().getParent()).getId(), o.getQualitativeSpecies());
 	              return false;	              
 	            } else {
 	              qlWithAssignmentLevel.add(o.getQualitativeSpecies());
@@ -171,7 +171,7 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Output o) {
 
           if (o.isSetQualitativeSpecies() && o.getQualitativeSpeciesInstance() == null) {
-            ValidationConstraint.logError(ctx, QUAL_20607, o.getQualitativeSpecies());
+            ValidationConstraint.logError(ctx, QUAL_20607, o, o.getQualitativeSpecies());
             return false;
           }
           return true;  
@@ -188,7 +188,7 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 		    @Override
 		    public boolean check(ValidationContext ctx, Output o) {
 		      if (o.isSetQualitativeSpecies() && o.getQualitativeSpeciesInstance() != null && o.getQualitativeSpeciesInstance().isSetConstant() && o.getQualitativeSpeciesInstance().getConstant()) {
-		        ValidationConstraint.logError(ctx, QUAL_20608, o.getId(), Boolean.toString(o.getQualitativeSpeciesInstance().getConstant()));
+		        ValidationConstraint.logError(ctx, QUAL_20608, o, o.getId(), Boolean.toString(o.getQualitativeSpeciesInstance().getConstant()));
 		        return false;
 		      }
 		      return true;
@@ -205,7 +205,7 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Output o) {
           if (o.isSetTransitionEffect() && o.getTransitionEffect() == OutputTransitionEffect.production && !o.isSetOutputLevel()) {
-            ValidationConstraint.logError(ctx, QUAL_20609, o.getTransitionEffect().name(), Boolean.toString(o.isSetOutputLevel()));
+            ValidationConstraint.logError(ctx, QUAL_20609, o, o.getTransitionEffect().name(), Boolean.toString(o.isSetOutputLevel()));
             return false;
           }
           return true;
@@ -220,7 +220,7 @@ public class OutputConstraints extends AbstractConstraintDeclaration {
 			  @Override
 			  public boolean check(ValidationContext ctx, Output o) {
 			    if (o.isSetOutputLevel() && o.getOutputLevel() < 0) {
-			      ValidationConstraint.logError(ctx, QUAL_20610, o.getId(), Integer.toString(o.getOutputLevel()));
+			      ValidationConstraint.logError(ctx, QUAL_20610, o, o.getId(), Integer.toString(o.getOutputLevel()));
 			      return false;
 			    }
 			    return true;

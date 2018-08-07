@@ -147,7 +147,7 @@ public class RateRuleConstraints extends AbstractConstraintDeclaration {
                         errorCode = CORE_10534;
                       }
                       
-                      ValidationConstraint.logError(ctx, errorCode, variable.getId());
+                      ValidationConstraint.logError(ctx, errorCode, rateRule, variable.getId());
                     }
                   }
                 }
@@ -190,7 +190,7 @@ public class RateRuleConstraints extends AbstractConstraintDeclaration {
 
           if (var != null && var.isConstant()) {
             
-            ValidationConstraint.logError(ctx, CORE_20904, var.getElementName(), var.getId());
+            ValidationConstraint.logError(ctx, CORE_20904, r, var.getElementName(), var.getId());
             return false;
           }
 

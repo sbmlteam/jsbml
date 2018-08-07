@@ -214,7 +214,7 @@ extends AbstractConstraintDeclaration {
           }
 
           if (!check) {
-            ValidationConstraint.logError(ctx, CORE_20801, ia.getVariable());
+            ValidationConstraint.logError(ctx, CORE_20801, ia, ia.getVariable());
           }
           
           return check;
@@ -255,7 +255,7 @@ extends AbstractConstraintDeclaration {
 
             if (c != null && c.getSpatialDimensions() == 0) {
               
-              ValidationConstraint.logError(ctx, CORE_20806, ia.getVariable());
+              ValidationConstraint.logError(ctx, CORE_20806, ia, ia.getVariable());
               return false;
             }
           }

@@ -152,7 +152,7 @@ public class InputConstraints extends AbstractConstraintDeclaration {
 		    public boolean check(ValidationContext ctx, Input i) {
 
 		      if (i.isSetQualitativeSpecies() && i.getQualitativeSpeciesInstance() == null) {
-		        ValidationConstraint.logError(ctx, QUAL_20508, i.getQualitativeSpecies());
+		        ValidationConstraint.logError(ctx, QUAL_20508, i, i.getQualitativeSpecies());
 		        return false;
 		      }
 		      return true;  
@@ -172,7 +172,7 @@ public class InputConstraints extends AbstractConstraintDeclaration {
           if (i.isSetQualitativeSpecies() && i.isSetTransitionEffect()) { 
             QualitativeSpecies qs = i.getQualitativeSpeciesInstance();
             if (qs != null && qs.isSetConstant() && qs.getConstant() && i.getTransitionEffect() == InputTransitionEffect.consumption) {
-              ValidationConstraint.logError(ctx, QUAL_20509, i.getQualitativeSpecies(), i.getId());
+              ValidationConstraint.logError(ctx, QUAL_20509, i, i.getQualitativeSpecies(), i.getId());
               return false;
             }
           }
@@ -188,7 +188,7 @@ public class InputConstraints extends AbstractConstraintDeclaration {
 				@Override
 				public boolean check(ValidationContext ctx, Input i) {
 				  if (i.isSetThresholdLevel() && i.getThresholdLevel() < 0) {
-				    ValidationConstraint.logError(ctx, QUAL_20510, i.getId(), Integer.toString(i.getThresholdLevel()));
+				    ValidationConstraint.logError(ctx, QUAL_20510, i, i.getId(), Integer.toString(i.getThresholdLevel()));
 				    return false;
 				  }
 				  return true;

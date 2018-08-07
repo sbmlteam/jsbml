@@ -324,7 +324,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = SyntaxChecker.isValidId(m.getSubstanceUnits(), ctx.getLevel(), ctx.getVersion());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10311, m.getSubstanceUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, m.getSubstanceUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -333,7 +333,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.substanceUnits);
 
             if (invalidUnits != null) {
-              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, invalidUnits, m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -343,7 +343,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = SyntaxChecker.isValidId(m.getVolumeUnits(), ctx.getLevel(), ctx.getVersion());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10311, m.getVolumeUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, m.getVolumeUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -352,7 +352,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.volumeUnits);
 
             if (invalidUnits != null) {
-              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, invalidUnits, m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -362,7 +362,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = SyntaxChecker.isValidId(m.getAreaUnits(), ctx.getLevel(), ctx.getVersion());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10311, m.getAreaUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, m.getAreaUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -371,7 +371,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.areaUnits);
 
             if (invalidUnits != null) {
-              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, invalidUnits, m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -381,7 +381,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = SyntaxChecker.isValidId(m.getLengthUnits(), ctx.getLevel(), ctx.getVersion());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10311, m.getLengthUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, m.getLengthUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -390,7 +390,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.lengthUnits);
 
             if (invalidUnits != null) {
-              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, invalidUnits, m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -400,7 +400,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = SyntaxChecker.isValidId(m.getTimeUnits(), ctx.getLevel(), ctx.getVersion());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10311, m.getTimeUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, m.getTimeUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -409,7 +409,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.timeUnits);
 
             if (invalidUnits != null) {
-              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, invalidUnits, m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -419,7 +419,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = SyntaxChecker.isValidId(m.getExtentUnits(), ctx.getLevel(), ctx.getVersion());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10311, m.getExtentUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, m.getExtentUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -428,7 +428,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             String invalidUnits = ValidationTools.checkUnknownUnitSyntax(ctx, m, TreeNodeChangeEvent.extentUnits);
 
             if (invalidUnits != null) {
-              ValidationConstraint.logError(ctx, CORE_10311, invalidUnits, m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10311, m, invalidUnits, m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -455,7 +455,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getSubstanceUnits());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10313, m.getSubstanceUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10313, m, m.getSubstanceUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -465,7 +465,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getVolumeUnits());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10313, m.getVolumeUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10313, m, m.getVolumeUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -475,7 +475,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getAreaUnits());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10313, m.getAreaUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10313, m, m.getAreaUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -485,7 +485,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getLengthUnits());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10313, m.getLengthUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10313, m, m.getLengthUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -495,7 +495,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getTimeUnits());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10313, m.getTimeUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10313, m, m.getTimeUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -505,7 +505,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
             boolean isUnitsValid = ValidationTools.checkUnit(ctx, m, m.getExtentUnits());
         
             if (!isUnitsValid) {
-              ValidationConstraint.logError(ctx, CORE_10313, m.getExtentUnits(), m.getElementName(), m.getId());
+              ValidationConstraint.logError(ctx, CORE_10313, m, m.getExtentUnits(), m.getElementName(), m.getId());
               isCheckValid = false;
             }
           }
@@ -805,7 +805,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetTimeUnits()) {
             UnitDefinition ud = m.getTimeUnitsInstance();
 
-            if (ud.getUnitCount() == 0) {
+            if (ud != null && ud.getUnitCount() == 0) {
               return false;
             }
 
@@ -827,7 +827,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetVolumeUnits()) {
             UnitDefinition ud = m.getVolumeUnitsInstance();
 
-            if (ud.getUnitCount() == 0) {
+            if (ud != null && ud.getUnitCount() == 0) {
               return false;
             }
 
@@ -849,7 +849,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetAreaUnits()) {
             UnitDefinition ud = m.getAreaUnitsInstance();
 
-            if (ud.getUnitCount() == 0) {
+            if (ud != null && ud.getUnitCount() == 0) {
               return false;
             }
 
@@ -871,7 +871,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetLengthUnits()) {
             UnitDefinition ud = m.getLengthUnitsInstance();
 
-            if (ud.getUnitCount() == 0) {
+            if (ud != null && ud.getUnitCount() == 0) {
               return false;
             }
             if (ud != null) {
@@ -892,11 +892,12 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           if (m.isSetExtentUnits()) {
             UnitDefinition ud = m.getExtentUnitsInstance();
 
-            if (ud.getUnitCount() == 0) {
+            if (ud != null && ud.getUnitCount() == 0) {
               return false;
             }
-
-            return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
+            if (ud != null) {
+              return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
+            }
           }
 
           return true;
@@ -1057,8 +1058,10 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
           // check the substanceUnits value
           if (m.isSetSubstanceUnits()) {
             UnitDefinition ud = m.getSubstanceUnitsInstance();
-            
-            return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
+          
+            if (ud != null) {
+              return ud.isVariantOfSubstance() || ud.isVariantOfDimensionless();
+            }
           }
           
           return true;
@@ -1078,7 +1081,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
 
             if (fac != null && !fac.isConstant()) {
               
-              ValidationConstraint.logError(ctx, CORE_20705, m.getConversionFactor());
+              ValidationConstraint.logError(ctx, CORE_20705, m, m.getConversionFactor());
               return false;
             }
           }

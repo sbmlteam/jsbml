@@ -460,7 +460,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               if (f == null) {
 
                 // TODO - for the second parameter, we should print something more complete so that the element could be identified easily
-                ValidationConstraint.logError(ctx, CORE_10214, ValidationTools.printASTNodeAsFormula(node.getParentSBMLObject().getMath()),
+                ValidationConstraint.logError(ctx, CORE_10214, node.getParentSBMLObject(), ValidationTools.printASTNodeAsFormula(node.getParentSBMLObject().getMath()),
                     node.getParentSBMLObject().getElementName(), node.getName());
                 
                 return  false;
@@ -826,7 +826,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             boolean isValid = SyntaxChecker.isValidId(node.getUnits(), ctx.getLevel(), ctx.getVersion());
             
             if (!isValid) {
-              ValidationConstraint.logErrorWithPostmessageCode(ctx, CORE_10311, CORE_10311 + "_MATH", node.getUnits(),
+              ValidationConstraint.logErrorWithPostmessageCode(ctx, CORE_10311, CORE_10311 + "_MATH", node.getParentSBMLObject(), node.getUnits(),
                   node.getParentSBMLObject().getElementName());
               return false;
             }

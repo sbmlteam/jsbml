@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
@@ -58,9 +59,9 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
    * @param errorCode the error code
    * @param args the arguments that will be passed to {@link MessageFormat#format(String, Object...)} to build the final post message.
    */
-  public static void logError(ValidationContext ctx, int errorCode, String...args) {
+  public static void logError(ValidationContext ctx, int errorCode, SBase source, String...args) {
 
-    logErrorWithPostmessageCode(ctx, errorCode, Integer.toString(errorCode), args);
+    logErrorWithPostmessageCode(ctx, errorCode, Integer.toString(errorCode), source, args);
   }
 
   /**
@@ -73,14 +74,15 @@ public class ValidationConstraint<T> extends AbstractConstraint<T> {
    * @param args the arguments that will be passed to {@link MessageFormat#format(String, Object...)} to build the final post message.
    * 
    */
-  public static void logErrorWithPostmessageCode(ValidationContext ctx, int errorCode, String postErrorMessageKey, String...args) {
+  public static void logErrorWithPostmessageCode(ValidationContext ctx, int errorCode, String postErrorMessageKey, SBase source, String...args) {
 
     if (ctx != null && ctx instanceof LoggingValidationContext) {
       LoggingValidationContext lctx = (LoggingValidationContext) ctx;
 
       // Try to create the SBMLError from the .json file
       SBMLError e = SBMLErrorFactory.createError(errorCode, ctx.getLevel(), ctx.getVersion());
-
+      e.setSource(source);
+      
       ResourceBundle postMessageBundle = SBMLErrorFactory.getSBMLErrorPostMessageBundle();
       String postMessageI18n = SBMLErrorFactory.getBundleString(postMessageBundle, postErrorMessageKey);
 

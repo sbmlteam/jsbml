@@ -149,7 +149,7 @@ public class AssignmentCycleValidation
               
               // using different messages for different configuration
               if (isCompartment && child instanceof Species) {
-                ValidationConstraint.logErrorWithPostmessageCode(ctx, SBMLErrorCodes.CORE_20906, SBMLErrorCodes.CORE_20906 + "_COMP", sb.getElementName(), currentId, child.getId());
+                ValidationConstraint.logErrorWithPostmessageCode(ctx, SBMLErrorCodes.CORE_20906, SBMLErrorCodes.CORE_20906 + "_COMP", sb, sb.getElementName(), currentId, child.getId());
                 
               } else if (previousId != null && previousId.equals(currentId)) {
                 
@@ -161,10 +161,10 @@ public class AssignmentCycleValidation
                   formula = ValidationTools.printASTNodeAsFormula(((MathContainer) sb).getMath());
                 }
                 
-                ValidationConstraint.logErrorWithPostmessageCode(ctx, SBMLErrorCodes.CORE_20906, SBMLErrorCodes.CORE_20906 + "_SELF", sb.getElementName(), relatedId1, currentId, formula);
+                ValidationConstraint.logErrorWithPostmessageCode(ctx, SBMLErrorCodes.CORE_20906, SBMLErrorCodes.CORE_20906 + "_SELF", sb, sb.getElementName(), relatedId1, currentId, formula);
                 
               } else { 
-                ValidationConstraint.logError(ctx, SBMLErrorCodes.CORE_20906, sb.getElementName(), relatedId1, currentId, previousChild.getElementName(), relatedId2, previousId);
+                ValidationConstraint.logError(ctx, SBMLErrorCodes.CORE_20906, sb, sb.getElementName(), relatedId1, currentId, previousChild.getElementName(), relatedId2, previousId);
               }
 
               check = false; // do not return straight away to be able to detect other potential cycle ?

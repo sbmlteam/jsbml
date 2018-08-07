@@ -24,10 +24,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AbstractValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
@@ -156,6 +159,14 @@ public class LoggingValidationContext extends ValidationContext implements Valid
       e = SBMLErrorFactory.createError(id, this.getLevel(), this.getVersion(), true, (SBase) o);
     } else {
       e = SBMLErrorFactory.createError(id, this.getLevel(), this.getVersion());
+      
+      if (o instanceof TreeNodeWithChangeSupport) {
+        SBase source = getParentSBase((TreeNodeWithChangeSupport) o);
+        
+        if (source != null) {
+          e.setSource(source);
+        }
+      }
     }
     
     if (e != null) {
@@ -170,6 +181,28 @@ public class LoggingValidationContext extends ValidationContext implements Valid
       defaultError.setCode(id);
       log.add(defaultError);
     }
+  }
+
+
+  /**
+   * 
+   * 
+   * @param o
+   * @return
+   */
+  public static SBase getParentSBase(TreeNodeWithChangeSupport o) 
+  {
+    if (o != null && o.isSetParent()) {
+      TreeNode parent = o.getParent();
+      
+      if (parent instanceof SBase) {
+        return (SBase) parent;
+      } else {
+        return getParentSBase((TreeNodeWithChangeSupport) parent);
+      }
+    }
+    
+    return null;
   }
 
 

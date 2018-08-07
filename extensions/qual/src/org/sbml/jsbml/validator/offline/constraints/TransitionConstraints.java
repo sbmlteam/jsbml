@@ -129,7 +129,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 		      Boolean input = new DuplicatedElementValidationFunction<Transition>(QualConstants.listOfInputs).check(ctx, t);
 		      Boolean output = new DuplicatedElementValidationFunction<Transition>(QualConstants.listOfOutputs).check(ctx, t);
 		      if ((functionTerm && input && output) == false){
-		        ValidationConstraint.logError(ctx, QUAL_20405, Boolean.toString(t.isSetListOfFunctionTerms()), Boolean.toString(input), Boolean.toString(output));
+		        ValidationConstraint.logError(ctx, QUAL_20405, t, Boolean.toString(t.isSetListOfFunctionTerms()), Boolean.toString(input), Boolean.toString(output));
 		        return false;
 		      }
 		    return true;
@@ -147,7 +147,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 				public boolean check(ValidationContext ctx, Transition t) {
 					if ((t.isSetListOfInputs() && t.getListOfInputs().isEmpty())
               || (t.isSetListOfOutputs() && t.getListOfOutputs().isEmpty())) {
-					  ValidationConstraint.logError(ctx, QUAL_20406, Integer.toString(t.getListOfInputs().size()), Integer.toString(t.getListOfOutputs().size()));
+					  ValidationConstraint.logError(ctx, QUAL_20406, t, Integer.toString(t.getListOfInputs().size()), Integer.toString(t.getListOfOutputs().size()));
             return false;
 					}
 				  return true;
@@ -289,7 +289,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
 		          if (ft.isSetResultLevel()) {
 		            int resultLevel = ft.getResultLevel();
 		            if (resultLevel > maxLevel) {
-		              ValidationConstraint.logError(ctx, QUAL_20413, t.getId(), QualSpecToExceed);
+		              ValidationConstraint.logError(ctx, QUAL_20413, t, t.getId(), QualSpecToExceed);
 		              return false;
 		            }
 		          }
@@ -310,7 +310,7 @@ public class TransitionConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, Transition t) {
           for (FunctionTerm ft : t.getListOfFunctionTerms()) {
             if (ft.isSetResultLevel() && ft.getResultLevel() < 0) {
-              ValidationConstraint.logError(ctx, QUAL_20414, Integer.toString(ft.getResultLevel()));
+              ValidationConstraint.logError(ctx, QUAL_20414, t, Integer.toString(ft.getResultLevel()));
               return false;
             }
           }
