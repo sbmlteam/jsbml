@@ -112,6 +112,11 @@ public class SBMLError extends XMLException {
      * 
      */
     private String packageName;
+    
+    /**
+     * SBase that is the source for the reported error.
+     */
+    private SBase source;
 
     /**
      * Constructs a new {@link SBMLError}.
@@ -409,4 +414,24 @@ public class SBMLError extends XMLException {
     public String getPackage() {
 	return packageName;
     }
+
+    /**
+     * Returns the source for this {@link SBMLError}.
+     * 
+     * @return the source
+     */
+    public SBase getSource() {
+      return source;
+    }
+
+    /**
+     * Sets the source of this {@link SBMLError}.
+     * 
+     * @param source the source to set
+     */
+    public void setSource(SBase source) {
+      this.source = source;
+    }
+    
+    
 }
