@@ -30,6 +30,7 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstraints;
@@ -88,6 +89,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
       if (level > 1) {
         set.add(CORE_10307);
         set.add(CORE_10308);
+        set.add(CORE_10309);
       }
       
       break;
@@ -225,6 +227,23 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
       };
       break;
 
+    case CORE_10309: 
+    {
+      func = new ValidationFunction<SBase>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBase sb) {
+
+          if (sb.isSetMetaId()) {
+            return SyntaxChecker.isValidMetaId(sb.getMetaId()); 
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+      
     case CORE_10401: 
     {
       func = new ValidationFunction<SBase>() {
