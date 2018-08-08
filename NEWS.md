@@ -1,6 +1,43 @@
 # JSBML NEWS -- History of user-visible changes
 
 ==================================
+## Version 1.4 (XX-08-2018)
+==================================
+
+### New Features:
+
+  - Converters from SBML Level 2 with COBRA annotations to FBC version 1 and version 2 and vice versa.
+  
+  - Added a utility class to help removing or disabling Level 3 packages (PackageDisabler).
+  
+  - Added a comp flattening converter.
+  
+  - Implemented remaining qual validation rules.
+  
+  - Added a function to convert an ASTNode2 into an ASTNode in ASTFactory.
+  
+  - Added a source of type SBase to the SBMLError when created with the offline validator. This will allow users to find easily the SBase that is the cause of the reported error.
+  
+  - Updated the SBMLDocument documentation about validation and created the method checkConsistencyOnline() that will keep using the online validator for people who want to use it in the future, in case checkConsistency() start using the offline validator.
+  
+  
+### Bug Fixes:
+
+  - SBMLDocument unsets 'fast' upon converting to L3V2 if possible.
+  
+  - Fixed issue #146. When creating an SBMLdocument in memory, the declared namespace was not automatically defined which made some validation constraints failed. Thanks to Refizul3399 for reporting the problem.
+  
+  - Fixed issue #145. The E-notation pattern was wrongly including an optional '-' sign at the start. Thanks to Refizul3399 for reporting the problem.
+  
+  - Fixed a bug the UnitsCompiler. When checking for assignment cycle, the logic was wrong and would report a cycle when there was none, thus returning an invalid unit. Thanks to Matthias Koenig for reporting the problem.
+  
+  - Fixed issue #143. When setting SBOterm to 'null', the existing value will just be unset. Before the user would have gotten a NullPointerException. Thanks to Piotr Gawron for reporting the issue.
+  
+  - Fixed issue #142. One of the values of the InterpolationKind enum in the spatial package was wrong. Thanks to Franck Bergmann who reported the problem.
+  
+ 
+
+==================================
 ## Version 1.3.1 (19-12-2017)
 ==================================
 
@@ -184,7 +221,7 @@
 
 
 ===========================================================================
-## Version 1.1 (09-12-2016)
+## Version 1.1 (09-12-2015)
 ===========================================================================
 
 ### New Features:
@@ -228,7 +265,7 @@
     reported the problem.
 
 ===========================================================================
-## Version 1.1-beta1 (12-10-2016)
+## Version 1.1-beta1 (12-10-2015)
 ===========================================================================
 
 ### New Features:
