@@ -51,26 +51,33 @@ public class IdentifierException extends SBMLException {
    * Creates a new {@link IdentifierException} instance.
    * 
    * @param sb
-   * @param id
+   * @param identifier
    */
-  public IdentifierException(NamedSBase sb, String id) {
-    super(MessageFormat.format(DUPLICATE_IDENTIFIER_MSG, "", id, sb.getElementName()));
+  public IdentifierException(SBase sb, String identifier, String message, String preIdentifierName) {
+    super(MessageFormat.format(message, preIdentifierName, identifier, sb.getElementName()));
     logger.error(MessageFormat.format(
-      "An element with the id \"{0}\" is already present in the SBML model. The identifier of {1} will not be set to this value.",
-      id, sb.getElementName()));
+      "An element with the {2}id \"{0}\" is already present in the SBML model. The element {1} will ignore the value.",
+      identifier, sb.getElementName()));
   }
 
   /**
-   * Creates a new {@link IdentifierException} instance.
+   * Creates a new {@link IdentifierException} instance for id.
+   * 
+   * @param sb
+   * @param id
+   */
+  public static IdentifierException createIdentifierExceptionForId(SBase sb, String id) {
+    return new IdentifierException(sb, id, DUPLICATE_IDENTIFIER_MSG, "");
+  }
+
+  /**
+   * Creates a new {@link IdentifierException} instance for metaid.
    * 
    * @param sb
    * @param metaId
    */
-  public IdentifierException(SBase sb, String metaId) {
-    super(MessageFormat.format(DUPLICATE_IDENTIFIER_MSG, "meta ", metaId, sb.getElementName()));
-    logger.error(MessageFormat.format(
-      "An element with the metaid \"{0}\" is already present in the SBML document. The element {1} will not be annotated with it.",
-      metaId, sb.getElementName()));
+  public static IdentifierException createIdentifierExceptionForMetaId(SBase sb, String metaId) {
+    return new IdentifierException(sb, metaId, DUPLICATE_IDENTIFIER_MSG, "meta");
   }
 
 }
