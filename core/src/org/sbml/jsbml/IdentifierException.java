@@ -45,7 +45,7 @@ public class IdentifierException extends SBMLException {
   /**
    * 
    */
-  public static final String DUPLICATE_IDENTIFIER_MSG = "Cannot set duplicate {0}identifier {1} for {2}.";
+  public static final String DUPLICATE_IDENTIFIER_MSG = "Cannot set duplicate {0}id ''{1}'' for {2}.";
 
   /**
    * Creates a new {@link IdentifierException} instance.
@@ -57,7 +57,7 @@ public class IdentifierException extends SBMLException {
     super(MessageFormat.format(message, preIdentifierName, identifier, sb.getElementName()));
     logger.error(MessageFormat.format(
       "An element with the {2}id \"{0}\" is already present in the SBML model. The element {1} will ignore the value.",
-      identifier, sb.getElementName()));
+      identifier, sb.getElementName(), preIdentifierName));
   }
 
   /**
