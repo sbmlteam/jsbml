@@ -55,6 +55,18 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
     "http://www.sbml.org/sbml/level2/version3", "http://www.sbml.org/sbml/level2/version4",
     "http://www.sbml.org/sbml/level2/version5");
   
+  /**
+   * List of HTML flow content elements that are allowed inside the body tag.
+   */
+  private static final List<String> htmlFlowContentElementList = Arrays.asList("a", "abbr", "address", "article", "aside", "audio", "b","bdo", "bdi", "blockquote", "br", 
+      "button", "canvas", "cite", "code", "command", "data", "datalist", "del", "details", "dfn", "div", "dl", "em", "embed", "fieldset", "figure", "footer", "form", 
+      "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "main", "map", "mark", "math",
+      "menu", "meter", "nav", "noscript", "object", "ol", "output", "p", "pre", "progress", "q", "ruby", "s", "samp", "script", "section", "select", "small",
+      "span", "strong", "sub", "sup", "svg", "table", "template", "textarea", "time", "ul", "var", "video", "wbr", "center");
+  
+  
+  
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#
@@ -376,10 +388,10 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
           if (sb.isSetNotes()) {
             
             // loop over the top level elements of the notes and check that they are in the XHTML namespace
-            XMLNode annoNode = sb.getNotes();
+            XMLNode notesNode = sb.getNotes();
             
-            for (int i = 0; i < annoNode.getChildCount(); i++) {
-              XMLNode topLevelChild = annoNode.getChild(i);
+            for (int i = 0; i < notesNode.getChildCount(); i++) {
+              XMLNode topLevelChild = notesNode.getChild(i);
               
               if (topLevelChild.isText()) {
                 continue;
@@ -426,38 +438,67 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, SBase sb) {
           boolean isValid = true;
           
-          if (sb.isSetAnnotation()) {
+          if (sb.isSetNotes()) {
             
-            // TODO - specific structure
-            XMLNode annoNode = sb.getAnnotation().getFullAnnotation();
-            Set<String> namespaceSet = new HashSet<String>();
+            // checking that the notes follow a specific valid HTML structure
+            XMLNode notesNode = sb.getNotes();
             
-            for (int i = 0; i < annoNode.getChildCount(); i++) {
-              XMLNode topLevelChild = annoNode.getChild(i);
+            int firstElementIndex = AbstractSBase.getFirstElementIndex(notesNode);
+
+            String cname = "";
+
+            if (firstElementIndex != -1) {
+              cname = notesNode.getChildAt(firstElementIndex).getName(); 
               
-              if (topLevelChild.isText()) {
-                continue;
-              }
-              
-              String namespace = topLevelChild.getNamespaceURI();
-              String prefix = topLevelChild.getPrefix();              
-              
-              if (namespace == null || namespace.trim().length() == 0) {
-                // Trying to get the namespace from the prefix
-                namespace = topLevelChild.getNamespaceURI(prefix);
+              if (cname == "html") {
                 
-                // If not found, recursively go up the SBase tree to find the namespace definition ?
-              }
-              
-              if (namespace != null && namespace.trim().length() > 0) {
-                if (namespaceSet.contains(namespace)) {
-                  // TODO - report error properly
-                  return false;
-                } else {
-                  namespaceSet.add(namespace);
+                // check the structure of the html element
+                XMLNode htmlNode = notesNode.getChildAt(firstElementIndex);
+                XMLNode headNode = null;
+                XMLNode bodyNode = null;
+                
+                boolean headFound = false;
+                boolean bodyFound = false;
+                boolean otherElementFound = false;
+
+                for (int i = 0; i < htmlNode.getChildCount(); i++) {
+                  XMLNode child = htmlNode.getChildAt(i);
+
+                  if (child.isElement()) {
+                    if (child.getName().equals("head")) {
+                      headFound = true;
+                      headNode = child;
+                    } else if (child.getName().equals("body") && headFound) {
+                      bodyFound = true;
+                      bodyNode = child;
+                    } else {
+                      otherElementFound = true;
+                    }
+                  }
                 }
+
+                if (!headFound || !bodyFound || otherElementFound) {
+                  // TODO - do a proper error message
+                  return false;
+                }
+                
+                boolean validHead = checkHtmlHeadContent(ctx, sb, headNode);;
+                
+                return validHead && checkHtmlBodyContent(ctx, sb, bodyNode);
+                
+              } else if (cname == "body") {
+
+                // check each top level elements inside the body element
+                XMLNode bodyNode = notesNode.getChildAt(firstElementIndex);
+                
+                return checkHtmlBodyContent(ctx, sb, bodyNode);
+                
+              } else {
+                
+                // check each top level elements
+                return checkHtmlBodyContent(ctx, sb, notesNode);
               }
-            }
+            }            
           }
 
           return isValid;
@@ -497,4 +538,62 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
     return func;
   }
 
+
+  /**
+   * Checks that each sub elements of the given {@link XMLNode} are allowed inside a body element.
+   * 
+   * <p>Meaning that they are part of the flow content HTML elements.</p>
+   * 
+   * @param ctx the Validation context
+   * @param sb the SBase we are validating
+   * @param topLevelNode the XMLNode to validate
+   * @return true if each sub elements of the given {@link XMLNode} are allowed inside a body element, false otherwise.
+   */
+  protected boolean checkHtmlBodyContent(ValidationContext ctx, SBase sb, XMLNode topLevelNode) {
+    
+    if (sb.isSetUserObjects() && sb.getUserObject(JSBML.UNKNOWN_XML) != null) {
+      // unknown elements in the sbml namespace
+      // TODO - the unknown elements should be added to the proper XMLNode directly and not the SBase 
+      return false;
+    }
+    
+    for (int i = 0; i < topLevelNode.getChildCount(); i++) {
+      XMLNode topLevelChild = topLevelNode.getChild(i);
+      
+      if (topLevelChild.isElement() && !htmlFlowContentElementList.contains(topLevelChild.getName())) {
+        // TODO - do a proper error message
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Checks that each sub elements of the given {@link XMLNode} are allowed inside a head element.
+   * 
+   * 
+   * @param ctx the Validation context
+   * @param sb the SBase we are validating
+   * @param topLevelNode the XMLNode to validate
+   * @return true if each sub elements of the given {@link XMLNode} are allowed inside a head element, false otherwise.
+   */
+  protected boolean checkHtmlHeadContent(ValidationContext ctx, SBase sb, XMLNode topLevelNode) {
+    
+    boolean titlePresent = false;
+    
+    for (int i = 0; i < topLevelNode.getChildCount(); i++) {
+      XMLNode topLevelChild = topLevelNode.getChild(i);
+      
+      if (topLevelChild.isElement() && topLevelChild.getName().equals("title")) {
+        titlePresent = true;
+      }
+    }
+
+    if (!titlePresent) {
+      // TODO - do a proper error message
+    }
+    
+    return titlePresent;
+  }
 }

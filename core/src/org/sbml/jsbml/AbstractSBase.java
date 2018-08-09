@@ -1529,7 +1529,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @return the index of the first child of type 'Element' for the given
    *         {@link XMLNode}, -1 otherwise.
    */
-  private int getFirstElementIndex(XMLNode curNotes) {
+  public static int getFirstElementIndex(XMLNode curNotes) {
 
     if (curNotes != null && curNotes.getChildCount() > 0) {
 
