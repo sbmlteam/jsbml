@@ -22,6 +22,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBase;
@@ -132,7 +133,7 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
       func = new ElementOrderValidationFunction<Constraint>(CONSTRAINT_ELEMENTS_ORDER);
       break;
       
-    case CORE_21003:
+    case CORE_21003: {
       func = new ValidationFunction<Constraint>() {
 
         @Override
@@ -221,7 +222,85 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+    }
       
+    case CORE_21006: 
+    {
+      func = new ValidationFunction<Constraint>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Constraint sb) {
+          boolean isValid = true;
+          
+          if (sb.isSetMessage()) {
+            
+            // checking that the notes follow a specific valid HTML structure
+            XMLNode messageNode = sb.getMessage();
+            
+            int firstElementIndex = AbstractSBase.getFirstElementIndex(messageNode);
+
+            String cname = "";
+
+            if (firstElementIndex != -1) {
+              cname = messageNode.getChildAt(firstElementIndex).getName(); 
+              
+              if (cname == "html") {
+                
+                // check the structure of the html element
+                XMLNode htmlNode = messageNode.getChildAt(firstElementIndex);
+                XMLNode headNode = null;
+                XMLNode bodyNode = null;
+                
+                boolean headFound = false;
+                boolean bodyFound = false;
+                boolean otherElementFound = false;
+
+                for (int i = 0; i < htmlNode.getChildCount(); i++) {
+                  XMLNode child = htmlNode.getChildAt(i);
+
+                  if (child.isElement()) {
+                    if (child.getName().equals("head")) {
+                      headFound = true;
+                      headNode = child;
+                    } else if (child.getName().equals("body") && headFound) {
+                      bodyFound = true;
+                      bodyNode = child;
+                    } else {
+                      otherElementFound = true;
+                    }
+                  }
+                }
+
+                if (!headFound || !bodyFound || otherElementFound) {
+                  // TODO - do a proper error message
+                  return false;
+                }
+                
+                boolean validHead = SBaseConstraints.checkHtmlHeadContent(ctx, sb, headNode);;
+                
+                return validHead && SBaseConstraints.checkHtmlBodyContent(ctx, sb, bodyNode);
+                
+              } else if (cname == "body") {
+
+                // check each top level elements inside the body element
+                XMLNode bodyNode = messageNode.getChildAt(firstElementIndex);
+                
+                return SBaseConstraints.checkHtmlBodyContent(ctx, sb, bodyNode);
+                
+              } else {
+                
+                // check each top level elements
+                return SBaseConstraints.checkHtmlBodyContent(ctx, sb, messageNode);
+              }
+            }            
+          }
+
+          return isValid;
+        }
+      };
+      break;
+    }
+
     case CORE_21007:
       func = new ValidationFunction<Constraint>() {
 

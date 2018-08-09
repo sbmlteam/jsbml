@@ -549,7 +549,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
    * @param topLevelNode the XMLNode to validate
    * @return true if each sub elements of the given {@link XMLNode} are allowed inside a body element, false otherwise.
    */
-  protected boolean checkHtmlBodyContent(ValidationContext ctx, SBase sb, XMLNode topLevelNode) {
+  public static boolean checkHtmlBodyContent(ValidationContext ctx, SBase sb, XMLNode topLevelNode) {
     
     if (sb.isSetUserObjects() && sb.getUserObject(JSBML.UNKNOWN_XML) != null) {
       // unknown elements in the sbml namespace
@@ -578,7 +578,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
    * @param topLevelNode the XMLNode to validate
    * @return true if each sub elements of the given {@link XMLNode} are allowed inside a head element, false otherwise.
    */
-  protected boolean checkHtmlHeadContent(ValidationContext ctx, SBase sb, XMLNode topLevelNode) {
+  public static  boolean checkHtmlHeadContent(ValidationContext ctx, SBase sb, XMLNode topLevelNode) {
     
     boolean titlePresent = false;
     
