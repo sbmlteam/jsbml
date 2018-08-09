@@ -444,6 +444,16 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   private boolean ignoreCase = false;
 
   /**
+   * the SBML level for which we build the ASTNode.
+   */
+  private int sbmlLevel = -1;
+
+  /**
+   * the SBML version for which we build the ASTNode.
+   */
+  private int sbmlVersion = -1;
+
+  /**
    * Defines the different behaviors the parser can have regarding the 'log' operator.
    * 
    * <p>By default, it will be read as the natural logarithm 'ln' as it was defined 
@@ -548,6 +558,47 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
         logBehavior = newLogBehavior;
   }
 
+  /**
+   * Returns the SBML Level.
+   * 
+   * <p>Returns -1 if it is not set.</p>
+   * 
+   * @return the SBML Level.
+   * @see #getVersion()
+   */
+  public int getLevel() {
+    return sbmlLevel;
+  }
+
+  /**
+   * Sets the SBML Level.
+   * 
+   * @param level the SBML Level.
+   */
+  public void setLevel(int level) {
+    sbmlLevel = level;
+  }
+
+  /**
+   * Returns the SBML Version.
+   * 
+   * <p>Returns -1 if it is not set.</p>
+   * 
+   * @return the SBML Version.
+   * @see #getVersion()
+   */
+  public int getVersion() {
+    return sbmlVersion;
+  }
+
+  /**
+   * Sets the SBML Version.
+   * 
+   * @param version the SBML Version.
+   */
+  public void setVersion(int version) {
+    sbmlVersion = version;
+  }
 
   private void checkSize(ArrayList < ASTNode > arguments, int i) throws ParseException
   {
@@ -595,6 +646,17 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
    */
   private ASTNode createModulo(ASTNode leftChild, ASTNode rightChild)
   {
+    if (getLevel() >= 3 && getVersion() >= 2)
+    {
+      // In this case, use the new 'rem' math operator
+      ASTNode moduloNode = new ASTNode(ASTNode.Type.FUNCTION_REM);
+
+      moduloNode.addChild(leftChild);
+      moduloNode.addChild(rightChild);
+
+      return moduloNode;
+    }
+
     ASTNode piecewiseNode = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
 
     ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
@@ -1269,50 +1331,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_11() {
-    if (jj_scan_token(LEFT_BRACKET)) return true;
-    if (jj_3R_12()) return true;
-    if (jj_scan_token(RIGHT_BRACKET)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_37() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_scan_token(RIGHT_BRACES)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_32() {
-    if (jj_scan_token(POWER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_29() {
-    if (jj_scan_token(MODULO)) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_scan_token(STRING)) return true;
-    Token xsp;
-    if (jj_3R_11()) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_11()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_22() {
-    if (jj_scan_token(MINUS)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_35() {
-    if (jj_scan_token(EXPNUMBER)) return true;
-    return false;
-  }
-
   private boolean jj_3R_30() {
     if (jj_3R_31()) return true;
     Token xsp;
@@ -1339,6 +1357,16 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     return false;
   }
 
+  private boolean jj_3R_12() {
+    if (jj_3R_13()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_14()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
   private boolean jj_3R_18() {
     Token xsp;
     xsp = jj_scanpos;
@@ -1351,16 +1379,6 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
 
   private boolean jj_3R_21() {
     if (jj_scan_token(PLUS)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_12() {
-    if (jj_3R_13()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_14()) { jj_scanpos = xsp; break; }
-    }
     return false;
   }
 
@@ -1521,6 +1539,50 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   private boolean jj_3_1() {
     if (jj_3R_10()) return true;
     if (jj_scan_token(OPEN_PAR)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_11() {
+    if (jj_scan_token(LEFT_BRACKET)) return true;
+    if (jj_3R_12()) return true;
+    if (jj_scan_token(RIGHT_BRACKET)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_37() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_scan_token(RIGHT_BRACES)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_32() {
+    if (jj_scan_token(POWER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_29() {
+    if (jj_scan_token(MODULO)) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(STRING)) return true;
+    Token xsp;
+    if (jj_3R_11()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_11()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_22() {
+    if (jj_scan_token(MINUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_35() {
+    if (jj_scan_token(EXPNUMBER)) return true;
     return false;
   }
 

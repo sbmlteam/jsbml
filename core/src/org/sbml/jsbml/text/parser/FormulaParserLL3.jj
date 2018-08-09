@@ -455,6 +455,16 @@ public class FormulaParserLL3 implements IFormulaParser
   private boolean ignoreCase = false;
 
   /**
+   * the SBML level for which we build the ASTNode.
+   */
+  private int sbmlLevel = -1;
+  
+  /**
+   * the SBML version for which we build the ASTNode.
+   */
+  private int sbmlVersion = -1;
+    
+  /**
    * Defines the different behaviors the parser can have regarding the 'log' operator.
    * 
    * <p>By default, it will be read as the natural logarithm 'ln' as it was defined 
@@ -559,7 +569,48 @@ public class FormulaParserLL3 implements IFormulaParser
         logBehavior = newLogBehavior;
   }
 
+  /**
+   * Returns the SBML Level.
+   * 
+   * <p>Returns -1 if it is not set.</p>
+   * 
+   * @return the SBML Level.
+   * @see #getVersion()
+   */
+  public int getLevel() {
+    return sbmlLevel;
+  }
+  
+  /**
+   * Sets the SBML Level.
+   * 
+   * @param level the SBML Level.
+   */
+  public void setLevel(int level) {
+    sbmlLevel = level;
+  }
+  
+  /**
+   * Returns the SBML Version.
+   * 
+   * <p>Returns -1 if it is not set.</p>
+   * 
+   * @return the SBML Version.
+   * @see #getVersion()
+   */
+  public int getVersion() {
+    return sbmlVersion;
+  }
 
+  /**
+   * Sets the SBML Version.
+   * 
+   * @param version the SBML Version.
+   */
+  public void setVersion(int version) {
+    sbmlVersion = version;
+  }
+  
   private void checkSize(ArrayList < ASTNode > arguments, int i) throws ParseException
   {
     if (arguments.size() > i)
@@ -606,6 +657,17 @@ public class FormulaParserLL3 implements IFormulaParser
    */
   private ASTNode createModulo(ASTNode leftChild, ASTNode rightChild)
   {
+    if (getLevel() >= 3 && getVersion() >= 2) 
+    {
+      // In this case, use the new 'rem' math operator
+      ASTNode moduloNode = new ASTNode(ASTNode.Type.FUNCTION_REM);
+      
+      moduloNode.addChild(leftChild);
+      moduloNode.addChild(rightChild);
+      
+      return moduloNode;
+    }
+    
     ASTNode piecewiseNode = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
 
     ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
