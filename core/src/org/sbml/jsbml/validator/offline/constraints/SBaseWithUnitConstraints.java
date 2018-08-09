@@ -116,7 +116,7 @@ public class SBaseWithUnitConstraints
                 || Unit.isUnitKind(unit, ctx.getLevel(), ctx.getVersion())
                 || Unit.isPredefined(unit, ctx.getLevel()))) 
               {
-                if (ctx.getLevel() > 2) {
+                if (ctx.getLevel() > 2 || (ctx.getLevel() == 2 && ctx.getVersion() >= 5)) {
                   ValidationConstraint.logError(ctx, CORE_10313, sb, sb.getUnits(), sb.getElementName(), sb.getId());
                 } else {
                   ValidationConstraint.logError(ctx, CORE_99303, sb, sb.getUnits(), sb.getElementName(), sb.getId());
