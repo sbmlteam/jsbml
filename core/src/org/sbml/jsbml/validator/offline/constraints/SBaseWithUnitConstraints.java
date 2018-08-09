@@ -23,12 +23,14 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Event;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBaseWithUnit;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 
@@ -54,6 +56,7 @@ public class SBaseWithUnitConstraints
     case GENERAL_CONSISTENCY:
       break;
     case IDENTIFIER_CONSISTENCY:
+      set.add(CORE_10311);
       set.add(CORE_10313);
       break;
     case MATHML_CONSISTENCY:
@@ -93,6 +96,54 @@ public class SBaseWithUnitConstraints
     ValidationFunction<SBaseWithUnit> func = null;
 
     switch (errorCode) {
+      
+      case CORE_10311: {
+        func = new AbstractValidationFunction<SBaseWithUnit>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, SBaseWithUnit sb) {
+
+            if (sb.isSetUnits() && (sb instanceof Compartment || sb instanceof Species 
+                || sb instanceof Parameter || sb instanceof LocalParameter))
+            {
+              String unit = sb.getUnits();
+
+              boolean isUnitsValid = SyntaxChecker.isValidId(unit, ctx.getLevel(), ctx.getVersion());
+
+              if (!isUnitsValid) {
+                ValidationConstraint.logError(ctx, CORE_10311, sb, unit, sb.getElementName(), sb.getId());
+                return false;
+              }
+            }
+
+            if (sb instanceof Species && ((Species) sb).isSetSpatialSizeUnits()) {
+              String unit = ((Species) sb).getSpatialSizeUnits();
+              
+              boolean isUnitsValid = SyntaxChecker.isValidId(unit, ctx.getLevel(), ctx.getVersion());
+
+              if (!isUnitsValid) {
+                ValidationConstraint.logError(ctx, CORE_10311, sb, unit, sb.getElementName(), sb.getId());
+                return false;
+              }
+            }
+            
+            if (sb instanceof Event && ((Event) sb).isSetTimeUnits()) {
+              String unit = ((Event) sb).getTimeUnits();
+              
+              boolean isUnitsValid = SyntaxChecker.isValidId(unit, ctx.getLevel(), ctx.getVersion());
+
+              if (!isUnitsValid) {
+                ValidationConstraint.logError(ctx, CORE_10311, sb, unit, sb.getElementName(), sb.getId());
+                return false;
+              }
+            }
+            
+            return true;
+          }
+        };
+        break;
+      }
+
       // 
       case CORE_10313: {
         func = new AbstractValidationFunction<SBaseWithUnit>() {
