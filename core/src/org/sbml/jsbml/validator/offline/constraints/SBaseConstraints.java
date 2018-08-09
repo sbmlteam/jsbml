@@ -102,6 +102,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
         set.add(CORE_10307);
         set.add(CORE_10308);
         set.add(CORE_10309);
+        set.add(CORE_10310);
       }
       
       break;
@@ -255,7 +256,26 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
       };
       break;
     }
-      
+     
+    case CORE_10310: 
+    {
+      func = new ValidationFunction<SBase>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBase sb) {
+
+          // TODO - check if id set or in the invalid user object
+          
+          if (sb.isSetId()) {
+            return SyntaxChecker.isValidId(sb.getId(), ctx.getLevel(), ctx.getVersion()); 
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    
     case CORE_10401: 
     {
       func = new ValidationFunction<SBase>() {
