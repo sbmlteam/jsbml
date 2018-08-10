@@ -91,17 +91,22 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
     case MATHML_CONSISTENCY:
       if (level > 1) {
 
-        addRangeToSet(set, CORE_10201, CORE_10216);
+        addRangeToSet(set, CORE_10201, CORE_10208);
 
+        set.add(CORE_10214);
+        set.add(CORE_10215);
+        set.add(CORE_10216);
         set.add(CORE_10218);
 
         if (level == 3 || (level == 2 && version > 3)) {
           set.add(CORE_10219);
-          set.add(CORE_10221);
+          set.add(CORE_10221);          
         }
 
-        if (level == 2 && version == 4) {
-          set.add(CORE_10219);
+        if (level == 3 && version == 2) {
+          // TODO - addRangeToSet(set, CORE_10223, CORE_10225);
+        } else {
+          addRangeToSet(set, CORE_10209, CORE_10213);
         }
 
         set.add(CORE_10222);
@@ -730,14 +735,26 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           ASTNode.Type type = node.getType();
 
           if (type == Type.FUNCTION) {
+            
+            // System.out.println("10219 - Found a FUNCTION " + " - " + node.getName());
+            
             Model m = node.getParentSBMLObject().getModel();
 
             if (m != null) {
               FunctionDefinition fd = m.getFunctionDefinition(node.getName());
 
               if (fd != null) {
+                
+                // TODO - for L3V2, we can have no bvar defined !!
+                
+                // System.out.println("10219 - " + node.getNumChildren() + " - " + fd.getArgumentCount());
+                
                 return node.getNumChildren() == fd.getArgumentCount();
+              } else {
+                // System.out.println("10219 - fd is null");
               }
+            } else {
+              // System.out.println("10219 - Model is null");
             }
           }
 
@@ -759,7 +776,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             return node.isNumber();
           }
 
-          if (node.getUserObject(JSBML.UNKNOWN_XML) != null) {
+          if (node.isSetUserObjects() && node.getUserObject(JSBML.UNKNOWN_XML) != null) {
 
             String invalidUnits = ValidationTools.checkUnknowndAttribute(ctx, node, "units");
             
@@ -768,7 +785,9 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             }
           }
 
-          if (node.getParentSBMLObject().getUserObject(JSBML.UNKNOWN_XML) != null) {
+          if (node.getParentSBMLObject() != null 
+              && node.getParentSBMLObject().getUserObject(JSBML.UNKNOWN_XML) != null) 
+          {
             // System.out.println(node.getParentSBMLObject().getUserObject(JSBML.UNKNOWN_XML));
             
             // TODO - put this test on the MathContainer only to avoid getting it several times
