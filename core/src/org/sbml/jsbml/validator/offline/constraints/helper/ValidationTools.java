@@ -613,6 +613,33 @@ public final class ValidationTools {
     
     return definedInModel;
   }
+
+  /**
+   * Checks if the given {@link SBase} contains an attribute in the invalid XML user object. 
+   *
+   * 
+   * @param ctx the validation context
+   * @param sbase the sbase to check
+   * @param attributeName the attribute name to search in the invalid XML attributes
+   * @return an invalid attribute value, if the attribute is found in the invalid XML user object.
+   */
+  public static String checkInvalidAttribute(ValidationContext ctx, SBase sbase, String attributeName) {
+
+    XMLNode invalidNode = (XMLNode) sbase.getUserObject(JSBML.INVALID_XML);
+
+    if (invalidNode != null) {
+
+      String invalidAttribute = invalidNode.getAttrValue(attributeName);
+
+      if (invalidAttribute != null && invalidAttribute.trim().length() > 0) 
+      {
+        return invalidAttribute;
+      }
+    }
+
+    return null;
+  }
+
   
   /**
    * Checks if the given {@link SBase} contains an attribute in the unknown XML user object. 

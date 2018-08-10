@@ -102,8 +102,9 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
         set.add(CORE_10307);
         set.add(CORE_10308);
         set.add(CORE_10309);
-        set.add(CORE_10310);
       }
+      
+      set.add(CORE_10310);
       
       break;
     case MATHML_CONSISTENCY:
@@ -263,11 +264,24 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, SBase sb) {
-
-          // TODO - check if id set or in the invalid user object
           
           if (sb.isSetId()) {
             return SyntaxChecker.isValidId(sb.getId(), ctx.getLevel(), ctx.getVersion()); 
+          }
+          
+          // checking in the invalid user object
+          String invalidId = ValidationTools.checkInvalidAttribute(ctx, sb, "id");
+          
+          if (invalidId != null) {
+            return false;
+          }
+          
+          if (ctx.getLevel() == 1) {
+            invalidId = ValidationTools.checkInvalidAttribute(ctx, sb, "name");
+            
+            if (invalidId != null) {
+              return false;
+            }
           }
           
           return true;
