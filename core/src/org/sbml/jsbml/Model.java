@@ -4568,11 +4568,6 @@ implements UniqueNamedSBase, IdManager {
   public boolean register(SBase sbase) {
     boolean success = registerIds(sbase.getParentSBMLObject(), sbase, true, false, null);
 
-    if (isReadingInProgress()) {
-      // returning true when reading so that the validation can detect duplicated ids
-      return true;
-    }
-
     return success;
   }
 

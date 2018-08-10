@@ -29,6 +29,7 @@ import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.UniqueSId;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -98,6 +99,9 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
       
       break;
     case IDENTIFIER_CONSISTENCY:
+      
+      set.add(CORE_10301);
+      
       if (level > 1) {
         set.add(CORE_10307);
         set.add(CORE_10308);
@@ -175,6 +179,42 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
         };
         break;
       }
+
+      case CORE_10301: 
+      {
+        func = new ValidationFunction<SBase>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, SBase sb) {
+            
+            if (sb instanceof UniqueSId && sb.getPackageName().equals("core")) { // TODO - Each package will have a different error number
+              if (!sb.isSetId()) {
+
+                // checking in the invalid user object
+                String invalidId = ValidationTools.checkInvalidAttribute(ctx, sb, "id");
+
+                if (invalidId != null && SyntaxChecker.isValidId(invalidId, ctx.getLevel(), ctx.getVersion())) {
+                  // If the id has a valid syntax, then it is a duplicated id.
+                  // TODO - create a nice error message
+                  return false;
+                }
+
+                if (ctx.getLevel() == 1) {
+                  invalidId = ValidationTools.checkInvalidAttribute(ctx, sb, "name");
+
+                  if (invalidId != null && SyntaxChecker.isValidId(invalidId, ctx.getLevel(), ctx.getVersion())) {
+                    return false;
+                  }
+                } 
+              }  
+            }
+            
+            return true;
+          }
+        };
+        break;
+      }
+      
 
     case CORE_10307:
       func = new ValidationFunction<SBase>() {
