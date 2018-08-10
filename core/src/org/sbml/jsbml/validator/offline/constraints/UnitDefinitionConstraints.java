@@ -22,14 +22,18 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UniqueValidation;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.ValidationTools;;
@@ -90,6 +94,9 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
 
       break;
     case IDENTIFIER_CONSISTENCY:
+      
+      set.add(CORE_10302);
+      
       break;
     case MATHML_CONSISTENCY:
       break;
@@ -111,6 +118,39 @@ public class UnitDefinitionConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<UnitDefinition> func = null;
 
     switch (errorCode) {
+      
+      case CORE_10302: {
+        func = new ValidationFunction<UnitDefinition>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, UnitDefinition ud) {
+
+            if (!ud.isSetId()) {
+
+              // checking in the invalid user object
+              String invalidId = ValidationTools.checkInvalidAttribute(ctx, ud, "id");
+
+              if (invalidId != null && SyntaxChecker.isValidId(invalidId, ctx.getLevel(), ctx.getVersion())) {
+                // If the id has a valid syntax, then it is a duplicated id.
+                // TODO - create a nice error message
+                return false;
+              }
+
+              if (ctx.getLevel() == 1) {
+                invalidId = ValidationTools.checkInvalidAttribute(ctx, ud, "name");
+
+                if (invalidId != null && SyntaxChecker.isValidId(invalidId, ctx.getLevel(), ctx.getVersion())) {
+                  return false;
+                }
+              }
+            }  
+
+            return true;
+          }
+        };
+        break;
+      }
+
     case CORE_20401:
       func = new ValidationFunction<UnitDefinition>() {
 

@@ -49,6 +49,7 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 import org.sbml.jsbml.xml.parsers.PackageParser;
 import org.sbml.jsbml.xml.parsers.PackageUtil;
 import org.sbml.jsbml.xml.parsers.ParserManager;
@@ -2133,8 +2134,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if ((! (this instanceof NamedSBase)) && (getLevelAndVersion().compareTo(3, 1) <= 0)) {
         return false;
       }
-
-      setId(value);
+      try {
+        setId(value);
+      } catch (IllegalArgumentException e) {
+        // there is a problem with the id, either invalid syntax or duplicated id
+        AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
+        // still returning true to the method so that the attribute is not put in the unknown XML object
+      }
+      
       return true;
 
     } else if (attributeName.equals("name")) {
@@ -2143,10 +2150,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         return false;
       }
 
-      setName(value);
-      if (isSetLevel() && (getLevel() == 1)) {
-        setId(value);
+      try {
+        setName(value); // For level 1, it will set the id as well
+      } catch (IllegalArgumentException e) {
+        // there is a problem with the name/id, either invalid syntax or duplicated id
+        AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
       }
+      
       return true;
     }
 
