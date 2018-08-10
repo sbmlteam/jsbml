@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBase;
@@ -191,7 +192,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
               if (!sb.isSetId()) {
 
                 // checking in the invalid user object
-                String invalidId = ValidationTools.checkInvalidAttribute(ctx, sb, "id");
+                String invalidId = ValidationTools.checkInvalidAttribute(ctx, (AbstractTreeNode) sb, "id");
 
                 if (invalidId != null && SyntaxChecker.isValidId(invalidId, ctx.getLevel(), ctx.getVersion())) {
                   // If the id has a valid syntax, then it is a duplicated id.
@@ -200,7 +201,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
                 }
 
                 if (ctx.getLevel() == 1) {
-                  invalidId = ValidationTools.checkInvalidAttribute(ctx, sb, "name");
+                  invalidId = ValidationTools.checkInvalidAttribute(ctx, (AbstractTreeNode) sb, "name");
 
                   if (invalidId != null && SyntaxChecker.isValidId(invalidId, ctx.getLevel(), ctx.getVersion())) {
                     return false;
@@ -310,14 +311,14 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
           }
           
           // checking in the invalid user object
-          String invalidId = ValidationTools.checkInvalidAttribute(ctx, sb, "id");
+          String invalidId = ValidationTools.checkInvalidAttribute(ctx, (AbstractTreeNode) sb, "id");
           
           if (invalidId != null) {
             return false;
           }
           
           if (ctx.getLevel() == 1) {
-            invalidId = ValidationTools.checkInvalidAttribute(ctx, sb, "name");
+            invalidId = ValidationTools.checkInvalidAttribute(ctx, (AbstractTreeNode) sb, "name");
             
             if (invalidId != null) {
               return false;

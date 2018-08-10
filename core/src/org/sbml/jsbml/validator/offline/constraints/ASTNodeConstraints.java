@@ -31,6 +31,7 @@ import javax.swing.tree.TreeNode;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.JSBML;
@@ -758,6 +759,26 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
             return node.isNumber();
           }
 
+          if (node.getUserObject(JSBML.UNKNOWN_XML) != null) {
+
+            String invalidUnits = ValidationTools.checkUnknowndAttribute(ctx, node, "units");
+            
+            if (invalidUnits != null) {
+              return false;
+            }
+          }
+
+          if (node.getParentSBMLObject().getUserObject(JSBML.UNKNOWN_XML) != null) {
+            // System.out.println(node.getParentSBMLObject().getUserObject(JSBML.UNKNOWN_XML));
+            
+            // TODO - put this test on the MathContainer only to avoid getting it several times
+            String invalidUnits = ValidationTools.checkUnknowndAttribute(ctx, (AbstractTreeNode) node.getParentSBMLObject(), "units");
+            
+            if (invalidUnits != null) {
+              return false;
+            }
+          }
+          
           return true;
         }
       };
