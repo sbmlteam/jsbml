@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.AbstractMathContainer;
+import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
@@ -617,19 +618,43 @@ public final class ValidationTools {
   /**
    * Checks if the given {@link SBase} contains an attribute in the invalid XML user object. 
    *
-   * 
    * @param ctx the validation context
-   * @param sbase the sbase to check
+   * @param treeNode the object to check
    * @param attributeName the attribute name to search in the invalid XML attributes
    * @return an invalid attribute value, if the attribute is found in the invalid XML user object.
    */
-  public static String checkInvalidAttribute(ValidationContext ctx, SBase sbase, String attributeName) {
+  public static String checkInvalidAttribute(ValidationContext ctx, AbstractTreeNode treeNode, String attributeName) {
 
-    XMLNode invalidNode = (XMLNode) sbase.getUserObject(JSBML.INVALID_XML);
+    XMLNode invalidNode = (XMLNode) treeNode.getUserObject(JSBML.INVALID_XML);
 
     if (invalidNode != null) {
 
       String invalidAttribute = invalidNode.getAttrValue(attributeName);
+
+      if (invalidAttribute != null && invalidAttribute.trim().length() > 0) 
+      {
+        return invalidAttribute;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Checks if the given {@link SBase} contains an attribute in the unknown XML user object. 
+   *
+   * @param ctx the validation context
+   * @param treeNode the object to check
+   * @param attributeName the attribute name to search in the unknown XML attributes
+   * @return an unknown attribute value, if the attribute is found in the unknown XML user object.
+   */
+  public static String checkUnknowndAttribute(ValidationContext ctx, AbstractTreeNode treeNode, String attributeName) {
+
+    XMLNode unknownNode = (XMLNode) treeNode.getUserObject(JSBML.UNKNOWN_XML);
+
+    if (unknownNode != null) {
+
+      String invalidAttribute = unknownNode.getAttrValue(attributeName);
 
       if (invalidAttribute != null && invalidAttribute.trim().length() > 0) 
       {
