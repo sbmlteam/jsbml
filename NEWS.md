@@ -29,7 +29,7 @@
   
   - Fixed issue #145. The E-notation pattern was wrongly including an optional '-' sign at the start. Thanks to Refizul3399 for reporting the problem.
   
-  - Fixed a bug the UnitsCompiler. When checking for assignment cycle, the logic was wrong and would report a cycle when there was none, thus returning an invalid unit. Thanks to Matthias Koenig for reporting the problem.
+  - Fixed a bug in the UnitsCompiler. When checking for assignment cycle, the logic was wrong and would report a cycle when there was none, thus returning an invalid unit. Thanks to Matthias Koenig for reporting the problem.
   
   - Fixed issue #143. When setting SBOterm to 'null', the existing value will just be unset. Before the user would have gotten a NullPointerException. Thanks to Piotr Gawron for reporting the issue.
   
