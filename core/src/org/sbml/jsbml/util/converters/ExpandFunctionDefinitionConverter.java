@@ -48,7 +48,7 @@ import org.sbml.jsbml.util.filters.Filter;
  * in scripting and programming languages.</li></p>
  *
  * <p>For example, suppose the model contains a function definition
- * representing the function {@code f(x, y) = x * y}.  Further
+ * representing the function {@code f(x, y) = x * y}.  Further,
  * suppose this function invoked somewhere else in the model, in
  * a mathematical formula, as {@code f(s, p)},  the converter will replace
  * it with the expression {@code s * p}.
@@ -161,11 +161,13 @@ public class ExpandFunctionDefinitionConverter implements SBMLConverter {
                 // We found a FunctionDefinition referenced in a 'ci' mathML element
                 // we need to expand it
                 
-                // TODO - test for loop
+                // TODO - test for infinite loop
             	  // System.out.println("expandFunctionDefinition - fdNode nb child = " + current.getChildCount());
                 
                 if (current.getChildCount() != fd.getArgumentCount()) {
                   System.out.println("expandFunctionDefinition - number of arguments differ, aborting for " + sid);
+                  // return the ASTNode as it is so that the validation work for this FunctionDefinition.
+                  return false;
                 }
                 
                 ASTNode newMath = fd.getBody().clone(); 
