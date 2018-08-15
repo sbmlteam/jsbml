@@ -980,6 +980,12 @@ public class SBMLErrorShortMessage extends ResourceBundle {
         contents.put(Integer.toString(SBMLErrorCodes.CORE_99998), "SBML Level 3 is not yet supported");
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_99999), "");
+        
+        
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_10223), "A 'rateOf' <csymbol> must target only a single <ci> element");
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_10224), "The target of a 'rateOf' <csymbol> cannot be assigned");
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_10225), "Compartments of non-substance <species> referenced by 'rateOf' must not vary");
+        
 
         contents.put(Integer.toString(SBMLErrorCodes.COMP_10100), "");
 

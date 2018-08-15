@@ -104,7 +104,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         }
 
         if (level == 3 && version == 2) {
-          // TODO - addRangeToSet(set, CORE_10223, CORE_10225);
+          addRangeToSet(set, CORE_10223, CORE_10225);
         } else {
           addRangeToSet(set, CORE_10209, CORE_10213);
         }
@@ -866,7 +866,28 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
       };
       break;
     }
-    
+
+    case CORE_10223: {
+      func = new ValidationFunction<ASTNode>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ASTNode node) {
+
+          if (node.getType() == ASTNode.Type.FUNCTION_RATE_OF) {
+            
+            // check that the child of a rateOf is a ci element.
+            if (node.getChildCount() > 0 && !(node.getChild(0).getType().equals(ASTNode.Type.NAME))) {
+              return false;
+            }
+          }
+
+          return true;
+        }
+
+      };
+      break;
+    }
+
     case CORE_10311: {
       func = new AbstractValidationFunction<ASTNode>() {
       
