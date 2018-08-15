@@ -427,6 +427,11 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, ASTNode node) {
 
+          // do not check inside functionDefinition
+          if (node.getParentSBMLObject() instanceof FunctionDefinition) {
+            return true;
+          }
+          
           // If is piecewise...
           if (node.getType() == Type.FUNCTION_PIECEWISE) {
 
