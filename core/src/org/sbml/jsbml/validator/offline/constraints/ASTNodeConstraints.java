@@ -669,6 +669,10 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           set.add(ASTNode.Type.FUNCTION_DELAY);
           set.add(ASTNode.Type.FUNCTION_POWER);
           set.add(ASTNode.Type.FUNCTION_LOG);
+          
+          set.add(ASTNode.Type.LOGICAL_IMPLIES);
+          set.add(ASTNode.Type.FUNCTION_QUOTIENT);
+          set.add(ASTNode.Type.FUNCTION_REM);
 
           return set;
         }
@@ -725,6 +729,8 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           set.add(ASTNode.Type.FUNCTION_ARCCSCH);
           set.add(ASTNode.Type.FUNCTION_ARCCOTH);
 
+          set.add(ASTNode.Type.FUNCTION_RATE_OF);
+          
           return set;
         }
 
