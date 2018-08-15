@@ -1160,7 +1160,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
         for (int i = 0; i < left.getUnits().getUnitCount(); i++) {
           Unit u1 = left.getUnits().getUnit(i);
           Unit u2 = right.getUnits().getUnit(i);
-          if (((u1.getMultiplier() != u2.getMultiplier())
+          if ((u1 != null && u2 != null) && ((u1.getMultiplier() != u2.getMultiplier())
               && (u1.getScale() != u2.getScale()) && (u1.getExponent() != u2.getExponent()))
               && (u1.getMultiplier() != 0d) && (u2.getMultiplier() != 0d)) {
 
