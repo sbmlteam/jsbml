@@ -980,6 +980,13 @@ public class SBMLErrorMessage extends ResourceBundle {
         contents.put(Integer.toString(SBMLErrorCodes.CORE_99998), "Validation of or conversion from L3 documents/models is not yet supported.");  
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_99999), "");  
+        
+        
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_10223), "The single argument for the rateOf csymbol function must be a <ci> element."); 
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_10224), "The target of a 'rateOf' <csymbol> function must not appear as the 'variable' of an <assignmentRule>, nor may its value be determined by an <algebraicRule>.");
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_10225), "If the target of a 'rateOf' <csymbol> function is a <species> with a 'hasOnlySubstanceUnits' value of 'false', the <compartment> of that <species> must not appear as the 'variable' of an <assignmentRule>, nor may its 'size' be determined by an <algebraicRule>.");
+
+        
 
         contents.put(Integer.toString(SBMLErrorCodes.COMP_10100), "");  
 

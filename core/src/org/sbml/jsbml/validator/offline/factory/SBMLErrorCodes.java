@@ -7737,6 +7737,9 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
     public static final int MULTI_22103 = 7022103;
 
     
+    public static final int CORE_10223 = 10223;
+    public static final int CORE_10224 = 10224; 
+    public static final int CORE_10225 = 10225; 
     
     
  	// At the moment (2016-11), from the draft packages, only multi has some validation in libSBML.
