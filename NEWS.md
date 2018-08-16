@@ -1,7 +1,7 @@
 # JSBML NEWS -- History of user-visible changes
 
 ==================================
-## Version 1.4 (XX-08-2018)
+## Version 1.4 (16-08-2018)
 ==================================
 
 ### New Features:
