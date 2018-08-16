@@ -32,17 +32,21 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.AbstractTreeNode;
+import org.sbml.jsbml.AlgebraicRule;
+import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.UnitsCompiler;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -868,6 +872,85 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
     }
 
     case CORE_10223: {
+      func = new ValidationFunction<ASTNode>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ASTNode node) {
+
+          if (node.getType() == ASTNode.Type.FUNCTION_RATE_OF) {
+            
+            // check that the child of a rateOf is a ci element.
+            if (node.getChildCount() > 0 && !(node.getChild(0).getType().equals(ASTNode.Type.NAME))) {
+              return false;
+            }
+          }
+
+          return true;
+        }
+
+      };
+      break;
+    }
+
+    case CORE_10224: {
+      func = new ValidationFunction<ASTNode>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ASTNode node) {
+
+          if (node.getType() == ASTNode.Type.FUNCTION_RATE_OF) {
+            
+            // The target of a rateOf csymbol function must not appear as the variable of an AssignmentRule, 
+            // nor may its value be determined by an AlgebraicRule
+            if (node.getChildCount() > 0 && node.getChild(0).getType().equals(ASTNode.Type.NAME)) {
+              final String id = node.getChild(0).getName();
+              
+              Model m = node.getParentSBMLObject().getModel();
+              SBase sbase = m.getAssignmentRuleByVariable(id);
+              
+              if (sbase != null) {
+                return false;
+              }
+              
+              // checking all algebraicRules
+              for (Rule r : m.getListOfRules()) {
+                if (r instanceof AlgebraicRule) {
+                  // check the rule math for the given id
+                  ASTNode math = r.getMath();
+                  
+                  if (math != null) {
+                    List<? extends TreeNode> wrongNode = math.filter(new Filter() {
+                      
+                      @Override
+                      public boolean accepts(Object o) {
+                        
+                        if (o instanceof ASTNode && ((ASTNode) o).getType().equals(Type.NAME)
+                            && ((ASTNode) o).getName().equals(id)) 
+                        {
+                          return true;
+                        }
+                        
+                        return false;
+                      }
+                    });
+                    
+                    if (wrongNode != null && wrongNode.size() > 0) {
+                      return false;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          return true;
+        }
+
+      };
+      break;
+    }
+
+    case CORE_10225: {
       func = new ValidationFunction<ASTNode>() {
 
         @Override
