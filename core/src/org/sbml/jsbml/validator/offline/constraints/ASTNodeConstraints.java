@@ -42,6 +42,7 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
@@ -958,9 +959,60 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
           if (node.getType() == ASTNode.Type.FUNCTION_RATE_OF) {
             
-            // check that the child of a rateOf is a ci element.
-            if (node.getChildCount() > 0 && !(node.getChild(0).getType().equals(ASTNode.Type.NAME))) {
-              return false;
+            // The target of a rateOf csymbol function must not appear as the variable of an AssignmentRule, 
+            // nor may its value be determined by an AlgebraicRule
+            if (node.getChildCount() > 0 && node.getChild(0).getType().equals(ASTNode.Type.NAME)) {
+              final String id = node.getChild(0).getName();
+              
+              Model m = node.getParentSBMLObject().getModel();
+              SBase sbase = m.getSBaseById(id);
+
+              if (sbase instanceof Species && ((Species) sbase).isSetHasOnlySubstanceUnits()
+                  && !((Species) sbase).hasOnlySubstanceUnits()) 
+              {
+                Species s = (Species) sbase;
+                final String cid = s.getCompartment();
+                
+                if (cid == null || cid.trim().length() == 0) {
+                  // there is a problem with the compartment attribute, we cannot check this constraint.
+                  return true;
+                }
+                
+                sbase = m.getAssignmentRuleByVariable(cid);
+
+                if (sbase != null) {
+                  return false;
+                }
+
+                // checking all algebraicRules
+                for (Rule r : m.getListOfRules()) {
+                  if (r instanceof AlgebraicRule) {
+                    // check the rule math for the given id
+                    ASTNode math = r.getMath();
+
+                    if (math != null) {
+                      List<? extends TreeNode> wrongNode = math.filter(new Filter() {
+
+                        @Override
+                        public boolean accepts(Object o) {
+
+                          if (o instanceof ASTNode && ((ASTNode) o).getType().equals(Type.NAME)
+                              && ((ASTNode) o).getName().equals(cid)) 
+                          {
+                            return true;
+                          }
+
+                          return false;
+                        }
+                      });
+
+                      if (wrongNode != null && wrongNode.size() > 0) {
+                        return false;
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
 
@@ -968,8 +1020,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
         }
 
       };
-      break;
-    }
+      break;    }
 
     case CORE_10311: {
       func = new AbstractValidationFunction<ASTNode>() {
