@@ -127,7 +127,7 @@
 		<mkdir dir="${dist.root}"/>
 		<mkdir dir="${dist.dir}"/>
 
-		<!-- copy src files -->
+		<!-- copy src files 
 		<copy todir="${build.src}" overwrite="yes">
 			<fileset 
             dir="${src.dir}"
@@ -150,7 +150,7 @@
   	  	            excludes="**/.svn*, **/*~, **/*.tgz, **/*.zip">
 			</fileset>
 		</copy>
-
+-->
 		<!-- TODO : copy the sources into the jsbml.build.src folder to allow to build a jar with everything
 		as well as creating one big documentation -->
 		
@@ -188,7 +188,7 @@
 	<!-- Compiles the source directory                                       -->
 	<!-- =================================================================== -->
 	<target name="compile" depends="prepare-src">
-		<javac srcdir="${build.src}"
+<!--		<javac srcdir="${build.src}"
            destdir="${build.dest}"
            debug="${debug}"
            optimize="${optimize}"
@@ -206,7 +206,7 @@
 				<attribute name="Implementation-Version" value="${version}"/>
 			</section>
 		</manifest>
-
+ -->
 	</target>
 
 
@@ -214,13 +214,13 @@
 	<!-- Creates the class package                                           -->
 	<!-- =================================================================== -->
 	<target name="jar" depends="compile">
-
+<!--
 		<copy todir="${build.dest}">
 			<fileset dir="${build.src}" 
 				includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties">
 			</fileset>
 		</copy>
-		<jar jarfile="${build.dir}/${name}-${version}.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
+		<jar jarfile="${build.dir}/${name}-${version}.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/> -->
 	</target>
 
 
@@ -239,7 +239,7 @@
 	<!-- =================================================================== -->
 	<target name="javadoc" depends="prepare-src">
 		<mkdir dir="${build.javadocs}"/>
-		<javadoc packagenames="org.*"
+<!--		<javadoc packagenames="org.*"
     		 excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*"
              sourcepath="${build.src}"
              destdir="${build.javadocs}"
@@ -263,61 +263,13 @@
 			<tag name="jsbml.warning"/>
 			<tag name="doc.note"  description="Documentation note"/>
 
-		</javadoc>
+		</javadoc> -->
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Creates the distribution                                            -->
 	<!-- =================================================================== -->
 	<target name="dist" depends="prepare-src">
-
-		<!-- Creates the standard jar file -->
-
-		<antcall target="clean"/>
-
-		<antcall target="jar"/>
-
-		<antcall target="test"/>
-
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}.jar"/>
-		<copy todir="${dist.root}" file="${build.dir}/${name}-${version}.jar"/>
-
-		<!-- Creates and copy the generated javadoc -->
-		<antcall target="javadoc"/>
-
-		<copy todir="${dist.dir}/doc/api">
-			<fileset dir="${build.javadocs}/" includes="**/*">
-			</fileset>
-		</copy>
-
-		<!-- Copy the source files -->
-		<copy todir="${dist.dir}/src">
-			<fileset dir="${build.src}/" includes="**/*">
-			</fileset>
-		</copy>
-
-		<!-- Copy all the dependencies jar files -->
-		<copy todir="${dist.dir}/lib">
-			<fileset dir="${jars.dir}/" includes="*.jar">
-			</fileset>
-		</copy>
-
-		<!-- these files do not exist in the individual packages but made they should -->
-		<copy todir="${dist.dir}">
-			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt">
-			</fileset>
-		</copy>
-
-		<copy todir="${dist.dir}/doc">
-			<fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java" excludes="posters/** publications/** templates/**">
-
-			</fileset>
-		</copy>
-
-		<!-- Creates the archives to be distributed -->
-		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
-		<tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip">
-		</tar>
 
 	</target>
 
@@ -326,11 +278,11 @@
 	<!-- Cleans everything                                                   -->
 	<!-- =================================================================== -->
 	<target name="clean" depends="init">
-		<delete includeEmptyDirs="true" quiet="yes">
+<!-- 		<delete includeEmptyDirs="true" quiet="yes">
 			<fileset dir="${build.dir}" includes="**/*"/>
 		</delete>
 		<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes">
-		</delete>
+		</delete> -->
 	</target>
 </project>
 
