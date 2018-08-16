@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.sbml.jsbml</groupId>
         <artifactId>jsbml-parent</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.4</version>
         <relativePath>../</relativePath>
     </parent>
   
@@ -65,7 +65,7 @@
     <modules>
         <module>arrays</module>
         <module>comp</module>
-        <module>distrib</module>
+<!--        <module>distrib</module> distrib is broken on 1.4-->
         <module>dyn</module>
         <module>fbc</module>
         <module>groups</module>
