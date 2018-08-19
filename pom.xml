@@ -23,7 +23,7 @@
   
   <groupId>org.sbml.jsbml</groupId>
   <artifactId>jsbml-parent</artifactId>
-  <version>1.4-SNAPSHOT</version>
+  <version>1.5-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>JSBML</name>
   <inceptionYear>2009</inceptionYear>
@@ -70,7 +70,7 @@
     <connection>scm:git:git://github.com/sbmlteam/jsbml.git</connection>
     <developerConnection>scm:git:ssh://github.com:sbmlteam/jsbml.git</developerConnection>
     <url>http://github.com/sbmlteam/jsbml/tree/master</url>
-    <tag>jsbml-parent-1.4-SNAPSHOT</tag>
+    <tag>jsbml-parent-1.5-SNAPSHOT</tag>
   </scm>
 
   <properties>
