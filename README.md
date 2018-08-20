@@ -71,7 +71,7 @@ Article citations are **critical** for us to be able to continue support for JSB
 
 Please also indicate the specific version of JSBML you use, to improve other people's ability to reproduce your results.  You can use the Zenodo DOIs we provide for this purpose:
 
-* JSBML release 1.4 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1118387.svg?style=plastic)](https://doi.org/10.5281/zenodo.1118387)
+* JSBML release 1.4 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1346189.svg?style=plastic)](https://doi.org/10.5281/zenodo.1346189)
 * JSBML release 1.3.1 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1118387.svg?style=plastic)](https://doi.org/10.5281/zenodo.1118387)
 * JSBML release 1.2 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.200544.svg?style=plastic)](https://doi.org/10.5281/zenodo.200544)
 * JSBML release 1.1 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.55323.svg?style=plastic)](https://doi.org/10.5281/zenodo.55323)
