@@ -83,6 +83,15 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
    */
   public static final transient List<String> allowedCsymbolURI = Arrays.asList(ASTNode.URI_AVOGADRO_DEFINITION, ASTNode.URI_DELAY_DEFINITION, ASTNode.URI_RATE_OF_DEFINITION, ASTNode.URI_TIME_DEFINITION);
 
+  /**
+   * 
+   */
+  public static final transient List<String> allowedCsymbolURIL2 = Arrays.asList(ASTNode.URI_DELAY_DEFINITION, ASTNode.URI_TIME_DEFINITION);
+
+  /**
+   * 
+   */
+  public static final transient List<String> allowedCsymbolURIL3V1 = Arrays.asList(ASTNode.URI_AVOGADRO_DEFINITION, ASTNode.URI_DELAY_DEFINITION,ASTNode.URI_TIME_DEFINITION);
 
   /*
    * (non-Javadoc)
@@ -260,8 +269,15 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           public boolean check(ValidationContext ctx, ASTNode node) {
 
             // check allowed values for definitionURL
-            if (node.isSetDefinitionURL() && !allowedCsymbolURI.contains(node.getDefinitionURL())) {
-              return false;
+            if (node.isSetDefinitionURL()) {
+            
+              if (ctx.getLevel() == 2 && !allowedCsymbolURIL2.contains(node.getDefinitionURL())) {
+                return false;
+              } else if (ctx.getLevel() == 3 && ctx.getVersion() == 1 && !allowedCsymbolURIL3V1.contains(node.getDefinitionURL())) {
+                return false;
+              } else if (ctx.getLevel() >= 3 && !allowedCsymbolURI.contains(node.getDefinitionURL())) {
+                return false;
+              }
             }
 
             return true;
