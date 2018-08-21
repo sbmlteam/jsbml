@@ -247,11 +247,14 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           @Override
           public boolean check(ValidationContext ctx, ASTNode node) {
 
-            // TODO - ci is only allowed since L2V5/L3
-            
             // definitionURL only on some elements
+            if (node.isSetDefinitionURL() && node.getType() == ASTNode.Type.NAME && !(ctx.getLevel() >= 3 || (ctx.getLevel() == 2 && ctx.getVersion() >= 5))) {
+              return false;
+            }
+
             if (node.isSetDefinitionURL() && 
-                !(node.isSemantics() || node.isName() || node.getType() == ASTNode.Type.FUNCTION_DELAY 
+                !(node.isSemantics() || node.isName()
+                || node.getType() == ASTNode.Type.FUNCTION_DELAY 
                 || node.getType() == ASTNode.Type.FUNCTION_RATE_OF)) 
             {
               return false;
