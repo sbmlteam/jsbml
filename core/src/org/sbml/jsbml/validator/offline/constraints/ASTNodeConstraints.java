@@ -216,6 +216,14 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               return false;
             }
 
+            if ((node.getType() == ASTNode.Type.LOGICAL_IMPLIES || node.getType() == ASTNode.Type.FUNCTION_REM
+                || node.getType() == ASTNode.Type.FUNCTION_QUOTIENT || node.getType() == ASTNode.Type.FUNCTION_MAX
+                || node.getType() == ASTNode.Type.FUNCTION_MIN)
+                && !(ctx.getLevel() >= 3 && ctx.getVersion() >= 2))
+            {
+              return false;
+            }
+            
             return true;
           }
         };
@@ -232,7 +240,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
                 !(node.getType() == ASTNode.Type.FUNCTION_DELAY || node.getType() == ASTNode.Type.FUNCTION_RATE_OF
                 || node.getType() == ASTNode.Type.NAME_TIME || node.getType() == ASTNode.Type.NAME_AVOGADRO))
             {
-              // TODO - who to recognize annotation and annotation-xml ?              
+              // TODO - how to recognize annotation and annotation-xml ?              
               return false;
             }
             
