@@ -67,6 +67,17 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
    */
   private static transient Logger logger = Logger.getLogger(ASTNodeConstraints.class);
   
+
+  /**
+   * 
+   */
+  public static final transient String ASTNODE_CN_TYPE_ATTRIBUTE = "jsbml.validator.cn.type";
+  
+  /**
+   * 
+   */
+  public static final transient List<String> allowedCnType = Arrays.asList("integer", "real", "e-notation", "rational");
+
   /**
    * 
    */
@@ -250,6 +261,42 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
             // check allowed values for definitionURL
             if (node.isSetDefinitionURL() && !allowedCsymbolURI.contains(node.getDefinitionURL())) {
+              return false;
+            }
+
+            return true;
+          }
+        };
+        break;
+      }
+      case CORE_10206: {
+        func = new ValidationFunction<ASTNode>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, ASTNode node) {
+
+            boolean typeDefined = node.isSetUserObjects() && node.getUserObject(ASTNODE_CN_TYPE_ATTRIBUTE) != null;
+            
+            // check that type is only defined on cn element 
+            if (typeDefined && !node.isNumber()) {
+              return false;
+            }
+
+            return true;
+          }
+        };
+        break;
+      }
+      case CORE_10207: {
+        func = new ValidationFunction<ASTNode>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, ASTNode node) {
+
+            boolean typeDefined = node.isSetUserObjects() && node.getUserObject(ASTNODE_CN_TYPE_ATTRIBUTE) != null;
+
+            // check allowed values for type
+            if (typeDefined && node.isNumber() && !allowedCnType.contains(node.getUserObject(ASTNODE_CN_TYPE_ATTRIBUTE))) {
               return false;
             }
 

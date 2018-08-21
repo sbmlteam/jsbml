@@ -42,6 +42,7 @@ import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.validator.offline.constraints.ASTNodeConstraints;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNamespaces;
 import org.sbml.jsbml.xml.XMLNode;
@@ -192,6 +193,9 @@ public class MathMLStaxParser implements ReadingParser {
       astNode.setClassName(value);
     } else if (attributeName.equals("encoding")) {
       astNode.setEncoding(value);
+    } else if (attributeName.equals("type")) {
+      // store the value for validation
+      astNode.putUserObject(ASTNodeConstraints.ASTNODE_CN_TYPE_ATTRIBUTE, value);
     }
 
     // TODO - need to process all attributes even if we don't know them !!
