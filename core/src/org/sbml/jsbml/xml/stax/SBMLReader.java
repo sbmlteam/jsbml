@@ -62,6 +62,7 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.validator.offline.constraints.SBMLDocumentConstraints;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 import org.sbml.jsbml.xml.parsers.AnnotationReader;
@@ -597,11 +598,11 @@ public class SBMLReader {
     ReadingParser parser = null;
     Stack<Object> sbmlElements = new Stack<Object>();
     QName currentNode = null;
+    String encoding = null;
     boolean isNested = false;
     boolean isText = false;
     boolean isHTML = false;
     boolean isInsideAnnotation = false;
-    boolean isInsideNotes = false;
     int annotationDeepness = -1;
     int level = -1, version = -1;
     Object lastElement = null;
@@ -614,7 +615,10 @@ public class SBMLReader {
       if (event.isStartDocument()) {
         @SuppressWarnings("unused")
         StartDocument startDocument = (StartDocument) event;
-        // nothing to do
+        // checking the declared encoding
+        if (startDocument.encodingSet()) {
+          encoding = startDocument.getCharacterEncodingScheme();        
+        }
       }
       // EndDocument
       else if (event.isEndDocument()) {
@@ -640,6 +644,10 @@ public class SBMLReader {
 
           SBMLDocument sbmlDocument = new SBMLDocument();
           sbmlDocument.putUserObject(JSBML.READING_IN_PROGRESS, Boolean.TRUE);
+          
+          if (encoding != null) {
+            sbmlDocument.putUserObject(SBMLDocumentConstraints.XML_DECLARED_ENCODING, encoding);
+          }
 
           if (currentNode.getPrefix() != null && currentNode.getPrefix().trim().length() > 0) {
             sbmlDocument.putUserObject(JSBML.ELEMENT_XML_PREFIX, currentNode.getPrefix());
@@ -718,7 +726,7 @@ public class SBMLReader {
           // Count the number of open elements to know how deep we are in the annotation
           annotationDeepness++;
         }
-        else if (currentNode.getLocalPart().equals("notes"))
+        else if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message"))
         {
           // get the sbml namespace as some element can have similar names in different namespaces
           SBase firstElement = (SBase) sbmlElements.firstElement();
@@ -728,10 +736,10 @@ public class SBMLReader {
             String sbmlNamespace = JSBML.getNamespaceFrom(sbmlDoc.getLevel(), sbmlDoc.getVersion());
 
             if (currentNode.getNamespaceURI().equals(sbmlNamespace)) {
-              isInsideNotes = true;
+              isHTML = true;
             }
           } else if (firstElement instanceof Constraint) { // we are reading a partial document from SBMLReader#readNotes for example
-            isInsideNotes = true;
+            isHTML = true;
           }
         }
 
@@ -752,14 +760,14 @@ public class SBMLReader {
         if (!characters.isWhiteSpace()) {
           isText = true; // the characters are not only 'white spaces'
         }
-        if ((!sbmlElements.isEmpty() && (sbmlElements.peek() instanceof XMLNode)) || isInsideNotes || isInsideAnnotation) {
+        if ((!sbmlElements.isEmpty() && (sbmlElements.peek() instanceof XMLNode)) || isHTML || isInsideAnnotation) {
           isText = true; // We want to keep the whitespace/formatting when reading html block
         }
 
         // process the text of a XML element.
         if ((parser != null) && !sbmlElements.isEmpty()	&& (isText || isInsideAnnotation)) {
 
-          if (isInsideNotes) {
+          if (isHTML) {
             parser = initializedParsers.get(JSBML.URI_XHTML_DEFINITION); // TODO : this is probably not needed
           }
           else if (isInsideAnnotation) {
@@ -831,9 +839,9 @@ public class SBMLReader {
           } else if (isInsideAnnotation) {
             annotationDeepness--;
           }
-          else if (currentNode.getLocalPart().equals("notes") && isSBMLelement)
+          else if ((currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")) && isSBMLelement)
           {
-            isInsideNotes = false;
+            isHTML = false;
           }
         }
 

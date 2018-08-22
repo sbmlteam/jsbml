@@ -191,7 +191,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
 
               XMLNode unknownNode = (XMLNode) node.getUserObject(JSBML.UNKNOWN_XML);
               
-              // TODO - check that the top level node(s) is/are part of the mathml possible elements
+              // TODO - check that the top level node(s) is/are part of the mathml possible elements and that there are not too many top level elements, like two apply
               // System.out.println("10201 - node unknown = " + node.getUserObject(JSBML.UNKNOWN_XML));
               
               if (unknownNode != null) {

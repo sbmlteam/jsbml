@@ -43,6 +43,12 @@ import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstrai
  */
 public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
+  /**
+   * 
+   */
+  public static final transient String XML_DECLARED_ENCODING = "jsbml.validator.xml.declared.encoding";
+
+  
   @Override
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName, ValidationContext context) {
@@ -57,6 +63,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
     switch (category) {
     case GENERAL_CONSISTENCY:
+      set.add(CORE_10101);
       set.add(CORE_10102);
       
       set.add(CORE_20101);
@@ -91,6 +98,24 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<SBMLDocument> func = null;
 
     switch (errorCode) {
+
+      case CORE_10101: {
+        func = new ValidationFunction<SBMLDocument>() {
+
+          @Override
+          public boolean check(ValidationContext ctx, SBMLDocument d) {
+
+            String encoding = (d.isSetUserObjects() ? (String) d.getUserObject(XML_DECLARED_ENCODING) : null);
+
+            if (encoding != null && !encoding.equalsIgnoreCase("UTF-8")) {
+              return false;
+            }
+
+            return true;
+          }
+        };
+        break;
+      }
 
     case CORE_10102:
       func = new ValidationFunction<SBMLDocument>() {
