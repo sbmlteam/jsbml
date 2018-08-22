@@ -140,8 +140,6 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
               if (o instanceof SBase) {
                 SBase sbase = (SBase) o;
 
-                // System.out.println(sbase.getElementName() + " - " + sbase); // TODO - for 10102-fail-01-25-sev2-l3v1.xml, we go over 4 ListOf which should not be defined !
-
                 if (sbase.isSetUserObjects() && sbase.getUserObject(JSBML.UNKNOWN_XML) != null)
                 {
                   // if the user object is set, we know they are some unknown XML

@@ -19,13 +19,20 @@
  */
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.List;
 import java.util.Set;
+
+import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.ext.layout.CubicBezier;
+import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
+import org.sbml.jsbml.ext.layout.LineSegment;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
@@ -63,6 +70,8 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
     switch (category) {
     case GENERAL_CONSISTENCY:
 
+      set.add(CORE_10102);
+      
       addRangeToSet(set, LAYOUT_20201, LAYOUT_20204);
       
       break;
@@ -87,6 +96,36 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
     ValidationFunction<LayoutModelPlugin> func = null;
 
     switch (errorCode) {
+
+    case CORE_10102:
+    {
+      func = new ValidationFunction<LayoutModelPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, LayoutModelPlugin layoutMP) {
+          
+          List<? extends TreeNode> wrongCurveSegmentList = layoutMP.filter(new Filter() {
+            
+            @Override
+            public boolean accepts(Object o) {
+
+              if (o instanceof CurveSegment && !(((CurveSegment) o).isSetType())) { // TODO - we need to register somehow that the type attribute was not present
+                return true;
+              }
+              
+              return false;
+            }
+          });
+          
+          if (wrongCurveSegmentList != null && wrongCurveSegmentList.size() > 0) {
+            
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
 
     case LAYOUT_20201:
     {
