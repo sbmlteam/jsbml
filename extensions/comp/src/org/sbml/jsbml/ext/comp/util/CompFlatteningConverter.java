@@ -20,13 +20,39 @@
 
 package org.sbml.jsbml.ext.comp.util;
 
-import org.sbml.jsbml.*;
-import org.sbml.jsbml.ext.comp.*;
-
-import javax.xml.stream.XMLStreamException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
+import javax.xml.stream.XMLStreamException;
+
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.Event;
+import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.InitialAssignment;
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ext.comp.CompConstants;
+import org.sbml.jsbml.ext.comp.CompModelPlugin;
+import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
+import org.sbml.jsbml.ext.comp.CompSBasePlugin;
+import org.sbml.jsbml.ext.comp.Deletion;
+import org.sbml.jsbml.ext.comp.ExternalModelDefinition;
+import org.sbml.jsbml.ext.comp.ModelDefinition;
+import org.sbml.jsbml.ext.comp.Port;
+import org.sbml.jsbml.ext.comp.ReplacedElement;
+import org.sbml.jsbml.ext.comp.Submodel;
 
 /**
  * The {@link CompFlatteningConverter} object translates a hierarchical model defined with the SBML Level 3
@@ -233,10 +259,10 @@ public class CompFlatteningConverter {
             if (modelDefinition == null) {
                 ExternalModelDefinition externalModelDefinition = this.externalModelDefinitionListOf.get(submodel.getModelRef());
                 try {
-                    SBMLDocument externalDocument = SBMLReader.read(externalModelDefinition.getSource());
+                    SBMLDocument externalDocument = SBMLReader.read(new File(externalModelDefinition.getSource()));
                     Model flattendExternalModel = flatten(externalDocument).getModel(); //external model can also contain submodels etc.
                     this.flattenedModel = mergeModels(this.flattenedModel, flattendExternalModel);
-                } catch (XMLStreamException e) {
+                } catch (XMLStreamException | IOException e) {
                     e.printStackTrace();
                 }
             }
