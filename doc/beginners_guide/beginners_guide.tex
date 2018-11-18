@@ -1,0 +1,157 @@
+\documentclass{JSBMLdoc}
+
+\newcommand{\jsbmlversion}{1.2}
+\newcommand{\docdate}{\today}
+
+\makeindex
+
+\input{macros.tex}
+\input{hyphenation.tex}
+
+\hypersetup{
+  bookmarksopenlevel={1},
+  bookmarksnumbered={true},
+  breaklinks={true},
+  pdfpagemode={UseOutlines},
+  pdftitle={User guide for JSBML},
+  pdfauthor= {Thomas M. Hamm} {Nicolas Rodriguez} {Andreas Dr\"ager} {Michael Hucka},
+  pdfsubject={Software guide},
+  pdfkeywords={JSBML} {libSBML} {Java} {SBML} {API} {LaTeX} {documentation}
+{manual} {guide} {code examples},
+  pdfview={FitV},
+  pdffitwindow={true},
+  pdfstartview={FitV},
+  pdfnewwindow={false},
+  pdfdisplaydoctitle={true},
+  pdfhighlight={/P},
+  plainpages={false},
+  unicode={true}
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  language=Java,                  % the language of the code
+%  basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=4,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={|}{|},            % if you want to add a comment within your code
+  morekeywords={*,...}               % if you want to add more keywords to the set
+}
+
+% -----------------------------------------------------------------------------
+\begin{document}
+
+\title{\textls[20]{JSBML Beginners Guide}}
+
+\version{\jsbmlversion\\[0.5em]{\normalsize\emph{Document build date: \docdate}}}
+
+\newcommand{\where}[1]{\,\textsuperscript{#1}}
+\newcommand{\divider}[1]{\multicolumn{2}{c}{\emph{#1}:}}
+
+\author{
+  \setlength{\tabcolsep}{20pt}
+  \begin{tabular}{@{}cc@{}}
+    \divider{Authors}\\[0.75em]
+    Thomas M. Hamm\where{a} & Nicolas Rodriguez\where{b} & Andreas Dr\"ager\where{a} & Michael
+    Hucka\where{c}\\[2em]
+    \divider{Institutional affiliations}\\[0.5em]
+  \end{tabular}
+  \\
+  \begin{normalsize}
+  \where{a\,}Computational Systems Biology of Infection and Antimicrobial-Resistance, University of T\"ubingen, T\"ubingen, Germany
+  \\[0.25em]
+  \where{b\,}The Babraham Institute, Babraham Campus, Cambridge, UK
+  \\[0.25em]
+  \where{c\,}Computing and Mathematical Sciences, California Institute of Technology, Pasadena, CA,
+  USA
+  \end{normalsize}
+}
+
+\frontNotice{SBML (the Systems Biology Markup Language) is an XML-based
+  model representation format for storing and exchanging computational
+  descriptions of biological processes.  To read, write, manipulate, and
+  perform higher-level operations on SBML files and data streams, software
+  applications need to map SBML entities to suitable software objects.
+  JSBML provides a pure Java library for this purpose.  It supports all
+  Levels and Versions of SBML and provides many powerful features,
+  including facilities to help migrate from the use of libSBML (a popular
+  library for SBML that is not written in Java).
+  \\ \\
+  This document provides an introduction to JSBML and its use.  It is aimed
+  at both developers writing new Java-based applications as well as those
+  who want to adapt libSBML-based applications to using JSBML.  This user
+  guide is a companion to the JSBML API documentation.
+  \\ \\
+  \centerline{The JSBML home page is \url{\jsbmlHomePageURL}.}\\
+  \centerline{The JSBML discussion group is \url{\jsbmlGroupURL}.}  }
+
+
+\maketitlepage
+\maketableofcontents
+\clearpage
+
+
+\chapter{Getting started with JSBML}
+\label{chp:getting-started}
+
+Getting started with JSBML \cite{Draeger2011a, Draeger2011b}
+
+
+\chapter{Acknowledgments}
+\label{chp:acknowledgements}
+
+
+% -----------------------------------------------------------------------------
+% Appendix
+% -----------------------------------------------------------------------------
+
+\appendix
+
+\chapter{Frequently Asked Questions (FAQ)}
+\label{chp:faq}
+
+
+\chapter{Open tasks in JSBML development}
+\label{chp:open-tasks}
+
+
+% -----------------------------------------------------------------------------
+% References
+% -----------------------------------------------------------------------------
+
+\clearpage
+
+\thispagestyle{plain}
+\pagestyle{plain}
+\bibliography{literature}
+
+% -----------------------------------------------------------------------------
+% Index
+% -----------------------------------------------------------------------------
+
+\setindexprenote{\vspace*{0.1ex}}
+\printindex
+
+
+\end{document}
