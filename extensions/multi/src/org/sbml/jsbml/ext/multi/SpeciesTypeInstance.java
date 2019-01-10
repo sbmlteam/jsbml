@@ -24,6 +24,7 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * Provides a way to construct {@link MultiSpeciesType}s and {@link Species} with multiple components.
@@ -37,7 +38,7 @@ import org.sbml.jsbml.Species;
  * @author Nicolas Rodriguez
  * @since 1.0
  */
-public class SpeciesTypeInstance extends AbstractNamedSBase { //  implements UniqueNamedSBase - local to MultiSpeciesType ??
+public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNamedSBase { 
 
   /**
    * Generated serial version identifier.
