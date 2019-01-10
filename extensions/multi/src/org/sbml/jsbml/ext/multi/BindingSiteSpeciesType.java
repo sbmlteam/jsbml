@@ -20,7 +20,16 @@
 package org.sbml.jsbml.ext.multi;
 
 /**
- *
+ * A {@link BindingSiteSpeciesType} object is a binding site, and therefore its instance can further define the bindingStatus
+ * attribute and can participate a binding internally and explicitly in an {@link InSpeciesTypeBond} object, or externally and
+ * implicitly defined by an {@link OutwardBindingSite} object. A binding site must be an atomic component which means
+ * that a {@link BindingSiteSpeciesType} object cannot contain a ListOfSpeciesTypeInstances subobject.
+ * 
+ * <p>Note:<br/>
+ * In the Multi package, a binding site can only participate in one binding at a time. That means a binding site cannot
+ * bind two partners at the same time. The binding relationship is one-to-one.</p>
+ * 
+ * 
  * @author Nicolas Rodriguez
  * @since 1.0
  */
@@ -32,7 +41,7 @@ public class BindingSiteSpeciesType extends MultiSpeciesType {
   private static final long serialVersionUID = 290729813426543362L;
 
   /**
-   * 
+   * Creates a new {@link BindingSiteSpeciesType} instance.
    */
   public BindingSiteSpeciesType() {
     super();
@@ -41,8 +50,10 @@ public class BindingSiteSpeciesType extends MultiSpeciesType {
 
 
   /**
-   * @param level
-   * @param version
+   * Creates a new {@link BindingSiteSpeciesType} instance.
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public BindingSiteSpeciesType(int level, int version) {
     super(level, version);
@@ -51,7 +62,9 @@ public class BindingSiteSpeciesType extends MultiSpeciesType {
 
 
   /**
-   * @param obj
+   * Creates a new {@link BindingSiteSpeciesType} instance, cloned from the given object.
+   * 
+   * @param obj the {@link BindingSiteSpeciesType} instance to clone.
    */
   public BindingSiteSpeciesType(BindingSiteSpeciesType obj) {
     super(obj);
@@ -59,7 +72,9 @@ public class BindingSiteSpeciesType extends MultiSpeciesType {
 
 
   /**
-   * @param id
+   * Creates a new {@link BindingSiteSpeciesType} instance.
+   * 
+   * @param id the identifier for this element.
    */
   public BindingSiteSpeciesType(String id) {
     super(id);
@@ -68,9 +83,11 @@ public class BindingSiteSpeciesType extends MultiSpeciesType {
 
 
   /**
-   * @param id
-   * @param level
-   * @param version
+   * Creates a new {@link BindingSiteSpeciesType} instance.
+   * 
+   * @param id the identifier for this element.
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public BindingSiteSpeciesType(String id, int level, int version) {
     super(id, level, version);
@@ -79,14 +96,24 @@ public class BindingSiteSpeciesType extends MultiSpeciesType {
 
 
   /**
-   * @param id
-   * @param name
-   * @param level
-   * @param version
+   * Creates a new {@link BindingSiteSpeciesType} instance.
+   * 
+   * @param id the identifier for this element.
+   * @param name a human-readable name for this element that can be used for display purposes.
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public BindingSiteSpeciesType(String id, String name, int level, int version) {
     super(id, name, level, version);
     initDefaults();
+  }
+
+  /**
+   * Creates a new {@link BindingSiteSpeciesType} instance, cloned from itself.
+   */
+  @Override
+  public BindingSiteSpeciesType clone() {
+    return new BindingSiteSpeciesType(this);
   }
 
   /**
@@ -97,7 +124,13 @@ public class BindingSiteSpeciesType extends MultiSpeciesType {
     packageName = MultiConstants.shortLabel;
     setPackageVersion(-1);
   }
-
-  // TODO - equals, hashcode, read/write attributes, toString, clone, ...
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return MultiConstants.bindingSiteSpeciesType;
+  }
 
 }
