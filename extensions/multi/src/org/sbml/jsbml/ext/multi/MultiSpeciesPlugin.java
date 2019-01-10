@@ -356,6 +356,7 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
         extendedSBase.registerChild(listOfSpeciesFeatures);
       }
     }
+    
     return listOfSpeciesFeatures;
   }
 
@@ -857,12 +858,13 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
    * @return a combined ListOf containing all {@link SpeciesFeature}s and {@link SubListOfSpeciesFeature}s.
    */
   private ListOf<ListOfSpeciesFeatureContent> getCombinedListOfSpeciesFeatures() {
-    ListOf<ListOfSpeciesFeatureContent> combinedListOfSpeciesFeatures = new ListOf<ListOfSpeciesFeatureContent>();
-    combinedListOfSpeciesFeatures.setPackageVersion(-1);
+    ListOf<ListOfSpeciesFeatureContent> combinedListOfSpeciesFeatures = new ListOf<ListOfSpeciesFeatureContent>(getLevel(), getVersion());
+    combinedListOfSpeciesFeatures.setPackageVersion(getPackageVersion());
     combinedListOfSpeciesFeatures.setSBaseListType(Type.other);
     combinedListOfSpeciesFeatures.setPackageName(null);
     combinedListOfSpeciesFeatures.setPackageName(MultiConstants.shortLabel);
     combinedListOfSpeciesFeatures.setOtherListName(MultiConstants.listOfSpeciesFeatures);
+    combinedListOfSpeciesFeatures.setNamespace(getElementNamespace());
 
     // We cannot register the list as otherwise the ids would be registered and would create exceptions
     // if (isSetExtendedSBase()) {
@@ -870,11 +872,17 @@ public class MultiSpeciesPlugin extends AbstractSBasePlugin {
     // }
     
     if (isSetListOfSpeciesFeatures()) {
-      combinedListOfSpeciesFeatures.addAll(getListOfSpeciesFeatures());
+      for (SpeciesFeature sf : getListOfSpeciesFeatures()) {
+        combinedListOfSpeciesFeatures.add(sf.clone());
+      }
     }
     if (isSetListOfSubListOfSpeciesFeatures()) {
-      combinedListOfSpeciesFeatures.addAll(getListOfSubListOfSpeciesFeatures());
+      combinedListOfSpeciesFeatures.addAll(getListOfSubListOfSpeciesFeatures().clone());
     }
+    
+    // Setting the parent at the end so that the elements added to the list are not registered again in the document.
+    // But the parent is needed when writing to know for example if a package is disabled or not.
+    combinedListOfSpeciesFeatures.setParent(extendedSBase);
     
     return combinedListOfSpeciesFeatures;
   }
