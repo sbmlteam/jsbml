@@ -23,8 +23,10 @@ import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSpeciesTypes;
 import static org.sbml.jsbml.ext.multi.MultiConstants.namespaceURI;
 import static org.sbml.jsbml.ext.multi.MultiConstants.shortLabel;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
@@ -51,6 +53,7 @@ import org.sbml.jsbml.ext.multi.MultiSpeciesPlugin;
 import org.sbml.jsbml.ext.multi.MultiSpeciesReferencePlugin;
 import org.sbml.jsbml.ext.multi.SpeciesFeature;
 import org.sbml.jsbml.ext.multi.SpeciesFeatureType;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.ext.multi.MultiSpeciesType;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
@@ -71,6 +74,11 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(MultiParser.class);
+
+  /**
+   * Localization support.
+   */
+  private static final transient ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages");
 
   /**
    * 
@@ -173,6 +181,9 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
       if (elementName.equals(listOfSpeciesTypes))
       {
         return multiModel.getListOfSpeciesTypes();
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } // end Model
     // Compartment
@@ -184,6 +195,9 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
       if (elementName.equals(MultiConstants.listOfCompartmentReferences))
       {
         return multiCompartment.getListOfCompartmentReferences();
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } // end Compartment
     // MultiSpeciesType
@@ -199,6 +213,9 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
         return speciesType.getListOfSpeciesTypeComponentIndexes();
       } else if (elementName.equals(MultiConstants.listOfInSpeciesTypeBonds)) {
         return speciesType.getListOfInSpeciesTypeBonds();
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } // end MultiSpeciesType
     // SpeciesFeatureType
@@ -208,6 +225,9 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
 
       if (elementName.equals(MultiConstants.listOfPossibleSpeciesFeatureValues)) {
         return speciesFeatureType.getListOfPossibleSpeciesFeatureValues();
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } // end SpeciesFeatureType
     // Species
@@ -220,6 +240,9 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
         return multiSpecies.getListOfOutwardBindingSites();
       } else if (elementName.equals(MultiConstants.listOfSpeciesFeatures)) {
         return multiSpecies.getListOfSpeciesFeatures();
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } // end Species
     // SpeciesFeature
@@ -229,6 +252,9 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
 
       if (elementName.equals(MultiConstants.listOfSpeciesFeatureValues)) {
         return speciesFeature.getListOfSpeciesFeatureValues();
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } // end SpeciesFeature
     // SpeciesReference
@@ -239,6 +265,9 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
 
       if (elementName.equals(MultiConstants.listOfSpeciesTypeComponentMapInProducts)) {
         return multiSpeciesReference.getListOfSpeciesTypeComponentMapInProducts();
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } // end SpeciesReference
 //    // SpeciesTypeComponentMapInProduct
@@ -257,6 +286,12 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
 
       Object newElement = createListOfChild(listOf, elementName);
 
+      if (newElement == null) {
+        // there was a problem, the elementName might be wrong
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
+      }
+      
       return newElement;
 
     }
