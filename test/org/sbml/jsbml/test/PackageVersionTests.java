@@ -66,7 +66,6 @@ import org.sbml.jsbml.ext.qual.Output;
 import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.ext.qual.QualModelPlugin;
 import org.sbml.jsbml.ext.qual.Transition;
-import org.sbml.jsbml.ext.req.ReqConstants;
 import org.sbml.jsbml.xml.parsers.PackageUtil;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
@@ -102,7 +101,6 @@ public class PackageVersionTests {
     doc.enablePackage(DistribConstants.namespaceURI_L3V1V1);
     doc.enablePackage(QualConstants.namespaceURI_L3V1V1);
     doc.enablePackage(CompConstants.namespaceURI_L3V1V1);
-    doc.enablePackage(ReqConstants.namespaceURI_L3V1V1);
 
     m = doc.createModel("test");
 
