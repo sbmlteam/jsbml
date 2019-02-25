@@ -36,6 +36,7 @@ import java.util.Stack;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
@@ -539,6 +540,9 @@ public class SBMLReader {
   public SBMLDocument readSBMLFromStream(InputStream stream, TreeNodeChangeListener listener)
       throws XMLStreamException {
     WstxInputFactory inputFactory = new WstxInputFactory();
+    // see https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md
+    inputFactory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+    inputFactory.setProperty("javax.xml.stream.isSupportingExternalEntities", false);
     XMLEventReader xmlEventReader = inputFactory.createXMLEventReader(stream);
     return (SBMLDocument) readXMLFromXMLEventReader(xmlEventReader, listener);
   }
@@ -566,9 +570,13 @@ public class SBMLReader {
       throws XMLStreamException {
     WstxInputFactory inputFactory = new WstxInputFactory();
 
-    // see https://groups.google.com/d/msg/jsbml-development/cckEJPYNzQY/5ynmIbqNCAAJ for why we did set this value
     try {
+      // see https://groups.google.com/d/msg/jsbml-development/cckEJPYNzQY/5ynmIbqNCAAJ for why we did set this value
       inputFactory.setProperty(WstxInputProperties.P_MAX_ELEMENT_DEPTH, 5000);
+
+      // see https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md
+      inputFactory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+      inputFactory.setProperty("javax.xml.stream.isSupportingExternalEntities", false);
     } catch(IllegalArgumentException e) {
       // do nothing - the XML libraries used do not support this property for some reason
     }
