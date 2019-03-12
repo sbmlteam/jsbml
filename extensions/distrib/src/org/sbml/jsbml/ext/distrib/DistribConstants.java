@@ -41,7 +41,7 @@ public class DistribConstants {
   /**
    * 
    */
-  public static final String namespaceURI_L3V2V1 = "http://www.sbml.org/sbml/level3/version2/distrib/version1";
+  // public static final String namespaceURI_L3V2V1 = "http://www.sbml.org/sbml/level3/version2/distrib/version1"; // TODO - removed definitively once Lucian and Sarah agree on something
 
   /**
    * 
@@ -266,7 +266,7 @@ public class DistribConstants {
   static {
     namespaces = new ArrayList<String>();
     namespaces.add(namespaceURI_L3V1V1);
-    namespaces.add(namespaceURI_L3V2V1);
+    // namespaces.add(namespaceURI_L3V2V1); // TODO - removed definitively once Lucian and Sarah agree on something 
   }
 
 }

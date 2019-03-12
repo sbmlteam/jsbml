@@ -191,9 +191,10 @@ public class DistribFunctionDefinitionPlugin extends AbstractSBasePlugin {
     if (getVersion() == 1) {
       return DistribConstants.namespaceURI_L3V1V1;
     }
-    else {
-      return DistribConstants.namespaceURI_L3V2V1;
-    }
+//    else {
+//      return DistribConstants.namespaceURI_L3V2V1; // TODO - removed definitively once Lucian and Sarah agree on something
+//    }
+    return DistribConstants.namespaceURI_L3V1V1;
   }
 
 
