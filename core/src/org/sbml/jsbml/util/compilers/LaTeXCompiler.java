@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.util.compilers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -884,6 +885,21 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
       fun.append('}');
     }
     return fun;
+  }
+
+  @Override
+  public ASTNodeValue functionCsymbol(ASTNode csymbol) throws SBMLException {
+    String name = csymbol.getDefinitionURL();
+    
+    if (csymbol.isSetName()) {
+      name = csymbol.getName(); // TODO - extract the last part of the url and check first that definitionURL is declared.
+    } else {
+
+      // TODO - extract the last part of the url and check first that definitionURL is declared.
+
+    }
+
+    return function(name, csymbol.getChildren());  
   }
 
   /* (non-Javadoc)

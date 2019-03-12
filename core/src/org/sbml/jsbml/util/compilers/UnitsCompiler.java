@@ -20,6 +20,7 @@
 package org.sbml.jsbml.util.compilers;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -761,6 +762,22 @@ public class UnitsCompiler implements ASTNodeCompiler {
     List<ASTNode> args) throws SBMLException {
     // TODO: Not sure what to do
     return new ASTNodeValue(this);
+  }
+
+  @Override
+  public ASTNodeValue functionCsymbol(ASTNode csymbol) throws SBMLException {
+    String name = csymbol.getDefinitionURL();
+    
+    if (csymbol.isSetName()) {
+      name = csymbol.getName(); // TODO - extract the last part of the url and check first that definitionURL is declared.
+    } else {
+      System.out.println("WARNING: csymbol function name is null");
+
+      // TODO - extract the last part of the url and check first that definitionURL is declared.
+
+    }
+
+    return function(name, csymbol.getChildren());  
   }
 
   /* (non-Javadoc)

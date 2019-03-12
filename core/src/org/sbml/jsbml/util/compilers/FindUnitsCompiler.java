@@ -414,6 +414,17 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
     }
     return dummyValue;
   }
+  
+  @Override
+  public ASTNodeValue functionCsymbol(ASTNode csymbol) throws SBMLException {
+
+    for (ASTNode value : csymbol.getChildren()) {
+      value.compile(this);
+    }
+    
+    return dummyValue;
+  }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
@@ -807,5 +818,6 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
   public ASTNodeValue getRateOf(ASTNode nameAST) {
     return dummyValue;
   }
+
 
 }

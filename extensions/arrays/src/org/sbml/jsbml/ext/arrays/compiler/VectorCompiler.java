@@ -2276,6 +2276,12 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  @Override
+  public ASTNodeValue functionCsymbol(ASTNode csymbol)
+      throws SBMLException {
+    return dummy; // TODO
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
    */

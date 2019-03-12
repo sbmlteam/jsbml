@@ -300,6 +300,7 @@ public class MathMLXMLStreamCompiler {
       case FUNCTION_DELAY:
       case NAME_AVOGADRO:
       case FUNCTION_RATE_OF:
+      case FUNCTION_CSYMBOL:
         compileCSymbol(astNode);
         break;        
       case REAL_E:
@@ -488,7 +489,9 @@ public class MathMLXMLStreamCompiler {
 
     try {
       // delay and rateOf are working like a function, so we need to write an apply element to surround them
-      if (astNode.getType() == Type.FUNCTION_DELAY || astNode.getType() == Type.FUNCTION_RATE_OF) {
+      if (astNode.getType() == Type.FUNCTION_DELAY || astNode.getType() == Type.FUNCTION_RATE_OF 
+          || astNode.getType() == Type.FUNCTION_CSYMBOL) 
+      {
         writer.writeCharacters(indent);
         writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "apply");
         writer.writeCharacters("\n");
@@ -506,7 +509,9 @@ public class MathMLXMLStreamCompiler {
       writer.writeCharacters("\n");
 
       // delay and rateOf are working like a function, so we need to write all the children
-      if (astNode.getType() == Type.FUNCTION_DELAY || astNode.getType() == Type.FUNCTION_RATE_OF) {
+      if (astNode.getType() == Type.FUNCTION_DELAY || astNode.getType() == Type.FUNCTION_RATE_OF 
+          || astNode.getType() == Type.FUNCTION_CSYMBOL) 
+      {
 
         for (ASTNode arg : astNode.getListOfNodes()) {
           compile(arg);

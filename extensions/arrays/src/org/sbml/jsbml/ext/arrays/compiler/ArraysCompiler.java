@@ -599,6 +599,12 @@ public class ArraysCompiler implements ASTNodeCompiler{
     return unknownValue();
   }
 
+  @Override
+  public ASTNodeValue functionCsymbol(ASTNode csymbol)
+      throws SBMLException {
+    return unknownValue();
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
    */

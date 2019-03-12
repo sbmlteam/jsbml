@@ -64,7 +64,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * @author Alexander D&ouml;rr
  * @since 0.8
  */
-public class ASTNode extends AbstractTreeNode {
+public class ASTNode extends AbstractTreeNode { 
 
   /**
    * An enumeration of all possible types that can be represented by an
@@ -444,8 +444,13 @@ public class ASTNode extends AbstractTreeNode {
     /**
      * 
      */
-    VECTOR;
+    VECTOR,
+    /**
+     * Generic csymbol to facilitate the addition of csymbol by other libraries or packages.
+     */
+    FUNCTION_CSYMBOL;
 
+    
     /**
      * Returns the {@link Type} corresponding to the given {@link String}.
      * 
@@ -590,7 +595,7 @@ public class ASTNode extends AbstractTreeNode {
       } else if (type.equals("ci")) {
         return NAME;
       } else if (type.equals("csymbol")) {
-        return UNKNOWN;
+        return FUNCTION_CSYMBOL;
       } else if (type.equals("sep")) {
         return UNKNOWN;
       } else if (type.equals(URI_TIME_DEFINITION)) {
@@ -2192,6 +2197,23 @@ public class ASTNode extends AbstractTreeNode {
           resourceBundle.getString("ASTNode.compile3"),
           getName(), (getParentSBMLObject() != null ? getParentSBMLObject().getElementName() : null)));
         value = compiler.function(getName(), getChildren());
+      }
+      break;
+    }
+    case FUNCTION_CSYMBOL: {
+      if (name == null) {
+        System.out.println("WARNING: csymbol function name is null");
+        name = definitionURL; // TODO - extract the last part of the url and check first that definitionURL is declared.
+      }
+      if (name != null) {
+
+          value = compiler.functionCsymbol(this);
+
+      } else {
+        logger.debug(MessageFormat.format(
+          resourceBundle.getString("ASTNode.compile3"),
+          getName(), (getParentSBMLObject() != null ? getParentSBMLObject().getElementName() : null)));
+        value = compiler.functionCsymbol(this);
       }
       break;
     }
@@ -3987,7 +4009,9 @@ public class ASTNode extends AbstractTreeNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, oldValue, name);
     if ((!type.toString().startsWith("NAME")) && (type != Type.FUNCTION)
-        && (type != Type.FUNCTION_DELAY) && (type != Type.FUNCTION_RATE_OF)) {
+        && (type != Type.FUNCTION_DELAY) && (type != Type.FUNCTION_RATE_OF) 
+        && (type != Type.FUNCTION_CSYMBOL) ) 
+    {
       Type oldType = type;
       type = variable == null ? Type.FUNCTION : Type.NAME;
       firePropertyChange(TreeNodeChangeEvent.type, oldType, type);

@@ -392,6 +392,15 @@ public interface ASTNodeCompiler {
     List<ASTNode> args) throws SBMLException;
 
   /**
+   * Process an ASTNode that contain an extended csymbol function.
+   * 
+   * @param csymbol
+   * @return
+   * @throws SBMLException
+   */
+  public ASTNodeValue functionCsymbol(ASTNode csymbol) throws SBMLException;
+
+  /**
    * Greater equal.
    * 
    * @param left

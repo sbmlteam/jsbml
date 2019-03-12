@@ -437,6 +437,12 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
     return new ASTNodeValue(true, this);
   }
 
+  @Override
+  public ASTNodeValue functionCsymbol(ASTNode csymbol)
+      throws SBMLException {
+    return new ASTNodeValue(false, this);
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
    */

@@ -715,6 +715,27 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
     return new ASTNodeValue(concat(name, brackets(lambdaBody(l))).toString(), this);
   }
 
+  @Override
+  public ASTNodeValue functionCsymbol(ASTNode csymbol) throws SBMLException {
+    String name = csymbol.getDefinitionURL();
+    
+    if (csymbol.isSetName()) {
+      name = csymbol.getName(); // TODO - extract the last part of the url and check first that definitionURL is declared.
+    } else {
+      System.out.println("WARNING: csymbol function name is null");
+
+      // TODO - extract the last part of the url and check first that definitionURL is declared.
+
+    }
+
+    ArrayList<ASTNode> l = new ArrayList<ASTNode>();
+    for (ASTNode node : csymbol.getChildren()) {
+      l.add(node);
+    }
+    
+    return new ASTNodeValue(concat(name, brackets(lambdaBody(l))).toString(), this);  
+  }
+
   /**
   * Compiles a function with one argument and where we don't want to put the argument
   * between brackets if it is a number or an id. 
