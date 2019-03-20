@@ -53,7 +53,7 @@ public class QualModelPluginConstraints extends AbstractConstraintDeclaration {
 		switch (category) {
 		case GENERAL_CONSISTENCY:
 		  if (level >= 3) {
-		    addRangeToSet(set, QUAL_10101, QUAL_20102);
+		    addRangeToSet(set, QUAL_10101, QUAL_10102);
 		    set.add(QUAL_10301);
 		    addRangeToSet(set, QUAL_20201, QUAL_20206);
 		  }		  
