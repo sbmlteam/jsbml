@@ -56,6 +56,8 @@ public class CompModelPluginConstraints extends AbstractConstraintDeclaration {
 
       addRangeToSet(set, COMP_20501, COMP_20506 );
       
+      set.add(COMP_21010);
+      
       break;
     case IDENTIFIER_CONSISTENCY:
       break;
@@ -107,6 +109,14 @@ public class CompModelPluginConstraints extends AbstractConstraintDeclaration {
     case COMP_20506: // 
     {
       // TODO
+      break;
+    }
+    case COMP_21010:
+    {
+      // TODO
+      // No two ReplacedElement objects in the same Model may reference the same object unless that
+      // object is a Deletion
+      
       break;
     }
     }

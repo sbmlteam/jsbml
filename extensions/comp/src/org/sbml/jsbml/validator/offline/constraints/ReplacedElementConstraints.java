@@ -21,9 +21,17 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.comp.CompConstants;
+import org.sbml.jsbml.ext.comp.CompModelPlugin;
+import org.sbml.jsbml.ext.comp.Deletion;
 import org.sbml.jsbml.ext.comp.ReplacedElement;
+import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link ReplacedElement} class.
@@ -79,42 +87,174 @@ public class ReplacedElementConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
-    case COMP_21001: // 
+    case COMP_21001:
     {
-      // TODO
+      // must have a value for one of the following attributes: portRef, idRef, unitRef, metaIdRef, or deletion.
+      func = new ValidationFunction<ReplacedElement>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ReplacedElement replEl) {
+          
+          return replEl.isSetPortRef() || replEl.isSetIdRef() || replEl.isSetUnitRef() 
+              || replEl.isSetMetaIdRef() || replEl.isSetDeletion();
+        }
+      };
       break;
     }
-    case COMP_21002: // 
+    case COMP_21002:
     {
-      // TODO
+      // can only have a value for one of the following attributes: portRef, idRef, unitRef, metaIdRef or deletion.
+      func = new ValidationFunction<ReplacedElement>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ReplacedElement replEl) {
+          int nbDefined = 0;
+          
+          if (replEl.isSetPortRef()) {
+            nbDefined++;
+          }
+          if (replEl.isSetIdRef()) {
+            nbDefined++;
+          }
+          if (replEl.isSetUnitRef()) {
+            nbDefined++;
+          }
+          if (replEl.isSetMetaIdRef()) {
+            nbDefined++;
+          }
+          if (replEl.isSetDeletion()) {
+            nbDefined++;
+          }
+          
+          return nbDefined <= 1;
+        }
+      };
       break;
     }
-    case COMP_21003: // 
+    case COMP_21003:
     {
-      // TODO
+      func = new ValidationFunction<ReplacedElement>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ReplacedElement replEl) {
+          // must have a value for the required attribute comp:submodelRef
+          if (!replEl.isSetSubmodelRef()) {
+            return false;
+          }
+
+          // can only have a value for one and only one of the following attributes: portRef, idRef, unitRef, metaIdRef or deletion.
+          int nbDefined = 0;
+          
+          if (replEl.isSetPortRef()) {
+            nbDefined++;
+          }
+          if (replEl.isSetIdRef()) {
+            nbDefined++;
+          }
+          if (replEl.isSetUnitRef()) {
+            nbDefined++;
+          }
+          if (replEl.isSetMetaIdRef()) {
+            nbDefined++;
+          }
+          if (replEl.isSetDeletion()) {
+            nbDefined++;
+          }
+          
+          // No other attributes from the HierarchicalModel Composition namespace are permitted on a ReplacedBy object.
+          boolean otherAttributes = new UnknownPackageAttributeValidationFunction<ReplacedElement>(CompConstants.shortLabel).check(ctx, replEl);
+          
+          // TODO - custom error messages for each different issues?
+          
+          return nbDefined == 1 && otherAttributes;
+        }
+      };
       break;
     }
-    case COMP_21004: // 
+    case COMP_21004:
     {
-      // TODO
+      // The value of a submodelRef attribute on a ReplacedElement object must be the identifier of
+      // a Submodel present in ReplacedElement object’s parent Model
+      func = new ValidationFunction<ReplacedElement>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ReplacedElement replEl) {
+          
+          if (replEl.isSetSubmodelRef()) {
+            Model m = replEl.getModel();
+
+            if (m != null && m.isSetPlugin(CompConstants.shortLabel)) {
+              CompModelPlugin compM = (CompModelPlugin) m.getPlugin(CompConstants.shortLabel);
+
+              Submodel subModel = compM.getSubmodel(replEl.getSubmodelRef());
+              
+              return subModel != null;
+            }
+          }
+          
+          return true;
+        }
+      };
       break;
     }
-    case COMP_21005: // 
+    case COMP_21005: 
     {
-      // TODO
+      // The value of a deletion attribute on a ReplacedElement object must be the identifier of
+      // a Deletion present in ReplacedElement object’s parent Model
+      func = new ValidationFunction<ReplacedElement>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ReplacedElement replEl) {
+          
+          if (replEl.isSetDeletion()) {
+            Model m = replEl.getModel();
+
+            if (m != null) {
+
+              SBase deletion = m.getSBaseById(replEl.getDeletion());
+              
+              return deletion != null && deletion instanceof Deletion;
+            }
+          }
+          
+          return true;
+        }
+      };
       break;
     }
-    case COMP_21006: // 
+    case COMP_21006: 
     {
-      // TODO
+      // The value of a conversionFactor attribute on a ReplacedElement object must be the identifier of
+      // a Parameter present in ReplacedElement object’s parent Model
+      func = new ValidationFunction<ReplacedElement>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, ReplacedElement replEl) {
+          
+          if (replEl.isSetConversionFactor()) {
+            Model m = replEl.getModel();
+
+            if (m != null) {
+
+              SBase parameter = m.getSBaseById(replEl.getConversionFactor());
+              
+              return parameter != null && parameter instanceof Parameter;
+            }
+          }
+          
+          return true;
+        }
+      };
       break;
     }
     // case COMP_21007: // removed
     // case COMP_21008: // removed
     // case COMP_21009: // removed
-    case COMP_21010: // 
+    // case COMP_21010: // implemented in the CompModelPlugin
+    case COMP_21011: // ?? 
     {
       // TODO
+      
       break;
     }
     }

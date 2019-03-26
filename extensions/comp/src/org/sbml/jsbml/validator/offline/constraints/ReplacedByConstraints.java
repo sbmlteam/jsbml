@@ -86,7 +86,7 @@ public class ReplacedByConstraints extends AbstractConstraintDeclaration {
 
     case COMP_21101: 
     {
-      // must have a value for one of the following attributes: comp:portRef, comp:idRef, comp:unitRef, or comp:metaIdRef.
+      // must have a value for one of the following attributes: portRef, idRef, unitRef, or metaIdRef.
       func = new ValidationFunction<ReplacedBy>() {
 
         @Override
@@ -99,7 +99,7 @@ public class ReplacedByConstraints extends AbstractConstraintDeclaration {
     }
     case COMP_21102:
     {
-      // can only have a value for one of the following attributes: comp:portRef, comp:idRef, comp:unitRef, or comp:metaIdRef.
+      // can only have a value for one of the following attributes: portRef, idRef, unitRef, or metaIdRef.
       func = new ValidationFunction<ReplacedBy>() {
 
         @Override
@@ -137,7 +137,7 @@ public class ReplacedByConstraints extends AbstractConstraintDeclaration {
             return false;
           }
           
-          // can only have a value for one of the following attributes: comp:portRef, comp:idRef, comp:unitRef, or comp:metaIdRef.          
+          // can only have a value for one and only one of the following attributes: portRef, idRef, unitRef, or metaIdRef.          
           if (replBy.isSetPortRef()) {
             nbDefined++;
           }
@@ -154,16 +154,16 @@ public class ReplacedByConstraints extends AbstractConstraintDeclaration {
           // No other attributes from the HierarchicalModel Composition namespace are permitted on a ReplacedBy object.
           boolean otherAttributes = new UnknownPackageAttributeValidationFunction<ReplacedBy>(CompConstants.shortLabel).check(ctx, replBy);
           
-          // TODO - custom error messages for each different issues.
+          // TODO - custom error messages for each different issues?
           
-          return nbDefined <= 1 && otherAttributes;
+          return nbDefined == 1 && otherAttributes;
         }
       };      
       break;
     }
     case COMP_21104: 
     {
-      // The value of a comp:submodelRef attribute on a ReplacedBy object must be the identifier of
+      // The value of a submodelRef attribute on a ReplacedBy object must be the identifier of
       // a Submodel present in ReplacedBy object’s parent Model
       func = new ValidationFunction<ReplacedBy>() {
 
