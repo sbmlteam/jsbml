@@ -31,7 +31,7 @@ import org.sbml.jsbml.validator.offline.ValidationContext;;
  * @author rodrigue
  * @since 1.5
  */
-public class CompSBMLPluginConstraints extends AbstractConstraintDeclaration {
+public class CompSBMLDocumentPluginConstraints extends AbstractConstraintDeclaration {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
@@ -55,6 +55,8 @@ public class CompSBMLPluginConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
 
       addRangeToSet(set, COMP_20201, COMP_20212 );
+      
+      set.add(COMP_20714);
       
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -128,6 +130,18 @@ public class CompSBMLPluginConstraints extends AbstractConstraintDeclaration {
     }
     case COMP_20212: // 
     {
+      // TODO
+      break;
+    }
+    
+    case COMP_20714: // Implemented in the CompSBMLDocumentPlugin
+    {
+      // 20714 - Any one SBML object may only be referenced in one of the following ways: referenced by a single
+      // Port object; referenced by a single Deletion object; referenced by a single ReplacedElement;
+      // be the parent of a single ReplacedBy child; be referenced by one ormore ReplacedBy objects;
+      // or be referenced by one or more ReplacedElement objects all using the deletion attribute.
+      // Essentially, once an object has been referenced in one of these ways it cannot be referenced
+      // again.
       // TODO
       break;
     }

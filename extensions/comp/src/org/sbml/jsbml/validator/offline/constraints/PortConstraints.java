@@ -83,13 +83,13 @@ public class PortConstraints extends AbstractConstraintDeclaration {
 
     case COMP_20801:
     {
-      // must have a value for one of the following attributes: portRef, idRef, unitRef, or metaIdRef.
+      // must have a value for one of the following attributes: idRef, unitRef, or metaIdRef.
       func = new ValidationFunction<Port>() {
 
         @Override
         public boolean check(ValidationContext ctx, Port port) {
           
-          return port.isSetPortRef() || port.isSetIdRef() || port.isSetUnitRef() 
+          return port.isSetIdRef() || port.isSetUnitRef() 
               || port.isSetMetaIdRef();
         }
       };
@@ -97,7 +97,7 @@ public class PortConstraints extends AbstractConstraintDeclaration {
     }
     case COMP_20802:
     {
-      // can only have a value for one of the following attributes: portRef, idRef, unitRef, or metaIdRef.
+      // can only have a value for one of the following attributes: idRef, unitRef, or metaIdRef.
       func = new ValidationFunction<Port>() {
 
         @Override
@@ -106,6 +106,7 @@ public class PortConstraints extends AbstractConstraintDeclaration {
           
           if (port.isSetPortRef()) {
             nbDefined++;
+            nbDefined++; // because portRef is invalid
           }
           if (port.isSetIdRef()) {
             nbDefined++;
@@ -135,9 +136,10 @@ public class PortConstraints extends AbstractConstraintDeclaration {
             return false;
           }
           
-          // can only have a value for one and only one of the following attributes: portRef, idRef, unitRef, or metaIdRef.          
+          // can only have a value for one and only one of the following attributes: idRef, unitRef, or metaIdRef.          
           if (port.isSetPortRef()) {
             nbDefined++;
+            nbDefined++; // because portRef is invalid
           }
           if (port.isSetIdRef()) {
             nbDefined++;
