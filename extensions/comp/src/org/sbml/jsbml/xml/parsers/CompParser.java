@@ -178,6 +178,9 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
     {
       Submodel submodel = (Submodel) contextObject;
 
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+
       if (elementName.equals(CompConstants.listOfDeletions)) {
         return submodel.getListOfDeletions();
       }

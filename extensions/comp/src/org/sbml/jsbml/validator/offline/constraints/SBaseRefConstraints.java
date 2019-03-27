@@ -103,6 +103,9 @@ public class SBaseRefConstraints extends AbstractConstraintDeclaration {
           if (sbaseRef.isSetPortRef()) {
             Model m = getParentModel(sbaseRef);
             
+            if (m == null) {
+              return true; // TODO
+            }
             if (m.isSetPlugin(CompConstants.shortLabel)) {
               CompModelPlugin compModel = (CompModelPlugin) m.getPlugin(CompConstants.shortLabel);
               
@@ -128,6 +131,9 @@ public class SBaseRefConstraints extends AbstractConstraintDeclaration {
           if (sbaseRef.isSetIdRef()) {
             Model m = getParentModel(sbaseRef);
               
+            if (m == null) {
+              return true; // TODO
+            }
             SBase sb = m.getSBaseById(sbaseRef.getIdRef());
                   
             return sb != null;              
@@ -148,6 +154,9 @@ public class SBaseRefConstraints extends AbstractConstraintDeclaration {
           
           if (sbaseRef.isSetUnitRef()) {
             Model m = getParentModel(sbaseRef);
+            if (m == null) {
+              return true; // TODO
+            }
               
             SBase sb = m.getUnitDefinition(sbaseRef.getUnitRef());
                   
@@ -169,6 +178,10 @@ public class SBaseRefConstraints extends AbstractConstraintDeclaration {
           
           if (sbaseRef.isSetMetaIdRef()) {
             Model m = getParentModel(sbaseRef);
+            if (m == null) {
+              return true; // TODO
+            }
+
             SBMLDocument doc = m.getSBMLDocument();
             
             SBase sb = doc != null ? doc.getElementByMetaId(sbaseRef.getMetaIdRef()) : null;
@@ -192,6 +205,9 @@ public class SBaseRefConstraints extends AbstractConstraintDeclaration {
           
           if (sbaseRef.isSetSBaseRef()) {
             Model m = getParentModel(sbaseRef);
+            if (m == null) {
+              return true; // TODO
+            }
             SBMLDocument doc = m.getSBMLDocument();
             
             SBase sb = doc != null ? doc.getElementByMetaId(sbaseRef.getMetaIdRef()) : null;

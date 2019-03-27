@@ -21,9 +21,26 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.comp.CompConstants;
+import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
+import org.sbml.jsbml.ext.comp.Deletion;
+import org.sbml.jsbml.ext.comp.ExternalModelDefinition;
+import org.sbml.jsbml.ext.comp.ModelDefinition;
 import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.SyntaxChecker;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link Submodel} class.
@@ -81,79 +98,238 @@ public class SubmodelConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
-    case COMP_20601: // 
+    case COMP_20601:
     {
+      func = new UnknownCoreAttributeValidationFunction<Submodel>();
+      break;
+    }
+    case COMP_20602:
+    {
+      func = new UnknownCoreElementValidationFunction<Submodel>();
+      break;
+    }
+    case COMP_20603:
+    {
+      // There may be at most one ListOfDeletions container object within a Submodel object
+      func = new DuplicatedElementValidationFunction<Submodel>(CompConstants.listOfDeletions);
+      break;
+    }
+    case COMP_20604:
+    {
+      func = new ValidationFunction<Submodel>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Submodel subM) {
+          
+          if (subM.isSetListOfDeletions()) {
+            return subM.getDeletionCount() > 0;
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    case COMP_20605:
+    {
+      func = new ValidationFunction<Submodel>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Submodel subM) {
+          
+          if (subM.isSetListOfDeletions()) {
+            return new UnknownElementValidationFunction<ListOf<Deletion>>().check(ctx, subM.getListOfDeletions());
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    case COMP_20606:
+    {
+      func = new ValidationFunction<Submodel>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Submodel subM) {
+          
+          if (subM.isSetListOfDeletions()) {
+            return new UnknownAttributeValidationFunction<ListOf<Deletion>>().check(ctx, subM.getListOfDeletions());
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    case COMP_20607:
+    {
+      func = new ValidationFunction<Submodel>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Submodel subM) {
+          
+          if (!subM.isSetId() && !subM.isSetModelRef()) {
+            return false;
+          }
+          
+          return new UnknownPackageAttributeValidationFunction<Submodel>(CompConstants.shortLabel).check(ctx, subM);
+        }
+      };
+      break;
+    }
+    case COMP_20608:
+    {
+      func = new ValidationFunction<Submodel>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Submodel subM) {
+          
+          if (subM.isSetModelRef()) {
+            return SyntaxChecker.isValidId(subM.getModelRef(), ctx.getLevel(), ctx.getVersion());
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    case COMP_20613:
+    {
+      func = new ValidationFunction<Submodel>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Submodel subM) {
+          
+          if (subM.isSetTimeConversionFactor()) {
+            return SyntaxChecker.isValidId(subM.getTimeConversionFactor(), ctx.getLevel(), ctx.getVersion());
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    case COMP_20614:
+    {
+      func = new ValidationFunction<Submodel>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Submodel subM) {
+          
+          if (subM.isSetExtentConversionFactor()) {
+            return SyntaxChecker.isValidId(subM.getExtentConversionFactor(), ctx.getLevel(), ctx.getVersion());
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    case COMP_20615:
+    {
+      func = new ValidationFunction<Submodel>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Submodel subM) {
+          
+          if (subM.isSetModelRef()) {
+            SBMLDocument doc = subM.getSBMLDocument();
+
+            if (subM.getModelRef().equals(doc.getModel().getId())) {
+              return true;
+            }
+
+            if (doc != null && doc.isSetPlugin(CompConstants.shortLabel)) {
+              CompSBMLDocumentPlugin compDoc = (CompSBMLDocumentPlugin) doc.getPlugin(CompConstants.shortLabel);
+
+              ModelDefinition md = compDoc.getModelDefinition(subM.getModelRef());
+              ExternalModelDefinition emd = compDoc.getExternalModelDefinition(subM.getModelRef()); 
+
+              if (md != null || emd != null) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+          }
+
+          return true;
+        }
+      };
+      break;
+    }
+    case COMP_20616:
+    {
+      func = new ValidationFunction<Submodel>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Submodel subM) {
+          
+          if (subM.isSetModelRef()) {
+            Model m = subM.getModel();
+
+            if (m != null && subM.getModelRef().equals(m.getId())) {
+              return false;
+            }
+          }
+
+          return true;
+        }
+      };
+      break;
+    }
+    case COMP_20617:
+    {
+      // A Model object must not contain a Submodel which references that Model indirectly. That is,
+      // the modelRef attribute of a Submodel may not point to the id of a Model containing
+      // a Submodel object that references the original Model directly or indirectly through a chain
+      // of Model/Submodel pairs.
       // TODO
       break;
     }
-    case COMP_20602: // 
+    case COMP_20622:
     {
-      // TODO
+      func = new ValidationFunction<Submodel>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Submodel subM) {
+          
+          if (subM.isSetTimeConversionFactor()) {
+            Model m = subM.getModel();
+
+            if (m != null) {
+              SBase sbase = m.getSBaseById(subM.getTimeConversionFactor());
+              
+              return sbase != null && sbase instanceof Parameter;
+            }
+          }
+
+          return true;
+        }
+      };
       break;
     }
-    case COMP_20603: // 
+    case COMP_20623:
     {
-      // TODO
-      break;
-    }
-    case COMP_20604: // 
-    {
-      // TODO
-      break;
-    }
-    case COMP_20605: // 
-    {
-      // TODO
-      break;
-    }
-    case COMP_20606: // 
-    {
-      // TODO
-      break;
-    }
-    case COMP_20607: // 
-    {
-      // TODO
-      break;
-    }
-    case COMP_20608: // 
-    {
-      // TODO
-      break;
-    }
-    case COMP_20613: // 
-    {
-      // TODO
-      break;
-    }
-    case COMP_20614: // 
-    {
-      // TODO
-      break;
-    }
-    case COMP_20615: // 
-    {
-      // TODO
-      break;
-    }
-    case COMP_20616: // 
-    {
-      // TODO
-      break;
-    }
-    case COMP_20617: // 
-    {
-      // TODO
-      break;
-    }
-    case COMP_20622: // 
-    {
-      // TODO
-      break;
-    }
-    case COMP_20623: // 
-    {
-      // TODO
+      func = new ValidationFunction<Submodel>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Submodel subM) {
+          
+          if (subM.isSetExtentConversionFactor()) {
+            Model m = subM.getModel();
+
+            if (m != null) {
+              SBase sbase = m.getSBaseById(subM.getExtentConversionFactor());
+              
+              return sbase != null && sbase instanceof Parameter;
+            }
+          }
+
+          return true;
+        }
+      };
       break;
     }
     }
