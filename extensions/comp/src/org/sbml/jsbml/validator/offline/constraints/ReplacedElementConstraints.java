@@ -62,7 +62,7 @@ public class ReplacedElementConstraints extends AbstractConstraintDeclaration {
     switch (category) {
     case GENERAL_CONSISTENCY:
 
-      addRangeToSet(set, COMP_21001, COMP_21010 );
+      addRangeToSet(set, COMP_21001, COMP_21006 );
       
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -137,7 +137,7 @@ public class ReplacedElementConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, ReplacedElement replEl) {
-          // must have a value for the required attribute comp:submodelRef
+          // must have a value for the required attribute submodelRef
           if (!replEl.isSetSubmodelRef()) {
             return false;
           }
@@ -250,7 +250,7 @@ public class ReplacedElementConstraints extends AbstractConstraintDeclaration {
     // case COMP_21007: // removed
     // case COMP_21008: // removed
     // case COMP_21009: // removed
-    // case COMP_21010: // implemented in the CompModelPlugin
+    // case COMP_21010: // implemented in the CompModelPluginConstraints
     case COMP_21011: // ?? 
     {
       // TODO

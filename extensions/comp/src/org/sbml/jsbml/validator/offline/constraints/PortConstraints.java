@@ -21,9 +21,11 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.Port;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link Port} class.
@@ -54,7 +56,7 @@ public class PortConstraints extends AbstractConstraintDeclaration {
     switch (category) {
     case GENERAL_CONSISTENCY:
 
-      addRangeToSet(set, COMP_20801, COMP_20804 );
+      addRangeToSet(set, COMP_20801, COMP_20803 );
       
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -79,26 +81,85 @@ public class PortConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
-    case COMP_20801: // 
+    case COMP_20801:
     {
-      // TODO
+      // must have a value for one of the following attributes: portRef, idRef, unitRef, or metaIdRef.
+      func = new ValidationFunction<Port>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Port port) {
+          
+          return port.isSetPortRef() || port.isSetIdRef() || port.isSetUnitRef() 
+              || port.isSetMetaIdRef();
+        }
+      };
       break;
     }
-    case COMP_20802: // 
+    case COMP_20802:
     {
-      // TODO
+      // can only have a value for one of the following attributes: portRef, idRef, unitRef, or metaIdRef.
+      func = new ValidationFunction<Port>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Port port) {
+          int nbDefined = 0;
+          
+          if (port.isSetPortRef()) {
+            nbDefined++;
+          }
+          if (port.isSetIdRef()) {
+            nbDefined++;
+          }
+          if (port.isSetUnitRef()) {
+            nbDefined++;
+          }
+          if (port.isSetMetaIdRef()) {
+            nbDefined++;
+          }
+          
+          return nbDefined <= 1;
+        }
+      };
       break;
     }
-    case COMP_20803: // 
+    case COMP_20803:
     {
-      // TODO
+      func = new ValidationFunction<Port>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Port port) {
+          int nbDefined = 0;
+
+          // must have a value for the required attribute id
+          if (!port.isSetId()) {
+            return false;
+          }
+          
+          // can only have a value for one and only one of the following attributes: portRef, idRef, unitRef, or metaIdRef.          
+          if (port.isSetPortRef()) {
+            nbDefined++;
+          }
+          if (port.isSetIdRef()) {
+            nbDefined++;
+          }
+          if (port.isSetUnitRef()) {
+            nbDefined++;
+          }
+          if (port.isSetMetaIdRef()) {
+            nbDefined++;
+          }
+          
+          // No other attributes from the HierarchicalModel Composition namespace are permitted on a Port object.
+          boolean otherAttributes = new UnknownPackageAttributeValidationFunction<Port>(CompConstants.shortLabel).check(ctx, port);
+          
+          // TODO - custom error messages for each different issues?
+          
+          return nbDefined == 1 && otherAttributes;
+        }
+      };      
       break;
     }
-    case COMP_20804: // 
-    {
-      // TODO
-      break;
-    }
+    // case COMP_20804: // implemented in the CompModelPluginConstraints 
     }
 
     return func;

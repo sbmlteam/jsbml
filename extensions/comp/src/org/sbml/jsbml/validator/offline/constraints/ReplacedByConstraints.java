@@ -132,7 +132,7 @@ public class ReplacedByConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, ReplacedBy replBy) {
           int nbDefined = 0;
 
-          // must have a value for the required attribute comp:submodelRef
+          // must have a value for the required attribute submodelRef
           if (!replBy.isSetSubmodelRef()) {
             return false;
           }

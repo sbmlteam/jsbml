@@ -21,9 +21,11 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.Deletion;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link Deletion} class.
@@ -79,19 +81,77 @@ public class DeletionConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
-    case COMP_20901: // 
+    case COMP_20901:
     {
-      // TODO
+      // must have a value for one of the following attributes: portRef, idRef, unitRef, or metaIdRef.
+      func = new ValidationFunction<Deletion>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Deletion deletion) {
+          
+          return deletion.isSetPortRef() || deletion.isSetIdRef() || deletion.isSetUnitRef() 
+              || deletion.isSetMetaIdRef();
+        }
+      };
       break;
     }
-    case COMP_20902: // 
+    case COMP_20902:
     {
-      // TODO
+      // can only have a value for one of the following attributes: portRef, idRef, unitRef, or metaIdRef.
+      func = new ValidationFunction<Deletion>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Deletion deletion) {
+          int nbDefined = 0;
+          
+          if (deletion.isSetPortRef()) {
+            nbDefined++;
+          }
+          if (deletion.isSetIdRef()) {
+            nbDefined++;
+          }
+          if (deletion.isSetUnitRef()) {
+            nbDefined++;
+          }
+          if (deletion.isSetMetaIdRef()) {
+            nbDefined++;
+          }
+          
+          return nbDefined <= 1;
+        }
+      };
       break;
     }
-    case COMP_20903: // 
+    case COMP_20903:
     {
-      // TODO
+      func = new ValidationFunction<Deletion>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Deletion deletion) {
+          int nbDefined = 0;
+
+          // can only have a value for one and only one of the following attributes: portRef, idRef, unitRef, or metaIdRef.          
+          if (deletion.isSetPortRef()) {
+            nbDefined++;
+          }
+          if (deletion.isSetIdRef()) {
+            nbDefined++;
+          }
+          if (deletion.isSetUnitRef()) {
+            nbDefined++;
+          }
+          if (deletion.isSetMetaIdRef()) {
+            nbDefined++;
+          }
+          
+          // No other attributes from the HierarchicalModel Composition namespace are permitted on a Deletion object.
+          boolean otherAttributes = new UnknownPackageAttributeValidationFunction<Deletion>(CompConstants.shortLabel).check(ctx, deletion);
+          
+          // TODO - custom error messages for each different issues?
+          
+          return nbDefined == 1 && otherAttributes;
+        }
+      };      
       break;
     }
     }
