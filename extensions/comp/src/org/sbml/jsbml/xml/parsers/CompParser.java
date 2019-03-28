@@ -211,7 +211,7 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
     }
 
     // If not other elements recognized the new element to read, it might be
-    // on of the extended SBase children
+    // one of the extended SBase children
     if (contextObject instanceof SBase)
     {
       SBase sbase = (SBase) contextObject;
@@ -223,6 +223,9 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
         compSBase = new CompSBasePlugin(sbase);
         sbase.addExtension(namespaceURI, compSBase);
       }
+
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, compSBase);
 
       if (elementName.equals(CompConstants.listOfReplacedElements))
       {

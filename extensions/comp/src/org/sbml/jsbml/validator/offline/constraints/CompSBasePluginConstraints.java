@@ -20,9 +20,13 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.CompSBasePlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link CompSBasePlugin} class.
@@ -78,29 +82,40 @@ public class CompSBasePluginConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
-    case COMP_20101: // 
+    case COMP_20101:
     {
-      // TODO
+      func = new DuplicatedElementValidationFunction<CompSBasePlugin>(CompConstants.listOfReplacedElements);
       break;
     }
-    case COMP_20102: // 
+    case COMP_20102: 
     {
-      // TODO
+      func = new UnknownElementValidationFunction<CompSBasePlugin>();
       break;
     }
-    case COMP_20103: // 
+    case COMP_20103: 
     {
-      // TODO
+      func = new UnknownAttributeValidationFunction<CompSBasePlugin>();
       break;
     }
-    case COMP_20104: // 
+    case COMP_20104:
     {
-      // TODO
+      func = new ValidationFunction<CompSBasePlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompSBasePlugin compSbase) {
+
+          if (compSbase.isSetListOfReplacedElements()) {
+            return compSbase.getReplacedElementCount() > 0;
+          }
+
+          return true;
+        }
+      };
       break;
     }
-    case COMP_20105: // 
+    case COMP_20105: 
     {
-      // TODO
+      func = new DuplicatedElementValidationFunction<CompSBasePlugin>(CompConstants.replacedBy);
       break;
     }
     }
