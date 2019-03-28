@@ -174,7 +174,7 @@ public class ReplacedElementConstraints extends AbstractConstraintDeclaration {
     case COMP_21004:
     {
       // The value of a submodelRef attribute on a ReplacedElement object must be the identifier of
-      // a Submodel present in ReplacedElement object’s parent Model
+      // a Submodel present in ReplacedElement object's parent Model
       func = new ValidationFunction<ReplacedElement>() {
 
         @Override
@@ -200,7 +200,7 @@ public class ReplacedElementConstraints extends AbstractConstraintDeclaration {
     case COMP_21005: 
     {
       // The value of a deletion attribute on a ReplacedElement object must be the identifier of
-      // a Deletion present in ReplacedElement object’s parent Model
+      // a Deletion present in ReplacedElement object's parent Model
       func = new ValidationFunction<ReplacedElement>() {
 
         @Override
@@ -225,7 +225,7 @@ public class ReplacedElementConstraints extends AbstractConstraintDeclaration {
     case COMP_21006: 
     {
       // The value of a conversionFactor attribute on a ReplacedElement object must be the identifier of
-      // a Parameter present in ReplacedElement object’s parent Model
+      // a Parameter present in ReplacedElement object's parent Model
       func = new ValidationFunction<ReplacedElement>() {
 
         @Override

@@ -164,7 +164,7 @@ public class ReplacedByConstraints extends AbstractConstraintDeclaration {
     case COMP_21104: 
     {
       // The value of a submodelRef attribute on a ReplacedBy object must be the identifier of
-      // a Submodel present in ReplacedBy object’s parent Model
+      // a Submodel present in ReplacedBy object's parent Model
       func = new ValidationFunction<ReplacedBy>() {
 
         @Override
