@@ -143,6 +143,9 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
         compSBMLDoc = new CompSBMLDocumentPlugin(sbmlDoc);
         sbmlDoc.addExtension(namespaceURI, compSBMLDoc);
       }
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, compSBMLDoc);      
 
       if (elementName.equals(CompConstants.listOfExternalModelDefinitions))
       {

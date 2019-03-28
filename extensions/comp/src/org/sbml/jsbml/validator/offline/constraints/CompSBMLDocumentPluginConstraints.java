@@ -20,9 +20,18 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
+import org.sbml.jsbml.ext.comp.ExternalModelDefinition;
+import org.sbml.jsbml.ext.comp.ModelDefinition;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link CompSBMLDocumentPlugin} class.
@@ -80,56 +89,181 @@ public class CompSBMLDocumentPluginConstraints extends AbstractConstraintDeclara
 
     switch (errorCode) {
 
-    case COMP_20201: // 
+    case COMP_20201:
     {
-      // TODO
+      // must have a value for the comp:required attribute
+      func = new ValidationFunction<CompSBMLDocumentPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompSBMLDocumentPlugin compDoc) {
+
+          SBMLDocument doc = (SBMLDocument) compDoc.getExtendedSBase();
+          
+          String required = doc.getSBMLDocumentAttributes().get(CompConstants.shortLabel + ":required");
+          
+          return required != null;
+        }
+      };
       break;
     }
-    case COMP_20202: // 
+    case COMP_20202: 
     {
-      // TODO
+      // comp:required should be of type boolean
+      func = new ValidationFunction<CompSBMLDocumentPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompSBMLDocumentPlugin compDoc) {
+
+          SBMLDocument doc = (SBMLDocument) compDoc.getExtendedSBase();
+          
+          String required = doc.getSBMLDocumentAttributes().get(CompConstants.shortLabel + ":required");
+
+          try {
+            StringTools.parseSBMLBooleanStrict(required);
+          } catch (IllegalArgumentException e) {
+            return false;
+          }
+          return true;
+        }
+      };
       break;
     }
     // case COMP_20203: // removed
     // case COMP_20204: // removed
     case COMP_20205: // 
     {
-      // TODO
+      func = new ValidationFunction<CompSBMLDocumentPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompSBMLDocumentPlugin compDoc) {
+
+          // There may be at most one listOfModelDefinitions container object within a CompSBMLDocumentPlugin object
+          return new DuplicatedElementValidationFunction<CompSBMLDocumentPlugin>(CompConstants.listOfModelDefinitions).check(ctx, compDoc);
+        }
+      };
       break;
     }
-    case COMP_20206: // 
+    case COMP_20206:
     {
-      // TODO
+      func = new ValidationFunction<CompSBMLDocumentPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompSBMLDocumentPlugin compDoc) {
+          boolean isValid = true;
+          
+          if (compDoc.isSetListOfModelDefinitions()) {
+            isValid = compDoc.getModelDefinitionCount() > 0;
+          }
+
+          if (compDoc.isSetListOfExternalModelDefinitions()) {
+            isValid = isValid && compDoc.getExternalModelDefinitionCount() > 0;
+          }
+          
+          return isValid;
+        }
+      };
       break;
     }
-    case COMP_20207: // 
+    case COMP_20207:
     {
-      // TODO
+      func = new ValidationFunction<CompSBMLDocumentPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompSBMLDocumentPlugin compDoc) {
+
+          if (compDoc.isSetListOfModelDefinitions()) {
+            return new UnknownElementValidationFunction<ListOf<ModelDefinition>>().check(ctx, compDoc.getListOfModelDefinitions());
+          }
+          
+          return true;
+        }
+      };
       break;
     }
-    case COMP_20208: // 
+    case COMP_20208:
     {
-      // TODO
+      func = new ValidationFunction<CompSBMLDocumentPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompSBMLDocumentPlugin compDoc) {
+
+          if (compDoc.isSetListOfExternalModelDefinitions()) {
+            return new UnknownElementValidationFunction<ListOf<ExternalModelDefinition>>().check(ctx, compDoc.getListOfExternalModelDefinitions());
+          }
+          
+          return true;
+        }
+      };
       break;
     }
-    case COMP_20209: // 
+    case COMP_20209:
     {
-      // TODO
+      func = new ValidationFunction<CompSBMLDocumentPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompSBMLDocumentPlugin compDoc) {
+
+          if (compDoc.isSetListOfModelDefinitions()) {
+            return new UnknownAttributeValidationFunction<ListOf<ModelDefinition>>().check(ctx, compDoc.getListOfModelDefinitions());
+          }
+          
+          return true;
+        }
+      };
       break;
     }
-    case COMP_20210: // 
+    case COMP_20210:
     {
-      // TODO
+      func = new ValidationFunction<CompSBMLDocumentPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompSBMLDocumentPlugin compDoc) {
+
+          if (compDoc.isSetListOfExternalModelDefinitions()) {
+            return new UnknownAttributeValidationFunction<ListOf<ExternalModelDefinition>>().check(ctx, compDoc.getListOfExternalModelDefinitions());
+          }
+          
+          return true;
+        }
+      };
       break;
     }
-    case COMP_20211: // 
+    case COMP_20211: 
     {
-      // TODO
+      func = new ValidationFunction<CompSBMLDocumentPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompSBMLDocumentPlugin compDoc) {
+
+          // There may be at most one listOfExternalModelDefinitions container object within a CompSBMLDocumentPlugin object
+          return new DuplicatedElementValidationFunction<CompSBMLDocumentPlugin>(CompConstants.listOfExternalModelDefinitions).check(ctx, compDoc);
+        }
+      };
       break;
     }
-    case COMP_20212: // 
+    case COMP_20212: 
     {
-      // TODO
+      // The value of attribute comp:required on the SBML object must be set to 'true'.
+      func = new ValidationFunction<CompSBMLDocumentPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompSBMLDocumentPlugin compDoc) {
+
+          SBMLDocument doc = (SBMLDocument) compDoc.getExtendedSBase();
+
+          // TODO - make sure to validate the value that was in the XML file as jsbml correct it automatically
+          String required = doc.getSBMLDocumentAttributes().get(CompConstants.shortLabel + ":required");
+          boolean requiredB = false;
+          
+          try {
+            requiredB = StringTools.parseSBMLBooleanStrict(required);
+          } catch (IllegalArgumentException e) {
+            return false;
+          }
+          
+          return requiredB;
+        }
+      };
       break;
     }
     
