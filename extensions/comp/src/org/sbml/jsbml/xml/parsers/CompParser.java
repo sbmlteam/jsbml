@@ -165,6 +165,9 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
         model.addExtension(namespaceURI, compModel);
       }
 
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, compModel);
+
       if (elementName.equals(CompConstants.listOfSubmodels))
       {
         return compModel.getListOfSubmodels();

@@ -21,9 +21,16 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.CompModelPlugin;
+import org.sbml.jsbml.ext.comp.Port;
+import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.ValidationContext;;
+import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link CompModelPlugin} class.
@@ -82,34 +89,104 @@ public class CompModelPluginConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
-    case COMP_20501: // 
+    case COMP_20501:
     {
-      // TODO
+      func = new ValidationFunction<CompModelPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompModelPlugin compM) {
+
+          // There may be at most one ListOfPorts and listOfSubmodels container object within a CompModelPlugin object
+          return new DuplicatedElementValidationFunction<CompModelPlugin>(CompConstants.listOfSubmodels).check(ctx, compM)
+              && new DuplicatedElementValidationFunction<CompModelPlugin>(CompConstants.listOfPorts).check(ctx, compM);
+        }
+      };
       break;
     }
-    case COMP_20502: // 
+    case COMP_20502:
     {
-      // TODO
+      func = new ValidationFunction<CompModelPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompModelPlugin compM) {
+          boolean isValid = true;
+          
+          if (compM.isSetListOfSubmodels()) {
+            isValid = compM.getSubmodelCount() > 0;
+          }
+          if (compM.isSetListOfPorts()) {
+            isValid = isValid && compM.getPortCount() > 0;
+          }
+          
+          return isValid;
+        }
+      };
       break;
     }
-    case COMP_20503: // 
+    case COMP_20503:
     {
-      // TODO
+      func = new ValidationFunction<CompModelPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompModelPlugin subM) {
+          
+          if (subM.isSetListOfSubmodels()) {
+            return new UnknownElementValidationFunction<ListOf<Submodel>>().check(ctx, subM.getListOfSubmodels());
+          }
+          
+          return true;
+        }
+      };
       break;
     }
-    case COMP_20504: // 
+    case COMP_20504:
     {
-      // TODO
+      func = new ValidationFunction<CompModelPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompModelPlugin subM) {
+          
+          if (subM.isSetListOfPorts()) {
+            return new UnknownElementValidationFunction<ListOf<Port>>().check(ctx, subM.getListOfPorts());
+          }
+          
+          return true;
+        }
+      };
       break;
     }
-    case COMP_20505: // 
+    case COMP_20505:
     {
-      // TODO
+      func = new ValidationFunction<CompModelPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompModelPlugin subM) {
+          
+          // TODO - check if the ListOf are not cloned at some point before the check 
+          
+          if (subM.isSetListOfSubmodels()) {
+            return new UnknownAttributeValidationFunction<ListOf<Submodel>>().check(ctx, subM.getListOfSubmodels());
+          }
+          
+          return true;
+        }
+      };
       break;
     }
-    case COMP_20506: // 
+    case COMP_20506:
     {
-      // TODO
+      func = new ValidationFunction<CompModelPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, CompModelPlugin subM) {
+          
+          if (subM.isSetListOfPorts()) {
+            return new UnknownAttributeValidationFunction<ListOf<Port>>().check(ctx, subM.getListOfPorts());
+          }
+          
+          return true;
+        }
+      };
       break;
     }
     case COMP_20804:
