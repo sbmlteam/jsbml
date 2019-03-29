@@ -78,11 +78,7 @@ public class MultiSpeciesTypeConstraints extends AbstractConstraintDeclaration{
   public void addErrorCodesForAttribute(Set<Integer> set, int level,
     int version, String attributeName, ValidationContext context) {
 
-    /*switch (attributeName) {
-      // TODO
-    }*/
-
-
+    // nothing to do
   }
 
   @Override
