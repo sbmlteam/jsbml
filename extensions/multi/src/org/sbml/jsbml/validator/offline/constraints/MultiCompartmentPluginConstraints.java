@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2019 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -49,9 +49,7 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
 
       if (level >= 3)
       {
-        addRangeToSet(set, MULTI_20201, MULTI_20203);
-        addRangeToSet(set, MULTI_20205, MULTI_20209);
-        set.add(MULTI_20305);
+        addRangeToSet(set, MULTI_20301, MULTI_20309);
       }
 
       break;
@@ -87,7 +85,7 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
 
     switch (errorCode) {
 
-    case MULTI_20201:
+    case MULTI_20301:
     {
       func = new UnknownAttributeValidationFunction<MultiCompartmentPlugin>() {
         @Override
@@ -103,7 +101,7 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
       };
       break;
     }
-    case MULTI_20202:
+    case MULTI_20302:
     {
       func = new ValidationFunction<MultiCompartmentPlugin>() {
         @Override
@@ -119,7 +117,7 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
       };
       break;
     }
-    case MULTI_20203:
+    case MULTI_20303:
     {
       func = new ValidationFunction<MultiCompartmentPlugin>() {
         @Override
@@ -136,7 +134,7 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
       break;
     }
 //  case MULTI_20204: defined in CompartmentReferenceConstraints
-    case MULTI_20205:
+    case MULTI_20305:
     {
       func = new ValidationFunction<MultiCompartmentPlugin>() {
         @Override
@@ -152,7 +150,7 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
       };
       break;
     }
-    case MULTI_20206:
+    case MULTI_20306:
     {
       func = new ValidationFunction<MultiCompartmentPlugin>() {
         @Override
@@ -165,7 +163,7 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
       };
       break;
     }
-    case MULTI_20207:
+    case MULTI_20307:
     {
       func = new ValidationFunction<MultiCompartmentPlugin>() {
         @Override
@@ -180,7 +178,7 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
       };
       break;
     }
-    case MULTI_20208:
+    case MULTI_20308:
     {
       func = new ValidationFunction<MultiCompartmentPlugin>() {
         @Override
@@ -196,7 +194,7 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
       };
       break;
     }
-    case MULTI_20209:
+    case MULTI_20309:
     {
       func = new ValidationFunction<MultiCompartmentPlugin>() {
         @Override
@@ -212,7 +210,7 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
       };
       break;
     }    
-    case MULTI_20305:
+/*    case MULTI_20305:
     {
       func = new ValidationFunction<MultiCompartmentPlugin>() {
         @Override
@@ -229,7 +227,7 @@ public class MultiCompartmentPluginConstraints extends AbstractConstraintDeclara
         }
       };
       break;
-    }    
+    } */    
     }
     
     return func;

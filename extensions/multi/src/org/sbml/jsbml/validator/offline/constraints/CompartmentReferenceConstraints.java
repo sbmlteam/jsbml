@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2019 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -47,8 +47,8 @@ public class CompartmentReferenceConstraints extends AbstractConstraintDeclarati
 
       if (level >= 3)
       {
-        set.add(MULTI_20204);
-        addRangeToSet(set, MULTI_20301, MULTI_20304);
+        set.add(MULTI_20304);
+        addRangeToSet(set, MULTI_22001, MULTI_22006);
       }
 
       break;
@@ -84,7 +84,7 @@ public class CompartmentReferenceConstraints extends AbstractConstraintDeclarati
 
     switch (errorCode) {
 
-      case MULTI_20204:
+      case MULTI_20304:
       {
         func = new ValidationFunction<CompartmentReference>() {
           @Override
@@ -110,17 +110,17 @@ public class CompartmentReferenceConstraints extends AbstractConstraintDeclarati
         };
         break;
       }    
-      case MULTI_20301:
+      case MULTI_22001:
       {
         func = new UnknownAttributeValidationFunction<CompartmentReference>(); // TODO - report only core attributes
         break;
       }
-      case MULTI_20302:
+      case MULTI_22002:
       {
         func = new UnknownElementValidationFunction<CompartmentReference>();
         break;
       }
-      case MULTI_20303:
+      case MULTI_22003:
       {
         // TODO - report only multi attributes ?
         func = new UnknownAttributeValidationFunction<CompartmentReference>() {
@@ -137,7 +137,7 @@ public class CompartmentReferenceConstraints extends AbstractConstraintDeclarati
         };
         break;
       }
-      case MULTI_20304:
+      case MULTI_22004:
       {
         func = new ValidationFunction<CompartmentReference>() {
           @Override
@@ -153,7 +153,20 @@ public class CompartmentReferenceConstraints extends AbstractConstraintDeclarati
         };
         break;
       }    
-      // case MULTI_20205: defined in MultiCompartmentPluginConstraints
+      // case MULTI_22005: defined in MultiCompartmentPluginConstraints ? // TODO
+      case MULTI_22006:
+      {
+        func = new ValidationFunction<CompartmentReference>() {
+          @Override
+          public boolean check(ValidationContext ctx, CompartmentReference cr) {
+            
+            // TODO
+            return true;
+          }
+        };
+        break;
+      }    
+      
     }
 
     return func;

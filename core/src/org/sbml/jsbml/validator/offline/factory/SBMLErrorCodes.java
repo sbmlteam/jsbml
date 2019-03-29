@@ -7608,23 +7608,21 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
     public static final int MULTI_20101 = 7020101;
     public static final int MULTI_20102 = 7020102;
     public static final int MULTI_20103 = 7020103;
-    public static final int MULTI_20104 = 7020104;
     
     public static final int MULTI_20201 = 7020201;
     public static final int MULTI_20202 = 7020202;
     public static final int MULTI_20203 = 7020203;
     public static final int MULTI_20204 = 7020204;
-    public static final int MULTI_20205 = 7020205;
-    public static final int MULTI_20206 = 7020206;
-    public static final int MULTI_20207 = 7020207;
-    public static final int MULTI_20208 = 7020208;
-    public static final int MULTI_20209 = 7020209;
     
     public static final int MULTI_20301 = 7020301;
     public static final int MULTI_20302 = 7020302;
     public static final int MULTI_20303 = 7020303;
     public static final int MULTI_20304 = 7020304;
     public static final int MULTI_20305 = 7020305;
+    public static final int MULTI_20306 = 7020306;
+    public static final int MULTI_20307 = 7020307;
+    public static final int MULTI_20308 = 7020308;
+    public static final int MULTI_20309 = 7020309;
     
     public static final int MULTI_20401 = 7020401;
     public static final int MULTI_20402 = 7020402;
@@ -7732,9 +7730,12 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
     public static final int MULTI_21905 = 7021905;
     public static final int MULTI_21906 = 7021906;
     
-    public static final int MULTI_22101 = 7022101;
-    public static final int MULTI_22102 = 7022102;
-    public static final int MULTI_22103 = 7022103;
+    public static final int MULTI_22001 = 7022001;
+    public static final int MULTI_22002 = 7022002;
+    public static final int MULTI_22003 = 7022003;
+    public static final int MULTI_22004 = 7022004;
+    public static final int MULTI_22005 = 7022005;
+    public static final int MULTI_22006 = 7022006;
 
     
     public static final int CORE_10223 = 10223;
