@@ -21,11 +21,14 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.ext.multi.MultiCompartmentPlugin;
+import org.sbml.jsbml.ext.multi.MultiConstants;
 import org.sbml.jsbml.ext.multi.MultiModelPlugin;
 import org.sbml.jsbml.ext.multi.MultiSpeciesType;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 
@@ -90,10 +93,11 @@ public class MultiModelPluginConstraints extends AbstractConstraintDeclaration{
       func = new UnknownAttributeValidationFunction<MultiModelPlugin>() {
         @Override
         public boolean check(ValidationContext ctx, MultiModelPlugin multiM) {
-
-          // TODO
+        	
           // There may be at most one ListOfSpeciesTypes container object within a Model object
-          return true;
+          ValidationFunction<SBMLDocument> f = new DuplicatedElementValidationFunction<SBMLDocument>(MultiConstants.listOfSpeciesTypes);
+             
+          return f.check(ctx, multiM.getParent());
         }
       };
       break;
