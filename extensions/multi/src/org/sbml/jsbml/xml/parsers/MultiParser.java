@@ -177,7 +177,9 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
     {
       Model model = (Model) contextObject;
       MultiModelPlugin multiModel = (MultiModelPlugin) model.getPlugin(shortLabel);
-
+      
+      AbstractReaderWriter.storeElementsOrder(elementName, multiModel);
+      
       if (elementName.equals(listOfSpeciesTypes))
       {
         return multiModel.getListOfSpeciesTypes();
