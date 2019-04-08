@@ -1,0 +1,15 @@
+#lists keys from the elements of the notes (Keys) and namespaces from identifiers.org (Values)
+#Key=Value
+KEGG\ Compound=kegg\.compound
+SEED\ Compound=seed\.compound
+BioCyc=biocyc
+UniPathway\ Compound=unipathway\.compound
+MetaNetX\ (MNX)\ Chemical=metanetx\.chemical
+Reactome=reactome
+Human\ Metabolome\ Database=hmdb
+UM\-BBD=umbbd.compound
+EC\ Number=ec\-code
+MetaNetX\ (MNX)\ Equation=metanetx\.reaction
+KEGG\ Reaction=kegg\.reaction
+RHEA=rhea
+UniPathway\ Reaction=unipathway\.reaction
