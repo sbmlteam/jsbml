@@ -45,34 +45,35 @@ public class NotesToAnnotation {
 
   /**
    * Transfers information from the Cobra style notes of species (see example) and reactions to the annotations (see example).
-   *
+   * <p>
+   * <p>
    * Example:
-   * 
-   * Cobra style note of a species:
-   * 
-   *         <notes>
-   *           <body xmlns="http://www.w3.org/1999/xhtml">
-   *             <p>KEGG Compound: C00004</p>
-   *           </body>
-   *         </notes>
-   *         
-   * New annotation of the species (after the transfer of the information):
-   * 
-   * <annotation>
-   *           <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
-   *             <rdf:Description rdf:about="#cfa155dc-e6ed-4d90-8b0b-ad4cb8a88d6b">
-   *               <bqbiol:is>
-   *                 <rdf:Bag>
-   *                   <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00004" />
-   *                 </rdf:Bag>
-   *               </bqbiol:is>
-   *             </rdf:Description>
-   *           </rdf:RDF>
-   * </annotation>
-   * 
-   * 
-   * @param sbmlDocument: the SBMLDocument where the information should be transfered from the notes, keys: a string array with the keys from the elements of the notes that should be transfered     
+   * <p>
+   * Cobra style note of a species:<br>
+   * &nbsp; {@literal <notes>}<br>
+   * &nbsp; &nbsp; &nbsp; {@literal <body xmlns="http://www.w3.org/1999/xhtml">}<br>
+   * &nbsp; &nbsp; &nbsp; &nbsp; {@literal <p>KEGG Compound: C00004</p>}<br>
+   * &nbsp; &nbsp; &nbsp; {@literal </body>}<br>
+   * &nbsp; {@literal </notes>}<br>
+   * <p>        
+   * New annotation of the species (after the transfer of the information):<br>
+   * &nbsp; {@literal <annotation>}<br>
+   * &nbsp; &nbsp; &nbsp; {@literal <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">}<br>
+   * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {@literal <rdf:Description rdf:about="#cfa155dc-e6ed-4d90-8b0b-ad4cb8a88d6b">}<br>
+   * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {@literal <bqbiol:is>}<br>
+   * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {@literal <rdf:Bag>}<br>
+   * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {@literal <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00004" />}<br>
+   * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {@literal </rdf:Bag>}<br>
+   * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {@literal </bqbiol:is>}<br>
+   * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {@literal </rdf:Description>}<br>
+   * &nbsp; &nbsp; &nbsp; {@literal </rdf:RDF>}<br>
+   * &nbsp; {@literal </annotation>}<br>
+   * <p>
+   * <p>
+   * @param sbmlDocument the SBMLDocument where the information should be transfered from the notes     
+   * @param keys a string array with the keys from the elements of the notes that should be transfered
    * @throws IOException if an error occurs
+   * @return the new SBMLDocument with transfered information in the annotations
    */   
 
   public SBMLDocument transfer(SBMLDocument sbmlDocument, String[] keys) throws IOException {
