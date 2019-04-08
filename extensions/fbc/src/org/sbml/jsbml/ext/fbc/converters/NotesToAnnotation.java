@@ -3,12 +3,11 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
  * 
- * Copyright (C) 2009-2018 jointly by the following organizations: 
+ * Copyright (C) 2009-2019 jointly by the following organizations: 
  * 1. The University of Tuebingen, Germany 
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
  * 3. The California Institute of Technology, Pasadena, CA, USA 
- * 4. The University of California, San Diego, La Jolla, CA, USA
- * 5. The Babraham Institute, Cambridge, UK
+ * 4. The Babraham Institute, Cambridge, UK
  * 
  * This library is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU Lesser General Public License as published by 
@@ -36,17 +35,41 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.CobraUtil;
 
 /**
- * NotesToAnnotation transfers information from the notes to the annotations
+ * NotesToAnnotation transfers information from the notes to the annotations.
  * 
  * @author Thomas Hamm
- * @author Nicolas Rodriguez
- * @since 1.4
+ * @since 1.5
  */
 
 public class NotesToAnnotation {
 
   /**
-   * Transfers information from the notes to the annotations.
+   * Transfers information from the Cobra style notes of species (see example) and reactions to the annotations (see example).
+   *
+   * Example:
+   * 
+   * Cobra style note of a species:
+   * 
+   *         <notes>
+   *           <body xmlns="http://www.w3.org/1999/xhtml">
+   *             <p>KEGG Compound: C00004</p>
+   *           </body>
+   *         </notes>
+   *         
+   * New annotation of the species (after the transfer of the information):
+   * 
+   * <annotation>
+   *           <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+   *             <rdf:Description rdf:about="#cfa155dc-e6ed-4d90-8b0b-ad4cb8a88d6b">
+   *               <bqbiol:is>
+   *                 <rdf:Bag>
+   *                   <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00004" />
+   *                 </rdf:Bag>
+   *               </bqbiol:is>
+   *             </rdf:Description>
+   *           </rdf:RDF>
+   * </annotation>
+   * 
    * 
    * @param sbmlDocument: the SBMLDocument where the information should be transfered from the notes, keys: a string array with the keys from the elements of the notes that should be transfered     
    * @throws IOException if an error occurs
