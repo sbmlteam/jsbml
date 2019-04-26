@@ -238,6 +238,21 @@ public class DistribConstants {
    */
   public static final List<String> namespaces;
 
+  /**
+   * 
+   */
+  public static final String type = "type";
+
+  /**
+   * 
+   */
+  public static final String units = "units";
+
+  /**
+   * 
+   */
+  public static final String definitionURL = "definitionURL";
+
   static {
     namespaces = new ArrayList<String>();
     namespaces.add(namespaceURI_L3V1V1);

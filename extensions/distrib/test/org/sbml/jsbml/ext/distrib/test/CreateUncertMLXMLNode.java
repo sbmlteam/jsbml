@@ -40,7 +40,7 @@ import org.sbml.jsbml.xml.XMLTriple;
 
 
 /**
- * @author Nicolas Rdodriguez
+ * @author Nicolas Rodriguez
  * @since 1.1
  * @deprecated  the uncertML String was removed from the latest specs
  */
