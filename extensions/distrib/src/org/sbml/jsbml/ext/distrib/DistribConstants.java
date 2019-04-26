@@ -56,32 +56,7 @@ public class DistribConstants {
   /**
    * 
    */
-  public static final String drawFromDistribution = "drawFromDistribution";
-
-  /**
-   * 
-   */
   public static final String uncertainty = "uncertainty";
-
-  /**
-   * 
-   */
-  public static final String distribInput = "distribInput";
-
-  /**
-   * 
-   */
-  public static final String listOfDistribInputs = "listOfDistribInputs";
-
-  /**
-   * 
-   */
-  public static final String uncertML = "UncertML";
-
-  /**
-   * 
-   */
-  public static final String index = "index";
 
   /**
    * 

@@ -29,10 +29,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.ext.distrib.DistribFunctionDefinitionPlugin;
-import org.sbml.jsbml.ext.distrib.DistribInput;
 import org.sbml.jsbml.ext.distrib.DistribSBasePlugin;
-import org.sbml.jsbml.ext.distrib.DrawFromDistribution;
 import org.sbml.jsbml.ext.distrib.Uncertainty;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNamespaces;
@@ -75,13 +72,6 @@ public class DistribModelBuilder {
       e.printStackTrace();
     }
 
-    DistribFunctionDefinitionPlugin distrib = (DistribFunctionDefinitionPlugin) f.getPlugin("distrib");
-    DrawFromDistribution draw = distrib.createDrawFromDistribution();
-
-    for (int i=0; i < inputs.length; i++) {
-      DistribInput input = draw.createDistribInput();
-      input.setId(inputs[i]);
-    }
 
     String distribUrl = distribution;
     
