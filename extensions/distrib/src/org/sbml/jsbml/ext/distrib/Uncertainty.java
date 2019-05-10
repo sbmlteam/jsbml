@@ -161,7 +161,9 @@ public class Uncertainty extends AbstractDistribSBase {
   public int getChildCount() {
     int count = super.getChildCount();
 
-    // TODO
+    if (getUncertParameterCount() > 0) {
+      count += getUncertParameterCount();
+    }
     
     return count;
   }
@@ -183,8 +185,16 @@ public class Uncertainty extends AbstractDistribSBase {
       index -= count;
     }
 
-    // TODO
-    
+    if (getUncertParameterCount() > 0) {
+
+      for (UncertParameter uncertParam : listOfUncertParameters) {
+        if (index == pos) {
+          return uncertParam;
+        }
+        pos++;
+      }
+    }
+
     throw new IndexOutOfBoundsException(
       MessageFormat.format(resourceBundle.getString("IndexExceedsBoundsException"),
         index, Math.min(pos, 0)));
@@ -350,20 +360,32 @@ public class Uncertainty extends AbstractDistribSBase {
     addUncertParameter(uncertParameter);
     return uncertParameter;
   }
+  
 
   /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
+   * Creates a new {@link UncertSpan} element and adds it to the
+   * {@link #listOfUncertParameters} list.
+   *
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfUncertParameters}
+   */
+  public UncertSpan createUncertSpan() {
+    return createUncertSpan(null);
+  }
+
+  /**
+   * Creates a new {@link UncertSpan} element and adds it to the
+   * {@link #listOfUncertParameters} list.
    *
    * @param id the identifier that is to be applied to the new element.
-   * @return the newly created {@link UncertParameter} element, which is the
-   *         last element in the {@link #listOfUncertParameters}.
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfUncertParameters}
    */
-  // public UncertParameter createUncertParameter(String id, int bar) {
-  //   UncertParameter uncertParameter = createUncertParameter(id);
-  //   uncertParameter.setBar(bar);
-  //   return uncertParameter;
-  // }
+  public UncertSpan createUncertSpan(String id) {
+    UncertSpan uncertParameter = new UncertSpan(id);
+    addUncertParameter(uncertParameter);
+    return uncertParameter;
+  }
 
   /**
    * Gets an element from the {@link #listOfUncertParameters} at the given index.
@@ -417,5 +439,6 @@ public class Uncertainty extends AbstractDistribSBase {
   public int getNumUncertParameters() {
     return getUncertParameterCount();
   }
+
 
 }

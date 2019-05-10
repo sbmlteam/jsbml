@@ -19,6 +19,7 @@
 package org.sbml.jsbml.ext.distrib;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
@@ -34,6 +35,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.converters.ExpandFunctionDefinitionConverter;
 
@@ -1094,4 +1096,60 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
     return count;
   }
 
+  
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetValue()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.value, value.toString());
+    }
+    if (isSetVar()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.var, getVar());
+    }
+    if (isSetUnits()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.units, getUnits());
+    }
+    if (isSetDefinitionURL()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.definitionURL, getDefinitionURL());
+    }
+    if (isSetType()) {
+      attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.type, getType().toString());
+    }
+    
+    return attributes;
+  }
+
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+      String value) {
+
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(DistribConstants.value)) {
+        setValue(StringTools.parseSBMLDouble(value));
+      }
+      else if (attributeName.equals(DistribConstants.var)) {
+        setVar(value);
+      }
+      else if (attributeName.equals(DistribConstants.units)) {
+        setUnits(value);
+      }
+      else if (attributeName.equals(DistribConstants.definitionURL)) {
+        setDefinitionURL(value);
+      }
+      else if (attributeName.equals(DistribConstants.type)) {
+        setType(Type.valueOf(value));
+        
+        // TODO - add a try/catch block
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+
+    return isAttributeRead;
+  }
 }

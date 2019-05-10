@@ -31,6 +31,8 @@ import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.distrib.DistribConstants;
 import org.sbml.jsbml.ext.distrib.DistribSBasePlugin;
+import org.sbml.jsbml.ext.distrib.UncertParameter;
+import org.sbml.jsbml.ext.distrib.UncertSpan;
 import org.sbml.jsbml.ext.distrib.Uncertainty;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
@@ -124,8 +126,6 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
   public Object processStartElement(String elementName, String uri, String prefix,
     boolean hasAttributes, boolean hasNamespaces, Object contextObject)
   {
-    //  TODO - add Uncertainty, UncertParameter, UncertSpan 
-    
     if (contextObject instanceof ListOf<?>) {
       ListOf<?> listOf = (ListOf<?>) contextObject;
 
@@ -137,7 +137,21 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
         
         return uncertainty;
       } 
+    } else if (contextObject instanceof Uncertainty) {
+      Uncertainty uncert = (Uncertainty) contextObject;
+
+      if (elementName.equals(DistribConstants.uncertParameter)) {
+
+        UncertParameter uncertParam = uncert.createUncertParameter();        
+        
+        return uncertParam;
+      } else if (elementName.equals(DistribConstants.uncertSpan)) {
+        UncertSpan uncertSpan = uncert.createUncertSpan();
+        
+        return uncertSpan;
+      }
     }
+ 
     
     // If not other elements recognized the new element to read, it might be
     // on of the extended SBase children
@@ -175,6 +189,10 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
 
       if (!xmlObject.isSetName()) {
         xmlObject.setName(sbase.getElementName());
+      }
+      
+      if (xmlObject.getName().equals("listOfUncertaintys")) {
+        xmlObject.setName(DistribConstants.listOfUncertainties);
       }
     }
 

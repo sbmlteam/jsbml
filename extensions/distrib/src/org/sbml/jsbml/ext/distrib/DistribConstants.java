@@ -61,6 +61,16 @@ public class DistribConstants {
   /**
    * 
    */
+  public static final String uncertParameter = "uncertParameter";
+
+  /**
+   * 
+   */
+  public static final String uncertSpan = "uncertspan";
+
+  /**
+   * 
+   */
   public static final String value = "value";
 
   /**
@@ -161,62 +171,7 @@ public class DistribConstants {
   /**
    * 
    */
-  public static final String alpha = "alpha";
-
-  /**
-   * 
-   */
-  public static final String beta = "beta";
-
-  /**
-   * 
-   */
-  public static final String rate = "rate";
-
-  /**
-   * 
-   */
-  public static final String numerator = "numerator";
-
-  /**
-   * 
-   */
-  public static final String denominator = "denominator";
-
-  /**
-   * 
-   */
-  public static final String minimum = "minimum";
-
-  /**
-   * 
-   */
-  public static final String maximum = "maximum";
-
-  /**
-   * 
-   */
-  public static final String prob = "prob";
-
-  /**
-   * 
-   */
-  public static final String listOfCategories = "listOfCategories";
-
-  /**
-   * 
-   */
-  public static final String category = "category";
-
-  /**
-   * 
-   */
-  public static final String probability = "probability";
-  
-  /**
-   * 
-   */
-  public static final String listOfExternalParameters = "listOfExternalParameters";
+  public static final String listOfUncertainties = "listOfUncertainties";
 
   /**
    * 
@@ -256,7 +211,6 @@ public class DistribConstants {
   static {
     namespaces = new ArrayList<String>();
     namespaces.add(namespaceURI_L3V1V1);
-    // namespaces.add(namespaceURI_L3V2V1); // TODO - removed definitively once Lucian and Sarah agree on something 
   }
 
 }
