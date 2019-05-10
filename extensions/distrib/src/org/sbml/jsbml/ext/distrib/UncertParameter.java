@@ -18,7 +18,24 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
+import java.text.MessageFormat;
+
+import javax.swing.tree.TreeNode;
+
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.AbstractMathContainer;
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.converters.ExpandFunctionDefinitionConverter;
 
 /**
  * Defines one uncertainty statistic about the parent element. 
@@ -30,7 +47,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author rodrigue
  * @since 1.5
  */
-public class UncertParameter extends AbstractDistribSBase {
+public class UncertParameter extends AbstractDistribSBase implements MathContainer { // TODO - do we extends directly AbstractMathcontainer ?
 
   /**
    * The different {@link UncertParameter} and {@link UncertSpan} type values.
@@ -175,6 +192,11 @@ public class UncertParameter extends AbstractDistribSBase {
   };
 
   /**
+   * A logger for user-messages.
+   */
+  private static final transient Logger logger = Logger.getLogger(AbstractMathContainer.class);
+
+  /**
    * 
    */
   private Type type;
@@ -199,6 +221,16 @@ public class UncertParameter extends AbstractDistribSBase {
    */
   private String definitionURL;
   
+  /**
+   * The math formula as an abstract syntax tree.
+   */
+  private ASTNode math;
+
+  /**
+   * 
+   */
+  private ListOf<UncertParameter> listOfUncertParameters;
+
   /**
    * Creates an UncertParameter instance 
    */
@@ -257,8 +289,30 @@ public class UncertParameter extends AbstractDistribSBase {
   public UncertParameter(UncertParameter obj) {
     super(obj);
 
-    // TODO: copy all class attributes, e.g.:
-    // bar = obj.bar;
+    if (obj.isSetType()) {
+      setType(obj.getType());
+    }
+    if (obj.isSetValue()) {
+      setValue(obj.getValue());
+    }
+    if (obj.isSetVar()) {
+      setVar(obj.getVar());
+    }
+    if (obj.isSetValue()) {
+      setValue(obj.getValue());
+    }
+    if (obj.isSetUnits()) {
+      setUnits(obj.getUnits());
+    }
+    if (obj.isSetDefinitionURL()) {
+      setDefinitionURL(obj.getDefinitionURL());
+    }
+    if (obj.isSetMath()) {
+      setMath(obj.getMath().clone());
+    }
+    if (obj.isSetListOfUncertParameters()) {
+      setListOfUncertParameters(obj.getListOfUncertParameters().clone());
+    }
   }
 
   /**
@@ -356,7 +410,7 @@ public class UncertParameter extends AbstractDistribSBase {
    * @param value the value of value to be set.
    */
   public void setValue(double value) {
-    double oldValue = this.value;
+    Double oldValue = this.value;
     this.value = value;
     firePropertyChange(DistribConstants.value, oldValue, this.value);
   }
@@ -368,7 +422,7 @@ public class UncertParameter extends AbstractDistribSBase {
    */
   public boolean unsetValue() {
     if (isSetValue()) {
-      double oldValue = this.value;
+      Double oldValue = this.value;
       this.value = null;
       firePropertyChange(DistribConstants.value, oldValue, this.value);
       return true;
@@ -432,13 +486,11 @@ public class UncertParameter extends AbstractDistribSBase {
    * @return the value of {@link #units}.
    */
   public String getUnits() {
-    //TODO: if variable is boolean, create an additional "isVar"
-    //TODO: return primitive data type if possible (e.g., int instead of Integer)
     if (isSetUnits()) {
       return units;
     }
-    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
-    throw new PropertyUndefinedError(DistribConstants.units, this);
+
+    return null;
   }
 
   /**
@@ -483,13 +535,11 @@ public class UncertParameter extends AbstractDistribSBase {
    * @return the value of {@link #definitionURL}.
    */
   public String getDefinitionURL() {
-    //TODO: if variable is boolean, create an additional "isVar"
-    //TODO: return primitive data type if possible (e.g., int instead of Integer)
     if (isSetDefinitionURL()) {
       return definitionURL;
     }
-    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
-    throw new PropertyUndefinedError(DistribConstants.definitionURL, this);
+
+    return null;
   }
 
   /**
@@ -532,10 +582,13 @@ public class UncertParameter extends AbstractDistribSBase {
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
+    final int prime = 907;
     int result = super.hashCode();
     result = prime * result
         + ((definitionURL == null) ? 0 : definitionURL.hashCode());
+    result = prime * result + ((listOfUncertParameters == null) ? 0
+        : listOfUncertParameters.hashCode());
+    result = prime * result + ((math == null) ? 0 : math.hashCode());
     result = prime * result + ((type == null) ? 0 : type.hashCode());
     result = prime * result + ((units == null) ? 0 : units.hashCode());
     result = prime * result + ((value == null) ? 0 : value.hashCode());
@@ -565,6 +618,20 @@ public class UncertParameter extends AbstractDistribSBase {
     } else if (!definitionURL.equals(other.definitionURL)) {
       return false;
     }
+    if (listOfUncertParameters == null) {
+      if (other.listOfUncertParameters != null) {
+        return false;
+      }
+    } else if (!listOfUncertParameters.equals(other.listOfUncertParameters)) {
+      return false;
+    }
+    if (math == null) {
+      if (other.math != null) {
+        return false;
+      }
+    } else if (!math.equals(other.math)) {
+      return false;
+    }
     if (type != other.type) {
       return false;
     }
@@ -591,6 +658,440 @@ public class UncertParameter extends AbstractDistribSBase {
     }
     return true;
   }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
+   */
+  @Override
+  public boolean containsUndeclaredUnits() {
+    return isSetMath() ? math.containsUndeclaredUnits() : false;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
+   */
+  @Override
+  public UnitDefinition getDerivedUnitDefinition() {
+    UnitDefinition ud = null;
+    if (isSetMath()) {
+      Model m = getModel();
+      ASTNode expandedMath = math;
+      
+      if (m != null && m.getFunctionDefinitionCount() > 0) {
+        expandedMath = ExpandFunctionDefinitionConverter.expandFunctionDefinition(m, math);
+      }
+      
+      try {
+        ud = expandedMath.deriveUnit();
+      } catch (Throwable exc) {
+        // Doesn't matter. We'll simply return an undefined unit.
+        String name;
+        if (this instanceof NamedSBase) {
+          name = toString();
+        } else {
+          name = getElementName();
+          SBase parent = getParentSBMLObject();
+          if ((parent != null) && (parent instanceof NamedSBase)) {
+            name = MessageFormat.format(
+              resourceBundle.getString("AbstractMathContainer.inclusion"),
+              name, parent.toString());
+          }
+        }
+        logger.warn(MessageFormat.format(
+          resourceBundle.getString("AbstractMathContainer.getDerivedUnitDefinition"),
+          name, exc.getLocalizedMessage()));
+        logger.debug(exc.getLocalizedMessage(), exc);
+      }
+    }
+    if (ud != null) {
+      Model m = getModel();
+      if (m != null) {
+        UnitDefinition u = m.isSetListOfUnitDefinitions() ? m.findIdentical(ud) : null;
+        return (u != null) ? u : ud;
+      }
+    } else {
+      ud = new UnitDefinition(getLevel(), getVersion());
+      ud.createInvalidUnit();
+    }
+    return ud;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
+   */
+  @Override
+  @SuppressWarnings("deprecation")
+  public String getDerivedUnits() {
+    UnitDefinition ud = getDerivedUnitDefinition();
+    Model m = getModel();
+    if (m != null) {
+      if (m.getUnitDefinition(ud.getId()) != null) {
+        return ud.getId();
+      }
+    }
+    if (ud.getUnitCount() == 1) {
+      Unit u = ud.getUnit(0);
+      if ((u.getOffset() == 0) && (u.getMultiplier() == 1)
+          && (u.getScale() == 0) && (u.getExponent() == 1)) {
+        return u.getKind().toString().toLowerCase();
+      }
+    }
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#getFormula()
+   */
+  @Override
+  @Deprecated
+  public String getFormula() {
+    try {
+      return isSetMath() ? getMath().toFormula() : "";
+    } catch (Throwable exc) {
+      logger.warn(resourceBundle.getString("AbstractMathContainer.toFormula"), exc);
+      return "invalid";
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#getMath()
+   */
+  @Override
+  public ASTNode getMath() {
+    return math;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#getMathMLString()
+   */
+  @Override
+  public String getMathMLString() {
+    if (isSetMath()) {
+      return math.toMathML();
+    }
+    return "";
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#isSetMath()
+   */
+  @Override
+  public boolean isSetMath() {
+    return math != null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#setFormula(java.lang.String)
+   */
+  @Override
+  @Deprecated
+  public void setFormula(String formula) throws ParseException {
+    setMath(ASTNode.parseFormula(formula));
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#setMath(org.sbml.jsbml.ASTNode)
+   */
+  @Override
+  public void setMath(ASTNode math) {
+    ASTNode oldMath = this.math;
+    this.math = math;
+    if (oldMath != null) {
+      oldMath.fireNodeRemovedEvent();
+    }
+    if (this.math != null) {
+      ASTNode.setParentSBMLObject(math, this);
+      firePropertyChange(TreeNodeChangeEvent.math, oldMath, this.math);
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#unsetFormula()
+   */
+  @Override
+  @Deprecated
+  public void unsetFormula() {
+    unsetMath();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#unsetMath()
+   */
+  @Override
+  public void unsetMath() {
+    setMath(null);
+  }
   
   
+  /**
+   * Returns {@code true} if {@link #listOfUncertParameters} contains at least
+   * one element.
+   *
+   * @return {@code true} if {@link #listOfUncertParameters} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean isSetListOfUncertParameters() {
+    if (listOfUncertParameters == null) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Returns the {@link #listOfUncertParameters}.
+   * Creates it if it does not already exist.
+   *
+   * @return the {@link #listOfUncertParameters}.
+   */
+  public ListOf<UncertParameter> getListOfUncertParameters() {
+    if (listOfUncertParameters == null) {
+      listOfUncertParameters = new ListOf<UncertParameter>();
+      listOfUncertParameters.setNamespace(DistribConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfUncertParameters.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'distrib'
+      listOfUncertParameters.setPackageName(null);
+      listOfUncertParameters.setPackageName(DistribConstants.shortLabel);
+      listOfUncertParameters.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfUncertParameters);
+    }
+    return listOfUncertParameters;
+  }
+
+  /**
+   * Sets the given {@code ListOf<UncertParameter>}.
+   * If {@link #listOfUncertParameters} was defined before and contains some
+   * elements, they are all unset.
+   *
+   * @param listOfUncertParameters the list to set
+   */
+  public void setListOfUncertParameters(ListOf<UncertParameter> listOfUncertParameters) {
+    unsetListOfUncertParameters();
+    this.listOfUncertParameters = listOfUncertParameters;
+
+    if (listOfUncertParameters != null) {
+      listOfUncertParameters.unsetNamespace();
+      listOfUncertParameters.setNamespace(DistribConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfUncertParameters.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'distrib'
+      listOfUncertParameters.setPackageName(null);
+      listOfUncertParameters.setPackageName(DistribConstants.shortLabel);
+      this.listOfUncertParameters.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfUncertParameters);
+    }
+  }
+
+  /**
+   * Returns {@code true} if {@link #listOfUncertParameters} contains at least
+   * one element, otherwise {@code false}.
+   *
+   * @return {@code true} if {@link #listOfUncertParameters} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean unsetListOfUncertParameters() {
+    if (isSetListOfUncertParameters()) {
+      ListOf<UncertParameter> oldUncertParameters = this.listOfUncertParameters;
+      this.listOfUncertParameters = null;
+      oldUncertParameters.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Adds a new {@link UncertParameter} to the {@link #listOfUncertParameters}.
+   * <p>The listOfUncertParameters is initialized if necessary.
+   *
+   * @param uncertParameter the element to add to the list
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
+   * @see java.util.Collection#add(Object)
+   */
+  public boolean addUncertParameter(UncertParameter uncertParameter) {
+    return getListOfUncertParameters().add(uncertParameter);
+  }
+
+  /**
+   * Removes an element from the {@link #listOfUncertParameters}.
+   *
+   * @param uncertParameter the element to be removed from the list.
+   * @return {@code true} if the list contained the specified element and it was
+   *         removed.
+   * @see java.util.List#remove(Object)
+   */
+  public boolean removeUncertParameter(UncertParameter uncertParameter) {
+    if (isSetListOfUncertParameters()) {
+      return getListOfUncertParameters().remove(uncertParameter);
+    }
+    return false;
+  }
+
+  /**
+   * Removes an element from the {@link #listOfUncertParameters}.
+   *
+   * @param uncertParameterId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or
+   *         {@code null}.
+   */
+  public UncertParameter removeUncertParameter(String uncertParameterId) {
+    if (isSetListOfUncertParameters()) {
+      return getListOfUncertParameters().remove(uncertParameterId);
+    }
+    return null;
+  }
+
+  /**
+   * Removes an element from the {@link #listOfUncertParameters} at the given index.
+   *
+   * @param i the index where to remove the {@link UncertParameter}.
+   * @return the specified element if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
+   *         out of bound ({@code (i < 0) || (i > listOfUncertParameters)}).
+   */
+  public UncertParameter removeUncertParameter(int i) {
+    if (!isSetListOfUncertParameters()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfUncertParameters().remove(i);
+  }
+
+  /**
+   * Creates a new UncertParameter element and adds it to the
+   * {@link #listOfUncertParameters} list.
+   *
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfUncertParameters}
+   */
+  public UncertParameter createUncertParameter() {
+    return createUncertParameter(null);
+  }
+
+  /**
+   * Creates a new {@link UncertParameter} element and adds it to the
+   * {@link #listOfUncertParameters} list.
+   *
+   * @param id the identifier that is to be applied to the new element.
+   * @return the newly created {@link UncertParameter} element, which is the last
+   *         element in the {@link #listOfUncertParameters}.
+   */
+  public UncertParameter createUncertParameter(String id) {
+    UncertParameter uncertParameter = new UncertParameter(id);
+    addUncertParameter(uncertParameter);
+    return uncertParameter;
+  }
+
+  /**
+   * Gets an element from the {@link #listOfUncertParameters} at the given index.
+   *
+   * @param i the index of the {@link UncertParameter} element to get.
+   * @return an element from the listOfUncertParameters at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public UncertParameter getUncertParameter(int i) {
+    if (!isSetListOfUncertParameters()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfUncertParameters().get(i);
+  }
+
+  /**
+   * Gets an element from the listOfUncertParameters, with the given id.
+   *
+   * @param uncertParameterId the id of the {@link UncertParameter} element to get.
+   * @return an element from the listOfUncertParameters with the given id
+   *         or {@code null}.
+   */
+  public UncertParameter getUncertParameter(String uncertParameterId) {
+    if (isSetListOfUncertParameters()) {
+      return getListOfUncertParameters().get(uncertParameterId);
+    }
+    return null;
+  }
+
+  /**
+   * Returns the number of {@link UncertParameter}s in this
+   * {@link UncertParameter}.
+   * 
+   * @return the number of {@link UncertParameter}s in this
+   *         {@link UncertParameter}.
+   */
+  public int getUncertParameterCount() {
+    return isSetListOfUncertParameters() ? getListOfUncertParameters().size() : 0;
+  }
+
+  /**
+   * Returns the number of {@link UncertParameter}s in this
+   * {@link UncertParameter}.
+   * 
+   * @return the number of {@link UncertParameter}s in this
+   *         {@link UncertParameter}.
+   * @libsbml.deprecated same as {@link #getUncertParameterCount()}
+   */
+  public int getNumUncertParameters() {
+    return getUncertParameterCount();
+  }
+
+  
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), index, 0));
+    }
+    int count = super.getChildCount(), pos = 0;
+
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+    
+    if (isSetMath()) {
+      if (index == pos) {
+        return getMath();
+      }
+      pos++;
+    }
+    if (isSetListOfUncertParameters()) {
+      if (index == pos) {
+        return getListOfUncertParameters();
+      }
+      pos++;
+    }
+    
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      resourceBundle.getString("IndexExceedsBoundsException"),
+      index, Math.min(pos, 0)));
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+
+    if (isSetMath()) {
+      count++;
+    }
+    if (isSetListOfUncertParameters()) {
+      count++;
+    }
+    
+    return count;
+  }
+
 }
