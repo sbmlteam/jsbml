@@ -1125,6 +1125,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
       String value) {
 
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
 

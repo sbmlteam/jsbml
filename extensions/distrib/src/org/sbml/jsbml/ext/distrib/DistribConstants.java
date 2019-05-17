@@ -66,7 +66,7 @@ public class DistribConstants {
   /**
    * 
    */
-  public static final String uncertSpan = "uncertspan";
+  public static final String uncertSpan = "uncertSpan";
 
   /**
    * 
