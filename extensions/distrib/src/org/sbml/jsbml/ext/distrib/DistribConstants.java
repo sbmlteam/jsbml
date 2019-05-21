@@ -56,32 +56,17 @@ public class DistribConstants {
   /**
    * 
    */
-  public static final String drawFromDistribution = "drawFromDistribution";
-
-  /**
-   * 
-   */
   public static final String uncertainty = "uncertainty";
 
   /**
    * 
    */
-  public static final String distribInput = "distribInput";
+  public static final String uncertParameter = "uncertParameter";
 
   /**
    * 
    */
-  public static final String listOfDistribInputs = "listOfDistribInputs";
-
-  /**
-   * 
-   */
-  public static final String uncertML = "UncertML";
-
-  /**
-   * 
-   */
-  public static final String index = "index";
+  public static final String uncertSpan = "uncertspan";
 
   /**
    * 
@@ -186,62 +171,7 @@ public class DistribConstants {
   /**
    * 
    */
-  public static final String alpha = "alpha";
-
-  /**
-   * 
-   */
-  public static final String beta = "beta";
-
-  /**
-   * 
-   */
-  public static final String rate = "rate";
-
-  /**
-   * 
-   */
-  public static final String numerator = "numerator";
-
-  /**
-   * 
-   */
-  public static final String denominator = "denominator";
-
-  /**
-   * 
-   */
-  public static final String minimum = "minimum";
-
-  /**
-   * 
-   */
-  public static final String maximum = "maximum";
-
-  /**
-   * 
-   */
-  public static final String prob = "prob";
-
-  /**
-   * 
-   */
-  public static final String listOfCategories = "listOfCategories";
-
-  /**
-   * 
-   */
-  public static final String category = "category";
-
-  /**
-   * 
-   */
-  public static final String probability = "probability";
-  
-  /**
-   * 
-   */
-  public static final String listOfExternalParameters = "listOfExternalParameters";
+  public static final String listOfUncertainties = "listOfUncertainties";
 
   /**
    * 
@@ -263,10 +193,24 @@ public class DistribConstants {
    */
   public static final List<String> namespaces;
 
+  /**
+   * 
+   */
+  public static final String type = "type";
+
+  /**
+   * 
+   */
+  public static final String units = "units";
+
+  /**
+   * 
+   */
+  public static final String definitionURL = "definitionURL";
+
   static {
     namespaces = new ArrayList<String>();
     namespaces.add(namespaceURI_L3V1V1);
-    // namespaces.add(namespaceURI_L3V2V1); // TODO - removed definitively once Lucian and Sarah agree on something 
   }
 
 }

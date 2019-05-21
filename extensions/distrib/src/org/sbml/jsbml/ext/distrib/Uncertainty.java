@@ -23,20 +23,21 @@ import java.text.MessageFormat;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.ListOf;
 
 /**
- * The {@link Uncertainty} class has two optional children: an {@link UncertStatistics} child and a {@link Distribution} child. Either or both
- * may be used, depending on the information about the parent that the modeler wishes to store in this object. 
+ * The {@link Uncertainty} class is a collection of zero or more statistical measures related to the uncertainty of the parent
+ * SBML element. 
  * 
- * <p>If neither is present, this means that no information about the uncertainty of the object is provided by this package.
- * The Uncertainty may be annotated to provide more information about why this is.</p>
+ * <p>It may only contain one of each type of measurement, which means that each of its UncertParameter
+ * children must have a unique type attribute for every value but 'externalParameter'. Each UncertParameter child
+ * with a type of 'externalParameter' must, in turn, have a unique definitionURL value. If a given SBML element
+ * has multiple measures of the same type (for example, as measured from different sources or different experiments),
+ * it should be given multiple Uncertainty children. Each Uncertainty child must be a unique set of statistical measures.</p>
  * 
  * <p>Note that the described uncertainty for elements that change in value over time apply only to the element's
  * uncertainty at a snapshot in time, and not the uncertainty in how it changes in time. For typical simulations, this
- * means the element's initial condition. Note too that the description of the uncertainty of a Species should describe
- * the uncertainty of its amount, not the uncertainty of its concentration. The 'primary' mathematical meaning of a
- * Species in SBML is always the amount; the concentration may be used, but is considered to be derived.
+ * means the element's initial condition. 
  *
  * @author Nicolas Rodriguez
  * @since 1.4
@@ -48,17 +49,11 @@ public class Uncertainty extends AbstractDistribSBase {
    */
   private static final long serialVersionUID = -904719821379100471L;
 
-  // TODO - remove uncertML and replace by distribution and UncertStatitics
   /**
    * 
    */
-  private UncertStatistics uncertStatistics;
-
-  /**
-   * 
-   */
-  private Distribution distribution;
-
+  private ListOf<UncertParameter> listOfUncertParameters;
+  
   /**
    * Creates an Uncertainty instance
    */
@@ -118,10 +113,12 @@ public class Uncertainty extends AbstractDistribSBase {
 
   /**
    * Clone constructor
-   * @param obj
+   * @param obj the object to clone
    */
   public Uncertainty(Uncertainty obj) {
     super(obj);
+    
+    // TODO
   }
 
   /**
@@ -147,110 +144,7 @@ public class Uncertainty extends AbstractDistribSBase {
   public Uncertainty clone() {
     return new Uncertainty(this);
   }
-
   
-  /**
-   * Returns the value of {@link #distribution}.
-   *
-   * @return the value of {@link #distribution}.
-   */
-  public Distribution getDistribution() {
-    if (isSetDistribution()) {
-      return distribution;
-    }
-    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
-    throw new PropertyUndefinedError(DistribConstants.distribution, this);
-  }
-
-
-  /**
-   * Returns whether {@link #distribution} is set.
-   *
-   * @return whether {@link #distribution} is set.
-   */
-  public boolean isSetDistribution() {
-    return this.distribution != null;
-  }
-
-
-  /**
-   * Sets the value of distribution
-   *
-   * @param distribution the value of distribution to be set.
-   */
-  public void setDistribution(Distribution distribution) {
-    Distribution oldDistribution = this.distribution;
-    this.distribution = distribution;
-    firePropertyChange(DistribConstants.distribution, oldDistribution, this.distribution);
-  }
-
-
-  /**
-   * Unsets the variable distribution.
-   *
-   * @return {@code true} if distribution was set before, otherwise {@code false}.
-   */
-  public boolean unsetDistribution() {
-    if (isSetDistribution()) {
-      Distribution oldDistribution = this.distribution;
-      this.distribution = null;
-      firePropertyChange(DistribConstants.distribution, oldDistribution, this.distribution);
-      return true;
-    }
-    return false;
-  }
-  
-  
-  /**
-   * Returns the value of {@link #uncertStatistics}.
-   *
-   * @return the value of {@link #uncertStatistics}.
-   */
-  public UncertStatistics getUncertStatistics() {
-    if (isSetUncertStatistics()) {
-      return uncertStatistics;
-    }
-    // This is necessary if we cannot return null here. For variables of type String return an empty String if no value is defined.
-    throw new PropertyUndefinedError(DistribConstants.uncertStatistics, this);
-  }
-
-
-  /**
-   * Returns whether {@link #uncertStatistics} is set.
-   *
-   * @return whether {@link #uncertStatistics} is set.
-   */
-  public boolean isSetUncertStatistics() {
-    return this.uncertStatistics != null;
-  }
-
-
-  /**
-   * Sets the value of uncertStatistics
-   *
-   * @param uncertStatistics the value of uncertStatistics to be set.
-   */
-  public void setUncertStatistics(UncertStatistics uncertStatistics) {
-    UncertStatistics oldUncertStatistics = this.uncertStatistics;
-    this.uncertStatistics = uncertStatistics;
-    firePropertyChange(DistribConstants.uncertStatistics, oldUncertStatistics, this.uncertStatistics);
-  }
-
-
-  /**
-   * Unsets the variable uncertStatistics.
-   *
-   * @return {@code true} if uncertStatistics was set before, otherwise {@code false}.
-   */
-  public boolean unsetUncertStatistics() {
-    if (isSetUncertStatistics()) {
-      UncertStatistics oldUncertStatistics = this.uncertStatistics;
-      this.uncertStatistics = null;
-      firePropertyChange(DistribConstants.uncertStatistics, oldUncertStatistics, this.uncertStatistics);
-      return true;
-    }
-    return false;
-  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
@@ -267,13 +161,10 @@ public class Uncertainty extends AbstractDistribSBase {
   public int getChildCount() {
     int count = super.getChildCount();
 
-    if (isSetUncertStatistics()) {
-      count++;
+    if (getUncertParameterCount() > 0) {
+      count += getUncertParameterCount();
     }
-    if (isSetDistribution()) {
-      count++;
-    }
-
+    
     return count;
   }
 
@@ -294,18 +185,14 @@ public class Uncertainty extends AbstractDistribSBase {
       index -= count;
     }
 
-    if (isSetUncertStatistics()) {
-      if (pos == index) {
-        return getUncertStatistics();
-      }
-      pos++;
-    }
+    if (getUncertParameterCount() > 0) {
 
-    if (isSetDistribution()) {
-      if (pos == index) {
-        return getDistribution();
+      for (UncertParameter uncertParam : listOfUncertParameters) {
+        if (index == pos) {
+          return uncertParam;
+        }
+        pos++;
       }
-      pos++;
     }
 
     throw new IndexOutOfBoundsException(
@@ -314,52 +201,244 @@ public class Uncertainty extends AbstractDistribSBase {
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
+  
+  /**
+   * Returns {@code true} if {@link #listOfUncertParameters} contains at least
+   * one element.
+   *
+   * @return {@code true} if {@link #listOfUncertParameters} contains at least
+   *         one element, otherwise {@code false}.
    */
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result =
-      prime * result + ((distribution == null) ? 0 : distribution.hashCode());
-    result = prime * result
-      + ((uncertStatistics == null) ? 0 : uncertStatistics.hashCode());
-    return result;
-  }
-
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!super.equals(obj)) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    Uncertainty other = (Uncertainty) obj;
-    if (distribution == null) {
-      if (other.distribution != null) {
-        return false;
-      }
-    } else if (!distribution.equals(other.distribution)) {
-      return false;
-    }
-    if (uncertStatistics == null) {
-      if (other.uncertStatistics != null) {
-        return false;
-      }
-    } else if (!uncertStatistics.equals(other.uncertStatistics)) {
+  public boolean isSetListOfUncertParameters() {
+    if (listOfUncertParameters == null) {
       return false;
     }
     return true;
   }
 
+  /**
+   * Returns the {@link #listOfUncertParameters}.
+   * Creates it if it does not already exist.
+   *
+   * @return the {@link #listOfUncertParameters}.
+   */
+  public ListOf<UncertParameter> getListOfUncertParameters() {
+    if (listOfUncertParameters == null) {
+      listOfUncertParameters = new ListOf<UncertParameter>();
+      listOfUncertParameters.setNamespace(DistribConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfUncertParameters.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'distrib'
+      listOfUncertParameters.setPackageName(null);
+      listOfUncertParameters.setPackageName(DistribConstants.shortLabel);
+      listOfUncertParameters.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfUncertParameters);
+    }
+    return listOfUncertParameters;
+  }
+
+  /**
+   * Sets the given {@code ListOf<UncertParameter>}.
+   * If {@link #listOfUncertParameters} was defined before and contains some
+   * elements, they are all unset.
+   *
+   * @param listOfUncertParameters
+   */
+  public void setListOfUncertParameters(ListOf<UncertParameter> listOfUncertParameters) {
+    unsetListOfUncertParameters();
+    this.listOfUncertParameters = listOfUncertParameters;
+
+    if (listOfUncertParameters != null) {
+      listOfUncertParameters.unsetNamespace();
+      listOfUncertParameters.setNamespace(DistribConstants.namespaceURI); // TODO - removed once the mechanism are in place to set package version and namespace
+      listOfUncertParameters.setPackageVersion(-1);
+      // changing the ListOf package name from 'core' to 'distrib'
+      listOfUncertParameters.setPackageName(null);
+      listOfUncertParameters.setPackageName(DistribConstants.shortLabel);
+      this.listOfUncertParameters.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfUncertParameters);
+    }
+
+  }
+
+  /**
+   * Returns {@code true} if {@link #listOfUncertParameters} contains at least
+   * one element, otherwise {@code false}.
+   *
+   * @return {@code true} if {@link #listOfUncertParameters} contains at least
+   *         one element, otherwise {@code false}.
+   */
+  public boolean unsetListOfUncertParameters() {
+    if (isSetListOfUncertParameters()) {
+      ListOf<UncertParameter> oldUncertParameters = this.listOfUncertParameters;
+      this.listOfUncertParameters = null;
+      oldUncertParameters.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Adds a new {@link UncertParameter} to the {@link #listOfUncertParameters}.
+   * <p>The listOfUncertParameters is initialized if necessary.
+   *
+   * @param uncertParameter the element to add to the list
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
+   * @see java.util.Collection#add(Object)
+   */
+  public boolean addUncertParameter(UncertParameter uncertParameter) {
+    return getListOfUncertParameters().add(uncertParameter);
+  }
+
+  /**
+   * Removes an element from the {@link #listOfUncertParameters}.
+   *
+   * @param uncertParameter the element to be removed from the list.
+   * @return {@code true} if the list contained the specified element and it was
+   *         removed.
+   * @see java.util.List#remove(Object)
+   */
+  public boolean removeUncertParameter(UncertParameter uncertParameter) {
+    if (isSetListOfUncertParameters()) {
+      return getListOfUncertParameters().remove(uncertParameter);
+    }
+    return false;
+  }
+
+  // TODO - if UncertParameter has no id attribute, you should remove this method.
+  /**
+   * Removes an element from the {@link #listOfUncertParameters}.
+   *
+   * @param uncertParameterId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or
+   *         {@code null}.
+   */
+  public UncertParameter removeUncertParameter(String uncertParameterId) {
+    if (isSetListOfUncertParameters()) {
+      return getListOfUncertParameters().remove(uncertParameterId);
+    }
+    return null;
+  }
+
+  /**
+   * Removes an element from the {@link #listOfUncertParameters} at the given index.
+   *
+   * @param i the index where to remove the {@link UncertParameter}.
+   * @return the specified element if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
+   *         out of bound ({@code (i < 0) || (i > listOfUncertParameters)}).
+   */
+  public UncertParameter removeUncertParameter(int i) {
+    if (!isSetListOfUncertParameters()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfUncertParameters().remove(i);
+  }
+
+  /**
+   * Creates a new UncertParameter element and adds it to the
+   * {@link #listOfUncertParameters} list.
+   *
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfUncertParameters}
+   */
+  public UncertParameter createUncertParameter() {
+    return createUncertParameter(null);
+  }
+
+  /**
+   * Creates a new {@link UncertParameter} element and adds it to the
+   * {@link #listOfUncertParameters} list.
+   *
+   * @param id the identifier that is to be applied to the new element.
+   * @return the newly created {@link UncertParameter} element, which is the last
+   *         element in the {@link #listOfUncertParameters}.
+   */
+  public UncertParameter createUncertParameter(String id) {
+    UncertParameter uncertParameter = new UncertParameter(id);
+    addUncertParameter(uncertParameter);
+    return uncertParameter;
+  }
   
+
+  /**
+   * Creates a new {@link UncertSpan} element and adds it to the
+   * {@link #listOfUncertParameters} list.
+   *
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfUncertParameters}
+   */
+  public UncertSpan createUncertSpan() {
+    return createUncertSpan(null);
+  }
+
+  /**
+   * Creates a new {@link UncertSpan} element and adds it to the
+   * {@link #listOfUncertParameters} list.
+   *
+   * @param id the identifier that is to be applied to the new element.
+   * @return the newly created element, i.e., the last item in the
+   *         {@link #listOfUncertParameters}
+   */
+  public UncertSpan createUncertSpan(String id) {
+    UncertSpan uncertParameter = new UncertSpan(id);
+    addUncertParameter(uncertParameter);
+    return uncertParameter;
+  }
+
+  /**
+   * Gets an element from the {@link #listOfUncertParameters} at the given index.
+   *
+   * @param i the index of the {@link UncertParameter} element to get.
+   * @return an element from the listOfUncertParameters at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public UncertParameter getUncertParameter(int i) {
+    if (!isSetListOfUncertParameters()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfUncertParameters().get(i);
+  }
+
+  // TODO - if UncertParameter has no id attribute, you should remove this method.
+  /**
+   * Gets an element from the listOfUncertParameters, with the given id.
+   *
+   * @param uncertParameterId the id of the {@link UncertParameter} element to get.
+   * @return an element from the listOfUncertParameters with the given id
+   *         or {@code null}.
+   */
+  public UncertParameter getUncertParameter(String uncertParameterId) {
+    if (isSetListOfUncertParameters()) {
+      return getListOfUncertParameters().get(uncertParameterId);
+    }
+    return null;
+  }
+
+  /**
+   * Returns the number of {@link UncertParameter}s in this
+   * {@link Uncertainty}.
+   * 
+   * @return the number of {@link UncertParameter}s in this
+   *         {@link Uncertainty}.
+   */
+  public int getUncertParameterCount() {
+    return isSetListOfUncertParameters() ? getListOfUncertParameters().size() : 0;
+  }
+
+  /**
+   * Returns the number of {@link UncertParameter}s in this
+   * {@link Uncertainty}.
+   * 
+   * @return the number of {@link UncertParameter}s in this
+   *         {@link Uncertainty}.
+   * @libsbml.deprecated same as {@link #getUncertParameterCount()}
+   */
+  public int getNumUncertParameters() {
+    return getUncertParameterCount();
+  }
+
+
 }

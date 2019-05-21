@@ -31,8 +31,6 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.TidySBMLWriter;
-import org.sbml.jsbml.ext.distrib.DistribFunctionDefinitionPlugin;
-import org.sbml.jsbml.ext.distrib.DrawFromDistribution;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.xml.XMLAttributes;
@@ -42,7 +40,7 @@ import org.sbml.jsbml.xml.XMLTriple;
 
 
 /**
- * @author Nicolas Rdodriguez
+ * @author Nicolas Rodriguez
  * @since 1.1
  * @deprecated  the uncertML String was removed from the latest specs
  */
@@ -106,17 +104,11 @@ public class CreateUncertMLXMLNode {
     varNode.addAttr("varId", "sd");
     stddevNode.addChild(varNode);
 
-    DistribFunctionDefinitionPlugin dfd = (DistribFunctionDefinitionPlugin) f.getPlugin("distrib");
-    DrawFromDistribution drawfd = dfd.createDrawFromDistribution();
-    // drawfd.setUncertML(xmlNode);
 
     FunctionDefinition g = m.createFunctionDefinition("g");
-    dfd = (DistribFunctionDefinitionPlugin) g.getPlugin("distrib");
-    drawfd = dfd.createDrawFromDistribution();
 
-    XMLNode uncertMLNode = XMLNode.convertStringToXMLNode(uncertML);
-    // drawfd.setUncertML(uncertMLNode);
-
+    // TODO - set the proper math with the new csymbol
+    
     String docStr = new TidySBMLWriter().writeSBMLToString(doc);
 
     System.out.println("Document = \n" + docStr);

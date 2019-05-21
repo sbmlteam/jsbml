@@ -19,32 +19,21 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-
-import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.ASTNodePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.distrib.DistribConstants;
-import org.sbml.jsbml.ext.distrib.DistribFunctionDefinitionPlugin;
-import org.sbml.jsbml.ext.distrib.DistribInput;
 import org.sbml.jsbml.ext.distrib.DistribSBasePlugin;
-import org.sbml.jsbml.ext.distrib.DrawFromDistribution;
+import org.sbml.jsbml.ext.distrib.UncertParameter;
+import org.sbml.jsbml.ext.distrib.UncertSpan;
+import org.sbml.jsbml.ext.distrib.Uncertainty;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -123,20 +112,6 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
     if (logger.isDebugEnabled()) {
       logger.debug("processAttribute -> " + prefix + ":" + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
     }
-
-    if (contextObject instanceof FunctionDefinition) {
-      FunctionDefinition fd = (FunctionDefinition) contextObject;
-      DistribFunctionDefinitionPlugin fbcFD = null;
-
-      if (fd.getExtension(DistribConstants.namespaceURI) != null) {
-        fbcFD = (DistribFunctionDefinitionPlugin) fd.getExtension(DistribConstants.namespaceURI);
-      } else {
-        fbcFD = new DistribFunctionDefinitionPlugin(fd);
-        fd.addExtension(DistribConstants.namespaceURI, fbcFD);
-      }    
-
-      contextObject = fbcFD;
-    }
     
     return super.processAttribute(elementName, attributeName, value, uri, prefix, isLastAttribute, contextObject);
   }
@@ -151,43 +126,32 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
   public Object processStartElement(String elementName, String uri, String prefix,
     boolean hasAttributes, boolean hasNamespaces, Object contextObject)
   {
-    if (contextObject instanceof FunctionDefinition) {
-    	FunctionDefinition fd = (FunctionDefinition) contextObject;
-      DistribFunctionDefinitionPlugin distribFD = null;
-
-      if (fd.getExtension(DistribConstants.namespaceURI) != null) {
-        distribFD = (DistribFunctionDefinitionPlugin) fd.getExtension(DistribConstants.namespaceURI);
-      } else {
-        distribFD = new DistribFunctionDefinitionPlugin(fd);
-        fd.addExtension(DistribConstants.namespaceURI, distribFD);
-      }
-
-      // drawFromDistribution
-      if (elementName.equals(DistribConstants.drawFromDistribution)) {
-        DrawFromDistribution dfd = distribFD.createDrawFromDistribution();;
-        return dfd;
-      }
-    } else if (contextObject instanceof DrawFromDistribution) {
-      DrawFromDistribution dfd = (DrawFromDistribution) contextObject;
-
-      // istOfDistribInputs
-      if (elementName.equals(DistribConstants.listOfDistribInputs)) {
-        ListOf<DistribInput> listOfDistribInputs = dfd.getListOfDistribInputs();
-        return listOfDistribInputs;
-      }
-    }
-    
-    else if (contextObject instanceof ListOf<?>) {
+    if (contextObject instanceof ListOf<?>) {
       ListOf<?> listOf = (ListOf<?>) contextObject;
 
-      if (elementName.equals(DistribConstants.distribInput)) {
-        DrawFromDistribution dfd = (DrawFromDistribution) listOf.getParentSBMLObject();
+      if (elementName.equals(DistribConstants.uncertainty)) {
+        SBase dfd = listOf.getParentSBMLObject();
+        DistribSBasePlugin dSBase = (DistribSBasePlugin) dfd.getPlugin(DistribConstants.shortLabel);
 
-        DistribInput input = dfd.createDistribInput();
+        Uncertainty uncertainty = dSBase.createUncertainty();        
         
-        return input;
+        return uncertainty;
       } 
+    } else if (contextObject instanceof Uncertainty) {
+      Uncertainty uncert = (Uncertainty) contextObject;
+
+      if (elementName.equals(DistribConstants.uncertParameter)) {
+
+        UncertParameter uncertParam = uncert.createUncertParameter();        
+        
+        return uncertParam;
+      } else if (elementName.equals(DistribConstants.uncertSpan)) {
+        UncertSpan uncertSpan = uncert.createUncertSpan();
+        
+        return uncertSpan;
+      }
     }
+ 
     
     // If not other elements recognized the new element to read, it might be
     // on of the extended SBase children
@@ -224,22 +188,12 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
       SBase sbase = (SBase) sbmlElementToWrite;
 
       if (!xmlObject.isSetName()) {
-        if (sbase instanceof ListOf<?>) {
-          ListOf<?> listOf = (ListOf<?>) sbase;
-
-          if (listOf.size() > 0) {
-            if (listOf.get(0) instanceof DistribInput) {
-              xmlObject.setName(DistribConstants.listOfDistribInputs); // TODO - check that this is needed !!
-            } 
-          }
-        } else {
-          xmlObject.setName(sbase.getElementName());
-        }
+        xmlObject.setName(sbase.getElementName());
       }
-      //      if (!xmlObject.isSetPrefix()) {
-      //        xmlObject.setPrefix(getShortLabel());
-      //      }
-      //			xmlObject.setNamespace(FBCConstants.namespaceURI);
+      
+      if (xmlObject.getName().equals("listOfUncertaintys")) {
+        xmlObject.setName(DistribConstants.listOfUncertainties);
+      }
     }
 
     if (logger.isDebugEnabled()) {
@@ -247,102 +201,6 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
     }
   }
 
-  /**
-   * Tests this class
-   * 
-   * @param args
-   * @throws SBMLException
-   */
-  public static void main(String[] args) throws SBMLException {
-    if (args.length < 1) {
-      System.out.println(
-          "Usage: java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
-      System.exit(0);
-    }
-
-    // this JOptionPane is added here to be able to start visualVM profiling
-    // before the reading or writing is started.
-    // JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
-
-    File argsAsFile = new File(args[0]);
-    File[] files = null;
-
-    if (argsAsFile.isDirectory())
-    {
-      files = argsAsFile.listFiles(new FileFilter() {
-
-        @Override
-        public boolean accept(File pathname)
-        {
-          if (pathname.getName().contains("-jsbml"))
-          {
-            return false;
-          }
-
-          if (pathname.getName().endsWith(".xml"))
-          {
-            return true;
-          }
-
-          return false;
-        }
-      });
-    }
-    else
-    {
-      files = new File[1];
-      files[0] = argsAsFile;
-    }
-
-    for (File file : files)
-    {
-
-      long init = Calendar.getInstance().getTimeInMillis();
-      System.out.println(Calendar.getInstance().getTime());
-
-      String fileName = file.getAbsolutePath();
-      String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
-
-      System.out.printf("Reading %s and writing %s\n",
-        fileName, jsbmlWriteFileName);
-
-      SBMLDocument testDocument;
-      long afterRead = 0;
-      try {
-        testDocument = new SBMLReader().readSBMLFromFile(fileName);
-        System.out.printf("Reading done\n");
-        System.out.println(Calendar.getInstance().getTime());
-        afterRead = Calendar.getInstance().getTimeInMillis();
-
-
-        System.out.printf("Starting writing\n");
-
-        new SBMLWriter().write(testDocument.clone(), jsbmlWriteFileName);
-      }
-      catch (XMLStreamException e)
-      {
-        e.printStackTrace();
-      }
-      catch (IOException e)
-      {
-        e.printStackTrace();
-      }
-
-      System.out.println(Calendar.getInstance().getTime());
-      long end = Calendar.getInstance().getTimeInMillis();
-      long nbSecondes = (end - init)/1000;
-      long nbSecondesRead = (afterRead - init)/1000;
-      long nbSecondesWrite = (end - afterRead)/1000;
-
-      if (nbSecondes > 120) {
-        System.out.println("It took " + nbSecondes/60 + " minutes.");
-      } else {
-        System.out.println("It took " + nbSecondes + " secondes.");
-      }
-      System.out.println("Reading: " + nbSecondesRead + " secondes.");
-      System.out.println("Writing: " + nbSecondesWrite + " secondes.");
-    }
-  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.PackageParser#getNamespaceFor(java.lang.String, java.lang.String, java.lang.String)
@@ -391,11 +249,7 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
     if (sbase != null) {
-      if (sbase instanceof FunctionDefinition) {
-        return new DistribFunctionDefinitionPlugin((FunctionDefinition) sbase);
-      } else {
-        return new DistribSBasePlugin(sbase);
-      }
+      return new DistribSBasePlugin(sbase);
     }
     return null;
   }
