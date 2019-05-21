@@ -39,7 +39,7 @@ import org.sbml.jsbml.TidySBMLWriter;
 public class TestNotesToAnnotation {
 
   /**
-   * Tests the transfer of information from the notes to the annotations (tests NotesToAnnotation.java).
+   * Tests the transfer of information from the Cobra style notes to the annotations (tests NotesToAnnotation.java).
    * 
    * @param args the arguments, expect two files path, input and output files
    * @throws SBMLException if an error occurs
