@@ -7742,7 +7742,339 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
     public static final int CORE_10224 = 10224; 
     public static final int CORE_10225 = 10225; 
     
+    /*
+     * 
+     * Distrib errors
+     * 
+     */
     
- 	// At the moment (2016-11), from the draft packages, only multi has some validation in libSBML.
+    public static final int DISTRIB_10100 = 1510100;
+    public static final int DISTRIB_10101 = 1510101;
+    public static final int DISTRIB_10102 = 1510102;
+    public static final int DISTRIB_10301 = 1510301;
+    public static final int DISTRIB_10302 = 1510302;
+    
+    public static final int DISTRIB_20101 = 1520101;
+    public static final int DISTRIB_20102 = 1520102;
+    public static final int DISTRIB_20103 = 1520103;
+    
+    public static final int DISTRIB_20201 = 1520201;
+    public static final int DISTRIB_20202 = 1520202;
+    public static final int DISTRIB_20203 = 1520203;
+    
+    public static final int DISTRIB_20301 = 1520301;
+    public static final int DISTRIB_20302 = 1520302;
+    public static final int DISTRIB_20303 = 1520303;
+    public static final int DISTRIB_20304 = 1520304;
+    public static final int DISTRIB_20305 = 1520305;
+    public static final int DISTRIB_20306 = 1520306;
+    public static final int DISTRIB_20307 = 1520307;
+    public static final int DISTRIB_20308 = 1520308;
+    public static final int DISTRIB_20309 = 1520309;
+    public static final int DISTRIB_20310 = 1520310;
+    public static final int DISTRIB_20311 = 1520311;
 
+    public static final int DISTRIB_20401 = 1520401;
+    public static final int DISTRIB_20402 = 1520402;
+    public static final int DISTRIB_20403 = 1520403;
+
+    public static final int DISTRIB_20501 = 1520501;
+    public static final int DISTRIB_20502 = 1520502;
+    public static final int DISTRIB_20503 = 1520503;
+    public static final int DISTRIB_20504 = 1520504;
+    public static final int DISTRIB_20505 = 1520505;
+    public static final int DISTRIB_20506 = 1520506;
+    public static final int DISTRIB_20507 = 1520507;
+
+    public static final int DISTRIB_20601 = 1520601;
+    public static final int DISTRIB_20602 = 1520602;
+    public static final int DISTRIB_20603 = 1520603;
+    public static final int DISTRIB_20604 = 1520604;
+
+    
+    /*
+     * 
+     * Spatial errors
+     * 
+     */
+    
+    
+    public static final int SPATIAL_10100 = 1210100;
+    public static final int SPATIAL_10101 = 1210101;
+    public static final int SPATIAL_10102 = 1210102;
+    public static final int SPATIAL_10301 = 1210301;
+    public static final int SPATIAL_10302 = 1210302;
+
+    public static final int SPATIAL_20101 = 1220101;
+    public static final int SPATIAL_20102 = 1220102;
+    public static final int SPATIAL_20103 = 1220103;
+
+    public static final int SPATIAL_20201 = 1220201;
+    
+    public static final int SPATIAL_20301 = 1220301;
+    
+    public static final int SPATIAL_20401 = 1220401;
+    public static final int SPATIAL_20502 = 1220402;
+    
+    public static final int SPATIAL_20501 = 1220501;
+
+    public static final int SPATIAL_20601 = 1220601;
+    public static final int SPATIAL_20602 = 1220602;
+
+    public static final int SPATIAL_20701 = 1220701;
+    public static final int SPATIAL_20702 = 1220702;
+    public static final int SPATIAL_20703 = 1220703;
+    public static final int SPATIAL_20704 = 1220704;
+    public static final int SPATIAL_20705 = 1220705;
+
+    public static final int SPATIAL_20801 = 1220801;
+    public static final int SPATIAL_20802 = 1220802;
+    public static final int SPATIAL_20803 = 1220803;
+    public static final int SPATIAL_20804 = 1220804;
+    public static final int SPATIAL_20805 = 1220805;
+    public static final int SPATIAL_20806 = 1220806;
+    public static final int SPATIAL_20807 = 1220807;
+    public static final int SPATIAL_20808 = 1220808;
+        
+    public static final int SPATIAL_20901 = 1220901;
+    public static final int SPATIAL_20902 = 1220902;
+    public static final int SPATIAL_20903 = 1220903;
+    public static final int SPATIAL_20904 = 1220904;
+    public static final int SPATIAL_20905 = 1220905;
+    public static final int SPATIAL_20906 = 1220906;
+    
+    public static final int SPATIAL_21001 = 1221001;
+    public static final int SPATIAL_21002 = 1221002;
+    public static final int SPATIAL_21003 = 1221003;
+    public static final int SPATIAL_21004 = 1221004;
+    public static final int SPATIAL_21005 = 1221005;
+
+    public static final int SPATIAL_21101 = 1221101;
+    public static final int SPATIAL_21102 = 1221102;
+    public static final int SPATIAL_21103 = 1221103;
+    public static final int SPATIAL_21104 = 1221104;
+    public static final int SPATIAL_21105 = 1221105;
+    public static final int SPATIAL_21106 = 1221106;
+
+    public static final int SPATIAL_21201 = 1221201;
+    public static final int SPATIAL_21202 = 1221202;
+    public static final int SPATIAL_21203 = 1221203;
+    public static final int SPATIAL_21204 = 1221204;
+    public static final int SPATIAL_21205 = 1221205;
+
+    public static final int SPATIAL_21301 = 1221301;
+    public static final int SPATIAL_21302 = 1221302;
+    public static final int SPATIAL_21303 = 1221303;
+    public static final int SPATIAL_21304 = 1221304;
+    public static final int SPATIAL_21305 = 1221305;
+    public static final int SPATIAL_21306 = 1221306;
+
+    public static final int SPATIAL_21401 = 1221401;
+    public static final int SPATIAL_21402 = 1221402;
+    public static final int SPATIAL_21403 = 1221403;
+    public static final int SPATIAL_21404 = 1221404;
+    public static final int SPATIAL_21405 = 1221405;
+    public static final int SPATIAL_21406 = 1221406;
+    public static final int SPATIAL_21407 = 1221407;
+
+    public static final int SPATIAL_21501 = 1221501;
+    public static final int SPATIAL_21502 = 1221502;
+    public static final int SPATIAL_21503 = 1221503;
+    public static final int SPATIAL_21504 = 1221504;
+    public static final int SPATIAL_21505 = 1221505;
+    public static final int SPATIAL_21506 = 1221506;
+    public static final int SPATIAL_21507 = 1221507;
+
+    public static final int SPATIAL_21601 = 1221601;
+    public static final int SPATIAL_21602 = 1221602;
+    public static final int SPATIAL_21603 = 1221603;
+    public static final int SPATIAL_21604 = 1221604;
+    public static final int SPATIAL_21605 = 1221605;
+    public static final int SPATIAL_21606 = 1221606;
+    public static final int SPATIAL_21607 = 1221607;
+    public static final int SPATIAL_21608 = 1221608;
+    public static final int SPATIAL_21609 = 1221609;
+    public static final int SPATIAL_21610 = 1221610;
+    public static final int SPATIAL_21611 = 1221611;
+    public static final int SPATIAL_21612 = 1221612;
+
+    public static final int SPATIAL_21701 = 1221701;
+    public static final int SPATIAL_21702 = 1221702;
+    public static final int SPATIAL_21703 = 1221703;
+    public static final int SPATIAL_21704 = 1221704;
+    public static final int SPATIAL_21705 = 1221705;
+    public static final int SPATIAL_21706 = 1221706;
+    public static final int SPATIAL_21707 = 1221707;
+    public static final int SPATIAL_21708 = 1221708;
+
+    public static final int SPATIAL_21801 = 1221801;
+    public static final int SPATIAL_21802 = 1221802;
+    public static final int SPATIAL_21803 = 1221803;
+    public static final int SPATIAL_21804 = 1221804;
+    public static final int SPATIAL_21805 = 1221805;
+
+    public static final int SPATIAL_21901 = 1221901;
+    public static final int SPATIAL_21902 = 1221902;
+    public static final int SPATIAL_21903 = 1221903;
+    public static final int SPATIAL_21904 = 1221904;
+    public static final int SPATIAL_21905 = 1221905;
+    public static final int SPATIAL_21906 = 1221906;
+    public static final int SPATIAL_21907 = 1221907;
+    public static final int SPATIAL_21908 = 1221908;
+
+    public static final int SPATIAL_22001 = 1222001;
+    public static final int SPATIAL_22002 = 1222002;
+    public static final int SPATIAL_22003 = 1222003;
+    public static final int SPATIAL_22004 = 1222004;
+    public static final int SPATIAL_22005 = 1222005;
+
+    public static final int SPATIAL_22101 = 1222101;
+    public static final int SPATIAL_22102 = 1222102;
+    public static final int SPATIAL_22103 = 1222103;
+    public static final int SPATIAL_22104 = 1222104;
+    public static final int SPATIAL_22105 = 1222105;
+    public static final int SPATIAL_22106 = 1222106;
+    public static final int SPATIAL_22107 = 1222107;
+    public static final int SPATIAL_22108 = 1222108;
+    public static final int SPATIAL_22109 = 1222109;
+    public static final int SPATIAL_22110 = 1222110;
+
+    public static final int SPATIAL_22201 = 1222201;
+    public static final int SPATIAL_22202 = 1222202;
+    public static final int SPATIAL_22203 = 1222203;
+    public static final int SPATIAL_22204 = 1222204;
+    public static final int SPATIAL_22205 = 1222205;
+
+    public static final int SPATIAL_22301 = 1222301;
+    public static final int SPATIAL_22302 = 1222302;
+    public static final int SPATIAL_22303 = 1222303;
+    public static final int SPATIAL_22304 = 1222304;
+    public static final int SPATIAL_22305 = 1222305;
+    public static final int SPATIAL_22306 = 1222306;
+    public static final int SPATIAL_22307 = 1222307;
+
+    public static final int SPATIAL_22401 = 1222401;
+    public static final int SPATIAL_22402 = 1222402;
+    public static final int SPATIAL_22403 = 1222403;
+    public static final int SPATIAL_22404 = 1222404;
+
+    public static final int SPATIAL_22501 = 1222501;
+    public static final int SPATIAL_22502 = 1222502;
+    public static final int SPATIAL_22503 = 1222503;
+
+    public static final int SPATIAL_22601 = 1222601;
+    public static final int SPATIAL_22602 = 1222602;
+    public static final int SPATIAL_22603 = 1222603;
+    public static final int SPATIAL_22604 = 1222604;
+    public static final int SPATIAL_22605 = 1222605;
+    public static final int SPATIAL_22606 = 1222606;
+
+    public static final int SPATIAL_22701 = 1222701;
+    public static final int SPATIAL_22702 = 1222702;
+    public static final int SPATIAL_22703 = 1222703;
+    public static final int SPATIAL_22704 = 1222704;
+    public static final int SPATIAL_22705 = 1222705;
+    public static final int SPATIAL_22706 = 1222706;
+    public static final int SPATIAL_22707 = 1222707;
+
+    public static final int SPATIAL_22801 = 1222801;
+    public static final int SPATIAL_22802 = 1222802;
+    public static final int SPATIAL_22803 = 1222803;
+    public static final int SPATIAL_22804 = 1222804;
+    public static final int SPATIAL_22805 = 1222805;
+    public static final int SPATIAL_22806 = 1222806;
+
+    public static final int SPATIAL_22901 = 1222901;
+    public static final int SPATIAL_22902 = 1222902;
+    public static final int SPATIAL_22903 = 1222903;
+
+    public static final int SPATIAL_23001 = 1223001;
+    public static final int SPATIAL_23002 = 1223002;
+    public static final int SPATIAL_23003 = 1223003;
+    public static final int SPATIAL_23004 = 1223004;
+    public static final int SPATIAL_23005 = 1223005;
+
+    public static final int SPATIAL_23101 = 1223101;
+    public static final int SPATIAL_23102 = 1223102;
+    public static final int SPATIAL_23103 = 1223103;
+    public static final int SPATIAL_23104 = 1223104;
+
+    public static final int SPATIAL_23201 = 1223201;
+    public static final int SPATIAL_23202 = 1223202;
+    public static final int SPATIAL_23203 = 1223203;
+    public static final int SPATIAL_23204 = 1223204;
+    public static final int SPATIAL_23205 = 1223205;
+    public static final int SPATIAL_23206 = 1223206;
+    public static final int SPATIAL_23207 = 1223207;
+    public static final int SPATIAL_23208 = 1223208;
+    public static final int SPATIAL_23209 = 1223209;
+
+    public static final int SPATIAL_23301 = 1223301;
+    public static final int SPATIAL_23302 = 1223302;
+    public static final int SPATIAL_23303 = 1223303;
+    public static final int SPATIAL_23304 = 1223304;
+
+    public static final int SPATIAL_23401 = 1223401;
+    public static final int SPATIAL_23402 = 1223402;
+    public static final int SPATIAL_23403 = 1223403;
+    public static final int SPATIAL_23404 = 1223404;
+    public static final int SPATIAL_23405 = 1223405;
+    public static final int SPATIAL_23406 = 1223406;
+    public static final int SPATIAL_23407 = 1223407;
+
+    public static final int SPATIAL_23501 = 1223501;
+    public static final int SPATIAL_23502 = 1223502;
+    public static final int SPATIAL_23503 = 1223503;
+    public static final int SPATIAL_23504 = 1223504;
+    public static final int SPATIAL_23505 = 1223505;
+
+    public static final int SPATIAL_23601 = 1223601;
+    public static final int SPATIAL_23602 = 1223602;
+    public static final int SPATIAL_23603 = 1223603;
+    public static final int SPATIAL_23604 = 1223604;
+    public static final int SPATIAL_23605 = 1223605;
+    public static final int SPATIAL_23606 = 1223606;
+    public static final int SPATIAL_23607 = 1223607;
+
+    public static final int SPATIAL_23701 = 1223701;
+    public static final int SPATIAL_23702 = 1223702;
+    public static final int SPATIAL_23703 = 1223703;
+    public static final int SPATIAL_23704 = 1223704;
+    public static final int SPATIAL_23705 = 1223705;
+    public static final int SPATIAL_23706 = 1223706;
+    public static final int SPATIAL_23707 = 1223707;
+    public static final int SPATIAL_23708 = 1223708;
+    public static final int SPATIAL_23709 = 1223709;
+    public static final int SPATIAL_23710 = 1223710;
+    public static final int SPATIAL_23711 = 1223711;
+    public static final int SPATIAL_23712 = 1223712;
+    public static final int SPATIAL_23713 = 1223713;
+    public static final int SPATIAL_23714 = 1223714;
+    public static final int SPATIAL_23715 = 1223715;
+    public static final int SPATIAL_23716 = 1223716;
+    public static final int SPATIAL_23717 = 1223717;
+
+    public static final int SPATIAL_23801 = 1223801;
+    public static final int SPATIAL_23802 = 1223802;
+    public static final int SPATIAL_23803 = 1223803;
+    public static final int SPATIAL_23804 = 1223804;
+    public static final int SPATIAL_23805 = 1223805;
+    public static final int SPATIAL_23806 = 1223806;
+    public static final int SPATIAL_23807 = 1223807;
+
+    public static final int SPATIAL_23901 = 1223901;
+    public static final int SPATIAL_23902 = 1223902;
+    public static final int SPATIAL_23903 = 1223903;
+    public static final int SPATIAL_23904 = 1223904;
+    public static final int SPATIAL_23905 = 1223905;
+
+    public static final int SPATIAL_24001 = 1224001;
+    public static final int SPATIAL_24002 = 1224002;
+    public static final int SPATIAL_24003 = 1224003;
+    public static final int SPATIAL_24004 = 1224004;
+    public static final int SPATIAL_24005 = 1224005;
+    public static final int SPATIAL_24006 = 1224006;
+    public static final int SPATIAL_24007 = 1224007;
+    public static final int SPATIAL_24008 = 1224008;
+    
 }
