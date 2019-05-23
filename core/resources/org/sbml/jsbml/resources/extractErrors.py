@@ -1,8 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 # =============================================================================
 # @file   extractErrors.py
 # @brief  Extracts SBML errors from libSBML
 # @author Roman Schulte
+# @author Nicolas Rodriguez
 # =============================================================================
 #
 # This file is part of the JSBML offline validator project.
@@ -74,14 +75,18 @@ package_codes = [['core',          0],
                  ['req',     1100000],
                  ['spatial', 1200000],
                  ['render',  1300000],
+                 ['L3v2extendedmath', 1400000],
+                 ['distrib', 1500000],
                  ['fbc',     2000000],
                  ['qual',    3000000],
                  ['groups',  4000000],
-                 ['distrib', 5000000],
                  ['layout',  6000000],
                  ['multi',   7000000],
                  ['arrays',  8000000],
                  ['dyn',     9000000]]
+
+# distrib seems to have been changed from '50' to '15'    #    ['distrib', 5000000],
+
 
 # Our approach to finding error codes starts with numbers and then rummages
 # through the list of symbols in the libSBML Python module to find the symbol
@@ -240,6 +245,8 @@ def add_error_severity(error, data):
 
 def get_module():
     m = find_module("libsbml")
+    
+    
     return load_module('_libsbml', m[0], m[1], m[2]) # python 2.7 syntax for load_module
     #return load_module('_libsbml', None, m[1], m[2])
 
