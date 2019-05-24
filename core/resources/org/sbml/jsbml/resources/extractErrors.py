@@ -86,6 +86,7 @@ package_codes = [['core',          0],
                  ['dyn',     9000000]]
 
 # distrib seems to have been changed from '50' to '15'    #    ['distrib', 5000000],
+# req does not exist any more
 
 
 # Our approach to finding error codes starts with numbers and then rummages
@@ -131,6 +132,66 @@ def write_doc(module):
             e = SBMLError(errNum, 3, 1, '', 0, 0, 0, 0, pkg_name, 1)
             if e.isValid():
                 data = add_error_as_json(e, data)
+
+#
+# For the latest packages, the error codes do not appear any more in the global
+# symbols of the _libsbml python module so we are adding them by hand for the time
+# being
+#
+
+# spatial
+    for errNum in range(1210000, 1225000):
+        if errNum < 9999999:
+            pkg_name = ""
+            if errNum > 99999:
+                pkg_name = error_package_with_code(errNum)
+            e = SBMLError(errNum, 3, 1, '', 0, 0, 0, 0, pkg_name, 1)
+            if e.isValid() and e.getMessage():
+                data = add_error_as_json(e, data)
+
+# render
+    for errNum in range(1310000, 1330000):
+        if errNum < 9999999:
+            pkg_name = ""
+            if errNum > 99999:
+                pkg_name = error_package_with_code(errNum)
+            e = SBMLError(errNum, 3, 1, '', 0, 0, 0, 0, pkg_name, 1)
+            if e.isValid() and e.getMessage():
+                data = add_error_as_json(e, data)
+
+# distrib		
+    for errNum in range(1510000, 1525000):
+        if errNum < 9999999:
+            pkg_name = ""
+            if errNum > 99999:
+                pkg_name = error_package_with_code(errNum)
+            e = SBMLError(errNum, 3, 1, '', 0, 0, 0, 0, pkg_name, 1)
+            if e.isValid() and e.getMessage():
+                data = add_error_as_json(e, data)
+
+# multi		
+    for errNum in range(7010000, 7025000):
+        if errNum < 9999999:
+            pkg_name = ""
+            if errNum > 99999:
+                pkg_name = error_package_with_code(errNum)
+            e = SBMLError(errNum, 3, 1, '', 0, 0, 0, 0, pkg_name, 1)
+            if e.isValid() and e.getMessage():
+                data = add_error_as_json(e, data)
+
+# arrays		
+    for errNum in range(8010000, 8025000):
+        if errNum < 9999999:
+            pkg_name = ""
+            if errNum > 99999:
+                pkg_name = error_package_with_code(errNum)
+            e = SBMLError(errNum, 3, 1, '', 0, 0, 0, 0, pkg_name, 1)
+            if e.isValid() and e.getMessage():
+                data = add_error_as_json(e, data)
+
+# missing dyn and L3v2extendedmath packages
+#    for errNum in range(9010000, 9025000):
+
 
     # for package in package_codes:
     #     pkg_name = package[0]
@@ -258,7 +319,8 @@ def get_numeric_constants(module, low=0, high=90000000):
             # so we have to guard against that.
             value = eval(symbol)
             if isinstance(value, int) and low <= value and value <= high:
-                constants.add(value)
+            	# print ('Symbol found in the library: ', value)
+            	constants.add(value)
         except:
             continue
     return constants
