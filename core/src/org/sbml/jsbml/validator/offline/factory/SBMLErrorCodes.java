@@ -3,12 +3,11 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2019 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
- * 4. The University of California, San Diego, La Jolla, CA, USA
- * 5. The Babraham Institute, Cambridge, UK
+ * 4. The Babraham Institute, Cambridge, UK
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -21,8 +20,9 @@
 package org.sbml.jsbml.validator.offline.factory;
 
 
+
 /**
- * Automatically generated file, using the python scripts extractErrors.py on the libSBML source code
+ * Automatically generated file, using the python scripts extractErrors.py on the libSBML python library
  * and createErrorCodeInterface.py on the generated json file.
  *
  * @since 1.2
@@ -358,8 +358,8 @@ public interface SBMLErrorCodes {
 	  * &lt;sinh&gt;, &lt;cosh&gt;, &lt;tanh&gt;, &lt;sech&gt;, &lt;csch&gt;, &lt;coth&gt;, &lt;arcsin&gt;, &lt;arccos&gt;, &lt;arctan&gt;, 
 	  * &lt;arcsec&gt;, &lt;arccsc&gt;, &lt;arccot&gt;, &lt;arcsinh&gt;, &lt;arccosh&gt;, &lt;arctanh&gt;, &lt;arcsech&gt;, 
 	  * &lt;arccsch&gt;, &lt;arccoth&gt;, &lt;true&gt;, &lt;false&gt;, &lt;notanumber&gt;, &lt;pi&gt;, &lt;infinity&gt;, 
-	  * &lt;exponentiale&gt;, &lt;semantics&gt;, &lt;annotation&gt;, and &lt;annotation-xml&gt;. Reference: L3V1 
-	  * Section 3.4.1 
+	  * &lt;exponentiale&gt;, &lt;semantics&gt;, &lt;annotation&gt;, and &lt;annotation-xml&gt;. SBML L3V2 added 
+	  * &lt;implies&gt;, &lt;max&gt;, &lt;min&gt;, &lt;rem&gt; and &lt;quotient&gt;. Reference: L3V1 Section 3.4.1 
 	  */
  	 public static final int CORE_10202 = 10202; 
 
@@ -367,7 +367,9 @@ public interface SBMLErrorCodes {
 	  * Error code 10203:
 	  * In the SBML subset of MathML 2.0, the MathML attribute 'encoding' is only 
 	  * permitted on &lt;csymbol&gt;. No other MathML elements may have an 'encoding' 
-	  * attribute. Reference: L3V1 Section 3.4.1 
+	  * attribute. An SBML L3 Package may allow the 'encoding' attribute in other 
+	  * places, and if so, the package must define required = 'true' on the SBML 
+	  * container element &lt;sbml&gt;. Reference: L3V1 Section 3.4.1 
 	  */
  	 public static final int CORE_10203 = 10203; 
 
@@ -375,8 +377,10 @@ public interface SBMLErrorCodes {
 	  * Error code 10204:
 	  * In the SBML subset of MathML 2.0, the MathML attribute 'definitionURL' is only 
 	  * permitted on &lt;csymbol&gt;, &lt;semantics&gt; or &lt;ci&gt; (Level 2 Version 5 and Level 3 
-	  * only). No other MathML elements may have a 'definitionURL' attribute. Reference: 
-	  * L3V1 Section 3.4.1 
+	  * only). No other MathML elements may have a 'definitionURL' attribute. An SBML L3 
+	  * Package may allow the 'definitionURL' attribute in other places, and if so, the 
+	  * package must define required = 'true' on the SBML container element &lt;sbml&gt;. 
+	  * Reference: L3V1 Section 3.4.1 
 	  */
  	 public static final int CORE_10204 = 10204; 
 
@@ -385,14 +389,20 @@ public interface SBMLErrorCodes {
 	  * In SBML Level 2, the only values permitted for 'definitionURL' on a &lt;csymbol&gt; 
 	  * element are "http://www.sbml.org/sbml/symbols/time" and 
 	  * "http://www.sbml.org/sbml/symbols/delay". SBML Level 3 added 
-	  * "http://www.sbml.org/sbml/symbols/avogadro". Reference: L3V1 Section 3.4.6 
+	  * "http://www.sbml.org/sbml/symbols/avogadro". SBML Level 3 Version 2 added 
+	  * "http://www.sbml.org/sbml/symbols/rateOf" An SBML L3 Package may allow new 
+	  * values for the 'definitionURL' attribute of a csymbol, and if so, the package 
+	  * must define required = 'true' on the SBML container element &lt;sbml&gt;. Reference: 
+	  * L3V1 Section 3.4.6 
 	  */
  	 public static final int CORE_10205 = 10205; 
 
 	 /**
 	  * Error code 10206:
 	  * In the SBML subset of MathML 2.0, the MathML attribute 'type' is only permitted 
-	  * on the &lt;cn&gt; construct. No other MathML elements may have a 'type' attribute. 
+	  * on the &lt;cn&gt; construct. No other MathML elements may have a 'type' attribute. An 
+	  * SBML L3 Package may allow the 'type' attribute in other places, and if so, the 
+	  * package must define required = 'true' on the SBML container element &lt;sbml&gt;. 
 	  * Reference: L3V1 Section 3.4.1 
 	  */
  	 public static final int CORE_10206 = 10206; 
@@ -400,7 +410,9 @@ public interface SBMLErrorCodes {
 	 /**
 	  * Error code 10207:
 	  * The only permitted values for the 'type' attribute on MathML &lt;cn&gt; elements are 
-	  * 'e-notation', 'real', 'integer', and 'rational'. Reference: L3V1 Section 3.4.2 
+	  * 'e-notation', 'real', 'integer', and 'rational'. An SBML L3 Package may allow 
+	  * new values for the 'type' attribute, and if so, the package must define required 
+	  * = 'true' on the SBML container element &lt;sbml&gt;. Reference: L3V1 Section 3.4.2 
 	  */
  	 public static final int CORE_10207 = 10207; 
 
@@ -409,7 +421,9 @@ public interface SBMLErrorCodes {
 	  * MathML &lt;lambda&gt; elements are only permitted as the first element inside the 
 	  * 'math' element of a &lt;functionDefinition&gt; or as the first element of a semantics 
 	  * element immediately inside inside the math element of a &lt;functionDefinition&gt;; 
-	  * they may not be used elsewhere in an SBML model. Reference: L3V1 Sections 3.4.1 
+	  * they may not be used elsewhere in an SBML model. An SBML L3 Package may allow 
+	  * the lambda element in other places, and if so, the package must define required 
+	  * = 'true' on the SBML container element &lt;sbml&gt;. Reference: L3V1 Sections 3.4.1 
 	  * and 4.3.2 
 	  */
  	 public static final int CORE_10208 = 10208; 
@@ -468,19 +482,21 @@ public interface SBMLErrorCodes {
 	  * Error code 10215:
 	  * Outside of a &lt;functionDefinition&gt;, if a &lt;ci&gt; element is not the first element 
 	  * within a MathML &lt;apply&gt;, then the &lt;ci&gt;'s value can only be chosen from the set 
-	  * of identifiers of &lt;species&gt;, &lt;compartment&gt;, &lt;parameter&gt;, &lt;reaction&gt;, or (in 
-	  * Level 3) &lt;speciesReference&gt; objects defined in the SBML model. (In L2V1, the 
-	  * &lt;ci&gt;'s value can't be chosen from the identifiers of &lt;reaction&gt; objects). 
-	  * Reference: L3V1 Section 3.4.3 
+	  * of identifiers of (in L2V1) &lt;species&gt;, &lt;compartment&gt;, or &lt;parameter&gt; objects; 
+	  * (in L2V2-L2V5), &lt;species&gt;, &lt;compartment&gt;, &lt;parameter&gt; or &lt;reaction&gt; objects; (in 
+	  * L3V1) &lt;species&gt;, &lt;compartment&gt;, &lt;parameter&gt;, &lt;reaction&gt; or &lt;speciesReference&gt; 
+	  * objects and (in L3V2) &lt;species&gt;, &lt;compartment&gt;, &lt;parameter&gt;, &lt;reaction&gt;, 
+	  * &lt;speciesReference&gt; objects or L3 package objects with defined mathematical 
+	  * meaning. Reference: L3V1 Section 3.4.3 
 	  */
  	 public static final int CORE_10215 = 10215; 
 
 	 /**
 	  * Error code 10216:
-	  * The 'id' value of a &lt;parameter&gt; defined within a &lt;kineticLaw&gt; can only be used 
-	  * in &lt;ci&gt; elements within the MathML content of that same &lt;kineticLaw&gt;; the 
-	  * identifier is not visible to other parts of the model. Reference: L3V1 Sections 
-	  * 3.3.1, 3.4.3 and 4.13.5 
+	  * The 'id' value of a &lt;parameter&gt; or &lt;localParameter&gt; defined within a 
+	  * &lt;kineticLaw&gt; can only be used in &lt;ci&gt; elements within the MathML content of that 
+	  * same &lt;kineticLaw&gt;; the identifier is not visible to other parts of the model. 
+	  * Reference: L3V1 Sections 3.3.1, 3.4.3 and 4.13.5 
 	  */
  	 public static final int CORE_10216 = 10216; 
 
@@ -513,7 +529,9 @@ public interface SBMLErrorCodes {
 	 /**
 	  * Error code 10220:
 	  * The SBML attribute 'units' may only be added to MathML &lt;cn&gt; elements; no other 
-	  * MathML elements are permitted to have the 'units' attribute. Reference: L3V1 
+	  * MathML elements are permitted to have the 'units' attribute. An SBML L3 Package 
+	  * may allow the 'units' attribute in other places, and if so, the package must 
+	  * define required = 'true' on the SBML container element &lt;sbml&gt;. Reference: L3V1 
 	  * Section 3.4.2 
 	  */
  	 public static final int CORE_10220 = 10220; 
@@ -532,6 +550,28 @@ public interface SBMLErrorCodes {
 	  * 'spatialDimensions' value of 0. 
 	  */
  	 public static final int CORE_10222 = 10222; 
+
+	 /**
+	  * Error code 10223:
+	  * The single argument for the rateOf csymbol function must be a &lt;ci&gt; element. 
+	  */
+ 	 public static final int CORE_10223 = 10223; 
+
+	 /**
+	  * Error code 10224:
+	  * The target of a 'rateOf' &lt;csymbol&gt; function must not appear as the 'variable' of 
+	  * an &lt;assignmentRule&gt;, nor may its value be determined by an &lt;algebraicRule&gt;. 
+	  */
+ 	 public static final int CORE_10224 = 10224; 
+
+	 /**
+	  * Error code 10225:
+	  * If the target of a 'rateOf' &lt;csymbol&gt; function is a &lt;species&gt; with a 
+	  * 'hasOnlySubstanceUnits' value of 'false', the &lt;compartment&gt; of that &lt;species&gt; 
+	  * must not appear as the 'variable' of an &lt;assignmentRule&gt;, nor may its 'size' be 
+	  * determined by an &lt;algebraicRule&gt;. 
+	  */
+ 	 public static final int CORE_10225 = 10225; 
 
 	 /**
 	  * Error code 10301:
@@ -674,9 +714,6 @@ public interface SBMLErrorCodes {
 
 	 /**
 	  * Error code 10501:
-	  * The units of the expressions used as arguments to a function call must match the units expected for
-      * the arguments of that function. (References: L2V2 Section 3.5; L2V3 Section 3.4.)
-      *
 	  */
  	 public static final int CORE_10501 = 10501; 
 
@@ -1044,25 +1081,21 @@ public interface SBMLErrorCodes {
 
 	 /**
 	  * Error code 10718:
-	  * [Although SBML Level 3 Version 1 does not explicitly define the following as an 
-	  * error, other Levels and/or Versions of SBML do.] The value of the 'sboTerm' 
-	  * attribute on a &lt;localParameter&gt; is expected to be an SBO identifier 
-	  * (http://www.biomodels.net/SBO/) referring to a quantitative parameter (i.e., 
-	  * terms derived from SBO:0000545, "quantitive systems description parameter"). 
-	  * Reference: L3V1 Section 5 
+	  * The value of the 'sboTerm' attribute on a &lt;localParameter&gt; is expected to be an 
+	  * SBO identifier (http://www.biomodels.net/SBO/) referring to a quantitative 
+	  * parameter (i.e., terms derived from SBO:0000002, "quantitive systems description 
+	  * parameter"). Reference: L3V1 Section 5 
 	  */
  	 public static final int CORE_10718 = 10718; 
 
- 	  /**
-      * Error code 10719:
-      * [Although SBML Level 3 Version 1 does not explicitly define the following as an 
-      * error, other Levels and/or Versions of SBML do.] The value of the 'sboTerm' 
-      * attribute on the &lt;sbml&gt; is expected to be an SBO identifier 
-      * (http://www.biomodels.net/SBO/) referring to a modeling framework (i.e., 
-      * terms derived from SBO:0000004, "modeling framework"). 
-      * Reference: L3V1 Section 5 
-      */
-     public static final int CORE_10719 = 10719; 
+	 /**
+	  * Error code 10719:
+	  * The value of the 'sboTerm' attribute on the &lt;sbml&gt; object is expected to be an 
+	  * SBO identifier (http://www.biomodels.net/SBO/) referring to a modeling framework 
+	  * (i.e., terms derived from SBO:0000004, "modelling framework"). Reference: L3V1 
+	  * Section 5 
+	  */
+ 	 public static final int CORE_10719 = 10719; 
 
 	 /**
 	  * Error code 10801:
@@ -1312,8 +1345,8 @@ public interface SBMLErrorCodes {
 	  * Error code 20218:
 	  * The value of the attribute 'volumeUnits' on a Model object should be either the 
 	  * units 'litre', 'dimensionless', or the identifier of a UnitDefinition object 
-	  * based on these units or a unit derived from 'metre' (with an exponent of '3'). 
-	  * Reference: L3V1 Section 4.2.5 
+	  * based on these units or a unit derived from 'metre'. Reference: L3V1 Section 
+	  * 4.2.5 
 	  */
  	 public static final int CORE_20218 = 20218; 
 
@@ -1321,8 +1354,7 @@ public interface SBMLErrorCodes {
 	  * Error code 20219:
 	  * The value of the attribute 'areaUnits' on a Model object should be either 
 	  * 'dimensionless' or the identifier of a UnitDefinition object based on 
-	  * 'dimensionless' or a unit derived from 'metre' (with an exponent of '2'). 
-	  * Reference: L3V1 Section 4.2.5 
+	  * 'dimensionless' or a unit derived from 'metre'. Reference: L3V1 Section 4.2.5 
 	  */
  	 public static final int CORE_20219 = 20219; 
 
@@ -1951,7 +1983,10 @@ public interface SBMLErrorCodes {
 	  * Error code 20801:
 	  * The value of 'symbol' in an &lt;initialAssignment&gt; definition must be the 
 	  * identifier of an existing &lt;compartment&gt;, &lt;species&gt;, or &lt;parameter&gt; defined in 
-	  * the model or &lt;speciesReference&gt; in Level 3. Reference: L3V1 Section 4.8 
+	  * the model or &lt;speciesReference&gt; in Level 3, or in Level 3 Version 2, any 
+	  * identifier in the SId namespace of the model belonging to an element defined by 
+	  * an SBML Level 3 package as having with mathematical meaning. Reference: L3V1 
+	  * Section 4.8 
 	  */
  	 public static final int CORE_20801 = 20801; 
 
@@ -1998,7 +2033,9 @@ public interface SBMLErrorCodes {
 	  * Error code 20901:
 	  * The value of an &lt;assignmentRule&gt;'s 'variable' must be the identifier of an 
 	  * existing &lt;compartment&gt;, &lt;species&gt;, globally-defined &lt;parameter&gt;, or (in Level 3) 
-	  * &lt;speciesReference&gt;. Reference: L3V1 Section 4.9.3 
+	  * &lt;speciesReference&gt;, or (in Level 3 Version 2), any identifier in the SId 
+	  * namespace of the model belonging to an element defined by an SBML Level 3 
+	  * package as having with mathematical meaning. Reference: L3V1 Section 4.9.3 
 	  */
  	 public static final int CORE_20901 = 20901; 
 
@@ -2006,7 +2043,9 @@ public interface SBMLErrorCodes {
 	  * Error code 20902:
 	  * The value of a &lt;rateRule&gt;'s 'variable' must be the identifier of an existing 
 	  * &lt;compartment&gt;, &lt;species&gt;, globally-defined &lt;parameter&gt;, or (in Level 3) 
-	  * &lt;speciesReference&gt;. Reference: L3V1 Section 4.9.4 
+	  * &lt;speciesReference&gt;, or (in Level 3 Version 2), any identifier in the SId 
+	  * namespace of the model belonging to an element defined by an SBML Level 3 
+	  * package as having with mathematical meaning. Reference: L3V1 Section 4.9.4 
 	  */
  	 public static final int CORE_20902 = 20902; 
 
@@ -2085,6 +2124,21 @@ public interface SBMLErrorCodes {
 	  * the identifier of a &lt;compartment&gt; with a 'spatialDimensions' value of 0. 
 	  */
  	 public static final int CORE_20911 = 20911; 
+
+	 /**
+	  * Error code 20912:
+	  * There must not be circular dependencies in the combined set of &lt;rateRule&gt; and 
+	  * &lt;kineticLaw&gt; objects in the model. Each of these constructs has the effect of 
+	  * assigning a value to the time derivative of one or more identifiers (i.e., the 
+	  * identifier given in the attribute 'variable' in the &lt;rateRule&gt;, and the 
+	  * identifier of any &lt;species&gt; referenced by a &lt;speciesReference&gt; in the same 
+	  * &lt;reaction&gt; as the &lt;kineticLaw&gt;). Each of these constructs computes the value 
+	  * using a mathematical formula. The formula used to calculate the time derivative 
+	  * of a given identifier cannot make reference to a second identifier whose own 
+	  * definition depends directly or indirectly on a 'rateOf' 'csymbol' for the first 
+	  * identifier. 
+	  */
+ 	 public static final int CORE_20912 = 20912; 
 
 	 /**
 	  * Error code 21001:
@@ -2392,18 +2446,21 @@ public interface SBMLErrorCodes {
 	  * LocalParameter object. Reference: L3V1 Section 4.11 
 	  */
  	 public static final int CORE_21172 = 21172; 
- 	 
- 	 /**
- 	 * The id of a LocalParameter object must not be the same as the species attribute of any Species-
-Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
- 	 */
- 	public static final int CORE_21173 = 21173; 
 
- 	 public static final int CORE_21174 = 21174;
- 	
+	 /**
+	  * Error code 21173:
+	  * [Although SBML Level 3 Version 1 does not explicitly define the following as an 
+	  * error, other Levels and/or Versions of SBML do.] The 'id' attribute of a 
+	  * &lt;localParameter&gt; object must not be the same as the 'species' attribute of any 
+	  * &lt;speciesReference&gt; in the same &lt;reaction&gt;. 
+	  */
+ 	 public static final int CORE_21173 = 21173; 
+
 	 /**
 	  * Error code 21201:
-	  * An &lt;event&gt; object must have a 'trigger'. Reference: L3V1 Section 4.12.2 
+	  * An &lt;event&gt; object must have a 'trigger'. In SBML Level 3 Version 2 this rule was 
+	  * relaxed to stating that an &lt;event&gt; object must have at most one 'trigger' 
+	  * element. Reference: L3V1 Section 4.12.2 
 	  */
  	 public static final int CORE_21201 = 21201; 
 
@@ -2472,7 +2529,9 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	  * Error code 21211:
 	  * The value of the attribute 'variable' in an &lt;eventAssignment&gt; can only be the 
 	  * identifier of a &lt;compartment&gt;, &lt;species&gt;, model-wide &lt;parameter&gt; definition, or 
-	  * &lt;speciesReference&gt; in Level 3. Reference: L3V1 Section 4.12.4 
+	  * (in Level 3) &lt;speciesReference&gt;, or (in Level 3 Version 2), any identifier in 
+	  * the SId namespace of the model belonging to an element defined by an SBML Level 
+	  * 3 package as having with mathematical meaning. Reference: L3V1 Section 4.12.4 
 	  */
  	 public static final int CORE_21211 = 21211; 
 
@@ -2705,7 +2764,8 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	 /**
 	  * Error code 91008:
 	  * A &lt;speciesReference&gt; containing a non-integer or non-rational 
-	  * &lt;stoichiometryMath&gt; subelement cannot be represented in SBML Level 1. 
+	  * &lt;stoichiometryMath&gt; subelement (or in Level3 whose stoichiometry is assigned by 
+	  * non-integer or non-rational math) cannot be represented in SBML Level 1. 
 	  */
  	 public static final int CORE_91008 = 91008; 
 
@@ -3210,6 +3270,86 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
  	 public static final int CORE_96011 = 96011; 
 
 	 /**
+	  * Error code 98001:
+	  * Conversion of a non-integer exponent is not supported. 
+	  */
+ 	 public static final int CORE_98001 = 98001; 
+
+	 /**
+	  * Error code 98002:
+	  * SBML Level 3 Version 2 introduced a number of new MathML elements that were not 
+	  * supported in previous levels and versions. 
+	  */
+ 	 public static final int CORE_98002 = 98002; 
+
+	 /**
+	  * Error code 98003:
+	  * SBML Level 3 Version 2 allows a listOf element to be present without any 
+	  * children of the listOf type. This was not valid in previous levels and versions 
+	  * and the empty listOf will be removed. 
+	  */
+ 	 public static final int CORE_98003 = 98003; 
+
+	 /**
+	  * Error code 98004:
+	  * SBML Level 3 Version 2 allows elements to be specified without a &lt;math&gt; element. 
+	  * Previous levels and versions required the &lt;math&gt; element. The &lt;element&gt; with the 
+	  * missing &lt;math&gt; will be removed. 
+	  */
+ 	 public static final int CORE_98004 = 98004; 
+
+	 /**
+	  * Error code 98005:
+	  * SBML Level 3 Version 2 allows an &lt;event&gt; to be specified without a &lt;trigger&gt; 
+	  * element. Previous levels and versions required the &lt;trigger&gt; element. 
+	  */
+ 	 public static final int CORE_98005 = 98005; 
+
+	 /**
+	  * Error code 98006:
+	  * SBML Level 3 Version 2 relaxed the restrictions on where a math expression 
+	  * should return a Boolean or a numeric result. 
+	  */
+ 	 public static final int CORE_98006 = 98006; 
+
+	 /**
+	  * Error code 98007:
+	  * SBML Level 3 Version 2 moved the 'id' and 'name' attributes to SBase. Previous 
+	  * levels and versions do not support these attributes for some elements. These 
+	  * attributes will be removed. 
+	  */
+ 	 public static final int CORE_98007 = 98007; 
+
+	 /**
+	  * Error code 98008:
+	  * SBML Level 3 Version 2 allows an &lt;reaction&gt; to be specified without either a 
+	  * &lt;listOfReactants&gt; or &lt;listOfProducts&gt; element. Previous levels and versions 
+	  * required the at least one of the two to be present. 
+	  */
+ 	 public static final int CORE_98008 = 98008; 
+
+	 /**
+	  * Error code 98009:
+	  * SBML Level 3 Version 2 introduced a number of new MathML elements that were not 
+	  * supported in previous levels and versions. An &lt;initialAssignment&gt; uses some such 
+	  * MathML; this will be converted and the relevant value used in the model. 
+	  */
+ 	 public static final int CORE_98009 = 98009; 
+
+	 /**
+	  * Error code 98010:
+	  * Conversion of a fast reaction is not supported. 
+	  */
+ 	 public static final int CORE_98010 = 98010; 
+
+	 /**
+	  * Error code 98011:
+	  * The use of the &lt;speciesReference&gt; id attribute in MathML is not supported prior 
+	  * to L3. 
+	  */
+ 	 public static final int CORE_98011 = 98011; 
+
+	 /**
 	  * Error code 99101:
 	  * The level and version specified for the document must be consistent with a valid 
 	  * published SBML specification. These are Level 1, Versions 1 and 2; Level 2, 
@@ -3217,6 +3357,13 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	  * SBML now exist, you must update your version of libSBML. 
 	  */
  	 public static final int CORE_99101 = 99101; 
+
+	 /**
+	  * Error code 99102:
+	  * A particular version of an L3V1 package can only be used in an L3V2 document if 
+	  * there is no L3V2 package specification with the same version. 
+	  */
+ 	 public static final int CORE_99102 = 99102; 
 
 	 /**
 	  * Error code 99104:
@@ -3293,6 +3440,12 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
  	 public static final int CORE_99130 = 99130; 
 
 	 /**
+	  * Error code 99131:
+	  * The &lt;stoichiometryMath&gt; element lacks a necessary &lt;math&gt; element. 
+	  */
+ 	 public static final int CORE_99131 = 99131; 
+
+	 /**
 	  * Error code 99206:
 	  * The 'timeUnits' attribute on &lt;event&gt;, previously available in SBML Level 2 
 	  * versions prior to Version 3, has been removed as of SBML Level 2 Version 3. 
@@ -3366,6 +3519,14 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	  * in the model. 
 	  */
  	 public static final int CORE_99303 = 99303; 
+
+	 /**
+	  * Error code 99304:
+	  * Inside the lambda MathML element within a FunctionDefinition any bvar elements 
+	  * must contain one instance of a &lt;ci&gt; element. No other elements are permitted 
+	  * within a bvar element. Reference: L3V1 Section 4.3 
+	  */
+ 	 public static final int CORE_99304 = 99304; 
 
 	 /**
 	  * Error code 99401:
@@ -3463,6 +3624,13 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	  * of the units in mathematical expressions referring to that object. 
 	  */
  	 public static final int CORE_99508 = 99508; 
+
+	 /**
+	  * Error code 99509:
+	  * When an object is missing a &lt;math&gt; element it is not possible to perform unit 
+	  * consistency checking for that object. 
+	  */
+ 	 public static final int CORE_99509 = 99509; 
 
 	 /**
 	  * Error code 99701:
@@ -3696,6 +3864,12 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	  * Level 3 model. Conversion will apply a default value of '3'. 
 	  */
  	 public static final int CORE_99926 = 99926; 
+
+	 /**
+	  * Error code 99950:
+	  * The operation was interrupted by the user. 
+	  */
+ 	 public static final int CORE_99950 = 99950; 
 
 	 /**
 	  * Error code 99994:
@@ -4009,8 +4183,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	 /**
 	  * Error code 1020304:
 	  * The value of the 'comp:source' attribute on an &lt;externalModelDefinition&gt; object 
-	  * must reference an SBML Level 3 Version 1 document. Reference: L3V1 Comp V1 
-	  * Section 3.3.2 
+	  * must reference an SBML Level 3 document. Reference: L3V1 Comp V1 Section 3.3.2 
 	  */
  	 public static final int COMP_20304 = 1020304; 
 
@@ -4514,7 +4687,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	  * 'comp:submodelRef', and a value for one, and only one, of the following 
 	  * attributes: 'comp:portRef', 'comp:idRef', 'comp:unitRef' or 'comp:metaIdRef'. No 
 	  * other attributes from the HierarchicalModel Composition namespace are permitted 
-	  * on a &lt;replacedElement&gt; object. Reference: L3V1 Comp V1 Section 3.6.4 
+	  * on a &lt;replacedBy&gt; object. Reference: L3V1 Comp V1 Section 3.6.4 
 	  */
  	 public static final int COMP_21103 = 1021103; 
 
@@ -4697,6 +4870,4381 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
  	 public static final int COMP_90116 = 1090116; 
 
 	 /**
+	  * Error code 1210101:
+	  * To conform to the Spatial Processes Package specification for SBML Level 3 
+	  * Version 1, an SBML document must declare 
+	  * 'http://www.sbml.org/sbml/level3/version1/spatial/version1' as the XMLNamespace 
+	  * to use for elements of this package. Reference: L3V1 Spatial V1 Section 3.1 
+	  */
+ 	 public static final int SPATIAL_10101 = 1210101; 
+
+	 /**
+	  * Error code 1210102:
+	  * Wherever they appear in an SBML document, elements and attributes from the 
+	  * Spatial Processes Package must use the 
+	  * 'http://www.sbml.org/sbml/level3/version1/spatial/version1' namespace, declaring 
+	  * so either explicitly or implicitly. Reference: L3V1 Spatial V1 Section 3.1 
+	  */
+ 	 public static final int SPATIAL_10102 = 1210102; 
+
+	 /**
+	  * Error code 1210301:
+	  * (Extends validation rule #10301 in the SBML Level 3 Core specification. TO DO 
+	  * list scope of ids) Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_10301 = 1210301; 
+
+	 /**
+	  * Error code 1210302:
+	  * The value of a 'spatial:id' must conform to the syntax of the &lt;sbml&gt; data type 
+	  * 'SId' Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_10302 = 1210302; 
+
+	 /**
+	  * Error code 1220101:
+	  * In all SBML documents using the Spatial Processes Package, the &lt;sbml&gt; object 
+	  * must have the 'spatial:required' attribute. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20101 = 1220101; 
+
+	 /**
+	  * Error code 1220102:
+	  * The value of attribute 'spatial:required' on the &lt;sbml&gt; object must be of data 
+	  * type 'boolean'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20102 = 1220102; 
+
+	 /**
+	  * Error code 1220103:
+	  * The value of attribute 'spatial:required' on the &lt;sbml&gt; object must be set to 
+	  * 'true'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20103 = 1220103; 
+
+	 /**
+	  * Error code 1220201:
+	  * A &lt;model&gt; object may contain one and only one instance of the &lt;geometry&gt; 
+	  * element. No other elements from the SBML Level 3 Spatial Processes namespaces 
+	  * are permitted on a &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20201 = 1220201; 
+
+	 /**
+	  * Error code 1220301:
+	  * A &lt;compartment&gt; object may contain one and only one instance of the 
+	  * &lt;compartmentMapping&gt; element. No other elements from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on a &lt;compartment&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20301 = 1220301; 
+
+	 /**
+	  * Error code 1220401:
+	  * A &lt;species&gt; object may have the optional attribute 'spatial:isSpatial'. No other 
+	  * attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a 
+	  * &lt;species&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20401 = 1220401; 
+
+	 /**
+	  * Error code 1220402:
+	  * The attribute 'spatial:isSpatial' on a &lt;species&gt; must have a value of data type 
+	  * 'boolean'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20402 = 1220402; 
+
+	 /**
+	  * Error code 1220501:
+	  * A &lt;parameter&gt; object may contain one and only one instance of each of the 
+	  * &lt;spatialSymbolReference,&gt; &lt;advectionCoefficient,&gt; &lt;boundaryCondition&gt; and 
+	  * &lt;diffusionCoefficient&gt; elements. No other elements from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on a &lt;parameter&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20501 = 1220501; 
+
+	 /**
+	  * Error code 1220601:
+	  * A &lt;reaction&gt; object must have the required attribute 'spatial:isLocal'. No other 
+	  * attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a 
+	  * &lt;reaction&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20601 = 1220601; 
+
+	 /**
+	  * Error code 1220602:
+	  * The attribute 'spatial:isLocal' on a &lt;reaction&gt; must have a value of data type 
+	  * 'boolean'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20602 = 1220602; 
+
+	 /**
+	  * Error code 1220701:
+	  * A &lt;domainType&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;domainType&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20701 = 1220701; 
+
+	 /**
+	  * Error code 1220702:
+	  * A &lt;domainType&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;domainType&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20702 = 1220702; 
+
+	 /**
+	  * Error code 1220703:
+	  * A &lt;domainType&gt; object must have the required attributes 'spatial:id' and 
+	  * 'spatial:spatialDimensions', and may have the optional attribute 'spatial:name'. 
+	  * No other attributes from the SBML Level 3 Spatial Processes namespaces are 
+	  * permitted on a &lt;domainType&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20703 = 1220703; 
+
+	 /**
+	  * Error code 1220704:
+	  * The attribute 'spatial:spatialDimensions' on a &lt;domainType&gt; must have a value of 
+	  * data type 'integer'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20704 = 1220704; 
+
+	 /**
+	  * Error code 1220705:
+	  * The attribute 'spatial:name' on a &lt;domainType&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20705 = 1220705; 
+
+	 /**
+	  * Error code 1220801:
+	  * A &lt;domain&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;domain&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20801 = 1220801; 
+
+	 /**
+	  * Error code 1220802:
+	  * A &lt;domain&gt; object may have the optional SBML Level 3 Core subobjects for notes 
+	  * and annotations. No other elements from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;domain&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20802 = 1220802; 
+
+	 /**
+	  * Error code 1220803:
+	  * A &lt;domain&gt; object must have the required attributes 'spatial:id' and 
+	  * 'spatial:domainType', and may have the optional attribute 'spatial:name'. No 
+	  * other attributes from the SBML Level 3 Spatial Processes namespaces are 
+	  * permitted on a &lt;domain&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20803 = 1220803; 
+
+	 /**
+	  * Error code 1220804:
+	  * A &lt;domain&gt; object may contain one and only one instance of the 
+	  * &lt;listOfInteriorPoints&gt; element. No other elements from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on a &lt;domain&gt; object. Reference: L3V1 Spatial 
+	  * V1 Section 
+	  */
+ 	 public static final int SPATIAL_20804 = 1220804; 
+
+	 /**
+	  * Error code 1220805:
+	  * The value of the attribute 'spatial:domainType' of a &lt;domain&gt; object must be the 
+	  * identifier of an existing &lt;domainType&gt; object defined in the enclosing &lt;model&gt; 
+	  * object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20805 = 1220805; 
+
+	 /**
+	  * Error code 1220806:
+	  * The attribute 'spatial:name' on a &lt;domain&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20806 = 1220806; 
+
+	 /**
+	  * Error code 1220807:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfInteriorPoints&gt; container object may only contain 
+	  * &lt;interiorPoint&gt; objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20807 = 1220807; 
+
+	 /**
+	  * Error code 1220808:
+	  * A &lt;listOfInteriorPoints&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfInteriorPoints&gt; object. Reference: 
+	  * L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20808 = 1220808; 
+
+	 /**
+	  * Error code 1220901:
+	  * An &lt;interiorPoint&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;interiorPoint&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_20901 = 1220901; 
+
+	 /**
+	  * Error code 1220902:
+	  * An &lt;interiorPoint&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on an &lt;interiorPoint&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20902 = 1220902; 
+
+	 /**
+	  * Error code 1220903:
+	  * An &lt;interiorPoint&gt; object must have the required attribute 'spatial:coordOne', 
+	  * and may have the optional attributes 'spatial:coordTwo' and 
+	  * 'spatial:coordThree'. No other attributes from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on an &lt;interiorPoint&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20903 = 1220903; 
+
+	 /**
+	  * Error code 1220904:
+	  * The attribute 'spatial:coordOne' on an &lt;interiorPoint&gt; must have a value of data 
+	  * type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20904 = 1220904; 
+
+	 /**
+	  * Error code 1220905:
+	  * The attribute 'spatial:coordTwo' on an &lt;interiorPoint&gt; must have a value of data 
+	  * type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20905 = 1220905; 
+
+	 /**
+	  * Error code 1220906:
+	  * The attribute 'spatial:coordThree' on an &lt;interiorPoint&gt; must have a value of 
+	  * data type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_20906 = 1220906; 
+
+	 /**
+	  * Error code 1221001:
+	  * A &lt;boundary&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;boundary&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21001 = 1221001; 
+
+	 /**
+	  * Error code 1221002:
+	  * A &lt;boundary&gt; object may have the optional SBML Level 3 Core subobjects for notes 
+	  * and annotations. No other elements from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;boundary&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21002 = 1221002; 
+
+	 /**
+	  * Error code 1221003:
+	  * A &lt;boundary&gt; object must have the required attributes 'spatial:id' and 
+	  * 'spatial:value', and may have the optional attribute 'spatial:name'. No other 
+	  * attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a 
+	  * &lt;boundary&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21003 = 1221003; 
+
+	 /**
+	  * Error code 1221004:
+	  * The attribute 'spatial:value' on a &lt;boundary&gt; must have a value of data type 
+	  * 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21004 = 1221004; 
+
+	 /**
+	  * Error code 1221005:
+	  * The attribute 'spatial:name' on a &lt;boundary&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21005 = 1221005; 
+
+	 /**
+	  * Error code 1221101:
+	  * An &lt;adjacentDomains&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;adjacentDomains&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21101 = 1221101; 
+
+	 /**
+	  * Error code 1221102:
+	  * An &lt;adjacentDomains&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;adjacentDomains&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21102 = 1221102; 
+
+	 /**
+	  * Error code 1221103:
+	  * An &lt;adjacentDomains&gt; object must have the required attributes 'spatial:id', 
+	  * 'spatial:domainOne' and 'spatial:domainTwo', and may have the optional attribute 
+	  * 'spatial:name'. No other attributes from the SBML Level 3 Spatial Processes 
+	  * namespaces are permitted on an &lt;adjacentDomains&gt; object. Reference: L3V1 Spatial 
+	  * V1 Section 
+	  */
+ 	 public static final int SPATIAL_21103 = 1221103; 
+
+	 /**
+	  * Error code 1221104:
+	  * The value of the attribute 'spatial:domainOne' of an &lt;adjacentDomains&gt; object 
+	  * must be the identifier of an existing &lt;domain&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21104 = 1221104; 
+
+	 /**
+	  * Error code 1221105:
+	  * The value of the attribute 'spatial:domainTwo' of an &lt;adjacentDomains&gt; object 
+	  * must be the identifier of an existing &lt;domain&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21105 = 1221105; 
+
+	 /**
+	  * Error code 1221106:
+	  * The attribute 'spatial:name' on an &lt;adjacentDomains&gt; must have a value of data 
+	  * type 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21106 = 1221106; 
+
+	 /**
+	  * Error code 1221201:
+	  * A &lt;geometryDefinition&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;geometryDefinition&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21201 = 1221201; 
+
+	 /**
+	  * Error code 1221202:
+	  * A &lt;geometryDefinition&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;geometryDefinition&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21202 = 1221202; 
+
+	 /**
+	  * Error code 1221203:
+	  * A &lt;geometryDefinition&gt; object must have the required attributes 'spatial:id' and 
+	  * 'spatial:isActive', and may have the optional attribute 'spatial:name'. No other 
+	  * attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a 
+	  * &lt;geometryDefinition&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21203 = 1221203; 
+
+	 /**
+	  * Error code 1221204:
+	  * The attribute 'spatial:isActive' on a &lt;geometryDefinition&gt; must have a value of 
+	  * data type 'boolean'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21204 = 1221204; 
+
+	 /**
+	  * Error code 1221205:
+	  * The attribute 'spatial:name' on a &lt;geometryDefinition&gt; must have a value of data 
+	  * type 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21205 = 1221205; 
+
+	 /**
+	  * Error code 1221301:
+	  * A &lt;compartmentMapping&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;compartmentMapping&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21301 = 1221301; 
+
+	 /**
+	  * Error code 1221302:
+	  * A &lt;compartmentMapping&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;compartmentMapping&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21302 = 1221302; 
+
+	 /**
+	  * Error code 1221303:
+	  * A &lt;compartmentMapping&gt; object must have the required attributes 'spatial:id', 
+	  * 'spatial:domainType' and 'spatial:unitSize', and may have the optional attribute 
+	  * 'spatial:name'. No other attributes from the SBML Level 3 Spatial Processes 
+	  * namespaces are permitted on a &lt;compartmentMapping&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21303 = 1221303; 
+
+	 /**
+	  * Error code 1221304:
+	  * The value of the attribute 'spatial:domainType' of a &lt;compartmentMapping&gt; object 
+	  * must be the identifier of an existing &lt;domainType&gt; object defined in the 
+	  * enclosing &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21304 = 1221304; 
+
+	 /**
+	  * Error code 1221305:
+	  * The attribute 'spatial:unitSize' on a &lt;compartmentMapping&gt; must have a value of 
+	  * data type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21305 = 1221305; 
+
+	 /**
+	  * Error code 1221306:
+	  * The attribute 'spatial:name' on a &lt;compartmentMapping&gt; must have a value of data 
+	  * type 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21306 = 1221306; 
+
+	 /**
+	  * Error code 1221401:
+	  * A &lt;coordinateComponent&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;coordinateComponent&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21401 = 1221401; 
+
+	 /**
+	  * Error code 1221402:
+	  * A &lt;coordinateComponent&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;coordinateComponent&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21402 = 1221402; 
+
+	 /**
+	  * Error code 1221403:
+	  * A &lt;coordinateComponent&gt; object must have the required attributes 'spatial:id' 
+	  * and 'spatial:type', and may have the optional attributes 'spatial:name' and 
+	  * 'spatial:unit'. No other attributes from the SBML Level 3 Spatial Processes 
+	  * namespaces are permitted on a &lt;coordinateComponent&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21403 = 1221403; 
+
+	 /**
+	  * Error code 1221404:
+	  * A &lt;coordinateComponent&gt; object must contain one and only one instance of each of 
+	  * the Boundary and &lt;boundary&gt; elements. No other elements from the SBML Level 3 
+	  * Spatial Processes namespaces are permitted on a &lt;coordinateComponent&gt; object. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21404 = 1221404; 
+
+	 /**
+	  * Error code 1221405:
+	  * The value of the attribute 'spatial:type' of a &lt;coordinateComponent&gt; object must 
+	  * conform to the syntax of SBML data type 'CoordinateKind' and may only take on 
+	  * the allowed values of 'CoordinateKind' defined in SBML; that is, the value must 
+	  * be one of the following: 'cartesianX', 'cartesianY' or 'cartesianZ'. Reference: 
+	  * L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21405 = 1221405; 
+
+	 /**
+	  * Error code 1221406:
+	  * The attribute 'spatial:name' on a &lt;coordinateComponent&gt; must have a value of 
+	  * data type 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21406 = 1221406; 
+
+	 /**
+	  * Error code 1221407:
+	  * The value of the attribute 'spatial:unit' on a &lt;coordinateComponent&gt; must have a 
+	  * taken from the following: the identifier of a &lt;unitDefinition&gt; object in the 
+	  * enclosing &lt;model,&gt; or one of the base units in SBML. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21407 = 1221407; 
+
+	 /**
+	  * Error code 1221501:
+	  * A &lt;sampledFieldGeometry&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;sampledFieldGeometry&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21501 = 1221501; 
+
+	 /**
+	  * Error code 1221502:
+	  * A &lt;sampledFieldGeometry&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;sampledFieldGeometry&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21502 = 1221502; 
+
+	 /**
+	  * Error code 1221503:
+	  * A &lt;sampledFieldGeometry&gt; object must have the required attribute 
+	  * 'spatial:sampledField'. No other attributes from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on a &lt;sampledFieldGeometry&gt; object. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21503 = 1221503; 
+
+	 /**
+	  * Error code 1221504:
+	  * A &lt;sampledFieldGeometry&gt; object may contain one and only one instance of the 
+	  * &lt;listOfSampledVolumes&gt; element. No other elements from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on a &lt;sampledFieldGeometry&gt; object. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21504 = 1221504; 
+
+	 /**
+	  * Error code 1221505:
+	  * The value of the attribute 'spatial:sampledField' of a &lt;sampledFieldGeometry&gt; 
+	  * object must be the identifier of an existing &lt;sampledField&gt; object defined in 
+	  * the enclosing &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21505 = 1221505; 
+
+	 /**
+	  * Error code 1221506:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfSampledVolumes&gt; container object may only contain 
+	  * &lt;sampledVolume&gt; objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21506 = 1221506; 
+
+	 /**
+	  * Error code 1221507:
+	  * A &lt;listOfSampledVolumes&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfSampledVolumes&gt; object. Reference: 
+	  * L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21507 = 1221507; 
+
+	 /**
+	  * Error code 1221601:
+	  * A &lt;sampledField&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;sampledField&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21601 = 1221601; 
+
+	 /**
+	  * Error code 1221602:
+	  * A &lt;sampledField&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;sampledField&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21602 = 1221602; 
+
+	 /**
+	  * Error code 1221603:
+	  * A &lt;sampledField&gt; object must have the required attributes 'spatial:id', 
+	  * 'spatial:dataType', 'spatial:numSamplesOne', 'spatial:interpolationType', 
+	  * 'spatial:compression', 'spatial:samples' and 'spatial:samplesLength', and may 
+	  * have the optional attributes 'spatial:name', 'spatial:numSamplesTwo' and 
+	  * 'spatial:numSamplesThree'. No other attributes from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on a &lt;sampledField&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21603 = 1221603; 
+
+	 /**
+	  * Error code 1221604:
+	  * The value of the attribute 'spatial:dataType' of a &lt;sampledField&gt; object must 
+	  * conform to the syntax of SBML data type 'DataKind' and may only take on the 
+	  * allowed values of 'DataKind' defined in SBML; that is, the value must be one of 
+	  * the following: 'double', 'float', 'uint8', 'uint16' or 'uint32'. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21604 = 1221604; 
+
+	 /**
+	  * Error code 1221605:
+	  * The attribute 'spatial:numSamplesOne' on a &lt;sampledField&gt; must have a value of 
+	  * data type 'integer'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21605 = 1221605; 
+
+	 /**
+	  * Error code 1221606:
+	  * The value of the attribute 'spatial:interpolationType' of a &lt;sampledField&gt; 
+	  * object must conform to the syntax of SBML data type 'InterpolationKind' and may 
+	  * only take on the allowed values of 'InterpolationKind' defined in SBML; that is, 
+	  * the value must be one of the following: 'nearestNeighbor' or 'linear'. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21606 = 1221606; 
+
+	 /**
+	  * Error code 1221607:
+	  * The value of the attribute 'spatial:compression' of a &lt;sampledField&gt; object must 
+	  * conform to the syntax of SBML data type 'CompressionKind' and may only take on 
+	  * the allowed values of 'CompressionKind' defined in SBML; that is, the value must 
+	  * be one of the following: 'uncompressed' or 'deflated'. Reference: L3V1 Spatial 
+	  * V1 Section 
+	  */
+ 	 public static final int SPATIAL_21607 = 1221607; 
+
+	 /**
+	  * Error code 1221608:
+	  * The value of the attribute 'spatial:samples' of a &lt;sampledField&gt; object must be 
+	  * an array of values of type 'int'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21608 = 1221608; 
+
+	 /**
+	  * Error code 1221609:
+	  * The attribute 'spatial:samplesLength' on a &lt;sampledField&gt; must have a value of 
+	  * data type 'integer'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21609 = 1221609; 
+
+	 /**
+	  * Error code 1221610:
+	  * The attribute 'spatial:name' on a &lt;sampledField&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21610 = 1221610; 
+
+	 /**
+	  * Error code 1221611:
+	  * The attribute 'spatial:numSamplesTwo' on a &lt;sampledField&gt; must have a value of 
+	  * data type 'integer'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21611 = 1221611; 
+
+	 /**
+	  * Error code 1221612:
+	  * The attribute 'spatial:numSamplesThree' on a &lt;sampledField&gt; must have a value of 
+	  * data type 'integer'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21612 = 1221612; 
+
+	 /**
+	  * Error code 1221701:
+	  * A &lt;sampledVolume&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;sampledVolume&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21701 = 1221701; 
+
+	 /**
+	  * Error code 1221702:
+	  * A &lt;sampledVolume&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;sampledVolume&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21702 = 1221702; 
+
+	 /**
+	  * Error code 1221703:
+	  * A &lt;sampledVolume&gt; object must have the required attributes 'spatial:id' and 
+	  * 'spatial:domainType', and may have the optional attributes 'spatial:name', 
+	  * 'spatial:sampledValue', 'spatial:minValue' and 'spatial:maxValue'. No other 
+	  * attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a 
+	  * &lt;sampledVolume&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21703 = 1221703; 
+
+	 /**
+	  * Error code 1221704:
+	  * The value of the attribute 'spatial:domainType' of a &lt;sampledVolume&gt; object must 
+	  * be the identifier of an existing &lt;domainType&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21704 = 1221704; 
+
+	 /**
+	  * Error code 1221705:
+	  * The attribute 'spatial:name' on a &lt;sampledVolume&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21705 = 1221705; 
+
+	 /**
+	  * Error code 1221706:
+	  * The attribute 'spatial:sampledValue' on a &lt;sampledVolume&gt; must have a value of 
+	  * data type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21706 = 1221706; 
+
+	 /**
+	  * Error code 1221707:
+	  * The attribute 'spatial:minValue' on a &lt;sampledVolume&gt; must have a value of data 
+	  * type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21707 = 1221707; 
+
+	 /**
+	  * Error code 1221708:
+	  * The attribute 'spatial:maxValue' on a &lt;sampledVolume&gt; must have a value of data 
+	  * type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21708 = 1221708; 
+
+	 /**
+	  * Error code 1221801:
+	  * An &lt;analyticGeometry&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;analyticGeometry&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21801 = 1221801; 
+
+	 /**
+	  * Error code 1221802:
+	  * An &lt;analyticGeometry&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;analyticGeometry&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21802 = 1221802; 
+
+	 /**
+	  * Error code 1221803:
+	  * An &lt;analyticGeometry&gt; object may contain one and only one instance of the 
+	  * &lt;listOfAnalyticVolumes&gt; element. No other elements from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on an &lt;analyticGeometry&gt; object. Reference: 
+	  * L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21803 = 1221803; 
+
+	 /**
+	  * Error code 1221804:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfAnalyticVolumes&gt; container object may only contain 
+	  * &lt;analyticVolume&gt; objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21804 = 1221804; 
+
+	 /**
+	  * Error code 1221805:
+	  * A &lt;listOfAnalyticVolumes&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfAnalyticVolumes&gt; object. Reference: 
+	  * L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21805 = 1221805; 
+
+	 /**
+	  * Error code 1221901:
+	  * An &lt;analyticVolume&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;analyticVolume&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21901 = 1221901; 
+
+	 /**
+	  * Error code 1221902:
+	  * An &lt;analyticVolume&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;analyticVolume&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_21902 = 1221902; 
+
+	 /**
+	  * Error code 1221903:
+	  * An &lt;analyticVolume&gt; object must have the required attributes 'spatial:id', 
+	  * 'spatial:functionType' and 'spatial:domainType', and may have the optional 
+	  * attributes 'spatial:name' and 'spatial:ordinal'. No other attributes from the 
+	  * SBML Level 3 Spatial Processes namespaces are permitted on an &lt;analyticVolume&gt; 
+	  * object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21903 = 1221903; 
+
+	 /**
+	  * Error code 1221904:
+	  * An &lt;analyticVolume&gt; object may contain one and only one instance of the ASTNode 
+	  * element. No other elements from the SBML Level 3 Spatial Processes namespaces 
+	  * are permitted on an &lt;analyticVolume&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21904 = 1221904; 
+
+	 /**
+	  * Error code 1221905:
+	  * The value of the attribute 'spatial:functionType' of an &lt;analyticVolume&gt; object 
+	  * must conform to the syntax of SBML data type 'FunctionKind' and may only take on 
+	  * the allowed values of 'FunctionKind' defined in SBML; that is, the value must be 
+	  * one of the following: 'layered'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21905 = 1221905; 
+
+	 /**
+	  * Error code 1221906:
+	  * The value of the attribute 'spatial:domainType' of an &lt;analyticVolume&gt; object 
+	  * must be the identifier of an existing &lt;domainType&gt; object defined in the 
+	  * enclosing &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21906 = 1221906; 
+
+	 /**
+	  * Error code 1221907:
+	  * The attribute 'spatial:name' on an &lt;analyticVolume&gt; must have a value of data 
+	  * type 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21907 = 1221907; 
+
+	 /**
+	  * Error code 1221908:
+	  * The attribute 'spatial:ordinal' on an &lt;analyticVolume&gt; must have a value of data 
+	  * type 'integer'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_21908 = 1221908; 
+
+	 /**
+	  * Error code 1222001:
+	  * A &lt;parametricGeometry&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;parametricGeometry&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_22001 = 1222001; 
+
+	 /**
+	  * Error code 1222002:
+	  * A &lt;parametricGeometry&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;parametricGeometry&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_22002 = 1222002; 
+
+	 /**
+	  * Error code 1222003:
+	  * A &lt;parametricGeometry&gt; object may contain one and only one instance of each of 
+	  * the SpatialPoints and &lt;listOfParametricObjects&gt; elements. No other elements from 
+	  * the SBML Level 3 Spatial Processes namespaces are permitted on a 
+	  * &lt;parametricGeometry&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22003 = 1222003; 
+
+	 /**
+	  * Error code 1222004:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfParametricObjects&gt; container object may only contain 
+	  * &lt;parametricObject&gt; objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22004 = 1222004; 
+
+	 /**
+	  * Error code 1222005:
+	  * A &lt;listOfParametricObjects&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfParametricObjects&gt; object. Reference: 
+	  * L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22005 = 1222005; 
+
+	 /**
+	  * Error code 1222101:
+	  * A &lt;parametricObject&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;parametricObject&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_22101 = 1222101; 
+
+	 /**
+	  * Error code 1222102:
+	  * A &lt;parametricObject&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;parametricObject&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_22102 = 1222102; 
+
+	 /**
+	  * Error code 1222103:
+	  * A &lt;parametricObject&gt; object must have the required attributes 'spatial:id', 
+	  * 'spatial:polygonType', 'spatial:domainType', 'spatial:pointIndex', 
+	  * 'spatial:pointIndexLength' and 'spatial:compression', and may have the optional 
+	  * attributes 'spatial:name' and 'spatial:dataType'. No other attributes from the 
+	  * SBML Level 3 Spatial Processes namespaces are permitted on a &lt;parametricObject&gt; 
+	  * object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22103 = 1222103; 
+
+	 /**
+	  * Error code 1222104:
+	  * The value of the attribute 'spatial:polygonType' of a &lt;parametricObject&gt; object 
+	  * must conform to the syntax of SBML data type 'PolygonKind' and may only take on 
+	  * the allowed values of 'PolygonKind' defined in SBML; that is, the value must be 
+	  * one of the following: 'triangle' or 'quadrilateral'. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_22104 = 1222104; 
+
+	 /**
+	  * Error code 1222105:
+	  * The value of the attribute 'spatial:domainType' of a &lt;parametricObject&gt; object 
+	  * must be the identifier of an existing &lt;domainType&gt; object defined in the 
+	  * enclosing &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22105 = 1222105; 
+
+	 /**
+	  * Error code 1222106:
+	  * The value of the attribute 'spatial:pointIndex' of a &lt;parametricObject&gt; object 
+	  * must be an array of values of type 'int'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22106 = 1222106; 
+
+	 /**
+	  * Error code 1222107:
+	  * The attribute 'spatial:pointIndexLength' on a &lt;parametricObject&gt; must have a 
+	  * value of data type 'integer'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22107 = 1222107; 
+
+	 /**
+	  * Error code 1222108:
+	  * The value of the attribute 'spatial:compression' of a &lt;parametricObject&gt; object 
+	  * must conform to the syntax of SBML data type 'CompressionKind' and may only take 
+	  * on the allowed values of 'CompressionKind' defined in SBML; that is, the value 
+	  * must be one of the following: 'uncompressed' or 'deflated'. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22108 = 1222108; 
+
+	 /**
+	  * Error code 1222109:
+	  * The attribute 'spatial:name' on a &lt;parametricObject&gt; must have a value of data 
+	  * type 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22109 = 1222109; 
+
+	 /**
+	  * Error code 1222110:
+	  * The value of the attribute 'spatial:dataType' of a &lt;parametricObject&gt; object 
+	  * must conform to the syntax of SBML data type 'DataKind' and may only take on the 
+	  * allowed values of 'DataKind' defined in SBML; that is, the value must be one of 
+	  * the following: 'double', 'float', 'uint8', 'uint16' or 'uint32'. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22110 = 1222110; 
+
+	 /**
+	  * Error code 1222201:
+	  * A &lt;cSGeometry&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;cSGeometry&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22201 = 1222201; 
+
+	 /**
+	  * Error code 1222202:
+	  * A &lt;cSGeometry&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;cSGeometry&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22202 = 1222202; 
+
+	 /**
+	  * Error code 1222203:
+	  * A &lt;cSGeometry&gt; object may contain one and only one instance of the 
+	  * &lt;listOfCSGObjects&gt; element. No other elements from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on a &lt;cSGeometry&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22203 = 1222203; 
+
+	 /**
+	  * Error code 1222204:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfCSGObjects&gt; container object may only contain &lt;cSGObject&gt; 
+	  * objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22204 = 1222204; 
+
+	 /**
+	  * Error code 1222205:
+	  * A &lt;listOfCSGObjects&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;listOfCSGObjects&gt; object. Reference: L3V1 Spatial 
+	  * V1 Section 
+	  */
+ 	 public static final int SPATIAL_22205 = 1222205; 
+
+	 /**
+	  * Error code 1222301:
+	  * A &lt;cSGObject&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;cSGObject&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22301 = 1222301; 
+
+	 /**
+	  * Error code 1222302:
+	  * A &lt;cSGObject&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;cSGObject&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22302 = 1222302; 
+
+	 /**
+	  * Error code 1222303:
+	  * A &lt;cSGObject&gt; object must have the required attributes 'spatial:id' and 
+	  * 'spatial:domainType', and may have the optional attributes 'spatial:name' and 
+	  * 'spatial:ordinal'. No other attributes from the SBML Level 3 Spatial Processes 
+	  * namespaces are permitted on a &lt;cSGObject&gt; object. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_22303 = 1222303; 
+
+	 /**
+	  * Error code 1222304:
+	  * A &lt;cSGObject&gt; object must contain one and only one instance of the CSGNode 
+	  * element. No other elements from the SBML Level 3 Spatial Processes namespaces 
+	  * are permitted on a &lt;cSGObject&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22304 = 1222304; 
+
+	 /**
+	  * Error code 1222305:
+	  * The value of the attribute 'spatial:domainType' of a &lt;cSGObject&gt; object must be 
+	  * the identifier of an existing &lt;domainType&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22305 = 1222305; 
+
+	 /**
+	  * Error code 1222306:
+	  * The attribute 'spatial:name' on a &lt;cSGObject&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22306 = 1222306; 
+
+	 /**
+	  * Error code 1222307:
+	  * The attribute 'spatial:ordinal' on a &lt;cSGObject&gt; must have a value of data type 
+	  * 'integer'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22307 = 1222307; 
+
+	 /**
+	  * Error code 1222401:
+	  * A &lt;cSGNode&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;cSGNode&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22401 = 1222401; 
+
+	 /**
+	  * Error code 1222402:
+	  * A &lt;cSGNode&gt; object may have the optional SBML Level 3 Core subobjects for notes 
+	  * and annotations. No other elements from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;cSGNode&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22402 = 1222402; 
+
+	 /**
+	  * Error code 1222403:
+	  * A &lt;cSGNode&gt; object may have the optional attributes 'spatial:id' and 
+	  * 'spatial:name'. No other attributes from the SBML Level 3 Spatial Processes 
+	  * namespaces are permitted on a &lt;cSGNode&gt; object. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_22403 = 1222403; 
+
+	 /**
+	  * Error code 1222404:
+	  * The attribute 'spatial:name' on a &lt;cSGNode&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22404 = 1222404; 
+
+	 /**
+	  * Error code 1222501:
+	  * A &lt;cSGTransformation&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;cSGTransformation&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_22501 = 1222501; 
+
+	 /**
+	  * Error code 1222502:
+	  * A &lt;cSGTransformation&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;cSGTransformation&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_22502 = 1222502; 
+
+	 /**
+	  * Error code 1222503:
+	  * A &lt;cSGTransformation&gt; object may contain one and only one instance of the 
+	  * CSGNode element. No other elements from the SBML Level 3 Spatial Processes 
+	  * namespaces are permitted on a &lt;cSGTransformation&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22503 = 1222503; 
+
+	 /**
+	  * Error code 1222601:
+	  * A &lt;cSGTranslation&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;cSGTranslation&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_22601 = 1222601; 
+
+	 /**
+	  * Error code 1222602:
+	  * A &lt;cSGTranslation&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;cSGTranslation&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22602 = 1222602; 
+
+	 /**
+	  * Error code 1222603:
+	  * A &lt;cSGTranslation&gt; object must have the required attribute 'spatial:translateX', 
+	  * and may have the optional attributes 'spatial:translateY' and 
+	  * 'spatial:translateZ'. No other attributes from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on a &lt;cSGTranslation&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22603 = 1222603; 
+
+	 /**
+	  * Error code 1222604:
+	  * The attribute 'spatial:translateX' on a &lt;cSGTranslation&gt; must have a value of 
+	  * data type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22604 = 1222604; 
+
+	 /**
+	  * Error code 1222605:
+	  * The attribute 'spatial:translateY' on a &lt;cSGTranslation&gt; must have a value of 
+	  * data type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22605 = 1222605; 
+
+	 /**
+	  * Error code 1222606:
+	  * The attribute 'spatial:translateZ' on a &lt;cSGTranslation&gt; must have a value of 
+	  * data type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22606 = 1222606; 
+
+	 /**
+	  * Error code 1222701:
+	  * A &lt;cSGRotation&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;cSGRotation&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22701 = 1222701; 
+
+	 /**
+	  * Error code 1222702:
+	  * A &lt;cSGRotation&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;cSGRotation&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22702 = 1222702; 
+
+	 /**
+	  * Error code 1222703:
+	  * A &lt;cSGRotation&gt; object must have the required attributes 'spatial:rotateX' and 
+	  * 'spatial:rotateAngleInRadians', and may have the optional attributes 
+	  * 'spatial:rotateY' and 'spatial:rotateZ'. No other attributes from the SBML Level 
+	  * 3 Spatial Processes namespaces are permitted on a &lt;cSGRotation&gt; object. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22703 = 1222703; 
+
+	 /**
+	  * Error code 1222704:
+	  * The attribute 'spatial:rotateX' on a &lt;cSGRotation&gt; must have a value of data 
+	  * type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22704 = 1222704; 
+
+	 /**
+	  * Error code 1222705:
+	  * The attribute 'spatial:rotateAngleInRadians' on a &lt;cSGRotation&gt; must have a 
+	  * value of data type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22705 = 1222705; 
+
+	 /**
+	  * Error code 1222706:
+	  * The attribute 'spatial:rotateY' on a &lt;cSGRotation&gt; must have a value of data 
+	  * type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22706 = 1222706; 
+
+	 /**
+	  * Error code 1222707:
+	  * The attribute 'spatial:rotateZ' on a &lt;cSGRotation&gt; must have a value of data 
+	  * type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22707 = 1222707; 
+
+	 /**
+	  * Error code 1222801:
+	  * A &lt;cSGScale&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;cSGScale&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22801 = 1222801; 
+
+	 /**
+	  * Error code 1222802:
+	  * A &lt;cSGScale&gt; object may have the optional SBML Level 3 Core subobjects for notes 
+	  * and annotations. No other elements from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;cSGScale&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22802 = 1222802; 
+
+	 /**
+	  * Error code 1222803:
+	  * A &lt;cSGScale&gt; object must have the required attribute 'spatial:scaleX', and may 
+	  * have the optional attributes 'spatial:scaleY' and 'spatial:scaleZ'. No other 
+	  * attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a 
+	  * &lt;cSGScale&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22803 = 1222803; 
+
+	 /**
+	  * Error code 1222804:
+	  * The attribute 'spatial:scaleX' on a &lt;cSGScale&gt; must have a value of data type 
+	  * 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22804 = 1222804; 
+
+	 /**
+	  * Error code 1222805:
+	  * The attribute 'spatial:scaleY' on a &lt;cSGScale&gt; must have a value of data type 
+	  * 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22805 = 1222805; 
+
+	 /**
+	  * Error code 1222806:
+	  * The attribute 'spatial:scaleZ' on a &lt;cSGScale&gt; must have a value of data type 
+	  * 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22806 = 1222806; 
+
+	 /**
+	  * Error code 1222901:
+	  * A &lt;cSGHomogeneousTransformation&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;cSGHomogeneousTransformation&gt;. Reference: 
+	  * L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22901 = 1222901; 
+
+	 /**
+	  * Error code 1222902:
+	  * A &lt;cSGHomogeneousTransformation&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;cSGHomogeneousTransformation&gt;. Reference: 
+	  * L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22902 = 1222902; 
+
+	 /**
+	  * Error code 1222903:
+	  * A &lt;cSGHomogeneousTransformation&gt; object must contain one and only one instance 
+	  * of the TransformationComponent element. No other elements from the SBML Level 3 
+	  * Spatial Processes namespaces are permitted on a &lt;cSGHomogeneousTransformation&gt; 
+	  * object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_22903 = 1222903; 
+
+	 /**
+	  * Error code 1223001:
+	  * A &lt;transformationComponent&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;transformationComponent&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23001 = 1223001; 
+
+	 /**
+	  * Error code 1223002:
+	  * A &lt;transformationComponent&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;transformationComponent&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23002 = 1223002; 
+
+	 /**
+	  * Error code 1223003:
+	  * A &lt;transformationComponent&gt; object must have the required attributes 
+	  * 'spatial:components' and 'spatial:componentsLength'. No other attributes from 
+	  * the SBML Level 3 Spatial Processes namespaces are permitted on a 
+	  * &lt;transformationComponent&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23003 = 1223003; 
+
+	 /**
+	  * Error code 1223004:
+	  * The value of the attribute 'spatial:components' of a &lt;transformationComponent&gt; 
+	  * object must be an array of values of type 'double'. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_23004 = 1223004; 
+
+	 /**
+	  * Error code 1223005:
+	  * The attribute 'spatial:componentsLength' on a &lt;transformationComponent&gt; must 
+	  * have a value of data type 'integer'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23005 = 1223005; 
+
+	 /**
+	  * Error code 1223101:
+	  * A &lt;cSGPrimitive&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;cSGPrimitive&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23101 = 1223101; 
+
+	 /**
+	  * Error code 1223102:
+	  * A &lt;cSGPrimitive&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;cSGPrimitive&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23102 = 1223102; 
+
+	 /**
+	  * Error code 1223103:
+	  * A &lt;cSGPrimitive&gt; object must have the required attribute 
+	  * 'spatial:primitiveType'. No other attributes from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on a &lt;cSGPrimitive&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23103 = 1223103; 
+
+	 /**
+	  * Error code 1223104:
+	  * The value of the attribute 'spatial:primitiveType' of a &lt;cSGPrimitive&gt; object 
+	  * must conform to the syntax of SBML data type 'PrimitiveKind' and may only take 
+	  * on the allowed values of 'PrimitiveKind' defined in SBML; that is, the value 
+	  * must be one of the following: 'sphere', 'cube', 'cylinder', 'cone', 'circle' or 
+	  * 'square'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23104 = 1223104; 
+
+	 /**
+	  * Error code 1223201:
+	  * A &lt;cSGSetOperator&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;cSGSetOperator&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_23201 = 1223201; 
+
+	 /**
+	  * Error code 1223202:
+	  * A &lt;cSGSetOperator&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;cSGSetOperator&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23202 = 1223202; 
+
+	 /**
+	  * Error code 1223203:
+	  * A &lt;cSGSetOperator&gt; object must have the required attribute 
+	  * 'spatial:operationType', and may have the optional attributes 
+	  * 'spatial:complementA' and 'spatial:complementB'. No other attributes from the 
+	  * SBML Level 3 Spatial Processes namespaces are permitted on a &lt;cSGSetOperator&gt; 
+	  * object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23203 = 1223203; 
+
+	 /**
+	  * Error code 1223204:
+	  * A &lt;cSGSetOperator&gt; object may contain one and only one instance of the 
+	  * &lt;listOfCSGNodes&gt; element. No other elements from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on a &lt;cSGSetOperator&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23204 = 1223204; 
+
+	 /**
+	  * Error code 1223205:
+	  * The value of the attribute 'spatial:operationType' of a &lt;cSGSetOperator&gt; object 
+	  * must conform to the syntax of SBML data type 'SetOperation' and may only take on 
+	  * the allowed values of 'SetOperation' defined in SBML; that is, the value must be 
+	  * one of the following: 'union', 'intersection' or 'difference'. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23205 = 1223205; 
+
+	 /**
+	  * Error code 1223206:
+	  * The value of the attribute 'spatial:complementA' of a &lt;cSGSetOperator&gt; object 
+	  * must be the identifier of an existing &lt;cSGNode&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23206 = 1223206; 
+
+	 /**
+	  * Error code 1223207:
+	  * The value of the attribute 'spatial:complementB' of a &lt;cSGSetOperator&gt; object 
+	  * must be the identifier of an existing &lt;cSGNode&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23207 = 1223207; 
+
+	 /**
+	  * Error code 1223208:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfCSGNodes&gt; container object may only contain &lt;cSGNode&gt; objects. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23208 = 1223208; 
+
+	 /**
+	  * Error code 1223209:
+	  * A &lt;listOfCSGNodes&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;listOfCSGNodes&gt; object. Reference: L3V1 Spatial 
+	  * V1 Section 
+	  */
+ 	 public static final int SPATIAL_23209 = 1223209; 
+
+	 /**
+	  * Error code 1223301:
+	  * A &lt;spatialSymbolReference&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;spatialSymbolReference&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23301 = 1223301; 
+
+	 /**
+	  * Error code 1223302:
+	  * A &lt;spatialSymbolReference&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;spatialSymbolReference&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23302 = 1223302; 
+
+	 /**
+	  * Error code 1223303:
+	  * A &lt;spatialSymbolReference&gt; object must have the required attribute 
+	  * 'spatial:spatialRef'. No other attributes from the SBML Level 3 Spatial 
+	  * Processes namespaces are permitted on a &lt;spatialSymbolReference&gt; object. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23303 = 1223303; 
+
+	 /**
+	  * Error code 1223304:
+	  * The value of the attribute 'spatial:spatialRef' of a &lt;spatialSymbolReference&gt; 
+	  * object must be the identifier of an existing &lt;geometry&gt; object defined in the 
+	  * enclosing &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23304 = 1223304; 
+
+	 /**
+	  * Error code 1223401:
+	  * A &lt;diffusionCoefficient&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;diffusionCoefficient&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23401 = 1223401; 
+
+	 /**
+	  * Error code 1223402:
+	  * A &lt;diffusionCoefficient&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;diffusionCoefficient&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23402 = 1223402; 
+
+	 /**
+	  * Error code 1223403:
+	  * A &lt;diffusionCoefficient&gt; object must have the required attributes 
+	  * 'spatial:variable' and 'spatial:type', and may have the optional attributes 
+	  * 'spatial:coordinateReferenceOne' and 'spatial:coordinateReferenceTwo'. No other 
+	  * attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a 
+	  * &lt;diffusionCoefficient&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23403 = 1223403; 
+
+	 /**
+	  * Error code 1223404:
+	  * The value of the attribute 'spatial:variable' of a &lt;diffusionCoefficient&gt; object 
+	  * must be the identifier of an existing &lt;species&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23404 = 1223404; 
+
+	 /**
+	  * Error code 1223405:
+	  * The value of the attribute 'spatial:type' of a &lt;diffusionCoefficient&gt; object 
+	  * must conform to the syntax of SBML data type 'DiffusionKind' and may only take 
+	  * on the allowed values of 'DiffusionKind' defined in SBML; that is, the value 
+	  * must be one of the following: 'isotropic', 'anisotropic' or 'tensor'. Reference: 
+	  * L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23405 = 1223405; 
+
+	 /**
+	  * Error code 1223406:
+	  * The value of the attribute 'spatial:coordinateReferenceOne' of a 
+	  * &lt;diffusionCoefficient&gt; object must conform to the syntax of SBML data type 
+	  * 'CoordinateKind' and may only take on the allowed values of 'CoordinateKind' 
+	  * defined in SBML; that is, the value must be one of the following: 'cartesianX', 
+	  * 'cartesianY' or 'cartesianZ'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23406 = 1223406; 
+
+	 /**
+	  * Error code 1223407:
+	  * The value of the attribute 'spatial:coordinateReferenceTwo' of a 
+	  * &lt;diffusionCoefficient&gt; object must conform to the syntax of SBML data type 
+	  * 'CoordinateKind' and may only take on the allowed values of 'CoordinateKind' 
+	  * defined in SBML; that is, the value must be one of the following: 'cartesianX', 
+	  * 'cartesianY' or 'cartesianZ'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23407 = 1223407; 
+
+	 /**
+	  * Error code 1223501:
+	  * An &lt;advectionCoefficient&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on an &lt;advectionCoefficient&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23501 = 1223501; 
+
+	 /**
+	  * Error code 1223502:
+	  * An &lt;advectionCoefficient&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on an &lt;advectionCoefficient&gt;. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23502 = 1223502; 
+
+	 /**
+	  * Error code 1223503:
+	  * An &lt;advectionCoefficient&gt; object must have the required attributes 
+	  * 'spatial:variable' and 'spatial:coordinate'. No other attributes from the SBML 
+	  * Level 3 Spatial Processes namespaces are permitted on an &lt;advectionCoefficient&gt; 
+	  * object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23503 = 1223503; 
+
+	 /**
+	  * Error code 1223504:
+	  * The value of the attribute 'spatial:variable' of an &lt;advectionCoefficient&gt; 
+	  * object must be the identifier of an existing &lt;species&gt; object defined in the 
+	  * enclosing &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23504 = 1223504; 
+
+	 /**
+	  * Error code 1223505:
+	  * The value of the attribute 'spatial:coordinate' of an &lt;advectionCoefficient&gt; 
+	  * object must conform to the syntax of SBML data type 'CoordinateKind' and may 
+	  * only take on the allowed values of 'CoordinateKind' defined in SBML; that is, 
+	  * the value must be one of the following: 'cartesianX', 'cartesianY' or 
+	  * 'cartesianZ'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23505 = 1223505; 
+
+	 /**
+	  * Error code 1223601:
+	  * A &lt;boundaryCondition&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;boundaryCondition&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_23601 = 1223601; 
+
+	 /**
+	  * Error code 1223602:
+	  * A &lt;boundaryCondition&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;boundaryCondition&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_23602 = 1223602; 
+
+	 /**
+	  * Error code 1223603:
+	  * A &lt;boundaryCondition&gt; object must have the required attributes 
+	  * 'spatial:variable' and 'spatial:type', and may have the optional attributes 
+	  * 'spatial:coordinateBoundary' and 'spatial:boundaryDomainType'. No other 
+	  * attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a 
+	  * &lt;boundaryCondition&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23603 = 1223603; 
+
+	 /**
+	  * Error code 1223604:
+	  * The value of the attribute 'spatial:variable' of a &lt;boundaryCondition&gt; object 
+	  * must be the identifier of an existing &lt;species&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23604 = 1223604; 
+
+	 /**
+	  * Error code 1223605:
+	  * The value of the attribute 'spatial:type' of a &lt;boundaryCondition&gt; object must 
+	  * conform to the syntax of SBML data type 'BoundaryKind' and may only take on the 
+	  * allowed values of 'BoundaryKind' defined in SBML; that is, the value must be one 
+	  * of the following: 'Robin_valueCoefficient', 
+	  * 'Robin_inwardNormalGradientCoefficient', 'Robin_sum', 'Neumann' or 'Dirichlet'. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23605 = 1223605; 
+
+	 /**
+	  * Error code 1223606:
+	  * The value of the attribute 'spatial:coordinateBoundary' of a &lt;boundaryCondition&gt; 
+	  * object must be the identifier of an existing &lt;boundary&gt; object defined in the 
+	  * enclosing &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23606 = 1223606; 
+
+	 /**
+	  * Error code 1223607:
+	  * The value of the attribute 'spatial:boundaryDomainType' of a &lt;boundaryCondition&gt; 
+	  * object must be the identifier of an existing &lt;domainType&gt; object defined in the 
+	  * enclosing &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23607 = 1223607; 
+
+	 /**
+	  * Error code 1223701:
+	  * A &lt;geometry&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;geometry&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23701 = 1223701; 
+
+	 /**
+	  * Error code 1223702:
+	  * A &lt;geometry&gt; object may have the optional SBML Level 3 Core subobjects for notes 
+	  * and annotations. No other elements from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;geometry&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23702 = 1223702; 
+
+	 /**
+	  * Error code 1223703:
+	  * A &lt;geometry&gt; object must have the required attribute 'spatial:coordinateSystem', 
+	  * and may have the optional attribute 'spatial:id'. No other attributes from the 
+	  * SBML Level 3 Spatial Processes namespaces are permitted on a &lt;geometry&gt; object. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23703 = 1223703; 
+
+	 /**
+	  * Error code 1223704:
+	  * A &lt;geometry&gt; object may contain one and only one instance of each of the 
+	  * &lt;listOfCoordinateComponents,&gt; &lt;listOfDomainTypes,&gt; &lt;listOfDomains,&gt; 
+	  * &lt;listOfAdjacentDomains,&gt; &lt;listOfGeometryDefinitions&gt; and &lt;listOfSampledFields&gt; 
+	  * elements. No other elements from the SBML Level 3 Spatial Processes namespaces 
+	  * are permitted on a &lt;geometry&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23704 = 1223704; 
+
+	 /**
+	  * Error code 1223705:
+	  * The value of the attribute 'spatial:coordinateSystem' of a &lt;geometry&gt; object 
+	  * must conform to the syntax of SBML data type 'GeometryKind' and may only take on 
+	  * the allowed values of 'GeometryKind' defined in SBML; that is, the value must be 
+	  * one of the following: 'cartesian'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23705 = 1223705; 
+
+	 /**
+	  * Error code 1223706:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfCoordinateComponents&gt; container object may only contain 
+	  * &lt;coordinateComponent&gt; objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23706 = 1223706; 
+
+	 /**
+	  * Error code 1223707:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfDomainTypes&gt; container object may only contain &lt;domainType&gt; 
+	  * objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23707 = 1223707; 
+
+	 /**
+	  * Error code 1223708:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfDomains&gt; container object may only contain &lt;domain&gt; objects. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23708 = 1223708; 
+
+	 /**
+	  * Error code 1223709:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfAdjacentDomains&gt; container object may only contain 
+	  * &lt;adjacentDomains&gt; objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23709 = 1223709; 
+
+	 /**
+	  * Error code 1223710:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfGeometryDefinitions&gt; container object may only contain 
+	  * &lt;geometryDefinition&gt; objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23710 = 1223710; 
+
+	 /**
+	  * Error code 1223711:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfSampledFields&gt; container object may only contain 
+	  * &lt;sampledField&gt; objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23711 = 1223711; 
+
+	 /**
+	  * Error code 1223712:
+	  * A &lt;listOfCoordinateComponents&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfCoordinateComponents&gt; object. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23712 = 1223712; 
+
+	 /**
+	  * Error code 1223713:
+	  * A &lt;listOfDomainTypes&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;listOfDomainTypes&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23713 = 1223713; 
+
+	 /**
+	  * Error code 1223714:
+	  * A &lt;listOfDomains&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;listOfDomains&gt; object. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_23714 = 1223714; 
+
+	 /**
+	  * Error code 1223715:
+	  * A &lt;listOfAdjacentDomains&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfAdjacentDomains&gt; object. Reference: 
+	  * L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23715 = 1223715; 
+
+	 /**
+	  * Error code 1223716:
+	  * A &lt;listOfGeometryDefinitions&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfGeometryDefinitions&gt; object. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23716 = 1223716; 
+
+	 /**
+	  * Error code 1223717:
+	  * A &lt;listOfSampledFields&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfSampledFields&gt; object. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23717 = 1223717; 
+
+	 /**
+	  * Error code 1223801:
+	  * A &lt;mixedGeometry&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;mixedGeometry&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_23801 = 1223801; 
+
+	 /**
+	  * Error code 1223802:
+	  * A &lt;mixedGeometry&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;mixedGeometry&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23802 = 1223802; 
+
+	 /**
+	  * Error code 1223803:
+	  * A &lt;mixedGeometry&gt; object may contain one and only one instance of each of the 
+	  * &lt;listOfGeometryDefinitions&gt; and &lt;listOfOrdinalMappings&gt; elements. No other 
+	  * elements from the SBML Level 3 Spatial Processes namespaces are permitted on a 
+	  * &lt;mixedGeometry&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23803 = 1223803; 
+
+	 /**
+	  * Error code 1223804:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfGeometryDefinitions&gt; container object may only contain 
+	  * &lt;geometryDefinition&gt; objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23804 = 1223804; 
+
+	 /**
+	  * Error code 1223805:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfOrdinalMappings&gt; container object may only contain 
+	  * &lt;ordinalMapping&gt; objects. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23805 = 1223805; 
+
+	 /**
+	  * Error code 1223806:
+	  * A &lt;listOfGeometryDefinitions&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfGeometryDefinitions&gt; object. 
+	  * Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23806 = 1223806; 
+
+	 /**
+	  * Error code 1223807:
+	  * A &lt;listOfOrdinalMappings&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfOrdinalMappings&gt; object. Reference: 
+	  * L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23807 = 1223807; 
+
+	 /**
+	  * Error code 1223901:
+	  * An &lt;ordinalMapping&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;ordinalMapping&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_23901 = 1223901; 
+
+	 /**
+	  * Error code 1223902:
+	  * An &lt;ordinalMapping&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;ordinalMapping&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_23902 = 1223902; 
+
+	 /**
+	  * Error code 1223903:
+	  * An &lt;ordinalMapping&gt; object must have the required attributes 
+	  * 'spatial:geometryDefinition' and 'spatial:ordinal'. No other attributes from the 
+	  * SBML Level 3 Spatial Processes namespaces are permitted on an &lt;ordinalMapping&gt; 
+	  * object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23903 = 1223903; 
+
+	 /**
+	  * Error code 1223904:
+	  * The value of the attribute 'spatial:geometryDefinition' of an &lt;ordinalMapping&gt; 
+	  * object must be the identifier of an existing &lt;geometryDefinition&gt; object defined 
+	  * in the enclosing &lt;model&gt; object. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23904 = 1223904; 
+
+	 /**
+	  * Error code 1223905:
+	  * The attribute 'spatial:ordinal' on an &lt;ordinalMapping&gt; must have a value of data 
+	  * type 'integer'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_23905 = 1223905; 
+
+	 /**
+	  * Error code 1224001:
+	  * A &lt;spatialPoints&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;spatialPoints&gt;. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_24001 = 1224001; 
+
+	 /**
+	  * Error code 1224002:
+	  * A &lt;spatialPoints&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;spatialPoints&gt;. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_24002 = 1224002; 
+
+	 /**
+	  * Error code 1224003:
+	  * A &lt;spatialPoints&gt; object must have the required attributes 
+	  * 'spatial:compression', 'spatial:arrayData' and 'spatial:arrayDataLength', and 
+	  * may have the optional attributes 'spatial:id', 'spatial:name' and 
+	  * 'spatial:dataType'. No other attributes from the SBML Level 3 Spatial Processes 
+	  * namespaces are permitted on a &lt;spatialPoints&gt; object. Reference: L3V1 Spatial V1 
+	  * Section 
+	  */
+ 	 public static final int SPATIAL_24003 = 1224003; 
+
+	 /**
+	  * Error code 1224004:
+	  * The value of the attribute 'spatial:compression' of a &lt;spatialPoints&gt; object 
+	  * must conform to the syntax of SBML data type 'CompressionKind' and may only take 
+	  * on the allowed values of 'CompressionKind' defined in SBML; that is, the value 
+	  * must be one of the following: 'uncompressed' or 'deflated'. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_24004 = 1224004; 
+
+	 /**
+	  * Error code 1224005:
+	  * The value of the attribute 'spatial:arrayData' of a &lt;spatialPoints&gt; object must 
+	  * be an array of values of type 'double'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_24005 = 1224005; 
+
+	 /**
+	  * Error code 1224006:
+	  * The attribute 'spatial:arrayDataLength' on a &lt;spatialPoints&gt; must have a value 
+	  * of data type 'integer'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_24006 = 1224006; 
+
+	 /**
+	  * Error code 1224007:
+	  * The attribute 'spatial:name' on a &lt;spatialPoints&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_24007 = 1224007; 
+
+	 /**
+	  * Error code 1224008:
+	  * The value of the attribute 'spatial:dataType' of a &lt;spatialPoints&gt; object must 
+	  * conform to the syntax of SBML data type 'DataKind' and may only take on the 
+	  * allowed values of 'DataKind' defined in SBML; that is, the value must be one of 
+	  * the following: 'double', 'float', 'uint8', 'uint16' or 'uint32'. Reference: L3V1 
+	  * Spatial V1 Section 
+	  */
+ 	 public static final int SPATIAL_24008 = 1224008; 
+
+	 /**
+	  * Error code 1310101:
+	  * To conform to the Render Package specification for SBML Level 3 Version 1, an 
+	  * SBML document must declare 
+	  * 'http://www.sbml.org/sbml/level3/version1/render/version1' as the XMLNamespace 
+	  * to use for elements of this package. Reference: L3V1 Render V1 Section 3.1 
+	  */
+ 	 public static final int RENDER_10101 = 1310101; 
+
+	 /**
+	  * Error code 1310102:
+	  * Wherever they appear in an SBML document, elements and attributes from the 
+	  * Render Package must use the 
+	  * 'http://www.sbml.org/sbml/level3/version1/render/version1' namespace, declaring 
+	  * so either explicitly or implicitly. Reference: L3V1 Render V1 Section 3.1 
+	  */
+ 	 public static final int RENDER_10102 = 1310102; 
+
+	 /**
+	  * Error code 1310301:
+	  * (Extends validation rule #10301 in the SBML Level 3 Core specification. TO DO 
+	  * list scope of ids) Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_10301 = 1310301; 
+
+	 /**
+	  * Error code 1310302:
+	  * The value of a 'render:id' must conform to the syntax of the &lt;sbml&gt; data type 
+	  * 'SId' Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_10302 = 1310302; 
+
+	 /**
+	  * Error code 1320101:
+	  * In all SBML documents using the Render Package, the &lt;sbml&gt; object must have the 
+	  * 'render:required' attribute. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20101 = 1320101; 
+
+	 /**
+	  * Error code 1320102:
+	  * The value of attribute 'render:required' on the &lt;sbml&gt; object must be of data 
+	  * type 'boolean'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20102 = 1320102; 
+
+	 /**
+	  * Error code 1320103:
+	  * The value of attribute 'render:required' on the &lt;sbml&gt; object must be set to 
+	  * 'false'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20103 = 1320103; 
+
+	 /**
+	  * Error code 1320201:
+	  * A &lt;graphicalObject&gt; object may have the optional attribute 'render:objectRole'. 
+	  * No other attributes from the SBML Level 3 Render namespaces are permitted on a 
+	  * &lt;graphicalObject&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20201 = 1320201; 
+
+	 /**
+	  * Error code 1320202:
+	  * The attribute 'render:objectRole' on a &lt;graphicalObject&gt; must have a value of 
+	  * data type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20202 = 1320202; 
+
+	 /**
+	  * Error code 1320301:
+	  * A &lt;layout&gt; object may contain one and only one instance of the 
+	  * &lt;listOfLocalRenderInformation&gt; element. No other elements from the SBML Level 3 
+	  * Render namespaces are permitted on a &lt;layout&gt; object. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_20301 = 1320301; 
+
+	 /**
+	  * Error code 1320302:
+	  * The &lt;listOfLocalRenderInformation&gt; subobject on a &lt;layout&gt; object is optional, 
+	  * but if present, this container object must not be empty. Reference: L3V1 Render 
+	  * V1 Section 
+	  */
+ 	 public static final int RENDER_20302 = 1320302; 
+
+	 /**
+	  * Error code 1320303:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfLocalRenderInformation&gt; container object may only contain 
+	  * &lt;localRenderInformation&gt; objects. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20303 = 1320303; 
+
+	 /**
+	  * Error code 1320304:
+	  * A &lt;listOfLocalRenderInformation&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfLocalRenderInformation&gt; object. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20304 = 1320304; 
+
+	 /**
+	  * Error code 1320305:
+	  * A &lt;listOfLocalRenderInformation&gt; object may have the optional attributes 
+	  * 'render:versionMajor', 'render:versionMinor' and 'render:defaultValues'. No 
+	  * other attributes from the SBML Level 3 Render namespaces are permitted on a 
+	  * &lt;listOfLocalRenderInformation&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20305 = 1320305; 
+
+	 /**
+	  * Error code 1320306:
+	  * The attribute 'render:versionMajor' on a &lt;listOfLocalRenderInformation&gt; must 
+	  * have a value of data type 'integer', and must be non negative. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_20306 = 1320306; 
+
+	 /**
+	  * Error code 1320307:
+	  * The attribute 'render:versionMinor' on a &lt;listOfLocalRenderInformation&gt; must 
+	  * have a value of data type 'integer', and must be non negative. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_20307 = 1320307; 
+
+	 /**
+	  * Error code 1320308:
+	  * FIX ME: Encountered an unknown attribute type element in 
+	  * ValidationRulesForClass:write_attribute_type_rule Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_20308 = 1320308; 
+
+	 /**
+	  * Error code 1320401:
+	  * A &lt;listOfLayouts&gt; object may contain one and only one instance of the 
+	  * &lt;listOfGlobalRenderInformation&gt; element. No other elements from the SBML Level 3 
+	  * Render namespaces are permitted on a &lt;listOfLayouts&gt; object. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_20401 = 1320401; 
+
+	 /**
+	  * Error code 1320402:
+	  * The &lt;listOfGlobalRenderInformation&gt; subobject on a &lt;listOfLayouts&gt; object is 
+	  * optional, but if present, this container object must not be empty. Reference: 
+	  * L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20402 = 1320402; 
+
+	 /**
+	  * Error code 1320403:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfGlobalRenderInformation&gt; container object may only contain 
+	  * &lt;globalRenderInformation&gt; objects. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20403 = 1320403; 
+
+	 /**
+	  * Error code 1320404:
+	  * A &lt;listOfGlobalRenderInformation&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfGlobalRenderInformation&gt; object. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20404 = 1320404; 
+
+	 /**
+	  * Error code 1320405:
+	  * A &lt;listOfGlobalRenderInformation&gt; object may have the optional attributes 
+	  * 'render:versionMajor', and 'render:versionMinor'. No other attributes from the 
+	  * SBML Level 3 Render namespaces are permitted on a 
+	  * &lt;listOfGlobalRenderInformation&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20405 = 1320405; 
+
+	 /**
+	  * Error code 1320406:
+	  * The attribute 'render:versionMajor' on a &lt;listOfLayouts&gt; must have a value of 
+	  * data type 'integer', and must be non negative. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20406 = 1320406; 
+
+	 /**
+	  * Error code 1320407:
+	  * The attribute 'render:versionMinor' on a &lt;listOfLayouts&gt; must have a value of 
+	  * data type 'integer', and must be non negative. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20407 = 1320407; 
+
+	 /**
+	  * Error code 1320408:
+	  * FIX ME: Encountered an unknown attribute type element in 
+	  * ValidationRulesForClass:write_attribute_type_rule Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_20408 = 1320408; 
+
+	 /**
+	  * Error code 1320501:
+	  * A &lt;colorDefinition&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;colorDefinition&gt;. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_20501 = 1320501; 
+
+	 /**
+	  * Error code 1320502:
+	  * A &lt;colorDefinition&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;colorDefinition&gt;. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_20502 = 1320502; 
+
+	 /**
+	  * Error code 1320503:
+	  * A &lt;colorDefinition&gt; object must have the required attributes 'render:id' and 
+	  * 'render:value', and may have the optional attribute 'render:name'. No other 
+	  * attributes from the SBML Level 3 Render namespaces are permitted on a 
+	  * &lt;colorDefinition&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20503 = 1320503; 
+
+	 /**
+	  * Error code 1320504:
+	  * The attribute 'render:value' on a &lt;colorDefinition&gt; must have a value of data 
+	  * type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20504 = 1320504; 
+
+	 /**
+	  * Error code 1320505:
+	  * The attribute 'render:name' on a &lt;colorDefinition&gt; must have a value of data 
+	  * type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20505 = 1320505; 
+
+	 /**
+	  * Error code 1320601:
+	  * An &lt;ellipse&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on an &lt;ellipse&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20601 = 1320601; 
+
+	 /**
+	  * Error code 1320602:
+	  * An &lt;ellipse&gt; object may have the optional SBML Level 3 Core subobjects for notes 
+	  * and annotations. No other elements from the SBML Level 3 Core namespaces are 
+	  * permitted on an &lt;ellipse&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20602 = 1320602; 
+
+	 /**
+	  * Error code 1320603:
+	  * An &lt;ellipse&gt; object must have the required attributes 'render:cx', 'render:cy' 
+	  * and 'render:rx', and may have the optional attributes 'render:ratio', 
+	  * 'render:cz' and 'render:ry'. No other attributes from the SBML Level 3 Render 
+	  * namespaces are permitted on an &lt;ellipse&gt; object. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_20603 = 1320603; 
+
+	 /**
+	  * Error code 1320604:
+	  * The value of the attribute 'render:cx' of an &lt;ellipse&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20604 = 1320604; 
+
+	 /**
+	  * Error code 1320605:
+	  * The value of the attribute 'render:cy' of an &lt;ellipse&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20605 = 1320605; 
+
+	 /**
+	  * Error code 1320606:
+	  * The value of the attribute 'render:rx' of an &lt;ellipse&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20606 = 1320606; 
+
+	 /**
+	  * Error code 1320607:
+	  * The attribute 'render:ratio' on an &lt;ellipse&gt; must have a value of data type 
+	  * 'double'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20607 = 1320607; 
+
+	 /**
+	  * Error code 1320608:
+	  * The value of the attribute 'render:cz' of an &lt;ellipse&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20608 = 1320608; 
+
+	 /**
+	  * Error code 1320609:
+	  * The value of the attribute 'render:ry' of an &lt;ellipse&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20609 = 1320609; 
+
+	 /**
+	  * Error code 1320701:
+	  * A &lt;globalRenderInformation&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;globalRenderInformation&gt;. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_20701 = 1320701; 
+
+	 /**
+	  * Error code 1320702:
+	  * A &lt;globalRenderInformation&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;globalRenderInformation&gt;. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_20702 = 1320702; 
+
+	 /**
+	  * Error code 1320703:
+	  * A &lt;globalRenderInformation&gt; object may contain one and only one instance of the 
+	  * &lt;listOfGlobalStyles&gt; element. No other elements from the SBML Level 3 Render 
+	  * namespaces are permitted on a &lt;globalRenderInformation&gt; object. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_20703 = 1320703; 
+
+	 /**
+	  * Error code 1320704:
+	  * The &lt;listOfGlobalStyles&gt; subobject on a &lt;globalRenderInformation&gt; object is 
+	  * optional, but if present, this container object must not be empty. Reference: 
+	  * L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20704 = 1320704; 
+
+	 /**
+	  * Error code 1320705:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfGlobalStyles&gt; container object may only contain &lt;globalStyle&gt; 
+	  * objects. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20705 = 1320705; 
+
+	 /**
+	  * Error code 1320706:
+	  * A &lt;listOfGlobalStyles&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;listOfGlobalStyles&gt; object. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_20706 = 1320706; 
+
+	 /**
+	  * Error code 1320801:
+	  * A &lt;globalStyle&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;globalStyle&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20801 = 1320801; 
+
+	 /**
+	  * Error code 1320802:
+	  * A &lt;globalStyle&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;globalStyle&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20802 = 1320802; 
+
+	 /**
+	  * Error code 1320901:
+	  * A &lt;gradientBase&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;gradientBase&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20901 = 1320901; 
+
+	 /**
+	  * Error code 1320902:
+	  * A &lt;gradientBase&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;gradientBase&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20902 = 1320902; 
+
+	 /**
+	  * Error code 1320903:
+	  * A &lt;gradientBase&gt; object must have the required attribute 'render:id', and may 
+	  * have the optional attributes 'render:name' and 'render:spreadMethod'. No other 
+	  * attributes from the SBML Level 3 Render namespaces are permitted on a 
+	  * &lt;gradientBase&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20903 = 1320903; 
+
+	 /**
+	  * Error code 1320904:
+	  * A &lt;gradientBase&gt; object may contain one and only one instance of the 
+	  * &lt;listOfGradientStops&gt; element. No other elements from the SBML Level 3 Render 
+	  * namespaces are permitted on a &lt;gradientBase&gt; object. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_20904 = 1320904; 
+
+	 /**
+	  * Error code 1320905:
+	  * The attribute 'render:name' on a &lt;gradientBase&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20905 = 1320905; 
+
+	 /**
+	  * Error code 1320906:
+	  * The value of the attribute 'render:spreadMethod' of a &lt;gradientBase&gt; object must 
+	  * conform to the syntax of SBML data type 'GradientSpreadMethod' and may only take 
+	  * on the allowed values of 'GradientSpreadMethod' defined in SBML; that is, the 
+	  * value must be one of the following: 'pad', 'reflect' or 'repeat'. Reference: 
+	  * L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_20906 = 1320906; 
+
+	 /**
+	  * Error code 1321001:
+	  * A &lt;gradientStop&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;gradientStop&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21001 = 1321001; 
+
+	 /**
+	  * Error code 1321002:
+	  * A &lt;gradientStop&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;gradientStop&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21002 = 1321002; 
+
+	 /**
+	  * Error code 1321003:
+	  * A &lt;gradientStop&gt; object must have the required attributes 'render:stop-color' 
+	  * and 'render:offset'. No other attributes from the SBML Level 3 Render namespaces 
+	  * are permitted on a &lt;gradientStop&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21003 = 1321003; 
+
+	 /**
+	  * Error code 1321004:
+	  * The attribute 'render:stop-color' on a &lt;gradientStop&gt; must have a value of data 
+	  * type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21004 = 1321004; 
+
+	 /**
+	  * Error code 1321005:
+	  * The value of the attribute 'render:offset' of a &lt;gradientStop&gt; object must 
+	  * conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21005 = 1321005; 
+
+	 /**
+	  * Error code 1321101:
+	  * A &lt;renderGroup&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;renderGroup&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21101 = 1321101; 
+
+	 /**
+	  * Error code 1321102:
+	  * A &lt;renderGroup&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;renderGroup&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21102 = 1321102; 
+
+	 /**
+	  * Error code 1321103:
+	  * A &lt;renderGroup&gt; object may have the optional attributes 'render:startHead', 
+	  * 'render:endHead', 'render:font-family', 'render:font-weight', 
+	  * 'render:font-style', 'render:text-anchor', 'render:vtext-anchor' and 
+	  * 'render:font-size'. No other attributes from the SBML Level 3 Render namespaces 
+	  * are permitted on a &lt;renderGroup&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21103 = 1321103; 
+
+	 /**
+	  * Error code 1321104:
+	  * A &lt;renderGroup&gt; object may contain one and only one instance of the 
+	  * &lt;listOfElements&gt; element. No other elements from the SBML Level 3 Render 
+	  * namespaces are permitted on a &lt;renderGroup&gt; object. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_21104 = 1321104; 
+
+	 /**
+	  * Error code 1321105:
+	  * The value of the attribute 'render:startHead' of a &lt;renderGroup&gt; object must be 
+	  * the identifier of an existing &lt;lineEnding&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21105 = 1321105; 
+
+	 /**
+	  * Error code 1321106:
+	  * The value of the attribute 'render:endHead' of a &lt;renderGroup&gt; object must be 
+	  * the identifier of an existing &lt;lineEnding&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21106 = 1321106; 
+
+	 /**
+	  * Error code 1321107:
+	  * The attribute 'render:font-family' on a &lt;renderGroup&gt; must have a value of data 
+	  * type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21107 = 1321107; 
+
+	 /**
+	  * Error code 1321108:
+	  * The value of the attribute 'render:font-weight' of a &lt;renderGroup&gt; object must 
+	  * conform to the syntax of SBML data type 'FontWeight' and may only take on the 
+	  * allowed values of 'FontWeight' defined in SBML; that is, the value must be one 
+	  * of the following: 'bold' or 'normal'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21108 = 1321108; 
+
+	 /**
+	  * Error code 1321109:
+	  * The value of the attribute 'render:font-style' of a &lt;renderGroup&gt; object must 
+	  * conform to the syntax of SBML data type 'FontStyle' and may only take on the 
+	  * allowed values of 'FontStyle' defined in SBML; that is, the value must be one of 
+	  * the following: 'italic' or 'normal'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21109 = 1321109; 
+
+	 /**
+	  * Error code 1321110:
+	  * The value of the attribute 'render:text-anchor' of a &lt;renderGroup&gt; object must 
+	  * conform to the syntax of SBML data type 'HTextAnchor' and may only take on the 
+	  * allowed values of 'HTextAnchor' defined in SBML; that is, the value must be one 
+	  * of the following: 'start', 'middle' or 'end'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21110 = 1321110; 
+
+	 /**
+	  * Error code 1321111:
+	  * The value of the attribute 'render:vtext-anchor' of a &lt;renderGroup&gt; object must 
+	  * conform to the syntax of SBML data type 'VTextAnchor' and may only take on the 
+	  * allowed values of 'VTextAnchor' defined in SBML; that is, the value must be one 
+	  * of the following: 'top', 'middle', 'bottom' or 'baseline'. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_21111 = 1321111; 
+
+	 /**
+	  * Error code 1321112:
+	  * The value of the attribute 'render:font-size' of a &lt;renderGroup&gt; object must 
+	  * conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21112 = 1321112; 
+
+	 /**
+	  * Error code 1321201:
+	  * An &lt;image&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on an &lt;image&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21201 = 1321201; 
+
+	 /**
+	  * Error code 1321202:
+	  * An &lt;image&gt; object may have the optional SBML Level 3 Core subobjects for notes 
+	  * and annotations. No other elements from the SBML Level 3 Core namespaces are 
+	  * permitted on an &lt;image&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21202 = 1321202; 
+
+	 /**
+	  * Error code 1321203:
+	  * An &lt;image&gt; object must have the required attributes 'render:href', 'render:x', 
+	  * 'render:y', 'render:width' and 'render:height', and may have the optional 
+	  * attributes 'render:id' and 'render:z'. No other attributes from the SBML Level 3 
+	  * Render namespaces are permitted on an &lt;image&gt; object. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_21203 = 1321203; 
+
+	 /**
+	  * Error code 1321204:
+	  * The attribute 'render:href' on an &lt;image&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21204 = 1321204; 
+
+	 /**
+	  * Error code 1321205:
+	  * The value of the attribute 'render:x' of an &lt;image&gt; object must conform to the 
+	  * syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally an 
+	  * absolute number followed by an optional relative number followed by a &lt;% sign&gt;. 
+	  * Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21205 = 1321205; 
+
+	 /**
+	  * Error code 1321206:
+	  * The value of the attribute 'render:y' of an &lt;image&gt; object must conform to the 
+	  * syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally an 
+	  * absolute number followed by an optional relative number followed by a &lt;% sign&gt;. 
+	  * Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21206 = 1321206; 
+
+	 /**
+	  * Error code 1321207:
+	  * The value of the attribute 'render:width' of an &lt;image&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21207 = 1321207; 
+
+	 /**
+	  * Error code 1321208:
+	  * The value of the attribute 'render:height' of an &lt;image&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21208 = 1321208; 
+
+	 /**
+	  * Error code 1321210:
+	  * The value of the attribute 'render:z' of an &lt;image&gt; object must conform to the 
+	  * syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally an 
+	  * absolute number followed by an optional relative number followed by a &lt;% sign&gt;. 
+	  * Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21210 = 1321210; 
+
+	 /**
+	  * Error code 1321301:
+	  * A &lt;lineEnding&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;lineEnding&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21301 = 1321301; 
+
+	 /**
+	  * Error code 1321302:
+	  * A &lt;lineEnding&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;lineEnding&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21302 = 1321302; 
+
+	 /**
+	  * Error code 1321303:
+	  * A &lt;lineEnding&gt; object must have the required attribute 'render:id', and may have 
+	  * the optional attribute 'render:enableRotationalMapping'. No other attributes 
+	  * from the SBML Level 3 Render namespaces are permitted on a &lt;lineEnding&gt; object. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21303 = 1321303; 
+
+	 /**
+	  * Error code 1321304:
+	  * A &lt;lineEnding&gt; object may contain one and only one instance of each of the 
+	  * RenderGroup and BoundingBox elements. No other elements from the SBML Level 3 
+	  * Render namespaces are permitted on a &lt;lineEnding&gt; object. Reference: L3V1 Render 
+	  * V1 Section 
+	  */
+ 	 public static final int RENDER_21304 = 1321304; 
+
+	 /**
+	  * Error code 1321305:
+	  * The attribute 'render:enableRotationalMapping' on a &lt;lineEnding&gt; must have a 
+	  * value of data type 'boolean'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21305 = 1321305; 
+
+	 /**
+	  * Error code 1321401:
+	  * A &lt;linearGradient&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;linearGradient&gt;. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_21401 = 1321401; 
+
+	 /**
+	  * Error code 1321402:
+	  * A &lt;linearGradient&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;linearGradient&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21402 = 1321402; 
+
+	 /**
+	  * Error code 1321403:
+	  * A &lt;linearGradient&gt; object may have the optional attributes 'render:x1', 
+	  * 'render:y1', 'render:z1', 'render:x2', 'render:y2' and 'render:z2'. No other 
+	  * attributes from the SBML Level 3 Render namespaces are permitted on a 
+	  * &lt;linearGradient&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21403 = 1321403; 
+
+	 /**
+	  * Error code 1321404:
+	  * The value of the attribute 'render:x1' of a &lt;linearGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21404 = 1321404; 
+
+	 /**
+	  * Error code 1321405:
+	  * The value of the attribute 'render:y1' of a &lt;linearGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21405 = 1321405; 
+
+	 /**
+	  * Error code 1321406:
+	  * The value of the attribute 'render:z1' of a &lt;linearGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21406 = 1321406; 
+
+	 /**
+	  * Error code 1321407:
+	  * The value of the attribute 'render:x2' of a &lt;linearGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21407 = 1321407; 
+
+	 /**
+	  * Error code 1321408:
+	  * The value of the attribute 'render:y2' of a &lt;linearGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21408 = 1321408; 
+
+	 /**
+	  * Error code 1321409:
+	  * The value of the attribute 'render:z2' of a &lt;linearGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21409 = 1321409; 
+
+	 /**
+	  * Error code 1321501:
+	  * A &lt;localRenderInformation&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;localRenderInformation&gt;. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_21501 = 1321501; 
+
+	 /**
+	  * Error code 1321502:
+	  * A &lt;localRenderInformation&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;localRenderInformation&gt;. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_21502 = 1321502; 
+
+	 /**
+	  * Error code 1321503:
+	  * A &lt;localRenderInformation&gt; object may contain one and only one instance of the 
+	  * &lt;listOfLocalStyles&gt; element. No other elements from the SBML Level 3 Render 
+	  * namespaces are permitted on a &lt;localRenderInformation&gt; object. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_21503 = 1321503; 
+
+	 /**
+	  * Error code 1321504:
+	  * The &lt;listOfLocalStyles&gt; subobject on a &lt;localRenderInformation&gt; object is 
+	  * optional, but if present, this container object must not be empty. Reference: 
+	  * L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21504 = 1321504; 
+
+	 /**
+	  * Error code 1321505:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfLocalStyles&gt; container object may only contain &lt;localStyle&gt; 
+	  * objects. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21505 = 1321505; 
+
+	 /**
+	  * Error code 1321506:
+	  * A &lt;listOfLocalStyles&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;listOfLocalStyles&gt; object. Reference: L3V1 Render 
+	  * V1 Section 
+	  */
+ 	 public static final int RENDER_21506 = 1321506; 
+
+	 /**
+	  * Error code 1321601:
+	  * A &lt;localStyle&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;localStyle&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21601 = 1321601; 
+
+	 /**
+	  * Error code 1321602:
+	  * A &lt;localStyle&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;localStyle&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21602 = 1321602; 
+
+	 /**
+	  * Error code 1321603:
+	  * A &lt;localStyle&gt; object may have the optional attribute 'render:idList'. No other 
+	  * attributes from the SBML Level 3 Render namespaces are permitted on a 
+	  * &lt;localStyle&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21603 = 1321603; 
+
+	 /**
+	  * Error code 1321604:
+	  * The attribute 'render:idList' on a &lt;localStyle&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21604 = 1321604; 
+
+	 /**
+	  * Error code 1321701:
+	  * A &lt;polygon&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;polygon&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21701 = 1321701; 
+
+	 /**
+	  * Error code 1321702:
+	  * A &lt;polygon&gt; object may have the optional SBML Level 3 Core subobjects for notes 
+	  * and annotations. No other elements from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;polygon&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21702 = 1321702; 
+
+	 /**
+	  * Error code 1321703:
+	  * A &lt;polygon&gt; object may contain one and only one instance of the 
+	  * &lt;listOfRenderPoints&gt; element. No other elements from the SBML Level 3 Render 
+	  * namespaces are permitted on a &lt;polygon&gt; object. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_21703 = 1321703; 
+
+	 /**
+	  * Error code 1321704:
+	  * The &lt;listOfRenderPoints&gt; subobject on a &lt;polygon&gt; object is optional, but if 
+	  * present, this container object must not be empty. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_21704 = 1321704; 
+
+	 /**
+	  * Error code 1321705:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfRenderPoints&gt; container object may only contain &lt;renderPoint&gt; 
+	  * objects. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21705 = 1321705; 
+
+	 /**
+	  * Error code 1321706:
+	  * A &lt;listOfRenderPoints&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;listOfRenderPoints&gt; object. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_21706 = 1321706; 
+
+	 /**
+	  * Error code 1321801:
+	  * A &lt;radialGradient&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;radialGradient&gt;. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_21801 = 1321801; 
+
+	 /**
+	  * Error code 1321802:
+	  * A &lt;radialGradient&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;radialGradient&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21802 = 1321802; 
+
+	 /**
+	  * Error code 1321803:
+	  * A &lt;radialGradient&gt; object may have the optional attributes 'render:cx', 
+	  * 'render:cy', 'render:cz', 'render:r', 'render:fx', 'render:fy' and 'render:fz'. 
+	  * No other attributes from the SBML Level 3 Render namespaces are permitted on a 
+	  * &lt;radialGradient&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21803 = 1321803; 
+
+	 /**
+	  * Error code 1321804:
+	  * The value of the attribute 'render:cx' of a &lt;radialGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21804 = 1321804; 
+
+	 /**
+	  * Error code 1321805:
+	  * The value of the attribute 'render:cy' of a &lt;radialGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21805 = 1321805; 
+
+	 /**
+	  * Error code 1321806:
+	  * The value of the attribute 'render:cz' of a &lt;radialGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21806 = 1321806; 
+
+	 /**
+	  * Error code 1321807:
+	  * The value of the attribute 'render:r' of a &lt;radialGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21807 = 1321807; 
+
+	 /**
+	  * Error code 1321808:
+	  * The value of the attribute 'render:fx' of a &lt;radialGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21808 = 1321808; 
+
+	 /**
+	  * Error code 1321809:
+	  * The value of the attribute 'render:fy' of a &lt;radialGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21809 = 1321809; 
+
+	 /**
+	  * Error code 1321810:
+	  * The value of the attribute 'render:fz' of a &lt;radialGradient&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21810 = 1321810; 
+
+	 /**
+	  * Error code 1321901:
+	  * A &lt;rectangle&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;rectangle&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21901 = 1321901; 
+
+	 /**
+	  * Error code 1321902:
+	  * A &lt;rectangle&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;rectangle&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21902 = 1321902; 
+
+	 /**
+	  * Error code 1321903:
+	  * A &lt;rectangle&gt; object must have the required attributes 'render:x', 'render:y', 
+	  * 'render:width' and 'render:height', and may have the optional attributes 
+	  * 'render:ratio', 'render:z', 'render:rX' and 'render:rY'. No other attributes 
+	  * from the SBML Level 3 Render namespaces are permitted on a &lt;rectangle&gt; object. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21903 = 1321903; 
+
+	 /**
+	  * Error code 1321904:
+	  * The value of the attribute 'render:x' of a &lt;rectangle&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21904 = 1321904; 
+
+	 /**
+	  * Error code 1321905:
+	  * The value of the attribute 'render:y' of a &lt;rectangle&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21905 = 1321905; 
+
+	 /**
+	  * Error code 1321906:
+	  * The value of the attribute 'render:width' of a &lt;rectangle&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21906 = 1321906; 
+
+	 /**
+	  * Error code 1321907:
+	  * The value of the attribute 'render:height' of a &lt;rectangle&gt; object must conform 
+	  * to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21907 = 1321907; 
+
+	 /**
+	  * Error code 1321908:
+	  * The attribute 'render:ratio' on a &lt;rectangle&gt; must have a value of data type 
+	  * 'double'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21908 = 1321908; 
+
+	 /**
+	  * Error code 1321909:
+	  * The value of the attribute 'render:z' of a &lt;rectangle&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21909 = 1321909; 
+
+	 /**
+	  * Error code 1321910:
+	  * The value of the attribute 'render:rX' of a &lt;rectangle&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21910 = 1321910; 
+
+	 /**
+	  * Error code 1321911:
+	  * The value of the attribute 'render:rY' of a &lt;rectangle&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_21911 = 1321911; 
+
+	 /**
+	  * Error code 1322001:
+	  * A &lt;renderCubicBezier&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;renderCubicBezier&gt;. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_22001 = 1322001; 
+
+	 /**
+	  * Error code 1322002:
+	  * A &lt;renderCubicBezier&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;renderCubicBezier&gt;. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_22002 = 1322002; 
+
+	 /**
+	  * Error code 1322003:
+	  * A &lt;renderCubicBezier&gt; object must have the required attributes 
+	  * 'render:basePoint1_x', 'render:basePoint1_y', 'render:basePoint2_x' and 
+	  * 'render:basePoint2_y', and may have the optional attributes 
+	  * 'render:basePoint1_z' and 'render:basePoint2_z'. No other attributes from the 
+	  * SBML Level 3 Render namespaces are permitted on a &lt;renderCubicBezier&gt; object. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22003 = 1322003; 
+
+	 /**
+	  * Error code 1322004:
+	  * The value of the attribute 'render:basePoint1_x' of a &lt;renderCubicBezier&gt; object 
+	  * must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string 
+	  * encoding optionally an absolute number followed by an optional relative number 
+	  * followed by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but 
+	  * not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22004 = 1322004; 
+
+	 /**
+	  * Error code 1322005:
+	  * The value of the attribute 'render:basePoint1_y' of a &lt;renderCubicBezier&gt; object 
+	  * must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string 
+	  * encoding optionally an absolute number followed by an optional relative number 
+	  * followed by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but 
+	  * not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22005 = 1322005; 
+
+	 /**
+	  * Error code 1322006:
+	  * The value of the attribute 'render:basePoint2_x' of a &lt;renderCubicBezier&gt; object 
+	  * must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string 
+	  * encoding optionally an absolute number followed by an optional relative number 
+	  * followed by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but 
+	  * not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22006 = 1322006; 
+
+	 /**
+	  * Error code 1322007:
+	  * The value of the attribute 'render:basePoint2_y' of a &lt;renderCubicBezier&gt; object 
+	  * must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string 
+	  * encoding optionally an absolute number followed by an optional relative number 
+	  * followed by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but 
+	  * not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22007 = 1322007; 
+
+	 /**
+	  * Error code 1322008:
+	  * The value of the attribute 'render:basePoint1_z' of a &lt;renderCubicBezier&gt; object 
+	  * must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string 
+	  * encoding optionally an absolute number followed by an optional relative number 
+	  * followed by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but 
+	  * not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22008 = 1322008; 
+
+	 /**
+	  * Error code 1322009:
+	  * The value of the attribute 'render:basePoint2_z' of a &lt;renderCubicBezier&gt; object 
+	  * must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string 
+	  * encoding optionally an absolute number followed by an optional relative number 
+	  * followed by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but 
+	  * not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22009 = 1322009; 
+
+	 /**
+	  * Error code 1322101:
+	  * A &lt;renderCurve&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;renderCurve&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22101 = 1322101; 
+
+	 /**
+	  * Error code 1322102:
+	  * A &lt;renderCurve&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;renderCurve&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22102 = 1322102; 
+
+	 /**
+	  * Error code 1322103:
+	  * A &lt;renderCurve&gt; object may have the optional attributes 'render:startHead' and 
+	  * 'render:endHead'. No other attributes from the SBML Level 3 Render namespaces 
+	  * are permitted on a &lt;renderCurve&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22103 = 1322103; 
+
+	 /**
+	  * Error code 1322104:
+	  * A &lt;renderCurve&gt; object may contain one and only one instance of the 
+	  * &lt;listOfRenderPoints&gt; element. No other elements from the SBML Level 3 Render 
+	  * namespaces are permitted on a &lt;renderCurve&gt; object. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_22104 = 1322104; 
+
+	 /**
+	  * Error code 1322105:
+	  * The value of the attribute 'render:startHead' of a &lt;renderCurve&gt; object must be 
+	  * the identifier of an existing &lt;lineEnding&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22105 = 1322105; 
+
+	 /**
+	  * Error code 1322106:
+	  * The value of the attribute 'render:endHead' of a &lt;renderCurve&gt; object must be 
+	  * the identifier of an existing &lt;lineEnding&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22106 = 1322106; 
+
+	 /**
+	  * Error code 1322107:
+	  * The &lt;listOfRenderPoints&gt; subobject on a &lt;renderCurve&gt; object is optional, but if 
+	  * present, this container object must not be empty. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_22107 = 1322107; 
+
+	 /**
+	  * Error code 1322108:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfRenderPoints&gt; container object may only contain &lt;renderPoint&gt; 
+	  * objects. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22108 = 1322108; 
+
+	 /**
+	  * Error code 1322109:
+	  * A &lt;listOfRenderPoints&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;listOfRenderPoints&gt; object. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_22109 = 1322109; 
+
+	 /**
+	  * Error code 1322201:
+	  * A &lt;renderPoint&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;renderPoint&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22201 = 1322201; 
+
+	 /**
+	  * Error code 1322202:
+	  * A &lt;renderPoint&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;renderPoint&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22202 = 1322202; 
+
+	 /**
+	  * Error code 1322203:
+	  * A &lt;renderPoint&gt; object must have the required attributes 'render:x' and 
+	  * 'render:y', and may have the optional attribute 'render:z'. No other attributes 
+	  * from the SBML Level 3 Render namespaces are permitted on a &lt;renderPoint&gt; object. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22203 = 1322203; 
+
+	 /**
+	  * Error code 1322204:
+	  * The value of the attribute 'render:x' of a &lt;renderPoint&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22204 = 1322204; 
+
+	 /**
+	  * Error code 1322205:
+	  * The value of the attribute 'render:y' of a &lt;renderPoint&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22205 = 1322205; 
+
+	 /**
+	  * Error code 1322206:
+	  * The value of the attribute 'render:z' of a &lt;renderPoint&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22206 = 1322206; 
+
+	 /**
+	  * Error code 1322301:
+	  * A &lt;text&gt; object may have the optional SBML Level 3 Core attributes 'metaid' and 
+	  * 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;text&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22301 = 1322301; 
+
+	 /**
+	  * Error code 1322302:
+	  * A &lt;text&gt; object may have the optional SBML Level 3 Core subobjects for notes and 
+	  * annotations. No other elements from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;text&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22302 = 1322302; 
+
+	 /**
+	  * Error code 1322303:
+	  * A &lt;text&gt; object must have the required attributes 'render:x' and 'render:y', and 
+	  * may have the optional attributes 'render:font-family', 'render:font-weight', 
+	  * 'render:font-style', 'render:text-anchor', 'render:vtext-anchor', 'render:z' and 
+	  * 'render:font-size'. No other attributes from the SBML Level 3 Render namespaces 
+	  * are permitted on a &lt;text&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22303 = 1322303; 
+
+	 /**
+	  * Error code 1322304:
+	  * The value of the attribute 'render:x' of a &lt;text&gt; object must conform to the 
+	  * syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally an 
+	  * absolute number followed by an optional relative number followed by a &lt;% sign&gt;. 
+	  * Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22304 = 1322304; 
+
+	 /**
+	  * Error code 1322305:
+	  * The value of the attribute 'render:y' of a &lt;text&gt; object must conform to the 
+	  * syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally an 
+	  * absolute number followed by an optional relative number followed by a &lt;% sign&gt;. 
+	  * Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22305 = 1322305; 
+
+	 /**
+	  * Error code 1322306:
+	  * The attribute 'render:font-family' on a &lt;text&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22306 = 1322306; 
+
+	 /**
+	  * Error code 1322307:
+	  * The value of the attribute 'render:font-weight' of a &lt;text&gt; object must conform 
+	  * to the syntax of SBML data type 'FontWeight' and may only take on the allowed 
+	  * values of 'FontWeight' defined in SBML; that is, the value must be one of the 
+	  * following: 'bold' or 'normal'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22307 = 1322307; 
+
+	 /**
+	  * Error code 1322308:
+	  * The value of the attribute 'render:font-style' of a &lt;text&gt; object must conform 
+	  * to the syntax of SBML data type 'FontStyle' and may only take on the allowed 
+	  * values of 'FontStyle' defined in SBML; that is, the value must be one of the 
+	  * following: 'italic' or 'normal'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22308 = 1322308; 
+
+	 /**
+	  * Error code 1322309:
+	  * The value of the attribute 'render:text-anchor' of a &lt;text&gt; object must conform 
+	  * to the syntax of SBML data type 'HTextAnchor' and may only take on the allowed 
+	  * values of 'HTextAnchor' defined in SBML; that is, the value must be one of the 
+	  * following: 'start', 'middle' or 'end'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22309 = 1322309; 
+
+	 /**
+	  * Error code 1322310:
+	  * The value of the attribute 'render:vtext-anchor' of a &lt;text&gt; object must conform 
+	  * to the syntax of SBML data type 'VTextAnchor' and may only take on the allowed 
+	  * values of 'VTextAnchor' defined in SBML; that is, the value must be one of the 
+	  * following: 'top', 'middle', 'bottom' or 'baseline'. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_22310 = 1322310; 
+
+	 /**
+	  * Error code 1322311:
+	  * The value of the attribute 'render:z' of a &lt;text&gt; object must conform to the 
+	  * syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally an 
+	  * absolute number followed by an optional relative number followed by a &lt;% sign&gt;. 
+	  * Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22311 = 1322311; 
+
+	 /**
+	  * Error code 1322312:
+	  * The value of the attribute 'render:font-size' of a &lt;text&gt; object must conform to 
+	  * the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding optionally 
+	  * an absolute number followed by an optional relative number followed by a &lt;% 
+	  * sign&gt;. Adding spaces between the coordinates is encouraged, but not required. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22312 = 1322312; 
+
+	 /**
+	  * Error code 1322401:
+	  * A &lt;transformation2D&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;transformation2D&gt;. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_22401 = 1322401; 
+
+	 /**
+	  * Error code 1322402:
+	  * A &lt;transformation2D&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;transformation2D&gt;. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_22402 = 1322402; 
+
+	 /**
+	  * Error code 1322501:
+	  * A &lt;transformation&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;transformation&gt;. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_22501 = 1322501; 
+
+	 /**
+	  * Error code 1322502:
+	  * A &lt;transformation&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;transformation&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22502 = 1322502; 
+
+	 /**
+	  * Error code 1322503:
+	  * A &lt;transformation&gt; object may have the optional attributes 'render:transform' 
+	  * and 'render:name'. No other attributes from the SBML Level 3 Render namespaces 
+	  * are permitted on a &lt;transformation&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22503 = 1322503; 
+
+	 /**
+	  * Error code 1322504:
+	  * The value of the attribute 'render:transform' of a &lt;transformation&gt; object must 
+	  * be an array of values of type 'double'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22504 = 1322504; 
+
+	 /**
+	  * Error code 1322505:
+	  * The attribute 'render:name' on a &lt;transformation&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22505 = 1322505; 
+
+	 /**
+	  * Error code 1322601:
+	  * A &lt;graphicalPrimitive1D&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;graphicalPrimitive1D&gt;. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_22601 = 1322601; 
+
+	 /**
+	  * Error code 1322602:
+	  * A &lt;graphicalPrimitive1D&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;graphicalPrimitive1D&gt;. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_22602 = 1322602; 
+
+	 /**
+	  * Error code 1322603:
+	  * A &lt;graphicalPrimitive1D&gt; object may have the optional attributes 'render:id', 
+	  * 'render:stroke', 'render:stroke-width' and 'render:stroke-dasharray'. No other 
+	  * attributes from the SBML Level 3 Render namespaces are permitted on a 
+	  * &lt;graphicalPrimitive1D&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22603 = 1322603; 
+
+	 /**
+	  * Error code 1322604:
+	  * The attribute 'render:stroke' on a &lt;graphicalPrimitive1D&gt; must have a value of 
+	  * data type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22604 = 1322604; 
+
+	 /**
+	  * Error code 1322605:
+	  * The attribute 'render:stroke-width' on a &lt;graphicalPrimitive1D&gt; must have a 
+	  * value of data type 'double'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22605 = 1322605; 
+
+	 /**
+	  * Error code 1322606:
+	  * The value of the attribute 'render:stroke-dasharray' of a &lt;graphicalPrimitive1D&gt; 
+	  * object must be an array of values of type 'unsignedint'. Reference: L3V1 Render 
+	  * V1 Section 
+	  */
+ 	 public static final int RENDER_22606 = 1322606; 
+
+	 /**
+	  * Error code 1322701:
+	  * A &lt;graphicalPrimitive2D&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;graphicalPrimitive2D&gt;. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_22701 = 1322701; 
+
+	 /**
+	  * Error code 1322702:
+	  * A &lt;graphicalPrimitive2D&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;graphicalPrimitive2D&gt;. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_22702 = 1322702; 
+
+	 /**
+	  * Error code 1322703:
+	  * A &lt;graphicalPrimitive2D&gt; object may have the optional attributes 'render:fill' 
+	  * and 'render:fill-rule'. No other attributes from the SBML Level 3 Render 
+	  * namespaces are permitted on a &lt;graphicalPrimitive2D&gt; object. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_22703 = 1322703; 
+
+	 /**
+	  * Error code 1322704:
+	  * The attribute 'render:fill' on a &lt;graphicalPrimitive2D&gt; must have a value of 
+	  * data type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22704 = 1322704; 
+
+	 /**
+	  * Error code 1322705:
+	  * The value of the attribute 'render:fill-rule' of a &lt;graphicalPrimitive2D&gt; object 
+	  * must conform to the syntax of SBML data type 'FillRule' and may only take on the 
+	  * allowed values of 'FillRule' defined in SBML; that is, the value must be one of 
+	  * the following: 'nonzero' or 'evenodd'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22705 = 1322705; 
+
+	 /**
+	  * Error code 1322801:
+	  * A &lt;style&gt; object may have the optional SBML Level 3 Core attributes 'metaid' and 
+	  * 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;style&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22801 = 1322801; 
+
+	 /**
+	  * Error code 1322802:
+	  * A &lt;style&gt; object may have the optional SBML Level 3 Core subobjects for notes 
+	  * and annotations. No other elements from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;style&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22802 = 1322802; 
+
+	 /**
+	  * Error code 1322803:
+	  * A &lt;style&gt; object may have the optional attributes 'render:id', 'render:name', 
+	  * 'render:roleList' and 'render:typeList'. No other attributes from the SBML Level 
+	  * 3 Render namespaces are permitted on a &lt;style&gt; object. Reference: L3V1 Render V1 
+	  * Section 
+	  */
+ 	 public static final int RENDER_22803 = 1322803; 
+
+	 /**
+	  * Error code 1322804:
+	  * A &lt;style&gt; object may contain one and only one instance of the RenderGroup 
+	  * element. No other elements from the SBML Level 3 Render namespaces are permitted 
+	  * on a &lt;style&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22804 = 1322804; 
+
+	 /**
+	  * Error code 1322805:
+	  * The attribute 'render:name' on a &lt;style&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22805 = 1322805; 
+
+	 /**
+	  * Error code 1322806:
+	  * The attribute 'render:roleList' on a &lt;style&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22806 = 1322806; 
+
+	 /**
+	  * Error code 1322807:
+	  * The attribute 'render:typeList' on a &lt;style&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22807 = 1322807; 
+
+	 /**
+	  * Error code 1322901:
+	  * A &lt;renderInformationBase&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;renderInformationBase&gt;. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_22901 = 1322901; 
+
+	 /**
+	  * Error code 1322902:
+	  * A &lt;renderInformationBase&gt; object may have the optional SBML Level 3 Core 
+	  * subobjects for notes and annotations. No other elements from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;renderInformationBase&gt;. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_22902 = 1322902; 
+
+	 /**
+	  * Error code 1322903:
+	  * A &lt;renderInformationBase&gt; object must have the required attribute 'render:id', 
+	  * and may have the optional attributes 'render:name', 'render:programName', 
+	  * 'render:programVersion', 'render:referenceRenderInformation' and 
+	  * 'render:backgroundColor'. No other attributes from the SBML Level 3 Render 
+	  * namespaces are permitted on a &lt;renderInformationBase&gt; object. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_22903 = 1322903; 
+
+	 /**
+	  * Error code 1322904:
+	  * A &lt;renderInformationBase&gt; object may contain one and only one instance of each 
+	  * of the &lt;listOfColorDefinitions,&gt; &lt;listOfGradientBases&gt; and &lt;listOfLineEndings&gt; 
+	  * elements. No other elements from the SBML Level 3 Render namespaces are 
+	  * permitted on a &lt;renderInformationBase&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22904 = 1322904; 
+
+	 /**
+	  * Error code 1322905:
+	  * The attribute 'render:name' on a &lt;renderInformationBase&gt; must have a value of 
+	  * data type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22905 = 1322905; 
+
+	 /**
+	  * Error code 1322906:
+	  * The attribute 'render:programName' on a &lt;renderInformationBase&gt; must have a 
+	  * value of data type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22906 = 1322906; 
+
+	 /**
+	  * Error code 1322907:
+	  * The attribute 'render:programVersion' on a &lt;renderInformationBase&gt; must have a 
+	  * value of data type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22907 = 1322907; 
+
+	 /**
+	  * Error code 1322908:
+	  * The value of the attribute 'render:referenceRenderInformation' of a 
+	  * &lt;renderInformationBase&gt; object must be the identifier of an existing 
+	  * &lt;renderInformationBase&gt; object defined in the enclosing &lt;model&gt; object. 
+	  * Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22908 = 1322908; 
+
+	 /**
+	  * Error code 1322909:
+	  * The attribute 'render:backgroundColor' on a &lt;renderInformationBase&gt; must have a 
+	  * value of data type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22909 = 1322909; 
+
+	 /**
+	  * Error code 1322910:
+	  * The &lt;listOfColorDefinitions,&gt; &lt;listOfGradientBases&gt; and &lt;listOfLineEndings&gt; 
+	  * subobjects on a &lt;renderInformationBase&gt; object are optional, but if present, 
+	  * these container objects must not be empty.The &lt;listOfColorDefinitions&gt; must 
+	  * contain at least zero instances of the &lt;colorDefinition&gt; object.The 
+	  * &lt;listOfGradientBases&gt; must contain at least one instances of the &lt;gradientBase&gt; 
+	  * object.The &lt;listOfLineEndings&gt; must contain at least one instances of the 
+	  * &lt;lineEnding&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22910 = 1322910; 
+
+	 /**
+	  * Error code 1322911:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfColorDefinitions&gt; container object may only contain 
+	  * &lt;colorDefinition&gt; objects. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22911 = 1322911; 
+
+	 /**
+	  * Error code 1322912:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfGradientBases&gt; container object may only contain 
+	  * &lt;gradientBase&gt; objects. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22912 = 1322912; 
+
+	 /**
+	  * Error code 1322913:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfLineEndings&gt; container object may only contain &lt;lineEnding&gt; 
+	  * objects. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22913 = 1322913; 
+
+	 /**
+	  * Error code 1322914:
+	  * A &lt;listOfColorDefinitions&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfColorDefinitions&gt; object. Reference: 
+	  * L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_22914 = 1322914; 
+
+	 /**
+	  * Error code 1322915:
+	  * A &lt;listOfGradientBases&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfGradientBases&gt; object. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_22915 = 1322915; 
+
+	 /**
+	  * Error code 1322916:
+	  * A &lt;listOfLineEndings&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;listOfLineEndings&gt; object. Reference: L3V1 Render 
+	  * V1 Section 
+	  */
+ 	 public static final int RENDER_22916 = 1322916; 
+
+	 /**
+	  * Error code 1323001:
+	  * A &lt;defaultValues&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;defaultValues&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23001 = 1323001; 
+
+	 /**
+	  * Error code 1323002:
+	  * A &lt;defaultValues&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;defaultValues&gt;. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23002 = 1323002; 
+
+	 /**
+	  * Error code 1323003:
+	  * A &lt;defaultValues&gt; object may have the optional attributes 
+	  * 'render:backgroundColor', 'render:spreadMethod', 'render:fill', 
+	  * 'render:fill-rule', 'render:stroke', 'render:stroke-width', 
+	  * 'render:font-family', 'render:font-weight', 'render:font-style', 
+	  * 'render:text-anchor', 'render:vtext-anchor', 'render:startHead', 
+	  * 'render:endHead', 'render:enableRotationalMapping', 'render:linearGradient_x1', 
+	  * 'render:linearGradient_y1', 'render:linearGradient_z1', 
+	  * 'render:linearGradient_x2', 'render:linearGradient_y2', 
+	  * 'render:linearGradient_z2', 'render:radialGradient_cx', 
+	  * 'render:radialGradient_cy', 'render:radialGradient_cz', 
+	  * 'render:radialGradient_r', 'render:radialGradient_fx', 
+	  * 'render:radialGradient_fy', 'render:radialGradient_fz', 'render:default_z' and 
+	  * 'render:font-size'. No other attributes from the SBML Level 3 Render namespaces 
+	  * are permitted on a &lt;defaultValues&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23003 = 1323003; 
+
+	 /**
+	  * Error code 1323004:
+	  * The attribute 'render:backgroundColor' on a &lt;defaultValues&gt; must have a value of 
+	  * data type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23004 = 1323004; 
+
+	 /**
+	  * Error code 1323005:
+	  * The value of the attribute 'render:spreadMethod' of a &lt;defaultValues&gt; object 
+	  * must conform to the syntax of SBML data type 'GradientSpreadMethod' and may only 
+	  * take on the allowed values of 'GradientSpreadMethod' defined in SBML; that is, 
+	  * the value must be one of the following: 'pad', 'reflect' or 'repeat'. Reference: 
+	  * L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23005 = 1323005; 
+
+	 /**
+	  * Error code 1323006:
+	  * The attribute 'render:fill' on a &lt;defaultValues&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23006 = 1323006; 
+
+	 /**
+	  * Error code 1323007:
+	  * The value of the attribute 'render:fill-rule' of a &lt;defaultValues&gt; object must 
+	  * conform to the syntax of SBML data type 'FillRule' and may only take on the 
+	  * allowed values of 'FillRule' defined in SBML; that is, the value must be one of 
+	  * the following: 'nonzero' or 'evenodd'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23007 = 1323007; 
+
+	 /**
+	  * Error code 1323008:
+	  * The attribute 'render:stroke' on a &lt;defaultValues&gt; must have a value of data 
+	  * type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23008 = 1323008; 
+
+	 /**
+	  * Error code 1323009:
+	  * The attribute 'render:stroke-width' on a &lt;defaultValues&gt; must have a value of 
+	  * data type 'double'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23009 = 1323009; 
+
+	 /**
+	  * Error code 1323010:
+	  * The attribute 'render:font-family' on a &lt;defaultValues&gt; must have a value of 
+	  * data type 'string'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23010 = 1323010; 
+
+	 /**
+	  * Error code 1323011:
+	  * The value of the attribute 'render:font-weight' of a &lt;defaultValues&gt; object must 
+	  * conform to the syntax of SBML data type 'FontWeight' and may only take on the 
+	  * allowed values of 'FontWeight' defined in SBML; that is, the value must be one 
+	  * of the following: 'bold' or 'normal'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23011 = 1323011; 
+
+	 /**
+	  * Error code 1323012:
+	  * The value of the attribute 'render:font-style' of a &lt;defaultValues&gt; object must 
+	  * conform to the syntax of SBML data type 'FontStyle' and may only take on the 
+	  * allowed values of 'FontStyle' defined in SBML; that is, the value must be one of 
+	  * the following: 'italic' or 'normal'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23012 = 1323012; 
+
+	 /**
+	  * Error code 1323013:
+	  * The value of the attribute 'render:text-anchor' of a &lt;defaultValues&gt; object must 
+	  * conform to the syntax of SBML data type 'HTextAnchor' and may only take on the 
+	  * allowed values of 'HTextAnchor' defined in SBML; that is, the value must be one 
+	  * of the following: 'start', 'middle' or 'end'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23013 = 1323013; 
+
+	 /**
+	  * Error code 1323014:
+	  * The value of the attribute 'render:vtext-anchor' of a &lt;defaultValues&gt; object 
+	  * must conform to the syntax of SBML data type 'VTextAnchor' and may only take on 
+	  * the allowed values of 'VTextAnchor' defined in SBML; that is, the value must be 
+	  * one of the following: 'top', 'middle', 'bottom' or 'baseline'. Reference: L3V1 
+	  * Render V1 Section 
+	  */
+ 	 public static final int RENDER_23014 = 1323014; 
+
+	 /**
+	  * Error code 1323015:
+	  * The value of the attribute 'render:startHead' of a &lt;defaultValues&gt; object must 
+	  * be the identifier of an existing &lt;lineEnding&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23015 = 1323015; 
+
+	 /**
+	  * Error code 1323016:
+	  * The value of the attribute 'render:endHead' of a &lt;defaultValues&gt; object must be 
+	  * the identifier of an existing &lt;lineEnding&gt; object defined in the enclosing 
+	  * &lt;model&gt; object. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23016 = 1323016; 
+
+	 /**
+	  * Error code 1323017:
+	  * The attribute 'render:enableRotationalMapping' on a &lt;defaultValues&gt; must have a 
+	  * value of data type 'boolean'. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23017 = 1323017; 
+
+	 /**
+	  * Error code 1323018:
+	  * The value of the attribute 'render:linearGradient_x1' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23018 = 1323018; 
+
+	 /**
+	  * Error code 1323019:
+	  * The value of the attribute 'render:linearGradient_y1' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23019 = 1323019; 
+
+	 /**
+	  * Error code 1323020:
+	  * The value of the attribute 'render:linearGradient_z1' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23020 = 1323020; 
+
+	 /**
+	  * Error code 1323021:
+	  * The value of the attribute 'render:linearGradient_x2' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23021 = 1323021; 
+
+	 /**
+	  * Error code 1323022:
+	  * The value of the attribute 'render:linearGradient_y2' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23022 = 1323022; 
+
+	 /**
+	  * Error code 1323023:
+	  * The value of the attribute 'render:linearGradient_z2' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23023 = 1323023; 
+
+	 /**
+	  * Error code 1323024:
+	  * The value of the attribute 'render:radialGradient_cx' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23024 = 1323024; 
+
+	 /**
+	  * Error code 1323025:
+	  * The value of the attribute 'render:radialGradient_cy' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23025 = 1323025; 
+
+	 /**
+	  * Error code 1323026:
+	  * The value of the attribute 'render:radialGradient_cz' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23026 = 1323026; 
+
+	 /**
+	  * Error code 1323027:
+	  * The value of the attribute 'render:radialGradient_r' of a &lt;defaultValues&gt; object 
+	  * must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string 
+	  * encoding optionally an absolute number followed by an optional relative number 
+	  * followed by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but 
+	  * not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23027 = 1323027; 
+
+	 /**
+	  * Error code 1323028:
+	  * The value of the attribute 'render:radialGradient_fx' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23028 = 1323028; 
+
+	 /**
+	  * Error code 1323029:
+	  * The value of the attribute 'render:radialGradient_fy' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23029 = 1323029; 
+
+	 /**
+	  * Error code 1323030:
+	  * The value of the attribute 'render:radialGradient_fz' of a &lt;defaultValues&gt; 
+	  * object must conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a 
+	  * string encoding optionally an absolute number followed by an optional relative 
+	  * number followed by a &lt;% sign&gt;. Adding spaces between the coordinates is 
+	  * encouraged, but not required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23030 = 1323030; 
+
+	 /**
+	  * Error code 1323031:
+	  * The value of the attribute 'render:default_z' of a &lt;defaultValues&gt; object must 
+	  * conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23031 = 1323031; 
+
+	 /**
+	  * Error code 1323032:
+	  * The value of the attribute 'render:font-size' of a &lt;defaultValues&gt; object must 
+	  * conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
+	  * optionally an absolute number followed by an optional relative number followed 
+	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
+	  * required. Reference: L3V1 Render V1 Section 
+	  */
+ 	 public static final int RENDER_23032 = 1323032; 
+
+	 /**
+	  * Error code 1510101:
+	  * To conform to the Distributions Package specification for SBML Level 3 Version 
+	  * 1, an SBML document must declare 
+	  * 'http://www.sbml.org/sbml/level3/version1/distrib/version1' as the XMLNamespace 
+	  * to use for elements of this package. Reference: L3V1 Distrib V1 Section 3.1 
+	  */
+ 	 public static final int DISTRIB_10101 = 1510101; 
+
+	 /**
+	  * Error code 1510102:
+	  * Wherever they appear in an SBML document, elements and attributes from the 
+	  * Distributions Package must use the 
+	  * 'http://www.sbml.org/sbml/level3/version1/distrib/version1' namespace, declaring 
+	  * so either explicitly or implicitly. Reference: L3V1 Distrib V1 Section 3.1 
+	  */
+ 	 public static final int DISTRIB_10102 = 1510102; 
+
+	 /**
+	  * Error code 1510301:
+	  * (Extends validation rule #10301 in the SBML Level 3 Core specification. TO DO 
+	  * list scope of ids) Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_10301 = 1510301; 
+
+	 /**
+	  * Error code 1510302:
+	  * The value of a 'distrib:id' must conform to the syntax of the &lt;sbml&gt; data type 
+	  * 'SId' Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_10302 = 1510302; 
+
+	 /**
+	  * Error code 1520101:
+	  * In all SBML documents using the Distributions Package, the &lt;sbml&gt; object must 
+	  * have the 'distrib:required' attribute. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20101 = 1520101; 
+
+	 /**
+	  * Error code 1520102:
+	  * The value of attribute 'distrib:required' on the &lt;sbml&gt; object must be of data 
+	  * type 'boolean'. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20102 = 1520102; 
+
+	 /**
+	  * Error code 1520103:
+	  * The value of attribute 'distrib:required' on the &lt;sbml&gt; object must be set to 
+	  * 'true'. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20103 = 1520103; 
+
+	 /**
+	  * Error code 1520201:
+	  * A 'SBase' object may contain one and only one instance of the 
+	  * &lt;listOfUncertainties&gt; element. No other elements from the SBML Level 3 
+	  * Distributions namespaces are permitted on a 'SBase' object. Reference: L3V1 
+	  * Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20201 = 1520201; 
+
+	 /**
+	  * Error code 1520202:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfUncertainties&gt; container object may only contain &lt;uncertainty&gt; 
+	  * objects. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20202 = 1520202; 
+
+	 /**
+	  * Error code 1520203:
+	  * A &lt;listOfUncertainties&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfUncertainties&gt; object. Reference: L3V1 
+	  * Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20203 = 1520203; 
+
+	 /**
+	  * Error code 1520301:
+	  * An &lt;uncertParameter&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;uncertParameter&gt;. Reference: L3V1 Distrib V1 
+	  * Section 
+	  */
+ 	 public static final int DISTRIB_20301 = 1520301; 
+
+	 /**
+	  * Error code 1520302:
+	  * An &lt;uncertParameter&gt; object may have the optional SBML Level 3 Core subobjects 
+	  * for notes and annotations. No other elements from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;uncertParameter&gt;. Reference: L3V1 Distrib V1 
+	  * Section 
+	  */
+ 	 public static final int DISTRIB_20302 = 1520302; 
+
+	 /**
+	  * Error code 1520303:
+	  * An &lt;uncertParameter&gt; object may have the optional attributes 'distrib:value', 
+	  * 'distrib:var', 'distrib:units', 'distrib:type' and 'distrib:definitionURL'. No 
+	  * other attributes from the SBML Level 3 Distributions namespaces are permitted on 
+	  * an &lt;uncertParameter&gt; object. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20303 = 1520303; 
+
+	 /**
+	  * Error code 1520304:
+	  * An &lt;uncertParameter&gt; object may contain one and only one instance of the 
+	  * &lt;listOfUncertParameters&gt; element. No other elements from the SBML Level 3 
+	  * Distributions namespaces are permitted on an &lt;uncertParameter&gt; object. 
+	  * Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20304 = 1520304; 
+
+	 /**
+	  * Error code 1520305:
+	  * The attribute 'distrib:value' on an &lt;uncertParameter&gt; must have a value of data 
+	  * type 'double'. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20305 = 1520305; 
+
+	 /**
+	  * Error code 1520306:
+	  * The value of the attribute 'distrib:var' of an &lt;uncertParameter&gt; object must be 
+	  * the identifier of an existing object derived from the 'SBase' class and defined 
+	  * in the enclosing &lt;model&gt; object. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20306 = 1520306; 
+
+	 /**
+	  * Error code 1520307:
+	  * The value of the attribute 'distrib:units' on an &lt;uncertParameter&gt; must have a 
+	  * taken from the following: the identifier of a &lt;unitDefinition&gt; object in the 
+	  * enclosing &lt;model,&gt; or one of the base units in SBML. Reference: L3V1 Distrib V1 
+	  * Section 
+	  */
+ 	 public static final int DISTRIB_20307 = 1520307; 
+
+	 /**
+	  * Error code 1520308:
+	  * The value of the attribute 'distrib:type' of an &lt;uncertParameter&gt; object must 
+	  * conform to the syntax of SBML data type 'UncertType' and may only take on the 
+	  * allowed values of 'UncertType' defined in SBML; that is, the value must be one 
+	  * of the following: 'distribution', 'externalParameter', 'coeffientOfVariation', 
+	  * 'kurtosis', 'mean', 'median', 'mode', 'sampleSize', 'skewness', 
+	  * 'standardDeviation', 'standardError', 'variance', 'confidenceInterval', 
+	  * 'credibleInterval', 'interquartileRange' or 'range'. Reference: L3V1 Distrib V1 
+	  * Section 
+	  */
+ 	 public static final int DISTRIB_20308 = 1520308; 
+
+	 /**
+	  * Error code 1520309:
+	  * The attribute 'distrib:definitionURL' on an &lt;uncertParameter&gt; must have a value 
+	  * of data type 'string'. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20309 = 1520309; 
+
+	 /**
+	  * Error code 1520310:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfUncertParameters&gt; container object may only contain 
+	  * &lt;uncertParameter&gt; objects. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20310 = 1520310; 
+
+	 /**
+	  * Error code 1520311:
+	  * A &lt;listOfUncertParameters&gt; object may have the optional SBML Level 3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 
+	  * Core namespaces are permitted on a &lt;listOfUncertParameters&gt; object. Reference: 
+	  * L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20311 = 1520311; 
+
+	 /**
+	  * Error code 1520401:
+	  * An &lt;uncertainty&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;uncertainty&gt;. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20401 = 1520401; 
+
+	 /**
+	  * Error code 1520402:
+	  * An &lt;uncertainty&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on an &lt;uncertainty&gt;. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20402 = 1520402; 
+
+	 /**
+	  * Error code 1520403:
+	  * An &lt;uncertainty&gt; object may contain one and only one instance of the 
+	  * &lt;listOfUncertParameters&gt; element. No other elements from the SBML Level 3 
+	  * Distributions namespaces are permitted on an &lt;uncertainty&gt; object. Reference: 
+	  * L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20403 = 1520403; 
+
+	 /**
+	  * Error code 1520501:
+	  * An &lt;uncertSpan&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on an &lt;uncertSpan&gt;. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20501 = 1520501; 
+
+	 /**
+	  * Error code 1520502:
+	  * An &lt;uncertSpan&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on an &lt;uncertSpan&gt;. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20502 = 1520502; 
+
+	 /**
+	  * Error code 1520503:
+	  * An &lt;uncertSpan&gt; object may have the optional attributes 'distrib:varLower', 
+	  * 'distrib:valueLower', 'distrib:varUpper' and 'distrib:valueUpper'. No other 
+	  * attributes from the SBML Level 3 Distributions namespaces are permitted on an 
+	  * &lt;uncertSpan&gt; object. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20503 = 1520503; 
+
+	 /**
+	  * Error code 1520504:
+	  * The value of the attribute 'distrib:varLower' of an &lt;uncertSpan&gt; object must be 
+	  * the identifier of an existing object derived from the 'SBase' class and defined 
+	  * in the enclosing &lt;model&gt; object. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20504 = 1520504; 
+
+	 /**
+	  * Error code 1520505:
+	  * The attribute 'distrib:valueLower' on an &lt;uncertSpan&gt; must have a value of data 
+	  * type 'double'. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20505 = 1520505; 
+
+	 /**
+	  * Error code 1520506:
+	  * The value of the attribute 'distrib:varUpper' of an &lt;uncertSpan&gt; object must be 
+	  * the identifier of an existing object derived from the 'SBase' class and defined 
+	  * in the enclosing &lt;model&gt; object. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20506 = 1520506; 
+
+	 /**
+	  * Error code 1520507:
+	  * The attribute 'distrib:valueUpper' on an &lt;uncertSpan&gt; must have a value of data 
+	  * type 'double'. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20507 = 1520507; 
+
+	 /**
+	  * Error code 1520601:
+	  * A &lt;distribBase&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;distribBase&gt;. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20601 = 1520601; 
+
+	 /**
+	  * Error code 1520602:
+	  * A &lt;distribBase&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;distribBase&gt;. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20602 = 1520602; 
+
+	 /**
+	  * Error code 1520603:
+	  * A &lt;distribBase&gt; object may have the optional attributes 'distrib:id' and 
+	  * 'distrib:name'. No other attributes from the SBML Level 3 Distributions 
+	  * namespaces are permitted on a &lt;distribBase&gt; object. Reference: L3V1 Distrib V1 
+	  * Section 
+	  */
+ 	 public static final int DISTRIB_20603 = 1520603; 
+
+	 /**
+	  * Error code 1520604:
+	  * The attribute 'distrib:name' on a &lt;distribBase&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Distrib V1 Section 
+	  */
+ 	 public static final int DISTRIB_20604 = 1520604; 
+
+	 /**
 	  * Error code 2010100:
 	  */
  	 public static final int FBC_10100 = 2010100; 
@@ -4743,7 +9291,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	 /**
 	  * Error code 2020101:
 	  * In all SBML documents using the Flux Balance Constraints package, the SBML 
-	  * object must include a value for the attribute 'fbc:required. Reference: L3V1 
+	  * object must include a value for the attribute 'fbc:required'. Reference: L3V1 
 	  * Core Section 4.1.2 
 	  */
  	 public static final int FBC_20101 = 2020101; 
@@ -4841,7 +9389,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	 /**
 	  * Error code 2020210:
 	  * The attribute 'fbc:strict' on the &lt;model&gt; object must have a value of datatype 
-	  * boolean. 
+	  * Boolean. 
 	  */
  	 public static final int FBC_20210 = 2020210; 
 
@@ -5423,7 +9971,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	 /**
 	  * Error code 3010201:
 	  * The MathML &lt;math&gt; element in a &lt;functionTerm&gt; object should evaluate to a value 
-	  * of type boolean. Reference: L3V1 Qual V1 Section 3.6.5 
+	  * of type Boolean. Reference: L3V1 Qual V1 Section 3.6.5 
 	  */
  	 public static final int QUAL_10201 = 3010201; 
 
@@ -5556,7 +10104,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	 /**
 	  * Error code 3020304:
 	  * The attribute 'qual:constant' in &lt;qualitativeSpecies&gt; must be of the data type 
-	  * boolean. Reference: L3V1 Qual V1 Section 3.5 
+	  * Boolean. Reference: L3V1 Qual V1 Section 3.5 
 	  */
  	 public static final int QUAL_20304 = 3020304; 
 
@@ -6008,8 +10556,8 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	  * Error code 4010101:
 	  * To conform to the Groups Package specification for SBML Level 3 Version 1, an 
 	  * SBML document must declare 
-	  * 'http://www.sbml.org/sbml/level3/version1/groups/version1' as the XMLNamespaceto 
-	  * use for elements of this package. Reference: L3V1 Groups V1 Section 3.1 
+	  * 'http://www.sbml.org/sbml/level3/version1/groups/version1' as the XMLNamespace 
+	  * to use for elements of this package. Reference: L3V1 Groups V1 Section 3.1 
 	  */
  	 public static final int GROUPS_10101 = 4010101; 
 
@@ -6046,7 +10594,7 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	 /**
 	  * Error code 4020102:
 	  * The value of attribute 'groups:required' on the &lt;sbml&gt; object must be of data 
-	  * type 'boolean'. Reference: L3V1 Core Section 4.1.2 
+	  * type Boolean. Reference: L3V1 Core Section 4.1.2 
 	  */
  	 public static final int GROUPS_20102 = 4020102; 
 
@@ -6236,15 +10784,15 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	 /**
 	  * Error code 4020405:
 	  * The value of the attribute 'groups:idRef' of a &lt;member&gt; object must be the 
-	  * identifier of an existing &lt;SBase&gt; object defined in the enclosing &lt;model&gt; 
-	  * object. Reference: L3V1 Groups V1 Section 3.5 
+	  * identifier of an existing object derived from the 'SBase' class and defined in 
+	  * the enclosing &lt;model&gt; object. Reference: L3V1 Groups V1 Section 
 	  */
  	 public static final int GROUPS_20405 = 4020405; 
 
 	 /**
 	  * Error code 4020406:
 	  * The value of the attribute 'groups:metaIdRef' of a &lt;member&gt; object must be the 
-	  * 'metaid' of an existing &lt;SBase&gt; object defined in the enclosing &lt;model&gt; object. 
+	  * 'metaid' of an existing 'SBase' object defined in the enclosing &lt;model&gt; object. 
 	  * Reference: L3V1 Groups V1 Section 3.5 
 	  */
  	 public static final int GROUPS_20406 = 4020406; 
@@ -7447,634 +11995,1705 @@ Reference in the same Reaction. (References: SBML L3V2 Section 4.11.6.)
 	  * &lt;dimensions&gt; element must be of the data type 'double'. Reference: L3V1 Layout 
 	  * V1 Section 3.4.2 
 	  */
- 	 public static final int LAYOUT_21704 = 6021704;
+ 	 public static final int LAYOUT_21704 = 6021704; 
 
- 	/**
- 	 * To conform to Version 1 of the Arrays package specification for SBML Level 3, an SBML docu-
-     * ment must declare the use of the following XML Namespace:
-     * "http://www.sbml.org/sbml/level3/version1/arrays/version1". (Reference: SBML Level 3
-     * Package Specification for Arrays, Version 1, S
- 	 */
- 	public static final int ARRAYS_10101 = 8010101; 
- 	
- 	/**
- 	 * Wherever they appear in an SBML document, elements and attributes from the Arrays package
-     * must be declared either implicitly or explicitly to be in the XML namespace
-     * "http://www.sbml.org/sbml/level3/version1/arrays/version1". (Reference: SBML Level 3
-     * Package Specification for Arrays, Version 1, Section 3.1 on page 6.)
- 	 */
- 	public static final int ARRAYS_10102 = 8010102; 
+	 /**
+	  * Error code 7010101:
+	  * To conform to Version 1 of the Multi package specification for SBML Level 3, an 
+	  * SBML document must declare the use of the following XML Namespace: 
+	  * 'http://www.sbml.org/sbml/level3/version1/multi/version1' Reference: L3V1 Multi 
+	  * V1.1 Section 3.1 
+	  */
+ 	 public static final int MULTI_10101 = 7010101; 
 
- 	/**
- 	 * In all SBML documents using the Arrays package, the SBML object must include a value for the
-     * attribute arrays:required attribute. (Reference: SBML Level 3 Version 1 Core, Section 4.1.2.)
- 	 */
- 	public static final int ARRAYS_10201 = 8010201; 
+	 /**
+	  * Error code 7010102:
+	  * Wherever they appear in an SBML document, elements and attributes from the Multi 
+	  * package must be declared either implicitly or explicitly to be in the XML 
+	  * namespace 'http://www.sbml.org/sbml/level3/version1/comp/version1' Reference: 
+	  * L3V1 Multi V1.1 Section 3.1 
+	  */
+ 	 public static final int MULTI_10102 = 7010102; 
 
- 	/**
- 	 * The value of attribute arrays:required on the SBML object must be of the data type boolean.
-     * (Reference: SBML Level 3 Version 1 Core, Section 4.1.2.)
- 	 */
- 	public static final int ARRAYS_10202 = 8010202;
+	 /**
+	  * Error code 7010201:
+	  * A 'ci' element in a Math object may have the optional attributes 
+	  * 'multi:speciesReference' and 'multi:representationType'. No other attributes 
+	  * from the Multi namespace are permitted on a 'ci' element. Reference: L3V1 Multi 
+	  * V1.1 Section 3.26 
+	  */
+ 	 public static final int MULTI_10201 = 7010201; 
 
- 	/**
- 	 * The value of attribute arrays:required on the SBML object must be set to 'true' (Reference:
-     * SBML Level 3 Package Specification for Arrays, Version 1, Section 3.1 on page 6.)
- 	 */
- 	public static final int ARRAYS_10203 = 8010203;
+	 /**
+	  * Error code 7010202:
+	  * The value of the 'multi:speciesReference' attribute on a given 'ci' element must 
+	  * be the identifier of a SpeciesReference object within the same reaction. 
+	  * Reference: L3V1 Multi V1.1 Section 3.26.1 
+	  */
+ 	 public static final int MULTI_10202 = 7010202; 
 
- 	public static final int ARRAYS_10204 = 8010204;
+	 /**
+	  * Error code 7010203:
+	  * The value of the 'multi:representationType' attribute on a given 'ci' element 
+	  * must conform to the syntax of the Multi data type 'RepresentationType'. 
+	  * Reference: L3V1 Multi V1.1 Section 3.26.2 
+	  */
+ 	 public static final int MULTI_10203 = 7010203; 
 
- 	/**
- 	 * Wherever MathML content appears in an SBML document, the MathML content must be
- 	 * placed within a math element, and that math element must be either explicitly or implicitly
- 	 * declared to be in the XML namespace "http://www.w3.org/1998/Math/MathML". (Reference:
- 	 * SBML Level 3 Version 1 Core, Section 3.4.)
- 	 * The following is a list of the additional MathML 2.0 elements permitted in the Arrays package:
- 	 * vector and selector. (Reference: SBML Level 3 Package Specification for Arrays, Version 1,
- 	 * Section 3.5 on page 10.)
- 	 */
- 	public static final int ARRAYS_10205 = 8010205;
+	 /**
+	  * Error code 7010301:
+	  * (Extends validation rule #10301 in the SBML Level 3 Version 1 Core 
+	  * specification.) Within a &lt;model&gt; object, the values of the attributes id and 
+	  * multi:id on every instance of the following classes of objects must be unique 
+	  * across the set of all id and multi:id attribute values of all such objects in a 
+	  * model: the model itself, plus all contained &lt;functionDefinition&gt;, 
+	  * &lt;compartment&gt;,&lt;species&gt;, &lt;reaction&gt;, &lt;speciesReference&gt;, 
+	  * &lt;modifierSpeciesReference&gt;, &lt;event&gt;, and &lt;parameter&gt; objects, plus the 
+	  * &lt;SpeciesType&gt; and &lt;PossibleSpeciesFeatureValue&gt; objects defined by the Multi 
+	  * package, and any objects defined by any other package with 'package:id' 
+	  * attributes defined as falling in the 'SId' namespace. Reference: L3V1 Multi V1.1 
+	  * Section 3.27 
+	  */
+ 	 public static final int MULTI_10301 = 7010301; 
 
- 	/**
- 	 * The first argument of a MathML selector must be a MathML vector object or a valid identi-
- 	 * fier to an SBase object extended with a list of Dimension objects. (Reference: SBML Level 3
- 	 * Package Specification for Arrays, Version 1, Section 3.5 on page 10.)
- 	 */
- 	public static final int ARRAYS_10206 = 8010206;
+	 /**
+	  * Error code 7010302:
+	  * The value of a multi:id attribute must always conform to the syntax of the SBML 
+	  * data type SId. Reference: L3V1 Core Section 3.1.7 
+	  */
+ 	 public static final int MULTI_10302 = 7010302; 
 
-    public static final int ARRAYS_10207 = 8010207;
-    public static final int ARRAYS_10208 = 8010208;
-    public static final int ARRAYS_10209 = 8010209;
-    public static final int ARRAYS_10210 = 8010210;
-    public static final int ARRAYS_10211 = 8010211;
-    public static final int ARRAYS_10212 = 8010212;
-    public static final int ARRAYS_10213 = 8010213;
-    
-    public static final int ARRAYS_20101 = 8020101;
-    public static final int ARRAYS_20102 = 8020102;
-    public static final int ARRAYS_20103 = 8020103;
-    public static final int ARRAYS_20104 = 8020104;
-    public static final int ARRAYS_20105 = 8020105;
-    public static final int ARRAYS_20106 = 8020106;
-    public static final int ARRAYS_20107 = 8020107;
-    public static final int ARRAYS_20108 = 8020108;
-    public static final int ARRAYS_20109 = 8020109;
-    public static final int ARRAYS_20110 = 8020110;
-    public static final int ARRAYS_20111 = 8020111;
-    public static final int ARRAYS_20112 = 8020112;
-    public static final int ARRAYS_20113 = 8020113;
-    public static final int ARRAYS_20114 = 8020114;
-    public static final int ARRAYS_20115 = 8020115;
-    public static final int ARRAYS_20116 = 8020116;
+	 /**
+	  * Error code 7010303:
+	  * The value of a 'multi:name' attribute must always conform to the syntax of type 
+	  * string. Reference: L3V1 Core Section 3.1.1 
+	  */
+ 	 public static final int MULTI_10303 = 7010303; 
 
-    /**
- 	  * A Dimension object may have the optional SBML Level 3 Core attributes metaid and sboTerm.
- 	  * No other attributes from the SBML Level 3 Core namespace are permitted on a Dimension
- 	  * object. (Reference: SBML Level 3 Version 1 Core, Section 3.2.)
- 	  *
- 	  */
- 	public static final int ARRAYS_20201 = 8020201; 
- 	
- 	public static final int ARRAYS_20202 = 8020202;
- 	public static final int ARRAYS_20203 = 8020203;
- 	public static final int ARRAYS_20204 = 8020204;
- 	public static final int ARRAYS_20205 = 8020205;
- 	
- 	public static final int ARRAYS_20301 = 8020301;
-    public static final int ARRAYS_20302 = 8020302;
-    public static final int ARRAYS_20303 = 8020303;
-    public static final int ARRAYS_20304 = 8020304;
-    public static final int ARRAYS_20305 = 8020305;
-    public static final int ARRAYS_20306 = 8020306;
-    public static final int ARRAYS_20307 = 8020307;
-    public static final int ARRAYS_20308 = 8020308;
+	 /**
+	  * Error code 7010304:
+	  * The value of a multi:id attribute on SpeciesTypeInstance objects must be unique 
+	  * across the set of all multi:id attribute values of all the SpeciesTypeInstance 
+	  * objects under the direct parent SpeciesType object in which it is located. 
+	  * Reference: L3V1 Multi V1.1 Section 3.11.1 and Section 3.27 
+	  */
+ 	 public static final int MULTI_10304 = 7010304; 
 
-    
-    /**
-     * To conform to Version 1 of the Multi package specification for SBML Level 3, an SBML 
-     * document must declare the use of the following XML Namespace:
-     * "http://www.sbml.org/sbml/level3/version1/multi/version1" (Reference: SBML Level 3
-     * Package Specification for Multi, Version 1, Section 3.1 on page 9).
-     */
-    public static final int MULTI_10101 = 7010101; 
-    
-    /**
-     * Wherever they appear in an SBML document, elements and attributes from the Multi package
-     * must be declared either implicitly or explicitly to be in the XML namespace
-     * "http://www.sbml.org/sbml/level3/version1/multi/version1" (Reference: SBML Level 3
-     * Package Specification for Multi, Version 1, Section 3.1 on page 9).
-     */
-    public static final int MULTI_10102 = 7010102; 
-    public static final int MULTI_10103 = 7010103;
-    public static final int MULTI_10104 = 7010104;
-    public static final int MULTI_10105 = 7010105;
-    
-    public static final int MULTI_10301 = 7010301;
-    public static final int MULTI_10302 = 7010302;
-    public static final int MULTI_10303 = 7010303;
-    
-    public static final int MULTI_10401 = 7010401;
-    public static final int MULTI_10402 = 7010402;
-    public static final int MULTI_10403 = 7010403;
-    public static final int MULTI_10404 = 7010404;
-    public static final int MULTI_10405 = 7010405;
-    public static final int MULTI_10406 = 7010406;
-    public static final int MULTI_10408 = 7010408;
-    
-    public static final int MULTI_10501 = 7010501;
-    public static final int MULTI_10502 = 7010502;
-    public static final int MULTI_10503 = 7010503;
-    public static final int MULTI_10504 = 7010504;
-    public static final int MULTI_10505 = 7010505;
-    public static final int MULTI_10506 = 7010506;
-    public static final int MULTI_10508 = 7010508;
-    public static final int MULTI_10509 = 7010509;
-    
-    public static final int MULTI_10601 = 7010601;
-    public static final int MULTI_10602 = 7010602;
-    public static final int MULTI_10603 = 7010603;
-    public static final int MULTI_10604 = 7010604;
-    public static final int MULTI_10605 = 7010605;
-    
-    public static final int MULTI_10701 = 7010701;
-    public static final int MULTI_10702 = 7010702;
-    public static final int MULTI_10703 = 7010703;
-    public static final int MULTI_10704 = 7010704;
-    
-    public static final int MULTI_10801 = 7010801;
-    public static final int MULTI_10802 = 7010802;
-    
-    public static final int MULTI_20101 = 7020101;
-    public static final int MULTI_20102 = 7020102;
-    public static final int MULTI_20103 = 7020103;
-    
-    public static final int MULTI_20201 = 7020201;
-    public static final int MULTI_20202 = 7020202;
-    public static final int MULTI_20203 = 7020203;
-    public static final int MULTI_20204 = 7020204;
-    
-    public static final int MULTI_20301 = 7020301;
-    public static final int MULTI_20302 = 7020302;
-    public static final int MULTI_20303 = 7020303;
-    public static final int MULTI_20304 = 7020304;
-    public static final int MULTI_20305 = 7020305;
-    public static final int MULTI_20306 = 7020306;
-    public static final int MULTI_20307 = 7020307;
-    public static final int MULTI_20308 = 7020308;
-    public static final int MULTI_20309 = 7020309;
-    
-    public static final int MULTI_20401 = 7020401;
-    public static final int MULTI_20402 = 7020402;
-    public static final int MULTI_20403 = 7020403;
-    public static final int MULTI_20404 = 7020404;
-    public static final int MULTI_20405 = 7020405;
-    public static final int MULTI_20406 = 7020406;
-    public static final int MULTI_20407 = 7020407;
-    public static final int MULTI_20408 = 7020408;
-    public static final int MULTI_20409 = 7020409;
-    public static final int MULTI_20410 = 7020410;
-    public static final int MULTI_20411 = 7020411;
-    public static final int MULTI_20412 = 7020412;
-    public static final int MULTI_20413 = 7020413;
-    public static final int MULTI_20414 = 7020414;
-    public static final int MULTI_20415 = 7020415;
-    public static final int MULTI_20416 = 7020416;
-    public static final int MULTI_20417 = 7020417;
-    
-    public static final int MULTI_20501 = 7020501;
-        
-    public static final int MULTI_20601 = 7020601;
-    public static final int MULTI_20602 = 7020602;
-    public static final int MULTI_20603 = 7020603;
-    public static final int MULTI_20604 = 7020604;
-    public static final int MULTI_20605 = 7020605;
-    public static final int MULTI_20606 = 7020606;
-    public static final int MULTI_20607 = 7020607;
-    public static final int MULTI_20608 = 7020608;
-    
-    public static final int MULTI_20701 = 7020701;
-    public static final int MULTI_20702 = 7020702;
-    public static final int MULTI_20703 = 7020703;
-    public static final int MULTI_20704 = 7020704;
-    
-    public static final int MULTI_20801 = 7020801;
-    public static final int MULTI_20802 = 7020802;
-    public static final int MULTI_20803 = 7020803;
-    public static final int MULTI_20805 = 7020805;
-    public static final int MULTI_20806 = 7020806;
-    
-    public static final int MULTI_20901 = 7020901;
-    public static final int MULTI_20902 = 7020902;
-    public static final int MULTI_20903 = 7020903;
-    public static final int MULTI_20904 = 7020904;
-    public static final int MULTI_20907 = 7020907;
-    
-    public static final int MULTI_21101 = 7021101;
-    public static final int MULTI_21102 = 7021102;
-    public static final int MULTI_21103 = 7021103;
-    public static final int MULTI_21104 = 7021104;
-    public static final int MULTI_21105 = 7021105;
-    public static final int MULTI_21106 = 7021106;
-    
-    public static final int MULTI_21201 = 7021201;
-    public static final int MULTI_21202 = 7021202;
-    public static final int MULTI_21203 = 7021203;
-    public static final int MULTI_21204 = 7021204;
-    public static final int MULTI_21205 = 7021205;
-    public static final int MULTI_21206 = 7021206;
-    public static final int MULTI_21207 = 7021207;
-    public static final int MULTI_21208 = 7021208;
-    public static final int MULTI_21209 = 7021209;
-    public static final int MULTI_21210 = 7021210;
-    public static final int MULTI_21211 = 7021211;
-    public static final int MULTI_21212 = 7021212;
-    
-    public static final int MULTI_21301 = 7021301;
-    public static final int MULTI_21302 = 7021302;
-    public static final int MULTI_21303 = 7021303;
-    public static final int MULTI_21304 = 7021304;
-    public static final int MULTI_21305 = 7021305;
-    public static final int MULTI_21306 = 7021306;
-    
-    public static final int MULTI_21401 = 7021401;
-    public static final int MULTI_21402 = 7021402;
-    public static final int MULTI_21403 = 7021403;
-    public static final int MULTI_21404 = 7021404;
-    public static final int MULTI_21405 = 7021405;
-    public static final int MULTI_21406 = 7021406;
-    public static final int MULTI_21407 = 7021407;
-    public static final int MULTI_21408 = 7021408;
-    public static final int MULTI_21409 = 7021409;
-    public static final int MULTI_21410 = 7021410;
-    
-    public static final int MULTI_21501 = 7021501;
-    public static final int MULTI_21502 = 7021502;
-    public static final int MULTI_21503 = 7021503;
-    public static final int MULTI_21504 = 7021504;
-    
-    public static final int MULTI_21601 = 7021601;
-    public static final int MULTI_21602 = 7021602;
-    
-    public static final int MULTI_21701 = 7021701;
-    public static final int MULTI_21702 = 7021702;
-    
-    public static final int MULTI_21801 = 7021801;
-    public static final int MULTI_21802 = 7021802;
-    public static final int MULTI_21803 = 7021803;
-    
-    public static final int MULTI_21901 = 7021901;
-    public static final int MULTI_21902 = 7021902;
-    public static final int MULTI_21903 = 7021903;
-    public static final int MULTI_21904 = 7021904;
-    public static final int MULTI_21905 = 7021905;
-    public static final int MULTI_21906 = 7021906;
-    
-    public static final int MULTI_22001 = 7022001;
-    public static final int MULTI_22002 = 7022002;
-    public static final int MULTI_22003 = 7022003;
-    public static final int MULTI_22004 = 7022004;
-    public static final int MULTI_22005 = 7022005;
-    public static final int MULTI_22006 = 7022006;
+	 /**
+	  * Error code 7010305:
+	  * The value of a multi:id attribute on SpeciesTypeComponentIndex objects must be 
+	  * unique across the set of all multi:id attribute values of all the 
+	  * SpeciesTypeComponentIndex objects under the direct parent SpeciesType object in 
+	  * which it is located. Reference: L3V1 Multi V1.1 Section 3.12.1 and Section 3.27 
+	  */
+ 	 public static final int MULTI_10305 = 7010305; 
 
-    
-    public static final int CORE_10223 = 10223;
-    public static final int CORE_10224 = 10224; 
-    public static final int CORE_10225 = 10225; 
-    
-    /*
-     * 
-     * Distrib errors
-     * 
-     */
-    
-    public static final int DISTRIB_10100 = 1510100;
-    public static final int DISTRIB_10101 = 1510101;
-    public static final int DISTRIB_10102 = 1510102;
-    public static final int DISTRIB_10301 = 1510301;
-    public static final int DISTRIB_10302 = 1510302;
-    
-    public static final int DISTRIB_20101 = 1520101;
-    public static final int DISTRIB_20102 = 1520102;
-    public static final int DISTRIB_20103 = 1520103;
-    
-    public static final int DISTRIB_20201 = 1520201;
-    public static final int DISTRIB_20202 = 1520202;
-    public static final int DISTRIB_20203 = 1520203;
-    
-    public static final int DISTRIB_20301 = 1520301;
-    public static final int DISTRIB_20302 = 1520302;
-    public static final int DISTRIB_20303 = 1520303;
-    public static final int DISTRIB_20304 = 1520304;
-    public static final int DISTRIB_20305 = 1520305;
-    public static final int DISTRIB_20306 = 1520306;
-    public static final int DISTRIB_20307 = 1520307;
-    public static final int DISTRIB_20308 = 1520308;
-    public static final int DISTRIB_20309 = 1520309;
-    public static final int DISTRIB_20310 = 1520310;
-    public static final int DISTRIB_20311 = 1520311;
+	 /**
+	  * Error code 7010306:
+	  * The value of a multi:id attribute on InSpeciesTypeBond objects must be unique 
+	  * across the set of all multi:id attribute values of all the InSpeciesTypeBond 
+	  * objects under the direct parent SpeciesType object in which it is it is located. 
+	  * Reference: L3V1 Multi V1.1 Section 3.13.1 and Section 3.27 
+	  */
+ 	 public static final int MULTI_10306 = 7010306; 
 
-    public static final int DISTRIB_20401 = 1520401;
-    public static final int DISTRIB_20402 = 1520402;
-    public static final int DISTRIB_20403 = 1520403;
+	 /**
+	  * Error code 7010307:
+	  * The value of a multi:id attribute on SpeciesFeatureType objects must be unique 
+	  * across the set of all multi:id attribute values of all the SpeciesFeature 
+	  * objects under the direct parent SpeciesType object in which it is located. 
+	  * Reference: L3V1 Multi V1.1 Section 3.9.1 and Section 3.27 
+	  */
+ 	 public static final int MULTI_10307 = 7010307; 
 
-    public static final int DISTRIB_20501 = 1520501;
-    public static final int DISTRIB_20502 = 1520502;
-    public static final int DISTRIB_20503 = 1520503;
-    public static final int DISTRIB_20504 = 1520504;
-    public static final int DISTRIB_20505 = 1520505;
-    public static final int DISTRIB_20506 = 1520506;
-    public static final int DISTRIB_20507 = 1520507;
+	 /**
+	  * Error code 7010308:
+	  * The value of a multi:id attribute on SubListOfSpeciesFeatures objects must be 
+	  * unique across the set ofall id and multi:id attribute values of all objects in 
+	  * the Species object in which it is located. Reference: L3V1 Multi V1.1 Section 
+	  * 3.17.1 and Section 3.27 
+	  */
+ 	 public static final int MULTI_10308 = 7010308; 
 
-    public static final int DISTRIB_20601 = 1520601;
-    public static final int DISTRIB_20602 = 1520602;
-    public static final int DISTRIB_20603 = 1520603;
-    public static final int DISTRIB_20604 = 1520604;
+	 /**
+	  * Error code 7010309:
+	  * The value of a multi:id attribute on SpeciesFeature objects must be unique 
+	  * across the set ofall id and multi:id attribute values of all objects in the 
+	  * Species object in which it is located. Reference: L3V1 Multi V1.1 Section 3.18.1 
+	  * and Section 3.27 
+	  */
+ 	 public static final int MULTI_10309 = 7010309; 
 
-    
-    /*
-     * 
-     * Spatial errors
-     * 
-     */
-    
-    
-    public static final int SPATIAL_10100 = 1210100;
-    public static final int SPATIAL_10101 = 1210101;
-    public static final int SPATIAL_10102 = 1210102;
-    public static final int SPATIAL_10301 = 1210301;
-    public static final int SPATIAL_10302 = 1210302;
+	 /**
+	  * Error code 7010310:
+	  * The value of a multi:id attribute on CompartmentReference objects must be unique 
+	  * across the set of all id and multi:id attribute values of all objects in the 
+	  * Compartment object in which it is located. Reference: L3V1 Multi V1.1 Section 
+	  * 3.6.1 and Section 3.27 
+	  */
+ 	 public static final int MULTI_10310 = 7010310; 
 
-    public static final int SPATIAL_20101 = 1220101;
-    public static final int SPATIAL_20102 = 1220102;
-    public static final int SPATIAL_20103 = 1220103;
+	 /**
+	  * Error code 7010311:
+	  * The value of a multi:compartment attribute on SpeciesType objects must conform 
+	  * to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi V1.1 Section 
+	  * 3.8.2 
+	  */
+ 	 public static final int MULTI_10311 = 7010311; 
 
-    public static final int SPATIAL_20201 = 1220201;
-    
-    public static final int SPATIAL_20301 = 1220301;
-    
-    public static final int SPATIAL_20401 = 1220401;
-    public static final int SPATIAL_20502 = 1220402;
-    
-    public static final int SPATIAL_20501 = 1220501;
+	 /**
+	  * Error code 7010312:
+	  * The value of a multi:numericValue attribute on PossibleSpeciesFeatureValue 
+	  * objects must conform to the syntax of the SBML data type SIdRef. Reference: L3V1 
+	  * Multi V1.1 Section 3.10.2 
+	  */
+ 	 public static final int MULTI_10312 = 7010312; 
 
-    public static final int SPATIAL_20601 = 1220601;
-    public static final int SPATIAL_20602 = 1220602;
+	 /**
+	  * Error code 7010313:
+	  * The value of a multi:speciesType attribute on SpeciesTypeInstance objects must 
+	  * conform to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi V1.1 
+	  * Section 3.11.2 
+	  */
+ 	 public static final int MULTI_10313 = 7010313; 
 
-    public static final int SPATIAL_20701 = 1220701;
-    public static final int SPATIAL_20702 = 1220702;
-    public static final int SPATIAL_20703 = 1220703;
-    public static final int SPATIAL_20704 = 1220704;
-    public static final int SPATIAL_20705 = 1220705;
+	 /**
+	  * Error code 7010314:
+	  * The value of a multi:compartmentReference attribute on SpeciesTypeInstance 
+	  * objects must conform to the syntax of the SBML data type SIdRef. Reference: L3V1 
+	  * Multi V1.1 Section 3.11.3 
+	  */
+ 	 public static final int MULTI_10314 = 7010314; 
 
-    public static final int SPATIAL_20801 = 1220801;
-    public static final int SPATIAL_20802 = 1220802;
-    public static final int SPATIAL_20803 = 1220803;
-    public static final int SPATIAL_20804 = 1220804;
-    public static final int SPATIAL_20805 = 1220805;
-    public static final int SPATIAL_20806 = 1220806;
-    public static final int SPATIAL_20807 = 1220807;
-    public static final int SPATIAL_20808 = 1220808;
-        
-    public static final int SPATIAL_20901 = 1220901;
-    public static final int SPATIAL_20902 = 1220902;
-    public static final int SPATIAL_20903 = 1220903;
-    public static final int SPATIAL_20904 = 1220904;
-    public static final int SPATIAL_20905 = 1220905;
-    public static final int SPATIAL_20906 = 1220906;
-    
-    public static final int SPATIAL_21001 = 1221001;
-    public static final int SPATIAL_21002 = 1221002;
-    public static final int SPATIAL_21003 = 1221003;
-    public static final int SPATIAL_21004 = 1221004;
-    public static final int SPATIAL_21005 = 1221005;
+	 /**
+	  * Error code 7010315:
+	  * The value of a multi:component attribute on SpeciesTypeComponentIndex objects 
+	  * must conform to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi 
+	  * V1.1 Section 3.12.2 
+	  */
+ 	 public static final int MULTI_10315 = 7010315; 
 
-    public static final int SPATIAL_21101 = 1221101;
-    public static final int SPATIAL_21102 = 1221102;
-    public static final int SPATIAL_21103 = 1221103;
-    public static final int SPATIAL_21104 = 1221104;
-    public static final int SPATIAL_21105 = 1221105;
-    public static final int SPATIAL_21106 = 1221106;
+	 /**
+	  * Error code 7010316:
+	  * The value of a multi:identifyingParent attribute on SpeciesTypeComponentIndex 
+	  * objects must conform to the syntax of the SBML data type SIdRef. Reference: L3V1 
+	  * Multi V1.1 Section 3.12.3 
+	  */
+ 	 public static final int MULTI_10316 = 7010316; 
 
-    public static final int SPATIAL_21201 = 1221201;
-    public static final int SPATIAL_21202 = 1221202;
-    public static final int SPATIAL_21203 = 1221203;
-    public static final int SPATIAL_21204 = 1221204;
-    public static final int SPATIAL_21205 = 1221205;
+	 /**
+	  * Error code 7010317:
+	  * The value of a multi:bindingSite1 attribute on InSpeciesTypeBond objects must 
+	  * conform to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi V1.1 
+	  * Section 3.13.2 
+	  */
+ 	 public static final int MULTI_10317 = 7010317; 
 
-    public static final int SPATIAL_21301 = 1221301;
-    public static final int SPATIAL_21302 = 1221302;
-    public static final int SPATIAL_21303 = 1221303;
-    public static final int SPATIAL_21304 = 1221304;
-    public static final int SPATIAL_21305 = 1221305;
-    public static final int SPATIAL_21306 = 1221306;
+	 /**
+	  * Error code 7010318:
+	  * The value of a multi:bindingSite2 attribute on InSpeciesTypeBond objects must 
+	  * conform to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi V1.1 
+	  * Section 3.13.2 
+	  */
+ 	 public static final int MULTI_10318 = 7010318; 
 
-    public static final int SPATIAL_21401 = 1221401;
-    public static final int SPATIAL_21402 = 1221402;
-    public static final int SPATIAL_21403 = 1221403;
-    public static final int SPATIAL_21404 = 1221404;
-    public static final int SPATIAL_21405 = 1221405;
-    public static final int SPATIAL_21406 = 1221406;
-    public static final int SPATIAL_21407 = 1221407;
+	 /**
+	  * Error code 7010319:
+	  * The value of a multi:speciesType attribute on extended Species objects must 
+	  * conform to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi V1.1 
+	  * Section 3.15.1 
+	  */
+ 	 public static final int MULTI_10319 = 7010319; 
 
-    public static final int SPATIAL_21501 = 1221501;
-    public static final int SPATIAL_21502 = 1221502;
-    public static final int SPATIAL_21503 = 1221503;
-    public static final int SPATIAL_21504 = 1221504;
-    public static final int SPATIAL_21505 = 1221505;
-    public static final int SPATIAL_21506 = 1221506;
-    public static final int SPATIAL_21507 = 1221507;
+	 /**
+	  * Error code 7010320:
+	  * The value of a multi:component attribute on OutwardBindingSite objects must 
+	  * conform to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi V1.1 
+	  * Section 3.16.3 
+	  */
+ 	 public static final int MULTI_10320 = 7010320; 
 
-    public static final int SPATIAL_21601 = 1221601;
-    public static final int SPATIAL_21602 = 1221602;
-    public static final int SPATIAL_21603 = 1221603;
-    public static final int SPATIAL_21604 = 1221604;
-    public static final int SPATIAL_21605 = 1221605;
-    public static final int SPATIAL_21606 = 1221606;
-    public static final int SPATIAL_21607 = 1221607;
-    public static final int SPATIAL_21608 = 1221608;
-    public static final int SPATIAL_21609 = 1221609;
-    public static final int SPATIAL_21610 = 1221610;
-    public static final int SPATIAL_21611 = 1221611;
-    public static final int SPATIAL_21612 = 1221612;
+	 /**
+	  * Error code 7010321:
+	  * The value of a multi:speciesFeatureType attribute on SpeciesFeature objects must 
+	  * conform to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi V1.1 
+	  * Section 3.18.2 
+	  */
+ 	 public static final int MULTI_10321 = 7010321; 
 
-    public static final int SPATIAL_21701 = 1221701;
-    public static final int SPATIAL_21702 = 1221702;
-    public static final int SPATIAL_21703 = 1221703;
-    public static final int SPATIAL_21704 = 1221704;
-    public static final int SPATIAL_21705 = 1221705;
-    public static final int SPATIAL_21706 = 1221706;
-    public static final int SPATIAL_21707 = 1221707;
-    public static final int SPATIAL_21708 = 1221708;
+	 /**
+	  * Error code 7010322:
+	  * The value of a multi:component attribute on SpeciesFeature objects must conform 
+	  * to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi V1.1 Section 
+	  * 3.18.4 
+	  */
+ 	 public static final int MULTI_10322 = 7010322; 
 
-    public static final int SPATIAL_21801 = 1221801;
-    public static final int SPATIAL_21802 = 1221802;
-    public static final int SPATIAL_21803 = 1221803;
-    public static final int SPATIAL_21804 = 1221804;
-    public static final int SPATIAL_21805 = 1221805;
+	 /**
+	  * Error code 7010323:
+	  * The value of a multi:value attribute on SpeciesFeatureValue objects must conform 
+	  * to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi V1.1 Section 
+	  * 3.18.6 
+	  */
+ 	 public static final int MULTI_10323 = 7010323; 
 
-    public static final int SPATIAL_21901 = 1221901;
-    public static final int SPATIAL_21902 = 1221902;
-    public static final int SPATIAL_21903 = 1221903;
-    public static final int SPATIAL_21904 = 1221904;
-    public static final int SPATIAL_21905 = 1221905;
-    public static final int SPATIAL_21906 = 1221906;
-    public static final int SPATIAL_21907 = 1221907;
-    public static final int SPATIAL_21908 = 1221908;
+	 /**
+	  * Error code 7010324:
+	  * The value of a multi:compartmentReference attribute on extended 
+	  * SimpleSpeciesReference objects must conform to the syntax of the SBML data type 
+	  * SIdRef. Reference: L3V1 Multi V1.1 Section 3.22 
+	  */
+ 	 public static final int MULTI_10324 = 7010324; 
 
-    public static final int SPATIAL_22001 = 1222001;
-    public static final int SPATIAL_22002 = 1222002;
-    public static final int SPATIAL_22003 = 1222003;
-    public static final int SPATIAL_22004 = 1222004;
-    public static final int SPATIAL_22005 = 1222005;
+	 /**
+	  * Error code 7010325:
+	  * The value of a multi:reactant attribute on SpeciesTypeComponentMapInProduct 
+	  * objects must conform to the syntax of the SBML data type SIdRef. Reference: L3V1 
+	  * Multi V1.1 Section 3.24.2 
+	  */
+ 	 public static final int MULTI_10325 = 7010325; 
 
-    public static final int SPATIAL_22101 = 1222101;
-    public static final int SPATIAL_22102 = 1222102;
-    public static final int SPATIAL_22103 = 1222103;
-    public static final int SPATIAL_22104 = 1222104;
-    public static final int SPATIAL_22105 = 1222105;
-    public static final int SPATIAL_22106 = 1222106;
-    public static final int SPATIAL_22107 = 1222107;
-    public static final int SPATIAL_22108 = 1222108;
-    public static final int SPATIAL_22109 = 1222109;
-    public static final int SPATIAL_22110 = 1222110;
+	 /**
+	  * Error code 7010326:
+	  * The value of a multi:reactantComponent attribute on 
+	  * SpeciesTypeComponentMapInProduct objects must conform to the syntax of the SBML 
+	  * data type SIdRef. Reference: L3V1 Multi V1.1 Section 3.24.3 
+	  */
+ 	 public static final int MULTI_10326 = 7010326; 
 
-    public static final int SPATIAL_22201 = 1222201;
-    public static final int SPATIAL_22202 = 1222202;
-    public static final int SPATIAL_22203 = 1222203;
-    public static final int SPATIAL_22204 = 1222204;
-    public static final int SPATIAL_22205 = 1222205;
+	 /**
+	  * Error code 7010327:
+	  * The value of a multi:productComponent attribute on 
+	  * SpeciesTypeComponentMapInProduct objects must conform to the syntax of the SBML 
+	  * data type SIdRef. Reference: L3V1 Multi V1.1 Section 3.24.4 
+	  */
+ 	 public static final int MULTI_10327 = 7010327; 
 
-    public static final int SPATIAL_22301 = 1222301;
-    public static final int SPATIAL_22302 = 1222302;
-    public static final int SPATIAL_22303 = 1222303;
-    public static final int SPATIAL_22304 = 1222304;
-    public static final int SPATIAL_22305 = 1222305;
-    public static final int SPATIAL_22306 = 1222306;
-    public static final int SPATIAL_22307 = 1222307;
+	 /**
+	  * Error code 7010328:
+	  * The value of a multi:compartmentType attribute on extended Compartment objects 
+	  * must conform to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi 
+	  * V1.1 Section 3.5.2 
+	  */
+ 	 public static final int MULTI_10328 = 7010328; 
 
-    public static final int SPATIAL_22401 = 1222401;
-    public static final int SPATIAL_22402 = 1222402;
-    public static final int SPATIAL_22403 = 1222403;
-    public static final int SPATIAL_22404 = 1222404;
+	 /**
+	  * Error code 7010329:
+	  * The value of a multi:compartment attribute on CompartmentReference objects must 
+	  * conform to the syntax of the SBML data type SIdRef. Reference: L3V1 Multi V1.1 
+	  * Section 3.6.2 
+	  */
+ 	 public static final int MULTI_10329 = 7010329; 
 
-    public static final int SPATIAL_22501 = 1222501;
-    public static final int SPATIAL_22502 = 1222502;
-    public static final int SPATIAL_22503 = 1222503;
+	 /**
+	  * Error code 7020101:
+	  * In all SBML documents using the Multi package, the SBML object must include a 
+	  * value for the 'multi:required' attribute. Reference: L3V1 Core Section 3.1 
+	  */
+ 	 public static final int MULTI_20101 = 7020101; 
 
-    public static final int SPATIAL_22601 = 1222601;
-    public static final int SPATIAL_22602 = 1222602;
-    public static final int SPATIAL_22603 = 1222603;
-    public static final int SPATIAL_22604 = 1222604;
-    public static final int SPATIAL_22605 = 1222605;
-    public static final int SPATIAL_22606 = 1222606;
+	 /**
+	  * Error code 7020102:
+	  * The value of attribute 'multi:required' on the SBML object must be of the data 
+	  * type Boolean. Reference: L3V1 Core Section 3.1 
+	  */
+ 	 public static final int MULTI_20102 = 7020102; 
 
-    public static final int SPATIAL_22701 = 1222701;
-    public static final int SPATIAL_22702 = 1222702;
-    public static final int SPATIAL_22703 = 1222703;
-    public static final int SPATIAL_22704 = 1222704;
-    public static final int SPATIAL_22705 = 1222705;
-    public static final int SPATIAL_22706 = 1222706;
-    public static final int SPATIAL_22707 = 1222707;
+	 /**
+	  * Error code 7020103:
+	  * The value of attribute 'multi:required' on the SBML object must be set to 
+	  * 'true'. Reference: L3V1 Multi V1.1 Section 3.1 
+	  */
+ 	 public static final int MULTI_20103 = 7020103; 
 
-    public static final int SPATIAL_22801 = 1222801;
-    public static final int SPATIAL_22802 = 1222802;
-    public static final int SPATIAL_22803 = 1222803;
-    public static final int SPATIAL_22804 = 1222804;
-    public static final int SPATIAL_22805 = 1222805;
-    public static final int SPATIAL_22806 = 1222806;
+	 /**
+	  * Error code 7020201:
+	  * There may be at most one instance of ListOfSpeciesTypes within an extended Model 
+	  * object that uses the SBML Level 3 Multi package. Reference: L3V1 Multi V1.1 
+	  * Section 3.4 
+	  */
+ 	 public static final int MULTI_20201 = 7020201; 
 
-    public static final int SPATIAL_22901 = 1222901;
-    public static final int SPATIAL_22902 = 1222902;
-    public static final int SPATIAL_22903 = 1222903;
+	 /**
+	  * Error code 7020202:
+	  * A ListOfSpeciesTypes object within an ExModel object is optional, but if 
+	  * present, must not be empty. Reference: L3V1 Multi V1.1 Section 3.4 
+	  */
+ 	 public static final int MULTI_20202 = 7020202; 
 
-    public static final int SPATIAL_23001 = 1223001;
-    public static final int SPATIAL_23002 = 1223002;
-    public static final int SPATIAL_23003 = 1223003;
-    public static final int SPATIAL_23004 = 1223004;
-    public static final int SPATIAL_23005 = 1223005;
+	 /**
+	  * Error code 7020203:
+	  * A ListOfSpeciesTypes object may have the optional SBML core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace or the 
+	  * Multi namespace are permitted on a ListOfSpeciesTypes object. Reference: L3V1 
+	  * Multi V1.1 Section 3.4.1 
+	  */
+ 	 public static final int MULTI_20203 = 7020203; 
 
-    public static final int SPATIAL_23101 = 1223101;
-    public static final int SPATIAL_23102 = 1223102;
-    public static final int SPATIAL_23103 = 1223103;
-    public static final int SPATIAL_23104 = 1223104;
+	 /**
+	  * Error code 7020204:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a ListOfSpeciesTypes container object may only contain SpeciesType 
+	  * objects. Reference: L3V1 Multi V1.1 Section 3.4.1 
+	  */
+ 	 public static final int MULTI_20204 = 7020204; 
 
-    public static final int SPATIAL_23201 = 1223201;
-    public static final int SPATIAL_23202 = 1223202;
-    public static final int SPATIAL_23203 = 1223203;
-    public static final int SPATIAL_23204 = 1223204;
-    public static final int SPATIAL_23205 = 1223205;
-    public static final int SPATIAL_23206 = 1223206;
-    public static final int SPATIAL_23207 = 1223207;
-    public static final int SPATIAL_23208 = 1223208;
-    public static final int SPATIAL_23209 = 1223209;
+	 /**
+	  * Error code 7020301:
+	  * An extended Compartment object must have the required attribute 'multi:isType', 
+	  * and may also have the optional attribute 'multi:compartmentType'. No other 
+	  * attributes from the Multi namespace are permitted on an extended Compartment 
+	  * object. Reference: L3V1 Multi V1.1 Section 3.5 
+	  */
+ 	 public static final int MULTI_20301 = 7020301; 
 
-    public static final int SPATIAL_23301 = 1223301;
-    public static final int SPATIAL_23302 = 1223302;
-    public static final int SPATIAL_23303 = 1223303;
-    public static final int SPATIAL_23304 = 1223304;
+	 /**
+	  * Error code 7020302:
+	  * The value of a 'multi:isType' attribute on an extended Compartment object must 
+	  * always confirm to the syntax of the SBML data type 'boolean'. Reference: L3V1 
+	  * Multi V1.1 Section 3.5.1 
+	  */
+ 	 public static final int MULTI_20302 = 7020302; 
 
-    public static final int SPATIAL_23401 = 1223401;
-    public static final int SPATIAL_23402 = 1223402;
-    public static final int SPATIAL_23403 = 1223403;
-    public static final int SPATIAL_23404 = 1223404;
-    public static final int SPATIAL_23405 = 1223405;
-    public static final int SPATIAL_23406 = 1223406;
-    public static final int SPATIAL_23407 = 1223407;
+	 /**
+	  * Error code 7020303:
+	  * Extended Compartment: 'isType' attribute is required. Reference: L3V1 Multi V1.1 
+	  * Section 3.5.1 
+	  */
+ 	 public static final int MULTI_20303 = 7020303; 
 
-    public static final int SPATIAL_23501 = 1223501;
-    public static final int SPATIAL_23502 = 1223502;
-    public static final int SPATIAL_23503 = 1223503;
-    public static final int SPATIAL_23504 = 1223504;
-    public static final int SPATIAL_23505 = 1223505;
+	 /**
+	  * Error code 7020304:
+	  * The value of the 'multi:isType' attribute of the Compartment object referenced 
+	  * by a CompartmentReference object must be the same as that of the 'multi:isType' 
+	  * attribute of the parent Compartment object of the ListOfCompartmentReferences 
+	  * object which contains the CompartmentReference object. Reference: L3V1 Multi 
+	  * V1.1 Section 3.7 
+	  */
+ 	 public static final int MULTI_20304 = 7020304; 
 
-    public static final int SPATIAL_23601 = 1223601;
-    public static final int SPATIAL_23602 = 1223602;
-    public static final int SPATIAL_23603 = 1223603;
-    public static final int SPATIAL_23604 = 1223604;
-    public static final int SPATIAL_23605 = 1223605;
-    public static final int SPATIAL_23606 = 1223606;
-    public static final int SPATIAL_23607 = 1223607;
+	 /**
+	  * Error code 7020305:
+	  * The 'multi:compartmentType' attribute on a Compartment object must not be 
+	  * defined if the value of the 'multi:isType' is 'true'. Reference: L3V1 Multi V1.1 
+	  * Section 3.5.2 
+	  */
+ 	 public static final int MULTI_20305 = 7020305; 
 
-    public static final int SPATIAL_23701 = 1223701;
-    public static final int SPATIAL_23702 = 1223702;
-    public static final int SPATIAL_23703 = 1223703;
-    public static final int SPATIAL_23704 = 1223704;
-    public static final int SPATIAL_23705 = 1223705;
-    public static final int SPATIAL_23706 = 1223706;
-    public static final int SPATIAL_23707 = 1223707;
-    public static final int SPATIAL_23708 = 1223708;
-    public static final int SPATIAL_23709 = 1223709;
-    public static final int SPATIAL_23710 = 1223710;
-    public static final int SPATIAL_23711 = 1223711;
-    public static final int SPATIAL_23712 = 1223712;
-    public static final int SPATIAL_23713 = 1223713;
-    public static final int SPATIAL_23714 = 1223714;
-    public static final int SPATIAL_23715 = 1223715;
-    public static final int SPATIAL_23716 = 1223716;
-    public static final int SPATIAL_23717 = 1223717;
+	 /**
+	  * Error code 7020306:
+	  * There may be at most one ListOfCompartmentReferences container object within a 
+	  * Compartment object. Reference: L3V1 Multi V1.1 Section 3.5.3 
+	  */
+ 	 public static final int MULTI_20306 = 7020306; 
 
-    public static final int SPATIAL_23801 = 1223801;
-    public static final int SPATIAL_23802 = 1223802;
-    public static final int SPATIAL_23803 = 1223803;
-    public static final int SPATIAL_23804 = 1223804;
-    public static final int SPATIAL_23805 = 1223805;
-    public static final int SPATIAL_23806 = 1223806;
-    public static final int SPATIAL_23807 = 1223807;
+	 /**
+	  * Error code 7020307:
+	  * A ListOfCompartmentReferences object within a Compartment object is optional, 
+	  * but if present, must not be empty. Reference: L3V1 Multi V1.1 Section 3.5.3 
+	  */
+ 	 public static final int MULTI_20307 = 7020307; 
 
-    public static final int SPATIAL_23901 = 1223901;
-    public static final int SPATIAL_23902 = 1223902;
-    public static final int SPATIAL_23903 = 1223903;
-    public static final int SPATIAL_23904 = 1223904;
-    public static final int SPATIAL_23905 = 1223905;
+	 /**
+	  * Error code 7020308:
+	  * A ListOfCompartmentReferences object may have the optional SBML core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * or the Multi namespace are permitted on a ListOfCompartmentReferences object. 
+	  * Reference: L3V1 Multi V1.1 Section 3.5.3 
+	  */
+ 	 public static final int MULTI_20308 = 7020308; 
 
-    public static final int SPATIAL_24001 = 1224001;
-    public static final int SPATIAL_24002 = 1224002;
-    public static final int SPATIAL_24003 = 1224003;
-    public static final int SPATIAL_24004 = 1224004;
-    public static final int SPATIAL_24005 = 1224005;
-    public static final int SPATIAL_24006 = 1224006;
-    public static final int SPATIAL_24007 = 1224007;
-    public static final int SPATIAL_24008 = 1224008;
-    
+	 /**
+	  * Error code 7020309:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a ListOfCompartmentReferences container object may only contain 
+	  * CompartmentReference objects. Reference: L3V1 Multi V1.1 Section 3.5.3 
+	  */
+ 	 public static final int MULTI_20309 = 7020309; 
+
+	 /**
+	  * Error code 7020401:
+	  * A SpeciesType object may have the optional SBML Level~3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace are 
+	  * permitted on a SpeciesType object. Reference: L3V1 Multi V1.1 Section 3.8 
+	  */
+ 	 public static final int MULTI_20401 = 7020401; 
+
+	 /**
+	  * Error code 7020402:
+	  * A SpeciesType object may have the optional SBML Level~3 Core subobjects for 
+	  * 'notes' and 'annotation'. No other elements from the SBML Level~3 Core namespace 
+	  * are permitted on a SpeciesType object. Reference: L3V1 Multi V1.1 Section 3.8 
+	  */
+ 	 public static final int MULTI_20402 = 7020402; 
+
+	 /**
+	  * Error code 7020403:
+	  * A SpeciesType object must have the required attribute 'multi:id', and may have 
+	  * the optional attributes 'multi:name' and 'multi:compartment'. No other 
+	  * attributes from the Multi namespace are permitted on a SpeciesType object. 
+	  * Reference: L3V1 Multi V1.1 Section 3.8 
+	  */
+ 	 public static final int MULTI_20403 = 7020403; 
+
+	 /**
+	  * Error code 7020404:
+	  * The value of the 'multi:compartment' attribute, if set on a given SpeciesType 
+	  * object, must be the value of an 'id' attribute on an existing Compartment object 
+	  * in the 'SId' namespace of the parent Model object. Reference: L3V1 Multi V1.1 
+	  * Section 3.8.2 
+	  */
+ 	 public static final int MULTI_20404 = 7020404; 
+
+	 /**
+	  * Error code 7020405:
+	  * The various 'ListOf' subobjects within a SpeciesType object are optional, but if 
+	  * present, these container objects must not be empty. Specifically, if any of the 
+	  * following classes of objects are present on a SpeciesType object, it must not be 
+	  * empty: ListOfSpeciesFeatureTypes, ListOfSpeciesTypeInstances, 
+	  * ListOfSpeciesTypeComponentIndexes and ListOfInSpeciesTypeBonds. Reference: L3V1 
+	  * Multi V1.1 Section 3.8 
+	  */
+ 	 public static final int MULTI_20405 = 7020405; 
+
+	 /**
+	  * Error code 7020406:
+	  * There may be at most one ListOfSpeciesFeatureTypes container object within a 
+	  * SpeciesType object. Reference: L3V1 Multi V1.1 Section 3.8 
+	  */
+ 	 public static final int MULTI_20406 = 7020406; 
+
+	 /**
+	  * Error code 7020407:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a ListOfSpeciesFeatureTypes container object may only contain 
+	  * SpeciesFeatureType objects. Reference: L3V1 Multi V1.1 Section 3.8.3 
+	  */
+ 	 public static final int MULTI_20407 = 7020407; 
+
+	 /**
+	  * Error code 7020408:
+	  * A ListOfSpeciesFeatureTypes object may have the optional SBML core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * or the Multi namespace are permitted on a ListOfSpeciesFeatureTypes object. 
+	  * Reference: L3V1 Multi V1.1 Section 3.8.3 
+	  */
+ 	 public static final int MULTI_20408 = 7020408; 
+
+	 /**
+	  * Error code 7020409:
+	  * There may be at most one ListOfSpeciesTypeInstances container object within a 
+	  * SpeciesType object. Reference: L3V1 Multi V1.1 Section 3.8 
+	  */
+ 	 public static final int MULTI_20409 = 7020409; 
+
+	 /**
+	  * Error code 7020410:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a ListOfSpeciesTypeInstances container object may only contain 
+	  * SpeciesTypeInstance objects. Reference: L3V1 Multi V1.1 Section 3.8.4 
+	  */
+ 	 public static final int MULTI_20410 = 7020410; 
+
+	 /**
+	  * Error code 7020411:
+	  * A ListOfSpeciesTypeInstances object may have the optional SBML core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * or the Multi namespace are permitted on a ListOfSpeciesTypeInstances. Reference: 
+	  * L3V1 Multi V1.1 Section 3.8.4 
+	  */
+ 	 public static final int MULTI_20411 = 7020411; 
+
+	 /**
+	  * Error code 7020412:
+	  * There may be at most one ListOfSpeciesTypeComponentIndexes container object 
+	  * within a SpeciesType object. Reference: L3V1 Multi V1.1 Section 3.8 
+	  */
+ 	 public static final int MULTI_20412 = 7020412; 
+
+	 /**
+	  * Error code 7020413:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a ListOfSpeciesTypeComponentIndexes container object may only contain 
+	  * SpeciesTypeComponentIndex objects. Reference: L3V1 Multi V1.1 Section 3.8.6 
+	  */
+ 	 public static final int MULTI_20413 = 7020413; 
+
+	 /**
+	  * Error code 7020414:
+	  * A ListOfSpeciesTypeComponentIndexes object may have the optional SBML core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 
+	  * Core namespace or the Multi namespace are permitted on a 
+	  * ListOfSpeciesTypeComponentIndexes object. Reference: L3V1 Multi V1.1 Section 
+	  * 3.8.6 
+	  */
+ 	 public static final int MULTI_20414 = 7020414; 
+
+	 /**
+	  * Error code 7020415:
+	  * There may be at most one ListOfInSpeciesTypeBonds container object within a 
+	  * SpeciesType object. Reference: L3V1 Multi V1.1 Section 3.8 
+	  */
+ 	 public static final int MULTI_20415 = 7020415; 
+
+	 /**
+	  * Error code 7020416:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a ListOfInSpeciesTypeBonds container object may only contain 
+	  * InSpeciesTypeBond objects. Reference: L3V1 Multi V1.1 Section 3.8.5 
+	  */
+ 	 public static final int MULTI_20416 = 7020416; 
+
+	 /**
+	  * Error code 7020417:
+	  * A ListOfInSpeciesTypeBonds object may have the optional SBML core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * or the Multi namespace are permitted on a ListOfInSpeciesTypeBonds object. 
+	  * Reference: L3V1 Multi V1.1 Section 3.8.5 
+	  */
+ 	 public static final int MULTI_20417 = 7020417; 
+
+	 /**
+	  * Error code 7020501:
+	  * A BindingSiteSpeciesType object is not permitted to have any 
+	  * ListOfSpeciesTypeInstances subobject. Reference: L3V1 Multi V1.1 Section 3.8.7 
+	  */
+ 	 public static final int MULTI_20501 = 7020501; 
+
+	 /**
+	  * Error code 7020601:
+	  * A SpeciesFeatureType object may have the optional SBML Level~3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * are permitted on a SpeciesFeatureType object. Reference: L3V1 Multi V1.1 Section 
+	  * 3.9 
+	  */
+ 	 public static final int MULTI_20601 = 7020601; 
+
+	 /**
+	  * Error code 7020602:
+	  * A SpeciesFeatureType object may have the optional SBML Level~3 Core subobjects 
+	  * for 'notes' and 'annotation'. No other elements from the SBML Level~3 Core 
+	  * namespace are permitted on a SpeciesFeatureType object. Reference: L3V1 Multi 
+	  * V1.1 Section 3.9 
+	  */
+ 	 public static final int MULTI_20602 = 7020602; 
+
+	 /**
+	  * Error code 7020603:
+	  * A SpeciesFeatureType object must have the required attributes 'multi:id' and 
+	  * 'multi:occur', and may have the optional attribute 'multi:name'. No other 
+	  * attributes from the Multi namespace are permitted on a SpeciesFeatureType 
+	  * object. Reference: L3V1 Multi V1.1 Section 3.9 
+	  */
+ 	 public static final int MULTI_20603 = 7020603; 
+
+	 /**
+	  * Error code 7020604:
+	  * The value of the 'multi:occur' attribute on a given SpeciesFeatureType object 
+	  * must conform to the syntax of the SBML data type 'positiveInteger'. Reference: 
+	  * L3V1 Multi V1.1 Section 3.9.2 
+	  */
+ 	 public static final int MULTI_20604 = 7020604; 
+
+	 /**
+	  * Error code 7020605:
+	  * One ListOfPossibleSpeciesFeatureValues subobject in a SpeciesFeatureType object 
+	  * is required. Reference: L3V1 Multi V1.1 Section 3.9.3 
+	  */
+ 	 public static final int MULTI_20605 = 7020605; 
+
+	 /**
+	  * Error code 7020606:
+	  * A ListOfPossibleSpeciesFeatureValues object may have the optional SBML core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 
+	  * Core namespace or the Multi namespace are permitted on a 
+	  * ListOfPossibleSpeciesFeatureValues object. Reference: L3V1 Multi V1.1 Section 
+	  * 3.9.3 
+	  */
+ 	 public static final int MULTI_20606 = 7020606; 
+
+	 /**
+	  * Error code 7020607:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a ListOfPossibleSpeciesFeatureValues container object may only contain 
+	  * PossibleSpeciesFeatureValue objects. Reference: L3V1 Multi V1.1 Section 3.9.3 
+	  */
+ 	 public static final int MULTI_20607 = 7020607; 
+
+	 /**
+	  * Error code 7020608:
+	  * A ListOfPossibleSpeciesFeatureValues object must not be empty. Reference: L3V1 
+	  * Multi V1.1 Section 3.9.3 
+	  */
+ 	 public static final int MULTI_20608 = 7020608; 
+
+	 /**
+	  * Error code 7020701:
+	  * A PossibleSpeciesFeatureValue object may have the optional SBML Level~3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 
+	  * Core namespace are permitted on a PossibleSpeciesFeatureValue object. Reference: 
+	  * L3V1 Multi V1.1 Section 3.10 
+	  */
+ 	 public static final int MULTI_20701 = 7020701; 
+
+	 /**
+	  * Error code 7020702:
+	  * A PossibleSpeciesFeatureValue object may have the optional SBML Level~3 Core 
+	  * subobjects for 'notes' and 'annotation'. No other elements from the SBML Level~3 
+	  * Core namespace are permitted on a PossibleSpeciesFeatureValue object. Reference: 
+	  * L3V1 Multi V1.1 Section 3.10 
+	  */
+ 	 public static final int MULTI_20702 = 7020702; 
+
+	 /**
+	  * Error code 7020703:
+	  * A PossibleSpeciesFeatureValue object must have the required attribute 
+	  * 'multi:id', and may have the optional attributes 'multi:name' and 
+	  * 'multi:numericValue'. No other attributes from the Multi namespace are permitted 
+	  * on a PossibleSpeciesFeatureValue object. Reference: L3V1 Multi V1.1 Section 3.10 
+	  */
+ 	 public static final int MULTI_20703 = 7020703; 
+
+	 /**
+	  * Error code 7020704:
+	  * The value of the 'multi:numericValue' attribute on a given 
+	  * PossibleSpeciesFeatureValue object must be the identifier of a Parameter object 
+	  * defined in the same Model object. Reference: L3V1 Multi V1.1 Section 3.10.2 
+	  */
+ 	 public static final int MULTI_20704 = 7020704; 
+
+	 /**
+	  * Error code 7020801:
+	  * A SpeciesTypeInstance object may have the optional SBML Level~3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * are permitted on a SpeciesTypeInstance object. Reference: L3V1 Multi V1.1 
+	  * Section 3.11 
+	  */
+ 	 public static final int MULTI_20801 = 7020801; 
+
+	 /**
+	  * Error code 7020802:
+	  * A SpeciesTypeInstance object may have the optional SBML Level~3 Core subobjects 
+	  * for 'notes' and 'annotation'. No other elements from the SBML Level~3 Core 
+	  * namespace are permitted on a SpeciesTypeInstance object. Reference: L3V1 Multi 
+	  * V1.1 Section 3.11 
+	  */
+ 	 public static final int MULTI_20802 = 7020802; 
+
+	 /**
+	  * Error code 7020803:
+	  * A SpeciesTypeInstance object must have the required attributes 'multi:id', 
+	  * 'multi:speciesType' and 'multi:occur', and may have the optional attributes 
+	  * 'multi:name' and 'mulit:compartmentReference'. No other attributes from the 
+	  * Multi namespace are permitted on a SpeciesTypeInstance object. Reference: L3V1 
+	  * Multi V1.1 Section 3.11 
+	  */
+ 	 public static final int MULTI_20803 = 7020803; 
+
+	 /**
+	  * Error code 7020805:
+	  * The value of the 'multi:speciesType' attribute on a given SpeciesTypeInstance 
+	  * object must be the identifier of a SpeciesType object defined in the same Model 
+	  * object. Reference: L3V1 Multi V1.1 Section 3.11.2 
+	  */
+ 	 public static final int MULTI_20805 = 7020805; 
+
+	 /**
+	  * Error code 7020806:
+	  * The value of the 'multi:compartmentReference' attribute, if present on a given 
+	  * SpeciesTypeInstance object, must be the identifier of a CompartmentReference 
+	  * object defined in the same Model object. Reference: L3V1 Multi V1.1 Section 
+	  * 3.11.3 
+	  */
+ 	 public static final int MULTI_20806 = 7020806; 
+
+	 /**
+	  * Error code 7020901:
+	  * A SpeciesTypeComponentIndex object may have the optional SBML Level~3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 
+	  * Core namespace are permitted on a SpeciesTypeComponentIndex object. Reference: 
+	  * L3V1 Multi V1.1 Section 3.12 
+	  */
+ 	 public static final int MULTI_20901 = 7020901; 
+
+	 /**
+	  * Error code 7020902:
+	  * A SpeciesTypeComponentIndex object may have the optional SBML Level~3 Core 
+	  * subobjects for 'notes' and 'annotation'. No other elements from the SBML Level~3 
+	  * Core namespace are permitted on a SpeciesTypeComponentIndex object. Reference: 
+	  * L3V1 Multi V1.1 Section 3.12 
+	  */
+ 	 public static final int MULTI_20902 = 7020902; 
+
+	 /**
+	  * Error code 7020903:
+	  * A SpeciesTypeComponentIndex object must have the required attributes 'multi:id' 
+	  * and 'multi:compartment' , and may have the optional attribute 
+	  * 'mulit:identifyingParent'. No other attributes from the Multi namespace are 
+	  * permitted on a SpeciesTypeComponentIndex object. Reference: L3V1 Multi V1.1 
+	  * Section 3.12 
+	  */
+ 	 public static final int MULTI_20903 = 7020903; 
+
+	 /**
+	  * Error code 7020904:
+	  * The value of the 'mulit:component' attribute on a given 
+	  * SpeciesTypeComponentIndex object must be the identifier of a SpeciesTypeInstance 
+	  * object, or a SpeciesTypeComponentIndex object under the SpeciesType object that 
+	  * this SpeciesTypeComponentIndex object belongs to, or the SpeciesType object 
+	  * itself. Reference: L3V1 Multi V1.1 Section 3.12.2 
+	  */
+ 	 public static final int MULTI_20904 = 7020904; 
+
+	 /**
+	  * Error code 7020907:
+	  * The value of the 'multi:identifyingParent' attribute on a given 
+	  * SpeciesTypeComponentIndex object must be the identifier of a component object 
+	  * under the SpeciesType object that this SpeciesTypeComponentIndex object belongs 
+	  * to. A component object can be an object of SpeciesTypeInstance, 
+	  * SpeciesTypeComponentIndex or SpeciesType. Reference: L3V1 Multi V1.1 Section 
+	  * 3.12.3 
+	  */
+ 	 public static final int MULTI_20907 = 7020907; 
+
+	 /**
+	  * Error code 7021101:
+	  * An InSpeciesTypeBond object may have the optional SBML Level~3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * are permitted on an InSpeciesTypeBond object. Reference: L3V1 Multi V1.1 Section 
+	  * 3.13 
+	  */
+ 	 public static final int MULTI_21101 = 7021101; 
+
+	 /**
+	  * Error code 7021102:
+	  * An InSpeciesTypeBond object may have the optional SBML Level~3 Core subobjects 
+	  * for 'notes' and 'annotation'. No other elements from the SBML Level~3 Core 
+	  * namespace are permitted on an InSpeciesTypeBond object. Reference: L3V1 Multi 
+	  * V1.1 Section 3.13 
+	  */
+ 	 public static final int MULTI_21102 = 7021102; 
+
+	 /**
+	  * Error code 7021103:
+	  * An InSpeciesTypeBond object must have the required attributes, 
+	  * 'multi:bindingSite1' and 'multi:BindingSite2', and may have the optional 
+	  * attributes, 'multi:id' and 'multi:name'. No other attributes from the Multi 
+	  * namespace are permitted on an InSpeciesTypeBond object. Reference: L3V1 Multi 
+	  * V1.1 Section 3.13 
+	  */
+ 	 public static final int MULTI_21103 = 7021103; 
+
+	 /**
+	  * Error code 7021104:
+	  * The value of the 'multi:bindingSite1' attribute on a given InSpeciesTypeBond 
+	  * object must be the identifier of a SpeciesTypeInstance object or 
+	  * SpeciesTypeComponentIndex which ultimately reference a object of 
+	  * BindingSiteSpeciesType. Reference: L3V1 Multi V1.1 Section 3.13.2 
+	  */
+ 	 public static final int MULTI_21104 = 7021104; 
+
+	 /**
+	  * Error code 7021105:
+	  * The value of the 'multi:bindingSite2' attribute on a given InSpeciesTypeBond 
+	  * object must be the identifier of a SpeciesTypeInstance object or 
+	  * SpeciesTypeComponentIndex which ultimately reference a object of 
+	  * BindingSiteSpeciesType. Reference: L3V1 Multi V1.1 Section 3.13.2 
+	  */
+ 	 public static final int MULTI_21105 = 7021105; 
+
+	 /**
+	  * Error code 7021106:
+	  * The 'multi:bindingSite1' and 'multi:bindingSite2' attributes must not reference 
+	  * the same BindingSiteSpeciesType object. Reference: L3V1 Multi V1.1 Section 
+	  * 3.13.2 
+	  */
+ 	 public static final int MULTI_21106 = 7021106; 
+
+	 /**
+	  * Error code 7021201:
+	  * A Species object may have the optional attribute, 'multi:speciesType'. No other 
+	  * attributes from the Multi namespace are permitted on a Species object. 
+	  * Reference: L3V1 Multi V1.1 Section 3.15 
+	  */
+ 	 public static final int MULTI_21201 = 7021201; 
+
+	 /**
+	  * Error code 7021202:
+	  * The value of a 'multi:speciesTypeAtt' attribute, if present on a Species object, 
+	  * must be the identifier of a SpeciesType object. Reference: L3V1 Multi V1.1 
+	  * Section 3.15.1 
+	  */
+ 	 public static final int MULTI_21202 = 7021202; 
+
+	 /**
+	  * Error code 7021203:
+	  * Two 'ListOf' subobjects with a Species object are optional, but if present, 
+	  * these container object must not be empty. Specifically, if any of the following 
+	  * two classes of objects are present on the Species object, it must not be empty: 
+	  * ListOfOutwardBindingSites and ListOfSpeciesFeatures. Reference: L3V1 Multi V1.1 
+	  * Section 3.15 
+	  */
+ 	 public static final int MULTI_21203 = 7021203; 
+
+	 /**
+	  * Error code 7021204:
+	  * A ListOfOutwardBindingSites object may have the optional SBML core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * or the Multi namespace are permitted on a ListOfOutwardBindingSites object. 
+	  * Reference: L3V1 Multi V1.1 Section 3.15.2 
+	  */
+ 	 public static final int MULTI_21204 = 7021204; 
+
+	 /**
+	  * Error code 7021205:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a ListOfOutwardBindingSites container object may only contain 
+	  * OutwardBindingSite objects. Reference: L3V1 Multi V1.1 Section 3.15.2 
+	  */
+ 	 public static final int MULTI_21205 = 7021205; 
+
+	 /**
+	  * Error code 7021206:
+	  * A ListOfSpeciesFeatures object may have the optional SBML core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * or the Multi namespace are permitted on a ListOfSpeciesFeatures object. 
+	  * Reference: L3V1 Multi V1.1 Section 3.15.3 
+	  */
+ 	 public static final int MULTI_21206 = 7021206; 
+
+	 /**
+	  * Error code 7021207:
+	  * A SubListOfSpeciesFeatures object may have the optional attributes multi:id, 
+	  * multi:relation and multi:component. No other attributes from the Multi namespace 
+	  * are permitted on a SubListOfSpeciesFeatures object. Reference: L3V1 Multi V1.1 
+	  * Section 3.17 
+	  */
+ 	 public static final int MULTI_21207 = 7021207; 
+
+	 /**
+	  * Error code 7021208:
+	  * The value of the 'multi:relation' attribute, if presented on a 
+	  * SubListOfSpeciesFeatures object, must conform to the syntax of the Multi data 
+	  * type 'Relation'. Reference: L3V1 Multi V1.1 Section 3.17.2 
+	  */
+ 	 public static final int MULTI_21208 = 7021208; 
+
+	 /**
+	  * Error code 7021209:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a ListOfSpeciesFeatures container object may only contain 
+	  * SpeciesFeature and/or SubListOfSpeciesFeatures objects. Reference: L3V1 Multi 
+	  * V1.1 Section 3.15.3 
+	  */
+ 	 public static final int MULTI_21209 = 7021209; 
+
+	 /**
+	  * Error code 7021210:
+	  * A SubListOfSpeciesFeatures object may have the optional SBML core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * are permitted on a SubListOfSpeciesFeatures object. Reference: L3V1 Multi V1.1 
+	  * Section 3.17 
+	  */
+ 	 public static final int MULTI_21210 = 7021210; 
+
+	 /**
+	  * Error code 7021211:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a SubListOfSpeciesFeatures container object may only contain 
+	  * SpeciesFeature objects. Reference: L3V1 Multi V1.1 Section 3.17 
+	  */
+ 	 public static final int MULTI_21211 = 7021211; 
+
+	 /**
+	  * Error code 7021212:
+	  * The value of the 'multi:component' attribute on a given SubListOfSpeciesFeatures 
+	  * object must be the identifier of an object of SpeciesTypeInstance, 
+	  * SpeciesTypeComponentIndex or SpeciesType which contains the SpeciesFeature 
+	  * objects in this subListOfSpeciesFeatures. Reference: L3V1 Multi V1.1 Section 
+	  * 3.17.3 
+	  */
+ 	 public static final int MULTI_21212 = 7021212; 
+
+	 /**
+	  * Error code 7021213:
+	  * A species must have its 'speciesType' attribute defined when it has a 
+	  * 'listOfOutwardBindingSites.' Reference: L3V1 Multi V1.1 Section 3.15 
+	  */
+ 	 public static final int MULTI_21213 = 7021213; 
+
+	 /**
+	  * Error code 7021214:
+	  * A species must have its 'speciesType' attribute defined when it has a 
+	  * 'listOfSpeciesFeatures.' Reference: L3V1 Multi V1.1 Section 3.15 
+	  */
+ 	 public static final int MULTI_21214 = 7021214; 
+
+	 /**
+	  * Error code 7021215:
+	  * The 'relation' attribute of a subListOfSpeciesFeatures can only have the value 
+	  * 'and' if any speciesFeature involved references a speciesFeatureType with occur 
+	  * &gt; 1 Reference: L3V1 Multi V1.1 Section 3.17.2 
+	  */
+ 	 public static final int MULTI_21215 = 7021215; 
+
+	 /**
+	  * Error code 7021216:
+	  * A SubListOfSpeciesFeatures object must have at least two speciesFeatures. 
+	  * Reference: L3V1 Multi V1.1 Section 3.17 
+	  */
+ 	 public static final int MULTI_21216 = 7021216; 
+
+	 /**
+	  * Error code 7021301:
+	  * An OutwardBindingSite object may have the optional SBML Level~3 Core attributes 
+	  * 'metaid' and 'sboTerm. No other attributes from the SBML Level~3 Core namespace 
+	  * are permitted on an OutwardBindingSite object. Reference: L3V1 Multi V1.1 
+	  * Section 3.16 
+	  */
+ 	 public static final int MULTI_21301 = 7021301; 
+
+	 /**
+	  * Error code 7021302:
+	  * An OutwardBindingSite object may have the optional SBML Level~3 Core subobjects 
+	  * for 'notes' and 'annotation. No other elements from the SBML Level~3 Core 
+	  * namespace are permitted on an OutwardBindingSite object. Reference: L3V1 Multi 
+	  * V1.1 Section 3.16 
+	  */
+ 	 public static final int MULTI_21302 = 7021302; 
+
+	 /**
+	  * Error code 7021303:
+	  * An OutwardBindingSite object must have the required attributes, 
+	  * 'multi:bindingStatus' and 'mulit:component'. No other attributes from the Multi 
+	  * namespace are permitted on an OutwardBindingSite object. Reference: L3V1 Multi 
+	  * V1.1 Section 3.16 
+	  */
+ 	 public static final int MULTI_21303 = 7021303; 
+
+	 /**
+	  * Error code 7021304:
+	  * The value of the 'multi:bindingStatus' attribute on a given OutwardBindingSite 
+	  * object must confirm to the syntax of the Multi data type 'BindingStatus'. 
+	  * Reference: L3V1 Multi V1.1 Section 3.16.2 
+	  */
+ 	 public static final int MULTI_21304 = 7021304; 
+
+	 /**
+	  * Error code 7021305:
+	  * The value of the 'multi:component' attribute on a given OutwardBindingSite 
+	  * object must be the identifier of an object of SpeciesTypeInstance, 
+	  * SpeciesTypeComponentIndex or SpeciesType which ultimately reference an object of 
+	  * BindingSiteSpeciesType. Reference: L3V1 Multi V1.1 Section 3.16.3 
+	  */
+ 	 public static final int MULTI_21305 = 7021305; 
+
+	 /**
+	  * Error code 7021306:
+	  * An outwardBindingSite can not be a binding site referenced by any 
+	  * inSpeciesTypeBond in the species. Reference: L3V1 Multi V1.1 Section 3.16.3 
+	  */
+ 	 public static final int MULTI_21306 = 7021306; 
+
+	 /**
+	  * Error code 7021401:
+	  * A SpeciesFeature object may have the optional SBML Level~3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * are permitted on a SpeciesFeature object. Reference: L3V1 Multi V1.1 Section 
+	  * 3.16 
+	  */
+ 	 public static final int MULTI_21401 = 7021401; 
+
+	 /**
+	  * Error code 7021402:
+	  * A SpeciesFeature object may have the optional SBML Level~3 Core subobjects for 
+	  * 'notes' and 'annotation'. No other elements from the SBML Level~3 Core namespace 
+	  * are permitted on a SpeciesFeature object. Reference: L3V1 Multi V1.1 Section 
+	  * 3.18 
+	  */
+ 	 public static final int MULTI_21402 = 7021402; 
+
+	 /**
+	  * Error code 7021403:
+	  * A SpeciesFeature object must have the required attributes, 
+	  * 'multi:speciesFeatureType' and 'mulit:occur', and may have the optional 
+	  * attribute, 'multi:id' and 'multi:component'. No other attributes from the Multi 
+	  * namespace are permitted on a SpeciesFeature object. Reference: L3V1 Multi V1.1 
+	  * Section 3.18 
+	  */
+ 	 public static final int MULTI_21403 = 7021403; 
+
+	 /**
+	  * Error code 7021404:
+	  * The value of the 'multi:speciesFeatureType' attribute on a given SpeciesFeature 
+	  * object must be the identifier of a SpeciesFeatureType object which is in the 
+	  * SpeciesType object referenced by the Species object containing this 
+	  * SpeciesFeature object. Reference: L3V1 Multi V1.1 Section 3.18.2 
+	  */
+ 	 public static final int MULTI_21404 = 7021404; 
+
+	 /**
+	  * Error code 7021405:
+	  * The value of the 'mulit:occur' attribute on a given SpeciesFeature object must 
+	  * conform to the syntax of the SBML data type 'positiveInteger'. The value of the 
+	  * 'multi:occur' attribute must not be larger than that of the 'multi:occur' 
+	  * attribute of the SpeciesFeatureType object referenced by this SpeciesFeature 
+	  * object. Reference: L3V1 Multi V1.1 Section 3.18.3 
+	  */
+ 	 public static final int MULTI_21405 = 7021405; 
+
+	 /**
+	  * Error code 7021406:
+	  * The value of the 'multi:component' attribute on a given SpeciesFeature object 
+	  * must be the identifier of an object of SpeciesTypeInstance, 
+	  * SpeciesTypeComponentIndex or SpeciesType which contains this SpeciesFeature 
+	  * object. Reference: L3V1 Multi V1.1 Section 3.18.4 
+	  */
+ 	 public static final int MULTI_21406 = 7021406; 
+
+	 /**
+	  * Error code 7021407:
+	  * One ListOfSpeciesFeatureValues subobject within a SpeciesFeature object is 
+	  * required. Reference: L3V1 Multi V1.1 Section 3.18.5 
+	  */
+ 	 public static final int MULTI_21407 = 7021407; 
+
+	 /**
+	  * Error code 7021408:
+	  * A ListOfSpeciesFeatureValues object must not be empty. Reference: L3V1 Multi 
+	  * V1.1 Section 3.18.5 
+	  */
+ 	 public static final int MULTI_21408 = 7021408; 
+
+	 /**
+	  * Error code 7021409:
+	  * A ListOfSpeciesFeatureValues object may have the optional SBML core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * or the Multi namespace are permitted on a ListOfSpeciesFeatureValues object. 
+	  * Reference: L3V1 Multi V1.1 Section 3.18.5 
+	  */
+ 	 public static final int MULTI_21409 = 7021409; 
+
+	 /**
+	  * Error code 7021410:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a ListOfSpeciesFeatureValues container object may only contain 
+	  * SpeciesFeatureValue objects. Reference: L3V1 Multi V1.1 Section 3.18.5 
+	  */
+ 	 public static final int MULTI_21410 = 7021410; 
+
+	 /**
+	  * Error code 7021501:
+	  * A SpeciesFeatureValue object may have the optional SBML Level~3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * are permitted on a SpeciesFeatureValue object. Reference: L3V1 Multi V1.1 
+	  * Section 3.18.6 
+	  */
+ 	 public static final int MULTI_21501 = 7021501; 
+
+	 /**
+	  * Error code 7021502:
+	  * A SpeciesFeatureValue object may have the optional SBML Level~3 Core subobjects 
+	  * for 'notes' and 'annotation'. No other elements from the SBML Level~3 Core 
+	  * namespace are permitted on a SpeciesFeatureValue object. Reference: L3V1 Multi 
+	  * V1.1 Section 3.18.6 
+	  */
+ 	 public static final int MULTI_21502 = 7021502; 
+
+	 /**
+	  * Error code 7021503:
+	  * A SpeciesFeatureValue object must have the required attribute 'multi:value'. No 
+	  * other attributes from the Multi namespace are permitted on a SpeciesFeatureValue 
+	  * object. Reference: L3V1 Multi V1.1 Section 3.18.6 
+	  */
+ 	 public static final int MULTI_21503 = 7021503; 
+
+	 /**
+	  * Error code 7021504:
+	  * The value of the 'multi:value' attribute on a given SpeciesFeatureValue object 
+	  * must be the identifier of a PossibleSpeciesFeatureValue object defined in the 
+	  * SpeciesFeatureType object referenced by the SpeciesFeature object containing 
+	  * this SpeciesFeatureValue object. Reference: L3V1 Multi V1.1 Section 3.18.6 
+	  */
+ 	 public static final int MULTI_21504 = 7021504; 
+
+	 /**
+	  * Error code 7021601:
+	  * An IntraSpeciesReaction object may have the optional SBML Level~3 Core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 
+	  * Core namespace and the Multi namespace are permitted on an IntraSpeciesReaction 
+	  * object. Reference: L3V1 Multi V1.1 Section 3.21 
+	  */
+ 	 public static final int MULTI_21601 = 7021601; 
+
+	 /**
+	  * Error code 7021602:
+	  * An IntraSpeciesReaction object may have the optional SBML Level~3 Core 
+	  * subobjects for 'notes' and 'annotation'. No other elements from the SBML Level~3 
+	  * Core namespace are permitted on an IntraSpeciesReaction object. Reference: L3V1 
+	  * Multi V1.1 Section 3.21 
+	  */
+ 	 public static final int MULTI_21602 = 7021602; 
+
+	 /**
+	  * Error code 7021701:
+	  * An extended SimpleSpeciesReference object may have the optional attribute, 
+	  * 'multi:compartmentReference'. No other attributes from the Multi namespace are 
+	  * permitted on a SimpleSpeciesReference object. Reference: L3V1 Multi V1.1 Section 
+	  * 3.22 
+	  */
+ 	 public static final int MULTI_21701 = 7021701; 
+
+	 /**
+	  * Error code 7021702:
+	  * An extended SimpleSpeciesReference object may have the optional attribute, 
+	  * 'multi:compartmentReference'. No other attributes from the Multi namespace are 
+	  * permitted on a SimpleSpeciesReference object. Reference: L3V1 Multi V1.1 Section 
+	  * 3.22 
+	  */
+ 	 public static final int MULTI_21702 = 7021702; 
+
+	 /**
+	  * Error code 7021801:
+	  * A ListOfSpeciesTypeComponentMapsInProduct object within an extended 
+	  * SpeciesReference object is optional, but if present, must not be empty. 
+	  * Reference: L3V1 Multi V1.1 Section 3.23.1 
+	  */
+ 	 public static final int MULTI_21801 = 7021801; 
+
+	 /**
+	  * Error code 7021802:
+	  * A ListOfSpeciesTypeComponentMapsInProduct object may have the optional SBML core 
+	  * attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 
+	  * Core namespace or the Multi namespace are permitted on a 
+	  * ListOfSpeciesTypeComponentMapsInProduct object. Reference: L3V1 Multi V1.1 
+	  * Section 3.23.1 
+	  */
+ 	 public static final int MULTI_21802 = 7021802; 
+
+	 /**
+	  * Error code 7021803:
+	  * Apart from the general 'notes' and 'annotation' subobjects permitted on all SBML 
+	  * objects, a ListOfSpeciesTypeComponentMapsInProduct container object may only 
+	  * contain SpeciesTypeComponentMapInProduct objects. Reference: L3V1 Multi V1.1 
+	  * Section 3.23.1 
+	  */
+ 	 public static final int MULTI_21803 = 7021803; 
+
+	 /**
+	  * Error code 7021901:
+	  * A SpeciesTypeComponentMapInProduct object may have the optional SBML Level~3 
+	  * Core attributes 'metaid' and 'sboTerm'. No other attributes from the SBML 
+	  * Level~3 Core namespace are permitted on a SpeciesTypeComponentMapInProduct 
+	  * object. Reference: L3V1 Multi V1.1 Section 3.24 
+	  */
+ 	 public static final int MULTI_21901 = 7021901; 
+
+	 /**
+	  * Error code 7021902:
+	  * A SpeciesTypeComponentMapInProduct object may have the optional SBML Level~3 
+	  * Core subobjects for 'notes' and 'annotation'. No other elements from the SBML 
+	  * Level~3 Core namespace are permitted on a SpeciesTypeComponentMapInProduct 
+	  * object. Reference: L3V1 Multi V1.1 Section 3.24 
+	  */
+ 	 public static final int MULTI_21902 = 7021902; 
+
+	 /**
+	  * Error code 7021903:
+	  * A SpeciesTypeComponentMapInProduct object must have the required attributes 
+	  * 'multi:reactant', 'multi:reactantComponent', and 'multi:productComponent'. No 
+	  * other attributes from the Multi namespace are permitted on a 
+	  * SpeciesTypeComponentMapInProduct object. Reference: L3V1 Multi V1.1 Section 3.24 
+	  */
+ 	 public static final int MULTI_21903 = 7021903; 
+
+	 /**
+	  * Error code 7021904:
+	  * The value of the 'multi:reactant' attribute on a given 
+	  * SpeciesTypeComponentMapInProduct object must be the identifier of a reactant 
+	  * SpeciesReference object within a reaction. Reference: L3V1 Multi V1.1 Section 
+	  * 3.24.2 
+	  */
+ 	 public static final int MULTI_21904 = 7021904; 
+
+	 /**
+	  * Error code 7021905:
+	  * The value of the 'multi:reactantComponent' attribute on a given 
+	  * SpeciesTypeComponentMapInProduct object must be the identifier of an object of 
+	  * SpeciesTypeInstance, SpeciesTypeComponentIndex or SpeciesType. Reference: L3V1 
+	  * Multi V1.1 Section 3.24.3 
+	  */
+ 	 public static final int MULTI_21905 = 7021905; 
+
+	 /**
+	  * Error code 7021906:
+	  * The value of the 'multi:productComponent' attribute on a given 
+	  * SpeciesTypeComponentMapInProduct object must be the identifier of an object of 
+	  * SpeciesTypeInstance, SpeciesTypeComponentIndex or SpeciesType. Reference: L3V1 
+	  * Multi V1.1 Section 3.24.4 
+	  */
+ 	 public static final int MULTI_21906 = 7021906; 
+
+	 /**
+	  * Error code 7022001:
+	  * A CompartmentReference object may have the optional SBML Level~3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level~3 Core namespace 
+	  * are permitted on a 'CompartmentReference object. Reference: L3V1 Multi V1.1 
+	  * Section 3.6 
+	  */
+ 	 public static final int MULTI_22001 = 7022001; 
+
+	 /**
+	  * Error code 7022002:
+	  * A CompartmentReference object may have the optional SBML Level~3 Core subobjects 
+	  * for 'notes' and 'annotation'. No other elements from the SBML Level~3 Core 
+	  * namespace are permitted on a CompartmentReference object. Reference: L3V1 Multi 
+	  * V1.1 Section 3.6 
+	  */
+ 	 public static final int MULTI_22002 = 7022002; 
+
+	 /**
+	  * Error code 7022003:
+	  * A CompartmentReference object must have the required attribute 
+	  * 'multi:compartment', and may have the optional attributes 'multi:id' and 
+	  * 'multi:name'. No other attributes from the Multi namespace are permitted on a 
+	  * CompartmentReference object. Reference: L3V1 Multi V1.1 Section 3.6 
+	  */
+ 	 public static final int MULTI_22003 = 7022003; 
+
+	 /**
+	  * Error code 7022004:
+	  * The value of the 'multi:compartment' attribute must be the value of an 'id' 
+	  * attribute on an existing Compartment object in the 'SId' namespace of the parent 
+	  * model. Reference: L3V1 Multi V1.1 Section 3.6 
+	  */
+ 	 public static final int MULTI_22004 = 7022004; 
+
+	 /**
+	  * Error code 7022005:
+	  * If some or all compartmentReferences within a ListOfCompartmentReferences object 
+	  * reference the same compartment, those compartmentReferences are required to have 
+	  * its 'multi:id' attribute defined to distinguish different compartmentReferences. 
+	  * Reference: L3V1 Multi V1.1 Section 3.6.1 
+	  */
+ 	 public static final int MULTI_22005 = 7022005; 
+
+	 /**
+	  * Error code 7022006:
+	  * A &lt;compartmentReference&gt; cannot reference a &lt;compartment&gt; that directly or 
+	  * indirectly contains teh &lt;compartmentReference&gt;. Reference: L3V1 Multi V1.1 
+	  * Section 3.6.1 
+	  */
+ 	 public static final int MULTI_22006 = 7022006; 
+
+	 /**
+	  * Error code 8010101:
+	  * To conform to the arrays Package specification for SBML Level 3 Version 1, an 
+	  * SBML document must declare 
+	  * 'http://www.sbml.org/sbml/level3/version1/arrays/version1' as the XMLNamespace 
+	  * to use for elements of this package. Reference: L3V1 Arrays V1 Section 3.1 
+	  */
+ 	 public static final int ARRAYS_10101 = 8010101; 
+
+	 /**
+	  * Error code 8010102:
+	  * Wherever they appear in an SBML document, elements and attributes from the 
+	  * arrays Package must use the 
+	  * 'http://www.sbml.org/sbml/level3/version1/arrays/version1' namespace, declaring 
+	  * so either explicitly or implicitly. Reference: L3V1 Arrays V1 Section 3.1 
+	  */
+ 	 public static final int ARRAYS_10102 = 8010102; 
+
+	 /**
+	  * Error code 8010201:
+	  * In all SBML documents using the arrays Package, the &lt;sbml&gt; object must have the 
+	  * 'arrays:required' attribute. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_10201 = 8010201; 
+
+	 /**
+	  * Error code 8010202:
+	  * The value of attribute 'arrays:required' on the &lt;sbml&gt; object must be of data 
+	  * type 'boolean'. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_10202 = 8010202; 
+
+	 /**
+	  * Error code 8010203:
+	  * The value of attribute 'arrays:required' on the &lt;sbml&gt; object must be set to 
+	  * 'true'. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_10203 = 8010203; 
+
+	 /**
+	  * Error code 8010204:
+	  * Wherever MathML content appears in an SBML document, the MathML content must be 
+	  * placed within a math element, and that math element must be either explicitly or 
+	  * implicitly declared to be in the XML namespace 
+	  * http://www.w3.org/1998/Math/MathML Reference: L3V1 Arrays V1 Section 3.4 
+	  */
+ 	 public static final int ARRAYS_10204 = 8010204; 
+
+	 /**
+	  * Error code 8010205:
+	  * The following is a list of the additional MathML 2.0 elements permitted in the 
+	  * Arrays package: vector and selector. Reference: L3V1 Arrays V1 Section 3.5 
+	  */
+ 	 public static final int ARRAYS_10205 = 8010205; 
+
+	 /**
+	  * Error code 8010206:
+	  * The first argument of aMathML selector must be aMathML vector object or a valid 
+	  * identifier to an SBase object extended with a list of Dimension objects. 
+	  * Reference: L3V1 Arrays V1 Section 3.5 
+	  */
+ 	 public static final int ARRAYS_10206 = 8010206; 
+
+	 /**
+	  * Error code 8010207:
+	  * The first argument of a MathML selector must have a number of dimensions equal 
+	  * to the number of arguments to the selector minus 1. Reference: L3V1 Arrays V1 
+	  * Section 3.5 
+	  */
+ 	 public static final int ARRAYS_10207 = 8010207; 
+
+	 /**
+	  * Error code 8010208:
+	  * The arguments of a MathML selector other than the first argument must be 
+	  * statically computable. In other words, any identifier that appears in an 
+	  * argument, other than a Dimension id for the corresponding object, must be a 
+	  * constant. Reference: L3V1 Arrays V1 Section 3.5 
+	  */
+ 	 public static final int ARRAYS_10208 = 8010208; 
+
+	 /**
+	  * Error code 8010209:
+	  * The arguments of a MathML selector other than the first argument must be 
+	  * evaluated to a scalar value. Reference: L3V1 Arrays V1 Section 3.5 
+	  */
+ 	 public static final int ARRAYS_10209 = 8010209; 
+
+	 /**
+	  * Error code 8010210:
+	  * For each possible value of each Dimension id (i.e., 0 to size-1 of the Dimension 
+	  * referred to) that appears in the second and later arguments of the selector, 
+	  * there should be no array out - of - bounds problems.Namely, it must evaluate to 
+	  * a non - negative integer that is less than the size of the corresponding 
+	  * Dimension for the object being indexed where the last argument refers to 
+	  * dimension 0, next to last to dimension 1 Reference: L3V1 Arrays V1 Section 3.5 
+	  */
+ 	 public static final int ARRAYS_10210 = 8010210; 
+
+	 /**
+	  * Error code 8010211:
+	  * All mathematical operations must be performed on scalar values rather than 
+	  * vectors. Reference: L3V1 Arrays V1 Section 3.5 
+	  */
+ 	 public static final int ARRAYS_10211 = 8010211; 
+
+	 /**
+	  * Error code 8010212:
+	  * For MathML operations with two or more operands involving MathML vectors or 
+	  * SBase objects with a list of Dimension objects, the number of dimensions and 
+	  * their sizemust agree for all operands unless the operand is a scalar type(i.e., 
+	  * it does not have a list of Dimension objects). Reference: L3V1 Arrays V1 Section 
+	  * 3.5 
+	  */
+ 	 public static final int ARRAYS_10212 = 8010212; 
+
+	 /**
+	  * Error code 8010213:
+	  * No SBase is allowed to have value of type vector. Reference: L3V1 Arrays V1 
+	  * Section 3.5 
+	  */
+ 	 public static final int ARRAYS_10213 = 8010213; 
+
+	 /**
+	  * Error code 8010301:
+	  * (Extends validation rule #10301 in the SBML Level 3 Core specification. TO DO 
+	  * list scope of ids) Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_10301 = 8010301; 
+
+	 /**
+	  * Error code 8010302:
+	  * The value of a 'arrays:id' must conform to the syntax of the &lt;sbml&gt; data type 
+	  * 'SId' Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_10302 = 8010302; 
+
+	 /**
+	  * Error code 8020101:
+	  * Any object derived from the extended SBase class (defined in the Arrays package) 
+	  * may contain at most one instance of a ListOfDimensions. Reference: L3V1 Arrays 
+	  * V1 Section 3.3 
+	  */
+ 	 public static final int ARRAYS_20101 = 8020101; 
+
+	 /**
+	  * Error code 8020102:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfDimensions&gt; container object may only contain &lt;dimension&gt; 
+	  * objects. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20102 = 8020102; 
+
+	 /**
+	  * Error code 8020103:
+	  * The ListOfDimensions associated with an SBase object must have a Dimension 
+	  * object with arrays:arrayDimension attribute set to 0 ... n-1 before adding a 
+	  * Dimension object with arrays : arrayDimension attribute set to n. Reference: 
+	  * L3V1 Arrays V1 Section 3.3 
+	  */
+ 	 public static final int ARRAYS_20103 = 8020103; 
+
+	 /**
+	  * Error code 8020104:
+	  * The ListOfDimensions associated with an SBase object must not have multiple 
+	  * Dimension objects with the same arrays:arrayDimension attribute. Reference: L3V1 
+	  * Arrays V1 Section 3.3 
+	  */
+ 	 public static final int ARRAYS_20104 = 8020104; 
+
+	 /**
+	  * Error code 8020105:
+	  * A &lt;listOfDimensions&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;listOfDimensions&gt; object. Reference: L3V1 Arrays 
+	  * V1 Section 
+	  */
+ 	 public static final int ARRAYS_20105 = 8020105; 
+
+	 /**
+	  * Error code 8020106:
+	  * ListOf objects are not permitted to have a ListOfDimensions. Reference: L3V1 
+	  * Arrays V1 Section 3.3 
+	  */
+ 	 public static final int ARRAYS_20106 = 8020106; 
+
+	 /**
+	  * Error code 8020107:
+	  * InSBML Level 3 Core, Models, FunctionDefinitions, Units, UnitDefinitions, 
+	  * KineticLaws, LocalParameters, Triggers, Priorities, and Delays are not permitted 
+	  * to have a ListOfDimensions. All other SBML Level 3 Core objects are permitted to 
+	  * have a ListOfDimensions including: Compartments, Species, Parameters, Initial 
+	  * assignments, Rules, Constraints, Reactions, Species references, Events, and 
+	  * Event assignments.All SBML objects defined by packages that inherit from SBase 
+	  * are permitted to have a ListOfDimensions unless it is explicitly disallowed in 
+	  * the corresponding package specification. Reference: L3V1 Arrays V1 Section 3.3 
+	  */
+ 	 public static final int ARRAYS_20107 = 8020107; 
+
+	 /**
+	  * Error code 8020108:
+	  * The Dimension and Index objects are not permitted to have a ListOfDimensions. 
+	  * Reference: L3V1 Arrays V1 Section 3.3 
+	  */
+ 	 public static final int ARRAYS_20108 = 8020108; 
+
+	 /**
+	  * Error code 8020109:
+	  * Any object derived from the extended SBase class (defined in the Arrays package) 
+	  * may contain at most one instance of a ListOfIndices. Reference: L3V1 Arrays V1 
+	  * Section 3.4 
+	  */
+ 	 public static final int ARRAYS_20109 = 8020109; 
+
+	 /**
+	  * Error code 8020110:
+	  * Apart from the general notes and annotations subobjects permitted on all SBML 
+	  * objects, a &lt;listOfIndices&gt; container object may only contain &lt;index&gt; objects. 
+	  * Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20110 = 8020110; 
+
+	 /**
+	  * Error code 8020111:
+	  * The ListOfIndices associated with an SBase object must have a Index object with 
+	  * arrays:arrayDimension attribute set to 0, 1, . ,n-1 before adding a Index object 
+	  * with arrays : arrayDimension attribute set to n for every arrays : 
+	  * referencedAttribute that are being indexed. Reference: L3V1 Arrays V1 Section 
+	  * 3.3 
+	  */
+ 	 public static final int ARRAYS_20111 = 8020111; 
+
+	 /**
+	  * Error code 8020112:
+	  * The ListOfIndices in an SBase object must not have multiple Index objects with 
+	  * the same pair of values arrays:arrayDimension and arrays:referencedAttribute 
+	  * attributes. Reference: L3V1 Arrays V1 Section 3.4 
+	  */
+ 	 public static final int ARRAYS_20112 = 8020112; 
+
+	 /**
+	  * Error code 8020113:
+	  * A &lt;listOfIndices&gt; object may have the optional SBML Level 3 Core attributes 
+	  * 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core 
+	  * namespaces are permitted on a &lt;listOfIndices&gt; object. Reference: L3V1 Arrays V1 
+	  * Section 
+	  */
+ 	 public static final int ARRAYS_20113 = 8020113; 
+
+	 /**
+	  * Error code 8020114:
+	  * Only SBML objects that include defined attributes of type SIdRef are permitted 
+	  * to have a ListOfIndices. For SBML Level 3 Core, this includes Model to reference 
+	  * a conversionFactor element, Species to reference a compartment or a 
+	  * conversionFactor element, Reactions to reference a compartment, Initial 
+	  * assignments to reference a symbol, Rules to reference a variable, Species 
+	  * references to reference a species, and Events assignments to reference a 
+	  * variable. In addition to these, any SBML object in a package with a defined 
+	  * attribute of type SIdRef may also have a ListOfIndices. Reference: L3V1 Arrays 
+	  * V1 Section 3.4 
+	  */
+ 	 public static final int ARRAYS_20114 = 8020114; 
+
+	 /**
+	  * Error code 8020115:
+	  * SBase objects containg SIdRef must have a ListOfIndices if the referenced SBase 
+	  * is an array. Reference: L3V1 Arrays V1 Section 3.4 
+	  */
+ 	 public static final int ARRAYS_20115 = 8020115; 
+
+	 /**
+	  * Error code 8020116:
+	  * SBase objects containg SIdRef with a ListOfDimensions should have a 
+	  * ListOfIndices containing as many Index objects for this particular 
+	  * arrays:referencedAttribute as the number of Dimension objects the referenced 
+	  * object contains. Reference: L3V1 Arrays V1 Section 3.4 
+	  */
+ 	 public static final int ARRAYS_20116 = 8020116; 
+
+	 /**
+	  * Error code 8020117:
+	  * Reference: L3V1 Arrays V1 
+	  */
+ 	 public static final int ARRAYS_20117 = 8020117; 
+
+	 /**
+	  * Error code 8020201:
+	  * A &lt;dimension&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on a &lt;dimension&gt;. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20201 = 8020201; 
+
+	 /**
+	  * Error code 8020202:
+	  * A &lt;dimension&gt; object must have the required attributes 'arrays:size' and 
+	  * 'arrays:arrayDimension', and may have the optional attributes 'arrays:id' and 
+	  * 'arrays:name'. No other attributes from the SBML Level 3 arrays namespaces are 
+	  * permitted on a &lt;dimension&gt; object. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20202 = 8020202; 
+
+	 /**
+	  * Error code 8020203:
+	  * The attribute 'arrays:arrayDimension' on a &lt;dimension&gt; must have a value of data 
+	  * type 'integer'. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20203 = 8020203; 
+
+	 /**
+	  * Error code 8020204:
+	  * The value of the attribute 'arrays:size' of a &lt;dimension&gt; object must be the 
+	  * identifier of an existing &lt;sBase&gt; object defined in the enclosing &lt;model&gt; 
+	  * object. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20204 = 8020204; 
+
+	 /**
+	  * Error code 8020205:
+	  * The value of the Parameter referenced by the arrays:size attribute must be a 
+	  * non-negative scalar constant integer. Reference: L3V1 Arrays V1 Section 3.3 
+	  */
+ 	 public static final int ARRAYS_20205 = 8020205; 
+
+	 /**
+	  * Error code 8020301:
+	  * An &lt;index&gt; object may have the optional SBML Level 3 Core attributes 'metaid' 
+	  * and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are 
+	  * permitted on an &lt;index&gt;. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20301 = 8020301; 
+
+	 /**
+	  * Error code 8020302:
+	  * An &lt;index&gt; object must have the required attributes 'arrays:referencedAttribute' 
+	  * and 'arrays:arrayDimension'. No other attributes from the SBML Level 3 arrays 
+	  * namespaces are permitted on an &lt;index&gt; object. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20302 = 8020302; 
+
+	 /**
+	  * Error code 8020303:
+	  * The attribute 'arrays:referencedAttribute' on an &lt;index&gt; must have a value of 
+	  * data type 'string'. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20303 = 8020303; 
+
+	 /**
+	  * Error code 8020304:
+	  * The attribute 'arrays:arrayDimension' on an &lt;index&gt; must have a value of data 
+	  * type 'integer'. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20304 = 8020304; 
+
+	 /**
+	  * Error code 8020305:
+	  * The object referenced by the SIdRef indicated by the arrays:referencedAttribute 
+	  * attribute must include an arrays:arrayDimension matching the 
+	  * arrays:arrayDimension for the Index Reference: L3V1 Arrays V1 Section 3.4 
+	  */
+ 	 public static final int ARRAYS_20305 = 8020305; 
+
+	 /**
+	  * Error code 8020306:
+	  * An &lt;index&gt; object must contain one and only one instance of the ASTNode element. 
+	  * No other elements from the SBML Level 3 arrays namespaces are permitted on an 
+	  * &lt;index&gt; object. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20306 = 8020306; 
+
+	 /**
+	  * Error code 8020307:
+	  * The MathML math element in an Index object must be statically computable. In 
+	  * other words, any identifier that appears in the math element, other than a 
+	  * Dimension id for the object with this Index, must be a constant. Reference: L3V1 
+	  * Arrays V1 Section 3.4 
+	  */
+ 	 public static final int ARRAYS_20307 = 8020307; 
+
+	 /**
+	  * Error code 8020308:
+	  * For each possible value of each Dimension id (i.e., 0 to size-1 of the Dimension 
+	  * referred to) that appears in theMathML math element, there should be no array 
+	  * out of bounds problems. Namely, it must evaluate to a non-negative integer that 
+	  * is less than the size of the corresponding Dimension for the object being 
+	  * indexed. Reference: L3V1 Arrays V1 
+	  */
+ 	 public static final int ARRAYS_20308 = 8020308; 
+
+	 /**
+	  * Error code 8020309:
+	  * An &lt;index&gt; object may have the optional SBML Level 3 Core subobjects for notes 
+	  * and annotations. No other elements from the SBML Level 3 Core namespaces are 
+	  * permitted on an &lt;index&gt;. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20309 = 8020309; 
+
+	 /**
+	  * Error code 8020402:
+	  * A &lt;dimension&gt; object may have the optional SBML Level 3 Core subobjects for 
+	  * notes and annotations. No other elements from the SBML Level 3 Core namespaces 
+	  * are permitted on a &lt;dimension&gt;. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20402 = 8020402; 
+
+	 /**
+	  * Error code 8020403:
+	  * The attribute 'arrays:name' on a &lt;dimension&gt; must have a value of data type 
+	  * 'string'. Reference: L3V1 Arrays V1 Section 
+	  */
+ 	 public static final int ARRAYS_20403 = 8020403; 
 }
