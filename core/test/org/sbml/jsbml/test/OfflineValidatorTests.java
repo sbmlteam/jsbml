@@ -70,6 +70,8 @@ public class OfflineValidatorTests {
 
   private static Logger logger = Logger.getLogger(OfflineValidatorTests.class);
 
+  private static int nbNullSource = 0;
+
   /**
    * @param args
    */
@@ -224,6 +226,16 @@ public class OfflineValidatorTests {
    */
   private static String getPackageLabel(String codeStr)
   {
+    if (codeStr.startsWith("12")) {
+      return "spatial";
+    } else if (codeStr.startsWith("13")) {
+      return "render";
+    } else if (codeStr.startsWith("14")) {
+      return "L3v2extendedmath";
+    } else if (codeStr.startsWith("15")) {
+      return "distrib";
+    }
+    
     switch(codeStr.charAt(0)) {
     case '1':
       return "comp";
@@ -239,6 +251,8 @@ public class OfflineValidatorTests {
       return "multi";
     case '8':
       return "arrays";
+    case '9':
+      return "dyn";
 
     }
 
@@ -299,7 +313,26 @@ public class OfflineValidatorTests {
         prefix = "70";
         break;
       }
-
+      case "dyn": {
+        prefix = "90";
+        break;
+      }
+      case "spatial": {
+        prefix = "12";
+        break;
+      }
+      case "render": {
+        prefix = "13";
+        break;
+      }
+      case "L3v2extendedmath": {
+        prefix = "14";
+        break;
+      }
+      case "distrib": {
+        prefix = "15";
+        break;
+      }
       }
 
       return prefix + x[1];
@@ -314,6 +347,7 @@ public class OfflineValidatorTests {
 
       @Override
       public boolean accept(File pathname) {
+        
         return pathname.getName().endsWith(".xml")
             && pathname.getName().contains(filter);
       }
@@ -359,6 +393,7 @@ public class OfflineValidatorTests {
       boolean constraintBroken = false;
 
       System.out.println(errors + " constraints broken.");
+      
       for (SBMLError e : log.getValidationErrors()) {
         if (e.getCode() == errorCode) {
 

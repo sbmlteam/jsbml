@@ -440,6 +440,7 @@ public class UncertSpan extends UncertParameter {
       String value) {
 
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
 

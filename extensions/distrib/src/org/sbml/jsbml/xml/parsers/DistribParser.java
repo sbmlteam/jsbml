@@ -136,7 +136,10 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
         Uncertainty uncertainty = dSBase.createUncertainty();        
         
         return uncertainty;
-      } 
+      }
+      
+      // TODO - listOfUncertParameters
+      
     } else if (contextObject instanceof Uncertainty) {
       Uncertainty uncert = (Uncertainty) contextObject;
 

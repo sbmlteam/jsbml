@@ -37,7 +37,7 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = -1732369832900356125L;
+  private static final long serialVersionUID = 1500L;
   
   
   /**

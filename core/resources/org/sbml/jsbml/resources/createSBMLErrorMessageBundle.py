@@ -25,6 +25,8 @@ package_codes = [['CORE',          0],
                  ['REQ',     1100000],
                  ['SPATIAL', 1200000],
                  ['RENDER',  1300000],
+                 ['L3v2extendedmath', 1400000],
+                 ['DISTRIB', 1500000],
                  ['FBC',     2000000],
                  ['QUAL',    3000000],
                  ['GROUPS',  4000000],
@@ -51,12 +53,11 @@ file = '''/*
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2019 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
- * 4. The University of California, San Diego, La Jolla, CA, USA
- * 5. The Babraham Institute, Cambridge, UK
+ * 4. The Babraham Institute, Cambridge, UK
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -81,7 +82,7 @@ import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
  * 
  * <p>The key for each message is the integer defined for each {@link SBMLError} in {@link SBMLErrorCodes}.</p>
  * 
- * <p>Automatically generated file, using the python scripts extractErrors.py on the libSBML source code
+ * <p>Automatically generated file, using the python scripts extractErrors.py on the libSBML python module
  * and createSBMLErrorMessageBundle.py on the generated json file.</p>
  *
  * @see ResourceBundle
