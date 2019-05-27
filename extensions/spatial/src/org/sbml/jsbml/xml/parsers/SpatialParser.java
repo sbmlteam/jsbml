@@ -257,6 +257,10 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         spatialModel = new SpatialModelPlugin(model);
         model.addExtension(SpatialConstants.namespaceURI, spatialModel);
       }
+      
+      //keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, spatialModel);
+      
       if (elementName.equals(SpatialConstants.geometry)) {
         Geometry geometry = new Geometry();
         spatialModel.setGeometry(geometry);
