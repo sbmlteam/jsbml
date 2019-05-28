@@ -1338,7 +1338,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param node the orphan node
    * @param parent the parent
    */
-  static void setParentSBMLObject(ASTNode node, MathContainer parent) {
+  public static void setParentSBMLObject(ASTNode node, MathContainer parent) {
     node.setParent(parent);
     setParentSBMLObject(node, parent, 0);
   }
