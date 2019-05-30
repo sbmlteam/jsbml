@@ -80,9 +80,9 @@ public class SpatialCompartmentPluginConstraints extends AbstractConstraintDecla
 		  			@Override
 		  	        public boolean check(ValidationContext ctx, SpatialCompartmentPlugin spatialCP) {
 		  				boolean onlyOneCM = new DuplicatedElementValidationFunction<SpatialCompartmentPlugin>(SpatialConstants.compartmentMapping).check(ctx, spatialCP);
-		  				//boolean noOtherElements = new UnknownPackageElementValidationFunction<SpatialCompartmentPlugin>(SpatialConstants.shortLabel).check(ctx, spatialCP);
-		  				//return (onlyOneCM && noOtherElements);
-		  				return onlyOneCM;
+		  				boolean noOtherElements = new UnknownPackageElementValidationFunction<SpatialCompartmentPlugin>(SpatialConstants.shortLabel).check(ctx, spatialCP);
+		  				return (onlyOneCM && noOtherElements);
+		  				
 		  			}
 		  		};
 		  		
