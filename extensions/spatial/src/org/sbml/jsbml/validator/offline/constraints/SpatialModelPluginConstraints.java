@@ -29,6 +29,12 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
 
+/**
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link SpatialModelPlugin} class.
+ * 
+ * @author Bhavye Jain
+ * @since 1.5
+ */
 public class SpatialModelPluginConstraints extends AbstractConstraintDeclaration {
 	
 	  /* (non-Javadoc)
@@ -74,6 +80,9 @@ public class SpatialModelPluginConstraints extends AbstractConstraintDeclaration
 		  switch (errorCode) {
 		  	case SPATIAL_20201:
 		  	{
+		  		// A Model object may contain one and only one instance of the Geometry element. No other 
+		  		//elements from the SBML Level 3 Spatial Processes namespaces are permitted on a Model object.
+		  		
 		  		func = new ValidationFunction<SpatialModelPlugin>() {
 		  			@Override
 		  	        public boolean check(ValidationContext ctx, SpatialModelPlugin spatialMP) {
@@ -81,8 +90,7 @@ public class SpatialModelPluginConstraints extends AbstractConstraintDeclaration
 		  				boolean noOtherElements = new UnknownPackageElementValidationFunction<SpatialModelPlugin>(SpatialConstants.shortLabel).check(ctx, spatialMP);
 		  				return (onlyOneGeometry && noOtherElements);
 		  			}
-		  		};
-		  		
+		  		};		  		
 		  		break;
 		  	}
 		  }
