@@ -77,6 +77,7 @@ public class SpatialParameterPluginConstraints extends AbstractConstraintDeclara
 		  switch (errorCode) {
 		  	case SPATIAL_20501:
 		  	{
+		  		
 		  		func = new ValidationFunction<SpatialParameterPlugin>() {
 		  			@Override
 		  			public boolean check(ValidationContext ctx, SpatialParameterPlugin spatialPM) {
