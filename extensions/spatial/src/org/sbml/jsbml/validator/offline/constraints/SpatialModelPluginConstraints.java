@@ -27,7 +27,7 @@ import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
-//import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
 
 public class SpatialModelPluginConstraints extends AbstractConstraintDeclaration {
 	
@@ -78,9 +78,8 @@ public class SpatialModelPluginConstraints extends AbstractConstraintDeclaration
 		  			@Override
 		  	        public boolean check(ValidationContext ctx, SpatialModelPlugin spatialMP) {
 		  				boolean onlyOneGeometry = new DuplicatedElementValidationFunction<SpatialModelPlugin>(SpatialConstants.geometry).check(ctx, spatialMP);
-		  				//boolean noOtherElements = new UnknownPackageElementValidationFunction<SpatialModelPlugin>(SpatialConstants.shortLabel).check(ctx, spatialMP);
-		  				//return (onlyOneGeometry && noOtherElements);
-		  				return onlyOneGeometry;
+		  				boolean noOtherElements = new UnknownPackageElementValidationFunction<SpatialModelPlugin>(SpatialConstants.shortLabel).check(ctx, spatialMP);
+		  				return (onlyOneGeometry && noOtherElements);
 		  			}
 		  		};
 		  		

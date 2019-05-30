@@ -289,7 +289,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       }
       
       // keep order of elements for later validation
-      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      AbstractReaderWriter.storeElementsOrder(elementName, spatialCompartment);
       
       if (elementName.equals(SpatialConstants.compartmentMapping)) {
         CompartmentMapping compartmentMapping = new CompartmentMapping();
@@ -310,7 +310,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       }
       
       // keep order of elements for later validation
-      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      AbstractReaderWriter.storeElementsOrder(elementName, spatialParam);
 
       // TODO: CHECK create method. this might be the source of the problem.
       if (elementName.equals(SpatialConstants.spatialSymbolReference)) {
