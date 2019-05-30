@@ -50,7 +50,9 @@ public class SpatialCompartmentPluginConstraints extends AbstractConstraintDecla
 	    CHECK_CATEGORY category, ValidationContext context) {
 		  switch (category) {
 		    case GENERAL_CONSISTENCY:
-		    	set.add(SPATIAL_20301);
+		    	if(level >= 3) {
+		    		set.add(SPATIAL_20301);
+		    	}
 		      break;
 		    case IDENTIFIER_CONSISTENCY:
 		      break;
@@ -78,8 +80,9 @@ public class SpatialCompartmentPluginConstraints extends AbstractConstraintDecla
 		  			@Override
 		  	        public boolean check(ValidationContext ctx, SpatialCompartmentPlugin spatialCP) {
 		  				boolean onlyOneCM = new DuplicatedElementValidationFunction<SpatialCompartmentPlugin>(SpatialConstants.compartmentMapping).check(ctx, spatialCP);
-		  				boolean noOtherElements = new UnknownPackageElementValidationFunction<SpatialCompartmentPlugin>(SpatialConstants.shortLabel).check(ctx, spatialCP);
-		  				return (onlyOneCM && noOtherElements);
+		  				//boolean noOtherElements = new UnknownPackageElementValidationFunction<SpatialCompartmentPlugin>(SpatialConstants.shortLabel).check(ctx, spatialCP);
+		  				//return (onlyOneCM && noOtherElements);
+		  				return onlyOneCM;
 		  			}
 		  		};
 		  		
