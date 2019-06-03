@@ -219,7 +219,10 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
   @Override
   public boolean processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
-    Object contextObject) {
+    Object contextObject) { 
+	  
+	boolean isAttributeRead = false;
+	  
     if (contextObject instanceof Species) {
       Species species = (Species) contextObject;
       SpatialSpeciesPlugin spatialSpecies = null;
@@ -241,9 +244,16 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       }
       contextObject = spatialReaction;
     }
-
-    return super.processAttribute(elementName, attributeName, value, uri, prefix,
+    
+    isAttributeRead = super.processAttribute(elementName, attributeName, value, uri, prefix,
       isLastAttribute, contextObject);
+    
+    //TODO: This call should not be made because it is done in SBMLReader
+    if(!isAttributeRead) {
+    	super.processUnknownAttribute(attributeName, SpatialConstants.namespaceURI, value, prefix, contextObject);
+    }
+    
+    return isAttributeRead;
   }
 
   /* (non-Javadoc)

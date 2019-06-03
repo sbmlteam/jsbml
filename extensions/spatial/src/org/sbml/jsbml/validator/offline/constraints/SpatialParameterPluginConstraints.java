@@ -29,7 +29,12 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
 
-
+/**
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link SpatialParameterPlugin} class.
+ * 
+ * @author Bhavye Jain
+ * @since 1.5
+ */
 public class SpatialParameterPluginConstraints extends AbstractConstraintDeclaration {
 	
 	  /* (non-Javadoc)
@@ -77,6 +82,11 @@ public class SpatialParameterPluginConstraints extends AbstractConstraintDeclara
 		  switch (errorCode) {
 		  	case SPATIAL_20501:
 		  	{
+		  		// A Parameter object may contain one and only one instance of each of the  
+		  		// SpatialSymbolReference, AdvectionCoefficient, BoundaryCondition and   
+		  		// DiffusionCoefficient elements.No other elements from the SBML Level 3  
+		  		// Spatial Processes namespaces are permitted on a Parameter object. 
+		  		
 		  		func = new ValidationFunction<SpatialParameterPlugin>() {
 		  			@Override
 		  			public boolean check(ValidationContext ctx, SpatialParameterPlugin spatialPM) {
@@ -88,7 +98,6 @@ public class SpatialParameterPluginConstraints extends AbstractConstraintDeclara
 		  				return (onlyOneSSR && onlyOneAC && onlyOneBC && onlyOneDC && noOtherElements);
 		  			}
 		  		};
-		  		
 		  		break;
 		  	}
 		  }

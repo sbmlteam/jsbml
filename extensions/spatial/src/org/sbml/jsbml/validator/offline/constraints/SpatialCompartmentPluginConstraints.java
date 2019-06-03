@@ -29,7 +29,12 @@ import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
 
-
+/**
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link SpatialCompartmentPlugin} class.
+ * 
+ * @author Bhavye Jain
+ * @since 1.5
+ */
 public class SpatialCompartmentPluginConstraints extends AbstractConstraintDeclaration {
 	
 	  /* (non-Javadoc)
@@ -76,20 +81,21 @@ public class SpatialCompartmentPluginConstraints extends AbstractConstraintDecla
 		  switch (errorCode) {
 		  	case SPATIAL_20301:
 		  	{
+		  		// A Compartment object may contain one and only one instance of the CompartmentMapping
+		  		// element. No other elements from the SBML Level 3 Spatial Processes namespaces are
+		  		// permitted on a Compartment object.
+		  		
 		  		func = new ValidationFunction<SpatialCompartmentPlugin>() {
 		  			@Override
 		  	        public boolean check(ValidationContext ctx, SpatialCompartmentPlugin spatialCP) {
 		  				boolean onlyOneCM = new DuplicatedElementValidationFunction<SpatialCompartmentPlugin>(SpatialConstants.compartmentMapping).check(ctx, spatialCP);
 		  				boolean noOtherElements = new UnknownPackageElementValidationFunction<SpatialCompartmentPlugin>(SpatialConstants.shortLabel).check(ctx, spatialCP);
-		  				return (onlyOneCM && noOtherElements);
-		  				
+		  				return (onlyOneCM && noOtherElements);	  				
 		  			}
-		  		};
-		  		
+		  		};		  		
 		  		break;		  		
 		  	}
-		  }
-		  
+		  }		  
 		  return func;
 	  }
 	
