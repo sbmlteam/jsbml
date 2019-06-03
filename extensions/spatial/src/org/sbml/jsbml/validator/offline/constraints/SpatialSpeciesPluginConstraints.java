@@ -23,19 +23,19 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
-import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
+import org.sbml.jsbml.ext.spatial.SpatialSpeciesPlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 
 /**
- * Defines validation rules (as {@link ValidationFunction} instances) for the {@link SpatialModelPlugin} class.
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link SpatialSpeciesPlugin} class.
  * 
  * @author Bhavye Jain
  * @since 1.5
  */
-public class SpatialModelPluginConstraints extends AbstractConstraintDeclaration {
+public class SpatialSpeciesPluginConstraints extends AbstractConstraintDeclaration {
 	
 	  /* (non-Javadoc)
 	   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
@@ -44,6 +44,8 @@ public class SpatialModelPluginConstraints extends AbstractConstraintDeclaration
 	  public void addErrorCodesForAttribute(Set<Integer> set, int level,
 	    int version, String attributeName, ValidationContext context) 
 	  {
+	    // TODO 
+
 	  }
 	  
 	  /* (non-Javadoc)
@@ -54,8 +56,8 @@ public class SpatialModelPluginConstraints extends AbstractConstraintDeclaration
 	    CHECK_CATEGORY category, ValidationContext context) {
 		  switch (category) {
 		    case GENERAL_CONSISTENCY:
-		    	if(level >= 3) {
-		    		set.add(SPATIAL_20201);
+		    	if(level >= 3){
+		    		addRangeToSet(set, SPATIAL_20401, SPATIAL_20402);
 		    	}
 		      break;
 		    case IDENTIFIER_CONSISTENCY:
@@ -75,22 +77,24 @@ public class SpatialModelPluginConstraints extends AbstractConstraintDeclaration
 	  
 	  @Override
 	  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context){
-		  ValidationFunction<SpatialModelPlugin> func = null;
+		  ValidationFunction<SpatialSpeciesPlugin> func = null;
 		  
 		  switch (errorCode) {
-		  	case SPATIAL_20201:
+		  	case SPATIAL_20401:
 		  	{
-		  		// A Model object may contain one and only one instance of the Geometry element. No other 
-		  		//elements from the SBML Level 3 Spatial Processes namespaces are permitted on a Model object.
+		  		// A Species object may have the optional attribute spatial:isSpatial. No other attributes 
+		  		// from the SBML Level 3 Spatial Processes namespaces are permitted on a Species object.
+
+		  		func = new UnknownPackageAttributeValidationFunction<SpatialSpeciesPlugin>(SpatialConstants.shortLabel);
 		  		
-		  		func = new ValidationFunction<SpatialModelPlugin>() {
-		  			@Override
-		  	        public boolean check(ValidationContext ctx, SpatialModelPlugin spatialMP) {
-		  				boolean onlyOneGeometry = new DuplicatedElementValidationFunction<SpatialModelPlugin>(SpatialConstants.geometry).check(ctx, spatialMP);
-		  				boolean noOtherElements = new UnknownPackageElementValidationFunction<SpatialModelPlugin>(SpatialConstants.shortLabel).check(ctx, spatialMP);
-		  				return (onlyOneGeometry && noOtherElements);
-		  			}
-		  		};		  		
+		  		break;
+		  	}
+		  	case SPATIAL_20402:
+		  	{
+		  		// The attribute spatial:isSpatial on a Species must have a value of data type boolean.
+		  		
+		  		func = new InvalidAttributeValidationFunction<SpatialSpeciesPlugin>(SpatialConstants.isSpatial);
+		  		
 		  		break;
 		  	}
 		  }
