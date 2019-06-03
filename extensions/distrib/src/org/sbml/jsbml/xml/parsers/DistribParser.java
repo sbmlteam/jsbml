@@ -129,16 +129,11 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
     if (contextObject instanceof ListOf<?>) {
       ListOf<?> listOf = (ListOf<?>) contextObject;
 
-      if (elementName.equals(DistribConstants.uncertainty)) {
-        SBase dfd = listOf.getParentSBMLObject();
-        DistribSBasePlugin dSBase = (DistribSBasePlugin) dfd.getPlugin(DistribConstants.shortLabel);
+      Object newElement = createListOfChild(listOf, elementName);
 
-        Uncertainty uncertainty = dSBase.createUncertainty();        
-        
-        return uncertainty;
+      if (newElement != null) {
+        return newElement;
       }
-      
-      // TODO - listOfUncertParameters
       
     } else if (contextObject instanceof Uncertainty) {
       Uncertainty uncert = (Uncertainty) contextObject;
@@ -153,8 +148,12 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
         
         return uncertSpan;
       }
+    } else if (contextObject instanceof UncertParameter) {
+
+      if (elementName.equals(DistribConstants.listOfUncertParameters)) {
+        return ((UncertParameter) contextObject).getListOfUncertParameters();
+      }
     }
- 
     
     // If not other elements recognized the new element to read, it might be
     // on of the extended SBase children

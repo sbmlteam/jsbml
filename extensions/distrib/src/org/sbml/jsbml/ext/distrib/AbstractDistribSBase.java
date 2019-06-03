@@ -19,9 +19,15 @@
  */
 package org.sbml.jsbml.ext.distrib;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.SBase;
 
 
 /**
@@ -29,7 +35,7 @@ import org.sbml.jsbml.AbstractSBase;
  * @author rodrigue
  * @since 1.4
  */
-public abstract class AbstractDistribSBase extends AbstractSBase {
+public abstract class AbstractDistribSBase extends AbstractSBase implements NamedSBase {
 
   /**
    * 
@@ -113,16 +119,49 @@ public abstract class AbstractDistribSBase extends AbstractSBase {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
 
-      if (isSetId() && getVersion() == 1) {
+      if (isSetId()) {
         attributes.remove("id");
         attributes.put(DistribConstants.shortLabel + ":id", getId());
       }
-      if (isSetName() && getVersion() == 1) {
+      if (isSetName()) {
         attributes.remove("name");
-        attributes.put(DistribConstants.shortLabel + ":name", getId());
+        attributes.put(DistribConstants.shortLabel + ":name", getName());
       }
 
       return attributes;
   }
+  
+  
+
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+
+    return count;
+  }
+
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
+    }
+
+    int count = super.getChildCount(), pos = 0;
+
+    if (index < count) {
+      return super.getChildAt(index);
+    }
+    
+    throw new IndexOutOfBoundsException(
+        MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
+
+            index, Math.min(pos, 0)));
+  }
+
 
 }

@@ -208,6 +208,11 @@ public class DistribConstants {
    */
   public static final String definitionURL = "definitionURL";
 
+  /**
+   * 
+   */
+  public static final String listOfUncertParameters = "listOfUncertParameters";
+
   static {
     namespaces = new ArrayList<String>();
     namespaces.add(namespaceURI_L3V1V1);
