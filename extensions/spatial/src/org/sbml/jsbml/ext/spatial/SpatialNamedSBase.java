@@ -19,11 +19,15 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBase;
 
 /**
+ * Interface used to tell if a spatial class can have an id or not. Deprecated, {@link NamedSBase} should be used. 
+ * 
  * @author Alex Thomas
  * @since 1.0
+ * @deprecated since id and name have been added to the spatial package classes, this interface is not needed any more and {@link NamedSBase} can be used instead.
  */
 public interface SpatialNamedSBase extends SBase {
 
@@ -31,13 +35,15 @@ public interface SpatialNamedSBase extends SBase {
    * Unsets the id
    *
    * @return {@code true}, if id was set before, otherwise {@code false}
+   * @deprecated use {@link SBase#unsetId()}
    */
   public boolean unsetSpatialId();
 
   /**
    * Sets the value of the id
    * 
-   * @param id
+   * @param id the id to set
+   * @deprecated use {@link SBase#setId(String)}
    */
   public void setSpatialId(String id);
 
@@ -45,6 +51,7 @@ public interface SpatialNamedSBase extends SBase {
    * Returns whether id is set
    *
    * @return whether id is set
+   * @deprecated use {@link SBase#isSetId()}
    */
   public boolean isSetSpatialId();
 
@@ -52,6 +59,7 @@ public interface SpatialNamedSBase extends SBase {
    * Returns the value of the id attribute
    *
    * @return the value of id
+   * @deprecated use {@link SBase#getId()}
    */
   public String getSpatialId();
 
