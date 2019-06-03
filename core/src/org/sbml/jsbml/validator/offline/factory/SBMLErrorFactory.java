@@ -39,7 +39,6 @@ import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Trigger;
-import org.sbml.jsbml.test.OfflineValidatorTests;
 import org.sbml.jsbml.util.Message;
 import org.sbml.jsbml.validator.offline.i18n.SBMLErrorMessage;
 import org.sbml.jsbml.validator.offline.i18n.SBMLErrorPostMessage;
