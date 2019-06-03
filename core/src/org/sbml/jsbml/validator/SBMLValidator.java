@@ -476,7 +476,9 @@ public class SBMLValidator {
       return SBMLValidator.checkConsistency(xmlValidationString);
 
     } catch (Exception e) {
-
+      if (logger.isDebugEnabled()) {
+        e.printStackTrace();
+      }
     }
 
     return null;
@@ -574,6 +576,10 @@ public class SBMLValidator {
         logger.info("There is probably an issue with the sbml.org validator API, please contact the SBML team on [sbml-team at googlegroups.com].");
       }
 
+      if (logger.isDebugEnabled()) {
+        e.printStackTrace();
+      }
+    } catch (Exception e) {
       if (logger.isDebugEnabled()) {
         e.printStackTrace();
       }
