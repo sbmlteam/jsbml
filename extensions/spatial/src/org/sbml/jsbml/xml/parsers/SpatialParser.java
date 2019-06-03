@@ -248,6 +248,7 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     isAttributeRead = super.processAttribute(elementName, attributeName, value, uri, prefix,
       isLastAttribute, contextObject);
     
+    //TODO: This call should not be made because it is done in SBMLReader
     if(!isAttributeRead) {
     	super.processUnknownAttribute(attributeName, SpatialConstants.namespaceURI, value, prefix, contextObject);
     }
