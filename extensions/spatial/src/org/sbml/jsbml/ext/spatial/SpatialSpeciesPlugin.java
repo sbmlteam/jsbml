@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -176,8 +177,9 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
       try {
         setSpatial(StringTools.parseSBMLBooleanStrict(value));
         isAttributeRead = true;
-      } catch (IllegalArgumentException e) {
-    	AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);  
+      } catch (Exception e) {
+    	AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
+    	throw new SBMLException(MessageFormat.format(bundle.getString("COULD_NOT_READ"), value, SpatialConstants.isSpatial));
       }
 
     }
