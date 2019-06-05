@@ -436,6 +436,38 @@ public class StringTools {
   }
 
   /**
+   * Parses a String into a double number following the rules of the SBML
+   * specifications, section 3.1.5.
+   * 
+   * @param valueAsStr
+   *            a double as a String
+   * @return the String as a double. If the String is not a valid double number,
+   *         an exception is returned.
+   * @throws IllegalArgumentException if the String cannot be converted into a double.
+   */
+  public static double parseSBMLDoubleStrict(String valueAsStr) {
+
+    double value = Double.NaN;
+    String toTest = valueAsStr.trim();
+
+    try {
+      value = Double.parseDouble(toTest);
+    } catch (NumberFormatException e) {
+      if (toTest.equalsIgnoreCase("INF")) {
+        value = Double.POSITIVE_INFINITY;
+      } else if (toTest.equalsIgnoreCase("-INF")) {
+        value = Double.NEGATIVE_INFINITY;
+      } else {
+    	  Logger logger = Logger.getLogger(StringTools.class);
+          logger.warn("Could not create a double from the string '" + valueAsStr + "'");
+    	  throw new IllegalArgumentException("Could not create a double from the string " + valueAsStr);
+      }
+    }
+
+    return value;
+  }  
+  
+  /**
    * Parses a {@link String} into an int number following the rules of the SBML
    * specifications, section 3.1.3.
    * 
