@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * @author Alex Thomas
@@ -293,8 +294,9 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
       }
       else if (attributeName.equals(SpatialConstants.unitSize)) {
         try {
-          setUnitSize(StringTools.parseSBMLDouble(value));
+          setUnitSize(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.unitSize, getElementName()));
         }

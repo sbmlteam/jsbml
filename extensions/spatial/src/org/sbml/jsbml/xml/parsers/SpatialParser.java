@@ -62,6 +62,7 @@ import org.sbml.jsbml.ext.spatial.DomainType;
 import org.sbml.jsbml.ext.spatial.Geometry;
 import org.sbml.jsbml.ext.spatial.GeometryDefinition;
 import org.sbml.jsbml.ext.spatial.InteriorPoint;
+import org.sbml.jsbml.ext.spatial.MixedGeometry;
 import org.sbml.jsbml.ext.spatial.ParametricGeometry;
 import org.sbml.jsbml.ext.spatial.ParametricObject;
 import org.sbml.jsbml.ext.spatial.SampledField;
@@ -574,9 +575,9 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         AnalyticGeometry elem = new AnalyticGeometry();
         geo.addGeometryDefinition(elem);
         return elem;
-      } else if (elementName.equals(SpatialConstants.analyticGeometry)) {
+      } else if (elementName.equals(SpatialConstants.mixedGeometry)) {
         Geometry geo = (Geometry) listOf.getParentSBMLObject();
-        AnalyticGeometry elem = new AnalyticGeometry();
+        MixedGeometry elem = new MixedGeometry();
         geo.addGeometryDefinition(elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.csGeometry)) {

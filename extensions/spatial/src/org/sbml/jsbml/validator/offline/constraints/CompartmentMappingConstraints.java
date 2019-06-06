@@ -21,8 +21,13 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.ext.spatial.Boundary;
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.ext.spatial.CompartmentMapping;
+import org.sbml.jsbml.ext.spatial.DomainType;
+import org.sbml.jsbml.ext.spatial.Geometry;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
+import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
@@ -31,12 +36,12 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementVal
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 
 /**
- * Defines validation rules (as {@link ValidationFunction} instances) for the {@link Boundary} class.
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link CompartmentMapping} class.
  * 
  * @author Bhavye Jain
  * @since 1.5
  */
-public class BoundaryConstraints extends AbstractConstraintDeclaration {
+public class CompartmentMappingConstraints extends AbstractConstraintDeclaration {
 	
 	  /* (non-Javadoc)
 	   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
@@ -58,7 +63,7 @@ public class BoundaryConstraints extends AbstractConstraintDeclaration {
 		  switch (category) {
 		    case GENERAL_CONSISTENCY:
 		    	if(level >= 3){		    		
-		    		addRangeToSet(set, SPATIAL_21001, SPATIAL_21004);
+		    		addRangeToSet(set, SPATIAL_21301, SPATIAL_21305);
 		    	}
 		      break;
 		    case IDENTIFIER_CONSISTENCY:
@@ -78,55 +83,88 @@ public class BoundaryConstraints extends AbstractConstraintDeclaration {
 	  
 	  @Override
 	  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context){
-		  ValidationFunction<Boundary> func = null;
+		  ValidationFunction<CompartmentMapping> func = null;
 		  
 		  switch (errorCode) {
-		  	case SPATIAL_21001:
+		  	
+		    case SPATIAL_21301:
 		  	{
-		  		// A Boundary object may have the optional SBML Level 3 Core attributes metaid and sboTerm. 
-		  		// No other attributes from the SBML Level 3 Core namespaces are permitted on a Boundary.
+		  		// A CompartmentMapping object may have the optional SBML Level 3 Core attributes metaid 
+		  		// and sboTerm. No other attributes from the SBML Level 3 Core namespaces are permitted on a 
+		  		// CompartmentMapping.
 		  		
-		  		func = new UnknownCoreAttributeValidationFunction<Boundary>();
+		  		func = new UnknownCoreAttributeValidationFunction<CompartmentMapping>();
 		  		break;
 		  	}
 		  	
-		  	case SPATIAL_21002:
+		  	case SPATIAL_21302:
 		  	{
-		  		// A Boundary object may have the optional SBML Level 3 Core subobjects for notes and annotations.
-		  		// No other elements from the SBML Level 3 Core namespaces are permitted on a Boundary
+		  		// A CompartmentMapping object may have the optional SBML Level 3 Core subobjects for notes 
+		  		// and annotations. No other elements from the SBML Level 3 Core namespaces are permitted 
+		  		// on a CompartmentMapping. 
 		  		
-		  		func = new UnknownCoreElementValidationFunction<Boundary>();
+		  		func = new UnknownCoreElementValidationFunction<CompartmentMapping>();
 		  		break;
 		  	}
 		  	
-		  	case SPATIAL_21003:
+		  	case SPATIAL_21303:
 		  	{
-		  		// A Boundary object must have the required attributes spatial:id and spatial:value. No 
-		  		// other attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a 
-		  		// Boundary object.
+		  		// A CompartmentMapping object must have the required attributes spatial:id, 
+		  		// spatial:domainType and spatial:unitSize. No other attributes from the SBML Level 3  
+		  		// Spatial Processes namespaces are permitted on a CompartmentMapping object.
 		  		
-		  		func = new UnknownPackageAttributeValidationFunction<Boundary>(SpatialConstants.shortLabel) {
+		  		func = new UnknownPackageAttributeValidationFunction<CompartmentMapping>(SpatialConstants.shortLabel) {
 		  			
 		  			@Override
-		  			public boolean check(ValidationContext ctx, Boundary bound) {
+		  			public boolean check(ValidationContext ctx, CompartmentMapping cm) {
 		  				
-		  				if(!bound.isSetId()) {
+		  				if(!cm.isSetId()) {
 		  					return false;
 		  				}
-		  				if(!bound.isSetValue()) {
+		  				if(!cm.isSetDomainType()) {
 		  					return false;
 		  				}
-		  				return super.check(ctx, bound);
+		  				if(!cm.isSetUnitSize()) {
+		  					return false;
+		  				}
+		  				return super.check(ctx, cm);
 		  			}
 		  		};
 		  		break;
 		  	}
 		  	
-		  	case SPATIAL_21004:
+		  	case SPATIAL_21304:
 		  	{
-		  		// The attribute spatial:value on a Boundary must have a value of data type double.
+		  		// The value of the attribute spatial:domainType of a CompartmentMapping object must be the 
+		  		// identifier of an existing DomainType object defined in the enclosing Model object.
 		  		
-		  		func = new InvalidAttributeValidationFunction<Boundary>(SpatialConstants.value);
+		  		func = new ValidationFunction<CompartmentMapping>() {
+		  			
+		  			@Override
+		  			public boolean check(ValidationContext ctx, CompartmentMapping cm) {
+		  				
+		  				if(cm.isSetDomainType()) {
+		  					Model m = cm.getModel();
+		  					SpatialModelPlugin smp = (SpatialModelPlugin) m.getPlugin(SpatialConstants.shortLabel);
+		  					Geometry g = smp.getGeometry();
+			  				DomainType dt = g.getDomainType(cm.getDomainType());
+			  				if(dt == null) {
+			  					return false;
+			  				}
+		  				}
+		  				
+		  				return true;
+		  			}
+		  		};
+		  		
+		  		break;
+		  	}
+		  	
+		  	case SPATIAL_21305:
+		  	{
+		  		// The attribute spatial:unitSize on a CompartmentMapping must have a value of data type double.
+		  		
+		  		func = new InvalidAttributeValidationFunction<CompartmentMapping>(SpatialConstants.unitSize);
 		  		break;
 		  	}
 		  }
