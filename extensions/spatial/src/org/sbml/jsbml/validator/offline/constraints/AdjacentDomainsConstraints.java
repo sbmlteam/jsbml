@@ -21,26 +21,23 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.ext.spatial.CompartmentMapping;
-import org.sbml.jsbml.ext.spatial.DomainType;
-import org.sbml.jsbml.ext.spatial.Geometry;
+import org.sbml.jsbml.ext.spatial.AdjacentDomains;
+import org.sbml.jsbml.ext.spatial.Domain;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
 import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 
 /**
- * Defines validation rules (as {@link ValidationFunction} instances) for the {@link CompartmentMapping} class.
+ * Defines validation rules (as {@link ValidationFunction} instances) for the {@link AdjacentDomains} class.
  * 
  * @author Bhavye Jain
  * @since 1.5
  */
-public class CompartmentMappingConstraints extends AbstractConstraintDeclaration {
+public class AdjacentDomainsConstraints extends AbstractConstraintDeclaration {
 	
 	  /* (non-Javadoc)
 	   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
@@ -62,7 +59,7 @@ public class CompartmentMappingConstraints extends AbstractConstraintDeclaration
 		  switch (category) {
 		    case GENERAL_CONSISTENCY:
 		    	if(level >= 3){		    		
-		    		addRangeToSet(set, SPATIAL_21301, SPATIAL_21305);
+		    		addRangeToSet(set, SPATIAL_21101, SPATIAL_21105);
 		    	}
 		      break;
 		    case IDENTIFIER_CONSISTENCY:
@@ -82,72 +79,71 @@ public class CompartmentMappingConstraints extends AbstractConstraintDeclaration
 	  
 	  @Override
 	  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context){
-		  ValidationFunction<CompartmentMapping> func = null;
+		  ValidationFunction<AdjacentDomains> func = null;
 		  
 		  switch (errorCode) {
 		  	
-		    case SPATIAL_21301:
+		  	case SPATIAL_21101:
 		  	{
-		  		// A CompartmentMapping object may have the optional SBML Level 3 Core attributes metaid 
-		  		// and sboTerm. No other attributes from the SBML Level 3 Core namespaces are permitted on a 
-		  		// CompartmentMapping.
+		  		// An AdjacentDomains object may have the optional SBML Level 3 Core attributes metaid and 
+		  		//sboTerm. No other attributes from the SBML Level 3 Core namespaces are permitted on an AdjacentDomains.
 		  		
-		  		func = new UnknownCoreAttributeValidationFunction<CompartmentMapping>();
+		  		func = new UnknownCoreAttributeValidationFunction<AdjacentDomains>();
 		  		break;
 		  	}
 		  	
-		  	case SPATIAL_21302:
+		  	case SPATIAL_21102:
 		  	{
-		  		// A CompartmentMapping object may have the optional SBML Level 3 Core subobjects for notes 
+		  		// An AdjacentDomains object may have the optional SBML Level 3 Core subobjects for notes 
 		  		// and annotations. No other elements from the SBML Level 3 Core namespaces are permitted 
-		  		// on a CompartmentMapping. 
+		  		// on an AdjacentDomains.
 		  		
-		  		func = new UnknownCoreElementValidationFunction<CompartmentMapping>();
+		  		func = new UnknownCoreElementValidationFunction<AdjacentDomains>();
 		  		break;
 		  	}
 		  	
-		  	case SPATIAL_21303:
+		  	case SPATIAL_21103:
 		  	{
-		  		// A CompartmentMapping object must have the required attributes spatial:id, 
-		  		// spatial:domainType and spatial:unitSize. No other attributes from the SBML Level 3  
-		  		// Spatial Processes namespaces are permitted on a CompartmentMapping object.
+		  		// An AdjacentDomains object must have the required attributes spatial:id, spatial:domainOne
+		  		// and spatial:domainTwo. No other attributes from the SBML Level 3 Spatial Processes namespaces  
+		  		// are permitted on an AdjacentDomains object.
 		  		
-		  		func = new UnknownPackageAttributeValidationFunction<CompartmentMapping>(SpatialConstants.shortLabel) {
+		  		func = new UnknownPackageAttributeValidationFunction<AdjacentDomains>(SpatialConstants.shortLabel) {
 		  			
 		  			@Override
-		  			public boolean check(ValidationContext ctx, CompartmentMapping cm) {
+		  			public boolean check(ValidationContext ctx, AdjacentDomains adj) {
 		  				
-		  				if(!cm.isSetId()) {
+		  				if(!adj.isSetId()) {
 		  					return false;
 		  				}
-		  				if(!cm.isSetDomainType()) {
+		  				if(!adj.isSetDomain1()) {
 		  					return false;
 		  				}
-		  				if(!cm.isSetUnitSize()) {
+		  				if(!adj.isSetDomain2()) {
 		  					return false;
 		  				}
-		  				return super.check(ctx, cm);
+		  				
+		  				return super.check(ctx, adj);
 		  			}
 		  		};
+		  		
 		  		break;
 		  	}
 		  	
-		  	case SPATIAL_21304:
+		  	case SPATIAL_21104:
 		  	{
-		  		// The value of the attribute spatial:domainType of a CompartmentMapping object must be the 
-		  		// identifier of an existing DomainType object defined in the enclosing Model object.
+		  		// The value of the attribute spatial:domainOne of an AdjacentDomains object must be the
+		  		// identifier of an existing Domain object defined in the enclosing Model object.
 		  		
-		  		func = new ValidationFunction<CompartmentMapping>() {
+		  		func = new ValidationFunction<AdjacentDomains>() {
 		  			
 		  			@Override
-		  			public boolean check(ValidationContext ctx, CompartmentMapping cm) {
+		  			public boolean check(ValidationContext ctx, AdjacentDomains adj) {
 		  				
-		  				if(cm.isSetDomainType()) {
-		  					Model m = cm.getModel();
-		  					SpatialModelPlugin smp = (SpatialModelPlugin) m.getPlugin(SpatialConstants.shortLabel);
-		  					Geometry g = smp.getGeometry();
-			  				DomainType dt = g.getDomainType(cm.getDomainType());
-			  				if(dt == null) {
+		  				if(adj.isSetDomain1()) {
+		  					SpatialModelPlugin smp = (SpatialModelPlugin) adj.getModel().getPlugin(SpatialConstants.shortLabel);
+			  				Domain dom = smp.getGeometry().getDomain(adj.getDomain1());
+			  				if(dom == null) {
 			  					return false;
 			  				}
 		  				}
@@ -159,11 +155,27 @@ public class CompartmentMappingConstraints extends AbstractConstraintDeclaration
 		  		break;
 		  	}
 		  	
-		  	case SPATIAL_21305:
+		  	case SPATIAL_21105:
 		  	{
-		  		// The attribute spatial:unitSize on a CompartmentMapping must have a value of data type double.
+		  		// The value of the attribute spatial:domainTwo of an AdjacentDomains object must be the 
+		  		// identifier of an existing Domain object defined in the enclosing Model object.
 		  		
-		  		func = new InvalidAttributeValidationFunction<CompartmentMapping>(SpatialConstants.unitSize);
+		  		func = new ValidationFunction<AdjacentDomains>() {
+		  			
+		  			@Override
+		  			public boolean check(ValidationContext ctx, AdjacentDomains adj) {
+		  				
+		  				if(adj.isSetDomain2()) {
+		  					SpatialModelPlugin smp = (SpatialModelPlugin) adj.getModel().getPlugin(SpatialConstants.shortLabel);
+			  				Domain dom = smp.getGeometry().getDomain(adj.getDomain2());
+			  				if(dom == null) {
+			  					return false;
+			  				}
+		  				}
+		  				
+		  				return true;
+		  			}
+		  		};
 		  		break;
 		  	}
 		  }
