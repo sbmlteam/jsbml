@@ -21,7 +21,6 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ext.spatial.CompartmentMapping;
 import org.sbml.jsbml.ext.spatial.DomainType;
