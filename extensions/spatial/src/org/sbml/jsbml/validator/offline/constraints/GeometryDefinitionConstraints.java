@@ -58,7 +58,7 @@ public class GeometryDefinitionConstraints extends AbstractConstraintDeclaration
 		  switch (category) {
 		    case GENERAL_CONSISTENCY:
 		    	if(level >= 3){		    		
-		    		addRangeToSet(set, SPATIAL_21201, SPATIAL_21204);
+		    		addRangeToSet(set, SPATIAL_21201, SPATIAL_21205);
 		    	}
 		      break;
 		    case IDENTIFIER_CONSISTENCY:
@@ -104,8 +104,8 @@ public class GeometryDefinitionConstraints extends AbstractConstraintDeclaration
 		  	case SPATIAL_21203:
 		  	{
 		  		// A GeometryDefinition object must have the required attributes spatial:id and spatial:
-		  		// isActive. No other attributes from the SBML Level 3 Spatial Processes namespaces are 
-		  		// permitted on a GeometryDefinition object.
+		  		// isActive, and may have the optional attribute spatial:name. No other attributes from 
+		  		// the SBML Level 3 Spatial Processes namespaces are permitted on a GeometryDefinition object. 		  	
 		  		
 		  		func = new UnknownPackageAttributeValidationFunction<GeometryDefinition>(SpatialConstants.shortLabel) {
 		  			
@@ -129,6 +129,23 @@ public class GeometryDefinitionConstraints extends AbstractConstraintDeclaration
 		  		// The attribute spatial:isActive on a GeometryDefinition must have a value of data type boolean.
 		  		
 		  		func = new InvalidAttributeValidationFunction<GeometryDefinition>(SpatialConstants.isActive);
+		  		break;
+		  	}
+		  	
+		  	case SPATIAL_21205:
+		  	{
+		  		// The attribute spatial:name on a GeometryDefinition must have a value of data type string.
+		  		
+		  		func = new ValidationFunction<GeometryDefinition>() {
+		  			
+		  			@Override
+		  			public boolean check(ValidationContext ctx, GeometryDefinition gdef) {
+		  				
+		  				//nothing to check as Java reads any kind of string
+		  				return true;
+		  			}
+		  		};
+		  		
 		  		break;
 		  	}
 		  }

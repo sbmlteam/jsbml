@@ -58,7 +58,7 @@ public class BoundaryConstraints extends AbstractConstraintDeclaration {
 		  switch (category) {
 		    case GENERAL_CONSISTENCY:
 		    	if(level >= 3){		    		
-		    		addRangeToSet(set, SPATIAL_21001, SPATIAL_21004);
+		    		addRangeToSet(set, SPATIAL_21001, SPATIAL_21005);
 		    	}
 		      break;
 		    case IDENTIFIER_CONSISTENCY:
@@ -101,9 +101,9 @@ public class BoundaryConstraints extends AbstractConstraintDeclaration {
 		  	
 		  	case SPATIAL_21003:
 		  	{
-		  		// A Boundary object must have the required attributes spatial:id and spatial:value. No 
-		  		// other attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a 
-		  		// Boundary object.
+		  		// A Boundary object must have the required attributes spatial:id and spatial:value, and may have  
+		  		// the optional attribute spatial:name. No other attributes from the SBML Level 3 Spatial Processes
+		  		// namespaces are permitted on a Boundary object.
 		  		
 		  		func = new UnknownPackageAttributeValidationFunction<Boundary>(SpatialConstants.shortLabel) {
 		  			
@@ -127,6 +127,23 @@ public class BoundaryConstraints extends AbstractConstraintDeclaration {
 		  		// The attribute spatial:value on a Boundary must have a value of data type double.
 		  		
 		  		func = new InvalidAttributeValidationFunction<Boundary>(SpatialConstants.value);
+		  		break;
+		  	}
+		  	
+		  	case SPATIAL_21005:
+		  	{
+		  		// The attribute spatial:name on a Boundary must have a value of data type string.
+		  		
+		  		func = new ValidationFunction<Boundary>() {
+		  			
+		  			@Override
+		  			public boolean check(ValidationContext ctx, Boundary bound) {
+		  				
+		  				//nothing to check as Java reads any kind of string
+		  				return true;
+		  			}
+		  		};
+		  		
 		  		break;
 		  	}
 		  }
