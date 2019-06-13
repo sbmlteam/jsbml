@@ -62,7 +62,7 @@ public class CompartmentMappingConstraints extends AbstractConstraintDeclaration
 		  switch (category) {
 		    case GENERAL_CONSISTENCY:
 		    	if(level >= 3){		    		
-		    		addRangeToSet(set, SPATIAL_21301, SPATIAL_21305);
+		    		addRangeToSet(set, SPATIAL_21301, SPATIAL_21306);
 		    	}
 		      break;
 		    case IDENTIFIER_CONSISTENCY:
@@ -108,9 +108,9 @@ public class CompartmentMappingConstraints extends AbstractConstraintDeclaration
 		  	
 		  	case SPATIAL_21303:
 		  	{
-		  		// A CompartmentMapping object must have the required attributes spatial:id, 
-		  		// spatial:domainType and spatial:unitSize. No other attributes from the SBML Level 3  
-		  		// Spatial Processes namespaces are permitted on a CompartmentMapping object.
+		  		// A CompartmentMapping object must have the required attributes spatial:id, spatial:domainType
+		  		// and spatial:unitSize, and may have the optional attribute spatial:name. No other attributes
+		  		// from the SBML Level 3 Spatial Processes namespaces are permitted on a CompartmentMapping object.
 		  		
 		  		func = new UnknownPackageAttributeValidationFunction<CompartmentMapping>(SpatialConstants.shortLabel) {
 		  			
@@ -164,6 +164,23 @@ public class CompartmentMappingConstraints extends AbstractConstraintDeclaration
 		  		// The attribute spatial:unitSize on a CompartmentMapping must have a value of data type double.
 		  		
 		  		func = new InvalidAttributeValidationFunction<CompartmentMapping>(SpatialConstants.unitSize);
+		  		break;
+		  	}
+		  	
+		  	case SPATIAL_21306:
+		  	{
+		  		// The attribute spatial:name on a CompartmentMapping must have a value of data type string.
+		  		
+		  		func = new ValidationFunction<CompartmentMapping>() {
+		  			
+		  			@Override
+		  			public boolean check(ValidationContext ctx, CompartmentMapping cm) {
+		  				
+		  				// nothing to check as Java reads any kind of string.
+		  				return true;
+		  			}
+		  		};
+		  		
 		  		break;
 		  	}
 		  }

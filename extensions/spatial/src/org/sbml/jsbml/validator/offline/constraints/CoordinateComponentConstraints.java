@@ -60,7 +60,7 @@ public class CoordinateComponentConstraints extends AbstractConstraintDeclaratio
 		  switch (category) {
 		    case GENERAL_CONSISTENCY:
 		      if(level >= 3){		    		
-		    	addRangeToSet(set, SPATIAL_21401, SPATIAL_21406);
+		    	addRangeToSet(set, SPATIAL_21401, SPATIAL_21407);
 		      }
 		      break;
 		    case IDENTIFIER_CONSISTENCY:
@@ -107,8 +107,8 @@ public class CoordinateComponentConstraints extends AbstractConstraintDeclaratio
 		    case SPATIAL_21403:
 		  	{
 		  	    // A CoordinateComponent object must have the required attributes spatial:id and spatial:type, 
-		  		// and may have the optional attribute spatial:unit. No other attributes from the SBML 
-		  		// Level 3 Spatial Processes namespaces are permitted on a CoordinateComponent object.
+		  		// and may have the optional attributes spatial:name and spatial:unit. No other attributes from  
+		  		// the SBML Level 3 Spatial Processes namespaces are permitted on a CoordinateComponent object.
 		  		
 		  		func = new UnknownPackageAttributeValidationFunction<CoordinateComponent>(SpatialConstants.shortLabel) {
 		  			
@@ -129,9 +129,9 @@ public class CoordinateComponentConstraints extends AbstractConstraintDeclaratio
 		  	
 		    case SPATIAL_21404:
 		  	{
-		  	    // A CoordinateComponent object must contain one and only one instance of each of the 
-		  		// Boundary and Boundary elements. No other elements from the SBML Level 3 Spatial  
-		  		// Processes namespaces are permitted on a CoordinateComponent object.
+		  	    // A CoordinateComponent object must contain one and only one instance of each of the two 
+		  		// Boundary elements “boundaryMin” and “boundaryMax”. No other elements from the SBML 
+		  		// Level 3 Spatial Processes namespaces are permitted on a CoordinateComponent object.
 		  		
 		  		func = new ValidationFunction<CoordinateComponent>() {
 		  			
@@ -158,6 +158,22 @@ public class CoordinateComponentConstraints extends AbstractConstraintDeclaratio
 		  	}
 		  	
 		    case SPATIAL_21406:
+		    {
+		    	// The attribute spatial:name on a CoordinateComponent must have a value of data type string.
+		    	
+		    	func = new ValidationFunction<CoordinateComponent>() {
+		    		
+		    		@Override
+		    		public boolean check(ValidationContext ctx, CoordinateComponent cc) {
+		    			
+		    			// nothing to check as Java reads any kind of string.
+		    			return true;
+		    		}
+		    	};
+		    	break;
+		    }
+		  	
+		    case SPATIAL_21407:
 		  	{
 		  	    // The value of the attribute spatial:unit on a CoordinateComponent must have a taken from 
 		  		// the following: the identifier of a UnitDefinition object in the enclosing Model, or one  

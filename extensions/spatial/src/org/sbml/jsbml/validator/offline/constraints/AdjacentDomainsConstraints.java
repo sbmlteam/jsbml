@@ -59,7 +59,7 @@ public class AdjacentDomainsConstraints extends AbstractConstraintDeclaration {
 		  switch (category) {
 		    case GENERAL_CONSISTENCY:
 		    	if(level >= 3){		    		
-		    		addRangeToSet(set, SPATIAL_21101, SPATIAL_21105);
+		    		addRangeToSet(set, SPATIAL_21101, SPATIAL_21106);
 		    	}
 		      break;
 		    case IDENTIFIER_CONSISTENCY:
@@ -105,8 +105,8 @@ public class AdjacentDomainsConstraints extends AbstractConstraintDeclaration {
 		  	case SPATIAL_21103:
 		  	{
 		  		// An AdjacentDomains object must have the required attributes spatial:id, spatial:domainOne
-		  		// and spatial:domainTwo. No other attributes from the SBML Level 3 Spatial Processes namespaces  
-		  		// are permitted on an AdjacentDomains object.
+		  		// and spatial:domainTwo, and may have the optional attribute spatial:name. No other attributes   
+		  		// from the SBML Level 3 Spatial Processes namespaces are permitted on an AdjacentDomains object.
 		  		
 		  		func = new UnknownPackageAttributeValidationFunction<AdjacentDomains>(SpatialConstants.shortLabel) {
 		  			
@@ -176,6 +176,23 @@ public class AdjacentDomainsConstraints extends AbstractConstraintDeclaration {
 		  				return true;
 		  			}
 		  		};
+		  		break;
+		  	}
+		  	
+		  	case SPATIAL_21106:
+		  	{
+		  		// The attribute spatial:name on an AdjacentDomains must have a value of data type string.
+		  		
+		  		func = new ValidationFunction<AdjacentDomains>() {
+		  			
+		  			@Override
+		  			public boolean check(ValidationContext ctx, AdjacentDomains adj) {
+		  				
+		  				// nothing to check since Java reads any kind of string.
+		  				return true;
+		  			}
+		  		};
+		  		
 		  		break;
 		  	}
 		  }

@@ -58,7 +58,7 @@ public class DomainTypeConstraints extends AbstractConstraintDeclaration {
 		  switch (category) {
 		    case GENERAL_CONSISTENCY:
 		    	if(level >= 3){		    		
-		    		addRangeToSet(set, SPATIAL_20701, SPATIAL_20704);
+		    		addRangeToSet(set, SPATIAL_20701, SPATIAL_20705);
 		    	}
 		      break;
 		    case IDENTIFIER_CONSISTENCY:
@@ -128,6 +128,24 @@ public class DomainTypeConstraints extends AbstractConstraintDeclaration {
 		  		// The attribute spatial:spatialDimensions on a DomainType must have a value of data type integer.
 		  		
 		  		func = new InvalidAttributeValidationFunction<DomainType>(SpatialConstants.spatialDimensions);
+		  		break;
+		  	}
+		  	
+		  	case SPATIAL_20705:
+		  	{
+		  		// The attribute spatial:name on a DomainType must have a value of data type string.
+		  		
+		  		func = new ValidationFunction<DomainType>() {
+		  			
+		  			@Override
+		  			public boolean check(ValidationContext ctx, DomainType dt) {
+		  				
+		  				// nothing to check as java read any kind of String
+		  		        
+		  		        return true;
+		  			}
+		  		};
+		  		
 		  		break;
 		  	}
 		  }		  
