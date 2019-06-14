@@ -118,7 +118,7 @@ public class DiffusionCoefficientConstraints extends AbstractConstraintDeclarati
 		  				if(!dc.isSetVariable()) {
 		  					return false;
 		  				}
-		  				if(!dc.isSetDiffusionKind()) {
+		  				if(!dc.isSetType()) {
 		  					return false;
 		  				}
 		  				
