@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 
 /**
@@ -344,8 +345,8 @@ public class DiffusionCoefficient extends ParameterType {
 
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
       
@@ -353,6 +354,7 @@ public class DiffusionCoefficient extends ParameterType {
         try {
           setDiffusionKind(DiffusionKind.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.type, getElementName()));
         }
@@ -362,6 +364,7 @@ public class DiffusionCoefficient extends ParameterType {
         try {
           setCoordinateReference1(CoordinateKind.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinateReference1, getElementName()));
         }
       }
@@ -370,6 +373,7 @@ public class DiffusionCoefficient extends ParameterType {
         try {
           setCoordinateReference2(CoordinateKind.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinateReference2, getElementName()));
         }
       }
