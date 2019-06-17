@@ -535,7 +535,7 @@ public class SpatialConstants {
   /**
    * 
    */
-  public static final Object listOfSampledFields = "listOfSampledFields";
+  public static final String listOfSampledFields = "listOfSampledFields";
 
   /**
    * @param level
