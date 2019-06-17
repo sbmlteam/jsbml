@@ -19,27 +19,23 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
-import java.util.List;
 import java.util.Set;
 
-import org.sbml.jsbml.AbstractTreeNode;
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ext.spatial.Domain;
 import org.sbml.jsbml.ext.spatial.DomainType;
 import org.sbml.jsbml.ext.spatial.Geometry;
 import org.sbml.jsbml.ext.spatial.InteriorPoint;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
-import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
+import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
-import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link Domain} class.
@@ -144,6 +140,7 @@ public class DomainConstraints extends AbstractConstraintDeclaration {
 		  		func = new ValidationFunction<Domain>() {
 		  			@Override
 		  	        public boolean check(ValidationContext ctx, Domain dom) {
+		  				
 		  				boolean onlyOneList = new DuplicatedElementValidationFunction<Domain>(SpatialConstants.listOfInteriorPoints).check(ctx, dom);
 		  				boolean noOtherElements = new UnknownPackageElementValidationFunction<Domain>(SpatialConstants.shortLabel).check(ctx, dom);
 		  				return (onlyOneList && noOtherElements);
@@ -163,12 +160,16 @@ public class DomainConstraints extends AbstractConstraintDeclaration {
 		  			@Override
 		  			public boolean check(ValidationContext ctx, Domain dom) {
 		  				
-		  				if(dom.isSetDomainType()) {
-		  					Geometry g = (Geometry) dom.getParent().getParent();
-			  				DomainType dt = g.getDomainType(dom.getDomainType());
-			  				if(dt == null) {
-			  					return false;
-			  				}
+		  				if(dom.isSetDomainType()) {		  					
+		  					Model m = dom.getModel();
+		  					SpatialModelPlugin smp = (SpatialModelPlugin) m.getPlugin(SpatialConstants.shortLabel);		  					
+		  					if(smp.isSetGeometry()) {		  						
+		  						Geometry g = smp.getGeometry();
+		  						DomainType dt = g.getDomainType(dom.getDomainType());
+		  						if(dt == null) {
+				  					return false;
+				  				}
+		  					}			  				
 		  				}
 		  				
 		  				return true;
@@ -194,7 +195,6 @@ public class DomainConstraints extends AbstractConstraintDeclaration {
 		  		};
 		  	}
 		  	
-		  	//TODO: needs check
 		  	case SPATIAL_20807:
 		  	{
 		  		// Apart from the general notes and annotations subobjects permitted on all SBML objects,
@@ -204,15 +204,13 @@ public class DomainConstraints extends AbstractConstraintDeclaration {
 
 		  		    @Override
 		  		    public boolean check(ValidationContext ctx, Domain dom) {
-		  		        if (dom.isSetListOfInteriorPoints()) {
-		  		        	//logger.warn("entered check");
-//		  		            boolean bool = new UnknownCoreElementValidationFunction<ListOf<InteriorPoint>>().check(ctx, dom.getListOfInteriorPoints());
-//		  		            logger.warn("bool = "+bool);
-//		  		            return bool;
+		  		    	
+		  		        if (dom.isSetListOfInteriorPoints()) {		  		        	
+		  		            boolean coreElements = new UnknownCoreElementValidationFunction<ListOf<InteriorPoint>>().check(ctx, dom.getListOfInteriorPoints());
+		  		            boolean pkgElements = new UnknownPackageElementValidationFunction<ListOf<InteriorPoint>>(SpatialConstants.shortLabel).check(ctx, dom.getListOfInteriorPoints());
+		  		            return coreElements && pkgElements;
 		  		        }
 		  		        
-		  		        XMLNode unknownNode = (XMLNode) dom.getListOfInteriorPoints().getUserObject(JSBML.UNKNOWN_XML);
-		  		        logger.warn(unknownNode == null);
 		  		    return true;
 		  		    }
 		  		};
@@ -231,11 +229,10 @@ public class DomainConstraints extends AbstractConstraintDeclaration {
 		  		    @Override
 		  		    public boolean check(ValidationContext ctx, Domain dom) {        
 		  	
-		  		        if (dom.isSetListOfInteriorPoints()) {
-		  		          boolean noOtherCore = new UnknownCoreAttributeValidationFunction<ListOf<InteriorPoint>>().check(ctx, dom.getListOfInteriorPoints());
-		  		          boolean noOtherPkg = new UnknownPackageAttributeValidationFunction<ListOf<InteriorPoint>>(SpatialConstants.shortLabel).check(ctx, dom.getListOfInteriorPoints());
-		  		          return(noOtherCore && noOtherPkg);
-		  		        	//return new UnknownAttributeValidationFunction<TreeNodeWithChangeSupport>().check(ctx, dom.getListOfInteriorPoints());
+		  		        if (dom.isSetListOfInteriorPoints()) {		  		        	
+		  		            boolean noOtherCore = new UnknownCoreAttributeValidationFunction<ListOf<InteriorPoint>>().check(ctx, dom.getListOfInteriorPoints());
+		  		            boolean noOtherPkg = new UnknownPackageAttributeValidationFunction<ListOf<InteriorPoint>>(SpatialConstants.shortLabel).check(ctx, dom.getListOfInteriorPoints());
+		  		            return(noOtherCore && noOtherPkg);
 		  		        }
 		  		          
 		  		        return true;
