@@ -167,9 +167,10 @@ public class Domain extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfInteriorPoints() {
-    if ((listOfInteriorPoints == null) || listOfInteriorPoints.isEmpty()) {
+    if (listOfInteriorPoints == null) {
       return false;
     }
+    
     return true;
   }
 
@@ -190,6 +191,7 @@ public class Domain extends AbstractSpatialNamedSBase {
       
       registerChild(listOfInteriorPoints);
     }
+    
     return listOfInteriorPoints;
   }
 
