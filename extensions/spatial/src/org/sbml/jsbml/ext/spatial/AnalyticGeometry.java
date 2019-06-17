@@ -89,7 +89,7 @@ public class AnalyticGeometry extends GeometryDefinition {
    *         otherwise {@code false}
    */
   public boolean isSetListOfAnalyticVolumes() {
-    if ((listOfAnalyticVolumes == null) || listOfAnalyticVolumes.isEmpty()) {
+    if (listOfAnalyticVolumes == null) {
       return false;
     }
     return true;
@@ -290,6 +290,5 @@ public class AnalyticGeometry extends GeometryDefinition {
     }
     return hashCode;
   }
-
 
 }
