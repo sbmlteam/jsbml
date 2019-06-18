@@ -42,7 +42,9 @@ import org.sbml.jsbml.ext.comp.CompModelPlugin;
 import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
 import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.ext.distrib.DistribConstants;
-import org.sbml.jsbml.ext.distrib.util.DistribModelBuilder;
+import org.sbml.jsbml.ext.distrib.DistribSBasePlugin;
+import org.sbml.jsbml.ext.distrib.UncertParameter;
+import org.sbml.jsbml.ext.distrib.Uncertainty;
 import org.sbml.jsbml.ext.dyn.CBO;
 import org.sbml.jsbml.ext.dyn.DynCompartmentPlugin;
 import org.sbml.jsbml.ext.dyn.DynConstants;
@@ -124,7 +126,11 @@ public class PackageVersionTests {
     fb1.setReaction("R1");
 
     FunctionDefinition f = m.createFunctionDefinition("f");
-    DistribModelBuilder.createDistribution(f, "NormalDistribution", new String[] { "mean", "stddev" }, new String[] {"avg", "sd"});
+    DistribSBasePlugin distribPlugin = (DistribSBasePlugin) f.getPlugin("distrib");
+    Uncertainty uncertainty = distribPlugin.createUncertainty("NormalDistribution");
+    UncertParameter uncertParam = uncertainty.createUncertParameter();
+    uncertParam.setType(UncertParameter.Type.distribution);
+    uncertParam.setDefinitionURL("http://www.sbml.org/sbml/symbols/distrib/normal");
 
     CompSBMLDocumentPlugin compDoc = (CompSBMLDocumentPlugin) doc.getPlugin("comp");
     compDoc.createExternalModelDefinition("C_EMD1");
@@ -338,7 +344,6 @@ public class PackageVersionTests {
     Assert.assertFalse(newDoc.isPackageEnabled("distrib"));
     Assert.assertFalse(newDoc.isPackageEnabled("fbc"));
     Assert.assertFalse(newDoc.isPackageEnabled("qual"));
-    Assert.assertFalse(newDoc.isPackageEnabled("req"));
 
     try {
       System.out.println(new SBMLWriter().writeSBMLToString(newDoc));
@@ -356,6 +361,5 @@ public class PackageVersionTests {
     Assert.assertTrue(newDoc.isPackageEnabled("dyn"));
     Assert.assertTrue(newDoc.isPackageEnabled("qual"));
 
-    Assert.assertFalse(newDoc.isPackageEnabled("req"));
   }
 }

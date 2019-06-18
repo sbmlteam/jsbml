@@ -183,9 +183,10 @@ public class DistribParser extends AbstractReaderWriter implements PackageParser
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
    */
   @Override
-  public void writeElement(SBMLObjectForXML xmlObject,
-    Object sbmlElementToWrite) {
-
+  public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) 
+  {
+    super.writeElement(xmlObject, sbmlElementToWrite);
+    
     if (sbmlElementToWrite instanceof SBase) {
       SBase sbase = (SBase) sbmlElementToWrite;
 

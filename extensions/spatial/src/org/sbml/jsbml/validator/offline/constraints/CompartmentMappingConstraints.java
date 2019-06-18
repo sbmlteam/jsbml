@@ -145,13 +145,14 @@ public class CompartmentMappingConstraints extends AbstractConstraintDeclaration
 		  				if(cm.isSetDomainType()) {
 		  					Model m = cm.getModel();
 		  					SpatialModelPlugin smp = (SpatialModelPlugin) m.getPlugin(SpatialConstants.shortLabel);
-		  					if(smp.isSetGeometry()) {
-		  						Geometry g = smp.getGeometry();
-				  				DomainType dt = g.getDomainType(cm.getDomainType());
-				  				if(dt == null) {
-				  					return false;
-				  				}
-		  					}		  					
+		  					
+		  					if (smp.isSetGeometry()) {
+		  					  Geometry g = smp.getGeometry();
+		  					  DomainType dt = g.getDomainType(cm.getDomainType());
+		  					  if(dt == null) {
+		  					    return false;
+		  					  }
+		  					}
 		  				}
 		  				
 		  				return true;
