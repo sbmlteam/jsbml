@@ -185,7 +185,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
    *         otherwise {@code false}
    */
   public boolean isSetListOfSampledVolumes() {
-    if ((listOfSampledVolumes == null) || listOfSampledVolumes.isEmpty()) {
+    if (listOfSampledVolumes == null) {
       return false;
     }
     return true;
@@ -411,8 +411,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.sampledField)) {

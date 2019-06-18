@@ -37,118 +37,118 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttribu
  * @since 1.5
  */
 public class BoundaryConstraints extends AbstractConstraintDeclaration {
-	
-	  /* (non-Javadoc)
-	   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
-	   */
-	  @Override
-	  public void addErrorCodesForAttribute(Set<Integer> set, int level,
-	    int version, String attributeName, ValidationContext context) 
-	  {
-	    // TODO 
 
-	  }
-	  
-	  /* (non-Javadoc)
-	   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForCheck(java.util.Set, int, int, org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
-	   */
-	  @Override
-	  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-	    CHECK_CATEGORY category, ValidationContext context) {
-		  switch (category) {
-		    case GENERAL_CONSISTENCY:
-		    	if(level >= 3){		    		
-		    		addRangeToSet(set, SPATIAL_21001, SPATIAL_21005);
-		    	}
-		      break;
-		    case IDENTIFIER_CONSISTENCY:
-		      break;
-		    case MATHML_CONSISTENCY:
-		      break;
-		    case MODELING_PRACTICE:
-		      break;
-		    case OVERDETERMINED_MODEL:
-		      break;
-		    case SBO_CONSISTENCY:
-		      break;
-		    case UNITS_CONSISTENCY:
-		      break;
-		    }
-	  }
-	  
-	  @Override
-	  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context){
-		  ValidationFunction<Boundary> func = null;
-		  
-		  switch (errorCode) {
-		  	case SPATIAL_21001:
-		  	{
-		  		// A Boundary object may have the optional SBML Level 3 Core attributes metaid and sboTerm. 
-		  		// No other attributes from the SBML Level 3 Core namespaces are permitted on a Boundary.
-		  		
-		  		func = new UnknownCoreAttributeValidationFunction<Boundary>();
-		  		break;
-		  	}
-		  	
-		  	case SPATIAL_21002:
-		  	{
-		  		// A Boundary object may have the optional SBML Level 3 Core subobjects for notes and annotations.
-		  		// No other elements from the SBML Level 3 Core namespaces are permitted on a Boundary
-		  		
-		  		func = new UnknownCoreElementValidationFunction<Boundary>();
-		  		break;
-		  	}
-		  	
-		  	case SPATIAL_21003:
-		  	{
-		  		// A Boundary object must have the required attributes spatial:id and spatial:value, and may have  
-		  		// the optional attribute spatial:name. No other attributes from the SBML Level 3 Spatial Processes
-		  		// namespaces are permitted on a Boundary object.
-		  		
-		  		func = new UnknownPackageAttributeValidationFunction<Boundary>(SpatialConstants.shortLabel) {
-		  			
-		  			@Override
-		  			public boolean check(ValidationContext ctx, Boundary bound) {
-		  				
-		  				if(!bound.isSetId()) {
-		  					return false;
-		  				}
-		  				if(!bound.isSetValue()) {
-		  					return false;
-		  				}
-		  				return super.check(ctx, bound);
-		  			}
-		  		};
-		  		break;
-		  	}
-		  	
-		  	case SPATIAL_21004:
-		  	{
-		  		// The attribute spatial:value on a Boundary must have a value of data type double.
-		  		
-		  		func = new InvalidAttributeValidationFunction<Boundary>(SpatialConstants.value);
-		  		break;
-		  	}
-		  	
-		  	case SPATIAL_21005:
-		  	{
-		  		// The attribute spatial:name on a Boundary must have a value of data type string.
-		  		
-		  		func = new ValidationFunction<Boundary>() {
-		  			
-		  			@Override
-		  			public boolean check(ValidationContext ctx, Boundary bound) {
-		  				
-		  				//nothing to check as Java reads any kind of string
-		  				return true;
-		  			}
-		  		};
-		  		
-		  		break;
-		  	}
-		  }
-		  
-		  return func;
-	  }
-	
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
+   */
+  @Override
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName, ValidationContext context) 
+  {
+    // TODO 
+
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForCheck(java.util.Set, int, int, org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
+   */
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category, ValidationContext context) {
+    switch (category) {
+    case GENERAL_CONSISTENCY:
+      if(level >= 3){		    		
+        addRangeToSet(set, SPATIAL_21001, SPATIAL_21005);
+      }
+      break;
+    case IDENTIFIER_CONSISTENCY:
+      break;
+    case MATHML_CONSISTENCY:
+      break;
+    case MODELING_PRACTICE:
+      break;
+    case OVERDETERMINED_MODEL:
+      break;
+    case SBO_CONSISTENCY:
+      break;
+    case UNITS_CONSISTENCY:
+      break;
+    }
+  }
+
+  @Override
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context){
+    ValidationFunction<Boundary> func = null;
+
+    switch (errorCode) {
+    case SPATIAL_21001:
+    {
+      // A Boundary object may have the optional SBML Level 3 Core attributes metaid and sboTerm. 
+      // No other attributes from the SBML Level 3 Core namespaces are permitted on a Boundary.
+
+      func = new UnknownCoreAttributeValidationFunction<Boundary>();
+      break;
+    }
+
+    case SPATIAL_21002:
+    {
+      // A Boundary object may have the optional SBML Level 3 Core subobjects for notes and annotations.
+      // No other elements from the SBML Level 3 Core namespaces are permitted on a Boundary
+
+      func = new UnknownCoreElementValidationFunction<Boundary>();
+      break;
+    }
+
+    case SPATIAL_21003:
+    {
+      // A Boundary object must have the required attributes spatial:id and spatial:value, and may have  
+      // the optional attribute spatial:name. No other attributes from the SBML Level 3 Spatial Processes
+      // namespaces are permitted on a Boundary object.
+
+      func = new UnknownPackageAttributeValidationFunction<Boundary>(SpatialConstants.shortLabel) {
+
+        @Override
+        public boolean check(ValidationContext ctx, Boundary bound) {
+
+          if(!bound.isSetId()) {
+            return false;
+          }
+          if(!bound.isSetValue()) {
+            return false;
+          }
+          return super.check(ctx, bound);
+        }
+      };
+      break;
+    }
+
+    case SPATIAL_21004:
+    {
+      // The attribute spatial:value on a Boundary must have a value of data type double.
+
+      func = new InvalidAttributeValidationFunction<Boundary>(SpatialConstants.value);
+      break;
+    }
+
+    case SPATIAL_21005:
+    {
+      // The attribute spatial:name on a Boundary must have a value of data type string.
+
+      func = new ValidationFunction<Boundary>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, Boundary bound) {
+
+          //nothing to check as Java reads any kind of string
+          return true;
+        }
+      };
+
+      break;
+    }
+    }
+
+    return func;
+  }
+
 }
