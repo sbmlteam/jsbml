@@ -142,10 +142,12 @@ public class AdjacentDomainsConstraints extends AbstractConstraintDeclaration {
 		  				
 		  				if(adj.isSetDomain1()) {
 		  					SpatialModelPlugin smp = (SpatialModelPlugin) adj.getModel().getPlugin(SpatialConstants.shortLabel);
-			  				Domain dom = smp.getGeometry().getDomain(adj.getDomain1());
-			  				if(dom == null) {
-			  					return false;
-			  				}
+		  					if(smp.isSetGeometry()) {
+		  						Domain dom = smp.getGeometry().getDomain(adj.getDomain1());
+				  				if(dom == null) {
+				  					return false;
+				  				}
+		  					}			  				
 		  				}
 		  				
 		  				return true;
@@ -167,10 +169,12 @@ public class AdjacentDomainsConstraints extends AbstractConstraintDeclaration {
 		  				
 		  				if(adj.isSetDomain2()) {
 		  					SpatialModelPlugin smp = (SpatialModelPlugin) adj.getModel().getPlugin(SpatialConstants.shortLabel);
-			  				Domain dom = smp.getGeometry().getDomain(adj.getDomain2());
-			  				if(dom == null) {
-			  					return false;
-			  				}
+		  					if(smp.isSetGeometry()) {
+		  						Domain dom = smp.getGeometry().getDomain(adj.getDomain2());
+				  				if(dom == null) {
+				  					return false;
+				  				}
+		  					}			  				
 		  				}
 		  				
 		  				return true;

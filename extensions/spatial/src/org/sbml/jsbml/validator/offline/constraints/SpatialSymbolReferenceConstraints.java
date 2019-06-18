@@ -134,10 +134,12 @@ public class SpatialSymbolReferenceConstraints extends AbstractConstraintDeclara
 		  			public boolean check(ValidationContext ctx, SpatialSymbolReference ssr) {
 		  				if(ssr.isSetSpatialRef()) {
 		  					SpatialModelPlugin smp = (SpatialModelPlugin) ssr.getModel().getPlugin(SpatialConstants.shortLabel);
-		  					Geometry g = smp.getGeometry();	
-		  					if(ssr.getSpatialRef().compareTo(g.getId()) == 0) {
-		  						return true;
-		  					}
+		  					if(smp.isSetGeometry()) {
+		  						Geometry g = smp.getGeometry();	
+			  					if(ssr.getSpatialRef().compareTo(g.getId()) == 0) {
+			  						return true;
+			  					}
+		  					}		  					
 		  					return false;
 		  				}
 		  				

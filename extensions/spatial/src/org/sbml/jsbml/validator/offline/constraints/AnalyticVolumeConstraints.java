@@ -166,10 +166,12 @@ public class AnalyticVolumeConstraints extends AbstractConstraintDeclaration {
 		  				
 		  				if(av.isSetDomainType()) {
 		  					SpatialModelPlugin smp = (SpatialModelPlugin) av.getModel().getPlugin(SpatialConstants.shortLabel);
-		  					DomainType dom = smp.getGeometry().getDomainType(av.getDomainType());
-		  					if(dom == null) {
-		  						return false;
-		  					}
+		  					if(smp.isSetGeometry()) {
+		  						DomainType dom = smp.getGeometry().getDomainType(av.getDomainType());
+			  					if(dom == null) {
+			  						return false;
+			  					}
+		  					}		  					
 		  				}
 		  				return true;
 		  			}
