@@ -48,11 +48,18 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
   /**
    * Creates a new {@link DistribSBasePlugin} instance.
    * 
+   */
+  public DistribSBasePlugin() {
+    super();
+  }
+
+  /**
+   * Creates a new {@link DistribSBasePlugin} instance.
+   * 
    * @param sbase the {@link SBase} to be extended.
    */
   public DistribSBasePlugin(SBase sbase) {
     super(sbase);
-    setPackageVersion(-1);
   }
 
   /**
