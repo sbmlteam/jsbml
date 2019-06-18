@@ -38,134 +38,134 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttribu
  * @since 1.5
  */
 public class AdvectionCoefficientConstraints extends AbstractConstraintDeclaration {
-	
-	  /* (non-Javadoc)
-	   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
-	   */
-	  @Override
-	  public void addErrorCodesForAttribute(Set<Integer> set, int level,
-	    int version, String attributeName, ValidationContext context) 
-	  {
-	    // TODO 
 
-	  }
-	  
-	  /* (non-Javadoc)
-	   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForCheck(java.util.Set, int, int, org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
-	   */
-	  @Override
-	  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-	    CHECK_CATEGORY category, ValidationContext context) {
-		  switch (category) {
-		    case GENERAL_CONSISTENCY:
-		    	if(level >= 3){		    		
-		    		addRangeToSet(set, SPATIAL_23501, SPATIAL_23505);
-		    	}
-		      break;
-		    case IDENTIFIER_CONSISTENCY:
-		      break;
-		    case MATHML_CONSISTENCY:
-		      break;
-		    case MODELING_PRACTICE:
-		      break;
-		    case OVERDETERMINED_MODEL:
-		      break;
-		    case SBO_CONSISTENCY:
-		      break;
-		    case UNITS_CONSISTENCY:
-		      break;
-		    }
-	  }
-	  
-	  @Override
-	  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context){
-		  ValidationFunction<AdvectionCoefficient> func = null;
-		  
-		  switch (errorCode) {
-		  	
-		  	case SPATIAL_23501:
-		  	{
-		  		// An AdvectionCoefficient object may have the optional SBML Level 3 Core attributes metaid 
-		  		// and sboTerm. No other attributes from the SBML Level 3 Core namespaces are permitted on 
-		  		// an AdvectionCoefficient.
-		  		
-		  		func = new UnknownCoreAttributeValidationFunction<AdvectionCoefficient>();
-		  		break;
-		  	}
-		  	
-		  	case SPATIAL_23502:
-		  	{
-		  		// An AdvectionCoefficient object may have the optional SBML Level 3 Core subobjects for notes 
-		  		// and annotations. No other elements from the SBML Level 3 Core namespaces are permitted on an 
-		  		// AdvectionCoefficient.
-		  		
-		  		func = new UnknownCoreElementValidationFunction<AdvectionCoefficient>();
-		  		break;
-		  	}
-		  	
-		  	case SPATIAL_23503:
-		  	{
-		  		// An AdvectionCoefficient object must have the required attributes spatial:variable and 
-		  		// spatial:coordinate. No other attributes from the SBML Level 3 Spatial Processes namespaces  
-		  		// are permitted on an AdvectionCoefficient object. 
-		  		
-		  		func = new UnknownPackageAttributeValidationFunction<AdvectionCoefficient>(SpatialConstants.shortLabel) {
-		  			
-		  			@Override
-		  			public boolean check(ValidationContext ctx, AdvectionCoefficient ac) {
-		  				
-		  				if(!ac.isSetVariable()) {
-		  					return false;
-		  				}
-		  				if(!ac.isSetCoordinate()) {
-		  					return false;
-		  				}
-		  				
-		  				return super.check(ctx, ac);
-		  			}
-		  		};
-		  		break;
-		  	}
-		  	
-		  	case SPATIAL_23504:
-		  	{
-		  		// The value of the attribute spatial:variable of an AdvectionCoefficient object must be the 
-		  		// identifier of an existing Species object defined in the enclosing Model object.
-		  		
-		  		func = new ValidationFunction<AdvectionCoefficient>() {
-		  			
-		  			@Override
-		  			public boolean check(ValidationContext ctx, AdvectionCoefficient ac) {
-		  				
-		  				if(ac.isSetVariable()) {
-		  					
-		  					Model m = ac.getModel();
-		  					if(m.getSpecies(ac.getVariable()) != null) {
-		  						return true;
-		  					}
-		  					
-		  					return false;
-		  				}
-		  				
-		  				return true;
-		  			}
-		  		};
-		  		break;
-		  	}
-		  	
-		  	case SPATIAL_23505:
-		  	{
-		  		// The value of the attribute spatial:coordinate of an AdvectionCoefficient object must conform 
-		  		// to the syntax of SBML data type CoordinateKind and may only take on the allowed values of 
-		  		// CoordinateKind defined in SBML; that is, the value must be one of the following: 
-		  		// “cartesianX”, “cartesianY” or “cartesianZ”.
-		  		
-		  		func = new InvalidAttributeValidationFunction<AdvectionCoefficient>(SpatialConstants.coordinate);
-		  		break;
-		  	}
-		  }
-		  
-		  return func;
-	  }
-	
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
+   */
+  @Override
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName, ValidationContext context) 
+  {
+    // TODO 
+
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForCheck(java.util.Set, int, int, org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
+   */
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category, ValidationContext context) {
+    switch (category) {
+    case GENERAL_CONSISTENCY:
+      if(level >= 3){		    		
+        addRangeToSet(set, SPATIAL_23501, SPATIAL_23505);
+      }
+      break;
+    case IDENTIFIER_CONSISTENCY:
+      break;
+    case MATHML_CONSISTENCY:
+      break;
+    case MODELING_PRACTICE:
+      break;
+    case OVERDETERMINED_MODEL:
+      break;
+    case SBO_CONSISTENCY:
+      break;
+    case UNITS_CONSISTENCY:
+      break;
+    }
+  }
+
+  @Override
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context){
+    ValidationFunction<AdvectionCoefficient> func = null;
+
+    switch (errorCode) {
+
+    case SPATIAL_23501:
+    {
+      // An AdvectionCoefficient object may have the optional SBML Level 3 Core attributes metaid 
+      // and sboTerm. No other attributes from the SBML Level 3 Core namespaces are permitted on 
+      // an AdvectionCoefficient.
+
+      func = new UnknownCoreAttributeValidationFunction<AdvectionCoefficient>();
+      break;
+    }
+
+    case SPATIAL_23502:
+    {
+      // An AdvectionCoefficient object may have the optional SBML Level 3 Core subobjects for notes 
+      // and annotations. No other elements from the SBML Level 3 Core namespaces are permitted on an 
+      // AdvectionCoefficient.
+
+      func = new UnknownCoreElementValidationFunction<AdvectionCoefficient>();
+      break;
+    }
+
+    case SPATIAL_23503:
+    {
+      // An AdvectionCoefficient object must have the required attributes spatial:variable and 
+      // spatial:coordinate. No other attributes from the SBML Level 3 Spatial Processes namespaces  
+      // are permitted on an AdvectionCoefficient object. 
+
+      func = new UnknownPackageAttributeValidationFunction<AdvectionCoefficient>(SpatialConstants.shortLabel) {
+
+        @Override
+        public boolean check(ValidationContext ctx, AdvectionCoefficient ac) {
+
+          if(!ac.isSetVariable()) {
+            return false;
+          }
+          if(!ac.isSetCoordinate()) {
+            return false;
+          }
+
+          return super.check(ctx, ac);
+        }
+      };
+      break;
+    }
+
+    case SPATIAL_23504:
+    {
+      // The value of the attribute spatial:variable of an AdvectionCoefficient object must be the 
+      // identifier of an existing Species object defined in the enclosing Model object.
+
+      func = new ValidationFunction<AdvectionCoefficient>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, AdvectionCoefficient ac) {
+
+          if(ac.isSetVariable()) {
+
+            Model m = ac.getModel();
+            if(m.getSpecies(ac.getVariable()) != null) {
+              return true;
+            }
+
+            return false;
+          }
+
+          return true;
+        }
+      };
+      break;
+    }
+
+    case SPATIAL_23505:
+    {
+      // The value of the attribute spatial:coordinate of an AdvectionCoefficient object must conform 
+      // to the syntax of SBML data type CoordinateKind and may only take on the allowed values of 
+      // CoordinateKind defined in SBML; that is, the value must be one of the following: 
+      // “cartesianX”, “cartesianY” or “cartesianZ”.
+
+      func = new InvalidAttributeValidationFunction<AdvectionCoefficient>(SpatialConstants.coordinate);
+      break;
+    }
+    }
+
+    return func;
+  }
+
 }

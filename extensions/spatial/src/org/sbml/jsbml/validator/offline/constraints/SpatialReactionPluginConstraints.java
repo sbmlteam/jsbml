@@ -36,81 +36,81 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttribu
  */
 public class SpatialReactionPluginConstraints extends AbstractConstraintDeclaration {
 
-	  /* (non-Javadoc)
-	   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
-	   */
-	  @Override
-	  public void addErrorCodesForAttribute(Set<Integer> set, int level,
-	    int version, String attributeName, ValidationContext context) 
-	  {
-	    // TODO 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
+   */
+  @Override
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName, ValidationContext context) 
+  {
+    // TODO 
 
-	  }
+  }
 
-	  /* (non-Javadoc)
-	   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForCheck(java.util.Set, int, int, org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
-	   */
-	  @Override
-	  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-	    CHECK_CATEGORY category, ValidationContext context) {
-		  switch (category) {
-		    case GENERAL_CONSISTENCY:
-		    	if(level >= 3){
-		    		addRangeToSet(set, SPATIAL_20601, SPATIAL_20602);
-		    	}
-		      break;
-		    case IDENTIFIER_CONSISTENCY:
-		      break;
-		    case MATHML_CONSISTENCY:
-		      break;
-		    case MODELING_PRACTICE:
-		      break;
-		    case OVERDETERMINED_MODEL:
-		      break;
-		    case SBO_CONSISTENCY:
-		      break;
-		    case UNITS_CONSISTENCY:
-		      break;
-		    }
-	  }
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForCheck(java.util.Set, int, int, org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
+   */
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category, ValidationContext context) {
+    switch (category) {
+    case GENERAL_CONSISTENCY:
+      if(level >= 3){
+        addRangeToSet(set, SPATIAL_20601, SPATIAL_20602);
+      }
+      break;
+    case IDENTIFIER_CONSISTENCY:
+      break;
+    case MATHML_CONSISTENCY:
+      break;
+    case MODELING_PRACTICE:
+      break;
+    case OVERDETERMINED_MODEL:
+      break;
+    case SBO_CONSISTENCY:
+      break;
+    case UNITS_CONSISTENCY:
+      break;
+    }
+  }
 
-	  @Override
-	  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context){
-		  ValidationFunction<SpatialReactionPlugin> func = null;
+  @Override
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context){
+    ValidationFunction<SpatialReactionPlugin> func = null;
 
-		  switch (errorCode) {
-		  	case SPATIAL_20601:
-		  	{
-		  		// A Reaction object must have the required attribute spatial:isLocal. No other attributes 
-		  		// from the SBML Level 3 Spatial Processes namespaces are permitted on a Reaction object.
+    switch (errorCode) {
+    case SPATIAL_20601:
+    {
+      // A Reaction object must have the required attribute spatial:isLocal. No other attributes 
+      // from the SBML Level 3 Spatial Processes namespaces are permitted on a Reaction object.
 
-		  		func = new UnknownPackageAttributeValidationFunction<SpatialReactionPlugin>(SpatialConstants.shortLabel) {
+      func = new UnknownPackageAttributeValidationFunction<SpatialReactionPlugin>(SpatialConstants.shortLabel) {
 
-		  		    @Override
-		  		    public boolean check(ValidationContext ctx, SpatialReactionPlugin srp) {
-		  		    	if (!srp.isSetIsLocal()) {	          
-		  		          return false;
-		  		        }
-		  		        else {
-		  		          return super.check(ctx, srp);
-		  		        }
-		  		    }
+        @Override
+        public boolean check(ValidationContext ctx, SpatialReactionPlugin srp) {
+          if (!srp.isSetIsLocal()) {	          
+            return false;
+          }
+          else {
+            return super.check(ctx, srp);
+          }
+        }
 
-		  		};
+      };
 
-		  		break;
-		  	}
-		  	case SPATIAL_20602:
-		  	{
-		  		// The attribute spatial:isLocal on a Reaction must have a value of data type boolean.
+      break;
+    }
+    case SPATIAL_20602:
+    {
+      // The attribute spatial:isLocal on a Reaction must have a value of data type boolean.
 
-		  		func = new InvalidAttributeValidationFunction<SpatialReactionPlugin>(SpatialConstants.isLocal);
+      func = new InvalidAttributeValidationFunction<SpatialReactionPlugin>(SpatialConstants.isLocal);
 
-		  		break;
-		  	}
-		  }
+      break;
+    }
+    }
 
-		  return func;
-	  }
+    return func;
+  }
 
 }

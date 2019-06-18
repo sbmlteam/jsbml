@@ -38,156 +38,156 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttribu
  * @since 1.5
  */
 public class DiffusionCoefficientConstraints extends AbstractConstraintDeclaration {
-	
-	  /* (non-Javadoc)
-	   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
-	   */
-	  @Override
-	  public void addErrorCodesForAttribute(Set<Integer> set, int level,
-	    int version, String attributeName, ValidationContext context) 
-	  {
-	    // TODO 
 
-	  }
-	  
-	  /* (non-Javadoc)
-	   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForCheck(java.util.Set, int, int, org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
-	   */
-	  @Override
-	  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
-	    CHECK_CATEGORY category, ValidationContext context) {
-		  switch (category) {
-		    case GENERAL_CONSISTENCY:
-		    	if(level >= 3){		    		
-		    		addRangeToSet(set, SPATIAL_23401, SPATIAL_23407);
-		    	}
-		      break;
-		    case IDENTIFIER_CONSISTENCY:
-		      break;
-		    case MATHML_CONSISTENCY:
-		      break;
-		    case MODELING_PRACTICE:
-		      break;
-		    case OVERDETERMINED_MODEL:
-		      break;
-		    case SBO_CONSISTENCY:
-		      break;
-		    case UNITS_CONSISTENCY:
-		      break;
-		    }
-	  }
-	  
-	  @Override
-	  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context){
-		  ValidationFunction<DiffusionCoefficient> func = null;
-		  
-		  switch (errorCode) {
-		  	
-		    case SPATIAL_23401:
-		  	{
-		  		// A DiffusionCoefficient object may have the optional SBML Level 3 Core attributes metaid and 
-		  		// sboTerm. No other attributes from the SBML Level 3 Core namespaces are permitted on a 
-		  		// DiffusionCoefficient.
-		  		
-		  		func = new UnknownCoreAttributeValidationFunction<DiffusionCoefficient>();
-		  		break;
-		  	}
-		  	
-		    case SPATIAL_23402:
-		  	{
-		  		// A DiffusionCoefficient object may have the optional SBML Level 3 Core subobjects for notes 
-		  		// and annotations. No other elements from the SBML Level 3 Core namespaces are permitted on a
-		  		// DiffusionCoefficient.
-		  		
-		  		func = new UnknownCoreElementValidationFunction<DiffusionCoefficient>();
-		  		break;
-		  	}
-		  	
-		    case SPATIAL_23403:
-		  	{
-		  		// A DiffusionCoefficient object must have the required attributes spatial:variable and spatial:type,
-		  		// and may have the optional attributes spatial:coordinateReferenceOne and spatial:coordinateReferenceTwo.
-		  		// No other attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a
-		  		// DiffusionCoefficient object.
-		  		
-		  		func = new UnknownPackageAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.shortLabel) {
-		  			
-		  			@Override
-		  			public boolean check(ValidationContext ctx, DiffusionCoefficient dc) {
-		  				
-		  				if(!dc.isSetVariable()) {
-		  					return false;
-		  				}
-		  				if(!dc.isSetType()) {
-		  					return false;
-		  				}
-		  				
-		  				return super.check(ctx, dc);
-		  			}
-		  		};
-		  		break;
-		  	}
-		  	
-		    case SPATIAL_23404:
-		  	{
-		  		// The value of the attribute spatial:variable of a DiffusionCoefficient object must be the 
-		  		// identifier of an existing Species object defined in the enclosing Model object.
-		  		
-		  		func = new ValidationFunction<DiffusionCoefficient>() {
-		  			
-		  			@Override
-		  			public boolean check(ValidationContext ctx, DiffusionCoefficient dc) {
-		  				
-		  				if(dc.isSetVariable()) {
-		  					
-		  					Model m = dc.getModel();		  					
-		  					if(m.getSpecies(dc.getVariable()) != null) {
-		  						return true;
-		  					}
-		  					return false;
-		  				}
-		  				
-		  				return true;
-		  			}
-		  		};
-		  		break;
-		  	}
-		  	
-		    case SPATIAL_23405:
-		  	{
-		  		// The value of the attribute spatial:type of a DiffusionCoefficient object must conform to 
-		  		// the syntax of SBML data type DiffusionKind and may only take on the allowed values of 
-		  		// DiffusionKind defined in SBML; that is, the value must be one of the following: “isotropic”, 
-		  		// “anisotropic” or “tensor”.
-		  		
-		  		func = new InvalidAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.type);
-		  		break;
-		  	}
-		  	
-		    case SPATIAL_23406:
-		  	{
-		  		// The value of the attribute spatial:coordinateReferenceOne of a DiffusionCoefficient object
-		  		// must conform to the syntax of SBML data type CoordinateKind and may only take onthe allowed 
-		  		// values of CoordinateKind defined in SBML; that is, the value must be one of the following:
-		  		// “cartesianX”, “cartesianY” or “cartesianZ”.
-		  		
-		  		func = new InvalidAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.coordinateReference1);
-		  		break;
-		  	}
-		  	
-		    case SPATIAL_23407:
-		  	{
-		  		// The value of the attribute spatial:coordinateReferenceTwo of a DiffusionCoefficient object
-		  		// must conform to the syntax of SBML data type CoordinateKind and may only take on the allowed
-		  		// values of CoordinateKind defined in SBML; that is, the value must be one of the following:
-		  		// “cartesianX”, “cartesianY” or “cartesianZ”.
-		  		
-		  		func = new InvalidAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.coordinateReference2);
-		  		break;
-		  	}
-		  }
-		  
-		  return func;
-	  }
-	
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForAttribute(java.util.Set, int, int, java.lang.String)
+   */
+  @Override
+  public void addErrorCodesForAttribute(Set<Integer> set, int level,
+    int version, String attributeName, ValidationContext context) 
+  {
+    // TODO 
+
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.validator.offline.constraints.ConstraintDeclaration#addErrorCodesForCheck(java.util.Set, int, int, org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY)
+   */
+  @Override
+  public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
+    CHECK_CATEGORY category, ValidationContext context) {
+    switch (category) {
+    case GENERAL_CONSISTENCY:
+      if(level >= 3){		    		
+        addRangeToSet(set, SPATIAL_23401, SPATIAL_23407);
+      }
+      break;
+    case IDENTIFIER_CONSISTENCY:
+      break;
+    case MATHML_CONSISTENCY:
+      break;
+    case MODELING_PRACTICE:
+      break;
+    case OVERDETERMINED_MODEL:
+      break;
+    case SBO_CONSISTENCY:
+      break;
+    case UNITS_CONSISTENCY:
+      break;
+    }
+  }
+
+  @Override
+  public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context){
+    ValidationFunction<DiffusionCoefficient> func = null;
+
+    switch (errorCode) {
+
+    case SPATIAL_23401:
+    {
+      // A DiffusionCoefficient object may have the optional SBML Level 3 Core attributes metaid and 
+      // sboTerm. No other attributes from the SBML Level 3 Core namespaces are permitted on a 
+      // DiffusionCoefficient.
+
+      func = new UnknownCoreAttributeValidationFunction<DiffusionCoefficient>();
+      break;
+    }
+
+    case SPATIAL_23402:
+    {
+      // A DiffusionCoefficient object may have the optional SBML Level 3 Core subobjects for notes 
+      // and annotations. No other elements from the SBML Level 3 Core namespaces are permitted on a
+      // DiffusionCoefficient.
+
+      func = new UnknownCoreElementValidationFunction<DiffusionCoefficient>();
+      break;
+    }
+
+    case SPATIAL_23403:
+    {
+      // A DiffusionCoefficient object must have the required attributes spatial:variable and spatial:type,
+      // and may have the optional attributes spatial:coordinateReferenceOne and spatial:coordinateReferenceTwo.
+      // No other attributes from the SBML Level 3 Spatial Processes namespaces are permitted on a
+      // DiffusionCoefficient object.
+
+      func = new UnknownPackageAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.shortLabel) {
+
+        @Override
+        public boolean check(ValidationContext ctx, DiffusionCoefficient dc) {
+
+          if(!dc.isSetVariable()) {
+            return false;
+          }
+          if(!dc.isSetType()) {
+            return false;
+          }
+
+          return super.check(ctx, dc);
+        }
+      };
+      break;
+    }
+
+    case SPATIAL_23404:
+    {
+      // The value of the attribute spatial:variable of a DiffusionCoefficient object must be the 
+      // identifier of an existing Species object defined in the enclosing Model object.
+
+      func = new ValidationFunction<DiffusionCoefficient>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, DiffusionCoefficient dc) {
+
+          if(dc.isSetVariable()) {
+
+            Model m = dc.getModel();		  					
+            if(m.getSpecies(dc.getVariable()) != null) {
+              return true;
+            }
+            return false;
+          }
+
+          return true;
+        }
+      };
+      break;
+    }
+
+    case SPATIAL_23405:
+    {
+      // The value of the attribute spatial:type of a DiffusionCoefficient object must conform to 
+      // the syntax of SBML data type DiffusionKind and may only take on the allowed values of 
+      // DiffusionKind defined in SBML; that is, the value must be one of the following: “isotropic”, 
+      // “anisotropic” or “tensor”.
+
+      func = new InvalidAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.type);
+      break;
+    }
+
+    case SPATIAL_23406:
+    {
+      // The value of the attribute spatial:coordinateReferenceOne of a DiffusionCoefficient object
+      // must conform to the syntax of SBML data type CoordinateKind and may only take onthe allowed 
+      // values of CoordinateKind defined in SBML; that is, the value must be one of the following:
+      // “cartesianX”, “cartesianY” or “cartesianZ”.
+
+      func = new InvalidAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.coordinateReference1);
+      break;
+    }
+
+    case SPATIAL_23407:
+    {
+      // The value of the attribute spatial:coordinateReferenceTwo of a DiffusionCoefficient object
+      // must conform to the syntax of SBML data type CoordinateKind and may only take on the allowed
+      // values of CoordinateKind defined in SBML; that is, the value must be one of the following:
+      // “cartesianX”, “cartesianY” or “cartesianZ”.
+
+      func = new InvalidAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.coordinateReference2);
+      break;
+    }
+    }
+
+    return func;
+  }
+
 }
