@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.filters.NameFilter;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * @author Alex Thomas
@@ -245,7 +246,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfSampledFields() {
-    if ((listOfSampledFields == null) || listOfSampledFields.isEmpty()) {
+    if (listOfSampledFields == null) {
       return false;
     }
     return true;
@@ -381,7 +382,62 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return sampledField;
   }
 
+  /**
+   * Gets an element from the {@link #listOfSampledFields} at the given index.
+   *
+   * @param i the index of the {@link SampledField} element to get.
+   * @return an element from the listOfSampledFields at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public SampledField getSampledField(int i) {
+  	if (!isSetListOfSampledFields()) {
+  		throw new IndexOutOfBoundsException(Integer.toString(i));
+  	}
+  	return getListOfSampledFields().get(i);
+  }
 
+
+  /**
+   * Gets an element from the listOfSampledFields, with the given id.
+   *
+   * @param id the id of the {@link SampledField} element to get.
+   * @return an element from the listOfSampledFields with the given id
+   *         or {@code null}.
+   */
+  public SampledField getSampledField(String id) {
+  	if (isSetListOfSampledFields()) {
+  		return getListOfSampledFields().get(id);
+  	}
+  	return null;
+  }
+  
+
+  /**
+   * Returns the number of {@link SampledField}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link SampledField}s in this
+   *         {@link Geometry}.
+   */
+  public int getSampledFieldCount() {
+  	return isSetListOfSampledFields() ? getListOfSampledFields().size() : 0;
+  }
+  
+
+  /**
+   * Returns the number of {@link SampledField}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link SampledField}s in this
+   *         {@link Geometry}.
+   * @libsbml.deprecated same as {@link #getSampledFieldCount()}
+   */
+  public int getNumSampledFields() {
+  	return getSampledFieldCount();
+  }
+  
+  
   /**
    * Returns {@code true}, if listOfGeometryDefinitions contains at least one element.
    *
@@ -389,7 +445,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfGeometryDefinitions() {
-    if ((listOfGeometryDefinitions == null) || listOfGeometryDefinitions.isEmpty()) {
+    if (listOfGeometryDefinitions == null) {
       return false;
     }
     return true;
@@ -495,6 +551,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
     }
     getListOfGeometryDefinitions().remove(i);
   }
+  
 
   /**
    * @param id
@@ -502,6 +559,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public void removeGeometryDefinition(String id) {
     getListOfGeometryDefinitions().removeFirst(new NameFilter(id));
   }
+  
 
   /**
    * Creates a new GeometryDefinition element and adds it to the ListOfGeometryDefinitions list
@@ -509,21 +567,21 @@ public class Geometry extends AbstractSpatialNamedSBase {
    */
   public SampledFieldGeometry createSampledFieldGeometry() {
     return createSampledFieldGeometry(null);
-  }
+  }  
 
   /**
    * @return
    */
   public AnalyticGeometry createAnalyticGeometry() {
     return createAnalyticGeometry(null);
-  }
+  }  
 
   /**
    * @return
    */
   public CSGeometry createCSGeometry() {
     return createCSGeometry(null);
-  }
+  }  
 
   /**
    * @return
@@ -593,6 +651,63 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return def;
   }
 
+  
+  /**
+   * Gets an element from the {@link #listOfGeometryDefinitions} at the given index.
+   *
+   * @param i the index of the {@link GeometryDefinition} element to get.
+   * @return an element from the listOfGeometryDefinitions at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public GeometryDefinition getGeometryDefinition(int i) {
+  	if (!isSetListOfGeometryDefinitions()) {
+  		throw new IndexOutOfBoundsException(Integer.toString(i));
+  	}
+  	return getListOfGeometryDefinitions().get(i);
+  }
+
+
+  /**
+   * Gets an element from the listOfGeometryDefinitions, with the given id.
+   *
+   * @param id the id of the {@link GeometryDefinition} element to get.
+   * @return an element from the listOfGeometryDefinitions with the given id
+   *         or {@code null}.
+   */
+  public GeometryDefinition getGeometryDefinition(String id) {
+  	if (isSetListOfGeometryDefinitions()) {
+  		return getListOfGeometryDefinitions().get(id);
+  	}
+  	return null;
+  }
+  
+
+  /**
+   * Returns the number of {@link GeometryDefinition}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link GeometryDefinition}s in this
+   *         {@link Geometry}.
+   */
+  public int getGeometryDefinitionCount() {
+  	return isSetListOfGeometryDefinitions() ? getListOfGeometryDefinitions().size() : 0;
+  }
+  
+
+  /**
+   * Returns the number of {@link GeometryDefinition}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link GeometryDefinition}s in this
+   *         {@link Geometry}.
+   * @libsbml.deprecated same as {@link #getGeometryDefinitionCount()}
+   */
+  public int getNumGeometryDefinitions() {
+  	return getGeometryDefinitionCount();
+  }
+  
+  
   /**
    * Returns {@code true}, if listOfAdjacentDomains contains at least one element.
    *
@@ -600,7 +715,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfAdjacentDomains() {
-    if ((listOfAdjacentDomains == null) || listOfAdjacentDomains.isEmpty()) {
+    if (listOfAdjacentDomains == null) {
       return false;
     }
     return true;
@@ -706,6 +821,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
     }
     getListOfAdjacentDomains().remove(i);
   }
+  
 
   /**
    * @param id
@@ -713,6 +829,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public void removeAdjacentDomain(String id) {
     getListOfAdjacentDomains().removeFirst(new NameFilter(id));
   }
+  
 
   /**
    * Creates a new AdjacentDomain element and adds it to the ListOfAdjacentDomains list
@@ -721,6 +838,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public AdjacentDomains createAdjacentDomain() {
     return createAdjacentDomain(null);
   }
+  
 
   /**
    * Creates a new {@link AdjacentDomains} element and adds it to the
@@ -734,7 +852,63 @@ public class Geometry extends AbstractSpatialNamedSBase {
     addAdjacentDomain(adjacentDomains);
     return adjacentDomains;
   }
+  
+  
+  /**
+   * Gets an element from the {@link #listOfAdjacentDomains} at the given index.
+   *
+   * @param i the index of the {@link AdjacentDomains} element to get.
+   * @return an element from the listOfAdjacentDomains at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public AdjacentDomains getAdjacentDomains(int i) {
+  	if (!isSetListOfAdjacentDomains()) {
+  		throw new IndexOutOfBoundsException(Integer.toString(i));
+  	}
+  	return getListOfAdjacentDomains().get(i);
+  }
+  
 
+  /**
+   * Gets an element from the listOfAdjacentDomains, with the given id.
+   *
+   * @param id the id of the {@link AdjacentDomains} element to get.
+   * @return an element from the listOfAdjacentDomains with the given id
+   *         or {@code null}.
+   */
+  public AdjacentDomains getAdjacentDomains(String id) {
+  	if (isSetListOfAdjacentDomains()) {
+  		return getListOfAdjacentDomains().get(id);
+  	}
+  	return null;
+  }
+  
+
+  /**
+   * Returns the number of {@link AdjacentDomains}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link AdjacentDomains}s in this
+   *         {@link Geometry}.
+   */
+  public int getAdjacentDomainsCount() {
+  	return isSetListOfAdjacentDomains() ? getListOfAdjacentDomains().size() : 0;
+  }
+  
+
+  /**
+   * Returns the number of {@link AdjacentDomains}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link AdjacentDomains}s in this
+   *         {@link Geometry}.
+   * @libsbml.deprecated same as {@link #getAdjacentDomainsCount()}
+   */
+  public int getNumAdjacentDomains() {
+  	return getAdjacentDomainsCount();
+  }
+  
 
   /**
    * Returns {@code true}, if listOfDomainTypes contains at least one element.
@@ -743,7 +917,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfDomainTypes() {
-    if ((listOfDomainTypes == null) || listOfDomainTypes.isEmpty()) {
+    if (listOfDomainTypes == null) {
       return false;
     }
     return true;
@@ -848,14 +1022,14 @@ public class Geometry extends AbstractSpatialNamedSBase {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
     getListOfDomainTypes().remove(i);
-  }
+  }  
 
   /**
    * @param id
    */
   public void removeDomainType(String id) {
     getListOfDomainTypes().removeFirst(new NameFilter(id));
-  }
+  }  
 
   /**
    * Creates a new DomainType element and adds it to the ListOfDomainTypes list
@@ -875,8 +1049,63 @@ public class Geometry extends AbstractSpatialNamedSBase {
     DomainType domainType = new DomainType(id, getLevel(), getVersion());
     addDomainType(domainType);
     return domainType;
+  }  
+  
+  /**
+   * Gets an element from the {@link #listOfDomainTypes} at the given index.
+   *
+   * @param i the index of the {@link DomainType} element to get.
+   * @return an element from the listOfDomainTypes at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public DomainType getDomainType(int i) {
+  	if (!isSetListOfDomainTypes()) {
+  		throw new IndexOutOfBoundsException(Integer.toString(i));
+  	}
+  	return getListOfDomainTypes().get(i);
   }
+  
 
+  /**
+   * Gets an element from the listOfDomainTypes, with the given id.
+   *
+   * @param id the id of the {@link DomainType} element to get.
+   * @return an element from the listOfDomainTypes with the given id
+   *         or {@code null}.
+   */
+  public DomainType getDomainType(String id) {
+  	if (isSetListOfDomainTypes()) {
+  		return getListOfDomainTypes().get(id);
+  	}
+  	return null;
+  }
+  
+
+  /**
+   * Returns the number of {@link DomainType}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link DomainType}s in this
+   *         {@link Geometry}.
+   */
+  public int getDomainTypeCount() {
+  	return isSetListOfDomainTypes() ? getListOfDomainTypes().size() : 0;
+  }
+  
+
+  /**
+   * Returns the number of {@link DomainType}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link DomainType}s in this
+   *         {@link Geometry}.
+   * @libsbml.deprecated same as {@link #getDomainTypeCount()}
+   */
+  public int getNumDomainTypes() {
+  	return getDomainTypeCount();
+  }
+  
 
   /**
    * Returns {@code true}, if listOfDomains contains at least one element.
@@ -885,7 +1114,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfDomains() {
-    if ((listOfDomains == null) || listOfDomains.isEmpty()) {
+    if (listOfDomains == null) {
       return false;
     }
     return true;
@@ -1019,7 +1248,62 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return domain;
   }
 
+  
+  /**
+   * Gets an element from the {@link #listOfDomains} at the given index.
+   *
+   * @param i the index of the {@link Domain} element to get.
+   * @return an element from the listOfDomains at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public Domain getDomain(int i) {
+  	if (!isSetListOfDomains()) {
+  		throw new IndexOutOfBoundsException(Integer.toString(i));
+  	}
+  	return getListOfDomains().get(i);
+  }
 
+  /**
+   * Gets an element from the listOfDomains, with the given id.
+   *
+   * @param id the id of the {@link Domain} element to get.
+   * @return an element from the listOfDomains with the given id
+   *         or {@code null}.
+   */
+  public Domain getDomain(String id) {
+  	if (isSetListOfDomains()) {
+  		return getListOfDomains().get(id);
+  	}
+  	return null;
+  }
+  
+
+  /**
+   * Returns the number of {@link Domain}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link Domain}s in this
+   *         {@link Geometry}.
+   */
+  public int getDomainCount() {
+  	return isSetListOfDomains() ? getListOfDomains().size() : 0;
+  }
+  
+
+  /**
+   * Returns the number of {@link Domain}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link Domain}s in this
+   *         {@link Geometry}.
+   * @libsbml.deprecated same as {@link #getDomainCount()}
+   */
+  public int getNumDomains() {
+  	return getDomainCount();
+  }
+  
+  
   /**
    * Returns {@code true}, if listOfCoordinateComponents contains at least one element.
    *
@@ -1027,7 +1311,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfCoordinateComponents() {
-    if ((listOfCoordinateComponents == null) || listOfCoordinateComponents.isEmpty()) {
+    if (listOfCoordinateComponents == null) {
       return false;
     }
     return true;
@@ -1161,6 +1445,62 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return coordinateComponents;
   }
 
+  
+  /**
+   * Gets an element from the {@link #listOfCoordinateComponents} at the given index.
+   *
+   * @param i the index of the {@link CoordinateComponent} element to get.
+   * @return an element from the listOfCoordinateComponents at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public CoordinateComponent getCoordinateComponent(int i) {
+  	if (!isSetListOfCoordinateComponents()) {
+  		throw new IndexOutOfBoundsException(Integer.toString(i));
+  	}
+  	return getListOfCoordinateComponents().get(i);
+  }
+
+  /**
+   * Gets an element from the listOfCoordinateComponents, with the given id.
+   *
+   * @param id the id of the {@link CoordinateComponent} element to get.
+   * @return an element from the listOfCoordinateComponents with the given id
+   *         or {@code null}.
+   */
+  public CoordinateComponent getCoordinateComponent(String id) {
+  	if (isSetListOfCoordinateComponents()) {
+  		return getListOfCoordinateComponents().get(id);
+  	}
+  	return null;
+  }
+  
+
+  /**
+   * Returns the number of {@link CoordinateComponent}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link CoordinateComponent}s in this
+   *         {@link Geometry}.
+   */
+  public int getCoordinateComponentCount() {
+  	return isSetListOfCoordinateComponents() ? getListOfCoordinateComponents().size() : 0;
+  }
+  
+
+  /**
+   * Returns the number of {@link CoordinateComponent}s in this
+   * {@link Geometry}.
+   * 
+   * @return the number of {@link CoordinateComponent}s in this
+   *         {@link Geometry}.
+   * @libsbml.deprecated same as {@link #getCoordinateComponentCount()}
+   */
+  public int getNumCoordinateComponents() {
+  	return getCoordinateComponentCount();
+  }
+  
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
@@ -1173,6 +1513,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
         try {
           setCoordinateSystem(GeometryKind.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinateSystem, getElementName()));
         }

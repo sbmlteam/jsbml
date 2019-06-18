@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * @author Alex Thomas
@@ -233,13 +234,14 @@ public class Boundary extends AbstractSpatialNamedSBase {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value) && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.value)) {
         try{
-          setValue(StringTools.parseSBMLDouble(value));
+          setValue(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.value, getElementName()));
         }

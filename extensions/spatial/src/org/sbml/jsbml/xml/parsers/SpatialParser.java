@@ -19,8 +19,10 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
@@ -60,6 +62,7 @@ import org.sbml.jsbml.ext.spatial.DomainType;
 import org.sbml.jsbml.ext.spatial.Geometry;
 import org.sbml.jsbml.ext.spatial.GeometryDefinition;
 import org.sbml.jsbml.ext.spatial.InteriorPoint;
+import org.sbml.jsbml.ext.spatial.MixedGeometry;
 import org.sbml.jsbml.ext.spatial.ParametricGeometry;
 import org.sbml.jsbml.ext.spatial.ParametricObject;
 import org.sbml.jsbml.ext.spatial.SampledField;
@@ -74,6 +77,7 @@ import org.sbml.jsbml.ext.spatial.SpatialReactionPlugin;
 import org.sbml.jsbml.ext.spatial.SpatialSpeciesPlugin;
 import org.sbml.jsbml.ext.spatial.SpatialSymbolReference;
 import org.sbml.jsbml.ext.spatial.TransformationComponent;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -86,6 +90,11 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 public class SpatialParser extends AbstractReaderWriter implements PackageParser {
 
   // TODO - check that it is properly updated to the 0.90 draft specs
+	
+  /**
+   * Localization support.
+   */
+  private static final transient ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages");
 
   /**
    * A {@link Logger} for this class.
@@ -211,7 +220,10 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
   @Override
   public boolean processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
-    Object contextObject) {
+    Object contextObject) { 
+	  
+	boolean isAttributeRead = false;
+	  
     if (contextObject instanceof Species) {
       Species species = (Species) contextObject;
       SpatialSpeciesPlugin spatialSpecies = null;
@@ -233,9 +245,16 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       }
       contextObject = spatialReaction;
     }
-
-    return super.processAttribute(elementName, attributeName, value, uri, prefix,
+    
+    isAttributeRead = super.processAttribute(elementName, attributeName, value, uri, prefix,
       isLastAttribute, contextObject);
+    
+    //TODO: This call should not be made because it is done in SBMLReader
+    if(!isAttributeRead) {
+    	super.processUnknownAttribute(attributeName, SpatialConstants.namespaceURI, value, prefix, contextObject);
+    }
+    
+    return isAttributeRead;
   }
 
   /* (non-Javadoc)
@@ -257,10 +276,18 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         spatialModel = new SpatialModelPlugin(model);
         model.addExtension(SpatialConstants.namespaceURI, spatialModel);
       }
+
       if (elementName.equals(SpatialConstants.geometry)) {
+    	
+    	//keep order of elements for later validation
+        AbstractReaderWriter.storeElementsOrder(elementName, spatialModel);
+          
         Geometry geometry = new Geometry();
         spatialModel.setGeometry(geometry);
         return geometry;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof Compartment) {
       Compartment compartment = (Compartment) contextObject;
@@ -271,11 +298,17 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         spatialCompartment = new SpatialCompartmentPlugin(compartment);
         compartment.addExtension(SpatialConstants.namespaceURI, spatialCompartment);
       }
-
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, spatialCompartment);
+      
       if (elementName.equals(SpatialConstants.compartmentMapping)) {
         CompartmentMapping compartmentMapping = new CompartmentMapping();
         spatialCompartment.setCompartmentMapping(compartmentMapping);
         return compartmentMapping;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     }  else if (contextObject instanceof Parameter) {
       Parameter param = (Parameter) contextObject;
@@ -286,6 +319,9 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         spatialParam = new SpatialParameterPlugin(param);
         param.addExtension(SpatialConstants.namespaceURI, spatialParam);
       }
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, spatialParam);
 
       // TODO: CHECK create method. this might be the source of the problem.
       if (elementName.equals(SpatialConstants.spatialSymbolReference)) {
@@ -304,9 +340,16 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         BoundaryCondition bc = new BoundaryCondition();
         spatialParam.setParamType(bc);
         return bc;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof Geometry) {
       Geometry geometry = (Geometry) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(SpatialConstants.listOfCoordinateComponents)) {
         ListOf<CoordinateComponent> listOfCoordinateComponents = geometry.getListOfCoordinateComponents();
         return listOfCoordinateComponents;
@@ -325,10 +368,17 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       } else if (elementName.equals(SpatialConstants.listOfSampledFields)) {
         ListOf<SampledField> listOfSampledFields = geometry.getListOfSampledFields();
         return listOfSampledFields;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
       
     } else if (contextObject instanceof CoordinateComponent) {
       CoordinateComponent cc = (CoordinateComponent) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(SpatialConstants.boundaryMinimum)) {
         Boundary boundary = new Boundary();
         cc.setBoundaryMinimum(boundary);
@@ -337,34 +387,69 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         Boundary boundary = new Boundary();
         cc.setBoundaryMaximum(boundary);
         return boundary;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
 
     } else if (contextObject instanceof Domain) {
       Domain domain = (Domain) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(SpatialConstants.listOfInteriorPoints)){
         ListOf<InteriorPoint> listOfInteriorPoints = domain.getListOfInteriorPoints();
         return listOfInteriorPoints;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof AnalyticGeometry) {
       AnalyticGeometry analyticGeometry = (AnalyticGeometry) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(SpatialConstants.listOfAnalyticVolumes)){
         ListOf<AnalyticVolume> listOfAnalyticVolumes = analyticGeometry.getListOfAnalyticVolumes();
         return listOfAnalyticVolumes;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof SampledFieldGeometry) {
       SampledFieldGeometry sfg = (SampledFieldGeometry) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(SpatialConstants.listOfSampledVolumes)){
         ListOf<SampledVolume> listOfSampledVolumes = sfg.getListOfSampledVolumes();
         return listOfSampledVolumes;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof CSGeometry) {
       CSGeometry csg = (CSGeometry) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(SpatialConstants.listOfCSGObjects)){
         ListOf<CSGObject> listOfCSGObjects = csg.getListOfCSGObjects();
         return listOfCSGObjects;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof CSGObject) {
       CSGObject cso = (CSGObject) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(SpatialConstants.csgPrimitive)){
         CSGPrimitive csgNode = new CSGPrimitive();
         cso.setCSGNode(csgNode);
@@ -393,6 +478,9 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         CSGHomogeneousTransformation csgNode = new CSGHomogeneousTransformation();
         cso.setCSGNode(csgNode);
         return csgNode;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof CSGScale) {
       CSGScale csgParent = (CSGScale) contextObject;
@@ -405,12 +493,23 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       return setCSGNode(csgParent, elementName);
     } else if (contextObject instanceof CSGSetOperator) {
       CSGSetOperator csgso = (CSGSetOperator) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(SpatialConstants.listOfCSGNodes)) {
         ListOf<CSGNode> listOfCSGNodes = csgso.getListOfCSGNodes();
         return listOfCSGNodes;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof CSGHomogeneousTransformation) {
       CSGHomogeneousTransformation csght = (CSGHomogeneousTransformation) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(SpatialConstants.forwardTransformation)) {
         TransformationComponent tc = new TransformationComponent();
         csght.setForwardTransformation(tc);
@@ -419,9 +518,16 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         TransformationComponent tc = new TransformationComponent();
         csght.setReverseTransformation(tc);
         return tc;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof ParametricGeometry) {
       ParametricGeometry pg = (ParametricGeometry) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(SpatialConstants.spatialPoints)){
         SpatialPoints sp = new SpatialPoints();
         pg.setSpatialPoints(sp);
@@ -429,10 +535,16 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       } else if (elementName.equals(SpatialConstants.listOfParametricObjects)){
         ListOf<ParametricObject> listOfParametricObjects = pg.getListOfParametricObjects();
         return listOfParametricObjects;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof ListOf<?>) {
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
-
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       if (elementName.equals(SpatialConstants.coordinateComponent)) {
         Geometry geo = (Geometry) listOf.getParentSBMLObject();
         CoordinateComponent elem = new CoordinateComponent();
@@ -463,9 +575,9 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         AnalyticGeometry elem = new AnalyticGeometry();
         geo.addGeometryDefinition(elem);
         return elem;
-      } else if (elementName.equals(SpatialConstants.analyticGeometry)) {
+      } else if (elementName.equals(SpatialConstants.mixedGeometry)) {
         Geometry geo = (Geometry) listOf.getParentSBMLObject();
-        AnalyticGeometry elem = new AnalyticGeometry();
+        MixedGeometry elem = new MixedGeometry();
         geo.addGeometryDefinition(elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.csGeometry)) {
@@ -541,6 +653,9 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         ParametricObject elem = new ParametricObject();
         pg.addParametricObject(elem);
         return elem;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     }
 

@@ -380,6 +380,10 @@ public class SpatialConstants {
   /**
    * 
    */
+  public static final String mixedGeometry = "mixedGeometry";
+  /**
+   * 
+   */
   public static final String listOfInteriorPoints = "listOfInteriorPoints";
   /**
    * 
@@ -531,7 +535,7 @@ public class SpatialConstants {
   /**
    * 
    */
-  public static final Object listOfSampledFields = "listOfSampledFields";
+  public static final String listOfSampledFields = "listOfSampledFields";
 
   /**
    * @param level

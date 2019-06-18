@@ -26,14 +26,18 @@ import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.NamedSBase;
 
 /**
+ * The base class for each spatial class.
+ * 
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @author Piero Dalle Pezze
  * @since 1.0
  */
-public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements SpatialNamedSBase {
+@SuppressWarnings("deprecation")
+public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements NamedSBase, SpatialNamedSBase {
 
   /**
    * A {@link Logger} for this class.
@@ -178,34 +182,17 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetSpatialId()) {
-      attributes.put(SpatialConstants.shortLabel + ":" + SpatialConstants.spatialId, getSpatialId());
-    }
 
+    if (isSetId()) {
+      attributes.remove(SpatialConstants.spatialId);
+      attributes.put(SpatialConstants.shortLabel + ":" + SpatialConstants.spatialId, getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(SpatialConstants.shortLabel + ":name", getName());
+    }
+    
     return attributes;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    if (!isAttributeRead) {
-      isAttributeRead = true;
-      if (attributeName.equals(SpatialConstants.spatialId)) {
-        try {
-          setSpatialId(value);
-        } catch (Exception e) {
-          logger.warn(MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.spatialId, getElementName()));
-        }
-      }
-      else {
-        isAttributeRead = false;
-      }
-    }
-    return isAttributeRead;
   }
 
   /* (non-Javadoc)

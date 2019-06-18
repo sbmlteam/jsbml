@@ -167,9 +167,10 @@ public class Domain extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfInteriorPoints() {
-    if ((listOfInteriorPoints == null) || listOfInteriorPoints.isEmpty()) {
+    if (listOfInteriorPoints == null) {
       return false;
     }
+    
     return true;
   }
 
@@ -187,8 +188,10 @@ public class Domain extends AbstractSpatialNamedSBase {
       listOfInteriorPoints.setPackageName(null);
       listOfInteriorPoints.setPackageName(SpatialConstants.shortLabel);
       listOfInteriorPoints.setSBaseListType(ListOf.Type.other);
+      
       registerChild(listOfInteriorPoints);
     }
+    
     return listOfInteriorPoints;
   }
 
@@ -382,8 +385,7 @@ public class Domain extends AbstractSpatialNamedSBase {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value));
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.domainType)) {

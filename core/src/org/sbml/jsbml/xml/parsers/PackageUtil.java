@@ -170,6 +170,10 @@ public class PackageUtil {
     String packageName = sbase.getPackageName();
     String elementNamespace = sbase.getNamespace();
     int packageVersion = sbase.getPackageVersion();
+    
+    if (logger.isDebugEnabled()) {
+      logger.debug("checking element '" + sbase.getElementName() + "' prefix = '" + packageName + "', namespace='" + elementNamespace + "', pversion = '" + packageVersion + "'");
+    }
 
     if (packageName.equals("core") && packageVersion != 0) {
       if (!silent) {
@@ -179,10 +183,9 @@ public class PackageUtil {
         sbase.setPackageVersion(0);
       }
     }
-    // TODO - do we want to check and set the namespace for core elements ? namespace not set at the moment for them
-    //    if (packageName.equals("core") && elementNamespace == null) {
-    //      logger.warn("The element '" + sbase.getElementName() + "' seems to be part of SBML core but it's package namespace is not set!");
-    //    }
+    if (packageName.equals("core") && elementNamespace == null) {
+      logger.warn("The element '" + sbase.getElementName() + "' seems to be part of SBML core but it's package namespace is not set!");
+    }
 
     // check package name != core
     if (!packageName.equals("core")) {

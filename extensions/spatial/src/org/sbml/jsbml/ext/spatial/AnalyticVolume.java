@@ -24,8 +24,11 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractMathContainer;
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * @author Alex Thomas
@@ -33,7 +36,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Piero Dalle Pezze
  * @since 1.0
  */
-public class AnalyticVolume extends AbstractMathContainer implements SpatialNamedSBase {
+public class AnalyticVolume extends AbstractMathContainer implements NamedSBase, UniqueNamedSBase {
 
 
   /**
@@ -299,39 +302,6 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.spatial.SpatialNamedSBase#unsetSpatialId()
-   */
-  @Override
-  public boolean unsetSpatialId() {
-    unsetId();
-    return true;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.spatial.SpatialNamedSBase#setSpatialId(java.lang.String)
-   */
-  @Override
-  public void setSpatialId(String spatialId) {
-    setId(spatialId);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.spatial.SpatialNamedSBase#isSetSpatialId()
-   */
-  @Override
-  public boolean isSetSpatialId() {
-    return isSetId();
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.spatial.SpatialNamedSBase#getSpatialId()
-   */
-  @Override
-  public String getSpatialId() {
-    return getId();
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -357,20 +327,22 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetSpatialId()) {
+
+    if (isSetId()) {
       attributes.remove("id");
-      attributes.put(SpatialConstants.shortLabel + ":id", getSpatialId());
+      attributes.put(SpatialConstants.shortLabel + ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(SpatialConstants.shortLabel + ":name", getName());
     }
     if (isSetDomainType()) {
-      attributes.remove("domainType");
       attributes.put(SpatialConstants.shortLabel + ":domainType", getDomainType());
     }
     if (isSetOrdinal()) {
-      attributes.remove("ordinal");
       attributes.put(SpatialConstants.shortLabel + ":ordinal", String.valueOf(getOrdinal()));
     }
     if (isSetFunctionType()) {
-      attributes.remove("functionType");
       attributes.put(SpatialConstants.shortLabel + ":functionType", getFunctionType().toString());
     }
 
@@ -382,22 +354,16 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
-      if (attributeName.equals(SpatialConstants.spatialId)) {
-        try {
-          setSpatialId(value);
-        } catch (Exception e) {
-          logger.warn(MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.spatialId, getElementName()));
-        }
-      }
-      else if (attributeName.equals(SpatialConstants.ordinal)) {
+
+      if (attributeName.equals(SpatialConstants.ordinal)) {
         try {
           setOrdinal(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.ordinal, getElementName()));
         }
@@ -414,6 +380,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
         try {
           setFunctionType(FunctionKind.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.functionType, getElementName()));
         }

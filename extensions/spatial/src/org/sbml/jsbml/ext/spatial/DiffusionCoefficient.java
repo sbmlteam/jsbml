@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 
 /**
@@ -73,8 +74,8 @@ public class DiffusionCoefficient extends ParameterType {
   public DiffusionCoefficient(DiffusionCoefficient diffCoeff) {
     super(diffCoeff);
 
-    if (diffCoeff.isSetDiffusionKind()) {
-      setDiffusionKind(diffCoeff.getDiffusionKind());
+    if (diffCoeff.isSetType()) {
+      setType(diffCoeff.getType());
     }
 
     if (diffCoeff.isSetCoordinateReference1()) {
@@ -119,9 +120,9 @@ public class DiffusionCoefficient extends ParameterType {
     if (equal) {
       DiffusionCoefficient diffCoeff = (DiffusionCoefficient) object;
 
-      equal &= diffCoeff.isSetDiffusionKind() == isSetDiffusionKind();
-      if (equal && isSetDiffusionKind()) {
-        equal &= diffCoeff.getDiffusionKind() == getDiffusionKind();
+      equal &= diffCoeff.isSetType() == isSetType();
+      if (equal && isSetType()) {
+        equal &= diffCoeff.getType() == getType();
       }
 
       equal &= diffCoeff.isSetCoordinateReference1() == isSetCoordinateReference1();
@@ -247,8 +248,8 @@ public class DiffusionCoefficient extends ParameterType {
    *
    * @return the value of diffusionKind
    */
-  public DiffusionKind getDiffusionKind() {
-    if (isSetDiffusionKind()) {
+  public DiffusionKind getType() {
+    if (isSetType()) {
       return diffusionKind;
     }
     // This is necessary if we cannot return null here.
@@ -261,7 +262,7 @@ public class DiffusionCoefficient extends ParameterType {
    *
    * @return whether diffusionKind is set
    */
-  public boolean isSetDiffusionKind() {
+  public boolean isSetType() {
     return diffusionKind != null;
   }
 
@@ -270,7 +271,7 @@ public class DiffusionCoefficient extends ParameterType {
    * Sets the value of diffusionKind
    * @param diffusionKind
    */
-  public void setDiffusionKind(DiffusionKind diffusionKind) {
+  public void setType(DiffusionKind diffusionKind) {
     DiffusionKind oldDiffusionKind = this.diffusionKind;
     this.diffusionKind = diffusionKind;
     firePropertyChange(SpatialConstants.diffusionKind, oldDiffusionKind, this.diffusionKind);
@@ -283,8 +284,8 @@ public class DiffusionCoefficient extends ParameterType {
    * @return {@code true}, if diffusionKind was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetDiffusionKind() {
-    if (isSetDiffusionKind()) {
+  public boolean unsetType() {
+    if (isSetType()) {
       DiffusionKind oldDiffusionKind = diffusionKind;
       diffusionKind = null;
       firePropertyChange(SpatialConstants.diffusionKind, oldDiffusionKind, diffusionKind);
@@ -299,8 +300,8 @@ public class DiffusionCoefficient extends ParameterType {
     final int prime = 1531;
     int hashCode = super.hashCode();
 
-    if (isSetDiffusionKind()) {
-      hashCode += prime * getDiffusionKind().hashCode();
+    if (isSetType()) {
+      hashCode += prime * getType().hashCode();
     }
 
     if (isSetCoordinateReference1()) {
@@ -320,10 +321,10 @@ public class DiffusionCoefficient extends ParameterType {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
 
-    if (isSetDiffusionKind()) {
+    if (isSetType()) {
       attributes.remove("type");
       attributes.put(SpatialConstants.shortLabel + ":type",
-        String.valueOf(getDiffusionKind()).toLowerCase());
+        String.valueOf(getType()).toLowerCase());
     } 
 
     if (isSetCoordinateReference1()) {
@@ -344,15 +345,16 @@ public class DiffusionCoefficient extends ParameterType {
 
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
       
       if (attributeName.equals(SpatialConstants.type)) {
         try {
-          setDiffusionKind(DiffusionKind.valueOf(value));
+          setType(DiffusionKind.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.type, getElementName()));
         }
@@ -362,6 +364,7 @@ public class DiffusionCoefficient extends ParameterType {
         try {
           setCoordinateReference1(CoordinateKind.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinateReference1, getElementName()));
         }
       }
@@ -370,6 +373,7 @@ public class DiffusionCoefficient extends ParameterType {
         try {
           setCoordinateReference2(CoordinateKind.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinateReference2, getElementName()));
         }
       }

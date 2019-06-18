@@ -28,6 +28,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.sbml.jsbml.Assignment;
@@ -109,7 +110,11 @@ public class SBMLErrorFactory {
    */
   private static ResourceBundle sbmlErrorPreMessageBundle;
 
-
+  /**
+   * 
+   */
+  private transient static Logger logger = Logger.getLogger(SBMLErrorFactory.class);
+  
   /**
    * Creates a new {@link SBMLError} instance.
    * 
@@ -178,7 +183,14 @@ public class SBMLErrorFactory {
           messageBuilder.append(preMessageI18n).append('\n');
         }
 
-        String messageI18n = getSBMLErrorMessageBundle().getString(bundleKey);
+        String messageI18n = null;
+        
+        try {
+          messageI18n = getSBMLErrorMessageBundle().getString(bundleKey);
+        } catch (MissingResourceException e1) {
+          // Can happen if the data is not up-to-date and does not contain recently added errors 
+          logger.info("Error '" + bundleKey + "' was not found in the SBMLerrorMessage class!");
+        }
 
         if (messageI18n != null && messageI18n.trim().length() > 0)
         {
@@ -189,8 +201,12 @@ public class SBMLErrorFactory {
           // getting the message from the json file
           messageI18n = (String) errorEntry.get(JSON_KEY_MESSAGE);
 
-          // TODO - debug log about this error id
-          System.out.println("DEBUG - error id '" + id + "' has no message !!");
+          if (messageI18n != null && messageI18n.trim().length() > 0)
+          {
+            messageBuilder.append(messageI18n);
+          } else {
+            logger.debug("Error id '" + id + "' has no message in the JSON file.");
+          }
         }
 
         if (customMessage && sbase != null) {
@@ -243,7 +259,13 @@ public class SBMLErrorFactory {
 
         // Building the short message from the various ResourceBundle
         ResourceBundle shortMessageBundle = getSBMLErrorShortMessageBundle();
-        String shortMessageI18n = shortMessageBundle.getString(bundleKey);
+        String shortMessageI18n = null;
+        
+        try {
+          shortMessageI18n = shortMessageBundle.getString(bundleKey);
+        } catch (MissingResourceException e1) {
+          // Can happen if the data is not up-to-date and does not contain recently added errors 
+        }
 
         Message sm = new Message();
 

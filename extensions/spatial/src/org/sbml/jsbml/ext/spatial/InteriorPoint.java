@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * @author Alex Thomas
@@ -358,30 +359,32 @@ public class InteriorPoint extends AbstractSBase {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value));
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.coord1)) {
         try {
-          setCoord1(StringTools.parseSBMLDouble(value));
+          setCoord1(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coord1, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.coord2)) {
         try {
-          setCoord2(StringTools.parseSBMLDouble(value));
+          setCoord2(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coord2, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.coord3)) {
         try {
-          setCoord3(StringTools.parseSBMLDouble(value));
+          setCoord3(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coord3, getElementName()));
         }
