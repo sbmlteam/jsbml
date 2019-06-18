@@ -34,6 +34,7 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
@@ -145,16 +146,11 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
 		  				
 		  				boolean locc = geom.isSetListOfCoordinateComponents() 
 		  						&& new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfCoordinateComponents).check(ctx, geom);
-		  				boolean lodt = geom.isSetListOfDomainTypes() 
-		  						&& new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfDomainTypes).check(ctx, geom);
-		  				boolean lod = geom.isSetListOfDomains() 
-		  						&& new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfDomains).check(ctx, geom);
-		  				boolean load = geom.isSetListOfAdjacentDomains() 
-		  						&& new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfAdjacentDomains).check(ctx, geom);
-		  				boolean logd = geom.isSetListOfGeometryDefinitions() 
-		  						&& new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfGeometryDefinitions).check(ctx, geom);
-		  				boolean losf = geom.isSetListOfSampledFields() 
-		  						&& new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfSampledFields).check(ctx, geom);
+		  				boolean lodt = new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfDomainTypes).check(ctx, geom);
+		  				boolean lod = new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfDomains).check(ctx, geom);
+		  				boolean load = new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfAdjacentDomains).check(ctx, geom);
+		  				boolean logd = new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfGeometryDefinitions).check(ctx, geom);
+		  				boolean losf = new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfSampledFields).check(ctx, geom);
 		  				boolean noOtherElement = new UnknownPackageElementValidationFunction<Geometry>(SpatialConstants.shortLabel).check(ctx, geom);
 		  				
 		  				return locc && lodt && lod && load && logd && losf && noOtherElement;
@@ -299,8 +295,7 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
 		  			public boolean check(ValidationContext ctx, Geometry geom) {
 		  				
 		  				if(geom.isSetListOfCoordinateComponents()) {
-		  					return new UnknownCoreAttributeValidationFunction<ListOf<CoordinateComponent>>().check(ctx, geom.getListOfCoordinateComponents())
-		  						&& new UnknownPackageAttributeValidationFunction<ListOf<CoordinateComponent>>(SpatialConstants.shortLabel).check(ctx, geom.getListOfCoordinateComponents());
+		  					return new UnknownAttributeValidationFunction<ListOf<CoordinateComponent>>().check(ctx, geom.getListOfCoordinateComponents());		  						
 		  				}
 		  				return true;
 		  			}
@@ -320,8 +315,7 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
 		  			public boolean check(ValidationContext ctx, Geometry geom) {
 		  				
 		  				if(geom.isSetListOfDomainTypes()) {
-		  					return new UnknownCoreAttributeValidationFunction<ListOf<DomainType>>().check(ctx, geom.getListOfDomainTypes())
-		  						&& new UnknownPackageAttributeValidationFunction<ListOf<DomainType>>(SpatialConstants.shortLabel).check(ctx, geom.getListOfDomainTypes());
+		  					return new UnknownAttributeValidationFunction<ListOf<DomainType>>().check(ctx, geom.getListOfDomainTypes());		  						
 		  				}
 		  				return true;
 		  			}
@@ -341,8 +335,7 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
 		  			public boolean check(ValidationContext ctx, Geometry geom) {
 		  				
 		  				if(geom.isSetListOfDomains()) {
-		  					return new UnknownCoreAttributeValidationFunction<ListOf<Domain>>().check(ctx, geom.getListOfDomains())
-		  						&& new UnknownPackageAttributeValidationFunction<ListOf<Domain>>(SpatialConstants.shortLabel).check(ctx, geom.getListOfDomains());
+		  					return new UnknownAttributeValidationFunction<ListOf<Domain>>().check(ctx, geom.getListOfDomains());		  						
 		  				}
 		  				return true;
 		  			}
@@ -362,8 +355,7 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
 		  			public boolean check(ValidationContext ctx, Geometry geom) {
 		  				
 		  				if(geom.isSetListOfAdjacentDomains()) {
-		  					return new UnknownCoreAttributeValidationFunction<ListOf<AdjacentDomains>>().check(ctx, geom.getListOfAdjacentDomains())
-		  						&& new UnknownPackageAttributeValidationFunction<ListOf<AdjacentDomains>>(SpatialConstants.shortLabel).check(ctx, geom.getListOfAdjacentDomains());
+		  					return new UnknownAttributeValidationFunction<ListOf<AdjacentDomains>>().check(ctx, geom.getListOfAdjacentDomains());
 		  				}
 		  				return true;
 		  			}
@@ -383,8 +375,7 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
 		  			public boolean check(ValidationContext ctx, Geometry geom) {
 		  				
 		  				if(geom.isSetListOfGeometryDefinitions()) {
-		  					return new UnknownCoreAttributeValidationFunction<ListOf<GeometryDefinition>>().check(ctx, geom.getListOfGeometryDefinitions())
-		  						&& new UnknownPackageAttributeValidationFunction<ListOf<GeometryDefinition>>(SpatialConstants.shortLabel).check(ctx, geom.getListOfGeometryDefinitions());
+		  					return new UnknownAttributeValidationFunction<ListOf<GeometryDefinition>>().check(ctx, geom.getListOfGeometryDefinitions());		  						
 		  				}
 		  				return true;
 		  			}
@@ -404,8 +395,7 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
 		  			public boolean check(ValidationContext ctx, Geometry geom) {
 		  				
 		  				if(geom.isSetListOfSampledFields()) {
-		  					return new UnknownCoreAttributeValidationFunction<ListOf<SampledField>>().check(ctx, geom.getListOfSampledFields())
-		  						&& new UnknownPackageAttributeValidationFunction<ListOf<SampledField>>(SpatialConstants.shortLabel).check(ctx, geom.getListOfSampledFields());
+		  					return new UnknownAttributeValidationFunction<ListOf<SampledField>>().check(ctx, geom.getListOfSampledFields());
 		  				}
 		  				return true;
 		  			}
