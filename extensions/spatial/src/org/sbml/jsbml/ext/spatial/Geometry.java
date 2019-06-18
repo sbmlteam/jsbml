@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.filters.NameFilter;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * @author Alex Thomas
@@ -245,7 +246,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfSampledFields() {
-    if ((listOfSampledFields == null) || listOfSampledFields.isEmpty()) {
+    if (listOfSampledFields == null) {
       return false;
     }
     return true;
@@ -444,7 +445,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfGeometryDefinitions() {
-    if ((listOfGeometryDefinitions == null) || listOfGeometryDefinitions.isEmpty()) {
+    if (listOfGeometryDefinitions == null) {
       return false;
     }
     return true;
@@ -714,7 +715,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfAdjacentDomains() {
-    if ((listOfAdjacentDomains == null) || listOfAdjacentDomains.isEmpty()) {
+    if (listOfAdjacentDomains == null) {
       return false;
     }
     return true;
@@ -916,7 +917,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfDomainTypes() {
-    if ((listOfDomainTypes == null) || listOfDomainTypes.isEmpty()) {
+    if (listOfDomainTypes == null) {
       return false;
     }
     return true;
@@ -1113,7 +1114,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfDomains() {
-    if ((listOfDomains == null) || listOfDomains.isEmpty()) {
+    if (listOfDomains == null) {
       return false;
     }
     return true;
@@ -1310,7 +1311,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean isSetListOfCoordinateComponents() {
-    if ((listOfCoordinateComponents == null) || listOfCoordinateComponents.isEmpty()) {
+    if (listOfCoordinateComponents == null) {
       return false;
     }
     return true;
@@ -1512,6 +1513,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
         try {
           setCoordinateSystem(GeometryKind.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.coordinateSystem, getElementName()));
         }

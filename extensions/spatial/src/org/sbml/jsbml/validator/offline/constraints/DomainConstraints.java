@@ -32,8 +32,10 @@ import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
 
@@ -206,9 +208,7 @@ public class DomainConstraints extends AbstractConstraintDeclaration {
 		  		    public boolean check(ValidationContext ctx, Domain dom) {
 		  		    	
 		  		        if (dom.isSetListOfInteriorPoints()) {		  		        	
-		  		            boolean coreElements = new UnknownCoreElementValidationFunction<ListOf<InteriorPoint>>().check(ctx, dom.getListOfInteriorPoints());
-		  		            boolean pkgElements = new UnknownPackageElementValidationFunction<ListOf<InteriorPoint>>(SpatialConstants.shortLabel).check(ctx, dom.getListOfInteriorPoints());
-		  		            return coreElements && pkgElements;
+		  		        	return new UnknownElementValidationFunction<ListOf<InteriorPoint>>().check(ctx, dom.getListOfInteriorPoints());
 		  		        }
 		  		        
 		  		    return true;
@@ -230,9 +230,7 @@ public class DomainConstraints extends AbstractConstraintDeclaration {
 		  		    public boolean check(ValidationContext ctx, Domain dom) {        
 		  	
 		  		        if (dom.isSetListOfInteriorPoints()) {		  		        	
-		  		            boolean noOtherCore = new UnknownCoreAttributeValidationFunction<ListOf<InteriorPoint>>().check(ctx, dom.getListOfInteriorPoints());
-		  		            boolean noOtherPkg = new UnknownPackageAttributeValidationFunction<ListOf<InteriorPoint>>(SpatialConstants.shortLabel).check(ctx, dom.getListOfInteriorPoints());
-		  		            return(noOtherCore && noOtherPkg);
+		  		        	return new UnknownAttributeValidationFunction<ListOf<InteriorPoint>>().check(ctx, dom.getListOfInteriorPoints());
 		  		        }
 		  		          
 		  		        return true;
