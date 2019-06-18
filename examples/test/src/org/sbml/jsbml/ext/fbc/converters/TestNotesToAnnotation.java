@@ -71,7 +71,7 @@ public class TestNotesToAnnotation {
 
     // transfers the information from the notes to the annotations
     NotesToAnnotation notesToAnnotation = new NotesToAnnotation();
-    String[] keysInNotes = { "KEGG Compound", "SEED Compound", "BioCyc", "UniPathway Compound", "MetaNetX (MNX) Chemical", "Reactome", "Human Metabolome Database", "UM-BBD", "EC Number", "MetaNetX (MNX) Equation", "KEGG Reaction", "RHEA", "UniPathway Reaction"};
+    String[] keysInNotes = {"LipidMaps", "KEGG Compound", "SEED Compound", "BioCyc", "UniPathway Compound", "MetaNetX (MNX) Chemical", "Reactome", "Human Metabolome Database", "UM-BBD", "EC Number", "MetaNetX (MNX) Equation", "KEGG Reaction", "RHEA", "UniPathway Reaction"};
     SBMLDocument newDoc = notesToAnnotation.transfer(doc, keysInNotes); 
 
     // write document
