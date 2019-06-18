@@ -144,16 +144,30 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
 		  			@Override
 		  			public boolean check(ValidationContext ctx, Geometry geom) {
 		  				
-		  				boolean locc = geom.isSetListOfCoordinateComponents() 
-		  						&& new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfCoordinateComponents).check(ctx, geom);
-		  				boolean lodt = new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfDomainTypes).check(ctx, geom);
-		  				boolean lod = new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfDomains).check(ctx, geom);
-		  				boolean load = new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfAdjacentDomains).check(ctx, geom);
-		  				boolean logd = new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfGeometryDefinitions).check(ctx, geom);
-		  				boolean losf = new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfSampledFields).check(ctx, geom);
-		  				boolean noOtherElement = new UnknownPackageElementValidationFunction<Geometry>(SpatialConstants.shortLabel).check(ctx, geom);
+		  				boolean check = true;
+		  				if(check && geom.isSetListOfCoordinateComponents()) {
+		  					check &= new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfCoordinateComponents).check(ctx, geom);
+		  				}
+		  				if(check && geom.isSetListOfDomainTypes()) {
+		  					check &= new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfDomainTypes).check(ctx, geom);
+		  				}
+		  				if(check && geom.isSetListOfDomains()) {
+		  					check &= new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfDomains).check(ctx, geom);
+		  				}
+		  				if(check && geom.isSetListOfAdjacentDomains()) {
+		  					check &= new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfAdjacentDomains).check(ctx, geom);
+		  				}
+		  				if(check && geom.isSetListOfGeometryDefinitions()) {
+		  					check &= new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfGeometryDefinitions).check(ctx, geom);
+		  				}
+		  				if(check && geom.isSetListOfSampledFields()) {
+		  					check &= new DuplicatedElementValidationFunction<Geometry>(SpatialConstants.listOfSampledFields).check(ctx, geom);
+		  				}
+		  				if(check) {
+		  					check &= new UnknownPackageElementValidationFunction<Geometry>(SpatialConstants.shortLabel).check(ctx, geom);
+		  				}		  				
 		  				
-		  				return locc && lodt && lod && load && logd && losf && noOtherElement;
+		  				return check;
 		  			}
 		  		};
 		  		break;
