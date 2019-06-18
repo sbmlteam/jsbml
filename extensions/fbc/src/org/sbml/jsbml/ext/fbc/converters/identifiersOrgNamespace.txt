@@ -13,3 +13,4 @@ MetaNetX\ (MNX)\ Equation=metanetx\.reaction
 KEGG\ Reaction=kegg\.reaction
 RHEA=rhea
 UniPathway\ Reaction=unipathway\.reaction
+LipidMaps=lipidmaps
