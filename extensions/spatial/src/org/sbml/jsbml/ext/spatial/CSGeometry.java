@@ -121,7 +121,7 @@ public class CSGeometry extends GeometryDefinition {
    *         otherwise {@code false}
    */
   public boolean isSetListOfCSGObjects() {
-    if ((listOfCSGObjects == null) || listOfCSGObjects.isEmpty()) {
+    if (listOfCSGObjects == null) {
       return false;
     }
     return true;
