@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * @author Alex Thomas
@@ -382,8 +383,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.domainType)) {
@@ -396,24 +396,27 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
       }
       else if (attributeName.equals(SpatialConstants.sampledValue)) {
         try {
-          setSampledValue(StringTools.parseSBMLDouble(value));
+          setSampledValue(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.sampledValue, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.minValue)) {
         try {
-          setMinValue(StringTools.parseSBMLDouble(value));
+          setMinValue(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.minValue, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.maxValue)) {
         try {
-          setMaxValue(StringTools.parseSBMLDouble(value));
+          setMaxValue(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.maxValue, getElementName()));
         }
