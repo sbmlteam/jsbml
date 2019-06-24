@@ -142,7 +142,10 @@ public class CSGObjectConstraints extends AbstractConstraintDeclaration {
       
           return new DuplicatedElementValidationFunction<CSGObject>(SpatialConstants.csgSetOperator).check(ctx, csgobject)
               && new DuplicatedElementValidationFunction<CSGObject>(SpatialConstants.csgPrimitive).check(ctx, csgobject)
-              && new DuplicatedElementValidationFunction<CSGObject>(SpatialConstants.csgTransformation).check(ctx, csgobject)
+              && new DuplicatedElementValidationFunction<CSGObject>(SpatialConstants.csgTranslation).check(ctx, csgobject)
+              && new DuplicatedElementValidationFunction<CSGObject>(SpatialConstants.csgRotation).check(ctx, csgobject)
+              && new DuplicatedElementValidationFunction<CSGObject>(SpatialConstants.csgScale).check(ctx, csgobject)
+              && new DuplicatedElementValidationFunction<CSGObject>(SpatialConstants.csgHomogeneousTransformation).check(ctx, csgobject)
               && new UnknownPackageElementValidationFunction<CSGObject>(SpatialConstants.shortLabel).check(ctx, csgobject);
         }
       };
