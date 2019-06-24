@@ -93,6 +93,11 @@ public class CobraUtil {
         body = notes.getChildElement("p", null);
       }
       
+      if (body == null) {
+        // in some models a 'html' element is used instead of the 'body'
+        body = notes.getChildElement("html", null);
+      }      
+      
       if (body != null) {
         parent = body;
       } 
