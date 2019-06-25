@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * @author Alex Thomas
@@ -73,14 +74,14 @@ public class CSGRotation extends CSGTransformation {
    */
   public CSGRotation(CSGRotation csgt) {
     super(csgt);
-    if (csgt.isSetRotateAxisX()) {
-      setRotateAxisX(csgt.getRotateAxisX());
+    if (csgt.isSetRotateX()) {
+      setRotateX(csgt.getRotateX());
     }
-    if (csgt.isSetRotateAxisY()) {
-      setRotateAxisY(csgt.getRotateAxisY());
+    if (csgt.isSetRotateY()) {
+      setRotateY(csgt.getRotateY());
     }
-    if (csgt.isSetRotateAxisZ()) {
-      setRotateAxisZ(csgt.getRotateAxisZ());
+    if (csgt.isSetRotateZ()) {
+      setRotateZ(csgt.getRotateZ());
     }
     if (csgt.isSetRotateAngleInRadians()) {
       setRotateAngleInRadians(csgt.getRotateAngleInRadians());
@@ -119,19 +120,19 @@ public class CSGRotation extends CSGTransformation {
     if (equal) {
       CSGRotation csgt = (CSGRotation) object;
 
-      equal &= csgt.isSetRotateAxisX() == isSetRotateAxisX();
-      if (equal && isSetRotateAxisX()) {
-        equal &= csgt.getRotateAxisX() == getRotateAxisX();
+      equal &= csgt.isSetRotateX() == isSetRotateX();
+      if (equal && isSetRotateX()) {
+        equal &= csgt.getRotateX() == getRotateX();
       }
 
-      equal &= csgt.isSetRotateAxisY() == isSetRotateAxisY();
-      if (equal && isSetRotateAxisY()) {
-        equal &= csgt.getRotateAxisY() == getRotateAxisY();
+      equal &= csgt.isSetRotateY() == isSetRotateY();
+      if (equal && isSetRotateY()) {
+        equal &= csgt.getRotateY() == getRotateY();
       }
 
-      equal &= csgt.isSetRotateAxisZ() == isSetRotateAxisZ();
-      if (equal && isSetRotateAxisZ()) {
-        equal &= csgt.getRotateAxisZ() == getRotateAxisZ();
+      equal &= csgt.isSetRotateZ() == isSetRotateZ();
+      if (equal && isSetRotateZ()) {
+        equal &= csgt.getRotateZ() == getRotateZ();
       }
       equal &= csgt.isSetRotateAngleInRadians() == isSetRotateAngleInRadians();
       if (equal && isSetRotateAngleInRadians()) {
@@ -147,12 +148,12 @@ public class CSGRotation extends CSGTransformation {
    *
    * @return the value of rotateAxisX
    */
-  public double getRotateAxisX() {
-    if (isSetRotateAxisX()) {
+  public double getRotateX() {
+    if (isSetRotateX()) {
       return rotateAxisX;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.rotateAxisX, this);
+    throw new PropertyUndefinedError(SpatialConstants.rotateX, this);
   }
 
 
@@ -161,7 +162,7 @@ public class CSGRotation extends CSGTransformation {
    *
    * @return whether rotateAxisX is set
    */
-  public boolean isSetRotateAxisX() {
+  public boolean isSetRotateX() {
     return rotateAxisX != null;
   }
 
@@ -170,10 +171,10 @@ public class CSGRotation extends CSGTransformation {
    * Sets the value of rotateAxisX
    * @param rotateAxisX
    */
-  public void setRotateAxisX(double rotateAxisX) {
+  public void setRotateX(double rotateAxisX) {
     Double oldRotateAxisX = this.rotateAxisX;
     this.rotateAxisX = rotateAxisX;
-    firePropertyChange(SpatialConstants.rotateAxisX, oldRotateAxisX, this.rotateAxisX);
+    firePropertyChange(SpatialConstants.rotateX, oldRotateAxisX, this.rotateAxisX);
   }
 
 
@@ -183,11 +184,11 @@ public class CSGRotation extends CSGTransformation {
    * @return {@code true}, if rotateAxisX was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetRotateAxisX() {
-    if (isSetRotateAxisX()) {
+  public boolean unsetRotateX() {
+    if (isSetRotateX()) {
       Double oldRotateAxisX = rotateAxisX;
       rotateAxisX = null;
-      firePropertyChange(SpatialConstants.rotateAxisX, oldRotateAxisX, rotateAxisX);
+      firePropertyChange(SpatialConstants.rotateX, oldRotateAxisX, rotateAxisX);
       return true;
     }
     return false;
@@ -199,12 +200,12 @@ public class CSGRotation extends CSGTransformation {
    *
    * @return the value of rotateAxisY
    */
-  public double getRotateAxisY() {
-    if (isSetRotateAxisY()) {
+  public double getRotateY() {
+    if (isSetRotateY()) {
       return rotateAxisY;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.rotateAxisY, this);
+    throw new PropertyUndefinedError(SpatialConstants.rotateY, this);
   }
 
 
@@ -213,7 +214,7 @@ public class CSGRotation extends CSGTransformation {
    *
    * @return whether rotateAxisY is set
    */
-  public boolean isSetRotateAxisY() {
+  public boolean isSetRotateY() {
     return rotateAxisY != null;
   }
 
@@ -222,10 +223,10 @@ public class CSGRotation extends CSGTransformation {
    * Sets the value of rotateAxisY
    * @param rotateAxisY
    */
-  public void setRotateAxisY(double rotateAxisY) {
+  public void setRotateY(double rotateAxisY) {
     Double oldRotateAxisY = this.rotateAxisY;
     this.rotateAxisY = rotateAxisY;
-    firePropertyChange(SpatialConstants.rotateAxisY, oldRotateAxisY, this.rotateAxisY);
+    firePropertyChange(SpatialConstants.rotateY, oldRotateAxisY, this.rotateAxisY);
   }
 
 
@@ -235,11 +236,11 @@ public class CSGRotation extends CSGTransformation {
    * @return {@code true}, if rotateAxisY was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetRotateAxisY() {
-    if (isSetRotateAxisY()) {
+  public boolean unsetRotateY() {
+    if (isSetRotateY()) {
       Double oldRotateAxisY = rotateAxisY;
       rotateAxisY = null;
-      firePropertyChange(SpatialConstants.rotateAxisY, oldRotateAxisY, rotateAxisY);
+      firePropertyChange(SpatialConstants.rotateY, oldRotateAxisY, rotateAxisY);
       return true;
     }
     return false;
@@ -251,12 +252,12 @@ public class CSGRotation extends CSGTransformation {
    *
    * @return the value of rotateAxisZ
    */
-  public double getRotateAxisZ() {
-    if (isSetRotateAxisZ()) {
+  public double getRotateZ() {
+    if (isSetRotateZ()) {
       return rotateAxisZ;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.rotateAxisZ, this);
+    throw new PropertyUndefinedError(SpatialConstants.rotateZ, this);
   }
 
 
@@ -265,7 +266,7 @@ public class CSGRotation extends CSGTransformation {
    *
    * @return whether rotateAxisZ is set
    */
-  public boolean isSetRotateAxisZ() {
+  public boolean isSetRotateZ() {
     return rotateAxisZ != null;
   }
 
@@ -274,10 +275,10 @@ public class CSGRotation extends CSGTransformation {
    * Sets the value of rotateAxisZ
    * @param rotateAxisZ
    */
-  public void setRotateAxisZ(double rotateAxisZ) {
+  public void setRotateZ(double rotateAxisZ) {
     Double oldRotateAxisZ = this.rotateAxisZ;
     this.rotateAxisZ = rotateAxisZ;
-    firePropertyChange(SpatialConstants.rotateAxisZ, oldRotateAxisZ, this.rotateAxisZ);
+    firePropertyChange(SpatialConstants.rotateZ, oldRotateAxisZ, this.rotateAxisZ);
   }
 
 
@@ -287,11 +288,11 @@ public class CSGRotation extends CSGTransformation {
    * @return {@code true}, if rotateAxisZ was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetRotateAxisZ() {
-    if (isSetRotateAxisZ()) {
+  public boolean unsetRotateZ() {
+    if (isSetRotateZ()) {
       Double oldRotateAxisZ = rotateAxisZ;
       rotateAxisZ = null;
-      firePropertyChange(SpatialConstants.rotateAxisZ, oldRotateAxisZ, rotateAxisZ);
+      firePropertyChange(SpatialConstants.rotateZ, oldRotateAxisZ, rotateAxisZ);
       return true;
     }
     return false;
@@ -353,14 +354,14 @@ public class CSGRotation extends CSGTransformation {
   public int hashCode() {
     final int prime = 1787;
     int hashCode = super.hashCode();
-    if (isSetRotateAxisX()) {
-      hashCode += prime * getRotateAxisX();
+    if (isSetRotateX()) {
+      hashCode += prime * getRotateX();
     }
-    if (isSetRotateAxisY()) {
-      hashCode += prime * getRotateAxisY();
+    if (isSetRotateY()) {
+      hashCode += prime * getRotateY();
     }
-    if (isSetRotateAxisZ()) {
-      hashCode += prime * getRotateAxisZ();
+    if (isSetRotateZ()) {
+      hashCode += prime * getRotateZ();
     }
     if (isSetRotateAngleInRadians()) {
       hashCode += prime * getRotateAngleInRadians();
@@ -372,14 +373,14 @@ public class CSGRotation extends CSGTransformation {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetRotateAxisX()) {
-      attributes.put(SpatialConstants.shortLabel + ":rotateAxisX", rotateAxisX.toString());
+    if (isSetRotateX()) {
+      attributes.put(SpatialConstants.shortLabel + ":rotateX", rotateAxisX.toString());
     }
-    if (isSetRotateAxisY()) {
-      attributes.put(SpatialConstants.shortLabel + ":rotateAxisY", rotateAxisY.toString());
+    if (isSetRotateY()) {
+      attributes.put(SpatialConstants.shortLabel + ":rotateY", rotateAxisY.toString());
     }
-    if (isSetRotateAxisZ()) {
-      attributes.put(SpatialConstants.shortLabel + ":rotateAxisZ", rotateAxisZ.toString());
+    if (isSetRotateZ()) {
+      attributes.put(SpatialConstants.shortLabel + ":rotateZ", rotateAxisZ.toString());
     }
     if (isSetRotateAngleInRadians()) {
       attributes.put(SpatialConstants.shortLabel + ":rotateAngleInRadians", rotateAngleInRadians.toString());
@@ -390,38 +391,41 @@ public class CSGRotation extends CSGTransformation {
 
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
-      if (attributeName.equals(SpatialConstants.rotateAxisX)) {
+      if (attributeName.equals(SpatialConstants.rotateX)) {
         try {
-          setRotateAxisX(StringTools.parseSBMLDouble(value));
+          setRotateX(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.rotateAxisX, getElementName()));
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.rotateX, getElementName()));
         }
       }
-      else if (attributeName.equals(SpatialConstants.rotateAxisY)) {
+      else if (attributeName.equals(SpatialConstants.rotateY)) {
         try {
-          setRotateAxisY(StringTools.parseSBMLDouble(value));
+          setRotateY(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.rotateAxisY, getElementName()));
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.rotateY, getElementName()));
         }
       }
-      else if (attributeName.equals(SpatialConstants.rotateAxisZ)) {
+      else if (attributeName.equals(SpatialConstants.rotateZ)) {
         try {
-          setRotateAxisZ(StringTools.parseSBMLDouble(value));
+          setRotateZ(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
-            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.rotateAxisZ, getElementName()));
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.rotateZ, getElementName()));
         }
       }
       else if (attributeName.equals(SpatialConstants.rotateAngleInRadians)) {
         try {
-          setRotateAngleInRadians(StringTools.parseSBMLDouble(value));
+          setRotateAngleInRadians(StringTools.parseSBMLDoubleStrict(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.rotateAngleInRadians, getElementName()));
         }

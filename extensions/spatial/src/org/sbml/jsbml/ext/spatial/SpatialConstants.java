@@ -239,15 +239,15 @@ public class SpatialConstants {
   /**
    * 
    */
-  public static final String rotateAxisX = "rotateAxisX";
+  public static final String rotateX = "rotateX";
   /**
    * 
    */
-  public static final String rotateAxisY = "rotateAxisY";
+  public static final String rotateY = "rotateY";
   /**
    * 
    */
-  public static final String rotateAxisZ = "rotateAxisZ";
+  public static final String rotateZ = "rotateZ";
   /**
    * 
    */
