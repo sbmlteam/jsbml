@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * @author Alex Thomas
@@ -150,9 +151,7 @@ public class TransformationComponent extends AbstractSBase {
   public void setComponents(Double... components) {
     Double[] oldComponents = this.components;
     this.components = components;
-    componentsLength = components.length;
     firePropertyChange(SpatialConstants.components, oldComponents, this.components);
-    firePropertyChange(SpatialConstants.componentsLength, oldComponents.length, componentsLength);
   }
 
 
@@ -166,9 +165,7 @@ public class TransformationComponent extends AbstractSBase {
     if (isSetComponents()) {
       Double[] oldComponents = components;
       components = null;
-      componentsLength = null;
       firePropertyChange(SpatialConstants.components, oldComponents, components);
-      firePropertyChange(SpatialConstants.componentsLength, oldComponents.length, componentsLength);
       return true;
     }
     return false;
@@ -197,7 +194,36 @@ public class TransformationComponent extends AbstractSBase {
   public boolean isSetComponentsLength() {
     return componentsLength != null;
   }
+  
+  
+  /**
+   * Sets the value of componentsLength
+   * @param componentsLength
+   */
+  public void setComponentsLength(int componentsLength) {
+    Integer oldComponentsLength = this.componentsLength;
+    this.componentsLength = componentsLength;
+    firePropertyChange(SpatialConstants.componentsLength, oldComponentsLength, this.componentsLength);
+  }
+  
 
+  /**
+   * Unsets the variable componentsLength
+   *
+   * @return {@code true}, if componentsLength was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetComponentsLength() {
+    if (isSetComponentsLength()) {
+      Integer oldComponentsLength = componentsLength;
+      componentsLength = null;
+      firePropertyChange(SpatialConstants.componentsLength, oldComponentsLength, componentsLength);
+      return true;
+    }
+    return false;
+  }
+  
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
@@ -238,8 +264,7 @@ public class TransformationComponent extends AbstractSBase {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.components)) {
@@ -248,8 +273,9 @@ public class TransformationComponent extends AbstractSBase {
         int i = 0;
         while(test.hasMoreTokens()) {
           try {
-            componentsTemp[i] = StringTools.parseSBMLDouble(test.nextToken());
+            componentsTemp[i] = StringTools.parseSBMLDoubleStrict(test.nextToken());
           } catch (Exception e) {
+            AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
             logger.warn(MessageFormat.format(
               SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.components, getElementName()));
           }
@@ -260,8 +286,17 @@ public class TransformationComponent extends AbstractSBase {
           setComponents(componentsTemp);
         }
       }
+      if(attributeName.contentEquals(SpatialConstants.componentsLength)) {
+        try {
+          setComponentsLength(StringTools.parseSBMLInt(value));
+        } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
+          logger.warn(MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.componentsLength, getElementName()));
+        }
+      }
       else {
-        isAttributeRead = false; // TODO - need to read componentsLength attribute as well.
+        isAttributeRead = false; 
       }
     }
     return isAttributeRead;
