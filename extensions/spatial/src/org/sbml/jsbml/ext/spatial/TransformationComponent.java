@@ -289,7 +289,7 @@ public class TransformationComponent extends AbstractSBase {
           setComponents(componentsTemp);
         }
       }
-      if(attributeName.contentEquals(SpatialConstants.componentsLength)) {
+      else if(attributeName.contentEquals(SpatialConstants.componentsLength)) {
         try {
           setComponentsLength(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
