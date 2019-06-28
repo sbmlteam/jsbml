@@ -166,6 +166,7 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
   public void setForwardTransformation(TransformationComponent forwardTransformation) {
     TransformationComponent oldForwardTransformation = this.forwardTransformation;
     this.forwardTransformation = forwardTransformation;
+    registerChild(forwardTransformation);
     firePropertyChange(SpatialConstants.forwardTransformation, oldForwardTransformation, this.forwardTransformation);
   }
 
@@ -218,6 +219,7 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
   public void setReverseTransformation(TransformationComponent reverseTransformation) {
     TransformationComponent oldReverseTransformation = this.reverseTransformation;
     this.reverseTransformation = reverseTransformation;
+    registerChild(reverseTransformation);
     firePropertyChange(SpatialConstants.reverseTransformation, oldReverseTransformation, this.reverseTransformation);
   }
 
