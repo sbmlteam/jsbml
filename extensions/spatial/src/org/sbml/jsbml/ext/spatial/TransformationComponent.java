@@ -74,6 +74,9 @@ public class TransformationComponent extends AbstractSBase {
       setComponents(tc.getComponents().clone());
     }
 
+    if (tc.isSetComponentsLength()) {
+      setComponentsLength(tc.getComponentsLength());
+    }
   }
 
   /**
