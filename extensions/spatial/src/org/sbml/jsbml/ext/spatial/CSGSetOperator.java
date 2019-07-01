@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.filters.NameFilter;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * @author Alex Thomas
@@ -316,7 +317,7 @@ public class CSGSetOperator extends CSGNode {
    *         otherwise {@code false}
    */
   public boolean isSetListOfCSGNodes() {
-    if ((listOfCSGNodes == null) || listOfCSGNodes.isEmpty()) {
+    if (listOfCSGNodes == null) {
       return false;
     }
     return true;
@@ -654,14 +655,14 @@ public class CSGSetOperator extends CSGNode {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.operationType)) {
         try {
           setOperationType(SetOperation.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.operationType, getElementName()));
         }
