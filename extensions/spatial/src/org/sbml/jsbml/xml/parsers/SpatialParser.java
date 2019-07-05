@@ -710,9 +710,9 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       CSGTransformation csgso = (CSGTransformation) parent.getParentSBMLObject();
       csgso.setCSGNode(csgNode);
     }
-    else if (parent.getParentSBMLObject() instanceof CSGSetOperator) 
+    else if (parent instanceof CSGSetOperator) 
     {
-      CSGSetOperator csgso = (CSGSetOperator) parent.getParentSBMLObject();
+      CSGSetOperator csgso = (CSGSetOperator) parent;
       csgso.addCSGNode(csgNode);
     }
     else if (parent.getParentSBMLObject() instanceof CSGObject) 
