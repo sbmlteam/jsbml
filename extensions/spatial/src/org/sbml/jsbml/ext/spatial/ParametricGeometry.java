@@ -138,7 +138,7 @@ public class ParametricGeometry extends GeometryDefinition {
    *         otherwise {@code false}
    */
   public boolean isSetListOfParametricObjects() {
-    if ((listOfParametricObjects == null) || listOfParametricObjects.isEmpty()) {
+    if (listOfParametricObjects == null) {
       return false;
     }
     return true;
