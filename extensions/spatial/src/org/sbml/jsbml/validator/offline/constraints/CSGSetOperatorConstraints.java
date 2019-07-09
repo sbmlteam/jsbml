@@ -173,12 +173,9 @@ public class CSGSetOperatorConstraints extends AbstractConstraintDeclaration {
           if(csgso.isSetComplementA()) {
             if(csgso.isSetListOfCSGNodes()) {
               ListOf<CSGNode> losn = csgso.getListOfCSGNodes();
-              for(int i = 0; i < losn.getNumChildren(); i++) {
-                if(losn.getChildAt(i) instanceof CSGNode) {
-                  CSGNode node = (CSGNode) losn.getChildAt(i);
-                  if(node.getId().equals(csgso.getComplementA())){
-                    return true;
-                  }
+              for(CSGNode node : losn) {
+                if(node.getId().equals(csgso.getComplementA())) {
+                  return true;
                 }
               }
               return false;
@@ -207,12 +204,9 @@ public class CSGSetOperatorConstraints extends AbstractConstraintDeclaration {
           if(csgso.isSetComplementB()) {
             if(csgso.isSetListOfCSGNodes()) {
               ListOf<CSGNode> losn = csgso.getListOfCSGNodes();
-              for(int i = 0; i < losn.getNumChildren(); i++) {
-                if(losn.getChildAt(i) instanceof CSGNode) {
-                  CSGNode node = (CSGNode) losn.getChildAt(i);
-                  if(node.getId().equals(csgso.getComplementB())){
-                    return true;
-                  }
+              for(CSGNode node : losn) {
+                if(node.getId().equals(csgso.getComplementB())) {
+                  return true;
                 }
               }
               return false;
