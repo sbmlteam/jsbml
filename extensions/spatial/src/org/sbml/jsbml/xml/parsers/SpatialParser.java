@@ -670,6 +670,11 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         ParametricObject elem = new ParametricObject();
         pg.addParametricObject(elem);
         return elem;
+      } else if (elementName.equals(SpatialConstants.ordinalMapping)) {
+        MixedGeometry mg = (MixedGeometry) listOf.getParentSBMLObject();
+        OrdinalMapping elem = new OrdinalMapping();
+        mg.addOrdinalMapping(elem);
+        return elem;
       } else {
         logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
