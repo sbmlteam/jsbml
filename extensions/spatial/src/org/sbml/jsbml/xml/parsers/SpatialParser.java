@@ -63,6 +63,7 @@ import org.sbml.jsbml.ext.spatial.Geometry;
 import org.sbml.jsbml.ext.spatial.GeometryDefinition;
 import org.sbml.jsbml.ext.spatial.InteriorPoint;
 import org.sbml.jsbml.ext.spatial.MixedGeometry;
+import org.sbml.jsbml.ext.spatial.OrdinalMapping;
 import org.sbml.jsbml.ext.spatial.ParametricGeometry;
 import org.sbml.jsbml.ext.spatial.ParametricObject;
 import org.sbml.jsbml.ext.spatial.SampledField;
@@ -535,6 +536,22 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       } else if (elementName.equals(SpatialConstants.listOfParametricObjects)){
         ListOf<ParametricObject> listOfParametricObjects = pg.getListOfParametricObjects();
         return listOfParametricObjects;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
+      }
+    } else if (contextObject instanceof MixedGeometry) {
+      MixedGeometry mg = (MixedGeometry) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
+      if (elementName.contentEquals(SpatialConstants.listOfOrdinalMappings)) {
+        ListOf<OrdinalMapping> listOfOrdinalMappings = mg.getListOfOrdinalMappings();
+        return listOfOrdinalMappings;
+      } else if (elementName.equals(SpatialConstants.listOfGeometryDefinitions)) {
+        ListOf<GeometryDefinition> listOfGeometryDefinitions = mg.getListOfGeometryDefinitions();
+        return listOfGeometryDefinitions;
       } else {
         logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
