@@ -136,7 +136,7 @@ public class MixedGeometry extends GeometryDefinition {
    *         otherwise {@code false}
    */
   public boolean isSetListOfGeometryDefinitions() {
-    if ((listOfGeometryDefinitions == null) || listOfGeometryDefinitions.isEmpty()) {
+    if (listOfGeometryDefinitions == null) {
       return false;
     }
     return true;
@@ -344,7 +344,7 @@ public class MixedGeometry extends GeometryDefinition {
    *         otherwise {@code false}
    */
   public boolean isSetListOfOrdinalMappings() {
-    if ((listOfOrdinalMappings == null) || listOfOrdinalMappings.isEmpty()) {
+    if (listOfOrdinalMappings == null) {
       return false;
     }
     return true;

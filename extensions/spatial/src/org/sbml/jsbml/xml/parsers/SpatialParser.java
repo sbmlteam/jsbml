@@ -63,6 +63,7 @@ import org.sbml.jsbml.ext.spatial.Geometry;
 import org.sbml.jsbml.ext.spatial.GeometryDefinition;
 import org.sbml.jsbml.ext.spatial.InteriorPoint;
 import org.sbml.jsbml.ext.spatial.MixedGeometry;
+import org.sbml.jsbml.ext.spatial.OrdinalMapping;
 import org.sbml.jsbml.ext.spatial.ParametricGeometry;
 import org.sbml.jsbml.ext.spatial.ParametricObject;
 import org.sbml.jsbml.ext.spatial.SampledField;
@@ -539,6 +540,22 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
+    } else if (contextObject instanceof MixedGeometry) {
+      MixedGeometry mg = (MixedGeometry) contextObject;
+      
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
+      if (elementName.contentEquals(SpatialConstants.listOfOrdinalMappings)) {
+        ListOf<OrdinalMapping> listOfOrdinalMappings = mg.getListOfOrdinalMappings();
+        return listOfOrdinalMappings;
+      } else if (elementName.equals(SpatialConstants.listOfGeometryDefinitions)) {
+        ListOf<GeometryDefinition> listOfGeometryDefinitions = mg.getListOfGeometryDefinitions();
+        return listOfGeometryDefinitions;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
+      }
     } else if (contextObject instanceof ListOf<?>) {
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
       
@@ -652,6 +669,11 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         ParametricGeometry pg = (ParametricGeometry) listOf.getParentSBMLObject();
         ParametricObject elem = new ParametricObject();
         pg.addParametricObject(elem);
+        return elem;
+      } else if (elementName.equals(SpatialConstants.ordinalMapping)) {
+        MixedGeometry mg = (MixedGeometry) listOf.getParentSBMLObject();
+        OrdinalMapping elem = new OrdinalMapping();
+        mg.addOrdinalMapping(elem);
         return elem;
       } else {
         logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
