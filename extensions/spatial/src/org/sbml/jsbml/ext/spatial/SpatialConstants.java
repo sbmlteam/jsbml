@@ -351,6 +351,14 @@ public class SpatialConstants {
   /**
    * 
    */
+  public static final String listOfOrdinalMappings = "listOfOrdinalMappings";
+  /**
+   * 
+   */
+  public static final String ordinalMapping = "ordinalMapping";
+  /**
+   * 
+   */
   public static final String coordinateComponent = "coordinateComponent";
   /**
    * 
