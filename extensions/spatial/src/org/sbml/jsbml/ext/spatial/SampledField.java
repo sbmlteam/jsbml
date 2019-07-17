@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 
 /**
@@ -871,6 +872,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
         try {
           setNumSamples1(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.numSamples1, getElementName()));
         }
       }
@@ -878,6 +880,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
         try {
           setNumSamples2(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.numSamples2, getElementName()));
         }
       }
@@ -885,6 +888,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
         try {
           setNumSamples3(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.numSamples3, getElementName()));
         }
       }
@@ -898,6 +902,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
           }
           setInterpolation(InterpolationKind.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.interpolationType, getElementName()));
         }
       }
@@ -905,6 +910,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
         try {
           setCompression(CompressionKind.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.compression, getElementName()));
         }
       }
@@ -912,6 +918,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
         try {
           setSamplesLength(String.valueOf(value));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.samplesLength, getElementName()));
         }
       }
@@ -920,6 +927,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
           // see DataKind.java
           setDataType(DataKind.valueOf(value.toUpperCase()));
         } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
           logger.warn(MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ_ATTRIBUTE"), value, SpatialConstants.dataType, getElementName()));
         }
       }
