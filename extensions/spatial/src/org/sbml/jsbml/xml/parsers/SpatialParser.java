@@ -583,29 +583,24 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
         geo.addAdjacentDomain(elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.sampledFieldGeometry)) {
-        Geometry geo = (Geometry) listOf.getParentSBMLObject();
         SampledFieldGeometry elem = new SampledFieldGeometry();
-        geo.addGeometryDefinition(elem);
+        addGeometryDefinition((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.analyticGeometry)) {
-        Geometry geo = (Geometry) listOf.getParentSBMLObject();
         AnalyticGeometry elem = new AnalyticGeometry();
-        geo.addGeometryDefinition(elem);
+        addGeometryDefinition((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.mixedGeometry)) {
-        Geometry geo = (Geometry) listOf.getParentSBMLObject();
         MixedGeometry elem = new MixedGeometry();
-        geo.addGeometryDefinition(elem);
+        addGeometryDefinition((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.csGeometry)) {
-        Geometry geo = (Geometry) listOf.getParentSBMLObject();
         CSGeometry elem = new CSGeometry();
-        geo.addGeometryDefinition(elem);
+        addGeometryDefinition((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.parametricGeometry)) {
-        Geometry geo = (Geometry) listOf.getParentSBMLObject();
         ParametricGeometry elem = new ParametricGeometry();
-        geo.addGeometryDefinition(elem);
+        addGeometryDefinition((AbstractSpatialNamedSBase) listOf.getParentSBMLObject(), elem);
         return elem;
       } else if (elementName.equals(SpatialConstants.interiorPoint)) {
         Domain domain = (Domain) listOf.getParentSBMLObject();
@@ -682,6 +677,22 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     }
 
     return contextObject;
+  }
+  
+  /**
+   * @param parent
+   * @param geometryDefinition
+   */
+  private void addGeometryDefinition(AbstractSpatialNamedSBase parent, GeometryDefinition geometryDefinition) {
+    
+    if(parent instanceof Geometry) {
+      Geometry geo = (Geometry) parent;
+      geo.addGeometryDefinition(geometryDefinition);
+    }
+    else if(parent instanceof MixedGeometry) {
+      MixedGeometry mg = (MixedGeometry) parent;
+      mg.addGeometryDefinition(geometryDefinition);
+    }
   }
 
   private CSGNode setCSGNode(CSGTransformation csgT, String elementName) {
