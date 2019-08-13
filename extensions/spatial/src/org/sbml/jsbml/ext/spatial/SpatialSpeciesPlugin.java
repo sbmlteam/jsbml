@@ -171,7 +171,9 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value));
+    
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
       
