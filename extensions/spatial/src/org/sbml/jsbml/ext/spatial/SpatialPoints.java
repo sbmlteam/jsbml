@@ -23,7 +23,6 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
@@ -33,7 +32,7 @@ import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
  * @author Piero Dalle Pezze
  * @since 1.0
  */
-public class SpatialPoints extends AbstractSBase {
+public class SpatialPoints extends AbstractSpatialNamedSBase {
 
   /**
    * A {@link Logger} for this class.
@@ -70,7 +69,6 @@ public class SpatialPoints extends AbstractSBase {
    */
   public SpatialPoints() {
     super();
-    initDefaults();
   }
 
   /**
@@ -81,6 +79,17 @@ public class SpatialPoints extends AbstractSBase {
    */
   public SpatialPoints(int level, int version) {
     super(level, version);
+  }
+  
+  /**
+   * Creates a SpatialPoints instance with a level and version.
+   * 
+   * @param id
+   * @param level SBML Level
+   * @param version SBML Version
+   */
+  public SpatialPoints(String id, int level, int version) {
+    super(id, level, version);
   }
 
 
@@ -136,14 +145,6 @@ public class SpatialPoints extends AbstractSBase {
       }
     }
     return equal;
-  }
-
-  /**
-   * Initializes the default values using the namespace.
-   */
-  public void initDefaults() {
-    packageName = SpatialConstants.shortLabel;
-    setPackageVersion(-1);
   }
 
   /**

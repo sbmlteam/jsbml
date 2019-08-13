@@ -171,19 +171,25 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = false;
-
-    if (attributeName.equals(SpatialConstants.isSpatial)) {
-      try {
-        setSpatial(StringTools.parseSBMLBooleanStrict(value));
-        isAttributeRead = true;
-      } catch (Exception e) {
-    	AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
-    	throw new SBMLException(MessageFormat.format(bundle.getString("COULD_NOT_READ"), value, SpatialConstants.isSpatial));
+    
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      
+      if (attributeName.equals(SpatialConstants.isSpatial)) {
+        try {          
+          setSpatial(StringTools.parseSBMLBooleanStrict(value));
+        } catch (Exception e) {
+          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
+          throw new SBMLException(MessageFormat.format(bundle.getString("COULD_NOT_READ"), value, SpatialConstants.isSpatial));
+        }
       }
-
+      else {
+        isAttributeRead = false;
+      }
+      
     }
-
     return isAttributeRead;
   }
 

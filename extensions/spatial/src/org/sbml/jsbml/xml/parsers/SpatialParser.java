@@ -32,6 +32,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.ASTNodePlugin;
@@ -250,9 +251,11 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     isAttributeRead = super.processAttribute(elementName, attributeName, value, uri, prefix,
       isLastAttribute, contextObject);
     
-    //TODO: This call should not be made because it is done in SBMLReader
     if(!isAttributeRead) {
-    	super.processUnknownAttribute(attributeName, SpatialConstants.namespaceURI, value, prefix, contextObject);
+      if(contextObject instanceof SBasePlugin) {
+        processUnknownAttribute(attributeName, SpatialConstants.namespaceURI, value, prefix, contextObject);
+        return true;
+      }
     }
     
     return isAttributeRead;
@@ -752,6 +755,30 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     {
       CSGObject csgso = (CSGObject) parent.getParentSBMLObject();
       csgso.setCSGNode(csgNode);
+    }
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processEndDocument(org.sbml.jsbml.SBMLDocument)
+   */
+  @Override
+  public void processEndDocument(SBMLDocument sbmlDocument) {
+    
+    if(sbmlDocument.isSetModel() && sbmlDocument.getModel().getExtension(getShortLabel()) != null) {      
+      Model model = sbmlDocument.getModel();
+      
+      // Get list of reactions to check if the plugin is added
+      if(model.isSetListOfReactions()) {
+        ListOf<Reaction> lor = model.getListOfReactions();
+        
+        // Add extension to the reaction if not already added 
+        for(Reaction reaction : lor) {
+          if(reaction.getExtension(SpatialConstants.namespaceURI) == null) {
+            SpatialReactionPlugin spatialReaction = new SpatialReactionPlugin(reaction);
+            reaction.addExtension(SpatialConstants.namespaceURI, spatialReaction);
+          }
+        }
+      }
     }
   }
 
