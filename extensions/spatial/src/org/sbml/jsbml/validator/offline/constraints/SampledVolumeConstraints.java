@@ -61,6 +61,7 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if(level >= 3){
         addRangeToSet(set, SPATIAL_21701, SPATIAL_21708);
+        addRangeToSet(set, SPATIAL_21750, SPATIAL_21754);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -185,6 +186,94 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
 
       func = new InvalidAttributeValidationFunction<SampledVolume>(SpatialConstants.maxValue);
       break;
+    }
+    
+    case SPATIAL_21750:
+    {
+      func = new ValidationFunction<SampledVolume>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SampledVolume sv) {
+          
+          if(sv.isSetMinValue()) {
+            if(!sv.isSetMaxValue()) {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+      };
+    }
+    
+    case SPATIAL_21751:
+    {
+      func = new ValidationFunction<SampledVolume>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SampledVolume sv) {
+          
+          if(sv.isSetMaxValue()) {
+            if(!sv.isSetMinValue()) {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+      };
+    }
+    
+    case SPATIAL_21752:
+    {
+      func = new ValidationFunction<SampledVolume>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SampledVolume sv) {
+          
+          if(sv.isSetMinValue() && sv.isSetMaxValue()) {
+            if(sv.isSetSampledValue()) {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+      };
+    }
+    
+    case SPATIAL_21753:
+    {
+      func = new ValidationFunction<SampledVolume>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SampledVolume sv) {
+          
+          if(sv.isSetSampledValue()) {
+            if(sv.isSetMinValue() || sv.isSetMaxValue()) {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+      };
+    }
+    
+    case SPATIAL_21754:
+    {
+      func = new ValidationFunction<SampledVolume>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SampledVolume sv) {
+          
+          if(sv.isSetMinValue() || (sv.isSetMinValue() && sv.isSetMaxValue())) {
+            return true;
+          }
+          
+          return false;
+        }
+      };
     }
     }    
 

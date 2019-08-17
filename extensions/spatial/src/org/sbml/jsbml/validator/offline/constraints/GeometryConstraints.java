@@ -24,6 +24,7 @@ import java.util.Set;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.spatial.AdjacentDomains;
 import org.sbml.jsbml.ext.spatial.CoordinateComponent;
+import org.sbml.jsbml.ext.spatial.CoordinateKind;
 import org.sbml.jsbml.ext.spatial.Domain;
 import org.sbml.jsbml.ext.spatial.DomainType;
 import org.sbml.jsbml.ext.spatial.Geometry;
@@ -70,6 +71,7 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if(level >= 3){		    		
         addRangeToSet(set, SPATIAL_23701, SPATIAL_23717);
+        addRangeToSet(set, SPATIAL_23750, SPATIAL_23754);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -415,6 +417,135 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
         }
       };
       break;
+    }
+    
+    case SPATIAL_23750:
+    {
+      func = new ValidationFunction<Geometry>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Geometry geom) {
+          
+          if(!geom.isSetListOfCoordinateComponents()) {
+            return false;
+          }
+          
+          return true;
+        }
+      };
+    }
+    
+    case SPATIAL_23751:
+    {
+      func = new ValidationFunction<Geometry>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Geometry geom) {
+          
+          int child_num = geom.getListOfCoordinateComponents().getChildCount();
+          if(child_num < 1 || child_num > 3) {
+            return false;
+          }
+          
+          return true;
+        }
+      };
+    }
+    
+    case SPATIAL_23752:
+    {
+      func = new ValidationFunction<Geometry>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Geometry geom) {
+          
+          int child_num = geom.getListOfCoordinateComponents().getChildCount();
+          if(child_num == 1) {
+            CoordinateComponent coord = (CoordinateComponent) geom.getListOfCoordinateComponents().getChildAt(0);
+            if(coord.getType() != CoordinateKind.cartesianX) {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+      };
+    }
+    
+    case SPATIAL_23753:
+    {
+      func = new ValidationFunction<Geometry>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Geometry geom) {
+          
+          int child_num = geom.getListOfCoordinateComponents().getChildCount();
+          if(child_num == 2) {
+            
+            boolean cartX = false;
+            boolean cartY = false;
+            ListOf<CoordinateComponent> locc = geom.getListOfCoordinateComponents();
+            for(CoordinateComponent cc : locc) {
+              
+              if(cc.getType() == CoordinateKind.cartesianX) {
+                cartX = true;
+              }
+              if(cc.getType() == CoordinateKind.cartesianY) {
+                cartY = true;
+              }
+            }
+            
+            if(cartX && cartY) {
+              return true;
+            }
+            else {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+      };
+    }
+    
+    case SPATIAL_23754:
+    {
+      func = new ValidationFunction<Geometry>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, Geometry geom) {
+          
+          int child_num = geom.getListOfCoordinateComponents().getChildCount();
+          if(child_num == 3) {
+            
+            boolean cartX = false;
+            boolean cartY = false;
+            boolean cartZ = false;
+            ListOf<CoordinateComponent> locc = geom.getListOfCoordinateComponents();
+            for(CoordinateComponent cc : locc) {
+              
+              if(cc.getType() == CoordinateKind.cartesianX) {
+                cartX = true;
+              }
+              if(cc.getType() == CoordinateKind.cartesianY) {
+                cartY = true;
+              }
+              if(cc.getType() == CoordinateKind.cartesianZ) {
+                cartZ = true;
+              }
+            }
+            
+            if(cartX && cartY && cartZ) {
+              return true;
+            }
+            else {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+      };
     }
     }
 

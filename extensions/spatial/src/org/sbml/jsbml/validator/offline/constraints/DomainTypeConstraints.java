@@ -22,7 +22,9 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.ext.spatial.DomainType;
+import org.sbml.jsbml.ext.spatial.Geometry;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
+import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
@@ -59,6 +61,7 @@ public class DomainTypeConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if(level >= 3){		    		
         addRangeToSet(set, SPATIAL_20701, SPATIAL_20705);
+        addRangeToSet(set, SPATIAL_20750, SPATIAL_20752);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -147,6 +150,78 @@ public class DomainTypeConstraints extends AbstractConstraintDeclaration {
       };
 
       break;
+    }
+    
+    case SPATIAL_20750:
+    {
+      func = new ValidationFunction<DomainType>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, DomainType dt) {
+          
+          SpatialModelPlugin smp = (SpatialModelPlugin) dt.getModel().getPlugin(SpatialConstants.shortLabel);
+          Geometry g = smp.getGeometry();
+          int coord_components = g.getListOfCoordinateComponents().getNumChildren();
+          
+          if(coord_components == 3) {
+            if(dt.getSpatialDimensions() == 2 || dt.getSpatialDimensions() == 3) {
+              return true;
+            }
+            
+            return false;
+          }
+          
+          return true;
+        }
+      };
+    }
+    
+    case SPATIAL_20751:
+    {
+      func = new ValidationFunction<DomainType>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, DomainType dt) {
+          
+          SpatialModelPlugin smp = (SpatialModelPlugin) dt.getModel().getPlugin(SpatialConstants.shortLabel);
+          Geometry g = smp.getGeometry();
+          int coord_components = g.getListOfCoordinateComponents().getNumChildren();
+          
+          if(coord_components == 2) {
+            if(dt.getSpatialDimensions() == 1 || dt.getSpatialDimensions() == 2) {
+              return true;
+            }
+            
+            return false;
+          }
+          
+          return true;
+        }
+      };
+    }
+    
+    case SPATIAL_20752:
+    {
+      func = new ValidationFunction<DomainType>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, DomainType dt) {
+          
+          SpatialModelPlugin smp = (SpatialModelPlugin) dt.getModel().getPlugin(SpatialConstants.shortLabel);
+          Geometry g = smp.getGeometry();
+          int coord_components = g.getListOfCoordinateComponents().getNumChildren();
+          
+          if(coord_components == 1) {
+            if(dt.getSpatialDimensions() == 0 || dt.getSpatialDimensions() == 1) {
+              return true;
+            }
+            
+            return false;
+          }
+          
+          return true;
+        }
+      };
     }
     }		  
 

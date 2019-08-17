@@ -64,6 +64,7 @@ public class MixedGeometryConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if(level >= 3){
         addRangeToSet(set, SPATIAL_23801, SPATIAL_23807);
+        set.add(SPATIAL_23850);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -209,6 +210,26 @@ public class MixedGeometryConstraints extends AbstractConstraintDeclaration {
       break;
     }
     
+    case SPATIAL_23850:
+    {
+      func = new ValidationFunction<MixedGeometry>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, MixedGeometry mg) {
+          
+          if(mg.isSetListOfGeometryDefinitions()) {
+            ListOf<GeometryDefinition> logd = mg.getListOfGeometryDefinitions();
+            for(GeometryDefinition gd : logd) {
+              if(gd.getIsActive() == true) {
+                return false;
+              }
+            }
+          }
+          
+          return true;
+        }
+      };
+    }
     }    
 
     return func;
