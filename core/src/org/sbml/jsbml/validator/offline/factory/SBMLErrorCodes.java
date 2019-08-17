@@ -13696,4 +13696,60 @@ public interface SBMLErrorCodes {
 	  * 'string'. Reference: L3V1 Arrays V1 Section 
 	  */
  	 public static final int ARRAYS_20403 = 8020403; 
+ 	 
+ 	 
+ 	 // TODO: Finalize the following rules for SPATIAL
+ 	 
+
+ 	 public static final int SPATIAL_23450 = 1223450;
+
+ 	 public static final int SPATIAL_23451 = 1223451;
+
+ 	 public static final int SPATIAL_23452 = 1223452;
+ 	 
+ 	 public static final int SPATIAL_23650 = 1223650;
+ 	 
+ 	 public static final int SPATIAL_20650 = 1220650;
+ 	 
+ 	 public static final int SPATIAL_23750 = 1223750;
+ 	 
+ 	 public static final int SPATIAL_23751 = 1223751;
+ 	 
+ 	 public static final int SPATIAL_23752 = 1223752;
+ 	 
+ 	 public static final int SPATIAL_23753 = 1223753;
+ 	 
+ 	 public static final int SPATIAL_23754 = 1223754;
+ 	 
+ 	 public static final int SPATIAL_20750 = 1220750;
+ 	 
+ 	 public static final int SPATIAL_20751 = 1220751;
+ 	 
+ 	 public static final int SPATIAL_20752 = 1220752;
+ 	 
+ 	 public static final int SPATIAL_21950 = 1221950;
+ 	 
+ 	 public static final int SPATIAL_21750 = 1221750;
+ 	 
+ 	 public static final int SPATIAL_21751 = 1221751;
+ 	 
+ 	 public static final int SPATIAL_21752 = 1221752;
+ 	 
+ 	 public static final int SPATIAL_21753 = 1221753;
+ 	 
+ 	 public static final int SPATIAL_21754 = 1221754;
+ 	 
+ 	 public static final int SPATIAL_22350 = 1222350;
+ 	 
+ 	 public static final int SPATIAL_23250 = 1223250;
+ 	 
+ 	 public static final int SPATIAL_23251 = 1223251;
+ 	 
+ 	 public static final int SPATIAL_23850 = 1223850;
+ 	 
+ 	 public static final int SPATIAL_21650 = 1221650;
+ 	 
+ 	 public static final int SPATIAL_21651 = 1221651;
+ 	 
+ 	 public static final int SPATIAL_21652 = 1221652;
 }
