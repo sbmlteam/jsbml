@@ -21,6 +21,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
 import org.sbml.jsbml.ext.spatial.SpatialReactionPlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -57,6 +58,7 @@ public class SpatialReactionPluginConstraints extends AbstractConstraintDeclarat
     case GENERAL_CONSISTENCY:
       if(level >= 3){
         addRangeToSet(set, SPATIAL_20601, SPATIAL_20602);
+        set.add(SPATIAL_20650);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -100,12 +102,36 @@ public class SpatialReactionPluginConstraints extends AbstractConstraintDeclarat
 
       break;
     }
+    
     case SPATIAL_20602:
     {
       // The attribute spatial:isLocal on a Reaction must have a value of data type boolean.
 
       func = new InvalidAttributeValidationFunction<SpatialReactionPlugin>(SpatialConstants.isLocal);
 
+      break;
+    }
+    
+    case SPATIAL_20650:
+    {
+      func = new ValidationFunction<SpatialReactionPlugin>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SpatialReactionPlugin srp) {
+          
+          if(srp.isSetIsLocal()) {
+            if(srp.getIsLocal() == false) {
+              return true;
+            }
+            Reaction reaction = srp.getExtendedSBase();
+            if(!reaction.isSetCompartment()) {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+      };
       break;
     }
     }

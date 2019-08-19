@@ -19,6 +19,7 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.ListOf;
@@ -63,6 +64,7 @@ public class AnalyticGeometryConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if(level >= 3){		    		
         addRangeToSet(set, SPATIAL_21801, SPATIAL_21805);
+        set.add(SPATIAL_21950);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -158,6 +160,33 @@ public class AnalyticGeometryConstraints extends AbstractConstraintDeclaration {
             return new UnknownCoreAttributeValidationFunction<ListOf<AnalyticVolume>>().check(ctx, ag.getListOfAnalyticVolumes())
                 && new UnknownPackageAttributeValidationFunction<ListOf<AnalyticVolume>>(SpatialConstants.shortLabel).check(ctx, ag.getListOfAnalyticVolumes());
           }
+          return true;
+        }
+      };
+      break;
+    }
+    
+    case SPATIAL_21950:
+    {
+      func = new ValidationFunction<AnalyticGeometry>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, AnalyticGeometry ag) {
+          
+          if(ag.isSetListOfAnalyticVolumes()) {
+            Set<Integer> ordinals = new HashSet<Integer>();
+            ListOf<AnalyticVolume> loav = ag.getListOfAnalyticVolumes();
+            for(AnalyticVolume av : loav) {
+              
+              if(!ordinals.isEmpty() && ordinals.contains(av.getOrdinal())) {
+                return false;
+              }
+              else {
+                ordinals.add(av.getOrdinal());
+              }
+            }
+          }
+          
           return true;
         }
       };

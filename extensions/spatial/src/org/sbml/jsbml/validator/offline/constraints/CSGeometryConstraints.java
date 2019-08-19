@@ -19,6 +19,7 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.ListOf;
@@ -63,6 +64,7 @@ public class CSGeometryConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if(level >= 3){          
         addRangeToSet(set, SPATIAL_22201, SPATIAL_22205);
+        set.add(SPATIAL_22350);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -156,6 +158,33 @@ public class CSGeometryConstraints extends AbstractConstraintDeclaration {
           
           if(csg.isSetListOfCSGObjects()) {            
             return new UnknownAttributeValidationFunction<ListOf<CSGObject>>().check(ctx, csg.getListOfCSGObjects());
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    
+    case SPATIAL_22350:
+    {
+      func = new ValidationFunction<CSGeometry>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, CSGeometry csg) {
+          
+          if(csg.isSetListOfCSGObjects()) {
+            Set<Integer> ordinals = new HashSet<Integer>();
+            ListOf<CSGObject> locsgo = csg.getListOfCSGObjects();
+            for(CSGObject csgo : locsgo) {
+              
+              if(!ordinals.isEmpty() && ordinals.contains(csgo.getOrdinal())) {
+                return false;
+              }
+              else {
+                ordinals.add(csgo.getOrdinal());
+              }
+            }
           }
           
           return true;

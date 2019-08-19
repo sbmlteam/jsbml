@@ -22,8 +22,10 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.sbml.jsbml.ext.spatial.Geometry;
 import org.sbml.jsbml.ext.spatial.SampledField;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
+import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -61,6 +63,7 @@ public class SampledFieldConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if(level >= 3){
         addRangeToSet(set, SPATIAL_21601, SPATIAL_21612);
+        addRangeToSet(set, SPATIAL_21650, SPATIAL_21652);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -252,6 +255,75 @@ public class SampledFieldConstraints extends AbstractConstraintDeclaration {
       // The attribute spatial:numSamplesThree on a SampledField must have a value of data type integer.
 
       func = new InvalidAttributeValidationFunction<SampledField>(SpatialConstants.numSamples3);
+      break;
+    }
+    
+    case SPATIAL_21650:
+    {
+      func = new ValidationFunction<SampledField>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SampledField sf) {
+          
+          SpatialModelPlugin smp = (SpatialModelPlugin) sf.getModel().getPlugin(SpatialConstants.shortLabel);
+          if(smp.isSetGeometry()) {
+            Geometry g = smp.getGeometry();
+            if(g.getCoordinateComponentCount() == 1) {
+              if(!sf.isSetNumSamples1() || (sf.isSetNumSamples2() || sf.isSetNumSamples3())) {
+                return false;
+              }
+            }
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    
+    case SPATIAL_21651:
+    {
+      func = new ValidationFunction<SampledField>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SampledField sf) {
+          
+          SpatialModelPlugin smp = (SpatialModelPlugin) sf.getModel().getPlugin(SpatialConstants.shortLabel); 
+          if(smp.isSetGeometry()) {
+            Geometry g = smp.getGeometry();
+            if(g.getCoordinateComponentCount() == 2) {
+              if(!sf.isSetNumSamples1() || !sf.isSetNumSamples2() || sf.isSetNumSamples3()) {
+                return false;
+              }
+            }
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    
+    case SPATIAL_21652:
+    {
+      func = new ValidationFunction<SampledField>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SampledField sf) {
+          
+          SpatialModelPlugin smp = (SpatialModelPlugin) sf.getModel().getPlugin(SpatialConstants.shortLabel); 
+          if(smp.isSetGeometry()) {
+            Geometry g = smp.getGeometry();
+            if(g.getCoordinateComponentCount() == 3) {
+              if(!sf.isSetNumSamples1() || !sf.isSetNumSamples2() || !sf.isSetNumSamples3()) {
+                return false;
+              }
+            }
+          }
+          
+          return true;
+        }
+      };
       break;
     }
     }    

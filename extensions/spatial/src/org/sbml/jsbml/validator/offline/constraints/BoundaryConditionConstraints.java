@@ -64,6 +64,7 @@ public class BoundaryConditionConstraints extends AbstractConstraintDeclaration 
     case GENERAL_CONSISTENCY:
       if(level >= 3){		    		
         addRangeToSet(set, SPATIAL_23601, SPATIAL_23607);
+        set.add(SPATIAL_23650);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -177,17 +178,16 @@ public class BoundaryConditionConstraints extends AbstractConstraintDeclaration 
       // object.
 
       func = new ValidationFunction<BoundaryCondition>() {
+        
         @Override
         public boolean check(ValidationContext ctx, BoundaryCondition bc) {
 
-          if(bc.isSetVariable()) {
+          if(bc.isSetCoordinateBoundary()) {
 
             Geometry g = bc.getGeometryInstance();
             ListOf<CoordinateComponent> locc = g.getListOfCoordinateComponents();
-            int n = locc.getNumChildren();
 
-            for(int i = 0; i < n; i++) {
-              CoordinateComponent cc = (CoordinateComponent) locc.getChildAt(i);
+            for(CoordinateComponent cc : locc) {
               Boundary b1 = (Boundary) cc.getChildAt(0);
               Boundary b2 = (Boundary) cc.getChildAt(1);
               if(b1.getId().compareTo(bc.getCoordinateBoundary()) == 0 || b2.getId().compareTo(bc.getCoordinateBoundary()) == 0) {
@@ -211,10 +211,11 @@ public class BoundaryConditionConstraints extends AbstractConstraintDeclaration 
       // object.
 
       func = new ValidationFunction<BoundaryCondition>() {
+        
         @Override
         public boolean check(ValidationContext ctx, BoundaryCondition bc) {
 
-          if(bc.isSetVariable()) {
+          if(bc.isSetBoundaryDomainType()) {
 
             Geometry g = bc.getGeometryInstance();
             if(g.getDomainType(bc.getBoundaryDomainType()) != null) {
@@ -224,6 +225,24 @@ public class BoundaryConditionConstraints extends AbstractConstraintDeclaration 
             return false;
           }
 
+          return true;
+        }
+      };
+      break;
+    }
+    
+    case SPATIAL_23650:
+    {
+      
+      func = new ValidationFunction<BoundaryCondition>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, BoundaryCondition bc) {
+          
+          if(bc.isSetCoordinateBoundary() && bc.isSetBoundaryDomainType()) {
+            return false;
+          }
+          
           return true;
         }
       };

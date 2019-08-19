@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ext.spatial.DiffusionCoefficient;
+import org.sbml.jsbml.ext.spatial.DiffusionKind;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -60,6 +61,7 @@ public class DiffusionCoefficientConstraints extends AbstractConstraintDeclarati
     case GENERAL_CONSISTENCY:
       if(level >= 3){		    		
         addRangeToSet(set, SPATIAL_23401, SPATIAL_23407);
+        addRangeToSet(set, SPATIAL_23450, SPATIAL_23452);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -183,6 +185,67 @@ public class DiffusionCoefficientConstraints extends AbstractConstraintDeclarati
       // “cartesianX”, “cartesianY” or “cartesianZ”.
 
       func = new InvalidAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.coordinateReference2);
+      break;
+    }
+    
+    case SPATIAL_23450:
+    {
+      func = new ValidationFunction<DiffusionCoefficient>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, DiffusionCoefficient dc) {
+          
+          if(dc.isSetType() && dc.getType() == DiffusionKind.isotropic) {
+            if(dc.isSetCoordinateReference1() || dc.isSetCoordinateReference2()) {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    
+    case SPATIAL_23451:
+    {
+      func = new ValidationFunction<DiffusionCoefficient>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, DiffusionCoefficient dc) {
+          
+          if(dc.isSetType() && dc.getType() == DiffusionKind.tensor) {
+            if(dc.isSetCoordinateReference1() && dc.isSetCoordinateReference2()) {
+              return true;
+            }
+            
+            return false;
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    
+    case SPATIAL_23452:
+    {
+      func = new ValidationFunction<DiffusionCoefficient>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, DiffusionCoefficient dc) {
+          
+          if(dc.isSetType() && dc.getType() == DiffusionKind.anisotropic) {
+            if(dc.isSetCoordinateReference1() && !dc.isSetCoordinateReference2()) {
+              return true;
+            }
+            
+            return false;
+          }
+          
+          return true;
+        }
+      };
       break;
     }
     }

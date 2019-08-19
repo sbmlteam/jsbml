@@ -24,6 +24,7 @@ import java.util.Set;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.spatial.CSGNode;
 import org.sbml.jsbml.ext.spatial.CSGSetOperator;
+import org.sbml.jsbml.ext.spatial.SetOperation;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -65,6 +66,7 @@ public class CSGSetOperatorConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if(level >= 3){
         addRangeToSet(set, SPATIAL_23201, SPATIAL_23209);
+        addRangeToSet(set, SPATIAL_23250, SPATIAL_23251);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -263,6 +265,45 @@ public class CSGSetOperatorConstraints extends AbstractConstraintDeclaration {
         }
       };
       
+      break;
+    }
+    
+    case SPATIAL_23250:
+    {
+      func = new ValidationFunction<CSGSetOperator>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, CSGSetOperator csgso) {
+         
+          if(csgso.getOperationType() == SetOperation.difference) {
+            if(csgso.isSetComplementA() && csgso.isSetComplementB()) {
+              return true;
+            }
+            return false;
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    
+    case SPATIAL_23251:
+    {
+      func = new ValidationFunction<CSGSetOperator>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, CSGSetOperator csgso) {
+         
+          if(csgso.getOperationType() == SetOperation.union || csgso.getOperationType() == SetOperation.intersection) {
+            if(csgso.isSetComplementA() || csgso.isSetComplementB()) {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+      };
       break;
     }
     }    
