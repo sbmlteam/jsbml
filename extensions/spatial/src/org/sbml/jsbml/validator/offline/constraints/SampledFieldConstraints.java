@@ -265,17 +265,20 @@ public class SampledFieldConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, SampledField sf) {
           
-          SpatialModelPlugin smp = (SpatialModelPlugin) sf.getModel().getPlugin(SpatialConstants.shortLabel); 
-          Geometry g = smp.getGeometry();
-          if(g.getCoordinateComponentCount() == 1) {
-            if(!sf.isSetNumSamples1() || (sf.isSetNumSamples2() || sf.isSetNumSamples3())) {
-              return false;
+          SpatialModelPlugin smp = (SpatialModelPlugin) sf.getModel().getPlugin(SpatialConstants.shortLabel);
+          if(smp.isSetGeometry()) {
+            Geometry g = smp.getGeometry();
+            if(g.getCoordinateComponentCount() == 1) {
+              if(!sf.isSetNumSamples1() || (sf.isSetNumSamples2() || sf.isSetNumSamples3())) {
+                return false;
+              }
             }
           }
           
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_21651:
@@ -286,16 +289,19 @@ public class SampledFieldConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, SampledField sf) {
           
           SpatialModelPlugin smp = (SpatialModelPlugin) sf.getModel().getPlugin(SpatialConstants.shortLabel); 
-          Geometry g = smp.getGeometry();
-          if(g.getCoordinateComponentCount() == 2) {
-            if(!sf.isSetNumSamples1() || !sf.isSetNumSamples2() || sf.isSetNumSamples3()) {
-              return false;
+          if(smp.isSetGeometry()) {
+            Geometry g = smp.getGeometry();
+            if(g.getCoordinateComponentCount() == 2) {
+              if(!sf.isSetNumSamples1() || !sf.isSetNumSamples2() || sf.isSetNumSamples3()) {
+                return false;
+              }
             }
           }
           
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_21652:
@@ -306,16 +312,19 @@ public class SampledFieldConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, SampledField sf) {
           
           SpatialModelPlugin smp = (SpatialModelPlugin) sf.getModel().getPlugin(SpatialConstants.shortLabel); 
-          Geometry g = smp.getGeometry();
-          if(g.getCoordinateComponentCount() == 2) {
-            if(!sf.isSetNumSamples1() || !sf.isSetNumSamples2() || !sf.isSetNumSamples3()) {
-              return false;
+          if(smp.isSetGeometry()) {
+            Geometry g = smp.getGeometry();
+            if(g.getCoordinateComponentCount() == 3) {
+              if(!sf.isSetNumSamples1() || !sf.isSetNumSamples2() || !sf.isSetNumSamples3()) {
+                return false;
+              }
             }
           }
           
           return true;
         }
       };
+      break;
     }
     }    
 

@@ -120,7 +120,9 @@ public class SpatialReactionPluginConstraints extends AbstractConstraintDeclarat
         public boolean check(ValidationContext ctx, SpatialReactionPlugin srp) {
           
           if(srp.isSetIsLocal()) {
-            
+            if(srp.getIsLocal() == false) {
+              return true;
+            }
             Reaction reaction = srp.getExtendedSBase();
             if(!reaction.isSetCompartment()) {
               return false;
@@ -130,6 +132,7 @@ public class SpatialReactionPluginConstraints extends AbstractConstraintDeclarat
           return true;
         }
       };
+      break;
     }
     }
 

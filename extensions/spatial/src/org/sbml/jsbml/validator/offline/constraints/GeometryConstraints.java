@@ -433,6 +433,7 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_23751:
@@ -442,14 +443,17 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Geometry geom) {
           
-          int child_num = geom.getListOfCoordinateComponents().getChildCount();
-          if(child_num < 1 || child_num > 3) {
-            return false;
+          if(geom.isSetListOfCoordinateComponents()) {
+            int child_num = geom.getListOfCoordinateComponents().getChildCount();
+            if(child_num < 1 || child_num > 3) {
+              return false;
+            }
           }
           
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_23752:
@@ -459,17 +463,20 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Geometry geom) {
           
-          int child_num = geom.getListOfCoordinateComponents().getChildCount();
-          if(child_num == 1) {
-            CoordinateComponent coord = (CoordinateComponent) geom.getListOfCoordinateComponents().getChildAt(0);
-            if(coord.getType() != CoordinateKind.cartesianX) {
-              return false;
+          if(geom.isSetListOfCoordinateComponents()) {
+            int child_num = geom.getListOfCoordinateComponents().getChildCount();
+            if(child_num == 1) {
+              CoordinateComponent coord = (CoordinateComponent) geom.getListOfCoordinateComponents().getChildAt(0);
+              if(coord.getType() != CoordinateKind.cartesianX) {
+                return false;
+              }
             }
           }
           
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_23753:
@@ -479,33 +486,36 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Geometry geom) {
           
-          int child_num = geom.getListOfCoordinateComponents().getChildCount();
-          if(child_num == 2) {
-            
-            boolean cartX = false;
-            boolean cartY = false;
-            ListOf<CoordinateComponent> locc = geom.getListOfCoordinateComponents();
-            for(CoordinateComponent cc : locc) {
-              
-              if(cc.getType() == CoordinateKind.cartesianX) {
-                cartX = true;
+          if(geom.isSetListOfCoordinateComponents()) {
+            int child_num = geom.getListOfCoordinateComponents().getChildCount();
+            if(child_num == 2) {
+
+              boolean cartX = false;
+              boolean cartY = false;
+              ListOf<CoordinateComponent> locc = geom.getListOfCoordinateComponents();
+              for(CoordinateComponent cc : locc) {
+
+                if(cc.getType() == CoordinateKind.cartesianX) {
+                  cartX = true;
+                }
+                if(cc.getType() == CoordinateKind.cartesianY) {
+                  cartY = true;
+                }
               }
-              if(cc.getType() == CoordinateKind.cartesianY) {
-                cartY = true;
+
+              if(cartX && cartY) {
+                return true;
               }
-            }
-            
-            if(cartX && cartY) {
-              return true;
-            }
-            else {
-              return false;
+              else {
+                return false;
+              }
             }
           }
           
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_23754:
@@ -515,37 +525,40 @@ public class GeometryConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, Geometry geom) {
           
-          int child_num = geom.getListOfCoordinateComponents().getChildCount();
-          if(child_num == 3) {
-            
-            boolean cartX = false;
-            boolean cartY = false;
-            boolean cartZ = false;
-            ListOf<CoordinateComponent> locc = geom.getListOfCoordinateComponents();
-            for(CoordinateComponent cc : locc) {
-              
-              if(cc.getType() == CoordinateKind.cartesianX) {
-                cartX = true;
+          if(geom.isSetListOfCoordinateComponents()) {
+            int child_num = geom.getListOfCoordinateComponents().getChildCount();
+            if(child_num == 3) {
+
+              boolean cartX = false;
+              boolean cartY = false;
+              boolean cartZ = false;
+              ListOf<CoordinateComponent> locc = geom.getListOfCoordinateComponents();
+              for(CoordinateComponent cc : locc) {
+
+                if(cc.getType() == CoordinateKind.cartesianX) {
+                  cartX = true;
+                }
+                if(cc.getType() == CoordinateKind.cartesianY) {
+                  cartY = true;
+                }
+                if(cc.getType() == CoordinateKind.cartesianZ) {
+                  cartZ = true;
+                }
               }
-              if(cc.getType() == CoordinateKind.cartesianY) {
-                cartY = true;
+
+              if(cartX && cartY && cartZ) {
+                return true;
               }
-              if(cc.getType() == CoordinateKind.cartesianZ) {
-                cartZ = true;
+              else {
+                return false;
               }
-            }
-            
-            if(cartX && cartY && cartZ) {
-              return true;
-            }
-            else {
-              return false;
             }
           }
-          
+
           return true;
         }
       };
+      break;
     }
     }
 

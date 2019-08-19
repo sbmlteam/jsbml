@@ -190,6 +190,7 @@ public class AnalyticGeometryConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
     }
     }
 

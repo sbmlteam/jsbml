@@ -204,6 +204,7 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_21751:
@@ -222,6 +223,7 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_21752:
@@ -240,6 +242,7 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_21753:
@@ -258,6 +261,7 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_21754:
@@ -267,13 +271,14 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
         @Override
         public boolean check(ValidationContext ctx, SampledVolume sv) {
           
-          if(sv.isSetMinValue() || (sv.isSetMinValue() && sv.isSetMaxValue())) {
+          if(sv.isSetSampledValue() || (sv.isSetMinValue() && sv.isSetMaxValue())) {
             return true;
           }
           
           return false;
         }
       };
+      break;
     }
     }    
 

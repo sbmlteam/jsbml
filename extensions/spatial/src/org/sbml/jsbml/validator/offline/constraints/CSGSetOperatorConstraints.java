@@ -285,6 +285,7 @@ public class CSGSetOperatorConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_23251:
@@ -303,6 +304,7 @@ public class CSGSetOperatorConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
     }
     }    
 

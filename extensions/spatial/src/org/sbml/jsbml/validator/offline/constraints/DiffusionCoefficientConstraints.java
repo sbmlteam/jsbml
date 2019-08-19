@@ -204,6 +204,7 @@ public class DiffusionCoefficientConstraints extends AbstractConstraintDeclarati
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_23451:
@@ -224,6 +225,7 @@ public class DiffusionCoefficientConstraints extends AbstractConstraintDeclarati
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_23452:
@@ -244,6 +246,7 @@ public class DiffusionCoefficientConstraints extends AbstractConstraintDeclarati
           return true;
         }
       };
+      break;
     }
     }
 

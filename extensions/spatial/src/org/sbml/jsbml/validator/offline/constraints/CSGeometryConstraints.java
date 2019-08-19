@@ -190,6 +190,7 @@ public class CSGeometryConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
     }
     }    
 

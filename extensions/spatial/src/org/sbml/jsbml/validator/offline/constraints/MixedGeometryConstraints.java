@@ -229,6 +229,7 @@ public class MixedGeometryConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
     }
     }    
 

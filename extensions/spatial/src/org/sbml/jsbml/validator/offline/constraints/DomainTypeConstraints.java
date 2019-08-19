@@ -160,20 +160,23 @@ public class DomainTypeConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, DomainType dt) {
           
           SpatialModelPlugin smp = (SpatialModelPlugin) dt.getModel().getPlugin(SpatialConstants.shortLabel);
-          Geometry g = smp.getGeometry();
-          int coord_components = g.getListOfCoordinateComponents().getNumChildren();
-          
-          if(coord_components == 3) {
-            if(dt.getSpatialDimensions() == 2 || dt.getSpatialDimensions() == 3) {
-              return true;
+          if(smp.isSetGeometry()) {
+            Geometry g = smp.getGeometry();
+            int coord_components = g.getListOfCoordinateComponents().getNumChildren();
+
+            if(coord_components == 3) {
+              if(dt.getSpatialDimensions() == 2 || dt.getSpatialDimensions() == 3) {
+                return true;
+              }
+
+              return false;
             }
-            
-            return false;
           }
           
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_20751:
@@ -184,20 +187,23 @@ public class DomainTypeConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, DomainType dt) {
           
           SpatialModelPlugin smp = (SpatialModelPlugin) dt.getModel().getPlugin(SpatialConstants.shortLabel);
-          Geometry g = smp.getGeometry();
-          int coord_components = g.getListOfCoordinateComponents().getNumChildren();
-          
-          if(coord_components == 2) {
-            if(dt.getSpatialDimensions() == 1 || dt.getSpatialDimensions() == 2) {
-              return true;
+          if(smp.isSetGeometry()) {
+            Geometry g = smp.getGeometry();
+            int coord_components = g.getListOfCoordinateComponents().getNumChildren();
+
+            if(coord_components == 2) {
+              if(dt.getSpatialDimensions() == 1 || dt.getSpatialDimensions() == 2) {
+                return true;
+              }
+
+              return false;
             }
-            
-            return false;
           }
           
           return true;
         }
       };
+      break;
     }
     
     case SPATIAL_20752:
@@ -208,20 +214,23 @@ public class DomainTypeConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, DomainType dt) {
           
           SpatialModelPlugin smp = (SpatialModelPlugin) dt.getModel().getPlugin(SpatialConstants.shortLabel);
-          Geometry g = smp.getGeometry();
-          int coord_components = g.getListOfCoordinateComponents().getNumChildren();
-          
-          if(coord_components == 1) {
-            if(dt.getSpatialDimensions() == 0 || dt.getSpatialDimensions() == 1) {
-              return true;
+          if(smp.isSetGeometry()) {
+            Geometry g = smp.getGeometry();
+            int coord_components = g.getListOfCoordinateComponents().getNumChildren();
+
+            if(coord_components == 1) {
+              if(dt.getSpatialDimensions() == 0 || dt.getSpatialDimensions() == 1) {
+                return true;
+              }
+
+              return false;
             }
-            
-            return false;
           }
           
           return true;
         }
       };
+      break;
     }
     }		  
 

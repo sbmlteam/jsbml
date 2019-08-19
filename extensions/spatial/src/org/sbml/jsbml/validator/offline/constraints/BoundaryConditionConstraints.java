@@ -182,7 +182,7 @@ public class BoundaryConditionConstraints extends AbstractConstraintDeclaration 
         @Override
         public boolean check(ValidationContext ctx, BoundaryCondition bc) {
 
-          if(bc.isSetVariable()) {
+          if(bc.isSetCoordinateBoundary()) {
 
             Geometry g = bc.getGeometryInstance();
             ListOf<CoordinateComponent> locc = g.getListOfCoordinateComponents();
@@ -215,7 +215,7 @@ public class BoundaryConditionConstraints extends AbstractConstraintDeclaration 
         @Override
         public boolean check(ValidationContext ctx, BoundaryCondition bc) {
 
-          if(bc.isSetVariable()) {
+          if(bc.isSetBoundaryDomainType()) {
 
             Geometry g = bc.getGeometryInstance();
             if(g.getDomainType(bc.getBoundaryDomainType()) != null) {
@@ -246,6 +246,7 @@ public class BoundaryConditionConstraints extends AbstractConstraintDeclaration 
           return true;
         }
       };
+      break;
     }
     }
 
