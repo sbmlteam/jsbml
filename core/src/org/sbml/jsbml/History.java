@@ -489,4 +489,18 @@ public class History extends AnnotationElement {
     }
   }
 
+  /**
+   * Formats this history as string
+   */
+  public String toString() {
+    String result = "History:";
+	if(isEmpty())
+		result += " no history set (empty)";
+	else { 
+		result += " [Created: " + getCreatedDate();
+	    result += " by: " + listOfCreators;
+	    result += "; Modified " + getNumModifiedDates() + " times]";
+	}
+    return result;
+  }
 }
