@@ -1,5 +1,6 @@
 package org.sbml.jsbml.test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -60,7 +61,8 @@ public class ValidationContextTest {
 		  
 		  //create some constraints 
 		  constGroup = new ConstraintGroup<SBMLDocument>(); //type of object to check is SBML Document? 
-		  simpleConst = new SimpleConstraint<SBMLDocument>(0); //errorcode is set to 0
+		  simpleConst = new SimpleConstraint<SBMLDocument>(0); //errorcode is set to 0 
+		  ctx.setRootConstraint(simpleConst, SimpleConstraint.class);
 	  }
 
 	  @Test
@@ -105,21 +107,26 @@ public class ValidationContextTest {
 	  }
 	  
 	  
-	  //TODO: How to get out the values of Array and compare to single element?
-	  //why does it not match? 
+	  @Test 
+	  public void getRootConstraintTest() {
+		  assertTrue(ctx.getRootConstraint().equals(simpleConst));
+	  }
+	  
+
 	  @Test
 	  public void getCheckCategoriesTest() {  
 		  
 		  CHECK_CATEGORY[] cg = ctx.getCheckCategories(); //loads enabled checkcategories
-		  assertTrue(cg.length == 1);
+		  assertTrue(cg.length == 1); //see setUp() to see how many categories are enabled, this is equal to length
+		   
+		  CHECK_CATEGORY[] cgTestFalse = new CHECK_CATEGORY[2];
+		  cgTestFalse[0] = CHECK_CATEGORY.MATHML_CONSISTENCY;
+		  cgTestFalse[1] = CHECK_CATEGORY.IDENTIFIER_CONSISTENCY;
+		  assertFalse(cg[0].equals(cgTestFalse[0]));
 		  
-		  System.out.println(cg.toString());
-		  
-		  CHECK_CATEGORY[] cgTest = new CHECK_CATEGORY[1];
-		  cgTest[0] = CHECK_CATEGORY.GENERAL_CONSISTENCY;
-		  
-		  System.out.println(cgTest.toString());
-		  assertTrue(cg.equals(cgTest));
+		  CHECK_CATEGORY[] cgTestTrue = new CHECK_CATEGORY[1];
+		  cgTestTrue[0] = CHECK_CATEGORY.GENERAL_CONSISTENCY;
+		  assertTrue(cg[0].equals(cgTestTrue[0]));
 		  
 	  }
 	  
