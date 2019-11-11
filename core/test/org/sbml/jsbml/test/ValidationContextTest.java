@@ -13,12 +13,10 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.AnyConstraint;
-import org.sbml.jsbml.validator.offline.constraints.CompartmentConstraints;
+import org.sbml.jsbml.validator.offline.constraints.AbstractConstraint;
 import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
-import org.sbml.jsbml.validator.offline.constraints.TriggerConstraints;
-import org.sbml.jsbml.validator.offline.constraints.ValidationConstraint;
 
 public class ValidationContextTest {
 	
@@ -37,8 +35,16 @@ public class ValidationContextTest {
 	 */
 	private ConstraintGroup constGroup; 
 	
+	/**
+	 * 
+	 */
+	private SimpleConstraint simpleConst;
+	
+
 	
 	
+	
+	//TODO create new Constraint for testpurposes? 
 	 /**
 	   * loads testfile with id BIOMD0000000228 
 	   * @throws IOException
@@ -49,9 +55,12 @@ public class ValidationContextTest {
 		  doc = new SBMLReader().readSBMLFromStream(fileStream);
 		  ctx = new ValidationContext(doc.getLevel(),doc.getVersion()); //ctx with lvl and version of testdocument 
 		  
+		  //set up check categories
+		  ctx.enableCheckCategory(CHECK_CATEGORY.GENERAL_CONSISTENCY, true); //determines the loaded constraints
+		  
 		  //create some constraints 
-		  constGroup = new ConstraintGroup<SBMLDocument>();
-		   
+		  constGroup = new ConstraintGroup<SBMLDocument>(); //type of object to check is SBML Document? 
+		  simpleConst = new SimpleConstraint<SBMLDocument>(0); //errorcode is set to 0
 	  }
 
 	  @Test
@@ -61,7 +70,7 @@ public class ValidationContextTest {
 	  
 	  @Test 
 	  public void setLevelTest() {
-		  ctx.setLevel(-100); //TODO: get a unique level, should not be same es doc.getLevel()
+		  ctx.setLevel(-100); //TODO: get a unique level, should not be same as doc.getLevel()
 		  assertTrue(ctx.getLevel() == -100);
 		  ctx.setLevel(doc.getLevel()+1);
 		  assertTrue(ctx.getLevel() == doc.getLevel()+1);
@@ -85,10 +94,54 @@ public class ValidationContextTest {
 	  
 	  @Test
 	  public void setRootConstraintTest() {
-		  ctx.setRootConstraint(constGroup, this.getClass());
+		  ctx.setRootConstraint(constGroup, ConstraintGroup.class); 
 		  assertTrue(ctx.getRootConstraint().equals(constGroup));
 		  
-		  ctx.setRootConstraint(null, this.getClass());
+		  ctx.setRootConstraint(simpleConst, SimpleConstraint.class);
+		  assertTrue(ctx.getRootConstraint().equals(simpleConst));
+		  
+		  ctx.setRootConstraint(null, null);
 		  assertTrue(ctx.getRootConstraint() == null);
 	  }
+	  
+	  
+	  //TODO: How to get out the values of Array and compare to single element?
+	  //why does it not match? 
+	  @Test
+	  public void getCheckCategoriesTest() {  
+		  
+		  CHECK_CATEGORY[] cg = ctx.getCheckCategories(); //loads enabled checkcategories
+		  assertTrue(cg.length == 1);
+		  
+		  System.out.println(cg.toString());
+		  
+		  CHECK_CATEGORY[] cgTest = new CHECK_CATEGORY[1];
+		  cgTest[0] = CHECK_CATEGORY.GENERAL_CONSISTENCY;
+		  
+		  System.out.println(cgTest.toString());
+		  assertTrue(cg.equals(cgTest));
+		  
+	  }
+	  
+	  //TODO continue with constraintType 
+}
+
+
+//TODO Before Class? 
+//A simple Constraint Type only for this tests
+final class SimpleConstraint<T> extends AbstractConstraint<T> {
+
+	public SimpleConstraint(int errorCode) {
+		super(errorCode);
+		// TODO Auto-generated constructor stub
+	}
+
+
+	@Override
+	public boolean check(ValidationContext context, T object) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
 }
