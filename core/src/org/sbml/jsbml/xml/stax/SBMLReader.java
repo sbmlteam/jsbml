@@ -270,9 +270,6 @@ public class SBMLReader {
 		System.out.println("MathML object = " + ((AssignmentRule) astNodeObject2).getMath());
 		System.out.println("Notes object = " + ((SBase) xmlNodeObject).getNotes().toXMLString());
      */
-    
-    System.out.println("\n" + testDocument.getModel().getHistory());
-    System.out.println("\n" + testDocument.getHistory());
   }
 
   /**
