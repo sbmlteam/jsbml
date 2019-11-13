@@ -26,6 +26,8 @@
 package org.sbml.jsbml.test.sbml;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -1830,5 +1832,87 @@ public class TestSBase {
     cv4 = null;
   }
 
+  /**
+   * Checks correct return on an empty/unset annotation
+   */
+  @Test public void test_removeTopLevelAnnotationElement_unsetAnnotation() {
+	assertFalse(sbase.removeTopLevelAnnotationElement("anyname"));
+  }
+  
+  /**
+   * Checks whether the return is correct (false) for cases where the name or 
+   * name-uri-combination is not found
+   */
+  @Test public void test_removeTopLevelAnnotationElement_noMatchingElement() {
+	XMLTriple triple = new XMLTriple("name", "uri", "prefix");
+	sbase.appendAnnotation(new XMLNode(triple));
+	assertFalse(sbase.removeTopLevelAnnotationElement("otherName"));
+	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", "uri"));
+	assertFalse(sbase.removeTopLevelAnnotationElement("name", "otherURI"));
+  }
+
+  /**
+   * Checks behaviour for the case that the element to be deleted exists, 
+   * but after its deletion, there is still other annotation
+   */
+  @Test public void test_removeTopLevelAnnotationElement_basic() {
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("name1", "uri1", "prefix1")));
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName2", "targetURI2", "targetPrefix")));
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", "uri2", "prefix2")));
+	
+	assertTrue("Should find the element by its name", 
+			sbase.removeTopLevelAnnotationElement("targetName"));
+	assertNull("The element specified by its name should be deleted (and no longer be found)", 
+			sbase.getAnnotation().getXMLNode().getChildElement("targetName", null));
+	assertTrue("Should find the element by name and URI", 
+			sbase.removeTopLevelAnnotationElement("targetName2", "targetURI2"));
+	assertNull("The element specified by name+URI should be deleted (and no longer be found)", 
+			sbase.getAnnotation().getXMLNode().getChildElement("targetName2", "targetURI2"));
+	
+	assertTrue("The annotation should still be set", 
+			sbase.isSetAnnotation());
+  }
+  
+  /**
+   * Checks behaviour for the case that the element to be deleted exists, 
+   * and after its deletion, there is no other annotation
+   */
+  @Test public void test_removeTopLevelAnnotationElement_removeEmpty() {
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+	
+	assertTrue("Should find the element by its name", 
+			sbase.removeTopLevelAnnotationElement("targetName"));
+	assertFalse("The annotation should now be unset, as its last element was deleted", 
+			sbase.isSetAnnotation());
+	
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+	
+	assertTrue("Should find the element by its name", 
+			sbase.removeTopLevelAnnotationElement("targetName", "someURI", false));
+	assertTrue("Under removeEmpty=false, annotation should now remain set, even though it is empty", 
+			sbase.isSetAnnotation());
+  }
+  
+  /**
+   * Checks behaviour for removeEmpty set, but dummy URI given (null, "", "*")
+   */
+  @Test public void test_removeTopLevelAnnotationElement_removeEmptyWithUnspecificURI() {
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+	
+	assertTrue("Should find the element by its name", 
+			sbase.removeTopLevelAnnotationElement("targetName", null, true));
+	assertFalse("The annotation should now be unset, as its last element was deleted", 
+			sbase.isSetAnnotation());
+	
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+	
+	assertTrue("Should find the element by its name", 
+			sbase.removeTopLevelAnnotationElement("targetName", "*", false));
+	assertTrue("Under removeEmpty=false, annotation should now remain set, even though it is empty", 
+			sbase.isSetAnnotation());
+  }
+  
+  
 }
 

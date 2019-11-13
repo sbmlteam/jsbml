@@ -2365,6 +2365,43 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
   }
   
+  /**
+   * Removes the top-level element within the 'annotation' subelement of 
+   * this SBML object with the given name.
+   * If the annotation is empty after removal, it will be removed/unset 
+   * @param name of the annotation element to be removed
+   * @return Whether the element was found and removed
+   */
+  public boolean removeTopLevelAnnotationElement(String name) {
+	  return false;
+  }
+  
+  /**
+   * Removes the top-level element within the 'annotation' subelement of
+   * this SBML object with the given name and URI. 
+   * If the annotation is empty after removal, it will be removed/unset
+   * @param name of the annotation element to be removed
+   * @param elementURI of the annotation element to be removed
+   * @return Whether the element was found and removed
+   */
+  public boolean removeTopLevelAnnotationElement(String name, String elementURI) {
+	  return false;
+  }
+  
+  /**
+   * Removes the top-level element within the 'annotation' subelement of
+   * this SBML object with the given name and URI. 
+   * @param name of the annotation element to be removed
+   * @param elementURI of the annotation element to be removed
+   * @param removeEmpty Whether to remove/unset the annotation, if it is 
+   * 	empty after removing the specified element
+   * @return Whether the element was found and removed
+   */
+  public boolean removeTopLevelAnnotationElement(String name, String elementURI, boolean removeEmpty) {
+	  return false;
+  }
+ 
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
