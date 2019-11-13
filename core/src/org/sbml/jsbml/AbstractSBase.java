@@ -2373,7 +2373,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @return Whether the element was found and removed
    */
   public boolean removeTopLevelAnnotationElement(String name) {
-	  return false;
+	  return removeTopLevelAnnotationElement(name, null, true);
   }
   
   /**
@@ -2385,7 +2385,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @return Whether the element was found and removed
    */
   public boolean removeTopLevelAnnotationElement(String name, String elementURI) {
-	  return false;
+	  return removeTopLevelAnnotationElement(name, elementURI, true);
   }
   
   /**
@@ -2398,7 +2398,22 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @return Whether the element was found and removed
    */
   public boolean removeTopLevelAnnotationElement(String name, String elementURI, boolean removeEmpty) {
-	  return false;
+	  // To avoid side effect of creating a new empty annotation when trying to delete from an unset
+	  // annotation:
+	  if(!isSetAnnotation())
+		  return false;
+	  XMLNode toBeDeleted = getAnnotation().getXMLNode().getChildElement(name, elementURI);
+	  if(toBeDeleted == null) 
+		  return false;
+	  else {
+		  boolean hasBeenRemoved = toBeDeleted.removeFromParent();
+		  // annotation.isEmpty() does not have the needed behaviour
+		  boolean didNotFindAnyChildren = getAnnotation().getXMLNode().getChildElements(null, null).size() == 0;
+		  if(removeEmpty && didNotFindAnyChildren)
+			  unsetAnnotation();
+		  
+		  return hasBeenRemoved;
+	  }
   }
  
   
