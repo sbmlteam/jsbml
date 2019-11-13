@@ -1837,6 +1837,8 @@ public class TestSBase {
    */
   @Test public void test_removeTopLevelAnnotationElement_unsetAnnotation() {
 	assertFalse(sbase.removeTopLevelAnnotationElement("anyname"));
+	assertFalse("After trying to delete from an unset annotation, the annotation should still be unset", 
+			sbase.isSetAnnotation());
   }
   
   /**
@@ -1879,6 +1881,7 @@ public class TestSBase {
    * and after its deletion, there is no other annotation
    */
   @Test public void test_removeTopLevelAnnotationElement_removeEmpty() {
+	  System.out.println("removeEmpty");
 	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
 	
 	assertTrue("Should find the element by its name", 
