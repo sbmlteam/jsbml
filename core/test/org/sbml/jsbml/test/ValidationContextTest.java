@@ -183,7 +183,47 @@ public class ValidationContextTest {
 	  
 	  @Test
 	  public void getVersionTest() {
-		  assertEquals(ctx.getVersion(), doc.getLevel());
+		  assertEquals(ctx.getVersion(), doc.getVersion());
+	  }
+	  
+	  @Test
+	  public void isEnabledCategoryTest() {
+		  assertTrue(ctx.isEnabledCategory(CHECK_CATEGORY.GENERAL_CONSISTENCY) == true);
+		  assertTrue(ctx.isEnabledCategory(CHECK_CATEGORY.IDENTIFIER_CONSISTENCY) == false);
+		  assertTrue(ctx.isEnabledCategory(CHECK_CATEGORY.MATHML_CONSISTENCY) == false);
+		  assertTrue(ctx.isEnabledCategory(CHECK_CATEGORY.MODELING_PRACTICE) == false);
+		  assertTrue(ctx.isEnabledCategory(CHECK_CATEGORY.OVERDETERMINED_MODEL) == false);
+		  assertTrue(ctx.isEnabledCategory(CHECK_CATEGORY.SBO_CONSISTENCY) == false);
+		  assertTrue(ctx.isEnabledCategory(CHECK_CATEGORY.UNITS_CONSISTENCY) == false);
+	  }
+	  
+	  @Test
+	  public void isLevelAndVersionLessThanTest() {
+		  int level = doc.getLevel();
+		  int version = doc.getVersion();
+		  
+		  //if level is smaller than the given newLevel, method should return true
+		  int newLevel = level + 1;
+		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, version) == true);
+		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, version - 1) == true);
+		  newLevel = level - 1;
+		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, version) == false);
+		  //level equal to newLevel and version smaller then the given newVersion should return true 
+		  int newVersion = version + 1;
+		  newLevel = level;
+		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, newVersion) == true);
+		  
+		  //staying same should be false
+		  newVersion = version;
+		  newLevel = level;
+		  assertTrue(ctx.isLevelAndVersionLessThan(level, version) == false);
+		  
+		  //if level is bigger than newLevel then it is false no matter what newVersion is
+		  newLevel = level - 1;
+		  newVersion = version + 1;
+		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, newVersion) == false);
+		  newVersion = version - 1;
+		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, newVersion) == false);
 	  }
 	  
 	  @Test
