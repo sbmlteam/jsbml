@@ -1842,6 +1842,22 @@ public class TestSBase {
   }
   
   /**
+   * Checks behaviour for removing by unspecific names
+   */
+  @Test public void test_removeTopLevelAnnotationElement_unspecificName() {
+    // TODO: Alternatively, these should all return false; which would need be documented 
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("name1", "uri1", "prefix")));
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", "uri2", "prefix")));
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("name3", "uri3", "prefix")));
+	sbase.appendAnnotation(new XMLNode(new XMLTriple("name4", "uri4", "prefix")));
+	assertTrue(sbase.removeTopLevelAnnotationElement(null));
+	assertTrue(sbase.removeTopLevelAnnotationElement("*"));
+	assertTrue(sbase.removeTopLevelAnnotationElement(""));
+	// The first 3 elements should be removed by unspecific names
+	assertTrue(sbase.removeTopLevelAnnotationElement("name4"));
+  }
+  
+  /**
    * Checks whether the return is correct (false) for cases where the name or 
    * name-uri-combination is not found
    */
@@ -1849,6 +1865,9 @@ public class TestSBase {
 	XMLTriple triple = new XMLTriple("name", "uri", "prefix");
 	sbase.appendAnnotation(new XMLNode(triple));
 	assertFalse(sbase.removeTopLevelAnnotationElement("otherName"));
+	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", null, false));
+	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", "*"));
+	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", ""));
 	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", "uri"));
 	assertFalse(sbase.removeTopLevelAnnotationElement("name", "otherURI"));
   }
