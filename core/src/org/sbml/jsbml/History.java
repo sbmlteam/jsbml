@@ -490,16 +490,17 @@ public class History extends AnnotationElement {
   }
 
   /**
-   * Formats this history as string
+   * Formats this history as string: the Creation-Date, as well as the number of 
+   * contributors and the number of modification-dates will be given.  
    */
   public String toString() {
     String result = getClass().getSimpleName();
 	if(isEmpty())
 		result = "[" + result + "]";
 	else { 
-		result += " [created=" + getCreatedDate();
-	    result += " contributors=" + listOfCreators.size();
-	    result += " modified=" + getNumModifiedDates() + "]";
+		result += " [created=" + (isSetCreatedDate() ? getCreatedDate() : "not defined");
+	    result += ", contributors=" + listOfCreators.size();
+	    result += ", modified=" + getNumModifiedDates() + "]";
 	}
     return result;
   }
