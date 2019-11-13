@@ -1,6 +1,7 @@
 package org.sbml.jsbml.test;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -16,9 +17,13 @@ import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.AbstractConstraint;
 import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
 
+/**
+ * 
+ * @author Onur Özel
+ *
+ */
 public class ValidationContextTest {
 	
 	/**
@@ -34,18 +39,10 @@ public class ValidationContextTest {
 	/**
 	 * 
 	 */
-	private ConstraintGroup constGroup; 
-	
-	/**
-	 * 
-	 */
-	private SimpleConstraint simpleConst;
+	private ConstraintGroup constGroup;
 	
 
 	
-	
-	
-	//TODO create new Constraint for testpurposes? 
 	 /**
 	   * loads testfile with id BIOMD0000000228 
 	   * @throws IOException
@@ -61,23 +58,71 @@ public class ValidationContextTest {
 		  
 		  //create some constraints 
 		  constGroup = new ConstraintGroup<SBMLDocument>(); //type of object to check is SBML Document? 
-		  simpleConst = new SimpleConstraint<SBMLDocument>(0); //errorcode is set to 0 
-		  ctx.setRootConstraint(simpleConst, SimpleConstraint.class);
+  
+		  //initial root constraint is a simple dummy constraint
+		  ctx.setRootConstraint(constGroup, this.getClass()); //TODO - not sure if type is this class or not
 	  }
-
+	  
 	  @Test
-	  public void getLevelTest() {
-		  assertTrue(ctx.getLevel() == doc.getLevel());
+	  public void clearTest() {
+		  ctx.clear();
+		  assertTrue(ctx.getRootConstraint() == null);
+		  assertTrue(ctx.getConstraintType() == null);
 	  }
 	  
 	  @Test 
-	  public void setLevelTest() {
-		  ctx.setLevel(-100); //TODO: get a unique level, should not be same as doc.getLevel()
-		  assertTrue(ctx.getLevel() == -100);
-		  ctx.setLevel(doc.getLevel()+1);
-		  assertTrue(ctx.getLevel() == doc.getLevel()+1);
-		  ctx.setLevel(doc.getLevel()-1);
-		  assertTrue(ctx.getLevel() == doc.getLevel()-1);
+	  public void enableCheckCategoryTest() {
+		  //removes category, initially there was only one category enabled
+		  //so the array should be empty
+		  ctx.enableCheckCategory(CHECK_CATEGORY.GENERAL_CONSISTENCY, false);
+		  assertTrue(ctx.getCheckCategories().length == 0);
+		  
+		  //set up test array which should match the enabled categories array 
+		  CHECK_CATEGORY[] cgTestTrue = new CHECK_CATEGORY[1];
+		  cgTestTrue[0] = CHECK_CATEGORY.IDENTIFIER_CONSISTENCY;
+		  assertTrue(cgTestTrue.length == 1);
+		  
+		  //add back a category to the currently empty array of enabled constraints
+		  //and test it against the created array
+		  ctx.enableCheckCategory(CHECK_CATEGORY.IDENTIFIER_CONSISTENCY, true);
+		  assertTrue(ctx.getCheckCategories().length == 1);
+		  assertEquals(ctx.getCheckCategories()[0], cgTestTrue[0]);
+	  }
+	  
+	  @Test 
+	  public void loadConstraintsTest() {
+		  ctx.setRootConstraint(null, null);
+		  ctx.loadConstraints(this.getClass()); //TODO - how to load some constraints for this class?  
+	  }
+
+	  @Test
+	  public void getCheckCategoriesTest() {  		  
+		  CHECK_CATEGORY[] ccs = ctx.getCheckCategories(); 
+		  assertTrue(ccs.length == 1); //initially 1 category is enabled (see setUp())
+		   
+		  CHECK_CATEGORY[] ccsTestFalse = new CHECK_CATEGORY[2];
+		  ccsTestFalse[0] = CHECK_CATEGORY.MATHML_CONSISTENCY;
+		  ccsTestFalse[1] = CHECK_CATEGORY.IDENTIFIER_CONSISTENCY;
+		  assertTrue(ccs[0].equals(ccsTestFalse[0]) == false);
+		  
+		  CHECK_CATEGORY[] ccsTestTrue = new CHECK_CATEGORY[1];
+		  ccsTestTrue[0] = CHECK_CATEGORY.GENERAL_CONSISTENCY;
+		  assertTrue(ccs[0].equals(ccsTestTrue[0]) == true);
+	  }
+	  
+	  @Test 
+	  public void getConstraintTypeTest() {
+		  assertEquals(ctx.getConstraintType(), this.getClass());
+	  }
+	  
+	  @Test 
+	  public void getHashMapTest() {
+		  //TODO
+	  }
+	  
+	  @Test
+	  public void getLevelTest() {
+		  assertTrue(ctx.getLevel() == doc.getLevel());
 	  }
 	  
 	  @Test
@@ -89,66 +134,35 @@ public class ValidationContextTest {
 	  
 	  @Test
 	  public void setLevelAndVersionTest() {
-		  ctx.setLevelAndVersion(doc.getLevel()+1, doc.getVersion()+1);
-		  assertTrue(ctx.getLevel() == doc.getLevel()+1);
-		  assertTrue(ctx.getVersion() == doc.getVersion()+1);
+		  int docLevel = doc.getLevel();
+		  int docVersion = doc.getVersion();
+		  
+		  //if values don't differ it shouldn't clear root constraint
+		  ctx.setLevelAndVersion(docLevel, docVersion);
+		  assertTrue(ctx.getLevel() == docLevel);
+		  assertTrue(ctx.getVersion() == docVersion);
+		  assertEquals(ctx.getRootConstraint(), constGroup);
+		  assertEquals(ctx.getConstraintType(), this.getClass());
+		  
+		  //if values differ from current values root constraint should be cleared
+		  ctx.setLevelAndVersion(docLevel + 1, docVersion + 1);
+		  assertTrue(ctx.getLevel() == docLevel + 1);
+		  assertTrue(ctx.getVersion() == docVersion + 1);
+		  assertTrue(ctx.getRootConstraint() == null);
+		  assertTrue(ctx.getConstraintType() == null); 
 	  }
 	  
 	  @Test
 	  public void setRootConstraintTest() {
-		  ctx.setRootConstraint(constGroup, ConstraintGroup.class); 
-		  assertTrue(ctx.getRootConstraint().equals(constGroup));
-		  
-		  ctx.setRootConstraint(simpleConst, SimpleConstraint.class);
-		  assertTrue(ctx.getRootConstraint().equals(simpleConst));
-		  
 		  ctx.setRootConstraint(null, null);
 		  assertTrue(ctx.getRootConstraint() == null);
+		  
+		  ctx.setRootConstraint(constGroup, this.getClass()); 
+		  assertEquals(ctx.getRootConstraint(), constGroup);
 	  }
-	  
 	  
 	  @Test 
 	  public void getRootConstraintTest() {
-		  assertTrue(ctx.getRootConstraint().equals(simpleConst));
+		  assertEquals(ctx.getRootConstraint(), constGroup);
 	  }
-	  
-
-	  @Test
-	  public void getCheckCategoriesTest() {  
-		  
-		  CHECK_CATEGORY[] cg = ctx.getCheckCategories(); //loads enabled checkcategories
-		  assertTrue(cg.length == 1); //see setUp() to see how many categories are enabled, this is equal to length
-		   
-		  CHECK_CATEGORY[] cgTestFalse = new CHECK_CATEGORY[2];
-		  cgTestFalse[0] = CHECK_CATEGORY.MATHML_CONSISTENCY;
-		  cgTestFalse[1] = CHECK_CATEGORY.IDENTIFIER_CONSISTENCY;
-		  assertFalse(cg[0].equals(cgTestFalse[0]));
-		  
-		  CHECK_CATEGORY[] cgTestTrue = new CHECK_CATEGORY[1];
-		  cgTestTrue[0] = CHECK_CATEGORY.GENERAL_CONSISTENCY;
-		  assertTrue(cg[0].equals(cgTestTrue[0]));
-		  
-	  }
-	  
-	  //TODO continue with constraintType 
-}
-
-
-//TODO Before Class? 
-//A simple Constraint Type only for this tests
-final class SimpleConstraint<T> extends AbstractConstraint<T> {
-
-	public SimpleConstraint(int errorCode) {
-		super(errorCode);
-		// TODO Auto-generated constructor stub
-	}
-
-
-	@Override
-	public boolean check(ValidationContext context, T object) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	
 }
