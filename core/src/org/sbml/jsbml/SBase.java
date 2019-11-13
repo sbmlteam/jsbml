@@ -958,6 +958,38 @@ public interface SBase extends TreeNodeWithChangeSupport {
   @Override
   public void removeTreeNodeChangeListener(TreeNodeChangeListener listener);
 
+  
+  /**
+   * Removes the top-level element within the 'annotation' subelement of 
+   * this SBML object with the given name.
+   * If the annotation is empty after removal, it will be removed/unset 
+   * @param name of the annotation element to be removed
+   * @return Whether the element was found and removed
+   */
+  public boolean removeTopLevelAnnotationElement(String name);
+  
+  /**
+   * Removes the top-level element within the 'annotation' subelement of
+   * this SBML object with the given name and URI. 
+   * If the annotation is empty after removal, it will be removed/unset
+   * @param name of the annotation element to be removed
+   * @param elementURI of the annotation element to be removed
+   * @return Whether the element was found and removed
+   */
+  public boolean removeTopLevelAnnotationElement(String name, String elementURI);
+  
+  /**
+   * Removes the top-level element within the 'annotation' subelement of
+   * this SBML object with the given name and URI. 
+   * @param name of the annotation element to be removed
+   * @param elementURI of the annotation element to be removed (if null, "" or "*", will match 
+   * 	any URI)
+   * @param removeEmpty Whether to remove/unset the annotation, if it is 
+   * 	empty after removing the specified element
+   * @return Whether the element was found and removed
+   */
+  public boolean removeTopLevelAnnotationElement(String name, String elementURI, boolean removeEmpty);
+  
   /**
    * Sets the value of the 'annotation' sub-element of this SBML object to a
    * copy of annotation given as an {@link Annotation} instance.
