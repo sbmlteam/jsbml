@@ -493,13 +493,13 @@ public class History extends AnnotationElement {
    * Formats this history as string
    */
   public String toString() {
-    String result = "History:";
+    String result = getClass().getSimpleName();
 	if(isEmpty())
-		result = "[]";
+		result = "[" + result + "]";
 	else { 
-		result += " [Created: " + getCreatedDate();
-	    result += "; " + listOfCreators.size() + " contributors";
-	    result += "; Modified " + getNumModifiedDates() + " times]";
+		result += " [created=" + getCreatedDate();
+	    result += " contributors=" + listOfCreators.size();
+	    result += " modified=" + getNumModifiedDates() + "]";
 	}
     return result;
   }
