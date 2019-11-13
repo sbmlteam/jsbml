@@ -62,6 +62,7 @@ public class ValidationContextTest {
 		  //create some constraints 
 		  constGroup = new ConstraintGroup<Object>(); //type of object to check is SBML Document? 
 		  ctx.setRootConstraint(constGroup, SBMLDocument.class); 
+		  
 	  }
 	  
 	  @Test
@@ -130,6 +131,11 @@ public class ValidationContextTest {
 		  assertTrue(ctx.getRootConstraint() != null);
 		  assertEquals(ctx.getConstraintType(), SBMLDocument.class);
 	  }
+	  
+	  @Test
+	  public void loadConstraintsForAttributeTest() {
+		  //TODO
+	  }
 
 	  @Test
 	  public void getCheckCategoriesTest() {  		  
@@ -154,7 +160,7 @@ public class ValidationContextTest {
 	  
 	  @Test 
 	  public void getHashMapTest() {
-		  //TODO
+		  //TODO how to simulate some tests? 
 	  }
 	  
 	  @Test
@@ -167,6 +173,17 @@ public class ValidationContextTest {
 		  ValuePair<Integer, Integer> lv = ctx.getLevelAndVersion();
 		  assertTrue(lv.getL() == doc.getLevel());
 		  assertTrue(lv.getV() == doc.getVersion());
+	  }
+	  
+	  
+	  @Test 
+	  public void getRootConstraintTest() {
+		  assertEquals(ctx.getRootConstraint(), constGroup);
+	  }
+	  
+	  @Test
+	  public void getVersionTest() {
+		  assertEquals(ctx.getVersion(), doc.getLevel());
 	  }
 	  
 	  @Test
@@ -197,9 +214,5 @@ public class ValidationContextTest {
 		  ctx.setRootConstraint(constGroup, SBMLDocument.class); 
 		  assertEquals(ctx.getRootConstraint(), constGroup);
 	  }
-	  
-	  @Test 
-	  public void getRootConstraintTest() {
-		  assertEquals(ctx.getRootConstraint(), constGroup);
-	  }
+	 
 }
