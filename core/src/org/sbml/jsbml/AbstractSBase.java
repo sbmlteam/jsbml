@@ -2428,19 +2428,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   	if(!isSetAnnotation() || annotation == null)
   		return false;
   	
-  	List<XMLNode> allChildren = getAnnotation().getXMLNode().getChildElements("*", "*");
-  	for(int i = 0; i < allChildren.size(); i++) {
-  		if(allChildren.get(i).getName().equals(annotation.getName())) {
-  			boolean hasBeenRemoved = allChildren.get(i).removeFromParent();
-  			if(hasBeenRemoved) 
-  				// Why is i+1 needed here? insertChild(i, annotation) should insert the annotation 
-  				// at the correct position, but does not.
-  				getAnnotation().getXMLNode().insertChild(i, annotation);
-  			return hasBeenRemoved;
-  		}
-  			
-  	}
-  	return false;
+  	int i = getAnnotation().getXMLNode().indexOf(annotation.getName());
+  	if(i < 0)
+  		return false;
+  	else {
+  		getAnnotation().getXMLNode().removeChild(i);
+  		getAnnotation().getXMLNode().insertChild(i, annotation);
+  		return true;
+  	}	
   }
  
   
