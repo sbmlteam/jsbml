@@ -66,10 +66,20 @@ public class ValidationContextTest {
 	  }
 	  
 	  @Test
+	  public void addValidationListenerTest() {
+		  //TODO
+	  }
+	  
+	  @Test
 	  public void clearTest() {
 		  ctx.clear();
 		  assertTrue(ctx.getRootConstraint() == null);
 		  assertTrue(ctx.getConstraintType() == null);
+	  }
+	  
+	  @Test
+	  public void didValidateTest() {
+		  
 	  }
 	  
 	  @Test 
@@ -156,7 +166,8 @@ public class ValidationContextTest {
 	  @Test 
 	  public void loadConstraintsTest() {
 		  ctx.loadConstraints(SBMLDocument.class); 
-		  assertTrue(ctx.getRootConstraint().equals(constGroup) == false); //old rootConstraint should be reseted 
+		  //old rootConstraint should be reseted so shouldn't be the initial constGroup 
+		  assertTrue(ctx.getRootConstraint().equals(constGroup) == false); 
 		  assertEquals(ctx.getConstraintType(), SBMLDocument.class);
 		  
 		  //if there was no root constraint before it should have one after loading 
@@ -164,6 +175,8 @@ public class ValidationContextTest {
 		  ctx.loadConstraints(SBMLDocument.class);
 		  assertTrue(ctx.getRootConstraint() != null);
 		  assertEquals(ctx.getConstraintType(), SBMLDocument.class);
+		  
+		  //TODO - test also overloaded methods
 	  }
 	  
 	  @Test
@@ -360,6 +373,11 @@ public class ValidationContextTest {
 	  }
 	  
 	  @Test
+	  public void removeValidationListenerTest() {
+		  //TODO
+	  }
+	  
+	  @Test
 	  public void setLevelAndVersionTest() {
 		  int docLevel = doc.getLevel();
 		  int docVersion = doc.getVersion();
@@ -395,5 +413,14 @@ public class ValidationContextTest {
 		  ctx.setValidateRecursively(true);
 		  assertTrue(ctx.getValidateRecursively() == true);
 	  }
-	 
+	  
+	  @Test
+	  public void validateTest() {
+		  //TODO
+	  }
+	  
+	  @Test
+	  public void willValidateTest() {
+		  
+	  }
 }
