@@ -504,7 +504,7 @@ public class XMLNode extends XMLToken {
     if (node == null) {
       return node;
     }
-
+    
     if (isEnd()) {
       unsetEnd();
     }
@@ -568,6 +568,49 @@ public class XMLNode extends XMLToken {
     }
 
     return OPERATION_SUCCESS;
+  }
+  
+  /**
+   * Searches for first occurrence of the given XMLNode among the immediate children of this 
+   * XMLNode and returns the index with which that child could be accessed e.g. 
+   * via {@link XMLNode#getChildAt}
+   * @param searched the XMLNode to be searched among the immediate (!) children of this XMLNode
+   * @return the index of the child (or -1 if absent)
+   */
+  public int indexOf(XMLNode searched) {
+  	if(searched == null)
+  		throw new NullPointerException("XMLNode to be searched was null - cannot search null");
+  	for (int i = 0; i < getChildCount(); i++) {
+      XMLNode child = getChildAt(i);
+
+      if (child.isElement() && child.getName().equals(searched.getName()) 
+      		&& searched.getURI().equals(child.getURI()) 
+      		&& child.getCharacters().equals(searched.getCharacters()))
+      {
+        return i;
+      }
+    }
+  	return -1;
+  }
+  
+  /**
+   * Searches for the first among the immediate children of this XMLNode whose name is the given one,
+   * and returns the index with which that child could be accessed e.g. via {@link XMLNode#getChildAt}
+   * @param name the name ({@link XMLNode#getName}) to be searched (if null, "" or "*", NO XMLNode 
+   * 	will match)
+   * @return the index of the child (or -1 if absent)
+   */
+  public int indexOf(String name) {
+  	if(name == null || name.equals("") || name.equals("*"))
+  		return -1;
+  	for (int i = 0; i < getChildCount(); i++) {
+      XMLNode child = getChildAt(i);
+      
+      if (child.isElement() && child.getName().equals(name)) { 
+      	return i; 
+      }
+    }
+  	return -1;
   }
 
     /* (non-Javadoc)
