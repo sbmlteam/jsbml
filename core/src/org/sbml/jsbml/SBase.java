@@ -991,6 +991,27 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean removeTopLevelAnnotationElement(String name, String elementURI, boolean removeEmpty);
   
   /**
+   * Replaces the top-level element of this SBML object with same name as given 
+   * annotation subelement by the given one. Ordering of annotation will remain the same.
+   * Name of element to be replaced is inferred from given annotation string. 
+   * @param annotation XML-string representing the annotation subelement to replace the 
+   * 	existing one of same name
+   * @return whether a corresponding element was found and replaced 
+   * @throws XMLStreamException if the annotation-string cannot be parsed into an XML
+   */
+  public boolean replaceTopLevelAnnotationElement(String annotation) throws XMLStreamException;
+  
+  /**
+   * Replaces the top-level element of this SBML object with same name as given 
+   * annotation subelement by the given one. Ordering of annotation will remain the same.
+   * Name of element to be replaced is inferred from given annotation XMLNode. 
+   * @param annotation XMLNode representing the annotation subelement to replace the 
+   * 	existing one of same name
+   * @return whether a corresponding element was found and replaced 
+   */
+  public boolean replaceTopLevelAnnotationElement(XMLNode annotation);
+  
+  /**
    * Sets the value of the 'annotation' sub-element of this SBML object to a
    * copy of annotation given as an {@link Annotation} instance.
    * 

@@ -1836,42 +1836,42 @@ public class TestSBase {
    * Checks correct return on an empty/unset annotation
    */
   @Test public void test_removeTopLevelAnnotationElement_unsetAnnotation() {
-	assertFalse(sbase.removeTopLevelAnnotationElement("anyname"));
-	assertFalse("After trying to delete from an unset annotation, the annotation should still be unset", 
-			sbase.isSetAnnotation());
+  	assertFalse(sbase.removeTopLevelAnnotationElement("anyname"));
+  	assertFalse("After trying to delete from an unset annotation, the annotation should still be unset", 
+  			sbase.isSetAnnotation());
   }
-  
+
   /**
    * Checks behaviour for removing by unspecific names
    */
   @Test public void test_removeTopLevelAnnotationElement_unspecificName() {
-    // TODO: Alternatively, these should all return false; which would need be documented 
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("name1", "uri1", "prefix")));
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", "uri2", "prefix")));
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("name3", "uri3", "prefix")));
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("name4", "uri4", "prefix")));
-	// So far, only name=null is specified to return false immediately
-	assertFalse(sbase.removeTopLevelAnnotationElement(null));
-	assertTrue(sbase.removeTopLevelAnnotationElement("*"));
-	assertTrue(sbase.removeTopLevelAnnotationElement(""));
-	// The first 2 elements should be removed by unspecific names, as name=null fails
-	assertTrue(sbase.removeTopLevelAnnotationElement("name3"));
-	assertTrue(sbase.removeTopLevelAnnotationElement("name4"));
+  	// TODO: Alternatively, these should all return false; which would need be documented 
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name1", "uri1", "prefix")));
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", "uri2", "prefix")));
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name3", "uri3", "prefix")));
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name4", "uri4", "prefix")));
+  	// So far, only name=null is specified to return false immediately
+  	assertFalse(sbase.removeTopLevelAnnotationElement(null));
+  	assertTrue(sbase.removeTopLevelAnnotationElement("*"));
+  	assertTrue(sbase.removeTopLevelAnnotationElement(""));
+  	// The first 2 elements should be removed by unspecific names, as name=null fails
+  	assertTrue(sbase.removeTopLevelAnnotationElement("name3"));
+  	assertTrue(sbase.removeTopLevelAnnotationElement("name4"));
   }
-  
+
   /**
    * Checks whether the return is correct (false) for cases where the name or 
    * name-uri-combination is not found
    */
   @Test public void test_removeTopLevelAnnotationElement_noMatchingElement() {
-	XMLTriple triple = new XMLTriple("name", "uri", "prefix");
-	sbase.appendAnnotation(new XMLNode(triple));
-	assertFalse(sbase.removeTopLevelAnnotationElement("otherName"));
-	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", null, false));
-	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", "*"));
-	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", ""));
-	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", "uri"));
-	assertFalse(sbase.removeTopLevelAnnotationElement("name", "otherURI"));
+  	XMLTriple triple = new XMLTriple("name", "uri", "prefix");
+  	sbase.appendAnnotation(new XMLNode(triple));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("otherName"));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", null, false));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", "*"));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", ""));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", "uri"));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("name", "otherURI"));
   }
 
   /**
@@ -1879,64 +1879,111 @@ public class TestSBase {
    * but after its deletion, there is still other annotation
    */
   @Test public void test_removeTopLevelAnnotationElement_basic() {
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("name1", "uri1", "prefix1")));
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName2", "targetURI2", "targetPrefix")));
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", "uri2", "prefix2")));
-	
-	assertTrue("Should find the element by its name", 
-			sbase.removeTopLevelAnnotationElement("targetName"));
-	assertNull("The element specified by its name should be deleted (and no longer be found)", 
-			sbase.getAnnotation().getXMLNode().getChildElement("targetName", null));
-	assertTrue("Should find the element by name and URI", 
-			sbase.removeTopLevelAnnotationElement("targetName2", "targetURI2"));
-	assertNull("The element specified by name+URI should be deleted (and no longer be found)", 
-			sbase.getAnnotation().getXMLNode().getChildElement("targetName2", "targetURI2"));
-	
-	assertTrue("The annotation should still be set", 
-			sbase.isSetAnnotation());
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name1", "uri1", "prefix1")));
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName2", "targetURI2", "targetPrefix")));
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", "uri2", "prefix2")));
+
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName"));
+  	assertNull("The element specified by its name should be deleted (and no longer be found)", 
+  			sbase.getAnnotation().getXMLNode().getChildElement("targetName", null));
+  	assertTrue("Should find the element by name and URI", 
+  			sbase.removeTopLevelAnnotationElement("targetName2", "targetURI2"));
+  	assertNull("The element specified by name+URI should be deleted (and no longer be found)", 
+  			sbase.getAnnotation().getXMLNode().getChildElement("targetName2", "targetURI2"));
+
+  	assertTrue("The annotation should still be set", 
+  			sbase.isSetAnnotation());
   }
-  
+
   /**
    * Checks behaviour for the case that the element to be deleted exists, 
    * and after its deletion, there is no other annotation
    */
   @Test public void test_removeTopLevelAnnotationElement_removeEmpty() {
-	  System.out.println("removeEmpty");
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
-	
-	assertTrue("Should find the element by its name", 
-			sbase.removeTopLevelAnnotationElement("targetName"));
-	assertFalse("The annotation should now be unset, as its last element was deleted", 
-			sbase.isSetAnnotation());
-	
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
-	
-	assertTrue("Should find the element by its name", 
-			sbase.removeTopLevelAnnotationElement("targetName", "someURI", false));
-	assertTrue("Under removeEmpty=false, annotation should now remain set, even though it is empty", 
-			sbase.isSetAnnotation());
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName"));
+  	assertFalse("The annotation should now be unset, as its last element was deleted", 
+  			sbase.isSetAnnotation());
+
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName", "someURI", false));
+  	assertTrue("Under removeEmpty=false, annotation should now remain set, even though it is empty", 
+  			sbase.isSetAnnotation());
   }
-  
+
   /**
    * Checks behaviour for removeEmpty set, but dummy URI given (null, "", "*")
    */
   @Test public void test_removeTopLevelAnnotationElement_removeEmptyWithUnspecificURI() {
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
-	
-	assertTrue("Should find the element by its name", 
-			sbase.removeTopLevelAnnotationElement("targetName", null, true));
-	assertFalse("The annotation should now be unset, as its last element was deleted", 
-			sbase.isSetAnnotation());
-	
-	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
-	
-	assertTrue("Should find the element by its name", 
-			sbase.removeTopLevelAnnotationElement("targetName", "*", false));
-	assertTrue("Under removeEmpty=false, annotation should now remain set, even though it is empty", 
-			sbase.isSetAnnotation());
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName", null, true));
+  	assertFalse("The annotation should now be unset, as its last element was deleted", 
+  			sbase.isSetAnnotation());
+
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName", "*", false));
+  	assertTrue("Under removeEmpty=false, annotation should now remain set, even though it is empty", 
+  			sbase.isSetAnnotation());
   }
-  
-  
+
+  /**
+   * Checks behaviour for the cases where no matching element can be found:
+   * a) the annotation is empty/unset
+   * b) the specified element is absent from the annotation
+   * @throws XMLStreamException (indicates mistake in Test: if thrown, the XML-strings are wrong)
+   */
+  @Test public void test_replaceTopLevelAnnotationElement_noMatch() throws XMLStreamException {
+  	assertFalse("(String-argument) Replacing element of empty/unset annotation does not work",
+  			sbase.replaceTopLevelAnnotationElement("<name xmlns=\"http://www.w3.org/1999/xhtml\"/>"));
+  	assertFalse("(XMLNode-argument) Replacing element of empty/unset annotation does not work",
+  			sbase.replaceTopLevelAnnotationElement(new XMLNode(new XMLTriple("name", "uri", "prefix"))));
+
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name", "uri", "prefix")));
+  	assertFalse("(String-argument) Replacing element absent from annotation does not work",
+  			sbase.replaceTopLevelAnnotationElement("<otherName xmlns=\"http://www.w3.org/1999/xhtml\"/>"));
+  	assertFalse("(XMLNode-argument) Replacing element absent from annotation does not work",
+  			sbase.replaceTopLevelAnnotationElement(new XMLNode(new XMLTriple("otherName", "uri", null))));
+  }
+
+  /**
+   * Checks behaviour for null-arguments: They shan't be pursued
+   * @throws XMLStreamException 
+   */
+  @Test public void test_replaceTopLevelAnnotationElement_nullArguments() throws XMLStreamException {
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name", "uri", "prefix")));
+  	assertFalse("(String-argument) Null-argument will not be pursued",
+  			sbase.replaceTopLevelAnnotationElement((String) null));
+  	assertFalse("(XMLNode-argument) Null-argument will not be pursued",
+  			sbase.replaceTopLevelAnnotationElement((XMLNode) null));
+  }
+
+  @Test public void test_replaceTopLevelAnnotationElement_basic() {
+  	XMLNode[] children = { new XMLNode(new XMLTriple("name1", null, null)),
+  			new XMLNode(new XMLTriple("name2", "uri", "prefix")),
+  			new XMLNode(new XMLTriple("name3", null, null)), 
+  			new XMLNode(new XMLTriple("name4", null, null))};
+  	sbase.appendAnnotation(children[0]);
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", null, null)));
+  	sbase.appendAnnotation(children[2]);
+  	sbase.appendAnnotation(children[3]);
+
+  	sbase.replaceTopLevelAnnotationElement(children[1]);
+
+  	List<XMLNode> actualChildren = sbase.getAnnotation().getXMLNode().getChildElements(null, null);
+  	for(int i = 0; i < children.length; i++) {
+  		assertEquals(actualChildren.get(i), children[i]);  
+  	}
+  }
+
 }
 
