@@ -1996,7 +1996,6 @@ public class TestSBase {
   	assertTrue(sbase.isSetAnnotation());
   	assertEquals(1, sbase.getAnnotation().getXMLNode().getChildElements("*", "*").size());
   	assertEquals("uri", sbase.getAnnotation().getXMLNode().getChildElement("name", null).getURI());
-  	
   }
 
 }
