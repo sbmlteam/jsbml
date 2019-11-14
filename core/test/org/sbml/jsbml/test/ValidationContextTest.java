@@ -98,7 +98,7 @@ public class ValidationContextTest {
 		  ccsTest[0] = CHECK_CATEGORY.MODELING_PRACTICE;
 		  ccsTest[1] = CHECK_CATEGORY.OVERDETERMINED_MODEL;
 		  
-		  //test for enabling categories 
+		  //test for enabling some categories 
 		  ctx.enableCheckCategories(ccsTest, true);
 		  CHECK_CATEGORY[] ctxCheckCategories = ctx.getCheckCategories();
 		  assertTrue(ctxCheckCategories.length == 3); //enabled 1 category initially and 2 with ccsTestTrue
@@ -106,10 +106,14 @@ public class ValidationContextTest {
 		  List<CHECK_CATEGORY> ctxCats = Arrays.asList(ctxCheckCategories);
 		  assertTrue(ctxCats.contains(ccsTest[0]) == true);
 		  assertTrue(ctxCats.contains(ccsTest[1]) == true);
-		  assertTrue(ctxCats.contains(CHECK_CATEGORY.GENERAL_CONSISTENCY) == true); //should not be affected 
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.GENERAL_CONSISTENCY) == true); //was initially enabled
 		  assertTrue(ctxCats.contains(CHECK_CATEGORY.SBO_CONSISTENCY) == false);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.IDENTIFIER_CONSISTENCY) == false);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.MATHML_CONSISTENCY) == false);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.SBO_CONSISTENCY) == false);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.UNITS_CONSISTENCY) == false);
 		  
-		  //test for disabling categories
+		  //test for disabling some categories 
 		  ctx.enableCheckCategories(ccsTest, false);
 		  ctxCheckCategories = ctx.getCheckCategories();
 		  assertTrue(ctxCheckCategories.length == 1);
@@ -117,6 +121,36 @@ public class ValidationContextTest {
 		  assertTrue(ctxCats.contains(ccsTest[0]) == false);
 		  assertTrue(ctxCats.contains(ccsTest[1]) == false);
 		  assertTrue(ctxCats.contains(CHECK_CATEGORY.GENERAL_CONSISTENCY) == true); //should not be affected 
+		  
+		  //load every category for testing enabling/disabling all 
+		  CHECK_CATEGORY[] ccsTestAll = new CHECK_CATEGORY[8];
+		  ccsTestAll[0] = CHECK_CATEGORY.MODELING_PRACTICE;
+		  ccsTestAll[1] = CHECK_CATEGORY.OVERDETERMINED_MODEL;
+		  ccsTestAll[2] = CHECK_CATEGORY.GENERAL_CONSISTENCY;
+		  ccsTestAll[3] = CHECK_CATEGORY.SBO_CONSISTENCY;
+		  ccsTestAll[4] = CHECK_CATEGORY.IDENTIFIER_CONSISTENCY;
+		  ccsTestAll[5] = CHECK_CATEGORY.MATHML_CONSISTENCY;
+		  ccsTestAll[6] = CHECK_CATEGORY.SBO_CONSISTENCY;
+		  ccsTestAll[7] = CHECK_CATEGORY.UNITS_CONSISTENCY;
+		  
+		  //test for disabling all categories 
+		  ctx.enableCheckCategories(ccsTestAll, false);
+		  ctxCheckCategories = ctx.getCheckCategories();
+		  ctxCats = Arrays.asList(ctxCheckCategories);
+		  assertTrue(ctxCats.isEmpty() == true);
+		  
+		  //test for enabling all categories
+		  ctx.enableCheckCategories(ccsTestAll, true);
+		  ctxCheckCategories = ctx.getCheckCategories();
+		  ctxCats = Arrays.asList(ctxCheckCategories);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.MODELING_PRACTICE) == true); 
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.OVERDETERMINED_MODEL) == true);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.GENERAL_CONSISTENCY) == true); 
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.SBO_CONSISTENCY) == true);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.IDENTIFIER_CONSISTENCY) == true);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.MATHML_CONSISTENCY) == true);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.SBO_CONSISTENCY) == true);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.UNITS_CONSISTENCY) == true);
 	  }
 	  
 	  @Test 
@@ -139,18 +173,17 @@ public class ValidationContextTest {
 
 	  @Test
 	  public void getCheckCategoriesTest() {  		  
-		  CHECK_CATEGORY[] ccs = ctx.getCheckCategories(); 
-		  assertTrue(ccs.length == 1); //initially 1 category is enabled (see setUp())
-		   
-		  CHECK_CATEGORY[] ccsTestFalse = new CHECK_CATEGORY[2];
-		  ccsTestFalse[0] = CHECK_CATEGORY.MATHML_CONSISTENCY;
-		  ccsTestFalse[1] = CHECK_CATEGORY.IDENTIFIER_CONSISTENCY;
-		  assertTrue(ccs[0].equals(ccsTestFalse[0]) == false);
-		  assertTrue(ccs[0].equals(ccsTestFalse[1]) == false);
+		  CHECK_CATEGORY[] ctxCategories = ctx.getCheckCategories(); 
+		  assertTrue(ctxCategories.length == 1); //initially 1 category is enabled
+		  List<CHECK_CATEGORY> ctxCats = Arrays.asList(ctxCategories); 
 		  
-		  CHECK_CATEGORY[] ccsTestTrue = new CHECK_CATEGORY[1];
-		  ccsTestTrue[0] = CHECK_CATEGORY.GENERAL_CONSISTENCY;
-		  assertTrue(ccs[0].equals(ccsTestTrue[0]) == true);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.GENERAL_CONSISTENCY) == true);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.IDENTIFIER_CONSISTENCY) == false);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.MATHML_CONSISTENCY) == false);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.MODELING_PRACTICE) == false);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.OVERDETERMINED_MODEL) == false);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.SBO_CONSISTENCY) == false);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.UNITS_CONSISTENCY) == false);
 	  }
 	  
 	  @Test 
