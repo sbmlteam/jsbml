@@ -2365,56 +2365,82 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
   }
   
-  /**
-   * Removes the top-level element within the 'annotation' subelement of 
-   * this SBML object with the given name.
-   * If the annotation is empty after removal, it will be removed/unset 
-   * @param name of the annotation element to be removed
-   * @return Whether the element was found and removed
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#removeTopLevelAnnotationElement(String)
    */
+  @Override
   public boolean removeTopLevelAnnotationElement(String name) {
-	  return removeTopLevelAnnotationElement(name, null, true);
+  	return removeTopLevelAnnotationElement(name, null, true);
   }
-  
-  /**
-   * Removes the top-level element within the 'annotation' subelement of
-   * this SBML object with the given name and URI. 
-   * If the annotation is empty after removal, it will be removed/unset
-   * @param name of the annotation element to be removed
-   * @param elementURI of the annotation element to be removed
-   * @return Whether the element was found and removed
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#removeTopLevelAnnotationElement(String, String)
    */
+  @Override
   public boolean removeTopLevelAnnotationElement(String name, String elementURI) {
-	  return removeTopLevelAnnotationElement(name, elementURI, true);
+  	return removeTopLevelAnnotationElement(name, elementURI, true);
   }
-  
-  /**
-   * Removes the top-level element within the 'annotation' subelement of
-   * this SBML object with the given name and URI. 
-   * @param name of the annotation element to be removed (is not allowed to be null; this 
-   * 	method will not search for name=null)
-   * @param elementURI of the annotation element to be removed
-   * @param removeEmpty Whether to remove/unset the annotation, if it is 
-   * 	empty after removing the specified element
-   * @return Whether the element was found and removed
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#removeTopLevelAnnotationElement(String, String, boolean)
    */
+  @Override
   public boolean removeTopLevelAnnotationElement(String name, String elementURI, boolean removeEmpty) {
-	  // To avoid side effect of creating a new empty annotation when trying to delete from an unset
-	  // annotation:
-	  if(!isSetAnnotation() || name == null)
-		  return false;
-	  XMLNode toBeDeleted = getAnnotation().getXMLNode().getChildElement(name, elementURI);
-	  if(toBeDeleted == null) 
-		  return false;
-	  else {
-		  boolean hasBeenRemoved = toBeDeleted.removeFromParent();
-		  // annotation.isEmpty() does not have the needed behaviour
-		  boolean didNotFindAnyChildren = getAnnotation().getXMLNode().getChildElements(null, null).size() == 0;
-		  if(removeEmpty && didNotFindAnyChildren)
-			  unsetAnnotation();
-		  
-		  return hasBeenRemoved;
-	  }
+  	// To avoid side effect of creating a new empty annotation when trying to delete from an unset
+  	// annotation:
+  	if(!isSetAnnotation() || name == null)
+  		return false;
+  	XMLNode toBeDeleted = getAnnotation().getXMLNode().getChildElement(name, elementURI);
+  	if(toBeDeleted == null) 
+  		return false;
+  	else {
+  		boolean hasBeenRemoved = toBeDeleted.removeFromParent();
+  		// annotation.isEmpty() does not have the needed behaviour
+  		boolean didNotFindAnyChildren = getAnnotation().getXMLNode().getChildElements(null, null).size() == 0;
+  		if(removeEmpty && didNotFindAnyChildren)
+  			unsetAnnotation();
+
+  		return hasBeenRemoved;
+  	}
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#replaceTopLevelAnnotationElement(String)
+   */
+  @Override
+  public boolean replaceTopLevelAnnotationElement(String annotation) throws XMLStreamException {
+  	if(annotation != null)
+  		return replaceTopLevelAnnotationElement(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation)));
+  	else return false;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#replaceTopLevelAnnotationElement(org.sbml.jsbml.xml.XMLNode)
+   */
+  @Override
+  public boolean replaceTopLevelAnnotationElement(XMLNode annotation) {
+  	if(!isSetAnnotation() || annotation == null)
+  		return false;
+
+  	List<XMLNode> allChildren = getAnnotation().getXMLNode().getChildElements("*", "*");
+  	for(int i = 0; i < allChildren.size(); i++) {
+  		if(allChildren.get(i).getName().equals(annotation.getName())) {
+  			boolean hasBeenRemoved = allChildren.get(i).removeFromParent();
+  			if(hasBeenRemoved) 
+  				// Why is i+1 needed here? insertChild(i, annotation) should insert the annotation 
+  				// at the correct position, but does not.
+  				getAnnotation().getXMLNode().insertChild(i+1, annotation);
+  			return hasBeenRemoved;
+  		}
+  		System.out.println();
+  			
+  	}
+  	return false;
   }
  
   
