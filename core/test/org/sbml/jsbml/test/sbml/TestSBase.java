@@ -1842,21 +1842,15 @@ public class TestSBase {
   }
 
   /**
-   * Checks behaviour for removing by unspecific names
+   * Checks behaviour for removing by unspecific names: Unspecific names are not 
+   * pursued!
    */
-  @Test public void test_removeTopLevelAnnotationElement_unspecificName() {
-  	// TODO: Alternatively, these should all return false; which would need be documented 
+  @Test public void test_removeTopLevelAnnotationElement_unspecificName() { 
   	sbase.appendAnnotation(new XMLNode(new XMLTriple("name1", "uri1", "prefix")));
-  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", "uri2", "prefix")));
-  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name3", "uri3", "prefix")));
-  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name4", "uri4", "prefix")));
-  	// So far, only name=null is specified to return false immediately
   	assertFalse(sbase.removeTopLevelAnnotationElement(null));
-  	assertTrue(sbase.removeTopLevelAnnotationElement("*"));
-  	assertTrue(sbase.removeTopLevelAnnotationElement(""));
-  	// The first 2 elements should be removed by unspecific names, as name=null fails
-  	assertTrue(sbase.removeTopLevelAnnotationElement("name3"));
-  	assertTrue(sbase.removeTopLevelAnnotationElement("name4"));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("*"));
+  	assertFalse(sbase.removeTopLevelAnnotationElement(""));
+  	assertTrue(sbase.removeTopLevelAnnotationElement("name1"));
   }
 
   /**
@@ -1944,13 +1938,13 @@ public class TestSBase {
    */
   @Test public void test_replaceTopLevelAnnotationElement_noMatch() throws XMLStreamException {
   	assertFalse("(String-argument) Replacing element of empty/unset annotation does not work",
-  			sbase.replaceTopLevelAnnotationElement("<name xmlns=\"http://www.w3.org/1999/xhtml\"/>"));
+  			sbase.replaceTopLevelAnnotationElement("<rdf:name xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:name>"));
   	assertFalse("(XMLNode-argument) Replacing element of empty/unset annotation does not work",
   			sbase.replaceTopLevelAnnotationElement(new XMLNode(new XMLTriple("name", "uri", "prefix"))));
 
   	sbase.appendAnnotation(new XMLNode(new XMLTriple("name", "uri", "prefix")));
   	assertFalse("(String-argument) Replacing element absent from annotation does not work",
-  			sbase.replaceTopLevelAnnotationElement("<otherName xmlns=\"http://www.w3.org/1999/xhtml\"/>"));
+  			sbase.replaceTopLevelAnnotationElement("<rdf:othername xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:othername>"));
   	assertFalse("(XMLNode-argument) Replacing element absent from annotation does not work",
   			sbase.replaceTopLevelAnnotationElement(new XMLNode(new XMLTriple("otherName", "uri", null))));
   }
@@ -1966,7 +1960,11 @@ public class TestSBase {
   	assertFalse("(XMLNode-argument) Null-argument will not be pursued",
   			sbase.replaceTopLevelAnnotationElement((XMLNode) null));
   }
-
+  /**
+   * Checks behaviour for nontrivial (> 1 element) annotation-list: 
+   * a) element is replaced
+   * b) order is retained
+   */
   @Test public void test_replaceTopLevelAnnotationElement_basic() {
   	XMLNode[] children = { new XMLNode(new XMLTriple("name1", null, null)),
   			new XMLNode(new XMLTriple("name2", "uri", "prefix")),
@@ -1977,12 +1975,28 @@ public class TestSBase {
   	sbase.appendAnnotation(children[2]);
   	sbase.appendAnnotation(children[3]);
 
-  	sbase.replaceTopLevelAnnotationElement(children[1]);
+  	assertTrue(sbase.replaceTopLevelAnnotationElement(children[1]));
 
   	List<XMLNode> actualChildren = sbase.getAnnotation().getXMLNode().getChildElements(null, null);
   	for(int i = 0; i < children.length; i++) {
-  		assertEquals(actualChildren.get(i), children[i]);  
+  		assertEquals(children[i], actualChildren.get(i)); 
   	}
+  	assertEquals("uri", actualChildren.get(1).getURI()); // check explicitly to be safe
+  }
+  
+  @Test public void test_replaceTopLevelAnnotationElement_oneAnnotationElement() throws XMLStreamException {
+  	sbase.appendAnnotation("<rdf:name xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:name>");
+  	assertTrue("(String) should replace single element", 
+  			sbase.replaceTopLevelAnnotationElement("<rdf:name xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:name>"));
+  	assertTrue(sbase.isSetAnnotation());
+  	assertEquals(1, sbase.getAnnotation().getXMLNode().getChildElements("*", "*").size());
+  	assertEquals("http://www.w3.org/1999/02/22-rdf-syntax-ns#", sbase.getAnnotation().getXMLNode().getChildElement("name", null).getURI());
+  	
+  	assertTrue(sbase.replaceTopLevelAnnotationElement(new XMLNode(new XMLTriple("name", "uri", "prefix"))));
+  	assertTrue(sbase.isSetAnnotation());
+  	assertEquals(1, sbase.getAnnotation().getXMLNode().getChildElements("*", "*").size());
+  	assertEquals("uri", sbase.getAnnotation().getXMLNode().getChildElement("name", null).getURI());
+  	
   }
 
 }

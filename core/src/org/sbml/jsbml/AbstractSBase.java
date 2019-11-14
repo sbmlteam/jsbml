@@ -2391,7 +2391,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public boolean removeTopLevelAnnotationElement(String name, String elementURI, boolean removeEmpty) {
   	// To avoid side effect of creating a new empty annotation when trying to delete from an unset
   	// annotation:
-  	if(!isSetAnnotation() || name == null)
+  	if(!isSetAnnotation() || name == null || name.equals("") || name.equals("*"))
   		return false;
   	XMLNode toBeDeleted = getAnnotation().getXMLNode().getChildElement(name, elementURI);
   	if(toBeDeleted == null) 
@@ -2414,7 +2414,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public boolean replaceTopLevelAnnotationElement(String annotation) throws XMLStreamException {
   	if(annotation != null)
-  		return replaceTopLevelAnnotationElement(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation)));
+  		// The string is supposed to contain only one top-level child of annotation
+  		return replaceTopLevelAnnotationElement(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation)).getChild(0));
   	else return false;
   }
 
@@ -2426,7 +2427,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public boolean replaceTopLevelAnnotationElement(XMLNode annotation) {
   	if(!isSetAnnotation() || annotation == null)
   		return false;
-
+  	
   	List<XMLNode> allChildren = getAnnotation().getXMLNode().getChildElements("*", "*");
   	for(int i = 0; i < allChildren.size(); i++) {
   		if(allChildren.get(i).getName().equals(annotation.getName())) {
@@ -2434,10 +2435,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   			if(hasBeenRemoved) 
   				// Why is i+1 needed here? insertChild(i, annotation) should insert the annotation 
   				// at the correct position, but does not.
-  				getAnnotation().getXMLNode().insertChild(i+1, annotation);
+  				getAnnotation().getXMLNode().insertChild(i, annotation);
   			return hasBeenRemoved;
   		}
-  		System.out.println();
   			
   	}
   	return false;

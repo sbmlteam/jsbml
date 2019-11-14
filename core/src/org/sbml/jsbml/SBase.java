@@ -961,7 +961,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
   
   /**
    * Removes the top-level element within the 'annotation' subelement of 
-   * this SBML object with the given name.
+   * this SBML object with the given name. If the name is null, "" or "*", 
+   * nothing will be removed (return=false).
    * If the annotation is empty after removal, it will be removed/unset 
    * @param name of the annotation element to be removed
    * @return Whether the element was found and removed
@@ -970,7 +971,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
   
   /**
    * Removes the top-level element within the 'annotation' subelement of
-   * this SBML object with the given name and URI. 
+   * this SBML object with the given name and URI. If the name is null, "" or "*", 
+   * nothing will be removed (return=false).
    * If the annotation is empty after removal, it will be removed/unset
    * @param name of the annotation element to be removed
    * @param elementURI of the annotation element to be removed
@@ -980,7 +982,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
   
   /**
    * Removes the top-level element within the 'annotation' subelement of
-   * this SBML object with the given name and URI. 
+   * this SBML object with the given name and URI. If the name is null, "" or "*", 
+   * nothing will be removed (return=false).
    * @param name of the annotation element to be removed
    * @param elementURI of the annotation element to be removed (if null, "" or "*", will match 
    * 	any URI)
