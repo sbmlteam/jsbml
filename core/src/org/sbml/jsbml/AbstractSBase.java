@@ -2391,7 +2391,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Removes the top-level element within the 'annotation' subelement of
    * this SBML object with the given name and URI. 
-   * @param name of the annotation element to be removed
+   * @param name of the annotation element to be removed (is not allowed to be null; this 
+   * 	method will not search for name=null)
    * @param elementURI of the annotation element to be removed
    * @param removeEmpty Whether to remove/unset the annotation, if it is 
    * 	empty after removing the specified element
@@ -2400,7 +2401,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public boolean removeTopLevelAnnotationElement(String name, String elementURI, boolean removeEmpty) {
 	  // To avoid side effect of creating a new empty annotation when trying to delete from an unset
 	  // annotation:
-	  if(!isSetAnnotation())
+	  if(!isSetAnnotation() || name == null)
 		  return false;
 	  XMLNode toBeDeleted = getAnnotation().getXMLNode().getChildElement(name, elementURI);
 	  if(toBeDeleted == null) 

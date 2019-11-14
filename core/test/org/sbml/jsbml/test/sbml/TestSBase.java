@@ -1850,10 +1850,12 @@ public class TestSBase {
 	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", "uri2", "prefix")));
 	sbase.appendAnnotation(new XMLNode(new XMLTriple("name3", "uri3", "prefix")));
 	sbase.appendAnnotation(new XMLNode(new XMLTriple("name4", "uri4", "prefix")));
-	assertTrue(sbase.removeTopLevelAnnotationElement(null));
+	// So far, only name=null is specified to return false immediately
+	assertFalse(sbase.removeTopLevelAnnotationElement(null));
 	assertTrue(sbase.removeTopLevelAnnotationElement("*"));
 	assertTrue(sbase.removeTopLevelAnnotationElement(""));
-	// The first 3 elements should be removed by unspecific names
+	// The first 2 elements should be removed by unspecific names, as name=null fails
+	assertTrue(sbase.removeTopLevelAnnotationElement("name3"));
 	assertTrue(sbase.removeTopLevelAnnotationElement("name4"));
   }
   
