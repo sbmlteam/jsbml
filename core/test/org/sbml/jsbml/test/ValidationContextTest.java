@@ -220,6 +220,11 @@ public class ValidationContextTest {
 	  }
 	  
 	  @Test
+	  public void getValidateRecursively() {
+		  assertTrue(ctx.getValidateRecursively() == true);
+	  }
+	  
+	  @Test
 	  public void isEnabledCategoryTest() {
 		  assertTrue(ctx.isEnabledCategory(CHECK_CATEGORY.GENERAL_CONSISTENCY) == true);
 		  assertTrue(ctx.isEnabledCategory(CHECK_CATEGORY.IDENTIFIER_CONSISTENCY) == false);
@@ -239,14 +244,12 @@ public class ValidationContextTest {
 		  int newLevel = level + 1;
 		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, version) == true);
 		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, version - 1) == true);
-		  newLevel = level - 1;
-		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, version) == false);
-		  //level equal to newLevel and version smaller then the given newVersion should return true 
+		  //level equal to newLevel and version smaller than the given newVersion should return true 
 		  int newVersion = version + 1;
 		  newLevel = level;
 		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, newVersion) == true);
 		  
-		  //staying same should be false
+		  //if both stay same result should be false
 		  newVersion = version;
 		  newLevel = level;
 		  assertTrue(ctx.isLevelAndVersionLessThan(level, version) == false);
@@ -257,6 +260,103 @@ public class ValidationContextTest {
 		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, newVersion) == false);
 		  newVersion = version - 1;
 		  assertTrue(ctx.isLevelAndVersionLessThan(newLevel, newVersion) == false);
+	  }
+	  
+	  @Test
+	  public void isLevelAndVersionGreaterThanTest() {
+		  int level = doc.getLevel();
+		  int version = doc.getVersion();
+		  
+		  //if level is greater than the given newLevel, method should return true
+		  int newLevel = level - 1;
+		  assertTrue(ctx.isLevelAndVersionGreaterThan(newLevel, version) == true);
+		  assertTrue(ctx.isLevelAndVersionGreaterThan(newLevel, version - 1) == true);
+		  //level equal to newLevel and version greater than the given newVersion should return true 
+		  int newVersion = version - 1;
+		  newLevel = level;
+		  assertTrue(ctx.isLevelAndVersionGreaterThan(newLevel, newVersion) == true);
+		  
+		  //if both stay same result should be false
+		  newVersion = version;
+		  newLevel = level;
+		  assertTrue(ctx.isLevelAndVersionGreaterThan(level, version) == false);
+		  
+		  //if level is smaller than newLevel then it is false no matter what newVersion is
+		  newLevel = level + 1;
+		  newVersion = version + 1;
+		  assertTrue(ctx.isLevelAndVersionGreaterThan(newLevel, newVersion) == false);
+		  newVersion = version - 1;
+		  assertTrue(ctx.isLevelAndVersionGreaterThan(newLevel, newVersion) == false);
+	  }
+	  
+	  @Test
+	  public void isLevelAndVersionEqualToTest() {
+		  int level = doc.getLevel();
+		  int version = doc.getVersion();
+		  
+		  assertTrue(ctx.isLevelAndVersionEqualTo(level, version) == true);
+		  assertTrue(ctx.isLevelAndVersionEqualTo(level + 1, version) == false);
+		  assertTrue(ctx.isLevelAndVersionEqualTo(level - 1, version) == false);
+		  assertTrue(ctx.isLevelAndVersionEqualTo(level, version + 1) == false);
+		  assertTrue(ctx.isLevelAndVersionEqualTo(level, version - 1) == false);
+		  assertTrue(ctx.isLevelAndVersionEqualTo(level + 1, version + 1) == false);
+		  assertTrue(ctx.isLevelAndVersionEqualTo(level - 1, version - 1) == false);
+		  assertTrue(ctx.isLevelAndVersionEqualTo(level + 1, version - 1) == false);
+		  assertTrue(ctx.isLevelAndVersionEqualTo(level - 1, version + 1) == false);
+	  }
+	  
+	  @Test
+	  public void isLevelAndVersionGreaterEqualThanTest() {
+		  int level = doc.getLevel();
+		  int version = doc.getVersion();
+		  
+		  //if level is greater than the given newLevel, method should return true
+		  int newLevel = level - 1;
+		  assertTrue(ctx.isLevelAndVersionGreaterEqualThan(newLevel, version) == true);
+		  assertTrue(ctx.isLevelAndVersionGreaterEqualThan(newLevel, version - 1) == true);
+		  //level equal to newLevel and version greater than the given newVersion should return true 
+		  int newVersion = version - 1;
+		  newLevel = level;
+		  assertTrue(ctx.isLevelAndVersionGreaterEqualThan(newLevel, newVersion) == true);
+		  
+		  //if both stay same result should be true because greater or equal should be true
+		  newVersion = version;
+		  newLevel = level;
+		  assertTrue(ctx.isLevelAndVersionGreaterEqualThan(level, version) == true);
+		  
+		  //if level is smaller than newLevel then it is false no matter what newVersion is
+		  newLevel = level + 1;
+		  newVersion = version + 1;
+		  assertTrue(ctx.isLevelAndVersionGreaterEqualThan(newLevel, newVersion) == false);
+		  newVersion = version - 1;
+		  assertTrue(ctx.isLevelAndVersionGreaterEqualThan(newLevel, newVersion) == false);
+	  }
+	  
+	  @Test
+	  public void isLevelAndVersionLesserEqualThanTest() {
+		  int level = doc.getLevel();
+		  int version = doc.getVersion();
+		  
+		  //if level is smaller than the given newLevel, method should return true
+		  int newLevel = level + 1;
+		  assertTrue(ctx.isLevelAndVersionLesserEqualThan(newLevel, version) == true);
+		  assertTrue(ctx.isLevelAndVersionLesserEqualThan(newLevel, version - 1) == true);
+		  //level equal to newLevel and version smaller than the given newVersion should return true 
+		  int newVersion = version + 1;
+		  newLevel = level;
+		  assertTrue(ctx.isLevelAndVersionLesserEqualThan(newLevel, newVersion) == true);
+		  
+		  //if both stay same result should be true
+		  newVersion = version;
+		  newLevel = level;
+		  assertTrue(ctx.isLevelAndVersionLesserEqualThan(level, version) == true);
+		  
+		  //if level is bigger than newLevel then it is false no matter what newVersion is
+		  newLevel = level - 1;
+		  newVersion = version + 1;
+		  assertTrue(ctx.isLevelAndVersionLesserEqualThan(newLevel, newVersion) == false);
+		  newVersion = version - 1;
+		  assertTrue(ctx.isLevelAndVersionLesserEqualThan(newLevel, newVersion) == false);
 	  }
 	  
 	  @Test
@@ -286,6 +386,14 @@ public class ValidationContextTest {
 		  
 		  ctx.setRootConstraint(constGroup, SBMLDocument.class); 
 		  assertEquals(ctx.getRootConstraint(), constGroup);
+	  }
+	  
+	  @Test
+	  public void setValidateRecursivelyTest() {
+		  ctx.setValidateRecursively(false);
+		  assertTrue(ctx.getValidateRecursively() == false);
+		  ctx.setValidateRecursively(true);
+		  assertTrue(ctx.getValidateRecursively() == true);
 	  }
 	 
 }
