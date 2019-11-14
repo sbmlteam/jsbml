@@ -509,7 +509,7 @@ public class XMLNode extends XMLToken {
       unsetEnd();
     }
     if ((n > getChildCount()) || (n < 0)) {
-      //			childrenElements.add(node);
+      //			childrenElements.add(node); TODO: this behaviour is in conflict with the documentation! 
       throw new IndexOutOfBoundsException(Integer.toString(n));
     } else {
       if (childElements == null) {
