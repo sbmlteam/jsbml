@@ -1001,8 +1001,11 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 	existing one of same name
    * @return whether a corresponding element was found and replaced 
    * @throws XMLStreamException if the annotation-string cannot be parsed into an XML
+   * @throws IllegalArgumentException if the annotation-string encodes more than 
+   *  one annotation element
    */
-  public boolean replaceTopLevelAnnotationElement(String annotation) throws XMLStreamException;
+  public boolean replaceTopLevelAnnotationElement(String annotation) 
+  		throws XMLStreamException, IllegalArgumentException;
   
   /**
    * Replaces the top-level element of this SBML object with same name as given 

@@ -2412,10 +2412,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jsbml.SBase#replaceTopLevelAnnotationElement(String)
    */
   @Override
-  public boolean replaceTopLevelAnnotationElement(String annotation) throws XMLStreamException {
-  	if(annotation != null)
-  		// The string is supposed to contain only one top-level child of annotation
-  		return replaceTopLevelAnnotationElement(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation)).getChild(0));
+  public boolean replaceTopLevelAnnotationElement(String annotation) throws XMLStreamException, IllegalArgumentException {
+  	if(annotation != null) {
+  	// The string is supposed to contain only one top-level child of annotation
+  		XMLNode converted = XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation));
+  		if(converted.getChildElements("*", "*").size() != 1) {
+  			throw new IllegalArgumentException("Given annotation-string \"" + annotation 
+  					+ "\" encodes more than one annotation element. Only one is allowed");
+  		}
+  		return replaceTopLevelAnnotationElement(converted.getChildElement("*", "*"));//.getChild(0));
+  	}
   	else return false;
   }
 
