@@ -580,9 +580,7 @@ public class XMLNode extends XMLToken {
   	for (int i = 0; i < getChildCount(); i++) {
       XMLNode child = getChildAt(i);
 
-      if (child.isElement() && child.getName().equals(searched.getName()) 
-      		&& searched.getURI().equals(child.getURI()) 
-      		&& child.getCharacters().equals(searched.getCharacters()))
+      if (child.equals(searched))
       {
         return i;
       }
@@ -646,8 +644,7 @@ public class XMLNode extends XMLToken {
         	  if (getAttributesLength() > 0) {
         		  builder.append(", ");
         	  }
-        	  builder.append("namespaces size="); // TODO - we could write the namespaces like the attributes
-        	  // TODO: So should we?
+        	  builder.append("namespaces size=");
         	  builder.append(getNamespacesLength());        	  
           }          
           if (getNumChildren() > 0) {

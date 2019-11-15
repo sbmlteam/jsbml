@@ -1960,6 +1960,7 @@ public class TestSBase {
   	assertFalse("(XMLNode-argument) Null-argument will not be pursued",
   			sbase.replaceTopLevelAnnotationElement((XMLNode) null));
   }
+  
   /**
    * Checks behaviour for nontrivial (> 1 element) annotation-list: 
    * a) element is replaced
@@ -1974,7 +1975,7 @@ public class TestSBase {
   	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", null, null)));
   	sbase.appendAnnotation(children[2]);
   	sbase.appendAnnotation(children[3]);
-
+  	
   	assertTrue(sbase.replaceTopLevelAnnotationElement(children[1]));
 
   	List<XMLNode> actualChildren = sbase.getAnnotation().getXMLNode().getChildElements(null, null);
