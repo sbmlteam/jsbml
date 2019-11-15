@@ -491,16 +491,14 @@ public class XMLNode extends XMLToken {
    * Inserts a node as the {@code n}th child of this
    * {@link XMLNode}.
    * <p>
-   * If the given index {@code n} is out of range for this {@link XMLNode} instance,
-   * the {@code node} is added at the end of the list of children.  Even in
-   * that situation, this method does not throw an error.
-   * <p>
    * @param n an integer, the index at which the given node is inserted
    * @param node an {@link XMLNode} to be inserted as {@code n}th child.
    * <p>
    * @return a reference to the newly-inserted child {@code node}
+   * @throws IndexOutOfBoundsException if n is out of range 
+   *  (negative or >= {@link XMLNode#getChildCount()})
    */
-  public XMLNode insertChild(int n, XMLNode node) {
+  public XMLNode insertChild(int n, XMLNode node) throws IndexOutOfBoundsException {
     if (node == null) {
       return node;
     }
@@ -508,8 +506,7 @@ public class XMLNode extends XMLToken {
     if (isEnd()) {
       unsetEnd();
     }
-    if ((n > getChildCount()) || (n < 0)) {
-      //			childrenElements.add(node); TODO: this behaviour is in conflict with the documentation! 
+    if ((n > getChildCount()) || (n < 0)) { 
       throw new IndexOutOfBoundsException(Integer.toString(n));
     } else {
       if (childElements == null) {
@@ -638,7 +635,9 @@ public class XMLNode extends XMLToken {
         	    	if (prefix != null && prefix.length() > 0) {
         	    		builder.append(prefix).append(":");
         	    	} 
-        	    	builder.append(name).append("=\"").append(value).append("\" ");
+        	    	builder.append(name).append("=\"").append(value).append("\"");
+        	    	if(i < getAttributesLength() - 1) 
+        	    		builder.append(", ");
         	    }
           }
           
@@ -648,6 +647,7 @@ public class XMLNode extends XMLToken {
         		  builder.append(", ");
         	  }
         	  builder.append("namespaces size="); // TODO - we could write the namespaces like the attributes
+        	  // TODO: So should we?
         	  builder.append(getNamespacesLength());        	  
           }          
           if (getNumChildren() > 0) {
