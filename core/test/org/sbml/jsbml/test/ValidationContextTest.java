@@ -18,7 +18,9 @@ import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.ValidationListener;
 import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
 
 /**
@@ -65,6 +67,8 @@ public class ValidationContextTest {
 		  
 	  }
 	  
+	  //TODO - Check if it's even necessary to test all getters and setters 
+	  
 	  @Test
 	  public void addValidationListenerTest() {
 		  //TODO
@@ -79,7 +83,7 @@ public class ValidationContextTest {
 	  
 	  @Test
 	  public void didValidateTest() {
-		  
+		  //TODO
 	  }
 	  
 	  @Test 
@@ -175,8 +179,6 @@ public class ValidationContextTest {
 		  ctx.loadConstraints(SBMLDocument.class);
 		  assertTrue(ctx.getRootConstraint() != null);
 		  assertEquals(ctx.getConstraintType(), SBMLDocument.class);
-		  
-		  //TODO - test also overloaded methods
 	  }
 	  
 	  @Test
@@ -206,7 +208,7 @@ public class ValidationContextTest {
 	  
 	  @Test 
 	  public void getHashMapTest() {
-		  //TODO how to simulate some tests? 
+		  //TODO 
 	  }
 	  
 	  @Test
@@ -374,7 +376,7 @@ public class ValidationContextTest {
 	  
 	  @Test
 	  public void removeValidationListenerTest() {
-		  //TODO
+		  //TODO 
 	  }
 	  
 	  @Test
@@ -416,11 +418,30 @@ public class ValidationContextTest {
 	  
 	  @Test
 	  public void validateTest() {
-		  //TODO
+		  //constraint type null should result in not passing the validation
+		  ctx.setRootConstraint(constGroup, null); 
+		  assertTrue(ctx.validate(doc) == false);
+		  
+		  //if there is a type but no constraints object should pass validation
+		  ctx.setRootConstraint(null, SBMLDocument.class);
+		  ctx.validate(doc);
+		  
+		  //if both values of rootConstraint are set but the type is wrong
+		  //object should not pass validation 
+		  ctx.setRootConstraint(constGroup, ValidationListener.class);
+		  ctx.validate(doc);
+		  
+		  //If both values are set and constraint type is right, the check is performed.
+		  //Initially there was only one group constraint without any children 
+		  //so the check method of the group constraint should directly return true
+		  ctx.setRootConstraint(constGroup, SBMLDocument.class);
+		  ctx.validate(doc);
+		  
+		  //TODO - try to test last case with some children added to the constraint group
 	  }
 	  
 	  @Test
 	  public void willValidateTest() {
-		  
+		 //TODO
 	  }
 }
