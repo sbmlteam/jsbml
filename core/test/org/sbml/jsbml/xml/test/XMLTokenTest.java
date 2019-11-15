@@ -32,6 +32,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLToken;
 import org.sbml.jsbml.xml.XMLTriple;
@@ -121,5 +122,33 @@ public class XMLTokenTest {
   	assertEquals(-1, node.indexOf((String) null));
   	assertEquals(-1, node.indexOf(""));
   	assertEquals(-1, node.indexOf("*"));
+  }
+  
+  /**
+   * Checks behaviour for an XMLNode that is an Element
+   */
+  @Test public void test_XMLNode_toString_IsElement() {
+  	XMLAttributes attributes = new XMLAttributes();
+  	attributes.add("attr1", "something");
+  	attributes.add("attr2", "false");
+  	attributes.add("attr3", "10");
+  	XMLNode node = new XMLNode(new XMLTriple("testNode", "uri", "prefix"), attributes);
+  	assertEquals("XMLNode 'testNode' [attr1=\"something\", attr2=\"false\", attr3=\"10\"]", node.toString());
+  	
+  	node.addChild(new XMLNode());
+  	assertEquals("XMLNode 'testNode' [attr1=\"something\", attr2=\"false\", attr3=\"10\", childElements size=1]", node.toString());
+  }
+  
+  /**
+   * Checks behaviour for an XMLNode that is just text
+   */
+  @Test public void test_XMLNode_toString_IsText() {
+  	String content = "some content within the node";
+  	XMLNode node = new XMLNode(content);
+  	assertEquals("XMLNode [characters=" + content + "]", node.toString());
+  	
+  	// TODO: Can currently add Children to Textnodes, which are then not shown in the toString.
+  	node.addChild(new XMLNode());
+  	assertEquals("XMLNode [characters=" + content + "]", node.toString());
   }
 }
