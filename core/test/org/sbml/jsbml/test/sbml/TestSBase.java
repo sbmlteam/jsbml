@@ -1950,6 +1950,19 @@ public class TestSBase {
   }
 
   /**
+   * Checks behaviour if the annotation string contains more than one annotation element:
+   * An exception is to be thrown (it is ...Element, not ...Elements) 
+   * @throws XMLStreamException should not be thrown (indicates that the test is faulty)
+   */
+  @Test(expected = IllegalArgumentException.class) 
+  public void test_replaceTopLevelAnnotationElement_tooManyNodes() throws XMLStreamException {
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name", "uri", "prefix")));
+  	String moreThanOneAnnotationElement = "<rdf:name xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:name>"
+  			+ "<rdf:name2 xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:name2>";
+  	sbase.replaceTopLevelAnnotationElement(moreThanOneAnnotationElement);
+  }
+  
+  /**
    * Checks behaviour for null-arguments: They shan't be pursued
    * @throws XMLStreamException 
    */
