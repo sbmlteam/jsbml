@@ -18,7 +18,6 @@ import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
-import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.ValidationListener;
 import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
@@ -29,6 +28,7 @@ import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
  * @since 1.0
  *
  */
+
 public class ValidationContextTest {
 	
 	/**
@@ -46,8 +46,6 @@ public class ValidationContextTest {
 	 */
 	private ConstraintGroup<Object> constGroup;
 	
-
-	
 	 /**
 	   * loads testfile with id BIOMD0000000228 
 	   * @throws IOException
@@ -64,11 +62,8 @@ public class ValidationContextTest {
 		  //create some constraints 
 		  constGroup = new ConstraintGroup<Object>(); //type of object to check is SBML Document? 
 		  ctx.setRootConstraint(constGroup, SBMLDocument.class); 
-		  
 	  }
-	  
-	  //TODO - Check if it's even necessary to test all getters and setters 
-	  
+	   
 	  @Test
 	  public void addValidationListenerTest() {
 		  //TODO
@@ -170,7 +165,7 @@ public class ValidationContextTest {
 	  @Test 
 	  public void loadConstraintsTest() {
 		  ctx.loadConstraints(SBMLDocument.class); 
-		  //old rootConstraint should be reseted so shouldn't be the initial constGroup 
+		  //old rootConstraint should be reseted so shouldn't be the same as initial constGroup 
 		  assertTrue(ctx.getRootConstraint().equals(constGroup) == false); 
 		  assertEquals(ctx.getConstraintType(), SBMLDocument.class);
 		  
@@ -216,41 +211,15 @@ public class ValidationContextTest {
 	  }
 	  
 	  @Test 
-	  public void getConstraintTypeTest() {
-		  assertEquals(ctx.getConstraintType(), SBMLDocument.class);
-	  }
-	  
-	  @Test 
 	  public void getHashMapTest() {
 		  //TODO 
 	  }
-	  
-	  @Test
-	  public void getLevelTest() {
-		  assertTrue(ctx.getLevel() == doc.getLevel());
-	  }
-	  
+	    
 	  @Test
 	  public void getLevelAndVersionTest() {
 		  ValuePair<Integer, Integer> lv = ctx.getLevelAndVersion();
 		  assertTrue(lv.getL() == doc.getLevel());
 		  assertTrue(lv.getV() == doc.getVersion());
-	  }
-	  
-	  
-	  @Test 
-	  public void getRootConstraintTest() {
-		  assertEquals(ctx.getRootConstraint(), constGroup);
-	  }
-	  
-	  @Test
-	  public void getVersionTest() {
-		  assertEquals(ctx.getVersion(), doc.getVersion());
-	  }
-	  
-	  @Test
-	  public void getValidateRecursively() {
-		  assertTrue(ctx.getValidateRecursively() == true);
 	  }
 	  
 	  @Test
@@ -400,34 +369,13 @@ public class ValidationContextTest {
 		  
 		  //if values don't differ it shouldn't clear root constraint
 		  ctx.setLevelAndVersion(docLevel, docVersion);
-		  assertTrue(ctx.getLevel() == docLevel);
-		  assertTrue(ctx.getVersion() == docVersion);
 		  assertEquals(ctx.getRootConstraint(), constGroup);
 		  assertEquals(ctx.getConstraintType(), SBMLDocument.class);
 		  
 		  //if values differ from current values root constraint should be cleared
 		  ctx.setLevelAndVersion(docLevel + 1, docVersion + 1);
-		  assertTrue(ctx.getLevel() == docLevel + 1);
-		  assertTrue(ctx.getVersion() == docVersion + 1);
 		  assertTrue(ctx.getRootConstraint() == null);
 		  assertTrue(ctx.getConstraintType() == null); 
-	  }
-	  
-	  @Test
-	  public void setRootConstraintTest() {
-		  ctx.setRootConstraint(null, null);
-		  assertTrue(ctx.getRootConstraint() == null);
-		  
-		  ctx.setRootConstraint(constGroup, SBMLDocument.class); 
-		  assertEquals(ctx.getRootConstraint(), constGroup);
-	  }
-	  
-	  @Test
-	  public void setValidateRecursivelyTest() {
-		  ctx.setValidateRecursively(false);
-		  assertTrue(ctx.getValidateRecursively() == false);
-		  ctx.setValidateRecursively(true);
-		  assertTrue(ctx.getValidateRecursively() == true);
 	  }
 	  
 	  @Test
@@ -451,7 +399,25 @@ public class ValidationContextTest {
 		  ctx.setRootConstraint(constGroup, SBMLDocument.class);
 		  ctx.validate(doc);
 		  
-		  //TODO - try to test last case with some children added to the constraint group
+		  
+		  //TODO - is there a way to simulate adding constraints to the group? 
+		  
+//		  int constraintCount = constGroup.getConstraintsCount();
+//		  System.out.println(constraintCount); //leere Gruppe am Anfang
+//		  ctx.loadConstraints(SBMLDocument.class);
+//		  System.out.println(constraintCount); 
+//		  
+//		  CHECK_CATEGORY[] ccsTestAll = new CHECK_CATEGORY[8];
+//		  ccsTestAll[0] = CHECK_CATEGORY.MODELING_PRACTICE;
+//		  ccsTestAll[1] = CHECK_CATEGORY.OVERDETERMINED_MODEL;
+//		  ccsTestAll[2] = CHECK_CATEGORY.GENERAL_CONSISTENCY;
+//		  ccsTestAll[3] = CHECK_CATEGORY.SBO_CONSISTENCY;
+//		  ccsTestAll[4] = CHECK_CATEGORY.IDENTIFIER_CONSISTENCY;
+//		  ccsTestAll[5] = CHECK_CATEGORY.MATHML_CONSISTENCY;
+//		  ccsTestAll[6] = CHECK_CATEGORY.SBO_CONSISTENCY;
+//		  ccsTestAll[7] = CHECK_CATEGORY.UNITS_CONSISTENCY;
+//		  ctx.loadConstraints(SBMLValidator.class, 2, 2, ccsTestAll);
+//		  System.out.println(constraintCount); 
 	  }
 	  
 	  @Test
