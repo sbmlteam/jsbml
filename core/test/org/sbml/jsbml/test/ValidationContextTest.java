@@ -54,11 +54,11 @@ public class ValidationContextTest {
 	  @Before public void setUp()  throws IOException, XMLStreamException{
 		  InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
 		  doc = new SBMLReader().readSBMLFromStream(fileStream);
-		  ctx = new ValidationContext(doc.getLevel(),doc.getVersion()); //ctx with lvl and version of testdocument 
+		  ctx = new ValidationContext(doc.getLevel(),doc.getVersion());
 		  
 		  //set up check categories
-		  ctx.enableCheckCategory(CHECK_CATEGORY.GENERAL_CONSISTENCY, true); //determines the loaded constraints
-		  
+		  ctx.enableCheckCategory(CHECK_CATEGORY.GENERAL_CONSISTENCY, true);
+		 
 		  //create some constraints 
 		  constGroup = new ConstraintGroup<Object>(); //type of object to check is SBML Document? 
 		  ctx.setRootConstraint(constGroup, SBMLDocument.class); 
@@ -165,7 +165,7 @@ public class ValidationContextTest {
 	  @Test 
 	  public void loadConstraintsTest() {
 		  ctx.loadConstraints(SBMLDocument.class); 
-		  //old rootConstraint should be reseted so shouldn't be the same as initial constGroup 
+		  //old rootConstraint should be reset so shouldn't be the same as initial constGroup 
 		  assertTrue(ctx.getRootConstraint().equals(constGroup) == false); 
 		  assertEquals(ctx.getConstraintType(), SBMLDocument.class);
 		  
@@ -180,9 +180,14 @@ public class ValidationContextTest {
 		  CHECK_CATEGORY[] someCategories = new CHECK_CATEGORY[2];
 		  someCategories[0] = CHECK_CATEGORY.UNITS_CONSISTENCY;
 		  someCategories[1] = CHECK_CATEGORY.SBO_CONSISTENCY;
-		  ctx.loadConstraints(SBMLDocument.class, 10, 10, someCategories);
-		  assertEquals(10, ctx.getLevel());
-		  assertEquals(10, ctx.getVersion());
+		  
+		  int level = 100;
+		  int version = 100;
+		  ctx.loadConstraints(SBMLDocument.class, level, version, someCategories);
+		  
+		  assertEquals(level, ctx.getLevel());
+		  assertEquals(version, ctx.getVersion());
+		  
 		  List<CHECK_CATEGORY> ctxCats = Arrays.asList(ctx.getCheckCategories());
 		  assertTrue(ctxCats.size() == 2);
 		  assertTrue(ctxCats.contains(CHECK_CATEGORY.UNITS_CONSISTENCY) == true);
@@ -192,15 +197,14 @@ public class ValidationContextTest {
 	  
 	  @Test
 	  public void loadConstraintsForAttributeTest() {
-		  //TODO
+		  //TODO 
 	  }
 
 	  @Test
 	  public void getCheckCategoriesTest() {  		  
 		  CHECK_CATEGORY[] ctxCategories = ctx.getCheckCategories(); 
 		  assertTrue(ctxCategories.length == 1); //initially 1 category is enabled
-		  List<CHECK_CATEGORY> ctxCats = Arrays.asList(ctxCategories); 
-		  
+		  List<CHECK_CATEGORY> ctxCats = Arrays.asList(ctxCategories); 	  
 		  assertTrue(ctxCats.contains(CHECK_CATEGORY.GENERAL_CONSISTENCY) == true);
 		  assertTrue(ctxCats.contains(CHECK_CATEGORY.IDENTIFIER_CONSISTENCY) == false);
 		  assertTrue(ctxCats.contains(CHECK_CATEGORY.MATHML_CONSISTENCY) == false);
@@ -208,11 +212,6 @@ public class ValidationContextTest {
 		  assertTrue(ctxCats.contains(CHECK_CATEGORY.OVERDETERMINED_MODEL) == false);
 		  assertTrue(ctxCats.contains(CHECK_CATEGORY.SBO_CONSISTENCY) == false);
 		  assertTrue(ctxCats.contains(CHECK_CATEGORY.UNITS_CONSISTENCY) == false);
-	  }
-	  
-	  @Test 
-	  public void getHashMapTest() {
-		  //TODO 
 	  }
 	    
 	  @Test
@@ -358,11 +357,6 @@ public class ValidationContextTest {
 	  }
 	  
 	  @Test
-	  public void removeValidationListenerTest() {
-		  //TODO 
-	  }
-	  
-	  @Test
 	  public void setLevelAndVersionTest() {
 		  int docLevel = doc.getLevel();
 		  int docVersion = doc.getVersion();
@@ -399,25 +393,7 @@ public class ValidationContextTest {
 		  ctx.setRootConstraint(constGroup, SBMLDocument.class);
 		  ctx.validate(doc);
 		  
-		  
 		  //TODO - is there a way to simulate adding constraints to the group? 
-		  
-//		  int constraintCount = constGroup.getConstraintsCount();
-//		  System.out.println(constraintCount); //leere Gruppe am Anfang
-//		  ctx.loadConstraints(SBMLDocument.class);
-//		  System.out.println(constraintCount); 
-//		  
-//		  CHECK_CATEGORY[] ccsTestAll = new CHECK_CATEGORY[8];
-//		  ccsTestAll[0] = CHECK_CATEGORY.MODELING_PRACTICE;
-//		  ccsTestAll[1] = CHECK_CATEGORY.OVERDETERMINED_MODEL;
-//		  ccsTestAll[2] = CHECK_CATEGORY.GENERAL_CONSISTENCY;
-//		  ccsTestAll[3] = CHECK_CATEGORY.SBO_CONSISTENCY;
-//		  ccsTestAll[4] = CHECK_CATEGORY.IDENTIFIER_CONSISTENCY;
-//		  ccsTestAll[5] = CHECK_CATEGORY.MATHML_CONSISTENCY;
-//		  ccsTestAll[6] = CHECK_CATEGORY.SBO_CONSISTENCY;
-//		  ccsTestAll[7] = CHECK_CATEGORY.UNITS_CONSISTENCY;
-//		  ctx.loadConstraints(SBMLValidator.class, 2, 2, ccsTestAll);
-//		  System.out.println(constraintCount); 
 	  }
 	  
 	  @Test
