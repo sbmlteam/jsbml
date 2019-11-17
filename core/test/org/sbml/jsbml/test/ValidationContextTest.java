@@ -179,6 +179,20 @@ public class ValidationContextTest {
 		  ctx.loadConstraints(SBMLDocument.class);
 		  assertTrue(ctx.getRootConstraint() != null);
 		  assertEquals(ctx.getConstraintType(), SBMLDocument.class);
+		  
+		  //if parameter level, version and categories are also used
+		  //these values should change in the context 
+		  CHECK_CATEGORY[] someCategories = new CHECK_CATEGORY[2];
+		  someCategories[0] = CHECK_CATEGORY.UNITS_CONSISTENCY;
+		  someCategories[1] = CHECK_CATEGORY.SBO_CONSISTENCY;
+		  ctx.loadConstraints(SBMLDocument.class, 10, 10, someCategories);
+		  assertEquals(10, ctx.getLevel());
+		  assertEquals(10, ctx.getVersion());
+		  List<CHECK_CATEGORY> ctxCats = Arrays.asList(ctx.getCheckCategories());
+		  assertTrue(ctxCats.size() == 2);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.UNITS_CONSISTENCY) == true);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.SBO_CONSISTENCY) == true);
+		  assertTrue(ctxCats.contains(CHECK_CATEGORY.GENERAL_CONSISTENCY) == false); //all old enabled categories are reset
 	  }
 	  
 	  @Test
