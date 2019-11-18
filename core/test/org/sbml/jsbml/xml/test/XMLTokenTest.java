@@ -147,8 +147,8 @@ public class XMLTokenTest {
   	XMLNode node = new XMLNode(content);
   	assertEquals("XMLNode [characters=" + content + "]", node.toString());
   	
-  	// TODO: Can currently add Children to Textnodes, which are then not shown in the toString.
   	node.addChild(new XMLNode());
-  	assertEquals("XMLNode [characters=" + content + "]", node.toString());
+  	node.addChild(new XMLNode());
+  	assertEquals("XMLNode [characters=" + content + ", childElements size=2]", node.toString());
   }
 }

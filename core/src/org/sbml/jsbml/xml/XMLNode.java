@@ -639,20 +639,13 @@ public class XMLNode extends XMLToken {
         	    }
           }
           
-          // namespaces and child size
+          // namespaces size
           if (getNamespacesLength() > 0) {
         	  if (getAttributesLength() > 0) {
         		  builder.append(", ");
         	  }
         	  builder.append("namespaces size=");
         	  builder.append(getNamespacesLength());        	  
-          }          
-          if (getNumChildren() > 0) {
-        	  if (getAttributesLength() > 0 || getNamespacesLength() > 0) {
-        		  builder.append(", ");
-        	  }
-        	  builder.append("childElements size=");
-        	  builder.append(getNumChildren()); // putting just the number of children, to avoid to print them recursively.
           }
       }
       else if (isText()) {
@@ -660,6 +653,14 @@ public class XMLNode extends XMLToken {
           builder.append(characters);    	  
       }
 
+      // ChildElements size
+      if (getNumChildren() > 0) {
+    	  if (getAttributesLength() > 0 || getNamespacesLength() > 0 || isText()) {
+    		  builder.append(", ");
+    	  }
+    	  builder.append("childElements size=");
+    	  builder.append(getNumChildren()); // putting just the number of children, to avoid to print them recursively.
+      }
       builder.append("]");
       
       return builder.toString();
