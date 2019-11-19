@@ -21,11 +21,7 @@ import org.sbml.jsbml.validator.SBMLValidator;
 public class CheckConsistensyOfflineTests {
 
 	private HashMap<String, SBMLDocument> docs;
-	private SBMLDocument doc25;
-	private SBMLDocument doc191;
-	private SBMLDocument doc227;
-	private SBMLDocument doc228;
-	private SBMLDocument doc229;
+
 
 	/**
 	 * @throws XMLStreamException 
@@ -39,11 +35,11 @@ public class CheckConsistensyOfflineTests {
 		InputStream fileStream228 = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
 		InputStream fileStream229 = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000229.xml");
 
-		doc25 = new SBMLReader().readSBMLFromStream(fileStream025);
-		doc191 = new SBMLReader().readSBMLFromStream(fileStream191);
-		doc227 = new SBMLReader().readSBMLFromStream(fileStream227);
-		doc228 = new SBMLReader().readSBMLFromStream(fileStream228);
-		doc229 = new SBMLReader().readSBMLFromStream(fileStream229);
+		SBMLDocument doc25 = new SBMLReader().readSBMLFromStream(fileStream025);
+		SBMLDocument doc191 = new SBMLReader().readSBMLFromStream(fileStream191);
+		SBMLDocument doc227 = new SBMLReader().readSBMLFromStream(fileStream227);
+		SBMLDocument doc228 = new SBMLReader().readSBMLFromStream(fileStream228);
+		SBMLDocument doc229 = new SBMLReader().readSBMLFromStream(fileStream229);
 
 		docs = new HashMap<String, SBMLDocument>();
 
