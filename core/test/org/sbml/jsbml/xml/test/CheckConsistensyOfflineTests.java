@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.test.sbml.TestReadFromFile5;
+import org.sbml.jsbml.validator.SBMLValidator;
 
 public class CheckConsistensyOfflineTests {
 
@@ -67,14 +68,20 @@ public class CheckConsistensyOfflineTests {
 				SBMLDocument currentDoc = pair.getValue();
 				String currentDocKey = pair.getKey();
 
+				currentDoc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
 				int nbErrors = currentDoc.checkConsistencyOffline();
 				System.out.println("Found " + nbErrors + " errors/warnings on Biomodels " + currentDocKey + " with the unit checking turned on.");
+				
+				//if tests fail you can look up in the console which one it was (Biomodel of last printed line)
+				assertTrue(nbErrors > 0);
+				assertTrue(nbErrors == currentDoc.getErrorLog().getValidationErrors().size());
+				assertTrue(nbErrors == currentDoc.getErrorCount());
 				
 				it.remove(); // avoids a ConcurrentModificationException
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			assertTrue(false);
+			assertTrue(false); //why? 
 		}
 	}
 }
