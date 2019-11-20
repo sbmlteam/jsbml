@@ -15,8 +15,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBMLError.SEVERITY;
 import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 import org.sbml.jsbml.validator.SBMLValidator;
+
 
 public class CheckConsistensyOfflineTests {
 
@@ -24,6 +26,7 @@ public class CheckConsistensyOfflineTests {
 
 
 	/**
+	 * Sets up the files to be tested.  
 	 * @throws XMLStreamException 
 	 * 
 	 */
@@ -51,8 +54,7 @@ public class CheckConsistensyOfflineTests {
 	}
 
 	/**
-	 * Tries to validate biomodels file with id: 
-	 * BIOMD0000000025, BIOMD0000000191, BIOMD0000000227, BIOMD0000000228, BIOMD0000000229
+	 * Iterates over hashmap values and tries to validate each SBMLDocument.
 	 * @throws IOException
 	 * @throws XMLStreamException
 	 */
@@ -64,20 +66,156 @@ public class CheckConsistensyOfflineTests {
 				SBMLDocument currentDoc = pair.getValue();
 				String currentDocKey = pair.getKey();
 
-				currentDoc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
 				int nbErrors = currentDoc.checkConsistencyOffline();
-				System.out.println("Found " + nbErrors + " errors/warnings on Biomodels " + currentDocKey + " with the unit checking turned on.");
-				
-				//if tests fail you can look up in the console which one it was (Biomodel of last printed line)
-				assertTrue(nbErrors > 0);
-				assertTrue(nbErrors == currentDoc.getErrorLog().getValidationErrors().size());
-				assertTrue(nbErrors == currentDoc.getErrorCount());
-				
-				it.remove(); // avoids a ConcurrentModificationException
+				System.out.println("Found " + nbErrors + " errors/warnings on Biomodels " + currentDocKey + " with the unit checking turned off.");
+
+				it.remove();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			assertTrue(false); //why? 
+			assertTrue(false);  
 		}
 	}
+	
+	/**
+	 * Tries to validate biomodels file with id BIOMD0000000025, with all checks on.
+	 * @throws IOException
+	 * @throws XMLStreamException
+	 */
+	@Test public void checkConsistencyAll25() throws IOException, XMLStreamException {
+		SBMLDocument doc = docs.get("25");
+		
+		doc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
+
+	    int nbErrors = doc.checkConsistencyOffline();
+
+//	    int numRealErrors = doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR);
+//	    if (numRealErrors > 0) {
+//	      System.out.println("# Found " + numRealErrors + " VALIDATION ERRORS !!!");
+//	      doc.printErrors(System.out);
+//	    }
+
+	    System.out.println("Found " + nbErrors + " errors/warnings on Biomodels 025 with the unit checking turned on.");
+	    assertTrue(nbErrors > 0);
+
+//	    assertTrue(doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR) == 0); 
+//	    4 errors with offline validator
+//	    0 with online
+
+	    assertTrue(nbErrors == doc.getErrorCount());
+	    assertTrue(nbErrors == doc.getErrorLog().getValidationErrors().size());
+	}
+	
+	/**
+	 * Tries to validate biomodels file with id BIOMD0000000191, with all checks on.
+	 * @throws IOException
+	 * @throws XMLStreamException
+	 */
+	@Test public void checkConsistencyAll191() throws IOException, XMLStreamException {
+		SBMLDocument doc = docs.get("191");
+		
+		doc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
+
+	    int nbErrors = doc.checkConsistencyOffline();
+
+//	    int numRealErrors = doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR);
+//	    if (numRealErrors > 0) {
+//	      System.out.println("# Found " + numRealErrors + " VALIDATION ERRORS !!!");
+//	      doc.printErrors(System.out);
+//	    }
+
+	    System.out.println("Found " + nbErrors + " errors/warnings on Biomodels 191 with the unit checking turned on.");
+	    assertTrue(nbErrors > 0);
+
+//	  	assertTrue(doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR) == 0);
+//	  	3 Errors with offline validator
+//	  	0 with online validator
+
+	    assertTrue(nbErrors == doc.getErrorCount());
+	    assertTrue(nbErrors == doc.getErrorLog().getValidationErrors().size());
+	}
+	
+	/**
+	 * Tries to validate biomodels file with id BIOMD0000000227, with all checks on.
+	 * @throws IOException
+	 * @throws XMLStreamException
+	 */
+	@Test public void checkConsistencyAll227() throws IOException, XMLStreamException {
+		SBMLDocument doc = docs.get("227");
+		
+		doc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
+
+	    int nbErrors = doc.checkConsistencyOffline();
+
+//	    int numRealErrors = doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR);
+//	    if (numRealErrors > 0) {
+//	      System.out.println("# Found " + numRealErrors + " VALIDATION ERRORS !!!");
+//	      doc.printErrors(System.out);
+//	    }
+
+	    System.out.println("Found " + nbErrors + " errors/warnings on Biomodels 227 with the unit checking turned on.");
+	    assertTrue(nbErrors > 0);
+
+//	    assertTrue(doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR) == 0);
+//	    57 errors with offline validator
+//	    0 with online
+
+	    assertTrue(nbErrors == doc.getErrorCount());
+	    assertTrue(nbErrors == doc.getErrorLog().getValidationErrors().size());
+	}
+	
+	/**
+	 * Tries to validate biomodels file with id BIOMD0000000228, with all checks on.
+	 * @throws IOException
+	 * @throws XMLStreamException
+	 */
+	@Test public void checkConsistencyAll228() throws IOException, XMLStreamException {
+		SBMLDocument doc = docs.get("228");
+		
+		doc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
+
+	    int nbErrors = doc.checkConsistencyOffline();
+
+	    int numRealErrors = doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR);
+	    if (numRealErrors > 0) {
+	      System.out.println("# Found " + numRealErrors + " VALIDATION ERRORS !!!");
+	      doc.printErrors(System.out);
+	    }
+
+	    System.out.println("Found " + nbErrors + " errors/warnings on Biomodels 228 with the unit checking turned on.");
+	    assertTrue(nbErrors > 0);
+
+	    assertTrue(doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR) == 0);
+
+	    assertTrue(nbErrors == doc.getErrorCount());
+	    assertTrue(nbErrors == doc.getErrorLog().getValidationErrors().size());
+	}
+	
+	/**
+	 * Tries to validate biomodels file with id BIOMD0000000229, with all checks on.
+	 * @throws IOException
+	 * @throws XMLStreamException
+	 */
+	@Test public void checkConsistencyAll229() throws IOException, XMLStreamException {
+		SBMLDocument doc = docs.get("229");
+		
+		doc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
+
+	    int nbErrors = doc.checkConsistencyOffline();
+
+	    int numRealErrors = doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR);
+	    if (numRealErrors > 0) {
+	      System.out.println("# Found " + numRealErrors + " VALIDATION ERRORS !!!");
+	      doc.printErrors(System.out);
+	    }
+
+	    System.out.println("Found " + nbErrors + " errors/warnings on Biomodels 229 with the unit checking turned on.");
+	    assertTrue(nbErrors > 0);
+
+	    assertTrue(doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR) == 0);
+
+	    assertTrue(nbErrors == doc.getErrorCount());
+	    assertTrue(nbErrors == doc.getErrorLog().getValidationErrors().size());
+	}
+	
 }
