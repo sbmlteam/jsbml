@@ -82,7 +82,7 @@ public class CheckConsistensyOfflineTests {
 	 * @throws IOException
 	 * @throws XMLStreamException
 	 */
-	@Test public void checkConsistencyAll25() throws IOException, XMLStreamException {
+	@Test public void checkConsistencyAll025() throws IOException, XMLStreamException {
 		SBMLDocument doc = docs.get("25");
 		
 		doc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
