@@ -46,7 +46,7 @@ public class ValidationContextTest {
 	private ConstraintGroup<Object> constGroup;
 	
 	 /**
-	   * loads testfile with id BIOMD0000000228 
+	   * loads testfile with id BIOMD0000000228 and creates the context
 	   * @throws IOException
 	   * @throws XMLStreamException
 	   */
