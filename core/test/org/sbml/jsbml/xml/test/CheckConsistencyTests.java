@@ -57,7 +57,7 @@ public class CheckConsistencyTests {
     InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    int nbErrors = doc.checkConsistency();
+    int nbErrors = doc.checkConsistencyOnline();
 
     if (nbErrors > 0) {
       System.out.println("Found " + nbErrors + " errors on Biomodels 228 with the unit checking turned off.");
@@ -79,7 +79,7 @@ public class CheckConsistencyTests {
 
     doc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
 
-    int nbErrors = doc.checkConsistency();
+    int nbErrors = doc.checkConsistencyOnline();
 
     int numRealErrors = doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR);
     if (numRealErrors > 0) {
@@ -111,7 +111,7 @@ public class CheckConsistencyTests {
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
     try {
-      int nbErrors = doc.checkConsistency();
+      int nbErrors = doc.checkConsistencyOnline();
 
       System.out.println("Found " + nbErrors + " errors on Biomodels 228 with the unit checking turned off.");
 
@@ -131,7 +131,7 @@ public class CheckConsistencyTests {
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
     try {
-      int nbErrors = doc.checkConsistency();
+      int nbErrors = doc.checkConsistencyOnline();
 
       System.out.println("Found " + nbErrors + " errors on Biomodels 025 with the unit checking turned off.");
 
