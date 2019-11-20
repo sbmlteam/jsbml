@@ -25,7 +25,6 @@ import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
 /**
  * 
  * @author Onur Özel
- * @since 1.0
  *
  */
 
