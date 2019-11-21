@@ -30,6 +30,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
@@ -38,6 +39,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.CVTerm;
+import org.sbml.jsbml.History;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.XMLAttributes;
@@ -1930,6 +1932,58 @@ public class TestSBase {
   			sbase.isSetAnnotation());
   }
 
+  /**
+   * Checks behaviour in the case that there is a History set.
+   */
+  @Test public void test_removeTopLevelAnnotationElement_History() {
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+  	History history = new History();
+  	history.addModifiedDate(new Date(15743209151L));
+  	sbase.setHistory(history);
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName", null, true));
+  	assertTrue("The annotation should still be set, as a history is set", 
+  			sbase.isSetAnnotation());
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName2", "someURI", "targetPrefix")));
+  	sbase.unsetHistory();
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName2"));
+  	assertFalse("The annotation should no longer be set, as a history has been unset", 
+  			sbase.isSetAnnotation());
+  }
+  
+  /**
+   * Checks behaviour in the case that there are CVTerms or History set.
+   */
+  @Test public void test_removeTopLevelAnnotationElement_HistoryOrCVTerms() {
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+  	History history = new History();
+  	history.addModifiedDate(new Date(15743209151L));
+  	CVTerm cvterm = new CVTerm(CVTerm.Qualifier.BQB_HAS_VERSION);
+  	
+  	sbase.setHistory(history);
+  	sbase.addCVTerm(cvterm);
+  	
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName", null, true));
+  	assertTrue("The annotation should still be set, as a history and cvterm are set", 
+  			sbase.isSetAnnotation());
+  	
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName2", "someURI", "targetPrefix")));
+  	sbase.unsetHistory();
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName2"));
+  	assertTrue("The annotation should still be set, as a cvterm is set", 
+  			sbase.isSetAnnotation());
+  	
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName3", "someURI", "targetPrefix")));
+  	sbase.unsetCVTerms();
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName3"));
+  	assertFalse("The annotation should no longer be set", 
+  			sbase.isSetAnnotation());
+  }
+  
   /**
    * Checks behaviour for the cases where no matching element can be found:
    * a) the annotation is empty/unset
