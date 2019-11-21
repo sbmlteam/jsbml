@@ -668,11 +668,7 @@ public class StringTools {
    *         {@link String}s in SBML, nothing will be changed.
    */
   private static String toXMLString(String notes, String surroundingTagName) {
-    // TODO: We need to perform plenty of check to see of which form are the notes
-    // given to this method
-    // and perform the necessary conversion to append or set the notes correctly.
-    // If we need more checks, we should define which one into trackers/stories
-
+    
     if (!notes.trim().startsWith("<")) { // we assume that this is free text
       StringBuilder sb = new StringBuilder();
       sb.append("<").append(surroundingTagName).append(">\n");
@@ -686,6 +682,7 @@ public class StringTools {
       sb.append("</").append(surroundingTagName).append(">\n");
       return sb.toString();
     } else if (!notes.trim().startsWith("<" + surroundingTagName)) {
+      
       // we assume the surrounding XML tag is missing
       StringBuilder sb = new StringBuilder();
       sb.append("<").append(surroundingTagName);
@@ -700,6 +697,7 @@ public class StringTools {
       sb.append("\n</").append(surroundingTagName).append(">\n");
       return sb.toString();
     }
+    
     return notes;
   }
 

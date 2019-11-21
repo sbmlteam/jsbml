@@ -31,6 +31,7 @@ import org.sbml.jsbml.test.sbml.TestParameter;
 import org.sbml.jsbml.test.sbml.TestReaction;
 import org.sbml.jsbml.test.sbml.TestReadFromFile1;
 import org.sbml.jsbml.test.sbml.TestReadFromFile5;
+import org.sbml.jsbml.test.sbml.TestSBase;
 import org.sbml.jsbml.test.sbml.TestSpecies;
 
 /**
@@ -42,7 +43,7 @@ import org.sbml.jsbml.test.sbml.TestSpecies;
  * @since 0.8
  */
 @RunWith(value=Suite.class)
-@SuiteClasses(value={TestCompartment.class, TestSpecies.class, TestParameter.class, TestL3Parameter.class,
+@SuiteClasses(value={TestSBase.class, TestCompartment.class, TestSpecies.class, TestParameter.class, TestL3Parameter.class,
   TestReaction.class, TestEvent.class, TestModel.class, TestReadFromFile1.class, TestCVTerms.class,
   TestReadFromFile5.class})
 public class LibsbmlCompatibilityTests {

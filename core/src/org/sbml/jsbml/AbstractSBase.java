@@ -548,8 +548,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     //
 
     NOTES_TYPE addedNotesType = NOTES_TYPE.NotesAny;
-    XMLNode addedNotes =
-        new XMLNode(new XMLTriple("notes", "", ""), new XMLAttributes());
+    XMLNode addedNotes = new XMLNode(new XMLTriple("notes", "", ""), new XMLAttributes());
 
     // ------------------------------------------------------------
     //
@@ -557,7 +556,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     //
     // ------------------------------------------------------------
 
-    if (name == "notes") {
+    if (name.equals("notes")) {
       /*
        * check for notes tags on the added notes and strip if present and
        * the notes tag has "html" or "body" element
@@ -572,16 +571,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         String cname = "";
 
         if (firstElementIndex != -1) {
-          cname = notes.getChildAt(firstElementIndex).getName(); // we need to
-          // find the
-          // first child
-          // element
+          // we need to find the first child element
+          cname = notes.getChildAt(firstElementIndex).getName();
         }
 
-        if (cname == "html") {
+        if (cname.equals("html")) {
           addedNotes = notes.getChildAt(firstElementIndex);
           addedNotesType = NOTES_TYPE.NotesHTML;
-        } else if (cname == "body") {
+        } else if (cname.equals("body")) {
           addedNotes = notes.getChildAt(firstElementIndex);
           addedNotesType = NOTES_TYPE.NotesBody;
         } else {
@@ -609,10 +606,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           return;
         }
       } else {
-        if (name == "html") {
+        if (name.equals("html")) {
           addedNotes = notes;
           addedNotesType = NOTES_TYPE.NotesHTML;
-        } else if (name == "body") {
+        } else if (name.equals("body")) {
           addedNotes = notes;
           addedNotesType = NOTES_TYPE.NotesBody;
         } else {
@@ -652,7 +649,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
 
       if (!headFound || !bodyFound || otherElementFound) {
-        // TODO - throw an exception as well
+        // TODO - throw an exception as well ?
         logger.warn(
           resourceBundle.getString("AbstractSBase.invalidNotesStructure"));
         return;
@@ -679,15 +676,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       String cname = "";
 
       if (firstElementIndex != -1) {
-        cname = curNotes.getChildAt(firstElementIndex).getName(); // we need to
-        // find the
-        // first child
-        // element
+        // we need to find the first child element 
+        cname = curNotes.getChildAt(firstElementIndex).getName(); 
       }
 
-      if (cname == "html") {
+      if (cname.equals("html")) {
         curNotesType = NOTES_TYPE.NotesHTML;
-      } else if (cname == "body") {
+      } else if (cname.equals("body")) {
         curNotesType = NOTES_TYPE.NotesBody;
       } else {
         curNotesType = NOTES_TYPE.NotesAny;
@@ -712,8 +707,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         XMLNode curBody = curHTML.getChildElement("body", null);
 
         if (addedNotesType == NOTES_TYPE.NotesHTML) {
-          // adds the content of the body of given html tag to the current body
-          // tag
+          // adds the content of the body of given html tag to the current body tag
 
           XMLNode addedBody = addedNotes.getChildElement("body", null);
 
@@ -727,10 +721,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           }
           // we could add the content of the 'head' tag as well ?
         } else if ((addedNotesType == NOTES_TYPE.NotesBody)
-            || (addedNotesType == NOTES_TYPE.NotesAny)) {
-          // adds the given body or other tag (permitted in the body) to the
-          // current
-          // html tag
+            || (addedNotesType == NOTES_TYPE.NotesAny)) 
+        {
+          // adds the given body or other tag (permitted in the body) to the current html tag
 
           for (i = 0; i < addedNotes.getChildCount(); i++) {
             if (curBody.addChild(addedNotes.getChildAt(i)) < 0) {
@@ -755,10 +748,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           notesXMLNode.removeChild(firstElementIndex);
           notesXMLNode.insertChild(firstElementIndex, addedNotes);
         } else if ((addedNotesType == NOTES_TYPE.NotesBody)
-            || (addedNotesType == NOTES_TYPE.NotesAny)) {
-          // adds the given body or other tag (permitted in the body) to the
-          // current
-          // body tag
+            || (addedNotesType == NOTES_TYPE.NotesAny)) 
+        {
+          // adds the given body or other tag (permitted in the body) to the current body tag
 
           XMLNode curBody = curNotes.getChildElement("body", null);
 
@@ -773,31 +765,28 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         }
       } else if (curNotesType == NOTES_TYPE.NotesAny) {
         if (addedNotesType == NOTES_TYPE.NotesHTML) {
-          // adds the given html tag to the current any tag permitted in the
-          // body.
+          // adds the given html tag to the current any tag permitted in the body.
 
           XMLNode addedBody = addedNotes.getChildElement("body", null);
 
           for (i = 0; i < curNotes.getChildCount(); i++) {
-            addedBody.addChild(curNotes.getChildAt(i));
+            addedBody.insertChild(i, curNotes.getChildAt(i));
           }
 
           notesXMLNode.removeChildren();
           notesXMLNode.addChild(addedNotes);
+          
         } else if (addedNotesType == NOTES_TYPE.NotesBody) {
-          // adds the given body tag to the current any tag permitted in the
-          // body.
+          // adds the given body tag to the current any tag permitted in the body.
 
           for (i = 0; i < curNotes.getChildCount(); i++) {
-            addedNotes.addChild(curNotes.getChildAt(i));
+            addedNotes.insertChild(i, curNotes.getChildAt(i));
           }
 
           notesXMLNode.removeChildren();
           notesXMLNode.addChild(addedNotes);
         } else if (addedNotesType == NOTES_TYPE.NotesAny) {
-          // adds the given any tag permitted in the notes to that of the
-          // current
-          // any tag.
+          // adds the given any tag permitted in the notes to that of the current any tag.
 
           for (i = 0; i < addedNotes.getChildCount(); i++) {
             if (curNotes.addChild(addedNotes.getChildAt(i)) < 0) {
@@ -811,7 +800,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
     } else // if (mNotes == NULL)
     {
-      // TODO - check that there is a 'notes' top level element
       setNotes(notes);
     }
   }
@@ -2472,8 +2460,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void setAnnotation(String nonRDFAnnotation) throws XMLStreamException {
+    if (nonRDFAnnotation == null || nonRDFAnnotation.trim().length() == 0) {
+      getAnnotation().unsetNonRDFannotation();
+    } else {
     setAnnotation(XMLNode.convertStringToXMLNode(
       StringTools.toXMLAnnotationString(nonRDFAnnotation)));
+    }
   }
 
 
@@ -2483,7 +2475,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void setAnnotation(XMLNode nonRDFAnnotation) {
-    getAnnotation().setNonRDFAnnotation(nonRDFAnnotation);
+    if (nonRDFAnnotation == null) {
+      getAnnotation().unsetNonRDFannotation();
+    } else {
+      getAnnotation().setNonRDFAnnotation(nonRDFAnnotation);
+    }
   }
 
 
@@ -2694,8 +2690,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void setNotes(String notes) throws XMLStreamException {
-    setNotes(
-      XMLNode.convertStringToXMLNode(StringTools.toXMLNotesString(notes)));
+    if (notes == null || notes.trim().length() == 0) {
+      unsetNotes();
+    } else {
+      setNotes(XMLNode.convertStringToXMLNode(StringTools.toXMLNotesString(notes)));
+    }
   }
 
 
@@ -2708,6 +2707,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     XMLNode oldNotes = notesXMLNode;
     notesXMLNode = notes;
     if (notesXMLNode != null) {
+      
+      if (!notesXMLNode.getName().equals("notes")) {
+        // adding a surrounding notes element
+        XMLNode notesNode = new XMLNode(new XMLTriple("notes", "", ""), new XMLAttributes());
+        notesNode.addChild(notesXMLNode);
+        notesXMLNode = notesNode;
+      }
+      
       notesXMLNode.setParent(this);
     }
     firePropertyChange(TreeNodeChangeEvent.notes, oldNotes, notesXMLNode);
