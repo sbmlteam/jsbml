@@ -510,4 +510,5 @@ public class TestExternalModelDefinition {
     // This should now cause an exception
     externalModel.getAbsoluteSourceURI();
   }
+
 }
