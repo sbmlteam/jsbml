@@ -19,7 +19,10 @@
  */
 package org.sbml.jsbml.ext.comp;
 
+import java.io.IOException;
 import java.util.Map;
+
+import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
@@ -46,7 +49,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   private static final long serialVersionUID = 2005205309846284624L;
 
   /**
-   * 
+   * The source of this model (anyURI): Specifies a file as relative or absolute path, URL or URN 
    */
   private String source;
   /**
@@ -446,6 +449,45 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   @Override
   public boolean isIdMandatory() {
     return true;
+  }
+  
+  /**
+   * TODO: heavily WIP (this is a mess)
+   * Resolves the external {@link Model} referenced by this
+   * @param pathToLocal the absolute path to the directory containing the .sbml/xml-file wherein 
+   *   this has been specified (needed to resolve local references)
+   * @return The referenced {@link Model}
+   * @throws IOException if the source cannot be found/resolved
+   * @throws XMLStreamException if the file at source is not a valid SBMLDocument.
+   */
+  public Model getReferencedModel(String pathToLocal) throws XMLStreamException, IOException {
+  	// TODO: Handle URN, URL, Paths: How can this object access the local path of the 
+  	// sbml-file whence it was read?
+  	getSBMLDocument(); // This object need not have a path associated with it.
+  	SBMLDocument externalFile = new org.sbml.jsbml.SBMLReader().readSBMLFromFile(pathToLocal + source);
+  	
+  	// The referenced model can be the main model of the referenced File (comp-documentation page 14)
+  	if (externalFile.getModel().getId().equals(modelRef)) {
+  		return externalFile.getModel().clone(); // TODO: clone here?
+  	} else if (externalFile.isPackageEnabled(CompConstants.shortLabel)) {
+  		CompSBMLDocumentPlugin externalFileCompPlugin = (CompSBMLDocumentPlugin) externalFile.getExtension(CompConstants.shortLabel);
+  		
+  		ModelDefinition localModelDefinition = externalFileCompPlugin.getModelDefinition(modelRef);
+  		ExternalModelDefinition nextLayer = externalFileCompPlugin.getExternalModelDefinition(modelRef);
+  		
+  		if(localModelDefinition != null) {
+  			return localModelDefinition; // .getModel();
+  			
+  		} else if(nextLayer != null) {
+  			// This is allowed by the specification: This ExternalModelDefinition may reference an 
+  			// ExternalModelDefinition in the source; which may again reference an External definition.
+  			// As by the specification, no loops are allowed (so they are not checked for here)
+  			return nextLayer.getReferencedModel(pathToLocal);
+  			// TODO: This path may be insufficient for the referenced (if local/file.xml references local/sub/other.xml, 
+  			// from other.xml, local/sub is the parent directory)
+  		}
+  	}
+  	return null;
   }
 
 }
