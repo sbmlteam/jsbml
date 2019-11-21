@@ -55,9 +55,9 @@ import org.sbml.jsbml.ext.comp.ReplacedElement;
 import org.sbml.jsbml.ext.comp.Submodel;
 
 /**
- * The {@link CompFlatteningConverter} object translates a hierarchical model defined with the SBML Level 3
+ * The {@link CompFlatteningConverter} object translates a hierarchical model defined with the SBML Level�3
  * Hierarchical Model Composition package into a 'flattened' version of the same model. This means the the hierarchical
- * structure is dissolved and all objects are build into a single model that does no longer require the comp package.
+ * structure is dissolved and all objects are built into a single model that does no longer require the comp package.
  *
  * @author Christoph Blessing
  * @since 1.0
@@ -108,10 +108,10 @@ public class CompFlatteningConverter {
 
             if (document.isSetModel() && document.getModel().getExtension(CompConstants.shortLabel) != null) {
 
-                // TODO: the model itself has to be flattend (can hold a list of replacements etc.)
+                // TODO: the model itself has to be flattened (can hold a list of replacements etc.)
                 CompModelPlugin compModelPlugin = (CompModelPlugin) document.getModel().getExtension(CompConstants.shortLabel);
                 handlePorts(compModelPlugin, compModelPlugin.getListOfPorts());
-                replaceElementsInModelDefinition(compModelPlugin, null);
+                replaceElementsInModelDefinition(compModelPlugin, null); //TODO: why is null given here?
 
                 this.flattenedModel = instantiateSubModels(compModelPlugin);
             } else {
@@ -119,7 +119,7 @@ public class CompFlatteningConverter {
             }
 
         } else {
-            LOGGER.warning("No comp package found in Document. Can not flatten.");
+            LOGGER.warning("No comp package found in Document. Cannot flatten.");
         }
 
         this.flattenedModel.unsetExtension(CompConstants.shortLabel);
@@ -159,6 +159,13 @@ public class CompFlatteningConverter {
         return this.flattenedModel;
     }
 
+    /**
+     * Actualizes replacement provided by comp extension: The "replaced elements" referenced by {@link ReplacedElement} 
+     * instances are here actually removed, along with their respective {@link Port}, and thus replaced by the holder 
+     * of the {@link ReplacedElement} 
+     * @param compModelPlugin plugin holding the {@link ReplacedElement}s, may be null -- not used in that case
+     * @param compSBasePlugin plugin holding {@link ReplacedElement}s, may be null - not used in that case
+     */
     private void replaceElementsInModelDefinition(CompModelPlugin compModelPlugin, CompSBasePlugin compSBasePlugin) {
 
         if (compModelPlugin != null || compSBasePlugin != null) {
@@ -201,7 +208,7 @@ public class CompFlatteningConverter {
 
             // A port could be created by using the metaIdRef attribute
             // to identify the object for which a given Port instance is the port;
-            // The question “what does this port correspond to?” would be answered by the value of the metaIdRef attribute.
+            // The question 'what does this port correspond to?' would be answered by the value of the metaIdRef attribute.
 
             String idRef = port.getIdRef();
             String metaIDRef = port.getMetaIdRef();
@@ -501,17 +508,17 @@ public class CompFlatteningConverter {
         Model model = new Model();
 
         // 2
-        // Let “M” be the identifier of a given submodel.
+        // Let 'M' be the identifier of a given submodel.
         String subModelID = subModel.getId() + "_";
         String subModelMetaID = subModel.getMetaId() + "_";
 
         // Verify that no object identifier or meta identifier of objects in that submodel
         // (i.e., the id or metaid attribute values)
-        // begin with the character sequence “M__”;
+        // begin with the character sequence "M__";
 
-        // if there is an existing identifier or meta identifier beginning with “M__”,
-        // add an underscore to “M__” (i.e., to produce “M___”) and again check that the sequence is unique.
-        // Continue adding underscores until you find a unique prefix. Let “P” stand for this final prefix.
+        // if there is an existing identifier or meta identifier beginning with "M__",
+        // add an underscore to "M__" (i.e., to produce "M___") and again check that the sequence is unique.
+        // Continue adding underscores until you find a unique prefix. Let "P" stand for this final prefix.
 
         while (this.previousModelIDs.contains(subModelID)) {
             subModelID += "_";
@@ -540,7 +547,7 @@ public class CompFlatteningConverter {
             // Remove all objects that have been replaced or deleted in the submodel.
 
             // TODO Delete Objects
-            // each Deletion object identifies an object to “remove” from that Model instance
+            // each Deletion object identifies an object to "remove" from that Model instance
             for (Deletion deletion : subModel.getListOfDeletions()) {
 
                 // TODO: search for element to remove in all model definitions?
@@ -562,10 +569,10 @@ public class CompFlatteningConverter {
             // Transform the remaining objects in the submodel as follows:
             // a)
             // Change every identifier (id attribute)
-            // to a new value obtained by prepending “P” to the original identifier.
+            // to a new value obtained by prepending "P" to the original identifier.
             // b)
             // Change every meta identifier (metaid attribute)
-            // to a new value obtained by prepending “P” to the original identifier.
+            // to a new value obtained by prepending "P" to the original identifier.
 
             model = flattenModel(modelOfSubmodel);
 
@@ -576,7 +583,7 @@ public class CompFlatteningConverter {
             // change the SIdRef value (respectively, IDREF value) to the SId value (respectively, ID value)
             // of the object replacing it.
             // b)
-            // If the referenced object has not been replaced, change the SIdRef and IDREF value by prepending “P”
+            // If the referenced object has not been replaced, change the SIdRef and IDREF value by prepending "P"
             // to the original value.
 
             // 6
