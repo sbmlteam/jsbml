@@ -2391,17 +2391,22 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public boolean removeTopLevelAnnotationElement(String name, String elementURI, boolean removeEmpty) {
   	// To avoid side effect of creating a new empty annotation when trying to delete from an unset
   	// annotation:
-  	if(!isSetAnnotation() || name == null || name.equals("") || name.equals("*"))
+  	if(!isSetAnnotation() || name == null || name.equals("") || name.equals("*")) {
   		return false;
+  	}
+  		
   	XMLNode toBeDeleted = getAnnotation().getXMLNode().getChildElement(name, elementURI);
-  	if(toBeDeleted == null) 
+  	if(toBeDeleted == null) {
   		return false;
-  	else {
+  	} else {
   		boolean hasBeenRemoved = toBeDeleted.removeFromParent();
-  		// annotation.isEmpty() does not have the needed behaviour
   		boolean didNotFindAnyChildren = getAnnotation().getXMLNode().getChildElements(null, null).size() == 0;
-  		if(removeEmpty && didNotFindAnyChildren)
-  			unsetAnnotation();
+  		if(removeEmpty && didNotFindAnyChildren) {
+  			getAnnotation().unsetNonRDFannotation();
+  			if(getAnnotation().isEmpty()) {
+  				unsetAnnotation();
+  			}
+  		}
 
   		return hasBeenRemoved;
   	}
@@ -2421,7 +2426,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   		}
   		return replaceTopLevelAnnotationElement(converted.getChildElement("*", "*"));
   	}
-  	else return false;
+  	return false;
   }
 
   /*
