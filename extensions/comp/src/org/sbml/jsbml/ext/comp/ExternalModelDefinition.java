@@ -493,19 +493,33 @@ public class ExternalModelDefinition extends AbstractNamedSBase
   }
   
   /**
-   * TODO: heavily WIP (this is a mess)
-   * Resolves the external {@link Model} referenced by this
+   * TODO: Add method getReferenceModel(URL urlToReferent)? Would be the corresponding method but for URLs,
+   * to handle chain-references mixing URLs and relative Paths
+   * 
+   * Resolves the external {@link Model} referenced by this and returns that model.
    * @param pathToLocal the absolute path to the directory containing the .sbml/xml-file wherein 
    *   this has been specified (needed to resolve local references)
    * @return The referenced {@link Model}
    * @throws IOException if the source cannot be found/resolved
    * @throws XMLStreamException if the file at source is not a valid SBMLDocument.
+   * @throws URISyntaxException 
    */
-  public Model getReferencedModel(String pathToLocal) throws XMLStreamException, IOException {
-  	// TODO: Handle URN, URL, Paths: How can this object access the local path of the 
-  	// sbml-file whence it was read?
-  	getSBMLDocument(); // This object need not have a path associated with it.
-  	SBMLDocument externalFile = new org.sbml.jsbml.SBMLReader().readSBMLFromFile(pathToLocal + source);
+  public Model getReferencedModel(String pathToLocal) throws XMLStreamException, IOException, URISyntaxException {
+  	File sourceFile;
+  	try {
+  		URL sourceUrl = new URL(source);
+  		sourceFile = new File(sourceUrl.toURI());
+  	} catch (MalformedURLException e) {
+  		StringBuilder workingPath = new StringBuilder();
+  		if(! new File(source).isAbsolute()) {
+    		workingPath.append(pathToLocal);
+    		workingPath.append(pathToLocal.endsWith("\\") ? "" : "\\");
+    	}
+    	workingPath.append(source);
+    	sourceFile = new File(workingPath.toString());
+  	}
+  	// TODO: Handle URN?
+  	SBMLDocument externalFile = new org.sbml.jsbml.SBMLReader().readSBML(sourceFile);
   	
   	// The referenced model can be the main model of the referenced File (comp-documentation page 14)
   	if (externalFile.getModel().getId().equals(modelRef)) {
@@ -517,15 +531,20 @@ public class ExternalModelDefinition extends AbstractNamedSBase
   		ExternalModelDefinition nextLayer = externalFileCompPlugin.getExternalModelDefinition(modelRef);
   		
   		if(localModelDefinition != null) {
-  			return localModelDefinition; // .getModel();
+  			return localModelDefinition;
   			
   		} else if(nextLayer != null) {
   			// This is allowed by the specification: This ExternalModelDefinition may reference an 
   			// ExternalModelDefinition in the source; which may again reference an External definition.
   			// As by the specification, no loops are allowed (so they are not checked for here)
   			return nextLayer.getReferencedModel(pathToLocal);
-  			// TODO: This path may be insufficient for the referenced (if local/file.xml references local/sub/other.xml, 
-  			// from other.xml, local/sub is the parent directory)
+  			/* 
+  			 * TODO: This path may be insufficient for the referenced (if local/file.xml references local/sub/other.xml, 
+  			 * from other.xml, local/sub is the parent directory)
+  			 * Also: Mixing of URL and relative Paths is not forbidden by specification (but neither is mixing of 
+  			 * URN with relative Paths, which makes very little sense) ['mixing' here meaning: local/file.xml references
+  			 * other.xml via URL/URN, but other.xml references yetanother.xml by relative path]
+				 */
   		}
   	}
   	return null;
