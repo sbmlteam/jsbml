@@ -40,7 +40,7 @@ import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
 import org.sbml.jsbml.ext.comp.ExternalModelDefinition;
 
 public class TestExternalModelDefinition {
-
+  
   private void assertModelsEqual(Model expected, Model observed) {
     assertEquals(expected, observed);
     assertEquals(expected.getSpeciesCount(), observed.getSpeciesCount());
