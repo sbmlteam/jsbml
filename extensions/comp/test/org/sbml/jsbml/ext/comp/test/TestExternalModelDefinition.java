@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -44,7 +45,7 @@ public class TestExternalModelDefinition {
 	 * @throws IOException
 	 */
 	@Test
-	public void testGetReferencedModel_relativPath() throws URISyntaxException, XMLStreamException, IOException {
+	public void testGetReferencedModel_relativePath() throws URISyntaxException, XMLStreamException, IOException {
 		ClassLoader cl = this.getClass().getClassLoader();
 		URL urlExpectation = cl.getResource("testGathering/spec_example1.xml");
 		// 'spec_example2' references ...1 by relative path 
@@ -59,7 +60,7 @@ public class TestExternalModelDefinition {
 		assert expectation != null;
 		assert file != null;
 		
-		String absolutePath = file.getPath();
+		String absolutePath = urlFile.toURI().toString();
 		absolutePath = absolutePath.substring(0, absolutePath.length() - "spec_example2.xml".length());
 		
 		SBMLReader reader = new SBMLReader();
@@ -68,7 +69,7 @@ public class TestExternalModelDefinition {
 		
 		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
 		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
-		Model referenced = externalModel.getReferencedModel(absolutePath);
+		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		
 		assertModelsEqual(expectedModelDefinition, referenced);		
 	}
@@ -95,7 +96,7 @@ public class TestExternalModelDefinition {
 		assert expectation != null;
 		assert file != null;
 		
-		String absolutePath = file.getPath();
+		String absolutePath = urlFile.toURI().toString();
 		absolutePath = absolutePath.substring(0, absolutePath.length() - "spec_example2.xml".length());
 		
 		SBMLReader reader = new SBMLReader();
@@ -106,9 +107,9 @@ public class TestExternalModelDefinition {
 		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
 
 		// Set the source to an absolute Path
-		externalModel.setSource(absolutePath + "spec_example1.xml");
+		externalModel.setSource(absolutePath.substring(6) + "spec_example1.xml");
 		
-		Model referenced = externalModel.getReferencedModel(absolutePath);
+		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		
 		assertModelsEqual(expectedModelDefinition, referenced);
 	}
@@ -136,7 +137,7 @@ public class TestExternalModelDefinition {
 		assert expectation != null;
 		assert file != null;
 		
-		String absolutePath = file.getPath();
+		String absolutePath = urlFile.toURI().toString();
 		absolutePath = absolutePath.substring(0, absolutePath.length() - "spec_example2.xml".length());
 		
 		SBMLReader reader = new SBMLReader();
@@ -149,7 +150,7 @@ public class TestExternalModelDefinition {
 		// Set the source to a URL
 		externalModel.setSource(urlExpectation.toString());
 		
-		Model referenced = externalModel.getReferencedModel(absolutePath);
+		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		
 		assertModelsEqual(expectedModelDefinition, referenced);
 	}
@@ -176,7 +177,7 @@ public class TestExternalModelDefinition {
 		assert expectation != null;
 		assert file != null;
 		
-		String absolutePath = file.getPath();
+		String absolutePath = urlFile.toURI().toString();
 		absolutePath = absolutePath.substring(0, absolutePath.length() - "references_main_model.xml".length());
 		
 		SBMLReader reader = new SBMLReader();
@@ -186,17 +187,17 @@ public class TestExternalModelDefinition {
 		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
 		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
 
-		Model referenced = externalModel.getReferencedModel(absolutePath);
+		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		assertModelsEqual(expectedModel, referenced);
 	
 		// Set the source to an absolute Path
 		externalModel.setSource(absolutePath + "main_model_to_be_referenced.xml");
-		referenced = externalModel.getReferencedModel(absolutePath);
+		referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		assertModelsEqual(expectedModel, referenced);
 		
 		// Set the source to a URL
 		externalModel.setSource(urlExpectation.toString());
-		referenced = externalModel.getReferencedModel(absolutePath);
+		referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		assertModelsEqual(expectedModel, referenced);
 	}
 	
@@ -223,7 +224,7 @@ public class TestExternalModelDefinition {
 		assert expectation != null;
 		assert file != null;
 		
-		String absolutePath = file.getPath();
+		String absolutePath = urlFile.toURI().toString();
 		absolutePath = absolutePath.substring(0, absolutePath.length() - "chain_reference_head.xml".length());
 		
 		SBMLReader reader = new SBMLReader();
@@ -233,17 +234,17 @@ public class TestExternalModelDefinition {
 		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
 		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
 
-		Model referenced = externalModel.getReferencedModel(absolutePath);
+		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		assertModelsEqual(expectedModelDefinition, referenced);
 	
 		// Set the source to an absolute Path
 		externalModel.setSource(absolutePath + "chain_reference_intermediate1.xml");
-		referenced = externalModel.getReferencedModel(absolutePath);
+		referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		assertModelsEqual(expectedModelDefinition, referenced);
 		
 		// Set the source to a URL
 		externalModel.setSource(cl.getResource("testGathering/chain_reference_intermediate1.xml").toString());
-		referenced = externalModel.getReferencedModel(absolutePath);
+		referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		assertModelsEqual(expectedModelDefinition, referenced);
 	}
 	
@@ -259,7 +260,7 @@ public class TestExternalModelDefinition {
 		ClassLoader cl = this.getClass().getClassLoader();
 		URL urlExpectation = cl.getResource("testGathering/somewhere_else/hidden_spec_example1.xml");
 	  URL urlFile = cl.getResource("testGathering/chain_reference_different_directory.xml");
-	
+	  
 		assert urlExpectation != null;
 		assert urlFile != null;
 		
@@ -269,7 +270,7 @@ public class TestExternalModelDefinition {
 		assert expectation != null;
 		assert file != null;
 		
-		String absolutePath = file.getPath();
+		String absolutePath = urlFile.toURI().toString();
 		absolutePath = absolutePath.substring(0, absolutePath.length() - "chain_reference_different_directory.xml".length());
 		
 		SBMLReader reader = new SBMLReader();
@@ -279,17 +280,20 @@ public class TestExternalModelDefinition {
 		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
 		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
 
-		Model referenced = externalModel.getReferencedModel(absolutePath);
+		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		assertModelsEqual(expectedModelDefinition, referenced);
 	
 		// Set the source to an absolute Path
 		externalModel.setSource(absolutePath + "somewhere_else/chain_reference_intermediate.xml");
-		referenced = externalModel.getReferencedModel(absolutePath);
+		referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		assertModelsEqual(expectedModelDefinition, referenced);
 		
 		// Set the source to a URL
 		externalModel.setSource(cl.getResource("testGathering/somewhere_else/chain_reference_intermediate.xml").toString());
-		referenced = externalModel.getReferencedModel(absolutePath);
+		referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		assertModelsEqual(expectedModelDefinition, referenced);
 	}
+	
+	// TODO: test behaviour for actual online-URL
+	// TODO: test behaviour for relative URI using ../..
 }

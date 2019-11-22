@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.comp;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
@@ -456,31 +457,39 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   }
   
   /**
-   * TODO: Add method getReferenceModel(URL urlToReferent)? Would be the corresponding method but for URLs,
-   * to handle chain-references mixing URLs and relative Paths
+   * TODO: Add method getReferenceModel(), that tries to access the URI of the current document; might need to change 
+   * reading of SBases (at least comp-ones).
    * 
    * Resolves the external {@link Model} referenced by this and returns that model.
-   * @param pathToLocal the absolute path to the directory containing the .sbml/xml-file wherein 
-   *   this has been specified (needed to resolve local references)
+   * @param absoluteContainingURI absolute URI to the directory containing the file that defines this 
+   *   (needed to resolve local references)
    * @return The referenced {@link Model}
    * @throws IOException if the source cannot be found/resolved
    * @throws XMLStreamException if the file at source is not a valid SBMLDocument.
    * @throws URISyntaxException 
    */
-  public Model getReferencedModel(String pathToLocal) throws XMLStreamException, IOException, URISyntaxException {
+  public Model getReferencedModel(URI absoluteContainingURI) throws XMLStreamException, IOException, URISyntaxException {
   	File sourceFile;
+  	String sourceURIString;
+  	URI sourceURI;
   	try {
   		URL sourceUrl = new URL(source);
-  		sourceFile = new File(sourceUrl.toURI());
+  		sourceURI = sourceUrl.toURI();
+  		sourceFile = new File(sourceURI); //TODO: properly read from URL, if not starting with "file:"
   	} catch (MalformedURLException e) {
-  		StringBuilder workingPath = new StringBuilder();
+  		StringBuilder workingURI = new StringBuilder();
   		if(! new File(source).isAbsolute()) {
-    		workingPath.append(pathToLocal);
-    		workingPath.append(pathToLocal.endsWith("\\") ? "" : "\\");
-    	}
-    	workingPath.append(source);
-    	sourceFile = new File(workingPath.toString());
+  			workingURI.append(absoluteContainingURI);
+  			workingURI.append(absoluteContainingURI.toString().endsWith("/") ? "" : "/");
+  		} else {
+  			workingURI.append("file:/");
+  		}
+  		workingURI.append(source);
+  		sourceURI = new URI(workingURI.toString());
+    	sourceFile = new File(sourceURI);
   	}
+  	sourceURIString = sourceURI.toString();
+  	  	
   	// TODO: Handle URN?
   	SBMLDocument externalFile = new org.sbml.jsbml.SBMLReader().readSBML(sourceFile);
   	
@@ -497,20 +506,21 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   			return localModelDefinition;
   			
   		} else if(nextLayer != null) {
-  			// This is allowed by the specification: This ExternalModelDefinition may reference an 
+  			// Allowed by the specification: This ExternalModelDefinition may reference an 
   			// ExternalModelDefinition in the source; which may again reference an External definition.
   			// As by the specification, no loops are allowed (so they are not checked for here)
-  			return nextLayer.getReferencedModel(pathToLocal);
-  			/* 
-  			 * TODO: This path may be insufficient for the referenced (if local/file.xml references local/sub/other.xml, 
-  			 * from other.xml, local/sub is the parent directory)
-  			 * Also: Mixing of URL and relative Paths is not forbidden by specification (but neither is mixing of 
-  			 * URN with relative Paths, which makes very little sense) ['mixing' here meaning: local/file.xml references
-  			 * other.xml via URL/URN, but other.xml references yetanother.xml by relative path]
-				 */
+
+  			// The source may be at an entirely different location OR at a location relative to the current one
+  			if(!sourceURIString.startsWith(absoluteContainingURI.toString()) ||
+  					sourceURIString.substring(absoluteContainingURI.toString().length()).indexOf("/") != -1) {
+  				
+  				return nextLayer.getReferencedModel(new URI(sourceURIString.substring(0, sourceURIString.lastIndexOf("/"))));
+  			} else {
+  				// Or just the current one
+  				return nextLayer.getReferencedModel(absoluteContainingURI);
+  			}
   		}
   	}
   	return null;
   }
-
 }
