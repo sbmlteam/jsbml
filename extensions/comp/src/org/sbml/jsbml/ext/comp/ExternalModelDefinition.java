@@ -21,6 +21,8 @@ package org.sbml.jsbml.ext.comp;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,7 +31,9 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
@@ -48,6 +52,11 @@ import org.sbml.jsbml.util.SubModel;
  */
 public class ExternalModelDefinition extends AbstractNamedSBase implements UniqueNamedSBase {
 
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final transient Logger logger = Logger.getLogger(Creator.class);
+	
   /**
    * Generated serial version identifier.
    */
@@ -469,13 +478,22 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
    * @throws URISyntaxException 
    */
   public Model getReferencedModel(URI absoluteContainingURI) throws XMLStreamException, IOException, URISyntaxException {
-  	File sourceFile;
   	String sourceURIString;
   	URI sourceURI;
+  	SBMLDocument externalFile;
   	try {
   		URL sourceUrl = new URL(source);
   		sourceURI = sourceUrl.toURI();
-  		sourceFile = new File(sourceURI); //TODO: properly read from URL, if not starting with "file:"
+  		if(sourceUrl.getProtocol().equals("file")) {
+    		//TODO: properly read from URL, if not starting with "file:"
+    		externalFile = org.sbml.jsbml.SBMLReader.read(new File(sourceURI));
+  		} else {
+  			logger.info("externalModelDefinition " + getId() + " points to an online-resource. Trying to open connection to: " + source);
+  			InputStream stream = sourceUrl.openStream();
+  			externalFile = org.sbml.jsbml.SBMLReader.read(stream);
+  			logger.info("Successfully read online source of externalModelDefinition " + getId());
+  		}
+  		
   	} catch (MalformedURLException e) {
   		StringBuilder workingURI = new StringBuilder();
   		if(! new File(source).isAbsolute()) {
@@ -486,12 +504,11 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   		}
   		workingURI.append(source);
   		sourceURI = new URI(workingURI.toString());
-    	sourceFile = new File(sourceURI);
+    	externalFile = org.sbml.jsbml.SBMLReader.read(new File(sourceURI));
   	}
   	sourceURIString = sourceURI.toString();
   	  	
   	// TODO: Handle URN?
-  	SBMLDocument externalFile = new org.sbml.jsbml.SBMLReader().readSBML(sourceFile);
   	
   	// The referenced model can be the main model of the referenced File (comp-documentation page 14)
   	if (externalFile.getModel().getId().equals(modelRef)) {
