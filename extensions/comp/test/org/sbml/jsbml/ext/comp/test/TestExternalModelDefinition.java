@@ -220,7 +220,26 @@ public class TestExternalModelDefinition {
 	}
 	
 	/**
+	 * Tests behaviour for relative paths using .. (parent directory)
+	 * @throws URISyntaxException
+	 * @throws XMLStreamException
+	 * @throws IOException
+	 */
+	@Test
+	public void testGetReferencedModel_outwardRelative() throws URISyntaxException, XMLStreamException, IOException {
+  	// The online-file is the same as this one, but in the github repo
+		setUpExpectation("testGathering/spec_example1.xml"); 
+	  setUpExternalModelDefinition("testGathering/somewhere_else/", "outward_relative_path.xml", "ExtMod1");
+		
+		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
+		assertModelsEqual(expectedModel, referenced);
+	}
+	
+	/**
 	 * WARNING! This test requires an internet connection
+	 * Tests behaviour for a model that references a model on the internet (which already contains the desired 
+	 * definition)
+	 * 
 	 * @throws URISyntaxException
 	 * @throws XMLStreamException
 	 * @throws IOException
@@ -234,7 +253,40 @@ public class TestExternalModelDefinition {
 		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		assertModelsEqual(expectedModel, referenced);
 	}
-	// TODO: test behaviour for actual online-URL combined with chain reference 
-	// and online-URL combined with relative Paths
-	// TODO: test behaviour for relative URI using ../..
+	
+	/**
+	 * WARNING! This test requires an internet connection
+	 * Tests behaviour for a reference to an online model that references another model by relative path
+	 * 
+	 * @throws URISyntaxException
+	 * @throws XMLStreamException
+	 * @throws IOException
+	 */
+	@Test
+	public void testGetReferencedModel_onlineChainAndRelative() throws URISyntaxException, XMLStreamException, IOException {
+  	// The online-file is the same as this one, but in the github repo
+		setUpExpectation("testGathering/somewhere_else/hidden_spec_example1.xml"); 
+	  setUpExternalModelDefinition("testGathering/", "online_chain_and_relative.xml", "ExtMod1");
+		
+		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
+		assertModelsEqual(expectedModel, referenced);
+	}
+	
+	/**
+	 * WARNING! This test requires an internet connection
+	 * Tests behaviour for a reference (https) to an online model that itself references an online model.
+	 * 
+	 * @throws URISyntaxException
+	 * @throws XMLStreamException
+	 * @throws IOException
+	 */
+	@Test
+	public void testGetReferencedModel_onlineChainOnline() throws URISyntaxException, XMLStreamException, IOException {
+  	// The online-file is the same as this one, but in the github repo
+		setUpExpectation("testGathering/spec_example1.xml"); 
+	  setUpExternalModelDefinition("testGathering/", "online_chain_online.xml", "ExtMod1");
+		
+		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
+		assertModelsEqual(expectedModel, referenced);
+	}
 }
