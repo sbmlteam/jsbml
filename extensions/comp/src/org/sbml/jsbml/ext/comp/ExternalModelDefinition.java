@@ -508,7 +508,6 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    *        references): Undefined behaviour for opaque URIs (URNs or other),
    *        resolve URNs before calling this method
    * @return The referenced {@link Model}
-<<<<<<< HEAD
    * @throws IOException
    *         if the source cannot be found/resolved
    * @throws XMLStreamException
