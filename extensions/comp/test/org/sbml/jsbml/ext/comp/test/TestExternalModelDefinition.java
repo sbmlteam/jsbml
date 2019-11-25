@@ -37,6 +37,45 @@ public class TestExternalModelDefinition {
 		}
 	}
 	
+	private ClassLoader cl = this.getClass().getClassLoader();
+	private Model expectedModel;
+	private URL urlExpectation;
+	private ExternalModelDefinition externalModel;
+	private String absolutePath;
+	
+	private void setUpExpectation(String pathFromClassPath) throws URISyntaxException, XMLStreamException, IOException {
+		urlExpectation = cl.getResource(pathFromClassPath);
+		assert urlExpectation != null;
+		File expectation = new File(urlExpectation.toURI());
+		assert expectation != null;
+		expectedModel = ((CompSBMLDocumentPlugin) SBMLReader.read(expectation).getExtension(CompConstants.shortLabel)).getModelDefinition("linked");
+	}
+	
+	/**
+	 * 
+	 * @param pathFromClassPath ending in / or \
+	 * @param fileName
+	 * @param modelId the externalModelDefinition's comp:id-attribute
+	 * @throws URISyntaxException
+	 * @throws XMLStreamException
+	 * @throws IOException
+	 */
+	private void setUpExternalModelDefinition(String pathFromClassPath, String fileName, String modelId) throws URISyntaxException, XMLStreamException, IOException {
+		URL urlFile = cl.getResource(pathFromClassPath + fileName);
+		assert urlFile != null;
+		
+		File file = new File(urlFile.toURI());
+		assert file != null;
+		
+		absolutePath = urlFile.toURI().toString();
+		absolutePath = absolutePath.substring(0, absolutePath.length() - fileName.length());
+		
+		SBMLDocument document = SBMLReader.read(file);
+		
+		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
+		externalModel = compSBMLDocPlugin.getExternalModelDefinition(modelId);
+	}
+	
 	/**
 	 * Checks behaviour when the model references an external model by a relative Path, and the referenced file 
 	 * contains the definition (but not as the main model).
@@ -46,32 +85,12 @@ public class TestExternalModelDefinition {
 	 */
 	@Test
 	public void testGetReferencedModel_relativePath() throws URISyntaxException, XMLStreamException, IOException {
-		ClassLoader cl = this.getClass().getClassLoader();
-		URL urlExpectation = cl.getResource("testGathering/spec_example1.xml");
+		setUpExpectation("testGathering/spec_example1.xml");
 		// 'spec_example2' references ...1 by relative path 
-		URL urlFile = cl.getResource("testGathering/spec_example2.xml");
-	
-		assert urlExpectation != null;
-		assert urlFile != null;
-		
-		File expectation = new File(urlExpectation.toURI());
-		File file = new File(urlFile.toURI());
-		
-		assert expectation != null;
-		assert file != null;
-		
-		String absolutePath = urlFile.toURI().toString();
-		absolutePath = absolutePath.substring(0, absolutePath.length() - "spec_example2.xml".length());
-		
-		SBMLReader reader = new SBMLReader();
-		SBMLDocument document = reader.readSBML(file);
-		ModelDefinition expectedModelDefinition = ((CompSBMLDocumentPlugin) reader.readSBML(expectation).getExtension(CompConstants.shortLabel)).getModelDefinition("linked");
-		
-		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
-		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
+		setUpExternalModelDefinition("testGathering/", "spec_example2.xml", "ExtMod1");
 		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		
-		assertModelsEqual(expectedModelDefinition, referenced);		
+		assertModelsEqual(expectedModel, referenced);		
 	}
 	
 	/**
@@ -83,35 +102,15 @@ public class TestExternalModelDefinition {
 	 */
 	@Test
 	public void testGetReferencedModel_absolutePath() throws URISyntaxException, XMLStreamException, IOException {
-		ClassLoader cl = this.getClass().getClassLoader();
-		URL urlExpectation = cl.getResource("testGathering/spec_example1.xml");
-		URL urlFile = cl.getResource("testGathering/spec_example2.xml");
-	
-		assert urlExpectation != null;
-		assert urlFile != null;
-		
-		File expectation = new File(urlExpectation.toURI());
-		File file = new File(urlFile.toURI());
-		
-		assert expectation != null;
-		assert file != null;
-		
-		String absolutePath = urlFile.toURI().toString();
-		absolutePath = absolutePath.substring(0, absolutePath.length() - "spec_example2.xml".length());
-		
-		SBMLReader reader = new SBMLReader();
-		SBMLDocument document = reader.readSBML(file);
-		ModelDefinition expectedModelDefinition = ((CompSBMLDocumentPlugin) reader.readSBML(expectation).getExtension(CompConstants.shortLabel)).getModelDefinition("linked");
-		
-		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
-		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
+		setUpExpectation("testGathering/spec_example1.xml");
+		setUpExternalModelDefinition("testGathering/", "spec_example2.xml", "ExtMod1");
 
 		// Set the source to an absolute Path
 		externalModel.setSource(absolutePath.substring(6) + "spec_example1.xml");
 		
 		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		
-		assertModelsEqual(expectedModelDefinition, referenced);
+		assertModelsEqual(expectedModel, referenced);
 	}
 	
 	
@@ -124,35 +123,15 @@ public class TestExternalModelDefinition {
 	 */
 	@Test
 	public void testGetReferencedModel_URL() throws URISyntaxException, XMLStreamException, IOException {
-		ClassLoader cl = this.getClass().getClassLoader();
-		URL urlExpectation = cl.getResource("testGathering/spec_example1.xml");
-		URL urlFile = cl.getResource("testGathering/spec_example2.xml");
-	
-		assert urlExpectation != null;
-		assert urlFile != null;
+		setUpExpectation("testGathering/spec_example1.xml");
+		setUpExternalModelDefinition("testGathering/", "spec_example2.xml", "ExtMod1");
 		
-		File expectation = new File(urlExpectation.toURI());
-		File file = new File(urlFile.toURI());
-		
-		assert expectation != null;
-		assert file != null;
-		
-		String absolutePath = urlFile.toURI().toString();
-		absolutePath = absolutePath.substring(0, absolutePath.length() - "spec_example2.xml".length());
-		
-		SBMLReader reader = new SBMLReader();
-		SBMLDocument document = reader.readSBML(file);
-		ModelDefinition expectedModelDefinition = ((CompSBMLDocumentPlugin) reader.readSBML(expectation).getExtension(CompConstants.shortLabel)).getModelDefinition("linked");
-		
-		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
-		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
-
 		// Set the source to a URL
 		externalModel.setSource(urlExpectation.toString());
 		
 		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		
-		assertModelsEqual(expectedModelDefinition, referenced);
+		assertModelsEqual(expectedModel, referenced);
 	}
 	
 	/**
@@ -164,29 +143,15 @@ public class TestExternalModelDefinition {
 	 */
 	@Test
 	public void testGetReferencedModel_mainModel() throws URISyntaxException, XMLStreamException, IOException {
-		ClassLoader cl = this.getClass().getClassLoader();
-		URL urlExpectation = cl.getResource("testGathering/main_model_to_be_referenced.xml");
-		URL urlFile = cl.getResource("testGathering/references_main_model.xml");
-	
-		assert urlExpectation != null;
-		assert urlFile != null;
+		setUpExpectation("testGathering/main_model_to_be_referenced.xml");
+		setUpExternalModelDefinition("testGathering/", "references_main_model.xml", "ExtMod1");
 		
 		File expectation = new File(urlExpectation.toURI());
-		File file = new File(urlFile.toURI());
-		
 		assert expectation != null;
-		assert file != null;
-		
-		String absolutePath = urlFile.toURI().toString();
-		absolutePath = absolutePath.substring(0, absolutePath.length() - "references_main_model.xml".length());
-		
-		SBMLReader reader = new SBMLReader();
-		SBMLDocument document = reader.readSBML(file);
-		Model expectedModel = reader.readSBML(expectation).getModel();
-		
-		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
-		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
 
+		SBMLReader reader = new SBMLReader();
+		expectedModel = reader.readSBML(expectation).getModel();
+		
 		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
 		assertModelsEqual(expectedModel, referenced);
 	
@@ -211,41 +176,21 @@ public class TestExternalModelDefinition {
 	 */
 	@Test
 	public void testGetReferencedModel_chainReference() throws URISyntaxException, XMLStreamException, IOException {
-		ClassLoader cl = this.getClass().getClassLoader();
-		URL urlExpectation = cl.getResource("testGathering/spec_example1.xml");
-		URL urlFile = cl.getResource("testGathering/chain_reference_head.xml");
-	
-		assert urlExpectation != null;
-		assert urlFile != null;
-		
-		File expectation = new File(urlExpectation.toURI());
-		File file = new File(urlFile.toURI());
-		
-		assert expectation != null;
-		assert file != null;
-		
-		String absolutePath = urlFile.toURI().toString();
-		absolutePath = absolutePath.substring(0, absolutePath.length() - "chain_reference_head.xml".length());
-		
-		SBMLReader reader = new SBMLReader();
-		SBMLDocument document = reader.readSBML(file);
-		ModelDefinition expectedModelDefinition = ((CompSBMLDocumentPlugin) reader.readSBML(expectation).getExtension(CompConstants.shortLabel)).getModelDefinition("linked");
-		
-		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
-		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
+		setUpExpectation("testGathering/spec_example1.xml");
+		setUpExternalModelDefinition("testGathering/", "chain_reference_head.xml", "ExtMod1");
 
 		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
-		assertModelsEqual(expectedModelDefinition, referenced);
+		assertModelsEqual(expectedModel, referenced);
 	
 		// Set the source to an absolute Path
 		externalModel.setSource(absolutePath + "chain_reference_intermediate1.xml");
 		referenced = externalModel.getReferencedModel(new URI(absolutePath));
-		assertModelsEqual(expectedModelDefinition, referenced);
+		assertModelsEqual(expectedModel, referenced);
 		
 		// Set the source to a URL
 		externalModel.setSource(cl.getResource("testGathering/chain_reference_intermediate1.xml").toString());
 		referenced = externalModel.getReferencedModel(new URI(absolutePath));
-		assertModelsEqual(expectedModelDefinition, referenced);
+		assertModelsEqual(expectedModel, referenced);
 	}
 	
 	/**
@@ -257,41 +202,21 @@ public class TestExternalModelDefinition {
 	 */
 	@Test
 	public void testGetReferencedModel_differentDirectory() throws URISyntaxException, XMLStreamException, IOException {
-		ClassLoader cl = this.getClass().getClassLoader();
-		URL urlExpectation = cl.getResource("testGathering/somewhere_else/hidden_spec_example1.xml");
-	  URL urlFile = cl.getResource("testGathering/chain_reference_different_directory.xml");
-	  
-		assert urlExpectation != null;
-		assert urlFile != null;
-		
-		File expectation = new File(urlExpectation.toURI());
-		File file = new File(urlFile.toURI());
-		
-		assert expectation != null;
-		assert file != null;
-		
-		String absolutePath = urlFile.toURI().toString();
-		absolutePath = absolutePath.substring(0, absolutePath.length() - "chain_reference_different_directory.xml".length());
-		
-		SBMLReader reader = new SBMLReader();
-		SBMLDocument document = reader.readSBML(file);
-		ModelDefinition expectedModelDefinition = ((CompSBMLDocumentPlugin) reader.readSBML(expectation).getExtension(CompConstants.shortLabel)).getModelDefinition("linked");
-		
-		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
-		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
+		setUpExpectation("testGathering/somewhere_else/hidden_spec_example1.xml");
+	  setUpExternalModelDefinition("testGathering/", "chain_reference_different_directory.xml", "ExtMod1");
 
 		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
-		assertModelsEqual(expectedModelDefinition, referenced);
+		assertModelsEqual(expectedModel, referenced);
 	
 		// Set the source to an absolute Path
 		externalModel.setSource(absolutePath + "somewhere_else/chain_reference_intermediate.xml");
 		referenced = externalModel.getReferencedModel(new URI(absolutePath));
-		assertModelsEqual(expectedModelDefinition, referenced);
+		assertModelsEqual(expectedModel, referenced);
 		
 		// Set the source to a URL
 		externalModel.setSource(cl.getResource("testGathering/somewhere_else/chain_reference_intermediate.xml").toString());
 		referenced = externalModel.getReferencedModel(new URI(absolutePath));
-		assertModelsEqual(expectedModelDefinition, referenced);
+		assertModelsEqual(expectedModel, referenced);
 	}
 	
 	/**
@@ -302,32 +227,12 @@ public class TestExternalModelDefinition {
 	 */
 	@Test
 	public void testGetReferencedModel_simpleOnline() throws URISyntaxException, XMLStreamException, IOException {
-		ClassLoader cl = this.getClass().getClassLoader();
   	// The online-file is the same as this one, but in the github repo
-		URL urlExpectation = cl.getResource("testGathering/spec_example1.xml"); 
-	  URL urlFile = cl.getResource("testGathering/simple_online_url.xml");
-	  
-		assert urlExpectation != null;
-		assert urlFile != null;
+		setUpExpectation("testGathering/spec_example1.xml"); 
+	  setUpExternalModelDefinition("testGathering/", "simple_online_url.xml", "ExtMod1");
 		
-		File expectation = new File(urlExpectation.toURI());
-		File file = new File(urlFile.toURI());
-		
-		assert expectation != null;
-		assert file != null;
-		
-		String absolutePath = urlFile.toURI().toString();
-		absolutePath = absolutePath.substring(0, absolutePath.length() - "simple_online_url.xml".length());
-		
-		SBMLReader reader = new SBMLReader();
-		SBMLDocument document = reader.readSBML(file);
-		ModelDefinition expectedModelDefinition = ((CompSBMLDocumentPlugin) reader.readSBML(expectation).getExtension(CompConstants.shortLabel)).getModelDefinition("linked");
-		
-		CompSBMLDocumentPlugin compSBMLDocPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
-		ExternalModelDefinition externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
-
 		Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
-		assertModelsEqual(expectedModelDefinition, referenced);
+		assertModelsEqual(expectedModel, referenced);
 	}
 	// TODO: test behaviour for actual online-URL combined with chain reference 
 	// and online-URL combined with relative Paths
