@@ -481,31 +481,35 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   	String sourceURIString;
   	URI sourceURI;
   	SBMLDocument externalFile;
+  	String completionOfAbsoluteContainingURI = absoluteContainingURI.toString().endsWith("/") ? "" : "/";
+  	
+  	URL sourceUrl;
   	try {
-  		URL sourceUrl = new URL(source);
-  		sourceURI = sourceUrl.toURI();
-  		if(sourceUrl.getProtocol().equals("file")) {
-    		//TODO: properly read from URL, if not starting with "file:"
-    		externalFile = org.sbml.jsbml.SBMLReader.read(new File(sourceURI));
-  		} else {
-  			logger.info("externalModelDefinition " + getId() + " points to an online-resource. Trying to open connection to: " + source);
-  			InputStream stream = sourceUrl.openStream();
-  			externalFile = org.sbml.jsbml.SBMLReader.read(stream);
-  			logger.info("Successfully read online source of externalModelDefinition " + getId());
-  		}
-  		
+  		// the source itself is a valid URL: do not need absoluteContainingURI
+  		sourceUrl = new URL(new URI(source).toString());
   	} catch (MalformedURLException e) {
+  		// the source itself is not a valid URL: it is relative
   		StringBuilder workingURI = new StringBuilder();
   		if(! new File(source).isAbsolute()) {
   			workingURI.append(absoluteContainingURI);
-  			workingURI.append(absoluteContainingURI.toString().endsWith("/") ? "" : "/");
+  			workingURI.append(completionOfAbsoluteContainingURI);
   		} else {
   			workingURI.append("file:/");
   		}
   		workingURI.append(source);
-  		sourceURI = new URI(workingURI.toString());
-    	externalFile = org.sbml.jsbml.SBMLReader.read(new File(sourceURI));
+  		sourceUrl = new URL(workingURI.toString());
   	}
+  	
+  	sourceURI = sourceUrl.toURI();
+		if(sourceUrl.getProtocol().equals("file")) {
+  		externalFile = org.sbml.jsbml.SBMLReader.read(new File(sourceURI));
+		} else {
+			logger.info("externalModelDefinition " + getId() + " points to an online-resource. Trying to open connection to: " + source);
+			InputStream stream = sourceUrl.openStream();
+			externalFile = org.sbml.jsbml.SBMLReader.read(stream);
+			logger.info("Successfully read online source of externalModelDefinition " + getId());
+		}
+
   	sourceURIString = sourceURI.toString();
   	  	
   	// TODO: Handle URN?
@@ -526,7 +530,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   			// Allowed by the specification: This ExternalModelDefinition may reference an 
   			// ExternalModelDefinition in the source; which may again reference an External definition.
   			// As by the specification, no loops are allowed (so they are not checked for here)
-
+  			
   			// The source may be at an entirely different location OR at a location relative to the current one
   			if(!sourceURIString.startsWith(absoluteContainingURI.toString()) ||
   					sourceURIString.substring(absoluteContainingURI.toString().length()).indexOf("/") != -1) {
