@@ -314,4 +314,64 @@ public class TestExternalModelDefinition {
     Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
     assertModelsEqual(expectedModel, referenced);
   }
+  
+  /**
+   * Tests behaviour of the method getReferencedModel(): Check whether reading of locationURI works and 
+   * is correctly used here.
+   * @throws URISyntaxException
+   * @throws XMLStreamException
+   * @throws IOException
+   */
+  @Test
+  public void testGetReferencedModel_noPath() throws URISyntaxException, XMLStreamException, IOException {
+    setUpExpectation("testGathering/spec_example1.xml");
+    // spec_example2 references spec_example1 by relative path -> SBMLDocument's locationURI is needed.
+    setUpExternalModelDefinition("testGathering/", "spec_example2.xml", "ExtMod1");
+    Model referenced = externalModel.getReferencedModel();
+    assertModelsEqual(expectedModel, referenced);
+  }
+  
+  /**
+   * Warning, requires internet connection
+   * @throws URISyntaxException
+   * @throws XMLStreamException
+   * @throws IOException
+   */
+  @Test
+  public void testGetReferencedModel_noPath_online() throws URISyntaxException, XMLStreamException, IOException {
+    setUpExpectation("testGathering/spec_example1.xml");
+    setUpExternalModelDefinition("testGathering/", "simple_online_url.xml",
+      "ExtMod1");
+    Model referenced = externalModel.getReferencedModel();
+    assertModelsEqual(expectedModel, referenced);
+  }
+  
+  /**
+   * Checks behaviour of getReferencedModel() when the model references an external model in a different
+   * directory
+   * 
+   * @throws URISyntaxException
+   * @throws XMLStreamException
+   * @throws IOException
+   */
+  @Test
+  public void testGetReferencedModel_noPath_differentDirectory()
+    throws URISyntaxException, XMLStreamException, IOException {
+    setUpExpectation("testGathering/somewhere_else/hidden_spec_example1.xml");
+    setUpExternalModelDefinition("testGathering/",
+      "chain_reference_different_directory.xml", "ExtMod1");
+    Model referenced = externalModel.getReferencedModel();
+    assertModelsEqual(expectedModel, referenced);
+    // Set the source to an absolute Path
+    externalModel.setSource(
+      absolutePath + "somewhere_else/chain_reference_intermediate.xml");
+    referenced = externalModel.getReferencedModel();
+    assertModelsEqual(expectedModel, referenced);
+    // Set the source to a URL
+    externalModel.setSource(cl.getResource(
+      "testGathering/somewhere_else/chain_reference_intermediate.xml")
+                              .toString());
+    referenced = externalModel.getReferencedModel();
+    assertModelsEqual(expectedModel, referenced);
+  }
 }

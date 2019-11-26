@@ -496,10 +496,9 @@ public class ExternalModelDefinition extends AbstractNamedSBase
 
 
   /**
-   * TODO: Add method getReferenceModel(), that tries to access the URI of the
-   * current document; might need to change reading of SBases (at least
-   * comp-ones). Resolves the external {@link Model} referenced by this and
-   * returns that model.
+   * Resolves the external {@link Model} referenced by this and
+   * returns that model, for a given path to the directory containing the SBML-file wherein this 
+   * {@link ExternalModelDefinition} was made/the root directory for references by relative paths. 
    * 
    * @param absoluteContainingURI
    *        absolute URI to the directory containing the
@@ -514,6 +513,9 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    */
   public Model getReferencedModel(URI absoluteContainingURI)
     throws XMLStreamException, IOException, URISyntaxException {
+    
+    System.out.println("SBMLDocument: " + getSBMLDocument());
+    
     String sourceURIString;
     URI sourceURI;
     SBMLDocument externalFile;
@@ -544,6 +546,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase
         + source);
       InputStream stream = sourceUrl.openStream();
       externalFile = org.sbml.jsbml.SBMLReader.read(stream);
+      externalFile.getSBMLDocument().setLocationURI(sourceUrl.toURI().toString());
       logger.info("Successfully read online source of externalModelDefinition "
         + getId());
     }
@@ -565,16 +568,11 @@ public class ExternalModelDefinition extends AbstractNamedSBase
         return localModelDefinition;
       } else if (nextLayer != null) {
         // Allowed by the specification: This ExternalModelDefinition may
-        // reference an
-        // ExternalModelDefinition in the source; which may again reference an
-        // External
-        // definition.
-        // As by the specification, no loops are allowed (so they are not
-        // checked for
-        // here)
-        // The source may be at an entirely different location OR at a location
-        // relative
-        // to the current one
+        // reference an ExternalModelDefinition in the source; which may again
+        // reference an External definition. As by the specification, no loops
+        // are allowed (so they are not checked for here) The source may be at
+        // an entirely different location OR at a location relative to the
+        // current one
         if (!sourceURIString.startsWith(absoluteContainingURI.toString())
           || sourceURIString.substring(
             absoluteContainingURI.toString().length()).indexOf("/") != -1) {
@@ -587,5 +585,34 @@ public class ExternalModelDefinition extends AbstractNamedSBase
       }
     }
     return null;
+  }
+  
+  
+  /**
+   * Resolves the external {@link Model} referenced by this and returns that
+   * model, under the assumption that the containing {@link SBMLDocument} a)
+   * exists and b) has a valid locationURI set (cf
+   * {@link SBMLDocument#isSetLocationURI()}). This location of the containing
+   * file is needed to resolve references to external models by relative paths
+   * 
+   * @return the {@link Model} referenced by this
+   * @throws XMLStreamException
+   *         if the file referenced by this is not a valid xml/sbml
+   * @throws IOException
+   *         if the file referenced by this cannot be found
+   * @throws URISyntaxException
+   *         if parent's locationURI is not a valid URI
+   * @throws NullPointerException
+   *         if the parent {@link SBMLDocument}'s locationURI is not set.
+   */
+  public Model getReferencedModel() throws XMLStreamException, IOException, URISyntaxException {
+    if(getSBMLDocument().isSetLocationURI()) {
+      // Cut off the file-name of the containing document here:
+      String absolutePath = getSBMLDocument().getLocationURI().substring(0, getSBMLDocument().getLocationURI().lastIndexOf("/"));
+      return getReferencedModel(new URI(absolutePath));
+    } else {
+      throw new NullPointerException(
+        "The containing model's location is not set. Either set it, or use the getReferencedModel(URI)-variant");
+    }
   }
 }
