@@ -516,6 +516,9 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    */
   public Model getReferencedModel(URI absoluteContainingURI)
     throws XMLStreamException, IOException, URISyntaxException {
+    
+    System.out.println("SBMLDocument: " + getSBMLDocument());
+    
     String sourceURIString;
     URI sourceURI;
     SBMLDocument externalFile;
