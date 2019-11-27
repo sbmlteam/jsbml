@@ -230,6 +230,10 @@ public class SBMLDocument extends AbstractSBase {
     if (enabledPackageMap == null) {
       enabledPackageMap = new HashMap<String, Boolean>();
     }
+    
+    if(locationURI == null) {
+      this.locationURI = sb.getLocationURI();
+    }
 
     // cloning the enabledPackageMap
     for (String namespace : sb.enabledPackageMap.keySet()) {
