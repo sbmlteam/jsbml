@@ -32,7 +32,4 @@
 			</reaction>
 		</listOfReactions>
 	</model>
-	<comp:listOfExternalModelDefinitions>
-		<comp:externalModelDefinition comp:id="ExtMod1" comp:source="spec_example1.xml" comp:modelRef="linked"/>
-	</comp:listOfExternalModelDefinitions>
 </sbml> 

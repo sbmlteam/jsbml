@@ -671,6 +671,61 @@ public class CompFlatteningConverter {
         }
 
     }
+    
+    
+  /**
+   * Collects any {@link ExternalModelDefinition}s that might be contained in
+   * the given {@link SBMLDocument} and transfers them into local
+   * {@link ModelDefinition}s (recursively, if the external models themselves
+   * include external models; in that case, renaming may occur).
+   * <br>
+   * The given {@link SBMLDocument} need have its locationURI set!
+   * 
+   * @param document
+   *        an {@link SBMLDocument}, which might, but need not, contain
+   *        {@link ExternalModelDefinition}s to be transferred into its local
+   *        {@link ModelDefinition}s. The locationURI of the given document need
+   *        be set ({@link SBMLDocument#isSetLocationURI})!
+   * @return a new {@link SBMLDocument} whithout {@link
+   *         ExternalModelDefinition}s, but containing the same information as
+   *         the given one
+   * @throws Exception
+   *         if given document's locationURI is not set. Set it with
+   *         {@link SBMLDocument#setLocationURI}
+   */
+  public static SBMLDocument internaliseExternalModelDefintions(
+    SBMLDocument document) throws Exception {
+    /*
+     * The specification demands that the id of the main Model, all
+     * modelDefinitions and all externalModelDefinitions do not conflict: They
+     * are within the same scope. This does however only apply within the same
+     * SBMLDocument, and need not be true for the combined namespaces of
+     * multiple.
+     */
+    if (!document.isSetLocationURI()) {
+      System.out.println("Location URI is not set: " + document.getLocationURI());
+      throw new Exception(
+        "document's locationURI need be set. But it was not.");
+    }
+    SBMLDocument result = document.clone(); // no side-effects intended
+    CompSBMLDocumentPlugin compSBMLDocumentPlugin =
+      (CompSBMLDocumentPlugin) result.getExtension(CompConstants.shortLabel);
+    
+    // There is nothing to retrieve:
+    if (!compSBMLDocumentPlugin.isSetListOfExternalModelDefinitions()) {
+      return result;
+    } else {
+      for (ExternalModelDefinition emd : compSBMLDocumentPlugin.getListOfExternalModelDefinitions()) {
+        ModelDefinition internalised = new ModelDefinition(emd.getReferencedModel());
+        System.out.print(internalised.getId() + " -> ");
+        internalised.setId(emd.getId()); 
+        System.out.println(internalised.getId());
+        compSBMLDocumentPlugin.addModelDefinition(internalised);
+      }
+      compSBMLDocumentPlugin.unsetListOfExternalModelDefinitions();
+      return result;
+    }
+  }
 
 }
 
