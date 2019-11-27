@@ -679,17 +679,24 @@ public class CompFlatteningConverter {
    * include external models; in that case, renaming may occur).
    * <br>
    * The given {@link SBMLDocument} need have its locationURI set!
+<<<<<<< HEAD
    * <br>
    * Opaque URIs (URNs) will not be dealt with in any defined way, resolve them
    * first (make sure all relevant externalModelDefinitions' source-attributes
    * are URLs or relative paths)
+=======
+>>>>>>> Started implementing collection into Single Document
    * 
    * @param document
    *        an {@link SBMLDocument}, which might, but need not, contain
    *        {@link ExternalModelDefinition}s to be transferred into its local
    *        {@link ModelDefinition}s. The locationURI of the given document need
    *        be set ({@link SBMLDocument#isSetLocationURI})!
+<<<<<<< HEAD
    * @return a new {@link SBMLDocument} without {@link
+=======
+   * @return a new {@link SBMLDocument} whithout {@link
+>>>>>>> Started implementing collection into Single Document
    *         ExternalModelDefinition}s, but containing the same information as
    *         the given one
    * @throws Exception
