@@ -492,6 +492,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase
     return true;
   }
   
+
   /**
    * Resolves the external {@link Model} referenced by this and
    * returns that model, for a given path to the directory containing the
@@ -516,9 +517,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    */
   public Model getReferencedModel(URI absoluteContainingURI)
     throws XMLStreamException, IOException, URISyntaxException {
-    
-    System.out.println("SBMLDocument: " + getSBMLDocument());
-    
+
     String sourceURIString;
     URI sourceURI;
     SBMLDocument externalFile;
@@ -554,6 +553,8 @@ public class ExternalModelDefinition extends AbstractNamedSBase
         externalFileCompPlugin.getExternalModelDefinition(modelRef);
       
       if (localModelDefinition != null) {
+        // TODO: Hacky! See above
+        localModelDefinition.putUserObject("HACKY: Set the SBMLDocument", externalFile);
         return localModelDefinition;
         
       } else if (nextLayer != null) {
