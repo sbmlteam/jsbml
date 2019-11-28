@@ -6,7 +6,10 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.ext.comp.CompConstants;
+import org.sbml.jsbml.ext.comp.CompModelPlugin;
 import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
+import org.sbml.jsbml.ext.comp.ModelDefinition;
+import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.ext.comp.util.CompFlatteningConverter;
 
 import javax.xml.stream.XMLStreamException;
@@ -142,8 +145,43 @@ public class CompFlattenTest {
 
   // TODO: check recursion/chain reference
   
+  private void printSubmodelInfo(SBMLDocument doc) {
+    System.out.println("\nDOC overview:");
+    CompSBMLDocumentPlugin docPlugin =
+      (CompSBMLDocumentPlugin) doc.getExtension(CompConstants.shortLabel);
+    for (ModelDefinition md : docPlugin.getListOfModelDefinitions()) {
+      System.out.print(md);
+      CompModelPlugin cmp =
+        (CompModelPlugin) md.getExtension(CompConstants.shortLabel);
+      System.out.println(" -> " + cmp);
+      if (cmp != null) {
+        for (Submodel sm : cmp.getListOfSubmodels()) {
+          System.out.println("\t" + sm);
+          System.out.println(
+            "\t" + docPlugin.getModelDefinition(sm.getModelRef()));
+        }
+      } else {
+        System.out.println();
+      }
+    }
+  }
   
   @Test
+  public void testInternaliseExternalModelDefinitions_simpleChain()
+    throws Exception {
+    setUpOriginalAndExpected("testGathering/internalise_simple_chain_head.xml",
+      "testGathering/single_files/internalise_simple_chain_single.xml");
+    printSubmodelInfo(expected);
+    SBMLDocument result =
+        CompFlatteningConverter.internaliseExternalModelDefintions(original);
+    printSubmodelInfo(result);
+    assertEquals(expected, result);
+    assertTrue(equalCompPlugin(expected, result));
+  }
+  
+  
+  
+  // @Test
   public void testAllData() {
     ClassLoader cl = this.getClass().getClassLoader();
     for (int i = 1; i < 62; i++) {
@@ -157,7 +195,7 @@ public class CompFlattenTest {
   }
 
 
-  @Test
+  // @Test
   public void testSpecificFile() {
     int i = 6;
     ClassLoader cl = this.getClass().getClassLoader();

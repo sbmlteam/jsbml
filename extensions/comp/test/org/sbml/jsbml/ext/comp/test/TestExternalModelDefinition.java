@@ -47,9 +47,14 @@ public class TestExternalModelDefinition {
     assert urlExpectation != null;
     File expectation = new File(urlExpectation.toURI());
     assert expectation != null;
-    expectedModel =
-      ((CompSBMLDocumentPlugin) SBMLReader.read(expectation).getExtension(
-        CompConstants.shortLabel)).getModelDefinition("linked");
+    try {
+      expectedModel =
+        ((CompSBMLDocumentPlugin) SBMLReader.read(expectation).getExtension(
+          CompConstants.shortLabel)).getModelDefinition("linked");
+    } catch (NullPointerException e) {
+      // No 'linked' modelDefinition --> assume that the test calling this will take care of this.
+      expectedModel = null;
+    }
   }
 
 
@@ -372,6 +377,26 @@ public class TestExternalModelDefinition {
       "testGathering/somewhere_else/chain_reference_intermediate.xml")
                               .toString());
     referenced = externalModel.getReferencedModel();
+    assertModelsEqual(expectedModel, referenced);
+  }
+  
+  /**
+   * Checks behaviour when the model references an external model by a relative
+   * Path, and the referenced file contains the definition (but not as the main
+   * model).
+   * 
+   * @throws URISyntaxException
+   * @throws XMLStreamException
+   * @throws IOException
+   */
+  @Test
+  public void testGetReferencedSBMLDocument_relativePath()
+    throws URISyntaxException, XMLStreamException, IOException {
+    setUpExpectation("testGathering/spec_example1.xml");
+    // 'spec_example2' references ...1 by relative path
+    setUpExternalModelDefinition("testGathering/", "spec_example2.xml",
+      "ExtMod1");
+    Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
     assertModelsEqual(expectedModel, referenced);
   }
 }

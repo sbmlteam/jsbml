@@ -494,11 +494,15 @@ public class ExternalModelDefinition extends AbstractNamedSBase
     return true;
   }
 
-
   /**
    * Resolves the external {@link Model} referenced by this and
-   * returns that model, for a given path to the directory containing the SBML-file wherein this 
-   * {@link ExternalModelDefinition} was made/the root directory for references by relative paths. 
+   * returns that model, for a given path to the directory containing the
+   * SBML-file wherein this
+   * {@link ExternalModelDefinition} was made/the root directory for references
+   * by relative paths.
+   * <br>
+   * The referenced {@link Model} is not modified and may thus contain
+   * {@link Submodel}s referencing further (external) {@link ModelDefinition}s.
    * 
    * @param absoluteContainingURI
    *        absolute URI to the directory containing the
@@ -512,7 +516,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    * @throws URISyntaxException
    */
   public Model getReferencedModel(URI absoluteContainingURI)
-    throws XMLStreamException, IOException, URISyntaxException {    
+    throws XMLStreamException, IOException, URISyntaxException {
     String sourceURIString;
     URI sourceURI;
     SBMLDocument externalFile;
@@ -552,7 +556,10 @@ public class ExternalModelDefinition extends AbstractNamedSBase
     // The referenced model can be the main model of the referenced File
     // (comp-documentation page 14)
     if (externalFile.getModel().getId().equals(modelRef)) {
-      return externalFile.getModel().clone(); // TODO: clone here?
+      Model result = externalFile.getModel().clone();
+      // TODO: Hacky! This is bad, but getSBMLDocument does not work/setSBMLDocument is not allowed
+      result.putUserObject("HACKY: Set the SBMLDocument", externalFile);
+      return result;
     } else if (externalFile.isPackageEnabled(CompConstants.shortLabel)) {
       CompSBMLDocumentPlugin externalFileCompPlugin =
         (CompSBMLDocumentPlugin) externalFile.getExtension(
@@ -561,22 +568,27 @@ public class ExternalModelDefinition extends AbstractNamedSBase
         externalFileCompPlugin.getModelDefinition(modelRef);
       ExternalModelDefinition nextLayer =
         externalFileCompPlugin.getExternalModelDefinition(modelRef);
+      
       if (localModelDefinition != null) {
+        // TODO: Hacky! See above
+        localModelDefinition.putUserObject("HACKY: Set the SBMLDocument", externalFile);
         return localModelDefinition;
+        
       } else if (nextLayer != null) {
         // Allowed by the specification: This ExternalModelDefinition may
         // reference an ExternalModelDefinition in the source; which may again
         // reference an External definition. As by the specification, no loops
-        // are allowed (so they are not checked for here) The source may be at
-        // an entirely different location OR at a location relative to the
-        // current one
+        // are allowed (so they are not checked for here) 
+        // The source may be at an entirely different location OR at a location
+        // relative to the current one
         if (!sourceURIString.startsWith(absoluteContainingURI.toString())
           || sourceURIString.substring(
             absoluteContainingURI.toString().length()).indexOf("/") != -1) {
           return nextLayer.getReferencedModel(new URI(
             sourceURIString.substring(0, sourceURIString.lastIndexOf("/"))));
+          
+        // Or just the current one
         } else {
-          // Or just the current one
           return nextLayer.getReferencedModel(absoluteContainingURI);
         }
       }
@@ -591,6 +603,9 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    * exists and b) has a valid locationURI set (cf
    * {@link SBMLDocument#isSetLocationURI()}). This location of the containing
    * file is needed to resolve references to external models by relative paths
+   * <br>
+   * The referenced {@link Model} is not modified and may thus contain
+   * {@link Submodel}s referencing further (external) {@link ModelDefinition}s.
    * 
    * @return the {@link Model} referenced by this
    * @throws XMLStreamException

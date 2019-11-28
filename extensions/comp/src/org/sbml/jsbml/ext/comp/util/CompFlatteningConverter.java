@@ -703,7 +703,7 @@ public class CompFlatteningConverter {
      * multiple.
      */
     if (!document.isSetLocationURI()) {
-      System.out.println("Location URI is not set: " + document.getLocationURI());
+      LOGGER.warning("Location URI is not set: " + document);
       throw new Exception(
         "document's locationURI need be set. But it was not.");
     }
@@ -717,9 +717,28 @@ public class CompFlatteningConverter {
     } else {
       for (ExternalModelDefinition emd : compSBMLDocumentPlugin.getListOfExternalModelDefinitions()) {
         ModelDefinition internalised = new ModelDefinition(emd.getReferencedModel());
-        System.out.print(internalised.getId() + " -> ");
         internalised.setId(emd.getId()); 
-        System.out.println(internalised.getId());
+        
+        SBMLDocument referencedDocument = internalised.getSBMLDocument();
+        // TODO: would like to use this to resolve any Submodels of internalised.
+        // TODO: Hacky 'solution'! See ExternalModelDefinition.getReferencedModel(String)
+        referencedDocument = (SBMLDocument) internalised.getUserObject("HACKY: Set the SBMLDocument");
+        CompModelPlugin notYetInternalisedModelPlugin =
+          (CompModelPlugin) internalised.getExtension(CompConstants.shortLabel);
+        if (notYetInternalisedModelPlugin != null) {
+          for (Submodel sm : notYetInternalisedModelPlugin.getListOfSubmodels()) {
+            System.out.println(sm);
+            /*
+             * TODO: actually resolve this submodel:
+             * Needs a rename (because it didn't previously share its namespace
+             * with the elements it will now. Any external Model referenced by
+             * the submodel needs be resolved and internalised! (and same
+             * recursively)
+             */
+          }
+        }
+        
+        
         compSBMLDocumentPlugin.addModelDefinition(internalised);
       }
       compSBMLDocumentPlugin.unsetListOfExternalModelDefinitions();
