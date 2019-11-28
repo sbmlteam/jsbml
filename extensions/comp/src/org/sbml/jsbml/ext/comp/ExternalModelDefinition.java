@@ -553,8 +553,6 @@ public class ExternalModelDefinition extends AbstractNamedSBase
         externalFileCompPlugin.getExternalModelDefinition(modelRef);
       
       if (localModelDefinition != null) {
-        // TODO: Hacky! See above
-        localModelDefinition.putUserObject("HACKY: Set the SBMLDocument", externalFile);
         return localModelDefinition;
         
       } else if (nextLayer != null) {
