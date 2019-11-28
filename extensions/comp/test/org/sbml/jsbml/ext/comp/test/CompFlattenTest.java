@@ -47,6 +47,7 @@ public class CompFlattenTest {
   private void setUpOriginalAndExpected(String pathOriginal,
     String pathExpected)
     throws URISyntaxException, XMLStreamException, IOException {
+    LOGGER.info("Setting up " + pathOriginal + " [exp: " + pathExpected + "]");;
     URL urlOriginal = classLoader.getResource(pathOriginal);
     URL urlExpected = classLoader.getResource(pathExpected);
     assert urlOriginal != null;
@@ -64,10 +65,13 @@ public class CompFlattenTest {
     CompSBMLDocumentPlugin actualPlugin = (CompSBMLDocumentPlugin) actual.getExtension(CompConstants.shortLabel);
     return expectedPlugin.equals(actualPlugin);
   }
+
+  
+  
   
   /**
    * Tests behaviour of
-   * {@link CompFlatteningConverter#internaliseExternalModelDefintions(SBMLDocument)}
+   * {@link CompFlatteningConverter#internaliseExternalModelDefinitions(SBMLDocument)}
    * for an {@link SBMLDocument} without any {@link ExternalModelDefinition}s
    * (trivial case).
    * @throws Exception 
@@ -77,7 +81,7 @@ public class CompFlattenTest {
     throws Exception {
     setUpOriginalAndExpected("testGathering/spec_example1.xml", "testGathering/spec_example1.xml");
     SBMLDocument result =
-      CompFlatteningConverter.internaliseExternalModelDefintions(original);
+      CompFlatteningConverter.internaliseExternalModelDefinitions(original);
     assertEquals(original, result);
     assertFalse(((CompSBMLDocumentPlugin) result.getExtension(
       CompConstants.shortLabel)).isSetListOfExternalModelDefinitions());
@@ -87,7 +91,7 @@ public class CompFlattenTest {
 
   /**
    * Tests behaviour of
-   * {@link CompFlatteningConverter#internaliseExternalModelDefintions(SBMLDocument)}
+   * {@link CompFlatteningConverter#internaliseExternalModelDefinitions(SBMLDocument)}
    * for an {@link SBMLDocument} with a single {@link ExternalModelDefinition},
    * that leads directly to a {@link ModelDefinition}.
    * @throws Exception 
@@ -99,14 +103,14 @@ public class CompFlattenTest {
     setUpOriginalAndExpected("testGathering/spec_example2.xml",
       "testGathering/single_files/spec_example2_single.xml");
     SBMLDocument result =
-      CompFlatteningConverter.internaliseExternalModelDefintions(original);
+      CompFlatteningConverter.internaliseExternalModelDefinitions(original);
     assertEquals(expected, result);
     assertTrue(equalCompPlugin(expected, result));
   }
   
   /**
    * Tests behaviour of
-   * {@link CompFlatteningConverter#internaliseExternalModelDefintions(SBMLDocument)}
+   * {@link CompFlatteningConverter#internaliseExternalModelDefinitions(SBMLDocument)}
    * for an {@link SBMLDocument} with a single {@link ExternalModelDefinition},
    * that references another file's main {@link Model}.
    * @throws Exception 
@@ -118,7 +122,7 @@ public class CompFlattenTest {
     setUpOriginalAndExpected("testGathering/references_main_model.xml",
       "testGathering/single_files/references_main_model_single.xml");
     SBMLDocument result =
-      CompFlatteningConverter.internaliseExternalModelDefintions(original);
+      CompFlatteningConverter.internaliseExternalModelDefinitions(original);
     assertEquals(expected, result);
     assertTrue(equalCompPlugin(expected, result));
   }
@@ -126,7 +130,7 @@ public class CompFlattenTest {
   
   /**
    * Tests behaviour of
-   * {@link CompFlatteningConverter#internaliseExternalModelDefintions(SBMLDocument)}
+   * {@link CompFlatteningConverter#internaliseExternalModelDefinitions(SBMLDocument)}
    * for an {@link SBMLDocument} with a single {@link ExternalModelDefinition}
    * that references another file, and a local {@link ModelDefinition},
    * @throws Exception 
@@ -138,7 +142,7 @@ public class CompFlattenTest {
     setUpOriginalAndExpected("testGathering/has_external_and_local.xml",
       "testGathering/single_files/has_external_and_local_single.xml");
     SBMLDocument result =
-      CompFlatteningConverter.internaliseExternalModelDefintions(original);
+      CompFlatteningConverter.internaliseExternalModelDefinitions(original);
     assertEquals(expected, result);
     assertTrue(equalCompPlugin(expected, result));
   }
@@ -171,10 +175,10 @@ public class CompFlattenTest {
     throws Exception {
     setUpOriginalAndExpected("testGathering/internalise_simple_chain_head.xml",
       "testGathering/single_files/internalise_simple_chain_single.xml");
-    printSubmodelInfo(expected);
+    // printSubmodelInfo(expected);
     SBMLDocument result =
-        CompFlatteningConverter.internaliseExternalModelDefintions(original);
-    printSubmodelInfo(result);
+        CompFlatteningConverter.internaliseExternalModelDefinitions(original);
+    // printSubmodelInfo(result);
     assertEquals(expected, result);
     assertTrue(equalCompPlugin(expected, result));
   }

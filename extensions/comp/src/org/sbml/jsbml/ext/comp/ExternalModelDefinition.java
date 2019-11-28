@@ -556,10 +556,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase
     // The referenced model can be the main model of the referenced File
     // (comp-documentation page 14)
     if (externalFile.getModel().getId().equals(modelRef)) {
-      Model result = externalFile.getModel().clone();
-      // TODO: Hacky! This is bad, but getSBMLDocument does not work/setSBMLDocument is not allowed
-      result.putUserObject("HACKY: Set the SBMLDocument", externalFile);
-      return result;
+      return externalFile.getModel(); // don't clone: will lose getSBMLDocument-information
     } else if (externalFile.isPackageEnabled(CompConstants.shortLabel)) {
       CompSBMLDocumentPlugin externalFileCompPlugin =
         (CompSBMLDocumentPlugin) externalFile.getExtension(
@@ -570,8 +567,6 @@ public class ExternalModelDefinition extends AbstractNamedSBase
         externalFileCompPlugin.getExternalModelDefinition(modelRef);
       
       if (localModelDefinition != null) {
-        // TODO: Hacky! See above
-        localModelDefinition.putUserObject("HACKY: Set the SBMLDocument", externalFile);
         return localModelDefinition;
         
       } else if (nextLayer != null) {
