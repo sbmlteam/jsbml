@@ -693,7 +693,7 @@ public class CompFlatteningConverter {
    *         if given document's locationURI is not set. Set it with
    *         {@link SBMLDocument#setLocationURI}
    */
-  public static SBMLDocument internaliseExternalModelDefintions(
+  public static SBMLDocument internaliseExternalModelDefinitions(
     SBMLDocument document) throws Exception {
     /*
      * The specification demands that the id of the main Model, all
@@ -715,30 +715,53 @@ public class CompFlatteningConverter {
     if (!compSBMLDocumentPlugin.isSetListOfExternalModelDefinitions()) {
       return result;
     } else {
-      for (ExternalModelDefinition emd : compSBMLDocumentPlugin.getListOfExternalModelDefinitions()) {
-        ModelDefinition internalised = new ModelDefinition(emd.getReferencedModel());
+      int length = compSBMLDocumentPlugin.getListOfExternalModelDefinitions().size();
+      for (int i = 0; i < length; i++) {
+        // general note: Be careful when using clone/cloning-constructors, they
+        // do not preserve parent-child-relations
+        ExternalModelDefinition emd = compSBMLDocumentPlugin.getExternalModelDefinition(i);
+        Model referenced = emd.getReferencedModel();
+        ModelDefinition internalised = new ModelDefinition(referenced);
         internalised.setId(emd.getId()); 
         
-        SBMLDocument referencedDocument = internalised.getSBMLDocument();
-        // TODO: would like to use this to resolve any Submodels of internalised.
-        // TODO: Hacky 'solution'! See ExternalModelDefinition.getReferencedModel(String)
-        referencedDocument = (SBMLDocument) internalised.getUserObject("HACKY: Set the SBMLDocument");
+        SBMLDocument referencedDocument = referenced.getSBMLDocument();        
+        CompSBMLDocumentPlugin referencedDocumentPlugin =
+          (CompSBMLDocumentPlugin) referencedDocument.getExtension(
+            CompConstants.shortLabel);
+
         CompModelPlugin notYetInternalisedModelPlugin =
           (CompModelPlugin) internalised.getExtension(CompConstants.shortLabel);
+        
         if (notYetInternalisedModelPlugin != null) {
           for (Submodel sm : notYetInternalisedModelPlugin.getListOfSubmodels()) {
-            System.out.println(sm);
-            /*
-             * TODO: actually resolve this submodel:
-             * Needs a rename (because it didn't previously share its namespace
-             * with the elements it will now. Any external Model referenced by
-             * the submodel needs be resolved and internalised! (and same
-             * recursively)
-             */
+            // If Submodel instantiates an externalModelDefinition (i.e.
+            // modelRef fits an exMD), add that exMD to the exMD-list; but
+            // rename it and rename the modelRef accordingly; then proceed 
+            // If it only instantiates a local ModelDefinition, add it to the local ones (with rename?)
+            // Also: add 1 to length 
+            ModelDefinition local = referencedDocumentPlugin.getModelDefinition(sm.getModelRef());
+            ExternalModelDefinition external =
+              referencedDocumentPlugin.getExternalModelDefinition(
+                sm.getModelRef()).clone();
+            
+            if(local != null) {
+              // TODO: add tests and implementation for this!
+              length++;
+            } else if (external != null) {
+              // TODO: This name may still not be enough. Might collide by chance
+              String newModelRef = referenced.getId() + "_" + sm.getModelRef();
+              sm.setModelRef(newModelRef);
+              external.setId(newModelRef);
+              // TODO: problem: getLocationURI might point to wrong location. 
+              // Change the source to an absolute URI! This is only temporary anyways, so no problem.
+              // before adding: external.getAbsoluteSource(); <- to be implemented
+              compSBMLDocumentPlugin.addExternalModelDefinition(external);
+              length++;
+            } else {
+              System.out.println("internaliseExternalModelDefinition: This should not happen: Submodel instantiates nothing");
+            }
           }
         }
-        
-        
         compSBMLDocumentPlugin.addModelDefinition(internalised);
       }
       compSBMLDocumentPlugin.unsetListOfExternalModelDefinitions();
