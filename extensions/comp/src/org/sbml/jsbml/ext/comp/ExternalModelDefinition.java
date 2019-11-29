@@ -520,25 +520,8 @@ public class ExternalModelDefinition extends AbstractNamedSBase
     String sourceURIString;
     URI sourceURI;
     SBMLDocument externalFile;
-    String completionOfAbsoluteContainingURI =
-      absoluteContainingURI.toString().endsWith("/") ? "" : "/";
-    URL sourceUrl;
-    try {
-      // the source itself is a valid URL: do not need absoluteContainingURI
-      sourceUrl = new URL(new URI(source).toString());
-    } catch (MalformedURLException e) {
-      // the source itself is not a valid URL: it is relative
-      StringBuilder workingURI = new StringBuilder();
-      if (!new File(source).isAbsolute()) {
-        workingURI.append(absoluteContainingURI);
-        workingURI.append(completionOfAbsoluteContainingURI);
-      } else {
-        workingURI.append("file:/");
-      }
-      workingURI.append(source);
-      sourceUrl = new URL(workingURI.toString());
-    }
-    sourceURI = sourceUrl.toURI();
+    sourceURI = getAbsoluteSourceURI(absoluteContainingURI);
+    URL sourceUrl = new URL(sourceURI.toString());
     if (sourceUrl.getProtocol().equals("file")) {
       externalFile = org.sbml.jsbml.SBMLReader.read(new File(sourceURI));
     } else {
@@ -621,5 +604,74 @@ public class ExternalModelDefinition extends AbstractNamedSBase
       throw new NullPointerException(
         "The containing model's location is not set. Either set it, or use the getReferencedModel(URI)-variant");
     }
+  }
+  
+  
+  /**
+   * Finds the absolute URI of the source-file specified: If the source is
+   * specified through a relative path, will try to use the containing
+   * SBMLDocument's {@link SBMLDocument#getLocationURI} to turn it into an
+   * absolute URI in the current context.
+   * <br>
+   * The actual source is not changed in the process
+   * 
+   * @return The absolute URI to the source
+   *         ({@link ExternalModelDefinition#getSource}) of this
+   *         ExternalModelDefinition
+   * @throws URISyntaxException
+   * @throws MalformedURLException 
+   */
+  public URI getAbsoluteSourceURI() throws URISyntaxException, MalformedURLException {
+    if(getSBMLDocument().isSetLocationURI()) {
+      // Cut off the file-name of the containing document here:
+      String absolutePath = getSBMLDocument().getLocationURI().substring(0, getSBMLDocument().getLocationURI().lastIndexOf("/"));
+      return getAbsoluteSourceURI(new URI(absolutePath));
+    } else {
+      throw new NullPointerException(
+        "The containing model's location is not set. Either set it, or use the getReferencedModel(URI)-variant");
+    }
+  }
+  
+  
+  /**
+   * Finds the absolute URI of the source-file specified: If the source is
+   * specified through a relative path, will try to use the given
+   * absoluteContainingURI to turn it into an absolute URI in the current
+   * context.
+   * <br>
+   * The actual source is not changed in the process
+   * 
+   * @param absoluteContainingURI
+   *        absolute URI to the directory containing the
+   *        file that defines this (needed to resolve local
+   *        references)
+   * @return The absolute URI to the source
+   *         ({@link ExternalModelDefinition#getSource}) of this
+   *         ExternalModelDefinition
+   * @throws MalformedURLException
+   * @throws URISyntaxException
+   */
+  public URI getAbsoluteSourceURI(URI absoluteContainingURI) throws MalformedURLException, URISyntaxException {
+    URI sourceURI;
+    String completionOfAbsoluteContainingURI =
+      absoluteContainingURI.toString().endsWith("/") ? "" : "/";
+    URL sourceUrl;
+    try {
+      // the source itself is a valid URL: do not need absoluteContainingURI
+      sourceUrl = new URL(new URI(source).toString());
+    } catch (MalformedURLException e) {
+      // the source itself is not a valid URL: it is relative
+      StringBuilder workingURI = new StringBuilder();
+      if (!new File(source).isAbsolute()) {
+        workingURI.append(absoluteContainingURI);
+        workingURI.append(completionOfAbsoluteContainingURI);
+      } else {
+        workingURI.append("file:/");
+      }
+      workingURI.append(source);
+      sourceUrl = new URL(workingURI.toString());
+    }
+    sourceURI = sourceUrl.toURI();
+    return sourceURI;
   }
 }

@@ -716,13 +716,16 @@ public class CompFlatteningConverter {
       return result;
     } else {
       int length = compSBMLDocumentPlugin.getListOfExternalModelDefinitions().size();
+      System.out.println("Len=" + length);
       for (int i = 0; i < length; i++) {
         // general note: Be careful when using clone/cloning-constructors, they
         // do not preserve parent-child-relations
         ExternalModelDefinition emd = compSBMLDocumentPlugin.getExternalModelDefinition(i);
         Model referenced = emd.getReferencedModel();
         ModelDefinition internalised = new ModelDefinition(referenced);
+        System.out.print("Id-change: " + internalised.getId());
         internalised.setId(emd.getId()); 
+        System.out.println(" -> " + internalised.getId());
         
         SBMLDocument referencedDocument = referenced.getSBMLDocument();        
         CompSBMLDocumentPlugin referencedDocumentPlugin =
@@ -731,7 +734,6 @@ public class CompFlatteningConverter {
 
         CompModelPlugin notYetInternalisedModelPlugin =
           (CompModelPlugin) internalised.getExtension(CompConstants.shortLabel);
-        
         if (notYetInternalisedModelPlugin != null) {
           for (Submodel sm : notYetInternalisedModelPlugin.getListOfSubmodels()) {
             // If Submodel instantiates an externalModelDefinition (i.e.
@@ -740,9 +742,10 @@ public class CompFlatteningConverter {
             // If it only instantiates a local ModelDefinition, add it to the local ones (with rename?)
             // Also: add 1 to length 
             ModelDefinition local = referencedDocumentPlugin.getModelDefinition(sm.getModelRef());
-            ExternalModelDefinition external =
+            ExternalModelDefinition originalExternal =
               referencedDocumentPlugin.getExternalModelDefinition(
-                sm.getModelRef()).clone();
+                sm.getModelRef()); 
+            ExternalModelDefinition external = originalExternal.clone();
             
             if(local != null) {
               // TODO: add tests and implementation for this!
@@ -752,6 +755,9 @@ public class CompFlatteningConverter {
               String newModelRef = referenced.getId() + "_" + sm.getModelRef();
               sm.setModelRef(newModelRef);
               external.setId(newModelRef);
+              System.out.print("Src(" + external.getId() + "): " + external.getSource());
+              external.setSource(originalExternal.getAbsoluteSourceURI().toString());
+              System.out.println(" -> " + external.getSource());
               // TODO: problem: getLocationURI might point to wrong location. 
               // Change the source to an absolute URI! This is only temporary anyways, so no problem.
               // before adding: external.getAbsoluteSource(); <- to be implemented

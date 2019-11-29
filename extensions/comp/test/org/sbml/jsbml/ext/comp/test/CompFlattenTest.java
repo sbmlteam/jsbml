@@ -3,6 +3,7 @@ package org.sbml.jsbml.ext.comp.test;
 import org.junit.Assert;
 import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.ext.comp.CompConstants;
@@ -146,43 +147,41 @@ public class CompFlattenTest {
     assertEquals(expected, result);
     assertTrue(equalCompPlugin(expected, result));
   }
-
-  // TODO: check recursion/chain reference
   
-  private void printSubmodelInfo(SBMLDocument doc) {
-    System.out.println("\nDOC overview:");
-    CompSBMLDocumentPlugin docPlugin =
-      (CompSBMLDocumentPlugin) doc.getExtension(CompConstants.shortLabel);
-    for (ModelDefinition md : docPlugin.getListOfModelDefinitions()) {
-      System.out.print(md);
-      CompModelPlugin cmp =
-        (CompModelPlugin) md.getExtension(CompConstants.shortLabel);
-      System.out.println(" -> " + cmp);
-      if (cmp != null) {
-        for (Submodel sm : cmp.getListOfSubmodels()) {
-          System.out.println("\t" + sm);
-          System.out.println(
-            "\t" + docPlugin.getModelDefinition(sm.getModelRef()));
-        }
-      } else {
-        System.out.println();
-      }
-    }
-  }
   
+  /**
+   * Checks behaviour if the referenced ModelDefinition uses a Submodel that references an external
+   * ModelDef. in yetanother file.
+   * @throws Exception
+   */
   @Test
   public void testInternaliseExternalModelDefinitions_simpleChain()
     throws Exception {
     setUpOriginalAndExpected("testGathering/internalise_simple_chain_head.xml",
       "testGathering/single_files/internalise_simple_chain_single.xml");
-    // printSubmodelInfo(expected);
     SBMLDocument result =
         CompFlatteningConverter.internaliseExternalModelDefinitions(original);
-    // printSubmodelInfo(result);
     assertEquals(expected, result);
     assertTrue(equalCompPlugin(expected, result));
   }
   
+  
+  @Test
+  public void testInternaliseExternalModelDefinitions_differentDirectory()
+    throws Exception {
+    // The test-files are basically the same as for simple chain, but spread through more than one 
+    // directory. The result is expected to be the almost the same, however, a species F is added 
+    // to avoid mistaken test-success.
+    System.out.println("\nDIFFERENT");
+    setUpOriginalAndExpected("testGathering/internalise_different_directory.xml",
+      "testGathering/single_files/internalise_different_directory_single.xml");
+    SBMLDocument result =
+        CompFlatteningConverter.internaliseExternalModelDefinitions(original);
+    assertEquals(expected, result);
+    assertTrue(equalCompPlugin(expected, result));
+  }
+  
+  // TODO: check more complicated recursion/chain reference; and local-definitions
   
   
   // @Test
