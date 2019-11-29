@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1"
+	xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" comp:required="true">
+	<model>
+		<listOfCompartments>
+			<compartment id="compartment" spatialDimensions="3" size="1" constant="true">
+				<comp:listOfReplacedElements>
+					<comp:replacedElement comp:idRef="compartment" comp:submodelRef="internalA"/>
+					<comp:replacedElement comp:idRef="compartment" comp:submodelRef="internalB"/>
+				</comp:listOfReplacedElements>
+			</compartment>
+		</listOfCompartments>
+		<listOfSpecies>
+			<species id="S" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+				<comp:listOfReplacedElements>
+					<comp:replacedElement comp:idRef="S" comp:submodelRef="internalA"/>
+					<comp:replacedElement comp:idRef="S" comp:submodelRef="internalB"/>
+				</comp:listOfReplacedElements>
+			</species>
+		</listOfSpecies>
+		<comp:listOfSubmodels>
+			<comp:submodel comp:id="internalA" comp:modelRef="a"/>
+			<comp:submodel comp:id="internalB" comp:modelRef="a"/>
+		</comp:listOfSubmodels>
+	</model>
+	<comp:listOfModelDefinitions>
+		<comp:modelDefinition id="a" name="b">
+			<listOfCompartments>
+				<compartment id="compartment" spatialDimensions="3" size="1" constant="true"/>
+			</listOfCompartments>
+			<listOfSpecies>
+				<species id="S" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+					<comp:listOfReplacedElements>
+						<comp:replacedElement comp:idRef="S" comp:submodelRef="internalA"/>
+					</comp:listOfReplacedElements>
+				</species>
+			</listOfSpecies>
+			<comp:listOfSubmodels>
+				<comp:submodel comp:id="internalA" comp:modelRef="b_c"/>
+			</comp:listOfSubmodels>
+		</comp:modelDefinition>
+		<comp:modelDefinition id="b_c" name="d">
+			<listOfCompartments>
+				<compartment id="compartment" spatialDimensions="3" size="1" constant="true"/>
+			</listOfCompartments>
+			<listOfSpecies>
+				<species id="S" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+				<species id="E" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+				<species id="D" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+				<species id="ES" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+				<species id="F" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+			</listOfSpecies>
+			<listOfReactions>
+				<reaction id="J0" reversible="true" fast="false">
+					<listOfReactants>
+						<speciesReference species="S" stoichiometry="1" constant="true"/>
+						<speciesReference species="E" stoichiometry="1" constant="true"/>
+					</listOfReactants>
+					<listOfProducts>
+						<speciesReference species="ES" stoichiometry="1" constant="true"/>
+					</listOfProducts>
+				</reaction>
+				<reaction id="J1" reversible="true" fast="false">
+					<listOfReactants>
+						<speciesReference species="ES" stoichiometry="1" constant="true"/>
+					</listOfReactants>
+					<listOfProducts>
+						<speciesReference species="E" stoichiometry="1" constant="true"/>
+						<speciesReference species="D" stoichiometry="1" constant="true"/>
+					</listOfProducts>
+				</reaction>
+			</listOfReactions>
+		</comp:modelDefinition>
+	</comp:listOfModelDefinitions>
+</sbml> 

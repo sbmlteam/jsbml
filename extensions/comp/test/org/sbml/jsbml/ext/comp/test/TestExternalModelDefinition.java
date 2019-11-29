@@ -399,4 +399,49 @@ public class TestExternalModelDefinition {
     Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
     assertModelsEqual(expectedModel, referenced);
   }
+  
+  
+  @Test
+  public void testGetAbsoluteSourceURI_alreadyAbsolute() throws URISyntaxException, XMLStreamException, IOException {
+    setUpExternalModelDefinition("testGathering/", "spec_example2.xml", "ExtMod1");
+    setUpExpectation("testGathering/spec_example1.xml");
+    String absolute = absolutePath.substring(6) + "spec_example1.xml";
+    externalModel.setSource(absolute);
+    assertEquals(new URI("file:/" + absolute), externalModel.getAbsoluteSourceURI());
+    
+    externalModel.setSource(urlExpectation.toString());
+    assertEquals(urlExpectation.toURI(), externalModel.getAbsoluteSourceURI());
+  }
+  
+  /**
+   * Tests behaviour if source is relative and SBMLDocument's locationURI is a file:/-URI
+   * @throws URISyntaxException
+   * @throws XMLStreamException
+   * @throws IOException
+   */
+  @Test
+  public void testGetAbsoluteSourceURI_relativeToFile() throws URISyntaxException, XMLStreamException, IOException {
+    setUpExternalModelDefinition("testGathering/", "spec_example2.xml", "ExtMod1");
+    String absolute = "file:/" + absolutePath.substring(6) + "spec_example1.xml";
+    System.out.println(new URI(absolute));
+    assertEquals(new URI(absolute), externalModel.getAbsoluteSourceURI());
+  }
+  
+  /**
+   * Tests behaviour if the containing URI is already online (may happen when reading from https-URL)
+   * @throws URISyntaxException
+   * @throws XMLStreamException
+   * @throws IOException
+   */
+  @Test
+  public void testGetAbsoluteSourceURI_online() throws URISyntaxException, XMLStreamException, IOException {
+    setUpExternalModelDefinition("testGathering/", "chain_reference_different_directory.xml",
+      "ExtMod1");
+    String commonUrl = "https://raw.githubusercontent.com/sbmlteam/jsbml/vetter-comp-single-file/extensions/comp/resources/testGathering/";
+    assertEquals(
+      new URI(commonUrl + "somewhere_else/chain_reference_intermediate.xml"),
+      externalModel.getAbsoluteSourceURI(
+        new URI(commonUrl) // The containing directory
+        ));
+  }
 }
