@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.comp.test;
 import org.junit.Assert;
 import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.ext.comp.CompConstants;
@@ -174,8 +175,8 @@ public class CompFlattenTest {
     assertEquals(expected, result);
     assertTrue(equalCompPlugin(expected, result));
   }
-  
-  
+
+
   /**
    * Checks behaviour if the referenced ModelDefinition uses a Submodel that references an external
    * ModelDef. in yetanother file.
@@ -276,7 +277,7 @@ public class CompFlattenTest {
     assertTrue(equalCompPlugin(expected, result));
   }
   
-  
+
   /**
    * Tests behaviour for a) branching references that lead to the same end: This
    * is yields a duplicate [manually curate the file to remove redundancies!],
