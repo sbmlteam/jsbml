@@ -716,16 +716,13 @@ public class CompFlatteningConverter {
       return result;
     } else {
       int length = compSBMLDocumentPlugin.getListOfExternalModelDefinitions().size();
-      System.out.println("Len=" + length);
       for (int i = 0; i < length; i++) {
         // general note: Be careful when using clone/cloning-constructors, they
         // do not preserve parent-child-relations
         ExternalModelDefinition emd = compSBMLDocumentPlugin.getExternalModelDefinition(i);
         Model referenced = emd.getReferencedModel();
         ModelDefinition internalised = new ModelDefinition(referenced);
-        System.out.print("Id-change: " + internalised.getId());
         internalised.setId(emd.getId()); 
-        System.out.println(" -> " + internalised.getId());
         
         SBMLDocument referencedDocument = referenced.getSBMLDocument();        
         CompSBMLDocumentPlugin referencedDocumentPlugin =
@@ -741,26 +738,30 @@ public class CompFlatteningConverter {
             // rename it and rename the modelRef accordingly; then proceed 
             // If it only instantiates a local ModelDefinition, add it to the local ones (with rename?)
             // Also: add 1 to length 
-            ModelDefinition local = referencedDocumentPlugin.getModelDefinition(sm.getModelRef());
+            ModelDefinition originalLocal = referencedDocumentPlugin.getModelDefinition(sm.getModelRef());
             ExternalModelDefinition originalExternal =
               referencedDocumentPlugin.getExternalModelDefinition(
                 sm.getModelRef()); 
-            ExternalModelDefinition external = originalExternal.clone();
             
-            if(local != null) {
-              // TODO: add tests and implementation for this!
-              length++;
-            } else if (external != null) {
-              // TODO: This name may still not be enough. Might collide by chance
-              String newModelRef = referenced.getId() + "_" + sm.getModelRef();
+            // TODO: This name may still not be enough. Might collide by chance
+            String newModelRef = referenced.getId() + "_" + sm.getModelRef();
+            
+            if(originalLocal != null) {
+              ModelDefinition local = originalLocal.clone();
+              // TODO: local might reference another local and/or externalModelDefinitions
+              sm.setModelRef(newModelRef);
+              local.setId(newModelRef);
+              compSBMLDocumentPlugin.addModelDefinition(local);
+              
+              // for all externals referenced by local -> rename and add to externalModelDefinitions-list
+              // length++;
+              // for all locals referenced by local -> rename and add to 
+            } else if (originalExternal != null) {
+              ExternalModelDefinition external = originalExternal.clone();
+
               sm.setModelRef(newModelRef);
               external.setId(newModelRef);
-              System.out.print("Src(" + external.getId() + "): " + external.getSource());
               external.setSource(originalExternal.getAbsoluteSourceURI().toString());
-              System.out.println(" -> " + external.getSource());
-              // TODO: problem: getLocationURI might point to wrong location. 
-              // Change the source to an absolute URI! This is only temporary anyways, so no problem.
-              // before adding: external.getAbsoluteSource(); <- to be implemented
               compSBMLDocumentPlugin.addExternalModelDefinition(external);
               length++;
             } else {

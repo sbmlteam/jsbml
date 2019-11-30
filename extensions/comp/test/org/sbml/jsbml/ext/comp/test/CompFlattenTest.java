@@ -172,11 +172,30 @@ public class CompFlattenTest {
     // The test-files are basically the same as for simple chain, but spread through more than one 
     // directory. The result is expected to be the almost the same, however, a species F is added 
     // to avoid mistaken test-success.
-    System.out.println("\nDIFFERENT");
     setUpOriginalAndExpected("testGathering/internalise_different_directory.xml",
       "testGathering/single_files/internalise_different_directory_single.xml");
     SBMLDocument result =
         CompFlatteningConverter.internaliseExternalModelDefinitions(original);
+    assertEquals(expected, result);
+    assertTrue(equalCompPlugin(expected, result));
+  }
+  
+  /**
+   * Tests behaviour for internalising an external Model that references a ModelDefinition in the 
+   * referenced file
+   * @throws Exception
+   */
+  @Test
+  public void testInternaliseExternalModelDefinitions_localSubmodelsInExternal()
+    throws Exception {
+    // The test-files are basically the same as for simple chain, but spread through more than one 
+    // directory. The result is expected to be the almost the same, however, a species F is added 
+    // to avoid mistaken test-success.
+    setUpOriginalAndExpected("testGathering/internalise_with_local.xml",
+      "testGathering/single_files/internalise_with_local_single.xml");
+    SBMLDocument result =
+        CompFlatteningConverter.internaliseExternalModelDefinitions(original);
+
     assertEquals(expected, result);
     assertTrue(equalCompPlugin(expected, result));
   }
