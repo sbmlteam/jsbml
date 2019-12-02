@@ -7,27 +7,6 @@
 		</comp:listOfSubmodels>
 	</model>
 	<comp:listOfModelDefinitions>
-		<comp:modelDefinition id="b_a" name="a">
-			<listOfCompartments>
-				<compartment id="compartment" spatialDimensions="3" size="1" constant="true"/>
-			</listOfCompartments>
-			<listOfSpecies>
-				<species id="A" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-				<species id="B" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-				<species id="X" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-			</listOfSpecies>
-			<listOfReactions>
-				<reaction id="J0" reversible="true" fast="false">
-					<listOfReactants>
-						<speciesReference species="A" stoichiometry="1" constant="true"/>
-						<speciesReference species="X" stoichiometry="1" constant="true"/>
-					</listOfReactants>
-					<listOfProducts>
-						<speciesReference species="B" stoichiometry="2" constant="true"/>
-					</listOfProducts>
-				</reaction>
-			</listOfReactions>
-		</comp:modelDefinition>
 		<comp:modelDefinition id="a" name="b">
 			<listOfCompartments>
 				<compartment id="compartment" spatialDimensions="3" size="1" constant="true"/>
@@ -65,6 +44,28 @@
 			<comp:listOfSubmodels>
 				<comp:submodel comp:id="internalA" comp:modelRef="b_a"/>
 			</comp:listOfSubmodels>
+		</comp:modelDefinition>
+		
+		<comp:modelDefinition id="b_a" name="a">
+			<listOfCompartments>
+				<compartment id="compartment" spatialDimensions="3" size="1" constant="true"/>
+			</listOfCompartments>
+			<listOfSpecies>
+				<species id="A" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+				<species id="B" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+				<species id="X" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+			</listOfSpecies>
+			<listOfReactions>
+				<reaction id="J0" reversible="true" fast="false">
+					<listOfReactants>
+						<speciesReference species="A" stoichiometry="1" constant="true"/>
+						<speciesReference species="X" stoichiometry="1" constant="true"/>
+					</listOfReactants>
+					<listOfProducts>
+						<speciesReference species="B" stoichiometry="2" constant="true"/>
+					</listOfProducts>
+				</reaction>
+			</listOfReactions>
 		</comp:modelDefinition>
 	</comp:listOfModelDefinitions>
 </sbml> 

@@ -161,6 +161,24 @@ public class CompFlattenTest {
       "testGathering/single_files/internalise_simple_chain_single.xml");
     SBMLDocument result =
         CompFlatteningConverter.internaliseExternalModelDefinitions(original);
+
+    assertEquals(expected, result);
+    assertTrue(equalCompPlugin(expected, result));
+  }
+  
+  /**
+   * Checks behaviour for same case as simple_chain, but, the intermediate file's main model is referenced
+   * 
+   * @throws Exception
+   */
+  @Test
+  public void testInternaliseExternalModelDefinitions_mainInChain()
+    throws Exception {
+    setUpOriginalAndExpected("testGathering/internalise_main_in_chain_head.xml",
+      "testGathering/single_files/internalise_simple_chain_single.xml");
+    SBMLDocument result =
+        CompFlatteningConverter.internaliseExternalModelDefinitions(original);
+
     assertEquals(expected, result);
     assertTrue(equalCompPlugin(expected, result));
   }

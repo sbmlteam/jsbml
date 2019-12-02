@@ -40,6 +40,7 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UnitDefinition;
@@ -712,7 +713,7 @@ public class CompFlatteningConverter {
       (CompSBMLDocumentPlugin) result.getExtension(CompConstants.shortLabel);
     
     // There is nothing to retrieve:
-    if (!compSBMLDocumentPlugin.isSetListOfExternalModelDefinitions()) {
+    if (compSBMLDocumentPlugin == null || !compSBMLDocumentPlugin.isSetListOfExternalModelDefinitions()) {
       return result;
     } else {
       int length = compSBMLDocumentPlugin.getListOfExternalModelDefinitions().size();
@@ -721,61 +722,60 @@ public class CompFlatteningConverter {
         // do not preserve parent-child-relations
         ExternalModelDefinition emd = compSBMLDocumentPlugin.getExternalModelDefinition(i);
         Model referenced = emd.getReferencedModel();
-        ModelDefinition internalised = new ModelDefinition(referenced);
-        internalised.setId(emd.getId()); 
+        SBMLDocument referencedDocument = referenced.getSBMLDocument();  
+        SBMLDocument flattened = internaliseExternalModelDefinitions(referencedDocument);
+        // Guarantee: flattened does not contain any externalModelDefinitions, only local MDs 
+        // (and main model)
+        // use this, and migrate the MDs into the current compSBMLDocumentPlugin
         
-        SBMLDocument referencedDocument = referenced.getSBMLDocument();        
+        String newPrefix = emd.getModelRef() + "_"; // TODO: better collision-avoidance
+        
         CompSBMLDocumentPlugin referencedDocumentPlugin =
-          (CompSBMLDocumentPlugin) referencedDocument.getExtension(
+          (CompSBMLDocumentPlugin) flattened.getExtension(
             CompConstants.shortLabel);
-
-        CompModelPlugin notYetInternalisedModelPlugin =
-          (CompModelPlugin) internalised.getExtension(CompConstants.shortLabel);
-        if (notYetInternalisedModelPlugin != null) {
-          for (Submodel sm : notYetInternalisedModelPlugin.getListOfSubmodels()) {
-            // If Submodel instantiates an externalModelDefinition (i.e.
-            // modelRef fits an exMD), add that exMD to the exMD-list; but
-            // rename it and rename the modelRef accordingly; then proceed 
-            // If it only instantiates a local ModelDefinition, add it to the local ones (with rename?)
-            // Also: add 1 to length 
-            ModelDefinition originalLocal = referencedDocumentPlugin.getModelDefinition(sm.getModelRef());
-            ExternalModelDefinition originalExternal =
-              referencedDocumentPlugin.getExternalModelDefinition(
-                sm.getModelRef()); 
-            
-            // TODO: This name may still not be enough. Might collide by chance
-            String newModelRef = referenced.getId() + "_" + sm.getModelRef();
-            
-            if(originalLocal != null) {
-              ModelDefinition local = originalLocal.clone();
-              // TODO: local might reference another local and/or externalModelDefinitions
-              sm.setModelRef(newModelRef);
-              local.setId(newModelRef);
-              compSBMLDocumentPlugin.addModelDefinition(local);
-              
-              // for all externals referenced by local -> rename and add to externalModelDefinitions-list
-              // length++;
-              // for all locals referenced by local -> rename and add to 
-            } else if (originalExternal != null) {
-              ExternalModelDefinition external = originalExternal.clone();
-
-              sm.setModelRef(newModelRef);
-              external.setId(newModelRef);
-              external.setSource(originalExternal.getAbsoluteSourceURI().toString());
-              compSBMLDocumentPlugin.addExternalModelDefinition(external);
-              length++;
-            } else {
-              System.out.println("internaliseExternalModelDefinition: This should not happen: Submodel instantiates nothing");
+        
+        ListOf<ModelDefinition> workingList;
+        if(referencedDocumentPlugin == null) {
+          // This may happen, if the main model of a non-comp-file is referenced: Check for main and 
+          // internalise it.
+          workingList = new ListOf<ModelDefinition>();
+          workingList.setLevel(referenced.getLevel());
+          workingList.setVersion(referenced.getVersion());
+        } else {
+          workingList = referencedDocumentPlugin.getListOfModelDefinitions().clone();
+        }
+        
+        
+        if(flattened.getModel().getId().equals(emd.getModelRef())) {
+          ModelDefinition localisedMain = new ModelDefinition(flattened.getModel());
+          workingList.add(0, localisedMain);
+        }
+        
+        
+        for (ModelDefinition md : workingList) {
+          ModelDefinition internalised = new ModelDefinition(md);
+          // i.e. current one is the one directly referenced
+          if(md.getId().equals(emd.getModelRef())) {
+            internalised.setId(emd.getId());
+          } else {
+            internalised.setId(newPrefix + internalised.getId());
+          }
+          
+          CompModelPlugin notYetInternalisedModelPlugin =
+              (CompModelPlugin) internalised.getExtension(CompConstants.shortLabel);
+          if(notYetInternalisedModelPlugin != null && notYetInternalisedModelPlugin.isSetListOfSubmodels()) {
+            for (Submodel sm : notYetInternalisedModelPlugin.getListOfSubmodels()) {
+              sm.setModelRef(newPrefix + sm.getModelRef());
             }
           }
+          
+          compSBMLDocumentPlugin.addModelDefinition(internalised);
         }
-        compSBMLDocumentPlugin.addModelDefinition(internalised);
       }
       compSBMLDocumentPlugin.unsetListOfExternalModelDefinitions();
       return result;
     }
   }
-
 }
 
 
