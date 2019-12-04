@@ -218,8 +218,36 @@ public class CompFlattenTest {
     assertTrue(equalCompPlugin(expected, result));
   }
   
-  // TODO: check more complicated recursion/chain reference; and local-definitions
+  /**
+   * Checks behaviour if a referenced ModelDefinition has the main Model of its file as a Submodel
+   * @throws Exception
+   */
+  @Test
+  public void testInternaliseExternalModelDefinitions_localReferencesMain()
+    throws Exception {
+    setUpOriginalAndExpected("testGathering/internalise_main_from_submodel_head.xml",
+      "testGathering/single_files/internalise_main_from_submodel_single.xml");
+    SBMLDocument result =
+        CompFlatteningConverter.internaliseExternalModelDefinitions(original);
+    assertEquals(expected, result);
+    assertTrue(equalCompPlugin(expected, result));
+  }
   
+  /**
+   * Checks behaviour if a name-conflict would arise for simple b_c (-> b__c needed)
+   * @throws Exception
+   */
+  @Test
+  public void testInternaliseExternalModelDefinitions_nameCollision()
+    throws Exception {
+    setUpOriginalAndExpected("testGathering/internalise_name_collision.xml",
+      "testGathering/single_files/internalise_name_collision_single.xml");
+    SBMLDocument result =
+        CompFlatteningConverter.internaliseExternalModelDefinitions(original);
+
+    assertEquals(expected, result);
+    assertTrue(equalCompPlugin(expected, result));
+  }
   
   // @Test
   public void testAllData() {

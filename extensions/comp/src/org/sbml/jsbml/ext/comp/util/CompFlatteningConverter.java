@@ -696,19 +696,18 @@ public class CompFlatteningConverter {
    */
   public static SBMLDocument internaliseExternalModelDefinitions(
     SBMLDocument document) throws Exception {
-    /*
-     * The specification demands that the id of the main Model, all
-     * modelDefinitions and all externalModelDefinitions do not conflict: They
-     * are within the same scope. This does however only apply within the same
-     * SBMLDocument, and need not be true for the combined namespaces of
-     * multiple.
-     */
+
     if (!document.isSetLocationURI()) {
       LOGGER.warning("Location URI is not set: " + document);
       throw new Exception(
         "document's locationURI need be set. But it was not.");
     }
     SBMLDocument result = document.clone(); // no side-effects intended
+    ArrayList<String> usedIds = new ArrayList();
+    if (result.isSetModel()) {
+      usedIds.add(result.getModel().getId());
+    }
+    
     CompSBMLDocumentPlugin compSBMLDocumentPlugin =
       (CompSBMLDocumentPlugin) result.getExtension(CompConstants.shortLabel);
     
@@ -716,19 +715,35 @@ public class CompFlatteningConverter {
     if (compSBMLDocumentPlugin == null || !compSBMLDocumentPlugin.isSetListOfExternalModelDefinitions()) {
       return result;
     } else {
-      int length = compSBMLDocumentPlugin.getListOfExternalModelDefinitions().size();
-      for (int i = 0; i < length; i++) {
+      /** For name-collision-avoidance */
+      for (ExternalModelDefinition emd : compSBMLDocumentPlugin.getListOfExternalModelDefinitions()) {
+        usedIds.add(emd.getId());
+      }
+      
+      for (ExternalModelDefinition emd : compSBMLDocumentPlugin.getListOfExternalModelDefinitions()) {
         // general note: Be careful when using clone/cloning-constructors, they
         // do not preserve parent-child-relations
-        ExternalModelDefinition emd = compSBMLDocumentPlugin.getExternalModelDefinition(i);
         Model referenced = emd.getReferencedModel();
         SBMLDocument referencedDocument = referenced.getSBMLDocument();  
         SBMLDocument flattened = internaliseExternalModelDefinitions(referencedDocument);
         // Guarantee: flattened does not contain any externalModelDefinitions, only local MDs 
         // (and main model)
         // use this, and migrate the MDs into the current compSBMLDocumentPlugin
+        StringBuilder prefixBuilder = new StringBuilder(emd.getModelRef());
+        /** For name-collision-avoidance */
+        boolean contained = false;
+        do {
+          contained = false;
+          prefixBuilder.append("_");
+          for (String id : usedIds) {
+            contained |= id.startsWith(prefixBuilder.toString());
+            if(contained) {
+              break;
+            }
+          }
+        } while (contained);
+        String newPrefix = prefixBuilder.toString();
         
-        String newPrefix = emd.getModelRef() + "_"; // TODO: better collision-avoidance
         
         CompSBMLDocumentPlugin referencedDocumentPlugin =
           (CompSBMLDocumentPlugin) flattened.getExtension(
@@ -745,11 +760,25 @@ public class CompFlatteningConverter {
           workingList = referencedDocumentPlugin.getListOfModelDefinitions().clone();
         }
         
+        // Check whether the main model is needed; Do not internalise it, if not necessary
+        boolean isMainReferenced = flattened.getModel().getId().equals(emd.getModelRef());
+        for ( ModelDefinition md : workingList) {
+          if(isMainReferenced) {
+            break;
+          }
+          CompModelPlugin cmp = (CompModelPlugin) md.getExtension(CompConstants.shortLabel);
+          if (cmp != null) {
+            for (Submodel sm : cmp.getListOfSubmodels()) {
+              isMainReferenced |= flattened.getModel().getId().equals(sm.getModelRef());
+            }
+          }
+        }
         
-        if(flattened.getModel().getId().equals(emd.getModelRef())) {
+        if(isMainReferenced) {
           ModelDefinition localisedMain = new ModelDefinition(flattened.getModel());
           workingList.add(0, localisedMain);
         }
+        //
         
         
         for (ModelDefinition md : workingList) {
