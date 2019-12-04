@@ -779,6 +779,7 @@ public class CompFlatteningConverter {
           ModelDefinition localisedMain = new ModelDefinition(flattened.getModel());
           workingList.add(0, localisedMain);
         }
+        //
         
         
         
