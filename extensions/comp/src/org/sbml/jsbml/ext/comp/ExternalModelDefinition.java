@@ -493,6 +493,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase
   }
   
 
+  
   /**
    * Resolves the external {@link Model} referenced by this and
    * returns that model, for a given path to the directory containing the
