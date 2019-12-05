@@ -744,7 +744,6 @@ public class CompFlatteningConverter {
         } while (contained);
         String newPrefix = prefixBuilder.toString();
         
-        
         CompSBMLDocumentPlugin referencedDocumentPlugin =
           (CompSBMLDocumentPlugin) flattened.getExtension(
             CompConstants.shortLabel);
@@ -782,8 +781,8 @@ public class CompFlatteningConverter {
         
         for (ModelDefinition md : workingList) {
           ModelDefinition internalised = new ModelDefinition(md);
-          // i.e. current one is the one directly referenced
-          if(md.getId().equals(emd.getModelRef())) {
+          // i.e. current one is the one directly referenced => take referent's place
+          if(md.getId().equals(referenced.getId())) {
             internalised.setId(emd.getId());
           } else {
             internalised.setId(newPrefix + internalised.getId());
