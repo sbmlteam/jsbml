@@ -679,6 +679,10 @@ public class CompFlatteningConverter {
    * include external models; in that case, renaming may occur).
    * <br>
    * The given {@link SBMLDocument} need have its locationURI set!
+   * <br>
+   * Opaque URIs (URNs) will not be dealt with in any defined way, resolve them
+   * first (make sure all relevant externalModelDefinitions' source-attributes
+   * are URLs or relative paths)
    * 
    * @param document
    *        an {@link SBMLDocument}, which might, but need not, contain

@@ -465,7 +465,6 @@ public class TestExternalModelDefinition {
   public void testGetAbsoluteSourceURI_relativeToFile() throws URISyntaxException, XMLStreamException, IOException {
     setUpExternalModelDefinition("testGathering/", "spec_example2.xml", "ExtMod1");
     String absolute = "file:/" + absolutePath.substring(6) + "spec_example1.xml";
-    System.out.println(new URI(absolute));
     assertEquals(new URI(absolute), externalModel.getAbsoluteSourceURI());
   }
   
