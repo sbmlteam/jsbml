@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.comp.util;
 
 import java.io.File;
@@ -40,7 +39,6 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UnitDefinition;
@@ -776,7 +774,7 @@ public class CompFlatteningConverter {
           ModelDefinition localisedMain = new ModelDefinition(flattened.getModel());
           workingList.add(0, localisedMain);
         }
-        //
+        
         
         
         for (ModelDefinition md : workingList) {
