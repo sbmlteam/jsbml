@@ -687,7 +687,7 @@ public class CompFlatteningConverter {
    *        {@link ExternalModelDefinition}s to be transferred into its local
    *        {@link ModelDefinition}s. The locationURI of the given document need
    *        be set ({@link SBMLDocument#isSetLocationURI})!
-   * @return a new {@link SBMLDocument} whithout {@link
+   * @return a new {@link SBMLDocument} without {@link
    *         ExternalModelDefinition}s, but containing the same information as
    *         the given one
    * @throws Exception
@@ -703,7 +703,7 @@ public class CompFlatteningConverter {
         "document's locationURI need be set. But it was not.");
     }
     SBMLDocument result = document.clone(); // no side-effects intended
-    ArrayList<String> usedIds = new ArrayList();
+    ArrayList<String> usedIds = new ArrayList<String>();
     if (result.isSetModel()) {
       usedIds.add(result.getModel().getId());
     }
