@@ -68,6 +68,18 @@ public class CompFlattenTest {
   }
 
   
+  /**
+   * Tests behaviour if the locationURI of the sbml-document whose
+   * externalModelDefinitions are to be internalised is not set
+   * 
+   * @throws Exception -> desired behaviour
+   */
+  @Test(expected = Exception.class)
+  public void testInternaliseExternalModelDefinitions_noLocation() throws Exception {
+    setUpOriginalAndExpected("testGathering/spec_example1.xml", "testGathering/spec_example1.xml");
+    original.getSBMLDocument().setLocationURI(null);
+    SBMLDocument result = CompFlatteningConverter.internaliseExternalModelDefinitions(original);
+  }
   
   
   /**
@@ -249,7 +261,9 @@ public class CompFlattenTest {
     assertTrue(equalCompPlugin(expected, result));
   }
   
-  // @Test
+  
+  // TODO: these currently fail (and did so before)
+  @Test
   public void testAllData() {
     ClassLoader cl = this.getClass().getClassLoader();
     for (int i = 1; i < 62; i++) {
@@ -263,7 +277,7 @@ public class CompFlattenTest {
   }
 
 
-  // @Test
+  @Test
   public void testSpecificFile() {
     int i = 6;
     ClassLoader cl = this.getClass().getClassLoader();
