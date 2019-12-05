@@ -20,7 +20,6 @@ package org.sbml.jsbml.ext.comp;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -494,6 +493,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase
     return true;
   }
 
+  
   /**
    * Resolves the external {@link Model} referenced by this and
    * returns that model, for a given path to the directory containing the
@@ -507,7 +507,8 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    * @param absoluteContainingURI
    *        absolute URI to the directory containing the
    *        file that defines this (needed to resolve local
-   *        references)
+   *        references): Undefined behaviour for opaque URIs (URNs or other),
+   *        resolve URNs before calling this method
    * @return The referenced {@link Model}
    * @throws IOException
    *         if the source cannot be found/resolved
@@ -522,6 +523,8 @@ public class ExternalModelDefinition extends AbstractNamedSBase
     SBMLDocument externalFile;
     sourceURI = getAbsoluteSourceURI(absoluteContainingURI);
     URL sourceUrl = new URL(sourceURI.toString());
+    // Work under the assumption that sourceURI is a URL (file or https, ...),
+    // not some kind of opaque URI (like a URN)
     if (sourceUrl.getProtocol().equals("file")) {
       externalFile = org.sbml.jsbml.SBMLReader.read(new File(sourceURI));
     } else {
@@ -535,11 +538,11 @@ public class ExternalModelDefinition extends AbstractNamedSBase
         + getId());
     }
     sourceURIString = sourceURI.toString();
-    // TODO: Handle URN?
+
     // The referenced model can be the main model of the referenced File
     // (comp-documentation page 14)
     if (externalFile.getModel().getId().equals(modelRef)) {
-      return externalFile.getModel(); // don't clone: will lose getSBMLDocument-information
+      return externalFile.getModel();
     } else if (externalFile.isPackageEnabled(CompConstants.shortLabel)) {
       CompSBMLDocumentPlugin externalFileCompPlugin =
         (CompSBMLDocumentPlugin) externalFile.getExtension(
@@ -580,7 +583,9 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    * model, under the assumption that the containing {@link SBMLDocument} a)
    * exists and b) has a valid locationURI set (cf
    * {@link SBMLDocument#isSetLocationURI()}). This location of the containing
-   * file is needed to resolve references to external models by relative paths
+   * file is needed to resolve references to external models by relative paths.
+   * URNs/opaque URIs cannot be resolved by this method, resolve them before
+   * calling it.
    * <br>
    * The referenced {@link Model} is not modified and may thus contain
    * {@link Submodel}s referencing further (external) {@link ModelDefinition}s.
