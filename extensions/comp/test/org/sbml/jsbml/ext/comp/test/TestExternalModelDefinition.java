@@ -379,28 +379,55 @@ public class TestExternalModelDefinition {
     referenced = externalModel.getReferencedModel();
     assertModelsEqual(expectedModel, referenced);
   }
+   
   
   /**
-   * Checks behaviour when the model references an external model by a relative
-   * Path, and the referenced file contains the definition (but not as the main
-   * model).
+   * Tests behaviour of {@link ExternalModelDefinition#getReferencedModel} if
+   * the {@link SBMLDocument}'s locationURI is not set
    * 
    * @throws URISyntaxException
    * @throws XMLStreamException
    * @throws IOException
    */
-  @Test
-  public void testGetReferencedSBMLDocument_relativePath()
-    throws URISyntaxException, XMLStreamException, IOException {
-    setUpExpectation("testGathering/spec_example1.xml");
-    // 'spec_example2' references ...1 by relative path
-    setUpExternalModelDefinition("testGathering/", "spec_example2.xml",
-      "ExtMod1");
-    Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
-    assertModelsEqual(expectedModel, referenced);
+  @Test(expected = NullPointerException.class)
+  public void testGetReferencedModel_noLocation() throws URISyntaxException, XMLStreamException, IOException {
+    URL urlFile = cl.getResource("testGathering/spec_example2.xml");
+    assert urlFile != null;
+    File file = new File(urlFile.toURI());
+    assert file != null;
+    SBMLDocument document = SBMLReader.read(file);
+    CompSBMLDocumentPlugin compSBMLDocPlugin =
+      (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
+    externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
+    
+    document.setLocationURI(null);
+    // this should now throw an exception
+    externalModel.getReferencedModel();
   }
   
+  /**
+   * Tests for case where the referenced modelDef is not found in the specified file: Returning null
+   * @throws IOException 
+   * @throws XMLStreamException 
+   * @throws URISyntaxException 
+   */
+  @Test
+  public void testGetReferencedModel_nonexistant() throws URISyntaxException, XMLStreamException, IOException {
+    setUpExternalModelDefinition("testGathering/", "references_nonexistant.xml",
+      "ExtMod1");
+    Model result = externalModel.getReferencedModel();
+    assertNull(result);
+  }
   
+  /**
+   * Tests behaviour of {@link ExternalModelDefinition#getAbsoluteSourceURI} for
+   * an already absolute source (no change expected, except 'file:/' specifying
+   * the scheme)
+   * 
+   * @throws URISyntaxException
+   * @throws XMLStreamException
+   * @throws IOException
+   */
   @Test
   public void testGetAbsoluteSourceURI_alreadyAbsolute() throws URISyntaxException, XMLStreamException, IOException {
     setUpExternalModelDefinition("testGathering/", "spec_example2.xml", "ExtMod1");
@@ -443,5 +470,29 @@ public class TestExternalModelDefinition {
       externalModel.getAbsoluteSourceURI(
         new URI(commonUrl) // The containing directory
         ));
+  }
+  
+  /**
+   * Tests behaviour of {@link ExternalModelDefinition#getAbsoluteSourceURI} if
+   * the {@link SBMLDocument}'s locationURI is not set
+   * @throws URISyntaxException
+   * @throws XMLStreamException
+   * @throws IOException
+   */
+  @Test(expected = NullPointerException.class)
+  public void testGetAbsoluteSourceURI_noLocation() throws URISyntaxException, XMLStreamException, IOException {
+    URL urlFile = cl.getResource("testGathering/spec_example2.xml");
+    assert urlFile != null;
+    File file = new File(urlFile.toURI());
+    assert file != null;
+
+    SBMLDocument document = SBMLReader.read(file);
+    document.setLocationURI(null);
+    CompSBMLDocumentPlugin compSBMLDocPlugin =
+      (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
+    externalModel = compSBMLDocPlugin.getExternalModelDefinition("ExtMod1");
+    
+    // This should now cause an exception
+    externalModel.getAbsoluteSourceURI();
   }
 }
