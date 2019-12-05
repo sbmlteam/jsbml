@@ -22,7 +22,6 @@ package org.sbml.jsbml.ext.comp.test;
 import org.junit.Assert;
 import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.ext.comp.CompConstants;
@@ -309,39 +308,8 @@ public class CompFlattenTest {
   }
   
   
-  /**
-   * Tests behaviour for a) branching references that lead to the same end: This
-   * is yields a duplicate [manually curate the file to remove redundancies!],
-   * and b) if the main Document's model is not defined/set (no problem should
-   * arise)
-   * 
-   * @throws Exception
-   */
-  @Test
-  public void testInternaliseExternalModelDefinitions_branchingAndNoModel()
-    throws Exception {
-    setUpOriginalAndExpected("testGathering/internalise_branching.xml",
-      "testGathering/single_files/internalise_branching_single.xml");
-    SBMLDocument result =
-        CompFlatteningConverter.internaliseExternalModelDefinitions(original);
-
-    assertEquals(expected, result);
-    assertTrue(equalCompPlugin(expected, result));
-  }
-  
-  @Test
-  public void testInternaliseExternalModelDefinitions_online() throws Exception {
-    setUpOriginalAndExpected("testGathering/internalise_online_chain.xml",
-        "testGathering/single_files/internalise_online_chain_single.xml");
-    SBMLDocument result =
-      CompFlatteningConverter.internaliseExternalModelDefinitions(original);
-    assertEquals(expected, result);
-    assertTrue(equalCompPlugin(expected, result));
-  }
-  
-  
   // TODO: these currently fail (and did so before)
-  // @Test
+  @Test
   public void testAllData() {
     ClassLoader cl = this.getClass().getClassLoader();
     for (int i = 1; i < 62; i++) {
@@ -355,7 +323,7 @@ public class CompFlattenTest {
   }
 
 
-  //@Test
+  @Test
   public void testSpecificFile() {
     int i = 6;
     ClassLoader cl = this.getClass().getClassLoader();
