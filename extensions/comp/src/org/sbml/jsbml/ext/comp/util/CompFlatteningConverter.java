@@ -751,8 +751,7 @@ public class CompFlatteningConverter {
         
         ListOf<ModelDefinition> workingList;
         if(referencedDocumentPlugin == null) {
-          // This may happen, if the main model of a non-comp-file is referenced: Check for main and 
-          // internalise it.
+          // This may happen, if the main model of a non-comp-file is referenced
           workingList = new ListOf<ModelDefinition>();
           workingList.setLevel(referenced.getLevel());
           workingList.setVersion(referenced.getVersion());
