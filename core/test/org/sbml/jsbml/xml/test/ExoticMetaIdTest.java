@@ -12,8 +12,8 @@ import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLReader;
 
 /**
- * Tests if /u0E94 as starting letter in metaId is 
- * considered valid as expected. 
+ * Tests if SBMLDocument containing /u0E94 as starting letter 
+ * in metaId is considered valid as expected. 
  * 
  * @author Onur Özel
  * @since 1.5
@@ -30,15 +30,17 @@ public class ExoticMetaIdTest {
     try {
       doc = reader.readSBMLFromString("<?xml version='1.0' encoding='UTF-8\'?>\r\n" + 
           "<sbml xmlns='http://www.sbml.org/sbml/level2/version4' level='2' version='4'>\r\n" + 
-          "  <model metaid='ດA१ '/>\r\n" + 
+          "  <model metaid='ດA१'/>\r\n" + 
           "</sbml>");
     } catch (XMLStreamException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
     doc.checkConsistencyOffline();
-    List<SBMLError> valErrors = doc.getListOfErrors().getValidationErrors(); 
+    List<SBMLError> valErrors = doc.getListOfErrors().getValidationErrors();
+    System.out.println(valErrors);
     assertTrue(valErrors.isEmpty());
-    System.out.println(doc.getListOfErrors().getValidationErrors());
   }
+  
+  //TODO - Test more exoting things and do it with digits also 
 }
