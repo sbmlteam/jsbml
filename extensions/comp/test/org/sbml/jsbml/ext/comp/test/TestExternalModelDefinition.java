@@ -450,7 +450,6 @@ public class TestExternalModelDefinition {
     // The substring starting from 6 is to cut off prefix 'file:/"
     String absolute = absolutePath.substring(5) + "spec_example1.xml";
     externalModel.setSource(absolute);
-    System.out.println("Absolute path is: " + absolutePath);
     assertEquals(new URI("file:" + absolute), externalModel.getAbsoluteSourceURI());
     
     externalModel.setSource(urlExpectation.toString());
