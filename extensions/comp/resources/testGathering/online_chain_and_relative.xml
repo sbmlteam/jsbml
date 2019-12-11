@@ -24,6 +24,6 @@
 		</comp:listOfSubmodels>
 	</model>
 	<comp:listOfExternalModelDefinitions>
-		<comp:externalModelDefinition comp:id="ExtMod1" comp:source="https://raw.githubusercontent.com/sbmlteam/jsbml/vetter-comp-single-file/extensions/comp/resources/testGathering/chain_reference_different_directory.xml" comp:modelRef="ExtMod1"/>
+		<comp:externalModelDefinition comp:id="ExtMod1" comp:source="https://raw.githubusercontent.com/sbmlteam/jsbml/master/extensions/comp/resources/testGathering/chain_reference_different_directory.xml" comp:modelRef="ExtMod1"/>
 	</comp:listOfExternalModelDefinitions>
 </sbml> 
