@@ -479,7 +479,7 @@ public class TestExternalModelDefinition {
   public void testGetAbsoluteSourceURI_online() throws URISyntaxException, XMLStreamException, IOException {
     setUpExternalModelDefinition("testGathering/", "chain_reference_different_directory.xml",
       "ExtMod1");
-    String commonUrl = "https://raw.githubusercontent.com/sbmlteam/jsbml/master/extensions/comp/resources/testGathering/";
+    String commonUrl = "https://raw.githubusercontent.com/sbmlteam/jsbml/gh-pages/test/data/comp/";
     assertEquals(
       new URI(commonUrl + "somewhere_else/chain_reference_intermediate.xml"),
       externalModel.getAbsoluteSourceURI(
