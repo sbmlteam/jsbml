@@ -664,19 +664,25 @@ public class ExternalModelDefinition extends AbstractNamedSBase
     try {
       // the source itself is a valid URL: do not need absoluteContainingURI
       sourceUrl = new URL(new URI(source).toString());
+      System.out.println("Source (" + source + ") is a valid URL");
     } catch (MalformedURLException e) {
       // the source itself is not a valid URL: it is relative
       StringBuilder workingURI = new StringBuilder();
       if (!new File(source).isAbsolute()) {
         workingURI.append(absoluteContainingURI);
         workingURI.append(completionOfAbsoluteContainingURI);
+        System.out.println("Source (" + source + ") is not absolute");
       } else {
-        workingURI.append("file:/");
+        workingURI.append("file:");
+        String completionOfPrefix = source.startsWith("/") ? "" : "/";
+        workingURI.append(completionOfPrefix);
+        System.out.println("Source (" + source + ") is absolute");
       }
       workingURI.append(source);
       sourceUrl = new URL(workingURI.toString());
     }
     sourceURI = sourceUrl.toURI();
+    System.out.println("Built absolute URI: " + sourceURI);
     return sourceURI;
   }
 }

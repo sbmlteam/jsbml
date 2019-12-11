@@ -90,7 +90,7 @@ public class TestExternalModelDefinition {
     assert urlFile != null;
     File file = new File(urlFile.toURI());
     assert file != null;
-    absolutePath = urlFile.toURI().toString();
+    absolutePath = file.toURI().toString();
     absolutePath =
       absolutePath.substring(0, absolutePath.length() - fileName.length());
     SBMLDocument document = SBMLReader.read(file);
@@ -136,8 +136,8 @@ public class TestExternalModelDefinition {
     setUpExpectation("testGathering/spec_example1.xml");
     setUpExternalModelDefinition("testGathering/", "spec_example2.xml",
       "ExtMod1");
-    // Set the source to an absolute Path
-    externalModel.setSource(absolutePath.substring(6) + "spec_example1.xml");
+    // Set the source to an absolute Path: index 6 to cut off 'file:/', index 5 to cut off 'file:' 
+    externalModel.setSource(absolutePath.substring(5) + "spec_example1.xml");
     Model referenced = externalModel.getReferencedModel(new URI(absolutePath));
     assertModelsEqual(expectedModel, referenced);
   }
@@ -447,9 +447,11 @@ public class TestExternalModelDefinition {
   public void testGetAbsoluteSourceURI_alreadyAbsolute() throws URISyntaxException, XMLStreamException, IOException {
     setUpExternalModelDefinition("testGathering/", "spec_example2.xml", "ExtMod1");
     setUpExpectation("testGathering/spec_example1.xml");
-    String absolute = absolutePath.substring(6) + "spec_example1.xml";
+    // The substring starting from 6 is to cut off prefix 'file:/"
+    String absolute = absolutePath.substring(5) + "spec_example1.xml";
     externalModel.setSource(absolute);
-    assertEquals(new URI("file:/" + absolute), externalModel.getAbsoluteSourceURI());
+    System.out.println("Absolute path is: " + absolutePath);
+    assertEquals(new URI("file:" + absolute), externalModel.getAbsoluteSourceURI());
     
     externalModel.setSource(urlExpectation.toString());
     assertEquals(urlExpectation.toURI(), externalModel.getAbsoluteSourceURI());
