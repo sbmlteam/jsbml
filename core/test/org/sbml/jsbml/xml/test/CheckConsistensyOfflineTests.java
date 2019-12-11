@@ -19,7 +19,11 @@ import org.sbml.jsbml.SBMLError.SEVERITY;
 import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 import org.sbml.jsbml.validator.SBMLValidator;
 
-
+/**
+ * 
+ * @author Onur Özel		
+ * @since 1.5
+ */
 public class CheckConsistensyOfflineTests {
 
 	private HashMap<String, SBMLDocument> docs;
