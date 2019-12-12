@@ -24,6 +24,6 @@
 		</comp:listOfSubmodels>
 	</model>
 	<comp:listOfExternalModelDefinitions>
-		<comp:externalModelDefinition comp:id="ExtMod1" comp:source="https://raw.githubusercontent.com/sbmlteam/jsbml/gh-pages/test/data/comp/spec_example1.xml" comp:modelRef="linked"/>
+		<comp:externalModelDefinition comp:id="ExtMod1" comp:source="https://sbmlteam.github.io/jsbml/test/data/comp/spec_example1.xml" comp:modelRef="linked"/>
 	</comp:listOfExternalModelDefinitions>
 </sbml> 
