@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+	<model id="e">
+		<listOfCompartments>
+			<compartment id="cytoplasm" spatialDimensions="3" size="1" constant="true"/>
+		</listOfCompartments>
+		<listOfSpecies>
+			<species id="u" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+			<species id="v" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+			<species id="w" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+		</listOfSpecies>
+		<listOfReactions>
+			<reaction id="a1" reversible="true" fast="false">
+				<listOfReactants>
+					<speciesReference species="u" stoichiometry="2" constant="true"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="v" stoichiometry="1" constant="true"/>
+					<speciesReference species="w" stoichiometry="1" constant="true"/>
+				</listOfProducts>
+			</reaction>
+		</listOfReactions>
+	</model>
+</sbml> 

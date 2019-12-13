@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1"
+	xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" comp:required="true">
+	<model>
+	</model>
+	<comp:listOfExternalModelDefinitions>
+		<comp:externalModelDefinition comp:id="ExtMod1" comp:source="hidden_spec_example1.xml" comp:modelRef="linked"/>
+	</comp:listOfExternalModelDefinitions>
+</sbml> 

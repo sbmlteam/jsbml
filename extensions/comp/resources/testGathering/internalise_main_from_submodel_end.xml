@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+	<model id="b">
+		<listOfCompartments>
+			<compartment id="periplasm" spatialDimensions="3" size="1" constant="true"/>
+		</listOfCompartments>
+		<listOfSpecies>
+			<species id="h2o" compartment="periplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+			<species id="oh" compartment="periplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+			<species id="h3o" compartment="periplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+		</listOfSpecies>
+		<listOfReactions>
+			<reaction id="a1" reversible="true" fast="false">
+				<listOfReactants>
+					<speciesReference species="h2o" stoichiometry="2" constant="true"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="oh" stoichiometry="1" constant="true"/>
+					<speciesReference species="h3o" stoichiometry="1" constant="true"/>
+				</listOfProducts>
+			</reaction>
+		</listOfReactions>
+	</model>
+</sbml> 

@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -322,6 +324,8 @@ public class SBMLReader {
       }
     }
     if (readObject instanceof SBMLDocument) {
+      ((SBMLDocument) readObject).setLocationURI(file.toURI().toString());
+
       return (SBMLDocument) readObject;
     }
     throw new XMLStreamException(MessageFormat.format(

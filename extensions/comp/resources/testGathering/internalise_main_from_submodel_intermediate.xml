@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1"
+	xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" comp:required="true">
+	<model id="m" name="main">
+		<listOfCompartments>
+			<compartment id="cytoplasm" spatialDimensions="3" size="1" constant="true"/>
+		</listOfCompartments>
+		<listOfSpecies>
+			<species id="adp" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+			<species id="atp" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+			<species id="p" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+		</listOfSpecies>
+		<listOfReactions>
+			<reaction id="a1" reversible="true" fast="false">
+				<listOfReactants>
+					<speciesReference species="atp" stoichiometry="1" constant="true"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="adp" stoichiometry="1" constant="true"/>
+					<speciesReference species="p" stoichiometry="1" constant="true"/>
+				</listOfProducts>
+			</reaction>
+		</listOfReactions>
+		<comp:listOfSubmodels>
+			<comp:submodel comp:id="internalA" comp:modelRef="a"/>
+		</comp:listOfSubmodels>
+	</model>
+	<comp:listOfModelDefinitions>
+		<comp:modelDefinition id="b" name="b">
+			<comp:listOfSubmodels>
+				<comp:submodel comp:id="internalMain" comp:modelRef="m"/>
+			</comp:listOfSubmodels>
+		</comp:modelDefinition>
+	</comp:listOfModelDefinitions>
+	<comp:listOfExternalModelDefinitions>
+		<comp:externalModelDefinition comp:id="a" comp:source="internalise_main_from_submodel_end.xml" comp:modelRef="b"/>
+	</comp:listOfExternalModelDefinitions>
+</sbml> 
