@@ -491,25 +491,22 @@ public class XMLNode extends XMLToken {
    * Inserts a node as the {@code n}th child of this
    * {@link XMLNode}.
    * <p>
-   * If the given index {@code n} is out of range for this {@link XMLNode} instance,
-   * the {@code node} is added at the end of the list of children.  Even in
-   * that situation, this method does not throw an error.
-   * <p>
    * @param n an integer, the index at which the given node is inserted
    * @param node an {@link XMLNode} to be inserted as {@code n}th child.
    * <p>
    * @return a reference to the newly-inserted child {@code node}
+   * @throws IndexOutOfBoundsException if n is out of range 
+   *  (negative or >= {@link XMLNode#getChildCount()})
    */
-  public XMLNode insertChild(int n, XMLNode node) {
+  public XMLNode insertChild(int n, XMLNode node) throws IndexOutOfBoundsException {
     if (node == null) {
       return node;
     }
-
+    
     if (isEnd()) {
       unsetEnd();
     }
-    if ((n > getChildCount()) || (n < 0)) {
-      //			childrenElements.add(node);
+    if ((n > getChildCount()) || (n < 0)) { 
       throw new IndexOutOfBoundsException(Integer.toString(n));
     } else {
       if (childElements == null) {
@@ -569,6 +566,47 @@ public class XMLNode extends XMLToken {
 
     return OPERATION_SUCCESS;
   }
+  
+  /**
+   * Searches for first occurrence of the given XMLNode among the immediate children of this 
+   * XMLNode and returns the index with which that child could be accessed e.g. 
+   * via {@link XMLNode#getChildAt}
+   * @param searched the XMLNode to be searched among the immediate (!) children of this XMLNode
+   * @return the index of the child (or -1 if absent)
+   */
+  public int indexOf(XMLNode searched) {
+  	if(searched == null)
+  		throw new NullPointerException("XMLNode to be searched was null - cannot search null");
+  	for (int i = 0; i < getChildCount(); i++) {
+      XMLNode child = getChildAt(i);
+
+      if (child.equals(searched))
+      {
+        return i;
+      }
+    }
+  	return -1;
+  }
+  
+  /**
+   * Searches for the first among the immediate children of this XMLNode whose name is the given one,
+   * and returns the index with which that child could be accessed e.g. via {@link XMLNode#getChildAt}
+   * @param name the name ({@link XMLNode#getName}) to be searched (if null, "" or "*", NO XMLNode 
+   * 	will match)
+   * @return the index of the child (or -1 if absent)
+   */
+  public int indexOf(String name) {
+  	if(name == null || name.equals("") || name.equals("*"))
+  		return -1;
+  	for (int i = 0; i < getChildCount(); i++) {
+      XMLNode child = getChildAt(i);
+      
+      if (child.isElement() && child.getName().equals(name)) { 
+      	return i; 
+      }
+    }
+  	return -1;
+  }
 
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
@@ -595,24 +633,19 @@ public class XMLNode extends XMLToken {
         	    	if (prefix != null && prefix.length() > 0) {
         	    		builder.append(prefix).append(":");
         	    	} 
-        	    	builder.append(name).append("=\"").append(value).append("\" ");
+        	    	builder.append(name).append("=\"").append(value).append("\"");
+        	    	if(i < getAttributesLength() - 1) 
+        	    		builder.append(", ");
         	    }
           }
           
-          // namespaces and child size
+          // namespaces size
           if (getNamespacesLength() > 0) {
         	  if (getAttributesLength() > 0) {
         		  builder.append(", ");
         	  }
-        	  builder.append("namespaces size="); // TODO - we could write the namespaces like the attributes
+        	  builder.append("namespaces size=");
         	  builder.append(getNamespacesLength());        	  
-          }          
-          if (getNumChildren() > 0) {
-        	  if (getAttributesLength() > 0 || getNamespacesLength() > 0) {
-        		  builder.append(", ");
-        	  }
-        	  builder.append("childElements size=");
-        	  builder.append(getNumChildren()); // putting just the number of children, to avoid to print them recursively.
           }
       }
       else if (isText()) {
@@ -620,6 +653,14 @@ public class XMLNode extends XMLToken {
           builder.append(characters);    	  
       }
 
+      // ChildElements size
+      if (getNumChildren() > 0) {
+    	  if (getAttributesLength() > 0 || getNamespacesLength() > 0 || isText()) {
+    		  builder.append(", ");
+    	  }
+    	  builder.append("childElements size=");
+    	  builder.append(getNumChildren()); // putting just the number of children, to avoid to print them recursively.
+      }
       builder.append("]");
       
       return builder.toString();

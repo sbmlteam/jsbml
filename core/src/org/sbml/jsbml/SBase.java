@@ -958,6 +958,65 @@ public interface SBase extends TreeNodeWithChangeSupport {
   @Override
   public void removeTreeNodeChangeListener(TreeNodeChangeListener listener);
 
+  
+  /**
+   * Removes the top-level element within the 'annotation' subelement of 
+   * this SBML object with the given name. If the name is null, "" or "*", 
+   * nothing will be removed (return=false).
+   * If the annotation is empty after removal, it will be removed/unset 
+   * @param name of the annotation element to be removed
+   * @return Whether the element was found and removed
+   */
+  public boolean removeTopLevelAnnotationElement(String name);
+  
+  /**
+   * Removes the top-level element within the 'annotation' subelement of
+   * this SBML object with the given name and URI. If the name is null, "" or "*", 
+   * nothing will be removed (return=false).
+   * If the annotation is empty after removal, it will be removed/unset
+   * @param name of the annotation element to be removed
+   * @param elementURI of the annotation element to be removed
+   * @return Whether the element was found and removed
+   */
+  public boolean removeTopLevelAnnotationElement(String name, String elementURI);
+  
+  /**
+   * Removes the top-level element within the 'annotation' subelement of
+   * this SBML object with the given name and URI. If the name is null, "" or "*", 
+   * nothing will be removed (return=false).
+   * @param name of the annotation element to be removed
+   * @param elementURI of the annotation element to be removed (if null, "" or "*", will match 
+   * 	any URI)
+   * @param removeEmpty Whether to remove/unset the annotation, if it is 
+   * 	empty after removing the specified element
+   * @return Whether the element was found and removed
+   */
+  public boolean removeTopLevelAnnotationElement(String name, String elementURI, boolean removeEmpty);
+  
+  /**
+   * Replaces the top-level element of this SBML object with same name as given 
+   * annotation subelement by the given one. Ordering of annotation will remain the same.
+   * Name of element to be replaced is inferred from given annotation string. 
+   * @param annotation XML-string representing the annotation subelement to replace the 
+   * 	existing one of same name
+   * @return whether a corresponding element was found and replaced 
+   * @throws XMLStreamException if the annotation-string cannot be parsed into an XML
+   * @throws IllegalArgumentException if the annotation-string encodes more than 
+   *  one annotation element
+   */
+  public boolean replaceTopLevelAnnotationElement(String annotation) 
+  		throws XMLStreamException, IllegalArgumentException;
+  
+  /**
+   * Replaces the top-level element of this SBML object with same name as given 
+   * annotation subelement by the given one. Ordering of annotation will remain the same.
+   * Name of element to be replaced is inferred from given annotation XMLNode. 
+   * @param annotation XMLNode representing the annotation subelement to replace the 
+   * 	existing one of same name
+   * @return whether a corresponding element was found and replaced 
+   */
+  public boolean replaceTopLevelAnnotationElement(XMLNode annotation);
+  
   /**
    * Sets the value of the 'annotation' sub-element of this SBML object to a
    * copy of annotation given as an {@link Annotation} instance.

@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml.xml.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -31,8 +32,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLToken;
+import org.sbml.jsbml.xml.XMLTriple;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 
@@ -80,4 +83,72 @@ public class XMLTokenTest {
     assertTrue("The equals method between an object and it's clone should return true", doc.equals(doc.clone()));
   }
 
+  /**
+   * Checks behaviour if the searched child is absent (including: the list of children is empty)
+   */
+  @Test public void test_XMLNode_indexOf_NotFound( ) {
+  	XMLNode node = new XMLNode(new XMLTriple("name", "uri", "prefix"));
+  	assertEquals(-1, node.indexOf("name")); // this is the name of the parent, NOT the immediate child!
+  	assertEquals(-1, node.indexOf(new XMLNode(new XMLTriple("name", "uri", "prefix"))));
+  	node.addChild(new XMLNode(new XMLTriple("child1", null, null)));
+  	assertEquals(-1, node.indexOf("notTheChild"));
+  	assertEquals(-1, node.indexOf(new XMLNode(new XMLTriple("notTheChild", "uri", "prefix"))));
+  }
+  
+  /**
+   * Checks general behaviour of {@link XMLNode#indexOf(String)}/{@link XMLNode#indexOf(XMLNode)}
+   */
+  @Test public void test_XMLNode_indexOf() {
+  	XMLNode node = new XMLNode(new XMLTriple("name", "uri", "prefix"));
+  	node.addChild(new XMLNode(new XMLTriple("child1", null, null)));
+  	node.addChild(new XMLNode(new XMLTriple("child2", null, null)));
+  	node.addChild(new XMLNode(new XMLTriple("child1", null, null)));
+  	node.addChild(new XMLNode(new XMLTriple("child3", null, null)));
+  	
+  	assertEquals(0, node.indexOf("child1"));
+  	assertEquals("child2", node.getChildAt(node.indexOf("child2")).getName());
+  	assertEquals("child3", node.getChildAt(node.indexOf(new XMLNode(new XMLTriple("child3", null, null)))).getName());
+  	assertEquals(-1, node.indexOf("notAChild"));
+  }
+  
+  /**
+   * Checks behaviour for special names (null, "", "*"): Do not search, these elements are 
+   * considered 'not present'
+   */
+  @Test public void test_XMLNode_indexOf_unspecificName() {
+  	XMLNode node = new XMLNode(new XMLTriple("name", "uri", "prefix"));
+  	node.addChild(new XMLNode(new XMLTriple("child1", null, null)));
+  	node.addChild(new XMLNode(new XMLTriple("child2", null, null)));
+  	assertEquals(-1, node.indexOf((String) null));
+  	assertEquals(-1, node.indexOf(""));
+  	assertEquals(-1, node.indexOf("*"));
+  }
+  
+  /**
+   * Checks behaviour for an XMLNode that is an Element
+   */
+  @Test public void test_XMLNode_toString_IsElement() {
+  	XMLAttributes attributes = new XMLAttributes();
+  	attributes.add("attr1", "something");
+  	attributes.add("attr2", "false");
+  	attributes.add("attr3", "10");
+  	XMLNode node = new XMLNode(new XMLTriple("testNode", "uri", "prefix"), attributes);
+  	assertEquals("XMLNode 'testNode' [attr1=\"something\", attr2=\"false\", attr3=\"10\"]", node.toString());
+  	
+  	node.addChild(new XMLNode());
+  	assertEquals("XMLNode 'testNode' [attr1=\"something\", attr2=\"false\", attr3=\"10\", childElements size=1]", node.toString());
+  }
+  
+  /**
+   * Checks behaviour for an XMLNode that is just text
+   */
+  @Test public void test_XMLNode_toString_IsText() {
+  	String content = "some content within the node";
+  	XMLNode node = new XMLNode(content);
+  	assertEquals("XMLNode [characters=" + content + "]", node.toString());
+  	
+  	node.addChild(new XMLNode());
+  	node.addChild(new XMLNode());
+  	assertEquals("XMLNode [characters=" + content + ", childElements size=2]", node.toString());
+  }
 }

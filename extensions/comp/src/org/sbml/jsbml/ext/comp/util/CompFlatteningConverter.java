@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.comp.util;
 
 import java.io.File;
@@ -55,9 +54,9 @@ import org.sbml.jsbml.ext.comp.ReplacedElement;
 import org.sbml.jsbml.ext.comp.Submodel;
 
 /**
- * The {@link CompFlatteningConverter} object translates a hierarchical model defined with the SBML Level 3
+ * The {@link CompFlatteningConverter} object translates a hierarchical model defined with the SBML Level�3
  * Hierarchical Model Composition package into a 'flattened' version of the same model. This means the the hierarchical
- * structure is dissolved and all objects are build into a single model that does no longer require the comp package.
+ * structure is dissolved and all objects are built into a single model that does no longer require the comp package.
  *
  * @author Christoph Blessing
  * @since 1.0
@@ -108,10 +107,10 @@ public class CompFlatteningConverter {
 
             if (document.isSetModel() && document.getModel().getExtension(CompConstants.shortLabel) != null) {
 
-                // TODO: the model itself has to be flattend (can hold a list of replacements etc.)
+                // TODO: the model itself has to be flattened (can hold a list of replacements etc.)
                 CompModelPlugin compModelPlugin = (CompModelPlugin) document.getModel().getExtension(CompConstants.shortLabel);
                 handlePorts(compModelPlugin, compModelPlugin.getListOfPorts());
-                replaceElementsInModelDefinition(compModelPlugin, null);
+                replaceElementsInModelDefinition(compModelPlugin, null); //TODO: why is null given here?
 
                 this.flattenedModel = instantiateSubModels(compModelPlugin);
             } else {
@@ -119,7 +118,7 @@ public class CompFlatteningConverter {
             }
 
         } else {
-            LOGGER.warning("No comp package found in Document. Can not flatten.");
+            LOGGER.warning("No comp package found in Document. Cannot flatten.");
         }
 
         this.flattenedModel.unsetExtension(CompConstants.shortLabel);
@@ -159,6 +158,13 @@ public class CompFlatteningConverter {
         return this.flattenedModel;
     }
 
+    /**
+     * Actualizes replacement provided by comp extension: The "replaced elements" referenced by {@link ReplacedElement} 
+     * instances are here actually removed, along with their respective {@link Port}, and thus replaced by the holder 
+     * of the {@link ReplacedElement} 
+     * @param compModelPlugin plugin holding the {@link ReplacedElement}s, may be null -- not used in that case
+     * @param compSBasePlugin plugin holding {@link ReplacedElement}s, may be null - not used in that case
+     */
     private void replaceElementsInModelDefinition(CompModelPlugin compModelPlugin, CompSBasePlugin compSBasePlugin) {
 
         if (compModelPlugin != null || compSBasePlugin != null) {
@@ -201,7 +207,7 @@ public class CompFlatteningConverter {
 
             // A port could be created by using the metaIdRef attribute
             // to identify the object for which a given Port instance is the port;
-            // The question “what does this port correspond to?” would be answered by the value of the metaIdRef attribute.
+            // The question 'what does this port correspond to?' would be answered by the value of the metaIdRef attribute.
 
             String idRef = port.getIdRef();
             String metaIDRef = port.getMetaIdRef();
@@ -501,17 +507,17 @@ public class CompFlatteningConverter {
         Model model = new Model();
 
         // 2
-        // Let “M” be the identifier of a given submodel.
+        // Let 'M' be the identifier of a given submodel.
         String subModelID = subModel.getId() + "_";
         String subModelMetaID = subModel.getMetaId() + "_";
 
         // Verify that no object identifier or meta identifier of objects in that submodel
         // (i.e., the id or metaid attribute values)
-        // begin with the character sequence “M__”;
+        // begin with the character sequence "M__";
 
-        // if there is an existing identifier or meta identifier beginning with “M__”,
-        // add an underscore to “M__” (i.e., to produce “M___”) and again check that the sequence is unique.
-        // Continue adding underscores until you find a unique prefix. Let “P” stand for this final prefix.
+        // if there is an existing identifier or meta identifier beginning with "M__",
+        // add an underscore to "M__" (i.e., to produce "M___") and again check that the sequence is unique.
+        // Continue adding underscores until you find a unique prefix. Let "P" stand for this final prefix.
 
         while (this.previousModelIDs.contains(subModelID)) {
             subModelID += "_";
@@ -540,7 +546,7 @@ public class CompFlatteningConverter {
             // Remove all objects that have been replaced or deleted in the submodel.
 
             // TODO Delete Objects
-            // each Deletion object identifies an object to “remove” from that Model instance
+            // each Deletion object identifies an object to "remove" from that Model instance
             for (Deletion deletion : subModel.getListOfDeletions()) {
 
                 // TODO: search for element to remove in all model definitions?
@@ -562,10 +568,10 @@ public class CompFlatteningConverter {
             // Transform the remaining objects in the submodel as follows:
             // a)
             // Change every identifier (id attribute)
-            // to a new value obtained by prepending “P” to the original identifier.
+            // to a new value obtained by prepending "P" to the original identifier.
             // b)
             // Change every meta identifier (metaid attribute)
-            // to a new value obtained by prepending “P” to the original identifier.
+            // to a new value obtained by prepending "P" to the original identifier.
 
             model = flattenModel(modelOfSubmodel);
 
@@ -576,7 +582,7 @@ public class CompFlatteningConverter {
             // change the SIdRef value (respectively, IDREF value) to the SId value (respectively, ID value)
             // of the object replacing it.
             // b)
-            // If the referenced object has not been replaced, change the SIdRef and IDREF value by prepending “P”
+            // If the referenced object has not been replaced, change the SIdRef and IDREF value by prepending "P"
             // to the original value.
 
             // 6
@@ -664,7 +670,141 @@ public class CompFlatteningConverter {
         }
 
     }
+    
+    
+  /**
+   * Collects any {@link ExternalModelDefinition}s that might be contained in
+   * the given {@link SBMLDocument} and transfers them into local
+   * {@link ModelDefinition}s (recursively, if the external models themselves
+   * include external models; in that case, renaming may occur).
+   * <br>
+   * The given {@link SBMLDocument} need have its locationURI set!
+   * <br>
+   * Opaque URIs (URNs) will not be dealt with in any defined way, resolve them
+   * first (make sure all relevant externalModelDefinitions' source-attributes
+   * are URLs or relative paths)
+   * 
+   * @param document
+   *        an {@link SBMLDocument}, which might, but need not, contain
+   *        {@link ExternalModelDefinition}s to be transferred into its local
+   *        {@link ModelDefinition}s. The locationURI of the given document need
+   *        be set ({@link SBMLDocument#isSetLocationURI})!
+   * @return a new {@link SBMLDocument} without {@link
+   *         ExternalModelDefinition}s, but containing the same information as
+   *         the given one
+   * @throws Exception
+   *         if given document's locationURI is not set. Set it with
+   *         {@link SBMLDocument#setLocationURI}
+   */
+  public static SBMLDocument internaliseExternalModelDefinitions(
+    SBMLDocument document) throws Exception {
 
+    if (!document.isSetLocationURI()) {
+      LOGGER.warning("Location URI is not set: " + document);
+      throw new Exception(
+        "document's locationURI need be set. But it was not.");
+    }
+    SBMLDocument result = document.clone(); // no side-effects intended
+    ArrayList<String> usedIds = new ArrayList<String>();
+    if (result.isSetModel()) {
+      usedIds.add(result.getModel().getId());
+    }
+    
+    CompSBMLDocumentPlugin compSBMLDocumentPlugin =
+      (CompSBMLDocumentPlugin) result.getExtension(CompConstants.shortLabel);
+    
+    // There is nothing to retrieve:
+    if (compSBMLDocumentPlugin == null || !compSBMLDocumentPlugin.isSetListOfExternalModelDefinitions()) {
+      return result;
+    } else {
+      /** For name-collision-avoidance */
+      for (ExternalModelDefinition emd : compSBMLDocumentPlugin.getListOfExternalModelDefinitions()) {
+        usedIds.add(emd.getId());
+      }
+      
+      for (ExternalModelDefinition emd : compSBMLDocumentPlugin.getListOfExternalModelDefinitions()) {
+        // general note: Be careful when using clone/cloning-constructors, they
+        // do not preserve parent-child-relations
+        Model referenced = emd.getReferencedModel();
+        SBMLDocument referencedDocument = referenced.getSBMLDocument();  
+        SBMLDocument flattened = internaliseExternalModelDefinitions(referencedDocument);
+        // Guarantee: flattened does not contain any externalModelDefinitions, only local MDs 
+        // (and main model)
+        // use this, and migrate the MDs into the current compSBMLDocumentPlugin
+        StringBuilder prefixBuilder = new StringBuilder(emd.getModelRef());
+        /** For name-collision-avoidance */
+        boolean contained = false;
+        do {
+          contained = false;
+          prefixBuilder.append("_");
+          for (String id : usedIds) {
+            contained |= id.startsWith(prefixBuilder.toString());
+            if(contained) {
+              break;
+            }
+          }
+        } while (contained);
+        String newPrefix = prefixBuilder.toString();
+        
+        CompSBMLDocumentPlugin referencedDocumentPlugin =
+          (CompSBMLDocumentPlugin) flattened.getExtension(
+            CompConstants.shortLabel);
+        
+        ListOf<ModelDefinition> workingList;
+        if(referencedDocumentPlugin == null) {
+          // This may happen, if the main model of a non-comp-file is referenced
+          workingList = new ListOf<ModelDefinition>();
+          workingList.setLevel(referenced.getLevel());
+          workingList.setVersion(referenced.getVersion());
+        } else {
+          workingList = referencedDocumentPlugin.getListOfModelDefinitions().clone();
+        }
+        
+        // Check whether the main model is needed; Do not internalise it, if not necessary
+        boolean isMainReferenced = flattened.getModel().getId().equals(emd.getModelRef());
+        for ( ModelDefinition md : workingList) {
+          if(isMainReferenced) {
+            break;
+          }
+          CompModelPlugin cmp = (CompModelPlugin) md.getExtension(CompConstants.shortLabel);
+          if (cmp != null) {
+            for (Submodel sm : cmp.getListOfSubmodels()) {
+              isMainReferenced |= flattened.getModel().getId().equals(sm.getModelRef());
+            }
+          }
+        }
+        
+        if(isMainReferenced) {
+          ModelDefinition localisedMain = new ModelDefinition(flattened.getModel());
+          workingList.add(0, localisedMain);
+        }
+        
+        
+        
+        for (ModelDefinition md : workingList) {
+          ModelDefinition internalised = new ModelDefinition(md);
+          // i.e. current one is the one directly referenced => take referent's place
+          if(md.getId().equals(referenced.getId())) {
+            internalised.setId(emd.getId());
+          } else {
+            internalised.setId(newPrefix + internalised.getId());
+          }
+          
+          CompModelPlugin notYetInternalisedModelPlugin =
+              (CompModelPlugin) internalised.getExtension(CompConstants.shortLabel);
+          if(notYetInternalisedModelPlugin != null && notYetInternalisedModelPlugin.isSetListOfSubmodels()) {
+            for (Submodel sm : notYetInternalisedModelPlugin.getListOfSubmodels()) {
+              sm.setModelRef(newPrefix + sm.getModelRef());
+            }
+          }
+          
+          compSBMLDocumentPlugin.addModelDefinition(internalised);
+        }
+      }
+      compSBMLDocumentPlugin.unsetListOfExternalModelDefinitions();
+      return result;
+    }
+  }
 }
 
 

@@ -26,8 +26,11 @@
 package org.sbml.jsbml.test.sbml;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
@@ -36,6 +39,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.CVTerm;
+import org.sbml.jsbml.History;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.XMLAttributes;
@@ -47,9 +51,10 @@ import org.sbml.jsbml.xml.XMLTriple;
 /**
  * Tests for the {@link SBase} class, mainly about manipulation of 'notes' {@link XMLNode} and {@link CVTerm}.
  * 
- * @author  Nicolas Rodriguez
- * @author  Akiya Jouraku
- * @author  Ben Bornstein
+ * @author Nicolas Rodriguez
+ * @author Akiya Jouraku
+ * @author Ben Bornstein
+ * @author David Vetter
  * @since 1.0
  */
 public class TestSBase {
@@ -162,18 +167,14 @@ public class TestSBase {
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
     ns.add("http://www.w3.org/1999/xhtml", "");
-    XMLToken token4 = new  XMLNode("This is my text"); // DIFF - we cannot instantiate XMLToken in jsbml
-    XMLNode node4 = new XMLNode(token4);
-    XMLToken token5 = new  XMLNode("This is additional text");
-    XMLNode node5 = new XMLNode(token5);
-
-    System.out.println("Triple name = " + triple.getName());
+    XMLNode node4 = new  XMLNode("This is my text");
+    XMLNode node5 = new  XMLNode("This is additional text");
 
     token = new  XMLNode(triple,att,ns);
     node = new XMLNode(token);
 
     node.addChild(node4);
-    sbase.setNotes(node); // TODO - add the notes XMLNode around if not present !
+    sbase.setNotes(node);
 
     assertTrue(sbase.isSetNotes() == true);
 
@@ -183,20 +184,10 @@ public class TestSBase {
 
     sbase.appendNotes(node1);
 
-    System.out.println("Token name = " + token.getName());
-    System.out.println("Node name = " + node.getName());
-
-    System.out.println("Token name = " + token1.getName());
-    System.out.println("Node name = " + node1.getName());
-
     assertTrue(sbase.isSetNotes() == true);
     node2 = sbase.getNotes();
 
     assertTrue(node2.getNumChildren() == 2);
-
-    System.out.println("Node name = " + node2.getChild(0).getName());
-    System.out.println("Node name = " + node.getChild(0).getName());
-    System.out.println("Notes:" + node2.toXMLString());
 
     assertTrue(node2.getChild(0).getName().equals("p"));
     assertTrue(node2.getChild(0).getNumChildren() == 1);
@@ -211,9 +202,10 @@ public class TestSBase {
   }
 
   /**
+   * @throws XMLStreamException 
    * 
    */
-  @Test public void test_SBase_appendNotes1()
+  @Test public void test_SBase_appendNotes1() throws XMLStreamException
   {
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
@@ -235,13 +227,12 @@ public class TestSBase {
     XMLNode body_node = new XMLNode(body_token);
     XMLNode p_node = new XMLNode(p_token);
     XMLNode text_node = new XMLNode(text_token);
-    XMLToken text_token1 = new  XMLNode("This is more text");
     XMLNode html_node1 = new XMLNode(html_token);
     XMLNode head_node1 = new XMLNode(head_token);
     XMLNode title_node1 = new XMLNode(title_token);
     XMLNode body_node1 = new XMLNode(body_token);
     XMLNode p_node1 = new XMLNode(p_token);
-    XMLNode text_node1 = new XMLNode(text_token1);
+    XMLNode text_node1 = new  XMLNode("This is more text");
     XMLNode notes;
     XMLNode child, child1;
     p_node.addChild(text_node);
@@ -257,6 +248,7 @@ public class TestSBase {
     sbase.setNotes(html_node);
     sbase.appendNotes(html_node1);
     notes = sbase.getNotes();
+    
     assertTrue(notes.getName().equals("notes"));
     assertTrue(notes.getNumChildren() == 1);
     child = notes.getChild(0);
@@ -277,28 +269,6 @@ public class TestSBase {
     child1 = child1.getChild(0);
     assertTrue(child1.getCharacters().equals("This is more text"));
     assertTrue(child1.getNumChildren() == 0);
-    att = null;
-    ns = null;
-    html_triple = null;
-    head_triple = null;
-    body_triple = null;
-    p_triple = null;
-    html_token = null;
-    head_token = null;
-    body_token = null;
-    p_token = null;
-    text_token = null;
-    text_token1 = null;
-    html_node = null;
-    head_node = null;
-    body_node = null;
-    p_node = null;
-    text_node = null;
-    html_node1 = null;
-    head_node1 = null;
-    body_node1 = null;
-    p_node1 = null;
-    text_node1 = null;
   }
 
   /**
@@ -552,9 +522,10 @@ public class TestSBase {
   }
 
   /**
+   * @throws XMLStreamException 
    * 
    */
-  @Test public void test_SBase_appendNotes5()
+  @Test public void test_SBase_appendNotes5() throws XMLStreamException
   {
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
@@ -570,16 +541,14 @@ public class TestSBase {
     XMLToken body_token = new  XMLNode(body_triple,att);
     XMLToken p_token = new  XMLNode(p_triple,att);
     XMLToken p_token1 = new  XMLNode(p_triple,att,ns);
-    XMLToken text_token = new  XMLNode("This is my text");
     XMLNode p_node = new XMLNode(p_token1);
-    XMLNode text_node = new XMLNode(text_token);
-    XMLToken text_token1 = new  XMLNode("This is more text");
+    XMLNode text_node = new  XMLNode("This is my text");
     XMLNode html_node1 = new XMLNode(html_token);
     XMLNode head_node1 = new XMLNode(head_token);
     XMLNode title_node1 = new XMLNode(title_token);
     XMLNode body_node1 = new XMLNode(body_token);
     XMLNode p_node1 = new XMLNode(p_token);
-    XMLNode text_node1 = new XMLNode(text_token1);
+    XMLNode text_node1 = new  XMLNode("This is more text");
     XMLNode notes;
     XMLNode child, child1;
     p_node.addChild(text_node);
@@ -611,24 +580,6 @@ public class TestSBase {
     child1 = child1.getChild(0);
     assertTrue(child1.getCharacters().equals("This is more text"));
     assertTrue(child1.getNumChildren() == 0);
-    att = null;
-    ns = null;
-    html_triple = null;
-    head_triple = null;
-    body_triple = null;
-    p_triple = null;
-    body_token = null;
-    p_token = null;
-    p_token1 = null;
-    text_token = null;
-    text_token1 = null;
-    p_node = null;
-    text_node = null;
-    html_node1 = null;
-    head_node1 = null;
-    body_node1 = null;
-    p_node1 = null;
-    text_node1 = null;
   }
 
   /**
@@ -940,7 +891,7 @@ public class TestSBase {
   }
 
   /**
-   * Return a String where each line as been trimmed of any white spaces
+   * Return a String where each line has been trimmed of any white spaces
    * to allow to compare String with different indentations.
    * 
    * @param notesString
@@ -950,18 +901,10 @@ public class TestSBase {
     String[] lineTokens = notesString.split("\n");
     String notesWithoutIndentation = "";
 
-    // int i = 0;
     for (String line : lineTokens) {
-
       if (line.trim().length() > 0) {
         notesWithoutIndentation += line.trim();
       }
-
-      // we remove the line return as well
-      //      if (i < lineTokens.length - 1) {
-      //        notesWithoutIndentation += "\n";
-      //      }
-      //      i++;
     }
 
     return notesWithoutIndentation;
@@ -1153,8 +1096,8 @@ public class TestSBase {
         "      <title/>\n" +
         "    </head>\n" +
         "    <body>\n" +
-        "      <p>This is more test notes </p>\n" +
         "      <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>\n" +
+        "      <p>This is more test notes </p>\n" +
         "    </body>\n" +
         "  </html>\n" +
         "</notes>";
@@ -1180,7 +1123,6 @@ public class TestSBase {
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
 
     sbase.setNotes(notes);
@@ -1237,8 +1179,8 @@ public class TestSBase {
     String notes =  "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>";
     String taggednewnotes = "<notes>\n" +
         "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
-        "    <p>This is more test notes </p>\n" +
         "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>\n" +
+        "    <p>This is more test notes </p>\n" +
         "  </body>\n" +
         "</notes>";
     String addnotes = "<body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <p>This is more test notes </p>\n" + "</body>";
@@ -1400,29 +1342,8 @@ public class TestSBase {
     assertTrue(taggednewnotes2.equals(notes4));
   }
 
-  /* // DIFF - we don't have the sbase.getResourceBiologicalQualifier(String) method
-  @Test public void test_SBase_getQualifiersFromResources()
-  {
-    CVTerm cv = new  CVTerm(CVTerm.Qualifier.BQB_ENCODES);
 
-    cv.addResource("foo");
-    sbase.setMetaId("sbase1");
-    sbase.addCVTerm(cv);
-    assertTrue(sbase.getResourceBiologicalQualifier("foo") == CVTerm.Qualifier.BQB_ENCODES);
-
-    CVTerm cv1 = new  CVTerm(libsbml.MODEL_QUALIFIER);
-    cv1.setModelQualifierType(libsbml.BQM_IS);
-    cv1.addResource("bar");
-    sbase.addCVTerm(cv1);
-    assertTrue(sbase.getResourceModelQualifier("bar") == libsbml.BQM_IS);
-    cv = null;
-    cv1 = null;
-  }
-   */
-
-  /*
-  // TODO - adapt later
-  @Test public void test_SBase_setAnnotation()
+  @Test public void test_SBase_setAnnotation() throws XMLStreamException
   {
     XMLToken token;
     XMLNode node;
@@ -1430,76 +1351,39 @@ public class TestSBase {
     node = new XMLNode(token);
     sbase.setAnnotation(node);
     assertTrue(sbase.isSetAnnotation() == true);
-    XMLNode t1 = sbase.getAnnotation();
-    assertTrue(t1.getNumChildren() == 1);
-    assertTrue(t1.getChild(0).getCharacters().equals("This is a test note"));
-    if (sbase.getAnnotation() == node);
-    {
-    }
+    
+    XMLNode t1 = sbase.getAnnotation().getXMLNode();    
+    assertTrue(t1.getNumChildren() == 2); // one text element included with spaces and line return
+    assertTrue(t1.getChild(1).getCharacters().equals("This is a test note"));
+
     sbase.setAnnotation(sbase.getAnnotation());
-    assertTrue(sbase.getAnnotation().getChild(0).getCharacters().equals("This is a test note"));
+    assertTrue(sbase.getAnnotation().getXMLNode().getChild(1).getCharacters().equals("This is a test note"));
     sbase.setAnnotation((XMLNode)null);
     assertTrue(sbase.isSetAnnotation() == false);
-    if (sbase.getAnnotation() != null);
-    {
-    }
+
     sbase.setAnnotation(node);
     assertTrue(sbase.isSetAnnotation() == true);
     sbase.unsetAnnotation();
     assertTrue(sbase.isSetAnnotation() == false);
-    token = new  XMLNode("(CR) &#0168; &#x00a8; &#x00A8; (NOT CR) &#; &#x; &#00a8; &#0168 &#x00a8");
+    token = new  XMLNode("(CR) &#0168; &#x00a8; &#x00A8;");
     node = new XMLNode(token);
-    sbase.setAnnotation(node);
-    t1 = sbase.getAnnotation();
-    assertTrue(t1.getNumChildren() == 1);
-    String s = t1.getChild(0).toXMLString();
-    String expected =  "(CR) &#0168; &#x00a8; &#x00A8; (NOT CR) &amp;#; &amp;#x; &amp;#00a8; &amp;#0168 &amp;#x00a8";
+    sbase.setAnnotation(node);    
+    t1 = sbase.getAnnotation().getXMLNode();
+    assertTrue(t1.getNumChildren() == 2); // one text element included with spaces and line return
+    String s = t1.getChild(1).toXMLString();
+    String expected =  "(CR) &#0168; &#x00a8; &#x00A8;";
     assertTrue(s.equals(expected));
     token = new  XMLNode("& ' > < \" &amp; &apos; &gt; &lt; &quot;");
     node = new XMLNode(token);
     sbase.setAnnotation(node);
-    t1 = sbase.getAnnotation();
-    assertTrue(t1.getNumChildren() == 1);
-    String s2 = t1.getChild(0).toXMLString();
-    String expected2 =  "&amp; &apos; &gt; &lt; &quot; &amp; &apos; &gt; &lt; &quot;";
+    t1 = sbase.getAnnotation().getXMLNode();
+    assertTrue(t1.getNumChildren() == 2);
+    String s2 = t1.getChild(1).toXMLString();
+    
+    String expected2 =  "& ' > < \" &amp; &apos; &gt; &lt; &quot;";
     assertTrue(s2.equals(expected2));
-    token = null;
-    node = null;
   }
 
-  @Test public void test_SBase_setAnnotationString()
-  {
-    String annotation =  "This is a test note";
-    String taggedannotation =  "<annotation>This is a test note</annotation>";
-    sbase.setAnnotation(annotation);
-    assertTrue(sbase.isSetAnnotation() == true);
-    if (!sbase.getAnnotationString().equals(taggedannotation));
-    {
-    }
-    XMLNode t1 = sbase.getAnnotation();
-    assertTrue(t1.getNumChildren() == 1);
-    assertTrue(t1.getChild(0).getCharacters().equals("This is a test note"));
-    sbase.setAnnotation(sbase.getAnnotationString());
-    t1 = sbase.getAnnotation();
-    assertTrue(t1.getNumChildren() == 1);
-    String chars = sbase.getAnnotationString();
-    assertTrue(chars.equals(taggedannotation));
-    sbase.setAnnotation("");
-    assertTrue(sbase.isSetAnnotation() == false);
-    if (sbase.getAnnotationString() != null);
-    {
-    }
-    sbase.setAnnotation(taggedannotation);
-    assertTrue(sbase.isSetAnnotation() == true);
-    if (!sbase.getAnnotationString().equals(taggedannotation));
-    {
-    }
-    t1 = sbase.getAnnotation();
-    assertTrue(t1.getNumChildren() == 1);
-    XMLNode t2 = t1.getChild(0);
-    assertTrue(t2.getCharacters().equals("This is a test note"));
-  }
-   */
 
   /**
    * 
@@ -1560,13 +1444,14 @@ public class TestSBase {
     }
     c.setNotes(node);
     assertTrue(c.isSetNotes() == true);
-    token = new  XMLNode("(CR) &#0168; &#x00a8; &#x00A8; (NOT CR) &#; &#x; &#00a8; &#0168 &#x00a8");
+    token = new  XMLNode("(CR) &#0168; &#x00a8; &#x00A8;");
     node = new XMLNode(token);
     c.setNotes(node);
     t1 = c.getNotes();
     assertTrue(t1.getNumChildren() == 1);
     String s = t1.getChild(0).toXMLString();
-    String expected =  "(CR) &#0168; &#x00a8; &#x00A8; (NOT CR) &amp;#; &amp;#x; &amp;#00a8; &amp;#0168 &amp;#x00a8";
+    String expected =  "(CR) &#0168; &#x00a8; &#x00A8;";
+    
     assertTrue(s.equals(expected));
     token = new  XMLNode("& ' > < \" &amp; &apos; &gt; &lt; &quot;");
     node = new XMLNode(token);
@@ -1574,7 +1459,8 @@ public class TestSBase {
     t1 = c.getNotes();
     assertTrue(t1.getNumChildren() == 1);
     String s2 = t1.getChild(0).toXMLString();
-    String expected2 =  "&amp; &apos; &gt; &lt; &quot; &amp; &apos; &gt; &lt; &quot;";
+    String expected2 =  "& ' > < \" &amp; &apos; &gt; &lt; &quot;"; // TODO - is it right to not encode some of those characters in XML text
+    
     assertTrue(s2.equals(expected2));
     token = null;
     node = null;
@@ -1587,41 +1473,37 @@ public class TestSBase {
   {
     SBase c = new Model(1,2);
     String notes =  "This is a test note";
-    String taggednotes =  "<notes>This is a test note</notes>";
+    String taggednotes = "<notes><body xmlns=\"http://www.w3.org/1999/xhtml\"><p>This is a test note</p></body></notes>";
     c.setNotes(notes);
     assertTrue(c.isSetNotes() == true);
-    if (!c.getNotesString().equals(taggednotes)) {
-      ;
-    }
-    {
-    }
-    XMLNode t1 = c.getNotes();
+    assertTrue(stripIndentation(c.getNotesString()).equals(taggednotes));
+    
+    XMLNode t1 = c.getNotes(); // notes element
     assertTrue(t1.getNumChildren() == 1);
-    XMLNode t2 = t1.getChild(0);
-    assertTrue(t2.getCharacters().equals("This is a test note"));
+    XMLNode t2 = t1.getChild(0); // body element
+    XMLNode t3 = t2.getChildElement("p", null); // p element
+    XMLNode t4 = t3.getChild(0); // text
+    assertTrue(t4.getCharacters().equals("This is a test note"));
+    
     c.setNotes(c.getNotesString());
     t1 = c.getNotes();
     assertTrue(t1.getNumChildren() == 1);
+
     String chars = c.getNotesString();
-    assertTrue(chars.equals(taggednotes));
+    assertTrue(stripIndentation(chars).equals(taggednotes));
+    
     c.setNotes("");
     assertTrue(c.isSetNotes() == false);
-    if (c.getNotesString() != null) {
-      ;
-    }
-    {
-    }
+
     c.setNotes(taggednotes);
     assertTrue(c.isSetNotes() == true);
-    if (!c.getNotesString().equals(taggednotes)) {
-      ;
-    }
-    {
-    }
+
     t1 = c.getNotes();
     assertTrue(t1.getNumChildren() == 1);
     t2 = t1.getChild(0);
-    assertTrue(t2.getCharacters().equals("This is a test note"));
+    t3 = t2.getChildElement("p", null); // p element
+    t4 = t3.getChild(0); // text
+    assertTrue(t4.getCharacters().equals("This is a test note"));
   }
 
   /**
@@ -1631,75 +1513,50 @@ public class TestSBase {
   {
     SBase c = new Model(3,1);
     String notes =  "This is a test note";
-    //    String taggednotes = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note</p>\n" + "</notes>";
+    String taggednotes = "<notes><body xmlns=\"http://www.w3.org/1999/xhtml\"><p>This is a test note</p></body></notes>";
     c.setNotes(notes);
-    assertTrue(c.isSetNotes() == false);
-  }
-
-  /**
-   * @throws XMLStreamException
-   */
-  @Test public void test_SBase_setNotesString_l3_addMarkup() throws XMLStreamException
-  {
-    SBase c = new Model(3,1);
-    String notes =  "This is a test note";
-    String taggednotes = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note</p>\n" + "</notes>";
-    c.setNotes(notes); // DIFF - we don't have the method SBase.setNotes(String, boolean)
     assertTrue(c.isSetNotes() == true);
-    if (!c.getNotesString().equals(taggednotes)) {
-      ;
-    }
-    {
-    }
-    XMLNode t1 = c.getNotes();
+    assertTrue(stripIndentation(c.getNotesString()).equals(taggednotes));
+    
+    XMLNode t1 = c.getNotes(); // notes element
     assertTrue(t1.getNumChildren() == 1);
-    XMLNode t2 = t1.getChild(0);
-    assertTrue(t2.getNumChildren() == 1);
-    XMLNode t3 = t2.getChild(0);
-    assertTrue(t3.getCharacters().equals("This is a test note"));
+    XMLNode t2 = t1.getChild(0); // body element
+    XMLNode t3 = t2.getChildElement("p", null); // p element
+    XMLNode t4 = t3.getChild(0); // text
+    assertTrue(t4.getCharacters().equals("This is a test note"));
+    
     c.setNotes(c.getNotesString());
     t1 = c.getNotes();
     assertTrue(t1.getNumChildren() == 1);
+
     String chars = c.getNotesString();
-    assertTrue(chars.equals(taggednotes));
+    assertTrue(stripIndentation(chars).equals(taggednotes));
+    
     c.setNotes("");
     assertTrue(c.isSetNotes() == false);
-    if (c.getNotesString() != null) {
-      ;
-    }
-    {
-    }
+
     c.setNotes(taggednotes);
     assertTrue(c.isSetNotes() == true);
-    if (!c.getNotesString().equals(taggednotes)) {
-      ;
-    }
-    {
-    }
+
     t1 = c.getNotes();
     assertTrue(t1.getNumChildren() == 1);
     t2 = t1.getChild(0);
-    assertTrue(t2.getNumChildren() == 1);
-    t3 = t2.getChild(0);
-    assertTrue(t3.getCharacters().equals("This is a test note"));
+    t3 = t2.getChildElement("p", null); // p element
+    t4 = t3.getChild(0); // text
+    assertTrue(t4.getCharacters().equals("This is a test note"));
+
   }
 
-  /*
-  // TODO - adapt later
-  @Test public void test_SBase_unsetAnnotationWithCVTerms()
+  @Test public void test_SBase_unsetAnnotationWithCVTerms() throws XMLStreamException
   {
     CVTerm cv;
     String annt = "<annotation>\n" +
     "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" +
     "</annotation>";
     String annt_with_cvterm = "<annotation>\n" +
-    "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" +
+        "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" +
     "  <rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" " +
-    "xmlns:dc=\"http://purl.org/dc/elements/1.1/\" " +
-    "xmlns:dcterms=\"http://purl.org/dc/terms/\" " +
-    "xmlns:vCard=\"http://www.w3.org/2001/vcard-rdf/3.0#\" " +
-    "xmlns:bqbiol=\"http://biomodels.net/biology-qualifiers/\" " +
-    "xmlns:bqmodel=\"http://biomodels.net/model-qualifiers/\">\n" +
+    "xmlns:bqbiol=\"http://biomodels.net/biology-qualifiers/\">\n " +
     "    <rdf:Description rdf:about=\"#_000001\">\n" +
     "      <bqbiol:is>\n" +
     "        <rdf:Bag>\n" +
@@ -1709,93 +1566,30 @@ public class TestSBase {
     "    </rdf:Description>\n" +
     "  </rdf:RDF>\n" +
     "</annotation>";
+    
     sbase.setAnnotation(annt);
     assertTrue(sbase.isSetAnnotation() == true);
-    assertTrue(sbase.getAnnotationString().equals(annt));
+    assertTrue(stripIndentation(sbase.getAnnotationString()).equals(stripIndentation(annt)));
+    
     sbase.unsetAnnotation();
     assertTrue(sbase.isSetAnnotation() == false);
-    assertTrue(sbase.getAnnotation() == null);
+    assertTrue(sbase.getAnnotation().getXMLNode() == null);
+    
     sbase.setAnnotation(annt);
-    sbase.setMetaId("_000001");
-    cv = new  CVTerm(libsbml.BIOLOGICAL_QUALIFIER);
-    cv.setBiologicalQualifierType(libsbml.BQB_IS);
+    sbase.setMetaId("_000001");    
+    cv = new  CVTerm(CVTerm.Qualifier.BQB_IS);
     cv.addResource("http://www.geneontology.org/#GO:0005895");
     sbase.addCVTerm(cv);
+    
     assertTrue(sbase.isSetAnnotation() == true);
-    assertTrue(sbase.getAnnotationString().equals(annt_with_cvterm));
+    assertTrue(stripIndentation(sbase.getAnnotationString()).equals(stripIndentation(annt_with_cvterm)));
+    
     sbase.unsetAnnotation();
     assertTrue(sbase.isSetAnnotation() == false);
-    assertTrue(sbase.getAnnotation() == null);
-    cv = null;
+    
+    assertTrue(sbase.getAnnotation().getXMLNode() == null);
   }
-   */
 
-  /*
-  // TODO - adapt later
-  @Test public void test_SBase_unsetAnnotationWithModelHistory()
-  {
-    ModelHistory h = new  ModelHistory();
-    ModelCreator c = new  ModelCreator();
-    Date dc;
-    Date dm;
-    String annt = "<annotation>\n" +
-    "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" +
-    "</annotation>";
-    String annt_with_modelhistory = "<annotation>\n" +
-    "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" +
-    "  <rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" " +
-    "xmlns:dc=\"http://purl.org/dc/elements/1.1/\" " +
-    "xmlns:dcterms=\"http://purl.org/dc/terms/\" " +
-    "xmlns:vCard=\"http://www.w3.org/2001/vcard-rdf/3.0#\" " +
-    "xmlns:bqbiol=\"http://biomodels.net/biology-qualifiers/\" " +
-    "xmlns:bqmodel=\"http://biomodels.net/model-qualifiers/\">\n" +
-    "    <rdf:Description rdf:about=\"#_000001\">\n" +
-    "      <dc:creator>\n" +
-    "        <rdf:Bag>\n" +
-    "          <rdf:li rdf:parseType=\"Resource\">\n" +
-    "            <vCard:N rdf:parseType=\"Resource\">\n" +
-    "              <vCard:Family>Keating</vCard:Family>\n" +
-    "              <vCard:Given>Sarah</vCard:Given>\n" +
-    "            </vCard:N>\n" +
-    "            <vCard:EMAIL>sbml-team@caltech.edu</vCard:EMAIL>\n" +
-    "          </rdf:li>\n" +
-    "        </rdf:Bag>\n" +
-    "      </dc:creator>\n" +
-    "      <dcterms:created rdf:parseType=\"Resource\">\n" +
-    "        <dcterms:W3CDTF>2005-12-29T12:15:45+02:00</dcterms:W3CDTF>\n" +
-    "      </dcterms:created>\n" +
-    "      <dcterms:modified rdf:parseType=\"Resource\">\n" +
-    "        <dcterms:W3CDTF>2005-12-30T12:15:45+02:00</dcterms:W3CDTF>\n" +
-    "      </dcterms:modified>\n" +
-    "    </rdf:Description>\n" +
-    "  </rdf:RDF>\n" +
-    "</annotation>";
-    sbase.setAnnotation(annt);
-    assertTrue(sbase.isSetAnnotation() == true);
-    assertTrue(sbase.getAnnotationString().equals(annt));
-    sbase.unsetAnnotation();
-    assertTrue(sbase.isSetAnnotation() == false);
-    assertTrue(sbase.getAnnotation() == null);
-    sbase.setAnnotation(annt);
-    sbase.setMetaId("_000001");
-    c.setFamilyName("Keating");
-    c.setGivenName("Sarah");
-    c.setEmail("sbml-team@caltech.edu");
-    h.addCreator(c);
-    dc = new  Date(2005,12,29,12,15,45,1,2,0);
-    h.setCreatedDate(dc);
-    dm = new  Date(2005,12,30,12,15,45,1,2,0);
-    h.setModifiedDate(dm);
-    sbase.setModelHistory(h);
-    assertTrue(sbase.isSetAnnotation() == true);
-    assertTrue(sbase.getAnnotationString().equals(annt_with_modelhistory));
-    sbase.unsetAnnotation();
-    assertTrue(sbase.isSetAnnotation() == false);
-    assertTrue(sbase.getAnnotation() == null);
-    c = null;
-    h = null;
-  }
-   */
 
   /**
    * 
@@ -1828,6 +1622,238 @@ public class TestSBase {
     cv2 = null;
     cv1 = null;
     cv4 = null;
+  }
+
+  /**
+   * Checks correct return on an empty/unset annotation
+   */
+  @Test public void test_removeTopLevelAnnotationElement_unsetAnnotation() {
+  	assertFalse(sbase.removeTopLevelAnnotationElement("anyname"));
+  	assertFalse("After trying to delete from an unset annotation, the annotation should still be unset", 
+  			sbase.isSetAnnotation());
+  }
+
+  /**
+   * Checks behaviour for removing by unspecific names: Unspecific names are not 
+   * pursued!
+   */
+  @Test public void test_removeTopLevelAnnotationElement_unspecificName() { 
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name1", "uri1", "prefix")));
+  	assertFalse(sbase.removeTopLevelAnnotationElement(null));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("*"));
+  	assertFalse(sbase.removeTopLevelAnnotationElement(""));
+  	assertTrue(sbase.removeTopLevelAnnotationElement("name1"));
+  }
+
+  /**
+   * Checks whether the return is correct (false) for cases where the name or 
+   * name-uri-combination is not found
+   */
+  @Test public void test_removeTopLevelAnnotationElement_noMatchingElement() {
+  	XMLTriple triple = new XMLTriple("name", "uri", "prefix");
+  	sbase.appendAnnotation(new XMLNode(triple));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("otherName"));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", null, false));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", "*"));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", ""));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("otherName", "uri"));
+  	assertFalse(sbase.removeTopLevelAnnotationElement("name", "otherURI"));
+  }
+
+  /**
+   * Checks behaviour for the case that the element to be deleted exists, 
+   * but after its deletion, there is still other annotation
+   */
+  @Test public void test_removeTopLevelAnnotationElement_basic() {
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name1", "uri1", "prefix1")));
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName2", "targetURI2", "targetPrefix")));
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", "uri2", "prefix2")));
+
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName"));
+  	assertNull("The element specified by its name should be deleted (and no longer be found)", 
+  			sbase.getAnnotation().getXMLNode().getChildElement("targetName", null));
+  	assertTrue("Should find the element by name and URI", 
+  			sbase.removeTopLevelAnnotationElement("targetName2", "targetURI2"));
+  	assertNull("The element specified by name+URI should be deleted (and no longer be found)", 
+  			sbase.getAnnotation().getXMLNode().getChildElement("targetName2", "targetURI2"));
+
+  	assertTrue("The annotation should still be set", 
+  			sbase.isSetAnnotation());
+  }
+
+  /**
+   * Checks behaviour for the case that the element to be deleted exists, 
+   * and after its deletion, there is no other annotation
+   */
+  @Test public void test_removeTopLevelAnnotationElement_removeEmpty() {
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName"));
+  	assertFalse("The annotation should now be unset, as its last element was deleted", 
+  			sbase.isSetAnnotation());
+
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName", "someURI", false));
+  	assertTrue("Under removeEmpty=false, annotation should now remain set, even though it is empty", 
+  			sbase.isSetAnnotation());
+  }
+
+  /**
+   * Checks behaviour for removeEmpty set, but dummy URI given (null, "", "*")
+   */
+  @Test public void test_removeTopLevelAnnotationElement_removeEmptyWithUnspecificURI() {
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName", null, true));
+  	assertFalse("The annotation should now be unset, as its last element was deleted", 
+  			sbase.isSetAnnotation());
+
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName", "*", false));
+  	assertTrue("Under removeEmpty=false, annotation should now remain set, even though it is empty", 
+  			sbase.isSetAnnotation());
+  }
+
+  /**
+   * Checks behaviour in the case that there is a History set.
+   */
+  @Test public void test_removeTopLevelAnnotationElement_History() {
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+  	History history = new History();
+  	history.addModifiedDate(new Date(15743209151L));
+  	sbase.setHistory(history);
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName", null, true));
+  	assertTrue("The annotation should still be set, as a history is set", 
+  			sbase.isSetAnnotation());
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName2", "someURI", "targetPrefix")));
+  	sbase.unsetHistory();
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName2"));
+  	assertFalse("The annotation should no longer be set, as a history has been unset", 
+  			sbase.isSetAnnotation());
+  }
+  
+  /**
+   * Checks behaviour in the case that there are CVTerms or History set.
+   */
+  @Test public void test_removeTopLevelAnnotationElement_HistoryOrCVTerms() {
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName", "someURI", "targetPrefix")));
+  	History history = new History();
+  	history.addModifiedDate(new Date(15743209151L));
+  	CVTerm cvterm = new CVTerm(CVTerm.Qualifier.BQB_HAS_VERSION);
+  	
+  	sbase.setHistory(history);
+  	sbase.addCVTerm(cvterm);
+  	
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName", null, true));
+  	assertTrue("The annotation should still be set, as a history and cvterm are set", 
+  			sbase.isSetAnnotation());
+  	
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName2", "someURI", "targetPrefix")));
+  	sbase.unsetHistory();
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName2"));
+  	assertTrue("The annotation should still be set, as a cvterm is set", 
+  			sbase.isSetAnnotation());
+  	
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("targetName3", "someURI", "targetPrefix")));
+  	sbase.unsetCVTerms();
+  	assertTrue("Should find the element by its name", 
+  			sbase.removeTopLevelAnnotationElement("targetName3"));
+  	assertFalse("The annotation should no longer be set", 
+  			sbase.isSetAnnotation());
+  }
+  
+  /**
+   * Checks behaviour for the cases where no matching element can be found:
+   * a) the annotation is empty/unset
+   * b) the specified element is absent from the annotation
+   * @throws XMLStreamException (indicates mistake in Test: if thrown, the XML-strings are wrong)
+   */
+  @Test public void test_replaceTopLevelAnnotationElement_noMatch() throws XMLStreamException {
+  	assertFalse("(String-argument) Replacing element of empty/unset annotation does not work",
+  			sbase.replaceTopLevelAnnotationElement("<rdf:name xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:name>"));
+  	assertFalse("(XMLNode-argument) Replacing element of empty/unset annotation does not work",
+  			sbase.replaceTopLevelAnnotationElement(new XMLNode(new XMLTriple("name", "uri", "prefix"))));
+
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name", "uri", "prefix")));
+  	assertFalse("(String-argument) Replacing element absent from annotation does not work",
+  			sbase.replaceTopLevelAnnotationElement("<rdf:othername xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:othername>"));
+  	assertFalse("(XMLNode-argument) Replacing element absent from annotation does not work",
+  			sbase.replaceTopLevelAnnotationElement(new XMLNode(new XMLTriple("otherName", "uri", null))));
+  }
+
+  /**
+   * Checks behaviour if the annotation string contains more than one annotation element:
+   * An exception is to be thrown (it is ...Element, not ...Elements) 
+   * @throws XMLStreamException should not be thrown (indicates that the test is faulty)
+   */
+  @Test(expected = IllegalArgumentException.class) 
+  public void test_replaceTopLevelAnnotationElement_tooManyNodes() throws XMLStreamException {
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name", "uri", "prefix")));
+  	String moreThanOneAnnotationElement = "<rdf:name xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:name>"
+  			+ "<rdf:name2 xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:name2>";
+  	sbase.replaceTopLevelAnnotationElement(moreThanOneAnnotationElement);
+  }
+  
+  /**
+   * Checks behaviour for null-arguments: They shan't be pursued
+   * @throws XMLStreamException 
+   */
+  @Test public void test_replaceTopLevelAnnotationElement_nullArguments() throws XMLStreamException {
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name", "uri", "prefix")));
+  	assertFalse("(String-argument) Null-argument will not be pursued",
+  			sbase.replaceTopLevelAnnotationElement((String) null));
+  	assertFalse("(XMLNode-argument) Null-argument will not be pursued",
+  			sbase.replaceTopLevelAnnotationElement((XMLNode) null));
+  }
+  
+  /**
+   * Checks behaviour for nontrivial (> 1 element) annotation-list: 
+   * a) element is replaced
+   * b) order is retained
+   */
+  @Test public void test_replaceTopLevelAnnotationElement_basic() {
+  	XMLNode[] children = { new XMLNode(new XMLTriple("name1", null, null)),
+  			new XMLNode(new XMLTriple("name2", "uri", "prefix")),
+  			new XMLNode(new XMLTriple("name3", null, null)), 
+  			new XMLNode(new XMLTriple("name4", null, null))};
+  	sbase.appendAnnotation(children[0]);
+  	sbase.appendAnnotation(new XMLNode(new XMLTriple("name2", null, null)));
+  	sbase.appendAnnotation(children[2]);
+  	sbase.appendAnnotation(children[3]);
+  	
+  	assertTrue(sbase.replaceTopLevelAnnotationElement(children[1]));
+
+  	List<XMLNode> actualChildren = sbase.getAnnotation().getXMLNode().getChildElements(null, null);
+  	for(int i = 0; i < children.length; i++) {
+  		assertEquals(children[i], actualChildren.get(i)); 
+  	}
+  	assertEquals("uri", actualChildren.get(1).getURI()); // check explicitly to be safe
+  }
+  
+  @Test public void test_replaceTopLevelAnnotationElement_oneAnnotationElement() throws XMLStreamException {
+  	sbase.appendAnnotation("<rdf:name xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:name>");
+  	assertTrue("(String) should replace single element", 
+  			sbase.replaceTopLevelAnnotationElement("<rdf:name xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" > </rdf:name>"));
+  	assertTrue(sbase.isSetAnnotation());
+  	assertEquals(1, sbase.getAnnotation().getXMLNode().getChildElements("*", "*").size());
+  	assertEquals("http://www.w3.org/1999/02/22-rdf-syntax-ns#", sbase.getAnnotation().getXMLNode().getChildElement("name", null).getURI());
+  	
+  	assertTrue(sbase.replaceTopLevelAnnotationElement(new XMLNode(new XMLTriple("name", "uri", "prefix"))));
+  	assertTrue(sbase.isSetAnnotation());
+  	assertEquals(1, sbase.getAnnotation().getXMLNode().getChildElements("*", "*").size());
+  	assertEquals("uri", sbase.getAnnotation().getXMLNode().getChildElement("name", null).getURI());
   }
 
 }

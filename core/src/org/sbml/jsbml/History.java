@@ -27,6 +27,7 @@ import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeAdapter;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -490,17 +491,19 @@ public class History extends AnnotationElement {
   }
 
   /**
-   * Formats this history as string
+   * Formats this history as string: the Creation-Date, as well as the number of 
+   * contributors and the number of modification-dates will be given.  
    */
   public String toString() {
-    String result = "History:";
+    StringBuffer result = new StringBuffer(getClass().getSimpleName());
 	if(isEmpty())
-		result += " no history set (empty)";
+		result = StringTools.concat("[", result, "]");
 	else { 
-		result += " [Created: " + getCreatedDate();
-	    result += " by: " + listOfCreators;
-	    result += "; Modified " + getNumModifiedDates() + " times]";
+		result = StringTools.concat(result, 
+					" [created=", (isSetCreatedDate() ? getCreatedDate() : "not defined"),
+					", contributors=", listOfCreators.size(),
+					", modified=", getNumModifiedDates(), "]");
 	}
-    return result;
+    return result.toString();
   }
 }
