@@ -1,6 +1,5 @@
 package org.sbml.jsbml.xml.test;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.junit.Assert;
@@ -11,12 +10,6 @@ import org.junit.Assert;
  * @since 1.5
  */
 public class MetaIdValidationTest {
-  
-  @Test
-  public void initMetaPatternsTest() {
-    Assert.assertTrue(SyntaxChecker.isValidMetaId("g") == true);
-    Assert.assertTrue(SyntaxChecker.isValidMetaId(".") == false);
-  }
   
   @Test
   public void initMetaPatternsLevelVersionTest() {
@@ -71,6 +64,7 @@ public class MetaIdValidationTest {
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a:", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId(":_̏a:", level, version) == true);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("ດA१"  , level, version) == true);
     version = 4; 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("", level, version) == false);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_", level, version) == true); 
@@ -80,6 +74,7 @@ public class MetaIdValidationTest {
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a:", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId(":_̏a:", level, version) == true);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("ດA१"  , level, version) == true);
     version = 5; 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("", level, version) == false);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_", level, version) == true); 
@@ -89,7 +84,8 @@ public class MetaIdValidationTest {
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a:", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId(":_̏a:", level, version) == true);
-    version = 6;
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("ດA१"  , level, version) == true);
+    version = 6; //doesn't exist
     Assert.assertTrue(SyntaxChecker.isValidMetaId("", level, version) == false);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_", level, version) == false); 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_s", level, version) == false);
@@ -98,6 +94,7 @@ public class MetaIdValidationTest {
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a", level, version) == false);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a:", level, version) == false);
     Assert.assertTrue(SyntaxChecker.isValidMetaId(":_̏a:", level, version) == false);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("ດA१"  , level, version) == false);
     
     level = 3; 
     version = 1; 
@@ -109,6 +106,7 @@ public class MetaIdValidationTest {
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a:", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId(":_̏a:", level, version) == true);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("ດA१"  , level, version) == true);
     version = 2; 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("", level, version) == false);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_", level, version) == true); 
@@ -118,7 +116,8 @@ public class MetaIdValidationTest {
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a:", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId(":_̏a:", level, version) == true);
-    version = 3; 
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("ດA१"  , level, version) == true);
+    version = 3; //not available yet 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("", level, version) == false);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_", level, version) == false); 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_s", level, version) == false);
@@ -127,6 +126,7 @@ public class MetaIdValidationTest {
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a", level, version) == false);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a:", level, version) == false);
     Assert.assertTrue(SyntaxChecker.isValidMetaId(":_̏a:", level, version) == false);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("ດA१"  , level, version) == false);
     
   }
   
