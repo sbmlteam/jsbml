@@ -141,7 +141,7 @@ public class ReactionGlyphConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, ReactionGlyph reactionGlyph) {
           
           if (reactionGlyph.isSetMetaidRef()) {
-            return SyntaxChecker.isValidMetaId(reactionGlyph.getMetaidRef());
+            return SyntaxChecker.isValidMetaId(reactionGlyph.getMetaidRef(), reactionGlyph.getLevel(), reactionGlyph.getVersion());
           }
           
           return true;

@@ -416,7 +416,7 @@ public final class ValidationTools {
    * @return
    */
   public static boolean isXmlId(String s) {
-    return SyntaxChecker.isValidMetaId(s);
+    return SyntaxChecker.isValidMetaId(s, 3, 1);
   }
   
   /**

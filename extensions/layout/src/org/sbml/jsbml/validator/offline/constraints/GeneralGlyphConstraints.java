@@ -142,7 +142,7 @@ public class GeneralGlyphConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, GeneralGlyph generalGlyph) {
           
           if (generalGlyph.isSetMetaidRef()) {
-            return SyntaxChecker.isValidMetaId(generalGlyph.getMetaidRef());
+            return SyntaxChecker.isValidMetaId(generalGlyph.getMetaidRef(), generalGlyph.getLevel(), generalGlyph.getVersion());
           }
           
           return true;

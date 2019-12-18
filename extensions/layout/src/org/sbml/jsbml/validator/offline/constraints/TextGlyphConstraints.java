@@ -136,7 +136,7 @@ public class TextGlyphConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, TextGlyph textGlyph) {
           
           if (textGlyph.isSetMetaidRef()) {
-            return SyntaxChecker.isValidMetaId(textGlyph.getMetaidRef());
+            return SyntaxChecker.isValidMetaId(textGlyph.getMetaidRef(), textGlyph.getLevel(), textGlyph.getVersion());
           }
           
           return true;
