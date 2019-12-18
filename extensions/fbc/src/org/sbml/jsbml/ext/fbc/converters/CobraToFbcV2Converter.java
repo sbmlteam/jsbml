@@ -40,7 +40,7 @@ public class CobraToFbcV2Converter implements SBMLConverter {
     CobraToFbcV1Converter cobraToFbcV1Converter = new CobraToFbcV1Converter();
     sbmlDocument = cobraToFbcV1Converter.convert(sbmlDocument);
    // convert SBML FBCV1 file to SBML FBCV2
-    FcbV1ToFbcV2Converter fbcV1ToFbcV2Converter = new FcbV1ToFbcV2Converter();
+    FbcV1ToFbcV2Converter fbcV1ToFbcV2Converter = new FbcV1ToFbcV2Converter();
     sbmlDocument = fbcV1ToFbcV2Converter.convert(sbmlDocument);
 
     return sbmlDocument;
