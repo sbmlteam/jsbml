@@ -379,6 +379,28 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
     return false;
   }
 
+  /**
+   * Unsets the {@link #glyph} attribute
+   */
+  public void unsetGlyph() {
+    if (isSetGlyph()) {
+      String oldValue = glyph;
+      glyph = null;
+      firePropertyChange(LayoutConstants.glyph, oldValue, glyph);
+    }
+  }
+  
+  /**
+   * Unsets the {@link #role} attribute
+   */
+  public void unsetRole() {
+    if (isSetRole()) {
+      String oldValue = role;
+      role = null;
+      firePropertyChange(LayoutConstants.role, oldValue, role);
+    }
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
    */
