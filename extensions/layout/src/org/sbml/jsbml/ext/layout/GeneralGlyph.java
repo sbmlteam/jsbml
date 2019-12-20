@@ -724,6 +724,17 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   public void unsetReaction() {
     unsetReference();
   }
+  
+  /**
+   * Unsets the curve (and fires appropriate Event)
+   */
+  public void unsetCurve() {
+    if (isSetCurve()) {
+      Curve oldValue = curve;
+      curve = null; 
+      firePropertyChange(LayoutConstants.curve, oldValue, curve);
+    }   
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()

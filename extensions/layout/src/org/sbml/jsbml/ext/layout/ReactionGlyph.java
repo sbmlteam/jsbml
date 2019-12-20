@@ -496,6 +496,17 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * Unsets the curve (and fires appropriate Event)
+   */
+  public void unsetCurve() {
+    if (isSetCurve()) {
+      Curve oldValue = curve;
+      curve = null; 
+      firePropertyChange(LayoutConstants.curve, oldValue, curve);
+    }   
+  }
+  
+  /**
    * Unsets the list of {@link SpeciesReferenceGlyph}s.
    * 
    * @deprecated use {@link #unsetListOfSpeciesReferenceGlyphs()}

@@ -321,7 +321,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
   public boolean isSetSpeciesReferenceRole() {
     return role != null;
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
@@ -464,6 +464,24 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
     return false;
   }
 
+  /**
+   * Unsets the {@link #role} (and fires appropriate Event)
+   */
+  public void unsetRole() {
+    if (isSetSpeciesReferenceRole()) {
+      SpeciesReferenceRole oldValue = role;
+      role = null; 
+      firePropertyChange(LayoutConstants.role, oldValue, role);
+    }   
+  }
+  
+  /**
+   * Unsets the {@link #speciesGlyph}
+   */
+  public void unsetSpeciesGlyph() {
+    setSpeciesGlyph(null);
+  }
+  
   /**
    * 
    */

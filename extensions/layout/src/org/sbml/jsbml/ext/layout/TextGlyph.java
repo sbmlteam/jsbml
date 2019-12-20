@@ -331,6 +331,21 @@ public class TextGlyph extends AbstractReferenceGlyph {
     firePropertyChange(LayoutConstants.text, oldText, this.text);
   }
 
+  /**
+   * Unsets the origin of text
+   */
+  public void unsetOriginOfText() {
+    // TODO: could return boolean
+    unsetReference();
+  }
+  
+  /**
+   * Unsets the {@link #text} attribute
+   */
+  public void unsetText() {
+    setText(null);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
    */

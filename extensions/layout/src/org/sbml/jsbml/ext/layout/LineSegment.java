@@ -314,4 +314,17 @@ public class LineSegment extends CurveSegment {
     registerChild(this.start);
   }
 
+  /**
+   * Unsets the end-point of this {@link LineSegment}
+   */
+  public void unsetEnd() {
+    setEnd(null);
+  }
+  
+  /**
+   * Unsets the start-point of this {@link LineSegment}
+   */
+  public void unsetStart() {
+    setStart(null);
+  }
 }

@@ -1291,6 +1291,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * This element is optional. If set, this list cannot be empty.
    * 
+   * Can be unset with {@link Layout#unsetListOfAdditionalGraphicalObjects}
+   * 
    * @param addGraphicalObjects
    */
   public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
@@ -1440,6 +1442,17 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     }
   }
 
+  /**
+   * Unsets the {@link #dimensions} (and fires appropriate event)
+   */
+  public void unsetDimensions() {
+    if (isSetDimensions()) {
+      Dimensions oldValue = dimensions;
+      dimensions = null; 
+      firePropertyChange(LayoutConstants.dimensions, oldValue, dimensions);
+    } 
+  }
+  
   /**
    * Removes the {@link #listOfAdditionalGraphicalObjects} from this {@link org.sbml.jsbml.Model} and notifies
    * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.

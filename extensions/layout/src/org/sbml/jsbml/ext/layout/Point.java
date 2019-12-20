@@ -28,6 +28,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * The representation of a point in the "layout" package.
@@ -59,17 +60,17 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * the x coordinate
    */
-  private double x;
+  private Double x;
 
   /**
    * the y coordinate
    */
-  private double y;
+  private Double y;
 
   /**
    * the z coordinate
    */
-  private double z;
+  private Double z;
 
   /**
    * The name to be used when writing this point to XML.
@@ -282,12 +283,19 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * @return Whether the {@link #xmlElementName} attribute is set
+   */
+  public boolean isSetElementName() {
+    return xmlElementName != null;
+  }
+  
+  /**
    * Returns {@code true} if the x coordinate is set.
    * 
    * @return {@code true} if the x coordinate is set.
    */
   public boolean isSetX() {
-    return !Double.isNaN(x);
+    return x != null && !Double.isNaN(x);
   }
 
   /**
@@ -296,7 +304,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return {@code true} if the y coordinate is set.
    */
   public boolean isSetY() {
-    return !Double.isNaN(y);
+    return y != null && !Double.isNaN(y);
   }
 
   /**
@@ -305,7 +313,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return {@code true} if the z coordinate is set.
    */
   public boolean isSetZ() {
-    return !Double.isNaN(z);
+    return z != null && !Double.isNaN(z);
   }
 
   /* (non-Javadoc)
@@ -433,6 +441,42 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
     firePropertyChange(LayoutConstants.z, oldZ, this.z);
   }
 
+  /**
+   * Unsets the {@link #xmlElementName}
+   */
+  void unsetElementName() {
+    String oldName = xmlElementName;
+    setElementName(null);
+    firePropertyChange(TreeNodeChangeEvent.name, oldName, xmlElementName);
+  }
+  
+  /**
+   * Unsets the required x coordinate.
+   */
+  public void unsetX() {
+    Double oldX = x;
+    x = null;
+    firePropertyChange(LayoutConstants.x, oldX, x);
+  }
+
+  /**
+   * Unsets the required y coordinate.
+   */
+  public void unsetY() {
+    Double oldY = y;
+    y = null;
+    firePropertyChange(LayoutConstants.y, oldY, y);
+  }
+
+  /**
+   * Unsets the optional z coordinate.
+   */
+  public void unsetZ() {
+    Double oldZ = z;
+    z = null;
+    firePropertyChange(LayoutConstants.z, oldZ, z);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */

@@ -264,9 +264,14 @@ public class CubicBezier extends LineSegment {
     return basePoint2 != null;
   }
 
+  
   /**
+   * Removes the basepoint 1 from this {@link CubicBezier} 
+   * <br/>
+   * After calling this method, {@link CubicBezier#isSetBasePoint1} is
+   * {@code false}
    * 
-   * @return
+   * @return The removed basepoint 1
    */
   public Point removeBasePoint1() {
     if (!isSetBasePoint1()) {
@@ -278,8 +283,12 @@ public class CubicBezier extends LineSegment {
   }
 
   /**
+   * Removes the basepoint 2 from this {@link CubicBezier} 
+   * <br/>
+   * After calling this method, {@link CubicBezier#isSetBasePoint2} is
+   * {@code false}
    * 
-   * @return
+   * @return The removed basepoint 2
    */
   public Point removeBasePoint2() {
     if (!isSetBasePoint2()) {
@@ -328,4 +337,18 @@ public class CubicBezier extends LineSegment {
     registerChild(this.basePoint2);
   }
 
+  // TODO: these are pretty useless.
+  /**
+   * Unsets the Base point 1 (and fires appropriate event)
+   */
+  public void unsetBasePoint1() {
+    removeBasePoint1();
+  }
+  
+  /**
+   * Unsets the Base point 2 (and fires appropriate event)
+   */
+  public void unsetBasePoint2() {
+    removeBasePoint2();
+  }
 }

@@ -369,6 +369,28 @@ public abstract class CurveSegment extends AbstractSBase {
     firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
   }
 
+  /**
+   * Unsets the end-point of this CurveSegment
+   */
+  public void unsetEnd() {
+    Point oldValue = getEnd();
+    if(oldValue != null) {
+      removeEnd();
+      firePropertyChange(LayoutConstants.end, oldValue, getEnd());
+    }
+  }
+  
+  /**
+   * Unsets the start-point of this CurveSegment
+   */
+  public void unsetStart() {
+    Point oldValue = getStart();
+    if(oldValue != null) {
+      removeStart();
+      firePropertyChange(LayoutConstants.start, oldValue, getStart());
+    }
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */

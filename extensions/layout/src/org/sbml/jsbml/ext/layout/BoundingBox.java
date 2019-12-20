@@ -321,6 +321,8 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
     if (this.dimensions != null) {
       Dimensions oldValue = this.dimensions;
       this.dimensions = null;
+      firePropertyChange(LayoutConstants.dimensions, oldValue, dimensions);
+      // TODO: do not need this: 
       oldValue.fireNodeRemovedEvent();
     }
     this.dimensions = dimensions;
@@ -348,6 +350,20 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
     registerChild(position);
   }
 
+  /**
+   * Unsets the dimensions (and fires an appropriate event)
+   */
+  public void unsetDimensions() {
+    setDimensions(null);
+  }
+  
+  /**
+   * Unsets the position (and fires an appropriate event)
+   */
+  public void unsetPosition() {
+    setPosition(null);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
