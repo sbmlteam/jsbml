@@ -43,6 +43,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
  * @author Clemens Wrzodek
+ * @author David Vetter
  * @since 1.0
  */
 public class Point extends AbstractNamedSBase implements UniqueNamedSBase {

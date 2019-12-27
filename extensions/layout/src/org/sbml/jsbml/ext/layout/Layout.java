@@ -53,6 +53,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
  * @author Clemens Wrzodek
+ * @author David Vetter
  * @since 1.0
  */
 public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {

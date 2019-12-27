@@ -39,6 +39,7 @@ import org.sbml.jsbml.util.ResourceManager;
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
  * @author Clemens Wrzodek
+ * @author David Vetter
  * @since 1.0
  */
 public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase {

@@ -36,6 +36,7 @@ import javax.swing.tree.TreeNode;
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
+ * @author David Vetter
  * @since 1.0
  */
 public class CubicBezier extends LineSegment {
@@ -337,7 +338,6 @@ public class CubicBezier extends LineSegment {
     registerChild(this.basePoint2);
   }
 
-  // TODO: these are pretty useless.
   /**
    * Unsets the Base point 1 (and fires appropriate event)
    */

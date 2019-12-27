@@ -31,6 +31,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * 
  * @author Sebastian Fr&ouml;hlich
  * @author Nicolas Rodriguez
+ * @author David Vetter
  * @since 1.0
  */
 public abstract class CurveSegment extends AbstractSBase {

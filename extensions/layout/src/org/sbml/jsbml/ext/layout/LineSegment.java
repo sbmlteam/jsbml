@@ -32,6 +32,7 @@ import javax.swing.tree.TreeNode;
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
+ * @author David Vetter
  * @since 1.0
  */
 public class LineSegment extends CurveSegment {

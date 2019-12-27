@@ -45,6 +45,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
+ * @author David Vetter
  * @since 1.0
  */
 public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
