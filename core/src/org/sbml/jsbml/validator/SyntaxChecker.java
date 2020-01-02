@@ -341,8 +341,13 @@ public class SyntaxChecker {
   }
   
   /**
-   * Build the pattern for metaIds according to their definitions in SBML and the definitions of the corresponding
-   * symbols in the XML L1 Specification
+   * Build the pattern for metaIds according to their definitions in SBML 
+   * and the definitions of the corresponding symbols at <a href="https://www.w3.org/TR/xml/#CharClasses">XML 1.0 Specification</a>
+   * 
+   * @param level
+   *            Level of the SBML to be used.
+   * @param version
+   *            Version of the SBML to be used.
    */
   private String initMetaIdPatterns(int level, int version) { //TODO - add simple metaId functionality
     metaIdPattern = null;
