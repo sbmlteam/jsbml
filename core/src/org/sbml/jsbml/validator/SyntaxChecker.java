@@ -348,22 +348,24 @@ public class SyntaxChecker {
    *            Level of the SBML to be used.
    * @param version
    *            Version of the SBML to be used.
+   * @return The regex of MetaId as string, or null if no pattern could be compiled.
    */
-  private String initMetaIdPatterns(int level, int version) { //TODO - add simple metaId functionality
+  private String initMetaIdPatterns(int level, int version) {
+    
     metaIdPattern = null;
-    String id;
+    String metaId;
+    String simpleMetaId;
+    String ncNameChar; 
+    String simpleNameChar;
     String underscore = "_";
     String dash = "\\-";
     String dot = ".";
     String colon = ":";
-    //for the following strings lookup xml specs
-    StringBuilder letter;
-    StringBuilder digit;
+    StringBuilder letter, digit, combiningChar;
     String extender;
-    StringBuilder combiningChar;
 
     if(level == 2 && version == 2) {
-      
+
       letter = StringTools.concatStringBuilder("a-zA-Z");
       digit = StringTools.concatStringBuilder("0-9");
       combiningChar = StringTools.concatStringBuilder("[\u0300-\u0345][\u0360-\u0361][\u0483-\u0486][\u0591-\u05A1][\u05A3-\u05B9][\u05BB-\u05BD]"
@@ -378,16 +380,22 @@ public class SyntaxChecker {
         , "\u0EB1[\u0EB4-\u0EB9][\u0EBB-\u0EBC][\u0EC8-\u0ECD][\u0F18-\u0F19]\u0F35\u0F37\u0F39\u0F3E\u0F3F"
         , "[\u0F71-\u0F84][\u0F86-\u0F8B][\u0F90-\u0F95]\u0F97[\u0F99-\u0FAD][\u0FB1-\u0FB7]\u0FB9[\u20D0-\u20DC]\u20E1[\u302A-\u302F]\u3099\u309A");
       extender = "\u00B7\u02D0\u02D1\u0387\u0640\u0E46\u0EC6\u3005[\u3031-\u3035][\u309D-\u309E][\u30FC-\u30FE]";
-      String ncNameChar = "[" + letter + digit + dot + dash + underscore + combiningChar + extender + "]"; 
-      id = "[" + letter + underscore + "]" + "[" + ncNameChar + "]*"; 
-      System.out.println("level " + level + ", version " + version + " : loading patterns " + id);
-      metaIdPattern = Pattern.compile(id);
-      return id;     
+      ncNameChar = "[" + letter + digit + dot + dash + underscore + combiningChar + extender + "]"; 
+      metaId = "[" + letter + underscore + "]" + "[" + ncNameChar + "]*"; 
+      System.out.println("level " + level + ", version " + version + " : loading patterns " + metaId);
+      metaIdPattern = Pattern.compile(metaId);
+
+      //create simpleMetaIdPattern for faster check
+      simpleNameChar = "[" + letter + digit + dot + dash + underscore + "]";
+      simpleMetaId = "[" + letter + underscore + "]" + "[" + simpleNameChar + "]*"; 
+      simpleMetaIdPattern = Pattern.compile(simpleMetaId);
+
+      return metaId;     
     }
 
     if((level == 2 && (version == 3 || version == 4 || version == 5)) || 
-        (level == 3 && (version == 1 || version == 2))) { //TODO - check the specifications again
-      
+        (level == 3 && (version == 1 || version == 2))) { 
+
       letter = StringTools.concatStringBuilder("[\u0041-\u005A][\u0061-\u007A][\u00C0-\u00D6][\u00D8-\u00F6][\u00F8-\u00FF][\u0100-\u0131][\u0134-\u013E][\u0141-\u0148]"
         , "[\u014A-\u017E][\u0180-\u01C3][\u01CD-\u01F0][\u01F4-\u01F5][\u01FA-\u0217][\u0250-\u02A8][\u02BB-\u02C1]"  
         , "\u0386[\u0388-\u038A]\u038C[\u038E-\u03A1][\u03A3-\u03CE][\u03D0-\u03D6]\u03DA\u03DC\u03DE\u03E0[\u03E2-\u03F3]"   
@@ -427,14 +435,23 @@ public class SyntaxChecker {
         , "\u0EB1[\u0EB4-\u0EB9][\u0EBB-\u0EBC][\u0EC8-\u0ECD][\u0F18-\u0F19]\u0F35\u0F37\u0F39\u0F3E\u0F3F"
         , "[\u0F71-\u0F84][\u0F86-\u0F8B][\u0F90-\u0F95]\u0F97[\u0F99-\u0FAD][\u0FB1-\u0FB7]\u0FB9[\u20D0-\u20DC]\u20E1[\u302A-\u302F]\u3099\u309A");
       extender = "\u00B7\u02D0\u02D1\u0387\u0640\u0E46\u0EC6\u3005[\u3031-\u3035][\u309D-\u309E][\u30FC-\u30FE]";
-      String ncNameChar = "[" + letter + digit + dot + dash + underscore + colon + combiningChar + extender + "]";
-      id = "[" + letter + underscore + colon + "]" + "[" + ncNameChar + "]*";    
-      System.out.println("level " + level + ", version " + version + " : loading patterns " + id);
-      metaIdPattern = Pattern.compile(id);
-      return id;  
+      ncNameChar = "[" + letter + digit + dot + dash + underscore + colon + combiningChar + extender + "]";
+      metaId = "[" + letter + underscore + colon + "]" + "[" + ncNameChar + "]*";    
+      System.out.println("level " + level + ", version " + version + " : loading patterns " + metaId);
+      metaIdPattern = Pattern.compile(metaId);
+
+      //create simpleMetaIdPattern for faster check
+      letter = StringTools.concatStringBuilder("a-zA-Z");
+      digit = StringTools.concatStringBuilder("0-9");
+      simpleNameChar = "[" + letter + digit + dot + dash + underscore + colon + "]";
+      simpleMetaId = "[" + letter + underscore + colon + "]" + "[" + simpleNameChar + "]*";    
+      simpleMetaIdPattern = Pattern.compile(simpleMetaId);
+
+      return metaId;  
     }
 
     System.out.println("no valid level or version, could not load pattern correctly");
+    
     return null;
   }
 
