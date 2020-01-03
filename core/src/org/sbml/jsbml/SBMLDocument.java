@@ -155,6 +155,10 @@ public class SBMLDocument extends AbstractSBase {
    */
   private Map<String, String>           SBMLDocumentAttributes;
 
+  /**
+   * URI of the file from which this was read. May be set/changed manually 
+   */
+  private String locationURI;
 
   /**
    * Creates a {@link SBMLDocument} instance. By default, the parent SBML object
@@ -172,6 +176,7 @@ public class SBMLDocument extends AbstractSBase {
     // setParentSBML(this);
     checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(),
       false);
+    locationURI = null;
   }
 
 
@@ -224,6 +229,10 @@ public class SBMLDocument extends AbstractSBase {
     // map already
     if (enabledPackageMap == null) {
       enabledPackageMap = new HashMap<String, Boolean>();
+    }
+    
+    if(locationURI == null) {
+      this.locationURI = sb.getLocationURI();
     }
 
     // cloning the enabledPackageMap
@@ -1017,6 +1026,17 @@ public class SBMLDocument extends AbstractSBase {
     return listOfErrors;
   }
 
+  
+  /**
+   * Returns the URI specifying whence this {@link SBMLDocument} was read. Need not be set 
+   * (i.e. may be {@code null}).
+   * 
+   * @return the locationURI of this. May be {@code null} if not set.
+   */
+  public String getLocationURI() {
+    return locationURI;
+  }
+  
 
   /**
    * Returns the model of this {@link SBMLDocument}.
@@ -1285,6 +1305,16 @@ public class SBMLDocument extends AbstractSBase {
    */
   private boolean isSetListOfErrors() {
     return (listOfErrors != null) && (listOfErrors.getErrorCount() > 0);
+  }
+  
+  
+  /**
+   * Returns {@code true} if the location URI of this {@link SBMLDocument} is
+   * not {@code null}.
+   * @return whether the locationURI is not {@code null}
+   */
+  public boolean isSetLocationURI() {
+    return locationURI != null;
   }
 
 
@@ -1674,6 +1704,20 @@ public class SBMLDocument extends AbstractSBase {
     return super.setLevelAndVersion(level, version, strict);
   }
 
+  
+  /**
+   * Sets the locationURI of this {@link SBMLDocument}: Denotes, whence this Document is understood to have 
+   * been read. 
+   * 
+   * @param uri A string encoding an absolute URI. This is not checked.
+   */
+  public void setLocationURI(String uri) {
+    // TODO: maybe check whether this is a valid absolute URI? libSBML does not.
+    // cf. https://sourceforge.net/p/sbml/code/26187/tree/branches/libsbml-experimental/src/sbml/SBMLDocument.cpp#l671
+    // but it would make sense for reliability/avoiding hacky&unstable use.
+    this.locationURI = uri;
+  }
+  
 
   /**
    * Sets the {@link Model} for this {@link SBMLDocument} to the given

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1"
+	xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" comp:required="true">
+	<model>
+		<listOfCompartments>
+			<compartment id="compartment" spatialDimensions="3" size="1" constant="true">
+				<comp:listOfReplacedElements>
+					<comp:replacedElement comp:idRef="compartment" comp:submodelRef="internalA"/>
+					<comp:replacedElement comp:idRef="compartment" comp:submodelRef="internalB"/>
+				</comp:listOfReplacedElements>
+			</compartment>
+		</listOfCompartments>
+		<listOfSpecies>
+			<species id="S" compartment="compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+				<comp:listOfReplacedElements>
+					<comp:replacedElement comp:idRef="S" comp:submodelRef="internalA"/>
+					<comp:replacedElement comp:idRef="S" comp:submodelRef="internalB"/>
+				</comp:listOfReplacedElements>
+			</species>
+		</listOfSpecies>
+		<comp:listOfSubmodels>
+			<comp:submodel comp:id="internalA" comp:modelRef="a"/>
+			<comp:submodel comp:id="internalB" comp:modelRef="a"/>
+		</comp:listOfSubmodels>
+	</model>
+	<comp:listOfExternalModelDefinitions>
+		<comp:externalModelDefinition comp:id="a" comp:source="internalise_main_in_chain_intermediate.xml" comp:modelRef="b"/>
+	</comp:listOfExternalModelDefinitions>
+</sbml> 

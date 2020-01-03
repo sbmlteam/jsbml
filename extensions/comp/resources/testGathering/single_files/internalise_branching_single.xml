@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1"
+	xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" comp:required="true">
+	<comp:listOfModelDefinitions>
+		<comp:modelDefinition id="a">
+			<comp:listOfSubmodels>
+				<comp:submodel comp:id="internalA" comp:modelRef="b_a"/>
+				<comp:submodel comp:id="internalC" comp:modelRef="b_c"/>
+			</comp:listOfSubmodels>
+		</comp:modelDefinition>
+		<comp:modelDefinition id="b_a">
+			<listOfCompartments>
+				<compartment id="cytoplasm" spatialDimensions="3" size="1" constant="true"/>
+			</listOfCompartments>
+			<listOfSpecies>
+				<species id="u" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+				<species id="v" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+				<species id="w" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+			</listOfSpecies>
+			<listOfReactions>
+				<reaction id="a1" reversible="true" fast="false">
+					<listOfReactants>
+						<speciesReference species="u" stoichiometry="2" constant="true"/>
+					</listOfReactants>
+					<listOfProducts>
+						<speciesReference species="v" stoichiometry="1" constant="true"/>
+						<speciesReference species="w" stoichiometry="1" constant="true"/>
+					</listOfProducts>
+				</reaction>
+			</listOfReactions>
+		</comp:modelDefinition>
+		<comp:modelDefinition id="b_c">
+			<listOfCompartments>
+				<compartment id="cytoplasm" spatialDimensions="3" size="1" constant="true"/>
+			</listOfCompartments>
+			<listOfSpecies>
+				<species id="u" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+				<species id="v" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+				<species id="w" compartment="cytoplasm" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"></species>
+			</listOfSpecies>
+			<listOfReactions>
+				<reaction id="a1" reversible="true" fast="false">
+					<listOfReactants>
+						<speciesReference species="u" stoichiometry="2" constant="true"/>
+					</listOfReactants>
+					<listOfProducts>
+						<speciesReference species="v" stoichiometry="1" constant="true"/>
+						<speciesReference species="w" stoichiometry="1" constant="true"/>
+					</listOfProducts>
+				</reaction>
+			</listOfReactions>
+		</comp:modelDefinition>
+	</comp:listOfModelDefinitions>
+</sbml> 
