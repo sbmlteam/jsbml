@@ -17,14 +17,24 @@ public class MetaIdValidationTest {
     
     //specifications L2V2 under 3.1.6
     //has to start with a letter or an underscore
+    
     level = 2; 
     version = 2; 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("", level, version) == false); 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_s", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("s_", level, version) == true);
-    Assert.assertTrue(SyntaxChecker.isValidMetaId("_ssେ",        level, version) == true);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("_ssେ",level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a", level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a:", level, version) == false);
+    System.out.println("");
+    
+    //L2V2 is default value so the tests should also work without providing level and version
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("") == false); 
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("_s") == true);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("s_") == true);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("_ssେ") == true);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a") == true);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("_̏a:") == false);
     System.out.println("");
     
     //since L2V3 all level and versions have equivalent metaId specifications
@@ -65,6 +75,7 @@ public class MetaIdValidationTest {
     version = 6; //doesn't exist
     Assert.assertTrue(SyntaxChecker.isValidMetaId("s", level, version) == false);
     System.out.println("");
+    
     level = 3; 
     version = 1; 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("", level, version) == false);

@@ -25,6 +25,8 @@ import java.util.regex.Pattern;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.util.Pair;
+
 
 /**
  * A collection of methods for checking the validity of SBML identifiers.
@@ -200,27 +202,14 @@ public class SyntaxChecker {
 
   /**
    * Checks if the given identifier candidate satisfies the requirements for a
-   * valid meta identifier (see SBML L2V4 p. 12 for details).
+   * valid meta identifier (see SBML L2V2 p. 12 for details).
    *
    * @param idCandidate
    * @return {@code true} if the given argument is a valid meta identifier
    *         {@link String}, {@code false} otherwise.
    */
   public static final boolean isValidMetaId(String idCandidate) {
-    if ((syntaxChecker.simpleMetaIdPattern == null) || (syntaxChecker.metaIdPattern == null)) {
-      syntaxChecker.initMetaIdPatterns();
-    }
-
-    // In the most cases the first check will be sufficient.
-    if (syntaxChecker.simpleMetaIdPattern.matcher(idCandidate).matches()) {
-      return true;
-    }
-    /* In the worst case, we have to perform two checks, but this is
-     * hopefully much faster than doing the full check each time.
-     * It can be assumed that the majority of allowable characters is
-     * not used within these identifiers.
-     */
-    return syntaxChecker.metaIdPattern.matcher(idCandidate).matches();
+    return isValidMetaId(idCandidate, 2, 2);
   }
   
   /**
@@ -232,14 +221,46 @@ public class SyntaxChecker {
    *         {@link String}, {@code false} otherwise.
    */
   public static final boolean isValidMetaId(String idCandidate, int level, int version) {
-   
-    //TODO - was machen wenn es schon in MetaIdPattern gibt 
-    syntaxChecker.initMetaIdPatterns(level, version);
-    
-    if(syntaxChecker.metaIdPattern == null) {
-      return false; //wenn kein metapattern geladen werden konnte dann wars auch nicht valide
+
+    /* If no pattern exists it has to be initialized.
+     * If there is already an existing pattern, we check if the loaded pattern Pair (metaIdPatternWithLvlVersion) has the same
+     * level and version parameters as this method. The same goes for simpleMetaIdPatternWithLvlVersion Pair because it is 
+     * always initialized at the same time as the normal metaId pattern. 
+     * If not, the pattern has to be initialized with correct level and version informations.
+     */  
+    if(syntaxChecker.metaIdPattern == null || syntaxChecker.simpleMetaIdPattern == null) {   
+
+      syntaxChecker.initMetaIdPatterns(level, version); 
+
+    } else if((syntaxChecker.metaIdPatternWithLvlVersion.getValue().getL() != level) 
+        || (syntaxChecker.metaIdPatternWithLvlVersion.getValue().getV() != version)
+        || (syntaxChecker.simpleMetaIdPatternWithLvlVersion.getValue().getL() != level) 
+        || (syntaxChecker.simpleMetaIdPatternWithLvlVersion.getValue().getV() != version)) { 
+
+      syntaxChecker.initMetaIdPatterns(level, version); 
     }
-    return syntaxChecker.metaIdPattern.matcher(idCandidate).matches();
+
+    /* After initializing the metaPatterns with the initMetaIdPatterns method the value of 
+     * metaIdPattern or simpleMetaIdPattern can still be null due to invalid level and version values.
+     * So only if the patterns are actually successfully initialized we check the matchers.
+     */
+    if(syntaxChecker.metaIdPattern != null && syntaxChecker.simpleMetaIdPattern != null) {
+      
+      // In the most cases the first check will be sufficient.
+      if(syntaxChecker.simpleMetaIdPattern.matcher(idCandidate).matches()) {
+
+        return true;
+      }
+
+      /* In the worst case, we have to perform two checks, but this is
+       * hopefully much faster than doing the full check each time.
+       * It can be assumed that the majority of allowable characters is
+       * not used within these identifiers.
+       */
+      return syntaxChecker.metaIdPattern.matcher(idCandidate).matches();
+    }
+    
+    return false;
   }
 
   /**
@@ -252,6 +273,8 @@ public class SyntaxChecker {
    * elements.
    */
   private Pattern metaIdPattern;
+  
+  private Pair<Pattern, ValuePair<Integer, Integer>> metaIdPatternWithLvlVersion;
 
   /**
    * Collection of reserved names that must not be used as identifiers (names)
@@ -275,6 +298,8 @@ public class SyntaxChecker {
    * SBML elements.
    */
   private Pattern simpleMetaIdPattern;
+  
+  private Pair<Pattern, ValuePair<Integer, Integer>> simpleMetaIdPatternWithLvlVersion;
 
   /**
    * Name {@link Pattern} for SBML Level 1 version 1.
@@ -331,14 +356,15 @@ public class SyntaxChecker {
     SNameL1V2 = Pattern.compile("^[" + letter + underscore + "]" + idChar + '*');
   }
 
-  /**
-   * Build the pattern for metaIds according to the definition in SBML
-   * L2V2R1 p. 12, Section 3.1.6 and the definition of the corresponding
-   * symbols at <a href="http://www.w3.org/TR/2000/REC-xml-20001006#NT-CombiningChar">http://www.w3.org/TR/2000/REC-xml-20001006#NT-CombiningChar</a>
-   */
-  private void initMetaIdPatterns() {
-    initMetaIdPatterns(2, 2);
-  }
+// unused now 
+//  /**
+//   * Build the pattern for metaIds according to the definition in SBML
+//   * L2V2R1 p. 12, Section 3.1.6 and the definition of the corresponding
+//   * symbols at <a href="http://www.w3.org/TR/2000/REC-xml-20001006#NT-CombiningChar">http://www.w3.org/TR/2000/REC-xml-20001006#NT-CombiningChar</a>
+//   */
+//  private void initMetaIdPatterns() {
+//    initMetaIdPatterns(2, 2);
+//  }
   
   /**
    * Build the pattern for metaIds according to their definitions in SBML 
@@ -348,7 +374,7 @@ public class SyntaxChecker {
    *            Level of the SBML to be used.
    * @param version
    *            Version of the SBML to be used.
-   * @return The regex of MetaId as string, or null if no pattern could be compiled.
+   * @return The metaId regular expression (to be compiled into a pattern) as {@link String}, or {@code null} if no pattern could be compiled.
    */
   private String initMetaIdPatterns(int level, int version) {
     
@@ -389,6 +415,14 @@ public class SyntaxChecker {
       simpleNameChar = "[" + letter + digit + dot + dash + underscore + "]";
       simpleMetaId = "[" + letter + underscore + "]" + "[" + simpleNameChar + "]*"; 
       simpleMetaIdPattern = Pattern.compile(simpleMetaId);
+      
+      //Creating a Pair out of the pattern and the level, version informations.  
+      //This is useful if you need to check if a pattern for a specific level and version 
+      //already exists. 
+      //The (level, version) tuple is a ValuePair because it provides 
+      //additional methods of the Comparable interface.
+      metaIdPatternWithLvlVersion = new Pair<Pattern, ValuePair<Integer, Integer>>(metaIdPattern, new ValuePair<Integer, Integer>(level, version));
+      simpleMetaIdPatternWithLvlVersion = new Pair<Pattern, ValuePair<Integer, Integer>>(simpleMetaIdPattern, new ValuePair<Integer, Integer>(level, version));
 
       return metaId;     
     }
@@ -446,6 +480,14 @@ public class SyntaxChecker {
       simpleNameChar = "[" + letter + digit + dot + dash + underscore + colon + "]";
       simpleMetaId = "[" + letter + underscore + colon + "]" + "[" + simpleNameChar + "]*";    
       simpleMetaIdPattern = Pattern.compile(simpleMetaId);
+      
+      //Creating a Pair out of the pattern and the level, version informations.  
+      //This is useful if you need to check if a pattern for a specific level and version 
+      //already exists (this is needed in the isValidMetaId method). 
+      //The (level, version) tuple is a ValuePair because it provides 
+      //additional methods of the Comparable interface.
+      metaIdPatternWithLvlVersion = new Pair<Pattern, ValuePair<Integer, Integer>>(metaIdPattern, new ValuePair<Integer, Integer>(level, version));
+      simpleMetaIdPatternWithLvlVersion = new Pair<Pattern, ValuePair<Integer, Integer>>(simpleMetaIdPattern, new ValuePair<Integer, Integer>(level, version));
 
       return metaId;  
     }
