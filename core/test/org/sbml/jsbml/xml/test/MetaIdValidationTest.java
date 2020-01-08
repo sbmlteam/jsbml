@@ -10,7 +10,7 @@ import org.junit.Assert;
  * See XML 1.0 Specifications <a href="https://www.w3.org/TR/xml/#CharClasses">XML 1.0 Specification</a>
  * for further details to Character Classes. 
  * 
- * @author Onur Özel		
+ * @author Onur &Ouml;zel		
  * @since 1.5
  */
 public class MetaIdValidationTest {

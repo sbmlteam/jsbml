@@ -24,8 +24,8 @@ import org.sbml.jsbml.validator.offline.constraints.ConstraintGroup;
 
 /**
  * 
- * @author Onur Özel
- *
+ * @author Onur &Ouml;zel
+ * @since 1.5
  */
 
 public class ValidationContextTest {
