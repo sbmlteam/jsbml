@@ -418,8 +418,10 @@ public class SyntaxChecker {
       return metaId;     
     }
 
+    //TODO - Mind that level 3 version 2 is currently the last valid version (method should be updated if new version comes out)
     if((level == 2 && (version == 3 || version == 4 || version == 5)) || 
-        (level == 3 && (version == 1 || version == 2))) { 
+        (level == 3 && (version == 1 || version >= 2)) ||
+        (level > 3)) { 
 
       letter = StringTools.concatStringBuilder("[\u0041-\u005A][\u0061-\u007A][\u00C0-\u00D6][\u00D8-\u00F6][\u00F8-\u00FF][\u0100-\u0131][\u0134-\u013E][\u0141-\u0148]"
         , "[\u014A-\u017E][\u0180-\u01C3][\u01CD-\u01F0][\u01F4-\u01F5][\u01FA-\u0217][\u0250-\u02A8][\u02BB-\u02C1]"  
