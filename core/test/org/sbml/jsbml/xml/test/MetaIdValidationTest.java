@@ -112,7 +112,7 @@ public class MetaIdValidationTest {
     System.out.println("");
 
 
-    //not available yet but as default it the specification of L3V2 will be used
+    //not available yet but as default the specification of L3V2 will be used
     level = 3;
     version = 3; 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("s", level, version) == true);
