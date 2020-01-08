@@ -202,14 +202,14 @@ public class SyntaxChecker {
 
   /**
    * Checks if the given identifier candidate satisfies the requirements for a
-   * valid meta identifier (see SBML L2V2 p. 12 for details).
+   * valid meta identifier (see SBML L2V4 p. 12 for details).
    *
    * @param idCandidate
    * @return {@code true} if the given argument is a valid meta identifier
    *         {@link String}, {@code false} otherwise.
    */
   public static final boolean isValidMetaId(String idCandidate) {
-    return isValidMetaId(idCandidate, 2, 2);
+    return isValidMetaId(idCandidate, 2, 2); //TODO - should version 2 or 4 be the default
   }
   
   /**
@@ -245,7 +245,7 @@ public class SyntaxChecker {
      * So only if the patterns are actually successfully initialized we check the matchers.
      */
     if(syntaxChecker.metaIdPattern != null && syntaxChecker.simpleMetaIdPattern != null) {
-      
+
       // In the most cases the first check will be sufficient.
       if(syntaxChecker.simpleMetaIdPattern.matcher(idCandidate).matches()) {
 
@@ -259,7 +259,7 @@ public class SyntaxChecker {
        */
       return syntaxChecker.metaIdPattern.matcher(idCandidate).matches();
     }
-    
+
     return false;
   }
 
@@ -356,15 +356,6 @@ public class SyntaxChecker {
     SNameL1V2 = Pattern.compile("^[" + letter + underscore + "]" + idChar + '*');
   }
 
-// unused now 
-//  /**
-//   * Build the pattern for metaIds according to the definition in SBML
-//   * L2V2R1 p. 12, Section 3.1.6 and the definition of the corresponding
-//   * symbols at <a href="http://www.w3.org/TR/2000/REC-xml-20001006#NT-CombiningChar">http://www.w3.org/TR/2000/REC-xml-20001006#NT-CombiningChar</a>
-//   */
-//  private void initMetaIdPatterns() {
-//    initMetaIdPatterns(2, 2);
-//  }
   
   /**
    * Build the pattern for metaIds according to their definitions in SBML 
@@ -377,7 +368,7 @@ public class SyntaxChecker {
    * @return The metaId regular expression (to be compiled into a pattern) as {@link String}, or {@code null} if no pattern could be compiled.
    */
   private String initMetaIdPatterns(int level, int version) {
-    
+
     metaIdPattern = null;
     String metaId;
     String simpleMetaId;
@@ -415,7 +406,7 @@ public class SyntaxChecker {
       simpleNameChar = "[" + letter + digit + dot + dash + underscore + "]";
       simpleMetaId = "[" + letter + underscore + "]" + "[" + simpleNameChar + "]*"; 
       simpleMetaIdPattern = Pattern.compile(simpleMetaId);
-      
+
       //Creating a Pair out of the pattern and the level, version informations.  
       //This is useful if you need to check if a pattern for a specific level and version 
       //already exists. 
@@ -480,7 +471,7 @@ public class SyntaxChecker {
       simpleNameChar = "[" + letter + digit + dot + dash + underscore + colon + "]";
       simpleMetaId = "[" + letter + underscore + colon + "]" + "[" + simpleNameChar + "]*";    
       simpleMetaIdPattern = Pattern.compile(simpleMetaId);
-      
+
       //Creating a Pair out of the pattern and the level, version informations.  
       //This is useful if you need to check if a pattern for a specific level and version 
       //already exists (this is needed in the isValidMetaId method). 
@@ -493,7 +484,7 @@ public class SyntaxChecker {
     }
 
     System.out.println("no valid level or version, could not load pattern correctly");
-    
+
     return null;
   }
 
