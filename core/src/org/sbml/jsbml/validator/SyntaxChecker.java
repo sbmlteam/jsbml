@@ -40,6 +40,7 @@ import org.sbml.jsbml.util.Pair;
  * upon their first use.
  *
  * @author Andreas Dr&auml;ger
+ * @author Onur &Ouml;zel
  * @since 1.0
  */
 public class SyntaxChecker {
