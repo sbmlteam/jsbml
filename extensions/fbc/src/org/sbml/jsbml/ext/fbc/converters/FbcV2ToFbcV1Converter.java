@@ -70,7 +70,7 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
   @Override
   public SBMLDocument convert(SBMLDocument sbmlDocument) throws SBMLException {
     Model model = sbmlDocument.getModel();
-    FBCModelPlugin fbcModelPlugin = (FBCModelPlugin)model.getPlugin("fbc");
+    FBCModelPlugin fbcModelPlugin = (FBCModelPlugin)model.getPlugin(FBCConstants.shortLabel);
 
     // only SBMLDocuments with FBC Version 2 and "fbc:strict = true" are converted 
     if (sbmlDocument.isPackageEnabled(FBCConstants.getNamespaceURI(3, 1, 2)) && fbcModelPlugin.isSetStrict()) {
@@ -88,10 +88,10 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
             SBase sBase = (SBase) o;
             
             if (sBase.getNumPlugins() > 0) {
-              SBasePlugin sBasePlugin = sBase.getPlugin("fbc");
+              SBasePlugin sBasePlugin = sBase.getPlugin(FBCConstants.shortLabel);
               
               if (sBasePlugin != null) {
-                if (sBasePlugin.getPackageName().equals("fbc")) {
+                if (sBasePlugin.getPackageName().equals(FBCConstants.shortLabel)) {
                   sBasePlugin.setPackageVersion(1);
                 }
                 if (! sBasePlugin.getElementNamespace().equals(FBCConstants.namespaceURI_L3V1V1)) {
@@ -112,7 +112,7 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
         public boolean accepts(Object o) {
           if (o instanceof SBase) {
             SBase sBase = (SBase) o;
-            if (sBase.getPackageName().equals("fbc")) {
+            if (sBase.getPackageName().equals(FBCConstants.shortLabel)) {
               if (sBase.getPackageVersion() != 1) {
                 sBase.setPackageVersion(1);
               }
@@ -133,7 +133,7 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
       // use a set to hold all parameters that need to be deleted after processing all reactions
       Set<String> parametersToDelete = new HashSet<String>();
       for (Reaction reaction : model.getListOfReactions()) {
-        FBCReactionPlugin fbcReactionPlugin = (FBCReactionPlugin)reaction.getPlugin("fbc");
+        FBCReactionPlugin fbcReactionPlugin = (FBCReactionPlugin)reaction.getPlugin(FBCConstants.shortLabel);
         String lowerFluxBound = fbcReactionPlugin.getLowerFluxBound();
         String upperFluxBound = fbcReactionPlugin.getUpperFluxBound();
         for (Parameter parameter : model.getListOfParameters()) {
@@ -165,7 +165,7 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
       
       // write the gene associations to the notes of every reaction; delete fbc:geneProductAssociation for every reaction; delete fbc:listOfGeneProducts in model
       for (Reaction reaction : model.getListOfReactions()) {
-        FBCReactionPlugin fbcReactionPlugin = (FBCReactionPlugin)reaction.getPlugin("fbc");
+        FBCReactionPlugin fbcReactionPlugin = (FBCReactionPlugin)reaction.getPlugin(FBCConstants.shortLabel);
         
         // if there is an old gene association entry in the notes of this reaction it will be deleted
         Properties pElementsReactionNotes = new Properties();
