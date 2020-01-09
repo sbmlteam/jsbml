@@ -12,15 +12,19 @@ import org.sbml.jsbml.ext.render.director.LayoutDirector;
 
 public class SimpleExample {
   public static void main(String[] args) {
-    File file = new File("extensions/render/resources/examples/example_fully_laid_out.sbml.xml");
+    
+    File file = new File("extensions/render/resources/examples/smallest_example.xml");
     System.out.println("Reading file " + file);
     try {
-      LayoutDirector<Layout> director = new LayoutDirector<Layout>(file,
-        (LayoutBuilder<Layout>) null, new BasicLayoutAlgorithm());
+      LayoutDirector<String> director = new LayoutDirector<String>(file,
+        new BasicLayoutBuilder(), new BasicLayoutAlgorithm());
+      // Thread t1 = new Thread(director);
+      // t1.start();
+      director.run();
+      System.out.println("LaTeX-document:\n");
+      System.out.println(director.getProduct());
     } catch (XMLStreamException | IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    // LayoutDirector(File inputFile, LayoutBuilder<P> builder, LayoutAlgorithm algorithm)
   }
 }

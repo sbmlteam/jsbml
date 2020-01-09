@@ -24,7 +24,7 @@
 		</listOfUnitDefinitions>
 		
 		<listOfCompartments>
-			<compartment id="Cell" spatialDimensions="3" units="volume" 18 constant="true" />
+			<compartment id="Cell" spatialDimensions="3" units="volume" constant="true" />
 		</listOfCompartments>
 		
 		<listOfSpecies>
@@ -52,25 +52,33 @@
 		  xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1">
 			<layout:layout layout:id="The">
 				<layout:dimensions layout:width="400" layout:height="300" />
+				<layout:listOfCompartmentGlyphs>
+				  <layout:compartmentGlyph layout:id="CompartmentGlyph_Cell" layout:compartment="Cell">
+				    <layout:boundingBox layout:id="bbc">
+					  <layout:position layout:x="10" layout:y="80" />
+					  <layout:dimensions layout:width="380" layout:height="140" />
+					</layout:boundingBox>
+				  </layout:compartmentGlyph>
+				</layout:listOfCompartmentGlyphs>
 				<layout:listOfSpeciesGlyphs>
 				  <layout:speciesGlyph layout:id="SpeciesGlyph_A" layout:species="A">
 					<layout:boundingBox layout:id="bb1">
-					  <layout:position layout:x="80" layout:y="150" />
-					  <layout:dimensions layout:width="100" layout:height="50" />
+					  <layout:position layout:x="50" layout:y="150" />
+					  <layout:dimensions layout:width="50" layout:height="50" />
 					</layout:boundingBox>
 				  </layout:speciesGlyph> 
 				  <layout:speciesGlyph layout:id="SpeciesGlyph_B" layout:species="B">
 					<layout:boundingBox layout:id="bb2">
-					  <layout:position layout:x="320" layout:y="150" />
-					  <layout:dimensions layout:width="100" layout:height="50" />
+					  <layout:position layout:x="300" layout:y="150" />
+					  <layout:dimensions layout:width="50" layout:height="50" />
 					</layout:boundingBox>
 				  </layout:speciesGlyph> 
 				</layout:listOfSpeciesGlyphs>
 				
 				<layout:listOfReactionGlyphs>
-				  <layout:reactionGlyph layout:id="ReactionGlyph_r" layout:reaction="Phosphorylation">
+				  <layout:reactionGlyph layout:id="ReactionGlyph_r" layout:reaction="r">
 					<layout:boundingBox layout:id="bbr1">
-					  <layout:position layout:x="200" layout:y="150" />
+					  <layout:position layout:x="190" layout:y="165" />
 					  <layout:dimensions layout:width="20" layout:height="20" />
 				    </layout:boundingBox>
 					<layout:listOfSpeciesReferenceGlyphs>
@@ -80,8 +88,8 @@
 						  <layout:curve>
 							<layout:listOfCurveSegments>
 							  <layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
-								<layout:start layout:x="130" layout:y="150" />
-								<layout:end layout:x="190" layout:y="150" />
+								<layout:start layout:x="100" layout:y="175" />
+								<layout:end layout:x="190" layout:y="175" />
 							  </layout:curveSegment>
 							</layout:listOfCurveSegments>
 						  </layout:curve>
@@ -93,8 +101,8 @@
 						  <layout:curve>
 							<layout:listOfCurveSegments>
 							  <layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
-								<layout:start layout:x="210" layout:y="150" />
-								<layout:end layout:x="270" layout:y="150" />
+								<layout:start layout:x="210" layout:y="175" />
+								<layout:end layout:x="300" layout:y="175" />
 							  </layout:curveSegment>
 							</layout:listOfCurveSegments>
 						  </layout:curve>
