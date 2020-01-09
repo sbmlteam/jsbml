@@ -37,6 +37,7 @@ public class MetaIdValidationTest {
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_ss" + "\u0B47",level, version) == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_a" + "\u0300", level, version) == true); 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_a" + "\u0300:", level, version) == false);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("\u0E94" + "A" + "\u0967"  , level, version) == false);
     System.out.println("");
 
     //L2V2 is default value so the tests should also work without providing level and version
@@ -46,6 +47,7 @@ public class MetaIdValidationTest {
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_ss" + "\u0B47") == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_a" + "\u0300") == true);
     Assert.assertTrue(SyntaxChecker.isValidMetaId("_a" + "\u0300:") == false);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("\u0E94" + "A" + "\u0967") == false);
     System.out.println("");
 
     //since L2V3 all level and versions have equivalent metaId specifications
