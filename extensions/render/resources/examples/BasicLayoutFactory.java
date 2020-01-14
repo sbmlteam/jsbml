@@ -89,7 +89,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public ProcessNode<String> createProcessNode() {
-    return new LaTeXProcessNode(lineWidth, 20); // <- TODO: into constructor.
+    return new LaTeXProcessNode(lineWidth, 10); // <- TODO: into constructor.
   }
 
 

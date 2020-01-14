@@ -24,7 +24,7 @@
 		</listOfUnitDefinitions>
 		
 		<listOfCompartments>
-			<compartment id="Cell" spatialDimensions="3" units="volume" constant="true" />
+			<compartment id="Cell" name="Cytosol" spatialDimensions="3" units="volume" constant="true" />
 		</listOfCompartments>
 		
 		<listOfSpecies>
@@ -110,6 +110,27 @@
 					</layout:listOfSpeciesReferenceGlyphs>
 				  </layout:reactionGlyph>
 				</layout:listOfReactionGlyphs>
+				
+				<layout:listOfTextGlyphs>
+				  <layout:textGlyph layout:id="TextGlyph_A" layout:originOfText="A" layout:graphicalObject="SpeciesGlyph_A">
+				    <layout:boundingBox layout:id="bbtA">
+					  <layout:position layout:x="50" layout:y="150" />
+					  <layout:dimensions layout:width="50" layout:height="50" />
+					</layout:boundingBox>
+				  </layout:textGlyph>
+				  <layout:textGlyph layout:id="TextGlyph_B" layout:originOfText="B" layout:graphicalObject="SpeciesGlyph_B">
+				    <layout:boundingBox layout:id="bbtB">
+					  <layout:position layout:x="300" layout:y="150" />
+					  <layout:dimensions layout:width="50" layout:height="50" />
+					</layout:boundingBox>
+				  </layout:textGlyph>
+				  <layout:textGlyph layout:id="TextGlyph_Cell" layout:originOfText="Cell" layout:graphicalObject="CompartmentGlyph_Cell">
+				    <layout:boundingBox layout:id="bbtCell">
+					  <layout:position layout:x="10" layout:y="80" />
+					  <layout:dimensions layout:width="50" layout:height="50" />
+					</layout:boundingBox>
+				  </layout:textGlyph>
+				</layout:listOfTextGlyphs>
 				
 				<render:listOfRenderInformation xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1"
 				 render:versionMajor="1" render:versionMinor="0">

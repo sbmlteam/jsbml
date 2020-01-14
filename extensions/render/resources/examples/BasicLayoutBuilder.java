@@ -24,6 +24,7 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
   private BasicLayoutFactory factory;
   private StringBuffer product;
   private boolean ready;
+  private Layout layout;
   
   public BasicLayoutBuilder() {
     product = new StringBuffer();
@@ -33,6 +34,7 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
 
   @Override
   public void builderStart(Layout layout) {
+    this.layout = layout;
     addLine("\\documentclass{article}");
     addLine("\\usepackage{tikz}");
     addLine("\\usetikzlibrary{arrows.meta}");
@@ -85,6 +87,7 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
     product.append(drawBoundingBox(species, speciesGlyph.getBoundingBox()));
     product.append(" % Species: ");
     addLine(speciesGlyph.getId());
+    /* This is not the speciesGlyph's business
     addLine(
       String.format("\\node[] (%s) at (%spt, %spt) {%s};", speciesGlyph.getId(),
         speciesGlyph.getBoundingBox().getPosition().getX()
@@ -92,6 +95,7 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
         speciesGlyph.getBoundingBox().getPosition().getY()
           + speciesGlyph.getBoundingBox().getDimensions().getHeight() / 2,
         speciesGlyph.getSpecies())); // TODO: lookup species's name in the layout?
+    */ 
   }
 
   @Override
@@ -117,8 +121,19 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
 
   @Override
   public void buildTextGlyph(TextGlyph textGlyph) {
-    // TODO Auto-generated method stub
+    // TODO LayoutFatory does not know of this?
+    String label = textGlyph.isSetText() ? textGlyph.getText() : "?";
+    if(textGlyph.isSetOriginOfText()) {
+      label = textGlyph.getOriginOfTextInstance().getName();
+    }
     
+    addLine(
+      String.format("\\node[] (%s) at (%spt, %spt) {%s};", textGlyph.getId(),
+        textGlyph.getBoundingBox().getPosition().getX()
+          + textGlyph.getBoundingBox().getDimensions().getWidth() / 2,
+          textGlyph.getBoundingBox().getPosition().getY()
+          + textGlyph.getBoundingBox().getDimensions().getHeight() / 2,
+          label));
   }
 
   @Override

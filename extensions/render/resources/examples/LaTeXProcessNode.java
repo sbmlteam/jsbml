@@ -54,7 +54,6 @@ public class LaTeXProcessNode implements ProcessNode<String> {
   @Override
   public String draw(double x, double y, double z, double width, double height,
     double depth, double rotationAngle, Point rotationCenter) {
-    // TODO: draw the little whiskers?
     return String.format(
       "\\draw[line width=%s, rotate around={%s:(%spt,%spt)}] (%spt, %spt) rectangle ++(%spt, %spt);%s",
       lineWidth, rotationAngle, rotationCenter.getX(), rotationCenter.getY(), x,

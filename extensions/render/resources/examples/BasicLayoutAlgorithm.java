@@ -87,6 +87,7 @@ public class BasicLayoutAlgorithm extends SimpleLayoutAlgorithm {
       reactionGlyph, calculateReactionGlyphRotationAngle(reactionGlyph),
       speciesReferenceGlyph); 
     LineSegment line = new LineSegment(level, version);
+    // TODO: order should depend on role (see layout-documentation)
     line.setStart(speciesDockingPosition);
     line.setEnd(reactionDockingPosition);
     result.addCurveSegment(line);

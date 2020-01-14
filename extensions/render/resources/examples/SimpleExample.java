@@ -13,7 +13,8 @@ import org.sbml.jsbml.ext.render.director.LayoutDirector;
 public class SimpleExample {
   public static void main(String[] args) {
     
-    File file = new File("extensions/render/resources/examples/smallest_example.xml");
+    // File file = new File("extensions/render/resources/examples/smallest_example.xml");
+    File file = new File("extensions/render/resources/examples/layout_spec_example.xml");
     System.out.println("Reading file " + file);
     try {
       LayoutDirector<String> director = new LayoutDirector<String>(file,
