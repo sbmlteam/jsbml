@@ -227,7 +227,7 @@ public class SyntaxChecker {
    */
   public static final boolean isValidMetaId(String idCandidate, int level, int version) {
 
-    String metaId = syntaxChecker.initMetaIdPatterns(level, version);
+    String metaIdPatternKey = syntaxChecker.initMetaIdPatterns(level, version);
 
     /* After using initMetaIdPatterns the pattern value of 
      * metaIdPatterns or simpleMetaIdPatterns can still be null 
@@ -235,24 +235,24 @@ public class SyntaxChecker {
      * So only if the patterns are actually successfully initialized 
      * we check the matchers.
      */
-    if(!metaId.isEmpty()) {
+    if(!metaIdPatternKey.isEmpty()) {
       
       // match for Pattern "L2V1" (this key in metaIdPatterns is for L2V1 and L2V2) 
-      if(metaId.equals("L2V1")) {
+      if(metaIdPatternKey.equals("L2V1")) {
         // In the most cases the first check will be sufficient.
-        if(syntaxChecker.simpleMetaIdPatterns.get(metaId).matcher(idCandidate).matches()) {
+        if(syntaxChecker.simpleMetaIdPatterns.get(metaIdPatternKey).matcher(idCandidate).matches()) {
           return true;
         }
-        return syntaxChecker.metaIdPatterns.get(metaId).matcher(idCandidate).matches();
+        return syntaxChecker.metaIdPatterns.get(metaIdPatternKey).matcher(idCandidate).matches();
       }
       
       //match for Pattern "L2V3" (this key in metaIdPatterns is for L2V3 and above)
-      if(metaId.equals("L2V3")) {
+      if(metaIdPatternKey.equals("L2V3")) {
         // In the most cases the first check will be sufficient.
-        if(syntaxChecker.simpleMetaIdPatterns.get(metaId).matcher(idCandidate).matches()) {
+        if(syntaxChecker.simpleMetaIdPatterns.get(metaIdPatternKey).matcher(idCandidate).matches()) {
           return true;
         }
-        return syntaxChecker.metaIdPatterns.get(metaId).matcher(idCandidate).matches();
+        return syntaxChecker.metaIdPatterns.get(metaIdPatternKey).matcher(idCandidate).matches();
       }
     }
 
@@ -402,7 +402,6 @@ public class SyntaxChecker {
         extender = "\u00B7\u02D0\u02D1\u0387\u0640\u0E46\u0EC6\u3005[\u3031-\u3035][\u309D-\u309E][\u30FC-\u30FE]";
         ncNameChar = "[" + letter + digit + dot + dash + underscore + combiningChar + extender + "]"; 
         metaId = "[" + letter + underscore + "]" + "[" + ncNameChar + "]*"; 
-        System.out.println("level " + level + ", version " + version + " : loading patterns " + metaId);
         metaIdPatterns.put("L2V1", Pattern.compile(metaId));
 
         //create simpleMetaIdPattern for faster check if it doesn't exist 
@@ -415,7 +414,6 @@ public class SyntaxChecker {
 
         return "L2V1";
       }
-      System.out.println("already existing Pattern L2V1, do nothing");
       return "L2V1";
     }
 
@@ -467,7 +465,6 @@ public class SyntaxChecker {
         extender = "\u00B7\u02D0\u02D1\u0387\u0640\u0E46\u0EC6\u3005[\u3031-\u3035][\u309D-\u309E][\u30FC-\u30FE]";
         ncNameChar = "[" + letter + digit + dot + dash + underscore + colon + combiningChar + extender + "]";
         metaId = "[" + letter + underscore + colon + "]" + "[" + ncNameChar + "]*";    
-        System.out.println("level " + level + ", version " + version + " : loading patterns " + metaId);
         syntaxChecker.metaIdPatterns.put("L2V3", Pattern.compile(metaId));
 
         //create simpleMetaIdPattern for faster check if it doesn't exist
@@ -481,10 +478,9 @@ public class SyntaxChecker {
 
         return "L2V3";  
       }
-      System.out.println("already existing Pattern L2V3, do nothing");
+      
       return "L2V3";
     }
-    System.out.println("no valid level or version, could not load pattern correctly");
 
     return "";
   }
