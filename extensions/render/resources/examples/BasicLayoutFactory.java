@@ -121,8 +121,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public Catalysis<String> createCatalysis() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXCatalysis(arrowScale);
   }
 
 

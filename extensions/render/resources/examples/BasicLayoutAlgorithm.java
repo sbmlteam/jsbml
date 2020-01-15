@@ -87,10 +87,20 @@ public class BasicLayoutAlgorithm extends SimpleLayoutAlgorithm {
       reactionGlyph, calculateReactionGlyphRotationAngle(reactionGlyph),
       speciesReferenceGlyph); 
     LineSegment line = new LineSegment(level, version);
-    boolean startAtSpecies =
-      speciesReferenceGlyph.getRole().equals(SpeciesReferenceRole.PRODUCT)
-        || speciesReferenceGlyph.getRole()
-                                .equals(SpeciesReferenceRole.SIDEPRODUCT);
+    
+    // cf. Layout-documentation page 17
+    boolean startAtSpecies = false;
+    switch(speciesReferenceGlyph.getRole()) {
+      case PRODUCT:
+      case SIDEPRODUCT:
+      case SUBSTRATE:
+      case SIDESUBSTRATE:
+      case UNDEFINED:
+        startAtSpecies = false;
+        break;
+      default:
+        startAtSpecies = true;
+    }
     line.setStart(startAtSpecies ? speciesDockingPosition : reactionDockingPosition);
     line.setEnd(startAtSpecies ? reactionDockingPosition : speciesDockingPosition);
     result.addCurveSegment(line);

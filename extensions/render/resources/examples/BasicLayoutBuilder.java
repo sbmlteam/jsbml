@@ -74,6 +74,9 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
       case INHIBITOR:
         process = factory.createInhibition();
         break;
+      case MODIFIER:
+        process = factory.createCatalysis();
+        break;
       default:
         process = factory.createConsumption();
     }
