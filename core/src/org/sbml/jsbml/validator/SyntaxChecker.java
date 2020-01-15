@@ -240,19 +240,19 @@ public class SyntaxChecker {
       // match for Pattern "L2V1" (this key in metaIdPatterns is for L2V1 and L2V2) 
       if(metaId.equals("L2V1")) {
         // In the most cases the first check will be sufficient.
-        if(syntaxChecker.simpleMetaIdPatterns.get(metaId).getKey().matcher(idCandidate).matches()) {
+        if(syntaxChecker.simpleMetaIdPatterns.get(metaId).matcher(idCandidate).matches()) {
           return true;
         }
-        return syntaxChecker.metaIdPatterns.get(metaId).getKey().matcher(idCandidate).matches();
+        return syntaxChecker.metaIdPatterns.get(metaId).matcher(idCandidate).matches();
       }
       
       //match for Pattern "L2V3" (this key in metaIdPatterns is for L2V3 and above)
       if(metaId.equals("L2V3")) {
         // In the most cases the first check will be sufficient.
-        if(syntaxChecker.simpleMetaIdPatterns.get(metaId).getKey().matcher(idCandidate).matches()) {
+        if(syntaxChecker.simpleMetaIdPatterns.get(metaId).matcher(idCandidate).matches()) {
           return true;
         }
-        return syntaxChecker.metaIdPatterns.get(metaId).getKey().matcher(idCandidate).matches();
+        return syntaxChecker.metaIdPatterns.get(metaId).matcher(idCandidate).matches();
       }
     }
 
@@ -265,10 +265,10 @@ public class SyntaxChecker {
   private Pattern emailPattern;
   
   /**
-   * Hashmap with {@link String} "L2V1" or "L2V3" as possible keys and {@link Pattern} as {@link Pair} 
-   * with it's level and version to recognize valid meta-identifier strings for SBML elements.
+   * Hashmap with {@link String} "L2V1" or "L2V3" as possible keys and its 
+   * {@link Pattern} as value to recognize valid meta-identifier strings for SBML elements.
    */
-  private HashMap<String, Pair<Pattern, ValuePair<Integer, Integer>>> metaIdPatterns;
+  private HashMap<String, Pattern> metaIdPatterns;
 
   /**
    * Collection of reserved names that must not be used as identifiers (names)
@@ -288,10 +288,10 @@ public class SyntaxChecker {
   private Pattern SIdL2Pattern;
 
   /**
-   * Hashmap with {@link String} "L2V1" or "L2V3" as possible keys and simplified {@link Pattern} as {@link Pair} 
-   * with it's level and version to recognize valid meta-identifier strings for SBML elements.
+   * Hashmap with {@link String} "L2V1" or "L2V3" as possible keys and its simplified
+   * {@link Pattern} as value to recognize valid meta-identifier strings for SBML elements.
    */
-  private HashMap<String, Pair<Pattern, ValuePair<Integer, Integer>>> simpleMetaIdPatterns;
+  private HashMap<String, Pattern> simpleMetaIdPatterns;
 
   /**
    * Name {@link Pattern} for SBML Level 1 version 1.
@@ -374,11 +374,11 @@ public class SyntaxChecker {
     String extender;
     
     if(syntaxChecker.metaIdPatterns == null) {
-      syntaxChecker.metaIdPatterns = new HashMap<String, Pair<Pattern, ValuePair<Integer, Integer>>>();
+      syntaxChecker.metaIdPatterns = new HashMap<String, Pattern>();
     }
     
     if(syntaxChecker.simpleMetaIdPatterns == null) {
-      syntaxChecker.simpleMetaIdPatterns = new HashMap<String, Pair<Pattern,ValuePair<Integer,Integer>>>();
+      syntaxChecker.simpleMetaIdPatterns = new HashMap<String, Pattern>();
     }
 
     if(level == 2 && version == 1 || level == 2 && version == 2) {
@@ -402,14 +402,14 @@ public class SyntaxChecker {
         ncNameChar = "[" + letter + digit + dot + dash + underscore + combiningChar + extender + "]"; 
         metaId = "[" + letter + underscore + "]" + "[" + ncNameChar + "]*"; 
         System.out.println("level " + level + ", version " + version + " : loading patterns " + metaId);
-        metaIdPatterns.put("L2V1", new Pair<Pattern, ValuePair<Integer, Integer>>(Pattern.compile(metaId), new ValuePair<Integer, Integer>(level, version)));
+        metaIdPatterns.put("L2V1", Pattern.compile(metaId));
 
         //create simpleMetaIdPattern for faster check if it doesn't exist 
         if(!syntaxChecker.simpleMetaIdPatterns.containsKey("L2V1")) {
 
           simpleNameChar = "[" + letter + digit + dot + dash + underscore + "]";
           simpleMetaId = "[" + letter + underscore + "]" + "[" + simpleNameChar + "]*"; 
-          simpleMetaIdPatterns.put("L2V1", new Pair<Pattern, ValuePair<Integer, Integer>>(Pattern.compile(simpleMetaId), new ValuePair<Integer, Integer>(level, version))) ;  
+          simpleMetaIdPatterns.put("L2V1", Pattern.compile(simpleMetaId)) ;  
         }
 
         return "L2V1";
@@ -467,7 +467,7 @@ public class SyntaxChecker {
         ncNameChar = "[" + letter + digit + dot + dash + underscore + colon + combiningChar + extender + "]";
         metaId = "[" + letter + underscore + colon + "]" + "[" + ncNameChar + "]*";    
         System.out.println("level " + level + ", version " + version + " : loading patterns " + metaId);
-        syntaxChecker.metaIdPatterns.put("L2V3", new Pair<Pattern, ValuePair<Integer, Integer>>(Pattern.compile(metaId), new ValuePair<Integer, Integer>(level, version)));
+        syntaxChecker.metaIdPatterns.put("L2V3", Pattern.compile(metaId));
 
         //create simpleMetaIdPattern for faster check if it doesn't exist
         if(!syntaxChecker.simpleMetaIdPatterns.containsKey("L2V3")) {
@@ -475,7 +475,7 @@ public class SyntaxChecker {
           digit = StringTools.concatStringBuilder("0-9");
           simpleNameChar = "[" + letter + digit + dot + dash + underscore + colon + "]";
           simpleMetaId = "[" + letter + underscore + colon + "]" + "[" + simpleNameChar + "]*";    
-          syntaxChecker.simpleMetaIdPatterns.put("L2V3", new Pair<Pattern, ValuePair<Integer, Integer>>(Pattern.compile(simpleMetaId), new ValuePair<Integer, Integer>(level, version)));  
+          syntaxChecker.simpleMetaIdPatterns.put("L2V3", Pattern.compile(simpleMetaId));  
         }
 
         return "L2V3";  
