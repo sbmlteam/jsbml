@@ -174,8 +174,8 @@ public class CompFlattenTest {
     assertEquals(expected, result);
     assertTrue(equalCompPlugin(expected, result));
   }
-  
-  
+
+
   /**
    * Checks behaviour if the referenced ModelDefinition uses a Submodel that references an external
    * ModelDef. in yetanother file.
@@ -276,7 +276,7 @@ public class CompFlattenTest {
     assertTrue(equalCompPlugin(expected, result));
   }
   
-  
+
   /**
    * Tests behaviour for a) branching references that lead to the same end: This
    * is yields a duplicate [manually curate the file to remove redundancies!],
