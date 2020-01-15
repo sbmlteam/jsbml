@@ -13,6 +13,7 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 import org.sbml.jsbml.ext.render.director.LayoutBuilder;
+import org.sbml.jsbml.ext.render.director.Macromolecule;
 import org.sbml.jsbml.ext.render.director.SBGNArc;
 import org.sbml.jsbml.ext.render.director.SBGNNode;
 import org.sbml.jsbml.ext.render.director.SBGNProcessNode;
@@ -64,7 +65,14 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
     SBGNArc<String> process;
     switch(srg.getRole()) {
       case PRODUCT:
+      case SIDEPRODUCT:
         process = factory.createProduction();
+        break;
+      case ACTIVATOR:
+        process = factory.createStimulation();
+        break;
+      case INHIBITOR:
+        process = factory.createInhibition();
         break;
       default:
         process = factory.createConsumption();
@@ -75,27 +83,19 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
   @Override
   public void buildCubicBezier(CubicBezier cubicBezier, double lineWidth) {
     // TODO Auto-generated method stub
-    
+    // what is this method for?
   }
 
   @Override
   public void buildEntityPoolNode(SpeciesGlyph speciesGlyph,
     boolean cloneMarker) {
     // speciesGlyph.getSpeciesInstance() TODO: how to best decide whether simpleChemical?
-    SimpleChemical<String> species = factory.createSimpleChemical();
+    // For now: all equal, graphically SBGN-macromolecules.
+    Macromolecule<String> species = factory.createMacromolecule();
     species.setCloneMarker(cloneMarker);
     product.append(drawBoundingBox(species, speciesGlyph.getBoundingBox()));
     product.append(" % Species: ");
     addLine(speciesGlyph.getId());
-    /* This is not the speciesGlyph's business
-    addLine(
-      String.format("\\node[] (%s) at (%spt, %spt) {%s};", speciesGlyph.getId(),
-        speciesGlyph.getBoundingBox().getPosition().getX()
-          + speciesGlyph.getBoundingBox().getDimensions().getWidth() / 2,
-        speciesGlyph.getBoundingBox().getPosition().getY()
-          + speciesGlyph.getBoundingBox().getDimensions().getHeight() / 2,
-        speciesGlyph.getSpecies())); // TODO: lookup species's name in the layout?
-    */ 
   }
 
   @Override
@@ -166,17 +166,6 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
   private void addLine(String line) {
     product.append(line);
     product.append(System.getProperty("line.separator")); 
-  }
-  
-  /**
-   * Helper method to format a {@link BoundingBox} in a LaTeX-tikz-draw way
-   * @param bbox
-   * @return
-   */
-  private String boundingBoxToRectangle(BoundingBox bbox) {
-    return String.format("(%spt, %spt) rectangle ++(%spt, %spt)",
-      bbox.getPosition().x(), bbox.getPosition().y(),
-      bbox.getDimensions().getWidth(), bbox.getDimensions().getHeight());
   }
   
   private String drawBoundingBox(SBGNNode<String> node, BoundingBox bbox) {

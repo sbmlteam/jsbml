@@ -61,8 +61,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public Macromolecule<String> createMacromolecule() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXMacromolecule(lineWidth);
   }
 
 
@@ -142,8 +141,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public Inhibition<String> createInhibition() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXInhibition(arrowScale);
   }
 
 
@@ -169,7 +167,6 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public Stimulation<String> createStimulation() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXStimulation(arrowScale);
   }
 }

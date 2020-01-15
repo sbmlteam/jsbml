@@ -28,13 +28,13 @@ public class LaTeXProcessNode implements ProcessNode<String> {
   public String draw(Curve curve, double rotationAngle, Point rotationCenter) {
     // Rotation-angle is the rotation of the process-rectangle
     StringBuffer result = new StringBuffer();
+    for (CurveSegment cs : curve.getListOfCurveSegments()) {
+      result.append(drawCurveSegment(cs, rotationAngle, rotationCenter));
+    }
     result.append(draw(rotationCenter.getX() - processSquareSize / 2,
       rotationCenter.getY() - processSquareSize / 2,
       rotationCenter.getZ() - processSquareSize / 2, processSquareSize,
       processSquareSize, processSquareSize, rotationAngle, rotationCenter));
-    for (CurveSegment cs : curve.getListOfCurveSegments()) {
-      result.append(drawCurveSegment(cs, rotationAngle, rotationCenter));
-    }
     return result.toString();
   }
 
@@ -55,7 +55,7 @@ public class LaTeXProcessNode implements ProcessNode<String> {
   public String draw(double x, double y, double z, double width, double height,
     double depth, double rotationAngle, Point rotationCenter) {
     return String.format(
-      "\\draw[line width=%s, rotate around={%s:(%spt,%spt)}] (%spt, %spt) rectangle ++(%spt, %spt);%s",
+      "\\draw[line width=%s, fill=white, draw=black, rotate around={%s:(%spt,%spt)}] (%spt, %spt) rectangle ++(%spt, %spt);%s",
       lineWidth, rotationAngle, rotationCenter.getX(), rotationCenter.getY(), x,
       y, width, height, System.lineSeparator());
   }

@@ -25,11 +25,11 @@
 		<compartment id="Yeast" spatialDimensions="3" units="volume" constant="true"/>
 	  </listOfCompartments>
 	  <listOfSpecies>
-		<species id="Glucose" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="Glucose" name="Glucose" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="G6P" name="Glucose-6-phosphate" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-		<species id="ATP" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-		<species id="ADP" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-		<species id="Pi" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="ATP" name="ATP" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="ADP" name="ADP" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="Pi" name="Phosphate" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 	  </listOfSpecies>
 	<listOfReactions>
 	  <reaction id="Hexokinase" reversible="false" fast="false">
@@ -171,7 +171,7 @@
 				  <layout:listOfCurveSegments>
 					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CubicBezier">
 						<layout:start layout:x="45" layout:y="200"/>
-						<layout:end layout:x="165" layout:y="120"/>
+						<layout:end layout:x="163" layout:y="120"/>
 						<layout:basePoint1 layout:x="0" layout:y="200"/>
 						<layout:basePoint2 layout:x="0" layout:y="120"/>
 					</layout:curveSegment>
@@ -186,7 +186,7 @@
 				  <layout:listOfCurveSegments>
 					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CubicBezier">
 						<layout:start layout:x="115" layout:y="110"/>
-						<layout:end layout:x="165" layout:y="110"/>
+						<layout:end layout:x="163" layout:y="110"/>
 						<layout:basePoint1 layout:x="140" layout:y="110"/>
 						<layout:basePoint2 layout:x="140" layout:y="110"/>
 					</layout:curveSegment>
