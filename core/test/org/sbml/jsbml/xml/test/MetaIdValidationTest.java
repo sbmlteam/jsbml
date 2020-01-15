@@ -28,7 +28,17 @@ public class MetaIdValidationTest {
 
     //specifications L2V2 under 3.1.6
     //has to start with a letter or an underscore
-
+    level = 2; 
+    version = 1; 
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("", level, version) == false); 
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("_s", level, version) == true);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("s_", level, version) == true);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("_ss" + "\u0B47",level, version) == true);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("_a" + "\u0300", level, version) == true); 
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("_a" + "\u0300:", level, version) == false);
+    Assert.assertTrue(SyntaxChecker.isValidMetaId("\u0E94" + "A" + "\u0967"  , level, version) == false);
+    System.out.println("");
+    
     level = 2; 
     version = 2; 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("", level, version) == false); 
@@ -114,7 +124,7 @@ public class MetaIdValidationTest {
     System.out.println("");
 
 
-    //not available yet but as default the specification of L3V2 will be used
+    //not available yet but as default the specification of L2V3 will be used
     level = 3;
     version = 3; 
     Assert.assertTrue(SyntaxChecker.isValidMetaId("s", level, version) == true);
