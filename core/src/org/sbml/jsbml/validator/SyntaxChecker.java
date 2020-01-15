@@ -229,9 +229,11 @@ public class SyntaxChecker {
 
     String metaId = syntaxChecker.initMetaIdPatterns(level, version);
 
-    /* After initializing the metaPatterns with the initMetaIdPatterns method the value of 
-     * metaIdPattern or simpleMetaIdPattern can still be null due to invalid level and version values.
-     * So only if the patterns are actually successfully initialized we check the matchers.
+    /* After using initMetaIdPatterns the pattern value of 
+     * metaIdPatterns or simpleMetaIdPatterns can still be null 
+     * due to invalid level and version values.
+     * So only if the patterns are actually successfully initialized 
+     * we check the matchers.
      */
     if(!metaId.isEmpty()) {
       
@@ -355,7 +357,8 @@ public class SyntaxChecker {
    *            Level of the SBML to be used.
    * @param version
    *            Version of the SBML to be used.
-   * @return The metaId regular expression (to be compiled into a pattern) as {@link String}, or {@code null} if no pattern could be compiled.
+   * @return The keys "L2V2" or "L2V3" if a pattern is initialized succesfully or was already existing before, 
+   * or empty {@link String} if level and version are not valid numbers. 
    */
   private String initMetaIdPatterns(int level, int version) {
 
