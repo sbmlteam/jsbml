@@ -507,7 +507,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     if (isSetListOfReactionGlyphs() && (listOfGlyphs != null) && (!listOfGlyphs.isEmpty())) {
       NamedSBaseReferenceFilter filter = new NamedSBaseReferenceFilter(id);
       filter.setFilterForReference(true);
-      return (List<T>) listOfReactionGlyphs.filter(filter);
+      return (List<T>) listOfGlyphs.filter(filter); // TODO: why would this have been listOf>Reaction<Glyphs?
     }
     return new ArrayList<T>(0);
   }

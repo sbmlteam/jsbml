@@ -1,8 +1,11 @@
 package examples;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.Curve;
@@ -51,7 +54,7 @@ public class BasicLayoutAlgorithm extends SimpleLayoutAlgorithm {
   public Dimensions createCompartmentGlyphDimension(
     CompartmentGlyph previousCompartmentGlyph) {
     // Just go with dummy values
-    return new Dimensions(2, 2, 0, level, version);
+    return new Dimensions(300, 300, 0, level, version);
   }
 
 
@@ -66,7 +69,7 @@ public class BasicLayoutAlgorithm extends SimpleLayoutAlgorithm {
   @Override
   public Dimensions createSpeciesGlyphDimension() {
     // What is the purpose of this method?
-    return new Dimensions(1, 1, 0, level, version);
+    return new Dimensions(40, 20, 0, level, version);
   }
 
 
@@ -75,8 +78,9 @@ public class BasicLayoutAlgorithm extends SimpleLayoutAlgorithm {
     SpeciesReferenceGlyph speciesReferenceGlyph) {
     // TODO Does this suffice?
     Curve result = new Curve(level, version);
-    Point speciesPosition = speciesReferenceGlyph.getBoundingBox().getPosition();
-    Dimensions speciesDimensions = speciesReferenceGlyph.getBoundingBox().getDimensions();
+    SpeciesGlyph sg = speciesReferenceGlyph.getSpeciesGlyphInstance();
+    Point speciesPosition = sg.getBoundingBox().getPosition().clone();
+    Dimensions speciesDimensions = sg.getBoundingBox().getDimensions().clone();
     speciesPosition.setX(speciesDimensions.getWidth() + speciesPosition.getX());
     speciesPosition.setY(speciesDimensions.getHeight() + speciesPosition.getY());
     Point speciesDockingPosition = calculateSpeciesGlyphDockingPosition(
@@ -110,7 +114,7 @@ public class BasicLayoutAlgorithm extends SimpleLayoutAlgorithm {
 
   @Override
   public Dimensions createTextGlyphDimension(TextGlyph textGlyph) {
-    if(textGlyph.getBoundingBox().isSetDimensions()) {
+    if(textGlyph.isSetBoundingBox() && textGlyph.getBoundingBox().isSetDimensions()) {
       return textGlyph.getBoundingBox().getDimensions();
     } else {
       return new Dimensions(1, 1, 0, level, version);
@@ -165,7 +169,12 @@ public class BasicLayoutAlgorithm extends SimpleLayoutAlgorithm {
 
   @Override
   public Set<GraphicalObject> completeGlyphs() {
+    int species = 0;
+    int reactions = 0;
     // This is the central method.
+    // Side-effects seem to be the main goal!
+    System.out.println("Completing glyphs");
+    Set<TextGlyph> textGlyphs = new HashSet<TextGlyph>();
     Set<GraphicalObject> result = new HashSet<GraphicalObject>(); // is this even used?
     for(GraphicalObject go : setOfUnlayoutedGlyphs) {
       // Determine what to do with the g.o. -> compute it
@@ -174,19 +183,55 @@ public class BasicLayoutAlgorithm extends SimpleLayoutAlgorithm {
           createCompartmentGlyphDimension((CompartmentGlyph) go));
         box.setPosition(createCompartmentGlyphPosition((CompartmentGlyph) go));
         ((CompartmentGlyph) go).setBoundingBox(box);
-      } else {
+      } else if(go instanceof SpeciesGlyph) {
+        completeSpeciesGlyph((SpeciesGlyph) go, new Point(species*50, 0, 0));
+        species++;
+      } else if(go instanceof ReactionGlyph){
         BoundingBox box = new BoundingBox(level, version);
-        box.createDimensions();
-        box.createPosition();
+        box.setDimensions(new Dimensions(10, 10, 0, level, version));
+        box.setPosition(new Point(50 + reactions*50, 40, 0));
         go.setBoundingBox(box);
+        reactions++;
+      } else if (go instanceof TextGlyph) {
+        textGlyphs.add((TextGlyph)go);
       }
-      // addLayoutedGlyph(go); // ? not needed?
+      addLayoutedGlyph(go); // ? not needed?
       result.add(go);
     }
+    for(TextGlyph tg : textGlyphs) {
+      BoundingBox box = new BoundingBox(level, version);
+      box.setDimensions(createTextGlyphDimension(tg));
+      
+      NamedSBase origin = tg.getOriginOfTextInstance(); 
+      
+      // Default:
+      box.setPosition(new Point(10 * species, 5*reactions, 0));
+      
+      if(origin != null && origin instanceof Species) {
+        List<SpeciesGlyph> results = getLayout().findSpeciesGlyphs(origin.getId());
+        if(!results.isEmpty()) {
+          SpeciesGlyph sg = results.get(0);
+          if(sg.isSetBoundingBox()) {
+            box.setPosition(sg.getBoundingBox().getPosition().clone());
+            box.setDimensions(sg.getBoundingBox().getDimensions().clone());
+          }
+        }
+      }
+      tg.setBoundingBox(box);
+    }
+    
     for(Pair<SpeciesReferenceGlyph, ReactionGlyph> pair : unlaidoutEdges) {
-      // TODO: Do sth here?
+      // TODO: Do sth here? Yes: build the curve here
+      Curve curve = createCurve(pair.getValue(), pair.getKey());
+      pair.getKey().setCurve(curve);
     }
     
     return result;
+  }
+  
+  private void completeSpeciesGlyph(SpeciesGlyph sg, Point placement) {
+    BoundingBox box = sg.createBoundingBox(createSpeciesGlyphDimension());
+    box.setPosition(placement);
+    sg.setBoundingBox(box);    
   }
 }
