@@ -114,8 +114,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public UnspecifiedNode<String> createUnspecifiedNode() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXUnspecifiedNode(lineWidth);
   }
 
 

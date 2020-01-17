@@ -15,7 +15,7 @@ public class LaTeXInhibition extends LaTeXSBGNArc
 
   @Override
   public String drawHead(CurveSegment curveSegment, double lineWidth) {
-    return String.format("\\draw[line width=%s, arrows={-|[scale=%s]}] %s;",
+    return String.format("\t\\draw[line width=%s, arrows={-|[scale=%s]}] %s;",
       lineWidth, arrowScale, coordinatesForCurveSegment(curveSegment));
   }
 }

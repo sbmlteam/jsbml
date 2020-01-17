@@ -1,31 +1,45 @@
 package examples;
 
-import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.CubicBezier;
-import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
-import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
-import org.sbml.jsbml.ext.render.director.LayoutBuilder;
+import org.sbml.jsbml.ext.render.director.AbstractLayoutBuilder;
+import org.sbml.jsbml.ext.render.director.AssociationNode;
+import org.sbml.jsbml.ext.render.director.Catalysis;
+import org.sbml.jsbml.ext.render.director.Compartment;
+import org.sbml.jsbml.ext.render.director.Consumption;
+import org.sbml.jsbml.ext.render.director.DissociationNode;
+import org.sbml.jsbml.ext.render.director.Inhibition;
 import org.sbml.jsbml.ext.render.director.Macromolecule;
+import org.sbml.jsbml.ext.render.director.Modulation;
+import org.sbml.jsbml.ext.render.director.NecessaryStimulation;
+import org.sbml.jsbml.ext.render.director.NucleicAcidFeature;
+import org.sbml.jsbml.ext.render.director.OmittedProcessNode;
+import org.sbml.jsbml.ext.render.director.PerturbingAgent;
+import org.sbml.jsbml.ext.render.director.ProcessNode;
+import org.sbml.jsbml.ext.render.director.Production;
+import org.sbml.jsbml.ext.render.director.ReversibleConsumption;
 import org.sbml.jsbml.ext.render.director.SBGNArc;
 import org.sbml.jsbml.ext.render.director.SBGNNode;
+import org.sbml.jsbml.ext.render.director.SBGNNodeWithCloneMarker;
 import org.sbml.jsbml.ext.render.director.SBGNProcessNode;
 import org.sbml.jsbml.ext.render.director.SimpleChemical;
+import org.sbml.jsbml.ext.render.director.SourceSink;
+import org.sbml.jsbml.ext.render.director.Stimulation;
+import org.sbml.jsbml.ext.render.director.UncertainProcessNode;
+import org.sbml.jsbml.ext.render.director.UnspecifiedNode;
 
-// TODO: is this intended usage?
-public class BasicLayoutBuilder implements LayoutBuilder<String> {
+public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, String> {
 
   private BasicLayoutFactory factory;
   private StringBuffer product;
   private boolean ready;
-  private Layout layout;
   
   public BasicLayoutBuilder() {
     product = new StringBuffer();
@@ -35,14 +49,16 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
 
   @Override
   public void builderStart(Layout layout) {
-    this.layout = layout;
-    addLine("\\documentclass{article}");
+    // Standalone document is the drawn picture and only the drawn picture
+    addLine("\\documentclass{standalone}");  
     addLine("\\usepackage{tikz}");
     addLine("\\usetikzlibrary{arrows.meta}");
     addLine("\\usetikzlibrary{shapes.misc}"); 
     addLine("\\usepackage{mathabx}");
     addLine("");
     addLine("\\begin{document}");
+    // Layout-coordinates are in pt with rightward x-Axis and downward y-Axis
+    // (Layout specification 3.2, p. 6) 
     addLine("\\begin{tikzpicture}[yscale=-1]");
     
     product.append("\\draw[dotted] (0pt,0pt) rectangle (");
@@ -62,24 +78,8 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
   @Override
   public void buildConnectingArc(SpeciesReferenceGlyph srg, ReactionGlyph rg,
     double curveWidth) {
-    SBGNArc<String> process;
-    switch(srg.getRole()) {
-      case PRODUCT:
-      case SIDEPRODUCT:
-        process = factory.createProduction();
-        break;
-      case ACTIVATOR:
-        process = factory.createStimulation();
-        break;
-      case INHIBITOR:
-        process = factory.createInhibition();
-        break;
-      case MODIFIER:
-        process = factory.createCatalysis();
-        break;
-      default:
-        process = factory.createConsumption();
-    }
+    SBGNArc<String> process = createArc(srg, rg); // getSBGNArc(srg.getSBOTerm()); 
+    addLine(String.format("\t%% Connecting arc: %s and %s", srg.getId(), rg.getId()));
     product.append(process.draw(srg.getCurve()));
   }
 
@@ -92,11 +92,18 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
   @Override
   public void buildEntityPoolNode(SpeciesGlyph speciesGlyph,
     boolean cloneMarker) {
-    // speciesGlyph.getSpeciesInstance() TODO: how to best decide whether simpleChemical?
-    // For now: all equal, graphically SBGN-macromolecules.
-    Macromolecule<String> species = factory.createMacromolecule();
-    species.setCloneMarker(cloneMarker);
+    // Use AbstractLayoutBuilder.getSBGNNode to parse the SBOTerm (which has
+    // been set by the LayoutDirector) to get the appropriate SBGN-class:
+    SBGNNode<String> species = getSBGNNode(speciesGlyph.getSBOTerm());
+    
+    // Note: SourceSink does not carry a clone-marker, making this check
+    // necessary
+    if(species instanceof SBGNNodeWithCloneMarker) {
+      ((SBGNNodeWithCloneMarker<String>) species).setCloneMarker(cloneMarker);
+    }
+    
     product.append(drawBoundingBox(species, speciesGlyph.getBoundingBox()));
+    // Adding some annotation to the LaTeX-document for readability
     product.append(" % Species: ");
     addLine(speciesGlyph.getId());
   }
@@ -104,7 +111,7 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
   @Override
   public void buildProcessNode(ReactionGlyph reactionGlyph,
     double rotationAngle, double curveWidth) {
-    SBGNProcessNode<String> process = factory.createProcessNode();
+    SBGNProcessNode<String> process = getSBGNReactionNode(reactionGlyph.getSBOTerm());
     product.append("% Reaction: ");
     addLine(reactionGlyph.getId());
     
@@ -126,6 +133,10 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
   public void buildTextGlyph(TextGlyph textGlyph) {
     // TODO LayoutFatory does not know of this?
     String label = textGlyph.isSetText() ? textGlyph.getText() : "?";
+    if(textGlyph.isSetText()) {
+      label = textGlyph.getText();
+    }
+    // Hierarchical overriding:
     if(textGlyph.isSetOriginOfText()) {
       label = textGlyph.getOriginOfTextInstance().getName();
     }
@@ -175,5 +186,105 @@ public class BasicLayoutBuilder implements LayoutBuilder<String> {
     return node.draw(bbox.getPosition().getX(), bbox.getPosition().getY(),
       bbox.getPosition().getZ(), bbox.getDimensions().getWidth(),
       bbox.getDimensions().getHeight(), bbox.getDimensions().getDepth());
+  }
+
+  @Override
+  public AssociationNode<String> createAssociationNode() {
+    return factory.createAssociationNode();
+  }
+
+  @Override
+  public Compartment<String> createCompartment() {
+    return factory.createCompartment();
+  }
+
+  @Override
+  public DissociationNode<String> createDissociationNode() {
+    return factory.createDissociationNode();
+  }
+
+  @Override
+  public Macromolecule<String> createMacromolecule() {
+    return factory.createMacromolecule();
+  }
+
+  @Override
+  public NucleicAcidFeature<String> createNucleicAcidFeature() {
+    return factory.createNucleicAcidFeature();
+  }
+
+  @Override
+  public OmittedProcessNode<String> createOmittedProcessNode() {
+    return factory.createOmittedProcessNode();
+  }
+
+  @Override
+  public PerturbingAgent<String> createPerturbingAgent() {
+    return factory.createPerturbingAgent();
+  }
+
+  @Override
+  public ProcessNode<String> createProcessNode() {
+    return factory.createProcessNode();
+  }
+
+  @Override
+  public SimpleChemical<String> createSimpleChemical() {
+    return factory.createSimpleChemical();
+  }
+
+  @Override
+  public SourceSink<String> createSourceSink() {
+    return factory.createSourceSink();
+  }
+
+  @Override
+  public UncertainProcessNode<String> createUncertainProcessNode() {
+    return factory.createUncertainProcessNode();
+  }
+
+  @Override
+  public UnspecifiedNode<String> createUnspecifiedNode() {
+    return factory.createUnspecifiedNode();
+  }
+
+  @Override
+  public Catalysis<String> createCatalysis() {
+    return factory.createCatalysis();
+  }
+
+  @Override
+  public Consumption<String> createConsumption() {
+    return factory.createConsumption();
+  }
+
+  @Override
+  public ReversibleConsumption<String> createReversibleConsumption() {
+    return factory.createReversibleConsumption();
+  }
+
+  @Override
+  public Inhibition<String> createInhibition() {
+    return factory.createInhibition();
+  }
+
+  @Override
+  public Modulation<String> createModulation() {
+    return factory.createModulation();
+  }
+
+  @Override
+  public NecessaryStimulation<String> createNecessaryStimulation() {
+    return factory.createNecessaryStimulation();
+  }
+
+  @Override
+  public Production<String> createProduction() {
+    return factory.createProduction();
+  }
+
+  @Override
+  public Stimulation<String> createStimulation() {
+    return factory.createStimulation();
   }
 }

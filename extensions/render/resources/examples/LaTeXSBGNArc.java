@@ -12,19 +12,17 @@ public abstract class LaTeXSBGNArc implements SBGNArc<String> {
   public String draw(CurveSegment curveSegment, double lineWidth) {
     if(curveSegment.isCubicBezier())  {
       return String.format(
-        "\\draw[line width=%s] %s;",
+        "\t\\draw[line width=%s] %s;",
         lineWidth, coordinatesForCurveSegment(curveSegment));
     } else {
-      return String.format("\\draw[line width=%s] %s;",
+      return String.format("\t\\draw[line width=%s] %s;",
         lineWidth, coordinatesForCurveSegment(curveSegment));  
     }
   }
   
   @Override
   public String draw(Curve curve, double lineWidth) {
-    StringBuffer result = new StringBuffer("% Curve: ");
-    result.append(curve.getId());
-    result.append(System.lineSeparator());
+    StringBuffer result = new StringBuffer();
     for (int i = 0; i < curve.getCurveSegmentCount(); i++) {
       if(i == curve.getCurveSegmentCount() - 1) {
         result.append(drawHead(curve.getCurveSegment(i), lineWidth));

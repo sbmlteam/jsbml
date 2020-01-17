@@ -15,7 +15,7 @@ public class LaTeXProduction extends LaTeXSBGNArc implements Production<String> 
 
   @Override
   public String drawHead(CurveSegment curveSegment, double lineWidth) {
-    return String.format("\\draw[line width=%s, arrows={-Triangle[scale=%s]}] %s;",
+    return String.format("\t\\draw[line width=%s, arrows={-Triangle[scale=%s]}] %s;",
       lineWidth, arrowScale, coordinatesForCurveSegment(curveSegment));
   }
 }

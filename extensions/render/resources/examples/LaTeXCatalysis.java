@@ -15,7 +15,7 @@ public class LaTeXCatalysis extends LaTeXSBGNArc implements Catalysis<String> {
   @Override
   public String drawHead(CurveSegment curveSegment, double lineWidth) {
     return String.format(
-      "\\draw[line width=%s, arrows={-Circle[open,scale=%s]}] %s;", lineWidth,
+      "\t\\draw[line width=%s, arrows={-Circle[open,scale=%s]}] %s;", lineWidth,
       arrowScale, coordinatesForCurveSegment(curveSegment));
   }
 }

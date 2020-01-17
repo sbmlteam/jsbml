@@ -16,7 +16,7 @@ public class LaTeXStimulation extends LaTeXSBGNArc
   @Override
   public String drawHead(CurveSegment curveSegment, double lineWidth) {
     return String.format(
-      "\\draw[line width=%s, arrows={-Triangle[open,scale=%s]}] %s;", lineWidth,
+      "\t\\draw[line width=%s, arrows={-Triangle[open,scale=%s]}] %s;", lineWidth,
       arrowScale, coordinatesForCurveSegment(curveSegment));
   }
 }

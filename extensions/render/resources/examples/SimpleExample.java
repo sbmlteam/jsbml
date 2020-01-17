@@ -4,18 +4,14 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
-
-import org.sbml.jsbml.ext.layout.Layout;
-import org.sbml.jsbml.ext.render.director.LayoutAlgorithm;
-import org.sbml.jsbml.ext.render.director.LayoutBuilder;
 import org.sbml.jsbml.ext.render.director.LayoutDirector;
 
 public class SimpleExample {
   public static void main(String[] args) {
     
     // File file = new File("extensions/render/resources/examples/smallest_example.xml");
-    // File file = new File("extensions/render/resources/examples/layout_spec_example.xml");
-    File file = new File("extensions/render/resources/examples/unlaidout_spec_example.xml");
+    File file = new File("extensions/render/resources/examples/layout_spec_example.xml");
+    // File file = new File("extensions/render/resources/examples/unlaidout_spec_example.xml");
     /*
      * Observations: 
      * a) LayoutDirector cannot handle file w/o any Layout information: needs a 
