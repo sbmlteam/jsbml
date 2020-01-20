@@ -132,8 +132,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public ReversibleConsumption<String> createReversibleConsumption() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXReversibleConsumption(arrowScale);
   }
 
 
