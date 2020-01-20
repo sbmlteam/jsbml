@@ -450,7 +450,6 @@ public class TestExternalModelDefinition {
     // The substring starting from 6 is to cut off prefix 'file:/"
     String absolute = absolutePath.substring(5) + "spec_example1.xml";
     externalModel.setSource(absolute);
-    System.out.println("Absolute path is: " + absolutePath);
     assertEquals(new URI("file:" + absolute), externalModel.getAbsoluteSourceURI());
     
     externalModel.setSource(urlExpectation.toString());
@@ -480,7 +479,7 @@ public class TestExternalModelDefinition {
   public void testGetAbsoluteSourceURI_online() throws URISyntaxException, XMLStreamException, IOException {
     setUpExternalModelDefinition("testGathering/", "chain_reference_different_directory.xml",
       "ExtMod1");
-    String commonUrl = "https://raw.githubusercontent.com/sbmlteam/jsbml/vetter-comp-single-file/extensions/comp/resources/testGathering/";
+    String commonUrl = "https://sbmlteam.github.io/jsbml/test/data/comp/";
     assertEquals(
       new URI(commonUrl + "somewhere_else/chain_reference_intermediate.xml"),
       externalModel.getAbsoluteSourceURI(

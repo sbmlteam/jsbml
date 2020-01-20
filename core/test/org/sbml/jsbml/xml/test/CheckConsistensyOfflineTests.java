@@ -21,7 +21,7 @@ import org.sbml.jsbml.validator.SBMLValidator;
 
 /**
  * 
- * @author Onur Özel		
+ * @author Onur &Ouml;zel		
  * @since 1.5
  */
 public class CheckConsistensyOfflineTests {

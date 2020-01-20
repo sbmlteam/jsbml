@@ -781,6 +781,7 @@ public class CompFlatteningConverter {
         
         
         
+        
         for (ModelDefinition md : workingList) {
           ModelDefinition internalised = new ModelDefinition(md);
           // i.e. current one is the one directly referenced => take referent's place

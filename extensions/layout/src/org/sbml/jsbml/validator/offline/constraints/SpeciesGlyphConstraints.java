@@ -135,7 +135,7 @@ public class SpeciesGlyphConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, SpeciesGlyph speciesGlyph) {
           
           if (speciesGlyph.isSetMetaidRef()) {
-            return SyntaxChecker.isValidMetaId(speciesGlyph.getMetaidRef());
+            return SyntaxChecker.isValidMetaId(speciesGlyph.getMetaidRef(), speciesGlyph.getLevel(), speciesGlyph.getVersion());
           }
           
           return true;

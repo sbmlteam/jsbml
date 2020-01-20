@@ -16,7 +16,6 @@
  * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.comp;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -492,6 +491,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase
   public boolean isIdMandatory() {
     return true;
   }
+  
 
   
   /**
@@ -518,6 +518,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    */
   public Model getReferencedModel(URI absoluteContainingURI)
     throws XMLStreamException, IOException, URISyntaxException {
+
     String sourceURIString;
     URI sourceURI;
     SBMLDocument externalFile;
@@ -664,25 +665,21 @@ public class ExternalModelDefinition extends AbstractNamedSBase
     try {
       // the source itself is a valid URL: do not need absoluteContainingURI
       sourceUrl = new URL(new URI(source).toString());
-      System.out.println("Source (" + source + ") is a valid URL");
     } catch (MalformedURLException e) {
       // the source itself is not a valid URL: it is relative
       StringBuilder workingURI = new StringBuilder();
       if (!new File(source).isAbsolute()) {
         workingURI.append(absoluteContainingURI);
         workingURI.append(completionOfAbsoluteContainingURI);
-        System.out.println("Source (" + source + ") is not absolute");
       } else {
         workingURI.append("file:");
         String completionOfPrefix = source.startsWith("/") ? "" : "/";
         workingURI.append(completionOfPrefix);
-        System.out.println("Source (" + source + ") is absolute");
       }
       workingURI.append(source);
       sourceUrl = new URL(workingURI.toString());
     }
     sourceURI = sourceUrl.toURI();
-    System.out.println("Built absolute URI: " + sourceURI);
     return sourceURI;
   }
 }

@@ -137,7 +137,7 @@ public class CompartmentGlyphConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, CompartmentGlyph compartmentGlyph) {
           
           if (compartmentGlyph.isSetMetaidRef()) {
-            return SyntaxChecker.isValidMetaId(compartmentGlyph.getMetaidRef());
+            return SyntaxChecker.isValidMetaId(compartmentGlyph.getMetaidRef(), compartmentGlyph.getLevel(), compartmentGlyph.getVersion());
           }
           
           return true;

@@ -133,7 +133,7 @@ public class GraphicalObjectConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, GraphicalObject graphicalObject) {
           
           if (graphicalObject.isSetMetaidRef()) {
-            return SyntaxChecker.isValidMetaId(graphicalObject.getMetaidRef());
+            return SyntaxChecker.isValidMetaId(graphicalObject.getMetaidRef(), graphicalObject.getLevel(), graphicalObject.getVersion());
           }
           
           return true;
