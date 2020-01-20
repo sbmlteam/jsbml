@@ -244,7 +244,7 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
             if (firstElementIndex != -1) {
               cname = messageNode.getChildAt(firstElementIndex).getName(); 
               
-              if (cname == "html") {
+              if (cname.equals("html")) {
                 
                 // check the structure of the html element
                 XMLNode htmlNode = messageNode.getChildAt(firstElementIndex);
@@ -280,7 +280,7 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
                 
                 return validHead && SBaseConstraints.checkHtmlBodyContent(ctx, sb, bodyNode);
                 
-              } else if (cname == "body") {
+              } else if (cname.equals("body")) {
 
                 // check each top level elements inside the body element
                 XMLNode bodyNode = messageNode.getChildAt(firstElementIndex);

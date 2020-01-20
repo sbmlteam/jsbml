@@ -525,7 +525,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
             if (firstElementIndex != -1) {
               cname = notesNode.getChildAt(firstElementIndex).getName(); 
               
-              if (cname == "html") {
+              if (cname.equals("html")) {
                 
                 // check the structure of the html element
                 XMLNode htmlNode = notesNode.getChildAt(firstElementIndex);
@@ -561,7 +561,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
                 
                 return validHead && checkHtmlBodyContent(ctx, sb, bodyNode);
                 
-              } else if (cname == "body") {
+              } else if (cname.equals("body")) {
 
                 // check each top level elements inside the body element
                 XMLNode bodyNode = notesNode.getChildAt(firstElementIndex);
@@ -636,7 +636,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
       XMLNode topLevelChild = topLevelNode.getChild(i);
       
       if (topLevelChild.isElement() && !htmlFlowContentElementList.contains(topLevelChild.getName())) {
-        // TODO - do a proper error message
+        // TODO - do a proper error message        
         return false;
       }
     }
