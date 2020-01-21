@@ -144,15 +144,13 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public Modulation<String> createModulation() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXModulation(arrowScale);
   }
 
 
   @Override
   public NecessaryStimulation<String> createNecessaryStimulation() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXNecessaryStimulation(arrowScale);
   }
 
 

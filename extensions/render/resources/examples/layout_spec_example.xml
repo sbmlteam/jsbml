@@ -373,6 +373,19 @@
 				  </layout:listOfCurveSegments>
 				</layout:curve>
 			  </layout:speciesReferenceGlyph>
+			  
+			  <layout:speciesReferenceGlyph layout:id="SRG_ndpk_NDPK"
+			  layout:speciesReference="ModifierSpeciesReference_NDPK"
+			  layout:speciesGlyph="SpeciesGlyph_NDPK">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="330" layout:y="115"/>
+						<layout:end layout:x="310" layout:y="115"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
 			</layout:listOfSpeciesReferenceGlyphs>
 		  </layout:reactionGlyph>
 		</layout:listOfReactionGlyphs>
