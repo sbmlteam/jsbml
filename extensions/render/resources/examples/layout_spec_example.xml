@@ -42,7 +42,7 @@
 		<species id="aa" sboTerm="SBO:0000291" name="aminoacids" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="de" sboTerm="SBO:0000291" name="denatured" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		
-		<species id="heat" sboTerm="SBO:0000147" name="Heat" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="heat" sboTerm="SBO:0000405" name="Heat" compartment="Yeast" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 	  </listOfSpecies>
 	<listOfReactions>
 	  <reaction id="Hexokinase" reversible="false" fast="false">
@@ -86,7 +86,7 @@
 		</listOfModifiers>
 	  </reaction>
 	  
-	  <reaction id="Degeneration" reversible="false" fast="false">
+	  <reaction id="Denaturation" reversible="false" fast="false">
 		<listOfReactants>
 		  <speciesReference id="SpecRef_deg_NDPK" species="NDPK" stoichiometry="1" constant="true"/>
 		</listOfReactants>
@@ -166,13 +166,13 @@
 		  
 		  <layout:speciesGlyph layout:id="SpeciesGlyph_GDP" layout:species="GDP">
 			<layout:boundingBox layout:id="bbGDP">
-			<layout:position layout:x="300" layout:y="67"/>
+			<layout:position layout:x="310" layout:y="67"/>
 			<layout:dimensions layout:width="80" layout:height="26"/>
 			</layout:boundingBox>
 		  </layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="SpeciesGlyph_GTP" layout:species="GTP">
 			<layout:boundingBox layout:id="bbGTP">
-			<layout:position layout:x="300" layout:y="137"/>
+			<layout:position layout:x="310" layout:y="137"/>
 			<layout:dimensions layout:width="80" layout:height="26"/>
 			</layout:boundingBox>
 		  </layout:speciesGlyph>
@@ -181,6 +181,50 @@
 			<layout:boundingBox layout:id="bbNDPK">
 			<layout:position layout:x="330" layout:y="105"/>
 			<layout:dimensions layout:width="40" layout:height="20"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
+		  
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_aa" layout:species="aa">
+			<layout:boundingBox layout:id="bb_aa">
+			<layout:position layout:x="440" layout:y="105"/>
+			<layout:dimensions layout:width="20" layout:height="20"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_de" layout:species="de">
+			<layout:boundingBox layout:id="bb_de">
+			<layout:position layout:x="440" layout:y="140"/>
+			<layout:dimensions layout:width="20" layout:height="20"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_mRNA" layout:species="mRNA">
+			<layout:boundingBox layout:id="bb_mRNA">
+			<layout:position layout:x="385" layout:y="60"/>
+			<layout:dimensions layout:width="40" layout:height="20"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_heat" layout:species="heat">
+			<layout:boundingBox layout:id="bb_heat">
+			<layout:position layout:x="385" layout:y="180"/>
+			<layout:dimensions layout:width="40" layout:height="15"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
+		  
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_H2O" layout:species="H2O">
+			<layout:boundingBox layout:id="bbH2O">
+			<layout:position layout:x="453" layout:y="67"/>
+			<layout:dimensions layout:width="26" layout:height="26"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_H" layout:species="H">
+			<layout:boundingBox layout:id="bbH">
+			<layout:position layout:x="503" layout:y="67"/>
+			<layout:dimensions layout:width="26" layout:height="26"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_H3O" layout:species="H3O">
+			<layout:boundingBox layout:id="bbH3O">
+			<layout:position layout:x="478" layout:y="177"/>
+			<layout:dimensions layout:width="26" layout:height="26"/>
 			</layout:boundingBox>
 		  </layout:speciesGlyph>
 		</layout:listOfSpeciesGlyphs>
@@ -332,7 +376,7 @@
 					</layout:curveSegment>
 					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
 						<layout:start layout:x="310" layout:y="80"/>
-						<layout:end layout:x="325" layout:y="80"/>
+						<layout:end layout:x="335" layout:y="80"/>
 					</layout:curveSegment>
 				  </layout:listOfCurveSegments>
 				</layout:curve>
@@ -368,7 +412,7 @@
 					</layout:curveSegment>
 					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
 						<layout:start layout:x="310" layout:y="150"/>
-						<layout:end layout:x="325" layout:y="150"/>
+						<layout:end layout:x="335" layout:y="150"/>
 					</layout:curveSegment>
 				  </layout:listOfCurveSegments>
 				</layout:curve>
@@ -381,7 +425,130 @@
 				  <layout:listOfCurveSegments>
 					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
 						<layout:start layout:x="330" layout:y="115"/>
-						<layout:end layout:x="310" layout:y="115"/>
+						<layout:end layout:x="314" layout:y="115"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			</layout:listOfSpeciesReferenceGlyphs>
+		  </layout:reactionGlyph>
+		  
+		  <layout:reactionGlyph layout:id="glyph_Ribosome" layout:reaction="Ribosome">
+		    <layout:boundingBox layout:id="bbreactRibosome">
+				<layout:position layout:x="400" layout:y="110"/>
+				<layout:dimensions layout:width="10" layout:height="10"/>
+			</layout:boundingBox>
+			<layout:curve>
+			  <layout:listOfCurveSegments>
+				<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+					<layout:start layout:x="397" layout:y="115"/>
+					<layout:end layout:x="416" layout:y="115"/>
+				</layout:curveSegment>
+			  </layout:listOfCurveSegments>
+			</layout:curve>
+			<layout:listOfSpeciesReferenceGlyphs>
+			  <layout:speciesReferenceGlyph layout:id="SRG_ribosome_NDPK"
+			  layout:speciesReference="SpecRef_NDPK"
+			  layout:speciesGlyph="SpeciesGlyph_NDPK"
+			  layout:role="product">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="400" layout:y="115"/>
+						<layout:end layout:x="370" layout:y="115"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			  <layout:speciesReferenceGlyph layout:id="SRG_ribosome_aa"
+			  layout:speciesReference="SpecRef_aa"
+			  layout:speciesGlyph="SpeciesGlyph_aa"
+			  layout:role="substrate">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="416" layout:y="115"/>
+						<layout:end layout:x="445" layout:y="115"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			  
+			  <layout:speciesReferenceGlyph layout:id="SRG_ribosome_mRNA"
+			  layout:speciesReference="ModifierSpeciesReference_mRNA"
+			  layout:speciesGlyph="SpeciesGlyph_mRNA"
+			  sboTerm="SBO:0000171">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="405" layout:y="80"/>
+						<layout:end layout:x="405" layout:y="109"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			</layout:listOfSpeciesReferenceGlyphs>
+		  </layout:reactionGlyph>
+		  
+		  <layout:reactionGlyph layout:id="glyph_Denaturation" layout:reaction="Denaturation">
+		    <layout:boundingBox layout:id="bbreactDenaturation">
+				<layout:position layout:x="400" layout:y="145"/>
+				<layout:dimensions layout:width="10" layout:height="10"/>
+			</layout:boundingBox>
+			<layout:curve>
+			  <layout:listOfCurveSegments>
+				<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+					<layout:start layout:x="395" layout:y="150"/>
+					<layout:end layout:x="415" layout:y="150"/>
+				</layout:curveSegment>
+			  </layout:listOfCurveSegments>
+			</layout:curve>
+			<layout:listOfSpeciesReferenceGlyphs>
+			  <layout:speciesReferenceGlyph layout:id="SRG_denaturation_NDPK"
+			  layout:speciesReference="SpecRef_NDPK"
+			  layout:speciesGlyph="SpeciesGlyph_NDPK"
+			  layout:role="substrate">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="395" layout:y="150"/>
+						<layout:end layout:x="370" layout:y="150"/>
+					</layout:curveSegment>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CubicBezier">
+						<layout:start layout:x="370" layout:y="150"/>
+						<layout:end layout:x="350" layout:y="130"/>
+						<layout:basePoint1 layout:x="370" layout:y="140"/>
+						<layout:basePoint2 layout:x="360" layout:y="130"/>
+					</layout:curveSegment>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="350" layout:y="130"/>
+						<layout:end layout:x="350" layout:y="125"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			  <layout:speciesReferenceGlyph layout:id="SRG_denaturation_de"
+			  layout:speciesReference="SpecRef_de"
+			  layout:speciesGlyph="SpeciesGlyph_de"
+			  layout:role="product">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="415" layout:y="150"/>
+						<layout:end layout:x="445" layout:y="150"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			  <layout:speciesReferenceGlyph layout:id="SRG_denaturation_heat"
+			  layout:speciesReference="ModifierSpeciesReference_heat"
+			  layout:speciesGlyph="SpeciesGlyph_heat"
+			  layout:role="modifier">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="405" layout:y="180"/>
+						<layout:end layout:x="405" layout:y="156"/>
 					</layout:curveSegment>
 				  </layout:listOfCurveSegments>
 				</layout:curve>
@@ -424,6 +591,11 @@
 		  <layout:textGlyph layout:id="TextGlyph_GDP" layout:originOfText="GDP" layout:graphicalObject="SpeciesGlyph_GDP"></layout:textGlyph>
 		  <layout:textGlyph layout:id="TextGlyph_GTP" layout:originOfText="GTP" layout:graphicalObject="SpeciesGlyph_GTP"></layout:textGlyph>
 		  <layout:textGlyph layout:id="TextGlyph_NDPK" layout:originOfText="NDPK" layout:graphicalObject="SpeciesGlyph_NDPK"></layout:textGlyph>
+		  <layout:textGlyph layout:id="TextGlyph_mRNA" layout:originOfText="mRNA" layout:graphicalObject="SpeciesGlyph_mRNA"></layout:textGlyph>
+		  <layout:textGlyph layout:id="TextGlyph_heat" layout:originOfText="heat" layout:graphicalObject="SpeciesGlyph_heat"></layout:textGlyph>
+		  <layout:textGlyph layout:id="TextGlyph_H2O" layout:originOfText="H2O" layout:graphicalObject="SpeciesGlyph_H2O"></layout:textGlyph>
+		  <layout:textGlyph layout:id="TextGlyph_H" layout:originOfText="H" layout:graphicalObject="SpeciesGlyph_H"></layout:textGlyph>
+		  <layout:textGlyph layout:id="TextGlyph_H3O" layout:originOfText="H3O" layout:graphicalObject="SpeciesGlyph_H3O"></layout:textGlyph>
 		</layout:listOfTextGlyphs>
 	  </layout:layout>
 	</layout:listOfLayouts>

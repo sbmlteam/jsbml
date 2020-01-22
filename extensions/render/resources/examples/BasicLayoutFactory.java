@@ -67,8 +67,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public NucleicAcidFeature<String> createNucleicAcidFeature() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXNucleicAcidFeature(lineWidth);
   }
 
 
@@ -81,8 +80,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public PerturbingAgent<String> createPerturbingAgent() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXPerturbingAgent(lineWidth);
   }
 
 
@@ -100,8 +98,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public SourceSink<String> createSourceSink() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXSourceSink();
   }
 
 

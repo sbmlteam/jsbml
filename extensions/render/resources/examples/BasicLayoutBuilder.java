@@ -43,7 +43,7 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
   
   public BasicLayoutBuilder() {
     product = new StringBuffer();
-    factory = new BasicLayoutFactory(1, 2);
+    factory = new BasicLayoutFactory(1, 1.5);
     ready = false;
   }
 
@@ -100,6 +100,10 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
     // necessary
     if(species instanceof SBGNNodeWithCloneMarker) {
       ((SBGNNodeWithCloneMarker<String>) species).setCloneMarker(cloneMarker);
+    }
+    
+    if(species instanceof LaTeXSourceSink) {
+      ((LaTeXSourceSink) species).setNodeId(speciesGlyph.getId());
     }
     
     product.append(drawBoundingBox(species, speciesGlyph.getBoundingBox()));

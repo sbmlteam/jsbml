@@ -234,4 +234,28 @@ public class BasicLayoutAlgorithm extends SimpleLayoutAlgorithm {
     box.setPosition(placement);
     sg.setBoundingBox(box);    
   }
+  
+  /**
+   * Overwriting the inherited behaviour to take the curve-attribute of a reactionGlyph 
+   * into account (if set)
+   * @param reactionGlyph: the glyph in question
+   */
+  public double calculateReactionGlyphRotationAngle(ReactionGlyph reactionGlyph) {
+    if (reactionGlyph.isSetCurve()
+      && reactionGlyph.getCurve().isSetListOfCurveSegments()
+      && reactionGlyph.getCurve().getCurveSegmentCount() > 0) {
+      // i.e. there is some curve that can be worked with
+      
+      // Very basic assumption (need be respected by the layout!): The curve is
+      // just a single line specifying the connection-whiskers of the
+      // reaction-glyph
+      return calculateRotationAngle(
+        reactionGlyph.getCurve().getCurveSegment(0).getStart(),
+        reactionGlyph.getCurve().getCurveSegment(0).getEnd());
+    } else {
+      // If no curve is available, just use the super-implementation (based on
+      // SpeciesGlph-positions)
+      return super.calculateReactionGlyphRotationAngle(reactionGlyph);
+    }
+  }
 }
