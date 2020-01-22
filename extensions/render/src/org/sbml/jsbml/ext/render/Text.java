@@ -669,11 +669,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     Map<String, String> attributes = super.writeXMLAttributes();
     
     if (isSetFontFamily()) {
-      String fontFamily = getFontFamily(); //Enum behalten: zusätzlich prüfen, Enum nicht behalten: direkt mit String-Wert arbeiten
-      //warum wird nur sans-serif abgefragt?
-//      if (fontFamily.equals("sans_serif")) {
-//        fontFamily = "sans-serif";
-//      }
+      String fontFamily = getFontFamily(); 
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontFamily, fontFamily);
     }
     if (isSetTextAnchor()) {
@@ -723,10 +719,6 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
       isAttributeRead = true;
 
       if (attributeName.equals(RenderConstants.fontFamily)) {
-        //warum wird nur sans-serif abgefragt? 
-//        if (value.equals("sans-serif")) {
-//          value = "SANS_SERIF";
-//        }
         try {
           setFontFamily(value);
         } catch (Exception e) {
