@@ -41,7 +41,7 @@ public class TextTest {
    */
   @Test
   public void testGetFontFamily() {
-    FontFamily fontType=FontFamily.MONOSPACE;
+    String fontType= "monospace";
     Text textType=new Text();
     assertTrue(!textType.isSetFontFamily());
     textType.setFontFamily(fontType);
@@ -164,7 +164,7 @@ public class TextTest {
    */
   @Test
   public void testIsSetFontFamily() {
-    FontFamily fontType=FontFamily.MONOSPACE;
+    String fontType= "monospace";
     Text textType=new Text();
     assertTrue(!textType.isSetFontFamily());
     textType.setFontFamily(fontType);
@@ -306,7 +306,7 @@ public class TextTest {
    */
   @Test
   public void testSetFontFamily() {
-    FontFamily fontType=FontFamily.MONOSPACE;
+    String fontType= "monospace";
     Text textType=new Text();
     assertTrue(!textType.isSetFontFamily());
     textType.setFontFamily(fontType);
