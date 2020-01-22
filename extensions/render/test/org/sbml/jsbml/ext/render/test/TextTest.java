@@ -24,7 +24,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.sbml.jsbml.ext.render.FontFamily;
 import org.sbml.jsbml.ext.render.Text;
 import org.sbml.jsbml.ext.render.HTextAnchor;
 import org.sbml.jsbml.ext.render.VTextAnchor;
