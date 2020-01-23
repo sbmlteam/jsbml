@@ -21,7 +21,7 @@ public class SimpleExample {
     System.out.println("Reading file " + file);
     try {
       LayoutDirector<String> director = new LayoutDirector<String>(file,
-        new BasicLayoutBuilder(), new BasicLayoutAlgorithm());
+        new BasicLayoutBuilder(1, 1.5, 10), new BasicLayoutAlgorithm());
       // Thread t1 = new Thread(director);
       // t1.start();
       director.run();

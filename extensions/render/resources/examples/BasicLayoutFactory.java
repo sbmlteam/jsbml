@@ -27,22 +27,23 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   private double lineWidth = 1;
   private double arrowScale = 2;
+  private double reactionNodeSize = 10;  // <- TODO: into constructor.
   
   /**
    * 
    * @param lineWidth the width of lines in the resulting drawing; in pt
    * @param arrowScale the scale of arrow-heads
    */
-  public BasicLayoutFactory(double lineWidth, double arrowScale) {
+  public BasicLayoutFactory(double lineWidth, double arrowScale, double reactionNodeSize) {
     this.lineWidth = lineWidth;
     this.arrowScale = arrowScale;
+    this.reactionNodeSize = reactionNodeSize;
   }
 
 
   @Override
   public AssociationNode<String> createAssociationNode() {
-    // TODO Create an AssociationNode-implementation
-    return null;
+    return new LaTeXAssociationNode(lineWidth, reactionNodeSize);
   }
 
 
@@ -54,8 +55,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public DissociationNode<String> createDissociationNode() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXDissociationNode(lineWidth, reactionNodeSize);
   }
 
 
@@ -73,8 +73,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public OmittedProcessNode<String> createOmittedProcessNode() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXOmittedProcessNode(lineWidth, reactionNodeSize);
   }
 
 
@@ -86,7 +85,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public ProcessNode<String> createProcessNode() {
-    return new LaTeXProcessNode(lineWidth, 10); // <- TODO: into constructor.
+    return new LaTeXProcessNode(lineWidth, reactionNodeSize);
   }
 
 
@@ -104,8 +103,7 @@ public class BasicLayoutFactory implements LayoutFactory<String, String> {
 
   @Override
   public UncertainProcessNode<String> createUncertainProcessNode() {
-    // TODO Auto-generated method stub
-    return null;
+    return new LaTeXUncertainProcessNode(lineWidth, reactionNodeSize);
   }
 
 

@@ -2,6 +2,13 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" 
 	xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" 
 	level="3" version="1" layout:required="false" >
+	
+	<!-- This example-file is based on the complete layout-example given in the SBML-layout-specification for layout v1-release1:
+		 In addition to the Hexokinase-reaction from that file, this file contains examples of all SBGN-elements supported by the 
+		 org.sbml.jsbml.ext.render.director-classes.
+		 Some of the layout-decisions (such as the overcomplicated curve from NDPK to the denaturation-reaction-node or the rotation of 
+		 the ribosome-reaction-node) are made specifically to test/showcase implementation-features.
+		 The textglyphs are not fully laid out! TODO: should they be? -->
 	<model id="TestModel_with_modifiers" timeUnits="time">
 	  <listOfUnitDefinitions>
 		<unitDefinition id="volume">
@@ -74,7 +81,7 @@
 		</listOfModifiers>
 	  </reaction>
 	  
-	  <reaction id="Ribosome" reversible="false" fast="false">
+	  <reaction id="Ribosome" reversible="false" fast="false" sboTerm="SBO:0000397">
 		<listOfReactants>
 		  <speciesReference id="SpecRef_aa" species="aa" stoichiometry="1" constant="true"/>
 		</listOfReactants>
@@ -86,7 +93,7 @@
 		</listOfModifiers>
 	  </reaction>
 	  
-	  <reaction id="Denaturation" reversible="false" fast="false">
+	  <reaction id="Denaturation" reversible="false" fast="false" sboTerm="SBO:0000396">
 		<listOfReactants>
 		  <speciesReference id="SpecRef_deg_NDPK" species="NDPK" stoichiometry="1" constant="true"/>
 		</listOfReactants>
@@ -441,8 +448,8 @@
 			<layout:curve>
 			  <layout:listOfCurveSegments>
 				<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
-					<layout:start layout:x="397" layout:y="115"/>
-					<layout:end layout:x="416" layout:y="115"/>
+					<layout:start layout:x="397" layout:y="112"/>
+					<layout:end layout:x="413" layout:y="118"/>
 				</layout:curveSegment>
 			  </layout:listOfCurveSegments>
 			</layout:curve>
@@ -454,7 +461,7 @@
 				<layout:curve>
 				  <layout:listOfCurveSegments>
 					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
-						<layout:start layout:x="400" layout:y="115"/>
+						<layout:start layout:x="397" layout:y="112"/>
 						<layout:end layout:x="370" layout:y="115"/>
 					</layout:curveSegment>
 				  </layout:listOfCurveSegments>
@@ -467,7 +474,7 @@
 				<layout:curve>
 				  <layout:listOfCurveSegments>
 					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
-						<layout:start layout:x="416" layout:y="115"/>
+						<layout:start layout:x="413" layout:y="118"/>
 						<layout:end layout:x="445" layout:y="115"/>
 					</layout:curveSegment>
 				  </layout:listOfCurveSegments>
@@ -549,6 +556,122 @@
 					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
 						<layout:start layout:x="405" layout:y="180"/>
 						<layout:end layout:x="405" layout:y="156"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			</layout:listOfSpeciesReferenceGlyphs>
+		  </layout:reactionGlyph>
+		  
+		  <layout:reactionGlyph layout:id="glyph_Protonation" layout:reaction="Protonation">
+		    <layout:boundingBox layout:id="bbreactProtonation">
+				<layout:position layout:x="461" layout:y="130"/>
+				<layout:dimensions layout:width="10" layout:height="10"/>
+			</layout:boundingBox>
+			<layout:curve>
+			  <layout:listOfCurveSegments>
+				<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+					<layout:start layout:x="466" layout:y="125"/>
+					<layout:end layout:x="466" layout:y="145"/>
+				</layout:curveSegment>
+			  </layout:listOfCurveSegments>
+			</layout:curve>
+			<layout:listOfSpeciesReferenceGlyphs>
+			  <layout:speciesReferenceGlyph layout:id="SRG_protonation_H2O"
+			  layout:speciesReference="SpecRef_H2O"
+			  layout:speciesGlyph="SpeciesGlyph_H2O"
+			  layout:role="substrate">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="466" layout:y="125"/>
+						<layout:end layout:x="466" layout:y="93"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			  <layout:speciesReferenceGlyph layout:id="SRG_protonation_H"
+			  layout:speciesReference="SpecRef_H"
+			  layout:speciesGlyph="SpeciesGlyph_H"
+			  layout:role="substrate">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="466" layout:y="125"/>
+						<layout:end layout:x="506" layout:y="90"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			  <layout:speciesReferenceGlyph layout:id="SRG_protonation_H3O"
+			  layout:speciesReference="SpecRef_H3O"
+			  layout:speciesGlyph="SpeciesGlyph_H3O"
+			  layout:role="product">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CubicBezier">
+						<layout:start layout:x="466" layout:y="145"/>
+						<layout:end layout:x="481" layout:y="180"/>
+						<layout:basePoint1 layout:x="466" layout:y="160"/>
+						<layout:basePoint2 layout:x="471" layout:y="170"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			</layout:listOfSpeciesReferenceGlyphs>
+		  </layout:reactionGlyph>
+		  
+		  <layout:reactionGlyph layout:id="glyph_Deprotonation" layout:reaction="Deprotonation">
+		    <layout:boundingBox layout:id="bbreactDeprotonation">
+				<layout:position layout:x="511" layout:y="130"/>
+				<layout:dimensions layout:width="10" layout:height="10"/>
+			</layout:boundingBox>
+			<layout:curve>
+			  <layout:listOfCurveSegments>
+				<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+					<layout:start layout:x="516" layout:y="125"/>
+					<layout:end layout:x="516" layout:y="145"/>
+				</layout:curveSegment>
+			  </layout:listOfCurveSegments>
+			</layout:curve>
+			<layout:listOfSpeciesReferenceGlyphs>
+			  <layout:speciesReferenceGlyph layout:id="SRG_deprotonation_H2O"
+			  layout:speciesReference="SpecRef_deprot_H2O"
+			  layout:speciesGlyph="SpeciesGlyph_H2O"
+			  layout:role="product">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="516" layout:y="125"/>
+						<layout:end layout:x="476" layout:y="90"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			  <layout:speciesReferenceGlyph layout:id="SRG_deprotonation_H"
+			  layout:speciesReference="SpecRef_deprot_H"
+			  layout:speciesGlyph="SpeciesGlyph_H"
+			  layout:role="product">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
+						<layout:start layout:x="516" layout:y="125"/>
+						<layout:end layout:x="516" layout:y="93"/>
+					</layout:curveSegment>
+				  </layout:listOfCurveSegments>
+				</layout:curve>
+			  </layout:speciesReferenceGlyph>
+			  <layout:speciesReferenceGlyph layout:id="SRG_deprotonation_H3O"
+			  layout:speciesReference="SpecRef_deprot_H3O"
+			  layout:speciesGlyph="SpeciesGlyph_H3O"
+			  layout:role="substrate">
+				<layout:curve>
+				  <layout:listOfCurveSegments>
+					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CubicBezier">
+						<layout:start layout:x="516" layout:y="145"/>
+						<layout:end layout:x="501" layout:y="180"/>
+						<layout:basePoint1 layout:x="516" layout:y="160"/>
+						<layout:basePoint2 layout:x="511" layout:y="170"/>
 					</layout:curveSegment>
 				  </layout:listOfCurveSegments>
 				</layout:curve>

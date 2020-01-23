@@ -41,9 +41,9 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
   private StringBuffer product;
   private boolean ready;
   
-  public BasicLayoutBuilder() {
+  public BasicLayoutBuilder(double lineWidth, double arrowScale, double reactionNodeSize) {
     product = new StringBuffer();
-    factory = new BasicLayoutFactory(1, 1.5);
+    factory = new BasicLayoutFactory(lineWidth, arrowScale, reactionNodeSize);
     ready = false;
   }
 
@@ -115,7 +115,7 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
   @Override
   public void buildProcessNode(ReactionGlyph reactionGlyph,
     double rotationAngle, double curveWidth) {
-    SBGNProcessNode<String> process = getSBGNReactionNode(reactionGlyph.getSBOTerm());
+    SBGNProcessNode<String> process = getSBGNReactionNode(reactionGlyph.getReactionInstance().getSBOTerm());
     product.append("% Reaction: ");
     addLine(reactionGlyph.getId());
     
