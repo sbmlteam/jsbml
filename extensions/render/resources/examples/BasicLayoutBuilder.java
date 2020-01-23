@@ -78,6 +78,13 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
   @Override
   public void buildConnectingArc(SpeciesReferenceGlyph srg, ReactionGlyph rg,
     double curveWidth) {
+    // Rather dirty fix:
+    // Deviating from the policy of the LayoutDirector, the SBOTerm here gets
+    // priority over the role specified in the layout
+    if(srg.getSpeciesReferenceInstance().isSetSBOTerm()) {
+      srg.setSBOTerm(srg.getSpeciesReferenceInstance().getSBOTerm());
+      srg.unsetRole();
+    }
     SBGNArc<String> process = createArc(srg, rg); // getSBGNArc(srg.getSBOTerm()); 
     addLine(String.format("\t%% Connecting arc: %s and %s", srg.getId(), rg.getId()));
     product.append(process.draw(srg.getCurve()));

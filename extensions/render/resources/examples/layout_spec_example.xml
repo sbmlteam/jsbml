@@ -107,7 +107,7 @@
 	  
 	  <reaction id="Protonation" reversible="false" fast="false" sboTerm="SBO:0000177">
 		<listOfReactants>
-		  <speciesReference id="SpecRef_H20" species="H2O" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SpecRef_H2O" species="H2O" stoichiometry="1" constant="true"/>
 		  <speciesReference id="SpecRef_H" species="H" stoichiometry="1" constant="true"/>
 		</listOfReactants>
 		<listOfProducts>
@@ -120,7 +120,7 @@
 		  <speciesReference id="SpecRef_deprot_H3O" species="H3O" stoichiometry="1" constant="true"/>
 		</listOfReactants>
 		<listOfProducts>
-		  <speciesReference id="SpecRef_deprot_H20" species="H2O" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SpecRef_deprot_H2O" species="H2O" stoichiometry="1" constant="true"/>
 		  <speciesReference id="SpecRef_deprot_H" species="H" stoichiometry="1" constant="true"/>
 		</listOfProducts>
 	  </reaction>
