@@ -1,3 +1,22 @@
+/*
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2018 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
 package examples;
 
 import org.sbml.jsbml.ext.layout.BoundingBox;
@@ -35,8 +54,21 @@ import org.sbml.jsbml.ext.render.director.Stimulation;
 import org.sbml.jsbml.ext.render.director.UncertainProcessNode;
 import org.sbml.jsbml.ext.render.director.UnspecifiedNode;
 
+/**
+ * Class for actually rendering a full layout: Uses the BasicLayoutFactory to
+ * generate drawing-experts and is called by the {@link LayoutDirector} to draw
+ * each element of the layout
+ * 
+ * @author David Vetter
+ */
 public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, String> {
 
+  /**
+   * The LayoutBuilder here uses an implementation of the LayoutFactory. This is
+   * not necessary per se, as the AbstractLayoutBuilder also provides methods
+   * for creating the SBGNArcs and SBGNNodes for rendering the layout, but can
+   * be used to handle global options like the line-width (as is done here).
+   */
   private BasicLayoutFactory factory;
   private StringBuffer product;
   private boolean ready;
@@ -49,18 +81,27 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
 
   @Override
   public void builderStart(Layout layout) {
-    // Standalone document is the drawn picture and only the drawn picture
+    /** 
+     * Standalone document is the drawn picture and only the drawn picture
+     * -> Use tikz with library arrow.meta (for arrow-heads) and mathabx 
+     * for the source/sink-symbol 
+     */
     addLine("\\documentclass{standalone}");  
     addLine("\\usepackage{tikz}");
     addLine("\\usetikzlibrary{arrows.meta}");
-    addLine("\\usetikzlibrary{shapes.misc}"); 
     addLine("\\usepackage{mathabx}");
     addLine("");
     addLine("\\begin{document}");
-    // Layout-coordinates are in pt with rightward x-Axis and downward y-Axis
-    // (Layout specification 3.2, p. 6) 
+    /** 
+     * Layout-coordinates are in pt with rightward x-Axis and downward y-Axis
+     * (Layout specification 3.2, p. 6)
+     */ 
     addLine("\\begin{tikzpicture}[yscale=-1]");
     
+    /**
+     * Add a dotted canvas-rectangle (could also make this white) to get the
+     * full layout-dimensionality
+     */
     product.append("\\draw[dotted] (0pt,0pt) rectangle (");
     product.append(layout.getDimensions().getWidth());
     product.append("pt, ");
@@ -70,8 +111,15 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
 
   @Override
   public void buildCompartment(CompartmentGlyph compartmentGlyph) {
-    // Can assume: compartmentGlyph is laid-out
+    /** Can assume: compartmentGlyph is laid-out */
     product.append(drawBoundingBox(factory.createCompartment(), compartmentGlyph.getBoundingBox()));
+    /**
+     * Coupling: The LaTeXCompartment will end its line with a comment "%
+     * Compartment: ", to which the builder here adds the compartmentGlyph's id
+     * (to make the LaTeX-document more readable)
+     * 
+     * Similar comments are added for the other drawings.
+     */
     addLine(compartmentGlyph.getId());
   }
 
@@ -85,31 +133,42 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
       srg.setSBOTerm(srg.getSpeciesReferenceInstance().getSBOTerm());
       srg.unsetRole();
     }
-    SBGNArc<String> process = createArc(srg, rg); // getSBGNArc(srg.getSBOTerm()); 
+    /**
+     * Like for EntityPoolNodes, use the AbstractLayoutBuilder's method to 
+     * decide which type of arc should be built
+     */
+    SBGNArc<String> process = createArc(srg, rg); 
     addLine(String.format("\t%% Connecting arc: %s and %s", srg.getId(), rg.getId()));
     product.append(process.draw(srg.getCurve()));
   }
 
   @Override
   public void buildCubicBezier(CubicBezier cubicBezier, double lineWidth) {
-    // TODO Auto-generated method stub
-    // what is this method for?
+    // This method is not needed (but can be used of course)
   }
 
   @Override
   public void buildEntityPoolNode(SpeciesGlyph speciesGlyph,
     boolean cloneMarker) {
-    // Use AbstractLayoutBuilder.getSBGNNode to parse the SBOTerm (which has
-    // been set by the LayoutDirector) to get the appropriate SBGN-class:
+    /**
+     * Use AbstractLayoutBuilder.getSBGNNode to parse the SBOTerm (which has
+     * been set by the LayoutDirector) to get the appropriate SBGN-class:
+     */ 
     SBGNNode<String> species = getSBGNNode(speciesGlyph.getSBOTerm());
     
-    // Note: SourceSink does not carry a clone-marker, making this check
-    // necessary
+    /**
+     * Note: SourceSink does not carry a clone-marker, making this check
+     * necessary
+     */
     if(species instanceof SBGNNodeWithCloneMarker) {
       ((SBGNNodeWithCloneMarker<String>) species).setCloneMarker(cloneMarker);
     }
     
     if(species instanceof LaTeXSourceSink) {
+      /**
+       * Coupling: because LaTeXSourceSink uses its id for the tikz-node it draws, 
+       * its id is set to a sensible value 
+       */
       ((LaTeXSourceSink) species).setNodeId(speciesGlyph.getId());
     }
     
@@ -130,6 +189,16 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
     Point rotationCentre = bb.getPosition().clone();
     rotationCentre.setX(bb.getDimensions().getWidth()/2 + rotationCentre.getX());
     rotationCentre.setY(bb.getDimensions().getHeight()/2 + rotationCentre.getY());
+    /**
+     * As by the layout-specification, a ReactionGlyph's BoundingBox is to be
+     * ignored if its Curve is set: The Curve specifies the central part
+     * connecting the substrate and product-SpeciesReferenceGlyph-curves.
+     * Here, it is understood that it does NOT specify the rectangle/bullet
+     * used in SBGN, but only the "whiskers" extending from that center in
+     * either direction
+     * Note also, that the BoundingBox is not fully ignored here, as it is still
+     * used to compute the rotationCentre
+     */
     if(reactionGlyph.isSetCurve()) {
       product.append(process.draw(reactionGlyph.getCurve(), rotationAngle, rotationCentre));
     } else {
@@ -142,12 +211,13 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
 
   @Override
   public void buildTextGlyph(TextGlyph textGlyph) {
-    // TODO LayoutFatory does not know of this?
+    /** Start with dummy-text */
     String label = textGlyph.isSetText() ? textGlyph.getText() : "?";
+    
+    /** then hierarchically override the text based on the set attributes */
     if(textGlyph.isSetText()) {
       label = textGlyph.getText();
     }
-    // Hierarchical overriding:
     if(textGlyph.isSetOriginOfText()) {
       label = textGlyph.getOriginOfTextInstance().getName();
     }
@@ -193,6 +263,13 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
     product.append(System.getProperty("line.separator")); 
   }
   
+  /**
+   * Local helper method: The call "node.draw(bb.x, bb.y, bb.z, bb.width, bb.height, bb.depth)" 
+   * occurs more than once
+   * @param node the {@link SBGNNode} whose draw-method is to be called
+   * @param bbox the {@link BoundingBox} to be drawn
+   * @return the drawing (a LaTeX-String)
+   */
   private String drawBoundingBox(SBGNNode<String> node, BoundingBox bbox) {
     return node.draw(bbox.getPosition().getX(), bbox.getPosition().getY(),
       bbox.getPosition().getZ(), bbox.getDimensions().getWidth(),

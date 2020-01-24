@@ -428,6 +428,7 @@
 			  <layout:speciesReferenceGlyph layout:id="SRG_ndpk_NDPK"
 			  layout:speciesReference="ModifierSpeciesReference_NDPK"
 			  layout:speciesGlyph="SpeciesGlyph_NDPK">
+			  <!-- Variant 1: No role, and no SBOTerm set on speciesReferenceGlyph -->
 				<layout:curve>
 				  <layout:listOfCurveSegments>
 					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
@@ -485,6 +486,7 @@
 			  layout:speciesReference="ModifierSpeciesReference_mRNA"
 			  layout:speciesGlyph="SpeciesGlyph_mRNA"
 			  sboTerm="SBO:0000171">
+			  <!-- Variant 2: No role, but SBOTerm set immediately on the speciesReferenceGlyph -->
 				<layout:curve>
 				  <layout:listOfCurveSegments>
 					<layout:curveSegment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LineSegment">
