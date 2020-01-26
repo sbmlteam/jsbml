@@ -38,8 +38,18 @@ public class LaTeXSimpleChemical extends SimpleChemical<String> {
   public String draw(double x, double y, double z, double width, double height,
     double depth) {
     // To stay within bounding-box:
-    double radius = Math.min(width, height) / 2; 
-    return String.format("\\draw[line width=%spt] (%spt, %spt) ellipse (%spt and %spt);",
-      getLineWidth(), x + width / 2, y + height / 2, radius, radius);
+    double radius = Math.min(width, height) / 2;
+    StringBuffer result = new StringBuffer();
+    
+    if(hasCloneMarker()) {
+      // For an explanation of this tikz-implementation, see https://tex.stackexchange.com/questions/123158/tikz-using-the-ellipse-command-with-a-start-and-end-angle-instead-of-an-arc
+      result.append(String.format(
+        "\\fill[red] ($(%spt, %spt) + (30:%spt and %spt)$) arc (30:150:%spt and %spt);",
+        x + width / 2, y + height / 2, radius, radius, radius, radius));
+    }
+    result.append(String.format(
+      "\\draw[line width=%spt] (%spt, %spt) ellipse (%spt and %spt);",
+      getLineWidth(), x + width / 2, y + height / 2, radius, radius));
+    return result.toString();
   }
 }

@@ -228,6 +228,13 @@
 			<layout:dimensions layout:width="26" layout:height="26"/>
 			</layout:boundingBox>
 		  </layout:speciesGlyph>
+		  
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_H_clone" layout:species="H">
+			<layout:boundingBox layout:id="bbHclone">
+			<layout:position layout:x="20" layout:y="67"/>
+			<layout:dimensions layout:width="26" layout:height="26"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="SpeciesGlyph_H3O" layout:species="H3O">
 			<layout:boundingBox layout:id="bbH3O">
 			<layout:position layout:x="478" layout:y="177"/>
@@ -721,6 +728,7 @@
 		  <layout:textGlyph layout:id="TextGlyph_H2O" layout:originOfText="H2O" layout:graphicalObject="SpeciesGlyph_H2O"></layout:textGlyph>
 		  <layout:textGlyph layout:id="TextGlyph_H" layout:originOfText="H" layout:graphicalObject="SpeciesGlyph_H"></layout:textGlyph>
 		  <layout:textGlyph layout:id="TextGlyph_H3O" layout:originOfText="H3O" layout:graphicalObject="SpeciesGlyph_H3O"></layout:textGlyph>
+		  <layout:textGlyph layout:id="TextGlyph_H_clone" layout:originOfText="H" layout:graphicalObject="SpeciesGlyph_H_clone"></layout:textGlyph>
 		</layout:listOfTextGlyphs>
 	  </layout:layout>
 	</layout:listOfLayouts>

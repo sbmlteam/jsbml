@@ -89,6 +89,7 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
     addLine("\\documentclass{standalone}");  
     addLine("\\usepackage{tikz}");
     addLine("\\usetikzlibrary{arrows.meta}");
+    addLine("\\usetikzlibrary{calc}");
     addLine("\\usepackage{mathabx}");
     addLine("");
     addLine("\\begin{document}");

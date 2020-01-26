@@ -225,13 +225,14 @@ public class BasicLayoutAlgorithm extends SimpleLayoutAlgorithm {
     for(TextGlyph tg : textGlyphs) {
       BoundingBox box = new BoundingBox(level, version);
       box.setDimensions(createTextGlyphDimension(tg));
-      
-      NamedSBase origin = tg.getOriginOfTextInstance(); 
-      
       // Default:
       box.setPosition(new Point(10 * species, 5*reactions, 0));
       
-      if(origin != null && origin instanceof Species) {
+      NamedSBase origin = tg.getOriginOfTextInstance(); 
+      if(tg.isSetGraphicalObject()) {
+        box.setPosition(tg.getGraphicalObjectInstance().getBoundingBox().getPosition().clone());
+        box.setDimensions(tg.getGraphicalObjectInstance().getBoundingBox().getDimensions().clone());
+      } else if(origin != null && origin instanceof Species) {
         List<SpeciesGlyph> results = getLayout().findSpeciesGlyphs(origin.getId());
         if(!results.isEmpty()) {
           SpeciesGlyph sg = results.get(0);
