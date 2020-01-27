@@ -231,10 +231,30 @@
 		  
 		  <layout:speciesGlyph layout:id="SpeciesGlyph_H_clone" layout:species="H">
 			<layout:boundingBox layout:id="bbHclone">
-			<layout:position layout:x="20" layout:y="67"/>
+			<layout:position layout:x="20" layout:y="10"/>
 			<layout:dimensions layout:width="26" layout:height="26"/>
 			</layout:boundingBox>
 		  </layout:speciesGlyph>
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_Glucose_clone" layout:species="Glucose">
+			<layout:boundingBox layout:id="bb2_clone">
+			<layout:position layout:x="20" layout:y="40"/>
+			<layout:dimensions layout:width="60" layout:height="20"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
+		  
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_NDPK_clone" layout:species="NDPK">
+			<layout:boundingBox layout:id="bbNDPK_clone">
+			<layout:position layout:x="20" layout:y="70"/>
+			<layout:dimensions layout:width="60" layout:height="20"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_mRNA_clone" layout:species="mRNA">
+			<layout:boundingBox layout:id="bbmRNA_clone">
+			<layout:position layout:x="250" layout:y="15"/>
+			<layout:dimensions layout:width="60" layout:height="20"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
+		  
 		  <layout:speciesGlyph layout:id="SpeciesGlyph_H3O" layout:species="H3O">
 			<layout:boundingBox layout:id="bbH3O">
 			<layout:position layout:x="478" layout:y="177"/>
