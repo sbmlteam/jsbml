@@ -17,28 +17,32 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
 import org.sbml.jsbml.ext.layout.CurveSegment;
-import org.sbml.jsbml.ext.render.director.Consumption;
+import org.sbml.jsbml.ext.render.director.ReversibleConsumption;
 
 /**
- * Class for drawing a Consumption-arc (specified by a
+ * Class for drawing an reversible Consumption-arc (specified by a
  * {@link org.sbml.jsbml.ext.layout.ReactionGlyph}'s
  * {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph}):<br>
- * SBGN arrow-head: no arrow head
+ * SBGN arrow-head: solid triangle 
  * 
- * @author DavidVetter
+ * @author David Vetter
  */
-public class LaTeXConsumption extends LaTeXSBGNArc implements Consumption<String> {
+public class LaTeXReversibleConsumption extends LaTeXSBGNArc
+  implements ReversibleConsumption<String> {
 
-  public LaTeXConsumption() {
+  private double arrowScale;
+  
+  public LaTeXReversibleConsumption(double arrowScale) {
+    this.arrowScale = arrowScale;
   }
+
 
   @Override
   public String drawHead(CurveSegment curveSegment, double lineWidth) {
-    /** Consumption-arcs do not have an arrow-head, so just draw a normal line here */
-    return draw(curveSegment, lineWidth);
+    return String.format("\t\\draw[line width=%s, arrows={-Triangle[scale=%s]}] %s;",
+      lineWidth, arrowScale, coordinatesForCurveSegment(curveSegment));
   }
-
 }

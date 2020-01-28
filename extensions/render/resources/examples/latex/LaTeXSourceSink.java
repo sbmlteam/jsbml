@@ -17,32 +17,40 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
-import org.sbml.jsbml.ext.layout.CurveSegment;
-import org.sbml.jsbml.ext.render.director.Modulation;
+import org.sbml.jsbml.ext.render.director.SourceSink;
 
 /**
- * Class for drawing an Modulation-arc (specified by a
- * {@link org.sbml.jsbml.ext.layout.ReactionGlyph}'s
- * {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph}):<br>
- * SBGN arrow-head: empty diamond/45°-turned square
+ * Class for drawing a source/sink
+ * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: diameter/empty-set symbol)
  * 
- * @author David Vetter
+ * @author DavidVetter
  */
-public class LaTeXModulation extends LaTeXSBGNArc
-  implements Modulation<String> {
+public class LaTeXSourceSink extends SourceSink<String> {
 
-  private double arrowScale;
+  private String id;
   
-  public LaTeXModulation(double arrowScale) {
-    this.arrowScale = arrowScale;
+  public LaTeXSourceSink() {
+    /**
+     * In this implementation, the size of the symbol cannot be changed by some
+     * parameter -- that may however be desirable in general
+     */
+    super();
   }
 
 
   @Override
-  public String drawHead(CurveSegment curveSegment, double lineWidth) {
-    return String.format("\t\\draw[line width=%s, arrows={-Turned Square[open,scale=%s]}] %s;",
-      lineWidth, arrowScale, coordinatesForCurveSegment(curveSegment));
+  public String draw(double x, double y, double z, double width, double height,
+    double depth) {
+    return String.format("\\node[] (%s) at (%spt,%spt) {$\\diameter$};", id, x + width/2, y + height/2);
+  }
+  
+  public String getNodeId() {
+    return id;
+  }
+  
+  public void setNodeId(String id) {
+    this.id = id;
   }
 }

@@ -17,31 +17,28 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
 import org.sbml.jsbml.ext.layout.CurveSegment;
-import org.sbml.jsbml.ext.render.director.Catalysis;
+import org.sbml.jsbml.ext.render.director.Consumption;
 
 /**
- * Class for drawing a Catalysis-arc (specified by a
+ * Class for drawing a Consumption-arc (specified by a
  * {@link org.sbml.jsbml.ext.layout.ReactionGlyph}'s
  * {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph}):<br>
- * SBGN arrow-head: empty circle 
+ * SBGN arrow-head: no arrow head
  * 
- * @author David Vetter
+ * @author DavidVetter
  */
-public class LaTeXCatalysis extends LaTeXSBGNArc implements Catalysis<String> {
-  
-  private double arrowScale;
-  
-  public LaTeXCatalysis(double arrowScale) {
-    this.arrowScale = arrowScale;
+public class LaTeXConsumption extends LaTeXSBGNArc implements Consumption<String> {
+
+  public LaTeXConsumption() {
   }
 
   @Override
   public String drawHead(CurveSegment curveSegment, double lineWidth) {
-    return String.format(
-      "\t\\draw[line width=%s, arrows={-Circle[open,scale=%s]}] %s;", lineWidth,
-      arrowScale, coordinatesForCurveSegment(curveSegment));
+    /** Consumption-arcs do not have an arrow-head, so just draw a normal line here */
+    return draw(curveSegment, lineWidth);
   }
+
 }

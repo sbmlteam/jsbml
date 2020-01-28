@@ -138,6 +138,7 @@
 					 render:programVersion="1.0" render:backgroundColor="#FFFFFFFF"> 
 					  <render:listOfColorDefinitions>
 					    <render:colorDefinition render:id="black" render:value="#000000" />
+						<render:colorDefinition render:id="red" render:value="#FF0000" />
 						<render:colorDefinition render:id="white" render:value="#ffffff" />
 					  </render:listOfColorDefinitions>
 					  

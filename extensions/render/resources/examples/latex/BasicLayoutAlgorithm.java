@@ -17,7 +17,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
 import java.util.HashSet;
 import java.util.List;

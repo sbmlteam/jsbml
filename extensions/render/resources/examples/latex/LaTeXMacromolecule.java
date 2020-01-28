@@ -17,19 +17,20 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
-import org.sbml.jsbml.ext.render.director.UnspecifiedNode;
+import org.sbml.jsbml.ext.render.director.Macromolecule;
 
 /**
- * Class for drawing an unspecified
- * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: ellipse)
+ * Class for drawing a macromolecular
+ * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: rectangle with rounded
+ * corners)
  * 
  * @author DavidVetter
  */
-public class LaTeXUnspecifiedNode extends UnspecifiedNode<String> {
-  
-  public LaTeXUnspecifiedNode(double lineWidth) {
+public class LaTeXMacromolecule extends Macromolecule<String> {
+
+  public LaTeXMacromolecule(double lineWidth) {
     super();
     setLineWidth(lineWidth);
   }
@@ -38,17 +39,13 @@ public class LaTeXUnspecifiedNode extends UnspecifiedNode<String> {
   public String draw(double x, double y, double z, double width, double height,
     double depth) {
     StringBuffer result = new StringBuffer();
-    if (hasCloneMarker()) {
-      // For an explanation of this tikz-implementation, see
-      // https://tex.stackexchange.com/questions/123158/tikz-using-the-ellipse-command-with-a-start-and-end-angle-instead-of-an-arc
-      result.append(String.format(
-        "\\fill[red] ($(%spt, %spt) + (30:%spt and %spt)$) arc (30:150:%spt and %spt);",
-        x + width / 2, y + height / 2, width / 2, height / 2, width / 2,
-        height / 2));
+    if(hasCloneMarker()) {
+      result.append(String.format("\\fill[fill=red] (%spt,%spt) -- ++(%spt,0) {[rounded corners=5] -- ++(0,%spt) -- ++(-%spt,0)} -- cycle;", x, y + 0.7*height, width, 0.3*height, width));
+      result.append(System.lineSeparator());
     }
     result.append(String.format(
-      "\\draw[line width=%spt] (%spt, %spt) ellipse (%spt and %spt);",
-      getLineWidth(), x + width / 2, y + height / 2, width / 2, height / 2));
-    return result.toString();
+      "\\draw[line width=%spt, rounded corners] (%spt, %spt) rectangle (%spt, %spt);",
+      getLineWidth(), x, y, x+width, y+height));
+    return result.toString(); 
   }
 }

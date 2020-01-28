@@ -17,7 +17,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
 import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.render.director.Stimulation;

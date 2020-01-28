@@ -17,32 +17,30 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
 import org.sbml.jsbml.ext.layout.CurveSegment;
-import org.sbml.jsbml.ext.render.director.ReversibleConsumption;
+import org.sbml.jsbml.ext.render.director.NecessaryStimulation;
 
 /**
- * Class for drawing an reversible Consumption-arc (specified by a
+ * Class for drawing an Necessary-stimulation-arc (specified by a
  * {@link org.sbml.jsbml.ext.layout.ReactionGlyph}'s
  * {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph}):<br>
- * SBGN arrow-head: solid triangle 
+ * SBGN arrow-head: empty triangle with preceding orthogonal bar 
  * 
  * @author David Vetter
  */
-public class LaTeXReversibleConsumption extends LaTeXSBGNArc
-  implements ReversibleConsumption<String> {
-
+public class LaTeXNecessaryStimulation extends LaTeXSBGNArc
+  implements NecessaryStimulation<String> {
   private double arrowScale;
   
-  public LaTeXReversibleConsumption(double arrowScale) {
+  public LaTeXNecessaryStimulation(double arrowScale) {
     this.arrowScale = arrowScale;
   }
 
-
   @Override
   public String drawHead(CurveSegment curveSegment, double lineWidth) {
-    return String.format("\t\\draw[line width=%s, arrows={-Triangle[scale=%s]}] %s;",
-      lineWidth, arrowScale, coordinatesForCurveSegment(curveSegment));
+    return String.format("\t\\draw[line width=%s, arrows={-|[scale=%s]Butt Cap[scale=%s]Triangle[open,scale=%s]}] %s;",
+      lineWidth, arrowScale, 2*arrowScale, arrowScale, coordinatesForCurveSegment(curveSegment));
   }
 }

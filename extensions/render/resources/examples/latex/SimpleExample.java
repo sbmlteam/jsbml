@@ -17,7 +17,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,15 +43,14 @@ public class SimpleExample {
      * the layout-specification (v1, r1), that contains all SBGN-elements
      * supported by the render.director:
      */
-    File file = new File("extensions/render/resources/examples/layout_spec_example.xml");
+    File file = new File("extensions/render/resources/examples/latex/layout_spec_example.xml");
     // File file = new File("extensions/render/resources/examples/unlaidout_spec_example.xml");
     
     /**
      * Notice:
      * The LayoutDirector cannot handle files w/o any Layout information: it
-     * needs a
-     * layout with dimensions set, and glyphs specified (but potentially lacking
-     * bounding boxes etc).
+     * needs a layout with dimensions set, and glyphs specified (but potentially
+     * lacking bounding boxes etc).
      * This is because one might want to only add layout-information for a
      * subpart of the entire model -- this subpart is then specified by the
      * preexisting glyphs. If however all species, reaction etc are to be laid

@@ -17,19 +17,19 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
-import org.sbml.jsbml.ext.render.director.PerturbingAgent;
+import org.sbml.jsbml.ext.render.director.SimpleChemical;
 
 /**
- * Class for drawing a perturbing agent
- * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: biconcave Hexagon)
+ * Class for drawing a simple chemical
+ * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: circle)
  * 
  * @author DavidVetter
  */
-public class LaTeXPerturbingAgent extends PerturbingAgent<String> {
-
-  public LaTeXPerturbingAgent(double lineWidth) {
+public class LaTeXSimpleChemical extends SimpleChemical<String> {
+  
+  public LaTeXSimpleChemical(double lineWidth) {
     super();
     setLineWidth(lineWidth);
   }
@@ -37,19 +37,19 @@ public class LaTeXPerturbingAgent extends PerturbingAgent<String> {
   @Override
   public String draw(double x, double y, double z, double width, double height,
     double depth) {
+    // To stay within bounding-box:
+    double radius = Math.min(width, height) / 2;
     StringBuffer result = new StringBuffer();
+    
     if(hasCloneMarker()) {
+      // For an explanation of this tikz-implementation, see https://tex.stackexchange.com/questions/123158/tikz-using-the-ellipse-command-with-a-start-and-end-angle-instead-of-an-arc
       result.append(String.format(
-        "\\fill[fill=red] (%spt,%spt) -- (%spt,%spt) -- (%spt,%spt) -- (%spt,%spt) -- cycle;",
-        x + 0.3 * height, y + 0.7 * height, x, y + height, x + width,
-        y + height, x + width - 0.3 * height, y + 0.7 * height));
-      result.append(System.lineSeparator());
+        "\\fill[red] ($(%spt, %spt) + (30:%spt and %spt)$) arc (30:150:%spt and %spt);",
+        x + width / 2, y + height / 2, radius, radius, radius, radius));
     }
     result.append(String.format(
-      "\\draw[line width=%s] (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- cycle;",
-      getLineWidth(), x, y, x + height / 2, y + height / 2, x, y + height,
-      x + width, y + height, x + width - height / 2, y + height / 2, x + width,
-      y));
+      "\\draw[line width=%spt] (%spt, %spt) ellipse (%spt and %spt);",
+      getLineWidth(), x + width / 2, y + height / 2, radius, radius));
     return result.toString();
   }
 }

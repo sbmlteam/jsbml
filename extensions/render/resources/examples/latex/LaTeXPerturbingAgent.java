@@ -17,20 +17,19 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
-import org.sbml.jsbml.ext.render.director.NucleicAcidFeature;
+import org.sbml.jsbml.ext.render.director.PerturbingAgent;
 
 /**
- * Class for drawing a nucleic-acid-feature
- * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: rectangle with rounded
- * bottom corners)
+ * Class for drawing a perturbing agent
+ * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: biconcave Hexagon)
  * 
  * @author DavidVetter
  */
-public class LaTeXNucleicAcidFeature extends NucleicAcidFeature<String> {
+public class LaTeXPerturbingAgent extends PerturbingAgent<String> {
 
-  public LaTeXNucleicAcidFeature(double lineWidth) {
+  public LaTeXPerturbingAgent(double lineWidth) {
     super();
     setLineWidth(lineWidth);
   }
@@ -39,15 +38,18 @@ public class LaTeXNucleicAcidFeature extends NucleicAcidFeature<String> {
   public String draw(double x, double y, double z, double width, double height,
     double depth) {
     StringBuffer result = new StringBuffer();
-    if (hasCloneMarker()) {
+    if(hasCloneMarker()) {
       result.append(String.format(
-        "\\fill[fill=red] (%spt,%spt) -- ++(%spt,0) {[rounded corners=5] -- ++(0,%spt) -- ++(-%spt,0)} -- cycle;",
-        x, y + 0.7 * height, width, 0.3 * height, width));
+        "\\fill[fill=red] (%spt,%spt) -- (%spt,%spt) -- (%spt,%spt) -- (%spt,%spt) -- cycle;",
+        x + 0.3 * height, y + 0.7 * height, x, y + height, x + width,
+        y + height, x + width - 0.3 * height, y + 0.7 * height));
       result.append(System.lineSeparator());
     }
     result.append(String.format(
-      "\\draw[line width=%s] (%spt,%spt) -- ++(%spt,0) {[rounded corners=5] -- ++(0,%spt) -- ++(-%spt,0)} -- cycle;",
-      getLineWidth(), x, y, width, height, width));
+      "\\draw[line width=%s] (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- cycle;",
+      getLineWidth(), x, y, x + height / 2, y + height / 2, x, y + height,
+      x + width, y + height, x + width - height / 2, y + height / 2, x + width,
+      y));
     return result.toString();
   }
 }

@@ -17,35 +17,32 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
-import org.sbml.jsbml.ext.render.director.Macromolecule;
+import org.sbml.jsbml.ext.layout.CurveSegment;
+import org.sbml.jsbml.ext.render.director.Modulation;
 
 /**
- * Class for drawing a macromolecular
- * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: rectangle with rounded
- * corners)
+ * Class for drawing an Modulation-arc (specified by a
+ * {@link org.sbml.jsbml.ext.layout.ReactionGlyph}'s
+ * {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph}):<br>
+ * SBGN arrow-head: empty diamond/45°-turned square
  * 
- * @author DavidVetter
+ * @author David Vetter
  */
-public class LaTeXMacromolecule extends Macromolecule<String> {
+public class LaTeXModulation extends LaTeXSBGNArc
+  implements Modulation<String> {
 
-  public LaTeXMacromolecule(double lineWidth) {
-    super();
-    setLineWidth(lineWidth);
-  }
+  private double arrowScale;
   
+  public LaTeXModulation(double arrowScale) {
+    this.arrowScale = arrowScale;
+  }
+
+
   @Override
-  public String draw(double x, double y, double z, double width, double height,
-    double depth) {
-    StringBuffer result = new StringBuffer();
-    if(hasCloneMarker()) {
-      result.append(String.format("\\fill[fill=red] (%spt,%spt) -- ++(%spt,0) {[rounded corners=5] -- ++(0,%spt) -- ++(-%spt,0)} -- cycle;", x, y + 0.7*height, width, 0.3*height, width));
-      result.append(System.lineSeparator());
-    }
-    result.append(String.format(
-      "\\draw[line width=%spt, rounded corners] (%spt, %spt) rectangle (%spt, %spt);",
-      getLineWidth(), x, y, x+width, y+height));
-    return result.toString(); 
+  public String drawHead(CurveSegment curveSegment, double lineWidth) {
+    return String.format("\t\\draw[line width=%s, arrows={-Turned Square[open,scale=%s]}] %s;",
+      lineWidth, arrowScale, coordinatesForCurveSegment(curveSegment));
   }
 }

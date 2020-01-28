@@ -17,26 +17,31 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
-import org.sbml.jsbml.ext.render.director.Compartment;
+import org.sbml.jsbml.ext.layout.CurveSegment;
+import org.sbml.jsbml.ext.render.director.Catalysis;
 
 /**
- * Class for drawing a {@link org.sbml.jsbml.ext.layout.CompartmentGlyph}
+ * Class for drawing a Catalysis-arc (specified by a
+ * {@link org.sbml.jsbml.ext.layout.ReactionGlyph}'s
+ * {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph}):<br>
+ * SBGN arrow-head: empty circle 
+ * 
  * @author David Vetter
  */
-public class LaTeXCompartment extends Compartment<String> {
+public class LaTeXCatalysis extends LaTeXSBGNArc implements Catalysis<String> {
   
-  public LaTeXCompartment(double lineWidth) {
-    super();
-    setLineWidth(lineWidth);
+  private double arrowScale;
+  
+  public LaTeXCatalysis(double arrowScale) {
+    this.arrowScale = arrowScale;
   }
-  
+
   @Override
-  public String draw(double x, double y, double z, double width, double height,
-    double depth) {
+  public String drawHead(CurveSegment curveSegment, double lineWidth) {
     return String.format(
-      "\\draw[blue,line width=%spt] (%spt, %spt) rectangle ++(%spt, %spt); %% Compartment: ",
-      getLineWidth(), x, y, width, height);
+      "\t\\draw[line width=%s, arrows={-Circle[open,scale=%s]}] %s;", lineWidth,
+      arrowScale, coordinatesForCurveSegment(curveSegment));
   }
 }

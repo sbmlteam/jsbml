@@ -17,42 +17,38 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package examples;
+package examples.latex;
 
-import org.sbml.jsbml.ext.layout.Point;
-import org.sbml.jsbml.ext.render.director.AssociationNode;
+import org.sbml.jsbml.ext.render.director.UnspecifiedNode;
 
 /**
- * Class for rendering an AssociationNode (solid black bullet)
- * @author David Vetter
+ * Class for drawing an unspecified
+ * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: ellipse)
+ * 
+ * @author DavidVetter
  */
-public class LaTeXAssociationNode extends LaTeXSBGNProcessNode
-  implements AssociationNode<String> {
-
-  public LaTeXAssociationNode(double lineWidth, double processSquareSize) {
-    super(lineWidth, processSquareSize);
+public class LaTeXUnspecifiedNode extends UnspecifiedNode<String> {
+  
+  public LaTeXUnspecifiedNode(double lineWidth) {
+    super();
+    setLineWidth(lineWidth);
   }
-
-
-  /**
-   * Only use this, if no curve is set (see Layout-documentation page 16)
-   */
-  @Override
-  public String draw(double x, double y, double z, double width, double height,
-    double depth, double rotationAngle, Point rotationCenter) {
-    // Circular node: rotation does not matter
-    return draw(x, y, z, width, height, depth);
-  }
-
-  /**
-   * Only use this, if no curve is set (see Layout-documentation page 16) <br>
-   * {@inheritDoc}
-   */
+  
   @Override
   public String draw(double x, double y, double z, double width, double height,
     double depth) {
-    return String.format(
-      "\\draw[line width=%s, draw=black, fill=black] (%spt, %spt) ellipse (%spt and %spt);%s", getLineWidth(),
-      x + width/2, y + width/2, width/2, height/2, System.lineSeparator());
+    StringBuffer result = new StringBuffer();
+    if (hasCloneMarker()) {
+      // For an explanation of this tikz-implementation, see
+      // https://tex.stackexchange.com/questions/123158/tikz-using-the-ellipse-command-with-a-start-and-end-angle-instead-of-an-arc
+      result.append(String.format(
+        "\\fill[red] ($(%spt, %spt) + (30:%spt and %spt)$) arc (30:150:%spt and %spt);",
+        x + width / 2, y + height / 2, width / 2, height / 2, width / 2,
+        height / 2));
+    }
+    result.append(String.format(
+      "\\draw[line width=%spt] (%spt, %spt) ellipse (%spt and %spt);",
+      getLineWidth(), x + width / 2, y + height / 2, width / 2, height / 2));
+    return result.toString();
   }
 }
