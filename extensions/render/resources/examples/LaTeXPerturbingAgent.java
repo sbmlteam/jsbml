@@ -37,10 +37,19 @@ public class LaTeXPerturbingAgent extends PerturbingAgent<String> {
   @Override
   public String draw(double x, double y, double z, double width, double height,
     double depth) {
-    return String.format(
+    StringBuffer result = new StringBuffer();
+    if(hasCloneMarker()) {
+      result.append(String.format(
+        "\\fill[fill=red] (%spt,%spt) -- (%spt,%spt) -- (%spt,%spt) -- (%spt,%spt) -- cycle;",
+        x + 0.3 * height, y + 0.7 * height, x, y + height, x + width,
+        y + height, x + width - 0.3 * height, y + 0.7 * height));
+      result.append(System.lineSeparator());
+    }
+    result.append(String.format(
       "\\draw[line width=%s] (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- (%spt, %spt) -- cycle;",
       getLineWidth(), x, y, x + height / 2, y + height / 2, x, y + height,
       x + width, y + height, x + width - height / 2, y + height / 2, x + width,
-      y);
+      y));
+    return result.toString();
   }
 }

@@ -254,6 +254,12 @@
 			<layout:dimensions layout:width="60" layout:height="20"/>
 			</layout:boundingBox>
 		  </layout:speciesGlyph>
+		  <layout:speciesGlyph layout:id="SpeciesGlyph_heat_Clone" layout:species="heat">
+			<layout:boundingBox layout:id="bb_heat_clone">
+			<layout:position layout:x="385" layout:y="15"/>
+			<layout:dimensions layout:width="40" layout:height="15"/>
+			</layout:boundingBox>
+		  </layout:speciesGlyph>
 		  
 		  <layout:speciesGlyph layout:id="SpeciesGlyph_H3O" layout:species="H3O">
 			<layout:boundingBox layout:id="bbH3O">
