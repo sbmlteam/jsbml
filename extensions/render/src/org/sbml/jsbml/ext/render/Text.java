@@ -411,11 +411,12 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     this.fontFamily = fontFamily;
     firePropertyChange(RenderConstants.fontFamily, oldFontFamily, this.fontFamily);
   }
+ 
   
   @Override
   public void setFontFamily(FontFamily fontFamily) {
-    // TODO Auto-generated method stub
-    
+    String fontFam = fontFamily.getFontFamilyString();
+    setFontFamily(fontFam);
   }
 
   /* (non-Javadoc)
