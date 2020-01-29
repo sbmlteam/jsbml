@@ -96,7 +96,7 @@ public class GroupTest {
   @Test
   public void testGetFontFamily() {
     FontFamily fontType= FontFamily.MONOSPACE;
-    String fontTypeString = fontType.getFontFamilyString();
+    String fontTypeString = fontType.toString();
     RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontFamily());
     g.setFontFamily(fontTypeString);
@@ -112,7 +112,7 @@ public class GroupTest {
     FontFamily fontType=FontFamily.MONOSPACE;
     RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontFamily());
-    g.setFontFamily(fontType.getFontFamilyString());
+    g.setFontFamily(fontType.toString());
     assertTrue(g.isSetFontFamily());
   }
 
@@ -125,7 +125,7 @@ public class GroupTest {
     FontFamily fontType=FontFamily.MONOSPACE;
     RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontFamily());
-    g.setFontFamily(fontType.getFontFamilyString());
+    g.setFontFamily(fontType.toString());
     assertEquals("setFontFamilyError",g.getFontFamily(),fontType);
   }
 

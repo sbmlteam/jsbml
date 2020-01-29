@@ -415,7 +415,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   
   @Override
   public void setFontFamily(FontFamily fontFamily) {
-    String fontFam = fontFamily.getFontFamilyString();
+    String fontFam = fontFamily.toString();
     setFontFamily(fontFam);
   }
 

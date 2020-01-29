@@ -37,7 +37,8 @@ public enum FontFamily {
     this.fontFamily = fontFamily;
   }
   
-  public String getFontFamilyString() { //TODO toString
+  @Override
+  public String toString() { 
     return this.fontFamily;
   }
   
@@ -49,7 +50,7 @@ public enum FontFamily {
    */
   public static FontFamily toFontFamily(String value) {
     for (FontFamily f : FontFamily.values()) {
-      if(f.getFontFamilyString().equals(value)) {
+      if(f.toString().equals(value)) {
         return f; 
       }
     }
