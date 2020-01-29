@@ -32,6 +32,7 @@ public interface FontRenderStyle { // TODO - FontWeight (bold, normal) and FontS
    * @return the value of fontFamily
    */
   public abstract String getFontFamily();
+ 
 
   /**
    * @return whether fontFamily is set
@@ -43,6 +44,8 @@ public interface FontRenderStyle { // TODO - FontWeight (bold, normal) and FontS
    * @param fontFamily
    */
   public abstract void setFontFamily(String fontFamily);
+  
+  public abstract void setFontFamily(FontFamily fontFamily); //TODO default implementation for interface
 
   /**
    * Unsets the variable fontFamily
