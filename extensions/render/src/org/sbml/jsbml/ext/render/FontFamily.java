@@ -27,16 +27,16 @@ package org.sbml.jsbml.ext.render;
  * @since 1.0
  */
 public enum FontFamily {
-  /**
-   * 
-   */
-  SERIF,
-  /**
-   * 
-   */
-  SANS_SERIF,
-  /**
-   * 
-   */
-  MONOSPACE;
+  
+  SERIF("serif"), SANS_SERIF("sans-serif"), MONOSPACE("monospace");
+  
+  private String fontFamily;
+  
+  private FontFamily(String fontFamily) {
+    this.fontFamily = fontFamily;
+  }
+  
+  public String getFontFamilyString() {
+    return this.fontFamily;
+  }
 }
