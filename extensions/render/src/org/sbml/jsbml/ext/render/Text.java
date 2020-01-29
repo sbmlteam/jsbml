@@ -29,6 +29,7 @@ import org.sbml.jsbml.SBMLException;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author Onur &Oumlzel
  * @since 1.0
  */
 public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point3D {

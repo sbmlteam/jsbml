@@ -48,6 +48,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @author Jakob Matthes
  * @author Jan Rudolph
  * @author Nicolas Rodriguez
+ * @author Onur &Oumlzel
  * @since 1.0
  */
 public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBase {
