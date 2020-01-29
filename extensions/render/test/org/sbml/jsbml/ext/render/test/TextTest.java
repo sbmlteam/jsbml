@@ -56,7 +56,7 @@ public class TextTest {
     FontFamily fontType= FontFamily.MONOSPACE;
     Text textType=new Text();
     assertTrue(!textType.isSetFontFamily());
-    textType.setFontFamily(fontType.getFontFamilyString());
+    textType.setFontFamily(fontType.toString());
     assertEquals("getFontFamily",fontType.name().toLowerCase() ,textType.getFontFamily());
   }
 
@@ -190,7 +190,7 @@ public class TextTest {
     FontFamily fontType = FontFamily.MONOSPACE;
     Text textType = new Text();
     assertTrue(!textType.isSetFontFamily());
-    textType.setFontFamily(fontType.getFontFamilyString());
+    textType.setFontFamily(fontType.toString());
     assertTrue(textType.isSetFontFamily());
   }
 
@@ -344,7 +344,7 @@ public class TextTest {
     FontFamily fontType= FontFamily.MONOSPACE;
     Text textType=new Text();
     assertTrue(!textType.isSetFontFamily());
-    textType.setFontFamily(fontType.getFontFamilyString());
+    textType.setFontFamily(fontType.toString());
     assertEquals("setFontFamilyError", textType.getFontFamily(), fontType.name().toLowerCase());
   }
 
