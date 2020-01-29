@@ -36,7 +36,7 @@ public enum FontFamily {
     this.fontFamily = fontFamily;
   }
   
-  public String getFontFamilyString() {
+  public String getFontFamilyString() { //TODO toString
     return this.fontFamily;
   }
 }
