@@ -32,6 +32,7 @@ import org.sbml.jsbml.ext.render.VTextAnchor;
 
 /**
  * @author Ibrahim Vazirabad
+ * @author Onur &Oumlzel
  * @since 1.0
  */
 public class GroupTest {
