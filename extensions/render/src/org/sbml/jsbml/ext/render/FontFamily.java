@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.render;
  * The FontFamily enumeration gives a hint as to which font is to be used when rendering {@link Text} elements.
  * 
  * @author Jakob Matthes
+ * @author Onur &Oumlzel
  * @since 1.0
  */
 public enum FontFamily {
@@ -38,5 +39,20 @@ public enum FontFamily {
   
   public String getFontFamilyString() { //TODO toString
     return this.fontFamily;
+  }
+  
+  /**
+   * Checks if a given String value matches one of the 
+   * {@link FontFamily} hints. 
+   * @param value
+   * @return the matching FontFamily, or null otherwise
+   */
+  public static FontFamily toFontFamily(String value) {
+    for (FontFamily f : FontFamily.values()) {
+      if(f.getFontFamilyString().equals(value)) {
+        return f; 
+      }
+    }
+    return null;
   }
 }
