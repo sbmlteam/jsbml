@@ -45,6 +45,10 @@ public interface FontRenderStyle { // TODO - FontWeight (bold, normal) and FontS
    */
   public abstract void setFontFamily(String fontFamily);
   
+  /**
+   * Set the value of fontFamily by using a {@link FontFamily} type. 
+   * @param fontFamily
+   */
   public abstract void setFontFamily(FontFamily fontFamily); //TODO default implementation for interface
 
   /**
