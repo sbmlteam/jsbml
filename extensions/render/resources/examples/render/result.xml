@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-01-30 at 10:15:36 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-01-30 at 12:58:31 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="small">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -103,6 +103,23 @@
                 </render:g>
               </render:lineEnding>
             </render:listOfLineEndings>
+            <render:listOfStyles>
+              <render:style render:idList="CompartmentGlyph_Cell">
+                <render:g>
+                  <render:rectangle render:fill="white" render:height="140" render:stroke="black" render:stroke-width="0.3" render:width="380" render:x="0" render:y="0"/>
+                </render:g>
+              </render:style>
+              <render:style render:idList="SpeciesGlyph_A">
+                <render:g>
+                  <render:ellipse render:cx="25" render:cy="35" render:fill="white" render:rx="25" render:stroke="black" render:stroke-width="1.0"/>
+                </render:g>
+              </render:style>
+              <render:style render:idList="SpeciesGlyph_B">
+                <render:g>
+                  <render:ellipse render:cx="35" render:cy="25" render:fill="white" render:rx="35" render:ry="25" render:stroke="black" render:stroke-width="1.0"/>
+                </render:g>
+              </render:style>
+            </render:listOfStyles>
           </render:renderInformation>
         </render:listOfRenderInformation>
         <layout:dimensions layout:height="300" layout:width="400"/>
@@ -117,14 +134,14 @@
         <layout:listOfSpeciesGlyphs>
           <layout:speciesGlyph layout:id="SpeciesGlyph_A" layout:species="A">
             <layout:boundingBox layout:id="bb1">
-              <layout:position layout:x="50" layout:y="150"/>
-              <layout:dimensions layout:height="50" layout:width="50"/>
+              <layout:position layout:x="50" layout:y="140"/>
+              <layout:dimensions layout:height="70" layout:width="50"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
           <layout:speciesGlyph layout:id="SpeciesGlyph_B" layout:species="B">
             <layout:boundingBox layout:id="bb2">
               <layout:position layout:x="300" layout:y="150"/>
-              <layout:dimensions layout:height="50" layout:width="50"/>
+              <layout:dimensions layout:height="50" layout:width="70"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
         </layout:listOfSpeciesGlyphs>
@@ -209,7 +226,7 @@
       <compartment constant="true" id="Cell" name="Cytosol" spatialDimensions="3" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species boundaryCondition="false" compartment="Cell" constant="false" hasOnlySubstanceUnits="false" id="A" name="A" substanceUnits="substance"/>
+      <species boundaryCondition="false" compartment="Cell" constant="false" hasOnlySubstanceUnits="false" id="A" name="A" sboTerm="SBO:0000247" substanceUnits="substance"/>
       <species boundaryCondition="false" compartment="Cell" constant="false" hasOnlySubstanceUnits="false" id="B" name="B" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfReactions>

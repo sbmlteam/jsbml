@@ -64,7 +64,7 @@
 				  <layout:speciesGlyph layout:id="SpeciesGlyph_A" layout:species="A">
 					<layout:boundingBox layout:id="bb1">
 					  <layout:position layout:x="50" layout:y="150" />
-					  <layout:dimensions layout:width="50" layout:height="50" />
+					  <layout:dimensions layout:width="40" layout:height="50" />
 					</layout:boundingBox>
 				  </layout:speciesGlyph> 
 				  <layout:speciesGlyph layout:id="SpeciesGlyph_B" layout:species="B">
@@ -170,40 +170,26 @@
 					  </render:listOfLineEndings>
 					  
 					  <render:listOfStyles>
-						<render:style render:id="SpeciesStyle" render:idList="SpeciesGlyph_A SpeciesGlyph_B">
+						<render:style render:id="SimpleChemicalStyle" render:idList="SpeciesGlyph_A SpeciesGlyph_B">
 						  <render:g render:stroke="black" render:stroke-width="3"
 						   render:fill-rule="nonzero" render:font-size="12"
 						   render:font-family="sans-serif" render:font-style="normal"
 						   render:font-weight="normal" render:text-anchor="middle"
 						   render:vtext-anchor="middle">
-							<render:ellipse render:cx="50%" render:cy="50%" render:rx="17" />
-							<render:text render:x="0" render:y="0"
+						    <!-- Note: COPASI does not render this correctly. As by the render-specification (p.33), 
+							     specifying a relative rx and ratio=1 should always yield a circle. -->
+							<render:ellipse render:cx="50%" render:cy="50%" render:rx="50%" render:ratio="1" />
+							<!-- <render:text render:x="0" render:y="0"
 							 render:font-family="monospace" render:text-anchor="middle"
-							 render:vtext-anchor="middle">?</render:text>
+							 render:vtext-anchor="middle">?</render:text> -->
 						  </render:g>
 						</render:style>
 						
 						<render:style render:id="reactionGlyphStyle" render:typeList="REACTIONGLYPH">
 						  <render:g render:stroke="black" render:stroke-width="2" render:fill-rule="nonzero" render:font-size="0" 
 						   render:font-family="sans-serif" render:font-style="normal" render:font-weight="normal">
-							<render:curve> 
-							  <render:listOfElements>
-								<render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-								 xsi:type="RenderPoint" render:x="0" render:y="5" />
-								<render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-								 xsi:type="RenderPoint" render:x="10" render:y="5" />
-							  </render:listOfElements>
-							</render:curve>
-							<render:curve> 
-							  <render:listOfElements>
-								<render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-								 xsi:type="RenderPoint" render:x="20" render:y="5" />
-								<render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-								 xsi:type="RenderPoint" render:x="30" render:y="5" />
-							  </render:listOfElements>
-							</render:curve>
-							<render:rectangle render:x="10" render:y="0"
-							 render:width="10" render:height="10" />
+							<render:rectangle render:x="25%" render:y="25%"
+							 render:width="50%" render:height="50%" />
 						  </render:g>
 						</render:style>
 						

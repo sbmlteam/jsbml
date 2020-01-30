@@ -1,6 +1,7 @@
 package examples.render;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
@@ -37,6 +38,8 @@ import org.sbml.jsbml.ext.render.director.PerturbingAgent;
 import org.sbml.jsbml.ext.render.director.ProcessNode;
 import org.sbml.jsbml.ext.render.director.Production;
 import org.sbml.jsbml.ext.render.director.ReversibleConsumption;
+import org.sbml.jsbml.ext.render.director.SBGNNode;
+import org.sbml.jsbml.ext.render.director.SBGNNodeWithCloneMarker;
 import org.sbml.jsbml.ext.render.director.SimpleChemical;
 import org.sbml.jsbml.ext.render.director.SourceSink;
 import org.sbml.jsbml.ext.render.director.Stimulation;
@@ -67,9 +70,17 @@ public class RenderLayoutBuilder
   }
 
   @Override
-  public void buildCompartment(CompartmentGlyph compartmentGlyph) {
-    // TODO Auto-generated method stub
-    
+  public void buildCompartment(CompartmentGlyph cg) {
+    LocalStyle compartmentStyle =
+      createCompartment().draw(cg.getBoundingBox().getPosition().getX(),
+        cg.getBoundingBox().getPosition().getY(),
+        cg.getBoundingBox().getPosition().getZ(),
+        cg.getBoundingBox().getDimensions().getWidth(),
+        cg.getBoundingBox().getDimensions().getHeight(),
+        cg.getBoundingBox().getDimensions().getDepth());
+    compartmentStyle.setIDList(new ArrayList<String>());
+    compartmentStyle.getIDList().add(cg.getId());
+    product.addLocalStyle(compartmentStyle);
   }
 
   @Override
@@ -86,10 +97,25 @@ public class RenderLayoutBuilder
   }
 
   @Override
-  public void buildEntityPoolNode(SpeciesGlyph speciesGlyph,
+  public void buildEntityPoolNode(SpeciesGlyph sg,
     boolean cloneMarker) {
-    // TODO Auto-generated method stub
+    SBGNNode<LocalStyle> species = getSBGNNode(sg.getSBOTerm());
     
+    /**
+     * Note: SourceSink does not carry a clone-marker, making this check
+     * necessary
+     */
+    if(species instanceof SBGNNodeWithCloneMarker) {
+      ((SBGNNodeWithCloneMarker<LocalStyle>) species).setCloneMarker(cloneMarker);
+    }
+    BoundingBox bb = sg.getBoundingBox();
+    LocalStyle speciesStyle =
+      species.draw(bb.getPosition().getX(), bb.getPosition().getY(),
+        bb.getPosition().getZ(), bb.getDimensions().getWidth(),
+        bb.getDimensions().getHeight(), bb.getDimensions().getDepth());
+    speciesStyle.setIDList(new ArrayList<String>());
+    speciesStyle.getIDList().add(sg.getId());
+    product.addLocalStyle(speciesStyle);
   }
 
   @Override
@@ -119,120 +145,134 @@ public class RenderLayoutBuilder
   @Override
   public AssociationNode<LocalStyle> createAssociationNode() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create AssociationNode");
     return null;
   }
 
   @Override
   public Compartment<LocalStyle> createCompartment() {
-    // TODO Auto-generated method stub
-    return null;
+    return new RenderCompartment(0.3, STROKE, FILL);
   }
 
   @Override
   public DissociationNode<LocalStyle> createDissociationNode() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create DissociationNode");
     return null;
   }
 
   @Override
   public Macromolecule<LocalStyle> createMacromolecule() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create MacroMolecule");
     return null;
   }
 
   @Override
   public NucleicAcidFeature<LocalStyle> createNucleicAcidFeature() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create NucleicAcidFeature");
     return null;
   }
 
   @Override
   public OmittedProcessNode<LocalStyle> createOmittedProcessNode() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create OmittedProcessNode");
     return null;
   }
 
   @Override
   public PerturbingAgent<LocalStyle> createPerturbingAgent() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create PerturbingAgent");
     return null;
   }
 
   @Override
   public ProcessNode<LocalStyle> createProcessNode() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create ProcessNode");
     return null;
   }
 
   @Override
   public SimpleChemical<LocalStyle> createSimpleChemical() {
-    // TODO Auto-generated method stub
-    return null;
+    return new RenderSimpleChemical(1, STROKE, FILL, HIGHLIGHT);
   }
 
   @Override
   public SourceSink<LocalStyle> createSourceSink() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create Source/Sink");
     return null;
   }
 
   @Override
   public UncertainProcessNode<LocalStyle> createUncertainProcessNode() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create UncertainProcessNode");
     return null;
   }
 
   @Override
   public UnspecifiedNode<LocalStyle> createUnspecifiedNode() {
-    // TODO Auto-generated method stub
-    return null;
+    return new RenderUnspecifiedNode(1, STROKE, FILL, HIGHLIGHT);
   }
 
   @Override
   public Catalysis<LocalStyle> createCatalysis() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create Catalysis");
     return null;
   }
 
   @Override
   public Consumption<LocalStyle> createConsumption() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create Consumption");
     return null;
   }
 
   @Override
   public ReversibleConsumption<LocalStyle> createReversibleConsumption() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create reversibleConsumption");
     return null;
   }
 
   @Override
   public Inhibition<LocalStyle> createInhibition() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create Inhibition");
     return null;
   }
 
   @Override
   public Modulation<LocalStyle> createModulation() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create Modulation");
     return null;
   }
 
   @Override
   public NecessaryStimulation<LocalStyle> createNecessaryStimulation() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create Necessary Stimulation");
     return null;
   }
 
   @Override
   public Production<LocalStyle> createProduction() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create Production");
     return null;
   }
 
   @Override
   public Stimulation<LocalStyle> createStimulation() {
     // TODO Auto-generated method stub
+    System.out.println("Unimplemented: Tried to create Stimulation");
     return null;
   }
   
@@ -257,7 +297,6 @@ public class RenderLayoutBuilder
     // Stimulation and Production-heads just so happen to be near identical
     LineEnding stimulation = createLineEnding("stimulationHead", -8, -5, 9, 10);
     
-    // Build the actual arrow-head
     RenderGroup stimulationGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
     Polygon stimulationArrowHead = stimulationGroup.createPolygon();
     addRenderPoint(stimulationArrowHead, 0, 0);
@@ -367,4 +406,5 @@ public class RenderLayoutBuilder
       new Dimensions(width, height, 0, layout.getLevel(), layout.getVersion()));
     return result;
   }
+  
 }

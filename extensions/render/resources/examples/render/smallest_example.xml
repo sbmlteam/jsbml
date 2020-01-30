@@ -28,10 +28,10 @@
 		</listOfCompartments>
 		
 		<listOfSpecies>
-		  <species id="A" name="A" compartment="Cell" 
+		  <species id="A" name="A" compartment="Cell" sboTerm="SBO:0000247"
 		    substanceUnits="substance" hasOnlySubstanceUnits="false"
 			boundaryCondition="false" constant="false" />
-		  <species id="B" name="B" compartment="Cell" 
+		  <species id="B" name="B" compartment="Cell"
 		    substanceUnits="substance" hasOnlySubstanceUnits="false"
 			boundaryCondition="false" constant="false" />
 		</listOfSpecies>
@@ -63,14 +63,15 @@
 				<layout:listOfSpeciesGlyphs>
 				  <layout:speciesGlyph layout:id="SpeciesGlyph_A" layout:species="A">
 					<layout:boundingBox layout:id="bb1">
-					  <layout:position layout:x="50" layout:y="150" />
-					  <layout:dimensions layout:width="50" layout:height="50" />
+					  <layout:position layout:x="50" layout:y="140" />
+					  <layout:dimensions layout:width="50" layout:height="70" />
+					  <!-- Notice that the height is larger than the width, so the width limits the radius -->
 					</layout:boundingBox>
 				  </layout:speciesGlyph> 
 				  <layout:speciesGlyph layout:id="SpeciesGlyph_B" layout:species="B">
 					<layout:boundingBox layout:id="bb2">
 					  <layout:position layout:x="300" layout:y="150" />
-					  <layout:dimensions layout:width="50" layout:height="50" />
+					  <layout:dimensions layout:width="70" layout:height="50" />
 					</layout:boundingBox>
 				  </layout:speciesGlyph> 
 				</layout:listOfSpeciesGlyphs>
