@@ -139,6 +139,85 @@
 					</layout:boundingBox>
 				  </layout:textGlyph>
 				</layout:listOfTextGlyphs>
+				
+				<render:listOfRenderInformation xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1"
+				 render:versionMajor="1" render:versionMinor="0">
+					<render:renderInformation render:id="SBGN" render:programName="Ralph Gauges" 
+					 render:programVersion="1.0" render:backgroundColor="#FFFFFFFF"> 
+					  <render:listOfColorDefinitions>
+					    <render:colorDefinition render:id="black" render:value="#000000" />
+						<render:colorDefinition render:id="red" render:value="#FF0000" />
+						<render:colorDefinition render:id="white" render:value="#ffffff" />
+					  </render:listOfColorDefinitions>
+					  
+					  <render:listOfLineEndings>
+						<render:lineEnding xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" render:id="productionHead"> 
+						<layout:boundingBox>
+						  <layout:position layout:x="-9" layout:y="-5" /> 
+						  <layout:dimensions layout:width="10" layout:height="10" /> 
+						</layout:boundingBox> 
+						<render:g render:stroke="black" render:stroke-width="1" render:fill="black">
+						  <render:polygon render:stroke="black" render:stroke-width="0.3" render:fill="white">
+							<render:listOfElements>
+							  <render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="RenderPoint" render:x="0" render:y="5" />
+							  <render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="RenderPoint" render:x="5" render:y="0" />
+							  <render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="RenderPoint" render:x="10" render:y="5" />
+							  <render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="RenderPoint" render:x="5" render:y="10" />
+						    </render:listOfElements>
+						  </render:polygon>
+						</render:g>
+						</render:lineEnding>
+					  </render:listOfLineEndings>
+					  
+					  <render:listOfStyles>
+						<render:style render:id="SpeciesStyle" render:idList="SpeciesGlyph_A SpeciesGlyph_B">
+						  <render:g render:stroke="black" render:stroke-width="3"
+						   render:fill-rule="nonzero" render:font-size="12"
+						   render:font-family="sans-serif" render:font-style="normal"
+						   render:font-weight="normal" render:text-anchor="middle"
+						   render:vtext-anchor="middle">
+							<render:ellipse render:cx="50%" render:cy="50%" render:rx="17" />
+							<render:text render:x="0" render:y="0"
+							 render:font-family="monospace" render:text-anchor="middle"
+							 render:vtext-anchor="middle">?</render:text>
+						  </render:g>
+						</render:style>
+						
+						<render:style render:id="reactionGlyphStyle" render:typeList="REACTIONGLYPH">
+						  <render:g render:stroke="black" render:stroke-width="2" render:fill-rule="nonzero" render:font-size="0" 
+						   render:font-family="sans-serif" render:font-style="normal" render:font-weight="normal">
+							<render:curve> 
+							  <render:listOfElements>
+								<render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+								 xsi:type="RenderPoint" render:x="0" render:y="5" />
+								<render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+								 xsi:type="RenderPoint" render:x="10" render:y="5" />
+							  </render:listOfElements>
+							</render:curve>
+							<render:curve> 
+							  <render:listOfElements>
+								<render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+								 xsi:type="RenderPoint" render:x="20" render:y="5" />
+								<render:element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+								 xsi:type="RenderPoint" render:x="30" render:y="5" />
+							  </render:listOfElements>
+							</render:curve>
+							<render:rectangle render:x="10" render:y="0"
+							 render:width="10" render:height="10" />
+						  </render:g>
+						</render:style>
+						
+						<render:style render:id="productSpeciesReferenceGlyphStyle"
+						 render:roleList="product sideproduct">
+						  <!-- For the non-SBML-roles (catalysis, necessary activation), can use the idList instead -->
+						  <render:g render:stroke="black" render:stroke-width="2"
+						   render:fill-rule="nonzero" render:font-size="0" 
+						   render:font-family="sans-serif" render:font-style="normal" 
+						   render:font-weight="normal" render:endHead="productionHead" />
+						</render:style>
+					  </render:listOfStyles>
+					</render:renderInformation>
+				</render:listOfRenderInformation>
 			</layout:layout>
 		</layout:listOfLayouts>
 	</model> 

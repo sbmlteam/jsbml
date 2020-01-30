@@ -2,16 +2,25 @@ package examples.render;
 
 import java.awt.Color;
 
+import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.CubicBezier;
+import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 import org.sbml.jsbml.ext.render.ColorDefinition;
+import org.sbml.jsbml.ext.render.Ellipse;
+import org.sbml.jsbml.ext.render.GraphicalPrimitive2D;
+import org.sbml.jsbml.ext.render.LineEnding;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
+import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.RenderGroup;
+import org.sbml.jsbml.ext.render.RenderPoint;
 import org.sbml.jsbml.ext.render.director.AbstractLayoutBuilder;
 import org.sbml.jsbml.ext.render.director.AssociationNode;
 import org.sbml.jsbml.ext.render.director.Catalysis;
@@ -40,6 +49,9 @@ public class RenderLayoutBuilder
 
   private LocalRenderInformation product;
   private Layout layout;
+  private static String STROKE = "black";
+  private static String HIGHLIGHT = "red";
+  private static String FILL = "white";
   
   @Override
   public void builderStart(Layout layout) {
@@ -47,9 +59,9 @@ public class RenderLayoutBuilder
     terminated = false;
     product = new LocalRenderInformation(layout.getId() + "_render",
       layout.getLevel(), layout.getVersion());
-    product.addColorDefinition(new ColorDefinition("red", Color.RED));
-    product.addColorDefinition(new ColorDefinition("black", Color.BLACK));
-    product.addColorDefinition(new ColorDefinition("white", Color.WHITE));
+    product.addColorDefinition(new ColorDefinition(HIGHLIGHT, Color.RED));
+    product.addColorDefinition(new ColorDefinition(STROKE, Color.BLACK));
+    product.addColorDefinition(new ColorDefinition(FILL, Color.WHITE));
     
     buildLineEndings();
   }
@@ -230,6 +242,129 @@ public class RenderLayoutBuilder
    * individual arcs can just reference them)
    */
   private void buildLineEndings() {
-    // TODO: implement the line-endings!
+    LineEnding production = createLineEnding("productionHead", -8, -5, 9, 10);
+    // Build the actual arrow-head
+    RenderGroup productionGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
+    Polygon productionArrowHead = productionGroup.createPolygon();
+    addRenderPoint(productionArrowHead, 0, 0);
+    addRenderPoint(productionArrowHead, 9, 5);
+    addRenderPoint(productionArrowHead, 0, 10);
+    setGraphicalProperties(productionArrowHead, 0.3, STROKE, STROKE);
+    
+    production.setGroup(productionGroup);
+    product.addLineEnding(production);
+    
+    // Stimulation and Production-heads just so happen to be near identical
+    LineEnding stimulation = createLineEnding("stimulationHead", -8, -5, 9, 10);
+    
+    // Build the actual arrow-head
+    RenderGroup stimulationGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
+    Polygon stimulationArrowHead = stimulationGroup.createPolygon();
+    addRenderPoint(stimulationArrowHead, 0, 0);
+    addRenderPoint(stimulationArrowHead, 9, 5);
+    addRenderPoint(stimulationArrowHead, 0, 10);
+    setGraphicalProperties(stimulationArrowHead, 0.3, STROKE, FILL);
+    
+    stimulation.setGroup(stimulationGroup);
+    product.addLineEnding(stimulation);
+    
+    // Catalysis uses a circular ending
+    LineEnding catalysis = createLineEnding("catalysisHead", -9, -5, 10, 10); 
+    
+    RenderGroup catalysisGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
+    Ellipse catalysisArrowHead = catalysisGroup.createEllipse();
+    catalysisArrowHead.setCx(6d);
+    catalysisArrowHead.setAbsoluteCx(true);
+    catalysisArrowHead.setCy(5d);
+    catalysisArrowHead.setAbsoluteCy(true);
+    catalysisArrowHead.setRx(5d);
+    catalysisArrowHead.setAbsoluteRx(true);
+    setGraphicalProperties(catalysisArrowHead, 0.3, STROKE, FILL);
+    
+    catalysis.setGroup(catalysisGroup);
+    product.addLineEnding(catalysis);
+    
+    // Inhibition:
+    LineEnding inhibition = createLineEnding("inhibitionHead", -1, -5, 2, 10);
+    
+    RenderGroup inhibitionGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
+    Polygon inhibitionArrowHead = inhibitionGroup.createPolygon();
+    addRenderPoint(inhibitionArrowHead, 1, 0);
+    addRenderPoint(inhibitionArrowHead, 1, 10);
+    setGraphicalProperties(inhibitionArrowHead, 0.3, STROKE, FILL);
+    
+    inhibition.setGroup(inhibitionGroup);
+    product.addLineEnding(inhibition);
+    
+    // Necessary Stimulation:
+    LineEnding necessaryStimulation = createLineEnding("necessaryStimulationHead", -12, -5, 13, 10);
+    
+    RenderGroup necessaryStimulationGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
+    Polygon necessaryStimulationArrowHead = necessaryStimulationGroup.createPolygon();
+    addRenderPoint(necessaryStimulationArrowHead, 1, 0);
+    addRenderPoint(necessaryStimulationArrowHead, 1, 10);
+    setGraphicalProperties(necessaryStimulationArrowHead, 0.3, STROKE, FILL);
+    
+    necessaryStimulationArrowHead = necessaryStimulationGroup.createPolygon();
+    addRenderPoint(necessaryStimulationArrowHead, 4, 0);
+    addRenderPoint(necessaryStimulationArrowHead, 13, 5);
+    addRenderPoint(necessaryStimulationArrowHead, 4, 10);
+    setGraphicalProperties(necessaryStimulationArrowHead, 0.3, STROKE, FILL);
+    
+    necessaryStimulation.setGroup(necessaryStimulationGroup);
+    product.addLineEnding(necessaryStimulation);
+    
+    // Modulation:
+    LineEnding modulation = createLineEnding("modulationHead", -9, -5, 10, 10);
+    
+    RenderGroup modulationGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
+    Polygon modulationArrowHead = modulationGroup.createPolygon();
+    addRenderPoint(modulationArrowHead, 0, 5);
+    addRenderPoint(modulationArrowHead, 5, 0);
+    addRenderPoint(modulationArrowHead, 10, 5);
+    addRenderPoint(modulationArrowHead, 5, 10);
+    setGraphicalProperties(modulationArrowHead, 0.3, STROKE, FILL);
+    
+    modulation.setGroup(modulationGroup);
+    product.addLineEnding(modulation);
+  }
+  
+
+  /**
+   * 
+   * @param gp
+   * @param strokeWidth
+   * @param stroke
+   * @param fill
+   */
+  private void setGraphicalProperties(GraphicalPrimitive2D gp,
+    double strokeWidth, String stroke, String fill) {
+    gp.setStrokeWidth(strokeWidth);
+    gp.setFill(fill);
+    gp.setStroke(stroke);
+  }
+  
+  
+  private void addRenderPoint(Polygon arrowHead, double x, double y) {
+    RenderPoint currentRenderPoint = arrowHead.createRenderPoint();
+    currentRenderPoint.setAbsoluteX(true);
+    currentRenderPoint.setAbsoluteY(true);
+    currentRenderPoint.setX(x);
+    currentRenderPoint.setY(y);
+  }
+  
+
+  private LineEnding createLineEnding(String id, double xOffset, double yOffset,
+    double width, double height) {
+    LineEnding result = new LineEnding();
+    result.setId(id);
+    result.setLevel(layout.getLevel());
+    result.setVersion(layout.getVersion());
+    result.setEnableRotationMapping(new Boolean(true));
+    BoundingBox bbox = result.createBoundingBox();
+    bbox.setPosition(new Point(xOffset, yOffset, 0));
+    bbox.setDimensions(
+      new Dimensions(width, height, 0, layout.getLevel(), layout.getVersion()));
+    return result;
   }
 }

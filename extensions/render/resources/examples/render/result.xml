@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!-- Created by Render-example version 1 on 2020-01-30 at 10:15:36 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
+  <model id="small">
+    <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <layout:layout layout:id="The">
+        <render:listOfRenderInformation xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
+          <render:renderInformation render:id="The_render">
+            <render:listOfColorDefinitions>
+              <render:colorDefinition render:id="red" render:value="#FF0000FF"/>
+              <render:colorDefinition render:id="black" render:value="#000000FF"/>
+              <render:colorDefinition render:id="white" render:value="#FFFFFFFF"/>
+            </render:listOfColorDefinitions>
+            <render:listOfLineEndings>
+              <render:lineEnding render:enable-rotation-mapping="true" render:id="productionHead">
+                <layout:boundingBox>
+                  <layout:position layout:x="-8" layout:y="-5" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="9"/>
+                </layout:boundingBox>
+                <render:g>
+                  <render:polygon render:fill="black" render:stroke="black" render:stroke-width="0.3">
+                    <render:listOfElements>
+                      <render:element render:x="0" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="9" render:y="5" xsi:type="RenderPoint"/>
+                      <render:element render:x="0" render:y="10" xsi:type="RenderPoint"/>
+                    </render:listOfElements>
+                  </render:polygon>
+                </render:g>
+              </render:lineEnding>
+              <render:lineEnding render:enable-rotation-mapping="true" render:id="stimulationHead">
+                <layout:boundingBox>
+                  <layout:position layout:x="-8" layout:y="-5" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="9"/>
+                </layout:boundingBox>
+                <render:g>
+                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.3">
+                    <render:listOfElements>
+                      <render:element render:x="0" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="9" render:y="5" xsi:type="RenderPoint"/>
+                      <render:element render:x="0" render:y="10" xsi:type="RenderPoint"/>
+                    </render:listOfElements>
+                  </render:polygon>
+                </render:g>
+              </render:lineEnding>
+              <render:lineEnding render:enable-rotation-mapping="true" render:id="catalysisHead">
+                <layout:boundingBox>
+                  <layout:position layout:x="-9" layout:y="-5" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
+                </layout:boundingBox>
+                <render:g>
+                  <render:ellipse render:cx="6" render:cy="5" render:fill="white" render:rx="5" render:stroke="black" render:stroke-width="0.3"/>
+                </render:g>
+              </render:lineEnding>
+              <render:lineEnding render:enable-rotation-mapping="true" render:id="inhibitionHead">
+                <layout:boundingBox>
+                  <layout:position layout:x="-1" layout:y="-5" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="2"/>
+                </layout:boundingBox>
+                <render:g>
+                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.3">
+                    <render:listOfElements>
+                      <render:element render:x="1" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="1" render:y="10" xsi:type="RenderPoint"/>
+                    </render:listOfElements>
+                  </render:polygon>
+                </render:g>
+              </render:lineEnding>
+              <render:lineEnding render:enable-rotation-mapping="true" render:id="necessaryStimulationHead">
+                <layout:boundingBox>
+                  <layout:position layout:x="-12" layout:y="-5" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="13"/>
+                </layout:boundingBox>
+                <render:g>
+                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.3">
+                    <render:listOfElements>
+                      <render:element render:x="1" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="1" render:y="10" xsi:type="RenderPoint"/>
+                    </render:listOfElements>
+                  </render:polygon>
+                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.3">
+                    <render:listOfElements>
+                      <render:element render:x="4" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="13" render:y="5" xsi:type="RenderPoint"/>
+                      <render:element render:x="4" render:y="10" xsi:type="RenderPoint"/>
+                    </render:listOfElements>
+                  </render:polygon>
+                </render:g>
+              </render:lineEnding>
+              <render:lineEnding render:enable-rotation-mapping="true" render:id="modulationHead">
+                <layout:boundingBox>
+                  <layout:position layout:x="-9" layout:y="-5" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
+                </layout:boundingBox>
+                <render:g>
+                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.3">
+                    <render:listOfElements>
+                      <render:element render:x="0" render:y="5" xsi:type="RenderPoint"/>
+                      <render:element render:x="5" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="10" render:y="5" xsi:type="RenderPoint"/>
+                      <render:element render:x="5" render:y="10" xsi:type="RenderPoint"/>
+                    </render:listOfElements>
+                  </render:polygon>
+                </render:g>
+              </render:lineEnding>
+            </render:listOfLineEndings>
+          </render:renderInformation>
+        </render:listOfRenderInformation>
+        <layout:dimensions layout:height="300" layout:width="400"/>
+        <layout:listOfCompartmentGlyphs>
+          <layout:compartmentGlyph layout:compartment="Cell" layout:id="CompartmentGlyph_Cell">
+            <layout:boundingBox layout:id="bbc">
+              <layout:position layout:x="10" layout:y="80"/>
+              <layout:dimensions layout:height="140" layout:width="380"/>
+            </layout:boundingBox>
+          </layout:compartmentGlyph>
+        </layout:listOfCompartmentGlyphs>
+        <layout:listOfSpeciesGlyphs>
+          <layout:speciesGlyph layout:id="SpeciesGlyph_A" layout:species="A">
+            <layout:boundingBox layout:id="bb1">
+              <layout:position layout:x="50" layout:y="150"/>
+              <layout:dimensions layout:height="50" layout:width="50"/>
+            </layout:boundingBox>
+          </layout:speciesGlyph>
+          <layout:speciesGlyph layout:id="SpeciesGlyph_B" layout:species="B">
+            <layout:boundingBox layout:id="bb2">
+              <layout:position layout:x="300" layout:y="150"/>
+              <layout:dimensions layout:height="50" layout:width="50"/>
+            </layout:boundingBox>
+          </layout:speciesGlyph>
+        </layout:listOfSpeciesGlyphs>
+        <layout:listOfReactionGlyphs>
+          <layout:reactionGlyph layout:id="ReactionGlyph_r" layout:reaction="r">
+            <layout:boundingBox layout:id="bbr1">
+              <layout:position layout:x="190" layout:y="200"/>
+              <layout:dimensions layout:height="20" layout:width="20"/>
+            </layout:boundingBox>
+            <layout:curve>
+              <layout:listOfCurveSegments>
+                <layout:curveSegment xsi:type="LineSegment">
+                  <layout:start layout:x="180" layout:y="210"/>
+                  <layout:end layout:x="220" layout:y="210"/>
+                </layout:curveSegment>
+              </layout:listOfCurveSegments>
+            </layout:curve>
+            <layout:listOfSpeciesReferenceGlyphs>
+              <layout:speciesReferenceGlyph layout:id="SpeciesReferenceGlyph_A" layout:role="substrate" layout:speciesGlyph="SpeciesGlyph_A" layout:speciesReference="Ref_A" render:objectRole="substrate">
+                <layout:curve>
+                  <layout:listOfCurveSegments>
+                    <layout:curveSegment xsi:type="LineSegment">
+                      <layout:start layout:x="180" layout:y="210"/>
+                      <layout:end layout:x="100" layout:y="175"/>
+                    </layout:curveSegment>
+                  </layout:listOfCurveSegments>
+                </layout:curve>
+              </layout:speciesReferenceGlyph>
+              <layout:speciesReferenceGlyph layout:id="SpeciesReferenceGlyph_B" layout:role="product" layout:speciesGlyph="SpeciesGlyph_B" layout:speciesReference="Ref_B" render:objectRole="product">
+                <layout:curve>
+                  <layout:listOfCurveSegments>
+                    <layout:curveSegment xsi:type="LineSegment">
+                      <layout:start layout:x="220" layout:y="210"/>
+                      <layout:end layout:x="300" layout:y="175"/>
+                    </layout:curveSegment>
+                  </layout:listOfCurveSegments>
+                </layout:curve>
+              </layout:speciesReferenceGlyph>
+            </layout:listOfSpeciesReferenceGlyphs>
+          </layout:reactionGlyph>
+        </layout:listOfReactionGlyphs>
+        <layout:listOfTextGlyphs>
+          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_A" layout:id="TextGlyph_A" layout:originOfText="A">
+            <layout:boundingBox layout:id="bbtA">
+              <layout:position layout:x="50" layout:y="150"/>
+              <layout:dimensions layout:height="50" layout:width="50"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
+          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_B" layout:id="TextGlyph_B" layout:originOfText="B">
+            <layout:boundingBox layout:id="bbtB">
+              <layout:position layout:x="300" layout:y="150"/>
+              <layout:dimensions layout:height="50" layout:width="50"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
+          <layout:textGlyph layout:graphicalObject="CompartmentGlyph_Cell" layout:id="TextGlyph_Cell" layout:originOfText="Cell">
+            <layout:boundingBox layout:id="bbtCell">
+              <layout:position layout:x="10" layout:y="80"/>
+              <layout:dimensions layout:height="50" layout:width="50"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
+        </layout:listOfTextGlyphs>
+      </layout:layout>
+    </layout:listOfLayouts>
+    <listOfUnitDefinitions>
+      <unitDefinition id="volume">
+        <listOfUnits>
+          <unit exponent="1" kind="litre" multiplier="1" scale="0"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="substance">
+        <listOfUnits>
+          <unit exponent="1" kind="mole" multiplier="1" scale="0"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="area">
+        <listOfUnits>
+          <unit exponent="2" kind="metre" multiplier="1" scale="0"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment constant="true" id="Cell" name="Cytosol" spatialDimensions="3" units="volume"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species boundaryCondition="false" compartment="Cell" constant="false" hasOnlySubstanceUnits="false" id="A" name="A" substanceUnits="substance"/>
+      <species boundaryCondition="false" compartment="Cell" constant="false" hasOnlySubstanceUnits="false" id="B" name="B" substanceUnits="substance"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction fast="false" id="r" reversible="false">
+        <listOfReactants>
+          <speciesReference constant="true" id="Ref_A" species="A" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" id="Ref_B" species="B" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
