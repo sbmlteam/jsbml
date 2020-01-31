@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-01-30 at 12:58:31 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-01-31 at 09:53:17 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="small">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -116,7 +116,19 @@
               </render:style>
               <render:style render:idList="SpeciesGlyph_B">
                 <render:g>
-                  <render:ellipse render:cx="35" render:cy="25" render:fill="white" render:rx="35" render:ry="25" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="1.0">
+                    <render:listOfElements>
+                      <render:element render:x="0" render:y="40" xsi:type="RenderPoint"/>
+                      <render:element render:x="0" render:y="10" xsi:type="RenderPoint"/>
+                      <render:element render:basePoint1_x="0" render:basePoint1_y="5" render:basePoint2_x="5" render:basePoint2_y="0" render:x="10" render:y="0" xsi:type="RenderCubicBezier"/>
+                      <render:element render:x="60" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:basePoint1_x="65" render:basePoint1_y="0" render:basePoint2_x="70" render:basePoint2_y="5" render:x="70" render:y="10" xsi:type="RenderCubicBezier"/>
+                      <render:element render:x="70" render:y="40" xsi:type="RenderPoint"/>
+                      <render:element render:basePoint1_x="70" render:basePoint1_y="45" render:basePoint2_x="65" render:basePoint2_y="50" render:x="60" render:y="50" xsi:type="RenderCubicBezier"/>
+                      <render:element render:x="10" render:y="50" xsi:type="RenderPoint"/>
+                      <render:element render:basePoint1_x="5" render:basePoint1_y="50" render:basePoint2_x="0" render:basePoint2_y="45" render:x="0" render:y="40" xsi:type="RenderCubicBezier"/>
+                    </render:listOfElements>
+                  </render:polygon>
                 </render:g>
               </render:style>
             </render:listOfStyles>
@@ -227,7 +239,7 @@
     </listOfCompartments>
     <listOfSpecies>
       <species boundaryCondition="false" compartment="Cell" constant="false" hasOnlySubstanceUnits="false" id="A" name="A" sboTerm="SBO:0000247" substanceUnits="substance"/>
-      <species boundaryCondition="false" compartment="Cell" constant="false" hasOnlySubstanceUnits="false" id="B" name="B" substanceUnits="substance"/>
+      <species boundaryCondition="false" compartment="Cell" constant="false" hasOnlySubstanceUnits="false" id="B" name="B" sboTerm="SBO:0000245" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfReactions>
       <reaction fast="false" id="r" reversible="false">

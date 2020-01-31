@@ -20,6 +20,7 @@ import org.sbml.jsbml.ext.render.LineEnding;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.RenderCubicBezier;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.RenderPoint;
 import org.sbml.jsbml.ext.render.director.AbstractLayoutBuilder;
@@ -163,9 +164,7 @@ public class RenderLayoutBuilder
 
   @Override
   public Macromolecule<LocalStyle> createMacromolecule() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create MacroMolecule");
-    return null;
+    return new RenderMacromolecule(1, STROKE, FILL, HIGHLIGHT, 10);
   }
 
   @Override
@@ -383,13 +382,41 @@ public class RenderLayoutBuilder
     gp.setStroke(stroke);
   }
   
-  
-  private void addRenderPoint(Polygon arrowHead, double x, double y) {
-    RenderPoint currentRenderPoint = arrowHead.createRenderPoint();
+  /**
+   * Adds an absolutely positioned {@link RenderPoint} to the polygon
+   * @param polygon the polygon to which to add a renderPoint at (x,y)
+   * @param x
+   * @param y
+   */
+  public static void addRenderPoint(Polygon polygon, double x, double y) {
+    RenderPoint currentRenderPoint = polygon.createRenderPoint();
     currentRenderPoint.setAbsoluteX(true);
     currentRenderPoint.setAbsoluteY(true);
     currentRenderPoint.setX(x);
     currentRenderPoint.setY(y);
+  }
+  
+  /**
+   * Adds a {@link RenderCubicBezier} to given {@link Polygon}. All coordinates are 
+   * taken (and set) to be absolute.
+   * @param polygon to which to add the Bezier-curve
+   * @param baseX1 x of the control-point for the curve-start
+   * @param baseY1 y of the control-point for the curve-start
+   * @param baseX2 x of the control-point for the curve-end
+   * @param baseY2 y of the control-point for the curve-end
+   * @param endX where the curve ends
+   * @param endY where the curve ends
+   */
+  public static void addRenderCubicBezier(Polygon polygon, double baseX1,
+    double baseY1, double baseX2, double baseY2, double endX, double endY) {
+    RenderCubicBezier bezier = new RenderCubicBezier();
+    bezier.setX(endX); bezier.setAbsoluteX(true);
+    bezier.setY(endY); bezier.setAbsoluteY(true);
+    bezier.setX1(baseX1); bezier.setAbsoluteX1(true);
+    bezier.setY1(baseY1); bezier.setAbsoluteY1(true);
+    bezier.setX2(baseX2); bezier.setAbsoluteX2(true);
+    bezier.setY2(baseY2); bezier.setAbsoluteY2(true);
+    polygon.addElement(bezier);
   }
   
 
