@@ -192,30 +192,32 @@ public class RenderConstants {
    * 
    */
   public static final String z2 = "z2";
+  
+  // COPASI and the render-specification (January 2020) use camel-case basePoint 
   /**
    * 
    */
-  public static final String basepoint1_x = "basepoint1_x"; // JSBML used "x1" for a few years
+  public static final String basepoint1_x = "basePoint1_x"; // JSBML used "x1" for a few years
   /**
    * 
    */
-  public static final String basepoint1_y = "basepoint1_y"; // JSBML used "y1" for a few years
+  public static final String basepoint1_y = "basePoint1_y"; // JSBML used "y1" for a few years
   /**
    * 
    */
-  public static final String basepoint1_z = "basepoint1_z"; // JSBML used "z1" for a few years
+  public static final String basepoint1_z = "basePoint1_z"; // JSBML used "z1" for a few years
   /**
    * 
    */
-  public static final String basepoint2_x = "basepoint2_x"; // JSBML used "x2" for a few years
+  public static final String basepoint2_x = "basePoint2_x"; // JSBML used "x2" for a few years
   /**
    * 
    */
-  public static final String basepoint2_y = "basepoint2_y"; // JSBML used "y2" for a few years
+  public static final String basepoint2_y = "basePoint2_y"; // JSBML used "y2" for a few years
   /**
    * 
    */
-  public static final String basepoint2_z = "basepoint2_z"; // JSBML used "z2" for a few years
+  public static final String basepoint2_z = "basePoint2_z"; // JSBML used "z2" for a few years
   /**
    * 
    */
