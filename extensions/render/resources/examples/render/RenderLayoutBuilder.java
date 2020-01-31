@@ -169,9 +169,7 @@ public class RenderLayoutBuilder
 
   @Override
   public NucleicAcidFeature<LocalStyle> createNucleicAcidFeature() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create NucleicAcidFeature");
-    return null;
+    return new RenderNucleicAcidFeature(1, STROKE, FILL, HIGHLIGHT, 10);
   }
 
   @Override
