@@ -170,27 +170,16 @@
 					  </render:listOfLineEndings>
 					  
 					  <render:listOfStyles>
-						<render:style render:id="MacromoleculeStyle" render:idList="SpeciesGlyph_B">
+						<render:style render:id="PerturbingAgentStyle" render:idList="SpeciesGlyph_B">
 						  <render:g>
 							<render:polygon render:stroke="black" render:stroke-width="1" render:fill="white">
 							  <render:listOfElements>
-								<render:element render:x="0" render:y="30" xsi:type="RenderPoint"/>
-								<render:element render:x="0" render:y="10" xsi:type="RenderPoint"/>
-								<render:element xsi:type="RenderCubicBezier" render:x="10" render:y="0"
-								 render:basePoint1_x="0" render:basePoint1_y="5"
-								 render:basePoint2_x="5" render:basePoint2_y="0" /> 
-								<render:element render:x="70" render:y="0" xsi:type="RenderPoint"/>
-								<render:element xsi:type="RenderCubicBezier" render:x="80" render:y="10"
-								 render:basePoint1_x="75" render:basePoint1_y="0"
-								 render:basePoint2_x="80" render:basePoint2_y="5" />
-								<render:element render:x="80" render:y="30" xsi:type="RenderPoint"/>
-								<render:element xsi:type="RenderCubicBezier" render:x="70" render:y="40"
-								 render:basePoint1_x="80" render:basePoint1_y="35"
-								 render:basePoint2_x="75" render:basePoint2_y="40" />
-								<render:element render:x="10" render:y="40" xsi:type="RenderPoint"/>
-								<render:element xsi:type="RenderCubicBezier" render:x="0" render:y="30"
-								 render:basePoint1_x="5" render:basePoint1_y="40"
-								 render:basePoint2_x="0" render:basePoint2_y="35" />
+								<render:element render:x="0" render:y="0" xsi:type="RenderPoint"/>
+								<render:element render:x="11.6" render:y="20" xsi:type="RenderPoint"/>
+								<render:element render:x="0" render:y="40" xsi:type="RenderPoint"/>
+								<render:element render:x="80" render:y="40" xsi:type="RenderPoint"/>
+								<render:element render:x="68.4" render:y="20" xsi:type="RenderPoint"/>
+								<render:element render:x="80" render:y="0" xsi:type="RenderPoint"/>
 							  </render:listOfElements>
 							</render:polygon>
 						  </render:g>

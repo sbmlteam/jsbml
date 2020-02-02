@@ -31,7 +31,7 @@
 		  <species id="A" name="A" compartment="Cell" sboTerm="SBO:0000247"
 		    substanceUnits="substance" hasOnlySubstanceUnits="false"
 			boundaryCondition="false" constant="false" />
-		  <species id="B" name="B" compartment="Cell" sboTerm="SBO:0000278"
+		  <species id="B" name="B" compartment="Cell" sboTerm="SBO:0000405"
 		    substanceUnits="substance" hasOnlySubstanceUnits="false"
 			boundaryCondition="false" constant="false" />
 		</listOfSpecies>

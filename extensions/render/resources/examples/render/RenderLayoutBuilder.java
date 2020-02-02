@@ -81,6 +81,7 @@ public class RenderLayoutBuilder
         cg.getBoundingBox().getDimensions().getDepth());
     compartmentStyle.setIDList(new ArrayList<String>());
     compartmentStyle.getIDList().add(cg.getId());
+    compartmentStyle.setId("styleOf_" + cg.getId());
     product.addLocalStyle(compartmentStyle);
   }
 
@@ -116,6 +117,7 @@ public class RenderLayoutBuilder
         bb.getDimensions().getHeight(), bb.getDimensions().getDepth());
     speciesStyle.setIDList(new ArrayList<String>());
     speciesStyle.getIDList().add(sg.getId());
+    speciesStyle.setId("styleOf_" + sg.getId());
     product.addLocalStyle(speciesStyle);
   }
 
@@ -181,9 +183,7 @@ public class RenderLayoutBuilder
 
   @Override
   public PerturbingAgent<LocalStyle> createPerturbingAgent() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create PerturbingAgent");
-    return null;
+    return new RenderPerturbingAgent(1, STROKE, FILL, HIGHLIGHT);
   }
 
   @Override
@@ -200,9 +200,7 @@ public class RenderLayoutBuilder
 
   @Override
   public SourceSink<LocalStyle> createSourceSink() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create Source/Sink");
-    return null;
+    return new RenderSourceSink(1, STROKE, FILL);
   }
 
   @Override
