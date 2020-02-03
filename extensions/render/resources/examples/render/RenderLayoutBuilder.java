@@ -2,6 +2,7 @@ package examples.render;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
@@ -39,6 +40,7 @@ import org.sbml.jsbml.ext.render.director.PerturbingAgent;
 import org.sbml.jsbml.ext.render.director.ProcessNode;
 import org.sbml.jsbml.ext.render.director.Production;
 import org.sbml.jsbml.ext.render.director.ReversibleConsumption;
+import org.sbml.jsbml.ext.render.director.SBGNArc;
 import org.sbml.jsbml.ext.render.director.SBGNNode;
 import org.sbml.jsbml.ext.render.director.SBGNNodeWithCloneMarker;
 import org.sbml.jsbml.ext.render.director.SimpleChemical;
@@ -49,13 +51,19 @@ import org.sbml.jsbml.ext.render.director.UnspecifiedNode;
 
 
 public class RenderLayoutBuilder
-  extends AbstractLayoutBuilder<LocalRenderInformation, LocalStyle, LocalStyle> {
+  extends AbstractLayoutBuilder<LocalRenderInformation, LocalStyle, String> {
 
   private LocalRenderInformation product;
-  private Layout layout;
-  private static String STROKE = "black";
-  private static String HIGHLIGHT = "red";
-  private static String FILL = "white";
+  private Layout                 layout;
+  private static String          STROKE    = "black";
+  private static String          HIGHLIGHT = "red";
+  private static String          FILL      = "white";
+  private HashMap<String, LocalStyle> arcStyles;
+  
+  public RenderLayoutBuilder() {
+    super();
+    arcStyles = new HashMap<String, LocalStyle>();
+  }
   
   @Override
   public void builderStart(Layout layout) {
@@ -66,7 +74,6 @@ public class RenderLayoutBuilder
     product.addColorDefinition(new ColorDefinition(HIGHLIGHT, Color.RED));
     product.addColorDefinition(new ColorDefinition(STROKE, Color.BLACK));
     product.addColorDefinition(new ColorDefinition(FILL, Color.WHITE));
-    product.addColorDefinition(new ColorDefinition("compartment", Color.LIGHT_GRAY));
     
     buildLineEndings();
   }
@@ -89,15 +96,22 @@ public class RenderLayoutBuilder
   @Override
   public void buildConnectingArc(SpeciesReferenceGlyph srg, ReactionGlyph rg,
     double curveWidth) {
-    // TODO Auto-generated method stub
+    // Design decision: To avoid some redundancy, just register them at the correct Style.
     
+    // Rather dirty fix:
+    // Deviating from the policy of the LayoutDirector, the SBOTerm here gets
+    // priority over the role specified in the layout
+    if(srg.getSpeciesReferenceInstance().isSetSBOTerm()) {
+      srg.setSBOTerm(srg.getSpeciesReferenceInstance().getSBOTerm());
+      srg.unsetRole();
+    }
+    SBGNArc<String> process = createArc(srg, rg); 
+    arcStyles.get(process.draw(srg.getCurve())).getIDList().add(srg.getId());
   }
 
   @Override
-  public void buildCubicBezier(CubicBezier cubicBezier, double lineWidth) {
-    // TODO Auto-generated method stub
-    
-  }
+  public void buildCubicBezier(CubicBezier cubicBezier, double lineWidth) { }
+  // Unnecessary ^
 
   @Override
   public void buildEntityPoolNode(SpeciesGlyph sg,
@@ -155,7 +169,7 @@ public class RenderLayoutBuilder
 
   @Override
   public Compartment<LocalStyle> createCompartment() {
-    return new RenderCompartment(0.3, STROKE, "compartment");
+    return new RenderCompartment(0.3, STROKE, FILL);
   }
 
   @Override
@@ -217,59 +231,43 @@ public class RenderLayoutBuilder
   }
 
   @Override
-  public Catalysis<LocalStyle> createCatalysis() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create Catalysis");
-    return null;
+  public Catalysis<String> createCatalysis() {
+    return new RenderCatalysis();
   }
 
   @Override
-  public Consumption<LocalStyle> createConsumption() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create Consumption");
-    return null;
+  public Consumption<String> createConsumption() {
+    return new RenderConsumption();
   }
 
   @Override
-  public ReversibleConsumption<LocalStyle> createReversibleConsumption() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create reversibleConsumption");
-    return null;
+  public ReversibleConsumption<String> createReversibleConsumption() {
+    return new RenderReversibleConsumption();
   }
 
   @Override
-  public Inhibition<LocalStyle> createInhibition() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create Inhibition");
-    return null;
+  public Inhibition<String> createInhibition() {
+    return new RenderInhibition();
   }
 
   @Override
-  public Modulation<LocalStyle> createModulation() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create Modulation");
-    return null;
+  public Modulation<String> createModulation() {
+    return new RenderModulation();
   }
 
   @Override
-  public NecessaryStimulation<LocalStyle> createNecessaryStimulation() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create Necessary Stimulation");
-    return null;
+  public NecessaryStimulation<String> createNecessaryStimulation() {
+    return new RenderNecessaryStimulation();
   }
 
   @Override
-  public Production<LocalStyle> createProduction() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create Production");
-    return null;
+  public Production<String> createProduction() {
+    return new RenderProduction();
   }
 
   @Override
-  public Stimulation<LocalStyle> createStimulation() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create Stimulation");
-    return null;
+  public Stimulation<String> createStimulation() {
+    return new RenderStimulation();
   }
   
   
@@ -278,6 +276,16 @@ public class RenderLayoutBuilder
    * individual arcs can just reference them)
    */
   private void buildLineEndings() {
+    RenderGroup consumptionStyleGroup = new RenderGroup();
+    consumptionStyleGroup.setStroke(STROKE);
+    consumptionStyleGroup.setStrokeWidth(1);
+    LocalStyle consumptionStyle = new LocalStyle(layout.getLevel(), layout.getVersion(), consumptionStyleGroup);
+    consumptionStyle.setId("consumptionStyle");
+    consumptionStyle.setIDList(new ArrayList<String>());
+    this.product.addLocalStyle(consumptionStyle);
+    arcStyles.put(consumptionStyle.getId(), consumptionStyle);
+    
+    
     LineEnding production = createLineEnding("productionHead", -8, -5, 9, 10);
     // Build the actual arrow-head
     RenderGroup productionGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
@@ -289,6 +297,11 @@ public class RenderLayoutBuilder
     
     production.setGroup(productionGroup);
     product.addLineEnding(production);
+    
+    // Building the corresponding line-styles:
+    addArcStyle("production");
+    addArcStyle("reversibleConsumption");
+    
     
     // Stimulation and Production-heads just so happen to be near identical
     LineEnding stimulation = createLineEnding("stimulationHead", -8, -5, 9, 10);
@@ -302,6 +315,9 @@ public class RenderLayoutBuilder
     
     stimulation.setGroup(stimulationGroup);
     product.addLineEnding(stimulation);
+    
+    addArcStyle("stimulation");
+    
     
     // Catalysis uses a circular ending
     LineEnding catalysis = createLineEnding("catalysisHead", -9, -5, 10, 10); 
@@ -319,6 +335,9 @@ public class RenderLayoutBuilder
     catalysis.setGroup(catalysisGroup);
     product.addLineEnding(catalysis);
     
+    addArcStyle("catalysis");
+    
+    
     // Inhibition:
     LineEnding inhibition = createLineEnding("inhibitionHead", -1, -5, 2, 10);
     
@@ -330,6 +349,9 @@ public class RenderLayoutBuilder
     
     inhibition.setGroup(inhibitionGroup);
     product.addLineEnding(inhibition);
+    
+    addArcStyle("inhibition");
+    
     
     // Necessary Stimulation:
     LineEnding necessaryStimulation = createLineEnding("necessaryStimulationHead", -12, -5, 13, 10);
@@ -349,6 +371,9 @@ public class RenderLayoutBuilder
     necessaryStimulation.setGroup(necessaryStimulationGroup);
     product.addLineEnding(necessaryStimulation);
     
+    addArcStyle("necessaryStimulation");
+    
+    
     // Modulation:
     LineEnding modulation = createLineEnding("modulationHead", -9, -5, 10, 10);
     
@@ -362,20 +387,40 @@ public class RenderLayoutBuilder
     
     modulation.setGroup(modulationGroup);
     product.addLineEnding(modulation);
+    
+    addArcStyle("modulation");
   }
   
 
   /**
    * 
+   * @param arctype e.g. catalysis
+   */
+  private void addArcStyle(String arctype) {
+    RenderGroup styleGroup = new RenderGroup();
+    styleGroup.setStroke(STROKE);
+    styleGroup.setStrokeWidth(1);
+    styleGroup.setEndHead(arctype + "Head");
+    LocalStyle style = new LocalStyle(layout.getLevel(), layout.getVersion(), styleGroup);
+    style.setId(arctype + "Style");
+    style.setIDList(new ArrayList<String>());
+    this.product.addLocalStyle(style);
+    arcStyles.put(style.getId(), style);
+  }
+  
+  /**
+   * 
    * @param gp
    * @param strokeWidth
    * @param stroke
-   * @param fill
+   * @param fill (if null: no fill is set)
    */
   private void setGraphicalProperties(GraphicalPrimitive2D gp,
     double strokeWidth, String stroke, String fill) {
     gp.setStrokeWidth(strokeWidth);
-    gp.setFill(fill);
+    if(fill != null) {
+      gp.setFill(fill);
+    }
     gp.setStroke(stroke);
   }
   

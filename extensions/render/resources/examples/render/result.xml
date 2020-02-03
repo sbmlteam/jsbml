@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-02-03 at 09:44:22 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-02-03 at 10:44:57 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="TestModel_with_modifiers" timeUnits="time">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -10,7 +10,6 @@
               <render:colorDefinition render:id="red" render:value="#FF0000FF"/>
               <render:colorDefinition render:id="black" render:value="#000000FF"/>
               <render:colorDefinition render:id="white" render:value="#FFFFFFFF"/>
-              <render:colorDefinition render:id="compartment" render:value="#C0C0C0FF"/>
             </render:listOfColorDefinitions>
             <render:listOfLineEndings>
               <render:lineEnding render:enable-rotation-mapping="true" render:id="productionHead">
@@ -105,9 +104,33 @@
               </render:lineEnding>
             </render:listOfLineEndings>
             <render:listOfStyles>
+              <render:style id="consumptionStyle" render:idList="SpeciesReferenceGlyph_Glucose SpeciesReferenceGlyph_ATP SRG_ribosome_aa SRG_denaturation_NDPK SRG_protonation_H2O SRG_protonation_H SRG_deprotonation_H3O">
+                <render:g render:stroke="black" render:stroke-width="1.0"/>
+              </render:style>
+              <render:style id="productionStyle" render:idList="SpeciesReferenceGlyph_G6P_1 SpeciesReferenceGlyph_ADP SRG_ndpk_ADP SRG_ndpk_GTP SRG_ribosome_NDPK SRG_denaturation_de SRG_protonation_H3O SRG_deprotonation_H2O SRG_deprotonation_H">
+                <render:g render:endHead="productionHead" render:stroke="black" render:stroke-width="1.0"/>
+              </render:style>
+              <render:style id="reversibleConsumptionStyle" render:idList="SRG_ndpk_ATP SRG_ndpk_GDP">
+                <render:g render:endHead="reversibleConsumptionHead" render:stroke="black" render:stroke-width="1.0"/>
+              </render:style>
+              <render:style id="stimulationStyle" render:idList="SpeciesReferenceGlyph_PI">
+                <render:g render:endHead="stimulationHead" render:stroke="black" render:stroke-width="1.0"/>
+              </render:style>
+              <render:style id="catalysisStyle" render:idList="SRG_ndpk_NDPK">
+                <render:g render:endHead="catalysisHead" render:stroke="black" render:stroke-width="1.0"/>
+              </render:style>
+              <render:style id="inhibitionStyle" render:idList="SpeciesReferenceGlyph_G6P_2">
+                <render:g render:endHead="inhibitionHead" render:stroke="black" render:stroke-width="1.0"/>
+              </render:style>
+              <render:style id="necessaryStimulationStyle" render:idList="SRG_ribosome_mRNA">
+                <render:g render:endHead="necessaryStimulationHead" render:stroke="black" render:stroke-width="1.0"/>
+              </render:style>
+              <render:style id="modulationStyle" render:idList="SRG_denaturation_heat">
+                <render:g render:endHead="modulationHead" render:stroke="black" render:stroke-width="1.0"/>
+              </render:style>
               <render:style id="styleOf_CompartmentGlyph_1" render:idList="CompartmentGlyph_1">
                 <render:g>
-                  <render:rectangle render:fill="compartment" render:height="220" render:stroke="black" render:stroke-width="0.3" render:width="540" render:x="0" render:y="0"/>
+                  <render:rectangle render:fill="white" render:height="220" render:stroke="black" render:stroke-width="0.3" render:width="540" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_SpeciesGlyph_Glucose" render:idList="SpeciesGlyph_Glucose">
