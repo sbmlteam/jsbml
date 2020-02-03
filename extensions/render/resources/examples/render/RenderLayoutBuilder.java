@@ -66,6 +66,7 @@ public class RenderLayoutBuilder
     product.addColorDefinition(new ColorDefinition(HIGHLIGHT, Color.RED));
     product.addColorDefinition(new ColorDefinition(STROKE, Color.BLACK));
     product.addColorDefinition(new ColorDefinition(FILL, Color.WHITE));
+    product.addColorDefinition(new ColorDefinition("compartment", Color.LIGHT_GRAY));
     
     buildLineEndings();
   }
@@ -154,7 +155,7 @@ public class RenderLayoutBuilder
 
   @Override
   public Compartment<LocalStyle> createCompartment() {
-    return new RenderCompartment(0.3, STROKE, FILL);
+    return new RenderCompartment(0.3, STROKE, "compartment");
   }
 
   @Override
@@ -166,12 +167,12 @@ public class RenderLayoutBuilder
 
   @Override
   public Macromolecule<LocalStyle> createMacromolecule() {
-    return new RenderMacromolecule(1, STROKE, FILL, HIGHLIGHT, 10);
+    return new RenderMacromolecule(1, STROKE, FILL, HIGHLIGHT, 4);
   }
 
   @Override
   public NucleicAcidFeature<LocalStyle> createNucleicAcidFeature() {
-    return new RenderNucleicAcidFeature(1, STROKE, FILL, HIGHLIGHT, 10);
+    return new RenderNucleicAcidFeature(1, STROKE, FILL, HIGHLIGHT, 4);
   }
 
   @Override

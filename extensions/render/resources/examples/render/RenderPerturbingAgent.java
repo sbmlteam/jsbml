@@ -44,20 +44,35 @@ public class RenderPerturbingAgent extends PerturbingAgent<LocalStyle> {
     double depth) {
     RenderGroup agent = new RenderGroup();
     
+    Polygon background = agent.createPolygon();
+    RenderLayoutBuilder.addRenderPoint(background, 0, 0);
+    RenderLayoutBuilder.addRenderPoint(background, inset * height,  height / 2);
+    RenderLayoutBuilder.addRenderPoint(background, 0,  height);
+    RenderLayoutBuilder.addRenderPoint(background, width, height);
+    RenderLayoutBuilder.addRenderPoint(background, width - (inset * height),  height / 2);  
+    RenderLayoutBuilder.addRenderPoint(background, width, 0);  
+    
+    background.setStroke(stroke);
+    background.setStrokeWidth(0);
+    background.setFill(fill);
+    
     if(hasCloneMarker()) {
-      // TODO -> use clone here.
+      Polygon cloneMarker = agent.createPolygon();
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, 0.6*inset*height, 0.7*height);
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, 0, height);
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, width, height);
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, width - (0.6*inset*height), 0.7*height);
+      
+      cloneMarker.setStroke(clone);
+      cloneMarker.setStrokeWidth(0);
+      cloneMarker.setFill(clone);
     }
-    Polygon agentPoly = agent.createPolygon();
-    RenderLayoutBuilder.addRenderPoint(agentPoly, 0, 0);
-    RenderLayoutBuilder.addRenderPoint(agentPoly, inset * height,  height / 2);
-    RenderLayoutBuilder.addRenderPoint(agentPoly, 0,  height);
-    RenderLayoutBuilder.addRenderPoint(agentPoly, width, height);
-    RenderLayoutBuilder.addRenderPoint(agentPoly, width - (inset * height),  height / 2);  
-    RenderLayoutBuilder.addRenderPoint(agentPoly, width, 0);  
+    Polygon agentPoly = background.clone();
     
     agentPoly.setStroke(stroke);
     agentPoly.setStrokeWidth(getLineWidth());
-    agentPoly.setFill(fill);
+    agentPoly.unsetFill();
+    agent.addElement(agentPoly);
     
     return new LocalStyle(agent);
   }

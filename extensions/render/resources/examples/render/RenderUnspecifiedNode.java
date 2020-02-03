@@ -2,6 +2,7 @@ package examples.render;
 
 import org.sbml.jsbml.ext.render.Ellipse;
 import org.sbml.jsbml.ext.render.LocalStyle;
+import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.UnspecifiedNode;
 
@@ -22,18 +23,43 @@ private String stroke, fill, clone;
     double depth) {
     RenderGroup node = new RenderGroup();
     
-    if(hasCloneMarker()) {
-      // TODO -> use clone here.
-    }
-    Ellipse chemicalEllipse = node.createEllipse();
-    chemicalEllipse.setCx(width/2); chemicalEllipse.setAbsoluteCx(true);
-    chemicalEllipse.setCy(height/2); chemicalEllipse.setAbsoluteCy(true);
-    chemicalEllipse.setRx(width/2); chemicalEllipse.setAbsoluteRx(true);
-    chemicalEllipse.setRy(height/2); chemicalEllipse.setAbsoluteRy(true);
+    Ellipse background = node.createEllipse();
+    background.setCx(width/2); background.setAbsoluteCx(true);
+    background.setCy(height/2); background.setAbsoluteCy(true);
+    background.setRx(width/2); background.setAbsoluteRx(true);
+    background.setRy(height/2); background.setAbsoluteRy(true);
     
-    chemicalEllipse.setStroke(stroke);
-    chemicalEllipse.setStrokeWidth(getLineWidth());
-    chemicalEllipse.setFill(fill);
+    background.setStroke(stroke);
+    background.setStrokeWidth(0);
+    background.setFill(fill);
+    
+    if(hasCloneMarker()) {
+      // unit circle --> stretch coordinates along x-axis by factor width/2 and
+      // along y-axis by factor height/2
+      double radius = 1; 
+      double stretchX = width/2;
+      double stretchY = height/2;
+      
+      Polygon cloneMarker = node.createPolygon();
+      // The factor before radius is cos(asin(2*(0.7-0.5)))
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, stretchX*(1 - 0.9165151*radius), stretchY * (1 + 0.4*radius));
+      
+      double baseStrength = radius/3; // manually approximated
+      RenderLayoutBuilder.addRenderCubicBezier(cloneMarker, 
+        stretchX*(1 - 0.9165151*radius + baseStrength), stretchY * (1 + 0.4*radius + 2.291288*baseStrength), 
+        stretchX*(1 + 0.9165151*radius - baseStrength), stretchY * (1 + 0.4*radius + 2.291288*baseStrength), 
+        stretchX * (1 + 0.9165151*radius), 0.7*height);
+      cloneMarker.setStroke(clone);
+      cloneMarker.setStrokeWidth(0);
+      cloneMarker.setFill(clone);
+    }
+    Ellipse nodeEllipse = background.clone();
+    
+    nodeEllipse.setStroke(stroke);
+    nodeEllipse.setStrokeWidth(getLineWidth());
+    nodeEllipse.unsetFill();
+    
+    node.addElement(nodeEllipse);
     
     return new LocalStyle(node);
   }

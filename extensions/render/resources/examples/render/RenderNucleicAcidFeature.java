@@ -32,26 +32,49 @@ public class RenderNucleicAcidFeature extends NucleicAcidFeature<LocalStyle> {
     double depth) {
     RenderGroup naFeature = new RenderGroup();
     
-    if(hasCloneMarker()) {
-      // TODO -> use clone here.
-    }
-    Polygon naFeaturePoly = naFeature.createPolygon();
-    RenderLayoutBuilder.addRenderPoint(naFeaturePoly, 0, height - borderRadius);
-    RenderLayoutBuilder.addRenderPoint(naFeaturePoly, 0, 0);
-    RenderLayoutBuilder.addRenderPoint(naFeaturePoly, width, 0);    
-    RenderLayoutBuilder.addRenderPoint(naFeaturePoly, width, height - borderRadius);
+    Polygon background = naFeature.createPolygon();
+    RenderLayoutBuilder.addRenderPoint(background, 0, height - borderRadius);
+    RenderLayoutBuilder.addRenderPoint(background, 0, 0);
+    RenderLayoutBuilder.addRenderPoint(background, width, 0);    
+    RenderLayoutBuilder.addRenderPoint(background, width, height - borderRadius);
     // Bottom right corner:
-    RenderLayoutBuilder.addRenderCubicBezier(naFeaturePoly, 
+    RenderLayoutBuilder.addRenderCubicBezier(background, 
       width, height - (borderRadius/2), width - (borderRadius/2), height, width - borderRadius, height);
     
-    RenderLayoutBuilder.addRenderPoint(naFeaturePoly, borderRadius, height);
+    RenderLayoutBuilder.addRenderPoint(background, borderRadius, height);
     // Bottom left corner:
-    RenderLayoutBuilder.addRenderCubicBezier(naFeaturePoly, 
+    RenderLayoutBuilder.addRenderCubicBezier(background, 
       borderRadius / 2, height, 0, height - (borderRadius/2), 0, height - borderRadius);
     
+    background.setStroke(stroke);
+    background.setStrokeWidth(0);
+    background.setFill(fill);
+    
+    if(hasCloneMarker()) {
+      Polygon cloneMarker = naFeature.createPolygon();
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, 0, height - borderRadius);
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, 0, 0.7*height);
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, width, 0.7*height);      
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, width, height - borderRadius);
+      // Bottom right corner:
+      RenderLayoutBuilder.addRenderCubicBezier(cloneMarker, 
+        width, height - (borderRadius/2), width - (borderRadius/2), height, width - borderRadius, height);
+      
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, borderRadius, height);
+      // Bottom left corner:
+      RenderLayoutBuilder.addRenderCubicBezier(cloneMarker, 
+        borderRadius / 2, height, 0, height - (borderRadius/2), 0, height - borderRadius);
+      
+      cloneMarker.setStroke(clone);
+      cloneMarker.setStrokeWidth(0);
+      cloneMarker.setFill(clone);
+    }
+    
+    Polygon naFeaturePoly = background.clone();
     naFeaturePoly.setStroke(stroke);
     naFeaturePoly.setStrokeWidth(getLineWidth());
-    naFeaturePoly.setFill(fill);
+    naFeaturePoly.unsetFill();
+    naFeature.addElement(naFeaturePoly);
     
     return new LocalStyle(naFeature);
   }

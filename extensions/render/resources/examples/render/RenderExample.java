@@ -20,7 +20,7 @@ import examples.latex.BasicLayoutAlgorithm;
 public class RenderExample {
 
   public static void main(String[] args) {
-    File file = new File("extensions/render/resources/examples/render/smallest_example.xml");
+    File file = new File("extensions/render/resources/examples/latex/layout_spec_example.xml");
     System.out.println("Reading file " + file);
     try {
       LayoutDirector<LocalRenderInformation> director = new LayoutDirector<LocalRenderInformation>(file,

@@ -32,34 +32,57 @@ public class RenderMacromolecule extends Macromolecule<LocalStyle> {
     double depth) {
     RenderGroup macromolecule = new RenderGroup();
     
-    if(hasCloneMarker()) {
-      // TODO -> use clone here.
-    }
-    Polygon macromoleculePoly = macromolecule.createPolygon();
-    RenderLayoutBuilder.addRenderPoint(macromoleculePoly, 0, height - borderRadius);
-    RenderLayoutBuilder.addRenderPoint(macromoleculePoly, 0, borderRadius);
+    Polygon background = macromolecule.createPolygon();
+    RenderLayoutBuilder.addRenderPoint(background, 0, height - borderRadius);
+    RenderLayoutBuilder.addRenderPoint(background, 0, borderRadius);
     // Top left corner:
-    RenderLayoutBuilder.addRenderCubicBezier(macromoleculePoly, 
+    RenderLayoutBuilder.addRenderCubicBezier(background, 
       0, borderRadius / 2, borderRadius / 2, 0, borderRadius, 0);
     
-    RenderLayoutBuilder.addRenderPoint(macromoleculePoly, width - borderRadius, 0);
+    RenderLayoutBuilder.addRenderPoint(background, width - borderRadius, 0);
     // Top right corner:
-    RenderLayoutBuilder.addRenderCubicBezier(macromoleculePoly, 
+    RenderLayoutBuilder.addRenderCubicBezier(background, 
       width - (borderRadius / 2), 0, width, borderRadius / 2, width, borderRadius);
     
-    RenderLayoutBuilder.addRenderPoint(macromoleculePoly, width, height - borderRadius);
+    RenderLayoutBuilder.addRenderPoint(background, width, height - borderRadius);
     // Bottom right corner:
-    RenderLayoutBuilder.addRenderCubicBezier(macromoleculePoly, 
+    RenderLayoutBuilder.addRenderCubicBezier(background, 
       width, height - (borderRadius/2), width - (borderRadius/2), height, width - borderRadius, height);
     
-    RenderLayoutBuilder.addRenderPoint(macromoleculePoly, borderRadius, height);
+    RenderLayoutBuilder.addRenderPoint(background, borderRadius, height);
     // Bottom left corner:
-    RenderLayoutBuilder.addRenderCubicBezier(macromoleculePoly, 
+    RenderLayoutBuilder.addRenderCubicBezier(background, 
       borderRadius / 2, height, 0, height - (borderRadius/2), 0, height - borderRadius);
     
+    background.setStroke(stroke);
+    background.setStrokeWidth(0);
+    background.setFill(fill);
+    
+    if(hasCloneMarker()) {
+      Polygon cloneMarker = macromolecule.createPolygon();
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, 0, height - borderRadius);
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, 0, 0.7*height);
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, width, 0.7*height);      
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, width, height - borderRadius);
+      // Bottom right corner:
+      RenderLayoutBuilder.addRenderCubicBezier(cloneMarker, 
+        width, height - (borderRadius/2), width - (borderRadius/2), height, width - borderRadius, height);
+      
+      RenderLayoutBuilder.addRenderPoint(cloneMarker, borderRadius, height);
+      // Bottom left corner:
+      RenderLayoutBuilder.addRenderCubicBezier(cloneMarker, 
+        borderRadius / 2, height, 0, height - (borderRadius/2), 0, height - borderRadius);
+      
+      cloneMarker.setStroke(clone);
+      cloneMarker.setStrokeWidth(0);
+      cloneMarker.setFill(clone);
+    }
+    
+    Polygon macromoleculePoly = background.clone();
     macromoleculePoly.setStroke(stroke);
     macromoleculePoly.setStrokeWidth(getLineWidth());
-    macromoleculePoly.setFill(fill);
+    macromoleculePoly.unsetFill();
+    macromolecule.addElement(macromoleculePoly);
     
     return new LocalStyle(macromolecule);
   }
