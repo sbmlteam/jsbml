@@ -43,6 +43,7 @@ import org.sbml.jsbml.ext.render.director.ReversibleConsumption;
 import org.sbml.jsbml.ext.render.director.SBGNArc;
 import org.sbml.jsbml.ext.render.director.SBGNNode;
 import org.sbml.jsbml.ext.render.director.SBGNNodeWithCloneMarker;
+import org.sbml.jsbml.ext.render.director.SBGNProcessNode;
 import org.sbml.jsbml.ext.render.director.SimpleChemical;
 import org.sbml.jsbml.ext.render.director.SourceSink;
 import org.sbml.jsbml.ext.render.director.Stimulation;
@@ -139,7 +140,22 @@ public class RenderLayoutBuilder
   @Override
   public void buildProcessNode(ReactionGlyph reactionGlyph,
     double rotationAngle, double curveWidth) {
-    // TODO Auto-generated method stub
+    SBGNProcessNode<LocalStyle> process = getSBGNReactionNode(reactionGlyph.getReactionInstance().getSBOTerm());
+    // TODO: this is temporary code!
+    process = createProcessNode();
+    
+    BoundingBox bb = reactionGlyph.getBoundingBox();
+    Point rotationCentre = bb.getPosition().clone();
+    rotationCentre.setX(bb.getDimensions().getWidth()/2 + rotationCentre.getX());
+    rotationCentre.setY(bb.getDimensions().getHeight()/2 + rotationCentre.getY());
+    
+    LocalStyle style = process.draw(bb.getPosition().getX(),
+      bb.getPosition().getY(), bb.getPosition().getZ(),
+      bb.getDimensions().getWidth(), bb.getDimensions().getHeight(),
+      bb.getDimensions().getDepth(), rotationAngle, rotationCentre);
+    style.setIDList(new ArrayList<String>());
+    style.getIDList().add(reactionGlyph.getId());
+    product.addLocalStyle(style);
     
   }
 
@@ -203,9 +219,7 @@ public class RenderLayoutBuilder
 
   @Override
   public ProcessNode<LocalStyle> createProcessNode() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create ProcessNode");
-    return null;
+    return new RenderProcessNode(1, STROKE, FILL, 10);
   }
 
   @Override

@@ -78,8 +78,8 @@
 				<layout:listOfReactionGlyphs>
 				  <layout:reactionGlyph layout:id="ReactionGlyph_r" layout:reaction="r">
 					<layout:boundingBox layout:id="bbr1">
-					  <layout:position layout:x="190" layout:y="200" />
-					  <layout:dimensions layout:width="20" layout:height="20" />
+					  <layout:position layout:x="190" layout:y="190" />
+					  <layout:dimensions layout:width="20" layout:height="40" />
 				    </layout:boundingBox>
 					<layout:curve>
 					  <layout:listOfCurveSegments>
@@ -200,11 +200,10 @@
 						  </render:g>
 						</render:style>
 						
-						<render:style render:id="reactionGlyphStyle" render:typeList="REACTIONGLYPH">
-						  <render:g render:stroke="black" render:stroke-width="2" render:fill-rule="nonzero" render:font-size="0" 
-						   render:font-family="sans-serif" render:font-style="normal" render:font-weight="normal">
+						<render:style render:id="reactionGlyphStyle" render:idList="ReactionGlyph_r">
+						  <render:g render:stroke="black" render:stroke-width="2">
 							<render:rectangle render:x="25%" render:y="25%"
-							 render:width="50%" render:height="50%" />
+							 render:width="50%" render:height="50%" render:fill="white"/>
 						  </render:g>
 						</render:style>
 						
