@@ -314,7 +314,7 @@ public class RenderLayoutBuilder
     
     // Building the corresponding line-styles:
     addArcStyle("production");
-    addArcStyle("reversibleConsumption");
+    addArcStyle("reversibleConsumptionStyle", "productionHead"); // Deviating from handling of rest
     
     
     // Stimulation and Production-heads just so happen to be near identical
@@ -411,12 +411,16 @@ public class RenderLayoutBuilder
    * @param arctype e.g. catalysis
    */
   private void addArcStyle(String arctype) {
+    addArcStyle(arctype + "Style", arctype + "Head");
+  }
+  
+  private void addArcStyle(String id, String headId) {
     RenderGroup styleGroup = new RenderGroup();
     styleGroup.setStroke(STROKE);
     styleGroup.setStrokeWidth(1);
-    styleGroup.setEndHead(arctype + "Head");
+    styleGroup.setEndHead(headId);
     LocalStyle style = new LocalStyle(layout.getLevel(), layout.getVersion(), styleGroup);
-    style.setId(arctype + "Style");
+    style.setId(id);
     style.setIDList(new ArrayList<String>());
     this.product.addLocalStyle(style);
     arcStyles.put(style.getId(), style);
