@@ -62,7 +62,7 @@ public class PackageDisablerTests {
     msr2.setName("modifier");
     
     //TODO - how to activate some packages? -> this seems not to work
-    doc.addDeclaredNamespace("layout", "Layout");
+    m.enablePackage("Layout");
     
     pDisabler = new PackageDisabler(doc);
   }
