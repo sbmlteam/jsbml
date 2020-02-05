@@ -17,9 +17,7 @@ public class PackageDisablerTests {
   @Before
   public void setUp() {
     sb = new SBMLDocument();
-    //TODO - enable namespaces? 
-    sb.addDeclaredNamespace("package 1", "Arrays");
-    sb.addDeclaredNamespace("package 2", "Layout");
+    //TODO - build sbml with some packages enabled  
     pDisabler = new PackageDisabler(sb);
   }
   
@@ -30,7 +28,6 @@ public class PackageDisablerTests {
   
   @Test
   public void removePackageTest() {
-    pDisabler.removePackage("Arrays"); //warum wird kein package erkannt? 
-    System.out.println(sb.getDeclaredNamespaces());
+    
   }
 }
