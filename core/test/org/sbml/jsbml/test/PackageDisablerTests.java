@@ -61,7 +61,7 @@ public class PackageDisablerTests {
     ModifierSpeciesReference msr2 = r2.createModifier("msr2", s3);
     msr2.setName("modifier");
     
-    //TODO - how to activate some packages? 
+    //TODO - how to activate some packages? -> this seems not to work
     doc.addDeclaredNamespace("layout", "Layout");
     
     pDisabler = new PackageDisabler(doc);
