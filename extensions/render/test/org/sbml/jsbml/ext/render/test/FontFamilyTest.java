@@ -15,7 +15,6 @@ import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.ext.render.FontFamily;
 import org.sbml.jsbml.ext.render.RenderConstants;
-import org.sbml.jsbml.ext.render.Text;
 
 /**
  * Tests if the font-family attribute of a SBML Document persists if 
@@ -26,15 +25,12 @@ import org.sbml.jsbml.ext.render.Text;
 public class FontFamilyTest {
   
   private SBMLDocument sb;
-  private Text txt;
   
   @Before 
   public void setUp() {
     sb = new SBMLDocument(3, 1);
-    txt = new Text(); 
-    txt.setFontFamily(FontFamily.MONOSPACE);
     Map<String, String> attributes = new HashMap<String, String>();
-    attributes.put(RenderConstants.fontFamily, txt.getFontFamily()); 
+    attributes.put(RenderConstants.fontFamily, FontFamily.MONOSPACE.toString()); 
     sb.setSBMLDocumentAttributes(attributes);
   }
   
@@ -43,7 +39,7 @@ public class FontFamilyTest {
    * before writing or reading operations.
    */
   @Test
-  public void isSetFontFamilyTest() {
+  public void getFontFamilyTest() {
     Map<String, String> sbAttributes = sb.getSBMLDocumentAttributes();
     String fontFamily = sbAttributes.get(RenderConstants.fontFamily);
     assertEquals("monospace", fontFamily);
@@ -56,7 +52,7 @@ public class FontFamilyTest {
   public void writeAndReadTest() {
     SBMLReader reader = new SBMLReader(); 
     SBMLWriter writer = new SBMLWriter(); 
-    SBMLDocument sbFromString = new SBMLDocument(1, 1);
+    SBMLDocument sbFromString = new SBMLDocument(1, 1); //dummy level and version
     
     try {
       String stringDocument = writer.writeSBMLToString(sb);
@@ -71,7 +67,9 @@ public class FontFamilyTest {
     
     Map<String, String> sbFromStringAttributes = sbFromString.getSBMLDocumentAttributes();
     String fontFamily = sbFromStringAttributes.get(RenderConstants.fontFamily);
+    
+    //if reading was successfull lvl should be again the value of sb 
+    assertEquals(sbFromString.getLevel(), sb.getLevel()); 
     assertEquals("monospace", fontFamily);
-    assertEquals(sbFromString.getLevel(), 3); //if reading was successful level has to be 3
   }
 }
