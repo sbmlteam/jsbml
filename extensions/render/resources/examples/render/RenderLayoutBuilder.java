@@ -142,7 +142,9 @@ public class RenderLayoutBuilder
     double rotationAngle, double curveWidth) {
     SBGNProcessNode<LocalStyle> process = getSBGNReactionNode(reactionGlyph.getReactionInstance().getSBOTerm());
     // TODO: this is temporary code!
-    process = createProcessNode();
+    if (process == null) {
+      process = createProcessNode();
+    }    
     
     BoundingBox bb = reactionGlyph.getBoundingBox();
     Point rotationCentre = bb.getPosition().clone();
@@ -178,9 +180,7 @@ public class RenderLayoutBuilder
 
   @Override
   public AssociationNode<LocalStyle> createAssociationNode() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create AssociationNode");
-    return null;
+    return new RenderAssociationNode(1, STROKE, FILL, 10);
   }
 
   @Override
