@@ -24,30 +24,42 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.sbml.jsbml.ext.render.FontFamily;
 import org.sbml.jsbml.ext.render.Text;
+import org.sbml.jsbml.ext.render.FontFamily;
 import org.sbml.jsbml.ext.render.HTextAnchor;
 import org.sbml.jsbml.ext.render.VTextAnchor;
 
 
 /**
  * @author Ibrahim Vazirabad
+ * @author Onur &Oumlzel
  * @since 1.0
  */
 public class TextTest {
 
   /**
-   * Test method for {@link Text#getFontFamily()}.
+   * Test method for {@link Text#getFontFamily()} with {@link String} as the type of the font.
    */
   @Test
   public void testGetFontFamily() {
-    FontFamily fontType=FontFamily.MONOSPACE;
+    String fontType= "monospace";
     Text textType=new Text();
     assertTrue(!textType.isSetFontFamily());
     textType.setFontFamily(fontType);
     assertEquals("getFontFamily",fontType,textType.getFontFamily());
   }
-
+  
+  /**
+   * Test method for {@link Text#getFontFamily()} with {@link FontFamily} type as the type of the font.
+   */
+  @Test
+  public void testGetFontFamilyWithEnum() {
+    FontFamily fontType= FontFamily.MONOSPACE;
+    Text textType=new Text();
+    assertTrue(!textType.isSetFontFamily());
+    textType.setFontFamily(fontType.toString());
+    assertEquals("getFontFamily",fontType.name().toLowerCase() ,textType.getFontFamily());
+  }
 
   /**
    * Test method for {@link Text#getFontSize()}.
@@ -160,14 +172,26 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link Text#isSetFontFamily()}.
+   * Test method for {@link Text#isSetFontFamily()} with {@link String} as the type of the font.
    */
   @Test
   public void testIsSetFontFamily() {
-    FontFamily fontType=FontFamily.MONOSPACE;
+    String fontType= "monospace";
     Text textType=new Text();
     assertTrue(!textType.isSetFontFamily());
     textType.setFontFamily(fontType);
+    assertTrue(textType.isSetFontFamily());
+  }
+  
+  /**
+   * Test method for {@link Text#isSetFontFamily()} with {@link FontFamily} type as the type of the font.
+   */
+  @Test
+  public void testIsSetFontFamilyWithEnum() {
+    FontFamily fontType = FontFamily.MONOSPACE;
+    Text textType = new Text();
+    assertTrue(!textType.isSetFontFamily());
+    textType.setFontFamily(fontType.toString());
     assertTrue(textType.isSetFontFamily());
   }
 
@@ -302,15 +326,27 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link Text#setFontFamily(FontFamily)}.
+   * Test method for {@link Text#setFontFamily(FontFamily)} with {@link String} as the type of the font..
    */
   @Test
   public void testSetFontFamily() {
-    FontFamily fontType=FontFamily.MONOSPACE;
+    String fontType= "monospace";
     Text textType=new Text();
     assertTrue(!textType.isSetFontFamily());
     textType.setFontFamily(fontType);
     assertEquals("setFontFamilyError",textType.getFontFamily(),fontType);
+  }
+  
+  /**
+   * Test method for {@link Text#setFontFamily(FontFamily)} with {@link FontFamily} type as the type of the font.
+   */
+  @Test
+  public void testSetFontFamilyWithEnum() {
+    FontFamily fontType= FontFamily.MONOSPACE;
+    Text textType=new Text();
+    assertTrue(!textType.isSetFontFamily());
+    textType.setFontFamily(fontType.toString());
+    assertEquals("setFontFamilyError", textType.getFontFamily(), fontType.name().toLowerCase());
   }
 
 

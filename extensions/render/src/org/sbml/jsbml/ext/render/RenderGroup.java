@@ -48,6 +48,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @author Jakob Matthes
  * @author Jan Rudolph
  * @author Nicolas Rodriguez
+ * @author Onur &Oumlzel
  * @since 1.0
  */
 public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBase {
@@ -58,7 +59,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * 
    */
-  private FontFamily fontFamily;
+  private String fontFamily;
   /**
    * 
    */
@@ -377,7 +378,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * @return the value of fontFamily
    */
-  public FontFamily getFontFamily() {
+  public String getFontFamily() {
     if (isSetFontFamily()) {
       return fontFamily;
     }
@@ -396,8 +397,8 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * Set the value of fontFamily
    * @param fontFamily
    */
-  public void setFontFamily(FontFamily fontFamily) {
-    FontFamily oldFontFamily = this.fontFamily;
+  public void setFontFamily(String fontFamily) {
+    String oldFontFamily = this.fontFamily;
     this.fontFamily = fontFamily;
     firePropertyChange(RenderConstants.fontFamily, oldFontFamily, this.fontFamily);
   }
@@ -409,7 +410,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    */
   public boolean unsetFontFamily() {
     if (isSetFontFamily()) {
-      FontFamily oldFontFamily = fontFamily;
+      String oldFontFamily = fontFamily;
       fontFamily = null;
       firePropertyChange(RenderConstants.fontFamily, oldFontFamily, fontFamily);
       return true;
@@ -1075,11 +1076,8 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
       isAttributeRead = true;
 
       if (attributeName.equals(RenderConstants.fontFamily)) {
-        if (value.equals("sans-serif")) {
-          value = "SANS_SERIF";
-        }
         try {
-          setFontFamily(FontFamily.valueOf(value.toUpperCase()));
+          setFontFamily(value);
         } catch (Exception e) {
           throw new SBMLException("Could not recognized the value '" + value
               + "' for the attribute " + RenderConstants.fontFamily

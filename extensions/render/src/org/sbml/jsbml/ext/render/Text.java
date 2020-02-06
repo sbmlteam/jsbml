@@ -29,6 +29,7 @@ import org.sbml.jsbml.SBMLException;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author Onur &Oumlzel
  * @since 1.0
  */
 public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point3D {
@@ -51,7 +52,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /**
    * 
    */
-  private FontFamily fontFamily;
+  private String fontFamily;
   /**
    * 
    */
@@ -136,7 +137,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getFontFamily()
    */
   @Override
-  public FontFamily getFontFamily() {
+  public String getFontFamily() {
     if (isSetFontFamily()) {
       return fontFamily;
     }
@@ -406,10 +407,17 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#setFontFamily(org.sbml.jsbml.ext.render.FontFamily)
    */
   @Override
-  public void setFontFamily(FontFamily fontFamily) {
-    FontFamily oldFontFamily = this.fontFamily;
+  public void setFontFamily(String fontFamily) {
+    String oldFontFamily = this.fontFamily;
     this.fontFamily = fontFamily;
     firePropertyChange(RenderConstants.fontFamily, oldFontFamily, this.fontFamily);
+  }
+ 
+  
+  @Override
+  public void setFontFamily(FontFamily fontFamily) {
+    String fontFam = fontFamily.toString();
+    setFontFamily(fontFam);
   }
 
   /* (non-Javadoc)
@@ -540,7 +548,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetFontFamily() {
     if (isSetFontFamily()) {
-      FontFamily oldFontFamily = fontFamily;
+      String oldFontFamily = fontFamily;
       fontFamily = null;
       firePropertyChange(RenderConstants.fontFamily, oldFontFamily, fontFamily);
       return true;
@@ -669,10 +677,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     Map<String, String> attributes = super.writeXMLAttributes();
     
     if (isSetFontFamily()) {
-      String fontFamily = getFontFamily().toString().toLowerCase();
-      if (fontFamily.equals("sans_serif")) {
-        fontFamily = "sans-serif";
-      }
+      String fontFamily = getFontFamily(); 
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontFamily, fontFamily);
     }
     if (isSetTextAnchor()) {
@@ -722,11 +727,8 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
       isAttributeRead = true;
 
       if (attributeName.equals(RenderConstants.fontFamily)) {
-        if (value.equals("sans-serif")) {
-          value = "SANS_SERIF";
-        }
         try {
-          setFontFamily(FontFamily.valueOf(value.toUpperCase()));
+          setFontFamily(value);
         } catch (Exception e) {
           throw new SBMLException("Could not recognized the value '" + value
               + "' for the attribute " + RenderConstants.fontFamily
