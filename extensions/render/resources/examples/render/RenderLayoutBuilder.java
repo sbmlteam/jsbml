@@ -190,9 +190,7 @@ public class RenderLayoutBuilder
 
   @Override
   public DissociationNode<LocalStyle> createDissociationNode() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create DissociationNode");
-    return null;
+    return new RenderDissociationNode(1, STROKE, FILL, 10);
   }
 
   @Override
@@ -234,9 +232,8 @@ public class RenderLayoutBuilder
 
   @Override
   public UncertainProcessNode<LocalStyle> createUncertainProcessNode() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create UncertainProcessNode");
-    return null;
+    System.out.println("Created uncertainprocessnode");
+    return new RenderUncertainProcessNode(1, STROKE, FILL, 10);
   }
 
   @Override

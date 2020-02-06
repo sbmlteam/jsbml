@@ -3,7 +3,6 @@ package examples.render;
 import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.render.Ellipse;
 import org.sbml.jsbml.ext.render.LocalStyle;
-import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.AssociationNode;
 

@@ -45,10 +45,4 @@ public class RenderProcessNode extends RenderSBGNProcessNode implements ProcessN
     square.setFill(getFill());
     return new LocalStyle(group);
   }
-  
-  @Override
-  public LocalStyle draw(double x, double y, double z, double width,
-    double height, double depth) {
-    return draw(x, y, z, width, height, depth, 0, new Point(x + width/2, y + height/2));
-  }
 }

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-02-05 at 13:05:49 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-02-06 at 11:32:11 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="TestModel_with_modifiers" timeUnits="time">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -517,6 +517,7 @@
                       <render:element render:x="10" render:y="0" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
+                  <render:text render:font-family="monospace" render:font-size="10" render:text-anchor="start" render:transform="1, 0, 0, 1, -1.5, -5" render:vtext-anchor="top" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
               <render:style render:idList="glyph_Protonation">
@@ -526,14 +527,8 @@
               </render:style>
               <render:style render:idList="glyph_Deprotonation">
                 <render:g render:stroke="black" render:stroke-width="1.0">
-                  <render:polygon render:fill="white">
-                    <render:listOfElements>
-                      <render:element render:x="10" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="10" xsi:type="RenderPoint"/>
-                      <render:element render:x="10" render:y="10" xsi:type="RenderPoint"/>
-                    </render:listOfElements>
-                  </render:polygon>
+                  <render:ellipse render:cx="5" render:cy="5" render:fill="white" render:rx="5" render:stroke="black"/>
+                  <render:ellipse render:cx="5" render:cy="5" render:fill="white" render:rx="2.5" render:stroke="black"/>
                 </render:g>
               </render:style>
             </render:listOfStyles>

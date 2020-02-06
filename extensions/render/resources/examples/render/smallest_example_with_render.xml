@@ -201,9 +201,12 @@
 						</render:style>
 						
 						<render:style render:id="reactionGlyphStyle" render:idList="ReactionGlyph_r">
-						  <render:g render:stroke="black" render:stroke-width="2">
-							<render:rectangle render:x="25%" render:y="25%"
-							 render:width="50%" render:height="50%" render:fill="white"/>
+						  <render:g render:stroke="black" render:stroke-width="1">
+							<render:rectangle render:x="5" render:y="15"
+							 render:width="10" render:height="10" render:fill="white"/>
+							<render:text render:x="0" render:y="0" render:transform="0.5, 0.8660254, -0.8660254, 0.5, 15.4102540, 9.3708349"
+							 render:font-size="10"
+							 render:font-family="monospace" render:text-anchor="start" render:vtext-anchor="top">?</render:text>
 						  </render:g>
 						</render:style>
 						
