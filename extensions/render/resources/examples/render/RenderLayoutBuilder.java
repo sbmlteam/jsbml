@@ -17,6 +17,7 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
 import org.sbml.jsbml.ext.render.ColorDefinition;
 import org.sbml.jsbml.ext.render.Ellipse;
 import org.sbml.jsbml.ext.render.GraphicalPrimitive2D;
+import org.sbml.jsbml.ext.render.HTextAnchor;
 import org.sbml.jsbml.ext.render.LineEnding;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
@@ -24,6 +25,8 @@ import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderCubicBezier;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.RenderPoint;
+import org.sbml.jsbml.ext.render.Text;
+import org.sbml.jsbml.ext.render.VTextAnchor;
 import org.sbml.jsbml.ext.render.director.AbstractLayoutBuilder;
 import org.sbml.jsbml.ext.render.director.AssociationNode;
 import org.sbml.jsbml.ext.render.director.Catalysis;
@@ -59,6 +62,7 @@ public class RenderLayoutBuilder
   private static String          STROKE    = "black";
   private static String          HIGHLIGHT = "red";
   private static String          FILL      = "white";
+  private double arrowScale = 6;
   private HashMap<String, LocalStyle> arcStyles;
   
   public RenderLayoutBuilder() {
@@ -77,6 +81,18 @@ public class RenderLayoutBuilder
     product.addColorDefinition(new ColorDefinition(FILL, Color.WHITE));
     
     buildLineEndings();
+    
+    RenderGroup group = new RenderGroup(layout.getLevel(), layout.getVersion());
+    group.setFontSize((short) 10);
+    group.setFontFamily("monospace");
+    group.setTextAnchor(HTextAnchor.MIDDLE);
+    group.setVTextAnchor(VTextAnchor.MIDDLE);
+    
+    LocalStyle style = new LocalStyle(layout.getLevel(), layout.getVersion(), group);
+    style.setId("TextGylphStyle");
+    style.setTypeList(new ArrayList<String>());
+    style.getTypeList().add("TEXTGLYPH");
+    product.addLocalStyle(style); 
   }
 
   @Override
@@ -158,8 +174,7 @@ public class RenderLayoutBuilder
 
   @Override
   public void buildTextGlyph(TextGlyph textGlyph) {
-    // TODO Auto-generated method stub
-    
+    // This is handled by the one general textglyph-style built in builderStart
   }
 
   @Override
@@ -289,13 +304,13 @@ public class RenderLayoutBuilder
     arcStyles.put(consumptionStyle.getId(), consumptionStyle);
     
     
-    LineEnding production = createLineEnding("productionHead", -8, -5, 9, 10);
+    LineEnding production = createLineEnding("productionHead", -0.8*arrowScale, -arrowScale/2, 0.9*arrowScale, arrowScale);
     // Build the actual arrow-head
     RenderGroup productionGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
     Polygon productionArrowHead = productionGroup.createPolygon();
     addRenderPoint(productionArrowHead, 0, 0);
-    addRenderPoint(productionArrowHead, 9, 5);
-    addRenderPoint(productionArrowHead, 0, 10);
+    addRenderPoint(productionArrowHead, 0.9*arrowScale, 0.5*arrowScale);
+    addRenderPoint(productionArrowHead, 0, arrowScale);
     setGraphicalProperties(productionArrowHead, 0.3, STROKE, STROKE);
     
     production.setGroup(productionGroup);
@@ -307,13 +322,13 @@ public class RenderLayoutBuilder
     
     
     // Stimulation and Production-heads just so happen to be near identical
-    LineEnding stimulation = createLineEnding("stimulationHead", -8, -5, 9, 10);
+    LineEnding stimulation = createLineEnding("stimulationHead", -0.8*arrowScale, -0.5*arrowScale, 0.9*arrowScale, arrowScale);
     
     RenderGroup stimulationGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
     Polygon stimulationArrowHead = stimulationGroup.createPolygon();
     addRenderPoint(stimulationArrowHead, 0, 0);
-    addRenderPoint(stimulationArrowHead, 9, 5);
-    addRenderPoint(stimulationArrowHead, 0, 10);
+    addRenderPoint(stimulationArrowHead, 0.9*arrowScale, 0.5*arrowScale);
+    addRenderPoint(stimulationArrowHead, 0, arrowScale);
     setGraphicalProperties(stimulationArrowHead, 0.3, STROKE, FILL);
     
     stimulation.setGroup(stimulationGroup);
@@ -323,15 +338,15 @@ public class RenderLayoutBuilder
     
     
     // Catalysis uses a circular ending
-    LineEnding catalysis = createLineEnding("catalysisHead", -9, -5, 10, 10); 
+    LineEnding catalysis = createLineEnding("catalysisHead", -0.9*arrowScale, -0.5*arrowScale, arrowScale, arrowScale); 
     
     RenderGroup catalysisGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
     Ellipse catalysisArrowHead = catalysisGroup.createEllipse();
-    catalysisArrowHead.setCx(6d);
+    catalysisArrowHead.setCx(0.6d*arrowScale);
     catalysisArrowHead.setAbsoluteCx(true);
-    catalysisArrowHead.setCy(5d);
+    catalysisArrowHead.setCy(0.5*arrowScale);
     catalysisArrowHead.setAbsoluteCy(true);
-    catalysisArrowHead.setRx(5d);
+    catalysisArrowHead.setRx(0.5*arrowScale);
     catalysisArrowHead.setAbsoluteRx(true);
     setGraphicalProperties(catalysisArrowHead, 0.3, STROKE, FILL);
     
@@ -342,12 +357,12 @@ public class RenderLayoutBuilder
     
     
     // Inhibition:
-    LineEnding inhibition = createLineEnding("inhibitionHead", -1, -5, 2, 10);
+    LineEnding inhibition = createLineEnding("inhibitionHead", -0.1*arrowScale, -0.5*arrowScale, 0.2*arrowScale, arrowScale);
     
     RenderGroup inhibitionGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
     Polygon inhibitionArrowHead = inhibitionGroup.createPolygon();
-    addRenderPoint(inhibitionArrowHead, 1, 0);
-    addRenderPoint(inhibitionArrowHead, 1, 10);
+    addRenderPoint(inhibitionArrowHead, 0.1*arrowScale, 0);
+    addRenderPoint(inhibitionArrowHead, 0.1*arrowScale, arrowScale);
     setGraphicalProperties(inhibitionArrowHead, 0.3, STROKE, FILL);
     
     inhibition.setGroup(inhibitionGroup);
@@ -357,18 +372,18 @@ public class RenderLayoutBuilder
     
     
     // Necessary Stimulation:
-    LineEnding necessaryStimulation = createLineEnding("necessaryStimulationHead", -12, -5, 13, 10);
+    LineEnding necessaryStimulation = createLineEnding("necessaryStimulationHead", -1.2*arrowScale, -0.5*arrowScale, 1.3*arrowScale, arrowScale);
     
     RenderGroup necessaryStimulationGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
     Polygon necessaryStimulationArrowHead = necessaryStimulationGroup.createPolygon();
-    addRenderPoint(necessaryStimulationArrowHead, 1, 0);
-    addRenderPoint(necessaryStimulationArrowHead, 1, 10);
+    addRenderPoint(necessaryStimulationArrowHead, 0.1*arrowScale, 0);
+    addRenderPoint(necessaryStimulationArrowHead, 0.1*arrowScale, arrowScale);
     setGraphicalProperties(necessaryStimulationArrowHead, 0.3, STROKE, FILL);
     
     necessaryStimulationArrowHead = necessaryStimulationGroup.createPolygon();
-    addRenderPoint(necessaryStimulationArrowHead, 4, 0);
-    addRenderPoint(necessaryStimulationArrowHead, 13, 5);
-    addRenderPoint(necessaryStimulationArrowHead, 4, 10);
+    addRenderPoint(necessaryStimulationArrowHead, 0.4*arrowScale, 0);
+    addRenderPoint(necessaryStimulationArrowHead, 1.3*arrowScale, 0.5*arrowScale);
+    addRenderPoint(necessaryStimulationArrowHead, 0.4*arrowScale, arrowScale);
     setGraphicalProperties(necessaryStimulationArrowHead, 0.3, STROKE, FILL);
     
     necessaryStimulation.setGroup(necessaryStimulationGroup);
@@ -378,14 +393,14 @@ public class RenderLayoutBuilder
     
     
     // Modulation:
-    LineEnding modulation = createLineEnding("modulationHead", -9, -5, 10, 10);
+    LineEnding modulation = createLineEnding("modulationHead", -0.9*arrowScale, -0.5*arrowScale, arrowScale, arrowScale);
     
     RenderGroup modulationGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
     Polygon modulationArrowHead = modulationGroup.createPolygon();
-    addRenderPoint(modulationArrowHead, 0, 5);
-    addRenderPoint(modulationArrowHead, 5, 0);
-    addRenderPoint(modulationArrowHead, 10, 5);
-    addRenderPoint(modulationArrowHead, 5, 10);
+    addRenderPoint(modulationArrowHead, 0, 0.5*arrowScale);
+    addRenderPoint(modulationArrowHead, 0.5*arrowScale, 0);
+    addRenderPoint(modulationArrowHead, arrowScale, 0.5*arrowScale);
+    addRenderPoint(modulationArrowHead, 0.5*arrowScale, arrowScale);
     setGraphicalProperties(modulationArrowHead, 0.3, STROKE, FILL);
     
     modulation.setGroup(modulationGroup);

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-02-07 at 09:14:00 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-02-07 at 09:46:32 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="TestModel_with_modifiers" timeUnits="time">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -14,90 +14,90 @@
             <render:listOfLineEndings>
               <render:lineEnding render:enable-rotation-mapping="true" render:id="productionHead">
                 <layout:boundingBox>
-                  <layout:position layout:x="-8" layout:y="-5" layout:z="0"/>
-                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="9"/>
+                  <layout:position layout:x="-4.800000000000001" layout:y="-3" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="6" layout:width="5.4"/>
                 </layout:boundingBox>
                 <render:g>
                   <render:polygon render:fill="black" render:stroke="black" render:stroke-width="0.3">
                     <render:listOfElements>
                       <render:element render:x="0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="9" render:y="5" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="10" xsi:type="RenderPoint"/>
+                      <render:element render:x="5.4" render:y="3" xsi:type="RenderPoint"/>
+                      <render:element render:x="0" render:y="6" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                 </render:g>
               </render:lineEnding>
               <render:lineEnding render:enable-rotation-mapping="true" render:id="stimulationHead">
                 <layout:boundingBox>
-                  <layout:position layout:x="-8" layout:y="-5" layout:z="0"/>
-                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="9"/>
+                  <layout:position layout:x="-4.800000000000001" layout:y="-3" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="6" layout:width="5.4"/>
                 </layout:boundingBox>
                 <render:g>
                   <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.3">
                     <render:listOfElements>
                       <render:element render:x="0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="9" render:y="5" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="10" xsi:type="RenderPoint"/>
+                      <render:element render:x="5.4" render:y="3" xsi:type="RenderPoint"/>
+                      <render:element render:x="0" render:y="6" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                 </render:g>
               </render:lineEnding>
               <render:lineEnding render:enable-rotation-mapping="true" render:id="catalysisHead">
                 <layout:boundingBox>
-                  <layout:position layout:x="-9" layout:y="-5" layout:z="0"/>
-                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
+                  <layout:position layout:x="-5.4" layout:y="-3" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="6" layout:width="6"/>
                 </layout:boundingBox>
                 <render:g>
-                  <render:ellipse render:cx="6" render:cy="5" render:fill="white" render:rx="5" render:stroke="black" render:stroke-width="0.3"/>
+                  <render:ellipse render:cx="3.5999999999999996" render:cy="3" render:fill="white" render:rx="3" render:stroke="black" render:stroke-width="0.3"/>
                 </render:g>
               </render:lineEnding>
               <render:lineEnding render:enable-rotation-mapping="true" render:id="inhibitionHead">
                 <layout:boundingBox>
-                  <layout:position layout:x="-1" layout:y="-5" layout:z="0"/>
-                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="2"/>
+                  <layout:position layout:x="-0.6000000000000001" layout:y="-3" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="6" layout:width="1.2000000000000002"/>
                 </layout:boundingBox>
                 <render:g>
                   <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.3">
                     <render:listOfElements>
-                      <render:element render:x="1" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="1" render:y="10" xsi:type="RenderPoint"/>
+                      <render:element render:x="0.6000000000000001" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="0.6000000000000001" render:y="6" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                 </render:g>
               </render:lineEnding>
               <render:lineEnding render:enable-rotation-mapping="true" render:id="necessaryStimulationHead">
                 <layout:boundingBox>
-                  <layout:position layout:x="-12" layout:y="-5" layout:z="0"/>
-                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="13"/>
+                  <layout:position layout:x="-7.199999999999999" layout:y="-3" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="6" layout:width="7.800000000000001"/>
                 </layout:boundingBox>
                 <render:g>
                   <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.3">
                     <render:listOfElements>
-                      <render:element render:x="1" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="1" render:y="10" xsi:type="RenderPoint"/>
+                      <render:element render:x="0.6000000000000001" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="0.6000000000000001" render:y="6" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                   <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.3">
                     <render:listOfElements>
-                      <render:element render:x="4" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="13" render:y="5" xsi:type="RenderPoint"/>
-                      <render:element render:x="4" render:y="10" xsi:type="RenderPoint"/>
+                      <render:element render:x="2.4000000000000004" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="7.800000000000001" render:y="3" xsi:type="RenderPoint"/>
+                      <render:element render:x="2.4000000000000004" render:y="6" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                 </render:g>
               </render:lineEnding>
               <render:lineEnding render:enable-rotation-mapping="true" render:id="modulationHead">
                 <layout:boundingBox>
-                  <layout:position layout:x="-9" layout:y="-5" layout:z="0"/>
-                  <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
+                  <layout:position layout:x="-5.4" layout:y="-3" layout:z="0"/>
+                  <layout:dimensions layout:depth="0" layout:height="6" layout:width="6"/>
                 </layout:boundingBox>
                 <render:g>
                   <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.3">
                     <render:listOfElements>
-                      <render:element render:x="0" render:y="5" xsi:type="RenderPoint"/>
-                      <render:element render:x="5" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="10" render:y="5" xsi:type="RenderPoint"/>
-                      <render:element render:x="5" render:y="10" xsi:type="RenderPoint"/>
+                      <render:element render:x="0" render:y="3" xsi:type="RenderPoint"/>
+                      <render:element render:x="3" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="6" render:y="3" xsi:type="RenderPoint"/>
+                      <render:element render:x="3" render:y="6" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                 </render:g>
@@ -127,6 +127,9 @@
               </render:style>
               <render:style id="modulationStyle" render:idList="SRG_denaturation_heat">
                 <render:g render:endHead="modulationHead" render:stroke="black" render:stroke-width="1.0"/>
+              </render:style>
+              <render:style id="TextGylphStyle" render:typeList="TEXTGLYPH">
+                <render:g render:font-family="monospace" render:font-size="10" render:text-anchor="middle" render:vtext-anchor="middle"/>
               </render:style>
               <render:style id="styleOf_CompartmentGlyph_1" render:idList="CompartmentGlyph_1">
                 <render:g>
@@ -224,22 +227,22 @@
               </render:style>
               <render:style id="styleOf_SpeciesGlyph_aa" render:idList="SpeciesGlyph_aa">
                 <render:g>
-                  <render:ellipse render:cx="10" render:cy="10" render:fill="white" render:rx="9" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="5" render:cy="5" render:fill="white" render:rx="4.5" render:stroke="black" render:stroke-width="1.0"/>
                   <render:polygon render:fill="white" render:stroke="black" render:stroke-width="1.0">
                     <render:listOfElements>
-                      <render:element render:x="20" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="20" xsi:type="RenderPoint"/>
+                      <render:element render:x="10" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="0" render:y="10" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                 </render:g>
               </render:style>
               <render:style id="styleOf_SpeciesGlyph_de" render:idList="SpeciesGlyph_de">
                 <render:g>
-                  <render:ellipse render:cx="10" render:cy="10" render:fill="white" render:rx="9" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="5" render:cy="5" render:fill="white" render:rx="4.5" render:stroke="black" render:stroke-width="1.0"/>
                   <render:polygon render:fill="white" render:stroke="black" render:stroke-width="1.0">
                     <render:listOfElements>
-                      <render:element render:x="20" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="20" xsi:type="RenderPoint"/>
+                      <render:element render:x="10" render:y="0" xsi:type="RenderPoint"/>
+                      <render:element render:x="0" render:y="10" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                 </render:g>
@@ -546,7 +549,7 @@
             </render:listOfStyles>
           </render:renderInformation>
         </render:listOfRenderInformation>
-        <layout:dimensions layout:height="230" layout:width="550"/>
+        <layout:dimensions layout:depth="0" layout:height="220" layout:width="540"/>
         <layout:listOfCompartmentGlyphs>
           <layout:compartmentGlyph layout:compartment="Yeast" layout:id="CompartmentGlyph_1">
             <layout:boundingBox layout:id="bb1">
@@ -556,121 +559,121 @@
           </layout:compartmentGlyph>
         </layout:listOfCompartmentGlyphs>
         <layout:listOfSpeciesGlyphs>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_Glucose" layout:species="Glucose">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_Glucose" layout:species="Glucose" sboTerm="SBO:0000285">
             <layout:boundingBox layout:id="bb2">
               <layout:position layout:x="105" layout:y="20"/>
               <layout:dimensions layout:height="20" layout:width="130"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_G6P" layout:species="G6P">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_G6P" layout:species="G6P" sboTerm="SBO:0000285">
             <layout:boundingBox layout:id="bb5">
               <layout:position layout:x="50" layout:y="190"/>
               <layout:dimensions layout:height="20" layout:width="270"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_ATP" layout:species="ATP">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_ATP" layout:species="ATP" sboTerm="SBO:0000247">
             <layout:boundingBox layout:id="bb3">
               <layout:position layout:x="235" layout:y="67"/>
               <layout:dimensions layout:height="26" layout:width="80"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="glyph_ADP" layout:species="ADP">
+          <layout:speciesGlyph layout:id="glyph_ADP" layout:species="ADP" sboTerm="SBO:0000247">
             <layout:boundingBox layout:id="bb4">
               <layout:position layout:x="235" layout:y="137"/>
               <layout:dimensions layout:height="26" layout:width="80"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_Pi" layout:species="Pi">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_Pi" layout:species="Pi" sboTerm="SBO:0000247">
             <layout:boundingBox layout:id="bb6">
               <layout:position layout:x="80" layout:y="100"/>
               <layout:dimensions layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_GDP" layout:species="GDP">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_GDP" layout:species="GDP" sboTerm="SBO:0000247">
             <layout:boundingBox layout:id="bbGDP">
               <layout:position layout:x="310" layout:y="67"/>
               <layout:dimensions layout:height="26" layout:width="80"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_GTP" layout:species="GTP">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_GTP" layout:species="GTP" sboTerm="SBO:0000247">
             <layout:boundingBox layout:id="bbGTP">
               <layout:position layout:x="310" layout:y="137"/>
               <layout:dimensions layout:height="26" layout:width="80"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_NDPK" layout:species="NDPK">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_NDPK" layout:species="NDPK" sboTerm="SBO:0000245">
             <layout:boundingBox layout:id="bbNDPK">
               <layout:position layout:x="330" layout:y="105"/>
               <layout:dimensions layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_aa" layout:species="aa">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_aa" layout:species="aa" sboTerm="SBO:0000291">
             <layout:boundingBox layout:id="bb_aa">
-              <layout:position layout:x="440" layout:y="105"/>
-              <layout:dimensions layout:height="20" layout:width="20"/>
+              <layout:position layout:x="445" layout:y="110"/>
+              <layout:dimensions layout:height="10" layout:width="10"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_de" layout:species="de">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_de" layout:species="de" sboTerm="SBO:0000291">
             <layout:boundingBox layout:id="bb_de">
-              <layout:position layout:x="440" layout:y="140"/>
-              <layout:dimensions layout:height="20" layout:width="20"/>
+              <layout:position layout:x="445" layout:y="145"/>
+              <layout:dimensions layout:height="10" layout:width="10"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_mRNA" layout:species="mRNA">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_mRNA" layout:species="mRNA" sboTerm="SBO:0000278">
             <layout:boundingBox layout:id="bb_mRNA">
               <layout:position layout:x="385" layout:y="60"/>
               <layout:dimensions layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_heat" layout:species="heat">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_heat" layout:species="heat" sboTerm="SBO:0000405">
             <layout:boundingBox layout:id="bb_heat">
               <layout:position layout:x="385" layout:y="180"/>
               <layout:dimensions layout:height="15" layout:width="40"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_H2O" layout:species="H2O">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_H2O" layout:species="H2O" sboTerm="SBO:0000247">
             <layout:boundingBox layout:id="bbH2O">
               <layout:position layout:x="453" layout:y="67"/>
               <layout:dimensions layout:height="26" layout:width="26"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_H" layout:species="H">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_H" layout:species="H" sboTerm="SBO:0000247">
             <layout:boundingBox layout:id="bbH">
               <layout:position layout:x="503" layout:y="67"/>
               <layout:dimensions layout:height="26" layout:width="26"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_H_clone" layout:species="H">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_H_clone" layout:species="H" sboTerm="SBO:0000247">
             <layout:boundingBox layout:id="bbHclone">
               <layout:position layout:x="20" layout:y="10"/>
               <layout:dimensions layout:height="26" layout:width="26"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_Glucose_clone" layout:species="Glucose">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_Glucose_clone" layout:species="Glucose" sboTerm="SBO:0000285">
             <layout:boundingBox layout:id="bb2_clone">
               <layout:position layout:x="20" layout:y="40"/>
               <layout:dimensions layout:height="20" layout:width="60"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_NDPK_clone" layout:species="NDPK">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_NDPK_clone" layout:species="NDPK" sboTerm="SBO:0000245">
             <layout:boundingBox layout:id="bbNDPK_clone">
               <layout:position layout:x="20" layout:y="70"/>
               <layout:dimensions layout:height="20" layout:width="60"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_mRNA_clone" layout:species="mRNA">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_mRNA_clone" layout:species="mRNA" sboTerm="SBO:0000278">
             <layout:boundingBox layout:id="bbmRNA_clone">
               <layout:position layout:x="250" layout:y="15"/>
               <layout:dimensions layout:height="20" layout:width="60"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_heat_Clone" layout:species="heat">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_heat_Clone" layout:species="heat" sboTerm="SBO:0000405">
             <layout:boundingBox layout:id="bb_heat_clone">
               <layout:position layout:x="385" layout:y="15"/>
               <layout:dimensions layout:height="15" layout:width="40"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_H3O" layout:species="H3O">
+          <layout:speciesGlyph layout:id="SpeciesGlyph_H3O" layout:species="H3O" sboTerm="SBO:0000247">
             <layout:boundingBox layout:id="bbH3O">
               <layout:position layout:x="478" layout:y="177"/>
               <layout:dimensions layout:height="26" layout:width="26"/>
@@ -832,7 +835,7 @@
                   </layout:listOfCurveSegments>
                 </layout:curve>
               </layout:speciesReferenceGlyph>
-              <layout:speciesReferenceGlyph layout:id="SRG_ndpk_NDPK" layout:speciesGlyph="SpeciesGlyph_NDPK" layout:speciesReference="ModifierSpeciesReference_NDPK">
+              <layout:speciesReferenceGlyph layout:id="SRG_ndpk_NDPK" layout:speciesGlyph="SpeciesGlyph_NDPK" layout:speciesReference="ModifierSpeciesReference_NDPK" sboTerm="SBO:0000172">
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="LineSegment">
@@ -934,7 +937,7 @@
                   </layout:listOfCurveSegments>
                 </layout:curve>
               </layout:speciesReferenceGlyph>
-              <layout:speciesReferenceGlyph layout:id="SRG_denaturation_heat" layout:role="modifier" layout:speciesGlyph="SpeciesGlyph_heat" layout:speciesReference="ModifierSpeciesReference_heat">
+              <layout:speciesReferenceGlyph layout:id="SRG_denaturation_heat" layout:speciesGlyph="SpeciesGlyph_heat" layout:speciesReference="ModifierSpeciesReference_heat" sboTerm="SBO:0000168">
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="LineSegment">
@@ -1074,15 +1077,60 @@
               <layout:dimensions layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_GDP" layout:id="TextGlyph_GDP" layout:originOfText="GDP"/>
-          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_GTP" layout:id="TextGlyph_GTP" layout:originOfText="GTP"/>
-          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_NDPK" layout:id="TextGlyph_NDPK" layout:originOfText="NDPK"/>
-          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_mRNA" layout:id="TextGlyph_mRNA" layout:originOfText="mRNA"/>
-          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_heat" layout:id="TextGlyph_heat" layout:originOfText="heat"/>
-          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_H2O" layout:id="TextGlyph_H2O" layout:originOfText="H2O"/>
-          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_H" layout:id="TextGlyph_H" layout:originOfText="H"/>
-          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_H3O" layout:id="TextGlyph_H3O" layout:originOfText="H3O"/>
-          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_H_clone" layout:id="TextGlyph_H_clone" layout:originOfText="H"/>
+          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_GDP" layout:id="TextGlyph_GDP" layout:originOfText="GDP">
+            <layout:boundingBox>
+              <layout:position layout:x="310" layout:y="67"/>
+              <layout:dimensions layout:height="26" layout:width="80"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
+          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_GTP" layout:id="TextGlyph_GTP" layout:originOfText="GTP">
+            <layout:boundingBox>
+              <layout:position layout:x="310" layout:y="137"/>
+              <layout:dimensions layout:height="26" layout:width="80"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
+          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_NDPK" layout:id="TextGlyph_NDPK" layout:originOfText="NDPK">
+            <layout:boundingBox>
+              <layout:position layout:x="330" layout:y="105"/>
+              <layout:dimensions layout:height="20" layout:width="40"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
+          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_mRNA" layout:id="TextGlyph_mRNA" layout:originOfText="mRNA">
+            <layout:boundingBox>
+              <layout:position layout:x="385" layout:y="60"/>
+              <layout:dimensions layout:height="20" layout:width="40"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
+          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_heat" layout:id="TextGlyph_heat" layout:originOfText="heat">
+            <layout:boundingBox>
+              <layout:position layout:x="385" layout:y="180"/>
+              <layout:dimensions layout:height="15" layout:width="40"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
+          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_H2O" layout:id="TextGlyph_H2O" layout:originOfText="H2O">
+            <layout:boundingBox>
+              <layout:position layout:x="453" layout:y="67"/>
+              <layout:dimensions layout:height="26" layout:width="26"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
+          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_H" layout:id="TextGlyph_H" layout:originOfText="H">
+            <layout:boundingBox>
+              <layout:position layout:x="503" layout:y="67"/>
+              <layout:dimensions layout:height="26" layout:width="26"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
+          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_H3O" layout:id="TextGlyph_H3O" layout:originOfText="H3O">
+            <layout:boundingBox>
+              <layout:position layout:x="478" layout:y="177"/>
+              <layout:dimensions layout:height="26" layout:width="26"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
+          <layout:textGlyph layout:graphicalObject="SpeciesGlyph_H_clone" layout:id="TextGlyph_H_clone" layout:originOfText="H">
+            <layout:boundingBox>
+              <layout:position layout:x="20" layout:y="10"/>
+              <layout:dimensions layout:height="26" layout:width="26"/>
+            </layout:boundingBox>
+          </layout:textGlyph>
         </layout:listOfTextGlyphs>
       </layout:layout>
     </layout:listOfLayouts>

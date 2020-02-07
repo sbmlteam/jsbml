@@ -170,6 +170,12 @@
 					  </render:listOfLineEndings>
 					  
 					  <render:listOfStyles>
+						<render:style render:id="TextGlyphStyle" render:typeList="TEXTGLYPH">
+						<render:g render:font-family="monospace" render:font-size="10" 
+						 render:text-anchor="middle" render:vtext-anchor="middle">
+						</render:g>
+						</render:style>
+					  
 						<render:style render:id="PerturbingAgentStyle" render:idList="SpeciesGlyph_B">
 						  <render:g>
 							<render:polygon render:stroke="black" render:stroke-width="1" render:fill="white">

@@ -23,12 +23,16 @@ public class RenderExample {
     File file = new File("extensions/render/resources/examples/latex/layout_spec_example.xml");
     System.out.println("Reading file " + file);
     try {
-      LayoutDirector<LocalRenderInformation> director = new LayoutDirector<LocalRenderInformation>(file,
+      // To work on the same document, read it once:
+      // The layout-director will then modify the layout (side-effects) that is also later retrieved 
+      // from the document as ly
+      SBMLDocument doc = SBMLReader.read(file);
+      LayoutDirector<LocalRenderInformation> director = new LayoutDirector<LocalRenderInformation>(doc,
         new RenderLayoutBuilder(), new BasicLayoutAlgorithm());
       director.run();
       System.out.println("Layout-Information-document:\n");
       System.out.println(director.getProduct());
-      SBMLDocument doc = SBMLReader.read(file);
+      
       Layout ly = ((LayoutModelPlugin) doc.getModel().getExtension(LayoutConstants.getNamespaceURI(doc.getLevel(), doc.getVersion()))).getLayout(0);
       RenderLayoutPlugin plugin = new RenderLayoutPlugin(ly); 
       ly.addPlugin(LayoutConstants.getNamespaceURI(doc.getLevel(), doc.getVersion()), plugin);

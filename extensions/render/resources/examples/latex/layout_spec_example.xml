@@ -193,14 +193,14 @@
 		  
 		  <layout:speciesGlyph layout:id="SpeciesGlyph_aa" layout:species="aa">
 			<layout:boundingBox layout:id="bb_aa">
-			<layout:position layout:x="440" layout:y="105"/>
-			<layout:dimensions layout:width="20" layout:height="20"/>
+			<layout:position layout:x="445" layout:y="110"/>
+			<layout:dimensions layout:width="10" layout:height="10"/>
 			</layout:boundingBox>
 		  </layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="SpeciesGlyph_de" layout:species="de">
 			<layout:boundingBox layout:id="bb_de">
-			<layout:position layout:x="440" layout:y="140"/>
-			<layout:dimensions layout:width="20" layout:height="20"/>
+			<layout:position layout:x="445" layout:y="145"/>
+			<layout:dimensions layout:width="10" layout:height="10"/>
 			</layout:boundingBox>
 		  </layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="SpeciesGlyph_mRNA" layout:species="mRNA">
