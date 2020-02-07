@@ -59,10 +59,7 @@ public class RenderUncertainProcessNode extends RenderSBGNProcessNode
     
     questionmark.setX(0); questionmark.setAbsoluteX(true);
     questionmark.setY(0); questionmark.setAbsoluteY(true);
-    // TODO: <render:text ...>?</render:text> how to put a questionmark in there?
-    // questionmark.registerChild("?");
-    
-    // System.out.println("Questionmark has " + questionmark.getChildCount() + " children");
+    questionmark.setText("?");
     
     return new LocalStyle(group);
   }

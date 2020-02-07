@@ -4,21 +4,17 @@ import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderGroup;
-import org.sbml.jsbml.ext.render.director.ProcessNode;
+import org.sbml.jsbml.ext.render.director.OmittedProcessNode;
 
 
-public class RenderProcessNode extends RenderSBGNProcessNode implements ProcessNode<LocalStyle> {
+public class RenderOmittedProcessNode extends RenderSBGNProcessNode
+  implements OmittedProcessNode<LocalStyle> {
 
-  /**
-   * 
-   * @param strokeWidth
-   * @param stroke
-   * @param fill
-   * @param nodeSize side-length of the process-node's square
-   */
-  public RenderProcessNode(double strokeWidth, String stroke, String fill, double nodeSize) {
+  public RenderOmittedProcessNode(double strokeWidth, String stroke,
+    String fill, double nodeSize) {
     super(strokeWidth, stroke, fill, nodeSize);
   }
+
 
   @Override
   public LocalStyle draw(double x, double y, double z, double width,
@@ -44,6 +40,19 @@ public class RenderProcessNode extends RenderSBGNProcessNode implements ProcessN
     y = -getNodeSize() / 2;
     addRotatedRenderPoint(square, x, y, rotationRadians, width / 2, height / 2);
     square.setFill(getFill());
+    
+    Polygon stroke1 = group.createPolygon();
+    addRotatedRenderPoint(stroke1, -getNodeSize() / 3, getNodeSize() / 3,
+      rotationRadians, width / 2, height / 2);
+    addRotatedRenderPoint(stroke1, 0, -getNodeSize() / 3,
+      rotationRadians, width / 2, height / 2);
+    
+    Polygon stroke2 = group.createPolygon();
+    addRotatedRenderPoint(stroke2, 0, getNodeSize() / 3,
+      rotationRadians, width / 2, height / 2);
+    addRotatedRenderPoint(stroke2, getNodeSize() / 3, -getNodeSize() / 3,
+      rotationRadians, width / 2, height / 2);
+    
     return new LocalStyle(group);
   }
 }

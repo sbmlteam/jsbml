@@ -140,11 +140,7 @@ public class RenderLayoutBuilder
   @Override
   public void buildProcessNode(ReactionGlyph reactionGlyph,
     double rotationAngle, double curveWidth) {
-    SBGNProcessNode<LocalStyle> process = getSBGNReactionNode(reactionGlyph.getReactionInstance().getSBOTerm());
-    // TODO: this is temporary code!
-    if (process == null) {
-      process = createProcessNode();
-    }    
+    SBGNProcessNode<LocalStyle> process = getSBGNReactionNode(reactionGlyph.getReactionInstance().getSBOTerm());  
     
     BoundingBox bb = reactionGlyph.getBoundingBox();
     Point rotationCentre = bb.getPosition().clone();
@@ -158,7 +154,6 @@ public class RenderLayoutBuilder
     style.setIDList(new ArrayList<String>());
     style.getIDList().add(reactionGlyph.getId());
     product.addLocalStyle(style);
-    
   }
 
   @Override
@@ -205,9 +200,7 @@ public class RenderLayoutBuilder
 
   @Override
   public OmittedProcessNode<LocalStyle> createOmittedProcessNode() {
-    // TODO Auto-generated method stub
-    System.out.println("Unimplemented: Tried to create OmittedProcessNode");
-    return null;
+    return new RenderOmittedProcessNode(1, STROKE, FILL, 10);
   }
 
   @Override
@@ -232,7 +225,6 @@ public class RenderLayoutBuilder
 
   @Override
   public UncertainProcessNode<LocalStyle> createUncertainProcessNode() {
-    System.out.println("Created uncertainprocessnode");
     return new RenderUncertainProcessNode(1, STROKE, FILL, 10);
   }
 
