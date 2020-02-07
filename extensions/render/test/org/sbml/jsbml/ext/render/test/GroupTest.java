@@ -101,7 +101,7 @@ public class GroupTest {
     RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontFamily());
     g.setFontFamily(fontTypeString);
-    assertEquals("getFontFamily",fontType,g.getFontFamily());
+    assertTrue("getFontFamily", fontType.toString().equals(g.getFontFamily()));
   }
 
 
@@ -127,7 +127,7 @@ public class GroupTest {
     RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontFamily());
     g.setFontFamily(fontType.toString());
-    assertEquals("setFontFamilyError",g.getFontFamily(),fontType);
+    assertTrue("setFontFamilyError", fontType.toString().equals(g.getFontFamily()));
   }
 
 
