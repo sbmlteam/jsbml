@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -71,6 +72,17 @@ public class TextTest {
     assertTrue(!textType.isSetFontSize());
     textType.setFontSize(fontSize);
     assertEquals("getFontSizeError",fontSize,textType.getFontSize());
+  }
+  
+  /**
+   * Test method for {@link Text#getText()}
+   */
+  @Test
+  public void testGetText() {
+    Text textType = new Text();
+    assertFalse(textType.isSetText());
+    textType.setText("...");
+    assertEquals("getTextError", "...", textType.getText());
   }
 
 
@@ -232,7 +244,21 @@ public class TextTest {
     assertTrue(textType.isSetFontWeightBold());
   }
 
-
+  /**
+   * Test method for {@link Text#isSetText()}
+   */
+  @Test
+  public void testIsSetText() {
+    Text textType = new Text();
+    assertFalse(textType.isSetText());
+    textType.setText("");
+    // Deviation from libSBML!
+    assertTrue("isSetTextError: behaves like libSBML", textType.isSetText());
+    
+    textType.setText("Some nonempty string");
+    assertTrue("isSetTextError",textType.isSetText());
+  }
+  
   /**
    * Test method for {@link Text#isSetTextAnchor()}.
    */
@@ -384,7 +410,33 @@ public class TextTest {
     textType.setFontWeightBold(true);
     assertTrue(textType.isFontWeightBold());
   }
+  
+  /**
+   * Tests behaviour of {@link Text#setText(String)} for usual arguments (non-null Strings)
+   */
+  @Test
+  public void testSetText() {
+    Text textType = new Text();
+    textType.setText("Glc");
+    assertEquals("setTextError", "Glc", textType.getText());
+    textType.setText("");
+    assertEquals("setTextError", "", textType.getText());
+  }
 
+  
+  /**
+   * Tests behaviour for setting the text to {@code null} via
+   * {@link Text#setText(String)} instead of {@link Text#unsetText()}
+   */
+  @Test
+  public void testSetTextToNull() {
+    Text textType = new Text();
+    assertFalse(textType.isSetText());
+    textType.setText("Not null");
+    assertTrue(textType.isSetText());
+    textType.setText(null);
+    assertFalse(textType.isSetText());
+  }
 
   /**
    * Test method for {@link Text#setTextAnchor(HTextAnchor)}.
@@ -455,5 +507,18 @@ public class TextTest {
     assertTrue(!textType.isSetZ());
     textType.setZ(0.02d);
     assertEquals(textType.getZ(),0.02d,0.00000001d);
+  }
+  
+  /**
+   * Test method for {@link Text#unsetText()}
+   */
+  @Test
+  public void testUnsetText() {
+    Text textType = new Text();
+    assertFalse(textType.isSetText());
+    textType.setText("ATP");
+    assertTrue(textType.isSetText());
+    textType.unsetText();
+    assertFalse(textType.isSetText());
   }
 }
