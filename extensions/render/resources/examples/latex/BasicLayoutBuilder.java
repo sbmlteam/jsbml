@@ -88,7 +88,7 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
   @Override
   public void builderStart(Layout layout) {
     /** 
-     * Standalone document is the drawn picture and only the drawn picture
+     * "standalone" document is the drawn picture and only the drawn picture
      * -> Use tikz with library arrow.meta (for arrow-heads) and mathabx 
      * for the source/sink-symbol 
      */
@@ -118,7 +118,7 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
 
   @Override
   public void buildCompartment(CompartmentGlyph compartmentGlyph) {
-    /** Can assume: compartmentGlyph is laid-out */
+    /** Can assume: compartmentGlyph is laid-out (same for methods below) */
     product.append(drawBoundingBox(createCompartment(), compartmentGlyph.getBoundingBox()));
     /**
      * Coupling: The LaTeXCompartment will end its line with a comment "%
@@ -248,7 +248,8 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
 
   @Override
   public String getProduct() {
-    // TODO: should this check for isProductReady?
+    // Since the LayoutDirector already checks whether the builder's product is
+    // ready when its getProduct()-method is called, do not check here
     return product.toString();
   }
 
@@ -283,6 +284,12 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
       bbox.getDimensions().getHeight(), bbox.getDimensions().getDepth());
   }
 
+  
+  /*
+   * The following methods implement the LayoutFactory-Interface:
+   * Instantiate Drawing-experts for the various SBGN-elements, and equip them
+   * with the necessary drawing-rules (like line width)
+   */
   @Override
   public AssociationNode<String> createAssociationNode() {
     return new LaTeXAssociationNode(lineWidth, reactionNodeSize);

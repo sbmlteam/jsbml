@@ -52,7 +52,12 @@ import org.sbml.jsbml.ext.render.director.Stimulation;
 import org.sbml.jsbml.ext.render.director.UncertainProcessNode;
 import org.sbml.jsbml.ext.render.director.UnspecifiedNode;
 
-
+/**
+ * Class for building a LocalRenderInformation object for rendering the given
+ * layout. A key method is {@link RenderLayoutBuilder#buildLineEndings()}.
+ * 
+ * @author DavidVetter
+ */
 public class RenderLayoutBuilder
   extends AbstractLayoutBuilder<LocalRenderInformation, LocalStyle, String> {
 
@@ -62,6 +67,15 @@ public class RenderLayoutBuilder
   private static String          HIGHLIGHT = "red";
   private static String          FILL      = "white";
   private double arrowScale = 6;
+  
+  /**
+   * Since the arcs specified by SpeciesReferenceGlyphs can easily be styled by
+   * just adding them to the ID-list of a general style (their layout is not the
+   * business of the render-plugin), we here hold a mapping from style-names to
+   * the style-objects, which is built in the
+   * {@link RenderLayoutBuilder#buildLineEndings}-method, and used by the
+   * {@link RenderLayoutBuilder#buildConnectingArc}-method
+   */
   private HashMap<String, LocalStyle> arcStyles;
   
   public RenderLayoutBuilder() {
@@ -103,6 +117,11 @@ public class RenderLayoutBuilder
         cg.getBoundingBox().getDimensions().getWidth(),
         cg.getBoundingBox().getDimensions().getHeight(),
         cg.getBoundingBox().getDimensions().getDepth());
+    /**
+     * Since the drawing-expert has no access to the concrete
+     * CompartmentGlyph-instance, the built style is linked to the styled within
+     * this RenderLayoutBuilder (similar for other graphical objects)
+     */
     compartmentStyle.setIDList(new ArrayList<String>());
     compartmentStyle.getIDList().add(cg.getId());
     compartmentStyle.setId("styleOf_" + cg.getId());
@@ -112,16 +131,24 @@ public class RenderLayoutBuilder
   @Override
   public void buildConnectingArc(SpeciesReferenceGlyph srg, ReactionGlyph rg,
     double curveWidth) {
-    // Design decision: To avoid some redundancy, just register them at the correct Style.
+    /**
+     * Design decision: To avoid some redundancy, just register the
+     * speciesReferenceGlyph at the correct Style.
+     */
     
-    // Rather dirty fix:
-    // Deviating from the policy of the LayoutDirector, the SBOTerm here gets
-    // priority over the role specified in the layout
+    // See LaTeX-example
     if(srg.getSpeciesReferenceInstance().isSetSBOTerm()) {
       srg.setSBOTerm(srg.getSpeciesReferenceInstance().getSBOTerm());
       srg.unsetRole();
     }
     SBGNArc<String> process = createArc(srg, rg); 
+    
+    /**
+     * The various SBGNArc-implementations will here always simply return the id
+     * (a String) of the style to which the speciesReferenceGlyph should be
+     * subscribed. This makes the resulting file less redundant (and is the
+     * reason for the near pointless respective implementations here)
+     */
     arcStyles.get(process.draw(srg.getCurve())).getIDList().add(srg.getId());
   }
 
@@ -162,6 +189,12 @@ public class RenderLayoutBuilder
     rotationCentre.setX(bb.getDimensions().getWidth()/2 + rotationCentre.getX());
     rotationCentre.setY(bb.getDimensions().getHeight()/2 + rotationCentre.getY());
     
+    /**
+     * Note: The layout-specification states that the boundingbox is to be
+     * ignored if a reactionGlyph's Curve is set. However, the render-plugin
+     * will always use the boundingbox (as a reference coordinate system), so it
+     * is here used too (out of necessity).
+     */
     LocalStyle style = process.draw(bb.getPosition().getX(),
       bb.getPosition().getY(), bb.getPosition().getZ(),
       bb.getDimensions().getWidth(), bb.getDimensions().getHeight(),
@@ -179,7 +212,6 @@ public class RenderLayoutBuilder
   @Override
   public void builderEnd() {
     terminated = true;
-    // Probably do not need to do much here.
   }
 
   @Override
@@ -187,6 +219,12 @@ public class RenderLayoutBuilder
     return product;
   }
 
+  
+  /*
+   * The following methods implement the LayoutFactory-Interface:
+   * Instantiate Drawing-experts for the various SBGN-elements, and equip them
+   * with the necessary drawing-rules (like line width)
+   */
   @Override
   public AssociationNode<LocalStyle> createAssociationNode() {
     return new RenderAssociationNode(1, STROKE, FILL, 10);
@@ -290,9 +328,14 @@ public class RenderLayoutBuilder
   
   /**
    * Method to create all the needed line-endings in the product (so the
-   * individual arcs can just reference them)
+   * individual arcs can just reference them, cf. render-specification on
+   * LineEndings).
    */
   private void buildLineEndings() {
+    /**
+     * The consumption-arcs will not have any particularly interesting features. 
+     * Importantly, it lacks a LineEnding
+     */
     RenderGroup consumptionStyleGroup = new RenderGroup();
     consumptionStyleGroup.setStroke(STROKE);
     consumptionStyleGroup.setStrokeWidth(1);
@@ -417,6 +460,10 @@ public class RenderLayoutBuilder
     addArcStyle(arctype + "Style", arctype + "Head");
   }
   
+  /**
+   * @param id the style's full id (e.g. "catalysisStyle")
+   * @param headId the head's full id (e.g. "catalysisHead")
+   */
   private void addArcStyle(String id, String headId) {
     RenderGroup styleGroup = new RenderGroup();
     styleGroup.setStroke(STROKE);
