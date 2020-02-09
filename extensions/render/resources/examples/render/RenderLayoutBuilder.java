@@ -25,7 +25,6 @@ import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderCubicBezier;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.RenderPoint;
-import org.sbml.jsbml.ext.render.Text;
 import org.sbml.jsbml.ext.render.VTextAnchor;
 import org.sbml.jsbml.ext.render.director.AbstractLayoutBuilder;
 import org.sbml.jsbml.ext.render.director.AssociationNode;

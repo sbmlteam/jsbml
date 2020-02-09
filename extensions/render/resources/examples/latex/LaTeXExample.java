@@ -34,7 +34,7 @@ import org.sbml.jsbml.ext.render.director.LayoutDirector;
  * 
  * @author David Vetter
  */
-public class SimpleExample {
+public class LaTeXExample {
   // TODO: provide explanations for the implementation and point at sbml2tikz
   public static void main(String[] args) {
     

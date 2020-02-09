@@ -55,28 +55,34 @@ import org.sbml.jsbml.ext.render.director.UncertainProcessNode;
 import org.sbml.jsbml.ext.render.director.UnspecifiedNode;
 
 /**
- * Class for actually rendering a full layout: Uses the BasicLayoutFactory to
- * generate drawing-experts and is called by the {@link LayoutDirector} to draw
- * each element of the layout
+ * Class for actually rendering a full layout: The {@link AbstractLayoutBuilder}
+ * itself already implements a LayoutFactory, and thus can generate
+ * drawing-experts.
+ * Methods of this class are called by the {@link LayoutDirector} to draw each
+ * element of the layout
  * 
  * @author David Vetter
  */
 public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, String> {
 
-  /**
-   * The LayoutBuilder here uses an implementation of the LayoutFactory. This is
-   * not necessary per se, as the AbstractLayoutBuilder also provides methods
-   * for creating the SBGNArcs and SBGNNodes for rendering the layout, but can
-   * be used to handle global options like the line-width (as is done here).
-   */
-  private BasicLayoutFactory factory;
   private StringBuffer product;
   private boolean ready;
   
+  /**
+   * These fields are for the LayoutFactory-functionality required by the
+   * AbstractLayoutBuilder. They are used in instantiating the drawing-experts
+   * for the graphical elements
+   */
+  private double lineWidth = 1;
+  private double arrowScale = 2;
+  private double reactionNodeSize = 10;
+  
   public BasicLayoutBuilder(double lineWidth, double arrowScale, double reactionNodeSize) {
     product = new StringBuffer();
-    factory = new BasicLayoutFactory(lineWidth, arrowScale, reactionNodeSize);
     ready = false;
+    this.lineWidth = lineWidth;
+    this.arrowScale = arrowScale;
+    this.reactionNodeSize = reactionNodeSize;
   }
 
   @Override
@@ -113,7 +119,7 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
   @Override
   public void buildCompartment(CompartmentGlyph compartmentGlyph) {
     /** Can assume: compartmentGlyph is laid-out */
-    product.append(drawBoundingBox(factory.createCompartment(), compartmentGlyph.getBoundingBox()));
+    product.append(drawBoundingBox(createCompartment(), compartmentGlyph.getBoundingBox()));
     /**
      * Coupling: The LaTeXCompartment will end its line with a comment "%
      * Compartment: ", to which the builder here adds the compartmentGlyph's id
@@ -279,101 +285,101 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
 
   @Override
   public AssociationNode<String> createAssociationNode() {
-    return factory.createAssociationNode();
+    return new LaTeXAssociationNode(lineWidth, reactionNodeSize);
   }
 
   @Override
   public Compartment<String> createCompartment() {
-    return factory.createCompartment();
+    return new LaTeXCompartment(lineWidth);
   }
 
   @Override
   public DissociationNode<String> createDissociationNode() {
-    return factory.createDissociationNode();
+    return new LaTeXDissociationNode(lineWidth, reactionNodeSize);
   }
 
   @Override
   public Macromolecule<String> createMacromolecule() {
-    return factory.createMacromolecule();
+    return new LaTeXMacromolecule(lineWidth);
   }
 
   @Override
   public NucleicAcidFeature<String> createNucleicAcidFeature() {
-    return factory.createNucleicAcidFeature();
+    return new LaTeXNucleicAcidFeature(lineWidth);
   }
 
   @Override
   public OmittedProcessNode<String> createOmittedProcessNode() {
-    return factory.createOmittedProcessNode();
+    return new LaTeXOmittedProcessNode(lineWidth, reactionNodeSize);
   }
 
   @Override
   public PerturbingAgent<String> createPerturbingAgent() {
-    return factory.createPerturbingAgent();
+    return new LaTeXPerturbingAgent(lineWidth);
   }
 
   @Override
   public ProcessNode<String> createProcessNode() {
-    return factory.createProcessNode();
+    return new LaTeXProcessNode(lineWidth, reactionNodeSize);
   }
 
   @Override
   public SimpleChemical<String> createSimpleChemical() {
-    return factory.createSimpleChemical();
+    return new LaTeXSimpleChemical(lineWidth);
   }
 
   @Override
   public SourceSink<String> createSourceSink() {
-    return factory.createSourceSink();
+    return new LaTeXSourceSink();
   }
 
   @Override
   public UncertainProcessNode<String> createUncertainProcessNode() {
-    return factory.createUncertainProcessNode();
+    return new LaTeXUncertainProcessNode(lineWidth, reactionNodeSize);
   }
 
   @Override
   public UnspecifiedNode<String> createUnspecifiedNode() {
-    return factory.createUnspecifiedNode();
+    return new LaTeXUnspecifiedNode(lineWidth);
   }
 
   @Override
   public Catalysis<String> createCatalysis() {
-    return factory.createCatalysis();
+    return new LaTeXCatalysis(arrowScale);
   }
 
   @Override
   public Consumption<String> createConsumption() {
-    return factory.createConsumption();
+    return new LaTeXConsumption();
   }
 
   @Override
   public ReversibleConsumption<String> createReversibleConsumption() {
-    return factory.createReversibleConsumption();
+    return new LaTeXReversibleConsumption(arrowScale);
   }
 
   @Override
   public Inhibition<String> createInhibition() {
-    return factory.createInhibition();
+    return new LaTeXInhibition(arrowScale);
   }
 
   @Override
   public Modulation<String> createModulation() {
-    return factory.createModulation();
+    return new LaTeXModulation(arrowScale);
   }
 
   @Override
   public NecessaryStimulation<String> createNecessaryStimulation() {
-    return factory.createNecessaryStimulation();
+    return new LaTeXNecessaryStimulation(arrowScale);
   }
 
   @Override
   public Production<String> createProduction() {
-    return factory.createProduction();
+    return new LaTeXProduction(arrowScale);
   }
 
   @Override
   public Stimulation<String> createStimulation() {
-    return factory.createStimulation();
+    return new LaTeXStimulation(arrowScale);
   }
 }
