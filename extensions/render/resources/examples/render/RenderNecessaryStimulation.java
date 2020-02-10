@@ -22,7 +22,11 @@ package examples.render;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.NecessaryStimulation;
 
-
+/**
+ * Class for 'drawing' a necessary-stimulation-Arc. Compare other arc-experts
+ * 
+ * @author David Vetter
+ */
 public class RenderNecessaryStimulation extends RenderSBGNArc
   implements NecessaryStimulation<String> {
 

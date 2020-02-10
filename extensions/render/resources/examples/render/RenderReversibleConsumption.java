@@ -22,7 +22,11 @@ package examples.render;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.ReversibleConsumption;
 
-
+/**
+ * Class for 'drawing' a reversible-consumption-Arc. Compare other arc-experts
+ * 
+ * @author David Vetter
+ */
 public class RenderReversibleConsumption extends RenderSBGNArc
   implements ReversibleConsumption<String> {
 

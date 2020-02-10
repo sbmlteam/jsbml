@@ -25,7 +25,12 @@ import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.SourceSink;
 
-
+/**
+ * Drawing expert for a source/sink
+ * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: empty set/diameter-symbol)
+ * 
+ * @author DavidVetter
+ */
 public class RenderSourceSink extends SourceSink<LocalStyle> {
 
   private String stroke, fill;

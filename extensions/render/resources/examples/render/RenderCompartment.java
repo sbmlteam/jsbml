@@ -24,7 +24,11 @@ import org.sbml.jsbml.ext.render.Rectangle;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.Compartment;
 
-
+/**
+ * Drawing expert for rendering a {@link org.sbml.jsbml.ext.layout.CompartmentGlyph}.
+ * 
+ * @author DavidVetter
+ */
 public class RenderCompartment extends Compartment<LocalStyle> {
 
   private String stroke, fill;
@@ -45,6 +49,7 @@ public class RenderCompartment extends Compartment<LocalStyle> {
     rect.setY(0); rect.setAbsoluteY(true);
     rect.setWidth(width); rect.setAbsoluteWidth(true);
     rect.setHeight(height); rect.setAbsoluteHeight(true);
+    
     rect.setStroke(stroke);
     rect.setStrokeWidth(getLineWidth());
     rect.setFill(fill);

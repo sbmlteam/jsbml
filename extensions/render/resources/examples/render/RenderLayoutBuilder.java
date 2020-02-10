@@ -73,9 +73,14 @@ import org.sbml.jsbml.ext.render.director.UnspecifiedNode;
 
 /**
  * Class for building a LocalRenderInformation object for rendering the given
- * layout. A key method is {@link RenderLayoutBuilder#buildLineEndings()}.
+ * layout. A key method is {@link RenderLayoutBuilder#buildLineEndings()}.<br>
  * 
- * @author DavidVetter
+ * Notice the different classes used for drawing Nodes (LocalStyle) vs. Arcs
+ * (String), which both differ from the final product's type
+ * (LocalRenderInformation). Compare this to the <String, String, String> typing
+ * in the LaTeX-example
+ * 
+ * @author David Vetter
  */
 public class RenderLayoutBuilder
   extends AbstractLayoutBuilder<LocalRenderInformation, LocalStyle, String> {

@@ -26,7 +26,12 @@ import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.director.SBGNProcessNode;
 
-
+/**
+ * Class for generalising over common behaviour of the SBGNProcessNodes and
+ * satisfy the interface
+ * 
+ * @author DavidVetter
+ */
 public abstract class RenderSBGNProcessNode implements SBGNProcessNode<LocalStyle> {
   private Point substratePort, productPort;
   private double lineWidth, nodeSize;

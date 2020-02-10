@@ -25,7 +25,11 @@ import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.DissociationNode;
 
-
+/**
+ * Drawing expert for rendering an DissociationNode (SBGN: two concentric circles)
+ * 
+ * @author DavidVetter
+ */
 public class RenderDissociationNode extends RenderSBGNProcessNode
   implements DissociationNode<LocalStyle> {
 

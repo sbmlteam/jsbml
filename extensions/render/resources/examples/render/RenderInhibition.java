@@ -22,7 +22,12 @@ package examples.render;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.Inhibition;
 
-
+/**
+ * Class for 'drawing' an Inhibition-Arc: Here, all this drawing expert need do is
+ * to return the id of the style to which to subscribe an inhibition-arc.
+ * 
+ * @author David Vetter
+ */
 public class RenderInhibition extends RenderSBGNArc
   implements Inhibition<String> {
 

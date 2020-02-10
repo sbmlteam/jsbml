@@ -24,7 +24,12 @@ import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.PerturbingAgent;
 
-
+/**
+ * Drawing expert for a perturbing agent
+ * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: biconcave hexagon)
+ * 
+ * @author DavidVetter
+ */
 public class RenderPerturbingAgent extends PerturbingAgent<LocalStyle> {
   private String stroke, fill, clone;
   private double inset;

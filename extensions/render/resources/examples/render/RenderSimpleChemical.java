@@ -25,7 +25,12 @@ import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.SimpleChemical;
 
-
+/**
+ * Drawing expert for a simple chemical
+ * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: circle)
+ * 
+ * @author DavidVetter
+ */
 public class RenderSimpleChemical extends SimpleChemical<LocalStyle> {
   private String stroke, fill, clone;
   
@@ -53,9 +58,18 @@ public class RenderSimpleChemical extends SimpleChemical<LocalStyle> {
     
     if(hasCloneMarker()) {
       Polygon cloneMarker = chemical.createPolygon();
-      // The factor before radius is cos(asin(2*(0.7-0.5)))
+      /**
+       * The factor before radius is cos(asin(2*(0.7-0.5))), where the clone
+       * marker starts at 70% (from the top) of the height.
+       * (All the numbers are either basic trigonometry, or manually appromated)
+       */
       RenderLayoutBuilder.addRenderPoint(cloneMarker, width/2 - 0.9165151*radius, 0.7*height);
       
+      /**
+       * Add the base-points on tangents to the circle: Where exactly along
+       * those tangents is decided by baseStrength (which is manually
+       * approximated)
+       */
       double baseStrength = radius/3; // manually approximated
       RenderLayoutBuilder.addRenderCubicBezier(cloneMarker, 
         width/2 - 0.9165151*radius + baseStrength, 0.7*height + 2.291288*baseStrength, 

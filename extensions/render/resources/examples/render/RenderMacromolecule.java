@@ -24,7 +24,13 @@ import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.Macromolecule;
 
-
+/**
+ * Drawing expert for Macromolecule
+ * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: rectangle with rounded
+ * corners)
+ * 
+ * @author DavidVetter
+ */
 public class RenderMacromolecule extends Macromolecule<LocalStyle> {
   private String stroke, fill, clone;
   private double borderRadius;
@@ -77,6 +83,11 @@ public class RenderMacromolecule extends Macromolecule<LocalStyle> {
     background.setStrokeWidth(0);
     background.setFill(fill);
     
+    /**
+     * For all the nodes with clone markers: Draw the filled background first,
+     * then optionally the clone-marker in the middle, and then the outline
+     * (with stroke-colour) in front
+     */
     if(hasCloneMarker()) {
       Polygon cloneMarker = macromolecule.createPolygon();
       RenderLayoutBuilder.addRenderPoint(cloneMarker, 0, height - borderRadius);

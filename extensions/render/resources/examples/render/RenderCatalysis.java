@@ -22,7 +22,12 @@ package examples.render;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.Catalysis;
 
-
+/**
+ * Class for 'drawing' a Catalysis-Arc: Here, all this drawing expert need do is
+ * to return the id of the style to which to subscribe a catalysis-arc.
+ * 
+ * @author DavidVetter
+ */
 public class RenderCatalysis extends RenderSBGNArc
   implements Catalysis<String> {
 

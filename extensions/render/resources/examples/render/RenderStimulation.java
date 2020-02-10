@@ -22,7 +22,11 @@ package examples.render;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.Stimulation;
 
-
+/**
+ * Class for 'drawing' a stimulation-Arc. Compare other arc-experts
+ * 
+ * @author DavidVetter
+ */
 public class RenderStimulation extends RenderSBGNArc
   implements Stimulation<String> {
 

@@ -24,7 +24,13 @@ import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.NucleicAcidFeature;
 
-
+/**
+ * Drawing-expert for nucleic-acid feature
+ * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: rectangle with rounded
+ * bottom corners)
+ * 
+ * @author DavidVetter
+ */
 public class RenderNucleicAcidFeature extends NucleicAcidFeature<LocalStyle> {
   private String stroke, fill, clone;
   private double borderRadius;

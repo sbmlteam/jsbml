@@ -28,7 +28,13 @@ import org.sbml.jsbml.ext.render.Text;
 import org.sbml.jsbml.ext.render.VTextAnchor;
 import org.sbml.jsbml.ext.render.director.UncertainProcessNode;
 
-
+/**
+ * Drawing expert for uncertain processes (SBGN: rectangle with questionmark)
+ * 
+ * The questionmark will here be rotated along with the rectangle.
+ * 
+ * @author DavidVetter
+ */
 public class RenderUncertainProcessNode extends RenderSBGNProcessNode
   implements UncertainProcessNode<LocalStyle> {
 

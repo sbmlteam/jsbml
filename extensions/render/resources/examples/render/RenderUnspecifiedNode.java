@@ -25,7 +25,12 @@ import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.UnspecifiedNode;
 
-
+/**
+ * Drawing expert for unspecified node
+ * {@link org.sbml.jsbml.ext.layout.SpeciesGlyph} (SBGN: ellipse)
+ * 
+ * @author DavidVetter
+ */
 public class RenderUnspecifiedNode extends UnspecifiedNode<LocalStyle> {
 private String stroke, fill, clone;
   
@@ -53,8 +58,12 @@ private String stroke, fill, clone;
     background.setFill(fill);
     
     if(hasCloneMarker()) {
-      // unit circle --> stretch coordinates along x-axis by factor width/2 and
-      // along y-axis by factor height/2
+      /**
+       * Mathematically: unit circle --> stretch coordinates along x-axis by
+       * factor width/2 and along y-axis by factor height/2
+       * 
+       * Compare SimpleChemical
+       */
       double radius = 1; 
       double stretchX = width/2;
       double stretchY = height/2;

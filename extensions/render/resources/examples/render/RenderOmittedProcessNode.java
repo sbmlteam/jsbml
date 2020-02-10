@@ -25,7 +25,12 @@ import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.OmittedProcessNode;
 
-
+/**
+ * Drawing expert for rendering an omitted-process Node (SBGN: doubly
+ * stricken-through rectangle)
+ * 
+ * @author DavidVetter
+ */
 public class RenderOmittedProcessNode extends RenderSBGNProcessNode
   implements OmittedProcessNode<LocalStyle> {
 

@@ -25,7 +25,11 @@ import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.ProcessNode;
 
-
+/**
+ * Drawing expert for rendering a Process Node (SBGN: square)
+ * 
+ * @author DavidVetter
+ */
 public class RenderProcessNode extends RenderSBGNProcessNode implements ProcessNode<LocalStyle> {
 
   /**

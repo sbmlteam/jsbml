@@ -22,7 +22,12 @@ package examples.render;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.Modulation;
 
-
+/**
+ * Class for 'drawing' a Modulation-Arc: Here, all this drawing expert need do is
+ * to return the id of the style to which to subscribe a modulation-arc.
+ * 
+ * @author David Vetter
+ */
 public class RenderModulation extends RenderSBGNArc
   implements Modulation<String> {
 
