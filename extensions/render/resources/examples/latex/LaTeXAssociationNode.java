@@ -23,7 +23,7 @@ import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.render.director.AssociationNode;
 
 /**
- * Class for rendering an AssociationNode (solid black bullet)
+ * Class for rendering an AssociationNode (SBGN: solid black bullet)
  * @author David Vetter
  */
 public class LaTeXAssociationNode extends LaTeXSBGNProcessNode
