@@ -128,7 +128,7 @@ public class RenderLayoutBuilder
     LocalStyle style = new LocalStyle(layout.getLevel(), layout.getVersion(), group);
     style.setId("TextGylphStyle");
     style.setTypeList(new ArrayList<String>());
-    style.getTypeList().add("TEXTGLYPH");
+    style.getTypeList().add(LocalStyle.Type.TEXTGLYPH.toString()); // "TEXTGLYPH");
     product.addLocalStyle(style); 
   }
 
