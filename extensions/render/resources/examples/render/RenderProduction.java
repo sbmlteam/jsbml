@@ -21,6 +21,7 @@ package examples.render;
 
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.Production;
+import static examples.render.RenderLayoutBuilder.STYLE_PRODUCTION;
 
 /**
  * Class for 'drawing' a production-Arc. Compare other arc-experts
@@ -32,6 +33,6 @@ public class RenderProduction extends RenderSBGNArc
 
   @Override
   public String draw(Curve curve) {
-    return "productionStyle";
+    return STYLE_PRODUCTION;
   }
 }

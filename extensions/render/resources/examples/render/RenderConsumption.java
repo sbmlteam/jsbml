@@ -21,6 +21,7 @@ package examples.render;
 
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.Consumption;
+import static examples.render.RenderLayoutBuilder.STYLE_CONSUMPTION;
 
 /**
  * Class for 'drawing' a Consumption-Arc: Here, all this drawing expert need do is
@@ -33,6 +34,6 @@ public class RenderConsumption extends RenderSBGNArc
 
   @Override
   public String draw(Curve curve) {
-    return "consumptionStyle";
+    return STYLE_CONSUMPTION;
   }
 }

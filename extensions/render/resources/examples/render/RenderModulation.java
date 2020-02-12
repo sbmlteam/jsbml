@@ -21,6 +21,7 @@ package examples.render;
 
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.Modulation;
+import static examples.render.RenderLayoutBuilder.STYLE_MODULATION;
 
 /**
  * Class for 'drawing' a Modulation-Arc: Here, all this drawing expert need do is
@@ -33,6 +34,6 @@ public class RenderModulation extends RenderSBGNArc
 
   @Override
   public String draw(Curve curve) {
-    return "modulationStyle";
+    return STYLE_MODULATION;
   }
 }

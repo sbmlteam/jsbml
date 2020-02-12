@@ -21,6 +21,7 @@ package examples.render;
 
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.NecessaryStimulation;
+import static examples.render.RenderLayoutBuilder.STYLE_NECESSARY_STIMULATION;
 
 /**
  * Class for 'drawing' a necessary-stimulation-Arc. Compare other arc-experts
@@ -32,6 +33,6 @@ public class RenderNecessaryStimulation extends RenderSBGNArc
 
   @Override
   public String draw(Curve curve) {
-    return "necessaryStimulationStyle";
+    return STYLE_NECESSARY_STIMULATION;
   }
 }

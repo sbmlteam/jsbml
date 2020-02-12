@@ -21,6 +21,7 @@ package examples.render;
 
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.Stimulation;
+import static examples.render.RenderLayoutBuilder.STYLE_STIMULATION;
 
 /**
  * Class for 'drawing' a stimulation-Arc. Compare other arc-experts
@@ -32,6 +33,6 @@ public class RenderStimulation extends RenderSBGNArc
 
   @Override
   public String draw(Curve curve) {
-    return "stimulationStyle";
+    return STYLE_STIMULATION;
   }
 }

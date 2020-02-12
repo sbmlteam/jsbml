@@ -21,6 +21,7 @@ package examples.render;
 
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.ReversibleConsumption;
+import static examples.render.RenderLayoutBuilder.STYLE_REVERSIBLE_CONSUMPTION;
 
 /**
  * Class for 'drawing' a reversible-consumption-Arc. Compare other arc-experts
@@ -32,6 +33,6 @@ public class RenderReversibleConsumption extends RenderSBGNArc
 
   @Override
   public String draw(Curve curve) {
-    return "reversibleConsumptionStyle";
+    return STYLE_REVERSIBLE_CONSUMPTION;
   }
 }

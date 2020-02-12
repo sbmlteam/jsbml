@@ -21,6 +21,7 @@ package examples.render;
 
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.render.director.Inhibition;
+import static examples.render.RenderLayoutBuilder.STYLE_INHIBITION;
 
 /**
  * Class for 'drawing' an Inhibition-Arc: Here, all this drawing expert need do is
@@ -33,6 +34,6 @@ public class RenderInhibition extends RenderSBGNArc
 
   @Override
   public String draw(Curve curve) {
-    return "inhibitionStyle";
+    return STYLE_INHIBITION;
   }
 }

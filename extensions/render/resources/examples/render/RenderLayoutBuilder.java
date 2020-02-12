@@ -92,6 +92,23 @@ public class RenderLayoutBuilder
   private static String          FILL      = "white";
   private double arrowScale = 6;
   
+  public static final String          STYLE_CATALYSIS              =
+    "catalysisStyle";
+  public static final String          STYLE_CONSUMPTION            =
+    "consumptionStyle";
+  public static final String          STYLE_REVERSIBLE_CONSUMPTION =
+    "reversibleConsumptionStyle";
+  public static final String          STYLE_INHIBITION             =
+    "inhibitionStyle";
+  public static final String          STYLE_MODULATION             =
+    "modulationStyle";
+  public static final String          STYLE_NECESSARY_STIMULATION  =
+    "necessaryStimulationStyle";
+  public static final String          STYLE_PRODUCTION             =
+    "productionStyle";
+  public static final String          STYLE_STIMULATION            =
+    "stimulationStyle";
+  
   /**
    * Since the arcs specified by SpeciesReferenceGlyphs can easily be styled by
    * just adding them to the ID-list of a general style (their layout is not the
@@ -364,7 +381,7 @@ public class RenderLayoutBuilder
     consumptionStyleGroup.setStroke(STROKE);
     consumptionStyleGroup.setStrokeWidth(1);
     LocalStyle consumptionStyle = new LocalStyle(layout.getLevel(), layout.getVersion(), consumptionStyleGroup);
-    consumptionStyle.setId("consumptionStyle");
+    consumptionStyle.setId(STYLE_CONSUMPTION);
     consumptionStyle.setIDList(new ArrayList<String>());
     this.product.addLocalStyle(consumptionStyle);
     arcStyles.put(consumptionStyle.getId(), consumptionStyle);
@@ -383,8 +400,8 @@ public class RenderLayoutBuilder
     product.addLineEnding(production);
     
     // Building the corresponding line-styles:
-    addArcStyle("production");
-    addArcStyle("reversibleConsumptionStyle", "productionHead"); // Deviating from handling of rest
+    addArcStyle(STYLE_PRODUCTION, production.getId());
+    addArcStyle(STYLE_REVERSIBLE_CONSUMPTION, production.getId());
     
     
     // Stimulation and Production-heads just so happen to be near identical
@@ -400,7 +417,7 @@ public class RenderLayoutBuilder
     stimulation.setGroup(stimulationGroup);
     product.addLineEnding(stimulation);
     
-    addArcStyle("stimulation");
+    addArcStyle(STYLE_STIMULATION, stimulation.getId());
     
     
     // Catalysis uses a circular ending
@@ -419,7 +436,7 @@ public class RenderLayoutBuilder
     catalysis.setGroup(catalysisGroup);
     product.addLineEnding(catalysis);
     
-    addArcStyle("catalysis");
+    addArcStyle(STYLE_CATALYSIS, catalysis.getId());
     
     
     // Inhibition:
@@ -434,7 +451,7 @@ public class RenderLayoutBuilder
     inhibition.setGroup(inhibitionGroup);
     product.addLineEnding(inhibition);
     
-    addArcStyle("inhibition");
+    addArcStyle(STYLE_INHIBITION, inhibition.getId());
     
     
     // Necessary Stimulation:
@@ -455,7 +472,7 @@ public class RenderLayoutBuilder
     necessaryStimulation.setGroup(necessaryStimulationGroup);
     product.addLineEnding(necessaryStimulation);
     
-    addArcStyle("necessaryStimulation");
+    addArcStyle(STYLE_NECESSARY_STIMULATION, necessaryStimulation.getId());
     
     
     // Modulation:
@@ -472,18 +489,10 @@ public class RenderLayoutBuilder
     modulation.setGroup(modulationGroup);
     product.addLineEnding(modulation);
     
-    addArcStyle("modulation");
+    addArcStyle(STYLE_MODULATION, modulation.getId());
   }
   
 
-  /**
-   * 
-   * @param arctype e.g. catalysis
-   */
-  private void addArcStyle(String arctype) {
-    addArcStyle(arctype + "Style", arctype + "Head");
-  }
-  
   /**
    * @param id the style's full id (e.g. "catalysisStyle")
    * @param headId the head's full id (e.g. "catalysisHead")
