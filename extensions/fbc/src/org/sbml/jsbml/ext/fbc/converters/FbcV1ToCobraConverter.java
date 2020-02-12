@@ -35,6 +35,7 @@ import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
+import org.sbml.jsbml.ext.fbc.CobraConstants;
 import org.sbml.jsbml.util.CobraUtil;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.converters.SBMLConverter;
@@ -50,8 +51,8 @@ import org.sbml.jsbml.util.converters.SBMLConverter;
 @SuppressWarnings("deprecation")
 public class FbcV1ToCobraConverter implements SBMLConverter {
 
-  Double defaultLowerFluxBound = null;
-  Double defaultUpperFluxBound = null;
+  Double defaultLowerBound = null;
+  Double defaultUpperBound = null;
   
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.converters.SBMLConverter#convert(org.sbml.jsbml.SBMLDocument)
@@ -76,10 +77,10 @@ public class FbcV1ToCobraConverter implements SBMLConverter {
             String chemicalFormula = fbcSpeciesPlugin.getChemicalFormula();
             Properties pElementsSpeciesNotes = new Properties();
             pElementsSpeciesNotes = CobraUtil.parseCobraNotes(species);
-            if (pElementsSpeciesNotes.getProperty("FORMULA") != null) {
-              pElementsSpeciesNotes.remove("FORMULA");
+            if (pElementsSpeciesNotes.getProperty(CobraConstants.FORMULA) != null) {
+              pElementsSpeciesNotes.remove(CobraConstants.FORMULA);
             }
-            pElementsSpeciesNotes.setProperty("FORMULA", chemicalFormula);
+            pElementsSpeciesNotes.setProperty(CobraConstants.FORMULA, chemicalFormula);
             CobraUtil.writeCobraNotes(species, pElementsSpeciesNotes);
           }
         
@@ -87,10 +88,10 @@ public class FbcV1ToCobraConverter implements SBMLConverter {
             int charge = fbcSpeciesPlugin.getCharge();
             Properties pElementsSpeciesNotes = new Properties();
             pElementsSpeciesNotes = CobraUtil.parseCobraNotes(species);
-            if (pElementsSpeciesNotes.getProperty("CHARGE") != null) {
-              pElementsSpeciesNotes.remove("CHARGE");
+            if (pElementsSpeciesNotes.getProperty(CobraConstants.CHARGE) != null) {
+              pElementsSpeciesNotes.remove(CobraConstants.CHARGE);
             }
-            pElementsSpeciesNotes.setProperty("CHARGE", Integer.toString(charge));
+            pElementsSpeciesNotes.setProperty(CobraConstants.CHARGE, Integer.toString(charge));
             CobraUtil.writeCobraNotes(species, pElementsSpeciesNotes);
           }
           species.unsetPlugin(FBCConstants.shortLabel);
@@ -116,38 +117,38 @@ public class FbcV1ToCobraConverter implements SBMLConverter {
       // 2. Create the kineticLaw element with FLUX_VALUE for each reaction
       for (Reaction reaction : model.getListOfReactions()) {
         KineticLaw kineticLaw = new KineticLaw(reaction);
-        ASTNode astNode = new ASTNode("FLUX_VALUE");
+        ASTNode astNode = new ASTNode(CobraConstants.FLUX_VALUE);
         kineticLaw.setMath(astNode);
-        LocalParameter fluxValueParameter = reaction.getKineticLaw().createLocalParameter("FLUX_VALUE");
+        LocalParameter fluxValueParameter = reaction.getKineticLaw().createLocalParameter(CobraConstants.FLUX_VALUE);
         fluxValueParameter.setValue(0d);
-        fluxValueParameter.setUnits("mmol_per_gDW_per_hr");
+        fluxValueParameter.setUnits(CobraConstants.mmol_per_gDW_per_hr);
         
         // 3. Assign lower and upper flux bounds if they were set, use defaults otherwise
-        LocalParameter upperBoundParameter = reaction.getKineticLaw().createLocalParameter("UPPER_BOUND");
+        LocalParameter upperBoundParameter = reaction.getKineticLaw().createLocalParameter(CobraConstants.UPPER_BOUND);
         if (reactionIdToUpperFluxBoundDoubleValueMap.containsKey(reaction.getId()))
         {
           upperBoundParameter.setValue(reactionIdToUpperFluxBoundDoubleValueMap.get(reaction.getId()).doubleValue());
-        } else if (this.defaultUpperFluxBound != null)
+        } else if (this.defaultUpperBound != null)
         {
-          upperBoundParameter.setValue(this.defaultUpperFluxBound);
+          upperBoundParameter.setValue(this.defaultUpperBound);
         } else {
           upperBoundParameter.setValue(Double.POSITIVE_INFINITY);
         }
         upperBoundParameter.setExplicitlyConstant(true);
-        upperBoundParameter.setUnits("mmol_per_gDW_per_hr");
+        upperBoundParameter.setUnits(CobraConstants.mmol_per_gDW_per_hr);
         
-        LocalParameter lowerBoundParameter = reaction.getKineticLaw().createLocalParameter("LOWER_BOUND");
+        LocalParameter lowerBoundParameter = reaction.getKineticLaw().createLocalParameter(CobraConstants.LOWER_BOUND);
         if (reactionIdToLowerFluxBoundDoubleValueMap.containsKey(reaction.getId()))
         {
           lowerBoundParameter.setValue(reactionIdToLowerFluxBoundDoubleValueMap.get(reaction.getId()).doubleValue());
-        } else if (this.defaultLowerFluxBound != null)
+        } else if (this.defaultLowerBound != null)
         {
-          lowerBoundParameter.setValue(this.defaultLowerFluxBound);  
+          lowerBoundParameter.setValue(this.defaultLowerBound);  
         } else {
           lowerBoundParameter.setValue(Double.NEGATIVE_INFINITY);
         }
         lowerBoundParameter.setExplicitlyConstant(true);
-        lowerBoundParameter.setUnits("mmol_per_gDW_per_hr");
+        lowerBoundParameter.setUnits(CobraConstants.mmol_per_gDW_per_hr);
                
         // 4. unset attribute constant for products and reactants
         for (SpeciesReference speciesReference: reaction.getListOfProducts()) {
@@ -161,6 +162,10 @@ public class FbcV1ToCobraConverter implements SBMLConverter {
       // 5. unset List of flux bounds
       fbcModelPlugin.unsetListOfFluxBounds();
     }
+   
+    // TODO: it is unclear whether this should be done
+    sbmlDocument.removeDeclaredNamespaceByPrefix(FBCConstants.shortLabel);
+    // TODO: the SBMLDocumentAttriute fbc:required="false" still remains and it is unclear how to remove it
     return sbmlDocument;
   }
 
@@ -170,22 +175,20 @@ public class FbcV1ToCobraConverter implements SBMLConverter {
   @Override
   public void setOption(String name, String value) {
     if (value == null) return;
-    if (name.equals("defaultLowerFluxBound")) {
+    if (name.equals(CobraConstants.DEFAULT_LOWER_BOUND_NAME)) {
       try {
-        this.defaultLowerFluxBound = Double.valueOf(value);
+        this.defaultLowerBound = Double.valueOf(value);
       } catch (NumberFormatException e) {
-        this.defaultLowerFluxBound = null;
+        this.defaultLowerBound = null;
       }
     }
-    if (name.equals("defaultUpperFluxBound")) {
+    if (name.equals(CobraConstants.DEFAULT_UPPER_BOUND_NAME)) {
       try {
-        this.defaultUpperFluxBound = Double.valueOf(value);
+        this.defaultUpperBound = Double.valueOf(value);
       } catch (NumberFormatException e) {
-        this.defaultUpperFluxBound = null;
+        this.defaultUpperBound = null;
       }
     }
-    
-    
   }
 
 }
