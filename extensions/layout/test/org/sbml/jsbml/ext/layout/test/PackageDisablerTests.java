@@ -97,12 +97,7 @@ public class PackageDisablerTests {
     pDisabler.disableUnused(); //TODO - check the warn and error messages
     assertTrue(m.isPackageEnabled(name) == false);
     
-    //used package: 
-    pDisabler = new PackageDisabler(doc);
-    SBasePlugin packagePlugin = m.getPlugin(name);
-    //TODO - how to add children -> textglyph  
-    pDisabler.disableUnused();
-    assertTrue(m.isPackageEnabled(name) == true);
+    //TODO- case for used package
   }
   
   @Test
