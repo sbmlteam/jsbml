@@ -20,7 +20,7 @@ import org.sbml.jsbml.util.PackageDisabler;
  * @since 1.5
  */
 public class PackageDisablerTests {
-  
+  //TODO- make this tests abstract and add them to the packages 
   private SBMLDocument doc; 
   private Model m;
   private PackageDisabler pDisabler;
@@ -100,7 +100,7 @@ public class PackageDisablerTests {
     //used package: 
     pDisabler = new PackageDisabler(doc);
     SBasePlugin packagePlugin = m.getPlugin(name);
-    //TODO - how to add children 
+    //TODO - how to add children -> textglyph  
     pDisabler.disableUnused();
     assertTrue(m.isPackageEnabled(name) == true);
   }
