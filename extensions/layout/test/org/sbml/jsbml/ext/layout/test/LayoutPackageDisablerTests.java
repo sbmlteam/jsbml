@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
@@ -13,20 +12,14 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
-import org.sbml.jsbml.test.PackageDisablerTests;
 import org.sbml.jsbml.util.PackageDisabler;
+import org.sbml.jsbml.util.AbstractPackageDisablerTests;
 
 /**
  * @author Onur &Ouml;zel
  * @since 1.5
  */
-public class LayoutPackageDisablerTests extends PackageDisablerTests{
-  //TODO- make this tests abstract and add them to the packages 
-  private SBMLDocument doc; 
-  private Model m;
-  private PackageDisabler pDisabler;
-  private String name; 
-  private String uri; 
+public class LayoutPackageDisablerTests extends AbstractPackageDisablerTests{
 
   @Before
   public void setUp() {
