@@ -1,4 +1,4 @@
-package org.sbml.jsbml.test;
+package org.sbml.jsbml.ext.layout.test;
 
 import static org.junit.Assert.assertTrue;
 
@@ -11,6 +11,8 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.util.PackageDisabler;
 
 /**
@@ -20,15 +22,20 @@ import org.sbml.jsbml.util.PackageDisabler;
 public class PackageDisablerTests {
   
   private SBMLDocument doc; 
+  private Model m;
   private PackageDisabler pDisabler;
-  
+  private String name; 
+  private String uri; 
+
   @Before
   public void setUp() {
-    doc = new SBMLDocument(3, 2);
+    name = LayoutConstants.shortLabel; //why not packageName? 
+    uri = LayoutConstants.namespaceURI;
     
-    //Test model from TreeSearchTest
-    Model m = doc.createModel("test_model");
-
+    //Test model from TreeSearchTest 
+    doc = new SBMLDocument(3, 1);  
+    m = doc.createModel("test_model");
+    
     Compartment c = m.createCompartment("default");
     c.setSpatialDimensions(3d);
 
@@ -61,9 +68,6 @@ public class PackageDisablerTests {
     ModifierSpeciesReference msr2 = r2.createModifier("msr2", s3);
     msr2.setName("modifier");
     
-    //TODO - how to activate some packages? -> this seems not to work
-    m.enablePackage("Layout");
-    
     pDisabler = new PackageDisabler(doc);
   }
   
@@ -74,7 +78,19 @@ public class PackageDisablerTests {
   
   @Test
   public void removePackageTest() {
-    assertTrue(doc.isPackageEnabled("Layout")); //should be true
-    pDisabler.removePackage("Layout");
+    //add package with name then force removal of it
+    SBasePlugin packagePlugin = m.getPlugin(name);
+    String pluginName = packagePlugin.getPackageName(); //TODO - change name of get method to getShortLabel??
+    assertTrue(name.equals(pluginName));
+    assertTrue(m.isPackageEnabled(name) == true);
+    pDisabler.removePackage(name);
+    assertTrue(m.isPackageEnabled(name) == false);
+    
+    //add package with uri then force removal of it
+    SBasePlugin packagePlugin2 = m.getPlugin(uri);
+    String pluginUri = packagePlugin2.getURI();
+    assertTrue(uri.equals(pluginUri) == true);
+    pDisabler.removePackage(uri);
+    assertTrue(m.isPackageEnabled(uri) == false);
   }
 }
