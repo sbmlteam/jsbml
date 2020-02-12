@@ -21,6 +21,7 @@ package org.sbml.jsbml.ext.fbc.converters;
 
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.ext.fbc.CobraConstants;
 import org.sbml.jsbml.util.converters.SBMLConverter;
 
 /**
@@ -34,8 +35,8 @@ import org.sbml.jsbml.util.converters.SBMLConverter;
 public class FbcV2ToCobraConverter implements SBMLConverter {
 
   // Options for FbcV1ToCobraConverter
-  Double defaultLowerFluxBound = null;
-  Double defaultUpperFluxBound = null;
+  Double defaultLowerBound = null;
+  Double defaultUpperBound = null;
   
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.converters.SBMLConverter#convert(org.sbml.jsbml.SBMLDocument)
@@ -47,13 +48,13 @@ public class FbcV2ToCobraConverter implements SBMLConverter {
     sbmlDocument = fbcV2ToFbcV1Converter.convert(sbmlDocument);
    // convert SBML FBCV1 file to old COBRA SBML
     FbcV1ToCobraConverter fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
-    if (this.defaultLowerFluxBound != null)
+    if (this.defaultLowerBound != null)
     {
-      fbcV1ToCobraConverter.setOption("defaultLowerFluxBound", this.defaultLowerFluxBound.toString());
+      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, this.defaultLowerBound.toString());
     }
-    if (this.defaultUpperFluxBound != null)
+    if (this.defaultUpperBound != null)
     {
-      fbcV1ToCobraConverter.setOption("defaultUpperFluxBound", this.defaultUpperFluxBound.toString());
+      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, this.defaultUpperBound.toString());
     }
     sbmlDocument = fbcV1ToCobraConverter.convert(sbmlDocument);  
     
@@ -66,18 +67,18 @@ public class FbcV2ToCobraConverter implements SBMLConverter {
   @Override
   public void setOption(String name, String value) {
     if (value == null) return;
-    if (name.equals("defaultLowerFluxBound")) {
+    if (name.equals(CobraConstants.DEFAULT_LOWER_BOUND_NAME)) {
       try {
-        this.defaultLowerFluxBound = Double.valueOf(value);
+        this.defaultLowerBound = Double.valueOf(value);
       } catch (NumberFormatException e) {
-        this.defaultLowerFluxBound = null;
+        this.defaultLowerBound = null;
       }
     }
-    if (name.equals("defaultUpperFluxBound")) {
+    if (name.equals(CobraConstants.DEFAULT_UPPER_BOUND_NAME)) {
       try {
-        this.defaultUpperFluxBound = Double.valueOf(value);
+        this.defaultUpperBound = Double.valueOf(value);
       } catch (NumberFormatException e) {
-        this.defaultUpperFluxBound = null;
+        this.defaultUpperBound = null;
       }
     }
     
