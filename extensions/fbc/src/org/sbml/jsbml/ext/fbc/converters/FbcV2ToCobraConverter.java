@@ -28,10 +28,15 @@ import org.sbml.jsbml.util.converters.SBMLConverter;
  * 
  * @author Thomas Hamm
  * @author Nicolas Rodriguez
+ * @author Thorsten Tiede
  * @since 1.3
  */
 public class FbcV2ToCobraConverter implements SBMLConverter {
 
+  // Options for FbcV1ToCobraConverter
+  Double defaultLowerFluxBound = null;
+  Double defaultUpperFluxBound = null;
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.converters.SBMLConverter#convert(org.sbml.jsbml.SBMLDocument)
    */
@@ -42,6 +47,14 @@ public class FbcV2ToCobraConverter implements SBMLConverter {
     sbmlDocument = fbcV2ToFbcV1Converter.convert(sbmlDocument);
    // convert SBML FBCV1 file to old COBRA SBML
     FbcV1ToCobraConverter fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    if (this.defaultLowerFluxBound != null)
+    {
+      fbcV1ToCobraConverter.setOption("defaultLowerFluxBound", this.defaultLowerFluxBound.toString());
+    }
+    if (this.defaultUpperFluxBound != null)
+    {
+      fbcV1ToCobraConverter.setOption("defaultUpperFluxBound", this.defaultUpperFluxBound.toString());
+    }
     sbmlDocument = fbcV1ToCobraConverter.convert(sbmlDocument);  
     
     return sbmlDocument;
@@ -52,7 +65,21 @@ public class FbcV2ToCobraConverter implements SBMLConverter {
    */
   @Override
   public void setOption(String name, String value) {
-    // TODO Auto-generated method stub
+    if (value == null) return;
+    if (name.equals("defaultLowerFluxBound")) {
+      try {
+        this.defaultLowerFluxBound = Double.valueOf(value);
+      } catch (NumberFormatException e) {
+        this.defaultLowerFluxBound = null;
+      }
+    }
+    if (name.equals("defaultUpperFluxBound")) {
+      try {
+        this.defaultUpperFluxBound = Double.valueOf(value);
+      } catch (NumberFormatException e) {
+        this.defaultUpperFluxBound = null;
+      }
+    }
     
   }
 }
