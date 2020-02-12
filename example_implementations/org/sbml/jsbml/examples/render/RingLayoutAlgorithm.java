@@ -173,18 +173,21 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
     interspeciesRadians = 2 * Math.PI / speciesCount;
     // TODO: use function of totalWidth/Height instead of 60 
     double radius = 60 * speciesCount; // Circumference linear in number of species. 
+    
+    int speciesIndex = 0;
     for(String compartment : compartmentMembers.keySet()) {
       // TODO: draw the respective compartment
       
-      for(int i = 0; i < compartmentMembers.get(compartment).size(); i++) {
+      for(SpeciesGlyph species : compartmentMembers.get(compartment)) {
         double tilt = Math.PI / 2;
-        tilt -= i * interspeciesRadians;
-        SpeciesGlyph species = compartmentMembers.get(compartment).get(i);
+        tilt -= speciesIndex * interspeciesRadians;
+        
         BoundingBox bbox = new BoundingBox();
         bbox.createDimensions(40, 20, 1);
         bbox.createPosition(radius * Math.cos(tilt) + totalWidth / 2,
           -radius * Math.sin(tilt) + totalHeight / 2, 0);
         species.setBoundingBox(bbox);
+        speciesIndex++;
       }
     }
     
