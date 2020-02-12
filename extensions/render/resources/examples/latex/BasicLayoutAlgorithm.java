@@ -196,7 +196,6 @@ public class BasicLayoutAlgorithm extends SimpleLayoutAlgorithm {
     int reactions = 0;
     // This is the central method.
     // Side-effects seem to be the main goal!
-    System.out.println("Completing glyphs");
     Set<TextGlyph> textGlyphs = new HashSet<TextGlyph>();
     Set<GraphicalObject> result = new HashSet<GraphicalObject>(); // is this even used?
     for(GraphicalObject go : setOfUnlayoutedGlyphs) {

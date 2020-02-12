@@ -8,7 +8,7 @@
 		 org.sbml.jsbml.ext.render.director-classes.
 		 Some of the layout-decisions (such as the overcomplicated curve from NDPK to the denaturation-reaction-node or the rotation of 
 		 the ribosome-reaction-node) are made specifically to test/showcase implementation-features.
-		 The textglyphs are not fully laid out! TODO: should they be? -->
+		 The textglyphs are not fully laid out! -->
 	<model id="TestModel_with_modifiers" timeUnits="time">
 	  <listOfUnitDefinitions>
 		<unitDefinition id="volume">
@@ -233,31 +233,6 @@
 			<layout:boundingBox layout:id="bbHclone">
 			<layout:position layout:x="20" layout:y="10"/>
 			<layout:dimensions layout:width="26" layout:height="26"/>
-			</layout:boundingBox>
-		  </layout:speciesGlyph>
-		  <layout:speciesGlyph layout:id="SpeciesGlyph_Glucose_clone" layout:species="Glucose">
-			<layout:boundingBox layout:id="bb2_clone">
-			<layout:position layout:x="20" layout:y="40"/>
-			<layout:dimensions layout:width="60" layout:height="20"/>
-			</layout:boundingBox>
-		  </layout:speciesGlyph>
-		  
-		  <layout:speciesGlyph layout:id="SpeciesGlyph_NDPK_clone" layout:species="NDPK">
-			<layout:boundingBox layout:id="bbNDPK_clone">
-			<layout:position layout:x="20" layout:y="70"/>
-			<layout:dimensions layout:width="60" layout:height="20"/>
-			</layout:boundingBox>
-		  </layout:speciesGlyph>
-		  <layout:speciesGlyph layout:id="SpeciesGlyph_mRNA_clone" layout:species="mRNA">
-			<layout:boundingBox layout:id="bbmRNA_clone">
-			<layout:position layout:x="250" layout:y="15"/>
-			<layout:dimensions layout:width="60" layout:height="20"/>
-			</layout:boundingBox>
-		  </layout:speciesGlyph>
-		  <layout:speciesGlyph layout:id="SpeciesGlyph_heat_Clone" layout:species="heat">
-			<layout:boundingBox layout:id="bb_heat_clone">
-			<layout:position layout:x="385" layout:y="15"/>
-			<layout:dimensions layout:width="40" layout:height="15"/>
 			</layout:boundingBox>
 		  </layout:speciesGlyph>
 		  

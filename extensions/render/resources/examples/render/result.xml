@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-02-12 at 08:25:46 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-02-12 at 08:42:10 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="TestModel_with_modifiers" timeUnits="time">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -139,12 +139,6 @@
               <render:style id="styleOf_SpeciesGlyph_Glucose" render:idList="SpeciesGlyph_Glucose">
                 <render:g>
                   <render:ellipse render:cx="65" render:cy="10" render:fill="white" render:rx="65" render:ry="10" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:polygon render:fill="red" render:stroke="red" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="5.4265184999999985" render:y="14" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="27.093185166666665" render:basePoint1_y="21.637626666666666" render:basePoint2_x="102.90681483333334" render:basePoint2_y="21.637626666666666" render:x="124.5734815" render:y="14" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
                   <render:ellipse render:cx="65" render:cy="10" render:rx="65" render:ry="10" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
@@ -193,17 +187,6 @@
                       <render:element render:basePoint1_x="0" render:basePoint1_y="2" render:basePoint2_x="2" render:basePoint2_y="0" render:x="4" render:y="0" xsi:type="RenderCubicBezier"/>
                       <render:element render:x="36" render:y="0" xsi:type="RenderPoint"/>
                       <render:element render:basePoint1_x="38" render:basePoint1_y="0" render:basePoint2_x="40" render:basePoint2_y="2" render:x="40" render:y="4" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="40" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="40" render:basePoint1_y="18" render:basePoint2_x="38" render:basePoint2_y="20" render:x="36" render:y="20" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4" render:y="20" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2" render:basePoint1_y="20" render:basePoint2_x="0" render:basePoint2_y="18" render:x="0" render:y="16" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:polygon render:fill="red" render:stroke="red" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="14" xsi:type="RenderPoint"/>
-                      <render:element render:x="40" render:y="14" xsi:type="RenderPoint"/>
                       <render:element render:x="40" render:y="16" xsi:type="RenderPoint"/>
                       <render:element render:basePoint1_x="40" render:basePoint1_y="18" render:basePoint2_x="38" render:basePoint2_y="20" render:x="36" render:y="20" xsi:type="RenderCubicBezier"/>
                       <render:element render:x="4" render:y="20" xsi:type="RenderPoint"/>
@@ -260,17 +243,6 @@
                       <render:element render:basePoint1_x="2" render:basePoint1_y="20" render:basePoint2_x="0" render:basePoint2_y="18" render:x="0" render:y="16" xsi:type="RenderCubicBezier"/>
                     </render:listOfElements>
                   </render:polygon>
-                  <render:polygon render:fill="red" render:stroke="red" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="14" xsi:type="RenderPoint"/>
-                      <render:element render:x="40" render:y="14" xsi:type="RenderPoint"/>
-                      <render:element render:x="40" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="40" render:basePoint1_y="18" render:basePoint2_x="38" render:basePoint2_y="20" render:x="36" render:y="20" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4" render:y="20" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2" render:basePoint1_y="20" render:basePoint2_x="0" render:basePoint2_y="18" render:x="0" render:y="16" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
                   <render:polygon render:stroke="black" render:stroke-width="1.0">
                     <render:listOfElements>
                       <render:element render:x="0" render:y="16" xsi:type="RenderPoint"/>
@@ -294,14 +266,6 @@
                       <render:element render:x="40" render:y="15" xsi:type="RenderPoint"/>
                       <render:element render:x="35.65" render:y="7.5" xsi:type="RenderPoint"/>
                       <render:element render:x="40" render:y="0" xsi:type="RenderPoint"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:polygon render:fill="red" render:stroke="red" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="2.61" render:y="10.5" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="15" xsi:type="RenderPoint"/>
-                      <render:element render:x="40" render:y="15" xsi:type="RenderPoint"/>
-                      <render:element render:x="37.39" render:y="10.5" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                   <render:polygon render:stroke="black" render:stroke-width="1.0">
@@ -344,128 +308,6 @@
                     </render:listOfElements>
                   </render:polygon>
                   <render:ellipse render:cx="13" render:cy="13" render:rx="13" render:stroke="black" render:stroke-width="1.0"/>
-                </render:g>
-              </render:style>
-              <render:style id="styleOf_SpeciesGlyph_Glucose_clone" render:idList="SpeciesGlyph_Glucose_clone">
-                <render:g>
-                  <render:ellipse render:cx="30" render:cy="10" render:fill="white" render:rx="30" render:ry="10" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:polygon render:fill="red" render:stroke="red" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="2.504546999999999" render:y="14" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="12.504546999999999" render:basePoint1_y="21.637626666666666" render:basePoint2_x="47.495453000000005" render:basePoint2_y="21.637626666666666" render:x="57.495453" render:y="14" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:ellipse render:cx="30" render:cy="10" render:rx="30" render:ry="10" render:stroke="black" render:stroke-width="1.0"/>
-                </render:g>
-              </render:style>
-              <render:style id="styleOf_SpeciesGlyph_NDPK_clone" render:idList="SpeciesGlyph_NDPK_clone">
-                <render:g>
-                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="4" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="0" render:basePoint1_y="2" render:basePoint2_x="2" render:basePoint2_y="0" render:x="4" render:y="0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="56" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="58" render:basePoint1_y="0" render:basePoint2_x="60" render:basePoint2_y="2" render:x="60" render:y="4" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="60" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="60" render:basePoint1_y="18" render:basePoint2_x="58" render:basePoint2_y="20" render:x="56" render:y="20" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4" render:y="20" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2" render:basePoint1_y="20" render:basePoint2_x="0" render:basePoint2_y="18" render:x="0" render:y="16" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:polygon render:fill="red" render:stroke="red" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="14" xsi:type="RenderPoint"/>
-                      <render:element render:x="60" render:y="14" xsi:type="RenderPoint"/>
-                      <render:element render:x="60" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="60" render:basePoint1_y="18" render:basePoint2_x="58" render:basePoint2_y="20" render:x="56" render:y="20" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4" render:y="20" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2" render:basePoint1_y="20" render:basePoint2_x="0" render:basePoint2_y="18" render:x="0" render:y="16" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:polygon render:stroke="black" render:stroke-width="1.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="4" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="0" render:basePoint1_y="2" render:basePoint2_x="2" render:basePoint2_y="0" render:x="4" render:y="0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="56" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="58" render:basePoint1_y="0" render:basePoint2_x="60" render:basePoint2_y="2" render:x="60" render:y="4" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="60" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="60" render:basePoint1_y="18" render:basePoint2_x="58" render:basePoint2_y="20" render:x="56" render:y="20" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4" render:y="20" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2" render:basePoint1_y="20" render:basePoint2_x="0" render:basePoint2_y="18" render:x="0" render:y="16" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                </render:g>
-              </render:style>
-              <render:style id="styleOf_SpeciesGlyph_mRNA_clone" render:idList="SpeciesGlyph_mRNA_clone">
-                <render:g>
-                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="60" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="60" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="60" render:basePoint1_y="18" render:basePoint2_x="58" render:basePoint2_y="20" render:x="56" render:y="20" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4" render:y="20" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2" render:basePoint1_y="20" render:basePoint2_x="0" render:basePoint2_y="18" render:x="0" render:y="16" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:polygon render:fill="red" render:stroke="red" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="14" xsi:type="RenderPoint"/>
-                      <render:element render:x="60" render:y="14" xsi:type="RenderPoint"/>
-                      <render:element render:x="60" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="60" render:basePoint1_y="18" render:basePoint2_x="58" render:basePoint2_y="20" render:x="56" render:y="20" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4" render:y="20" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2" render:basePoint1_y="20" render:basePoint2_x="0" render:basePoint2_y="18" render:x="0" render:y="16" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:polygon render:stroke="black" render:stroke-width="1.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="60" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="60" render:y="16" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="60" render:basePoint1_y="18" render:basePoint2_x="58" render:basePoint2_y="20" render:x="56" render:y="20" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4" render:y="20" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2" render:basePoint1_y="20" render:basePoint2_x="0" render:basePoint2_y="18" render:x="0" render:y="16" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                </render:g>
-              </render:style>
-              <render:style id="styleOf_SpeciesGlyph_heat_Clone" render:idList="SpeciesGlyph_heat_Clone">
-                <render:g>
-                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="4.35" render:y="7.5" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="15" xsi:type="RenderPoint"/>
-                      <render:element render:x="40" render:y="15" xsi:type="RenderPoint"/>
-                      <render:element render:x="35.65" render:y="7.5" xsi:type="RenderPoint"/>
-                      <render:element render:x="40" render:y="0" xsi:type="RenderPoint"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:polygon render:fill="red" render:stroke="red" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="2.61" render:y="10.5" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="15" xsi:type="RenderPoint"/>
-                      <render:element render:x="40" render:y="15" xsi:type="RenderPoint"/>
-                      <render:element render:x="37.39" render:y="10.5" xsi:type="RenderPoint"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:polygon render:stroke="black" render:stroke-width="1.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:x="4.35" render:y="7.5" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="15" xsi:type="RenderPoint"/>
-                      <render:element render:x="40" render:y="15" xsi:type="RenderPoint"/>
-                      <render:element render:x="35.65" render:y="7.5" xsi:type="RenderPoint"/>
-                      <render:element render:x="40" render:y="0" xsi:type="RenderPoint"/>
-                    </render:listOfElements>
-                  </render:polygon>
                 </render:g>
               </render:style>
               <render:style id="styleOf_SpeciesGlyph_H3O" render:idList="SpeciesGlyph_H3O">
@@ -647,30 +489,6 @@
             <layout:boundingBox layout:id="bbHclone">
               <layout:position layout:x="20" layout:y="10"/>
               <layout:dimensions layout:height="26" layout:width="26"/>
-            </layout:boundingBox>
-          </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_Glucose_clone" layout:species="Glucose" sboTerm="SBO:0000285">
-            <layout:boundingBox layout:id="bb2_clone">
-              <layout:position layout:x="20" layout:y="40"/>
-              <layout:dimensions layout:height="20" layout:width="60"/>
-            </layout:boundingBox>
-          </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_NDPK_clone" layout:species="NDPK" sboTerm="SBO:0000245">
-            <layout:boundingBox layout:id="bbNDPK_clone">
-              <layout:position layout:x="20" layout:y="70"/>
-              <layout:dimensions layout:height="20" layout:width="60"/>
-            </layout:boundingBox>
-          </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_mRNA_clone" layout:species="mRNA" sboTerm="SBO:0000278">
-            <layout:boundingBox layout:id="bbmRNA_clone">
-              <layout:position layout:x="250" layout:y="15"/>
-              <layout:dimensions layout:height="20" layout:width="60"/>
-            </layout:boundingBox>
-          </layout:speciesGlyph>
-          <layout:speciesGlyph layout:id="SpeciesGlyph_heat_Clone" layout:species="heat" sboTerm="SBO:0000405">
-            <layout:boundingBox layout:id="bb_heat_clone">
-              <layout:position layout:x="385" layout:y="15"/>
-              <layout:dimensions layout:height="15" layout:width="40"/>
             </layout:boundingBox>
           </layout:speciesGlyph>
           <layout:speciesGlyph layout:id="SpeciesGlyph_H3O" layout:species="H3O" sboTerm="SBO:0000247">

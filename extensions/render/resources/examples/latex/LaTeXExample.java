@@ -35,7 +35,6 @@ import org.sbml.jsbml.ext.render.director.LayoutDirector;
  * @author David Vetter
  */
 public class LaTeXExample {
-  // TODO: provide explanations for the implementation and point at sbml2tikz
   public static void main(String[] args) {
     
     /**
@@ -44,7 +43,6 @@ public class LaTeXExample {
      * supported by the render.director:
      */
     File file = new File("extensions/render/resources/examples/latex/layout_spec_example.xml");
-    // File file = new File("extensions/render/resources/examples/unlaidout_spec_example.xml");
     
     /**
      * Notice:
