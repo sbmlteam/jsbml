@@ -34,11 +34,11 @@
 		<compartment id="vesicle" spatialDimensions="3" units="volume" constant="true"/>
 	  </listOfCompartments>
 	  <listOfSpecies>
-		<species id="A" sboTerm="SBO:0000247" name="A" compartment="extracellular" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="A" sboTerm="SBO:0000245" name="A" compartment="extracellular" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="B" sboTerm="SBO:0000247" name="B" compartment="extracellular" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="C" sboTerm="SBO:0000247" name="C" compartment="extracellular" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-		<species id="D" sboTerm="SBO:0000247" name="D" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-		<species id="E" sboTerm="SBO:0000247" name="E" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="D" sboTerm="SBO:0000245" name="D" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="E" sboTerm="SBO:0000245" name="E" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="F" sboTerm="SBO:0000247" name="F" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="G" sboTerm="SBO:0000247" name="G" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="H" sboTerm="SBO:0000247" name="H" compartment="vesicle" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
@@ -63,6 +63,12 @@
 		  <layout:speciesGlyph layout:id="sg_I" layout:species="I"></layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="sg_G" layout:species="G"></layout:speciesGlyph>
 		</layout:listOfSpeciesGlyphs>
+		
+		<layout:listOfCompartmentGlyphs>
+		  <layout:compartmentGlyph layout:id="cg_cytosol" layout:compartment="cytosol"></layout:compartmentGlyph>
+		  <layout:compartmentGlyph layout:id="cg_vesicle" layout:compartment="vesicle"></layout:compartmentGlyph>
+		  <layout:compartmentGlyph layout:id="cg_extracellular" layout:compartment="extracellular"></layout:compartmentGlyph>
+		</layout:listOfCompartmentGlyphs>
 	
 		
 		<layout:listOfTextGlyphs>

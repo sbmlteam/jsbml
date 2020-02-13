@@ -50,7 +50,8 @@ import org.sbml.jsbml.ext.render.director.LayoutDirector;
 public class RenderExample {
 
   public static void main(String[] args) {
-    File file = new File("example_implementations/org/sbml/jsbml/examples/layout_spec_example.xml");
+    // File file = new File("example_implementations/org/sbml/jsbml/examples/layout_spec_example.xml");
+    File file = new File("example_implementations/org/sbml/jsbml/examples/for_ring_algorithm.xml");
     System.out.println("Reading file " + file);
     try {
       /**
@@ -64,7 +65,7 @@ public class RenderExample {
        * Use the same LayoutAlgorithm as in the LaTeX-example
        */
       LayoutDirector<LocalRenderInformation> director = new LayoutDirector<LocalRenderInformation>(doc,
-        new RenderLayoutBuilder(), new BasicLayoutAlgorithm());
+        new RenderLayoutBuilder(), new RingLayoutAlgorithm());//new BasicLayoutAlgorithm());
       director.run();
       
       System.out.println("Layout-Information-document:\n");

@@ -33,13 +33,15 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
    */
   private static final String DEFAULT_COMPARTMENT = "___dEfaUlTCoMpartmEnT";
   
+  private final static double SPECIES_HEIGHT = 20;
+  private final static double SPECIES_WIDTH = 40;
+  
   /** How many species are there? -> affects radius and angles */
   private int speciesCount = 0;
-  private double interspeciesRadians = 2 * Math.PI;
-  
-  private double totalWidth, totalHeight;
+  private double interspeciesRadians = 2 * Math.PI;  
   
   private HashMap<String, List<SpeciesGlyph>> compartmentMembers;
+  private HashMap<String, CompartmentGlyph> unlaidoutCompartments;
   private Set<TextGlyph> textGlyphs;
   
   /**
@@ -47,14 +49,15 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
    * @param width the width of the surrounding layout
    * @param height the height of the surrounding layout
    */
-  public RingLayoutAlgorithm(double width, double height) {
+  public RingLayoutAlgorithm() {
     // This implementation will draw a ring for all the unlaid-out glyphs, while
     // ignoring the laid-out ones (up to the user to lay them out in a fit way)
     compartmentMembers = new HashMap<String, List<SpeciesGlyph>>();
     compartmentMembers.put(DEFAULT_COMPARTMENT, new ArrayList<SpeciesGlyph>());
+    // The default-compartment is virtual (for sorting the corresponding
+    // Species), it will NOT be added to the file
+    unlaidoutCompartments = new HashMap<String, CompartmentGlyph>();
     textGlyphs = new HashSet<TextGlyph>();
-    totalWidth = width;
-    totalHeight = height;
   }
 
 
@@ -150,6 +153,10 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
       speciesCount++;
     } else if (glyph instanceof TextGlyph) {
       textGlyphs.add((TextGlyph) glyph);
+    } else if (glyph instanceof CompartmentGlyph
+      && ((CompartmentGlyph) glyph).isSetCompartment()) {
+      unlaidoutCompartments.put(((CompartmentGlyph) glyph).getCompartment(),
+        (CompartmentGlyph) glyph);
     }
   }
 
@@ -168,27 +175,41 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
 
   @Override
   public Set<GraphicalObject> completeGlyphs() {
+    double totalWidth = getLayout().getDimensions().getWidth();
+    double totalHeight = getLayout().getDimensions().getHeight();
+    
     // Main method: Side effects are main purpose.
     
     interspeciesRadians = 2 * Math.PI / speciesCount;
     // TODO: use function of totalWidth/Height instead of 60 
-    double radius = 60 * speciesCount; // Circumference linear in number of species. 
+    double radius = Math.min(totalWidth, totalHeight) * speciesCount / 60; // Circumference linear in number of species. 
     
     int speciesIndex = 0;
     for(String compartment : compartmentMembers.keySet()) {
-      // TODO: draw the respective compartment
+      int compartmentStart = speciesIndex;
+      int compartmentEnd = speciesIndex;
       
       for(SpeciesGlyph species : compartmentMembers.get(compartment)) {
         double tilt = Math.PI / 2;
         tilt -= speciesIndex * interspeciesRadians;
         
         BoundingBox bbox = new BoundingBox();
-        bbox.createDimensions(40, 20, 1);
+        bbox.createDimensions(SPECIES_WIDTH, SPECIES_HEIGHT, 1);
         bbox.createPosition(radius * Math.cos(tilt) + totalWidth / 2,
           -radius * Math.sin(tilt) + totalHeight / 2, 0);
         species.setBoundingBox(bbox);
         speciesIndex++;
+        compartmentEnd = speciesIndex;
       }
+      // Note that the endIndex is actually one too large and would, if
+      // uncorrected, lead to overlapping compartments
+      compartmentEnd--;
+      
+      // draw the respective compartment (if it is not yet laid out)
+      if(unlaidoutCompartments.containsKey(compartment)) {
+        BoundingBox bbox = boundCompartment(compartmentStart, compartmentEnd, radius);
+        unlaidoutCompartments.get(compartment).setBoundingBox(bbox);
+      }      
     }
     
     for(TextGlyph tg : textGlyphs) {
@@ -215,5 +236,37 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
     }
     
     return null;
+  }
+  
+  private BoundingBox boundCompartment(int startIndex, int endIndex, double ringRadius) {
+    System.out.println("From " + startIndex + " to " + endIndex);
+    BoundingBox result = new BoundingBox(level, version);
+    double from = (Math.PI / 2) - (startIndex * interspeciesRadians);
+    double to = (Math.PI / 2) - (endIndex * interspeciesRadians);
+    
+    double minX = Math.min(Math.cos(from), Math.cos(to));
+    double maxX = Math.max(Math.cos(from), Math.cos(to));
+    double minY = Math.min(-Math.sin(from), -Math.sin(to));
+    double maxY = Math.max(-Math.sin(from), -Math.sin(to));
+    
+    // due to the way the angles are defined (90° - i*interspeciesRadians), from
+    // is numerically larger than to
+    if(to <= Math.PI / 2 && Math.PI / 2 <= from)
+      minY = -1;
+    if(to <= 0 && 0 <= from)
+      maxX = 1;
+    if(to <= -Math.PI / 2 && -Math.PI / 2 <= from)
+      maxY = 1;
+    if(to <= -Math.PI && Math.PI <= from)
+      minX = -1;
+    
+    result.createDimensions((ringRadius * (maxX - minX)) + SPECIES_WIDTH,
+      (ringRadius * (maxY - minY)) + SPECIES_HEIGHT, 1);
+    result.createPosition(
+      (ringRadius * minX) + getLayout().getDimensions().getWidth() / 2,
+      (ringRadius * minY) + getLayout().getDimensions().getHeight() / 2,
+      -(endIndex - startIndex)); // ~ sort by size: largest Compartments into the back
+    
+    return result;
   }
 }
