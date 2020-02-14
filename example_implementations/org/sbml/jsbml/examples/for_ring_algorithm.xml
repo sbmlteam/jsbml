@@ -44,8 +44,54 @@
 		<species id="H" sboTerm="SBO:0000247" name="H" compartment="vesicle" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="I" sboTerm="SBO:0000247" name="I" compartment="vesicle" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 	  </listOfSpecies>
+	
 	<listOfReactions>
+	  <reaction id="R1" reversible="false" fast="false">
+		<listOfReactants>
+		  <speciesReference id="SR_R1_A" species="A" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SR_R1_B" species="B" stoichiometry="1" constant="true"/>
+		</listOfReactants>
+		<listOfProducts>
+		  <speciesReference id="SR_R1_C" species="C" stoichiometry="1" constant="true"/>
+		</listOfProducts>
+	  </reaction>
+	  <reaction id="R2" reversible="false" fast="false">
+		<listOfReactants>
+		  <speciesReference id="SR_R2_A" species="A" stoichiometry="1" constant="true"/>
+		</listOfReactants>
+		<listOfProducts>
+		  <speciesReference id="SR_R2_F" species="F" stoichiometry="1" constant="true"/>
+		</listOfProducts>
+		<listOfModifiers>
+		  <modifierSpeciesReference id="MSR_R2_D" species="D"/>
+		</listOfModifiers>
+	  </reaction>
+	  <reaction id="R3" reversible="false" fast="false">
+		<listOfReactants>
+		  <speciesReference id="SR_R3_C" species="C" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SR_R3_D" species="D" stoichiometry="1" constant="true"/>
+		</listOfReactants>
+		<listOfProducts>
+		  <speciesReference id="SR_R3_B" species="B" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SR_R3_G" species="G" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SR_R3_H" species="H" stoichiometry="1" constant="true"/>
+		</listOfProducts>
+	  </reaction>
+	  <reaction id="R4" reversible="false" fast="false">
+		<listOfReactants>
+		  <speciesReference id="SR_R4_F" species="F" stoichiometry="1" constant="true"/>
+		</listOfReactants>
+		<listOfProducts>
+		  <speciesReference id="SR_R4_H" species="H" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SR_R4_I" species="I" stoichiometry="1" constant="true"/>
+		</listOfProducts>
+		<listOfModifiers>
+		  <modifierSpeciesReference id="MSR_R4_G" species="G"/>
+		</listOfModifiers>
+	  </reaction>
 	</listOfReactions>
+	
+	
 	
 	<layout:listOfLayouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1">
 	  <layout:layout layout:id="Layout_1">
@@ -70,6 +116,23 @@
 		  <layout:compartmentGlyph layout:id="cg_extracellular" layout:compartment="extracellular"></layout:compartmentGlyph>
 		</layout:listOfCompartmentGlyphs>
 	
+		<layout:listOfReactionGlyphs>
+		  <layout:reactionGlyph layout:id="rg_R1" layout:reaction="R1">
+			<layout:listOfSpeciesReferenceGlyphs>
+			  <layout:speciesReferenceGlyph layout:id="srg_R1_A" layout:speciesReference="SR_R1_A" layout:speciesGlyph="sg_A" layout:role="substrate"/>
+			  <layout:speciesReferenceGlyph layout:id="srg_R1_B" layout:speciesReference="SR_R1_B" layout:speciesGlyph="sg_B" layout:role="sidesubstrate"/>
+			  <layout:speciesReferenceGlyph layout:id="srg_R1_C" layout:speciesReference="SR_R1_C" layout:speciesGlyph="sg_C" layout:role="product"/>
+		    </layout:listOfSpeciesReferenceGlyphs>
+		  </layout:reactionGlyph>
+		  
+		  <layout:reactionGlyph layout:id="rg_R2" layout:reaction="R2">
+			<layout:listOfSpeciesReferenceGlyphs>
+			  <layout:speciesReferenceGlyph layout:id="srg_R2_A" layout:speciesReference="SR_R2_A" layout:speciesGlyph="sg_A" layout:role="substrate"/>
+			  <layout:speciesReferenceGlyph layout:id="srg_R2_F" layout:speciesReference="SR_R2_F" layout:speciesGlyph="sg_F" layout:role="product"/>
+			  <layout:speciesReferenceGlyph layout:id="srg_R2_D" layout:speciesReference="MSR_R2_D" layout:speciesGlyph="sg_D"/>
+		    </layout:listOfSpeciesReferenceGlyphs>
+		  </layout:reactionGlyph>
+		</layout:listOfReactionGlyphs>
 		
 		<layout:listOfTextGlyphs>
 		  <layout:textGlyph layout:id="tg_A" layout:originOfText="A" layout:graphicalObject="sg_A"></layout:textGlyph>

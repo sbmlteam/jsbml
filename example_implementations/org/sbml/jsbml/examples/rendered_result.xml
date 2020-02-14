@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-02-13 at 09:41:22 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-02-14 at 11:13:44 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="Ring" timeUnits="time">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -104,10 +104,10 @@
               </render:lineEnding>
             </render:listOfLineEndings>
             <render:listOfStyles>
-              <render:style id="consumptionStyle" render:idList="">
+              <render:style id="consumptionStyle" render:idList="srg_R1_A srg_R1_B srg_R2_A">
                 <render:g render:stroke="black" render:stroke-width="1.0"/>
               </render:style>
-              <render:style id="productionStyle" render:idList="">
+              <render:style id="productionStyle" render:idList="srg_R1_C srg_R2_F">
                 <render:g render:endHead="productionHead" render:stroke="black" render:stroke-width="1.0"/>
               </render:style>
               <render:style id="reversibleConsumptionStyle" render:idList="">
@@ -125,7 +125,7 @@
               <render:style id="necessaryStimulationStyle" render:idList="">
                 <render:g render:endHead="necessaryStimulationHead" render:stroke="black" render:stroke-width="1.0"/>
               </render:style>
-              <render:style id="modulationStyle" render:idList="">
+              <render:style id="modulationStyle" render:idList="srg_R2_D">
                 <render:g render:endHead="modulationHead" render:stroke="black" render:stroke-width="1.0"/>
               </render:style>
               <render:style id="TextGylphStyle" render:typeList="TEXTGLYPH">
@@ -272,6 +272,30 @@
                   <render:ellipse render:cx="20" render:cy="10" render:rx="10" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
+              <render:style render:idList="rg_R1">
+                <render:g render:stroke="black" render:stroke-width="1.0">
+                  <render:polygon render:fill="white">
+                    <render:listOfElements>
+                      <render:element render:x="2.0116376126988023" render:y="-1.4085638205578856" xsi:type="RenderPoint"/>
+                      <render:element render:x="-1.4085638205578856" render:y="7.988362387301198" xsi:type="RenderPoint"/>
+                      <render:element render:x="7.988362387301198" render:y="11.408563820557886" xsi:type="RenderPoint"/>
+                      <render:element render:x="11.408563820557886" render:y="2.0116376126988023" xsi:type="RenderPoint"/>
+                    </render:listOfElements>
+                  </render:polygon>
+                </render:g>
+              </render:style>
+              <render:style render:idList="rg_R2">
+                <render:g render:stroke="black" render:stroke-width="1.0">
+                  <render:polygon render:fill="white">
+                    <render:listOfElements>
+                      <render:element render:x="9.05579787672639" render:y="-0.792279653395692" xsi:type="RenderPoint"/>
+                      <render:element render:x="-0.792279653395692" render:y="0.9442021232736106" xsi:type="RenderPoint"/>
+                      <render:element render:x="0.9442021232736106" render:y="10.792279653395692" xsi:type="RenderPoint"/>
+                      <render:element render:x="10.792279653395692" render:y="9.05579787672639" xsi:type="RenderPoint"/>
+                    </render:listOfElements>
+                  </render:polygon>
+                </render:g>
+              </render:style>
             </render:listOfStyles>
           </render:renderInformation>
         </render:listOfRenderInformation>
@@ -351,6 +375,100 @@
             </layout:boundingBox>
           </layout:speciesGlyph>
         </layout:listOfSpeciesGlyphs>
+        <layout:listOfReactionGlyphs>
+          <layout:reactionGlyph layout:id="rg_R1" layout:reaction="R1">
+            <layout:boundingBox>
+              <layout:position layout:x="343.8278608809624" layout:y="236.80922137642278" layout:z="0"/>
+              <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
+            </layout:boundingBox>
+            <layout:curve>
+              <layout:listOfCurveSegments>
+                <layout:curveSegment xsi:type="LineSegment">
+                  <layout:start layout:x="342.39998478409694" layout:y="249.46966580761256" layout:z="0"/>
+                  <layout:end layout:x="355.2557369778278" layout:y="234.148776945233" layout:z="0"/>
+                </layout:curveSegment>
+              </layout:listOfCurveSegments>
+            </layout:curve>
+            <layout:listOfSpeciesReferenceGlyphs>
+              <layout:speciesReferenceGlyph layout:id="srg_R1_A" layout:role="substrate" layout:speciesGlyph="sg_A" layout:speciesReference="SR_R1_A">
+                <layout:curve>
+                  <layout:listOfCurveSegments>
+                    <layout:curveSegment xsi:type="LineSegment">
+                      <layout:start layout:x="342.39998478409694" layout:y="249.46966580761256" layout:z="0"/>
+                      <layout:end layout:x="300" layout:y="210" layout:z="0"/>
+                    </layout:curveSegment>
+                  </layout:listOfCurveSegments>
+                </layout:curve>
+              </layout:speciesReferenceGlyph>
+              <layout:speciesReferenceGlyph layout:id="srg_R1_B" layout:role="sidesubstrate" layout:speciesGlyph="sg_B" layout:speciesReference="SR_R1_B">
+                <layout:curve>
+                  <layout:listOfCurveSegments>
+                    <layout:curveSegment xsi:type="LineSegment">
+                      <layout:start layout:x="342.39998478409694" layout:y="249.46966580761256" layout:z="0"/>
+                      <layout:end layout:x="388.6326977710987" layout:y="284.37166400997626" layout:z="0"/>
+                    </layout:curveSegment>
+                  </layout:listOfCurveSegments>
+                </layout:curve>
+              </layout:speciesReferenceGlyph>
+              <layout:speciesReferenceGlyph layout:id="srg_R1_C" layout:role="product" layout:speciesGlyph="sg_C" layout:speciesReference="SR_R1_C">
+                <layout:curve>
+                  <layout:listOfCurveSegments>
+                    <layout:curveSegment xsi:type="LineSegment">
+                      <layout:start layout:x="355.2557369778278" layout:y="234.148776945233" layout:z="0"/>
+                      <layout:end layout:x="357.85088487178854" layout:y="231.05600011929198" layout:z="0"/>
+                    </layout:curveSegment>
+                  </layout:listOfCurveSegments>
+                </layout:curve>
+              </layout:speciesReferenceGlyph>
+            </layout:listOfSpeciesReferenceGlyphs>
+          </layout:reactionGlyph>
+          <layout:reactionGlyph layout:id="rg_R2" layout:reaction="R2">
+            <layout:boundingBox>
+              <layout:position layout:x="331.24136641330324" layout:y="308.1907786235772" layout:z="0"/>
+              <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
+            </layout:boundingBox>
+            <layout:curve>
+              <layout:listOfCurveSegments>
+                <layout:curveSegment xsi:type="LineSegment">
+                  <layout:start layout:x="334.50488463663396" layout:y="303.34270109345516" layout:z="0"/>
+                  <layout:end layout:x="337.9778481899725" layout:y="323.03885615369927" layout:z="0"/>
+                </layout:curveSegment>
+              </layout:listOfCurveSegments>
+            </layout:curve>
+            <layout:listOfSpeciesReferenceGlyphs>
+              <layout:speciesReferenceGlyph layout:id="srg_R2_A" layout:role="substrate" layout:speciesGlyph="sg_A" layout:speciesReference="SR_R2_A">
+                <layout:curve>
+                  <layout:listOfCurveSegments>
+                    <layout:curveSegment xsi:type="LineSegment">
+                      <layout:start layout:x="334.50488463663396" layout:y="303.34270109345516" layout:z="0"/>
+                      <layout:end layout:x="300" layout:y="210" layout:z="0"/>
+                    </layout:curveSegment>
+                  </layout:listOfCurveSegments>
+                </layout:curve>
+              </layout:speciesReferenceGlyph>
+              <layout:speciesReferenceGlyph layout:id="srg_R2_F" layout:role="product" layout:speciesGlyph="sg_F" layout:speciesReference="SR_R2_F">
+                <layout:curve>
+                  <layout:listOfCurveSegments>
+                    <layout:curveSegment xsi:type="LineSegment">
+                      <layout:start layout:x="337.9778481899725" layout:y="323.03885615369927" layout:z="0"/>
+                      <layout:end layout:x="330.7818128993102" layout:y="384.57233587073176" layout:z="0"/>
+                    </layout:curveSegment>
+                  </layout:listOfCurveSegments>
+                </layout:curve>
+              </layout:speciesReferenceGlyph>
+              <layout:speciesReferenceGlyph layout:id="srg_R2_D" layout:role="modifier" layout:speciesGlyph="sg_D" layout:speciesReference="MSR_R2_D" sboTerm="SBO:0000019">
+                <layout:curve>
+                  <layout:listOfCurveSegments>
+                    <layout:curveSegment xsi:type="LineSegment">
+                      <layout:start layout:x="377.9422863405995" layout:y="345" layout:z="0"/>
+                      <layout:end layout:x="336.24136641330324" layout:y="313.1907786235772" layout:z="0"/>
+                    </layout:curveSegment>
+                  </layout:listOfCurveSegments>
+                </layout:curve>
+              </layout:speciesReferenceGlyph>
+            </layout:listOfSpeciesReferenceGlyphs>
+          </layout:reactionGlyph>
+        </layout:listOfReactionGlyphs>
         <layout:listOfTextGlyphs>
           <layout:textGlyph layout:graphicalObject="sg_A" layout:id="tg_A" layout:originOfText="A">
             <layout:boundingBox>
@@ -442,5 +560,50 @@
       <species boundaryCondition="false" compartment="vesicle" constant="false" hasOnlySubstanceUnits="false" id="H" name="H" sboTerm="SBO:0000247" substanceUnits="substance"/>
       <species boundaryCondition="false" compartment="vesicle" constant="false" hasOnlySubstanceUnits="false" id="I" name="I" sboTerm="SBO:0000247" substanceUnits="substance"/>
     </listOfSpecies>
-      </model>
+    <listOfReactions>
+      <reaction fast="false" id="R1" reversible="false">
+        <listOfReactants>
+          <speciesReference constant="true" id="SR_R1_A" species="A" stoichiometry="1"/>
+          <speciesReference constant="true" id="SR_R1_B" species="B" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" id="SR_R1_C" species="C" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction fast="false" id="R2" reversible="false">
+        <listOfReactants>
+          <speciesReference constant="true" id="SR_R2_A" species="A" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" id="SR_R2_F" species="F" stoichiometry="1"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference id="MSR_R2_D" species="D"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction fast="false" id="R3" reversible="false">
+        <listOfReactants>
+          <speciesReference constant="true" id="SR_R3_C" species="C" stoichiometry="1"/>
+          <speciesReference constant="true" id="SR_R3_D" species="D" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" id="SR_R3_B" species="B" stoichiometry="1"/>
+          <speciesReference constant="true" id="SR_R3_G" species="G" stoichiometry="1"/>
+          <speciesReference constant="true" id="SR_R3_H" species="H" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction fast="false" id="R4" reversible="false">
+        <listOfReactants>
+          <speciesReference constant="true" id="SR_R4_F" species="F" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" id="SR_R4_H" species="H" stoichiometry="1"/>
+          <speciesReference constant="true" id="SR_R4_I" species="I" stoichiometry="1"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference id="MSR_R4_G" species="G"/>
+        </listOfModifiers>
+      </reaction>
+    </listOfReactions>
+  </model>
 </sbml>
