@@ -1,0 +1,18 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "description": "Open-source, pure Java library for reading, writing, and manipulating SBML files and data streams",
+  "name": "jsbml",
+  "codeRepository": "https://github.com/sbmlteam/jsbml",
+  "issueTracker": "https://github.com/sbmlteam/jsbml/issues",
+  "license": "https://github.com/sbmlteam/jsbml/blob/master/LICENSE",
+  "version": "1.4.0",
+  "author": [],
+  "developmentStatus": "active",
+  "downloadUrl": "https://github.com/sbmlteam/jsbml/archive/jsbml-1.4.zip",
+  "keywords": [
+    "software",
+    "systems biology",
+    "SBML"
+  ],
+}
