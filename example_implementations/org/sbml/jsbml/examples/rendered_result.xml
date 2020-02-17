@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-02-14 at 11:13:44 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-02-17 at 15:59:59 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="Ring" timeUnits="time">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -378,14 +378,14 @@
         <layout:listOfReactionGlyphs>
           <layout:reactionGlyph layout:id="rg_R1" layout:reaction="R1">
             <layout:boundingBox>
-              <layout:position layout:x="343.8278608809624" layout:y="236.80922137642278" layout:z="0"/>
+              <layout:position layout:x="354.50812770316986" layout:y="252.32714840974523" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
             </layout:boundingBox>
             <layout:curve>
               <layout:listOfCurveSegments>
                 <layout:curveSegment xsi:type="LineSegment">
-                  <layout:start layout:x="342.39998478409694" layout:y="249.46966580761256" layout:z="0"/>
-                  <layout:end layout:x="355.2557369778278" layout:y="234.148776945233" layout:z="0"/>
+                  <layout:start layout:x="352.3907537918004" layout:y="264.3516048731135" layout:z="0"/>
+                  <layout:end layout:x="366.6255016145393" layout:y="250.30269194637688" layout:z="0"/>
                 </layout:curveSegment>
               </layout:listOfCurveSegments>
             </layout:curve>
@@ -394,8 +394,8 @@
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="LineSegment">
-                      <layout:start layout:x="342.39998478409694" layout:y="249.46966580761256" layout:z="0"/>
-                      <layout:end layout:x="300" layout:y="210" layout:z="0"/>
+                      <layout:start layout:x="352.3907537918004" layout:y="264.3516048731135" layout:z="0"/>
+                      <layout:end layout:x="330" layout:y="230" layout:z="0"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>
                 </layout:curve>
@@ -404,8 +404,8 @@
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="LineSegment">
-                      <layout:start layout:x="342.39998478409694" layout:y="249.46966580761256" layout:z="0"/>
-                      <layout:end layout:x="388.6326977710987" layout:y="284.37166400997626" layout:z="0"/>
+                      <layout:start layout:x="352.3907537918004" layout:y="264.3516048731135" layout:z="0"/>
+                      <layout:end layout:x="400.6484130145915" layout:y="288.35076732202305" layout:z="0.5"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>
                 </layout:curve>
@@ -414,8 +414,8 @@
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="LineSegment">
-                      <layout:start layout:x="355.2557369778278" layout:y="234.148776945233" layout:z="0"/>
-                      <layout:end layout:x="357.85088487178854" layout:y="231.05600011929198" layout:z="0"/>
+                      <layout:start layout:x="366.6255016145393" layout:y="250.30269194637688" layout:z="0"/>
+                      <layout:end layout:x="370.37000639690496" layout:y="247.69199719916048" layout:z="0.5"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>
                 </layout:curve>
@@ -424,14 +424,14 @@
           </layout:reactionGlyph>
           <layout:reactionGlyph layout:id="rg_R2" layout:reaction="R2">
             <layout:boundingBox>
-              <layout:position layout:x="331.24136641330324" layout:y="308.1907786235772" layout:z="0"/>
+              <layout:position layout:x="342.99778049082704" layout:y="315.2540394843672" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
             </layout:boundingBox>
             <layout:curve>
               <layout:listOfCurveSegments>
                 <layout:curveSegment xsi:type="LineSegment">
-                  <layout:start layout:x="334.50488463663396" layout:y="303.34270109345516" layout:z="0"/>
-                  <layout:end layout:x="337.9778481899725" layout:y="323.03885615369927" layout:z="0"/>
+                  <layout:start layout:x="345.7428940487244" layout:y="310.5115815227837" layout:z="0"/>
+                  <layout:end layout:x="350.2526669329297" layout:y="329.99649744595064" layout:z="0"/>
                 </layout:curveSegment>
               </layout:listOfCurveSegments>
             </layout:curve>
@@ -440,8 +440,8 @@
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="LineSegment">
-                      <layout:start layout:x="334.50488463663396" layout:y="303.34270109345516" layout:z="0"/>
-                      <layout:end layout:x="300" layout:y="210" layout:z="0"/>
+                      <layout:start layout:x="345.7428940487244" layout:y="310.5115815227837" layout:z="0"/>
+                      <layout:end layout:x="330" layout:y="230" layout:z="0"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>
                 </layout:curve>
@@ -450,8 +450,8 @@
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="LineSegment">
-                      <layout:start layout:x="337.9778481899725" layout:y="323.03885615369927" layout:z="0"/>
-                      <layout:end layout:x="330.7818128993102" layout:y="384.57233587073176" layout:z="0"/>
+                      <layout:start layout:x="350.2526669329297" layout:y="329.99649744595064" layout:z="0"/>
+                      <layout:end layout:x="350.4074661836949" layout:y="384.57934510037137" layout:z="0.5"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>
                 </layout:curve>
@@ -460,8 +460,8 @@
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="LineSegment">
-                      <layout:start layout:x="377.9422863405995" layout:y="345" layout:z="0"/>
-                      <layout:end layout:x="336.24136641330324" layout:y="313.1907786235772" layout:z="0"/>
+                      <layout:start layout:x="397.9422863405995" layout:y="355" layout:z="0.5"/>
+                      <layout:end layout:x="357.7402384524105" layout:y="317.99915304226454"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>
                 </layout:curve>
