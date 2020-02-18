@@ -11,6 +11,7 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
+import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
@@ -256,6 +257,7 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
      *       or to RG's side (think of a cross, where one of the bars is virtual)  
      */
     for(ReactionGlyph rg : reactionGlyphs) {
+      System.out.println(rg);
       // initially, center the rg in the circle
       rg.createBoundingBox(REACTION_GLYPH_SIZE, REACTION_GLYPH_SIZE, 0,
         (totalWidth - REACTION_GLYPH_SIZE) / 2d,
@@ -319,6 +321,7 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
           }
         }
       }
+      
       // TODO: might add nonlinearity
       // Here: overwrite the old placeholder-boundingbox
       rg.createBoundingBox(REACTION_GLYPH_SIZE, REACTION_GLYPH_SIZE, 0,
@@ -333,6 +336,9 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
         substratePort.setX(substratePort.getX() / (double) substrateCount);
         substratePort.setY(substratePort.getY() / (double) substrateCount);
       }
+      
+      System.out.println(String.format("\tcom: %s\n\tsub: %s\n\tpro: %s",
+        centerOfSRGs, substratePort, productPort));
       
       // The center of substrate and product-port might not yet be the center of
       // the reactionGlyph: Shift it (parallel)
@@ -367,28 +373,7 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
     /**
      * III) Place Textglyphs at their origins of text (if available)
      */
-    for(TextGlyph tg : textGlyphs) {
-      BoundingBox box = new BoundingBox(level, version);
-      // Default:
-      box.createDimensions(2, 2, 0);
-      box.createPosition(0, 0, 0);
-      
-      NamedSBase origin = tg.getOriginOfTextInstance(); 
-      if(tg.isSetGraphicalObject()) {
-        box.setPosition(tg.getGraphicalObjectInstance().getBoundingBox().getPosition().clone());
-        box.setDimensions(tg.getGraphicalObjectInstance().getBoundingBox().getDimensions().clone());
-      } else if(origin != null && origin instanceof Species) {
-        List<SpeciesGlyph> results = getLayout().findSpeciesGlyphs(origin.getId());
-        if(!results.isEmpty()) {
-          SpeciesGlyph sg = results.get(0); // this is a very specific instance (arbitrary)
-          if(sg.isSetBoundingBox()) {
-            box.setPosition(sg.getBoundingBox().getPosition().clone());
-            box.setDimensions(sg.getBoundingBox().getDimensions().clone());
-          }
-        }
-      }
-      tg.setBoundingBox(box);
-    }
+    layoutTextGlyphs();
     
     // The return value is never used.
     return null;
@@ -454,9 +439,12 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
    * @param productPort
    *        the {@link Point} to which product-arcs should connect
    */
-  private void layoutSpeciesReferenceGlyphs(ReactionGlyph rg, Point centerOfSRGs, Point substratePort, Point productPort) {
-    if(unlaidoutSpeciesReferenceGlyphs.containsKey(rg.getId())) {
-      for (SpeciesReferenceGlyph srg : unlaidoutSpeciesReferenceGlyphs.get(rg.getId())) {
+  private void layoutSpeciesReferenceGlyphs(ReactionGlyph rg,
+    Point centerOfSRGs, Point substratePort, Point productPort) {
+    
+    if (unlaidoutSpeciesReferenceGlyphs.containsKey(rg.getId())) {
+      for (SpeciesReferenceGlyph srg : unlaidoutSpeciesReferenceGlyphs.get(
+        rg.getId())) {
         Point orthoPort1 = new Point(
           centerOfSRGs.getX()
             - 0.5 * (productPort.getY() - substratePort.getY()),
@@ -469,33 +457,59 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
             - 0.5 * (productPort.getX() - substratePort.getX()));
         
         Curve curve = srg.createCurve();
-        // TODO: CubicBeziers (especially for modifiers -> enforce orthogonality)
-        LineSegment connection = new LineSegment(layout.getLevel(), layout.getVersion());
+        CubicBezier connection = new CubicBezier(layout.getLevel(), layout.getVersion());
+        
+        /** Specifies the ,force' with which the CubicBezier leaves the reactionGlyph */
+        double force = 1.3d;
+        
+        Point basePoint1, basePoint2, start, end;
+               
+        // TODO: Refactor this mess.
         if (srg.isSetSpeciesReferenceRole()) {
           Point speciesPort = calculateSpeciesGlyphDockingPosition(
             calculateCenter(srg.getSpeciesGlyphInstance()), rg,
             srg.getRole(), srg.getSpeciesGlyphInstance());
+          Point speciesControlPoint =
+            Geometry.weightedSum(1 + force, speciesPort, -force,
+              calculateCenter(srg.getSpeciesGlyphInstance()));
           switch (srg.getRole()) {
           case PRODUCT:
           case SIDEPRODUCT:
-            connection.setStart(productPort.clone());
-            connection.setEnd(speciesPort);
+            start = productPort.clone();
+            basePoint1 = Geometry.weightedSum(1 + force, productPort, -force,
+              centerOfSRGs);
+            basePoint2 = speciesControlPoint;
+            end = speciesPort;
             break;
           case SUBSTRATE:
           case SIDESUBSTRATE:
-            connection.setStart(substratePort.clone());
-            connection.setEnd(speciesPort);
+            start = substratePort.clone();
+            basePoint1 = Geometry.weightedSum(1 + force, substratePort, -force,
+              centerOfSRGs);
+            basePoint2 = speciesControlPoint;
+            end = speciesPort;
             break;
           default:
-            connection.setStart(speciesPort);
-            connection.setEnd(closest(orthoPort1, orthoPort2, speciesPort));
+            start = speciesPort;
+            end = closest(orthoPort1, orthoPort2, speciesPort);
+            basePoint1 = speciesControlPoint;
+            // Modifiers etc use twice the force
+            basePoint2 =
+              Geometry.weightedSum(1 + 2*force, end, -2*force, centerOfSRGs);
           }
         } else {
           // TODO: redundant code, make better case-distinction
-          Point speciesPos = calculateCenter(srg.getSpeciesGlyphInstance());
-          connection.setStart(speciesPos);
-          connection.setEnd(closest(orthoPort1, orthoPort2, speciesPos));
+          start = calculateCenter(srg.getSpeciesGlyphInstance());
+          end = closest(orthoPort1, orthoPort2, start);
+          basePoint1 = start.clone();
+          basePoint2 =
+            Geometry.weightedSum(1 + 2*force, end, -2*force, centerOfSRGs);
         }
+        
+        connection.setStart(start);
+        connection.setBasePoint1(basePoint1);
+        connection.setBasePoint2(basePoint2);
+        connection.setEnd(end);
         curve.addCurveSegment(connection);
       }
     }
@@ -517,6 +531,39 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
       return candidate1;
     } else {
       return candidate2;
+    }
+  }
+  
+
+  /**
+   * Helper-method of {@link RingLayoutAlgorithm#completeGlyphs()}, to structure
+   * the code. Places textglyphs according to their origin of text
+   */
+  private void layoutTextGlyphs() {
+    for (TextGlyph tg : textGlyphs) {
+      BoundingBox box = new BoundingBox(level, version);
+      // Default:
+      box.createDimensions(2, 2, 0);
+      box.createPosition(0, 0, 0);
+      NamedSBase origin = tg.getOriginOfTextInstance();
+      if (tg.isSetGraphicalObject()) {
+        box.setPosition(tg.getGraphicalObjectInstance().getBoundingBox()
+                          .getPosition().clone());
+        box.setDimensions(tg.getGraphicalObjectInstance().getBoundingBox()
+                            .getDimensions().clone());
+      } else if (origin != null && origin instanceof Species) {
+        List<SpeciesGlyph> results =
+          getLayout().findSpeciesGlyphs(origin.getId());
+        if (!results.isEmpty()) {
+          SpeciesGlyph sg = results.get(0); // this is a very specific instance
+                                            // (arbitrary)
+          if (sg.isSetBoundingBox()) {
+            box.setPosition(sg.getBoundingBox().getPosition().clone());
+            box.setDimensions(sg.getBoundingBox().getDimensions().clone());
+          }
+        }
+      }
+      tg.setBoundingBox(box);
     }
   }
 }
