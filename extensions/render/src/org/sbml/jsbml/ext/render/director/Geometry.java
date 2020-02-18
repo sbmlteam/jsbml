@@ -171,4 +171,22 @@ public class Geometry {
     return Math.pow(d, 1d/r);
   }
   
+  
+  /**
+   * Adds the given points a and b, weighted by the respective weight, i.e.:<br>
+   * weightA * a + weightB * b
+   * 
+   * @param weightA
+   *        scalar weight of vector a
+   * @param a
+   * @param weightB
+   *        scalar weight of vector b
+   * @param b
+   * @return weightA * a + weightB * b
+   */
+  public static Point weightedSum(double weightA, Point a, double weightB, Point b) {
+    return new Point(weightA * a.getX() + weightB * b.getX(),
+      weightA * a.getY() + weightB * b.getY(),
+      weightA * a.getZ() + weightB * b.getZ());
+  }
 }
