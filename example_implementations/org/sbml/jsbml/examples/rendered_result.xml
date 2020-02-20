@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-02-18 at 11:33:18 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-02-20 at 18:10:08 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="Ring" timeUnits="time">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -494,9 +494,9 @@
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="CubicBezier">
-                      <layout:start layout:x="397.9422863405995" layout:y="355" layout:z="0.5"/>
+                      <layout:start layout:x="387.9422863405995" layout:y="345" layout:z="0"/>
                       <layout:end layout:x="357.7402384524105" layout:y="317.99915304226454"/>
-                      <layout:basePoint1 layout:x="397.9422863405995" layout:y="355" layout:z="0.5"/>
+                      <layout:basePoint1 layout:x="374.94228634059937" layout:y="331.9999999999999" layout:z="-0.65"/>
                       <layout:basePoint2 layout:x="383.07062915252743" layout:y="312.1364482927977"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>
@@ -634,9 +634,9 @@
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="CubicBezier">
-                      <layout:start layout:x="242.05771365940052" layout:y="355" layout:z="0.5"/>
+                      <layout:start layout:x="248.98866875215933" layout:y="347.79154236315696" layout:z="0.5"/>
                       <layout:end layout:x="268.28221167463334" layout:y="325.9172008602325"/>
-                      <layout:basePoint1 layout:x="242.05771365940052" layout:y="355" layout:z="0.5"/>
+                      <layout:basePoint1 layout:x="257.9989103727457" layout:y="338.4205474352609" layout:z="0.4999999999999999"/>
                       <layout:basePoint2 layout:x="248.05481986150846" layout:y="342.2528251347536"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>

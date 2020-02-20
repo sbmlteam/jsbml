@@ -298,27 +298,18 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
           }
         }
         
-        if (srg.isSetSpeciesReferenceRole()) {
-          switch (srg.getRole()) {
-          case PRODUCT:
-          case SIDEPRODUCT:
-            productPort.setX(
-              productPort.getX() + srgPort.getX());
-            productPort.setY(
-              productPort.getY() + srgPort.getY());
-            productCount++;
-            break;
-          case SUBSTRATE:
-          case SIDESUBSTRATE:
-            substratePort.setX(
-              substratePort.getX() + srgPort.getX());
-            substratePort.setY(
-              substratePort.getY() + srgPort.getY());
-            substrateCount++;
-            break;
-          default:
-            break;
-          }
+        if(isProductReference(srg)) {
+          productPort.setX(
+            productPort.getX() + srgPort.getX());
+          productPort.setY(
+            productPort.getY() + srgPort.getY());
+          productCount++;
+        } else if (isSubstrateReference(srg)) {
+          substratePort.setX(
+            substratePort.getX() + srgPort.getX());
+          substratePort.setY(
+            substratePort.getY() + srgPort.getY());
+          substrateCount++;
         }
       }
       
@@ -463,48 +454,35 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
         double force = 1.3d;
         
         Point basePoint1, basePoint2, start, end;
-               
-        // TODO: Refactor this mess.
-        if (srg.isSetSpeciesReferenceRole()) {
-          Point speciesPort = calculateSpeciesGlyphDockingPosition(
-            calculateCenter(srg.getSpeciesGlyphInstance()), rg,
-            srg.getRole(), srg.getSpeciesGlyphInstance());
-          Point speciesControlPoint =
-            Geometry.weightedSum(1 + force, speciesPort, -force,
-              calculateCenter(srg.getSpeciesGlyphInstance()));
-          switch (srg.getRole()) {
-          case PRODUCT:
-          case SIDEPRODUCT:
-            start = productPort.clone();
-            basePoint1 = Geometry.weightedSum(1 + force, productPort, -force,
-              centerOfSRGs);
-            basePoint2 = speciesControlPoint;
-            end = speciesPort;
-            break;
-          case SUBSTRATE:
-          case SIDESUBSTRATE:
-            start = substratePort.clone();
-            basePoint1 = Geometry.weightedSum(1 + force, substratePort, -force,
-              centerOfSRGs);
-            basePoint2 = speciesControlPoint;
-            end = speciesPort;
-            break;
-          default:
-            start = speciesPort;
-            end = closest(orthoPort1, orthoPort2, speciesPort);
-            basePoint1 = speciesControlPoint;
-            // Modifiers etc use twice the force
-            basePoint2 =
-              Geometry.weightedSum(1 + 2*force, end, -2*force, centerOfSRGs);
-          }
+        
+        Point speciesPort = calculateSpeciesGlyphDockingPosition(
+          calculateCenter(srg.getSpeciesGlyphInstance()), rg,
+          srg.isSetSpeciesReferenceRole() ? srg.getRole()
+            : SpeciesReferenceRole.UNDEFINED,
+          srg.getSpeciesGlyphInstance());
+        Point speciesControlPoint = Geometry.weightedSum(1 + force, speciesPort,
+          -force, calculateCenter(srg.getSpeciesGlyphInstance()));
+        
+        if(isProductReference(srg)) {
+          start = productPort.clone();
+          basePoint1 = Geometry.weightedSum(1 + force, productPort, -force,
+            centerOfSRGs);
+          basePoint2 = speciesControlPoint;
+          end = speciesPort;
+        } else if(isSubstrateReference(srg)) {
+          start = substratePort.clone();
+          basePoint1 = Geometry.weightedSum(1 + force, substratePort, -force,
+            centerOfSRGs);
+          basePoint2 = speciesControlPoint;
+          end = speciesPort;
         } else {
-          // TODO: redundant code, make better case-distinction
-          start = calculateCenter(srg.getSpeciesGlyphInstance());
-          end = closest(orthoPort1, orthoPort2, start);
-          basePoint1 = start.clone();
+          start = speciesPort;
+          end = closest(orthoPort1, orthoPort2, speciesPort);
+          basePoint1 = speciesControlPoint;
+          // Modifiers etc use twice the force
           basePoint2 =
             Geometry.weightedSum(1 + 2*force, end, -2*force, centerOfSRGs);
-        }
+        }      
         
         connection.setStart(start);
         connection.setBasePoint1(basePoint1);
@@ -532,6 +510,32 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
     } else {
       return candidate2;
     }
+  }
+  
+  /**
+   * Checks whether given {@link SpeciesReferenceGlyph} specifies a product or sideproduct
+   * @param srg
+   * @return
+   */
+  private boolean isProductReference(SpeciesReferenceGlyph srg) {
+    if (srg.isSetSpeciesReferenceRole()) {
+      return srg.getRole().equals(SpeciesReferenceRole.PRODUCT)
+        || srg.getRole().equals(SpeciesReferenceRole.SIDEPRODUCT);
+    }
+    return false;
+  }
+  
+  /**
+   * Checks whether given {@link SpeciesReferenceGlyph} specifies a substrate or sidesubstrate
+   * @param srg
+   * @return
+   */
+  private boolean isSubstrateReference(SpeciesReferenceGlyph srg) {
+    if (srg.isSetSpeciesReferenceRole()) {
+      return srg.getRole().equals(SpeciesReferenceRole.SUBSTRATE)
+        || srg.getRole().equals(SpeciesReferenceRole.SIDESUBSTRATE);
+    }
+    return false;
   }
   
 
