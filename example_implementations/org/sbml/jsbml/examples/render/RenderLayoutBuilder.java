@@ -178,7 +178,8 @@ public class RenderLayoutBuilder
      */
     
     // See LaTeX-example
-    if(srg.getSpeciesReferenceInstance().isSetSBOTerm()) {
+    if (srg.isSetSpeciesReference()
+      && srg.getSpeciesReferenceInstance().isSetSBOTerm()) {
       srg.setSBOTerm(srg.getSpeciesReferenceInstance().getSBOTerm());
       srg.unsetRole();
     }

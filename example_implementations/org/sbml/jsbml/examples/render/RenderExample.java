@@ -27,12 +27,12 @@ import javax.xml.stream.XMLStreamException;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
-import org.sbml.jsbml.examples.latex.BasicLayoutAlgorithm;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
+import org.sbml.jsbml.ext.render.director.GlyphCreator;
 import org.sbml.jsbml.ext.render.director.LayoutDirector;
 
 /**
@@ -43,15 +43,23 @@ import org.sbml.jsbml.ext.render.director.LayoutDirector;
  * Code-wise, this is very similar to the LaTeX-example, so the explanatory
  * comments will focus on render-specific code.<br>
  * 
- * To view the rendered result.xml-file, use e.g. COPASI
+ * To view the rendered result.xml-file, use e.g. COPASI<br>
+ * 
+ * Unlike in the LaTeX-example, we here rely more on the LayoutAlgorithm, with
+ * the RingLayoutAlgorithm producing a circular layout of the speciesGlyphs.
+ * Further, the use of the GlyphCreator for an unlaidout sbml-file is
+ * demonstrated.
  *
  * @author DavidVetter
  */
 public class RenderExample {
 
   public static void main(String[] args) {
-    // File file = new File("example_implementations/org/sbml/jsbml/examples/layout_spec_example.xml");
-    File file = new File("example_implementations/org/sbml/jsbml/examples/for_ring_algorithm.xml");
+    File file = new File("example_implementations/org/sbml/jsbml/examples/unlaidout.xml");
+    // To get a comparable result to the LaTeX-example, comment out the
+    // creator.create()-call, and uncomment the line below: 
+    // file = new File("example_implementations/org/sbml/jsbml/examples/layout_spec_example.xml");
+    
     System.out.println("Reading file " + file);
     try {
       /**
@@ -62,14 +70,18 @@ public class RenderExample {
       SBMLDocument doc = SBMLReader.read(file);
       
       /**
-       * Use the same LayoutAlgorithm as in the LaTeX-example
+       * Create glyphs for all elements
+       */
+      GlyphCreator creator = new GlyphCreator(doc.getModel());
+      creator.create();
+      
+      /**
+       * Use the RingLayoutAlgorithm: See {@link RingLayoutAlgorithm} for
+       * commented implementation-details
        */
       LayoutDirector<LocalRenderInformation> director = new LayoutDirector<LocalRenderInformation>(doc,
-        new RenderLayoutBuilder(), new RingLayoutAlgorithm());//new BasicLayoutAlgorithm());
+        new RenderLayoutBuilder(), new RingLayoutAlgorithm());
       director.run();
-      
-      System.out.println("Layout-Information-document:\n");
-      System.out.println(director.getProduct());
       
       /**
        * Write the generated LocalLayoutInformation into the result-file.

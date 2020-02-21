@@ -136,7 +136,8 @@ public class BasicLayoutBuilder extends AbstractLayoutBuilder<String, String, St
     // Rather dirty fix:
     // Deviating from the policy of the LayoutDirector, the SBOTerm here gets
     // priority over the role specified in the layout
-    if(srg.getSpeciesReferenceInstance().isSetSBOTerm()) {
+    if (srg.isSetSpeciesReference()
+      && srg.getSpeciesReferenceInstance().isSetSBOTerm()) {
       srg.setSBOTerm(srg.getSpeciesReferenceInstance().getSBOTerm());
       srg.unsetRole();
     }

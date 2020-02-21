@@ -26,7 +26,15 @@ import org.sbml.jsbml.ext.render.director.SimpleLayoutAlgorithm;
 import org.sbml.jsbml.util.Pair;
 import org.sbml.jsbml.ext.render.director.Geometry;
 
-
+/**
+ * Implementation of a simplistic algorithm to produce a circular layout of the
+ * species-glyphs, with the reactions potentially crossing in the middle.<br>
+ * 
+ * To understand them in detail, draw out any geometric arrangements which are
+ * implemented here. Basic trigonometry and linear algebra should suffice.
+ * 
+ * @author DavidVetter
+ */
 public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
 
   /**
@@ -72,12 +80,16 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
    * @param height the height of the surrounding layout
    */
   public RingLayoutAlgorithm() {
-    // This implementation will draw a ring for all the unlaid-out glyphs, while
-    // ignoring the laid-out ones (up to the user to lay them out in a fit way)
+    /**
+     *  This implementation will draw a ring for all the unlaid-out glyphs, while
+     *  ignoring the laid-out ones (up to the user to lay them out in a fit way)
+     */
     compartmentMembers = new HashMap<String, List<SpeciesGlyph>>();
     compartmentMembers.put(DEFAULT_COMPARTMENT, new ArrayList<SpeciesGlyph>());
-    // The default-compartment is virtual (for sorting the corresponding
-    // Species), it will NOT be added to the file
+    /**
+     * The default-compartment is virtual (for sorting the corresponding
+     * Species), it will NOT be added to the file
+     */
     unlaidoutCompartments = new HashMap<String, CompartmentGlyph>();
     unlaidoutSpeciesReferenceGlyphs = new HashMap<String, List<SpeciesReferenceGlyph>>();
     textGlyphs = new HashSet<TextGlyph>();
@@ -89,69 +101,11 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
 
   @Override
   public Dimensions createLayoutDimension() {
-    // TODO Auto-generated method stub
-    return null;
+    // Abundant, square space:
+    double sideLength = speciesCount * SPECIES_WIDTH * 2;
+    return new Dimensions(sideLength, sideLength, 100d, getLayout().getLevel(),
+      getLayout().getVersion());
   }
-
-
-  @Override
-  public Dimensions createCompartmentGlyphDimension(
-    CompartmentGlyph previousCompartmentGlyph) {
-    // Do not use the previous one here.
-    /**
-     * Since the dimensions and position of the compartmentGlyphs are coupled in
-     * this implementation, they are computed together in boundCompartment to avoid
-     * redundant code
-     */
-    return boundCompartment(compartmentStart, compartmentEnd, ringRadius).getDimensions();
-  }
-
-
-  @Override
-  public Point createCompartmentGlyphPosition(
-    CompartmentGlyph previousCompartmentGlyph) {
-    // Also not used.
-    return boundCompartment(compartmentStart, compartmentEnd, ringRadius).getPosition();
-  }
-
-
-  @Override
-  public Dimensions createSpeciesGlyphDimension() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-  @Override
-  public Curve createCurve(ReactionGlyph reactionGlyph,
-    SpeciesReferenceGlyph speciesReferenceGlyph) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-  @Override
-  public Dimensions createTextGlyphDimension(TextGlyph textGlyph) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-  @Override
-  public Dimensions createSpeciesReferenceGlyphDimension(
-    ReactionGlyph reactionGlyph, SpeciesReferenceGlyph speciesReferenceGlyph) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-  @Override
-  public BoundingBox createGlyphBoundingBox(GraphicalObject glyph,
-    SpeciesReferenceGlyph specRefGlyph) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
 
   @Override
   public void addLayoutedGlyph(GraphicalObject glyph) {
@@ -218,6 +172,9 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
     // Note: LayoutDirector will only set SBO-terms/roles AFTER this has been
     // called, thus, have to retrieve SBO/role robustly (for
     // SpeciesReferenceGlyphs)
+    if(!getLayout().isSetDimensions()) {
+      getLayout().setDimensions(createLayoutDimension());
+    }
     
     double totalWidth = getLayout().getDimensions().getWidth();
     double totalHeight = getLayout().getDimensions().getHeight();
@@ -487,7 +444,6 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
         }
       }
       
-      // TODO: Handle Exchange reactions (substrate or product = 0)
       if (productCount > 0) {
         productPort.setX(productPort.getX() / (double) productCount);
         productPort.setY(productPort.getY() / (double) productCount);
@@ -727,4 +683,46 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
       return super.calculateReactionGlyphRotationAngle(reactionGlyph);
     }
   }
+  
+  /**
+   * Unused methods:
+   */
+  
+  @Override
+  public Dimensions createCompartmentGlyphDimension(
+    CompartmentGlyph previousCompartmentGlyph) {
+    // Not used here.
+    /**
+     * Since the dimensions and position of the compartmentGlyphs are coupled in
+     * this implementation, they are computed together in boundCompartment to avoid
+     * redundant code
+     */
+    return boundCompartment(compartmentStart, compartmentEnd, ringRadius).getDimensions();
+  }
+
+
+  @Override
+  public Point createCompartmentGlyphPosition(
+    CompartmentGlyph previousCompartmentGlyph) {
+    // Also not used.
+    return boundCompartment(compartmentStart, compartmentEnd, ringRadius).getPosition();
+  }
+
+  @Override
+  public Dimensions createSpeciesGlyphDimension() { return null; }
+
+  @Override
+  public Curve createCurve(ReactionGlyph reactionGlyph,
+    SpeciesReferenceGlyph speciesReferenceGlyph) { return null; }
+
+  @Override
+  public Dimensions createTextGlyphDimension(TextGlyph textGlyph) { return null; }
+
+  @Override
+  public Dimensions createSpeciesReferenceGlyphDimension(
+    ReactionGlyph reactionGlyph, SpeciesReferenceGlyph speciesReferenceGlyph) { return null; }
+
+  @Override
+  public BoundingBox createGlyphBoundingBox(GraphicalObject glyph,
+    SpeciesReferenceGlyph specRefGlyph) { return null; }
 }
