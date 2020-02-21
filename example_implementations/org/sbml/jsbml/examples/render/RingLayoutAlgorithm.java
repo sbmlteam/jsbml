@@ -42,6 +42,7 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
   private final static double SPECIES_HEIGHT = 20;
   private final static double SPECIES_WIDTH = 40;
   private final static double REACTION_GLYPH_SIZE = 10; 
+  private final static double COMPARTMENT_MARGIN = 5;
   
   /** How many species are there? -> affects radius and angles */
   private int speciesCount = 0;
@@ -285,11 +286,11 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
     if(to <= -Math.PI && Math.PI <= from)
       minX = -1d;
     
-    result.createDimensions((ringRadius * (maxX - minX)) + SPECIES_WIDTH,
-      (ringRadius * (maxY - minY)) + SPECIES_HEIGHT, 1);
+    result.createDimensions((ringRadius * (maxX - minX)) + SPECIES_WIDTH + 2*COMPARTMENT_MARGIN,
+      (ringRadius * (maxY - minY)) + SPECIES_HEIGHT + 2*COMPARTMENT_MARGIN, 1);
     result.createPosition(
-      (ringRadius * minX) + getLayout().getDimensions().getWidth() / 2d,
-      (ringRadius * minY) + getLayout().getDimensions().getHeight() / 2d,
+      -COMPARTMENT_MARGIN + (ringRadius * minX) + getLayout().getDimensions().getWidth() / 2d,
+      -COMPARTMENT_MARGIN + (ringRadius * minY) + getLayout().getDimensions().getHeight() / 2d,
       -(endIndex - startIndex)); // ~ sort by size: largest Compartments into the back
     
     return result;
@@ -299,7 +300,9 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
   
   /**
    * Finds the closer of the two candidates to a reference-point (in terms of
-   * euclidean distance)
+   * euclidean distance).<br>
+   * <b>Side-effect!</b> all points will have a set z-value after calling this
+   * method (if z was not set before, it will be 0 after calling this)
    * 
    * @param candidate1
    * @param candidate2
@@ -307,11 +310,24 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
    * @return either candidate1 or candidate2 (not cloned)
    */
   private Point closest(Point candidate1, Point candidate2, Point referent) {
+    forceZtoNumber(candidate1);
+    forceZtoNumber(candidate2);
+    forceZtoNumber(referent);
     if (Geometry.euclideanDistance(candidate1,
       referent) < Geometry.euclideanDistance(candidate2, referent)) {
       return candidate1;
     } else {
       return candidate2;
+    }
+  }
+  
+  /**
+   * Forces given point's z-value to be != NaN (default-value: 0) 
+   * @param p
+   */
+  private void forceZtoNumber(Point p) {
+    if(!p.isSetZ()) {
+      p.setZ(0d);
     }
   }
   
@@ -410,7 +426,6 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
        * 1.: Precomputations -- find the relevant points for laying out the
        * glyphs
        */
-      System.out.println(rg);
       /** initially, center the rg in the circle */
       rg.createBoundingBox(REACTION_GLYPH_SIZE, REACTION_GLYPH_SIZE, 0,
         (totalWidth - REACTION_GLYPH_SIZE) / 2d,
@@ -486,8 +501,6 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
         substratePort.setX(substratePort.getX() / (double) substrateCount);
         substratePort.setY(substratePort.getY() / (double) substrateCount);
       }
-      System.out.println(String.format("\tcom: %s\n\tsub: %s\n\tpro: %s",
-        centerOfSRGs, substratePort, productPort));
      
       /**
        * The center of substrate and product-port might not yet be the center of
@@ -614,7 +627,6 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
           if (Geometry.dotProduct(
             Geometry.weightedSum(1, start, -1, centerOfSRGs),
             Geometry.weightedSum(1, speciesPort, -1, centerOfSRGs)) < 0) {
-            
             basePoint1 = Geometry.weightedSum(1, basePoint1, force,
               Geometry.weightedSum(1,
                 closest(orthoPort1, orthoPort2, speciesPort), -1,
@@ -669,6 +681,34 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
         }
       }
       tg.setBoundingBox(box);
+    }
+  }
+  
+  /**
+   * Overwriting the inherited behavior to take the curve-attribute of a reactionGlyph 
+   * into account (if set)
+   * @param reactionGlyph: the glyph in question
+   */
+  public double calculateReactionGlyphRotationAngle(ReactionGlyph reactionGlyph) {
+    if (reactionGlyph.isSetCurve()
+      && reactionGlyph.getCurve().isSetListOfCurveSegments()
+      && reactionGlyph.getCurve().getCurveSegmentCount() > 0) {
+      // i.e. there is some curve that can be worked with
+      
+      /**
+       * Very basic assumption (need be respected by the layout!): The curve is
+       * just a single line specifying the connection-whiskers of the
+       * reaction-glyph
+       */
+      return calculateRotationAngle(
+        reactionGlyph.getCurve().getCurveSegment(0).getStart(),
+        reactionGlyph.getCurve().getCurveSegment(0).getEnd());
+    } else {
+      /**
+       * If no curve is available, just use the super-implementation (based on
+       * SpeciesGlyph-positions)
+       */
+      return super.calculateReactionGlyphRotationAngle(reactionGlyph);
     }
   }
 }

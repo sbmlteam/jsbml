@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-02-21 at 11:30:52 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-02-21 at 15:19:32 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="Ring" timeUnits="time">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -116,16 +116,16 @@
               <render:style id="stimulationStyle" render:idList="">
                 <render:g render:endHead="stimulationHead" render:stroke="black" render:stroke-width="1.0"/>
               </render:style>
-              <render:style id="catalysisStyle" render:idList="">
+              <render:style id="catalysisStyle" render:idList="srg_R4_G">
                 <render:g render:endHead="catalysisHead" render:stroke="black" render:stroke-width="1.0"/>
               </render:style>
-              <render:style id="inhibitionStyle" render:idList="">
+              <render:style id="inhibitionStyle" render:idList="srg_R2_D">
                 <render:g render:endHead="inhibitionHead" render:stroke="black" render:stroke-width="1.0"/>
               </render:style>
               <render:style id="necessaryStimulationStyle" render:idList="">
                 <render:g render:endHead="necessaryStimulationHead" render:stroke="black" render:stroke-width="1.0"/>
               </render:style>
-              <render:style id="modulationStyle" render:idList="srg_R2_D srg_R4_G">
+              <render:style id="modulationStyle" render:idList="">
                 <render:g render:endHead="modulationHead" render:stroke="black" render:stroke-width="1.0"/>
               </render:style>
               <render:style id="TextGylphStyle" render:typeList="TEXTGLYPH">
@@ -133,17 +133,17 @@
               </render:style>
               <render:style id="styleOf_cg_extracellular" render:idList="cg_extracellular">
                 <render:g>
-                  <render:rectangle render:fill="white" render:height="94.37166400997627" render:stroke="black" render:stroke-width="0.3" render:width="128.63269777109872" render:x="0" render:y="0"/>
+                  <render:rectangle render:fill="white" render:height="104.37166400997627" render:stroke="black" render:stroke-width="0.3" render:width="138.63269777109872" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_cg_cytosol" render:idList="cg_cytosol">
                 <render:g>
-                  <render:rectangle render:fill="white" render:height="65.00000000000003" render:stroke="black" render:stroke-width="0.3" render:width="195.88457268119896" render:x="0" render:y="0"/>
+                  <render:rectangle render:fill="white" render:height="75.00000000000003" render:stroke="black" render:stroke-width="0.3" render:width="205.88457268119896" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_cg_vesicle" render:idList="cg_vesicle">
                 <render:g>
-                  <render:rectangle render:fill="white" render:height="73.3156638906843" render:stroke="black" render:stroke-width="0.3" render:width="70.78181289931018" render:x="0" render:y="0"/>
+                  <render:rectangle render:fill="white" render:height="83.3156638906843" render:stroke="black" render:stroke-width="0.3" render:width="80.78181289931018" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_sg_D" render:idList="sg_D">
@@ -276,10 +276,10 @@
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
-                      <render:element render:x="2.0116376126988023" render:y="-1.4085638205578856" xsi:type="RenderPoint"/>
-                      <render:element render:x="-1.4085638205578856" render:y="7.988362387301198" xsi:type="RenderPoint"/>
-                      <render:element render:x="7.988362387301198" render:y="11.408563820557886" xsi:type="RenderPoint"/>
-                      <render:element render:x="11.408563820557886" render:y="2.0116376126988023" xsi:type="RenderPoint"/>
+                      <render:element render:x="-2.0709151873689056" render:y="4.953541275999411" xsi:type="RenderPoint"/>
+                      <render:element render:x="4.953541275999411" render:y="12.070915187368906" xsi:type="RenderPoint"/>
+                      <render:element render:x="12.070915187368906" render:y="5.046458724000589" xsi:type="RenderPoint"/>
+                      <render:element render:x="5.046458724000589" render:y="-2.0709151873689056" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                 </render:g>
@@ -288,10 +288,10 @@
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
-                      <render:element render:x="9.05579787672639" render:y="-0.792279653395692" xsi:type="RenderPoint"/>
-                      <render:element render:x="-0.792279653395692" render:y="0.9442021232736106" xsi:type="RenderPoint"/>
-                      <render:element render:x="0.9442021232736106" render:y="10.792279653395692" xsi:type="RenderPoint"/>
-                      <render:element render:x="10.792279653395692" render:y="9.05579787672639" xsi:type="RenderPoint"/>
+                      <render:element render:x="8.743785759740424" render:y="-0.9986722018430729" xsi:type="RenderPoint"/>
+                      <render:element render:x="-0.9986722018430729" render:y="1.2562142402595757" xsi:type="RenderPoint"/>
+                      <render:element render:x="1.2562142402595757" render:y="10.998672201843073" xsi:type="RenderPoint"/>
+                      <render:element render:x="10.998672201843073" render:y="8.743785759740424" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                 </render:g>
@@ -300,10 +300,10 @@
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
-                      <render:element render:x="7.9883623873011995" render:y="11.408563820557886" xsi:type="RenderPoint"/>
-                      <render:element render:x="11.408563820557886" render:y="2.0116376126988005" xsi:type="RenderPoint"/>
-                      <render:element render:x="2.0116376126988005" render:y="-1.4085638205578856" xsi:type="RenderPoint"/>
-                      <render:element render:x="-1.4085638205578856" render:y="7.9883623873011995" xsi:type="RenderPoint"/>
+                      <render:element render:x="10.892106754296721" render:y="8.909357747248384" xsi:type="RenderPoint"/>
+                      <render:element render:x="8.909357747248384" render:y="-0.8921067542967211" xsi:type="RenderPoint"/>
+                      <render:element render:x="-0.8921067542967211" render:y="1.090642252751616" xsi:type="RenderPoint"/>
+                      <render:element render:x="1.090642252751616" render:y="10.892106754296721" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                 </render:g>
@@ -312,10 +312,10 @@
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
-                      <render:element render:x="3.1698729810778095" render:y="11.830127018922195" xsi:type="RenderPoint"/>
-                      <render:element render:x="11.830127018922195" render:y="6.830127018922191" xsi:type="RenderPoint"/>
-                      <render:element render:x="6.830127018922191" render:y="-1.8301270189221945" xsi:type="RenderPoint"/>
-                      <render:element render:x="-1.8301270189221945" render:y="3.1698729810778095" xsi:type="RenderPoint"/>
+                      <render:element render:x="4.251583165653116" render:y="12.031349247624256" xsi:type="RenderPoint"/>
+                      <render:element render:x="12.031349247624256" render:y="5.748416834346884" xsi:type="RenderPoint"/>
+                      <render:element render:x="5.748416834346884" render:y="-2.031349247624256" xsi:type="RenderPoint"/>
+                      <render:element render:x="-2.031349247624256" render:y="4.251583165653116" xsi:type="RenderPoint"/>
                     </render:listOfElements>
                   </render:polygon>
                 </render:g>
@@ -326,20 +326,20 @@
         <layout:listOfCompartmentGlyphs>
           <layout:compartmentGlyph layout:compartment="cytosol" layout:id="cg_cytosol">
             <layout:boundingBox>
-              <layout:position layout:x="222.05771365940052" layout:y="345" layout:z="-3"/>
-              <layout:dimensions layout:depth="1" layout:height="65.00000000000003" layout:width="195.88457268119896"/>
+              <layout:position layout:x="217.05771365940052" layout:y="340" layout:z="-3"/>
+              <layout:dimensions layout:depth="1" layout:height="75.00000000000003" layout:width="205.88457268119896"/>
             </layout:boundingBox>
           </layout:compartmentGlyph>
           <layout:compartmentGlyph layout:compartment="vesicle" layout:id="cg_vesicle">
             <layout:boundingBox>
-              <layout:position layout:x="211.36730222890128" layout:y="231.05600011929198" layout:z="-1"/>
-              <layout:dimensions layout:depth="1" layout:height="73.3156638906843" layout:width="70.78181289931018"/>
+              <layout:position layout:x="206.36730222890128" layout:y="226.05600011929198" layout:z="-1"/>
+              <layout:dimensions layout:depth="1" layout:height="83.3156638906843" layout:width="80.78181289931018"/>
             </layout:boundingBox>
           </layout:compartmentGlyph>
           <layout:compartmentGlyph layout:compartment="extracellular" layout:id="cg_extracellular">
             <layout:boundingBox>
-              <layout:position layout:x="300" layout:y="210" layout:z="-2"/>
-              <layout:dimensions layout:depth="1" layout:height="94.37166400997627" layout:width="128.63269777109872"/>
+              <layout:position layout:x="295" layout:y="205" layout:z="-2"/>
+              <layout:dimensions layout:depth="1" layout:height="104.37166400997627" layout:width="138.63269777109872"/>
             </layout:boundingBox>
           </layout:compartmentGlyph>
         </layout:listOfCompartmentGlyphs>
@@ -432,7 +432,7 @@
                     <layout:curveSegment xsi:type="CubicBezier">
                       <layout:start layout:x="352.3907537918003" layout:y="264.3516048731135" layout:z="0.5"/>
                       <layout:end layout:x="400.6484130145915" layout:y="288.35076732202305" layout:z="0.5"/>
-                      <layout:basePoint1 layout:x="334.00637430464104" layout:y="264.23081219071196"/>
+                      <layout:basePoint1 layout:x="352.2699611093987" layout:y="282.7359843602727" layout:z="0.2833333333333332"/>
                       <layout:basePoint2 layout:x="390.2688428311319" layout:y="280.5236016276838" layout:z="0.4999999999999999"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>
@@ -490,14 +490,14 @@
                   </layout:listOfCurveSegments>
                 </layout:curve>
               </layout:speciesReferenceGlyph>
-              <layout:speciesReferenceGlyph layout:id="srg_R2_D" layout:role="modifier" layout:speciesGlyph="sg_D" layout:speciesReference="MSR_R2_D" sboTerm="SBO:0000019">
+              <layout:speciesReferenceGlyph layout:id="srg_R2_D" layout:role="inhibitor" layout:speciesGlyph="sg_D" layout:speciesReference="MSR_R2_D">
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="CubicBezier">
                       <layout:start layout:x="387.9422863405995" layout:y="345" layout:z="0"/>
-                      <layout:end layout:x="357.7402384524105" layout:y="317.99915304226454"/>
+                      <layout:end layout:x="357.7402384524105" layout:y="317.99915304226454" layout:z="0"/>
                       <layout:basePoint1 layout:x="374.94228634059937" layout:y="331.9999999999999" layout:z="-0.65"/>
-                      <layout:basePoint2 layout:x="383.07062915252754" layout:y="312.1364482927977"/>
+                      <layout:basePoint2 layout:x="383.07062915252754" layout:y="312.1364482927977" layout:z="-0.43333333333333335"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>
                 </layout:curve>
@@ -548,7 +548,7 @@
                     <layout:curveSegment xsi:type="CubicBezier">
                       <layout:start layout:x="319.62074464519424" layout:y="308.0399309734946" layout:z="1.5"/>
                       <layout:end layout:x="398.7397711346253" layout:y="295.83111684078483" layout:z="0.5"/>
-                      <layout:basePoint1 layout:x="309.45641450234837" layout:y="323.35940853466604"/>
+                      <layout:basePoint1 layout:x="309.45641450234837" layout:y="323.35940853466604" layout:z="2.4099999999999997"/>
                       <layout:basePoint2 layout:x="385.8789665072097" layout:y="297.72840552083596" layout:z="0.4999999999999999"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>
@@ -630,14 +630,14 @@
                   </layout:listOfCurveSegments>
                 </layout:curve>
               </layout:speciesReferenceGlyph>
-              <layout:speciesReferenceGlyph layout:id="srg_R4_G" layout:role="modifier" layout:speciesGlyph="sg_G" layout:speciesReference="MSR_R4_G" sboTerm="SBO:0000019">
+              <layout:speciesReferenceGlyph layout:id="srg_R4_G" layout:speciesGlyph="sg_G" layout:speciesReference="MSR_R4_G" sboTerm="SBO:0000172">
                 <layout:curve>
                   <layout:listOfCurveSegments>
                     <layout:curveSegment xsi:type="CubicBezier">
                       <layout:start layout:x="248.98866875215933" layout:y="347.79154236315696" layout:z="0.5"/>
-                      <layout:end layout:x="268.28221167463334" layout:y="325.9172008602325"/>
+                      <layout:end layout:x="268.28221167463334" layout:y="325.9172008602325" layout:z="0"/>
                       <layout:basePoint1 layout:x="257.9989103727457" layout:y="338.4205474352609" layout:z="0.4999999999999999"/>
-                      <layout:basePoint2 layout:x="248.05481986150846" layout:y="342.2528251347536"/>
+                      <layout:basePoint2 layout:x="248.05481986150846" layout:y="342.2528251347536" layout:z="-1.3"/>
                     </layout:curveSegment>
                   </layout:listOfCurveSegments>
                 </layout:curve>
@@ -777,7 +777,7 @@
           <speciesReference constant="true" id="SR_R4_I" species="I" stoichiometry="1"/>
         </listOfProducts>
         <listOfModifiers>
-          <modifierSpeciesReference id="MSR_R4_G" species="G"/>
+          <modifierSpeciesReference id="MSR_R4_G" sboTerm="SBO:0000172" species="G"/>
         </listOfModifiers>
       </reaction>
       <reaction fast="false" id="EX1" reversible="true">
