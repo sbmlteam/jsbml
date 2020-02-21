@@ -39,4 +39,25 @@ public class GeometryTest {
     assertEquals("nontrivial weights: y mismatch", -12.1d, result.getY(), TOLERANCE);
     assertEquals("nontrivial weights: z mismatch", -0.22d, result.getZ(), TOLERANCE);
   }
+  
+  @Test
+  public void testDotProductOrthogonal() {
+    Point a = new Point(4d, 1d, -2d);
+    Point b = new Point(0.5d, -4d, -1d);
+    assertEquals(0d, Geometry.dotProduct(a, b), TOLERANCE);
+  }
+  
+  @Test
+  public void testDotProductAligned() {
+    Point a = new Point(-1, 1d, -2d);
+    Point b = new Point(-0.5d, 0.5d, -1d);
+    assertEquals(3d, Geometry.dotProduct(a, b), TOLERANCE);
+  }
+  
+  @Test
+  public void testDotProductOpposite() {
+    Point a = new Point(-1, 1d, -2d);
+    Point b = new Point(0.5d, -0.5d, 1d);
+    assertEquals(-3d, Geometry.dotProduct(a, b), TOLERANCE);
+  }
 }

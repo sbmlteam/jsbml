@@ -189,4 +189,14 @@ public class Geometry {
       weightA * a.getY() + weightB * b.getY(),
       weightA * a.getZ() + weightB * b.getZ());
   }
+  
+  /**
+   * Computes the dot product of the given two points
+   * @param a
+   * @param b
+   * @return a * b (i.e. a.x*b.x + a.y*b.y + a.z * b.z)
+   */
+  public static double dotProduct(Point a, Point b) {
+    return a.getX() * b.getX() + a.getY() * b.getY() + a.getZ() * b.getZ();
+  }
 }
