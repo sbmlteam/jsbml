@@ -47,6 +47,11 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
   private int speciesCount = 0;
   private double interspeciesRadians = 2 * Math.PI;  
   
+  /** Fields to confer information between methods */
+  private int compartmentStart = 0;
+  private int compartmentEnd = 0;
+  private double ringRadius = 0d;
+  
   /**
    * While the SimpleLayoutAlgorithm provides sets to hold all laid-out and
    * unlaid-out Glyphs, at some point, they need be told apart by their class
@@ -91,16 +96,21 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
   @Override
   public Dimensions createCompartmentGlyphDimension(
     CompartmentGlyph previousCompartmentGlyph) {
-    // TODO Auto-generated method stub
-    return null;
+    // Do not use the previous one here.
+    /**
+     * Since the dimensions and position of the compartmentGlyphs are coupled in
+     * this implementation, they are computed together in boundCompartment to avoid
+     * redundant code
+     */
+    return boundCompartment(compartmentStart, compartmentEnd, ringRadius).getDimensions();
   }
 
 
   @Override
   public Point createCompartmentGlyphPosition(
     CompartmentGlyph previousCompartmentGlyph) {
-    // TODO Unused? boundCompartment needs more information. Put into private fields?
-    return null;
+    // Also not used.
+    return boundCompartment(compartmentStart, compartmentEnd, ringRadius).getPosition();
   }
 
 
@@ -202,7 +212,6 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
 
   @Override
   public Set<GraphicalObject> completeGlyphs() {
-    // TODO: this needs refactoring! Currently sketching algorithm
     // Main method: Side effects are main purpose.
     
     // Note: LayoutDirector will only set SBO-terms/roles AFTER this has been
@@ -215,38 +224,12 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
     interspeciesRadians = 2d * Math.PI / speciesCount;
     // Circumference linear in number of species. Arbitrary (and not
     // particularly robust) formula used here
-    double radius = Math.min(totalWidth, totalHeight) * speciesCount / 60d;  
+    ringRadius = Math.min(totalWidth, totalHeight) * speciesCount / 60d;  
     
     /**
      * I) Arrange (unlaidout) species and compartments in a circle
      */
-    int speciesIndex = 0;
-    for(String compartment : compartmentMembers.keySet()) {
-      int compartmentStart = speciesIndex;
-      int compartmentEnd = speciesIndex;
-      
-      for(SpeciesGlyph species : compartmentMembers.get(compartment)) {
-        double tilt = Math.PI / 2d;
-        tilt -= speciesIndex * interspeciesRadians;
-        
-        BoundingBox bbox = new BoundingBox();
-        bbox.createDimensions(SPECIES_WIDTH, SPECIES_HEIGHT, 1);
-        bbox.createPosition(radius * Math.cos(tilt) + totalWidth / 2d,
-          -radius * Math.sin(tilt) + totalHeight / 2d, 0);
-        species.setBoundingBox(bbox);
-        speciesIndex++;
-        compartmentEnd = speciesIndex;
-      }
-      // Note that the endIndex is actually one too large and would, if
-      // uncorrected, lead to overlapping compartments
-      compartmentEnd--;
-      
-      // draw the respective compartment (if it is not yet laid out)
-      if(unlaidoutCompartments.containsKey(compartment)) {
-        BoundingBox bbox = boundCompartment(compartmentStart, compartmentEnd, radius);
-        unlaidoutCompartments.get(compartment).setBoundingBox(bbox);
-      }      
-    }
+    layoutSpeciesAndCompartments(totalWidth, totalHeight);
     
     /**
      * II) Layout reactionGlyphs:
@@ -256,110 +239,7 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
      *     - SRG-curves connect to RG's curve (for [side]product/substrate),
      *       or to RG's side (think of a cross, where one of the bars is virtual)  
      */
-    for(ReactionGlyph rg : reactionGlyphs) {
-      System.out.println(rg);
-      // initially, center the rg in the circle
-      rg.createBoundingBox(REACTION_GLYPH_SIZE, REACTION_GLYPH_SIZE, 0,
-        (totalWidth - REACTION_GLYPH_SIZE) / 2d,
-        (totalHeight - REACTION_GLYPH_SIZE) / 2d, 0);
-      
-      // Deviating from super.calculateAverageSpeciesPosition(...), here, use
-      // not the position (top-left corner) of Species, but their port to the
-      // reactionglyph
-      Point centerOfSRGs = new Point(0, 0, 0);
-      Point substratePort = new Point(0, 0, 0);
-      Point productPort = new Point(0, 0, 0);
-      
-      int srgCount = rg.getSpeciesReferenceGlyphCount();
-      int substrateCount = 0;
-      int productCount = 0;
-      for(int i = 0; i < srgCount; i++) {
-        // Above, we have laid out all SpeciesGlyphs -- can thus now use their
-        // positions
-        SpeciesReferenceGlyph srg = rg.getSpeciesReferenceGlyph(i);
-        // Use the speciesPort w.r.t. a reactionGlyph in the circle's center instead of 
-        // the center/top-left-corner of the SpeciesGlyph
-        Point srgPort = calculateSpeciesGlyphDockingPosition(
-          calculateCenter(srg.getSpeciesGlyphInstance()), rg,
-          srg.isSetSpeciesReferenceRole() ? srg.getRole()
-            : SpeciesReferenceRole.UNDEFINED,
-          srg.getSpeciesGlyphInstance());
-        centerOfSRGs.setX(centerOfSRGs.getX() + (srgPort.getX() / (double) srgCount));
-        centerOfSRGs.setY(centerOfSRGs.getY() + (srgPort.getY() / (double) srgCount));
-        
-        // Set the role to product/substrate for products/substrates.
-        if (!srg.isSetSpeciesReferenceRole() && srg.isSetSpeciesGlyph()
-          && srg.getSpeciesGlyphInstance().isSetSpecies()) {
-          Species species = (Species) srg.getSpeciesGlyphInstance().getSpeciesInstance();
-          if (((Reaction) rg.getReactionInstance()).hasProduct(species)) {
-            srg.setRole(SpeciesReferenceRole.PRODUCT);
-          } else if (((Reaction) rg.getReactionInstance()).hasReactant(species)) {
-            srg.setRole(SpeciesReferenceRole.SUBSTRATE);
-          }
-        }
-        
-        if(isProductReference(srg)) {
-          productPort.setX(
-            productPort.getX() + srgPort.getX());
-          productPort.setY(
-            productPort.getY() + srgPort.getY());
-          productCount++;
-        } else if (isSubstrateReference(srg)) {
-          substratePort.setX(
-            substratePort.getX() + srgPort.getX());
-          substratePort.setY(
-            substratePort.getY() + srgPort.getY());
-          substrateCount++;
-        }
-      }
-      
-      // TODO: might add nonlinearity
-      // Here: overwrite the old placeholder-boundingbox
-      rg.createBoundingBox(REACTION_GLYPH_SIZE, REACTION_GLYPH_SIZE, 0,
-        centerOfSRGs.getX() - REACTION_GLYPH_SIZE / 2d,
-        centerOfSRGs.getY() - REACTION_GLYPH_SIZE / 2d, 0);
-      
-      if(productCount > 0) {
-        productPort.setX(productPort.getX() / (double) productCount);
-        productPort.setY(productPort.getY() / (double) productCount);
-      }
-      if(substrateCount > 0) {
-        substratePort.setX(substratePort.getX() / (double) substrateCount);
-        substratePort.setY(substratePort.getY() / (double) substrateCount);
-      }
-      
-      System.out.println(String.format("\tcom: %s\n\tsub: %s\n\tpro: %s",
-        centerOfSRGs, substratePort, productPort));
-      
-      // The center of substrate and product-port might not yet be the center of
-      // the reactionGlyph: Shift it (parallel)
-      double offCenterX = 0.5d * (productPort.getX() + substratePort.getX());
-      double offCenterY = 0.5d * (productPort.getY() + substratePort.getY());
-      productPort.setX(productPort.getX() + centerOfSRGs.getX() - offCenterX);
-      productPort.setY(productPort.getY() + centerOfSRGs.getY() - offCenterY);
-      substratePort.setX(substratePort.getX() + centerOfSRGs.getX() - offCenterX);
-      substratePort.setY(substratePort.getY() + centerOfSRGs.getY() - offCenterY);
-      
-      // Further: Want a normalised port-distance
-      double scale =
-        Math.sqrt(Math.pow(productPort.getX() - centerOfSRGs.getX(), 2)
-          + Math.pow(productPort.getY() - centerOfSRGs.getY(), 2));
-      scale = REACTION_GLYPH_SIZE / scale;
-      productPort.setX(centerOfSRGs.getX() * (1d - scale) + productPort.getX() * scale);
-      productPort.setY(centerOfSRGs.getY() * (1d - scale) + productPort.getY() * scale);
-      // since the center of substrate and product-port was shifted onto the
-      // center of the RG, need not recompute the scale
-      substratePort.setX(centerOfSRGs.getX() * (1d - scale) + substratePort.getX() * scale);
-      substratePort.setY(centerOfSRGs.getY() * (1d - scale) + substratePort.getY() * scale);
-      
-      Curve mainCurve = rg.createCurve();
-      LineSegment whiskers = new LineSegment(layout.getLevel(), layout.getVersion());
-      whiskers.setEnd(productPort.clone());
-      whiskers.setStart(substratePort.clone());
-      mainCurve.addCurveSegment(whiskers);
-      
-      layoutSpeciesReferenceGlyphs(rg, centerOfSRGs, substratePort, productPort);
-    }
+    layoutReactionGlyphs(totalWidth, totalHeight);
     
     /**
      * III) Place Textglyphs at their origins of text (if available)
@@ -416,83 +296,6 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
   }
 
 
-  /**
-   * Lays out all hitherto unlaidout {@link SpeciesReferenceGlyph}s of a
-   * {@link ReactionGlyph} (i.e. adds Curves to them)
-   * 
-   * @param rg
-   *        The {@link ReactionGlyph}, whose yet unlaidout
-   *        {@link SpeciesReferenceGlyph}s are to be laid out
-   * @param centerOfSRGs
-   *        center of the SRGs of rg (same as reactionGlyph's center)
-   * @param substratePort
-   *        the {@link Point} to which substrate-arcs should connect
-   * @param productPort
-   *        the {@link Point} to which product-arcs should connect
-   */
-  private void layoutSpeciesReferenceGlyphs(ReactionGlyph rg,
-    Point centerOfSRGs, Point substratePort, Point productPort) {
-    
-    if (unlaidoutSpeciesReferenceGlyphs.containsKey(rg.getId())) {
-      for (SpeciesReferenceGlyph srg : unlaidoutSpeciesReferenceGlyphs.get(
-        rg.getId())) {
-        Point orthoPort1 = new Point(
-          centerOfSRGs.getX()
-            - 0.5 * (productPort.getY() - substratePort.getY()),
-          centerOfSRGs.getY()
-            + 0.5 * (productPort.getX() - substratePort.getX()));
-        Point orthoPort2 = new Point(
-          centerOfSRGs.getX()
-            + 0.5 * (productPort.getY() - substratePort.getY()),
-          centerOfSRGs.getY()
-            - 0.5 * (productPort.getX() - substratePort.getX()));
-        
-        Curve curve = srg.createCurve();
-        CubicBezier connection = new CubicBezier(layout.getLevel(), layout.getVersion());
-        
-        /** Specifies the ,force' with which the CubicBezier leaves the reactionGlyph */
-        double force = 1.3d;
-        
-        Point basePoint1, basePoint2, start, end;
-        
-        Point speciesPort = calculateSpeciesGlyphDockingPosition(
-          calculateCenter(srg.getSpeciesGlyphInstance()), rg,
-          srg.isSetSpeciesReferenceRole() ? srg.getRole()
-            : SpeciesReferenceRole.UNDEFINED,
-          srg.getSpeciesGlyphInstance());
-        Point speciesControlPoint = Geometry.weightedSum(1 + force, speciesPort,
-          -force, calculateCenter(srg.getSpeciesGlyphInstance()));
-        
-        if(isProductReference(srg)) {
-          start = productPort.clone();
-          basePoint1 = Geometry.weightedSum(1 + force, productPort, -force,
-            centerOfSRGs);
-          basePoint2 = speciesControlPoint;
-          end = speciesPort;
-        } else if(isSubstrateReference(srg)) {
-          start = substratePort.clone();
-          basePoint1 = Geometry.weightedSum(1 + force, substratePort, -force,
-            centerOfSRGs);
-          basePoint2 = speciesControlPoint;
-          end = speciesPort;
-        } else {
-          start = speciesPort;
-          end = closest(orthoPort1, orthoPort2, speciesPort);
-          basePoint1 = speciesControlPoint;
-          // Modifiers etc use twice the force
-          basePoint2 =
-            Geometry.weightedSum(1 + 2*force, end, -2*force, centerOfSRGs);
-        }      
-        
-        connection.setStart(start);
-        connection.setBasePoint1(basePoint1);
-        connection.setBasePoint2(basePoint2);
-        connection.setEnd(end);
-        curve.addCurveSegment(connection);
-      }
-    }
-  }
-  
   
   /**
    * Finds the closer of the two candidates to a reference-point (in terms of
@@ -536,6 +339,304 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
         || srg.getRole().equals(SpeciesReferenceRole.SIDESUBSTRATE);
     }
     return false;
+  }
+  
+  
+  /**
+   * Helper-method of {@link RingLayoutAlgorithm#completeGlyphs()}, to structure
+   * the code. Places SpeciesGlyphs in a circle and compartmentGlyphs
+   * accordingly
+   * 
+   * @param totalWidth
+   *        of the layout
+   * @param totalHeight
+   *        of the layout
+   */
+  private void layoutSpeciesAndCompartments(double totalWidth, double totalHeight) {
+    int speciesIndex = 0;
+    for (String compartment : compartmentMembers.keySet()) {
+      compartmentStart = speciesIndex;
+      compartmentEnd = speciesIndex;
+      for (SpeciesGlyph species : compartmentMembers.get(compartment)) {
+        double tilt = Math.PI / 2d;
+        tilt -= speciesIndex * interspeciesRadians;
+        BoundingBox bbox = new BoundingBox();
+        bbox.createDimensions(SPECIES_WIDTH, SPECIES_HEIGHT, 1);
+        bbox.createPosition(ringRadius * Math.cos(tilt) + totalWidth / 2d,
+          -ringRadius * Math.sin(tilt) + totalHeight / 2d, 0);
+        species.setBoundingBox(bbox);
+        speciesIndex++;
+        compartmentEnd = speciesIndex;
+      }
+      
+      /**
+       *  Note that the endIndex is actually one too large and would, if
+       *  uncorrected, lead to overlapping compartments
+       */
+      compartmentEnd--;
+      
+      /** draw the respective compartment (if it is not yet laid out) */
+      if (unlaidoutCompartments.containsKey(compartment)) {
+        BoundingBox bbox =
+          boundCompartment(compartmentStart, compartmentEnd, ringRadius);
+        unlaidoutCompartments.get(compartment).setBoundingBox(bbox);
+      }
+    }
+  }
+  
+  
+  /**
+   * Helper-method of {@link RingLayoutAlgorithm#completeGlyphs()}, to structure
+   * the code. Places reactionGlyphs in between their substrates/products
+   * (except for exchange-reactions, which are to be placed outside the circle),
+   * and lays out speciesReferenceGlyphs. <br>
+   * The method has two semantic parts:
+   * <ol>
+   * <li>Computing the needed points/anchors/ports for laying out the
+   * glyphs</li>
+   * <li>Actually laying out the glyphs, based on this information</li>
+   * </ol>
+   * Requires, that all {@link SpeciesGlyph}s be laid out already (i.e. call
+   * after {@link RingLayoutAlgorithm#layoutSpeciesAndCompartments})
+   * 
+   * @param totalWidth
+   *        of the layout
+   * @param totalHeight
+   *        of the layout
+   */
+  private void layoutReactionGlyphs(double totalWidth, double totalHeight) {
+    for (ReactionGlyph rg : reactionGlyphs) {
+      /**
+       * 1.: Precomputations -- find the relevant points for laying out the
+       * glyphs
+       */
+      System.out.println(rg);
+      /** initially, center the rg in the circle */
+      rg.createBoundingBox(REACTION_GLYPH_SIZE, REACTION_GLYPH_SIZE, 0,
+        (totalWidth - REACTION_GLYPH_SIZE) / 2d,
+        (totalHeight - REACTION_GLYPH_SIZE) / 2d, 0);
+     
+      /**
+       * Finding centers of mass of 
+       * a) all involved species
+       * b) only the substrates
+       * c) only the products
+       * 
+       * Deviating from super.calculateAverageSpeciesPosition(...), here, use
+       * not the position (top-left corner) of Species, but their port to the
+       * reactionglyph
+       */
+      Point centerOfSRGs = new Point(0, 0, 0);
+      Point substratePort = new Point(0, 0, 0);
+      Point productPort = new Point(0, 0, 0);
+      int srgCount = rg.getSpeciesReferenceGlyphCount();
+      int substrateCount = 0;
+      int productCount = 0;
+      for (int i = 0; i < srgCount; i++) {
+        /**
+         * Before this method was called, we laid out all SpeciesGlyphs -- can
+         * thus now use their positions
+         */
+        SpeciesReferenceGlyph srg = rg.getSpeciesReferenceGlyph(i);
+        /**
+         * Use the speciesPort w.r.t. a reactionGlyph in the circle's center
+         * instead of the center/top-left-corner of the SpeciesGlyph
+         */
+        Point srgPort = calculateSpeciesGlyphDockingPosition(
+          calculateCenter(srg.getSpeciesGlyphInstance()), rg,
+          srg.isSetSpeciesReferenceRole() ? srg.getRole()
+            : SpeciesReferenceRole.UNDEFINED,
+          srg.getSpeciesGlyphInstance());
+        
+        centerOfSRGs = Geometry.weightedSum(1, centerOfSRGs, 1d / (double) srgCount, srgPort);
+        
+        /** Set the role to product/substrate for products/substrates. */
+        if (!srg.isSetSpeciesReferenceRole() && srg.isSetSpeciesGlyph()
+          && srg.getSpeciesGlyphInstance().isSetSpecies()) {
+          Species species = (Species) srg.getSpeciesGlyphInstance().getSpeciesInstance();
+          
+          if (((Reaction) rg.getReactionInstance()).hasProduct(species)) {
+            srg.setRole(SpeciesReferenceRole.PRODUCT);
+          } else if (((Reaction) rg.getReactionInstance()).hasReactant(species)) {
+            srg.setRole(SpeciesReferenceRole.SUBSTRATE);
+          }
+        }
+        
+        /** Count into product or substrate count and CoM */
+        if (isProductReference(srg)) {
+          productPort = Geometry.weightedSum(1, productPort, 1, srgPort);
+          productCount++;
+        } else if (isSubstrateReference(srg)) {
+          substratePort = Geometry.weightedSum(1, substratePort, 1, srgPort);
+          substrateCount++;
+        }
+      }
+      // TODO: Handle Exchange reactions (substrate or product = 0)
+      
+      // TODO: might add nonlinearity
+      // Here: overwrite the old placeholder-boundingbox
+      rg.createBoundingBox(REACTION_GLYPH_SIZE, REACTION_GLYPH_SIZE, 0,
+        centerOfSRGs.getX() - REACTION_GLYPH_SIZE / 2d,
+        centerOfSRGs.getY() - REACTION_GLYPH_SIZE / 2d, 0);
+      if (productCount > 0) {
+        productPort.setX(productPort.getX() / (double) productCount);
+        productPort.setY(productPort.getY() / (double) productCount);
+      }
+      if (substrateCount > 0) {
+        substratePort.setX(substratePort.getX() / (double) substrateCount);
+        substratePort.setY(substratePort.getY() / (double) substrateCount);
+      }
+      System.out.println(String.format("\tcom: %s\n\tsub: %s\n\tpro: %s",
+        centerOfSRGs, substratePort, productPort));
+     
+      /**
+       * The center of substrate and product-port might not yet be the center of
+       * the reactionGlyph: Shift it (parallel)
+       */
+      double offCenterX = 0.5d * (productPort.getX() + substratePort.getX());
+      double offCenterY = 0.5d * (productPort.getY() + substratePort.getY());
+      productPort.setX(productPort.getX() + centerOfSRGs.getX() - offCenterX);
+      productPort.setY(productPort.getY() + centerOfSRGs.getY() - offCenterY);
+      substratePort.setX(
+        substratePort.getX() + centerOfSRGs.getX() - offCenterX);
+      substratePort.setY(
+        substratePort.getY() + centerOfSRGs.getY() - offCenterY);
+      // Further: Want a normalised port-distance
+      double scale =
+        Math.sqrt(Math.pow(productPort.getX() - centerOfSRGs.getX(), 2)
+          + Math.pow(productPort.getY() - centerOfSRGs.getY(), 2));
+      scale = REACTION_GLYPH_SIZE / scale;
+      productPort.setX(
+        centerOfSRGs.getX() * (1d - scale) + productPort.getX() * scale);
+      productPort.setY(
+        centerOfSRGs.getY() * (1d - scale) + productPort.getY() * scale);
+      
+      /**
+       * since the center of substrate and product-port was shifted onto the
+       * center of the RG, need not recompute the scale
+       */
+      substratePort.setX(
+        centerOfSRGs.getX() * (1d - scale) + substratePort.getX() * scale);
+      substratePort.setY(
+        centerOfSRGs.getY() * (1d - scale) + substratePort.getY() * scale);
+      
+      /**
+       * 2.: Actually lay out the glyphs
+       * 
+       * a) Build the curve of the reactionGlyph itself
+       */
+      Curve mainCurve = rg.createCurve();
+      LineSegment whiskers =
+        new LineSegment(layout.getLevel(), layout.getVersion());
+      whiskers.setEnd(productPort.clone());
+      whiskers.setStart(substratePort.clone());
+      mainCurve.addCurveSegment(whiskers);
+      
+      /**
+       * b) Build the curves to the species
+       */
+      layoutSpeciesReferenceGlyphs(rg, centerOfSRGs, substratePort,
+        productPort);
+    }
+  }
+
+  
+  /**
+   * Lays out all hitherto unlaidout {@link SpeciesReferenceGlyph}s of a
+   * {@link ReactionGlyph} (i.e. adds Curves to them)
+   * 
+   * @param rg
+   *        The {@link ReactionGlyph}, whose yet unlaidout
+   *        {@link SpeciesReferenceGlyph}s are to be laid out
+   * @param centerOfSRGs
+   *        center of the SRGs of rg (same as reactionGlyph's center)
+   * @param substratePort
+   *        the {@link Point} to which substrate-arcs should connect
+   * @param productPort
+   *        the {@link Point} to which product-arcs should connect
+   */
+  private void layoutSpeciesReferenceGlyphs(ReactionGlyph rg,
+    Point centerOfSRGs, Point substratePort, Point productPort) {
+    
+    if (unlaidoutSpeciesReferenceGlyphs.containsKey(rg.getId())) {
+      for (SpeciesReferenceGlyph srg : unlaidoutSpeciesReferenceGlyphs.get(
+        rg.getId())) {
+        /**
+         * Compute two additional ports that stand orthogonal to the
+         * substratePort-productPort-line: These are the ports for modifiers
+         */
+        Point orthoPort1 = new Point(
+          centerOfSRGs.getX()
+            - 0.5 * (productPort.getY() - substratePort.getY()),
+          centerOfSRGs.getY()
+            + 0.5 * (productPort.getX() - substratePort.getX()));
+        Point orthoPort2 = new Point(
+          centerOfSRGs.getX()
+            + 0.5 * (productPort.getY() - substratePort.getY()),
+          centerOfSRGs.getY()
+            - 0.5 * (productPort.getX() - substratePort.getX()));
+        
+        Curve curve = srg.createCurve();
+        CubicBezier connection = new CubicBezier(layout.getLevel(), layout.getVersion());
+        
+        /** Specifies the ,force' with which the CubicBezier leaves the reactionGlyph */
+        double force = 1.3d;
+        
+        Point basePoint1, basePoint2, start, end;
+        
+        Point speciesPort = calculateSpeciesGlyphDockingPosition(
+          calculateCenter(srg.getSpeciesGlyphInstance()), rg,
+          srg.isSetSpeciesReferenceRole() ? srg.getRole()
+            : SpeciesReferenceRole.UNDEFINED,
+          srg.getSpeciesGlyphInstance());
+        Point speciesControlPoint = Geometry.weightedSum(1 + force, speciesPort,
+          -force, calculateCenter(srg.getSpeciesGlyphInstance()));
+        
+        end = speciesPort;
+        basePoint2 = speciesControlPoint;
+        if(isProductReference(srg) || isSubstrateReference(srg)) {
+          if (isSubstrateReference(srg)) {
+            start = substratePort.clone();
+          } else {
+            start = productPort.clone();
+          }       
+          basePoint1 = Geometry.weightedSum(1 + force, start, -force,
+            centerOfSRGs);
+          
+          /**
+           * If the SpeciesGlyph is closer to the wrong port (which may happen
+           * by chance), the layout hitherto may force the arc through the
+           * reactionGlyph itself (ambiguous). To avoid this, check for the
+           * direction, in which the speciesGlyph is found, and potentially add
+           * an orthogonal component to the basepoint (to try to redirect the
+           * arc around the reactionGlyph)
+           */
+          if (Geometry.dotProduct(
+            Geometry.weightedSum(1, start, -1, centerOfSRGs),
+            Geometry.weightedSum(1, speciesPort, -1, centerOfSRGs)) < 0) {
+            
+            basePoint1 = Geometry.weightedSum(1, basePoint1, force,
+              Geometry.weightedSum(1,
+                closest(orthoPort1, orthoPort2, speciesPort), -1,
+                centerOfSRGs));
+          }
+          
+        } else {
+          start = speciesPort;
+          end = closest(orthoPort1, orthoPort2, speciesPort);
+          basePoint1 = speciesControlPoint;
+          // Modifiers etc use twice the force
+          basePoint2 =
+            Geometry.weightedSum(1 + 2*force, end, -2*force, centerOfSRGs);
+        }      
+        
+        connection.setStart(start);
+        connection.setBasePoint1(basePoint1);
+        connection.setBasePoint2(basePoint2);
+        connection.setEnd(end);
+        curve.addCurveSegment(connection);
+      }
+    }
   }
   
 
