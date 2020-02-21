@@ -165,16 +165,18 @@ public class Geometry {
   public static double euclideanDistance(Point a, Point b) {
     double d = 0d;
     double r = 2d;
-    d += Math.pow(a.x() - b.x(), r);
-    d += Math.pow(a.y() - b.y(), r);
-    d += Math.pow(a.z() - b.z(), r);
+    d += Math.pow(a.getX() - b.getX(), r);
+    d += Math.pow(a.getY() - b.getY(), r);
+    d += Math.pow(a.getZ() - b.getZ(), r);
     return Math.pow(d, 1d/r);
   }
   
   
   /**
    * Adds the given points a and b, weighted by the respective weight, i.e.:<br>
-   * weightA * a + weightB * b
+   * weightA * a + weightB * b<br>
+   * <b>Attention!</b> z may be NaN -- in this case, the weighted sum for z will
+   * be NaN too.
    * 
    * @param weightA
    *        scalar weight of vector a
