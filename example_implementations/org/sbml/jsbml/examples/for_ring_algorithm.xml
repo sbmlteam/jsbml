@@ -38,9 +38,9 @@
 		<species id="B" sboTerm="SBO:0000247" name="B" compartment="extracellular" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="C" sboTerm="SBO:0000247" name="C" compartment="extracellular" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="D" sboTerm="SBO:0000245" name="D" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-		<species id="E" sboTerm="SBO:0000245" name="E" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="E" sboTerm="SBO:0000247" name="E" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="F" sboTerm="SBO:0000247" name="F" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-		<species id="G" sboTerm="SBO:0000247" name="G" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="G" sboTerm="SBO:0000245" name="G" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="H" sboTerm="SBO:0000247" name="H" compartment="vesicle" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 		<species id="I" sboTerm="SBO:0000247" name="I" compartment="vesicle" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
 	  </listOfSpecies>
@@ -106,19 +106,19 @@
 		  <!-- Unordered to test robustness -->
 		  <layout:speciesGlyph layout:id="sg_D" layout:species="D"></layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="sg_A" layout:species="A"></layout:speciesGlyph>
+		  <layout:speciesGlyph layout:id="sg_I" layout:species="I"></layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="sg_C" layout:species="C"></layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="sg_H" layout:species="H"></layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="sg_F" layout:species="F"></layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="sg_E" layout:species="E"></layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="sg_B" layout:species="B"></layout:speciesGlyph>
-		  <layout:speciesGlyph layout:id="sg_I" layout:species="I"></layout:speciesGlyph>
 		  <layout:speciesGlyph layout:id="sg_G" layout:species="G"></layout:speciesGlyph>
 		</layout:listOfSpeciesGlyphs>
 		
 		<layout:listOfCompartmentGlyphs>
 		  <layout:compartmentGlyph layout:id="cg_cytosol" layout:compartment="cytosol"></layout:compartmentGlyph>
-		  <layout:compartmentGlyph layout:id="cg_vesicle" layout:compartment="vesicle"></layout:compartmentGlyph>
 		  <layout:compartmentGlyph layout:id="cg_extracellular" layout:compartment="extracellular"></layout:compartmentGlyph>
+		  <layout:compartmentGlyph layout:id="cg_vesicle" layout:compartment="vesicle"></layout:compartmentGlyph>
 		</layout:listOfCompartmentGlyphs>
 	
 		<layout:listOfReactionGlyphs>
@@ -154,6 +154,12 @@
 			  <layout:speciesReferenceGlyph layout:id="srg_R4_H" layout:speciesReference="SR_R4_H" layout:speciesGlyph="sg_H" layout:role="product"/>
 			  <layout:speciesReferenceGlyph layout:id="srg_R4_I" layout:speciesReference="SR_R4_I" layout:speciesGlyph="sg_I" layout:role="product"/>
 			  <layout:speciesReferenceGlyph layout:id="srg_R4_G" layout:speciesReference="MSR_R4_G" layout:speciesGlyph="sg_G"/>
+		    </layout:listOfSpeciesReferenceGlyphs>
+		  </layout:reactionGlyph>
+		  
+		  <layout:reactionGlyph layout:id="rg_EX1" layout:reaction="EX1">
+			<layout:listOfSpeciesReferenceGlyphs>
+			  <layout:speciesReferenceGlyph layout:id="srg_EX1_G" layout:speciesReference="SR_EX1_G" layout:speciesGlyph="sg_G" layout:role="substrate"/>
 		    </layout:listOfSpeciesReferenceGlyphs>
 		  </layout:reactionGlyph>
 		</layout:listOfReactionGlyphs>

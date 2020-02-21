@@ -486,21 +486,37 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
           substrateCount++;
         }
       }
-      // TODO: Handle Exchange reactions (substrate or product = 0)
       
-      // TODO: might add nonlinearity
-      // Here: overwrite the old placeholder-boundingbox
-      rg.createBoundingBox(REACTION_GLYPH_SIZE, REACTION_GLYPH_SIZE, 0,
-        centerOfSRGs.getX() - REACTION_GLYPH_SIZE / 2d,
-        centerOfSRGs.getY() - REACTION_GLYPH_SIZE / 2d, 0);
+      // TODO: Handle Exchange reactions (substrate or product = 0)
       if (productCount > 0) {
         productPort.setX(productPort.getX() / (double) productCount);
         productPort.setY(productPort.getY() / (double) productCount);
+      } else {
+        /** reaction w/o products: place by substrates */
+        centerOfSRGs = Geometry.weightedSum(2d, substratePort, -1d,
+          new Point(totalWidth / 2, totalHeight / 2, 0));
+        productPort = centerOfSRGs.clone();
       }
+      
       if (substrateCount > 0) {
         substratePort.setX(substratePort.getX() / (double) substrateCount);
         substratePort.setY(substratePort.getY() / (double) substrateCount);
+      } else {
+        /** reaction w/o substrates: place by products */
+        centerOfSRGs = Geometry.weightedSum(2d, productPort, -1d,
+          new Point(totalWidth / 2, totalHeight / 2, 0));
+        substratePort = centerOfSRGs.clone();
       }
+      
+      // Here: overwrite the old placeholder-boundingbox      
+      rg.createBoundingBox(REACTION_GLYPH_SIZE, REACTION_GLYPH_SIZE, 0,
+        centerOfSRGs.getX() - REACTION_GLYPH_SIZE / 2d,
+        centerOfSRGs.getY() - REACTION_GLYPH_SIZE / 2d, 0);
+
+      
+      // TODO: might add nonlinearity
+      
+      
      
       /**
        * The center of substrate and product-port might not yet be the center of
