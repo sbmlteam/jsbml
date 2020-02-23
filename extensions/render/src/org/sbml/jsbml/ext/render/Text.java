@@ -30,6 +30,7 @@ import org.sbml.jsbml.SBMLException;
  * @author Jakob Matthes
  * @author Jan Rudolph
  * @author Onur &Oumlzel
+ * @author David Vetter
  * @since 1.0
  */
 public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point3D {
@@ -85,8 +86,10 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * 
    */
   private Double z;
-
-  
+  /**
+   * The actual text to be displayed
+   */
+  private String text;
   
   
   public Text() {
@@ -118,6 +121,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     x = obj.x;
     y = obj.y;
     z = obj.z;
+    text = obj.text;
   }
 
   @Override
@@ -157,6 +161,16 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     throw new PropertyUndefinedError(RenderConstants.fontSize, this);
   }
 
+  /**
+   * @return the text to be displayed by this
+   */
+  public String getText() {
+    if(isSetText()) {
+      return text;
+    }
+    throw new PropertyUndefinedError(RenderConstants.text, this);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getTextAnchor()
    */
@@ -333,6 +347,18 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     return fontWeightBold != null;
   }
 
+  
+  /**
+   * Checks whether the text-field has been set. <br>
+   * <b>Note:</b> Deviating from libSBML, the empty string "" is a valid, set
+   * value of {@link Text#text}
+   * 
+   * @return Whether the {@link Text#text}-field has been set
+   */
+  public boolean isSetText() {
+    return text != null;
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isSetTextAnchor()
    */
@@ -449,7 +475,17 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     this.fontWeightBold = fontWeightBold;
     firePropertyChange(RenderConstants.fontWeightBold, oldFontWeightBold, this.fontWeightBold);
   }
-
+  
+  /**
+   * Set the value of the {@link Text#text} field (and fire appropriate property-change event)
+   * @param text the new text
+   */
+  public void setText(String text) {
+    String oldText = this.text;
+    this.text = text;
+    firePropertyChange(RenderConstants.text, oldText, this.text);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#setTextAnchor(org.sbml.jsbml.ext.render.TextAnchor)
    */
@@ -598,6 +634,21 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     return false;
   }
 
+  /**
+   * Unsets the {@link Text#text} and fires appropriate change event
+   * 
+   * @return whether the text could be unset
+   */
+  public boolean unsetText() {
+    if(isSetText()) {
+      String oldText = text;
+      text = null;
+      firePropertyChange(RenderConstants.text, oldText, text);
+      return true;
+    }
+    return false;
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#unsetTextAnchor()
    */

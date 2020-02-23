@@ -20,6 +20,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * @author Eugen Netz
@@ -155,6 +156,20 @@ public class Transformation2D extends Transformation {
       return false;
     }
     return true;
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetTransform()) {
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.transform,
+        XMLTools.encodeArrayDoubleToString(transform));
+    }
+    return attributes;
   }
 
 }

@@ -197,7 +197,7 @@ public class RenderCubicBezier extends RenderPoint {
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
 
-    setType(Type.RENDER_POINT);
+    setType(Type.RENDER_CUBIC_BEZIER);
   }
 
   /**
