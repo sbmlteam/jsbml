@@ -60,9 +60,14 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
    */
   private static final long serialVersionUID = -4225426173177528441L;
   /**
-   * 
+   * @deprecated This field is not specified by the render-package-specification
    */
-  private GlobalRenderInformation renderInformation; // TODO - one or a ListOf GlobalRenderInformation?
+  @Deprecated
+  private GlobalRenderInformation renderInformation; 
+  // TODO - one or a ListOf GlobalRenderInformation?
+  // TODO: actually: none; RenderLayoutPlugin holds the
+  // ListOfLocalRenderInformation and RenderListOfLayoutsPlugin holds the
+  // ListOfGlobalRenderInformation (cf Render Spec pages 14/15)
 
 
   /**
@@ -93,6 +98,8 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   public AbstractRenderPlugin(AbstractRenderPlugin obj) {
     super(obj);
 
+    // TODO: remove this already? Definitely remove when removing the deprecated
+    // methods!
     if (obj.isSetRenderInformation()) {
       setRenderInformation(obj.getRenderInformation().clone());
     }
@@ -105,9 +112,17 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   public void initDefaults() {
   }
 
+  
   /**
+   * @deprecated This goes beyond/is besides the render-package's specification
+   *             and will be removed in a future release. Use the methods
+   *             {@link RenderLayoutPlugin#getListOfLocalRenderInformation()},
+   *             {@link RenderLayoutPlugin#getLocalRenderInformation(int)}, and
+   *             {@link RenderListOfLayoutsPlugin#getListOfGlobalRenderInformation()}
+   *             respectively
    * @return the value of renderInformation
    */
+  @Deprecated
   public GlobalRenderInformation getRenderInformation() {
     if (isSetRenderInformation()) {
       return renderInformation;
@@ -116,29 +131,53 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
     return null;
   }
 
+  
   /**
+   * @deprecated This goes beyond/is besides the render-package's specification
+   *             and will be removed in a future release. Use the
+   *             {@link LocalRenderInformation}-related methods of
+   *             {@link RenderLayoutPlugin}, and the
+   *             {@link GlobalRenderInformation}-related methods of
+   *             {@link RenderListOfLayoutsPlugin} instead.
    * @return whether renderInformation is set
    */
+  @Deprecated
   public boolean isSetRenderInformation() {
     return renderInformation != null;
   }
 
   /**
+   * @deprecated This goes beyond/is besides the render-package's specification
+   *             and will be removed in a future release. Use the
+   *             {@link LocalRenderInformation}-related methods of
+   *             {@link RenderLayoutPlugin}, and the
+   *             {@link GlobalRenderInformation}-related methods of
+   *             {@link RenderListOfLayoutsPlugin} instead.
+   * 
    * Set the value of renderInformation
    * 
    * @param renderInformation the value of renderInformation
    */
+  @Deprecated
   public void setRenderInformation(GlobalRenderInformation renderInformation) {
     GlobalRenderInformation oldRenderInformation = this.renderInformation;
     this.renderInformation = renderInformation;
     firePropertyChange(RenderConstants.renderInformation, oldRenderInformation, this.renderInformation);
   }
 
+  
   /**
-   * Unsets the variable renderInformation
+   * @deprecated This goes beyond/is besides the render-package's specification
+   *             and will be removed in a future release. Use the
+   *             {@link LocalRenderInformation}-related methods of
+   *             {@link RenderLayoutPlugin}, and the
+   *             {@link GlobalRenderInformation}-related methods of
+   *             {@link RenderListOfLayoutsPlugin} instead.
+   *             Unsets the variable renderInformation
    * @return {@code true}, if renderInformation was set before,
    *         otherwise {@code false}
    */
+  @Deprecated
   public boolean unsetRenderInformation() {
     if (isSetRenderInformation()) {
       GlobalRenderInformation oldRenderInformation = renderInformation;
