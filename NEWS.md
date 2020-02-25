@@ -1,7 +1,30 @@
 # JSBML NEWS -- History of user-visible changes
 
 ==================================
-## Version 1.4 (XX-08-2018)
+## Version 1.5 (XX-03-2020)
+==================================
+
+### New Features:
+
+  - Implemented most of the comp package constraints
+  
+  - Added a new FUNCTION_CSYMBOL type to ASTNode so that we can parse and write generic csymbol defined elsewhere than in the core. Allow to read and write correctly the distrib defined csymbol.
+  
+  - Implemented the latest draft of the distrib package.
+  
+  
+### Bug Fixes:
+
+  - Converters from SBML Level 2 with COBRA annotations to FBC version 1 and version 2 and vice versa bug fixes.
+  
+  - Fixes for issues #157 and #158. The combined list of SpeciesFeature and SubListOfSpeciesFeatures was not created properly.
+  
+  - Security bug fix: disallow external entity definitions inside SBML files. This prevents attackers from loading potentially sensitive files (e.g. /etc/passwd) into the content of the model. See https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md for more information. Thanks to Mihai Glont for providing the fix.
+  
+ 
+
+==================================
+## Version 1.4 (16-08-2018)
 ==================================
 
 ### New Features:
@@ -35,7 +58,7 @@
   
   - Fixed issue #142. One of the values of the InterpolationKind enum in the spatial package was wrong. Thanks to Franck Bergmann who reported the problem.
   
- 
+  
 
 ==================================
 ## Version 1.3.1 (19-12-2017)
