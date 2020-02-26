@@ -18,10 +18,10 @@
  */
 package org.sbml.jsbml.ext.fbc.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.sbml.jsbml.util.ModelBuilder.buildUnit;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
@@ -31,10 +31,8 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.TidySBMLWriter;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ext.fbc.CobraConstants;
@@ -58,8 +56,6 @@ public class FbcV2ToCobraConverterTest {
   FbcV1ToCobraConverter fbcV1ToCobraConverter;
   FbcV2ToCobraConverter fbcV2ToCobraConverter;
   SBMLDocument doc;
-  
-  
   
   Double lowerFluxBound = 1d;
   Double upperFluxBound = 100d;
@@ -115,334 +111,318 @@ public class FbcV2ToCobraConverterTest {
     return builder.getSBMLDocument();
   }
   
-  
-  /**
-   * @throws java.lang.Exception
-   */
-  @Before
-  public void setUp() throws Exception {
-    doc = createDoc(true, true, true);
+  @Test
+  public void fullDocumentConversionTest() {
+    
     fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
     fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
-    fbcV2ToCobraConverter = new FbcV2ToCobraConverter();
+    doc = createDoc(true, true, true);
+    doc = fbcV2ToFbcV1Converter.convert(doc);
+    doc = fbcV1ToCobraConverter.convert(doc);
+    
+    assertNotNull(doc);
+    KineticLaw kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
+    assertNotNull(kineticLaw);
+    ASTNode mathNode = kineticLaw.getMath();
+    assertNotNull(mathNode);
+    assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter);
+    assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter);
+    assertEquals((Double) lowerBoundParameter.getValue(), lowerFluxBound);
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter);
+    assertEquals((Double) upperBoundParameter.getValue(), upperFluxBound);
   }
-
-
+  
   @Test
-  public void test() {
-    try {
-      
-      // reuse variables
-      KineticLaw kineticLaw;
-      ASTNode mathNode;
-      LocalParameter fluxValueParameter;
-      LocalParameter lowerBoundParameter;
-      LocalParameter upperBoundParameter;
-      // fullDoc
-      doc = fbcV2ToFbcV1Converter.convert(doc);
-      doc = fbcV1ToCobraConverter.convert(doc);
-      
-      assertNotNull(doc);
-      kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
-      assertNotNull(kineticLaw);
-      mathNode = kineticLaw.getMath();
-      assertNotNull(mathNode);
-      assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
-      fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
-      assertNotNull(fluxValueParameter);
-      assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
-      assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
-      lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
-      assertNotNull(lowerBoundParameter);
-      assertEquals((Double) lowerBoundParameter.getValue(), lowerFluxBound);
-      upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
-      assertNotNull(upperBoundParameter);
-      assertEquals((Double) upperBoundParameter.getValue(), upperFluxBound);
-      
-      // complete doc, give default that should be ignored
-      fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
-      fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
-      doc = null;
-      assertNull(doc);
-      doc = createDoc(true, true, true);
-      assertNotNull(doc);
-      doc = fbcV2ToFbcV1Converter.convert(doc);
-      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, defaultLowerBound);
-      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, defaultUpperBound);
-      doc = fbcV1ToCobraConverter.convert(doc);
-      
-      assertNotNull(doc);
-      kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
-      assertNotNull(kineticLaw);
-      mathNode = kineticLaw.getMath();
-      assertNotNull(mathNode);
-      assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
-      fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
-      assertNotNull(fluxValueParameter);
-      assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
-      assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
-      lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
-      assertNotNull(lowerBoundParameter);
-      assertEquals((Double) lowerBoundParameter.getValue(), lowerFluxBound);
-      upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
-      assertNotNull(upperBoundParameter);
-      assertEquals((Double) upperBoundParameter.getValue(), upperFluxBound);
-      
-      
-      // incomplete Doc no upper
-      fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
-      fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
-      doc = null;
-      assertNull(doc);
-      doc = createDoc(true, false, true);
-      assertNotNull(doc);
-      doc = fbcV2ToFbcV1Converter.convert(doc);
-      doc = fbcV1ToCobraConverter.convert(doc);
-      
-      assertNotNull(doc);
-      kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
-      assertNotNull(kineticLaw);
-      mathNode = kineticLaw.getMath();
-      assertNotNull(mathNode);
-      assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
-      fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
-      assertNotNull(fluxValueParameter);
-      assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
-      assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
-      lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
-      assertNotNull(lowerBoundParameter);
-      assertEquals((Double) lowerBoundParameter.getValue(), lowerFluxBound);
-      upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
-      assertNotNull(upperBoundParameter);
-      assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(Double.POSITIVE_INFINITY));
-      
-      // incomplete Doc no upper but use give default value
-      fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
-      fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
-      doc = null;
-      assertNull(doc);
-      doc = createDoc(true, false, true);
-      assertNotNull(doc);
-      doc = fbcV2ToFbcV1Converter.convert(doc);
-      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, defaultUpperBound);
-      doc = fbcV1ToCobraConverter.convert(doc);
-      
-      assertNotNull(doc);
-      kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
-      assertNotNull(kineticLaw);
-      mathNode = kineticLaw.getMath();
-      assertNotNull(mathNode);
-      assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
-      fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
-      assertNotNull(fluxValueParameter);
-      assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
-      assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
-      lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
-      assertNotNull(lowerBoundParameter);
-      assertEquals((Double) lowerBoundParameter.getValue(), lowerFluxBound);
-      upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
-      assertNotNull(upperBoundParameter);
-      assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(defaultUpperBound));
-      
-      // incomplete Doc no lower
-      fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
-      fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
-      doc = null;
-      assertNull(doc);
-      doc = createDoc(true, true, false);
-      assertNotNull(doc);
-      doc = fbcV2ToFbcV1Converter.convert(doc);
-      doc = fbcV1ToCobraConverter.convert(doc);
-      
-      assertNotNull(doc);
-      kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
-      assertNotNull(kineticLaw);
-      mathNode = kineticLaw.getMath();
-      assertNotNull(mathNode);
-      assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
-      fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
-      assertNotNull(fluxValueParameter);
-      assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
-      assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
-      lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
-      assertNotNull(lowerBoundParameter);
-      assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(Double.NEGATIVE_INFINITY));
-      upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
-      assertNotNull(upperBoundParameter);
-      assertEquals((Double) upperBoundParameter.getValue(), upperFluxBound);
-      
-      // incomplete Doc no lower but use give default value
-      fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
-      fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
-      doc = null;
-      assertNull(doc);
-      doc = createDoc(true, true, false);
-      assertNotNull(doc);
-      doc = fbcV2ToFbcV1Converter.convert(doc);
-      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, defaultLowerBound);
-      doc = fbcV1ToCobraConverter.convert(doc);
-      
-      assertNotNull(doc);
-      kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
-      assertNotNull(kineticLaw);
-      mathNode = kineticLaw.getMath();
-      assertNotNull(mathNode);
-      assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
-      fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
-      assertNotNull(fluxValueParameter);
-      assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
-      assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
-      lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
-      assertNotNull(lowerBoundParameter);
-      assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(defaultLowerBound));
-      upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
-      assertNotNull(upperBoundParameter);
-      assertEquals((Double) upperBoundParameter.getValue(), upperFluxBound);
-      
-      // incomplete Doc no lower and no upper
-      fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
-      fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
-      doc = null;
-      assertNull(doc);
-      doc = createDoc(true, false, false);
-      assertNotNull(doc);
-      doc = fbcV2ToFbcV1Converter.convert(doc);
-      doc = fbcV1ToCobraConverter.convert(doc);
-      
-      assertNotNull(doc);
-      kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
-      assertNotNull(kineticLaw);
-      mathNode = kineticLaw.getMath();
-      assertNotNull(mathNode);
-      assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
-      fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
-      assertNotNull(fluxValueParameter);
-      assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
-      assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
-      lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
-      assertNotNull(lowerBoundParameter);
-      assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(Double.NEGATIVE_INFINITY));
-      upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
-      assertNotNull(upperBoundParameter);
-      assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(Double.POSITIVE_INFINITY));
-      
-      // incomplete Doc no lower and no upper but use give default value
-      fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
-      fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
-      doc = null;
-      assertNull(doc);
-      doc = createDoc(true, false, false);
-      assertNotNull(doc);
-      doc = fbcV2ToFbcV1Converter.convert(doc);
-      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, defaultLowerBound);
-      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, defaultUpperBound);
-      doc = fbcV1ToCobraConverter.convert(doc);
-      
-      assertNotNull(doc);
-      kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
-      assertNotNull(kineticLaw);
-      mathNode = kineticLaw.getMath();
-      assertNotNull(mathNode);
-      assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
-      fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
-      assertNotNull(fluxValueParameter);
-      assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
-      assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
-      lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
-      assertNotNull(lowerBoundParameter);
-      assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(defaultLowerBound));
-      upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
-      assertNotNull(upperBoundParameter);
-      assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(defaultUpperBound));
-      
-      // incomplete Doc no kineticLaw 
-      fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
-      fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
-      doc = null;
-      assertNull(doc);
-      doc = createDoc(false, false, false);
-      assertNotNull(doc);
-      doc = fbcV2ToFbcV1Converter.convert(doc);
-      doc = fbcV1ToCobraConverter.convert(doc);
-       
-      assertNotNull(doc);
-      kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
-      assertNotNull(kineticLaw);
-      mathNode = kineticLaw.getMath();
-      assertNotNull(mathNode);
-      assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
-      fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
-      assertNotNull(fluxValueParameter);
-      assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
-      assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
-      lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
-      assertNotNull(lowerBoundParameter);
-      assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(Double.NEGATIVE_INFINITY));
-      upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
-      assertNotNull(upperBoundParameter);
-      assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(Double.POSITIVE_INFINITY));
-      
-      // incomplete Doc no kineticLaw but use give default value
-      fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
-      fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
-      doc = null;
-      assertNull(doc);
-      doc = createDoc(false, false, false);
-      assertNotNull(doc);
-      doc = fbcV2ToFbcV1Converter.convert(doc);
-      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, defaultLowerBound);
-      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, defaultUpperBound);
-      doc = fbcV1ToCobraConverter.convert(doc);
-      
-      assertNotNull(doc);
-      kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
-      assertNotNull(kineticLaw);
-      mathNode = kineticLaw.getMath();
-      assertNotNull(mathNode);
-      assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
-      fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
-      assertNotNull(fluxValueParameter);
-      assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
-      assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
-      lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
-      assertNotNull(lowerBoundParameter);
-      assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(defaultLowerBound));
-      upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
-      assertNotNull(upperBoundParameter);
-      assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(defaultUpperBound));
-      
-      // last but not least, also check the combined converter and the user parameter propagation:
-      doc = null;
-      assertNull(doc);
-      doc = createDoc(false, false, false);
-      assertNotNull(doc);
-      fbcV2ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, defaultLowerBound);
-      fbcV2ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, defaultUpperBound);
-      
-      doc = fbcV2ToCobraConverter.convert(doc);
-      
-      assertNotNull(doc);
-      kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
-      assertNotNull(kineticLaw);
-      mathNode = kineticLaw.getMath();
-      assertNotNull(mathNode);
-      assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
-      fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
-      assertNotNull(fluxValueParameter);
-      assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
-      assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
-      lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
-      assertNotNull(lowerBoundParameter);
-      assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(defaultLowerBound));
-      upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
-      assertNotNull(upperBoundParameter);
-      assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(defaultUpperBound));
-      
-    } catch (SBMLException e) {
-      fail(e.getLocalizedMessage());
-      
-    } catch (Exception e) {
-      fail(e.getLocalizedMessage());
-    }
+  public void fullDocumentWithDefaultValuesConversionTest() {
+
+    fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    doc = createDoc(true, true, true);
+    assertNotNull(doc);
+    doc = fbcV2ToFbcV1Converter.convert(doc);
+    fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, defaultLowerBound);
+    fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, defaultUpperBound);
+    doc = fbcV1ToCobraConverter.convert(doc);
+    
+    assertNotNull(doc);
+    KineticLaw kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
+    assertNotNull(kineticLaw);
+    ASTNode mathNode = kineticLaw.getMath();
+    assertNotNull(mathNode);
+    assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter);
+    assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter);
+    assertEquals((Double) lowerBoundParameter.getValue(), lowerFluxBound);
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter);
+    assertEquals((Double) upperBoundParameter.getValue(), upperFluxBound);
+  }
+  
+  @Test
+  public void missingUpperBoundConversionTest() { 
+     
+    fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    doc = createDoc(true, false, true);
+    assertNotNull(doc);
+    doc = fbcV2ToFbcV1Converter.convert(doc);
+    doc = fbcV1ToCobraConverter.convert(doc);
+    
+    assertNotNull(doc);
+    KineticLaw kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
+    assertNotNull(kineticLaw);
+    ASTNode mathNode = kineticLaw.getMath();
+    assertNotNull(mathNode);
+    assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter);
+    assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter);
+    assertEquals((Double) lowerBoundParameter.getValue(), lowerFluxBound);
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter);
+    assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(Double.POSITIVE_INFINITY));
+  }
+  
+  @Test
+  public void missingUpperBoundWithDefaultValueConversionTest() {
+  
+    fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    doc = createDoc(true, false, true);
+    assertNotNull(doc);
+    doc = fbcV2ToFbcV1Converter.convert(doc);
+    fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, defaultUpperBound);
+    doc = fbcV1ToCobraConverter.convert(doc);
+    
+    assertNotNull(doc);
+    KineticLaw kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
+    assertNotNull(kineticLaw);
+    ASTNode mathNode = kineticLaw.getMath();
+    assertNotNull(mathNode);
+    assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter);
+    assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter);
+    assertEquals((Double) lowerBoundParameter.getValue(), lowerFluxBound);
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter);
+    assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(defaultUpperBound));
+  }
+  
+  @Test
+  public void missingLowerBoundConversionTest() { 
+     
+    fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    doc = createDoc(true, true, false);
+    assertNotNull(doc);
+    doc = fbcV2ToFbcV1Converter.convert(doc);
+    doc = fbcV1ToCobraConverter.convert(doc);
+    
+    assertNotNull(doc);
+    KineticLaw kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
+    assertNotNull(kineticLaw);
+    ASTNode mathNode = kineticLaw.getMath();
+    assertNotNull(mathNode);
+    assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter);
+    assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter);
+    assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(Double.NEGATIVE_INFINITY));
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter);
+    assertEquals((Double) upperBoundParameter.getValue(), upperFluxBound);
+  }
+  
+  @Test
+  public void missingLowerBoundWithDefaultValueConversionTest() {
+  
+    fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    doc = createDoc(true, true, false);
+    assertNotNull(doc);
+    doc = fbcV2ToFbcV1Converter.convert(doc);
+    fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, defaultLowerBound);
+    doc = fbcV1ToCobraConverter.convert(doc);
+    
+    assertNotNull(doc);
+    KineticLaw kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
+    assertNotNull(kineticLaw);
+    ASTNode mathNode = kineticLaw.getMath();
+    assertNotNull(mathNode);
+    assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter);
+    assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter);
+    assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(defaultLowerBound));
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter);
+    assertEquals((Double) upperBoundParameter.getValue(), upperFluxBound);
+  }
+  
+  @Test
+  public void missingLowerAndUpperBoundConversionTest() {
+  
+    fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    doc = createDoc(true, false, false);
+    assertNotNull(doc);
+    doc = fbcV2ToFbcV1Converter.convert(doc);
+    doc = fbcV1ToCobraConverter.convert(doc);
+    
+    assertNotNull(doc);
+    KineticLaw kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
+    assertNotNull(kineticLaw);
+    ASTNode mathNode = kineticLaw.getMath();
+    assertNotNull(mathNode);
+    assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter);
+    assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter);
+    assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(Double.NEGATIVE_INFINITY));
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter);
+    assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(Double.POSITIVE_INFINITY));
+  }
+  
+  @Test
+  public void missingLowerAndUpperBoundWithDefaultValuesConversionTest() {
+
+    fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    doc = createDoc(true, false, false);
+    assertNotNull(doc);
+    doc = fbcV2ToFbcV1Converter.convert(doc);
+    fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, defaultLowerBound);
+    fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, defaultUpperBound);
+    doc = fbcV1ToCobraConverter.convert(doc);
+    
+    assertNotNull(doc);
+    KineticLaw kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
+    assertNotNull(kineticLaw);
+    ASTNode mathNode = kineticLaw.getMath();
+    assertNotNull(mathNode);
+    assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter);
+    assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter);
+    assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(defaultLowerBound));
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter);
+    assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(defaultUpperBound));
+  }   
+  
+  @Test
+  public void missingKineticLawConversionTest() {
+
+    fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    doc = createDoc(false, false, false);
+    assertNotNull(doc);
+    doc = fbcV2ToFbcV1Converter.convert(doc);
+    doc = fbcV1ToCobraConverter.convert(doc);
+     
+    assertNotNull(doc);
+    KineticLaw kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
+    assertNotNull(kineticLaw);
+    ASTNode mathNode = kineticLaw.getMath();
+    assertNotNull(mathNode);
+    assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter);
+    assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter);
+    assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(Double.NEGATIVE_INFINITY));
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter);
+    assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(Double.POSITIVE_INFINITY));
+  }
+  
+  @Test
+  public void missingKineticLawWithDefaultValuesConversionTest() {
+
+    fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    doc = createDoc(false, false, false);
+    assertNotNull(doc);
+    doc = fbcV2ToFbcV1Converter.convert(doc);
+    fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, defaultLowerBound);
+    fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, defaultUpperBound);
+    doc = fbcV1ToCobraConverter.convert(doc);
+    
+    assertNotNull(doc);
+    KineticLaw kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
+    assertNotNull(kineticLaw);
+    ASTNode mathNode = kineticLaw.getMath();
+    assertNotNull(mathNode);
+    assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter);
+    assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter);
+    assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(defaultLowerBound));
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter);
+    assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(defaultUpperBound));
+  }
+  
+  @Test
+  public void combinedConverterConversionTest() {
+    
+    fbcV2ToCobraConverter = new FbcV2ToCobraConverter();
+    doc = createDoc(false, false, false);
+    assertNotNull(doc);
+    fbcV2ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, defaultLowerBound);
+    fbcV2ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, defaultUpperBound);
+    doc = fbcV2ToCobraConverter.convert(doc);
+    
+    assertNotNull(doc);
+    KineticLaw kineticLaw = doc.getModel().getListOfReactions().get(reactionId).getKineticLaw();
+    assertNotNull(kineticLaw);
+    ASTNode mathNode = kineticLaw.getMath();
+    assertNotNull(mathNode);
+    assertEquals(mathNode.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter = kineticLaw.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter);
+    assertEquals(fluxValueParameter.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter);
+    assertEquals((Double) lowerBoundParameter.getValue(), Double.valueOf(defaultLowerBound));
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter);
+    assertEquals((Double) upperBoundParameter.getValue(), Double.valueOf(defaultUpperBound));
   }
 }
