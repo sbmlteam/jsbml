@@ -43,6 +43,7 @@ import org.sbml.jsbml.ext.render.GradientBase;
 import org.sbml.jsbml.ext.render.GradientStop;
 import org.sbml.jsbml.ext.render.LineEnding;
 import org.sbml.jsbml.ext.render.LinearGradient;
+import org.sbml.jsbml.ext.render.ListOfGlobalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
@@ -366,6 +367,11 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
         } else {
           newElement = new GlobalRenderInformation();
         }
+      }
+      // Simplistic fix for incorrect reading TODO: Is this sensible/does it
+      // cause further errors?
+      else if(elementName.equals(RenderConstants.listOfGlobalRenderInformation)) {
+        newElement = new ListOfGlobalRenderInformation();
       }
       // JSBML used "localRenderInformation" for a few years so we are keeping the test using "localRenderInformation"
       // here to be able to read any incorrect files with JSBML.
