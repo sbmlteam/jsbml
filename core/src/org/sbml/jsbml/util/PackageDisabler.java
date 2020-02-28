@@ -138,7 +138,7 @@ public class PackageDisabler {
         if (child instanceof SBase) {
           SBasePlugin plug = ((SBase) child).getExtension(nameOrUri);
           if (plug != null) {
-            return true; //TODO - why is the parentnode itself not tested also? 
+            return true;
           }
         }
       }
