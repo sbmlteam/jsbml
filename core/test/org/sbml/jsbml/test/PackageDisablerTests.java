@@ -1,14 +1,16 @@
-package org.sbml.jsbml.util;
+package org.sbml.jsbml.test;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.util.PackageDisabler;
 
-public abstract class AbstractPackageDisablerTests {
-  protected SBMLDocument doc; 
-  protected Model m;
-  protected PackageDisabler pDisabler;
-  protected String name; 
-  protected String uri; 
+public abstract class PackageDisablerTests {
+  
+  public SBMLDocument doc; 
+  public Model m;
+  public PackageDisabler pDisabler;
+  public String name; 
+  public String uri; 
   
   public abstract void setUp();
   
