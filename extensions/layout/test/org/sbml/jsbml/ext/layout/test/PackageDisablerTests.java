@@ -29,12 +29,12 @@ public class PackageDisablerTests {
 
   @Before
   public void setUp() {
+    name = LayoutConstants.shortLabel; //why not packageName? 
+    uri = LayoutConstants.namespaceURI;
     
     //Test model from TreeSearchTest 
     doc = new SBMLDocument(3, 1);  
     m = doc.createModel("test_model");
-    name = LayoutConstants.shortLabel; //why not packageName? 
-    uri = LayoutConstants.getNamespaceURI(doc.getLevel(), doc.getVersion());
     
     Compartment c = m.createCompartment("default");
     c.setSpatialDimensions(3d);
@@ -68,48 +68,29 @@ public class PackageDisablerTests {
     ModifierSpeciesReference msr2 = r2.createModifier("msr2", s3);
     msr2.setName("modifier");
     
-    
-  }
-  
-  @Test
-  public void testAddingPackage() {
-    //add package with name
-    SBasePlugin packagePlugin1 = m.getPlugin(name);
-    String pluginName = packagePlugin1.getPackageName(); //TODO - change name of get method to getShortLabel??
-    assertTrue(name.equals(pluginName) == true);
-    assertTrue(m.isPackageEnabled(name) == true);
-    
-    //add package with uri
-    SBasePlugin packagePlugin2 = m.getPlugin(uri);
-    String pluginUri = packagePlugin2.getURI();
-    assertTrue(uri.equals(pluginUri) == true);
-    assertTrue(m.isPackageEnabled(uri) == true); 
-    
-    assertTrue(packagePlugin1 == packagePlugin2);
+    pDisabler = new PackageDisabler(doc);
   }
   
   @Test
   public void disableUnusedTest() {
-    //unused package because no children: 
     
-    pDisabler = new PackageDisabler(doc);
-    m.getPlugin(name);
-    pDisabler.disableUnused(); //TODO - check the warn and error messages
-    assertTrue(m.isPackageEnabled(name) == false);
-    
-    //used package: 
-    pDisabler = new PackageDisabler(doc);
-    SBasePlugin packagePlugin = m.getPlugin(name);
-    //TODO - how to add children 
-    pDisabler.disableUnused();
-    assertTrue(m.isPackageEnabled(name) == true);
   }
   
   @Test
-  public void removePackageTest() { 
-    pDisabler = new PackageDisabler(doc);
-    m.getPlugin(name);
+  public void removePackageTest() {
+    //add package with name then force removal of it
+    SBasePlugin packagePlugin = m.getPlugin(name);
+    String pluginName = packagePlugin.getPackageName(); //TODO - change name of get method to getShortLabel??
+    assertTrue(name.equals(pluginName));
+    assertTrue(m.isPackageEnabled(name) == true);
     pDisabler.removePackage(name);
     assertTrue(m.isPackageEnabled(name) == false);
+    
+    //add package with uri then force removal of it
+    SBasePlugin packagePlugin2 = m.getPlugin(uri);
+    String pluginUri = packagePlugin2.getURI();
+    assertTrue(uri.equals(pluginUri) == true);
+    pDisabler.removePackage(uri);
+    assertTrue(m.isPackageEnabled(uri) == false);
   }
 }
