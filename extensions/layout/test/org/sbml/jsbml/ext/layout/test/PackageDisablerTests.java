@@ -13,14 +13,13 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
-import org.sbml.jsbml.test.PackageDisablerTests;
 import org.sbml.jsbml.util.PackageDisabler;
 
 /**
  * @author Onur &Ouml;zel
  * @since 1.5
  */
-public class LayoutPackageDisablerTests extends PackageDisablerTests{
+public class PackageDisablerTests {
   //TODO- make this tests abstract and add them to the packages 
   private SBMLDocument doc; 
   private Model m;
