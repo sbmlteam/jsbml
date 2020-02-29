@@ -36,34 +36,70 @@ public class PackageDisablerTests {
   
   private SBMLDocument doc; 
   private PackageDisabler pDisabler;
-  
+  private CompModelPlugin compModel;
+  private LayoutModelPlugin layoutModel;
+  private ArraysSBasePlugin arraysModel;
+  private DistribSBasePlugin distribModel;
+  private DynSBasePlugin dynModel;
+  private FBCModelPlugin fbcModel;
+  private GroupsModelPlugin groupsModel;
+  private MultiModelPlugin multiModel;
+  private QualModelPlugin qualModel;
+  private SpatialModelPlugin spatialModel;
+  //  private RenderLayoutPlugin renderModel;
+
   @Before
   public void setUp() {
-    doc = new SBMLDocument(3, 2);
+    doc = new SBMLDocument(3, 1);
     Model m = doc.createModel("test_model");
-    
+
     //packages to be tested
     //TODO - how to add math? 
-    CompModelPlugin compModel = (CompModelPlugin) m.getPlugin("comp");
-    LayoutModelPlugin layoutModel = (LayoutModelPlugin) m.getPlugin("layout");
-    ArraysSBasePlugin arraysModel = (ArraysSBasePlugin) m.getPlugin("arrays");
-    DistribSBasePlugin distribModel = (DistribSBasePlugin) m.getPlugin("distrib");
-    DynSBasePlugin dynModel = (DynSBasePlugin) m.getPlugin("dyn");
-    FBCModelPlugin fbcModel = (FBCModelPlugin) m.getPlugin("fbc");
-    GroupsModelPlugin groupsModel = (GroupsModelPlugin) m.getPlugin("groups");
-    MultiModelPlugin multiModel = (MultiModelPlugin) m.getPlugin("multi");
-    QualModelPlugin qualModel = (QualModelPlugin) m.getPlugin("qual");
-    SpatialModelPlugin spatialModel  = (SpatialModelPlugin) m.getPlugin(SpatialConstants.shortLabel);
-    //RenderLayoutPlugin renderModel = (RenderLayoutPlugin) m.getPlugin("render");
-    
+    compModel = (CompModelPlugin) m.getPlugin("comp");
+    layoutModel = (LayoutModelPlugin) m.getPlugin("layout");
+    arraysModel = (ArraysSBasePlugin) m.getPlugin("arrays");
+    distribModel = (DistribSBasePlugin) m.getPlugin("distrib");
+    dynModel = (DynSBasePlugin) m.getPlugin("dyn");
+    fbcModel = (FBCModelPlugin) m.getPlugin("fbc");
+    groupsModel = (GroupsModelPlugin) m.getPlugin("groups");
+    multiModel = (MultiModelPlugin) m.getPlugin("multi");
+    qualModel = (QualModelPlugin) m.getPlugin("qual");
+    spatialModel  = (SpatialModelPlugin) m.getPlugin(SpatialConstants.shortLabel);
+    // renderModel = (RenderLayoutPlugin) m.getPlugin("render");
+
     pDisabler = new PackageDisabler(doc);
   }
-  
+
   @Test
   public void disableUnusedTest() {
-    
+    //unused case
+    assertTrue(doc.isPackageEnabled(CompConstants.shortLabel) == true); 
+    assertTrue(doc.isPackageEnabled(LayoutConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(ArraysConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(DistribConstants.shortLabel) == true); 
+    assertTrue(doc.isPackageEnabled(DynConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(FBCConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(GroupsConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(MultiConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(QualConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(SpatialConstants.shortLabel) == true);
+
+    pDisabler.disableUnused(); 
+
+    assertTrue(doc.isPackageEnabled(CompConstants.shortLabel) == false); 
+    assertTrue(doc.isPackageEnabled(LayoutConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(ArraysConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(DistribConstants.shortLabel) == false); 
+    assertTrue(doc.isPackageEnabled(DynConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(FBCConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(GroupsConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(MultiConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(QualConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(SpatialConstants.shortLabel) == false);
+
+    //TODO - make packages used 
   }
-  
+
   @Test
   public void removePackageTest() {
     assertTrue(doc.isPackageEnabled(CompConstants.shortLabel) == true); 
@@ -77,7 +113,7 @@ public class PackageDisablerTests {
     assertTrue(doc.isPackageEnabled(QualConstants.shortLabel) == true);
     assertTrue(doc.isPackageEnabled(SpatialConstants.shortLabel) == true);
     //assertTrue(doc.isPackageEnabled("render") == true); //is not enabled 
-    
+
     pDisabler.removePackage(CompConstants.shortLabel);
     pDisabler.removePackage(LayoutConstants.shortLabel);
     pDisabler.removePackage(ArraysConstants.shortLabel);
@@ -89,7 +125,7 @@ public class PackageDisablerTests {
     pDisabler.removePackage(QualConstants.shortLabel);
     pDisabler.removePackage(SpatialConstants.shortLabel);
     //pDisabler.removePackage("render");
-    
+
     assertTrue(doc.isPackageEnabled(CompConstants.shortLabel) == false); 
     assertTrue(doc.isPackageEnabled(LayoutConstants.shortLabel) == false);
     assertTrue(doc.isPackageEnabled(ArraysConstants.shortLabel) == false);
