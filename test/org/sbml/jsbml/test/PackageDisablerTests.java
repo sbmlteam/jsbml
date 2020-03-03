@@ -57,15 +57,15 @@ public class PackageDisablerTests {
 
     //packages to be tested
     //TODO - how to add math? 
-    compModel = (CompModelPlugin) m.getPlugin("comp");
-    layoutModel = (LayoutModelPlugin) m.getPlugin("layout");
-    arraysModel = (ArraysSBasePlugin) m.getPlugin("arrays");
-    distribModel = (DistribSBasePlugin) m.getPlugin("distrib");
-    dynModel = (DynSBasePlugin) m.getPlugin("dyn");
-    fbcModel = (FBCModelPlugin) m.getPlugin("fbc");
-    groupsModel = (GroupsModelPlugin) m.getPlugin("groups");
-    multiModel = (MultiModelPlugin) m.getPlugin("multi");
-    qualModel = (QualModelPlugin) m.getPlugin("qual");
+    compModel = (CompModelPlugin) m.getPlugin(CompConstants.shortLabel);
+    layoutModel = (LayoutModelPlugin) m.getPlugin(LayoutConstants.shortLabel);
+    arraysModel = (ArraysSBasePlugin) m.getPlugin(ArraysConstants.shortLabel);
+    distribModel = (DistribSBasePlugin) m.getPlugin(DistribConstants.shortLabel);
+    dynModel = (DynSBasePlugin) m.getPlugin(DynConstants.shortLabel);
+    fbcModel = (FBCModelPlugin) m.getPlugin(FBCConstants.shortLabel);
+    groupsModel = (GroupsModelPlugin) m.getPlugin(GroupsConstants.shortLabel);
+    multiModel = (MultiModelPlugin) m.getPlugin(MultiConstants.shortLabel);
+    qualModel = (QualModelPlugin) m.getPlugin(QualConstants.shortLabel);
     spatialModel  = (SpatialModelPlugin) m.getPlugin(SpatialConstants.shortLabel);
     // renderModel = (RenderLayoutPlugin) m.getPlugin("render");
 
