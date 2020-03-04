@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
@@ -39,6 +40,9 @@ import org.sbml.jsbml.ext.fbc.CobraConstants;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCReactionPlugin;
+import org.sbml.jsbml.ext.fbc.FluxObjective;
+import org.sbml.jsbml.ext.fbc.ListOfObjectives;
+import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.ext.fbc.converters.FbcV1ToCobraConverter;
 import org.sbml.jsbml.ext.fbc.converters.FbcV2ToCobraConverter;
 import org.sbml.jsbml.ext.fbc.converters.FbcV2ToFbcV1Converter;
@@ -60,19 +64,22 @@ public class FbcV2ToCobraConverterTest {
   Double lowerFluxBound = 1d;
   Double upperFluxBound = 100d;
   String reactionId = "rnR00658";
+  String reaction2Id = "MethReact";
   Double fluxValueValue = 0d;
   String defaultUpperBound = "9999";
   String defaultLowerBound = "0.1";
+  Double objectiveCoefficient = 1d;
+  Double defaultObjectiveCoefficient = 0d;
   
   private SBMLDocument createDoc(boolean hasFbc, boolean hasUpper, boolean hasLower) {
     int level = 3, version = 1;
 
     ModelBuilder builder = new ModelBuilder(level, version);
 
-    Model model = builder.buildModel("fbcV1ToCobraConversion_test", "Simple test model for FBC version 2 conversion to L2 with Cobra Annotation");
+    Model model = builder.buildModel("fbcV2ToCobraConversion_test", "Simple test model for FBC version 2 conversion to L2 with Cobra Annotation");
     FBCModelPlugin modelPlugin = (FBCModelPlugin) model.getPlugin(FBCConstants.shortLabel);
     modelPlugin.setStrict(true);
-    
+
     UnitDefinition ud = builder.buildUnitDefinition("volume", "Volume units");
     buildUnit(ud, 1d, -3, Unit.Kind.LITRE, 1d);
     model.setVolumeUnits(ud);
@@ -80,18 +87,20 @@ public class FbcV2ToCobraConverterTest {
     ud = builder.buildUnitDefinition("substance", "Substance units");
     buildUnit(ud, 1d, -3, Unit.Kind.MOLE, 1d);
     model.setSubstanceUnits(ud);
-    
+
     ud = builder.buildUnitDefinition("mmol_per_gDW_per_hr", "mmol_per_gDW_per_hr");
     buildUnit(ud, 1d, -3, Unit.Kind.MOLE, 1d);
     buildUnit(ud, 1d, 0, Unit.Kind.GRAM, -1d);
     buildUnit(ud, 3600, 0, Unit.Kind.SECOND, -1d);
 
     Compartment compartment = builder.buildCompartment("default", true, "default compartment", 3d, 1d, model.getVolumeUnits());
-     
+
     Species reactant = builder.buildSpecies("C3H7O7P", "C3H7O7P", compartment, true, false, false, 1d, model.getSubstanceUnits());
     Species product1 = builder.buildSpecies("C3H5O6P", "C3H5O6P", compartment, true, false, false, 1d, model.getSubstanceUnits());
     Species product2 = builder.buildSpecies("H2O", "H2O", compartment, true, false, false, 1d, model.getSubstanceUnits());
-    
+    Species productProduct1 = builder.buildSpecies("C2HO6P", "C2HO6P", compartment, true, false, false, 1d, model.getSubstanceUnits());
+    Species productProduct2 = builder.buildSpecies("CH4", "CH4", compartment, true, false, false, 0d, model.getSubstanceUnits());
+
     Reaction reaction = builder.buildReaction(reactionId, "2-phospho-D-glycerate hydro-lyase (phosphoenolpyruvate-forming)", compartment, false, false);
     reaction.addReactant(new SpeciesReference(reactant));
     reaction.addProduct(new SpeciesReference(product1));
@@ -108,6 +117,39 @@ public class FbcV2ToCobraConverterTest {
         reactionPlugin.setUpperFluxBound(upperFluxBoundParameter);
       }
     }
+
+    // create a second reaction that has no FluxObjective -> should have OBJETIVE_COEFFICIENT with value 0 after conversion
+    Reaction reaction2 = builder.buildReaction(reaction2Id, "Fictive Methane reaction", compartment, false, false);
+    reaction2.addReactant(new SpeciesReference(product1));
+    reaction2.addProduct(new SpeciesReference(productProduct1));
+    reaction2.addProduct(new SpeciesReference(productProduct2));
+    if(hasFbc) {
+      FBCReactionPlugin reactionPlugin = (FBCReactionPlugin) reaction2.getPlugin(FBCConstants.shortLabel);
+      if (hasLower) {
+        //Parameter lowerFluxBoundParameter = builder.buildParameter("lfb","lowerFluxBound", 1d, true, "mmol_per_gDW_per_hr");
+        reactionPlugin.setLowerFluxBound("lfb");
+      }
+      if(hasUpper) {
+        //Parameter upperFluxBoundParameter = builder.buildParameter("ufb","upperFluxBound", 100d, true, "mmol_per_gDW_per_hr");
+        reactionPlugin.setUpperFluxBound("ufb");
+      }
+    }
+
+    // Create Objective for reaction -> reaction should have OBJECTIVE_COEFFICIENT with value 1 after conversion
+
+    ListOf<FluxObjective> listOfFluxObjectives = new ListOf<>();
+    FluxObjective fluxObjective = new FluxObjective();
+    fluxObjective.setReaction(reaction);
+    fluxObjective.setCoefficient(objectiveCoefficient);
+    listOfFluxObjectives.add(fluxObjective);
+    Objective objective = new Objective();
+    objective.setId("obj");
+    objective.setListOfFluxObjectives(listOfFluxObjectives);
+    ListOfObjectives listOfObjectives = new ListOfObjectives();
+    listOfObjectives.add(objective);
+    listOfObjectives.setActiveObjective(objective);
+    modelPlugin.setListOfObjectives(listOfObjectives);
+
     return builder.getSBMLDocument();
   }
   
@@ -136,6 +178,31 @@ public class FbcV2ToCobraConverterTest {
     LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
     assertNotNull(upperBoundParameter);
     assertEquals((Double) upperBoundParameter.getValue(), upperFluxBound);
+    
+    LocalParameter objectiveParameter = kineticLaw.getLocalParameter(CobraConstants.OBJECTIVE_COEFFICIENT);
+    assertNotNull(objectiveParameter);
+    assertEquals((Double) objectiveParameter.getValue(), objectiveCoefficient);
+
+    // does reaction2 have LocalParameter OBJECTIVE_COEFFICIENT with value 0 ?
+    KineticLaw kineticLaw2 = doc.getModel().getListOfReactions().get(reaction2Id).getKineticLaw();
+    assertNotNull(kineticLaw2);
+    ASTNode mathNode2 = kineticLaw2.getMath();
+    assertNotNull(mathNode2);
+    assertEquals(mathNode2.getName(), CobraConstants.FLUX_VALUE);
+    LocalParameter fluxValueParameter2 = kineticLaw2.getLocalParameter(CobraConstants.FLUX_VALUE);
+    assertNotNull(fluxValueParameter2);
+    assertEquals(fluxValueParameter2.getUnits(), CobraConstants.mmol_per_gDW_per_hr);
+    assertEquals((Double)fluxValueParameter2.getValue(), fluxValueValue);
+    LocalParameter lowerBoundParameter2 = kineticLaw2.getLocalParameter(CobraConstants.LOWER_BOUND);
+    assertNotNull(lowerBoundParameter2);
+    assertEquals((Double) lowerBoundParameter2.getValue(), lowerFluxBound);
+    LocalParameter upperBoundParameter2 = kineticLaw2.getLocalParameter(CobraConstants.UPPER_BOUND);
+    assertNotNull(upperBoundParameter2);
+    assertEquals((Double) upperBoundParameter2.getValue(), upperFluxBound);
+    LocalParameter objectiveParameter2 = kineticLaw2.getLocalParameter(CobraConstants.OBJECTIVE_COEFFICIENT);
+    assertNotNull(objectiveParameter2);
+    assertEquals((Double) objectiveParameter2.getValue(), defaultObjectiveCoefficient);
+    
   }
   
   @Test
