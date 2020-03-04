@@ -123,6 +123,7 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
     }
     
     if (contextObject instanceof LayoutModelPlugin) {
+      // TODO: This seems to never actually get used.
       LayoutModelPlugin layoutModel = (LayoutModelPlugin) contextObject;
       
       ListOf<Layout> listOfLayouts = layoutModel.getListOfLayouts();
@@ -314,7 +315,21 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
       SBase newElement = null;
 
-      if (elementName.equals(RenderConstants.element)) { 
+      if(elementName.equals(RenderConstants.listOfGlobalRenderInformation)) {
+        // If we encounter a listOfGlobalRenderInformation, as by the
+        // specification, the contextObject ought to be a ListOf<Layout>
+        
+        RenderListOfLayoutsPlugin plugin = new RenderListOfLayoutsPlugin((ListOf<Layout>) contextObject);
+        listOf.addExtension(RenderConstants.shortLabel, plugin);
+        newElement = plugin.getListOfGlobalRenderInformation();
+        
+        // Specifically abort here early, because newElement would otherwise be
+        // added to the list again (which would cause a warning)
+        if (newElement != null) {
+          return newElement;
+        }
+      } 
+      else if (elementName.equals(RenderConstants.element)) { 
         newElement = new RenderCubicBezier();
       }
       // JSBML used "renderPoint" for a few years so we are keeping the test using "renderPoint"
@@ -367,12 +382,7 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
         } else {
           newElement = new GlobalRenderInformation();
         }
-      }
-      // Simplistic fix for incorrect reading TODO: Is this sensible/does it
-      // cause further errors?
-      else if(elementName.equals(RenderConstants.listOfGlobalRenderInformation)) {
-        newElement = new ListOfGlobalRenderInformation();
-      }
+      }      
       // JSBML used "localRenderInformation" for a few years so we are keeping the test using "localRenderInformation"
       // here to be able to read any incorrect files with JSBML.
       else if (elementName.equals("localRenderInformation")) 

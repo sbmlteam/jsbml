@@ -110,6 +110,8 @@ public class RenderWriteTest {
    */
   @Test
   public void testWriteReadLayoutPlugin() throws SBMLException, XMLStreamException {
+    System.out.println("\n[[[ LayoutPlugin ]]]");
+    
     RenderLayoutPlugin rlp = new RenderLayoutPlugin(layout);
     rlp.createLocalRenderInformation("info1");
     layout.addExtension(RenderConstants.namespaceURI, rlp);
@@ -135,23 +137,18 @@ public class RenderWriteTest {
    */
   @Test
   public void testWriteReadListOfLayoutsPlugin() throws SBMLException, XMLStreamException {
+    System.out.println("\n[[[ ListOfLayoutsPlugin ]]]");
+    
     RenderListOfLayoutsPlugin rlolp = new RenderListOfLayoutsPlugin(listOfLayouts);
     rlolp.createGlobalRenderInformation("global");
     listOfLayouts.addExtension(RenderConstants.namespaceURI, rlolp);
-    
+        
     String written = writer.writeSBMLToString(document);
-    System.out.println("LoLs-Plugin\n" + written + "\n");
     SBMLDocument read = SBMLReader.read(written);
-    System.out.println("Read-in\n" + writer.writeSBMLToString(read) + "\n\n");
     LayoutModelPlugin readELM =
       (LayoutModelPlugin) read.getModel()
                               .getPlugin(LayoutConstants.namespaceURI);
     assertFalse(readELM == null);
-    // TODO: found problem: globalRenderInformation is counted as a Layout! That
-    // is wrong and causes errors when trying to access the layouts in the list
-    ListOf list = readELM.getListOfLayouts();
-    System.out.println(list.get(0));
-    System.out.println(list.get(1));
     assertEquals(rlolp,
       (RenderListOfLayoutsPlugin) readELM.getListOfLayouts().getPlugin(
         RenderConstants.namespaceURI));
@@ -167,6 +164,8 @@ public class RenderWriteTest {
    */
   @Test
   public void testWriteReadGraphicalObjectPlugin() throws SBMLException, XMLStreamException {
+    System.out.println("\n[[[ GraphicalObjectPlugin ]]]");
+    
     SpeciesGlyph sg = layout.createSpeciesGlyph("sg1");
     RenderGraphicalObjectPlugin rgop = new RenderGraphicalObjectPlugin(sg);
     // cf. Render-specification p. 14 
@@ -194,6 +193,8 @@ public class RenderWriteTest {
    */
   @Test
   public void testWriteReadText() throws SBMLException, XMLStreamException {
+    System.out.println("\n[[[ Text ]]]");
+    
     RenderGroup group = new RenderGroup();
     Text questionmark = group.createText();
     questionmark.setFontSize((short) 10);
@@ -233,6 +234,8 @@ public class RenderWriteTest {
   
   @Test
   public void testWriteReadTransformation2D() throws SBMLException, XMLStreamException {
+    System.out.println("\n[[[ Transformation2D ]]]");
+    
     RenderGroup group = new RenderGroup();
     Rectangle rectangle = group.createRectangle();
     rectangle.setHeight(20); rectangle.setAbsoluteHeight(true);
